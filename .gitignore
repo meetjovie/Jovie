@@ -28,3 +28,5 @@ public/imports
 /public/css/app.css
 package-lock.json
 public/dist
+public/dist/app.js
+resources/js/.env.local

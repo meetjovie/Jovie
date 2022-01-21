@@ -20,6 +20,7 @@
         "vue-loader": "^16.8.3"
     },
     "dependencies": {
+        "@auth0/auth0-spa-js": "^1.19.4",
         "@tailwindcss/aspect-ratio": "^0.4.0",
         "@tailwindcss/forms": "^0.4.0",
         "@tailwindcss/line-clamp": "^0.3.1",
