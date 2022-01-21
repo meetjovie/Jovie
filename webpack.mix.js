@@ -13,14 +13,14 @@ const tailwindcss = require('tailwindcss');
  */
 mix.browserSync('127.0.0.1');
 
-mix.js('resources/js/app.js', 'dist').vue();
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .options({
-        postCss: [tailwindcss('./tailwind.config.js')],
-    })
-    .version();
+
+
+mix.js("resources/js/app.js", "public/js")
+    .vue()
+    .postCss("resources/css/app.css", "public/css", [
+        require("tailwindcss"),
+    ]);
 
 
 if (mix.inProduction()) {

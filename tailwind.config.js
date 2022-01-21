@@ -24,6 +24,9 @@ module.exports = {
         require('@tailwindcss/line-clamp'),
         require('@tailwindcss/aspect-ratio'),
         require('tailwind-scrollbar-hide'),
+        require('postcss-import'),
+        require('tailwindcss'),
+        require('autoprefixer'),
 
         // ...
     ],
