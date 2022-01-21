@@ -9,8 +9,8 @@ export const AuthState = reactive({
 });
 
 const config = {
-    domain: import.meta.env.VITE_AUTH0_DOMAIN,
-    client_id: import.meta.env.VITE_AUTH0_CLIENT_ID
+    domain: 'a7x3.us.auth0.com',
+    client_id: 'D2ZvFmuNGanq7WfEK41BMDvxAjjJNLZ0'
 };
 
 export const useAuth0 = (state) => {
