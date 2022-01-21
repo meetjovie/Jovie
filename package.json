@@ -16,21 +16,23 @@
         "@tailwindcss/typography": "^0.5.0",
         "autoprefixer": "^10.4.2",
         "axios": "^0.21",
+        "browser-sync": "^2.27.7",
+        "browser-sync-webpack-plugin": "^2.3.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.4.5",
         "postcss-import": "^14.0.2",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.49.0",
+        "sass-loader": "^12.4.0",
         "tailwindcss": "^3.0.15",
         "vue-loader": "^16.8.3"
     },
     "dependencies": {
-<<<<<<< HEAD
-=======
         "@auth0/auth0-spa-js": "^1.19.4",
         "@tailwindcss/aspect-ratio": "^0.4.0",
         "@tailwindcss/forms": "^0.4.0",
         "@tailwindcss/line-clamp": "^0.3.1",
->>>>>>> 3f28b6def37402bac23774a6f51aa7977dd311b7
         "tailwind-scrollbar-hide": "^1.1.7",
         "vue": "^3.2.27",
         "vue-router": "^4.0.12"
