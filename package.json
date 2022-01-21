@@ -24,6 +24,13 @@
         "vue-loader": "^16.8.3"
     },
     "dependencies": {
+<<<<<<< HEAD
+=======
+        "@auth0/auth0-spa-js": "^1.19.4",
+        "@tailwindcss/aspect-ratio": "^0.4.0",
+        "@tailwindcss/forms": "^0.4.0",
+        "@tailwindcss/line-clamp": "^0.3.1",
+>>>>>>> 3f28b6def37402bac23774a6f51aa7977dd311b7
         "tailwind-scrollbar-hide": "^1.1.7",
         "vue": "^3.2.27",
         "vue-router": "^4.0.12"
