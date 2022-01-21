@@ -64,11 +64,19 @@ initAuth();
                 <!-- Mobile menu, show/hide based on menu state. -->
                 <div class="md:hidden" id="mobile-menu">
                     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <!-- Current: "bg-neutral-900 text-white", Default: "text-neutral-300 hover:bg-neutral-700 hover:text-white" -->
-                        <a href="/" class="bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-                           aria-current="page">Dashboard</a>
-                        <a href="/login"
-                           class="text-neutral-300 hover:text-neutral-200 hover:text-white px-3 py-2 rounded-md text-xs font-medium">Login</a>
+                        <div v-if="!AuthState.loading">
+                            <div v-if="!AuthState.isAuthenticated">
+                                <a @click="login()"
+                                   class="text-neutral-300 hover:text-neutral-200 hover:text-white px-3 py-2 rounded-md text-xs font-medium">Login</a>
+                            </div>
+                            <div v-else>
+                                <a href="/" class="bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+                                   aria-current="page">Dashboard</a>
+                            </div>
+                        </div>
+                        <div v-else>
+                            Loading ...
+                        </div>
                     </div>
                 </div>
             </nav>
