@@ -1,3 +1,8 @@
 export default {
-    test: 'test is this'
+    AuthState: {
+        user: null,
+        loading: false,
+        isAuthenticated: false,
+        auth0: null,
+    }
 }

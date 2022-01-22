@@ -1,6 +1,6 @@
+import { authenticationGuard } from "./middlewares/auth";
 
 function loadPage(page) {
-    // return () => import(`/${page}.vue`);
     return () => import(`./../views/${page}.vue`);
 }
 
@@ -11,6 +11,7 @@ export const routes = [
     },
     {
         path: '/about',
-        component: loadPage('About')
+        component: loadPage('About'),
+        beforeEnter: authenticationGuard
     },
 ]

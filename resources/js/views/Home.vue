@@ -1,8 +1,28 @@
-<script setup>
-import { useAuth0, AuthState } from "../utils/useAuth0";
-const { login, logout, initAuth } = useAuth0(AuthState);
-
-initAuth();
+<script>
+// import { useAuth0 } from '../utils/useAuth0'
+// const { initAuth } = useAuth0(this.$store);
+export default {
+    name: "Home",
+    data() {
+        return {
+            AuthState: {}
+        }
+    },
+    mounted() {
+        // initAuth()
+        console.log(this.$store);
+        this.AuthState = this.$store.state.AuthState
+        console.log(this.AuthState);
+    },
+    methods: {
+        login() {
+            this.$store.actions.login()
+        },
+        logout() {
+            this.$store.actions.logout()
+        }
+    }
+}
 </script>
 
 <template>

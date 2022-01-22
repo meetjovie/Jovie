@@ -1,5 +1,7 @@
 export default {
-    setTest (state, value) {
-        state.popularProducts = value;
-    },
+    setStateChangeForAuth(state, payload) {
+        Object.keys(payload).forEach(val => {
+            state.AuthState[val] = payload[val]
+        })
+    }
 }
