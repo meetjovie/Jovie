@@ -1,22 +1,7 @@
-import Home from "./views/Home";
-
 require('./bootstrap');
 
 import * as Vue from 'vue'
-import * as VueRouter from 'vue-router'
-import About from "./components/About";
-
-
-
-
-const routes = [
-    { path: '/', component: Home },
-    { path: '/about', component: About },
-]
-const router = VueRouter.createRouter({
-    history: VueRouter.createWebHistory(),
-    routes
-})
+import router from './router/index'
 
 const app = Vue.createApp({})
 
