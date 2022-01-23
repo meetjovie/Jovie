@@ -6,10 +6,12 @@ function loadPage(page) {
 
 export const routes = [
     {
+        name: 'home',
         path: '/',
         component: loadPage('Home')
     },
     {
+        about: 'about',
         path: '/about',
         component: loadPage('About'),
         beforeEnter: authenticationGuard

@@ -1,24 +1,28 @@
-import { useAuth0 } from "../../utils/useAuth0";
-const { initAuth } = useAuth0(this.$store.state.AuthState);
+import { useAuth0, AuthState } from "../../utils/useAuth0";
+const { initAuth } = useAuth0(AuthState);
+import { watchEffect } from 'vue';
+import router from "../index";
 
 export const authenticationGuard = (to, from, next) => {
 
     initAuth()
+
     const guardAction = () => {
-        if (this.$store.state.AuthState.isAuthenticated) {
+        if (AuthState.isAuthenticated) {
             return next();
         }
-        this.$store.state.AuthState.loginWithRedirect({appState: {targetUrl: to.fullPath}});
+        router.push({name: 'home'})
     };
 
     // If the Auth0Plugin has loaded already, check the authentication state
-    if (!this.$store.state.AuthState.loading) {
+    if (!AuthState.loading) {
         return guardAction();
     }
 
-    this.$store.state.AuthState.$watch('loading', (isLoading) => {
-        if (isLoading === false) {
+    // Watch for the loading property to change before we check isAuthenticated
+    watchEffect(() => {
+        if (AuthState.loading === false) {
             return guardAction();
         }
-    });
+    })
 }
