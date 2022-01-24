@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -26,6 +27,10 @@ mix.js("resources/js/app.js", "public/js")
 if (mix.inProduction()) {
     mix.version();
 }
+
+mix.alias({
+    '@': path.join(__dirname, 'resources/js')
+});
 
 if (mix.inProduction()) {
     const ASSET_URL = process.env.ASSET_URL + "/";
