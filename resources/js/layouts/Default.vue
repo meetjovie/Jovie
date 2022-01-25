@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: 'defaultLayout'     // you can enter any name (optional)
+    name: 'Default'     // you can enter any name (optional)
 }
 </script>
 

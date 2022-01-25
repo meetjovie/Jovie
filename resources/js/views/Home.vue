@@ -5,9 +5,9 @@ initAuth();
 </script>
 
 <template>
-    <div>
+    <div class="bg-neutral-800">
         <header>
-            <nav class="bg-neutral-800">
+            <nav>
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-12">
                         <div class="flex">

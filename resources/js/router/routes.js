@@ -8,15 +8,15 @@ export const routes = [
     {
         name: 'home',
         path: '/',
-        component: loadPage('Home'),
-        meta: {
-            layout: 'App'
-        }
+        component: loadPage('Home')
     },
     {
         name: 'crm',
         path: '/crm',
-        component: loadPage('Crm')
+        component: loadPage('Crm'),
+        meta: {
+            layout: 'App'
+        }
     },
     {
         about: 'about',

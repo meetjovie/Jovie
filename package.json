@@ -32,7 +32,6 @@
         "@auth0/auth0-spa-js": "^1.19.4",
         "tailwind-scrollbar-hide": "^1.1.7",
         "vue": "^3.2.27",
-        "vue-extend-layout": "^2.0.6",
         "vue-router": "^4.0.12",
         "vuex": "^4.0.2"
     }
