@@ -11,6 +11,14 @@ export const routes = [
         component: loadPage('Home')
     },
     {
+        name: 'dashboard',
+        path: '/dashboard',
+        component: loadPage('Dashboard'),
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
         name: 'crm',
         path: '/crm',
         component: loadPage('Crm'),
