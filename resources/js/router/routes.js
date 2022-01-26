@@ -1,5 +1,7 @@
 import { authenticationGuard } from "./middlewares/auth";
 
+import store from "../store";
+
 function loadPage(page) {
     return () => import(`./../views/${page}.vue`);
 }

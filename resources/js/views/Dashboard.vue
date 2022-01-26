@@ -69,7 +69,10 @@
 
 <script>
 export default {
-    name: "Dashboard"
+    name: "Dashboard",
+    mounted() {
+        console.log(this.$store.state.userDB);
+    }
 }
 </script>
 

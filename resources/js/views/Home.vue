@@ -1,6 +1,8 @@
 <script setup>
-import { useAuth0, AuthState } from "../utils/useAuth0";
-const { login, logout, initAuth } = useAuth0(AuthState);
+import { useAuth0 } from "../utils/useAuth0";
+import store from "../store";
+const { login, logout, initAuth } = useAuth0();
+
 initAuth();
 </script>
 
@@ -36,8 +38,8 @@ initAuth();
                         </div>
                         <div class="hidden sm:flex items-center">
                             <div class="flex-shrink-0">
-                                <div v-if="!AuthState.loading">
-                                    <div v-if="!AuthState.isAuthenticated">
+                                <div v-if="!store.state.AuthState.loading">
+                                    <div v-if="!store.state.AuthState.isAuthenticated">
                                         <a @click="login()"
                                            class="text-neutral-300 hover:text-neutral-200 hover:text-white px-3 py-2 rounded-md text-xs font-medium">Login
                                         </a>
@@ -63,8 +65,8 @@ initAuth();
                 <!-- Mobile menu, show/hide based on menu state. -->
                 <div class="md:hidden" id="mobile-menu">
                     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <div v-if="!AuthState.loading">
-                            <div v-if="!AuthState.isAuthenticated">
+                        <div v-if="!store.state.AuthState.loading">
+                            <div v-if="!store.state.AuthState.isAuthenticated">
                                 <a @click="login()"
                                    class="text-neutral-300 hover:text-neutral-200 hover:text-white px-3 py-2 rounded-md text-xs font-medium">Login</a>
                             </div>
