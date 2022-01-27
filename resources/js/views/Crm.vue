@@ -31,34 +31,34 @@
                     </div>
                 </TabList>
             </div>
-            <div class="items-center">
-               <span class="relative z-0 inline-flex shadow-sm rounded-md">
-                    <button type="button" class="relative inline-flex items-center px-4 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500">
+            <div class="items-center px-2">
+               <span class="relative z-0 inline-flex items-center h-full shadow-sm rounded-md">
+                    <button type="button" class="relative inline-flex items-center py-1 px-4 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500">
                     Add creator
                     </button>
                     <Menu as="span" class="-ml-px relative block">
-                    <MenuButton class="relative inline-flex items-center px-2 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500">
+                    <MenuButton class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500">
                         <span class="sr-only">Add creator</span>
-                        <ChevronDownIcon class="h-5 w-5" aria-hidden="true" />
+                        <ChevronDownIcon class="h-3 w-3" aria-hidden="true" />
                     </MenuButton>
-                    <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                        <MenuItems class="origin-top-right absolute right-0 mt-2 -mr-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                        <div class="py-1">
-                            <MenuItem>
-                            <a :href="item.href" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
-                                Import from CSV
-                            </a>
-                            </MenuItem>
-                            <MenuItem>
-                            <a :href="item.href" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
-                                Import from list
-                            </a>
-                            </MenuItem>
-                        </div>
-                        </MenuItems>
-                    </transition>
+                        <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                            <MenuItems class="origin-top-right absolute z-40 -0 mt-2 -mr-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                            <div class="py-1">
+                                <MenuItem>
+                                <a :href="item.href" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                    Import from CSV
+                                </a>
+                                </MenuItem>
+                                <MenuItem>
+                                <a :href="item.href" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                    Import from list
+                                </a>
+                                </MenuItem>
+                            </div>
+                            </MenuItems>
+                        </transition>
                     </Menu>
-  </span>
+                </span>
             </div>
          
         </div>
@@ -100,11 +100,11 @@
                                         Creator 
                                     </th>
                                     <th scope="col"
-                                        class="hidden xl:table-cell px-2 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
+                                        class="hidden lg:table-cell px-2 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
                                         First
                                     </th>
                                     <th scope="col"
-                                        class="hidden 2xl:flex px-2 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
+                                        class="hidden xl:flex px-2 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
                                         Last
                                     </th>
                                     <th scope="col"
@@ -143,7 +143,7 @@
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200 h-full">
-                                <tr v-for="creator in creators" class="hover:bg-indigo-50 focus:ring-indigo-700 group border border-neutral-200 border-1 border-collapse overflow-y-visible">
+                                <tr v-for="creator in creators" :key="creator" class="hover:bg-indigo-50 focus:ring-indigo-700 group border border-neutral-200 border-1 border-collapse overflow-y-visible">
                                     <td
                                         class="px-2 py-1 w-14 text-center text-gray-300 group-hover:text-neutral-500 text-xs font-bold whitespace-nowrap">
                                         <div class="grid grid-cols-2 items-center">
@@ -184,8 +184,8 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="hidden xl:table-cell border border-collapse border-1 whitespace-nowrap">
-                                        <div class="text-sm w-20 text-gray-900 line-clamp-1">
+                                    <td class="hidden lg:table-cell w-24 border border-collapse border-1 whitespace-nowrap">
+                                        <div class="text-sm  text-gray-900 line-clamp-1">
                                             <input v-model="creator.firstname" autocomplete="off" type="creator-firstname" name="creator-firstname"
                                                    id="creator-firname"
                                                    class="bg-white/0 placeholder-neutral-300  focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
@@ -193,8 +193,8 @@
                                                    aria-describedby="email-description"></div>
 
                                     </td>
-                                    <td class="hidden 2xl:table-cell border border-collapse border-1 whitespace-nowrap">
-                                        <div class="text-xs w-14 text-gray-900 line-clamp-1">
+                                    <td class="hidden xl:table-cell w-20 border border-collapse border-1 whitespace-nowrap">
+                                        <div class="text-xs  text-gray-900 line-clamp-1">
                                             <input v-model="creator.lastname" autocomplete="off" type="creator-lastname" name="creator-lastname"
                                                    id="creator-lastname"
                                                    class="bg-white/0 placeholder-neutral-300  focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
@@ -386,7 +386,7 @@
                                                 
                                                  
                                     </td>
-                                    <td class="hidden xl:table-cell border w-20 items-center border-collapse border-1 whitespace-nowrap text-xs text-gray-500">
+                                    <td class="hidden xl:table-cell border w-14 items-center border-collapse border-1 whitespace-nowrap text-xs text-gray-500">
                                      <input v-model="creator.contacted" autocomplete="off" type="creator-offer" name="creator-offer"
                                                    id="creator-offer"
                                                    class="bg-white/0 placeholder-neutral-300  focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
@@ -561,7 +561,90 @@ export default {
                     campaign: 'Zelf Beta',
                     avatar: 'https://i.pravatar.cc/64'
                 },
-            ]
+                {
+                    id: 6,
+                    favorite: false,
+                    network: 'instagram',
+                    name: 'Mila Vukovic',
+                    firstname: 'Mila',
+                    lastname: 'Vukovic',
+                    email: '',
+                    rating: '2.9',
+                    followers: '1.2K',
+                    offer: '104K',
+                    stage: 'Complete',
+                    contacted: '1/11/2022',
+                    campaign: 'Zelf Beta',
+                    avatar: 'https://i.pravatar.cc/64'
+                },
+                {
+                    id: 7,
+                    favorite: false,
+                    network: 'instagram',
+                    name: 'Kylie Jenner',
+                    firstname: 'Kylie',
+                    lastname: 'Jenner',
+                    email: '',
+                    rating: '1.2',
+                    followers: '1.2B',
+                    offer: '10K',
+                    stage: 'Interested',
+                    contacted: '4/5/2021',
+                    campaign: 'Zelf Beta',
+                    avatar: 'https://i.pravatar.cc/64'
+                },
+                {
+                    id: 8,
+                    favorite: false,
+                    network: 'instagram',
+                    name: 'Sophia Bush',
+                    firstname: 'Sophia',
+                    lastname: 'Bush',
+                    email: '',
+                    rating: '4.9',
+                    followers: '4.2M',
+                    offer: '344K',
+                    stage: 'Negotiating',
+                    contacted: '3/2/2022',
+                    campaign: 'Zelf Beta',
+                    avatar: 'https://i.pravatar.cc/64'
+                },
+                {
+                    id: 9,
+                    favorite: false,
+                    network: 'instagram',
+                    name: 'Dakota Johnson',
+                    firstname: 'Dakota',
+                    lastname: 'Johnson',
+                    email: '',
+                    rating: '2.9',
+                    followers: '1.2K',
+                    offer: '104K',
+                    stage: 'Complete',
+                    contacted: '1/11/2022',
+                    campaign: 'Zelf Beta',
+                    avatar: 'https://i.pravatar.cc/64'
+                },
+                {
+                    id: 10,
+                    favorite: false,
+                    network: 'instagram',
+                    name: 'Lara Croft',
+                    firstname: 'Lara',
+                    lastname: 'Croft',
+                    email: '',
+                    rating: '1.2',
+                    followers: '1.2B',
+                    offer: '10K',
+                    stage: 'Interested',
+                    contacted: '4/5/2021',
+                    campaign: 'Zelf Beta',
+                    avatar: 'https://i.pravatar.cc/64'
+                },
+             
+             
+                
+            ],
         }
     }
 }
