@@ -136,11 +136,11 @@ initAuth();
                             </div>
                         </div>
                     </div>
-                    <div class="sm:mx-auto sm:max-w-3xl sm:px-6">
-                        <div class="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                    <div class="sm:mx-auto sm:max-w-3xl sm:px-6 items-center">
+                        <div class="py-4 2xl:py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute items-center lg:inset-y-0 mt-40 lg:right-0 lg:w-1/2">
 
                             <div class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
-                                <img class="w-full rounded-md ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none" src="/images/sun.png" alt="">
+                                <img class="w-full rounded-md ring-1 ring-black ring-opacity-5 lg:h-2/3 lg:w-auto lg:max-w-none" src="/images/sun.png" alt="">
                             </div>
                             <div class="bg-neutral-700 font-bold text-lg text-center text-gray-100 w-2/3 py-4 px-4 rounded-lg shadow-xl mx-auto">
                                 Find <span class="underline decoration-4 decoration-pink-600 text-white px-1">female</span> <span class="underline decoration-4 decoration-amber-600 ">micro-influencers</span> wearing <span class="underline decoration-4 decoration-sky-600 text-white px-1">sunglasses</span>
