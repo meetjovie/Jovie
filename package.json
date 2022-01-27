@@ -31,6 +31,9 @@
     "dependencies": {
         "@auth0/auth0-spa-js": "^1.19.4",
         "@headlessui/vue": "^1.4.3",
+        "@heroicons/vue": "^1.0.5",
+        "@vue-hero-icons/outline": "^1.7.2",
+        "@vue-hero-icons/solid": "^1.7.2",
         "tailwind-scrollbar-hide": "^1.1.7",
         "vue": "^3.2.27",
         "vue-router": "^4.0.12",

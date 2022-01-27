@@ -159,8 +159,8 @@
                                         <div class="text-sm w-20 text-gray-900 line-clamp-1">
                                             <input v-model="creator.firstname" autocomplete="off" type="creator-firstname" name="creator-firstname"
                                                    id="creator-firname"
-                                                   class="bg-white/0 focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
-                                                   placeholder="you@example.com" value="creatorsemail@gmail.com"
+                                                   class="bg-white/0 placeholder-neutral-300  focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
+                                                   placeholder="First" 
                                                    aria-describedby="email-description"></div>
 
                                     </td>
@@ -168,8 +168,8 @@
                                         <div class="text-xs w-14 text-gray-900 line-clamp-1">
                                             <input v-model="creator.lastname" autocomplete="off" type="creator-lastname" name="creator-lastname"
                                                    id="creator-lastname"
-                                                   class="bg-white/0 focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
-                                                   placeholder="you@example.com" value="creatorsemail@gmail.com"
+                                                   class="bg-white/0 placeholder-neutral-300  focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
+                                                   placeholder="Last" 
                                                    aria-describedby="email-description"></div>
 
                                     </td>
@@ -177,8 +177,8 @@
                                         <div class="text-xs text-gray-700 line-clamp-1">
                                             <input v-model="creator.email" autocomplete="off" type="creator-email" name="creator-email"
                                                    id="creator-email"
-                                                   class="bg-white/0 focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
-                                                   placeholder="you@example.com" value="creatorsemail@gmail.com"
+                                                   class="bg-white/0 placeholder-neutral-300 focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
+                                                   placeholder="creatoremail@gmail.com" 
                                                    aria-describedby="email-description">
 
                                         </div>
@@ -203,8 +203,8 @@
                                                         
                                                       $  <input v-model="creator.offer" autocomplete="off" type="creator-offer" name="creator-offer"
                                                    id="creator-offer"
-                                                   class="bg-white/0 focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
-                                                   placeholder="$"
+                                                   class="bg-white/0 placeholder-neutral-300  focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
+                                                   placeholder="5,000"
                                                    aria-describedby="email-description">
                                                  </span>
                                     </td>
@@ -360,8 +360,8 @@
                                     <td class="hidden xl:table-cell border w-20 items-center border-collapse border-1 whitespace-nowrap text-xs text-gray-500">
                                      <input v-model="creator.contacted" autocomplete="off" type="creator-offer" name="creator-offer"
                                                    id="creator-offer"
-                                                   class="bg-white/0 focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
-                                                   placeholder="$"
+                                                   class="bg-white/0 placeholder-neutral-300  focus-visible:ring-indigo-500 px-2 py-1  focus:border-indigo-700 focus:border-2  focus-visible:border-indigo-500 block w-full sm:text-xs"
+                                                   placeholder="--/--/----"
                                                    aria-describedby="email-description">
                                     </td>
                                     <td class="px-6 py-1 W-28 whitespace-nowrap text-sm text-gray-500">
@@ -373,6 +373,30 @@
                                                 <a href="/creatoroverview"
                                                    class="text-indigo-600 hover:text-indigo-900">Manage</a>
                                             </div>
+                                            <Menu as="div" class="relative inline-block text-left">
+                                           <div>
+                                            <MenuButton class=" rounded-full flex items-center text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 focus-visible:ring-indigo-500">
+                                                <span class="sr-only">Open options</span>
+                                                <DotsVerticalIcon class="h-5 w-5" aria-hidden="true" />
+                                            </MenuButton>
+                                            </div>
+                                                <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                                                    <MenuItems class="z-10 origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                        <div class="py-1">
+                                                        <MenuItem v-slot="{ active }">
+                                                            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Archive</a>
+                                                        </MenuItem>
+                                                        <MenuItem v-slot="{ active }">
+                                                            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Mute</a>
+                                                        </MenuItem>
+                                                        <MenuItem v-slot="{ active }">
+                                                            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Remove</a>
+                                                        </MenuItem>
+                                                        
+                                                        </div>
+                                                    </MenuItems>
+                                                </transition>
+                                            </Menu>
 
                                             <!-- This example requires Tailwind CSS v2.0+ -->
                                             
@@ -400,6 +424,7 @@
  import { Listbox, ListboxButton, ListboxOptions, ListboxOption, TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
  import StarRating from 'vue-star-rating'
  import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+ import { DotsVerticalIcon } from '@heroicons/vue/solid'
 
 export default {
    
@@ -416,6 +441,8 @@ export default {
       MenuButton,
       MenuItems,
       MenuItem,
+      DotsVerticalIcon,
+      
       
     
       
@@ -433,7 +460,7 @@ export default {
                     email: 'mhunt@img.com',
                     rating: '4.3',
                     followers: '1.5M',
-                    offer: '100K',
+                    offer: '240K',
                     stage: 'Onboarding',
                     contacted: '1/12/2020',
                     campaign: 'Zelf Beta',
@@ -447,7 +474,7 @@ export default {
                     name: 'Candice Swanpoole',
                     firstname: 'Candice',
                     lastname: 'Swanpoole',
-                    email: '',
+                    email: 'candiceswan@gmail.com',
                     rating: '3',
                     followers: '1.2M',
                     offer: '12K',
@@ -484,7 +511,7 @@ export default {
                     followers: '1.2M',
                     offer: '104K',
                     stage: 'Onboarding',
-                    contacted: '1/1e/2020',
+                    contacted: '9/1/2020',
                     campaign: 'Zelf Beta',
                     avatar: 'https://i.pravatar.cc/64'
                 },
@@ -500,7 +527,7 @@ export default {
                     followers: '4.2M',
                     offer: '344K',
                     stage: 'Negotiating',
-                    contacted: '3/9/2022',
+                    contacted: '3/2/2022',
                     campaign: 'Zelf Beta',
                     avatar: 'https://i.pravatar.cc/64'
                 },
