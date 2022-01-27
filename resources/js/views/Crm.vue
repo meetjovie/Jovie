@@ -81,9 +81,9 @@
                     Add creator
                     </button>
                     <Menu as="span" class="-ml-px relative block">
-                    <MenuButton class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-xs font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500">
-                        <span class="sr-only">Add creator</span>
-                        <ChevronDownIcon class="h-3 w-3" aria-hidden="true" />
+                    <MenuButton class="relative inline-flex items-center px-2 py-1 rounded-r-md border border-gray-300 bg-white text-xs font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500">
+                        <span class="sr-only text-xs">Add creator</span>
+                        <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
                     </MenuButton>
                         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                             <MenuItems class="origin-top-right absolute z-40 -0 mt-2 -mr-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
