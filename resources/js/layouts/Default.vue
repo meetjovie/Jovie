@@ -10,7 +10,7 @@
             py-12
             px-4
             sm:px-6
-            md:flex md:items-center md:justify-between
+            md:flex  md:justify-between
             lg:px-8
           "
         >
@@ -18,17 +18,14 @@
             <div class="baseline">
               <p class="text-center text-xs text-gray-400">
                 <span class="block sm:inline"
-                  >&copy; 2021 |
-                  <a class="hover:text-neutral-700" href="/privacy">Privacy</a>
-                  |
-                  <a class="hover:text-neutral-700" href="/privacy"
-                    >Terms</a
-                  ></span
+                  >&copy; 2021 
+                  </span
                 >
               </p>
             </div>
           </div>
           <div class="flex justify-center space-x-6 md:order-1">
+              <div class="flex">
             <a href="/" class="text-gray-400 group hover:text-gray-500">
               <LogoDark>
                 <svg
@@ -46,6 +43,19 @@
                 </svg>
               </LogoDark>
             </a>
+            </div>
+            <div class="">
+              <p class="text-center justify-right text-xs text-gray-400">
+                <span class="flex divide divide-x-1 divide-gray-200">
+                  
+                  <a class="px-2 hover:text-neutral-700" href="/privacy">Privacy</a>
+                 
+                  <a class="px-2 hover:text-neutral-700" href="/privacy"
+                    >Terms</a
+                  ></span
+                >
+              </p>
+            </div>
           </div>
         </div>
       </footer>
