@@ -31,6 +31,35 @@
                     </div>
                 </TabList>
             </div>
+            <div class="items-center">
+               <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                    <button type="button" class="relative inline-flex items-center px-4 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500">
+                    Add creator
+                    </button>
+                    <Menu as="span" class="-ml-px relative block">
+                    <MenuButton class="relative inline-flex items-center px-2 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500">
+                        <span class="sr-only">Add creator</span>
+                        <ChevronDownIcon class="h-5 w-5" aria-hidden="true" />
+                    </MenuButton>
+                    <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                        <MenuItems class="origin-top-right absolute right-0 mt-2 -mr-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                        <div class="py-1">
+                            <MenuItem>
+                            <a :href="item.href" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                Import from CSV
+                            </a>
+                            </MenuItem>
+                            <MenuItem>
+                            <a :href="item.href" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                Import from list
+                            </a>
+                            </MenuItem>
+                        </div>
+                        </MenuItems>
+                    </transition>
+                    </Menu>
+  </span>
+            </div>
          
         </div>
     <TabPanels>
@@ -367,8 +396,8 @@
                                     <td class="px-6 py-1 W-28 whitespace-nowrap text-sm text-gray-500">
                                         <star-rating class="w-20" :star-size="12" :increment="0.5" v-model:rating="creator.rating"></star-rating>
                                     </td>
-                                    <td class="px-2 py-1 whitespace-nowrap justify-right text-right text-xs font-medium">
-                                        <div class="grid grid-cols-2 items-center gap-4">
+                                    <td class="py-1 whitespace-nowrap justify-right text-right text-xs font-medium">
+                                        <div class="grid grid-cols-2 justify-right items-center gap-4">
                                             <div>
                                                 <a href="/creatoroverview"
                                                    class="text-indigo-600 hover:text-indigo-900">Manage</a>
@@ -424,7 +453,7 @@
  import { Listbox, ListboxButton, ListboxOptions, ListboxOption, TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
  import StarRating from 'vue-star-rating'
  import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
- import { DotsVerticalIcon } from '@heroicons/vue/solid'
+ import { DotsVerticalIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
 export default {
    
@@ -442,6 +471,7 @@ export default {
       MenuItems,
       MenuItem,
       DotsVerticalIcon,
+      ChevronDownIcon
       
       
     
