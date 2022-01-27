@@ -81,7 +81,63 @@ initAuth();
             </nav>
         </header>
         <main>
-            <div class="pb-8 sm:pb-12 lg:pb-12">
+            <!-- This example requires Tailwind CSS v2.0+ -->
+
+  <div class="relative bg-gray-50 overflow-hidden">
+    <div class="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
+      <div class="relative h-full max-w-7xl mx-auto">
+        <svg class="absolute right-full transform translate-y-1/4 translate-x-1/4 lg:translate-x-1/2" width="404" height="784" fill="none" viewBox="0 0 404 784">
+          <defs>
+            <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+            </pattern>
+          </defs>
+          <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)" />
+        </svg>
+        <svg class="absolute left-full transform -translate-y-3/4 -translate-x-1/4 md:-translate-y-1/2 lg:-translate-x-1/2" width="404" height="784" fill="none" viewBox="0 0 404 784">
+          <defs>
+            <pattern id="5d0dd344-b041-4d26-bec4-8d33ea57ec9b" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+            </pattern>
+          </defs>
+          <rect width="404" height="784" fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="relative pt-6 pb-16 sm:pb-24">
+      
+
+      <main class="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
+        <div class="text-center">
+          <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+            <span class="block xl:inline">Grow your community</span>
+            {{ ' ' }}
+            <span class="block text-indigo-600 xl:inline">with creators</span>
+          </h1>
+          <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            Jovie AI identifies the creators most likely to love your product.
+          </p>
+          <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
+            <div class="rounded-md shadow">
+              <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+                Get started
+              </a>
+            </div>
+            <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
+              <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
+                Live demo
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+<!-- 
+
+           <div class="pb-8 sm:pb-12 lg:pb-12">
                 <div class="pt-2 sm:pt-12 lg:relative lg:py-48">
                     <div class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
                         <div>
@@ -89,12 +145,12 @@ initAuth();
                             <div class="mt-4 sm:mt-20">
                                 <div>
                                     <div class="inline-flex space-x-4">
-                            <span class="rounded bg-neutral-50 px-2.5 py-1 text-xs font-semibold text-gray-600 tracking-wide uppercase">
+                            <span class="rounded bg-sky-400 px-2.5 py-1 text-xs font-semibold text-gray-900 tracking-wide uppercase">
                             Creator discovery
                             </span>
                                         <span class="inline-flex items-center text-sm font-medium text-gray-300 space-x-1">
                                     <span>with Jovie AI</span>
-                                            <!-- Heroicon name: solid/chevron-right -->
+                                            
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                         </svg>
@@ -102,7 +158,7 @@ initAuth();
                                     </div>
                                 </div>
                                 <div class="mt-2 sm:max-w-xl">
-                                    <h1 class="text-5xl font-extrabold text-white tracking-tight sm:text-7xl">
+                                    <h1 class="text-5xl bg-clip-text font-extrabold text-white tracking-tight sm:text-7xl uppercase text-transparent bg-gradient-to-l from-fuchsia-500 via-violet-500 to-sky-500">
                                         Find creators
                                     </h1>
                                     <h1 class="text-xl font-extrabold text-white tracking-wide sm:text-3xl">
@@ -121,7 +177,7 @@ initAuth();
                                         <input id="hero-email" name="email" type="email" class="block w-full border border-gray-300 rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus-active:border-gray-500 focus-active:ring-gray-500" placeholder="Enter your email">
                                     </div>
                                     <div class="mt-4 sm:mt-0 sm:ml-3">
-                                        <button type="submit" class="block justify-between text-left items-center group w-60 rounded-md border line-clamp-1 border-transparent pr-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-600 focus-active:outline-none focus-active:ring-2 focus-active:ring-gray-500 focus-active:ring-offset-2 sm:px-10">
+                                        <button type="submit" class="block justify-between text-left items-center group w-60 rounded-md border line-clamp-1 border-transparent pr-5 pl-8 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-600 focus-active:outline-none focus-active:ring-2 focus-active:ring-gray-500 focus-active:ring-offset-2 sm:px-10">
                                             <span class="">Request access</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="inline-flex group-hover:hidden h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -132,15 +188,21 @@ initAuth();
                                         </button>
                                     </div>
                                 </form>
-                                <div class="border-t opacity-30 mt-4"></div>
+                                <div class="border-t opacity-30 mt-4">
+                                    
+                                </div>
+                                <div class="text-neutral-400 py-4 font-bold text-xs">
+                                    Trusted by the creator economy innovators:
+
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="sm:mx-auto sm:max-w-3xl sm:px-6 items-center">
-                        <div class="py-4 2xl:py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute items-center lg:inset-y-0 mt-40 lg:right-0 lg:w-1/2">
+                        <div class="py-4 2xl:py-6 sm:relative sm:mt-12 sm:py-16 lg:absolute items-center lg:inset-y-0 mt-10 lg:right-0 lg:w-1/2">
 
-                            <div class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
-                                <img class="w-full rounded-md ring-1 ring-black ring-opacity-5 lg:h-2/3 lg:w-auto lg:max-w-none" src="/images/sun.png" alt="">
+                            <div class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-2/3 lg:pl-12">
+                                <img class="w-full rounded-md ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none" src="/images/sun.png" alt="">
                             </div>
                             <div class="bg-neutral-700 font-bold text-lg text-center text-gray-100 w-2/3 py-4 px-4 rounded-lg shadow-xl mx-auto">
                                 Find <span class="underline decoration-4 decoration-pink-600 text-white px-1">female</span> <span class="underline decoration-4 decoration-amber-600 ">micro-influencers</span> wearing <span class="underline decoration-4 decoration-sky-600 text-white px-1">sunglasses</span>
@@ -148,18 +210,98 @@ initAuth();
                         </div>
                     </div>
                 </div>
+            </div>  -->
+         
+            <FeatureSection>
+            <div class="bg-gradient-to-r backdrop-blur-xl backdrop-saturate-150 from-indigo-500 via-purple-500 to-pink-500">
+                <div class="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                    AI Powered Disocvery
+                </h2>
+                <p class="mt-4 max-w-3xl text-lg text-indigo-200">
+                    Discover highly relevant and influential creators in seconds...
+                </p>
+                <div class="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
+                    <div v-for="feature in features" :key="feature.name">
+                    <div>
+                        <span class="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
+                        <component :is="feature.icon" class="h-6 w-6 text-white" aria-hidden="true" />
+                        </span>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-medium text-white">{{ feature.name }}</h3>
+                        <p class="mt-2 text-base text-indigo-200">
+                        {{ feature.description }}
+                        </p>
+                    </div>
+                    </div>
+                </div>
+                </div>
             </div>
+            </FeatureSection>
+            <CTA>
+            <div class="bg-indigo-700">
+                <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    <span class="block">See <span class="underline decoration-fuchsia-400">Jovie</span> in action.</span>
+                
+                </h2>
+                <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
+                <a href="#" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
+                    Watch demo
+                </a>
+                </div>
+            </div>
+            </CTA>
+
+
         </main>
-        <!--Footer-->
-        <footer class="fixed items-bottom bottom-0 my-auto">
-            <div class="inset-x-0 my-auto bottom-0 mx-auto px-4 sm:px-6 lg:px-8 ">
-                <div class="text-xs py-2 text-xs text-gray-500  bottom-0 items-baseline sm:text-left">
-                    <span class="block sm:inline">&copy; 2021 | <a href="/privacy">Privacy</a> | <a href="/privacy">Terms</a></span></div>
-            </div>
-        </footer>
     </div>
 </template>
 
 <style>
 
 </style>
+<script>
+import {
+  ChatAltIcon,
+  DocumentReportIcon,
+  HeartIcon,
+  InboxIcon,
+  PencilAltIcon,
+  ReplyIcon,
+  TrashIcon,
+  UsersIcon,
+} from '@heroicons/vue/outline'
+
+const features = [
+  {
+    name: 'Product search',
+    description: 'Identify products within content.',
+    icon: InboxIcon,
+  },
+  {
+    name: 'Brand',
+    description: 'Search for Starbucks logos in Tiktok videos, or people wearing Prada on Instagram.',
+    icon: UsersIcon,
+  },
+  {
+    name: 'Demographics',
+    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: TrashIcon,
+  },
+  {
+    name: 'Exclusion',
+    description: 'Filter out creators who use competing products.',
+    icon: PencilAltIcon,
+  },
+]
+
+export default {
+  setup() {
+    return {
+      features,
+    }
+  },
+}
+</script>
