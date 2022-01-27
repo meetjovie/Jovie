@@ -37,7 +37,7 @@
                 <div class="mt-2 relative items-center">
                     
                      <ListboxButton class="bg-white items-center relative w-60 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-1 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs">
-                                <span class="block truncate">Hello</span>
+                                <span class="block truncate">Filter by list</span>
         <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
           <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
         </span>
