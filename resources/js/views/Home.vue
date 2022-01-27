@@ -43,7 +43,7 @@ initAuth();
                                         </a>
                                         <a href="mailto:info@a7x3.com?subject=Request: Creator Search Platform Demo&body=Hey! I would love a demo of your awesome creator discovery platform! :)">
                                             <button type="button"
-                                                    class="relative inline-flex items-center px-2 py-1 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-neutral-500 hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-neutral-500">
+                                                    class="relative inline-flex items-center px-2 py-1 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-neutral-500 hover:bg-neutral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 focus-visible:ring-neutral-500">
                                                 <span>Request Demo</span>
                                             </button>
                                         </a>
@@ -83,13 +83,13 @@ initAuth();
         <main>
             <!-- This example requires Tailwind CSS v2.0+ -->
 
-  <div class="relative bg-gray-50 overflow-hidden">
+  <div class="relative bg-gradient-to-r from-white to-indigo-50 overflow-hidden">
     <div class="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
       <div class="relative h-full max-w-7xl mx-auto">
         <svg class="absolute right-full transform translate-y-1/4 translate-x-1/4 lg:translate-x-1/2" width="404" height="784" fill="none" viewBox="0 0 404 784">
-          <defs>
+          <defs class="text-indigo-700">
             <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-              <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+              <rect x="0" y="0" width="4" height="4" class="text-gray-200 opacity-50" fill="currentColor" />
             </pattern>
           </defs>
           <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)" />
@@ -113,21 +113,23 @@ initAuth();
           <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
             <span class="block xl:inline">Grow your community</span>
             {{ ' ' }}
-            <span class="block text-indigo-600 xl:inline">with creators</span>
+            <span class="block text-indigo-700 xl:inline">with creators</span>
           </h1>
           <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            Jovie AI identifies the creators most likely to love your product.
+            <span class="font-bold text-indigo-600">Jovie AI</span> identifies the creators most likely to <span class="underline decoration-pink-500 decoration-2 ">love</span> your brand.
           </p>
           <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-            <div class="rounded-md shadow">
-              <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
-                Get started
-              </a>
-            </div>
-            <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-              <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
-                Live demo
-              </a>
+            <div class="rounded-md ">
+              <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
+          <form class="sm:flex">
+            <label for="email-address" class="sr-only">Email address</label>
+            <input id="email-address" name="email-address" type="email" autocomplete="email" required="" class="w-full shadow-xl shadow-indigo-700/30 border-indigo-700/30 px-5 py-3 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white rounded-md" placeholder="Enter your email" />
+            <button type="submit" class="mt-3 w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+              Request Demo
+            </button>
+          </form>
+         
+        </div>
             </div>
           </div>
         </div>
@@ -211,6 +213,31 @@ initAuth();
                     </div>
                 </div>
             </div>  -->
+            <LogoCloud>
+                 <div class="bg-white">
+                    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-12 sm:px-6 lg:px-8">
+                    <div class="lg:grid lg:grid-cols-2 lg:gap-8">
+
+                        <h2 class="max-w-md mx-auto text-3xl font-extrabold text-indigo-700 text-center lg:max-w-xl lg:text-left">
+                        The creator economy trusts Jovie
+                        </h2>
+                        <div class="flow-root self-center mt-8 lg:mt-0">
+                        <div class="-mt-4 -ml-8 flex flex-wrap justify-between lg:-ml-4">
+                           <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
+                            <img class="h-12" src="/images/Logos/Zelf.svg" alt="Tuple" />
+                            </div>
+                            <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
+                            <img class="h-12" src="https://tailwindui.com/img/logos/tuple-logo-indigo-900.svg" alt="Tuple" />
+                            </div>
+                            <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
+                            <img class="h-12" src="https://tailwindui.com/img/logos/level-logo-indigo-900.svg" alt="Level" />
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </LogoCloud>
          
             <FeatureSection>
             <div class="bg-gradient-to-r backdrop-blur-xl backdrop-saturate-150 from-indigo-500 via-purple-500 to-pink-500">
@@ -240,18 +267,18 @@ initAuth();
             </div>
             </FeatureSection>
             <CTA>
-            <div class="bg-indigo-700">
-                <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                    <span class="block">See <span class="underline decoration-fuchsia-400">Jovie</span> in action.</span>
-                
-                </h2>
-                <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
-                <a href="#" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
-                    Watch demo
-                </a>
+                <div class="bg-indigo-700">
+                    <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                        <span class="block">See <span class="underline decoration-fuchsia-400">Jovie</span> in action.</span>
+                    
+                    </h2>
+                    <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
+                    <a href="#" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
+                        Watch demo
+                    </a>
+                    </div>
                 </div>
-            </div>
             </CTA>
 
 
