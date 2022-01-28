@@ -105,10 +105,10 @@ initAuth();
       </div>
     </div>
 
-    <div class="relative pt-6 pb-16 sm:pb-24">
+    <div class="relative pt-12 pb-16 sm:pb-24">
       
 
-      <main class="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
+      <main class="mt-16 mx-auto max-w-7xl py-24 px-4 sm:mt-24">
         <div class="text-center">
           <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
             <span class="block xl:inline">Grow your community</span>
@@ -116,7 +116,7 @@ initAuth();
             <span class="block text-indigo-700 xl:inline">with creators</span>
           </h1>
           <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            <span class="font-bold text-indigo-600">Jovie AI</span> identifies the creators most likely to <span class="underline decoration-pink-500 decoration-2 ">love</span> your brand.
+            <span class="font-bold text-indigo-600">Jovie</span> identifies the creators most likely to <span class="underline decoration-pink-500 decoration-2 ">love</span> your brand.
           </p>
           <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div class="rounded-md ">
@@ -218,19 +218,19 @@ initAuth();
                     <div class="max-w-7xl mx-auto py-16 px-4 sm:py-12 sm:px-6 lg:px-8">
                     <div class="lg:grid lg:grid-cols-2 lg:gap-8">
 
-                        <h2 class="max-w-md mx-auto text-3xl font-extrabold text-indigo-700 text-center lg:max-w-xl lg:text-left">
-                        The creator economy trusts Jovie
+                        <h2 class="max-w-md mx-auto text-3xl font-extrabold text-neutral-700 text-center lg:max-w-xl lg:text-left">
+                        Creator economy startups <span class="text-indigo-700">trust Jovie</span>
                         </h2>
                         <div class="flow-root self-center mt-8 lg:mt-0">
                         <div class="-mt-4 -ml-8 flex flex-wrap justify-between lg:-ml-4">
                            <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
-                            <img class="h-12" src="/images/Logos/Zelf.svg" alt="Tuple" />
+                            <img class="h-10 opacity-30 saturate-0" src="/images/Logos/Zelf.svg" alt="Zelf" />
                             </div>
                             <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
-                            <img class="h-12" src="https://tailwindui.com/img/logos/tuple-logo-indigo-900.svg" alt="Tuple" />
+                            <img class="h-10 opacity-30 saturate-0" src="\images\Logos\Fuego.svg" alt="Fuego" />
                             </div>
                             <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
-                            <img class="h-12" src="https://tailwindui.com/img/logos/level-logo-indigo-900.svg" alt="Level" />
+                            <img class="h-12 opacity-30 saturate-0" src="https://uploads-ssl.webflow.com/60cb5f56c3b31702dd6b1934/60cb64fa20a93418b234363f_Flowbo-Colors-p-500.png" alt="Flowbo" />
                             </div>
                         </div>
                         </div>
@@ -266,11 +266,53 @@ initAuth();
                 </div>
             </div>
             </FeatureSection>
+            <Tesitimonial>
+                <section class="py-12 bg-gray-50 overflow-hidden md:py-20 lg:py-24">
+                    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <svg class="absolute top-full right-full transform translate-x-1/3 -translate-y-1/4 lg:translate-x-1/2 xl:-translate-y-1/2" width="404" height="404" fill="none" viewBox="0 0 404 404" role="img" aria-labelledby="svg-workcation">
+                        <title id="svg-workcation">Zelf</title>
+                        <defs>
+                        <pattern id="ad119f34-7694-4c31-947f-5c9d249b21f3" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+                        </pattern>
+                        </defs>
+                        <rect width="404" height="404" fill="url(#ad119f34-7694-4c31-947f-5c9d249b21f3)" />
+                    </svg>
+
+                    <div class="relative">
+                        <img class="mx-auto h-8" src="images/Logos/Zelf.svg" alt="Zelf" />
+                        <blockquote class="mt-10">
+                        <div class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-gray-900">
+                            <p>
+                            &ldquo;Jovie kicks ass and is awesome.&rdquo;
+                            </p>
+                        </div>
+                        <footer class="mt-8">
+                            <div class="md:flex md:items-center md:justify-center">
+                            <div class="md:flex-shrink-0">
+                                <img class="mx-auto h-10 w-10 rounded-full" src="https://media-exp1.licdn.com/dms/image/C4D03AQGZyOT_1GtFlw/profile-displayphoto-shrink_200_200/0/1629220506369?e=1648684800&v=beta&t=7GfOr2rn9vHTAbImqtyE9AE03VqK4nOjxZezdHVThJQ" alt="" />
+                            </div>
+                            <div class="mt-3 text-center md:mt-0 md:ml-4 md:flex md:items-center">
+                                <div class="text-base font-medium text-gray-900">Pepijn van Kesteren</div>
+
+                                <svg class="hidden md:block mx-1 h-5 w-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M11 0h3L9 20H6l5-20z" />
+                                </svg>
+
+                                <div class="text-base font-medium text-gray-500">CEO, Zelf</div>
+                            </div>
+                            </div>
+                        </footer>
+                        </blockquote>
+                    </div>
+                    </div>
+                </section>
+            </Tesitimonial>
             <CTA>
                 <div class="bg-indigo-700">
                     <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
                     <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                        <span class="block">See <span class="underline decoration-fuchsia-400">Jovie</span> in action.</span>
+                        <span class="block">See <span class="underline decoration-4 decoration-fuchsia-400">Jovie</span> in action.</span>
                     
                     </h2>
                     <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>

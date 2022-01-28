@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <router-view />
     <ExternalFooter>
       <footer class="bg-neutral-50">
