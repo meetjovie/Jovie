@@ -108,22 +108,22 @@ initAuth();
     <div class="relative pt-12 pb-16 sm:pb-24">
       
 
-      <main class="mt-16 mx-auto max-w-7xl py-24 px-4 sm:mt-24">
+      <main class="mt-16 mx-auto max-w-7xl py-8 lg:py-24 px-4 min-h-1/2 sm:mt-24">
         <div class="text-center">
           <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
             <span class="block xl:inline">Grow your community</span>
             {{ ' ' }}
             <span class="block text-indigo-700 xl:inline">with creators</span>
           </h1>
-          <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            <span class="font-bold text-indigo-600">Jovie</span> identifies the creators most likely to <span class="underline decoration-pink-500 decoration-2 ">love</span> your brand.
+          <p class="mt-3 max-w-md mx-auto text-center text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <span class="font-bold text-indigo-600">Jovie</span> identifies the creators most likely to <span class="underline font-bold decoration-pink-500 decoration-4 ">love</span> your brand.
           </p>
           <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div class="rounded-md ">
               <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
           <form class="sm:flex">
             <label for="email-address" class="sr-only">Email address</label>
-            <input id="email-address" name="email-address" type="email" autocomplete="email" required="" class="w-full shadow-xl shadow-indigo-700/30 border-indigo-700/30 px-5 py-3 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white rounded-md" placeholder="Enter your email" />
+            <input id="email-address" name="email-address" type="email" autocomplete="email" required="" class="w-full shadow-xl shadow-indigo-700/20 border-indigo-700/30 px-5 py-3 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white rounded-md" placeholder="Enter your email" />
             <button type="submit" class="mt-3 w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
               Request Demo
             </button>
@@ -251,13 +251,13 @@ initAuth();
                 <div class="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
                     <div v-for="feature in features" :key="feature.name">
                     <div>
-                        <span class="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
+                        <span class="flex items-center justify-center h-12 w-12 rounded-md bg-opacity-10">
                         <component :is="feature.icon" class="h-6 w-6 text-white" aria-hidden="true" />
                         </span>
                     </div>
                     <div class="mt-6">
                         <h3 class="text-lg font-medium text-white">{{ feature.name }}</h3>
-                        <p class="mt-2 text-base text-indigo-200">
+                        <p class="mt-2 text-base text-indigo-100">
                         {{ feature.description }}
                         </p>
                     </div>
@@ -312,7 +312,7 @@ initAuth();
                 <div class="bg-indigo-700">
                     <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
                     <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                        <span class="block">See <span class="underline decoration-4 decoration-fuchsia-400">Jovie</span> in action.</span>
+                        <span class="block">See <span class="underline decoration-2 decoration-fuchsia-400">Jovie</span> in action.</span>
                     
                     </h2>
                     <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
