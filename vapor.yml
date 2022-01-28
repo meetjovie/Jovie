@@ -10,7 +10,6 @@ environments:
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
-            - 'php artisan migrate'
             - 'npm ci && npm run prod && rm -rf node_modules'
 
         domain:
@@ -37,8 +36,6 @@ environments:
         build:
             - 'composer install --no-dev'
             - 'php artisan event:cache'
-            - 'php artisan migrate --force'
-            - 'php artisan optimize --force'
             - 'rm -rf composer.lock'
 
 
