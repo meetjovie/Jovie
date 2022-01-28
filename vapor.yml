@@ -1,0 +1,41 @@
+id: 28038
+name: jovie
+environments:
+    production:
+        queue-concurrency: 5
+        database: 'creatorconnectprod'
+        memory: 1024
+        cli-memory: 512
+        runtime: 'php-8.1:al2'
+        build:
+            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+            - 'php artisan event:cache'
+            - 'npm ci && npm run prod && rm -rf node_modules'
+
+        domain:
+        network: 'A7X3-PRIMARY'
+        timeout: 900
+        firewall:
+              rate-limit: 500
+              bot-control:
+                - SignalKnownBotDataCenter
+                - SignalAutomatedBrowser
+                - CategoryScrapingFramework
+    staging:
+        queue-concurrency: 5
+        database: 'creatorsearchstaging'
+        memory: 1024
+        cli-memory: 512
+        runtime: 'php-8.1:al2'
+        domain:
+            - 'staging.jov.ie'
+        network: 'A7X3-PRIMARY'
+        bot-control:
+          - CategoryScrapingFramework
+          - CategoryContentFetcher
+        build:
+            - 'composer install --no-dev'
+            - 'php artisan event:cache'
+            - 'rm -rf composer.lock'
+
+
