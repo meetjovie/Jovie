@@ -27,5 +27,5 @@ pipeline:
           vapor deploy production
       fi
       if [[ $CI_COMMIT_BRANCH == 'staging' ]]; then
-          vapor deploy dev
+          vapor deploy staging
       fi
