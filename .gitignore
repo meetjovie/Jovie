@@ -23,8 +23,6 @@ public/imports
 /public/css
 /public/build
 /public/mix-manifest.json
-/bootstrap/cache/*
-/bootstrap/cache/*.php
 /public/css/app.css
 package-lock.json
 public/dist
