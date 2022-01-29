@@ -3,7 +3,7 @@ name: jovie
 environments:
     production:
         queue-concurrency: 5
-        database: 'creatorconnectprod'
+        database: creatorconnectprod
         memory: 1024
         cli-memory: 512
         runtime: 'php-8.1:al2'
@@ -11,33 +11,46 @@ environments:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
             - 'npm ci && npm run prod && rm -rf node_modules'
-
-        domain:
-        network: 'A7X3-PRIMARY'
+        domain: prod.jov.ie
+        network: A7X3-PRIMARY
         timeout: 900
         firewall:
-              rate-limit: 500
-              bot-control:
+            rate-limit: 500
+            bot-control:
                 - SignalKnownBotDataCenter
                 - SignalAutomatedBrowser
                 - CategoryScrapingFramework
     staging:
         queue-concurrency: 5
-        database: 'creatorsearchstaging'
+        database: Jovie-staging
         memory: 1024
         cli-memory: 512
         runtime: 'php-8.1:al2'
         domain:
-            - 'staging.jov.ie'
-        network: 'A7X3-PRIMARY'
+            - staging.jov.ie
+        network: A7X3-PRIMARY
         bot-control:
-          - CategoryScrapingFramework
-          - CategoryContentFetcher
+            - CategoryScrapingFramework
+            - CategoryContentFetcher
         build:
-            - 'composer install --no-dev'
+            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
-            - 'php artisan cache:clear'
-            
             - 'rm -rf composer.lock'
-
-
+            - 'npm ci && npm run prod && rm -rf node_modules'
+    dev:
+        queue-concurrency: 5
+        database: Jovie-staging
+        memory: 1024
+        cli-memory: 512
+        runtime: 'php-8.1:al2'
+        domain:
+            - dev.jov.ie
+        network: A7X3-PRIMARY
+        bot-control:
+            - CategoryScrapingFramework
+            - CategoryContentFetcher
+        build:
+            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+            - 'php artisan event:cache'
+            - 'rm -rf composer.lock'
+    
