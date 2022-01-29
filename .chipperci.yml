@@ -6,6 +6,7 @@ environment:
 
 services:
   - mysql: 5.7
+  - redis:
 
 pipeline:
   - name: Setup
@@ -26,5 +27,5 @@ pipeline:
           vapor deploy production
       fi
       if [[ $CI_COMMIT_BRANCH == 'staging' ]]; then
-          vapor deploy staging
+          vapor deploy dev
       fi
