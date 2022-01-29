@@ -36,6 +36,8 @@ environments:
         build:
             - 'composer install --no-dev'
             - 'php artisan event:cache'
+            - 'php artisan cache:clear'
+            
             - 'rm -rf composer.lock'
 
 
