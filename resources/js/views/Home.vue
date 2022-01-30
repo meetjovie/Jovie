@@ -37,18 +37,30 @@ initAuth();
                             </div>
                         </div>
                         <div class="hidden sm:flex items-center">
-                            <div class="flex-shrink-0">
+                            <div class="flex-shrink-0 ">
                                 <div v-if="!store.state.AuthState.loading">
-                                    <div v-if="!store.state.AuthState.isAuthenticated">
-                                        <a @click="login()"
-                                           class="text-neutral-300 hover:text-neutral-200 hover:text-white px-3 py-2 rounded-md text-xs font-medium">Login
-                                        </a>
-                                        <a href="mailto:info@a7x3.com?subject=Request: Creator Search Platform Demo&body=Hey! I would love a demo of your awesome creator discovery platform! :)">
-                                            <button type="button"
-                                                    class="relative inline-flex items-center px-2 py-1 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-neutral-500 hover:bg-neutral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 focus-visible:ring-neutral-500">
-                                                <span>Request Demo</span>
-                                            </button>
-                                        </a>
+                                    <div v-if="!store.state.AuthState.isAuthenticated" class="cursor-pointer">
+                                        <div class="inline-flex">
+                                            <a @click="login()"
+                                            class="text-neutral-300 cursor-hover:text-neutral-200 hover:text-white px-4 py-2 rounded-md text-xs font-medium">Sign in
+                                            </a>
+                                        </div>
+                                        <div class="inline-flex">
+                                            <a class:="justify-center px-2 max-auto" href="mailto:info@a7x3.com?subject=Request: Creator Search Platform Demo&body=Hey! I would love a demo of your awesome creator discovery platform! :)">
+                                                <button type="button"
+                                                        class="relative inline-flex group items-center px-2 py-1 border text-xs font-medium rounded-md text-neutral-200 hover:text-white bg-neutral-800 border-1 border-neutral-300 hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 focus-visible:ring-neutral-500">
+                                                    <span>Request Demo</span>
+                                                    <span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="block group-hover:hidden ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                                        </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="hidden group-hover:block ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div v-else>
                                         <router-link to="dashboard" class="text-sm border-transparent group rounded-md w-32 px-2 py-1 inline-flex items-center font-medium text-neutral-400 hover:text-neutral-100">
@@ -104,7 +116,7 @@ initAuth();
               <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
             </pattern>
           </defs>
-          <rect width="404" height="784" fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)" />
+          <rect width="404" height="784" class fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)" />
         </svg>
       </div>
     </div>
@@ -115,9 +127,9 @@ initAuth();
       <main class="mt-16 mx-auto max-w-7xl py-8 lg:py-24 px-4 min-h-1/2 sm:mt-24">
         <div class="text-center">
           <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            <span class="block xl:inline">Grow your community</span>
+            <span class="block xl:inline">Creator aquisition</span>
             {{ ' ' }}
-            <span class="block text-indigo-700 xl:inline">with creators</span>
+            <span class="block text-indigo-700 xl:inline">for startups</span>
           </h1>
           <p class="mt-3 max-w-md mx-auto text-center text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
             <span class="font-bold text-indigo-600">Jovie</span> identifies the creators most likely to <span class="underline font-bold decoration-pink-500 decoration-4 ">love</span> your brand.
@@ -128,7 +140,7 @@ initAuth();
           <form class="sm:flex">
             <label for="email-address" class="sr-only">Email address</label>
             <input id="email-address" name="email-address" type="email" autocomplete="email" required="" class="w-full shadow-xl shadow-indigo-700/20 border-indigo-700/30 px-5 py-3 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white rounded-md" placeholder="Enter your email" />
-            <button type="submit" class="mt-3 w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+            <button type="submit" class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
               Request Demo
             </button>
           </form>
