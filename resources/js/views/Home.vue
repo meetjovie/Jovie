@@ -51,7 +51,9 @@ initAuth();
                                         </a>
                                     </div>
                                     <div v-else>
-                                        <a class="text-sm border-transparent group rounded-md w-32 px-2 py-1 inline-flex items-center font-medium text-neutral-400 hover:text-neutral-100">Dashboard</a>
+                                        <router-link to="dashboard" class="text-sm border-transparent group rounded-md w-32 px-2 py-1 inline-flex items-center font-medium text-neutral-400 hover:text-neutral-100">
+                                            Dashboard
+                                        </router-link>
                                     </div>
                                 </div>
                                 <div v-else>
@@ -108,7 +110,7 @@ initAuth();
     </div>
 
     <div class="relative pt-12 pb-16 sm:pb-24">
-      
+
 
       <main class="mt-16 mx-auto max-w-7xl py-8 lg:py-24 px-4 min-h-1/2 sm:mt-24">
         <div class="text-center">
@@ -130,7 +132,7 @@ initAuth();
               Request Demo
             </button>
           </form>
-         
+
         </div>
             </div>
           </div>
@@ -139,7 +141,7 @@ initAuth();
     </div>
   </div>
 
-<!-- 
+<!--
 
            <div class="pb-8 sm:pb-12 lg:pb-12">
                 <div class="pt-2 sm:pt-12 lg:relative lg:py-48">
@@ -154,7 +156,7 @@ initAuth();
                             </span>
                                         <span class="inline-flex items-center text-sm font-medium text-gray-300 space-x-1">
                                     <span>with Jovie AI</span>
-                                            
+
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                         </svg>
@@ -193,7 +195,7 @@ initAuth();
                                     </div>
                                 </form>
                                 <div class="border-t opacity-30 mt-4">
-                                    
+
                                 </div>
                                 <div class="text-neutral-400 py-4 font-bold text-xs">
                                     Trusted by the creator economy innovators:
@@ -240,7 +242,7 @@ initAuth();
                     </div>
                 </div>
             </LogoCloud>
-         
+
             <FeatureSection>
             <div class="bg-gradient-to-r backdrop-blur-xl backdrop-saturate-150 from-indigo-500 via-purple-500 to-pink-500">
                 <div class="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
@@ -315,7 +317,7 @@ initAuth();
                     <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
                     <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
                         <span class="block">See <span class="underline decoration-2 decoration-fuchsia-400">Jovie</span> in action.</span>
-                    
+
                     </h2>
                     <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
                     <a href="#" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">

@@ -1,5 +1,5 @@
 export default {
-    getTest (state) {
-        return state.test;
+    getCurrentUser (state) {
+        return state.AuthState.user;
     }
 }

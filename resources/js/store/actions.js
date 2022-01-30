@@ -1,3 +1,5 @@
+import userService from "../services/api/user.service";
+
 export default {
     async handleStateChangeForAuth(context) {
         context.commit('setStateChangeForAuth', {
@@ -15,4 +17,13 @@ export default {
             returnTo: window.location.origin,
         });
     },
+    async me({state, commit}) {
+        userService.me().then(response => {
+            response = response.data
+            commit('setAuthStateUser', response)
+            return Promise.resolve(response)
+        }).catch(error => {
+            commit('setAuthStateUser', null)
+        })
+    }
 }

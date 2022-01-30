@@ -1,4 +1,4 @@
-import { authenticationGuard } from "./middlewares/auth";
+import { authenticationGuard } from "../middlewares/auth";
 
 import store from "../store";
 
@@ -16,6 +16,7 @@ export const routes = [
         name: 'dashboard',
         path: '/dashboard',
         component: loadPage('Dashboard'),
+        beforeEnter: authenticationGuard,
         meta: {
             layout: 'App'
         }

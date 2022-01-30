@@ -27,4 +27,4 @@ public/imports
 package-lock.json
 public/dist
 public/dist/app.js
-resources/js/.env.local
+resources/js/.env
