@@ -51,7 +51,7 @@
                   
                   <a class="px-2 hover:text-neutral-700" href="/privacy">Privacy</a>
                  
-                  <a class="px-2 hover:text-neutral-700" href="/privacy"
+                  <a class="px-2 hover:text-neutral-700" href="/terms"
                     >Terms</a
                   ></span
                 >
