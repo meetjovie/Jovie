@@ -1,11 +1,3 @@
-<script setup>
-import { useAuth0 } from "../utils/useAuth0";
-import store from "../store";
-const { login, logout, initAuth } = useAuth0();
-
-initAuth();
-</script>
-
 <template>
     <div class="bg-neutral-800">
         <header>
@@ -38,8 +30,8 @@ initAuth();
                         </div>
                         <div class="hidden sm:flex items-center">
                             <div class="flex-shrink-0 ">
-                                <div v-if="!store.state.AuthState.loading">
-                                    <div v-if="!store.state.AuthState.isAuthenticated" class="cursor-pointer">
+                                <div v-if="!$store.state.AuthState.loading">
+                                    <div v-if="!$store.state.AuthState.isAuthenticated" class="cursor-pointer">
                                         <div class="inline-flex">
                                             <a @click="login()"
                                             class="text-neutral-300 cursor-hover:text-neutral-200 hover:text-white px-4 py-2 rounded-md text-xs font-medium">Sign in
@@ -79,8 +71,8 @@ initAuth();
                 <!-- Mobile menu, show/hide based on menu state. -->
                 <div class="md:hidden" id="mobile-menu">
                     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <div v-if="!store.state.AuthState.loading">
-                            <div v-if="!store.state.AuthState.isAuthenticated">
+                        <div v-if="!$store.state.AuthState.loading">
+                            <div v-if="!$store.state.AuthState.isAuthenticated">
                                 <a @click="login()"
                                    class="text-neutral-300 hover:text-neutral-200 hover:text-white px-3 py-2 rounded-md text-xs font-medium">Login</a>
                             </div>
@@ -138,10 +130,10 @@ initAuth();
             <div class="rounded-md ">
               <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
               <form class="sm:flex">
-                <label for="email-address" class="sr-only">Email address</label>
-                <input id="email-address" v-model="waitListEmail" name="email-address" type="email" autocomplete="email" required="" class="w-full shadow-xl shadow-indigo-700/20 border-indigo-700/30 px-5 py-3 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white rounded-md" placeholder="Enter your email" />
+                <label v-if="!$store.state.addedToWaitList" for="email-address" class="sr-only">Email address</label>
+                <input v-if="!$store.state.addedToWaitList" id="email-address" v-model="waitListEmail" name="email-address" type="email" autocomplete="email" required="" class="w-full shadow-xl shadow-indigo-700/20 border-indigo-700/30 px-5 py-3 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white rounded-md" placeholder="Enter your email" />
                 <button type="button" @click="requestDemo()" class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                  Request Demo
+                  {{ $store.state.addedToWaitList ? 'Added to waitlist' : 'Request Demo' }}
                 </button>
               </form>
               <span class="text-red-900 float-left">{{ this.error }}</span>
@@ -363,9 +355,14 @@ import {
   UsersIcon,
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
+import { useAuth0 } from "../utils/useAuth0";
+const { login, logout, initAuth } = useAuth0();
 
 export default {
     name: "Home",
+    setup() {
+        initAuth();
+    },
     data() {
       return {
           features: [
@@ -395,12 +392,20 @@ export default {
       }
     },
     methods: {
-        requestDemo() {
-            UserService.addToWaitList({email: this.waitListEmail}).then(response => {
+        login() {
+            login()
+        },
+        logout() {
+            logout()
+        },
+        async requestDemo() {
+            await UserService.addToWaitList({email: this.waitListEmail}).then(response => {
+                response = response.data
                 if (response.status) {
+                    this.$store.commit('setAddedToWaitList')
                     this.waitListEmail = ''
                     this.error = null
-                    // this.$router.push('contact')
+                    this.$router.push('demo')
                 }
             }).catch(error => {
                 error = error.response

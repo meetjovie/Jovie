@@ -15,7 +15,7 @@ export default {
             headers: await headers()
         })
     },
-    addToWaitList(data) {
+    async addToWaitList(data) {
         return axios.post(`${baseUrlWeb}/waitlist`, data)
     }
 }

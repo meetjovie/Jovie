@@ -7,5 +7,8 @@ export default {
     setAuthStateUser(state, payload) {
         state.AuthState.user = payload
         localStorage.setItem('currentUser', JSON.stringify(payload))
+    },
+    setAddedToWaitList(state) {
+        state.addedToWaitList = true
     }
 }
