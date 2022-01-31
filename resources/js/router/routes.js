@@ -50,5 +50,11 @@ export const routes = [
         meta: {
             layout: 'Default'
         }
-    }
+    },
+    {   name: 'demo',
+        path: '/demo',
+        beforeEnter(to, from, next) {
+        window.location.href = 'https://u3yaoaf518v.typeform.com/to/GJkiNP4B'
+       }
+    },
 ]

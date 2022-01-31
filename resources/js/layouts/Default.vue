@@ -2,6 +2,7 @@
   <div>
     
     <router-view />
+   
     <ExternalFooter>
       <footer class="bg-neutral-50">
         <div
@@ -51,7 +52,7 @@
                   
                   <a class="px-2 hover:text-neutral-700" href="/privacy">Privacy</a>
                  
-                  <a class="px-2 hover:text-neutral-700" href="/terms"
+                  <a class="px-2 hover:text-neutral-700" href="/privacy"
                     >Terms</a
                   ></span
                 >

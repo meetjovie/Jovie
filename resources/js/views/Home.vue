@@ -46,8 +46,8 @@ initAuth();
                                             </a>
                                         </div>
                                         <div class="inline-flex">
-                                            <a class:="justify-center px-2 max-auto" href="mailto:info@a7x3.com?subject=Request: Creator Search Platform Demo&body=Hey! I would love a demo of your awesome creator discovery platform! :)">
-                                                <button type="button"
+                                            <a class:="justify-center px-2 max-auto" @click="demo">
+                                                <router-link to='demo'
                                                         class="relative inline-flex group items-center px-2 py-1 border text-xs font-medium rounded-md text-neutral-200 hover:text-white bg-neutral-800 border-1 border-neutral-300 hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 focus-visible:ring-neutral-500">
                                                     <span>Request Demo</span>
                                                     <span>
@@ -58,7 +58,7 @@ initAuth();
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                                         </svg>
                                                     </span>
-                                                </button>
+                                                </router-link>
                                             </a>
                                         </div>
                                     </div>
@@ -336,9 +336,10 @@ initAuth();
 
                     </h2>
                     <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
-                    <a href="#" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
+                    <router-link to="demo" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
                         Watch demo
-                    </a>
+                    </router-link>
+                    
                     </div>
                 </div>
             </CTA>
