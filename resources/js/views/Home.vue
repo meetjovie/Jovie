@@ -229,7 +229,7 @@ initAuth();
                     </div>
                 </div>
             </div>  -->
-            <LogoCloud>
+            <!-- <LogoCloud>
                  <div class="bg-white">
                     <div class="max-w-7xl mx-auto py-16 px-4 sm:py-12 sm:px-6 lg:px-8">
                     <div class="lg:grid lg:grid-cols-2 lg:gap-8">
@@ -253,7 +253,7 @@ initAuth();
                     </div>
                     </div>
                 </div>
-            </LogoCloud>
+            </LogoCloud> -->
 
             <FeatureSection>
             <div class="grid grid-cols-2 px-8 bg-gradient-to-r backdrop-blur-xl backdrop-saturate-150 from-indigo-500 via-purple-500 to-pink-500">
@@ -264,12 +264,12 @@ initAuth();
                 <p class="mt-4 max-w-3xl text-lg text-indigo-200">
                     Discover highly relevant and influential creators in seconds...
                 </p>
-                <div class="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 lg:mt-16 lg:gap-x-8 lg:gap-y-16">
+                <div class="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 lg:mt-16 lg:gap-x-8 lg:gap-y-8">
                     <div v-for="feature in features" :key="feature.name" class="col-span-1">
                         
                         <div class="mt-6">
-                            <h3 class="text-lg font-medium text-white">{{ feature.name }}</h3>
-                            <p class="mt-2 text-base text-indigo-100">
+                            <h3 class="text-sm font-medium text-white">{{ feature.name }}</h3>
+                            <p class="mt-2 text-xs text-indigo-100">
                             {{ feature.description }}
                             </p>
                         </div>
@@ -277,9 +277,11 @@ initAuth();
                     
                 </div>
                 </div>
-                <div class="py-8">
+                <div class="py-8 items-center">
                     <img src="/images/sun.png" alt="">
-                    
+                    <div class="bg-white/90 backdrop-blur-xl bg-saturate-150 font-bold text-lg text-center text-gray-800 py-4 px-4 rounded-lg shadow-xl mx-auto">
+                        Find <span class="underline decoration-4 decoration-pink-600 text-neutral-900 px-1">female</span> <span class="underline decoration-4 decoration-amber-600 ">micro-influencers</span> wearing <span class="underline decoration-4 decoration-sky-600 text-neutral-900 px-1">sunglasses</span>
+                    </div>
                 </div>
                         
             </div>
