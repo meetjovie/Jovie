@@ -35,4 +35,20 @@ export const routes = [
         component: loadPage('About'),
         beforeEnter: authenticationGuard
     },
+    {
+        name: 'terms',
+        path: '/terms',
+        component: loadPage('Terms'),
+        meta: {
+            layout: 'Default'
+        }
+    },
+    {
+        name: 'privacy',
+        path: '/privacy',
+        component: loadPage('Privacy'),
+        meta: {
+            layout: 'Default'
+        }
+    }
 ]

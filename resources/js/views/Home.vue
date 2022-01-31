@@ -127,9 +127,9 @@ initAuth();
       <main class="mt-16 mx-auto max-w-7xl py-8 lg:py-24 px-4 min-h-1/2 sm:mt-24">
         <div class="text-center">
           <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            <span class="block xl:inline">Creator aquisition</span>
+            <span class="block xl:inline">Grow your community</span>
             {{ ' ' }}
-            <span class="block text-indigo-700 xl:inline">for startups</span>
+            <span class="block text-indigo-700 xl:inline">with creators</span>
           </h1>
           <p class="mt-3 max-w-md mx-auto text-center text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
             <span class="font-bold text-indigo-600">Jovie</span> identifies the creators most likely to <span class="underline font-bold decoration-pink-500 decoration-4 ">love</span> your brand.
@@ -256,7 +256,7 @@ initAuth();
             </LogoCloud>
 
             <FeatureSection>
-            <div class="bg-gradient-to-r backdrop-blur-xl backdrop-saturate-150 from-indigo-500 via-purple-500 to-pink-500">
+            <div class="grid grid-cols-2 px-8 bg-gradient-to-r backdrop-blur-xl backdrop-saturate-150 from-indigo-500 via-purple-500 to-pink-500">
                 <div class="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
                 <h2 class="text-3xl font-extrabold text-white tracking-tight">
                     AI Powered Disocvery
@@ -264,22 +264,24 @@ initAuth();
                 <p class="mt-4 max-w-3xl text-lg text-indigo-200">
                     Discover highly relevant and influential creators in seconds...
                 </p>
-                <div class="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
-                    <div v-for="feature in features" :key="feature.name">
-                    <div>
-                        <span class="flex items-center justify-center h-12 w-12 rounded-md bg-opacity-10">
-                        <component :is="feature.icon" class="h-6 w-6 text-white" aria-hidden="true" />
-                        </span>
-                    </div>
-                    <div class="mt-6">
-                        <h3 class="text-lg font-medium text-white">{{ feature.name }}</h3>
-                        <p class="mt-2 text-base text-indigo-100">
-                        {{ feature.description }}
-                        </p>
-                    </div>
-                    </div>
+                <div class="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 lg:mt-16 lg:gap-x-8 lg:gap-y-16">
+                    <div v-for="feature in features" :key="feature.name" class="col-span-1">
+                        
+                        <div class="mt-6">
+                            <h3 class="text-lg font-medium text-white">{{ feature.name }}</h3>
+                            <p class="mt-2 text-base text-indigo-100">
+                            {{ feature.description }}
+                            </p>
+                        </div>
+                    </div> 
+                    
                 </div>
                 </div>
+                <div class="py-8">
+                    <img src="/images/sun.png" alt="">
+                    
+                </div>
+                        
             </div>
             </FeatureSection>
             <Tesitimonial>
@@ -361,23 +363,23 @@ import {
 
 const features = [
   {
-    name: 'Product search',
-    description: 'Identify products within content.',
+    name: 'Discover creators by the products they use',
+    description: 'Jovie can see if a creator is wearing glass, holding an iPhone, or riding a skateboard. ',
     icon: InboxIcon,
   },
   {
-    name: 'Brand',
+    name: 'Identify Brands within content',
     description: 'Search for Starbucks logos in Tiktok videos, or people wearing Prada on Instagram.',
     icon: UsersIcon,
   },
   {
-    name: 'Demographics',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    name: 'Brand Saftey',
+    description: 'Jovie can identify & restrict creators who post content that may not be suitable for your brand. ',
     icon: TrashIcon,
   },
   {
     name: 'Exclusion',
-    description: 'Filter out creators who use competing products.',
+    description: 'Jovie can check to make creators you partner with have never promoted a competing product.',
     icon: PencilAltIcon,
   },
 ]
