@@ -137,15 +137,15 @@ initAuth();
           <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div class="rounded-md ">
               <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
-          <form class="sm:flex">
-            <label for="email-address" class="sr-only">Email address</label>
-            <input id="email-address" name="email-address" type="email" autocomplete="email" required="" class="w-full shadow-xl shadow-indigo-700/20 border-indigo-700/30 px-5 py-3 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white rounded-md" placeholder="Enter your email" />
-            <button type="submit" class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-              Request Demo
-            </button>
-          </form>
-
-        </div>
+              <form class="sm:flex">
+                <label for="email-address" class="sr-only">Email address</label>
+                <input id="email-address" v-model="waitListEmail" name="email-address" type="email" autocomplete="email" required="" class="w-full shadow-xl shadow-indigo-700/20 border-indigo-700/30 px-5 py-3 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white rounded-md" placeholder="Enter your email" />
+                <button type="button" @click="requestDemo()" class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                  Request Demo
+                </button>
+              </form>
+              <span class="text-red-900 float-left">{{ this.error }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -266,15 +266,15 @@ initAuth();
                 </p>
                 <div class="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 lg:mt-16 lg:gap-x-8 lg:gap-y-8">
                     <div v-for="feature in features" :key="feature.name" class="col-span-1">
-                        
+
                         <div class="mt-6">
                             <h3 class="text-sm font-medium text-white">{{ feature.name }}</h3>
                             <p class="mt-2 text-xs text-indigo-100">
                             {{ feature.description }}
                             </p>
                         </div>
-                    </div> 
-                    
+                    </div>
+
                 </div>
                 </div>
                 <div class="py-8 items-center">
@@ -283,7 +283,6 @@ initAuth();
                         Find <span class="underline decoration-4 decoration-pink-600 text-neutral-900 px-1">female</span> <span class="underline decoration-4 decoration-amber-600 ">micro-influencers</span> wearing <span class="underline decoration-4 decoration-sky-600 text-neutral-900 px-1">sunglasses</span>
                     </div>
                 </div>
-                        
             </div>
             </FeatureSection>
             <Tesitimonial>
@@ -339,7 +338,7 @@ initAuth();
                     <router-link to="demo" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
                         Watch demo
                     </router-link>
-                    
+
                     </div>
                 </div>
             </CTA>
@@ -363,35 +362,53 @@ import {
   TrashIcon,
   UsersIcon,
 } from '@heroicons/vue/outline'
-
-const features = [
-  {
-    name: 'Discover creators by the products they use',
-    description: 'Jovie can see if a creator is wearing glass, holding an iPhone, or riding a skateboard. ',
-    icon: InboxIcon,
-  },
-  {
-    name: 'Identify Brands within content',
-    description: 'Search for Starbucks logos in Tiktok videos, or people wearing Prada on Instagram.',
-    icon: UsersIcon,
-  },
-  {
-    name: 'Brand Saftey',
-    description: 'Jovie can identify & restrict creators who post content that may not be suitable for your brand. ',
-    icon: TrashIcon,
-  },
-  {
-    name: 'Exclusion',
-    description: 'Jovie can check to make creators you partner with have never promoted a competing product.',
-    icon: PencilAltIcon,
-  },
-]
+import UserService from "../services/api/user.service";
 
 export default {
-  setup() {
-    return {
-      features,
+    name: "Home",
+    data() {
+      return {
+          features: [
+              {
+                  name: 'Discover creators by the products they use',
+                  description: 'Jovie can see if a creator is wearing glass, holding an iPhone, or riding a skateboard. ',
+                  icon: InboxIcon,
+              },
+              {
+                  name: 'Identify Brands within content',
+                  description: 'Search for Starbucks logos in Tiktok videos, or people wearing Prada on Instagram.',
+                  icon: UsersIcon,
+              },
+              {
+                  name: 'Brand Saftey',
+                  description: 'Jovie can identify & restrict creators who post content that may not be suitable for your brand. ',
+                  icon: TrashIcon,
+              },
+              {
+                  name: 'Exclusion',
+                  description: 'Jovie can check to make creators you partner with have never promoted a competing product.',
+                  icon: PencilAltIcon,
+              },
+          ],
+          waitListEmail: '',
+          error: null
+      }
+    },
+    methods: {
+        requestDemo() {
+            UserService.addToWaitList({email: this.waitListEmail}).then(response => {
+                if (response.status) {
+                    this.waitListEmail = ''
+                    this.error = null
+                    // this.$router.push('contact')
+                }
+            }).catch(error => {
+                error = error.response
+                if (error.status == 422) {
+                    this.error = error.data.errors.email[0]
+                }
+            })
+        }
     }
-  },
 }
 </script>
