@@ -17,11 +17,7 @@ module.exports = {
             colors: {
                 gray: colors.neutral,
             },
-            backgroundImage: {
-                'girl-1': "url('../images/pexels-andrea-piacquadio-3774903.jpg')",
-                'hero-pattern': "url('/img/hero-pattern.svg')",
-                'footer-texture': "url('/img/footer-texture.png')",
-            },
+        },
     },
     plugins: [
         require('@tailwindcss/forms'),
