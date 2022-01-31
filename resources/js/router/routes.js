@@ -54,7 +54,7 @@ export const routes = [
     {   name: 'demo',
         path: '/demo',
         beforeEnter(to, from, next) {
-        window.location.href = 'https://u3yaoaf518v.typeform.com/to/GJkiNP4B'
+        window.location.href = 'https://u3yaoaf518v.typeform.com/to/MSzEeSrT'
        }
     },
 ]
