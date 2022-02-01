@@ -274,16 +274,17 @@
                     </div>
                 </div>
             </LogoCloud> -->
-
-            <FeatureSection>
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            
+            <Discovery>
                 <div
                     class="grid grid-cols-2 px-8 bg-gradient-to-r backdrop-blur-xl backdrop-saturate-150 from-indigo-500 via-purple-500 to-pink-500">
                     <div class="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
                         <h2 class="text-3xl font-extrabold text-white tracking-tight">
-                            AI Powered Disocvery
+                            Disocver creators with AI
                         </h2>
                         <p class="mt-4 max-w-3xl text-lg text-indigo-200">
-                            Discover highly relevant and influential creators in seconds...
+                            Find <span class="text-neutral-100">highly relevant</span> and <span class="text-neutral-100">influential creators</span> in seconds...
                         </p>
                         <div class="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 lg:mt-16 lg:gap-x-8 lg:gap-y-8">
                             <div v-for="feature in features" :key="feature.name" class="col-span-1">
@@ -309,8 +310,47 @@
                         </div>
                     </div>
                 </div>
-            </FeatureSection>
-            <Tesitimonial>
+            </Discovery>
+            <CRM>
+            <div class="relative bg-gray-50 pt-16 overflow-hidden sm:pt-24 lg:pt-32">
+                <div class="mx-auto max-w-md px-4 text-center sm:px-6 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
+                <div>
+                    <h2 class="text-base font-semibold tracking-wider text-indigo-600 uppercase">Manage your creator relationships</h2>
+                    <p class="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
+                    The only CRM built for the <span class="text-indigo-700">creator economy</span>.
+                    </p>
+                    <p class="mt-5 max-w-prose mx-auto text-xl text-gray-500">
+                    Jovie's CRM and pipeline tracker give you creator specific sales intelligence allowing you to prioritize the relationships most valuable to your business.
+                    </p>
+                </div>
+                <div class="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
+                    <img class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5" src="/images/Screen Shot 2022-02-01 at 11.02.42 AM.png" alt="" />
+                </div>
+                </div>
+            </div>
+            </CRM>
+
+            
+       
+            <CTA>
+                <div class="bg-indigo-700">
+                    <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+                        <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                            <span class="block">See <span
+                                class="underline decoration-2 decoration-fuchsia-400">Jovie</span> in action.</span>
+
+                        </h2>
+                        <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span
+                            class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
+                        <router-link to="demo"
+                                     class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
+                            Watch demo
+                        </router-link>
+
+                    </div>
+                </div>
+            </CTA>
+                 <Tesitimonial>
                 <section class="py-12 bg-gray-50 overflow-hidden md:py-20 lg:py-24">
                     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <svg
@@ -359,24 +399,24 @@
                     </div>
                 </section>
             </Tesitimonial>
-            <CTA>
-                <div class="bg-indigo-700">
-                    <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
-                        <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                            <span class="block">See <span
-                                class="underline decoration-2 decoration-fuchsia-400">Jovie</span> in action.</span>
-
-                        </h2>
-                        <p class="mt-4 text-lg leading-6 text-indigo-200">Learn how Jovie <span
-                            class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
-                        <router-link to="demo"
-                                     class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
-                            Watch demo
+            <CTA2>
+                <div class="bg-neutral-50">
+                    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between">
+                    <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl">
+                        <span class="block">Ready to dive in?</span>
+                        <span class="block text-indigo-600">See what Jovie can do for you...</span>
+                    </h2>
+                    <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                        <div class="inline-flex rounded-md shadow">
+                        <router-link to="demo" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                            Get in touch
                         </router-link>
-
+                        </div>
+                    </div>
                     </div>
                 </div>
-            </CTA>
+            </CTA2>
+
 
 
         </main>
