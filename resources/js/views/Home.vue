@@ -275,7 +275,7 @@
                 </div>
             </LogoCloud> -->
             <!-- This example requires Tailwind CSS v2.0+ -->
-            
+
             <Discovery>
                 <div
                     class="grid grid-cols-2 px-8 bg-gradient-to-r backdrop-blur-xl backdrop-saturate-150 from-indigo-500 via-purple-500 to-pink-500">
@@ -300,7 +300,7 @@
                         </div>
                     </div>
                     <div class="py-8 items-center">
-                        <img src="/images/sun.png" alt="">
+                        <img :src="asset('images/sun.png')" alt="">
                         <div
                             class="bg-white/90 backdrop-blur-xl bg-saturate-150 font-bold text-lg text-center text-gray-800 py-4 px-4 rounded-lg shadow-xl mx-auto">
                             Find <span
@@ -324,14 +324,14 @@
                     </p>
                 </div>
                 <div class="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
-                    <img class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5" src="/images/Screen Shot 2022-02-01 at 11.02.42 AM.png" alt="" />
+                    <img class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5" :src="asset('images/Screen Shot 2022-02-01 at 11.02.42 AM.png')" alt="" />
                 </div>
                 </div>
             </div>
             </CRM>
 
-            
-       
+
+
             <CTA>
                 <div class="bg-indigo-700">
                     <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
@@ -368,7 +368,7 @@
                         </svg>
 
                         <div class="relative">
-                            <img class="mx-auto h-8" src="images/Logos/Zelf.svg" alt="Zelf"/>
+                            <img class="mx-auto h-8" :src="asset('images/Logos/Zelf.svg')" alt="Zelf"/>
                             <blockquote class="mt-10">
                                 <div class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-gray-900">
                                     <p>

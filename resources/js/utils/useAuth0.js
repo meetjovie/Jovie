@@ -10,8 +10,8 @@ export const AuthState = reactive({
 });
 
 const config = {
-    domain: 'a7x3.us.auth0.com',
-    client_id: 'D2ZvFmuNGanq7WfEK41BMDvxAjjJNLZ0'
+    domain: process.env.MIX_AUTH0_DOMAIN,
+    client_id: process.env.MIX_AUTH0_CLIENT_ID
 };
 
 export const useAuth0 = () => {
