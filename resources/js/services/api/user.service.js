@@ -1,7 +1,7 @@
 import store from '../../store';
 
-const baseUrl = 'http://127.0.0.1:8000/api'
-const baseUrlWeb = 'http://127.0.0.1:8000'
+const baseUrl = process.env.APP_URL+'/api'
+const baseUrlWeb = process.env.APP_URL
 
 const headers = async () => {
     let token = await store.state.AuthState.auth0.getIdTokenClaims();
