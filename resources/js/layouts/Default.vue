@@ -20,7 +20,7 @@
             <div class="baseline">
               <p class="text-center text-xs text-gray-400">
                 <span class="block sm:inline"
-                  >&copy; 2021 
+                  >&copy; 2022
                   </span
                 >
               </p>

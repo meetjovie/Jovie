@@ -157,7 +157,7 @@
                                                    placeholder="Enter your email"/>
                                             <button v-if="$store.state.addedToWaitList" type="button"
                                                     class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                                                Added to wait list
+                                                Added to waitlist
                                             </button>
                                             <button v-else type="button" @click="requestDemo()"
                                                     class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
