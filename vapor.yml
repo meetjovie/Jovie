@@ -3,7 +3,7 @@ name: jovie
 environments:
     production:
         queue-concurrency: 5
-        database: creatorconnectprod
+        database: Jovie_Production
         memory: 1024
         cli-memory: 512
         runtime: 'php-8.1:al2'
