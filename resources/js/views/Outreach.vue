@@ -97,7 +97,7 @@
 
                                             <div class="mx-auto container py-1">
                                                 <div role="list" aria-label="Our stats."
-                                                    class="grid md:grid-cols2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-10 gap-1">
+                                                    class="grid grid-cols-5 xl:grid-cols-10 gap-1">
                                                     <div role="listitem"
                                                         class="flex justify-center w-full lg:border-r border-gray-300 py-1">
 
@@ -146,7 +146,7 @@
                                                         </div>
                                                     </div>
                                                     <div role="listitem"
-                                                        class="flex justify-center w-full py-1 lg:border-r">
+                                                        class="flex justify-center w-full py-1 xl:border-r">
 
 
                                                         <div class="text-neutral-400  ">
