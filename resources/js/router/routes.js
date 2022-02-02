@@ -57,4 +57,12 @@ export const routes = [
         window.open('https://u3yaoaf518v.typeform.com/to/MSzEeSrT', '_blank')
        }
     },
+    {
+        name: 'import',
+        path: '/import',
+        component: loadPage('Import'),
+        meta: {
+            layout: 'App'
+        }
+    },
 ]

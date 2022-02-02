@@ -73,10 +73,10 @@
         </div>
         <!-- Narrow sidebar -->
         <div
-            class="hidden w-24 mx-auto h-screen pb-2 bg-indigo-700 border-r-1 justify-between flex-col overflow-hidden md:flex"
+            class="hidden w-20 mx-auto h-screen pb-2 bg-indigo-700 border-r-1 justify-between flex-col overflow-hidden md:flex"
         >
             <div
-                class="w-full py-4 mx-auto flex px-2 flex-col justify-center text-center items-center"
+                class="w-full py-4 mx-auto flex flex-col justify-center text-center items-center"
             >
                 <a href="/">
                     <div
@@ -100,7 +100,7 @@
                     <!-- Current: "bg-indigo-800 text-white", Default: "text-indigo-100 hover:bg-indigo-800 hover:text-white" -->
                     <a
                         href="/admin"
-                        class="text-neutral-50 hover:bg-indigo-700 active:bg-indigo-700 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!--
                           Heroicon name: outline/home
@@ -125,7 +125,7 @@
                     </a>
                     <a
                         href="/dashboard"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!--
                           Heroicon name: outline/home
@@ -151,7 +151,7 @@
 
                     <a
                         href="/discovery"
-                        class="text-white hover:bg-indigo-600 rounded-lg group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-white hover:bg-indigo-600 rounded-lg group py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/view-grid -->
                         <svg
@@ -173,7 +173,7 @@
 
                     <a
                         href="/outreach"
-                        class="text-neutral-100 hover:bg-indigo-600 rounded-md hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-100 hover:bg-indigo-600 rounded-md hover:text-white group py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/user-group -->
                         <svg
@@ -195,7 +195,7 @@
 
                     <a
                         href="/campaigns"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                         aria-current="page"
                     >
                         <!-- Heroicon name: outline/photograph -->
@@ -218,7 +218,7 @@
 
                     <a
                         href="/crm"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/user-group -->
                         <svg
@@ -241,7 +241,7 @@
 
                     <a
                         href="/analytics"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/collection -->
                         <svg
@@ -261,8 +261,8 @@
                         <span class="mt-2">Analytics</span>
                     </a>
                     <a
-                        href=""
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        href="/import"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/cog -->
                         <svg
@@ -283,7 +283,7 @@
                     </a>
                     <a
                         href="/profile"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/cog -->
                         <svg
@@ -357,7 +357,7 @@
                     <div class="flex-1 flex text-left">
                         <div
                             class="ml-0 px-4 py-2 sm:px-6 md:px-8 text-left text-sm font-semibold text-indigo-600">
-                            Crm
+                            Page Name
                         </div>
                     </div>
 
