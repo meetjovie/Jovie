@@ -16,7 +16,6 @@ export const routes = [
         name: 'dashboard',
         path: '/dashboard',
         component: loadPage('Dashboard'),
-        beforeEnter: authenticationGuard,
         meta: {
             layout: 'App'
         }
@@ -56,5 +55,29 @@ export const routes = [
         beforeEnter(to, from, next) {
         window.open('https://u3yaoaf518v.typeform.com/to/MSzEeSrT', '_blank')
        }
+    },
+    {
+        name: 'import',
+        path: '/import',
+        component: loadPage('Import'),
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
+        name: 'admin',
+        path: '/admin',
+        component: loadPage('Admin'),
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
+        name: 'outreach',
+        path: '/outreach',
+        component: loadPage('Outreach'),
+        meta: {
+            layout: 'App'
+        }
     },
 ]

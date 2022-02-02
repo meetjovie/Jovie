@@ -73,10 +73,10 @@
         </div>
         <!-- Narrow sidebar -->
         <div
-            class="hidden w-24 mx-auto h-screen pb-2 bg-indigo-700 border-r-1 justify-between flex-col overflow-hidden md:flex"
+            class="hidden w-20 mx-auto h-screen pb-2 bg-indigo-700 border-r-1 justify-between flex-col overflow-hidden md:flex"
         >
             <div
-                class="w-full py-4 mx-auto flex px-2 flex-col justify-center text-center items-center"
+                class="w-full py-4 mx-auto flex flex-col justify-center text-center items-center"
             >
                 <a href="/">
                     <div
@@ -100,7 +100,7 @@
                     <!-- Current: "bg-indigo-800 text-white", Default: "text-indigo-100 hover:bg-indigo-800 hover:text-white" -->
                     <a
                         href="/admin"
-                        class="text-neutral-50 hover:bg-indigo-700 active:bg-indigo-700 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!--
                           Heroicon name: outline/home
@@ -125,7 +125,7 @@
                     </a>
                     <a
                         href="/dashboard"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!--
                           Heroicon name: outline/home
@@ -151,7 +151,7 @@
 
                     <a
                         href="/discovery"
-                        class="text-white hover:bg-indigo-600 rounded-lg group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-white hover:bg-indigo-600 rounded-lg group py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/view-grid -->
                         <svg
@@ -173,7 +173,7 @@
 
                     <a
                         href="/outreach"
-                        class="text-neutral-100 hover:bg-indigo-600 rounded-md hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-100 hover:bg-indigo-600 rounded-md hover:text-white group py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/user-group -->
                         <svg
@@ -195,7 +195,7 @@
 
                     <a
                         href="/campaigns"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                         aria-current="page"
                     >
                         <!-- Heroicon name: outline/photograph -->
@@ -218,7 +218,7 @@
 
                     <a
                         href="/crm"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/user-group -->
                         <svg
@@ -241,7 +241,7 @@
 
                     <a
                         href="/analytics"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/collection -->
                         <svg
@@ -261,8 +261,8 @@
                         <span class="mt-2">Analytics</span>
                     </a>
                     <a
-                        href=""
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        href="/import"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/cog -->
                         <svg
@@ -283,7 +283,7 @@
                     </a>
                     <a
                         href="/profile"
-                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group w-full p-3 flex flex-col items-center text-xs font-medium"
+                        class="text-neutral-50 hover:bg-indigo-600 rounded-lg hover:text-white group  py-2 flex flex-col items-center text-2xs font-medium"
                     >
                         <!-- Heroicon name: outline/cog -->
                         <svg
@@ -333,7 +333,7 @@
             >
                 <button
                     id="showSidebar"
-                    class="px-4 border-r border-neutral-200 text-neutral-300 focus-active:outline-none focus-active:ring-2 focus-active:ring-inset focus-active:ring-indigo-500 md:hidden"
+                    class="px-4 border-r border-neutral-200 text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden"
                 >
                     <span class="sr-only">Open sidebar</span>
                     
@@ -357,14 +357,34 @@
                     <div class="flex-1 flex text-left">
                         <div
                             class="ml-0 px-4 py-2 sm:px-6 md:px-8 text-left text-sm font-semibold text-indigo-600">
-                            Crm
+                        <nav class="flex" aria-label="Breadcrumb">
+                            <ol role="list" class="flex items-center space-x-4">
+                            <li>
+                                <div>
+                                <a href="/" class="text-gray-400 hover:text-gray-500">
+                                    <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                                    <span class="sr-only">Home</span>
+                                </a>
+                                </div>
+                            </li>
+                            <li v-for="page in pages" :key="page.name">
+                                <div class="flex items-center">
+                                <svg class="flex-shrink-0 h-5 w-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                                </svg>
+                                <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+                                </div>
+                            </li>
+                            </ol>
+                        </nav>
+
                         </div>
                     </div>
 
                     <div class="ml-2 flex items-center md:ml-6">
                         
                         <button
-                            class="bg-white p-1 rounded-full text-neutral-400 hover:text-neutral-500 focus-active:outline-none focus-active:ring-2 focus-active:ring-offset-2 focus-active:ring-indigo-500"
+                            class="bg-white p-1 rounded-full text-neutral-400 hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
                         >
                             <span class="sr-only">View notifications</span>
 
@@ -393,7 +413,7 @@
                             <MenuButton
                                 as="div"
                                 type="button"
-                                class="max-w-xs bg-white flex items-center text-sm rounded-full focus-active:outline-none focus-active:ring-2 focus-active:ring-offset-2 focus-active:ring-indigo-500"
+                                class="max-w-xs bg-white flex items-center text-sm rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
                                 id="user-menu-button"
                                 aria-expanded="false"
                                 aria-haspopup="true"
@@ -427,13 +447,14 @@
                                     >
                                         <!-- Active: "bg-neutral-100", Not Active: "" -->
                                         <MenuItem
+                                        v-bind:is="user"
                                             as="div"
                                             href="#"
                                             class="block px-4 py-4 text-sm font-bold text-neutral-700 border-b-2 border-opacity-30 text-left"
                                             role="menuitem"
                                             tabindex="-1"
                                             id="user-menu-item-0"
-                                            >Hi {{username}}!
+                                            >Hi {{user.first_name}} !
                                             !</MenuItem
                                         >
                                         <MenuItem
@@ -478,7 +499,7 @@
             </div>
 
             <main
-                class="flex-1 relative overflow-y-auto focus-active:outline-none"
+                class="flex-1 relative overflow-y-auto focus-visible:outline-none"
                 id="main"
             >
                 <div class="h-full">
@@ -492,26 +513,53 @@
 </template>
 
 <script>
+import { HomeIcon } from '@heroicons/vue/solid'
 import {
     Menu,
     MenuButton,
- 
     MenuItem,
     MenuItems,
  
 } from "@headlessui/vue";
+
+const pages = [
+  { name: 'Outreach', href: '/outreach', current: false },
+  { name: 'Sequence', href: '#', current: true },
+]
+
 export default {
     name: "App",
+    data() {
+        return {
+            user: this.$store.state.AuthState.user
+        }
+    },
+    mounted() {
+    },
+    computed: {
+    currentRouteName() {
+        return this.$route.name;
+    },
+    },
     components: {
         Menu,
         MenuButton,
-    
+        HomeIcon,
         MenuItem,
         MenuItems,
        
     },
+    setup() {
+    return {
+      pages,
+    }
+  },
 };
-
 </script>
+
+
+
+
+
 
 <style scoped></style>
