@@ -3,11 +3,13 @@
         <div class="flex justify-between border-b bg-white w-full">
             <div>
                 <TabGroup as="div" class="mt-2">
-                        <div class="border-b border-gray-200">
+                        <div class="border-gray-200">
                         <SubNav :tabs="tabs"></SubNav>
                         </div>
                     <TabPanels>
-                        <TabPanel>Content 1</TabPanel>
+                        <TabPanel>
+                            <Sequences></Sequences>    
+                        </TabPanel>
                         <TabPanel>Content 2</TabPanel>
                     </TabPanels>
                 </TabGroup>
@@ -18,6 +20,7 @@
 
 <script>
 import SubNav from '../components/SubNav.vue'
+import Sequences from '../views/Outreach/Sequences.vue'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 export default {
     name: "Outreach",
@@ -27,7 +30,8 @@ export default {
         TabList,
         Tab,
         TabPanels,
-        TabPanel
+        TabPanel,
+        Sequences,
     },
     data() {
         return {
