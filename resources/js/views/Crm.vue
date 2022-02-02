@@ -1,9 +1,9 @@
 <template>
 
-    <div id="crm" class="w-full min-w-full mx-auto">
+  <div id="crm" class="w-full min-w-full mx-auto">
         <TabGroup :defaultIndex="0" as="div">
             
-        <div class="flex justify-between items-bottom bg-white w-full">
+        <div class="flex border-b justify-between items-bottom bg-white w-full">
             <div>
                 <div class="sm:hidden relative w-full mx-auto rounded">
                     <div class="absolute inset-0 m-auto mr-4 z-0 w-6 h-6">
@@ -13,7 +13,7 @@
 
                 </div>
                 <TabList class="xl:w-full xl:mx-0 h-12 hidden items-bottom sm:block bg-white rounded">
-                    <div class="flex border-b px-5 h-12">
+                    <div class="flex px-5 h-12">
                         <Tab v-slot="{ selected }" as="template">
                             <button class="w-24" :class="[selected ? 'text-indigo text-sm decoration-4 decoration-indigo-700 underline underline-offset-8' : 'text-neutral-700 text-sm']">
                             <span class="mb-3">Creators</span>
