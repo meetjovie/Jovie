@@ -357,7 +357,6 @@
                     <div class="flex-1 flex text-left">
                         <div
                             class="ml-0 px-4 py-2 sm:px-6 md:px-8 text-left text-sm font-semibold text-indigo-600">
-                            
                         <nav class="flex" aria-label="Breadcrumb">
                             <ol role="list" class="flex items-center space-x-4">
                             <li>
