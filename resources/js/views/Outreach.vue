@@ -1,12 +1,12 @@
 <template>
     <div  class="w-full">
         <div class="flex justify-between border-b bg-white w-full">
-            <div>
+            <div cla>
                 <TabGroup as="div" class="mt-2">
                         <div class="border-gray-200">
                         <SubNav :tabs="tabs"></SubNav>
                         </div>
-                    <TabPanels>
+                    <TabPanels class="w-full border-2">
                         <TabPanel>
                             <Sequences></Sequences>    
                         </TabPanel>

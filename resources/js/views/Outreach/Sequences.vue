@@ -1,6 +1,7 @@
 <template>
-This is the sequence page!
 
+
+    Hello
 </template>
 
 <script>
