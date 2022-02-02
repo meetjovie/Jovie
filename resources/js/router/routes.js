@@ -71,5 +71,13 @@ export const routes = [
         meta: {
             layout: 'App'
         }
-    }
+    },
+    {
+        name: 'outreach',
+        path: '/outreach',
+        component: loadPage('Outreach'),
+        meta: {
+            layout: 'App'
+        }
+    },
 ]
