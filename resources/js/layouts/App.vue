@@ -333,7 +333,7 @@
             >
                 <button
                     id="showSidebar"
-                    class="px-4 border-r border-neutral-200 text-neutral-300 focus-active:outline-none focus-active:ring-2 focus-active:ring-inset focus-active:ring-indigo-500 md:hidden"
+                    class="px-4 border-r border-neutral-200 text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden"
                 >
                     <span class="sr-only">Open sidebar</span>
                     
@@ -362,7 +362,7 @@
                             <ol role="list" class="flex items-center space-x-4">
                             <li>
                                 <div>
-                                <a href="#" class="text-gray-400 hover:text-gray-500">
+                                <a href="/" class="text-gray-400 hover:text-gray-500">
                                     <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                                     <span class="sr-only">Home</span>
                                 </a>
@@ -385,7 +385,7 @@
                     <div class="ml-2 flex items-center md:ml-6">
                         
                         <button
-                            class="bg-white p-1 rounded-full text-neutral-400 hover:text-neutral-500 focus-active:outline-none focus-active:ring-2 focus-active:ring-offset-2 focus-active:ring-indigo-500"
+                            class="bg-white p-1 rounded-full text-neutral-400 hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
                         >
                             <span class="sr-only">View notifications</span>
 
@@ -414,7 +414,7 @@
                             <MenuButton
                                 as="div"
                                 type="button"
-                                class="max-w-xs bg-white flex items-center text-sm rounded-full focus-active:outline-none focus-active:ring-2 focus-active:ring-offset-2 focus-active:ring-indigo-500"
+                                class="max-w-xs bg-white flex items-center text-sm rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
                                 id="user-menu-button"
                                 aria-expanded="false"
                                 aria-haspopup="true"
@@ -500,7 +500,7 @@
             </div>
 
             <main
-                class="flex-1 relative overflow-y-auto focus-active:outline-none"
+                class="flex-1 relative overflow-y-auto focus-visible:outline-none"
                 id="main"
             >
                 <div class="h-full">
@@ -536,6 +536,11 @@ export default {
         }
     },
     mounted() {
+    },
+    computed: {
+    currentRouteName() {
+        return this.$route.name;
+    },
     },
     components: {
         Menu,
