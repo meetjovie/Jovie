@@ -16,7 +16,6 @@ export const routes = [
         name: 'dashboard',
         path: '/dashboard',
         component: loadPage('Dashboard'),
-        beforeEnter: authenticationGuard,
         meta: {
             layout: 'App'
         }
@@ -65,4 +64,12 @@ export const routes = [
             layout: 'App'
         }
     },
+    {
+        name: 'admin',
+        path: '/admin',
+        component: loadPage('Admin'),
+        meta: {
+            layout: 'App'
+        }
+    }
 ]

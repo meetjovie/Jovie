@@ -427,13 +427,14 @@
                                     >
                                         <!-- Active: "bg-neutral-100", Not Active: "" -->
                                         <MenuItem
+                                        v-bind:is="user"
                                             as="div"
                                             href="#"
                                             class="block px-4 py-4 text-sm font-bold text-neutral-700 border-b-2 border-opacity-30 text-left"
                                             role="menuitem"
                                             tabindex="-1"
                                             id="user-menu-item-0"
-                                            >Hi {{username}}!
+                                            >Hi {{user.first_name}} !
                                             !</MenuItem
                                         >
                                         <MenuItem
@@ -502,6 +503,13 @@ import {
 } from "@headlessui/vue";
 export default {
     name: "App",
+    data() {
+        return {
+            user: this.$store.state.AuthState.user
+        }
+    },
+    mounted() {
+    },
     components: {
         Menu,
         MenuButton,
