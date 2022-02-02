@@ -1,43 +1,9 @@
 <template>
  <div  class="w-full">
-        <div class="flex justify-between bg-white w-full">
+        <div class="flex justify-between border-b bg-white w-full">
             <div>
-                <div class="sm:hidden relative w-full mx-auto rounded">
-                   <!--  <div class="absolute inset-0 m-auto mr-4 z-0 w-6 h-6">
-                        <img class="icon icon-tabler icon-tabler-selector" 
-                            alt="selector" />
-                    </div> -->
-
-                </div>
-                <div class="xl:w-full xl:mx-0 h-12 hidden sm:block bg-white rounded">
-                    <div class="flex border-b px-5">
-                        <button
-                            class=" hover:text-indigo-700 focus:text-indigo-700 focus:outline-none text-sm text-indigo-700 flex flex-col justify-between border-indigo-700 pt-3 rounded-t mr-8 font-normal cursor-pointer">
-                            <span class="mb-3">Sequence</span>
-                            <div class="w-full h-1 bg-indigo-700 rounded-t-md"></div>
-                        </button>
-                        <button
-                            class=" hover:text-indigo-700 focus:text-indigo-700 focus:outline-none mr-10 text-sm text-gray-600 flex flex-col justify-between border-indigo-700 pt-3 rounded-t mr-8 font-normal cursor-pointer">
-                            <span class="mb-3">Creators</span>
-                            <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden"></div>
-                        </button>
-                        <button
-                            class=" hover:text-indigo-700 focus:text-indigo-700 focus:outline-none mr-10 text-sm text-gray-600 flex flex-col justify-between border-indigo-700 pt-3 rounded-t mr-8 font-normal cursor-pointer">
-                            <span class="mb-3">Emails</span>
-                            <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden"></div>
-                        </button>
-                        <button
-                            class=" hover:text-indigo-700 focus:text-indigo-700 focus:outline-none mr-10 text-sm text-gray-600 flex flex-col justify-between border-indigo-700 pt-3 rounded-t mr-8 font-normal cursor-pointer">
-                            <span class="mb-3">Mailboxes</span>
-                            <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden"></div>
-                        </button>
-                        <button
-                            class=" hover:text-indigo-700 focus:text-indigo-700 focus:outline-none mr-10 text-sm text-gray-600 flex flex-col justify-between border-indigo-700 pt-3 rounded-t mr-8 font-normal cursor-pointer">
-                            <span class="mb-3">Settings</span>
-                            <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden"></div>
-                        </button>
-                    </div>
-                </div>
+                
+                <SubNav></SubNav>
             </div>
             <div class="bg-white">
                 
@@ -569,9 +535,14 @@
 </template>
 
 <script>
+import SubNav from '../components/SubNav.vue'
+
 
 export default {
     name: "Outreach",
+    components: {
+        SubNav
+    }
 }
 </script>
 
