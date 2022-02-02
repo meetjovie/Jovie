@@ -22,10 +22,7 @@
 <script>
 
 export default {
-  setup() {
-    return {
-      tabs,
-    }
-  },
+    name: 'SubNav',
+    props: ['tabs']
 }
 </script>

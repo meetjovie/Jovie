@@ -2,11 +2,11 @@
  <div  class="w-full">
         <div class="flex justify-between border-b bg-white w-full">
             <div>
-                
-                <SubNav></SubNav>
+
+                <SubNav :tabs="tabs"></SubNav>
             </div>
             <div class="bg-white">
-                
+
                 <span class="relative z-0 py-2 mr-2 inline-flex rounded-md">
                     <button type="button"
                         class="relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-indigo-600 text-xs font-medium text-gray-200 hover:bg-indigo-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
@@ -193,7 +193,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <div>
             <!-- This example requires Tailwind CSS v2.0+ -->
@@ -202,7 +202,7 @@
                     <div class="flex">
                         <div class="flex items-center py-2">
                             <div class="flex">
-                                
+
                                 <div class="text-xl px-8 border-r font-bold text-indigo-700">
                                 1
                                 </div>
@@ -213,9 +213,9 @@
                                     <div class="text-xs text-neutral-500">
                                     Send in 30 minutes
                                     </div>
-                                    
+
                                 </div>
-                                
+
 
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
                             </svg>
                             </button>
-                            
+
                         </span>
                     </div>
                 </div>
@@ -367,7 +367,7 @@
                                 </button>
                             </span>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="border-y">
@@ -504,7 +504,7 @@
                                 </button>
                             </span>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="border-y rounded-b-xl text-center mx-auto">
@@ -515,7 +515,7 @@
                         </svg>
                     </div>
                 </div>
-                
+
             </div>
             <div class="mx-auto h-24 border-2 w-0 border-l border-solid border-indigo-500"></div>
             <div class="mx-auto  shadow-lg w-64 bg-white hover:bg-neutral-50 cursor-pointer rounded-lg py-2 px-8 text-center font-bold text-neutral-500 items-center">
@@ -536,12 +536,24 @@
 
 <script>
 import SubNav from '../components/SubNav.vue'
-
-
 export default {
     name: "Outreach",
     components: {
         SubNav
+    },
+    data() {
+        return {
+            tabs: [
+                {
+                    name: 'tab 1',
+                    otherProperty: 'tab1'
+                },
+                {
+                    name: 'tab 2',
+                    otherProperty: 'tab2'
+                }
+            ]
+        }
     }
 }
 </script>
