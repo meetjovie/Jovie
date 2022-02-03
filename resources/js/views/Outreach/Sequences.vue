@@ -65,7 +65,7 @@
                                 <td class="px-4 py-1 whitespace-nowrap">
                                     <div class="flex items-center text-sm font-bold text-neutral-400">
                                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                                        <Toggle></Toggle>
+                                        <Toggle v-model="sequence.enabled"></Toggle>
   
                                     </div>
                                 </td>
@@ -234,7 +234,7 @@ export default {
                     id: 1,
                     name: 'Hey, this is my first sequence',
                     steps: '3',
-                    active: true,
+                    enabled: true,
                     countactive: '234',
                     countopened: '5',
                     countreplied: '530',
@@ -251,7 +251,7 @@ export default {
                     id: 2,
                     name: 'Sequence 2',
                     steps: '7',
-                    active: false,
+                    enabled: false,
                     countactive: '634',
                     countopened: '7',
                     countreplied: '230',
@@ -268,7 +268,7 @@ export default {
                     id: 3,
                     name: 'This one has a really long name. It goes on forever and ever. Life is now or never. Forver is gonna bug you donw... ',
                     steps: '7',
-                    active: false,
+                    enabled: false,
                     countactive: '634',
                     countopened: '7',
                     countreplied: '34',
@@ -285,7 +285,7 @@ export default {
                     id: 4,
                     name: 'Oops I forgot to add a name to this one',
                     steps: '7',
-                    active: true,
+                    enabled: true,
                     countactive: '634',
                     countopened: '7',
                     countreplied: '20',
