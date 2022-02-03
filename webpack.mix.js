@@ -1,6 +1,7 @@
 const mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
 const path = require('path');
+const Vapor = require('laravel-vapor');
 
 /*
  |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ mix.alias({
 });
 
 if (mix.inProduction()) {
+
     const ASSET_URL = process.env.ASSET_URL + "/";
 
     mix.webpackConfig(webpack => {
@@ -44,7 +46,7 @@ if (mix.inProduction()) {
             ],
             output: {
                 publicPath: ASSET_URL
-            }
+            },
         };
     });
 }

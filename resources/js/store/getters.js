@@ -1,5 +1,8 @@
 export default {
-    getTest (state) {
-        return state.test;
+    getCurrentUser (state) {
+        return state.AuthState.user;
+    },
+    getAsset: (state) => (path) => {
+        return window.Vapor.asset(path)
     }
 }

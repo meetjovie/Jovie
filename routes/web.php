@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::post('/waitlist', [\App\Http\Controllers\UserController::class, 'addToWaitList']);
 
 Route::get('{any?}', function () {
     return view('welcome');
