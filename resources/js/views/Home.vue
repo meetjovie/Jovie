@@ -127,14 +127,14 @@ import {
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
 import {useAuth0} from "../utils/useAuth0";
-import HomeLogoCloud from "../views/Home/HomeLogoCloud";
-import HomeFeatureSequences from "../views/Home/HomeFeatureSequences";
-import HomeFeatureDiscovery from "../views/Home/HomeFeatureDiscovery";
-import HomeHeroSection from "../views/Home/HomeHeroSection";
-import HomeCTA from "../views/Home/HomeCTA";
-import HomeTestimonials from "../views/Home/HomeTestimonials";
-import HomeCTA2 from "../views/Home/HomeCTA2";
-import HomeFeatureCRM from "../views/Home/HomeFeatureCRM";
+import HomeLogoCloud from "../components/Home/HomeLogoCloud";
+import HomeFeatureSequences from "../components/Home/HomeFeatureSequences";
+import HomeFeatureDiscovery from "../components/Home/HomeFeatureDiscovery";
+import HomeHeroSection from "../components/Home/HomeHeroSection";
+import HomeCTA from "../components/Home/HomeCTA";
+import HomeTestimonials from "../components/Home/HomeTestimonials";
+import HomeCTA2 from "../components/Home/HomeCTA2";
+import HomeFeatureCRM from "../components/Home/HomeFeatureCRM";
 
 const {login, logout, initAuth} = useAuth0();
 
