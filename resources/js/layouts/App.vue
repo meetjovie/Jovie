@@ -523,8 +523,8 @@ import {
 } from "@headlessui/vue";
 
 const pages = [
-  { name: 'Outreach', href: '/outreach', current: false },
-  { name: 'Sequence', href: '#', current: true },
+  { name: 'CRM', href: '/outreach', current: false },
+  { name: 'Creators', href: '#', current: true },
 ]
 
 export default {

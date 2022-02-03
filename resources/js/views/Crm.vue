@@ -217,7 +217,7 @@
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-5 w-5 mr-2">
                                                 <img class="object-center border-2 object-cover rounded-full"
-                                                     src="https://i.pravatar.cc/150?img=3"
+                                                     :src="creator.avatar"
                                                      alt="">
                                             </div>
                                             <div class="">
@@ -559,10 +559,10 @@ export default {
                     id: 2,
                     favorite: false,
                     network: 'tiktok',
-                    name: 'Candice Swanpoole',
+                    name: 'Candice Mccoy',
                     firstname: 'Candice',
-                    lastname: 'Swanpoole',
-                    email: 'candiceswan@gmail.com',
+                    lastname: 'Mccoy',
+                    email: 'candicem@gmail.com',
                     rating: '3',
                     followers: '1.2M',
                     offer: '12K',
@@ -601,7 +601,7 @@ export default {
                     stage: 'Onboarding',
                     contacted: '9/1/2020',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=4'
                 },
                 {
                     id: 5,
@@ -617,7 +617,7 @@ export default {
                     stage: 'Negotiating',
                     contacted: '3/2/2022',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=5'
                 },
                 {
                     id: 6,
@@ -633,7 +633,7 @@ export default {
                     stage: 'Complete',
                     contacted: '1/11/2022',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=6'
                 },
                 {
                     id: 7,
@@ -649,7 +649,7 @@ export default {
                     stage: 'Interested',
                     contacted: '4/5/2021',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=7'
                 },
                 {
                     id: 8,
@@ -665,7 +665,7 @@ export default {
                     stage: 'Negotiating',
                     contacted: '3/2/2022',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=8'
                 },
                 {
                     id: 9,
@@ -681,7 +681,7 @@ export default {
                     stage: 'Complete',
                     contacted: '1/11/2022',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=9'
                 },
                 {
                     id: 10,
@@ -697,7 +697,7 @@ export default {
                     stage: 'Interested',
                     contacted: '4/5/2021',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=10'
                 },
              
              
