@@ -2,7 +2,7 @@
 <template>
   <div class="py-16 bg-gray-50 overflow-hidden lg:py-24">
     <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-      <svg class="hidden lg:block absolute left-full transform -translate-x-1/2 -translate-y-1/4" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
+     <!--  <svg class="hidden lg:block absolute left-full transform -translate-x-1/2 -translate-y-1/4" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
         <defs>
           <pattern id="b1e6e422-73f8-40a6-b5d9-c8586e37e0e7" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
             <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
@@ -55,7 +55,7 @@
           </svg>
           <img class="relative mx-auto" width="490" src="https://tailwindui.com/img/features/feature-example-1.png" alt="" />
         </div>
-      </div>
+      </div> -->
 
       <svg class="hidden lg:block absolute right-full transform translate-x-1/2 translate-y-12" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
         <defs>
@@ -70,10 +70,10 @@
         <div class="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
           <div class="lg:col-start-2">
             <h3 class="text-2xl font-extrabold text-gray-900 tracking-tight sm:text-3xl">
-              Always in the loop
+              Outreach on autopilot
             </h3>
             <p class="mt-3 text-lg text-gray-500">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit ex obcaecati natus eligendi delectus, cum deleniti sunt in labore nihil quod quibusdam expedita nemo.
+              Jovie allows you to build complex outreach sequences that dramtically increase response rates.
             </p>
 
             <dl class="mt-10 space-y-10">
@@ -100,7 +100,7 @@
               </defs>
               <rect width="784" height="404" fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
             </svg>
-            <img class="relative mx-auto" width="490" src="https://tailwindui.com/img/features/feature-example-2.png" alt="" />
+            <img class="relative mx-auto" width="490" :src="asset('/images/External/HomeFeatureOutreach.png') alt="" />
           </div>
         </div>
       </div>
@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { AnnotationIcon, GlobeAltIcon, LightningBoltIcon, MailIcon, ScaleIcon } from '@heroicons/vue/outline'
+import { ChartBarIcon, GlobeAltIcon, LightningBoltIcon, MailIcon, ScaleIcon } from '@heroicons/vue/outline'
 
 const transferFeatures = [
   {
@@ -137,16 +137,16 @@ const transferFeatures = [
 const communicationFeatures = [
   {
     id: 1,
-    name: 'Mobile notifications',
+    name: 'A/B testing',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: AnnotationIcon,
+      'Test multiple versions of your message to increase your response rate.',
+    icon: ChartBarIcon,
   },
   {
     id: 2,
-    name: 'Reminder emails',
+    name: 'Automatic Follow Ups',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'Automatically reach out to creators who havent responded to your message. This feature dramtically increases your response rate.',
     icon: MailIcon,
   },
 ]
