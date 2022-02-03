@@ -4,6 +4,6 @@ export default {
         loading: false,
         isAuthenticated: false,
         auth0: null,
-        userDB: null
-    }
+    },
+    addedToWaitList: false
 }

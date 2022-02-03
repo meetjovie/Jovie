@@ -12,3 +12,9 @@
 Master DB is creatorconnect
 Staging & Dev share db Jovie-staging
 
+
+**Dev Ops**
+Jovie runs on AWS via Laravel Vapor. Vapor provides some unique functionality that we leverage to make things easier on ourselfs.
+Familiarize yourself with Vapor by reading through the documentation here: https://docs.vapor.build/
+
+

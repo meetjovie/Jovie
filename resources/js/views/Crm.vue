@@ -1,9 +1,9 @@
 <template>
 
-    <div id="crm" class="w-full min-w-full mx-auto">
+  <div id="crm" class="w-full min-w-full mx-auto">
         <TabGroup :defaultIndex="0" as="div">
             
-        <div class="flex justify-between items-bottom bg-white w-full">
+        <div class="flex border-b justify-between items-bottom bg-white w-full">
             <div>
                 <div class="sm:hidden relative w-full mx-auto rounded">
                     <div class="absolute inset-0 m-auto mr-4 z-0 w-6 h-6">
@@ -13,7 +13,7 @@
 
                 </div>
                 <TabList class="xl:w-full xl:mx-0 h-12 hidden items-bottom sm:block bg-white rounded">
-                    <div class="flex border-b px-5 h-12">
+                    <div class="flex px-5 h-12">
                         <Tab v-slot="{ selected }" as="template">
                             <button class="w-24" :class="[selected ? 'text-indigo text-sm decoration-4 decoration-indigo-700 underline underline-offset-8' : 'text-neutral-700 text-sm']">
                             <span class="mb-3">Creators</span>
@@ -217,7 +217,7 @@
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-5 w-5 mr-2">
                                                 <img class="object-center border-2 object-cover rounded-full"
-                                                     src="https://i.pravatar.cc/150?img=3"
+                                                     :src="creator.avatar"
                                                      alt="">
                                             </div>
                                             <div class="">
@@ -542,10 +542,10 @@ export default {
                     id: 1,
                     favorite: true,
                     network: 'instagram',
-                    name: 'Martha Hunt',
+                    name: 'Martha Hoover',
                     firstname: 'Marth',
-                    lastname: 'Hunt',
-                    email: 'mhunt@img.com',
+                    lastname: 'Hoover',
+                    email: 'mhoover@gmail.com',
                     rating: '4.3',
                     followers: '1.5M',
                     offer: '240K',
@@ -559,10 +559,10 @@ export default {
                     id: 2,
                     favorite: false,
                     network: 'tiktok',
-                    name: 'Candice Swanpoole',
+                    name: 'Candice Mccoy',
                     firstname: 'Candice',
-                    lastname: 'Swanpoole',
-                    email: 'candiceswan@gmail.com',
+                    lastname: 'Mccoy',
+                    email: 'candicem@gmail.com',
                     rating: '3',
                     followers: '1.2M',
                     offer: '12K',
@@ -575,9 +575,9 @@ export default {
                     id: 3,
                     favorite: false,
                     network: 'youtube',
-                    name: 'Taylor Hill',
+                    name: 'Taylor Smith',
                     firstname: 'Taylor',
-                    lastname: 'Hill',
+                    lastname: 'Smith',
                     email: '',
                     rating: '2',
                     followers: '1.2K',
@@ -591,9 +591,9 @@ export default {
                     id: 4,
                     favorite: true,
                     network: 'instagram',
-                    name: 'Alessandra Ambrosio',
+                    name: 'Alessandra Clause',
                     firstname: 'Alessandra',
-                    lastname: 'Ambrosio',
+                    lastname: 'Clause',
                     email: '',
                     rating: '5',
                     followers: '1.2M',
@@ -601,15 +601,15 @@ export default {
                     stage: 'Onboarding',
                     contacted: '9/1/2020',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=4'
                 },
                 {
                     id: 5,
                     favorite: false,
                     network: 'instagram',
-                    name: 'Keira Knightley',
+                    name: 'Keira Jones',
                     firstname: 'Keira',
-                    lastname: 'Knightley',
+                    lastname: 'Jones',
                     email: '',
                     rating: '4.9',
                     followers: '4.2M',
@@ -617,15 +617,15 @@ export default {
                     stage: 'Negotiating',
                     contacted: '3/2/2022',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=5'
                 },
                 {
                     id: 6,
                     favorite: false,
                     network: 'instagram',
-                    name: 'Mila Vukovic',
+                    name: 'Mila Vance',
                     firstname: 'Mila',
-                    lastname: 'Vukovic',
+                    lastname: 'Vance',
                     email: '',
                     rating: '2.9',
                     followers: '1.2K',
@@ -633,15 +633,15 @@ export default {
                     stage: 'Complete',
                     contacted: '1/11/2022',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=6'
                 },
                 {
                     id: 7,
                     favorite: false,
                     network: 'instagram',
-                    name: 'Kylie Jenner',
+                    name: 'Kylie Brent',
                     firstname: 'Kylie',
-                    lastname: 'Jenner',
+                    lastname: 'Brent',
                     email: '',
                     rating: '1.2',
                     followers: '1.2B',
@@ -649,15 +649,15 @@ export default {
                     stage: 'Interested',
                     contacted: '4/5/2021',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=7'
                 },
                 {
                     id: 8,
                     favorite: false,
                     network: 'instagram',
-                    name: 'Sophia Bush',
+                    name: 'Sophia Dustin',
                     firstname: 'Sophia',
-                    lastname: 'Bush',
+                    lastname: 'Dustin',
                     email: '',
                     rating: '4.9',
                     followers: '4.2M',
@@ -665,14 +665,14 @@ export default {
                     stage: 'Negotiating',
                     contacted: '3/2/2022',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=8'
                 },
                 {
                     id: 9,
                     favorite: false,
                     network: 'instagram',
-                    name: 'Dakota Johnson',
-                    firstname: 'Dakota',
+                    name: 'James Johnson',
+                    firstname: 'James',
                     lastname: 'Johnson',
                     email: '',
                     rating: '2.9',
@@ -681,14 +681,14 @@ export default {
                     stage: 'Complete',
                     contacted: '1/11/2022',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=9'
                 },
                 {
                     id: 10,
                     favorite: false,
                     network: 'instagram',
-                    name: 'Lara Croft',
-                    firstname: 'Lara',
+                    name: 'Mike Croft',
+                    firstname: 'Mike',
                     lastname: 'Croft',
                     email: '',
                     rating: '1.2',
@@ -697,7 +697,7 @@ export default {
                     stage: 'Interested',
                     contacted: '4/5/2021',
                     campaign: 'Zelf Beta',
-                    avatar: 'https://i.pravatar.cc/64'
+                    avatar: 'https://i.pravatar.cc/150?img=10'
                 },
              
              

@@ -10,7 +10,7 @@ return [
     | As set in the auth0 administration page
     |--------------------------------------------------------------------------
     */
-    'domain' => env( 'AUTH0_DOMAIN', 'a7x3.us.auth0.com' ),
+    'domain' => env( 'MIX_AUTH0_DOMAIN', 'a7x3.us.auth0.com' ),
 
     /*
     |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ return [
     | As set in the auth0 administration page
     |--------------------------------------------------------------------------
     */
-    'client_id' => env( 'AUTH0_CLIENT_ID', 'D2ZvFmuNGanq7WfEK41BMDvxAjjJNLZ0' ),
+    'client_id' => env( 'MIX_AUTH0_CLIENT_ID' ),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
     | As set in the auth0 administration page
     |--------------------------------------------------------------------------
     */
-    'client_secret' => env( 'AUTH0_CLIENT_SECRET', '1FYy4sUKGCzBE0pjNJa7bQaKQKovtCKGY0441E40Q2gNtlGMUe3oVrnZ-7Qyi4h1' ),
+    'client_secret' => env( 'AUTH0_CLIENT_SECRET' ),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
     | 'Auth0\Login\Auth0Controller@callback'
     |--------------------------------------------------------------------------
     */
-    'redirect_uri' => env( 'APP_URL', 'https://8638-2400-adc7-91d-db00-fadd-f5c2-f5a3-2efc.ngrok.io/' ),
+    'redirect_uri' => env( 'APP_URL' ),
 
     /*
     |--------------------------------------------------------------------------
@@ -87,8 +87,8 @@ return [
     | Token decoding algorithms supported by your API
     |--------------------------------------------------------------------------
     */
-    'authorized_issuers' => [ 'https://a7x3.us.auth0.com/' ],
-    'api_identifier' => 'D2ZvFmuNGanq7WfEK41BMDvxAjjJNLZ0',
+    'authorized_issuers' => [ env('AUTH0_DOMAIN_URL', 'https://a7x3.us.auth0.com/') ],
+    'api_identifier' => env('AUTH0_API_IDENTIFIER' ),
     'supported_algs' => [ 'RS256' ],
 
     /*
