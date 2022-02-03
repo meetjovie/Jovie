@@ -340,7 +340,7 @@ import {
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
 import {useAuth0} from "../utils/useAuth0";
-import HomeLogoCloud from "../resources/js/views/Home/HomeLogoCloud";
+import HomeLogoCloud from "../views/Home/HomeLogoCloud";
 
 const {login, logout, initAuth} = useAuth0();
 
