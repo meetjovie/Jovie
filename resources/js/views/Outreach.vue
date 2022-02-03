@@ -1,26 +1,42 @@
 <template>
-    <div  class="w-full">
-        <div class="flex justify-between border-b bg-white w-full">
-            <div cla>
-                <TabGroup as="div" class="mt-2">
-                        <div class="border-gray-200">
-                        <SubNav :tabs="tabs"></SubNav>
+    <div class="">
+            <TabGroup as="div" class="">
+                        <div class="bg-white flex justify-between items-center px-4 border-b">
+                            <TabList  as="div" class="flex pt-2 justify-between border-b">
+                                <SubNav :tabs="tabs"></SubNav>
+                            </TabList>
+                            <div class="text-xs items-center">
+                               
+                            </div>
                         </div>
-                    <TabPanels class="w-full border-2">
-                        <TabPanel>
-                            <Sequences></Sequences>    
-                        </TabPanel>
-                        <TabPanel>Content 2</TabPanel>
-                    </TabPanels>
-                </TabGroup>
-            </div>
-        </div>
-    </div>
+                            <TabPanels>
+                                <TabPanel>
+                                    <Sequences></Sequences>    
+                                </TabPanel>
+                                <TabPanel>
+                                    <Emails></Emails>    
+                                </TabPanel>
+                                <TabPanel>
+                                    <Templates></Templates>    
+                                </TabPanel>
+                                <TabPanel>
+                                    <Mailboxes></Mailboxes>    
+                                </TabPanel>
+                                <TabPanel>
+                                    <Settings></Settings>
+                                </TabPanel>
+                            </TabPanels>
+            </TabGroup>
+    </div> 
 </template>
 
 <script>
 import SubNav from '../components/SubNav.vue'
 import Sequences from '../views/Outreach/Sequences.vue'
+import Emails from '../views/Outreach/Emails.vue'
+import Templates from '../views/Outreach/Templates.vue'
+import Mailboxes from '../views/Outreach/Mailboxes.vue'
+import Settings from '../views/Outreach/Settings.vue'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 export default {
     name: "Outreach",
@@ -32,6 +48,10 @@ export default {
         TabPanels,
         TabPanel,
         Sequences,
+        Emails,
+        Templates,
+        Mailboxes,
+        Settings,
     },
     data() {
         return {
