@@ -99,7 +99,7 @@
             </nav>
         </header>
         <main>
-            <!-- This example requires Tailwind CSS v2.0+ -->
+           
 
             <div class="relative bg-gradient-to-r from-white to-indigo-50 overflow-hidden">
                 <div class="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
@@ -173,108 +173,9 @@
                 </div>
             </div>
 
-            <!--
-
-                       <div class="pb-8 sm:pb-12 lg:pb-12">
-                            <div class="pt-2 sm:pt-12 lg:relative lg:py-48">
-                                <div class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
-                                    <div>
-
-                                        <div class="mt-4 sm:mt-20">
-                                            <div>
-                                                <div class="inline-flex space-x-4">
-                                        <span class="rounded bg-sky-400 px-2.5 py-1 text-xs font-semibold text-gray-900 tracking-wide uppercase">
-                                        Creator discovery
-                                        </span>
-                                                    <span class="inline-flex items-center text-sm font-medium text-gray-300 space-x-1">
-                                                <span>with Jovie AI</span>
-
-                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                    </svg>
-                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="mt-2 sm:max-w-xl">
-                                                <h1 class="text-5xl bg-clip-text font-extrabold text-white tracking-tight sm:text-7xl uppercase text-transparent bg-gradient-to-l from-fuchsia-500 via-violet-500 to-sky-500">
-                                                    Find creators
-                                                </h1>
-                                                <h1 class="text-xl font-extrabold text-white tracking-wide sm:text-3xl">
-                                                    by the <span class="text-indigo-400 italic">products </span>&<span class="text-indigo-400 italic"> brands</span> they love
-                                                </h1>
-                                                <p class="mt-4 text-md sm:text-xl text-gray-400">
-                                                    <span class="font-bold text-gray-200">Jovie</span> searches <span class="font-bold text-gray-200">within images & videos</span> to find creators already invested in a product category.
-                                                </p>
-                                            </div>
-                                            <div class="mt-4 text-gray-100 sm:max-w-lg sm:w-full sm:flex">
-                                                <p>Thanks! We'll be in touch.</p>
-                                            </div>
-                                            <form action="" method="post" class="mt-4 sm:max-w-lg sm:w-full sm:flex">
-                                                <div class="min-w-0 flex-1">
-                                                    <label for="hero-email" class="sr-only">Email address</label>
-                                                    <input id="hero-email" name="email" type="email" class="block w-full border border-gray-300 rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus-active:border-gray-500 focus-active:ring-gray-500" placeholder="Enter your email">
-                                                </div>
-                                                <div class="mt-4 sm:mt-0 sm:ml-3">
-                                                    <button type="submit" class="block justify-between text-left items-center group w-60 rounded-md border line-clamp-1 border-transparent pr-5 pl-8 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-600 focus-active:outline-none focus-active:ring-2 focus-active:ring-gray-500 focus-active:ring-offset-2 sm:px-10">
-                                                        <span class="">Request access</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="inline-flex group-hover:hidden h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="hidden group-hover:inline-flex ml-1 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                            <div class="border-t opacity-30 mt-4">
-
-                                            </div>
-                                            <div class="text-neutral-400 py-4 font-bold text-xs">
-                                                Trusted by the creator economy innovators:
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sm:mx-auto sm:max-w-3xl sm:px-6 items-center">
-                                    <div class="py-4 2xl:py-6 sm:relative sm:mt-12 sm:py-16 lg:absolute items-center lg:inset-y-0 mt-10 lg:right-0 lg:w-1/2">
-
-                                        <div class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-2/3 lg:pl-12">
-                                            <img class="w-full rounded-md ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none" src="/images/sun.png" alt="">
-                                        </div>
-                                        <div class="bg-neutral-700 font-bold text-lg text-center text-gray-100 w-2/3 py-4 px-4 rounded-lg shadow-xl mx-auto">
-                                            Find <span class="underline decoration-4 decoration-pink-600 text-white px-1">female</span> <span class="underline decoration-4 decoration-amber-600 ">micro-influencers</span> wearing <span class="underline decoration-4 decoration-sky-600 text-white px-1">sunglasses</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  -->
-            <!-- <LogoCloud>
-                 <div class="bg-white">
-                    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-12 sm:px-6 lg:px-8">
-                    <div class="lg:grid lg:grid-cols-2 lg:gap-8">
-
-                        <h2 class="max-w-md mx-auto text-3xl font-extrabold text-neutral-700 text-center lg:max-w-xl lg:text-left">
-                        Creator economy startups <span class="text-indigo-700">trust Jovie</span>
-                        </h2>
-                        <div class="flow-root self-center mt-8 lg:mt-0">
-                        <div class="-mt-4 -ml-8 flex flex-wrap justify-between lg:-ml-4">
-                           <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
-                            <img class="h-10 opacity-30 saturate-0" src="/images/Logos/Zelf.svg" alt="Zelf" />
-                            </div>
-                            <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
-                            <img class="h-10 opacity-30 saturate-0" src="\images\Logos\Fuego.svg" alt="Fuego" />
-                            </div>
-                            <div class="mt-4 ml-8 flex flex-grow flex-shrink-0 justify-center lg:flex-grow-0 lg:ml-4">
-                            <img class="h-12 opacity-30 saturate-0" src="https://uploads-ssl.webflow.com/60cb5f56c3b31702dd6b1934/60cb64fa20a93418b234363f_Flowbo-Colors-p-500.png" alt="Flowbo" />
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </LogoCloud> -->
-            <!-- This example requires Tailwind CSS v2.0+ -->
+            <HomeLogoCloud></HomeLogoCloud>
+        
+            
 
             <Discovery>
                 <div
@@ -439,11 +340,15 @@ import {
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
 import {useAuth0} from "../utils/useAuth0";
+import HomeLogoCloud from "../resources/js/views/Home/HomeLogoCloud";
 
 const {login, logout, initAuth} = useAuth0();
 
 export default {
     name: "Home",
+    components: {
+        HomeLogoCloud,
+    },
     setup() {
         initAuth();
     },

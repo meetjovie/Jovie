@@ -15,7 +15,7 @@
         <div class="bg-white">
            <!-- This example requires Tailwind CSS v2.0+ -->
             <span class="relative z-0 py-2 mr-2 inline-flex rounded-md">
-                <button type="button" class="relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-indigo-600 text-xs font-medium text-gray-200 hover:bg-indigo-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                <button type="button" class="relative inline-flex items-center px-2 py-2 rounded-md border border-gray-300 bg-indigo-600 text-xs font-medium text-gray-200 hover:bg-indigo-700 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-4 w-4 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                       </svg>
@@ -34,22 +34,22 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     <span class="sr-only">Select</span>
                                 </th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <span class="sr-only">Activate</span>
+                                <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <span class="sr-only">Enabled</span>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                    Sequence
                                 </th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     <span class="sr-only">Stage</span>
                                 </th>
-                                <th scope="col" class="relative px-4 py-3">
+                                <th scope="col" class="relative px-2 py-3">
                                     <span class="sr-only">Actions</span>
                                 </th>
-                                <th scope="col" class="relative px-4 py-3">
+                                <th scope="col" class="relative px-2 py-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
                             </tr>
@@ -57,36 +57,36 @@
                             <tbody v-for="sequence in sequences" :key="sequence" class="bg-white divide-y divide-gray-200">
                             
                             <tr>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                                <td class="w-10 px-2 py-1 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <input id="offers" aria-describedby="offers-description" name="offers" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                     </div>
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                                <td class="w-10 px-2 py-1 whitespace-nowrap">
                                     <div class="flex items-center text-sm font-bold text-neutral-400">
                                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
                                         <Toggle v-model="sequence.enabled"></Toggle>
   
                                     </div>
                                 </td>
-                                <td class="px-4 py-1 w-20 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="truncate">
-                                            <div class="text-sm max-w-sm  truncate font-medium text-neutral-900">
-                                                <a class="line-clamp-1" href="/outreach/sequence">{{ sequence.name }}</a>
+                                <td class="w-80 px-2 py-1 whitespace ">
+                                    <div class="items-center">
+                                        <div class="">
+                                            <div class="text-sm truncate font-medium text-neutral-900">
+                                                <a class="w-80 line-clamp-1" href="/outreach/sequence">{{ sequence.name }}</a>
                                             </div>
-                                            <div class="text-xs font-medium text-neutral-400">
+                                            <div class="text-xs truncate font-medium text-neutral-400">
                                                 Contains {{ sequence.steps }} steps
                                             </div>
                                             
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                                <td class="flex-grow min-w-40 px-2 py-1 whitespace-nowrap">
                                     
                                       
                                     <div class="mx-auto container py-1">
-                                        <div role="list" aria-label="Our stats." class="grid md:grid-cols2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-10 gap-1">
+                                        <div role="list" aria-label="Our stats." class="grid md:grid-cols2 lg:grid-cols-3 xl:grid-cols-10 2xl:grid-cols-10 gap-1">
                                             <div role="listitem" class="flex justify-center w-full lg:border-r border-gray-300 py-1">
                                             
                                             
@@ -172,7 +172,7 @@
                                   
                                  
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap text-right text-sm font-medium">
+                                <td class="px-2 py-1 whitespace-nowrap text-right text-sm font-medium">
                                                                         <!-- This example requires Tailwind CSS v2.0+ -->
                                     <span class="relative z-0 inline-flex shadow-sm rounded-md">
                                         <button type="button" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
@@ -199,7 +199,7 @@
                                     </span>
   
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap text-right text-sm font-medium">
+                                <td class="px-2 py-1 whitespace-nowrap text-right text-sm font-medium">
                                     <a  href="/creatoroverview" class="text-indigo-600 hover:text-indigo-900">Manage</a>
                                 </td>
                             </tr>
