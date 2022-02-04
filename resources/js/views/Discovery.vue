@@ -6,14 +6,14 @@
     <div class="">
       <div class="mx-auto lg:grid lg:grid-cols-12 ">
         <div class="hidden lg:block col-span-2 z-10 shadow-lg">
-          <nav aria-label="Searchbar" class="sticky top-6 divide-y divide-gray-300">
+          <nav aria-label="Searchbar" class="sticky top-6 min-h-screen overflow-y-noscroll divide-y divide-gray-300">
             <DiscoverySearch></DiscoverySearch>
           </nav>
         </div>
         <main class="lg:col-span-10">
           <DiscoveryStats></DiscoveryStats>
            <TabGroup :defaultIndex="0">
-              <DiscoveryToolbar></DiscoveryToolbar>
+              <DiscoveryToolbar class="px-4"></DiscoveryToolbar>
               <DiscoveryMain></DiscoveryMain>
           </TabGroup>
         </main>
