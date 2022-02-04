@@ -454,7 +454,7 @@
                                             role="menuitem"
                                             tabindex="-1"
                                             id="user-menu-item-0"
-                                            >Hi {{user.first_name}} !
+                                            >Hi User !
                                             !</MenuItem
                                         >
                                         <MenuItem

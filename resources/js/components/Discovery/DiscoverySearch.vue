@@ -1,3 +1,3 @@
 <template>
-    Search
+   Search
 </template>

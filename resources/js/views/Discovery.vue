@@ -6,7 +6,7 @@
     <div class="py-6">
       <div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
         <div class="hidden lg:block lg:col-span-3 xl:col-span-2">
-          <nav aria-label="Sidebar" class="sticky top-6 divide-y divide-gray-300">
+          <nav aria-label="Searchbar" class="sticky top-6 divide-y divide-gray-300">
             <DiscoverySearch></DiscoverySearch>
           </nav>
         </div>
