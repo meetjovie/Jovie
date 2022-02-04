@@ -16,30 +16,26 @@
                 </div>
 
                 <div class="mt-5 md:mt-0 md:col-span-2">
-                    <form action="" method="post" enctype="multipart/form-data">
+                    <form @submit.prevent="updateProfile()" method="post" enctype="multipart/form-data">
                         <div x-data="{photoName: null, photoPreview: null}" class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md">
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-4">
                                     <!-- Profile Photo File Input -->
                                     <div class="mt-1 flex items-center space-x-5">
                                       <span class="inline-block h-20 w-20 rounded-full object-cover overflow-hidden bg-neutral-100">
-                                        <img id="profile_pic_url_img" src="">
+                                        <img id="profile_pic_url_img" :src="user.profile_pic_url ?? user.default_image">
                                       </span>
                                         <label for="profile_pic_url"
                                                class="bg-white cursor-pointer py-2 px-3 border border-neutral-300 rounded-md shadow-sm text-sm leading-4 font-medium text-neutral-700 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                             Change
                                         </label>
-                                        <input type="file" name="profile_pic_url" id="profile_pic_url" style="display: none">
-                                        <small><span class="text-red-600">{{ $message }}</span></small>
+                                        <input type="file" ref="profile_pic_url" name="profile_pic_url" id="profile_pic_url" style="display: none">
+                                        <p v-if="errors.profile_pic_url" class="text-sm text-red-600 mt-2">{{ errors.profile_pic_url[0] }}</p>
                                     </div>
 
-<!--                                    @if (\Illuminate\Support\Facades\Auth::user()->profile_photo_path)-->
-                                    <button type="button" class="mt-2 mr-2 inline-flex items-center px-4 py-2 bg-white border border-neutral-300 rounded-md font-semibold text-xs text-neutral-700 uppercase tracking-widest shadow-sm hover:text-neutral-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-neutral-800 active:bg-neutral-50 disabled:opacity-25 transition">
+                                    <button v-if="user.profile_pic_url" type="button" class="mt-2 mr-2 inline-flex items-center px-4 py-2 bg-white border border-neutral-300 rounded-md font-semibold text-xs text-neutral-700 uppercase tracking-widest shadow-sm hover:text-neutral-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-neutral-800 active:bg-neutral-50 disabled:opacity-25 transition">
                                         Remove Photo
                                     </button>
-<!--                                    @endif-->
-
-                                    <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
                                 </div>
 
                                 <!-- Name -->
@@ -47,8 +43,8 @@
                                     <label class="block font-medium text-sm text-neutral-700" for="first_name">
                                         First Name
                                     </label>
-                                    <input id="first_name" :value="user.first_name" name="first_name" type="text" autocomplete="first_name" class="mt-1 block w-full border-neutral-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                                    <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                                    <input id="first_name" v-model="user.first_name" name="first_name" type="text" autocomplete="first_name" class="mt-1 block w-full border-neutral-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                    <p v-if="errors.first_name" class="text-sm text-red-600 mt-2">{{ errors.first_name[0] }}</p>
                                 </div>
 
                                 <!-- Name -->
@@ -56,8 +52,8 @@
                                     <label class="block font-medium text-sm text-neutral-700" for="last_name">
                                         Last Name
                                     </label>
-                                    <input id="last_name" :value="user.last_name" name="last_name" type="text" autocomplete="last_name" class="mt-1 block w-full border-neutral-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                                    <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                                    <input id="last_name" v-model="user.last_name" name="last_name" type="text" autocomplete="last_name" class="mt-1 block w-full border-neutral-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                    <p v-if="errors.last_name" class="text-sm text-red-600 mt-2">{{ errors.last_name[0] }}</p>
                                 </div>
 
                                 <!-- Email -->
@@ -66,7 +62,6 @@
                                         Email
                                     </label>
                                     <input id="email" disabled :value="user.email" type="email" autocomplete="email" class="mt-1 block w-full border-neutral-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                                    <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
                                 </div>
                             </div>
                         </div>
@@ -116,13 +111,39 @@
 </template>
 
 <script>
+import UserService from "../services/api/user.service";
+
 export default {
     name: "Profile",
     data() {
         return {
-            user: this.$store.state.AuthState.user
+            user: this.$store.state.AuthState.user,
+            errors: {},
         }
     },
+    methods: {
+        async updateProfile() {
+            let data = {
+                first_name: this.user.first_name,
+                last_name: this.user.last_name,
+                profile_pic_url: this.$refs.profile_pic_url.files[0] ?? null
+            }
+            await UserService.updateProfile(data).then(response => {
+                response = response.data
+                if (response.status) {
+                    this.$store.commit('setAddedToWaitList')
+                    this.waitListEmail = ''
+                    this.error = null
+                    this.$router.push('demo')
+                }
+            }).catch(error => {
+                error = error.response
+                if (error.status == 422) {
+                    this.errors = error.data.errors
+                }
+            })
+        }
+    }
 }
 </script>
 

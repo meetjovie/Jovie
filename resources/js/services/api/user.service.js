@@ -17,5 +17,10 @@ export default {
     },
     async addToWaitList(data) {
         return axios.post(`${baseUrlWeb}/waitlist`, data)
+    },
+    async updateProfile(data) {
+        return axios.put(`${baseUrl}/profile`, data, {
+            headers: await headers()
+        })
     }
 }

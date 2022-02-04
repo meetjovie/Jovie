@@ -14,6 +14,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const UPLOAD_PATH = 'public/jovie/user/profiles/';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -47,11 +49,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['default_image'];
+
     public function getProfilePicUrlAttribute($value)
     {
         if ($value && Storage::disk('s3')->exists($value)) {
             return $value;
         }
+        return null;
+    }
+
+    public function getDefaultImageAttribute()
+    {
         return asset('images/noimage.png');
     }
 }
