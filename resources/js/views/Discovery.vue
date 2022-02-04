@@ -4,13 +4,13 @@
     
 
     <div class="">
-      <div class="mx-auto lg:grid lg:grid-cols-12 lg:gap-8">
-        <div class="hidden lg:block lg:col-span-3 xl:col-span-2">
+      <div class="mx-auto lg:grid lg:grid-cols-12 ">
+        <div class="hidden lg:block col-span-2 z-10 shadow-lg">
           <nav aria-label="Searchbar" class="sticky top-6 divide-y divide-gray-300">
             <DiscoverySearch></DiscoverySearch>
           </nav>
         </div>
-        <main class="lg:col-span-9">
+        <main class="lg:col-span-10">
           <DiscoveryStats></DiscoveryStats>
            <TabGroup :defaultIndex="0">
               <DiscoveryToolbar></DiscoveryToolbar>
