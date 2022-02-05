@@ -14,7 +14,7 @@ export const authenticationGuard = (to, from, next) => {
             // check if any url other than home url is hit directly
             // or if the localstorage user if null
             // we need to fetch the current info data from me api and only then move next
-            if (!from.name && to.path !== '/' || !localStorage.getItem('currentUser')) {
+            if (!from.name && to.path !== '/' || !store.state.AuthState.user) {
                 store.dispatch('me').then(() => {
                     return next()
                 })

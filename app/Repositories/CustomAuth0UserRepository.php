@@ -60,4 +60,12 @@ class CustomAuth0UserRepository extends Auth0UserRepository
         $user = $this->upsertUser( $userinfo['profile'] );
         return $user;
     }
+
+    public function currentUser($request)
+    {
+        $auth0 = \App::make('auth0');
+        $accessToken = $request->bearerToken() ?? "";
+        $tokenInfo = $auth0->decodeJWT($accessToken);
+        return $this->getUserByDecodedJWT($tokenInfo);
+    }
 }
