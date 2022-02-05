@@ -40,6 +40,7 @@
             </TabList>
         </div>
         <div>
+            
            <Popover class="relative">
             <PopoverButton as="div" class="relative active:bg-indigo-700 active:text-white  active:bg-indigo-700 active:text-white inline-flex items-center px-4 py-1 rounded-md border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 cursor-pointer">Export</PopoverButton>
             <PopoverOverlay
@@ -48,7 +49,7 @@
                 />
             <PopoverPanel class="absolute right-0 middle-0 w-96 z-20">
             <div class="grid grid-cols-1 px-4 py-4 bg-white/90 backdrop-filter backdrop-blur-xl shadow-xl w-80 mt-2 rounded-md">
-                <div>Hello</div>
+                <div></div>
             </div>
 
             <img src="/solutions.jpg" alt="" />
@@ -60,8 +61,7 @@
 <script>
 import { TabList, Tab,  } from '@headlessui/vue'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
-import { StarIcon, ChevronRightIcon, ChevronDownIcon, ThumbUpIcon, ThumbDownIcon, HeartIcon, BanIcon, RefreshIcon, TagIcon, ClipboardListIcon } from '@heroicons/vue/solid'
-
+import { StarIcon, ChevronRightIcon, SwitchHorizontalIcon, ChevronDownIcon, ThumbUpIcon, ThumbDownIcon, HeartIcon, BanIcon, RefreshIcon, TagIcon, ClipboardListIcon } from '@heroicons/vue/solid'
 
 
 export default {
@@ -81,7 +81,9 @@ export default {
         BanIcon,
         RefreshIcon,
         TagIcon,
-        ClipboardListIcon
+        ClipboardListIcon,
+        SwitchHorizontalIcon
+        
     
     },
     data() {
@@ -121,7 +123,14 @@ export default {
                     name: 'Add tag',
                     icon: 'TagIcon',
                     haschild: true,
+                },
+                {
+                    name: 'Switch type',
+                    icon: 'SwitchHorizontalIcon',
+                    haschild: false,
+
                 }
+
             ]
         }
     },

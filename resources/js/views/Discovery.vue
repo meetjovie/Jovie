@@ -37,6 +37,7 @@ import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue'
 import { TabGroup } from '@headlessui/vue'
 
 
+
 export default {
     name: 'Discovery',
     components: {
@@ -46,6 +47,7 @@ export default {
         DiscoveryStats,
         DiscoveryToolbar,
         TabGroup,
+       
         
 
     }
