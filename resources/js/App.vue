@@ -9,7 +9,7 @@ import Default from "./layouts/Default";
 export default {
     components: {
         App,
-        Default
+        Default,
     },
     data() {
         return {
