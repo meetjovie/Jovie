@@ -63,7 +63,7 @@
                     </div>
                 </a>
                 <div v-for="navitem in nav" class="flex-1 mt-4 w-full">
-                    <div :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
+                    <div :href="navitem.href" :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
                         
                         <component :is="navitem.icon" class="h-5 w-5"></component>
                             
@@ -314,9 +314,9 @@ export default {
         return {
             user: this.$store.state.AuthState.user,
             nav:[
-                {name: "Admin", href: "/admin", icon: CheckCircleIcon},
+                {name: "Admin", route: "/admin", icon: CheckCircleIcon},
                 {name: "Dashboard", route: "/dashboard", icon: HomeIcon},
-                {name: "Search", route: "/search", icon: SearchIcon},
+                {name: "Search", route: "/discovery", icon: SearchIcon},
                 {name: "Outreach", route: "/outreach", icon: MailIcon},
                 {name: "Campaings", route: "/campaigns", icon: FolderOpenIcon},
                 {name: "CRM", route: "/crm", icon: UserGroupIcon},
