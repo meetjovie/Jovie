@@ -4,7 +4,7 @@
     
 
     <div class="">
-      <div class="mx-auto ">
+      <div class="mx-auto flex">
         <div class="hidden lg:flex-none w-80 z-10 shadow-lg">
           <nav aria-label="Searchbar" class="sticky top-6 min-h-screen overflow-y-noscroll divide-y divide-gray-300">
             <DiscoverySearch></DiscoverySearch>
