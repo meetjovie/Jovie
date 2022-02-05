@@ -8,6 +8,7 @@ use App\Repositories\CustomAuth0UserRepository;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -31,27 +32,48 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'profile_pic_url' => 'nullable|image',
         ]);
-        $file = self::uploadFile($request->profile_pic_url, User::UPLOAD_PATH, Auth::user()->profile_pic_url ?? null);
+        $file = self::uploadFile($request->profile_pic_url, User::UPLOAD_PATH, $this->userRepo->currentUser($request)->getRawOriginal('profile_pic_url') ?? null);
         $data['profile_pic_url'] = $file;
-        $user = User::where('id', Auth::user()->id)->update($data);
+        $user = User::where('id', $this->userRepo->currentUser($request)->id)->update($data);
         if ($user) {
-            $auth0 = \App::make('auth0');
-            $accessToken = $request->bearerToken() ?? "";
-            $tokenInfo = $auth0->decodeJWT($accessToken);
             return collect([
                 'status' => true,
                 'message' => 'Profile Information Updated.',
-                'user' => $this->userRepo->getUserByDecodedJWT($tokenInfo)
+                'user' => $this->userRepo->currentUser($request)
             ]);
         }
         return collect([
             'status' => false,
             'message' => 'Something went wrong. Please try again later.'
+        ]);
+    }
+
+    public function removeProfilePhoto(Request $request)
+    {
+        $user = $this->userRepo->currentUser($request);
+        if ($profile = $user->getRawOriginal('profile_pic_url')) {
+            if (Storage::disk('s3')->delete($profile)) {
+                User::where('id', $user->id)->update(['profile_pic_url' => null]);
+                return collect([
+                    'status' => true,
+                    'message' => 'Profile photo removed.',
+                    'user' => $this->userRepo->currentUser($request)
+                ]);
+            } else {
+                return collect([
+                    'status' => false,
+                    'message' => 'Failed to remove profile photo.'
+                ]);
+            }
+        }
+        return collect([
+            'status' => false,
+            'message' => 'No profile photo to remove.'
         ]);
     }
 

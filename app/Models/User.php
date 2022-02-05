@@ -54,7 +54,7 @@ class User extends Authenticatable
     public function getProfilePicUrlAttribute($value)
     {
         if ($value && Storage::disk('s3')->exists($value)) {
-            return $value;
+            return Storage::disk('s3')->url($value);
         }
         return null;
     }
