@@ -68,9 +68,8 @@
                         <component :is="navitem.icon" class="h-5 w-5"></component>
                             
                         <span class="mt-2 sr-only">{{navitem.name}}</span>
-                        <div class="hidden group-hover:block absolute left-14 z-20  middle-8 rounded-r-lg bg-white/50 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
-                            <ChervronLeft class="-ml-2h-5 w-5 text-neutral-900" />
-                            {{navitem.name}}
+                        <div class="hidden group-hover:block absolute left-14 z-20  middle-8 rounded-r-lg bg-white/60 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
+                        {{navitem.name}}
                         </div>
                     </div>
                     
