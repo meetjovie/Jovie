@@ -1,51 +1,23 @@
 <template>
     <div id="app" class="h-screen flex overflow-hidden bg-neutral-100">
-        <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+        
         <div
             id="overlay"
             class="fixed inset-0 flex z-40 md:hidden"
             role="dialog"
             aria-modal="true"
         >
-            <!--
-              Off-canvas menu overlay, show/hide based on off-canvas menu state.
-
-              Entering: "transition-opacity ease-linear duration-300"
-                From: "opacity-0"
-                To: "opacity-100"
-              Leaving: "transition-opacity ease-linear duration-300"
-                From: "opacity-100"
-                To: "opacity-0"
-            -->
+            
             <div
                 class="fixed inset-0 bg-neutral-600 bg-opacity-75"
                 aria-hidden="true"
             ></div>
 
-            <!--
-              Off-canvas menu, show/hide based on off-canvas menu state.
-
-              Entering: "transition ease-in-out duration-300 transform"
-                From: "-translate-x-full"
-                To: "translate-x-0"
-              Leaving: "transition ease-in-out duration-300 transform"
-                From: "translate-x-0"
-                To: "-translate-x-full"
-            -->
             <div
                 id="sidebar"
                 class="relative flex-1 flex flex-col w-full pt-5 pb-4 bg-neutral-500/50 backdrop-blur-md"
             >
-                <!--
-                  Close button, show/hide based on off-canvas menu state.
-
-                  Entering: "ease-in-out duration-300"
-                    From: "opacity-0"
-                    To: "opacity-100"
-                  Leaving: "ease-in-out duration-300"
-                    From: "opacity-100"
-                    To: "opacity-0"
-                -->
+               
 
                 <div class="flex h-screen justify-center items-center px-4">
                     <a href="{{ route('dashboard') }}">
@@ -80,8 +52,7 @@
             >
                 <a href="/">
                     <div
-                        class="flex-shrink-0 mt-2 justify-centertext-center mx-auto items-center"
-                    >
+                        class="flex-shrink-0 mt-2 justify-center text-center mx-2 items-center">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink"

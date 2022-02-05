@@ -83,7 +83,7 @@
                         <div v-if="!$store.state.AuthState.loading">
                             <div v-if="!$store.state.AuthState.isAuthenticated">
                                 <a @click="login()"
-                                   class="text-neutral-300 hover:text-neutral-200 hover:text-white px-3 py-2 rounded-md text-xs font-medium">Login</a>
+                                   class="text-neutral-300 hover:text-neutral-200  px-3 py-2 rounded-md text-xs font-medium">Login</a>
                             </div>
                             <div v-else>
                                 <a href="/"
@@ -116,12 +116,8 @@
 </style>
 <script>
 import {
-    ChatAltIcon,
-    DocumentReportIcon,
-    HeartIcon,
     InboxIcon,
     PencilAltIcon,
-    ReplyIcon,
     TrashIcon,
     UsersIcon,
 } from '@heroicons/vue/outline'

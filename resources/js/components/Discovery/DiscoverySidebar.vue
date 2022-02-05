@@ -1,3 +1,3 @@
 <template>
-    Sidebar
+    Hey Im a sidebar
 </template>
