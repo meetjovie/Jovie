@@ -1,5 +1,5 @@
 <template>
-    <div class="py-2 px-1 gap-y-2">
+    <div class="py-2 px-1 gap-y-4">
         <div>Network1</div>
         <div>Content Search</div>
         <div>Tags and Categories</div>
