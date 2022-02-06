@@ -68,7 +68,7 @@
                         <component :is="navitem.icon" class="h-5 w-5"></component>
                             
                         
-                        <div class="hidden text-xl group-hover:block absolute left-14 z-20  middle-8 rounded-r-lg bg-white/60 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
+                        <div class="hidden text-md group-hover:block absolute left-14 z-20  middle-8 rounded-r-lg bg-white/60 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
                         {{navitem.name}}
                         </div>
                     </div>
