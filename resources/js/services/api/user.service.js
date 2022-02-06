@@ -17,5 +17,15 @@ export default {
     },
     async addToWaitList(data) {
         return axios.post(`${baseUrlWeb}/waitlist`, data)
+    },
+    async updateProfile(data) {
+        return axios.post(`${baseUrl}/profile?_method=PUT`, data, {
+            headers: await headers()
+        })
+    },
+    async removeProfilePhoto() {
+        return axios.post(`${baseUrl}/remove-profile-photo?_method=DELETE`, {}, {
+            headers: await headers()
+        })
     }
 }

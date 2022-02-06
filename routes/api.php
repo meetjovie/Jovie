@@ -19,3 +19,5 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
+Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
+Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);

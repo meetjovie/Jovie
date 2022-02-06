@@ -13,6 +13,15 @@ export const routes = [{
         component: loadPage('Home')
     },
     {
+        name: 'profile',
+        path: '/profile',
+        component: loadPage('Profile'),
+        beforeEnter: authenticationGuard,
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
         name: 'dashboard',
         path: '/dashboard',
         component: loadPage('Dashboard'),
