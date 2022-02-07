@@ -17,7 +17,9 @@
                     </td> 
                 </tr>                        
             </table>
+            <div class="py-2 px-4 justify-right text-right items-center ">
             <ButtonGroup :text="Finish"></ButtonGroup>
+            </div>
         </div>
     </div>
     
