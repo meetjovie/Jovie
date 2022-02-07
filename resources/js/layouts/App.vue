@@ -91,7 +91,7 @@
 
         <div class="flex flex-col w-0 flex-1 overflow-hidden">
             <div
-                class="relative z-30 flex-shrink-0 flex h-10 bg-white border-1 border-b"
+                class="relative z-30 flex-shrink-0 flex h-10 bg-white/50 backdrop-filter backdrop-blur-xl border-1 border-b"
             >
                 <button
                     id="showSidebar"

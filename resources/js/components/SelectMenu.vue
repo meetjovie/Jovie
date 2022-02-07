@@ -58,12 +58,8 @@ const items = [
 ]
 
 export default {
-  props: {
-        label: {
-            type: String
-        },
-        items: Array,
-    },
+  props: [items],
+
   components: {
     Listbox,
     ListboxButton,
