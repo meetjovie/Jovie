@@ -4,7 +4,12 @@ const baseUrl = '/api'
 const baseUrlWeb = ''
 
 const headers = async () => {
-    let token = await store.state.AuthState.auth0.getIdTokenClaims();
+    let token = null;
+    if (process.env.MIX_APP_ENV === 'local') {
+        token = 'local'
+    } else {
+        token = await store.state.AuthState.auth0.getIdTokenClaims()
+    }
     token = token.__raw
     return { 'Authorization': `Bearer ${token}` };
 };

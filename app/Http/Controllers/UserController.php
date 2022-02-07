@@ -23,11 +23,7 @@ class UserController extends Controller
 
     public function me(Request $request)
     {
-        $auth0 = \App::make('auth0');
-
-        $accessToken = $request->bearerToken() ?? "";
-        $tokenInfo = $auth0->decodeJWT($accessToken);
-        return $this->userRepo->getUserByDecodedJWT($tokenInfo);
+        return $this->userRepo->currentUser($request);
     }
 
     public function update(Request $request)

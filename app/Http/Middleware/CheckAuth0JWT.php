@@ -31,6 +31,9 @@ class CheckAuth0JWT
      */
     public function handle($request, Closure $next)
     {
+        if (config('app.env') == 'local') {
+            return $next($request);
+        }
         $auth0 = \App::make('auth0');
 
         $accessToken = $request->bearerToken() ?? "";
