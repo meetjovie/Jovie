@@ -173,7 +173,7 @@
 
                     <div class="ml-2 flex items-center md:ml-6">
                         <button
-                            class="bg-white p-1 rounded-full text-neutral-400 hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                            class="active:bg-neutral-200 active:text-neutral-700 transition duration-500 ease-in-out p-1 rounded-full text-neutral-400 hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
                         >
                             <span class="sr-only">View notifications</span>
 

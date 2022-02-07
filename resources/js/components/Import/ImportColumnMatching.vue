@@ -1,7 +1,7 @@
 <template>
     <div class="items-center mx-auto min-h-screen">
-        <div class="mx-auto bg-white rounded-md shadow-lg shadow-indigo-700/20 max-w-3xl mt-12 px-4 items-center h-full justify-center ">
-            <div class="pt-4 pb-2">
+        <div class="mx-auto bg-white rounded-md shadow-lg shadow-indigo-700/20 max-w-3xl mt-12 px-8 items-center h-full justify-center ">
+            <div class="pt-8 pb-2">
                 <div class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Import</div>
                 <div class="text-neutral-500 font-semibold">Please select the columns you wish to import into Jovie.</div>
             </div>
