@@ -13,7 +13,7 @@
                 <tr v-for="column in columns" :key="column.name" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
                     <td class="pl-4 justify-center items-center">
                        
-                        <SelectMenu class="inline w-72"></SelectMenu>
+                        <SelectMenu class="rounded-md inline w-72"></SelectMenu>
                     </td>  
                     <td class="text-sm last:rounded-md-br text-indigo-700 font-bold py-2 text-center mx-auto items-center">
                         {{column.name}}
