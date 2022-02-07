@@ -16,9 +16,6 @@ app.mixin({
     methods: {
         asset(path) {
             return Vapor.asset(path)
-        },
-        hello() {
-            console.log('hello from mixins');
         }
     }
 })

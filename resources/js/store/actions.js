@@ -1,6 +1,17 @@
 import userService from "../services/api/user.service";
+import store from "./index";
 
 export default {
+    async headers() {
+        let token = null;
+        if (process.env.MIX_APP_ENV === 'local') {
+            token = 'local'
+        } else {
+            token = await store.state.AuthState.auth0.getIdTokenClaims()
+        }
+        token = token.__raw
+        return { 'Authorization': `Bearer ${token}` };
+    },
     async handleStateChangeForAuth(context) {
         context.commit('setStateChangeForAuth', {
             isAuthenticated: !!(await context.state.AuthState.auth0.isAuthenticated()),
