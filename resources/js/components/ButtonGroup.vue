@@ -11,7 +11,7 @@ import { MailIcon, SearchIcon } from '@heroicons/vue/solid'
 
 export default {
   props: {
-    name: {
+    text: {
       type: String,
       required: true,
     },
