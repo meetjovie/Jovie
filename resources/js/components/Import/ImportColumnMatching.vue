@@ -1,14 +1,8 @@
 <template>
     <div class="items-center mx-auto min-h-screen">
-        <div class="mx-auto bg-white rounded-md shadow-lg max-w-3xl mt-12 px-8 items-center h-full justify-center ">
-            <div class="pt-8 pb-2">
-                <div class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Import</div>
-                <div class="text-neutral-500 font-semibold">Please select the columns you wish to import into Jovie.</div>
-            </div>
-            <CardHeading>
-                <slot id="subtitle">Please select the columns you wish to import into Jovie.</slot>
-            </CardHeading>
-            <table class="w-full rounded-md"> 
+        <div class="mx-auto bg-white rounded-lg shadow-lg max-w-3xl mt-12 items-center h-full justify-center ">
+            <CardHeading title="Import" subtitle="Please select the columns you wish to import into Jovie." />
+            <table class="w-full rounded-md px-8"> 
                 <tr class="border-b border border-neutrual-400 text-neutral-500 rounded-md-t">
                     <th class="font-medium">Columns from <span class="font-bold">imports.csv</span></th>
                     <th>Import to...</th>
