@@ -11,7 +11,7 @@
                     <th>Import to...</th>
                 </tr>
                 <tr v-for="column in columns" :key="column.name" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
-                    <td class="pl-4 justify-center items-center">
+                    <td class="px-2 py-1 justify-center items-center">
                        
                         <SelectMenu class="rounded-md inline w-72"></SelectMenu>
                     </td>  
