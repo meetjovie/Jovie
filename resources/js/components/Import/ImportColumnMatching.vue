@@ -1,7 +1,7 @@
 <template>
     <div class="items-center mx-auto min-h-screen">
-        <div class="mx-auto bg-white rounded-md shadow-lg shadow-indigo-700/20 max-w-5xl mt-12 items-center h-full justify-center ">
-        <div class="text-center py-4 font-bold text-md">Select columns to import</div>
+        <div class="mx-auto bg-white rounded-md shadow-lg shadow-indigo-700/20 max-w-5xl mt-12 px-4 items-center h-full justify-center ">
+        <div class="py-4 text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Select columns to import</div>
             <table class="w-full rounded-md-b"> 
                 <tr class="bg-indigo-500 text-white">
                     <th class="font-medium">Columns from <span class="font-bold">imports.csv</span></th>
@@ -17,7 +17,7 @@
                     </td> 
                 </tr>                        
             </table>
-            <div class="py-2 px-4 justify-right text-right items-center ">
+            <div class="py-4 px-4 justify-right text-right items-center ">
             <ButtonGroup :text="Finish"></ButtonGroup>
             </div>
         </div>
