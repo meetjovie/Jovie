@@ -1,28 +1,42 @@
 <template>
     <div class="items-center mx-auto min-h-screen">
-        <div class="mx-auto mt-8 py-24 items-center h-full justify-center grid gap-x-4 grid-flow-col auto-cols-max">
-            <div v-for="column in columns" key="column.name">
-                        <div class="rounded-md shadow-lg shadow-indigo-700/20">
-                            <div class="bg-white rounded-t-md text-sm text-indigo-700 font-bold px-8 text-center mx-auto border-b border border-neutral-300 py-2">{{column.name}}</div>
-                            <div class="w-72 py-6 px-4">
-                                <SelectMenu></SelectMenu>
-                            </div>
-                            <div class="cursor-pointer hover:bg-neutral-700 active:text-white active:bg-indigo-500 hover:text-white rounded-b-md px-8 py-2 font-bold text-neutral-400 text-center text-xs">Skip</div>
-                        </div>
+        <div class="mx-auto bg-white rounded-lg shadow-lg max-w-3xl mt-12 items-center h-full justify-center ">
+            <CardHeading title="Import" subtitle="Please select the columns you wish to import into Jovie." />
+            <table class="w-full rounded-md px-8"> 
+                <tr class="border-b border border-neutrual-400 text-neutral-500 rounded-md-t">
+                    <th class="font-medium">Columns from <span class="font-bold">imports.csv</span></th>
+                    <th>Import to...</th>
+                </tr>
+                <tr v-for="column in columns" :key="column.name" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
+                    <td class="px-2 py-1 justify-center items-center">
+                       
+                        <SelectMenu class="rounded-md inline w-72"></SelectMenu>
+                    </td>  
+                    <td class="text-sm last:rounded-md-br text-indigo-700 font-bold py-2 text-center mx-auto items-center">
+                        {{column.name}}
+                    </td> 
+                </tr>                        
+            </table>
+            <div class="py-4 px-4 justify-right text-right items-center ">
+                <ButtonGroup text="Finish"></ButtonGroup>
             </div>
-
         </div>
     </div>
+    
 </template>
 <script>
 import SelectMenu from "../SelectMenu.vue";
+import ButtonGroup from "../ButtonGroup.vue";
+import CardHeading from "../CardHeading.vue";
 
 
 
 export default {
     name: "ImportColumnMatching",
     components: {
-        SelectMenu
+        SelectMenu,
+        ButtonGroup,
+        CardHeading,
     },
     data() {
         return {

@@ -6,7 +6,7 @@
                 <component :is="icon" class="h-5 w-5 text-gray-400" />
             </div>
             <input :type="type" :name="name" :id="name" :disabled="disabled" :value="modelValue ?? value" @input="$emit('update:modelValue', $event.target.value)"
-                   class="focus-visible:ring-indigo-500 focus-visible:border-indigo-500 block w-full text-neutral-700 py-1 text-sm border-gray-300 rounded-md"
+                   class="focus-visible:ring-indigo-500 focus-visible:border-indigo-500 block w-full text-neutral-700 py-2 text-sm border-gray-300 rounded-md"
                    :class="[icon ? 'pl-10' : '']"
                    :placeholder="placeholder"/>
             <p v-if="error" class="text-sm text-red-600 mt-2">{{ error }}</p>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { SearchIcon, MailIcon, PhotographIcon } from '@heroicons/vue/solid'
+import { SearchIcon, MailIcon, PhotographIcon, LocationMarkerIcon, TrendingUpIcon, TrendingDownIcon } from '@heroicons/vue/solid'
 
 export default {
     name: 'InputGroup',
@@ -33,12 +33,17 @@ export default {
         icon: String,
         value: String,
         modelValue: {},
-        error: String
+        error: String,
+        rounded: String,
     },
     components: {
         MailIcon,
         SearchIcon,
-        PhotographIcon
+        PhotographIcon,
+        LocationMarkerIcon,
+        TrendingUpIcon,
+        TrendingDownIcon,
+
     }
 }
 </script>

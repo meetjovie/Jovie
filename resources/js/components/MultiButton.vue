@@ -13,8 +13,8 @@ import { CakeIcon, SearchIcon } from '@heroicons/vue/solid'
 
 export default {
     props: {
-        name: {
-            type: String,
+        buttons: {
+            type: Array,
             required: true,
         },
     },
