@@ -1,8 +1,12 @@
 <template>
     
 <div>
+  <div>
+   <ImportColumnMatching></ImportColumnMatching>
+  </div>
+
       <div class="container mt-6 py-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Content goes here -->
+     
     <div>
         
 
@@ -82,7 +86,7 @@
 
 
     </div>
-    <!-- This example requires Tailwind CSS v2.0+ -->
+    
 
 
   </div>
@@ -94,6 +98,7 @@
 <script>
 import { ref } from 'vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue'
 
 export default {
 name: "Import",
@@ -102,6 +107,7 @@ name: "Import",
     SwitchDescription,
     SwitchGroup,
     SwitchLabel,
+    ImportColumnMatching
   },
   setup() {
     const enabled = ref(false)
