@@ -5,8 +5,8 @@
                 <h3 v-if="title" class="text-lg leading-6 font-medium text-gray-900">{{ title }}</h3>
                 <p v-if="subtitle" class="mt-1 text-sm text-gray-500">{{ subtitle }}</p>
             </div>    
-            <div class="ml-4 mt-4 flex-shrink-0">
-                <ButtonGroup></ButtonGroup>
+            <div v-if="ButtonGroup" class="ml-4 mt-4 flex-shrink-0">
+                <ButtonGroup :icon="SearchIcon"></ButtonGroup>
             </div>
         </div>
     </div>
@@ -23,18 +23,15 @@ export default {
     props: {
         title: {
             type: String,
-            default: 'Title',
+            default: null,
         },
         subtitle: {
             type: String,
-            default: 'Subtitle',
+            default: null,
         },
         ButtonGroup: {
             type: Object,
-            default: {
-                text: 'Finish',
-                icon: 'MailIcon',
-            },
+            default: null,
         },
     },
 }
