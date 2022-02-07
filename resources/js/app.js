@@ -16,6 +16,9 @@ app.mixin({
     methods: {
         asset(path) {
             return Vapor.asset(path)
+        },
+        unSlugify(value) {
+            return value.toString().replaceAll('_', ' ')
         }
     }
 })

@@ -1,10 +1,10 @@
 <template>
 
     <div>
-        <!--        <div>-->
-        <!--            <ImportColumnMatching></ImportColumnMatching>-->
-        <!--        </div>-->
-        <div class="container mt-6 py-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div v-if="showMapping">
+            <ImportColumnMatching :columns="columns"></ImportColumnMatching>
+        </div>
+        <div v-else class="container mt-6 py-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div>
                 <div class="space-y-6">
                     <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
@@ -50,7 +50,7 @@
                                                     <label for="file-upload"
                                                            class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                                         <span>Upload a file</span>
-                                                        <input id="file-upload" name="file-upload" type="file" @change="getColumnsFromCsv($event)"
+                                                        <input id="file-upload" name="file-upload" ref="file_upload" type="file" @change="getColumnsFromCsv()"
                                                                class="sr-only"/>
                                                     </label>
                                                     <p class="pl-1">or drag and drop</p>
@@ -60,6 +60,7 @@
                                                 </p>
                                             </div>
                                         </div>
+                                        <p v-if="errors.import" class="text-sm text-red-600 mt-2">{{ errors.import[0] }}</p>
                                     </div>
                                     <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex-grow flex flex-col">
@@ -107,21 +108,30 @@ export default {
     data() {
         return {
             fetchingColumns: false,
-            columns: []
+            showMapping: false,
+            columns: [],
+            errors: []
         }
     },
     methods: {
-        getColumnsFromCsv(e) {
+        getColumnsFromCsv() {
             this.fetchingColumns = true
+            this.errors = []
             let form = new FormData()
-            form.append('import', e.target.value)
+            form.append('import', this.$refs.file_upload.files[0])
             ImportService.getColumnsFromCsv(form).then(response => {
                 response = response.data
                 if (response.status) {
                     this.columns = response.columns
+                    this.showMapping = true
+                } else {
+                    // show toast error here later
                 }
             }).catch(error => {
                 error = error.response
+                if (error.status == 422) {
+                    this.errors = error.data.errors
+                }
             }).finally(response => {
                 this.fetchingColumns = false
             })

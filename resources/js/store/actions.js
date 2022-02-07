@@ -2,7 +2,7 @@ import userService from "../services/api/user.service";
 import store from "./index";
 
 export default {
-    async headers() {
+    async headers(context, payload = null) {
         let token = null;
         if (process.env.MIX_APP_ENV === 'local') {
             token = 'local'
@@ -10,7 +10,11 @@ export default {
             token = await store.state.AuthState.auth0.getIdTokenClaims()
         }
         token = token.__raw
-        return { 'Authorization': `Bearer ${token}` };
+        let headers = { 'Authorization': `Bearer ${token}` }
+        if (payload) {
+            headers = {...headers, ...payload}
+        }
+        return headers;
     },
     async handleStateChangeForAuth(context) {
         context.commit('setStateChangeForAuth', {
