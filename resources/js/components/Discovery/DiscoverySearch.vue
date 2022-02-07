@@ -1,15 +1,17 @@
 <template>
     <div class="grid grid-cols-4 py-4 px-2 gap-y-2">
-        <InputGroup class="col-span-4" icon="PhotographIcon" text="ContentSearch" placeholder="Search" label="Search" type="input" />
+        <InputGroup class="col-span-4" icon="PhotographIcon" text="ContentSearch" placeholder="Search" label="Search" />
         <div>Network1</div>
+         <InputGroup class="col-span-4" icon="TagIcon" text="TagsSearch" placeholder="Tags" />
+         <SelectMenu />
         <div>Content Search</div>
         <div>Tags and Categories</div>
         <MultiButton />
         <InputGroup class="col-span-4" icon="LocationMarkerIcon" placeholder="Location" />
         
        <div class="col-span-4">
-           <RangeFilter name="Follower"/>
-           <RangeFilter name="Engagement"/>
+           <RangeFilter mintext="Min Followers" maxtext="Max Followers" name="Follower"/>
+           <RangeFilter mintext="Min ER%" maxtext="Max ER%" name="Engagement"/>
         </div> 
     
        
@@ -34,5 +36,6 @@ export default {
         RangeFilter,
 
     },
+    
 }
 </script>
