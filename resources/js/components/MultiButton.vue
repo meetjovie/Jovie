@@ -14,7 +14,7 @@ import { CakeIcon, SearchIcon } from '@heroicons/vue/solid'
 export default {
     props: {
         buttons: {
-            type: Array,
+            type: Object,
             required: true,
         },
     },

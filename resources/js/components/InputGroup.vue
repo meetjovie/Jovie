@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { SearchIcon, MailIcon, PhotographIcon, LocationMarkerIcon, TrendingUpIcon, TrendingDownIcon, TagIcon } from '@heroicons/vue/solid'
+import { SearchIcon, MailIcon, PhotographIcon, LocationMarkerIcon, TrendingUpIcon, TrendingDownIcon, TagIcon, UserIcon, UsersIcon, ArrowSmUpIcon, ArrowSmDownIcon, BriefcaseIcon } from '@heroicons/vue/solid'
 
 export default {
     name: 'InputGroup',
@@ -43,8 +43,12 @@ export default {
         LocationMarkerIcon,
         TrendingUpIcon,
         TrendingDownIcon,
-        TagIcon
-
+        TagIcon,
+        UserIcon,
+        UsersIcon,
+        ArrowSmUpIcon,
+        ArrowSmDownIcon,
+        BriefcaseIcon
     }
 }
 </script>

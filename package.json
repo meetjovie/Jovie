@@ -36,9 +36,11 @@
         "@vue-hero-icons/outline": "^1.7.2",
         "@vue-hero-icons/solid": "^1.7.2",
         "@vue-stripe/vue-stripe": "^4.4.1",
+        "simple-icons": "^6.9.0",
         "tailwind-scrollbar-hide": "^1.1.7",
         "vue": "^3.2.27",
         "vue-router": "^4.0.12",
+        "vue-simple-icons": "^4.7.0",
         "vue-star-rating": "^2.1.0",
         "vuex": "^4.0.2"
     }

@@ -10,10 +10,14 @@
         <InputGroup class="col-span-4" icon="LocationMarkerIcon" placeholder="Location" />
         
        <div class="col-span-4">
-           <RangeFilter mintext="Min Followers" maxtext="Max Followers" name="Follower"/>
-           <RangeFilter mintext="Min ER%" maxtext="Max ER%" name="Engagement"/>
+            <div class="mt-4">
+                <RangeFilter preset1="Micro" preset2="Macro" preset3="1M+" label="Followers" minicon="UserIcon" maxicon="UsersIcon" mintext="Min" maxtext="Max" name="Follower"/>
+            </div>
+            <div class="mt-4">
+                <RangeFilter preset1="1%" preset2="2%" preset3="5%" label="Engagement Rate" minicon="ArrowSmDownIcon" maxicon="ArrowSmUpIcon" mintext="Min" maxtext="Max" name="Engagement"/>
+            </div>
         </div> 
-    
+    <InputGroup class="col-span-4" icon="BriefcaseIcon" placeholder="Brand Mentions" />
        
         <div class="col-span-4 justify-right text-right">
             <ButtonGroup text="Search" class="w-full">Search</ButtonGroup>
