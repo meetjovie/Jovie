@@ -12,7 +12,7 @@
                         {{ unSlugify(column) }}
                     </td>
                     <td class="px-2 py-1 justify-center items-center">
-                        <SelectMenu :items="columnsToMap" name="columnsToMap" class="rounded-md inline w-72"></SelectMenu>
+                        <SelectMenu v-on:select="setMappedColumns" :label="column" :show-label="false" :items="columnsToMap" name="columnsToMap" class="rounded-md inline w-72"></SelectMenu>
                     </td>
                 </tr>
             </table>
@@ -57,8 +57,30 @@ export default {
                 'youtubeFollowersCount',
                 'email',
             ],
+            mappedColumns: {}
         }
     },
-
+    methods: {
+        setMappedColumns({key, value}) {
+            console.log(key);
+            console.log(value);
+            // const mapColumn = e.target.value
+            // if (this.mappedColumns.hasOwnProperty(mapColumn)) {
+            //     toastr.error('This column is already selected.')
+            //     e.target.value = ''
+            //     return
+            // }
+            // if (!mapColumn) {
+            //     for (const [key, value] of Object.entries(this.mappedColumns)) {
+            //         if (value == column) {
+            //             delete this.mappedColumns[key]
+            //             break
+            //         }
+            //     }
+            // } else {
+            //     this.mappedColumns[mapColumn] = column;
+            // }
+        },
+    }
 }
 </script>

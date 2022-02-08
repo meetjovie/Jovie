@@ -1,7 +1,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
     <Listbox as="div" v-model="selected">
-        <ListboxLabel v-if="label" :for="name" class="block text-sm font-medium text-gray-700">
+        <ListboxLabel v-if="label && showLabel" :for="name" class="block text-sm font-medium text-gray-700">
             {{ label }}
         </ListboxLabel>
         <div class="relative">
@@ -56,28 +56,34 @@ export default {
             default: []
         },
         label: String,
+        showLabel: Boolean,
         name: String
     },
     data() {
         return {
-            selected: null,
+            selected: 'Select',
         }
     },
     computed: {
         options() {
+            let items = {}
             if (Array.isArray(this.items)) {
-                let items = {}
                 this.items.map(option => {
                     items[option] = option
                 })
-                return items
             }
+            items['Select'] = 'Select'
+            return items
         }
     },
     watch: {
         selected(val) {
-            console.log(val);
+            this.$emit('select', {key: this.label, value: val})
         }
+    },
+    mounted() {
+        console.log('this.options');
+        console.log(this.options);
     }
 }
 </script>
