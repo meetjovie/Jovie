@@ -50,12 +50,12 @@
                 </th>
                 <th
                     scope="col"
-                    class="hidden lg:table-cell px-2 py-3 text-center text-xs font-medium text-gray-500 tracking-wider"
+                    class="hidden lg:table-cell px-2 text-center text-xs font-medium text-gray-500 tracking-wider"
                 >
                 <div class="shrink grid xl:grid-cols-2 2xl:grid-cols-3 text-center">
-                    <div>Followers</div>
-                    <div class="hidden xl:table-cell">ER</div>
-                    <div class="hidden 2xl:table-cell">EF</div>
+                    <div class=" py-3 h-full hover:bg-indigo-50 cursor-pointer">Followers</div>
+                    <div class=" py-3 h-full hover:bg-indigo-50 cursor-pointer hidden xl:table-cell">ER</div>
+                    <div class=" py-3 h-full hover:bg-indigo-50 cursor-pointer hidden 2xl:table-cell">EF</div>
                     </div>
                 </th>
                 <th
