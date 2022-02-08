@@ -62,7 +62,7 @@
 </svg>
                     </div>
                 </a>
-                <div v-for="navitem in nav" :key="navitem" class="flex-1 z-30 mt-4 w-full">
+                <div v-for="navitem in nav" :key="navitem" class="flex-1 z-50 mt-4 w-full">
                     <div :href="navitem.href" :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
                         
                         <component :is="navitem.icon" class="h-5 w-5"></component>
@@ -89,9 +89,9 @@
         
         <!-- Static sidebar for desktop -->
 
-        <div class="z-50 flex flex-col w-0 flex-1 overflow-hidden">
+        <div class="z-10 flex flex-col w-0 flex-1 overflow-hidden">
             <div
-                class="relative z-30 flex-shrink-0 flex h-10 bg-white/50 backdrop-filter backdrop-blur-xl border-1 border-b"
+                class="relative z-50 flex-shrink-0 flex h-10 bg-white/100 backdrop-filter backdrop-blur-xl border-1 border-b"
             >
                 <button
                     id="showSidebar"
@@ -115,12 +115,12 @@
                         />
                     </svg>
                 </button>
-                <div class="flex-1 z-50 px-2 flex justify-between">
-                    <div class="flex-1 z-50 flex text-left">
+                <div class="flex-1 z-10 px-2 flex justify-between">
+                    <div class="flex-1 z-10 flex text-left">
                         <div
                             class="ml-0 px-4 py-2 sm:px-6 md:px-8 text-left text-sm font-semibold text-indigo-600"
                         >
-                            <nav class="flex z-50" aria-label="Breadcrumb">
+                            <nav class="flex z-10" aria-label="Breadcrumb">
                                 <ol
                                     role="list"
                                     class="flex items-center space-x-4"
@@ -171,7 +171,7 @@
                         </div>
                     </div>
 
-                    <div class="ml-2 z-50 flex items-center md:ml-6">
+                    <div class="ml-2 z-10 flex items-center md:ml-6">
                         <button
                             class="active:bg-neutral-100 active:text-neutral-700 transition duration-300 ease-in-out p-1 rounded-full text-neutral-400 hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
                         >
