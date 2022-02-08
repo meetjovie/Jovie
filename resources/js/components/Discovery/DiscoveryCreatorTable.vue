@@ -38,13 +38,13 @@
                 </th>
                 <th
                     scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider"
+                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 tracking-wider"
                 >
-                    Creator
+                    Creators
                 </th>
                 <th
                     scope="col"
-                    class="table-cell px-2 py-3 text-left text-xs font-medium text-gray-500 tracking-wider"
+                    class="table-cell px-2 py-3 text-center text-xs font-medium text-gray-500 tracking-wider"
                 >
                     Content
                 </th>
@@ -52,11 +52,15 @@
                     scope="col"
                     class="hidden lg:table-cell px-2 py-3 text-center text-xs font-medium text-gray-500 tracking-wider"
                 >
-                    Metrics
+                <div class="shrink grid xl:grid-cols-2 2xl:grid-cols-3 text-center">
+                    <div>Followers</div>
+                    <div class="hidden xl:table-cell">ER</div>
+                    <div class="hidden 2xl:table-cell">EF</div>
+                    </div>
                 </th>
                 <th
                     scope="col"
-                    class="lg:table-cell px-2 py-3 text-center text-xs font-medium text-gray-500 tracking-wider"
+                    class="lg:table-cell sr-only px-2 py-3 text-center text-xs font-medium text-gray-500 tracking-wider"
                 >
                    Manage
                 </th>
@@ -108,7 +112,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="flex-none px-4 justify-center py-1 border w-80 whitespace-nowrap">
+                <td class="flex-none px-4 justify-center py-1 border-l w-80 whitespace-nowrap">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-24 w-24 mr-2">
                             <img
@@ -118,7 +122,7 @@
                             />
                         </div>
                         <div class="w-72">
-                            <div class="flex text-xs font-medium text-gray-900">
+                            <div class="flex text-2xs font-medium text-gray-900">
                                 {{ creator.name }}
                                 <div class="text-white">
                                     <svg
@@ -146,14 +150,14 @@
                     </div>
                 </td>
                
-                <td class="flex-grow w-24 lg:w-48 xl:w-72 border items-center border-collapse border-1 whitespace-nowrap">
+                <td class="flex-grow w-24 lg:w-48 xl:w-72 items-center whitespace-nowrap">
                     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-                        <img class="h-24 first:rounded-l-md last:rounded-r-md object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
-                        <img class="hidden lg:block h-24 first:rounded-l-md last:rounded-r-md object-cover object-center" src="https://s.yimg.com/uu/api/res/1.2/3K4_072nW1zxZyXMMPRG9g--~B/aD02ODM7dz0xMDI0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/footwear_news_642/60da97df5a3b2369a9fca48275eb4119">
-                        <img class="hidden xl:block h-24 first:rounded-l-md last:rounded-r-md object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
+                        <img class="h-24 w-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
+                        <img class="hidden lg:block w-24 h-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://s.yimg.com/uu/api/res/1.2/3K4_072nW1zxZyXMMPRG9g--~B/aD02ODM7dz0xMDI0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/footwear_news_642/60da97df5a3b2369a9fca48275eb4119">
+                        <img class="hidden xl:block w-24 h-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
                     </div>
                 </td>
-                <td class="hidden lg:table-cell border border-collapse border-1 w-24 xl:w-48 2xl:w-72 whitespace-nowrap">
+                <td class="hidden lg:table-cell border-r border-collapse border-1 w-24 xl:w-48 2xl:w-72 whitespace-nowrap">
                     <div class="shrink grid xl:grid-cols-2 2xl:grid-cols-3 text-center">
                         <div>
                             <div class="font-bold">234</div>
