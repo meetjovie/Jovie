@@ -73,7 +73,7 @@
                 class="hover:bg-indigo-50 focus:ring-indigo-700 group border border-neutral-200 border-1 border-collapse overflow-y-visible"
             >
                 <td
-                    class="hidden lg:table-cell px-2 py-1 w-14 text-center text-gray-300 group-hover:text-neutral-500 text-xs font-bold whitespace-nowrap"
+                    class="hidden lg:table-cell pl-2 pr-4 py-1 w-16 text-center text-gray-300 group-hover:text-neutral-500 text-xs font-bold whitespace-nowrap"
                 >
                     <div class="grid grid-cols-2 items-center">
                         <div class="group mr-2">
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="flex-none px-2 border w-72 whitespace-nowrap">
+                <td class="flex-none px-4 justify-center py-1 border w-80 whitespace-nowrap">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-24 w-24 mr-2">
                             <img
@@ -118,10 +118,21 @@
                             />
                         </div>
                         <div class="w-72">
-                            <div class="text-xs font-medium text-gray-900">
+                            <div class="flex text-xs font-medium text-gray-900">
                                 {{ creator.name }}
+                                <div class="text-white">
+                                    <svg
+                                                
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-4 w-4 -mt-1" fill="indigo"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round" stroke-width="2"
+                                                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                    </svg>
+                                </div>
                             </div>
-                            <div class="text-2xs break-words line-clamp-2 wrap font-medium text-gray-900">
+                            <div class="text-2xs break-words line-clamp-1 truncate wrap font-light text-gray-900">
                                 {{ creator.bio }}
                             </div>
                             <div class="text-xs font-medium text-gray-900">
@@ -130,29 +141,29 @@
                                 <CreatorTags color="blue" text="Music" />
                                 <CreatorTags color="pink" text="Other" />
                             </div>
-                            <CreatorSocialLinks />
+                            <CreatorSocialLinks class="mt-2" />
                         </div>
                     </div>
                 </td>
                
-                <td class="flex-grow w-24 xl:w-48 2xl:w-72 border items-center border-collapse border-1 whitespace-nowrap">
-                    <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3">
+                <td class="flex-grow w-24 lg:w-48 xl:w-72 border items-center border-collapse border-1 whitespace-nowrap">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
                         <img class="h-24 first:rounded-l-md last:rounded-r-md object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
-                        <img class="hidden xl:block h-24 first:rounded-l-md last:rounded-r-md object-cover object-center" src="https://s.yimg.com/uu/api/res/1.2/3K4_072nW1zxZyXMMPRG9g--~B/aD02ODM7dz0xMDI0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/footwear_news_642/60da97df5a3b2369a9fca48275eb4119">
-                        <img class="hidden 2xl:block h-24 first:rounded-l-md last:rounded-r-md object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
+                        <img class="hidden lg:block h-24 first:rounded-l-md last:rounded-r-md object-cover object-center" src="https://s.yimg.com/uu/api/res/1.2/3K4_072nW1zxZyXMMPRG9g--~B/aD02ODM7dz0xMDI0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/footwear_news_642/60da97df5a3b2369a9fca48275eb4119">
+                        <img class="hidden xl:block h-24 first:rounded-l-md last:rounded-r-md object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
                     </div>
                 </td>
-                <td class="hidden lg:table-cell border border-collapse border-1 w-72 whitespace-nowrap">
-                    <div class="grid grid-cols-3 text-center">
+                <td class="hidden lg:table-cell border border-collapse border-1 w-24 xl:w-48 2xl:w-72 whitespace-nowrap">
+                    <div class="shrink grid xl:grid-cols-2 2xl:grid-cols-3 text-center">
                         <div>
                             <div class="font-bold">234</div>
                             <div class="text-xs">Followers</div>
                         </div>
-                        <div>
+                        <div class="hidden xl:block">
                             <div class="font-bold">234</div>
                             <div class="text-xs">Engagement</div>
                         </div>
-                        <div>
+                        <div class="hidden 2xl:block">
                             <div class="font-bold">234</div>
                             <div class="text-xs">EF%</div>
                         </div>

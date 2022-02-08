@@ -62,13 +62,13 @@
 </svg>
                     </div>
                 </a>
-                <div v-for="navitem in nav" :key="navitem" class="flex-1 mt-4 w-full">
+                <div v-for="navitem in nav" :key="navitem" class="flex-1 z-30 mt-4 w-full">
                     <div :href="navitem.href" :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
                         
                         <component :is="navitem.icon" class="h-5 w-5"></component>
                             
                         
-                        <div class="hidden text-md group-hover:block absolute left-14 z-50  middle-8 rounded-r-lg bg-white/60 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
+                        <div class="hidden text-md group-hover:block absolute left-14 middle-8 rounded-r-lg bg-white/60 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
                         {{navitem.name}}
                         </div>
                     </div>
