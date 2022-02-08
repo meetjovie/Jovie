@@ -50,12 +50,21 @@
                 </th>
                 <th
                     scope="col"
-                    class="hidden lg:table-cell px-2 text-center text-xs font-medium text-gray-500 tracking-wider"
+                    class="hidden lg:table-cell text-center text-xs font-medium text-gray-500 tracking-wider"
                 >
                 <div class="shrink grid xl:grid-cols-2 2xl:grid-cols-3 text-center">
-                    <div class=" py-3 h-full hover:bg-indigo-50 cursor-pointer">Followers</div>
-                    <div class=" py-3 h-full hover:bg-indigo-50 cursor-pointer hidden xl:table-cell">ER</div>
-                    <div class=" py-3 h-full hover:bg-indigo-50 cursor-pointer hidden 2xl:table-cell">EF</div>
+                    <div class="inline-flex pl-1 py-3 justify-center items-center h-full hover:bg-indigo-50 cursor-pointer">
+                        Followers
+                         <ChevronDownIcon class="h-3 w-3 ml-1 mt-0.5 text-gray-500" />
+                    </div>
+                    <div class="py-3 h-full group items-center justify-center hover:bg-indigo-50 cursor-pointer hidden xl:inline-flex">
+                        ER
+                       <ChevronUpIcon class="hidden group-hover:block h-3 w-3 ml-1 text-gray-500" />
+                    </div>
+                    <div class="pr-1 py-3 group justify-center items-center h-full hover:bg-indigo-50 cursor-pointer hidden 2xl:inline-flex">
+                         EF
+                         <ChevronDownIcon class="hidden group-hover:block h-3 w-3 ml-1 mt-0.5 text-gray-500" />
+                        </div>
                     </div>
                 </th>
                 <th
@@ -136,7 +145,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="text-2xs break-words line-clamp-1 truncate wrap font-light text-gray-900">
+                            <div class="text-2xs truncate wrap font-light text-gray-900">
                                 {{ creator.bio }}
                             </div>
                             <div class="text-xs font-medium text-gray-900">
@@ -159,20 +168,25 @@
                 </td>
                 <td class="hidden lg:table-cell border-r border-collapse border-1 w-24 xl:w-48 2xl:w-72 whitespace-nowrap">
                     <div class="shrink grid xl:grid-cols-2 2xl:grid-cols-3 text-center">
-                        <div>
-                            <div class="font-bold">234</div>
-                            <div class="text-xs">Followers</div>
-                        </div>
+                        
+                            <div>
+                                <div class="font-bold">234</div>
+                                <div class="text-xs">Followers</div>
+                            </div>
+                           
+                      
                         <div class="hidden xl:block">
                             <div class="font-bold">234</div>
                             <div class="text-xs">Engagement</div>
+                             
                         </div>
                         <div class="hidden 2xl:block">
                             <div class="font-bold">234</div>
                             <div class="text-xs">EF%</div>
                         </div>
-
                     </div>
+
+                   
                 </td>
                 <td
                     class="flex-grow px-6 py-1 W-28 whitespace-nowrap text-sm text-gray-500"
@@ -281,6 +295,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import {
     DotsVerticalIcon,
     ChevronDownIcon,
+    ChevronUpIcon,
     CheckIcon,
     SearchCircleIcon,
 } from "@heroicons/vue/solid";
@@ -323,6 +338,7 @@ export default {
         SearchCircleIcon,
         CreatorTags,
         CreatorSocialLinks,
+        ChevronUpIcon,
     },
     data() {
         return {
