@@ -19,8 +19,8 @@
             <div class="py-4 px-4 text-left items-center ">
                 <ButtonGroup text="Back"></ButtonGroup>
             </div>
-            <div class="py-4 px-4 text-right items-center ">
-                <ButtonGroup text="Finish"></ButtonGroup>
+            <div class="py-4 px-4 text-right items-center">
+                <ButtonGroup text="Finish" :disabled="!Object.keys(mappedColumns).length" @click="$emit('finish')"></ButtonGroup>
             </div>
         </div>
     </div>
