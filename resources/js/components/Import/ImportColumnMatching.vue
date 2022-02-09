@@ -1,6 +1,6 @@
 <template>
     <div class="items-center mx-auto min-h-screen">
-        <div class="mx-auto bg-white rounded-lg shadow-lg max-w-3xl mt-12 items-center h-full justify-center ">
+        <div class="mx-auto bg-white rounded-lg shadow-lg max-w-3xl mt-12 mb-8 items-center h-full justify-center ">
             <CardHeading title="Import" subtitle="Please select the columns you wish to import into Jovie." />
             <table class="w-full rounded-md px-8">
                 <tr class="border-b border border-neutrual-400 text-neutral-500 rounded-md-t">
@@ -16,11 +16,13 @@
                     </td>
                 </tr>
             </table>
-            <div class="py-4 px-4 text-left items-center ">
-                <ButtonGroup text="Back"></ButtonGroup>
-            </div>
-            <div class="py-4 px-4 text-right items-center ">
-                <ButtonGroup text="Finish"></ButtonGroup>
+            <div class="flex py-4 px-4 justify-between items-center ">
+                <div>
+                    <ButtonGroup text="Back" class="justify-left"></ButtonGroup>
+                </div>
+                <div>
+                <ButtonGroup text="Finish" class="justify-right"></ButtonGroup>
+                </div>
             </div>
         </div>
     </div>
