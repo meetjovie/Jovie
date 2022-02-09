@@ -2,7 +2,7 @@
 
     <div>
         <div v-if="showMapping">
-            <ImportColumnMatching :columns="columns"></ImportColumnMatching>
+            <ImportColumnMatching @finish="importFile()" :columns="columns"></ImportColumnMatching>
         </div>
         <div v-else class="container mt-6 py-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div>
@@ -135,6 +135,9 @@ export default {
             }).finally(response => {
                 this.fetchingColumns = false
             })
+        },
+        importFile() {
+            console.log('finish');
         }
     }
 }
