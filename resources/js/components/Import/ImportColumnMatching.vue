@@ -12,7 +12,7 @@
                         {{ unSlugify(column) }}
                     </td>
                     <td class="px-2 py-1 justify-center items-center">
-                        <SelectMenu v-on:select="setMappedColumns" :label="column" :show-label="false" :items="columnsToMap" name="columnsToMap" class="rounded-md inline w-72"></SelectMenu>
+                        <ColumnsDropdown :ref="'columnDropdown_'+column" @setMappedColumns="setMappedColumns" :mappedColumns="mappedColumns" :column="column" :columnsToMap="columnsToMap" class="rounded-md inline w-72" />
                     </td>
                 </tr>
             </table>
@@ -27,14 +27,14 @@
 
 </template>
 <script>
-import SelectMenu from "../SelectMenu.vue";
 import ButtonGroup from "../ButtonGroup.vue";
 import CardHeading from "../CardHeading.vue";
+import ColumnsDropdown from "./ColumnsDropdown";
 
 export default {
     name: "ImportColumnMatching",
     components: {
-        SelectMenu,
+        ColumnsDropdown,
         ButtonGroup,
         CardHeading,
     },
@@ -55,31 +55,32 @@ export default {
                 'tiktok',
                 'instagramFollowersCount',
                 'youtubeFollowersCount',
-                'email',
+                'youtubeFollowersCount',
+                'twitterFollowersCount',
+                'onlyFansFollowersCount',
+                'twitchFollowersCount',
+                'tiktokFollowersCount',
+                'email1',
+                'email2',
             ],
             mappedColumns: {}
         }
     },
     methods: {
-        setMappedColumns({key, value}) {
-            console.log(key);
-            console.log(value);
-            // const mapColumn = e.target.value
-            // if (this.mappedColumns.hasOwnProperty(mapColumn)) {
-            //     toastr.error('This column is already selected.')
-            //     e.target.value = ''
-            //     return
-            // }
-            // if (!mapColumn) {
-            //     for (const [key, value] of Object.entries(this.mappedColumns)) {
-            //         if (value == column) {
-            //             delete this.mappedColumns[key]
-            //             break
-            //         }
-            //     }
-            // } else {
-            //     this.mappedColumns[mapColumn] = column;
-            // }
+        setMappedColumns({mapColumn, column}) {
+            if (this.mappedColumns.hasOwnProperty(mapColumn)) {
+                this.$refs[`columnDropdown_${column}`][0].selected = null
+                return
+            }
+            for (const [key, value] of Object.entries(this.mappedColumns)) {
+                if (value === column) {
+                    delete this.mappedColumns[key]
+                    break
+                }
+            }
+            if (mapColumn) {
+                this.mappedColumns[mapColumn] = column;
+            }
         },
     }
 }
