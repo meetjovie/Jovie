@@ -63,7 +63,7 @@
                     </div>
                 </a>
                 <div v-for="navitem in nav" :key="navitem" class="flex-1 z-50 mt-4 w-full">
-                    <div :href="navitem.href" :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
+                    <div :href="route" :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
                         
                         <component :is="navitem.icon" class="h-5 w-5"></component>
                             
@@ -206,8 +206,9 @@
                                 @click="isShowing = !isShowing"
                             >
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full object-cover"
-                                    src="https://ui-avatars.com/api/?name=&color=7F9CF5&background=EBF4FF" />
+                                Menu here
+                                    <!-- <img class="h-8 w-8 rounded-full object-cover" id="profile_pic_url_img" ref="profile_pic_url_img" :src="$store.state.AuthState.user.profile_pic_url ?? $store.state.AuthState.user.default_image"> -->
+                                    
                             </MenuButton>
 
                             <MenuList>
@@ -298,6 +299,7 @@
 <script>
 import { HomeIcon, SearchIcon, MailIcon, ChartBarIcon, ChevronLeftIcon, CheckCircleIcon,CloudUploadIcon, UserGroupIcon, FolderOpenIcon, CogIcon } from "@heroicons/vue/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+
 
 const pages = [
     { name: "CRM", href: "/outreach", current: false },

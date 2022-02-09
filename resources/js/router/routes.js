@@ -13,9 +13,9 @@ export const routes = [{
         component: loadPage('Home')
     },
     {
-        name: 'profile',
-        path: '/profile',
-        component: loadPage('Profile'),
+        name: 'account',
+        path: '/account',
+        component: loadPage('Account'),
         beforeEnter: authenticationGuard,
         meta: {
             layout: 'App'
@@ -97,5 +97,13 @@ export const routes = [{
         meta: {
             layout: 'App'
         }
-    }
+    },
+    {
+        name: 'Profile',
+        path: '/tim',
+        component: loadPage('CreatorProfile'),
+        meta: {
+            layout: 'Default'
+        }
+    },
 ]

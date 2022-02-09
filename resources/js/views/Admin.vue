@@ -17,8 +17,6 @@
                                     <div class="text-4xl font-medium text-indigo-700">
                                        
                                        1
-
-                
                                         
                                     </div>
                                 </dd>

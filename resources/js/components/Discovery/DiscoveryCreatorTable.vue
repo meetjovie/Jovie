@@ -131,7 +131,7 @@
                             />
                         </div>
                         <div class="w-72">
-                            <div class="flex text-2xs font-medium text-gray-900">
+                            <div class="flex text-xs font-medium text-gray-900">
                                 {{ creator.name }}
                                 <div class="text-white">
                                     <svg
@@ -145,16 +145,16 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="text-2xs truncate wrap font-light text-gray-900">
+                            <div class="text-2xs truncate -mt-1 wrap font-light text-gray-900">
                                 {{ creator.bio }}
                             </div>
-                            <div class="text-xs font-medium text-gray-900">
+                            <div class="text-xs py-1 font-medium text-gray-900">
                                  <CreatorTags color="None" text="Category" />
                                 <CreatorTags color="purple" text="Fashion" />
                                 <CreatorTags color="blue" text="Music" />
                                 <CreatorTags color="pink" text="Other" />
                             </div>
-                            <CreatorSocialLinks class="mt-2" />
+                            <CreatorSocialLinks class="mt-1" />
                         </div>
                     </div>
                 </td>

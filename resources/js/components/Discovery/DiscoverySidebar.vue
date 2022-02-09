@@ -13,7 +13,7 @@
                     <CreatorAvatar as="div" class="col-span-1 w-40 h-40 aspect-square" size="lg" />
                     <div class="block col-span-3 px-4">
                         <div class="text-md font-bold">Creator Name</div>
-                        <div class="text-sm">Creator Bios are longer and bording
+                        <div class="text-sm">Creator Bios are long and bording
                             they ramble on and on and never seem to get anywhere
                             omg this is so long
                             I can't even finish this sentence
