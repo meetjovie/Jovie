@@ -4,7 +4,7 @@
       <div class="w-full border-t border-gray-300" />
     </div>
     <div class="relative flex justify-start">
-      <span class="pr-2 bg-neutral-100 text-xs text-gray-500"> {{label}}</span>
+      <span class="pr-2 bg-white text-xs text-gray-500"> {{label}}</span>
     </div>
   </div>
 <div class="grid grid-cols-2">
