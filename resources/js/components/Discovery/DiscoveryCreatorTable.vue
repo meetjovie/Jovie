@@ -1,5 +1,5 @@
 <template>
-    <table class="min-w-full divide-y divide-gray-200">
+    <table class="min-w-full overflow-y-scroll overscroll-contain divide-y divide-gray-200 ">
         <thead class="bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150 sticky top-0">
             <tr>
                 <th

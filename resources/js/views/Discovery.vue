@@ -8,12 +8,12 @@
         
         <div v-if="searchopen" class="hidden lg:flex w-60 z-10 bg-white shadow-lg">
           
-          <nav aria-label="Searchbar" class="sticky top-0 min-h-screen overflow-y-noscroll divide-y divide-gray-300">
+          <nav aria-label="Searchbar" class="sticky top-0 min-h-screen divide-y divide-gray-300">
             <DiscoverySearch></DiscoverySearch>
           </nav>
         </div>
     
-        <main class="flex-auto">
+        <main class="flex-auto overflow-hidden overscroll-contain">
           <button @click="searchopen = !searchopen">
             <SearchIcon class="h-5 w-5 text-gray-700 hover:text-indigo-700" aria-hidden="true"></SearchIcon>
           </button>
