@@ -7,7 +7,7 @@
                         <h3 class="text-lg font-medium text-neutral-900">Profile Information</h3>
 
                         <p class="mt-1 text-sm text-neutral-600">
-                            Update your account's profile information and email address.
+                            Update your account information and email address.
                         </p>
                     </div>
 
@@ -80,30 +80,17 @@
                             </button>
                         </div>
                     </form>
-                    <!-- This example requires Tailwind CSS v2.0+ -->
-                    <div class="bg-white mt-8 shadow sm:rounded-lg">
-                        <div class="px-4 py-5 sm:p-6">
-                            <div class="sm:flex sm:items-start sm:justify-between">
-                                <div>
-                                    <h3 class="text-lg leading-6 font-medium text-neutral-900">
-                                        Manage subscription
-                                    </h3>
-                                    <div class="mt-2 max-w-xl text-sm text-neutral-500">
-                                        <p>
-                                            You can change your plan at any time. You're currently subscribed to:
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="mt-5 sm:mt-0 sm:ml-6 sm:flex-shrink-0 sm:flex sm:items-center">
-                                    <a href="/billing">
-                                        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-                                            Change plan
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
+                    
+                    <CardLayout>
+                       <CardHeading title="Manage Subscription" subtitle="You can change your plan at any time." buttontext="Delete" buttocolor="red" />
+                   </CardLayout>
+                    <CardLayout> 
+                        <CardHeading title="Delete Account" subtitle="This is permanent and cannot be undone.">
+                       <ButtonGroup icon="BanIcon" text="hi" />
+                       </CardHeading>
+                   </CardLayout>
+                   
 
                 </div>
             </div>
@@ -121,10 +108,12 @@
 <script>
 import UserService from "../services/api/user.service";
 import InputGroup from "../components/InputGroup";
+import CardHeading from "../components/CardHeading";
+import CardLayout from "../components/CardLayout";
 
 export default {
-    name: "Profile",
-    components: {InputGroup},
+    name: "Account",
+    components: {InputGroup, CardHeading, CardLayout},
     data() {
         return {
             errors: {},
