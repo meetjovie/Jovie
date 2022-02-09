@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-4 py-4 px-2 gap-y-2">
-        <InputGroup class="col-span-4" icon="PhotographIcon" text="ContentSearch" placeholder="Search" label="Search" />
-        <div>Network1</div>
+        <InputGroup class="col-span-4" icon="PhotographIcon" text="ContentSearch" placeholder="Search" />
+        
          <InputGroup class="col-span-4" icon="TagIcon" text="TagsSearch" placeholder="Tags & Categories" />
          <SelectMenu />
        
@@ -19,7 +19,7 @@
     <InputGroup class="col-span-4" icon="BriefcaseIcon" placeholder="Brand Mentions" />
        
         <div class="col-span-4 justify-right text-right">
-            <ButtonGroup text="Search" class="w-full">Search</ButtonGroup>
+            <ButtonGroup text="Search" class="w-full"></ButtonGroup>
             <span class="text-indigo-500 justify-right text-xs text-right cursor-pointer">Reset</span>
         </div>
     </div>

@@ -161,9 +161,9 @@
                
                 <td class="flex-grow w-24 lg:w-48 xl:w-72 items-center whitespace-nowrap">
                     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-                        <img class="h-24 w-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
-                        <img class="hidden lg:block w-24 h-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://s.yimg.com/uu/api/res/1.2/3K4_072nW1zxZyXMMPRG9g--~B/aD02ODM7dz0xMDI0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/footwear_news_642/60da97df5a3b2369a9fca48275eb4119">
-                        <img class="hidden xl:block w-24 h-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://static.onecms.io/wp-content/uploads/sites/35/2015/05/03203022/20.jpg">
+                        <img class="h-24 w-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://i.pravatar.cc/150?img=1">
+                        <img class="hidden lg:block w-24 h-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://i.pravatar.cc/150?img=4">
+                        <img class="hidden xl:block w-24 h-24 first:rounded-l-md last:rounded-r-md aspect-square object-cover object-center" src="https://i.pravatar.cc/150?img=9">
                     </div>
                 </td>
                 <td class="hidden lg:table-cell border-r border-collapse border-1 w-24 xl:w-48 2xl:w-72 whitespace-nowrap">
@@ -359,6 +359,9 @@ export default {
                     contacted: "1/12/2020",
                     campaign: "Zelf Beta",
                     avatar: "https://i.pravatar.cc/150?img=1",
+                    timeline1: "https://i.pravatar.cc/150?img=1",
+                    timeline2: "https://i.pravatar.cc/150?img=2",
+                    timeline3: "https://i.pravatar.cc/150?img=3",
                 },
                 {
                     id: 2,
