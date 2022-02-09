@@ -39,21 +39,18 @@
                 <Tab  v-slot="{ selected }" as="div" :class="[selected ? 'bg-indigo-700 text-white' : 'relative active:bg-indigo-700 active:text-white  inline-flex items-center px-4 py-1 rounded-r-md border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 cursor-pointer']">Rejected</Tab>
             </TabList>
         </div>
-        <div>
+        <div class="items-center">
+            <button as="div" class="inline relative active:bg-indigo-700 active:text-white  active:bg-indigo-700 active:text-white inline-flex items-center px-4 py-1 rounded-md border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 cursor-pointer">Export</button>
+           <Popover v-slot="{ open }" class="inline relative z-20">
+            <PopoverButton as="div" class="relative active:bg-indigo-700 active:text-white  active:bg-indigo-700 active:text-white inline-flex items-center px-4 py-1 rounded-md border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 cursor-pointer">
+                <ChevronRightIcon class="h-5 w-5"></ChevronRightIcon>
+            </PopoverButton>
+            <DiscoverySidebar></DiscoverySidebar>
+           <PopoverOverlay
+                class="bg-black "
+                :class='open ? "opacity-30 backdrop-filter backdrop-blur-2xl z-20 fixed h-full inset-0" : "opacity-0"'
+                /> 
             
-           <Popover class="relative">
-            <PopoverButton as="div" class="relative active:bg-indigo-700 active:text-white  active:bg-indigo-700 active:text-white inline-flex items-center px-4 py-1 rounded-md border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 cursor-pointer">Export</PopoverButton>
-            <PopoverOverlay
-                class="bg-black"
-                :class='open ? "opacity-30 fixed inset-0" : "opacity-0"'
-                />
-            <PopoverPanel class="absolute right-0 middle-0 w-96 z-20">
-            <div class="grid grid-cols-1 px-4 py-4 bg-white/90 backdrop-filter backdrop-blur-xl shadow-xl w-80 mt-2 rounded-md">
-                <div></div>
-            </div>
-
-            <img src="/solutions.jpg" alt="" />
-            </PopoverPanel>
         </Popover>
         </div>
     </div>
@@ -62,6 +59,7 @@
 import { TabList, Tab,  } from '@headlessui/vue'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
 import { StarIcon, ChevronRightIcon, SwitchHorizontalIcon, ChevronDownIcon, ThumbUpIcon, ThumbDownIcon, HeartIcon, BanIcon, RefreshIcon, TagIcon, ClipboardListIcon } from '@heroicons/vue/solid'
+import DiscoverySidebar from './DiscoverySidebar.vue'
 
 
 export default {
@@ -82,7 +80,8 @@ export default {
         RefreshIcon,
         TagIcon,
         ClipboardListIcon,
-        SwitchHorizontalIcon
+        SwitchHorizontalIcon,
+        DiscoverySidebar
         
     
     },

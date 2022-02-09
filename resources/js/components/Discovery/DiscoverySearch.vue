@@ -1,38 +1,43 @@
 <template>
-    <div class="grid grid-cols-4 py-4 px-2 gap-y-2">
-        <InputGroup class="col-span-4" icon="PhotographIcon" text="ContentSearch" placeholder="Search" label="Search" type="input" />
-        <div>Network1</div>
-        <div>Content Search</div>
-        <div>Tags and Categories</div>
-        <MultiButton />
-        <InputGroup class="col-span-4" icon="LocationMarkerIcon" placeholder="Location" />
-        
-       <div class="col-span-4">
-           <RangeFilter name="Follower"/>
-           <RangeFilter name="Engagement"/>
-        </div> 
-    
-       
-        <div class="col-span-4 justify-right text-right">
-            <ButtonGroup text="Search" class="w-full">Search</ButtonGroup>
-            <span class="text-indigo-500 justify-right text-xs text-right cursor-pointer">Reset</span>
-        </div>
-    </div>
+  <TabGroup>
+    <TabList class="grid grid-cols-3 px-2 py-1"  :defaultIndex="1">
+        <Tab  class="inline-flex text-2xs font-bold text-center items-center justify-center"
+            :class="[selected ? 'bg-indigo-500 text-white' : 'bg-white text-black']">
+          <img height="12" width="12" class="mr-1" src="https://unpkg.com/simple-icons@v6/icons/instagram.svg" />
+          Instagram
+        </Tab>
+        <Tab class="inline-flex text-2xs font-bold text-center items-center justify-center"
+             :class="[selected ? 'bg-indigo-500 text-white' : 'bg-white text-black']">
+          <img height="12" width="12" class="mr-1" src="https://unpkg.com/simple-icons@v6/icons/tiktok.svg" />
+          Tiktok
+        </Tab>
+        <Tab class="inline-flex text-2xs font-bold text-center items-center justify-center"
+         :class="[selected ? 'bg-indigo-500 text-white' : 'bg-white text-black']">
+          <img height="12" width="12" class="mr-1" src="https://unpkg.com/simple-icons@v6/icons/youtube.svg" />
+          Youtube
+        </Tab>
+    </TabList>
+    <TabPanels>
+      <TabPanel><DiscoverySearchTiktok></DiscoverySearchTiktok></TabPanel>
+      <TabPanel>Content 2</TabPanel>
+      <TabPanel>Content 3</TabPanel>
+    </TabPanels>
+  </TabGroup>
 </template>
+
 <script>
-import InputGroup from '../InputGroup.vue'
-import ButtonGroup from '../ButtonGroup.vue'
-import MultiButton from '../MultiButton.vue'
-import RangeFilter from '../RangeFilter.vue'
+  import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+  import DiscoverySearchTiktok from '../Discovery/DiscoverySearchTiktok.vue'
+  
 
-
-export default {
+  export default {
     components: {
-        InputGroup,
-        ButtonGroup,
-        MultiButton,
-        RangeFilter,
-
+      TabGroup,
+      TabList,
+      Tab,
+      TabPanels,
+      TabPanel,
+      DiscoverySearchTiktok,
     },
-}
+  }
 </script>

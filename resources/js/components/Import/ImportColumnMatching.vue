@@ -2,34 +2,34 @@
     <div class="items-center mx-auto min-h-screen">
         <div class="mx-auto bg-white rounded-lg shadow-lg max-w-3xl mt-12 items-center h-full justify-center ">
             <CardHeading title="Import" subtitle="Please select the columns you wish to import into Jovie." />
-            <table class="w-full rounded-md px-8"> 
+            <table class="w-full rounded-md px-8">
                 <tr class="border-b border border-neutrual-400 text-neutral-500 rounded-md-t">
                     <th class="font-medium">Columns from <span class="font-bold">imports.csv</span></th>
                     <th>Import to...</th>
                 </tr>
-                <tr v-for="column in columns" :key="column.name" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
-                    <td class="px-2 py-1 justify-center items-center">
-                       
-                        <SelectMenu class="rounded-md inline w-72"></SelectMenu>
-                    </td>  
+                <tr v-for="column in columns" :key="column" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
                     <td class="text-sm last:rounded-md-br text-indigo-700 font-bold py-2 text-center mx-auto items-center">
-                        {{column.name}}
-                    </td> 
-                </tr>                        
+                        {{ unSlugify(column) }}
+                    </td>
+                    <td class="px-2 py-1 justify-center items-center">
+                        <SelectMenu v-on:select="setMappedColumns" :label="column" :show-label="false" :items="columnsToMap" name="columnsToMap" class="rounded-md inline w-72"></SelectMenu>
+                    </td>
+                </tr>
             </table>
-            <div class="py-4 px-4 justify-right text-right items-center ">
+            <div class="py-4 px-4 text-left items-center ">
+                <ButtonGroup text="Back"></ButtonGroup>
+            </div>
+            <div class="py-4 px-4 text-right items-center ">
                 <ButtonGroup text="Finish"></ButtonGroup>
             </div>
         </div>
     </div>
-    
+
 </template>
 <script>
 import SelectMenu from "../SelectMenu.vue";
 import ButtonGroup from "../ButtonGroup.vue";
 import CardHeading from "../CardHeading.vue";
-
-
 
 export default {
     name: "ImportColumnMatching",
@@ -38,33 +38,49 @@ export default {
         ButtonGroup,
         CardHeading,
     },
-    data() {
-        return {
-            columns: [
-                    {
-                        name: 'First Name',
-                        type: 'text',
-                        field: 'first_name',
-                    },
-                    {
-                        name: 'Last Name',
-                        type: 'text',
-                        field: 'last_name',
-                    },
-                    {
-                        name: 'Email',
-                        type: 'email',
-                        field: 'email',
-                    },
-                    {
-                        name: 'Phone',
-                        type: 'text',
-                        field: 'phone',
-                    }
-                ],
-
+    props: {
+        columns: {
+            type: Array,
+            default: []
         }
     },
-
+    data() {
+        return {
+            columnsToMap: [
+                'instagram',
+                'youtube',
+                'twitter',
+                'onlyFans',
+                'twitch',
+                'tiktok',
+                'instagramFollowersCount',
+                'youtubeFollowersCount',
+                'email',
+            ],
+            mappedColumns: {}
+        }
+    },
+    methods: {
+        setMappedColumns({key, value}) {
+            console.log(key);
+            console.log(value);
+            // const mapColumn = e.target.value
+            // if (this.mappedColumns.hasOwnProperty(mapColumn)) {
+            //     toastr.error('This column is already selected.')
+            //     e.target.value = ''
+            //     return
+            // }
+            // if (!mapColumn) {
+            //     for (const [key, value] of Object.entries(this.mappedColumns)) {
+            //         if (value == column) {
+            //             delete this.mappedColumns[key]
+            //             break
+            //         }
+            //     }
+            // } else {
+            //     this.mappedColumns[mapColumn] = column;
+            // }
+        },
+    }
 }
 </script>

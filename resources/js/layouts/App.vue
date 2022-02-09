@@ -2,7 +2,7 @@
     <div id="app" class="h-screen flex overflow-hidden bg-neutral-100">
         <div
             id="overlay"
-            class="fixed inset-0 flex z-40 md:hidden"
+            class="fixed inset-0 flex md:hidden"
             role="dialog"
             aria-modal="true"
         >
@@ -45,7 +45,7 @@
         </div>
         <!-- Narrow sidebar -->
         <div
-            class="hidden w-14 mx-auto h-screen pb-2 bg-indigo-700 border-r-1 justify-between flex-col overflow-hidden md:flex"
+            class="hidden w-14 z-30 mx-auto h-screen pb-2 bg-indigo-700 border-r-1 justify-between flex-col overflow-hidden md:flex"
         >
             <div
                 class="w-full py-4 mx-auto flex flex-col justify-center text-center items-center"
@@ -62,16 +62,16 @@
 </svg>
                     </div>
                 </a>
-                <div v-for="navitem in nav" class="flex-1 mt-4 w-full">
-                    <div :href="navitem.href" :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
+                <div v-for="navitem in nav" :key="navitem" class="flex-1 z-50 mt-4 w-full">
+                    <router-link :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
                         
                         <component :is="navitem.icon" class="h-5 w-5"></component>
                             
                         
-                        <div class="hidden text-md group-hover:block absolute left-14 z-20  middle-8 rounded-r-lg bg-white/60 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
+                        <div class="hidden text-md group-hover:block absolute left-14 middle-8 rounded-r-lg bg-white/60 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
                         {{navitem.name}}
                         </div>
-                    </div>
+                    </router-link>
                     
                 </div>
             </div>
@@ -89,9 +89,9 @@
         
         <!-- Static sidebar for desktop -->
 
-        <div class="flex flex-col w-0 flex-1 overflow-hidden">
+        <div class="z-10 flex flex-col w-0 flex-1 overflow-hidden">
             <div
-                class="relative z-30 flex-shrink-0 flex h-10 bg-white/50 backdrop-filter backdrop-blur-xl border-1 border-b"
+                class="relative z-50 flex-shrink-0 flex h-10 bg-white/100 backdrop-filter backdrop-blur-xl border-1 border-b"
             >
                 <button
                     id="showSidebar"
@@ -115,12 +115,12 @@
                         />
                     </svg>
                 </button>
-                <div class="flex-1 px-2 flex justify-between">
-                    <div class="flex-1 flex text-left">
+                <div class="flex-1 z-10 px-2 flex justify-between">
+                    <div class="flex-1 z-10 flex text-left">
                         <div
                             class="ml-0 px-4 py-2 sm:px-6 md:px-8 text-left text-sm font-semibold text-indigo-600"
                         >
-                            <nav class="flex" aria-label="Breadcrumb">
+                            <nav class="flex z-10" aria-label="Breadcrumb">
                                 <ol
                                     role="list"
                                     class="flex items-center space-x-4"
@@ -171,7 +171,7 @@
                         </div>
                     </div>
 
-                    <div class="ml-2 flex items-center md:ml-6">
+                    <div class="ml-2 z-10 flex items-center md:ml-6">
                         <button
                             class="active:bg-neutral-100 active:text-neutral-700 transition duration-300 ease-in-out p-1 rounded-full text-neutral-400 hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
                         >
@@ -206,8 +206,9 @@
                                 @click="isShowing = !isShowing"
                             >
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full object-cover"
-                                    src="https://ui-avatars.com/api/?name=&color=7F9CF5&background=EBF4FF" />
+                                Menu here
+                                    <!-- <img class="h-8 w-8 rounded-full object-cover" id="profile_pic_url_img" ref="profile_pic_url_img" :src="$store.state.AuthState.user.profile_pic_url ?? $store.state.AuthState.user.default_image"> -->
+                                    
                             </MenuButton>
 
                             <MenuList>
@@ -299,6 +300,7 @@
 import { HomeIcon, SearchIcon, MailIcon, ChartBarIcon, ChevronLeftIcon, CheckCircleIcon,CloudUploadIcon, UserGroupIcon, FolderOpenIcon, CogIcon } from "@heroicons/vue/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
+
 const pages = [
     { name: "CRM", href: "/outreach", current: false },
     { name: "Creators", href: "#", current: true },
@@ -312,14 +314,14 @@ export default {
             user: this.$store.state.AuthState.user,
             nav:[
                 {name: "Admin", route: "/admin", icon: CheckCircleIcon},
-                {name: "Dashboard", href: "/dashboard", route: "/dashboard", icon: HomeIcon},
+                {name: "Dashboard", route: "/dashboard", icon: HomeIcon},
                 {name: "Search", route: "/discovery", icon: SearchIcon},
                 {name: "Outreach", route: "/outreach", icon: MailIcon},
                 {name: "Campaings", route: "/campaigns", icon: FolderOpenIcon},
                 {name: "CRM", route: "/crm", icon: UserGroupIcon},
                 {name: "Analytics", route: "/analytics", icon: ChartBarIcon},
                 {name: "Import", route: "/import", icon: CloudUploadIcon},
-                {name: "Settings", route: "/settings", icon: CogIcon},
+                {name: "Settings", route: "/account", icon: CogIcon},
 
                 
             ],
