@@ -99,6 +99,22 @@ export const routes = [{
         }
     },
     {
+        name: 'analytics',
+        path: '/analytics',
+        component: loadPage('Analytics'),
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
+        name: 'campaigns',
+        path: '/campaigns',
+        component: loadPage('Campaigns'),
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
         name: 'Profile',
         path: '/tim',
         component: loadPage('CreatorProfile'),

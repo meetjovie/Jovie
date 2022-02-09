@@ -148,7 +148,7 @@
                             <div class="text-2xs truncate -mt-1 wrap font-light text-gray-900">
                                 {{ creator.bio }}
                             </div>
-                            <div class="text-xs py-1 font-medium text-gray-900">
+                            <div class="text-xs pt-.05 pb-1 font-medium text-gray-900">
                                  <CreatorTags color="None" text="Category" />
                                 <CreatorTags color="purple" text="Fashion" />
                                 <CreatorTags color="blue" text="Music" />

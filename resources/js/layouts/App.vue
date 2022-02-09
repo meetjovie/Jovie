@@ -63,7 +63,7 @@
                     </div>
                 </a>
                 <div v-for="navitem in nav" :key="navitem" class="flex-1 z-50 mt-4 w-full">
-                    <div :href="route" :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
+                    <router-link :to="navitem.route" class="cursor-pointer group text-neutral-50 hover:bg-indigo-600 active:bg-indigo-700 rounded-l-lg hover:text-white group py-3 flex flex-col items-center text-2xs font-medium">
                         
                         <component :is="navitem.icon" class="h-5 w-5"></component>
                             
@@ -71,7 +71,7 @@
                         <div class="hidden text-md group-hover:block absolute left-14 middle-8 rounded-r-lg bg-white/60 border-indigo-200/20 border backdrop-filter  shadow-indigo-900/70 backdrop-blur-md shadow-2xl py-3.5 -mt-3 px-.5 text-indigo-700 font-bold w-24">
                         {{navitem.name}}
                         </div>
-                    </div>
+                    </router-link>
                     
                 </div>
             </div>
@@ -314,14 +314,14 @@ export default {
             user: this.$store.state.AuthState.user,
             nav:[
                 {name: "Admin", route: "/admin", icon: CheckCircleIcon},
-                {name: "Dashboard", href: "/dashboard", route: "/dashboard", icon: HomeIcon},
+                {name: "Dashboard", route: "/dashboard", icon: HomeIcon},
                 {name: "Search", route: "/discovery", icon: SearchIcon},
                 {name: "Outreach", route: "/outreach", icon: MailIcon},
                 {name: "Campaings", route: "/campaigns", icon: FolderOpenIcon},
                 {name: "CRM", route: "/crm", icon: UserGroupIcon},
                 {name: "Analytics", route: "/analytics", icon: ChartBarIcon},
                 {name: "Import", route: "/import", icon: CloudUploadIcon},
-                {name: "Settings", route: "/settings", icon: CogIcon},
+                {name: "Settings", route: "/account", icon: CogIcon},
 
                 
             ],
