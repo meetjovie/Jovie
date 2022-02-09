@@ -17,8 +17,8 @@ app.mixin({
         asset(path) {
             return Vapor.asset(path)
         },
-        hello() {
-            console.log('hello from mixins');
+        unSlugify(value) {
+            return value.toString().replaceAll('_', ' ')
         }
     }
 })

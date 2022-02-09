@@ -21,3 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
 Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
 Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
+
+Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
+    Route::post('/get-columns-from-csv', [\App\Http\Controllers\Admin\ImportController::class, 'getColumnsFromCsv']);
+});
