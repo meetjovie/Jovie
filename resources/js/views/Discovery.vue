@@ -6,9 +6,9 @@
     <div class="">
       <div class="mx-auto flex ">
         
-        <div v-if="searchopen" class="hidden lg:flex w-60 z-10 shadow-lg">
+        <div v-if="searchopen" class="hidden lg:flex w-60 z-10 bg-white shadow-lg">
           
-          <nav aria-label="Searchbar" class="sticky top-6 min-h-screen overflow-y-noscroll divide-y divide-gray-300">
+          <nav aria-label="Searchbar" class="sticky top-0 min-h-screen overflow-y-noscroll divide-y divide-gray-300">
             <DiscoverySearch></DiscoverySearch>
           </nav>
         </div>
