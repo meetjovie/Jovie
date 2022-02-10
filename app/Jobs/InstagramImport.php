@@ -26,13 +26,12 @@ class InstagramImport implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, SocialScrapperTrait, GeneralTrait;
 
     private $username;
-    private $filepath;
     private $tags;
-    private $brands = [];
-    private $recursive = false;
-    private $creatorId = null;
-    private $parentCreator = null;
-    private $email = null;
+    private $recursive;
+    private $creatorId;
+    private $parentCreator;
+    private $primaryEmail;
+    private $secondaryEmail;
     /**
      * Create a new job instance.
      *
