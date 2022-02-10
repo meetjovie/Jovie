@@ -50,7 +50,7 @@
                                                 <router-link
                                                     v-for="item in solutions"
                                                     :key="item.name"
-                                                    :to="item.href"
+                                                    :to="item.href" @click.native="scrollFix(item.href)"
                                                     class="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
                                                 >
                                                     <div
@@ -172,6 +172,16 @@ import { ChevronDownIcon, UserGroupIcon, SearchIcon, MailIcon } from '@heroicons
 
 export default {
   components: { Popover, PopoverButton, PopoverPanel, ChevronDownIcon, UserGroupIcon, SearchIcon, MailIcon },
+  mounted: function()
+  {
+    setTimeout(() => this.scrollFix(this.$route.hash), 1);
+  },
+  methods: {
+    scrollFix: function(hashbang)
+    {
+      location.hash = hashbang;
+    }
+  },
 
   data() {
     return {
@@ -179,19 +189,19 @@ export default {
         {
           name: 'AI Discovery',
           description: 'Identify creators most likely to love your brand ',
-          href: '##',
+          href: 'discovery',
           icon: 'SearchIcon',
         },
         {
           name: 'CRM',
           description: 'Manage your relationships',
-          href: '##',
+          href: 'crm',
           icon: 'UserGroupIcon',
         },
         {
           name: 'Outreach',
           description: 'Onboard new creators at scale',
-          href: '##',
+          href: 'outreach',
           icon: 'MailIcon',
         },
       ],
