@@ -21,7 +21,7 @@
                             <blockquote class="mt-10">
                                 <div class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-gray-900">
                                     <p>
-                                        &ldquo;Jovie kicks ass and is awesome.&rdquo;
+                                        &ldquo;Insert quote from Pep here.&rdquo;
                                     </p>
                                 </div>
                                 <footer class="mt-8">

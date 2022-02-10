@@ -3,14 +3,31 @@ import { authenticationGuard } from "../middlewares/auth";
 import store from "../store";
 
 function loadPage(page) {
-    return () => import(`./../views/${page}.vue`);
+    return () =>
+        import (`./../views/${page}.vue`);
 }
 
-export const routes = [
-    {
+export const routes = [{
         name: 'home',
         path: '/',
         component: loadPage('Home')
+    },
+    {
+        name: 'pricing',
+        path: '/pricing',
+        component: loadPage('Pricing'),
+        meta: {
+            layout: 'default',
+        },
+    },
+    {
+        name: 'account',
+        path: '/account',
+        component: loadPage('Account'),
+        beforeEnter: authenticationGuard,
+        meta: {
+            layout: 'App'
+        }
     },
     {
         name: 'dashboard',
@@ -50,11 +67,12 @@ export const routes = [
             layout: 'Default'
         }
     },
-    {   name: 'demo',
+    {
+        name: 'demo',
         path: '/demo',
         beforeEnter(to, from, next) {
-        window.open('https://u3yaoaf518v.typeform.com/to/MSzEeSrT', '_blank')
-       }
+            window.open('https://u3yaoaf518v.typeform.com/to/MSzEeSrT', '_blank')
+        }
     },
     {
         name: 'import',
@@ -78,6 +96,38 @@ export const routes = [
         component: loadPage('Outreach'),
         meta: {
             layout: 'App'
+        }
+    },
+    {
+        name: 'discovery',
+        path: '/discovery',
+        component: loadPage('Discovery'),
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
+        name: 'analytics',
+        path: '/analytics',
+        component: loadPage('Analytics'),
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
+        name: 'campaigns',
+        path: '/campaigns',
+        component: loadPage('Campaigns'),
+        meta: {
+            layout: 'App'
+        }
+    },
+    {
+        name: 'Profile',
+        path: '/tim',
+        component: loadPage('CreatorProfile'),
+        meta: {
+            layout: 'Default'
         }
     },
 ]

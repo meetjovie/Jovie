@@ -23,6 +23,8 @@
         "lodash": "^4.17.19",
         "postcss": "^8.4.5",
         "postcss-import": "^14.0.2",
+        "prettier": "^2.5.1",
+        "prettier-plugin-tailwindcss": "^0.1.7",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.49.0",
         "sass-loader": "^12.4.0",
@@ -35,9 +37,12 @@
         "@heroicons/vue": "^1.0.5",
         "@vue-hero-icons/outline": "^1.7.2",
         "@vue-hero-icons/solid": "^1.7.2",
+        "@vue-stripe/vue-stripe": "^4.4.1",
+        "simple-icons": "^6.9.0",
         "tailwind-scrollbar-hide": "^1.1.7",
         "vue": "^3.2.27",
         "vue-router": "^4.0.12",
+        "vue-simple-icons": "^4.7.0",
         "vue-star-rating": "^2.1.0",
         "vuex": "^4.0.2"
     }
