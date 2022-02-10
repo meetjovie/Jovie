@@ -50,7 +50,7 @@
                                                 <router-link
                                                     v-for="item in solutions"
                                                     :key="item.name"
-                                                    :to="item.href" @click.native="scrollFix(item.href)"
+                                                    :to="item.href" @click.native="scrollFix(item.anchor)"
                                                     class="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
                                                 >
                                                     <div
@@ -170,13 +170,26 @@
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon, UserGroupIcon, SearchIcon, MailIcon } from '@heroicons/vue/outline'
 
+import {useAuth0} from "./utils/useAuth0";
+
+const {login, logout, initAuth} = useAuth0();
+
 export default {
   components: { Popover, PopoverButton, PopoverPanel, ChevronDownIcon, UserGroupIcon, SearchIcon, MailIcon },
   mounted: function()
   {
     setTimeout(() => this.scrollFix(this.$route.hash), 1);
   },
+  setup() {
+        initAuth();
+    },
   methods: {
+    login() {
+            login()
+        },
+        logout() {
+            logout()
+        },
     scrollFix: function(hashbang)
     {
       location.hash = hashbang;
@@ -190,18 +203,21 @@ export default {
           name: 'AI Discovery',
           description: 'Identify creators most likely to love your brand ',
           href: 'discovery',
+          anchor: '#discovery',
           icon: 'SearchIcon',
         },
         {
           name: 'CRM',
           description: 'Manage your relationships',
-          href: 'crm',
+          href: 'discovery',
+          anchor: '#crm',
           icon: 'UserGroupIcon',
         },
         {
           name: 'Outreach',
           description: 'Onboard new creators at scale',
-          href: 'outreach',
+          href: 'discovery',
+          anchor: '#outreach',
           icon: 'MailIcon',
         },
       ],
