@@ -13,7 +13,7 @@
         >
           <div class="mt-8 md:mt-0 md:order-2">
             <div class="baseline">
-              <p class="text-center text-xs text-gray-400">
+              <p class="text-center text-2xs text-gray-400">
                 <span class="block sm:inline"
                   >&copy; 2022
                   </span
@@ -44,12 +44,11 @@
             <div class="">
               <p class="text-center justify-right text-xs text-gray-400">
                 <span class="flex divide divide-x-1 divide-gray-200">
-                  
-                  <a class="px-2 hover:text-neutral-700" href="/privacy">Privacy</a>
+                   <a class="px-2 hover:text-neutral-700" href="/pricing">Pricing</a>
+                  <a class="px-2 hover:text-neutral-700" href="/privacy">Legal</a>
                  
-                  <a class="px-2 hover:text-neutral-700" href="/privacy"
-                    >Terms</a
-                  ></span
+                 
+                  </span
                 >
               </p>
             </div>
