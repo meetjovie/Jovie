@@ -48,6 +48,7 @@ environments:
         network: A7X3-PRIMARY
         build:
             - 'composer install --no-dev'
+            - 'composer update'
             - 'php artisan event:cache'
             - 'rm -rf composer.lock'
             - 'npm ci && npm run dev && rm -rf node_modules'
