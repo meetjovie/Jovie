@@ -51,6 +51,11 @@ class User extends Authenticatable
 
     protected $appends = ['default_image'];
 
+    public function routeNotificationForSlack($notification)
+    {
+        return env('SLACK_NOTIFICATION_WEBHOOK');
+    }
+
     public function getProfilePicUrlAttribute($value)
     {
         if ($value && Storage::disk('s3')->exists($value)) {

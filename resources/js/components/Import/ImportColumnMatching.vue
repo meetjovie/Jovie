@@ -21,7 +21,7 @@
                     <ButtonGroup text="Back" class="justify-left"></ButtonGroup>
                 </div>
                 <div>
-                <ButtonGroup text="Finish" class="justify-right" :disabled="!Object.keys(mappedColumns).length" @click="$emit('finish')"></ButtonGroup>
+                <ButtonGroup text="Finish" class="justify-right" :disabled="!Object.keys(mappedColumns).length" @click="$emit('finish', mappedColumns)"></ButtonGroup>
                 </div>
             </div>
         </div>
