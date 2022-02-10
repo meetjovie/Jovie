@@ -6,7 +6,7 @@
       <div class="hidden lg:block relative w-0 flex-1">
       <div class="absolute inset-0 min-h-screen w-full bg-indigo-700 justify-center items-center px-8 py-12">
           <div class="flex  justify-center items-center px-8 py-2 rounded-md shadown-sm">
-              <div class="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
+              <div class="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
       <h2 class="text-3xl font-extrabold text-white tracking-tight">Scale your <span class="underline decoration-pink-500">creator partnerships</span></h2>
       <p class="mt-4 max-w-3xl text-lg text-indigo-200">Jovie gives you the tools to build, manage, & grow creator communities at scale</p>
                 
