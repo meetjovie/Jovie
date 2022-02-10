@@ -75,3 +75,31 @@
                 </div>
             </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            waitListEmail: '',
+            error: null
+        }
+    },
+    methods: {
+        async requestDemo() {
+            await UserService.addToWaitList({email: this.waitListEmail}).then(response => {
+                response = response.data
+                if (response.status) {
+                    this.$store.commit('setAddedToWaitList')
+                    this.waitListEmail = ''
+                    this.error = null
+                    this.$router.push('demo')
+                }
+            }).catch(error => {
+                error = error.response
+                if (error.status == 422) {
+                    this.error = error.data.errors.email[0]
+                }
+            })
+        }
+    }
+}
+</script>
