@@ -13,6 +13,14 @@ export const routes = [{
         component: loadPage('Home')
     },
     {
+        name: 'pricing',
+        path: '/pricing',
+        component: loadPage('Pricing'),
+        meta: {
+            layout: 'default',
+        },
+    },
+    {
         name: 'account',
         path: '/account',
         component: loadPage('Account'),

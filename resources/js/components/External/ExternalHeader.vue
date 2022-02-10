@@ -47,17 +47,17 @@
                                                 class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
                                             >
                                                 <div class="relative grid gap-8 bg-white p-7 lg:grid-cols-2">
-                                                <a
+                                                <router-link
                                                     v-for="item in solutions"
                                                     :key="item.name"
-                                                    :href="item.href"
+                                                    :to="item.href"
                                                     class="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
                                                 >
                                                     <div
                                                     class="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12"
                                                     >
-                                                    <div class="bg-indigo-300 rounded-md p-2">
-                                                        <component :is="item.icon" class="h-6 w-6 text-indigo-700"/>
+                                                    <div class="bg-indigo-200 rounded-md p-2">
+                                                        <component :is="item.icon" class="h-6 w-6 text-indigo-600"/>
                                                     </div>
                                                     </div>
                                                     <div class="ml-4">
@@ -68,7 +68,7 @@
                                                         {{ item.description }}
                                                     </p>
                                                     </div>
-                                                </a>
+                                                </router-link>
                                                 </div>
                                                 <div class="p-4 bg-gray-50">
                                                 <router-link
