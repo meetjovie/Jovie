@@ -35,11 +35,21 @@
           
 
           <div class="mt-6">
-            <form action="#" method="POST" class="space-y-6">
+            <form class="space-y-6">
               <div>
                 <label for="email" class="block text-sm font-medium text-gray-700"> Email address </label>
                 <div class="mt-1">
-                  <input id="email" name="email" type="email" autocomplete="email" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus-visible:outline-none focus-visible:ring-indigo-500 focus-visible:border-indigo-500 sm:text-sm" />
+                  <input v-if="!$store.state.addedToWaitList" v-model="waitListEmail" id="email" name="email" type="email" autocomplete="email" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus-visible:outline-none focus-visible:ring-indigo-500 focus-visible:border-indigo-500 sm:text-sm" />
+                <!-- <input  id="email-address"
+                                                    
+                                            <button  type="button"
+                                                    class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                                                Added to waitlist
+                                            </button>
+                                            <button v-else type="button" @click="requestDemo()"
+                                                    class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                                                Request Demo
+                                            </button> -->
                 </div>
               </div>
 
@@ -48,7 +58,8 @@
               
 
               <div>
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500">Request pricing</button>
+                <button v-if="$store.state.addedToWaitList" type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500">Request submitted</button>
+                <button v-else type="submit" @click="requestDemo()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500">Request pricing</button>
               </div>
             </form>
           </div>
