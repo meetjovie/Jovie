@@ -11,7 +11,7 @@
                             class="font-bold text-indigo-100">saves you time</span> by automating redudant tasks.</p>
                         <router-link to="demo"
                                      class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto">
-                            Watch demo
+                            Request a demo
                         </router-link>
 
                     </div>

@@ -199,7 +199,7 @@
                             <MenuButton
                                 as="div"
                                 type="button"
-                                class="max-w-xs bg-white flex items-center text-sm rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                                class="max-w-xs bg-white flex items-center text-sm rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-200"
                                 id="user-menu-button"
                                 aria-expanded="false"
                                 aria-haspopup="true"
@@ -224,7 +224,7 @@
                                         as="div"
                                         active=""
                                         id="profileDropdown"
-                                        class="origin-top-right absolute backdrop-blur-xl d-none right-0 mt-2 w-60 rounded-md shadow-xl py-1 bg-white/90 z-20"
+                                        class="origin-top-right absolute backdrop-blur-xl backdrop-filter d-none right-0 mt-2 w-60 rounded-md shadow-xl py-1 bg-white/90 z-20"
                                         role="menu"
                                         aria-orientation="vertical"
                                         aria-labelledby="user-menu-button"
@@ -249,9 +249,7 @@
                                             tabindex="-1"
                                             ><component class="mr-2 h-5 w-5" :is="dropdownmenuitem.icon"></component>{{dropdownmenuitem.name}}</MenuItem
                                         >
-                                        
-
-                                        
+  
                                     </MenuItems>
                                 </transition>
                             </MenuList>

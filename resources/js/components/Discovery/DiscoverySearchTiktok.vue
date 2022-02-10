@@ -7,6 +7,12 @@
        
         <MultiButton />
         <InputGroup class="col-span-4" icon="LocationMarkerIcon" placeholder="Location" />
+        <div class="grid grid-cols-3 col-span-4">
+            <ButtonGroup icon="LocationMarkerIcon" text="Male" />
+            <ButtonGroup icon="LocationMarkerIcon" text="Female" />
+            <ButtonGroup icon="LocationMarkerIcon" text="Other" />
+
+        </div>
         
        <div class="col-span-4">
             <div class="mt-4">

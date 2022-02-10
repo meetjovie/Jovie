@@ -4,7 +4,7 @@
                 <div>
                     <h2 class="text-base font-semibold tracking-wider text-indigo-600 uppercase">Manage your creator relationships</h2>
                     <p class="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
-                    The only CRM built for the <span class="text-indigo-700">creator economy</span>.
+                    A CRM built for the <span class="text-indigo-700">creator economy</span>.
                     </p>
                     <p class="mt-5 max-w-prose mx-auto text-xl text-gray-500">
                     Jovie's CRM and pipeline tracker give you creator specific sales intelligence allowing you to prioritize the relationships most valuable to your business.
