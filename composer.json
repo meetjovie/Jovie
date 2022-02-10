@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.5",
         "laravel/vapor-cli": "^1.36",
         "laravel/vapor-core": "^2.19",
-        "laravel/vapor-ui": "^1.5"
+        "laravel/vapor-ui": "^1.5",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

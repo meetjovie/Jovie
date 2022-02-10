@@ -17,15 +17,12 @@
                         <Tab v-slot="{ selected }" as="template">
                             <button class="w-24" :class="[selected ? 'text-indigo text-sm decoration-4 decoration-indigo-700 underline underline-offset-8' : 'text-neutral-700 text-sm']">
                             <span class="mb-3">Creators</span>
-                            
-                            
                             </button>
                         </Tab>
                         <Tab v-slot="{ selected }" as="template">
                             <button class="w-24" :class="[selected ? 'text-indigo text-sm decoration-4 decoration-indigo-700 underline underline-offset-8' : 'text-neutral-700 text-sm']">
                             <span class="mb-3">Archived</span>
                             
-                           
                             </button>
                         </Tab>
                     </div>

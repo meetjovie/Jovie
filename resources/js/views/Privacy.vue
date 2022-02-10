@@ -1,6 +1,6 @@
 <template>
-    <div id="wbars_all" class="leading-4 text-neutral-700">
-        <div class="relative mx-auto bg-neutral-100 rounded-xl mt-12 text-neutral-700 rounded-sm clearfix" style="max-width: 800px;">
+    <div id="wbars_all" class="bg-neutral-200 leading-4 py-12 shadow-sm text-neutral-700">
+        <div class="relative mx-auto bg-neutral-100 rounded-xl text-neutral-700 rounded-sm clearfix" style="max-width: 800px;">
             <div id="wbars" class="relative h-auto" style="overflow: hidden auto;">
                 <div class="relative py-6 px-8 my-0 mx-auto" style="border-radius: 3px 3px 0px 0px;">
                     <div class="relative pb-6 border-b border-neutral-300 border-dotted">
