@@ -199,7 +199,7 @@
                             <MenuButton
                                 as="div"
                                 type="button"
-                                class="max-w-xs bg-white flex items-center text-sm rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                                class="max-w-xs bg-white flex items-center text-sm rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-200"
                                 id="user-menu-button"
                                 aria-expanded="false"
                                 aria-haspopup="true"
@@ -224,7 +224,7 @@
                                         as="div"
                                         active=""
                                         id="profileDropdown"
-                                        class="origin-top-right absolute backdrop-blur-xl d-none right-0 mt-2 w-60 rounded-md shadow-xl py-1 bg-white/90 z-20"
+                                        class="origin-top-right absolute backdrop-blur-xl backdrop-filter d-none right-0 mt-2 w-60 rounded-md shadow-xl py-1 bg-white/90 z-20"
                                         role="menu"
                                         aria-orientation="vertical"
                                         aria-labelledby="user-menu-button"
@@ -233,47 +233,23 @@
                                         <!-- Active: "bg-neutral-100", Not Active: "" -->
                                         <MenuItem
                                             v-bind:is="user"
-                                            as="div"
-                                            href="#"
+                                           as="div"
                                             class="block px-4 py-4 text-sm font-bold text-neutral-700 border-b-2 border-opacity-30 text-left"
                                             role="menuitem"
                                             tabindex="-1"
                                             id="user-menu-item-0"
                                             >Hi User ! !</MenuItem
                                         >
-                                        <MenuItem
-                                            as="div"
-                                            href="/billing"
-                                            class="block hover:bg-indigo-700 hover:text-white px-4 py-2 text-sm text-neutral-700"
+                                        <MenuItem v-for="dropdownmenuitem in dropdownmenuitems" 
+                                        :key="dropdownmenuitem"
+                                            as="router-link"
+                                            :to="dropdownmenuitem.route"
+                                            class="inline-flex w-full hover:bg-indigo-700 hover:text-white px-4 py-2 text-sm text-neutral-700"
                                             role="menuitem"
                                             tabindex="-1"
-                                            >Billing</MenuItem
+                                            ><component class="mr-2 h-5 w-5" :is="dropdownmenuitem.icon"></component>{{dropdownmenuitem.name}}</MenuItem
                                         >
-                                        <MenuItem
-                                            as="div"
-                                            href=""
-                                            class="block hover:bg-indigo-700 hover:text-white px-4 py-2 text-sm text-neutral-700"
-                                            role="menuitem"
-                                            tabindex="-1"
-                                            >Settings</MenuItem
-                                        >
-
-                                        <MenuItem
-                                            as="div"
-                                            action=""
-                                            method="get"
-                                            class="group block hover:bg-indigo-700 hover:text-white"
-                                        >
-                                            <button
-                                                type="submit"
-                                                class="block group-hover:text-white px-4 py-2 text-sm text-neutral-700"
-                                                role="menuitem"
-                                                tabindex="-1"
-                                                id="user-menu-item-2"
-                                            >
-                                                Sign out
-                                            </button>
-                                        </MenuItem>
+  
                                     </MenuItems>
                                 </transition>
                             </MenuList>
@@ -297,7 +273,7 @@
 </template>
 
 <script>
-import { HomeIcon, SearchIcon, MailIcon, ChartBarIcon, ChevronLeftIcon, CheckCircleIcon,CloudUploadIcon, UserGroupIcon, FolderOpenIcon, CogIcon } from "@heroicons/vue/outline";
+import { HomeIcon, SearchIcon, MailIcon, ChartBarIcon, ChevronLeftIcon, CheckCircleIcon,CloudUploadIcon, UserGroupIcon, FolderOpenIcon, CogIcon, LogoutIcon } from "@heroicons/vue/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
 
@@ -325,6 +301,11 @@ export default {
 
                 
             ],
+            dropdownmenuitems:[
+                {name: "Profile", route: "/account", icon: UserGroupIcon},
+                {name: "Settings", route: "/account", icon: CogIcon},
+                {name: "Sign out", route: "/logout", icon: LogoutIcon},
+            ],
         };
     },
     mounted() {},
@@ -348,6 +329,7 @@ export default {
         FolderOpenIcon,
         CogIcon,
         ChevronLeftIcon,
+        LogoutIcon,
     },
     setup() {
         return {

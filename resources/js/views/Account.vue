@@ -86,7 +86,9 @@
                        <CardHeading title="Manage Subscription" subtitle="You can change your plan at any time." buttontext="Delete" buttocolor="red" />
                    </CardLayout>
                     <CardLayout> 
-                        <CardHeading title="Delete Account" subtitle="This is permanent and cannot be undone." buttontext="Change plan" buttocolor="indigo" />
+                        <CardHeading title="Delete Account" subtitle="This is permanent and cannot be undone.">
+                       <ButtonGroup icon="BanIcon" text="hi" />
+                       </CardHeading>
                    </CardLayout>
                    
 

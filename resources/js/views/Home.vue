@@ -4,8 +4,8 @@
         <main>  
             <HomeHeroSection></HomeHeroSection>
             <HomeLogoCloud></HomeLogoCloud>
-            <HomeFeatureDiscovery></HomeFeatureDiscovery>
-            <HomeFeatureCRM></HomeFeatureCRM>
+            <HomeFeatureDiscovery id="discovery"></HomeFeatureDiscovery>
+            <HomeFeatureCRM id="crm"></HomeFeatureCRM>
             <HomeFeatureSequences></HomeFeatureSequences>
             <HomeCTA></HomeCTA>
             <HomeTestimonials></HomeTestimonials>

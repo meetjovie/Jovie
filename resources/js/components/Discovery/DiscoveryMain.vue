@@ -1,11 +1,11 @@
 <template>
-<TabPanels>
-                  <TabPanel>
-                   <DiscoveryCreatorTable />
-            </TabPanel>
-                <TabPanel>Shortlist Table</TabPanel>
-                <TabPanel>Reject Table</TabPanel>
-      </TabPanels>
+   <TabPanels>
+               <TabPanel>
+                  <DiscoveryCreatorTable />
+               </TabPanel>
+               <TabPanel>Shortlist Table</TabPanel>
+               <TabPanel>Reject Table</TabPanel>
+   </TabPanels>
   
 </template>
 

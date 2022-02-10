@@ -8,7 +8,7 @@
     </div>
   </div>
 <div class="grid grid-cols-2">
-    <InputGroup :icon="minicon" :placeholder="mintext" />
+    <InputGroup  :icon="minicon" :placeholder="mintext" />
     <InputGroup :icon="maxicon" :placeholder="maxtext" />
     </div>
     <div class="flex items-center justify-between">
