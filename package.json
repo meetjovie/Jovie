@@ -6,8 +6,9 @@
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "prod": "npm run production && npm run compress",
+        "compress": "bread-compressor -s public/css/*.css public/js/*.js"
     },
     "devDependencies": {
         "@tailwindcss/aspect-ratio": "^0.4.0",
@@ -16,6 +17,7 @@
         "@tailwindcss/typography": "^0.5.1",
         "autoprefixer": "^10.4.2",
         "axios": "^0.25",
+        "bread-compressor-cli": "^1.1.0",
         "browser-sync": "^2.27.7",
         "browser-sync-webpack-plugin": "^2.3.0",
         "laravel-mix": "^6.0.41",
