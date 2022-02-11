@@ -35,8 +35,7 @@ environments:
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
-            - 'rm -rf composer.lock'
-            - 'npm ci && npm run dev && rm -rf node_modules'
+            - 'npm ci && npm run prod && rm -rf node_modules'
     dev:
         queue-concurrency: 5
         database: Jovie-staging
