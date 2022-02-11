@@ -17,8 +17,8 @@ require('laravel-mix-webp')
 mix.browserSync('127.0.0.1');
 
 mix.ImageWebp({
-    from: 'resources/assets/images',
-    to: 'public/assets/images',
+    from: 'resources/img',
+    to: 'public/img',
   });
 
 

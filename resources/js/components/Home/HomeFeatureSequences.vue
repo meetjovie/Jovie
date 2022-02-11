@@ -100,7 +100,7 @@
               </defs>
               <rect width="784" height="404" fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
             </svg>
-            <img class="relative mx-auto rounded-md shadow-xl object-cover" width="490" :src="asset('images/External/HomeFeatureOutreach.webp')" />
+            <img class="relative mx-auto rounded-md shadow-xl object-cover" width="490" :src="asset('img/External/HomeFeatureOutreach.webp')" />
           </div>
         </div>
       </div>
