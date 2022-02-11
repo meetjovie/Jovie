@@ -7,7 +7,7 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "production": "mix --production",
-        "prod": "npm run production && npm run compress",
+        "prod": "npm run production",
         "compress": "bread-compressor -s public/css/*.css public/js/*.js"
     },
     "devDependencies": {
