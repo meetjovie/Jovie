@@ -61,6 +61,6 @@ class User extends Authenticatable
 
     public function getDefaultImageAttribute()
     {
-        return asset('images/noimage.png');
+        return asset('images/noimage.webp');
     }
 }

@@ -11,7 +11,7 @@
                     </p>
                 </div>
                 <div class="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
-                    <img class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5" :src="asset('images/External/HomeFeatureCRM.png')" />
+                    <img class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5" :src="asset('images/External/HomeFeatureCRM.webp')" />
                 </div>
                 </div>
             </div>  

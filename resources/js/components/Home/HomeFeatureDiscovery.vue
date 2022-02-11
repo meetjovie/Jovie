@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="py-8 items-center">
-                        <img :src="asset('images/sun.png')" alt="">
+                        <img :src="asset('images/sun.webp')" alt="">
                         <div
                             class="bg-white/90 backdrop-blur-xl bg-saturate-150 font-bold text-lg text-center text-gray-800 py-4 px-4 rounded-lg shadow-xl mx-auto">
                             Find <span

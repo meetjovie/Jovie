@@ -2,6 +2,7 @@ const mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
 const path = require('path');
 const Vapor = require('laravel-vapor');
+require('laravel-mix-webp')
 
 /*
  |--------------------------------------------------------------------------
@@ -15,7 +16,10 @@ const Vapor = require('laravel-vapor');
  */
 mix.browserSync('127.0.0.1');
 
-
+mix.ImageWebp({
+    from: 'resources/assets/images',
+    to: 'public/assets/images',
+  });
 
 
 mix.js("resources/js/app.js", "public/js")
