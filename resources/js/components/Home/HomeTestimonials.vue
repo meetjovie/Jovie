@@ -17,7 +17,7 @@
                         </svg>
 
                         <div class="relative">
-                            <img class="mx-auto h-8" :src="asset('images/Logos/Zelf.svg')" alt="Zelf"/>
+                            <img class="mx-auto h-8" :src="asset('img/External/Logos/Zelf.svg')" alt="Zelf"/>
                             <blockquote class="mt-10">
                                 <div class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-gray-900">
                                     <p>
@@ -28,7 +28,7 @@
                                     <div class="md:flex md:items-center md:justify-center">
                                         <div class="md:flex-shrink-0">
                                             <img class="mx-auto h-10 w-10 rounded-full"
-                                                 src="https://media-exp1.licdn.com/dms/image/C4D03AQGZyOT_1GtFlw/profile-displayphoto-shrink_200_200/0/1629220506369?e=1648684800&v=beta&t=7GfOr2rn9vHTAbImqtyE9AE03VqK4nOjxZezdHVThJQ"
+                                                 :src="asset('img/External/Pepijn_vann_Kesteren.webp')"
                                                  alt=""/>
                                         </div>
                                         <div class="mt-3 text-center md:mt-0 md:ml-4 md:flex md:items-center">
