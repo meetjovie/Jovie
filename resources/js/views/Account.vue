@@ -22,7 +22,7 @@
                                 <div class="col-span-6 sm:col-span-4">
                                     <!-- Profile Photo File Input -->
                                     <div class="mt-1 flex items-center space-x-5">
-                                      <span class="inline-block h-20 w-20 rounded-full object-cover overflow-hidden bg-neutral-100">
+                                      <span class="inline-block h-20 w-20 rounded-full object-cover object-center overflow-hidden bg-neutral-100">
                                         <img id="profile_pic_url_img" ref="profile_pic_url_img" :src="$store.state.AuthState.user.profile_pic_url ?? $store.state.AuthState.user.default_image">
                                       </span>
 
