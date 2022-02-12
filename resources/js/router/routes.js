@@ -8,12 +8,12 @@ function loadPage(page) {
 
 export const routes = [
   {
-    name: 'home',
+    name: 'Home',
     path: '/',
     component: loadPage('Home'),
   },
   {
-    name: 'pricing',
+    name: 'Pricing',
     path: '/pricing',
     component: loadPage('Pricing'),
     meta: {
@@ -21,7 +21,7 @@ export const routes = [
     },
   },
   {
-    name: 'account',
+    name: 'Account',
     path: '/account',
     component: loadPage('Account'),
     beforeEnter: authenticationGuard,
@@ -30,7 +30,7 @@ export const routes = [
     },
   },
   {
-    name: 'dashboard',
+    name: 'Dashboard',
     path: '/dashboard',
     component: loadPage('Dashboard'),
     meta: {
@@ -38,7 +38,7 @@ export const routes = [
     },
   },
   {
-    name: 'crm',
+    name: 'CRM',
     path: '/crm',
     component: loadPage('Crm'),
     meta: {
@@ -46,13 +46,13 @@ export const routes = [
     },
   },
   {
-    about: 'about',
+    about: 'About',
     path: '/about',
     component: loadPage('About'),
     beforeEnter: authenticationGuard,
   },
   {
-    name: 'terms',
+    name: 'Terms',
     path: '/terms',
     component: loadPage('Terms'),
     meta: {
@@ -60,7 +60,7 @@ export const routes = [
     },
   },
   {
-    name: 'privacy',
+    name: 'Privacy',
     path: '/privacy',
     component: loadPage('Privacy'),
     meta: {
@@ -68,21 +68,21 @@ export const routes = [
     },
   },
   {
-    name: 'demo',
+    name: 'Demo',
     path: '/demo',
     beforeEnter(to, from, next) {
       window.open('https://u3yaoaf518v.typeform.com/to/MSzEeSrT', '_blank');
     },
   },
   {
-    name: 'creators',
+    name: 'Creators',
     path: '/creators',
     beforeEnter(to, from, next) {
       window.open('https://u3yaoaf518v.typeform.com/to/lxFUTGnY', '_blank');
     },
   },
   {
-    name: 'import',
+    name: 'Import',
     path: '/import',
     component: loadPage('Import'),
     meta: {
@@ -90,7 +90,7 @@ export const routes = [
     },
   },
   {
-    name: 'admin',
+    name: 'Admin',
     path: '/admin',
     component: loadPage('Admin'),
     meta: {
@@ -98,7 +98,7 @@ export const routes = [
     },
   },
   {
-    name: 'outreach',
+    name: 'Outreach',
     path: '/outreach',
     component: loadPage('Outreach'),
     meta: {
@@ -106,7 +106,7 @@ export const routes = [
     },
   },
   {
-    name: 'discovery',
+    name: 'Discovery',
     path: '/discovery',
     component: loadPage('Discovery'),
     meta: {
@@ -114,7 +114,7 @@ export const routes = [
     },
   },
   {
-    name: 'analytics',
+    name: 'Analytics',
     path: '/analytics',
     component: loadPage('Analytics'),
     meta: {
@@ -122,7 +122,7 @@ export const routes = [
     },
   },
   {
-    name: 'campaigns',
+    name: 'Campaigns',
     path: '/campaigns',
     component: loadPage('Campaigns'),
     meta: {
@@ -138,17 +138,17 @@ export const routes = [
     },
   },
   {
-    name: 'Mackenzie Profile',
-    path: '/mackenzie',
-    component: loadPage('Mackenzie'),
+    name: 'Profile',
+    path: '/haruki',
+    component: loadPage('Haruki'),
     meta: {
       layout: 'Creators',
     },
   },
   {
     name: 'Profile',
-    path: '/haruki',
-    component: loadPage('Haruki'),
+    path: '/:username',
+    component: loadPage('Profile'),
     meta: {
       layout: 'Creators',
     },

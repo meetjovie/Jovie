@@ -13,7 +13,6 @@
         <div class="mx-auto mt-6 flex 2xl:mt-12">
           <h2 class="mx-auto flex text-3xl font-extrabold text-gray-900">
             {{ profile.name }}
-
             <svg
               v-if="profile.verified"
               xmlns="http://www.w3.org/2000/svg"
@@ -37,17 +36,19 @@
           </a>
         </p>
       </div>
-
       <div class="mt-2 2xl:mt-8">
         <fieldset class="mt-0 2xl:mt-2">
           <legend class="sr-only">Social links</legend>
           <div
-            v-for="link in profile.link"
-            class="grid grid-cols-3 items-center justify-between gap-3 sm:grid-cols-6">
+            class="grid grid-cols-3 items-center justify-between gap-3 sm:grid-cols-6"
+            :class="[]">
             <div
+              v-for="link in profile.links"
+              :key="link.id"
               class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
               <a :href="link.url">
                 <img height="24" width="24" class="mx-auto" :src="link.icon" />
+                <span class="sr-only">{{ link.name }}</span>
               </a>
             </div>
           </div>
@@ -102,18 +103,130 @@
   </div>
 </template>
 <script>
-import JovieLogo from '../JovieLogo.vue';
-import ButtonGroup from '../ButtonGroup.vue';
+import JovieLogo from '../components/JovieLogo.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 import { MailOpenIcon } from '@heroicons/vue/solid';
 
 export default {
   name: 'CreatorProfile',
   components: { JovieLogo, ButtonGroup, MailOpenIcon },
-  props: {
-    profiles: {
-      type: Object,
-      required: true,
-    },
+  data() {
+    return {
+      profiles: [
+        {
+          username: 'timwhite',
+          name: 'Tim White',
+          verified: true,
+          pic: '../img/External/timwhite.webp',
+          links: [
+            {
+              url: 'https://twitter.com/itstimwhite',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/twitter.svg',
+              name: 'Twitter',
+              id: '1',
+            },
+            {
+              url: 'https://instagram.com/timwhite',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/instagram.svg',
+              name: 'Instagram',
+              id: '2',
+            },
+            {
+              url: 'http://tiktok.com/@itstimwhite',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/tiktok.svg',
+              name: 'TikTok',
+              id: '3',
+            },
+            {
+              url: 'https://www.youtube.com/timwhite',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/youtube.svg',
+              name: 'YouTube',
+              id: '4',
+            },
+            {
+              url: 'https://open.spotify.com/artist/4Uwpa6zW3zzCSQvooQNksm',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/spotify.svg',
+              name: 'Spotify',
+              id: '5',
+            },
+            {
+              url: 'https://music.apple.com/us/artist/tim-white/859547284',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/apple.svg',
+              name: 'Apple Music',
+              id: '6',
+            },
+          ],
+          ctalink: 'mailto:tim@jov.ie',
+          ctatext: 'Email me',
+          ctaicon: 'MailIcon',
+          bio: 'Founder at',
+          biolink: 'https://jov.ie',
+          biolinktext: 'Jovie',
+        },
+        {
+          username: 'mackenzie',
+          name: 'Mackenzie',
+          verified: false,
+          pic: '../img/External/Mackenzie_Moore.webp',
+          links: [
+            {
+              url: 'https://instagram.com/mooremackenziel',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/instagram.svg',
+              name: 'Instagram',
+              id: '1',
+            },
+            {
+              url: 'https://tiktok.com/@tallgirltruths',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/tiktok.svg',
+              name: 'TikTok',
+              id: '2',
+            },
+            {
+              url: 'https://linkedin.com/in/mackenzie-moore-1002a885',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/linkedin.svg',
+              name: 'LinkedIn',
+              id: '3',
+            },
+          ],
+          ctalink: 'mailto:mackenziemoore.nyc@gmail.com',
+          ctatext: 'Contact',
+          ctaicon: 'https://unpkg.com/simple-icons@v6/icons/mail.svg',
+          bio: 'Influencer Marketing Manager',
+        },
+        {
+          name: 'Haruki',
+          username: 'haruki',
+          verified: true,
+          pic: '../img/External/haruki.webp',
+          links: [
+            {
+              url: 'https://www.youtube.com/channel/UCsEUAOux7YF2s5T1m95_Hig',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/youtube.svg',
+              name: 'YouTube',
+              id: '1',
+            },
+            {
+              url: 'https://twitter.com/8rukiii/',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/twitter.svg',
+              name: 'Twitter',
+              id: '2',
+            },
+            {
+              url: 'https://www.instagram.com/hr.8ruki/',
+              icon: 'https://unpkg.com/simple-icons@v6/icons/instagram.svg',
+              name: 'Instagram',
+              id: '3',
+            },
+          ],
+          ctalink: 'https://www.youtube.com/channel/UCsEUAOux7YF2s5T1m95_Hig',
+          ctatext: 'Subscribe',
+          ctaicon: 'MailIcon',
+          bio: 'Video Creator',
+          biolink: null,
+          biolinktext: null,
+        },
+      ],
+    };
   },
 };
 </script>
