@@ -106,10 +106,11 @@
 import JovieLogo from '../components/JovieLogo.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import { MailOpenIcon } from '@heroicons/vue/solid';
+import { FortyTwoIcon } from 'vue-simple-icons';
 
 export default {
   name: 'CreatorProfile',
-  components: { JovieLogo, ButtonGroup, MailOpenIcon },
+  components: { JovieLogo, ButtonGroup, MailOpenIcon, FortyTwoIcon },
   data() {
     return {
       profiles: [

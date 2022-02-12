@@ -90,7 +90,7 @@ export const routes = [
     },
   },
   {
-    name: 'Admin',
+    name: 'Admin Panel',
     path: '/admin',
     component: loadPage('Admin'),
     meta: {
