@@ -3,131 +3,150 @@ import { authenticationGuard } from "../middlewares/auth";
 import store from "../store";
 
 function loadPage(page) {
-    return () =>
-        import (`./../views/${page}.vue`);
+    return () => import(`./../views/${page}.vue`);
 }
 
-export const routes = [{
-        name: 'home',
-        path: '/',
-        component: loadPage('Home')
+export const routes = [
+    {
+        name: "home",
+        path: "/",
+        component: loadPage("Home"),
     },
     {
-        name: 'pricing',
-        path: '/pricing',
-        component: loadPage('Pricing'),
+        name: "pricing",
+        path: "/pricing",
+        component: loadPage("Pricing"),
         meta: {
-            layout: 'default',
+            layout: "default",
         },
     },
     {
-        name: 'account',
-        path: '/account',
-        component: loadPage('Account'),
+        name: "account",
+        path: "/account",
+        component: loadPage("Account"),
         beforeEnter: authenticationGuard,
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        name: 'dashboard',
-        path: '/dashboard',
-        component: loadPage('Dashboard'),
+        name: "dashboard",
+        path: "/dashboard",
+        component: loadPage("Dashboard"),
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        name: 'crm',
-        path: '/crm',
-        component: loadPage('Crm'),
+        name: "crm",
+        path: "/crm",
+        component: loadPage("Crm"),
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        about: 'about',
-        path: '/about',
-        component: loadPage('About'),
-        beforeEnter: authenticationGuard
+        about: "about",
+        path: "/about",
+        component: loadPage("About"),
+        beforeEnter: authenticationGuard,
     },
     {
-        name: 'terms',
-        path: '/terms',
-        component: loadPage('Terms'),
+        name: "terms",
+        path: "/terms",
+        component: loadPage("Terms"),
         meta: {
-            layout: 'Default'
-        }
+            layout: "Default",
+        },
     },
     {
-        name: 'privacy',
-        path: '/privacy',
-        component: loadPage('Privacy'),
+        name: "privacy",
+        path: "/privacy",
+        component: loadPage("Privacy"),
         meta: {
-            layout: 'Default'
-        }
+            layout: "Default",
+        },
     },
     {
-        name: 'demo',
-        path: '/demo',
+        name: "demo",
+        path: "/demo",
         beforeEnter(to, from, next) {
-            window.open('https://u3yaoaf518v.typeform.com/to/MSzEeSrT', '_blank')
-        }
+            window.open(
+                "https://u3yaoaf518v.typeform.com/to/MSzEeSrT",
+                "_blank"
+            );
+        },
     },
     {
-        name: 'import',
-        path: '/import',
-        component: loadPage('Import'),
+        name: "import",
+        path: "/import",
+        component: loadPage("Import"),
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        name: 'admin',
-        path: '/admin',
-        component: loadPage('Admin'),
+        name: "admin",
+        path: "/admin",
+        component: loadPage("Admin"),
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        name: 'outreach',
-        path: '/outreach',
-        component: loadPage('Outreach'),
+        name: "outreach",
+        path: "/outreach",
+        component: loadPage("Outreach"),
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        name: 'discovery',
-        path: '/discovery',
-        component: loadPage('Discovery'),
+        name: "discovery",
+        path: "/discovery",
+        component: loadPage("Discovery"),
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        name: 'analytics',
-        path: '/analytics',
-        component: loadPage('Analytics'),
+        name: "analytics",
+        path: "/analytics",
+        component: loadPage("Analytics"),
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        name: 'campaigns',
-        path: '/campaigns',
-        component: loadPage('Campaigns'),
+        name: "campaigns",
+        path: "/campaigns",
+        component: loadPage("Campaigns"),
         meta: {
-            layout: 'App'
-        }
+            layout: "App",
+        },
     },
     {
-        name: 'Profile',
-        path: '/tim',
-        component: loadPage('CreatorProfile'),
+        name: "Tim White Profile",
+        path: "/tim",
+        component: loadPage("Tim"),
         meta: {
-            layout: 'Default'
-        }
+            layout: "Default",
+        },
     },
-]
+    {
+        name: "Mackenzie Profile",
+        path: "/mackenzie",
+        component: loadPage("Mackenzie"),
+        meta: {
+            layout: "Default",
+        },
+    },
+    {
+        name: "Profile",
+        path: "/haruki",
+        component: loadPage("Haruki"),
+        meta: {
+            layout: "Default",
+        },
+    },
+];
