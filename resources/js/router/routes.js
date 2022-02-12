@@ -78,6 +78,16 @@ export const routes = [
         },
     },
     {
+        name: "creators",
+        path: "/creators",
+        beforeEnter(to, from, next) {
+            window.open(
+                "https://u3yaoaf518v.typeform.com/to/lxFUTGnY",
+                "_blank"
+            );
+        },
+    },
+    {
         name: "import",
         path: "/import",
         component: loadPage("Import"),
