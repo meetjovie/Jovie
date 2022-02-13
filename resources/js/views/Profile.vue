@@ -39,8 +39,7 @@
       <div class="mt-2 2xl:mt-8">
         <fieldset class="mt-0 2xl:mt-2">
           <legend class="sr-only">Social links</legend>
-          <div
-            class="grid grid-cols-3 items-center justify-between gap-3 sm:grid-cols-6">
+          <div class="flex items-center justify-between gap-3 sm:grid-cols-6">
             <div
               v-for="link in profile.links"
               :key="link.id"
