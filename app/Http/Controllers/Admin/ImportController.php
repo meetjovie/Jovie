@@ -34,7 +34,7 @@ class ImportController extends Controller
     {
         $request->validate([
             'instagram' => 'required_without_all:file,youtube',
-            'youtube' => 'required_without_all:file,instagram',
+//            'youtube' => 'required_without_all:file,instagram',
 //            'file' => 'required_without_all:instagram,youtube|mimes:csv'
         ]);
         if ($request->instagram) {

@@ -22,7 +22,7 @@ trait GeneralTrait {
                             Storage::disk('s3')->delete($old_file_path);
                         }
                     }
-                    return $upload;
+                    return Storage::disk('s3')->url($path);
                 }
             }
             return $old_file_path;

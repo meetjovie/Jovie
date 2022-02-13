@@ -16,7 +16,8 @@
         "laravel/vapor-cli": "^1.36",
         "laravel/vapor-core": "^2.19",
         "laravel/vapor-ui": "^1.5",
-        "maatwebsite/excel": "^3.1"
+        "maatwebsite/excel": "^3.1",
+        "weidner/goutte": "^2.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -29,6 +29,7 @@ trait SocialScrapperTrait {
                 Artisan::command('php artisan queue:clear sqs');
             }
             SendSlackNotification::dispatch('Error on Instagram Import WEB SCRAPPER API '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine());
+            return null;
         }
     }
 
