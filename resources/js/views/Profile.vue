@@ -2,7 +2,7 @@
   <div
     class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
     <div
-      v-for="profile in profiles"
+      v-for="(profile, username) in profiles"
       :key="profile.username"
       class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <div>
@@ -39,7 +39,7 @@
       <div class="mt-2 2xl:mt-8">
         <fieldset class="mt-0 2xl:mt-2">
           <legend class="sr-only">Social links</legend>
-          <div class="flex items-center justify-between gap-3 sm:grid-cols-6">
+          <div class="flex items-center justify-between gap-2 sm:grid-cols-6">
             <div
               v-for="link in profile.links"
               :key="link.id"
@@ -106,9 +106,20 @@ import ButtonGroup from '../components/ButtonGroup.vue';
 import { MailOpenIcon } from '@heroicons/vue/solid';
 import CreatorProfiles from '/Users/timwhite/Documents/GitHub/Jovie/resources/json/creatorprofiles.json';
 
+const profile = CreatorProfiles.find(
+  (profile) => profile.username === '{{ $profile->username }}'
+);
+
 export default {
   name: 'CreatorProfile',
   components: { JovieLogo, ButtonGroup, MailOpenIcon },
+  computed: {
+    currentProfile() {
+      return this.CreatorProfiles.find(
+        (profile) => profile.username === this.$route.params.username
+      );
+    },
+  },
   data() {
     return {
       profiles: CreatorProfiles,
