@@ -43,6 +43,7 @@
           <legend class="sr-only">Social links</legend>
           <div
             v-for="link in profile.link"
+            :key="link.name"
             class="grid grid-cols-3 items-center justify-between gap-3 sm:grid-cols-6">
             <div
               class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
