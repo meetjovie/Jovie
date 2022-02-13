@@ -1,11 +1,11 @@
 <template>
     <div>
-       
+        
         <main>  
             <HomeHeroSection></HomeHeroSection>
             <HomeLogoCloud></HomeLogoCloud>
-            <HomeFeatureDiscovery></HomeFeatureDiscovery>
-            <HomeFeatureCRM></HomeFeatureCRM>
+            <HomeFeatureDiscovery id="discovery"></HomeFeatureDiscovery>
+            <HomeFeatureCRM id="crm"></HomeFeatureCRM>
             <HomeFeatureSequences></HomeFeatureSequences>
             <HomeCTA></HomeCTA>
             <HomeTestimonials></HomeTestimonials>
@@ -23,6 +23,10 @@ import {
     PencilAltIcon,
     TrashIcon,
     UsersIcon,
+    ChevronDownIcon,
+    SearchIcon,
+    UserGroupIcon,
+    MailIcon
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
 import {useAuth0} from "../utils/useAuth0";
@@ -34,6 +38,8 @@ import HomeCTA from "../components/Home/HomeCTA";
 import HomeTestimonials from "../components/Home/HomeTestimonials";
 import HomeCTA2 from "../components/Home/HomeCTA2";
 import HomeFeatureCRM from "../components/Home/HomeFeatureCRM";
+import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
+
 
 const {login, logout, initAuth} = useAuth0();
 
@@ -48,6 +54,14 @@ export default {
         HomeTestimonials,
         HomeCTA2,
         HomeFeatureCRM,
+        Popover,
+        PopoverButton,
+        PopoverPanel,
+        PopoverOverlay,
+        ChevronDownIcon,
+        UserGroupIcon,
+        SearchIcon,
+        MailIcon
     },
     setup() {
         initAuth();
@@ -76,6 +90,7 @@ export default {
                     icon: PencilAltIcon,
                 },
             ],
+            
             waitListEmail: '',
             error: null
         }

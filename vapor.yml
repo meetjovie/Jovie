@@ -35,7 +35,6 @@ environments:
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
-            - 'rm -rf composer.lock'
             - 'npm ci && npm run prod && rm -rf node_modules'
     dev:
         queue-concurrency: 5
@@ -47,7 +46,8 @@ environments:
             - dev.jov.ie
         network: A7X3-PRIMARY
         build:
-            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+            - 'composer install --no-dev'
+            - 'composer update'
             - 'php artisan event:cache'
             - 'rm -rf composer.lock'
             - 'npm ci && npm run prod && rm -rf node_modules'

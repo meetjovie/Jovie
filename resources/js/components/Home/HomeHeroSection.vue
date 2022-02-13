@@ -32,15 +32,19 @@
 
                     <main class="mt-16 mx-auto max-w-7xl py-8 lg:py-24 px-4 min-h-1/2 sm:mt-24">
                         <div class="text-center">
-                            <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                                <span class="block xl:inline">Grow your community</span>
+                            <h1 class="text-3xl md:text-5xl xl:text-6xl tracking-tight font-extrabold text-gray-900">
+                                <span class="inline">Scale your</span>
                                 {{ ' ' }}
-                                <span class="block text-indigo-700 xl:inline">with creators</span>
+                                <span class="inline text-indigo-700">creator</span>
+                                
+                                {{ ' ' }}
+                                <span class="inline"> partnerships</span>
                             </h1>
                             <p class="mt-3 max-w-md mx-auto text-center text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                                <span class="font-bold text-indigo-600">Jovie</span> identifies the creators most likely
-                                to <span class="underline font-bold decoration-pink-500 decoration-4 ">love</span> your
-                                brand.
+                                <span class="font-bold">Easily </span>
+                                {{ ' ' }}
+                                <span class="font-bold text-indigo-600">build</span>, <span class="font-bold text-indigo-600">manage</span>, & <span class="font-bold text-indigo-600">grow </span>
+                                <span class="underline font-bold decoration-pink-500 decoration-4 ">creator communities</span>.
                             </p>
                             <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
                                 <div class="rounded-md ">
@@ -71,3 +75,31 @@
                 </div>
             </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            waitListEmail: '',
+            error: null
+        }
+    },
+    methods: {
+        async requestDemo() {
+            await UserService.addToWaitList({email: this.waitListEmail}).then(response => {
+                response = response.data
+                if (response.status) {
+                    this.$store.commit('setAddedToWaitList')
+                    this.waitListEmail = ''
+                    this.error = null
+                    this.$router.push('demo')
+                }
+            }).catch(error => {
+                error = error.response
+                if (error.status == 422) {
+                    this.error = error.data.errors.email[0]
+                }
+            })
+        }
+    }
+}
+</script>

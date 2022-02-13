@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="py-16 bg-gray-50 overflow-hidden lg:py-24">
+  <div id="outreach" class="py-16 bg-gray-50 overflow-hidden lg:py-24">
     <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
      <!--  <svg class="hidden lg:block absolute left-full transform -translate-x-1/2 -translate-y-1/4" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
         <defs>
@@ -100,7 +100,7 @@
               </defs>
               <rect width="784" height="404" fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
             </svg>
-            <img class="relative mx-auto rounded-md shadow-xl object-cover" width="490" :src="asset('images/External/HomeFeatureOutreach.png')" />
+            <img class="relative mx-auto rounded-md shadow-xl object-cover" width="490" :src="asset('img/External/HomeFeatureOutreach.webp')" />
           </div>
         </div>
       </div>
