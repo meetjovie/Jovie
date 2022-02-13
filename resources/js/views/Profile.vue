@@ -7,7 +7,7 @@
       class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <div>
         <img
-          class="block-inline 2xL:w-auto mx-auto mt-0 w-48 rounded-full object-cover object-center sm:w-64 2xl:w-80"
+          class="block-inline mx-auto mt-0 aspect-square w-48 rounded-full object-cover object-center sm:w-64 2xl:w-80"
           :src="asset(profile.pic)"
           alt="" />
         <div class="mx-auto mt-6 flex 2xl:mt-12">
@@ -40,8 +40,7 @@
         <fieldset class="mt-0 2xl:mt-2">
           <legend class="sr-only">Social links</legend>
           <div
-            class="grid grid-cols-3 items-center justify-between gap-3 sm:grid-cols-6"
-            :class="[]">
+            class="grid grid-cols-3 items-center justify-between gap-3 sm:grid-cols-6">
             <div
               v-for="link in profile.links"
               :key="link.id"
