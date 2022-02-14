@@ -67,7 +67,7 @@
 
                         <input type="text" name="email" id="email"
                                class="mt-4 focus-visible:ring-indigo-500 py-3 focus-visible:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                               placeholder="you@example.com"> 
+                               placeholder="you@example.com">
 
                 </div>
                 </div>
@@ -104,7 +104,7 @@
 import JovieLogo from '../components/JovieLogo.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import { MailOpenIcon } from '@heroicons/vue/solid';
-import CreatorProfiles from '/Users/timwhite/Documents/GitHub/Jovie/resources/json/creatorprofiles.json';
+import CreatorProfiles from '../../../resources/json/creatorprofiles.json';
 
 const profile = CreatorProfiles.find(
   (profile) => profile.username === '{{ $profile->username }}'
