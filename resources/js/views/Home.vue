@@ -96,7 +96,7 @@
                 class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
                 <div class="rounded-md">
                   <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
-                    <form class="sm:flex">
+                    <div class="sm:flex">
                       <label
                         v-if="!$store.state.addedToWaitList"
                         for="email-address"
@@ -104,6 +104,7 @@
                         >Email address</label
                       >
                       <input
+                          v-on:keyup.enter="requestDemo()"
                         v-if="!$store.state.addedToWaitList"
                         id="email-address"
                         v-model="waitListEmail"
@@ -126,7 +127,7 @@
                         class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
                         Request Demo
                       </button>
-                    </form>
+                    </div>
                     <span class="float-left text-red-900">{{
                       this.error
                     }}</span>
