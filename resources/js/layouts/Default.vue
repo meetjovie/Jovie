@@ -49,7 +49,7 @@
                                             >
                                                 <div class="relative grid gap-8 bg-white p-7 lg:grid-cols-2">
                                                 <router-link
-                                                    v-for="item in solutions"
+                                                    v-for="item in features"
                                                     :key="item.name"
                                                     :to="item.href" @click.native="scrollFix(item.anchor)"
                                                     class="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
@@ -214,25 +214,25 @@ export default {
     },
     data() {
         return {
-          solutions: [
+          features: [
         {
           name: 'AI Discovery',
-          description: 'Identify creators most likely to love your brand ',
-          href: 'discovery',
+          description: 'Identify the perfect creators',
+          href: '/',
           anchor: '#discovery',
           icon: 'SearchIcon',
         },
         {
           name: 'CRM',
           description: 'Manage your relationships',
-          href: 'discovery',
+          href: '/',
           anchor: '#crm',
           icon: 'UserGroupIcon',
         },
         {
           name: 'Outreach',
           description: 'Onboard new creators at scale',
-          href: 'discovery',
+          href: '/',
           anchor: '#outreach',
           icon: 'MailIcon',
         },
@@ -249,9 +249,9 @@ export default {
             logout()
         },
         scrollFix: function(hashbang)
-    {
-      location.hash = hashbang;
-    },
+        {
+        location.hash = hashbang;
+        },
         async requestDemo() {
             await UserService.addToWaitList({email: this.waitListEmail}).then(response => {
                 response = response.data

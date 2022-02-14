@@ -1,0 +1,114 @@
+[
+  {
+    "username": "timwhite",
+    "name": "Tim White",
+    "verified": true,
+    "pic": "../img/External/timwhite.webp",
+    "links": [
+      {
+        "url": "https://twitter.com/itstimwhite",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/twitter.svg",
+        "name": "Twitter",
+        "id": "1"
+      },
+      {
+        "url": "https://instagram.com/timwhite",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/instagram.svg",
+        "name": "Instagram",
+        "id": "2"
+      },
+      {
+        "url": "http://tiktok.com/@itstimwhite",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/tiktok.svg",
+        "name": "TikTok",
+        "id": "3"
+      },
+      {
+        "url": "https://www.youtube.com/timwhite",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/youtube.svg",
+        "name": "YouTube",
+        "id": "4"
+      },
+      {
+        "url": "https://open.spotify.com/artist/4Uwpa6zW3zzCSQvooQNksm",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/spotify.svg",
+        "name": "Spotify",
+        "id": "5"
+      },
+      {
+        "url": "https://music.apple.com/us/artist/tim-white/859547284",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/apple.svg",
+        "name": "Apple Music",
+        "id": "6"
+      }
+    ],
+    "ctalink": "mailto:tim@jov.ie",
+    "ctatext": "Email me",
+    "ctaicon": "MailIcon",
+    "bio": "Founder at",
+    "biolink": "https://jov.ie",
+    "biolinktext": "Jovie"
+  },
+  {
+    "username": "mackenzie",
+    "name": "Mackenzie",
+    "verified": false,
+    "pic": "../img/External/Mackenzie_Moore.webp",
+    "links": [
+      {
+        "url": "https://instagram.com/mooremackenziel",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/instagram.svg",
+        "name": "Instagram",
+        "id": "1"
+      },
+      {
+        "url": "https://tiktok.com/@tallgirltruths",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/tiktok.svg",
+        "name": "TikTok",
+        "id": "2"
+      },
+      {
+        "url": "https://linkedin.com/in/mackenzie-moore-1002a885",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/linkedin.svg",
+        "name": "LinkedIn",
+        "id": "3"
+      }
+    ],
+    "ctalink": "mailto:mackenziemoore.nyc@gmail.com",
+    "ctatext": "Contact",
+    "ctaicon": "https://unpkg.com/simple-icons@v6/icons/mail.svg",
+    "bio": "Influencer Marketing Manager"
+  },
+  {
+    "name": "Haruki",
+    "username": "haruki",
+    "verified": true,
+    "pic": "../img/External/haruki.webp",
+    "links": [
+      {
+        "url": "https://www.youtube.com/channel/UCsEUAOux7YF2s5T1m95_Hig",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/youtube.svg",
+        "name": "YouTube",
+        "id": "1"
+      },
+      {
+        "url": "https://twitter.com/8rukiii/",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/twitter.svg",
+        "name": "Twitter",
+        "id": "2"
+      },
+      {
+        "url": "https://www.instagram.com/hr.8ruki/",
+        "icon": "https://unpkg.com/simple-icons@v6/icons/instagram.svg",
+        "name": "Instagram",
+        "id": "3"
+      }
+    ],
+    "ctalink": "https://www.youtube.com/channel/UCsEUAOux7YF2s5T1m95_Hig",
+    "ctatext": "Subscribe",
+    "ctaicon": "MailIcon",
+    "bio": "Video Creator",
+    "biolink": null,
+    "biolinktext": null
+  }
+]
