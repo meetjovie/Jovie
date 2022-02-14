@@ -217,7 +217,7 @@ export default {
           features: [
         {
           name: 'AI Discovery',
-          description: 'Identify creators most likely to love your brand ',
+          description: 'Identify the perfect creators',
           href: '/',
           anchor: '#discovery',
           icon: 'SearchIcon',

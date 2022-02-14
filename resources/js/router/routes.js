@@ -149,6 +149,7 @@ export const routes = [
     name: 'Profile',
     path: '/:username',
     component: loadPage('Profile'),
+    props: true,
     meta: {
       layout: 'Creators',
     },
