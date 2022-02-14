@@ -1,7 +1,7 @@
 <template>
   <div id="wbars_all" class="leading-4 text-neutral-700">
     <div
-      class="clearfix relative mx-auto mt-12 rounded-xl rounded-sm bg-neutral-100 text-neutral-700"
+      class="clearfix relative mx-auto mt-12 rounded-xl bg-neutral-100 text-neutral-700"
       style="max-width: 800px">
       <div id="wbars" class="relative h-auto" style="overflow: hidden auto">
         <div

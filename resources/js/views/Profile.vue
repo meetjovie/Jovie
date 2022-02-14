@@ -2,7 +2,7 @@
   <div
     class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
     <div
-      v-for="(profile, username) in profiles"
+      v-for="profile in profiles"
       :key="profile.username"
       class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <div>
