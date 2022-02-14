@@ -3,9 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\User;
-
-use Auth0\Login\Auth0User;
 use Auth0\Login\Auth0JWTUser;
+use Auth0\Login\Auth0User;
 use Auth0\Login\Repository\Auth0UserRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +13,8 @@ use Segment\Segment;
 
 class CustomAuth0UserRepository extends Auth0UserRepository
 {
-    public function upsertUser( $profile ) {
+    public function upsertUser($profile)
+    {
         $user = User::firstOrCreate(['sub' => $profile['sub']], [
             'email' => $profile['email'] ?? '',
             'first_name' => $profile['name'] ?? '-',
@@ -51,13 +51,15 @@ class CustomAuth0UserRepository extends Auth0UserRepository
 
     public function getUserByDecodedJWT(array $decodedJwt) : Authenticatable
     {
-        return $this->upsertUser( $decodedJwt );
-        return new Auth0JWTUser( $user->getAttributes() );
+        return $this->upsertUser($decodedJwt);
+
+        return new Auth0JWTUser($user->getAttributes());
     }
 
     public function getUserByUserInfo(array $userinfo) : Authenticatable
     {
-        $user = $this->upsertUser( $userinfo['profile'] );
+        $user = $this->upsertUser($userinfo['profile']);
+
         return $user;
     }
 
@@ -67,8 +69,9 @@ class CustomAuth0UserRepository extends Auth0UserRepository
             return User::first();
         }
         $auth0 = \App::make('auth0');
-        $accessToken = $request->bearerToken() ?? "";
+        $accessToken = $request->bearerToken() ?? '';
         $tokenInfo = $auth0->decodeJWT($accessToken);
+
         return $this->getUserByDecodedJWT($tokenInfo);
     }
 }

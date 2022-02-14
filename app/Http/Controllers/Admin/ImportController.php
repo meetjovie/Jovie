@@ -17,13 +17,14 @@ class ImportController extends Controller
         if (count($headings)) {
             return collect([
                 'status' => true,
-                'columns' => $headings[0][0]
+                'columns' => $headings[0][0],
             ]);
         }
+
         return collect([
             'status' => false,
             'columns' => $headings[0][0],
-            'message' => 'No heading found.'
+            'message' => 'No heading found.',
         ]);
     }
 }

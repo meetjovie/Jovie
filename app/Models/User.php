@@ -27,7 +27,7 @@ class User extends Authenticatable
         'email',
         'sub',
         'password',
-        'profile_pic_url'
+        'profile_pic_url',
     ];
 
     /**
@@ -56,6 +56,7 @@ class User extends Authenticatable
         if ($value && Storage::disk('s3')->exists($value)) {
             return Storage::disk('s3')->url($value);
         }
+
         return null;
     }
 

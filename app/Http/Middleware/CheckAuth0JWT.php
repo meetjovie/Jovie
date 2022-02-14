@@ -1,4 +1,5 @@
 <?php
+
 // app/Http/Middleware/CheckJWT.php
 
 namespace App\Http\Middleware;
@@ -36,19 +37,18 @@ class CheckAuth0JWT
         }
         $auth0 = \App::make('auth0');
 
-        $accessToken = $request->bearerToken() ?? "";
+        $accessToken = $request->bearerToken() ?? '';
         try {
             $tokenInfo = $auth0->decodeJWT($accessToken);
             $user = $this->userRepository->getUserByDecodedJWT($tokenInfo);
             $this->userRepository->upsertUser($user);
-            if (!$user) {
-                return response()->json(["message" => "Unauthorized user"], 401);
+            if (! $user) {
+                return response()->json(['message' => 'Unauthorized user'], 401);
             }
-
         } catch (InvalidTokenException $e) {
-            return response()->json(["message" => $e->getMessage()], 401);
+            return response()->json(['message' => $e->getMessage()], 401);
         } catch (CoreException $e) {
-            return response()->json(["message" => $e->getMessage()], 401);
+            return response()->json(['message' => $e->getMessage()], 401);
         }
 
         return $next($request);

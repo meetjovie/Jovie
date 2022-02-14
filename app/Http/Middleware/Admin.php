@@ -32,6 +32,7 @@ class Admin
         if ($this->userRepository->currentUser($request)->is_admin) {
             return $next($request);
         }
-        return response()->json(["message" => "Unauthorized user"], 401);
+
+        return response()->json(['message' => 'Unauthorized user'], 401);
     }
 }

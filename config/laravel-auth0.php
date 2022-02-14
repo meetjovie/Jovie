@@ -10,7 +10,7 @@ return [
     | As set in the auth0 administration page
     |--------------------------------------------------------------------------
     */
-    'domain' => env( 'MIX_AUTH0_DOMAIN', 'a7x3.us.auth0.com' ),
+    'domain' => env('MIX_AUTH0_DOMAIN', 'a7x3.us.auth0.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ return [
     | As set in the auth0 administration page
     |--------------------------------------------------------------------------
     */
-    'client_id' => env( 'MIX_AUTH0_CLIENT_ID' ),
+    'client_id' => env('MIX_AUTH0_CLIENT_ID'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
     | As set in the auth0 administration page
     |--------------------------------------------------------------------------
     */
-    'client_secret' => env( 'AUTH0_CLIENT_SECRET' ),
+    'client_secret' => env('AUTH0_CLIENT_SECRET'),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
     | 'Auth0\Login\Auth0Controller@callback'
     |--------------------------------------------------------------------------
     */
-    'redirect_uri' => env( 'APP_URL' ),
+    'redirect_uri' => env('APP_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -87,9 +87,9 @@ return [
     | Token decoding algorithms supported by your API
     |--------------------------------------------------------------------------
     */
-    'authorized_issuers' => [ env('AUTH0_DOMAIN_URL', 'https://a7x3.us.auth0.com/') ],
-    'api_identifier' => env('AUTH0_API_IDENTIFIER' ),
-    'supported_algs' => [ 'RS256' ],
+    'authorized_issuers' => [env('AUTH0_DOMAIN_URL', 'https://a7x3.us.auth0.com/')],
+    'api_identifier' => env('AUTH0_API_IDENTIFIER'),
+    'supported_algs' => ['RS256'],
 
     /*
     |--------------------------------------------------------------------------

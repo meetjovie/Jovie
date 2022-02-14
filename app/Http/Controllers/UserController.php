@@ -40,12 +40,13 @@ class UserController extends Controller
             return collect([
                 'status' => true,
                 'message' => 'Profile Information Updated.',
-                'user' => $this->userRepo->currentUser($request)
+                'user' => $this->userRepo->currentUser($request),
             ]);
         }
+
         return collect([
             'status' => false,
-            'message' => 'Something went wrong. Please try again later.'
+            'message' => 'Something went wrong. Please try again later.',
         ]);
     }
 
@@ -55,21 +56,23 @@ class UserController extends Controller
         if ($profile = $user->getRawOriginal('profile_pic_url')) {
             if (Storage::disk('s3')->delete($profile)) {
                 User::where('id', $user->id)->update(['profile_pic_url' => null]);
+
                 return collect([
                     'status' => true,
                     'message' => 'Profile photo removed.',
-                    'user' => $this->userRepo->currentUser($request)
+                    'user' => $this->userRepo->currentUser($request),
                 ]);
             } else {
                 return collect([
                     'status' => false,
-                    'message' => 'Failed to remove profile photo.'
+                    'message' => 'Failed to remove profile photo.',
                 ]);
             }
         }
+
         return collect([
             'status' => false,
-            'message' => 'No profile photo to remove.'
+            'message' => 'No profile photo to remove.',
         ]);
     }
 
@@ -80,12 +83,13 @@ class UserController extends Controller
         if ($status) {
             return collect([
                 'status' => true,
-                'message' => 'Added to wait list'
+                'message' => 'Added to wait list',
             ]);
         }
+
         return collect([
             'status' => false,
-            'message' => 'Something went wrong. Please try again later.'
+            'message' => 'Something went wrong. Please try again later.',
         ]);
     }
 }
