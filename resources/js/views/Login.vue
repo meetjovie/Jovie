@@ -92,8 +92,8 @@
       </div>
     </div>
     <div
-      class="relative hidden min-h-screen flex-1 items-center bg-indigo-700 lg:block">
-      <div class="my-auto mx-auto h-full items-center justify-center">
+      class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
+      <div class="m-auto flex h-full items-center">
         <JovieLogo height="48px" color="#fff" />
       </div>
     </div>
