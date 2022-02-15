@@ -274,7 +274,7 @@
                                   <span class="group-hover:hidden">
                                     {{ creator.id }}
                                   </span>
-                                  <span class="group-hover:block">
+                                  <span class="hidden group-hover:block">
                                     <input
                                       id="comments-description"
                                       aria-describedby="comments-description"

@@ -76,9 +76,8 @@
       <div
         class="mx-auto mt-4 flex justify-between border-t border-indigo-600 py-1 px-2 text-[8px]">
         <div class="divide-x-1 d justify-right flex gap-2">
-          <div class="text-neutral-400 hover:text-neutral-200">
-            <a href="/privacy">Privacy</a><br />
-            <a href="/terms">Terms</a>
+          <div class="text-indigo-400 hover:text-neutral-200">
+            <router-link to="/privacy">Legal</router-link>
           </div>
         </div>
       </div>
