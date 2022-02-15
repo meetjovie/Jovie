@@ -134,7 +134,7 @@ export const routes = [
     path: '/tim',
     component: loadPage('Tim'),
     meta: {
-      layout: 'Creators',
+      layout: 'Minimal',
     },
   },
   {
@@ -142,16 +142,40 @@ export const routes = [
     path: '/haruki',
     component: loadPage('Haruki'),
     meta: {
-      layout: 'Creators',
+      layout: 'Minimal',
     },
   },
   {
+    name: 'Create Account',
+    path: '/signup',
+    component: loadPage('Signup'),
+    meta: {
+      layout: 'Minimal',
+    },
+  },
+  {
+    name: 'Forgot Password',
+    path: '/forgot-password',
+    component: loadPage('ForgotPassword'),
+    meta: {
+      layout: 'Minimal',
+    },
+  },
+  {
+    name: 'Login',
+    path: '/login',
+    component: loadPage('Login'),
+    meta: {
+      layout: 'Minimal',
+    },
+  },
+  /* {
     name: 'Profile',
     path: '/:username',
     component: loadPage('Profile'),
     props: true,
     meta: {
-      layout: 'Creators',
+      layout: 'Minimal',
     },
-  },
+  }, */
 ];
