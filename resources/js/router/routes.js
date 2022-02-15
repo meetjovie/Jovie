@@ -82,6 +82,13 @@ export const routes = [
     },
   },
   {
+    name: 'Status',
+    path: '/status',
+    beforeEnter(to, from, next) {
+      window.open('https://jovie.statuspage.io/', '_blank');
+    },
+  },
+  {
     name: 'Import',
     path: '/import',
     component: loadPage('Import'),
@@ -169,6 +176,7 @@ export const routes = [
       layout: 'Minimal',
     },
   },
+
   /* {
     name: 'Profile',
     path: '/:username',

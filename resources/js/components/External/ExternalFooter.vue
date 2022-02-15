@@ -30,8 +30,15 @@
         <div class="">
           <p class="justify-right text-center text-xs text-gray-400">
             <span class="divide divide-x-1 flex divide-gray-200">
-              <a class="px-2 hover:text-neutral-700" href="/pricing">Pricing</a>
-              <a class="px-2 hover:text-neutral-700" href="/privacy">Legal</a>
+              <router-link class="px-2 hover:text-neutral-700" to="/pricing"
+                >Pricing</router-link
+              >
+              <router-link class="px-2 hover:text-neutral-700" to="/privacy"
+                >Legal</router-link
+              >
+              <router-link class="px-2 hover:text-neutral-700" to="/status"
+                >Status</router-link
+              >
             </span>
           </p>
         </div>
