@@ -19,6 +19,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class InstagramImport implements ShouldQueue
@@ -141,7 +142,7 @@ class InstagramImport implements ShouldQueue
             $creator->instagram_handler = $user->username;
             $creator->account_type = $this->getAccountType($user->is_business_account);
 
-            $creator->instagram_media = $this->getTimelineMedia($user);
+            $creator->instagram_media = $this->getTimelineMedia($user, $creator);
             $creator->instagram_followers = $this->getFollowers($user);
             $creator->instagram_category = $user->category_name ?? null;
 
@@ -169,7 +170,7 @@ class InstagramImport implements ShouldQueue
             $meta['has_blocked_viewer'] = $user->has_blocked_viewer;
             $meta['is_business_account'] = $user->is_business_account;
             $meta['has_ar_effects'] = $user->has_ar_effects;
-            $creator->instagram_meta = $meta;
+            $creator->instagram_meta = json_encode($meta);
             $creator->save();
 
             if ($this->parentCreator && $creator->account_type == 'BRAND') {
@@ -237,7 +238,7 @@ class InstagramImport implements ShouldQueue
     public function getTags($tags, $creator)
     {
         if ($creator) {
-            if (!$tags) return $creator->tags;
+            if (!$tags) return json_encode($creator->tags);
             $tags = explode(',', $tags);
             return json_encode(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? []))));
         }
@@ -258,8 +259,13 @@ class InstagramImport implements ShouldQueue
         return self::uploadFile($file, Creator::CREATORS_PROFILE_PATH);
     }
 
-    public function getTimelineMedia($user)
+    public function getTimelineMedia($user, $creator)
     {
+        foreach ($creator->instagram_media as $media) {
+            if (Storage::disk('s3')->exists($media->display_url)) {
+                Storage::disk('s3')->delete($media->display_url);
+            }
+        }
         $timelineMedia = collect();
         $mediaCount = 0;
         if ($user->edge_owner_to_timeline_media && $user->edge_owner_to_timeline_media->edges
