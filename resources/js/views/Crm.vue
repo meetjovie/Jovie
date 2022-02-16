@@ -370,9 +370,9 @@
                               class="border-1 w-14 border-collapse items-center whitespace-nowrap border px-2 py-1">
                               <span
                                 class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center justify-between text-xs font-bold">
-                                <div class="mr-2 group-hover:opacity-100 opacity-30 items-center">
+                                <a :href="creator.networklink" class="mr-2 group-hover:opacity-100 opacity-30 items-center">
                                 <SocialIcons height="14px" :icon="creator.network" />
-                                </div>
+                                </a>
                                 {{ creator.followers }}
                               </span>
                             </td>
@@ -686,6 +686,7 @@ export default {
           id: 1,
           favorite: true,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Martha Hoover',
           firstname: 'Marth',
           lastname: 'Hoover',
@@ -702,6 +703,7 @@ export default {
           id: 2,
           favorite: false,
           network: 'twitter',
+          networklink: 'http://twitter.com/itstimwhite',
           name: 'Candice Mccoy',
           firstname: 'Candice',
           lastname: 'Mccoy',
@@ -718,6 +720,7 @@ export default {
           id: 3,
           favorite: false,
           network: 'youtube',
+          networklink: 'http://youtube.com/timwhite',
           name: 'Taylor Smith',
           firstname: 'Taylor',
           lastname: 'Smith',
@@ -734,6 +737,7 @@ export default {
           id: 4,
           favorite: false,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Taylor Smith',
           firstname: 'Taylor',
           lastname: 'Smith',
@@ -750,6 +754,7 @@ export default {
           id: 5,
           favorite: false,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Keira Jones',
           firstname: 'Keira',
           lastname: 'Jones',
@@ -766,6 +771,7 @@ export default {
           id: 6,
           favorite: false,
           network: 'snapchat',
+          networklink: 'http://snapchat.com/timwhite',
           name: 'Mila Vance',
           firstname: 'Mila',
           lastname: 'Vance',
@@ -782,6 +788,7 @@ export default {
           id: 7,
           favorite: false,
           network: 'tiktok',
+          networklink: 'http://tiktok.com/@timwhite',
           name: 'Kylie Brent',
           firstname: 'Kylie',
           lastname: 'Brent',
@@ -798,6 +805,7 @@ export default {
           id: 8,
           favorite: false,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Sophia Dustin',
           firstname: 'Sophia',
           lastname: 'Dustin',
@@ -814,6 +822,7 @@ export default {
           id: 9,
           favorite: false,
           network: 'snapchat',
+          networklink: 'http://snapchat.com/timwhite',
           name: 'James Johnson',
           firstname: 'James',
           lastname: 'Johnson',
@@ -830,6 +839,7 @@ export default {
           id: 10,
           favorite: false,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Mike Croft',
           firstname: 'Mike',
           lastname: 'Croft',
