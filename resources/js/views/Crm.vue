@@ -368,13 +368,13 @@
                             </td>
                             <td
                               class="border-1 w-14 border-collapse items-center whitespace-nowrap border px-2 py-1">
-                              <span
+                              <a :href="creator.networklink"
                                 class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center justify-between text-xs font-bold">
-                                <a :href="creator.networklink" class="mr-2 group-hover:opacity-100 opacity-30 items-center">
+                                <div  class="mr-2 group-hover:opacity-100 opacity-30 items-center">
                                 <SocialIcons height="14px" :icon="creator.network" />
-                                </a>
+                                </div>
                                 {{ creator.followers }}
-                              </span>
+                              </a>
                             </td>
                             <td
                               class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
