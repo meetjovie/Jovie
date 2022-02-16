@@ -305,7 +305,7 @@
                                   <div class="p-0.5 rounded-full" :class="{
                                       'bg-social-youtube/60':
                                         creator.network == 'youtube',
-                                    }, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}"
+                                    }, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : creator.network =='tiktok'}"
                                     >
                                 <div class="bg-white p-0 rounded-full">
                                   <img
@@ -369,8 +369,10 @@
                             <td
                               class="border-1 w-14 border-collapse items-center whitespace-nowrap border px-2 py-1">
                               <span
-                                class="text-nuetral-800 inline-flex rounded-full px-2 text-center justify-between text-xs font-bold leading-5">
-                                <SocialIcons height="5" :icon="creator.network" />
+                                class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center justify-between text-xs font-bold">
+                                <div class="mr-2 group-hover:opacity-100 opacity-30 items-center">
+                                <SocialIcons height="14px" :icon="creator.network" />
+                                </div>
                                 {{ creator.followers }}
                               </span>
                             </td>
@@ -779,7 +781,7 @@ export default {
         {
           id: 7,
           favorite: false,
-          network: 'instagram',
+          network: 'tiktok',
           name: 'Kylie Brent',
           firstname: 'Kylie',
           lastname: 'Brent',
