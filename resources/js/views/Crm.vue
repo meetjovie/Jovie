@@ -384,6 +384,7 @@
                                   </svg>
                                 </div>
                                 <div v-else></div>
+                                <SocialIcons icon="twitter" />
                                 {{ creator.followers }}
                               </span>
                             </td>
@@ -685,6 +686,7 @@ import {
   CheckIcon,
   SearchCircleIcon,
 } from '@heroicons/vue/solid';
+import SocialIcons from '../components/SocialIcons.vue';
 
 const people = [
   { id: 1, name: 'Wade Cooper' },
@@ -720,6 +722,7 @@ export default {
     ChevronDownIcon,
     CheckIcon,
     SearchCircleIcon,
+    SocialIcons,
   },
   data() {
     return {
