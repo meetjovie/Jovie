@@ -15,14 +15,19 @@ trait GeneralTrait {
         try {
             if ($file) {
                 $timestamps = Str::slug(Carbon::now(), '_');
-                $path = ($path.$timestamps.'_'.uniqid(rand(), true));
+                $file = file_get_contents($file);
+                $extension = null;
+                if (!is_string($file)) {
+                    $extension = $file->extension();
+                }
+                $path = ($path.$timestamps.'_'.uniqid(rand(), true)).$extension;
                 if ($upload = Storage::disk('s3')->put($path, $file, 'public')) {
                     if ($old_file_path) {
                         if (!is_null($old_file_path) && Storage::disk('s3')->exists($path)) {
                             Storage::disk('s3')->delete($old_file_path);
                         }
                     }
-                    return Storage::disk('s3')->url($path);
+                    return $path;
                 }
             }
             return $old_file_path;

@@ -11,6 +11,7 @@ class Creator extends Model
 
     const CREATORS_MEDIA_PATH = 'public/creators_media/timeline_media/';
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
+    const CREATORS_CSV_PATH = 'public/creators_csv/';
 
     public function getInstagramMediaAttribute($value)
     {

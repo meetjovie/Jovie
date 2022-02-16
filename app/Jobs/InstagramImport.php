@@ -262,8 +262,12 @@ class InstagramImport implements ShouldQueue
     public function getTimelineMedia($user, $creator)
     {
         foreach ($creator->instagram_media as $media) {
-            if (Storage::disk('s3')->exists($media->display_url)) {
-                Storage::disk('s3')->delete($media->display_url);
+            try {
+                $filename = explode(Creator::CREATORS_MEDIA_PATH, $media->display_url)[1];
+                $path = Creator::CREATORS_MEDIA_PATH.$filename;
+                Storage::disk('s3')->delete($path);
+            } catch (\Exception $e) {
+
             }
         }
         $timelineMedia = collect();
