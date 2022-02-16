@@ -52,6 +52,7 @@
         "vue-scrollto": "^2.20.0",
         "vue-simple-icons": "^4.7.0",
         "vue-star-rating": "^2.1.0",
+        "vuedraggable": "^2.24.3",
         "vuex": "^4.0.2"
     }
 }

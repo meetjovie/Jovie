@@ -367,9 +367,9 @@
                               </div>
                             </td>
                             <td
-                              class="border-1 w-14 border-collapse items-center whitespace-nowrap border px-2 py-1">
+                              class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
                               <a :href="creator.networklink"
-                                class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center justify-between text-xs font-bold">
+                                class="text-nuetral-800 inline-flex items-center rounded-full  px-3 py-1 text-center justify-between text-xs font-bold">
                                 <div  class="mr-2 group-hover:opacity-100 opacity-30 items-center">
                                 <SocialIcons height="14px" :icon="creator.network" />
                                 </div>

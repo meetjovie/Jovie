@@ -176,6 +176,14 @@ export const routes = [
       layout: 'Minimal',
     },
   },
+  {
+    name: 'Pipeline',
+    path: '/pipeline',
+    component: loadPage('Pipeline'),
+    meta: {
+      layout: 'App',
+    },
+  },
 
   /* {
     name: 'Profile',
