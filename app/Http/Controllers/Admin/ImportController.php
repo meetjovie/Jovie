@@ -7,12 +7,16 @@ use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
+use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\HeadingRowImport;
 
 class ImportController extends Controller
 {
+    use GeneralTrait;
+
     public function getColumnsFromCsv(Request $request)
     {
 //        $request->validate([
@@ -50,16 +54,22 @@ class ImportController extends Controller
                 ])->dispatch();
             }
         }
+        try {
+            $this->handleImportFile($request);
+        } catch (\Exception $e) {
+            return collect([
+                'status' => false,
+//                'error' => 'Your file is not imported.'
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function handleImportFile($request)
     {
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->has('file')) {
-//            $filepath = public_path('youtube.csv');
             $filePath = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
-//            $filePath = 'https://a7x3storage.s3.amazonaws.com/public/creators_csv/2022_01_01_135630_49568434761d05d8eb34470.92182953.txt';
-            $filePath = explode('https://a7x3storage.s3.amazonaws.com/', $filePath)[1];
             FileImport::dispatch($filePath, $mappedColumns, $request->tags);
         }
     }
