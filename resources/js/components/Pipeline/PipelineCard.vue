@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded border border-white bg-white px-3 pt-3 pb-5 shadow">
+  <div class="rounded bg-white px-3 pt-3 pb-5 shadow-md">
     <div class="flex justify-between">
       <p class="font-sans text-sm font-semibold tracking-wide text-gray-700">
         {{ task.title }}

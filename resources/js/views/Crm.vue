@@ -304,8 +304,7 @@
                                 <div class="mr-2 h-8 w-8 flex-shrink-0">
                                   <div class="p-0.5 rounded-full" :class="{
                                       'bg-social-youtube/60':
-                                        creator.network == 'youtube',
-                                    }, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : creator.network =='tiktok'}"
+                                        creator.network == 'youtube'}, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : creator.network =='tiktok'}"
                                     >
                                 <div class="bg-white p-0 rounded-full">
                                   <img
