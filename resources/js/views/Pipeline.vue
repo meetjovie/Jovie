@@ -1,8 +1,41 @@
 <template>
-  <div class="grid h-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="auto-cols-80 grid h-full gap-6">
     <div
-      class="col-span-1 h-full divide-y divide-gray-200 rounded-lg py-12 shadow">
-      <h3 class="text-center text-xs font-bold">Cold</h3>
+      v-for="list in lists"
+      class="h-full divide-y divide-gray-200 rounded-lg shadow">
+      <div
+        class="overflow-hidden rounded-t-md border border-b-0 border-gray-200 lg:border-0">
+        <!-- Completed Step -->
+        <a href="#" class="group">
+          <span class="flex items-start px-6 py-2 text-sm font-medium">
+            <span class="flex-shrink-0">
+              <span
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600">
+                <!-- Heroicon name: solid/check -->
+                <svg
+                  class="h-6 w-6 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true">
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd" />
+                </svg>
+              </span>
+            </span>
+            <span class="mt-0.5 ml-4 flex min-w-0 flex-col">
+              <span class="text-xs font-semibold uppercase tracking-wide"
+                >Prospects</span
+              >
+              <span class="text-sm font-medium text-gray-500"
+                >Add more creators</span
+              >
+            </span>
+          </span>
+        </a>
+      </div>
       <draggable
         class="list-group shadown-xl my-2 gap-6 space-y-6 px-4 py-4"
         :list="list1"
@@ -10,7 +43,7 @@
         @change="log"
         itemKey="name">
         <template #item="{ element, index }" c>
-          <div class="rounded-lg bg-white shadow-lg">
+          <div class="w-80 rounded-lg bg-white shadow-lg">
             <div
               class="list-group-item flex w-full items-center justify-between space-x-6 p-6">
               <div class="flex-1 truncate">
@@ -92,6 +125,14 @@ export default {
   },
   data() {
     return {
+      lists: [
+        {
+          name: 'List 1',
+        },
+        {
+          name: 'List 2',
+        },
+      ],
       list1: [
         {
           id: 1,

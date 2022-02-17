@@ -115,12 +115,14 @@
                 <ol role="list" class="flex items-center space-x-4">
                   <li>
                     <div>
-                      <a href="/" class="text-gray-400 hover:text-gray-500">
+                      <router-link
+                        to="/dashboard"
+                        class="text-gray-400 hover:text-gray-500">
                         <HomeIcon
                           class="h-5 w-5 flex-shrink-0"
                           aria-hidden="true" />
                         <span class="sr-only">Home</span>
-                      </a>
+                      </router-link>
                     </div>
                   </li>
                   <li>
@@ -253,6 +255,7 @@ import {
   FolderOpenIcon,
   CogIcon,
   LogoutIcon,
+  SwitchHorizontalIcon,
 } from '@heroicons/vue/outline';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 
@@ -270,9 +273,11 @@ export default {
         { name: 'Admin', route: '/admin', icon: CheckCircleIcon },
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
         { name: 'Search', route: '/discovery', icon: SearchIcon },
+        { name: 'CRM', route: '/crm', icon: UserGroupIcon },
+        { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon },
         { name: 'Outreach', route: '/outreach', icon: MailIcon },
         { name: 'Campaings', route: '/campaigns', icon: FolderOpenIcon },
-        { name: 'CRM', route: '/crm', icon: UserGroupIcon },
+
         { name: 'Analytics', route: '/analytics', icon: ChartBarIcon },
         { name: 'Import', route: '/import', icon: CloudUploadIcon },
         { name: 'Settings', route: '/account', icon: CogIcon },
@@ -309,6 +314,7 @@ export default {
     CogIcon,
     ChevronLeftIcon,
     LogoutIcon,
+    SwitchHorizontalIcon,
   },
 };
 </script>
