@@ -1,107 +1,75 @@
 <template>
-  <div class="auto-cols-80 grid h-full gap-6">
+  <div class="mx-auto justify-center w-full grid h-full grid-cols-4">
     <div
       v-for="list in lists"
-      class="h-full divide-y divide-gray-200 rounded-lg shadow">
+      class="h-full justify-center mx-auto divide-y divide-gray-200">
       <div
-        class="overflow-hidden rounded-t-md border border-b-0 border-gray-200 lg:border-0">
+        class="overflow-hidden border border-b-0 border-gray-200 lg:border-0">
         <!-- Completed Step -->
         <a href="#" class="group">
-          <span class="flex items-start px-6 py-2 text-sm font-medium">
+          <span class="flex items-start px-2 py-2 text-sm font-medium">
             <span class="flex-shrink-0">
               <span
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600">
-                <!-- Heroicon name: solid/check -->
-                <svg
-                  class="h-6 w-6 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true">
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd" />
-                </svg>
+                class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-indigo-600">
+                <span class="text-indigo-600">{{ list.id }}</span>
               </span>
             </span>
-            <span class="mt-0.5 ml-4 flex min-w-0 flex-col">
-              <span class="text-xs font-semibold uppercase tracking-wide"
-                >Prospects</span
+            <span class="mt-0.5 ml-4 flex min-w-0 flex-col line-clamp-1">
+              <span
+                class="truncate text-xs font-semibold uppercase tracking-wide line-clamp-1"
+                >{{ list.title }}</span
               >
-              <span class="text-sm font-medium text-gray-500"
-                >Add more creators</span
-              >
+              <span class="text-2xs font-medium text-gray-500">{{
+                list.subtitle
+              }}</span>
             </span>
           </span>
         </a>
       </div>
       <draggable
-        class="list-group shadown-xl my-2 gap-6 space-y-6 px-4 py-4"
+        class="list-group my-1 justify-center gap-6 space-y-6 px-4 py-4"
         :list="list1"
         group="people"
         @change="log"
         itemKey="name">
-        <template #item="{ element, index }" c>
-          <div class="w-80 rounded-lg bg-white shadow-lg">
+        <template #item="{ element, index }" >
+          <div class="w-60 rounded-lg bg-white shadow-lg">
             <div
-              class="list-group-item flex w-full items-center justify-between space-x-6 p-6">
+              class="list-group-item flex w-full items-center justify-between space-x-6 px-2 py-1">
               <div class="flex-1 truncate">
                 <div class="flex items-center space-x-3">
-                  <h3 class="truncate text-sm font-medium text-gray-900">
-                    {{ element.name }}
-                  </h3>
-                  <span
-                    class="inline-block flex-shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
-                    {{ element.network }}</span
-                  >
+                  <div class="flex items-center">
+                                <div class="mr-2 h-8 w-8 flex-shrink-0">
+                                  <div class="p-0.5 rounded-full" :class="{
+                                      'bg-social-youtube/60':
+                                        element.network == 'youtube'}, {'bg-social-twitter/90' : element.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : element.network == 'instagram'}, {'bg-social-snapchat' : element.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : element.network =='tiktok'}"
+                                    >
+                                <div class="bg-white p-0 rounded-full">
+                                  <img
+                                    class="rounded-full object-cover object-center"
+                                    
+                                    :src="element.avatar"
+                                    alt="" />
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="">
+                                  <div
+                                    class="text-xs font-medium text-gray-900">
+                                    {{ element.name }}
+                                     <p class="truncate text-2xs text-gray-500">
+                                    {{ element.bio }}
+                                    </p>
+                                  </div>
+                                 
+                                </div>
+                              </div>
+                  
                 </div>
-                <p class="mt-1 truncate text-sm text-gray-500">
-                  {{ element.bio }}
-                </p>
-              </div>
-              <img
-                :src="element.avatar"
-                class="h-20 w-20 flex-shrink-0 rounded-full bg-gray-300"
-                alt="" />
-            </div>
-            <div>
-              <div class="-mt-px flex divide-x divide-gray-200">
-                <div class="flex w-0 flex-1">
-                  <a
-                    class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
-                    <MailIcon
-                      class="h-5 w-5 text-gray-400"
-                      aria-hidden="true" />
-                    <span class="ml-3">Email</span>
-                  </a>
-                </div>
-                <div class="-ml-px flex w-0 flex-1">
-                  <a
-                    class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
-                    <PhoneIcon
-                      class="h-5 w-5 text-gray-400"
-                      aria-hidden="true" />
-                    <span class="ml-3">Call</span>
-                  </a>
-                </div>
+                
               </div>
             </div>
           </div>
-        </template>
-      </draggable>
-    </div>
-
-    <div class="col-3">
-      <h3 class="text-center text-xs font-bold">Contacted</h3>
-      <draggable
-        class="list-group rounded-lg bg-indigo-100 px-4 py-4"
-        :list="list2"
-        group="people"
-        @change="log"
-        itemKey="name">
-        <template #item="{ element, index }">
-          <div class="list-group-item">{{ element.name }} {{ index }}</div>
         </template>
       </draggable>
     </div>
@@ -128,9 +96,27 @@ export default {
       lists: [
         {
           name: 'List 1',
+          id: 1,
+          title: 'Propects',
+          subtitle: 'Creators added from discover',
         },
         {
           name: 'List 2',
+          id: 2,
+          title: 'Contacted',
+          subtitle: 'People who have been contacted',
+        },
+        {
+          name: 'List 3',
+          id: 3,
+          title: 'Negotiating',
+          subtitle: 'People who are currently in the process of negotiating',
+        },
+        {
+          name: 'List 4',
+          id: 4,
+          title: 'Closed',
+          subtitle: 'Creators who have onboarded',
         },
       ],
       list1: [
