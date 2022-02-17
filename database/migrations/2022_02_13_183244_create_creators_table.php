@@ -27,7 +27,7 @@ class CreateCreatorsTable extends Migration
             $table->string('instagram_name')->fulltext()->nullable();
             $table->string('instagram_category')->fulltext()->nullable();
             $table->boolean('instagram_name_updated')->default(false)->nullable();
-            $table->double('instagram_followers', 8, 2);
+            $table->double('instagram_followers', 20, 2);
             $table->text('instagram_biography')->fulltext();
             $table->string('instagram_email')->nullable();
             $table->double('instagram_engagement_rate')->index()->default(0);

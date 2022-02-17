@@ -48,7 +48,7 @@ class FileImport implements ShouldQueue
             Storage::disk('s3')->delete($this->file);
             $instagramKey = null;
             $youtubeKey = null;
-            $emailKey = null;
+            $emailKeys = [];
             $instagramFollowerCountKey = null;
             $youtubeFollowersCountKey = null;
             if (count($results) > 1) {
@@ -60,8 +60,10 @@ class FileImport implements ShouldQueue
                 if (isset($this->mappedColumns->youtube)) {
                     $youtubeKey = array_search($this->mappedColumns->youtube, $headers);
                 }
-                if (isset($this->mappedColumns->email)) {
-                    $emailKey = array_search($this->mappedColumns->email, $headers);
+                if (isset($this->mappedColumns->emails) && count($this->mappedColumns->emails)) {
+                    foreach ($this->mappedColumns->emails as $emailKey) {
+                        $emailKeys[] = array_search($emailKey, $headers);
+                    }
                 }
                 if (isset($this->mappedColumns->instagramFollowersCount)) {
                     $instagramFollowerCountKey = array_search($this->mappedColumns->instagramFollowersCount, $headers);
@@ -71,8 +73,12 @@ class FileImport implements ShouldQueue
                 }
                 array_shift($results);
                 foreach ($results as $k => $row) {
-                    $email = $row[$emailKey] ?? null;
-
+                    $emails = [];
+                    foreach ($emailKeys as $emailKey) {
+                        if ($row[$emailKey]) {
+                            $emails[] = $row[$emailKey];
+                        }
+                    }
                     // instagram
                     $instaFollowersCount = $row[$instagramFollowerCountKey] ?? 5001; // if no follower count then let go
                     if (!is_null($instagramKey) && $instaFollowersCount > 5000) {
@@ -82,20 +88,21 @@ class FileImport implements ShouldQueue
                                 $username = substr($username, 1);
                             }
                             Bus::chain([
-                                new InstagramImport($username, $this->tags, true, null, $email),
+                                new InstagramImport($username, $this->tags, true, null, $emails),
                                 new SendSlackNotification('imported instagram user '.$username)
                             ])->dispatch();
                         }
                     }
                     // youtube
-                    $youtubeFollowersCount = $row[$youtubeFollowersCountKey] ?? 1001; // if no follower count then let go
-                    if (!is_null($youtubeKey) && $youtubeFollowersCount > 1000) {
-                        $youtubeUrl = $row[$youtubeKey];
-                        if ($youtubeUrl && $youtubeUrl != '') {
-                            YoutubeImport::dispatch($youtubeUrl, $this->tags, $email);
-                        }
-                    }
+//                    $youtubeFollowersCount = $row[$youtubeFollowersCountKey] ?? 1001; // if no follower count then let go
+//                    if (!is_null($youtubeKey) && $youtubeFollowersCount > 1000) {
+//                        $youtubeUrl = $row[$youtubeKey];
+//                        if ($youtubeUrl && $youtubeUrl != '') {
+//                            YoutubeImport::dispatch($youtubeUrl, $this->tags, $email);
+//                        }
+//                    }
                 }
+                dd(1);
             }
         } catch (\Exception $e) {
             //            SendSlackNotification::dispatch('Error on Youtube Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine());

@@ -31,22 +31,20 @@ class InstagramImport implements ShouldQueue
     private $recursive;
     private $creatorId;
     private $parentCreator;
-    private $primaryEmail;
-    private $secondaryEmail;
+    private $emails;
     private $brands = [];
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($username, $tags, $recursive = false, $creatorId = null, $primaryEmail = null, $secondaryEmail = null)
+    public function __construct($username, $tags, $recursive = false, $creatorId = null, $emails = null)
     {
         $this->username = $username;
         $this->tags = $tags;
         $this->recursive = $recursive;
         $this->parentCreator = $creatorId;
-        $this->primaryEmail = $primaryEmail;
-        $this->secondaryEmail = $secondaryEmail;
+        $this->emails = $emails;
     }
 
     /**
@@ -146,15 +144,13 @@ class InstagramImport implements ShouldQueue
             $creator->instagram_followers = $this->getFollowers($user);
             $creator->instagram_category = $user->category_name ?? null;
 
-            $engagementRate = $this->getEngagementRate($user);
-            $followers = $user->edge_followed_by ? $user->edge_followed_by->count : 0;
-            $creator->instagram_engagement_rate = $engagementRate;
+            $creator->instagram_engagement_rate = $this->getEngagementRate($user);
             $creator->instagram_biography = $user->biography;
             $creator->instagram_is_private = $user->is_private;
             $creator->instagram_is_verified = $user->is_verified;
 
             // meta
-            $meta['engaged_follows'] = round(((($engagementRate / 100) * $followers) ?? 0), 2);
+            $meta['engaged_follows'] = $this->getEngagedFollows($creator->instagram_engagement_rate, $creator->instagram_followers);
             $meta['business_category_name'] = $user->business_category_name ?? null;
             $meta['has_guides'] = $user->has_guides;
             $meta['has_channel'] = $user->has_channel;
@@ -209,11 +205,8 @@ class InstagramImport implements ShouldQueue
     public function getEmails($user, $oldEmails)
     {
         $emails = [];
-        if ($this->primaryEmail) {
-            $emails[] = $this->primaryEmail;
-        }
-        if ($this->secondaryEmail) {
-            $emails[] = $this->secondaryEmail;
+        if ($this->emails && count($this->emails)) {
+            $emails = $this->emails;
         }
         if ($user->business_email) {
             $emails[] = $user->business_email;
@@ -328,7 +321,7 @@ class InstagramImport implements ShouldQueue
         $averageLikes = $averageLikesAndComments['averageLikes'];
         $averageComments = $averageLikesAndComments['averageComments'];
         $followers = $this->getFollowers($user);
-        return $followers ? ((($averageLikes + $averageComments) / $followers) * 100) : 0;
+        return round($followers ? ((($averageLikes + $averageComments) / $followers) * 100) : 0, 2);
     }
 
     public function getAverageLikesAndComments($user)
@@ -383,6 +376,11 @@ class InstagramImport implements ShouldQueue
 
     private function getFollowers($user)
     {
-        return $user->edge_followed_by ? $user->edge_followed_by->count : 0;
+        return round($user->edge_followed_by ? $user->edge_followed_by->count : 0, 2);
+    }
+
+    private function getEngagedFollows($engagementRate, $followers)
+    {
+        return round(((($engagementRate / 100) * $followers) ?? 0), 2);
     }
 }
