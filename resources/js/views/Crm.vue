@@ -1,6 +1,6 @@
 <template>
   <div id="crm" class="mx-auto w-full min-w-full">
-    <TabGroup :defaultIndex="0" as="div">
+    <TabGroup :defaultIndex="0" as="div" >
       <div class="items-bottom flex w-full justify-between border-b bg-white">
         <div>
           <div class="relative mx-auto w-full rounded sm:hidden">
@@ -258,8 +258,8 @@
                               Rating
                             </th>
                             <th scope="col" class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
-                              <span class="sr-only">Edit</span>
-                              Showing 1-10 of 100
+                              <div class="hidden 2xl:block w-60">Showing 10 of 100 creators</div>
+                              <div class="hidden lg:block 2xl:hidden w-40">10 of 100</div>
                             </th>
                           </tr>
                         </thead>

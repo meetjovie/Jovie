@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto py-4 justify-center w-full grid grid-flow-col h-full auto-cols-max">
     <div
-      v-for="list in lists"
+      v-for="list in lists" 
       class="h-full justify-center mx-auto divide-y divide-gray-200">
       <div
         class="border border-b-0 border-gray-200 lg:border-0">
