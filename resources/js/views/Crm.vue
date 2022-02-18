@@ -43,7 +43,7 @@
           <Listbox as="div" v-model="selected">
             <div class="relative mt-2 items-center">
               <ListboxButton
-                class="relative hidden w-60 cursor-default items-center rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-xs lg:block">
+                class="relative hidden w-60 cursor-default items-center rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 sm:text-xs lg:block">
                 <span class="block truncate">Filter by list</span>
                 <span
                   class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -57,7 +57,7 @@
                 leave-from-class="opacity-100"
                 leave-to-class="opacity-0">
                 <ListboxOptions
-                  class="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-xs">
+                  class="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none sm:text-xs">
                   <ListboxOption as="template" v-slot="{ active, selected }">
                     <li
                       :class="[
@@ -266,7 +266,7 @@
                           <tr
                             v-for="creator in creators"
                             :key="creator"
-                            class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus:ring-indigo-700">
+                            class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                             <td
                               class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                               <div class="grid grid-cols-2 items-center">
@@ -304,8 +304,7 @@
                                 <div class="mr-2 h-8 w-8 flex-shrink-0">
                                   <div class="p-0.5 rounded-full" :class="{
                                       'bg-social-youtube/60':
-                                        creator.network == 'youtube',
-                                    }, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : creator.network =='tiktok'}"
+                                        creator.network == 'youtube'}, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : creator.network =='tiktok'}"
                                     >
                                 <div class="bg-white p-0 rounded-full">
                                   <img
@@ -333,7 +332,7 @@
                                   type="creator-firstname"
                                   name="creator-firstname"
                                   id="creator-firname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                   placeholder="First"
                                   aria-describedby="email-description" />
                               </div>
@@ -347,13 +346,13 @@
                                   type="creator-lastname"
                                   name="creator-lastname"
                                   id="creator-lastname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                   placeholder="Last"
                                   aria-describedby="email-description" />
                               </div>
                             </td>
                             <td
-                              class="border-1 hidden border-collapse whitespace-nowrap border focus:border-indigo-500 lg:table-cell">
+                              class="border-1 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
                               <div class="text-xs text-gray-700 line-clamp-1">
                                 <input
                                   v-model="creator.email"
@@ -361,15 +360,15 @@
                                   type="creator-email"
                                   name="creator-email"
                                   id="creator-email"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                   placeholder="creatoremail@gmail.com"
                                   aria-describedby="email-description" />
                               </div>
                             </td>
                             <td
-                              class="border-1 w-14 border-collapse items-center whitespace-nowrap border px-2 py-1">
+                              class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
                               <a :href="creator.networklink"
-                                class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center justify-between text-xs font-bold">
+                                class="text-nuetral-800 inline-flex items-center rounded-full  px-3 py-1 text-center justify-between text-xs font-bold">
                                 <div  class="mr-2 group-hover:opacity-100 opacity-30 items-center">
                                 <SocialIcons height="14px" :icon="creator.network" />
                                 </div>
@@ -387,7 +386,7 @@
                                   type="creator-offer"
                                   name="creator-offer"
                                   id="creator-offer"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                   placeholder="5,000"
                                   aria-describedby="email-description" />
                               </span>
@@ -427,7 +426,7 @@
                                   leave-from-class="transform scale-100 opacity-100"
                                   leave-to-class="transform scale-95 opacity-0">
                                   <PopoverPanel
-                                    class="center-0 absolute z-30 w-60 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus:outline-none">
+                                    class="center-0 absolute z-30 w-60 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                                     <div class="">
                                       <div class="">
                                         <button
@@ -486,7 +485,7 @@
                                 type="creator-offer"
                                 name="creator-offer"
                                 id="creator-offer"
-                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                 placeholder="--/--/----"
                                 aria-describedby="email-description" />
                             </td>
@@ -529,7 +528,7 @@
                                     leave-from-class="transform opacity-100 scale-100"
                                     leave-to-class="transform opacity-0 scale-95">
                                     <MenuItems
-                                      class="absolute right-10 z-10 mt-2 w-30 origin-top-right rounded-md bg-white/90 backdrop-fitler backdrop-blur-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                      class="absolute right-10 z-10 mt-2 w-30 origin-top-right rounded-md bg-white/90 backdrop-fitler backdrop-blur-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                       <div class="py-1">
                                         <MenuItem v-slot="{ active }">
                                           <a

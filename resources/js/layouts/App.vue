@@ -115,12 +115,14 @@
                 <ol role="list" class="flex items-center space-x-4">
                   <li>
                     <div>
-                      <a href="/" class="text-gray-400 hover:text-gray-500">
+                      <router-link
+                        to="/dashboard"
+                        class="text-gray-400 hover:text-gray-500">
                         <HomeIcon
                           class="h-5 w-5 flex-shrink-0"
                           aria-hidden="true" />
                         <span class="sr-only">Home</span>
-                      </a>
+                      </router-link>
                     </div>
                   </li>
                   <li>
@@ -177,53 +179,53 @@
                 aria-haspopup="true"
                 @click="isShowing = !isShowing">
                 <span class="sr-only">Open user menu</span>
-                Menu here
-                <!-- <img class="h-8 w-8 rounded-full object-cover" id="profile_pic_url_img" ref="profile_pic_url_img" :src="$store.state.AuthState.user.profile_pic_url ?? $store.state.AuthState.user.default_image"> -->
+
+                <img
+                  class="h-8 w-8 rounded-full object-cover"
+                  src="/img/External/stock_profile_pic.webp" />
               </MenuButton>
 
-              <MenuList>
-                <transition
-                  enter-active-class="transition duration-150 ease-out"
-                  enter-from-class="transform scale-95 opacity-0"
-                  enter-to-class="transform scale-100 opacity-100"
-                  leave-active-class="transition duration-150 ease-out"
-                  leave-from-class="transform scale-100 opacity-100"
-                  leave-to-class="transform scale-95 opacity-0">
-                  <MenuItems
+              <transition
+                enter-active-class="transition duration-150 ease-out"
+                enter-from-class="transform scale-95 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+                leave-active-class="transition duration-150 ease-out"
+                leave-from-class="transform scale-100 opacity-100"
+                leave-to-class="transform scale-95 opacity-0">
+                <MenuItems
+                  as="div"
+                  active=""
+                  id="profileDropdown"
+                  class="d-none absolute right-0 z-20 mt-2 w-60 origin-top-right rounded-md bg-white/90 py-1 shadow-xl backdrop-blur-sm backdrop-filter"
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="user-menu-button"
+                  tabindex="-1">
+                  <!-- Active: "bg-neutral-100", Not Active: "" -->
+                  <MenuItem
+                    v-bind:is="user"
                     as="div"
-                    active=""
-                    id="profileDropdown"
-                    class="d-none absolute right-0 z-20 mt-2 w-60 origin-top-right rounded-md bg-white/90 py-1 shadow-xl backdrop-blur-sm backdrop-filter"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="user-menu-button"
-                    tabindex="-1">
-                    <!-- Active: "bg-neutral-100", Not Active: "" -->
-                    <MenuItem
-                      v-bind:is="user"
-                      as="div"
-                      class="block border-b-2 border-opacity-30 px-4 py-4 text-left text-sm font-bold text-neutral-700"
-                      role="menuitem"
-                      tabindex="-1"
-                      id="user-menu-item-0"
-                      >Hi User ! !</MenuItem
-                    >
-                    <MenuItem
-                      v-for="dropdownmenuitem in dropdownmenuitems"
-                      :key="dropdownmenuitem"
-                      as="router-link"
-                      :to="dropdownmenuitem.route"
-                      class="inline-flex w-full px-4 py-2 text-sm text-neutral-700 hover:bg-indigo-700 hover:text-white"
-                      role="menuitem"
-                      tabindex="-1"
-                      ><component
-                        class="mr-2 h-5 w-5"
-                        :is="dropdownmenuitem.icon"></component
-                      >{{ dropdownmenuitem.name }}</MenuItem
-                    >
-                  </MenuItems>
-                </transition>
-              </MenuList>
+                    class="block border-b-2 border-opacity-30 px-4 py-4 text-left text-sm font-bold text-neutral-700"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="user-menu-item-0"
+                    >Hi User ! !</MenuItem
+                  >
+                  <MenuItem
+                    v-for="dropdownmenuitem in dropdownmenuitems"
+                    :key="dropdownmenuitem"
+                    as="router-link"
+                    :to="dropdownmenuitem.route"
+                    class="inline-flex w-full px-4 py-2 text-sm text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                    role="menuitem"
+                    tabindex="-1"
+                    ><component
+                      class="mr-2 h-5 w-5"
+                      :is="dropdownmenuitem.icon"></component
+                    >{{ dropdownmenuitem.name }}</MenuItem
+                  >
+                </MenuItems>
+              </transition>
             </Menu>
           </div>
         </div>
@@ -255,8 +257,10 @@ import {
   FolderOpenIcon,
   CogIcon,
   LogoutIcon,
+  SwitchHorizontalIcon,
 } from '@heroicons/vue/outline';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
+import UserService from '../services/api/user.service';
 
 /* const pages = [
   { name: 'CRM', href: '/outreach', current: false },
@@ -267,20 +271,23 @@ export default {
   name: 'App',
   data() {
     return {
+      errors: [],
       user: this.$store.state.AuthState.user,
       nav: [
         { name: 'Admin', route: '/admin', icon: CheckCircleIcon },
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
         { name: 'Search', route: '/discovery', icon: SearchIcon },
+        { name: 'CRM', route: '/crm', icon: UserGroupIcon },
+        { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon },
         { name: 'Outreach', route: '/outreach', icon: MailIcon },
         { name: 'Campaings', route: '/campaigns', icon: FolderOpenIcon },
-        { name: 'CRM', route: '/crm', icon: UserGroupIcon },
+
         { name: 'Analytics', route: '/analytics', icon: ChartBarIcon },
         { name: 'Import', route: '/import', icon: CloudUploadIcon },
         { name: 'Settings', route: '/account', icon: CogIcon },
       ],
       dropdownmenuitems: [
-        { name: 'Profile', route: '/account', icon: UserGroupIcon },
+        { name: 'Profile', route: '/', icon: UserGroupIcon },
         { name: 'Settings', route: '/account', icon: CogIcon },
         { name: 'Sign out', route: '/logout', icon: LogoutIcon },
       ],
@@ -311,6 +318,7 @@ export default {
     CogIcon,
     ChevronLeftIcon,
     LogoutIcon,
+    SwitchHorizontalIcon,
   },
 };
 </script>

@@ -24,7 +24,7 @@
                                     <Popover v-slot="{ open }" class="relative">
                                         <PopoverButton
                                             :class="open ? '' : 'text-opacity-90'"
-                                            class="inline-flex items-center px-3 py-1 -mt-1 z-20 text-xs font-medium text-white rounded-md group hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                                            class="inline-flex items-center px-3 py-1 -mt-1 z-20 text-xs font-medium text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                                         >
                                             <span>Features</span>
                                             <ChevronDownIcon
@@ -52,7 +52,7 @@
                                                     v-for="item in features"
                                                     :key="item.name"
                                                     :to="item.href" @click.native="scrollFix(item.anchor)"
-                                                    class="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
+                                                    class="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
                                                 >
                                                     <div
                                                     class="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12"
@@ -74,7 +74,7 @@
                                                 <div class="p-4 bg-gray-50">
                                                 <router-link
                                                     to="demo"
-                                                    class="flow-root px-2 py-2 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
+                                                    class="flow-root px-2 py-2 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
                                                 >
                                                     <span class="flex items-center">
                                                     <span class="text-sm font-medium text-gray-900">
@@ -94,7 +94,7 @@
                         
                 
                                  </div>
-                                  <router-link to="pricing" class="hidden md:inline-flex items-center px-3 py-1  z-20 text-xs font-medium text-neutral-300 hover:text-white rounded-md group hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">Pricing</router-link>
+                                  <router-link to="pricing" class="hidden md:inline-flex items-center px-3 py-1  z-20 text-xs font-medium text-neutral-300 hover:text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">Pricing</router-link>
                          </div>
                         <div class="hidden sm:flex items-center">
                             <div class="flex-shrink-0 ">
@@ -110,7 +110,7 @@
                                             <a class:="justify-center px-2 max-auto" @click="demo">
                                                 <router-link to='demo'
                                                              class="relative inline-flex group items-center px-2 py-1 border text-xs font-medium rounded-md text-neutral-200 hover:text-white bg-neutral-800 border-1 border-neutral-300 hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 focus-visible:ring-neutral-500">
-                                                    <span>Request Demo</span>
+                                                    <span>Request Access</span>
                                                     <span>
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                              class="block group-hover:hidden ml-1 h-4 w-4" fill="none"
