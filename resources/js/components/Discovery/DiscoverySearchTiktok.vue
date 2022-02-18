@@ -13,15 +13,27 @@
       placeholder="Tags & Categories" />
     <SelectMenu />
 
-    <MultiButton xs="true" />
+    <MultiButton size="xs" />
     <InputGroup
       class="col-span-4"
       icon="LocationMarkerIcon"
       placeholder="Location" />
     <div class="col-span-4 grid grid-cols-3">
-      <ButtonGroup icon="LocationMarkerIcon" text="Male" />
-      <ButtonGroup icon="LocationMarkerIcon" text="Female" />
-      <ButtonGroup icon="LocationMarkerIcon" text="Other" />
+      <ButtonGroup
+        size="xs"
+        style="secondary"
+        icon="LocationMarkerIcon"
+        text="Male" />
+      <ButtonGroup
+        size="xs"
+        style="secondary"
+        icon="LocationMarkerIcon"
+        text="Female" />
+      <ButtonGroup
+        size="xs"
+        style="secondary"
+        icon="LocationMarkerIcon"
+        text="Other" />
     </div>
 
     <div class="col-span-4">
