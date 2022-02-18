@@ -3,16 +3,18 @@
   <span
     class="mr-1 inline-flex items-center font-medium first:rounded-l-md last:rounded-r-md only:rounded-md"
     :class="[
-      { 'py-0.5 pl-2 pr-0.5 text-[8px]': size == 'xs' },
+      {
+        'py-0 pl-2 pr-0.5 text-[8px] font-light tracking-wider': size == 'xs',
+      },
       { 'py-0.5 pl-2.5 pr-1 text-sm ': size == 'lg' },
-      { 'bg-neutral-100 text-neutral-700': color == 'none' },
-      { 'bg-indigo-100 text-indigo-700': color == 'indigo' },
-      { 'bg-blue-100 text-blue-700': color == 'blue' },
-      { 'bg-green-100 text-green-700': color == 'green' },
-      { 'bg-red-100 text-red-700': color == 'red' },
-      { 'bg-orange-100 text-orange-700': color == 'orange' },
-      { 'bg-purple-100 text-purple-700': color == 'purple' },
-      { 'bg-pink-100 text-pink-700': color == 'pink' },
+      { 'bg-neutral-100 text-neutral-900': color == 'none' },
+      { 'bg-indigo-100 text-indigo-900': color == 'indigo' },
+      { 'bg-blue-100 text-blue-900': color == 'blue' },
+      { 'bg-green-100 text-green-900': color == 'green' },
+      { 'bg-red-100 text-red-900': color == 'red' },
+      { 'bg-orange-100 text-orange-900': color == 'orange' },
+      { 'bg-purple-100 text-purple-900': color == 'purple' },
+      { 'bg-pink-100 text-pink-900': color == 'pink' },
     ]">
     {{ text }}
     <button

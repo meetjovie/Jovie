@@ -141,7 +141,7 @@
                 <div class="text-white">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="-mt-1 h-4 w-4"
+                    class="h-3 w-3"
                     fill="indigo"
                     viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -187,16 +187,16 @@
           <div class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
             <div>
               <div class="font-bold">234</div>
-              <div class="text-xs">Followers</div>
+              <div class="text-2xs text-neutral-500">Followers</div>
             </div>
 
             <div class="hidden xl:block">
               <div class="font-bold">234</div>
-              <div class="text-xs">Engagement</div>
+              <div class="text-2xs text-neutral-500">Engagement</div>
             </div>
             <div class="hidden 2xl:block">
               <div class="font-bold">234</div>
-              <div class="text-xs">EF%</div>
+              <div class="text-2xs text-neutral-500">EF</div>
             </div>
           </div>
         </td>

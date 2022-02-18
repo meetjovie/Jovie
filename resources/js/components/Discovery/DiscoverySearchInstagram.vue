@@ -17,6 +17,7 @@
 
       <InputGroup
         size="sm"
+        class="-mt-1"
         icon="LocationMarkerIcon"
         rounded="bottom"
         placeholder="Location" />
@@ -26,6 +27,7 @@
         size="xs"
         rounded="left"
         style="secondary"
+        class="rounded-tl-md"
         icon="LocationMarkerIcon"
         text="Male" />
       <ButtonGroup
@@ -68,18 +70,21 @@
           name="Engagement" />
       </div>
     </div>
+
     <star-rating
       class="col-span-4"
       star-size="12"
       increment="0.5"></star-rating>
+
     <InputGroup
       class="col-span-4"
       icon="BriefcaseIcon"
       size="sm"
       placeholder="Brand Mentions" />
+    <div class="col-span-4"><Location class="z-30" show="true" /></div>
 
     <div class="justify-right col-span-4 text-right">
-      <ButtonGroup text="Search" class="w-full"></ButtonGroup>
+      <ButtonGroup shadow="false" text="Search" class="w-full"></ButtonGroup>
       <span
         class="justify-right cursor-pointer text-right text-xs text-indigo-500"
         >Reset</span
@@ -92,6 +97,7 @@ import InputGroup from '../InputGroup.vue';
 import ButtonGroup from '../ButtonGroup.vue';
 import MultiButton from '../MultiButton.vue';
 import RangeFilter from '../RangeFilter.vue';
+import Location from '../Location.vue';
 
 export default {
   components: {
@@ -99,6 +105,7 @@ export default {
     ButtonGroup,
     MultiButton,
     RangeFilter,
+    Location,
   },
 };
 </script>

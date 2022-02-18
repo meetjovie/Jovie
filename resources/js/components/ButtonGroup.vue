@@ -6,7 +6,7 @@
     :class="[
       { 'py-0 text-xs ': size == 'xs' },
       { 'py-1 text-sm': size == 'sm' },
-      { 'bg-neutral-100 text-red-900': style == 'secondary' },
+      { 'bg-white  text-red-900': style == 'secondary' },
       { 'bg-indigo-500 text-white': style == 'primary' },
       { 'rounded-r-md': rounded == 'right' },
       { 'rounded-l-md': rounded == 'left' },
@@ -28,7 +28,7 @@
       :class="[
         { 'text-2xs': size == 'xs' },
         { 'py-0 text-xs': size == 'sm' },
-        { 'bg-neutral-100 text-neutral-500': style == 'secondary' },
+        { 'bg-white text-neutral-500': style == 'secondary' },
         { 'bg-indigo-500 text-white': style == 'primary' },
       ]">
       {{ text }}
@@ -37,13 +37,18 @@
 </template>
 
 <script>
-import { MailIcon, SearchIcon, BanIcon } from '@heroicons/vue/solid';
+import {
+  MailIcon,
+  SearchIcon,
+  BanIcon,
+  ChevronRightIcon,
+} from '@heroicons/vue/solid';
 
 export default {
   props: {
     text: {
       type: String,
-      required: true,
+      required: false,
     },
     icon: {
       type: String,
@@ -70,6 +75,7 @@ export default {
     MailIcon,
     SearchIcon,
     BanIcon,
+    ChevronRightIcon,
   },
 };
 </script>
