@@ -179,8 +179,10 @@
                 aria-haspopup="true"
                 @click="isShowing = !isShowing">
                 <span class="sr-only">Open user menu</span>
-                Menu here
-                <!-- <img class="h-8 w-8 rounded-full object-cover" id="profile_pic_url_img" ref="profile_pic_url_img" :src="$store.state.AuthState.user.profile_pic_url ?? $store.state.AuthState.user.default_image"> -->
+
+                <img
+                  class="h-8 w-8 rounded-full object-cover"
+                  src="/img/External/stock_profile_pic.webp" />
               </MenuButton>
 
               <transition
@@ -258,6 +260,7 @@ import {
   SwitchHorizontalIcon,
 } from '@heroicons/vue/outline';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
+import UserService from '../services/api/user.service';
 
 /* const pages = [
   { name: 'CRM', href: '/outreach', current: false },
@@ -268,6 +271,7 @@ export default {
   name: 'App',
   data() {
     return {
+      errors: [],
       user: this.$store.state.AuthState.user,
       nav: [
         { name: 'Admin', route: '/admin', icon: CheckCircleIcon },
@@ -283,7 +287,7 @@ export default {
         { name: 'Settings', route: '/account', icon: CogIcon },
       ],
       dropdownmenuitems: [
-        { name: 'Profile', route: '/account', icon: UserGroupIcon },
+        { name: 'Profile', route: '/', icon: UserGroupIcon },
         { name: 'Settings', route: '/account', icon: CogIcon },
         { name: 'Sign out', route: '/logout', icon: LogoutIcon },
       ],

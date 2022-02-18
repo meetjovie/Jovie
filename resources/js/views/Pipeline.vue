@@ -1,10 +1,10 @@
 <template>
-  <div class="mx-auto px-12 py-4 justify-center w-full grid h-full grid-cols-4">
+  <div class="mx-auto py-4 justify-center w-full grid grid-flow-col h-full auto-cols-max">
     <div
       v-for="list in lists"
       class="h-full justify-center mx-auto divide-y divide-gray-200">
       <div
-        class="overflow-hidden border border-b-0 border-gray-200 lg:border-0">
+        class="border border-b-0 border-gray-200 lg:border-0">
         <!-- Completed Step -->
         <a href="#" class="group">
           <span class="flex items-start px-2 py-2 text-sm font-medium">
@@ -24,10 +24,13 @@
               </span>
             </span>
           </span>
+          
+          
         </a>
+        
       </div>
       <draggable
-        class="list-group my-1 justify-center gap-6 space-y-2 px-4 py-4"
+        class="list-group my-1 justify-center cursor-pointer gap-6 space-y-2 px-4 py-4"
         :list="list1"
         group="people"
         @change="log"
@@ -52,17 +55,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="block ml-1 -mt-2">
+                                        <div class="block w-28 overflow-ellipsis ml-2 -mt-2">
                                             <div
-                                                class="block text-xs font-medium text-gray-900">
+                                                class="block text-xs line-clamp-1 text-ellipsis font-medium text-gray-900">
                                                 {{ element.name }}
                                             </div>
                                             <div class="block elipsis  line-clamp-1 text-2xs text-gray-500">
                                                 <span class="inline-flex items-center px-1 py-0 rounded-sm text-[8px] font-medium bg-neutral-100 text-neutral-800">
                                                 
-                                               {{ element.category}}
+                                               {{ element.contacted}} 
                                                 </span>
+                                                 <span class="inline-flex text-[8px] font-medium text-gray-900">
+                                            - {{ element.daysinstage }} days ago
+                                            </span>
                                             </div>
+                                           
                                         </div>
                                         
                             </div>
@@ -159,13 +166,14 @@ export default {
           favorite: true,
           network: 'instagram',
           networklink: 'http://instagram.com/timwhite',
-          name: 'Martha Hoover',
+          name: 'Martha Hoover goes deep on the reall meaning of life and the universe',
           bio: 'Born in LA, Living in space.',
           firstname: 'Marth',
           lastname: 'Hoover',
           email: 'mhoover@gmail.com',
           rating: '4.3',
           followers: '1.5M',
+          daysinstage: '2',
           offer: '240K',
           stage: 'Onboarding',
           contacted: '1/12/2020',
@@ -187,7 +195,8 @@ export default {
           followers: '1.2M',
           offer: '12K',
           stage: 'Onboarding',
-          contacted: '1/1e/2020',
+          daysinstage: '3',
+          contacted: '4/9/2020',
           campaign: 'Zelf Beta',
            category: 'Actor',
           avatar: 'https://i.pravatar.cc/150?img=2',
@@ -195,6 +204,7 @@ export default {
         {
           id: 3,
           favorite: false,
+          daysinstage: '6',
           network: 'youtube',
           bio: "Lost soul, found money.",
           networklink: 'http://youtube.com/timwhite',
@@ -206,7 +216,7 @@ export default {
           followers: '1.2K',
           offer: '104K',
           stage: 'Onboarding',
-          contacted: '1/1e/2020',
+          contacted: '1/4/2020',
           campaign: 'Zelf Beta',
            category: 'Athelete',
           avatar: 'https://i.pravatar.cc/150?img=3',
@@ -220,12 +230,13 @@ export default {
           name: 'Jordan Smith',
           firstname: 'Taylor',
           lastname: 'Smith',
+          daysinstage: '1',
           email: '',
           rating: '2',
           followers: '47.2K',
           offer: '900K',
           stage: 'Onboarding',
-          contacted: '1/1e/2020',
+          contacted: '1/9/2020',
            category: 'Singer',
           campaign: 'Zelf Beta',
           avatar: 'https://i.pravatar.cc/150?img=11',
@@ -237,6 +248,7 @@ export default {
           bio: "Star Wars if it took place in a Florida.",
           networklink: 'http://instagram.com/timwhite',
           name: 'Keira Jones',
+          daysinstage: '12',
           firstname: 'Keira',
           lastname: 'Jones',
           email: '',
@@ -258,6 +270,7 @@ export default {
           name: 'Mila Vance',
           firstname: 'Mila',
           lastname: 'Vance',
+          daysinstage: '5',
           category: 'Actor',
           email: '',
           rating: '2.9',
@@ -277,6 +290,7 @@ export default {
           name: 'Kylie Brent',
           firstname: 'Kylie',
           lastname: 'Brent',
+            daysinstage: '1',
           email: '',
           category: 'Model',
           rating: '1.2',
@@ -298,6 +312,7 @@ export default {
           lastname: 'Dustin',
           email: '',
           category: 'Model',
+          daysinstage: '12',
           rating: '4.9',
           followers: '4.2M',
           offer: '344K',
@@ -315,6 +330,7 @@ export default {
           name: 'James Johnson',
           firstname: 'James',
           lastname: 'Johnson',
+          daysinstage: '5',
           category: 'Actor',
           email: '',
           rating: '2.9',
@@ -334,6 +350,7 @@ export default {
           name: 'Mike Croft',
           firstname: 'Mike',
           lastname: 'Croft',
+            daysinstage: '1',
           category: 'Barista',
           email: '',
           rating: '1.2',
