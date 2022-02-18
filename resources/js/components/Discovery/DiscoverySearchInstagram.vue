@@ -1,36 +1,42 @@
 <template>
   <div class="grid grid-cols-4 gap-y-2 py-4 px-2">
-    <InputGroup
-      class="col-span-4"
-      icon="PhotographIcon"
-      text="ContentSearch"
-      placeholder="Search" />
+    <div class="col-span-4">
+      <InputGroup
+        rounded="top"
+        size="sm"
+        icon="PhotographIcon"
+        text="ContentSearch"
+        placeholder="Search" />
 
-    <InputGroup
-      class="col-span-4"
-      icon="TagIcon"
-      text="TagsSearch"
-      placeholder="Tags & Categories" />
-    <SelectMenu />
+      <InputGroup
+        icon="TagIcon"
+        size="sm"
+        text="TagsSearch"
+        rounded="none"
+        placeholder="Tags & Categories" />
 
-    <MultiButton size="xs" />
-    <InputGroup
-      class="col-span-4"
-      icon="LocationMarkerIcon"
-      placeholder="Location" />
+      <InputGroup
+        size="sm"
+        icon="LocationMarkerIcon"
+        rounded="bottom"
+        placeholder="Location" />
+    </div>
     <div class="col-span-4 grid grid-cols-3">
       <ButtonGroup
         size="xs"
+        rounded="left"
         style="secondary"
         icon="LocationMarkerIcon"
         text="Male" />
       <ButtonGroup
         size="xs"
+        rounded="none"
         style="secondary"
         icon="LocationMarkerIcon"
         text="Female" />
       <ButtonGroup
         size="xs"
+        rounded="right"
         style="secondary"
         icon="LocationMarkerIcon"
         text="Other" />
@@ -65,6 +71,7 @@
     <InputGroup
       class="col-span-4"
       icon="BriefcaseIcon"
+      size="sm"
       placeholder="Brand Mentions" />
 
     <div class="justify-right col-span-4 text-right">
