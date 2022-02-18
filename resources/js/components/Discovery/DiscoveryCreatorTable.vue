@@ -72,8 +72,11 @@
           Manage
         </th>
 
-        <th scope="col" class="relative px-6 py-3">
-          <span class="sr-only">Edit</span>
+        <th
+          scope="col"
+          class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+          <!--  Hide results count until a search is performed -->
+          <span class="block">Showing 50 of 1,500 results</span>
         </th>
       </tr>
     </thead>

@@ -347,13 +347,13 @@
                                   type="creator-lastname"
                                   name="creator-lastname"
                                   id="creator-lastname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="Last"
                                   aria-describedby="email-description" />
                               </div>
                             </td>
                             <td
-                              class="border-1 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
+                              class="border-1 hidden border-collapse whitespace-nowrap border focus:border-indigo-500 lg:table-cell">
                               <div class="text-xs text-gray-700 line-clamp-1">
                                 <input
                                   v-model="creator.email"
@@ -361,7 +361,7 @@
                                   type="creator-email"
                                   name="creator-email"
                                   id="creator-email"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="creatoremail@gmail.com"
                                   aria-describedby="email-description" />
                               </div>
@@ -387,7 +387,7 @@
                                   type="creator-offer"
                                   name="creator-offer"
                                   id="creator-offer"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="5,000"
                                   aria-describedby="email-description" />
                               </span>
@@ -404,11 +404,11 @@
                                 as="div"
                                 class="relative inline-block text-left">
                                   <PopoverButton
-                                    class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
+                                    class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-indigo-100 px-2 py-1 text-xs font-semibold leading-5 text-indigo-800">
                                     {{ creator.stage }}
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
-                                      class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
+                                      class="ml-2 h-4 w-4 hover:text-indigo-700 group-hover:text-indigo-900"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor">
@@ -427,7 +427,7 @@
                                   leave-from-class="transform scale-100 opacity-100"
                                   leave-to-class="transform scale-95 opacity-0">
                                   <PopoverPanel
-                                    class="center-0 absolute z-30 w-60 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                                    class="center-0 absolute z-30 w-60 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus:outline-none">
                                     <div class="">
                                       <div class="">
                                         <button
@@ -486,7 +486,7 @@
                                 type="creator-offer"
                                 name="creator-offer"
                                 id="creator-offer"
-                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                 placeholder="--/--/----"
                                 aria-describedby="email-description" />
                             </td>
