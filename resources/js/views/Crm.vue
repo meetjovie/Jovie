@@ -257,8 +257,9 @@
                               class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                               Rating
                             </th>
-                            <th scope="col" class="relative px-6 py-3">
+                            <th scope="col" class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
                               <span class="sr-only">Edit</span>
+                              Showing 1-10 of 100
                             </th>
                           </tr>
                         </thead>
@@ -306,7 +307,7 @@
                                       'bg-social-youtube/60':
                                         creator.network == 'youtube'}, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : creator.network =='tiktok'}"
                                     >
-                                <div class="bg-white p-0 rounded-full">
+                                  <div class="bg-white p-0 rounded-full">
                                   <img
                                     class="rounded-full object-cover object-center"
                                     

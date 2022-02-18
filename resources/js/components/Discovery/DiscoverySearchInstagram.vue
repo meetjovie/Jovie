@@ -1,18 +1,18 @@
 <template>
   <div class="grid grid-cols-4 gap-y-2 py-4 px-2">
+    <InputGroup
+      rounded="all"
+      class="col-span-4"
+      size="sm"
+      icon="SearchIcon"
+      text="ContentSearch"
+      placeholder="Search" />
     <div class="col-span-4">
-      <InputGroup
-        rounded="top"
-        size="sm"
-        icon="PhotographIcon"
-        text="ContentSearch"
-        placeholder="Search" />
-
       <InputGroup
         icon="TagIcon"
         size="sm"
         text="TagsSearch"
-        rounded="none"
+        rounded="top"
         placeholder="Tags & Categories" />
 
       <InputGroup
@@ -68,6 +68,10 @@
           name="Engagement" />
       </div>
     </div>
+    <star-rating
+      class="col-span-4"
+      star-size="12"
+      increment="0.5"></star-rating>
     <InputGroup
       class="col-span-4"
       icon="BriefcaseIcon"
