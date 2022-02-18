@@ -8,11 +8,11 @@
     </div>
   </div>
   <div class="grid grid-cols-2">
-    <InputGroup unround="right" :icon="minicon" :placeholder="mintext" />
-    <InputGroup unround="left" :icon="maxicon" :placeholder="maxtext" />
+    <InputGroup rounded="top-left" :icon="minicon" :placeholder="mintext" />
+    <InputGroup rounded="top-right" :icon="maxicon" :placeholder="maxtext" />
   </div>
   <div class="flex items-center justify-between">
-    <span class="relative z-0 mx-auto flex inline-flex w-full text-center">
+    <span class="relative z-0 mx-auto inline-flex w-full text-center">
       <button
         type="button"
         class="py-.05 relative inline-flex w-full items-center justify-center border border-neutral-300 bg-indigo-500 px-2 text-center text-xs font-medium font-medium text-neutral-50 first:rounded-bl-md last:rounded-br-md hover:bg-indigo-600 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-neutral-100">

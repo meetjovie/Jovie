@@ -19,8 +19,19 @@
         :disabled="disabled"
         :value="modelValue ?? value"
         @input="$emit('update:modelValue', $event.target.value)"
-        class="block w-full border-gray-300 py-2 text-sm rounded-${{rounded}}-md text-neutral-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
-        :class="[icon ? 'pl-10' : '']"
+        class="block w-full border-gray-300 py-2 text-sm text-neutral-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+        :class="[
+          icon ? 'pl-10' : '',
+          { 'rounded-r-md': rounded == 'right' },
+          { 'rounded-l-md': rounded == 'left' },
+          { 'rounded-t-md': rounded == 'top' },
+          { 'rounded-b-md': rounded == 'bottom' },
+          { 'rounded-md': rounded == 'all' },
+          { 'rounded-tl-md': rounded == 'top-left' },
+          { 'rounded-tr-md': rounded == 'top-right' },
+          { 'rounded-bl-md': rounded == 'bottom-left' },
+          { 'rounded-br-md': rounded == 'bottom-right' },
+        ]"
         :placeholder="placeholder" />
       <p v-if="error" class="mt-2 text-sm text-red-600">{{ error }}</p>
     </div>
@@ -62,7 +73,7 @@ export default {
     error: String,
     rounded: {
       type: String,
-      default: null,
+      default: 'all',
     },
   },
   components: {

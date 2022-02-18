@@ -19,9 +19,21 @@
       icon="LocationMarkerIcon"
       placeholder="Location" />
     <div class="col-span-4 grid grid-cols-3">
-      <ButtonGroup size="xs" icon="LocationMarkerIcon" text="Male" />
-      <ButtonGroup size="xs" icon="LocationMarkerIcon" text="Female" />
-      <ButtonGroup size="xs" icon="LocationMarkerIcon" text="Other" />
+      <ButtonGroup
+        size="xs"
+        style="secondary"
+        icon="LocationMarkerIcon"
+        text="Male" />
+      <ButtonGroup
+        size="xs"
+        style="secondary"
+        icon="LocationMarkerIcon"
+        text="Female" />
+      <ButtonGroup
+        size="xs"
+        style="secondary"
+        icon="LocationMarkerIcon"
+        text="Other" />
     </div>
 
     <div class="col-span-4">
