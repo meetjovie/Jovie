@@ -13,7 +13,7 @@
             width="8"
             class="mr-1"
             src="https://unpkg.com/simple-icons@v6/icons/instagram.svg" />
-          Instagram
+          <span class="font-medium">Instagram</span>
         </button>
       </Tab>
       <Tab v-slot="{ selected }" as="template">
@@ -28,7 +28,7 @@
             width="8"
             class="mr-1"
             src="https://unpkg.com/simple-icons@v6/icons/tiktok.svg" />
-          Tiktok
+          <span class="font-medium">Tiktok</span>
         </button>
       </Tab>
       <Tab v-slot="{ selected }" as="template">

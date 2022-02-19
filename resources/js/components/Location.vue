@@ -1,4 +1,7 @@
 <template>
+  <div class="relative flex justify-start">
+    <span class="bg-white pr-2 text-xs text-gray-500"> Location</span>
+  </div>
   <div class="top-16 w-full">
     <Combobox v-model="selected">
       <div class="relative mt-1">

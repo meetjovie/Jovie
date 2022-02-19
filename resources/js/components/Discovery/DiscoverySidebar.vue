@@ -8,7 +8,7 @@
     leave-to-class="scale-95 opacity-0">
     <PopoverPanel
       v-slot="{ open }"
-      class="absolute right-0 top-0 z-50 mb-12 -mr-4 -mt-28 h-screen w-192 bg-white/90 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
+      class="absolute right-0 top-0 z-50 mb-12 -mr-4 -mt-28 h-screen w-192 bg-white/90 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter backdrop-filter">
       <div class="mt-4 flex justify-between px-4">
         <div>
           <XIcon class="h-5 w-5 text-neutral-700 hover:text-neutral-900" />
