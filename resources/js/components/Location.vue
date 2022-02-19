@@ -1,9 +1,15 @@
 <template>
-  <div class="relative flex justify-start">
-    <span class="bg-white pr-2 text-xs text-gray-500"> Location</span>
+  <div class="relative">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t border-gray-300" />
+    </div>
+    <div class="relative flex justify-start">
+      <span class="bg-white pr-2 text-xs text-gray-500"> Location </span>
+    </div>
   </div>
   <div class="top-16 w-full">
     <Combobox v-model="selected">
+      <ComboboxLabel class="sr-only">Country:</ComboboxLabel>
       <div class="relative mt-1">
         <div
           class="relative w-full cursor-default overflow-hidden rounded-lg border bg-white/90 text-left backdrop-filter focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
@@ -13,7 +19,7 @@
             @change="query = $event.target.value" />
           <ComboboxButton
             class="absolute inset-y-0 right-0 flex items-center pr-2">
-            <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <ChevronDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
           </ComboboxButton>
         </div>
         <TransitionRoot
@@ -73,7 +79,7 @@ import {
   ComboboxOption,
   TransitionRoot,
 } from '@headlessui/vue';
-import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid';
 
 const Countries = [
   { name: 'Afghanistan', code: 'AF' },
@@ -330,7 +336,7 @@ export default {
     ComboboxOption,
     TransitionRoot,
     CheckIcon,
-    SelectorIcon,
+    ChevronDownIcon,
   },
   setup() {
     let selected = ref(Countries[0]);

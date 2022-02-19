@@ -15,16 +15,20 @@
               leave-active-class="transition duration-300 ease-in"
               leave-from-class="scale-100 opacity-100"
               leave-to-class="scale-95 opacity-0">
-              <DiscoverySearch></DiscoverySearch>
+              <DiscoverySearch :searchopen="searchopen"></DiscoverySearch>
             </transition>
           </nav>
         </div>
         <main class="flex-auto">
           <button @click="searchopen = !searchopen">
-            <FilterIcon
+            <ChevronLeftIcon
+              v-if="searchopen"
               class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"
               :class="{ 'text-indigo-700': searchopen }"
-              aria-hidden="true"></FilterIcon>
+              aria-hidden="true"></ChevronLeftIcon>
+            <FilterIcon
+              v-if="searchopen == false"
+              class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"></FilterIcon>
           </button>
 
           <DiscoveryStats></DiscoveryStats>
