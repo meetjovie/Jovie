@@ -12,8 +12,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('creator', function () {
+    dd(\App\Models\Creator::first()->toArray());
+});
 Route::post('/waitlist', [\App\Http\Controllers\UserController::class, 'addToWaitList']);
 
+Route::get('creator', function () {
+    $creator = \App\Models\Creator::first();
+    dd($creator->instagram_media);
+});
 Route::get('{any?}', function () {
     return view('welcome');
 });

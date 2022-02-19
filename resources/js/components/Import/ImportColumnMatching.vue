@@ -9,7 +9,7 @@
                 </tr>
                 <tr v-for="column in columns" :key="column" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
                     <td class="text-sm last:rounded-md-br text-indigo-700 font-bold py-2 text-center mx-auto items-center">
-                        {{ unSlugify(column) }}
+                        {{ column }}
                     </td>
                     <td class="px-2 py-1 justify-center items-center">
                         <ColumnsDropdown :ref="'columnDropdown_'+column" @setMappedColumns="setMappedColumns" :mappedColumns="mappedColumns" :column="column" :columnsToMap="columnsToMap" class="rounded-md inline w-72" />
@@ -21,7 +21,7 @@
                     <ButtonGroup text="Back" class="justify-left"></ButtonGroup>
                 </div>
                 <div>
-                <ButtonGroup text="Finish" class="justify-right" :disabled="!Object.keys(mappedColumns).length" @click="$emit('finish')"></ButtonGroup>
+                <ButtonGroup text="Finish" class="justify-right" :disabled="!Object.keys(mappedColumns).length" @click="$emit('finish', mappedColumns)"></ButtonGroup>
                 </div>
             </div>
         </div>
@@ -74,14 +74,28 @@ export default {
                 this.$refs[`columnDropdown_${column}`][0].selected = null
                 return
             }
+            // remove key from mapped column if its unselected
             for (const [key, value] of Object.entries(this.mappedColumns)) {
-                if (value === column) {
+                // check if value of mapped column is an object (which refers to emails). Then rather than deleting key splice from array
+                if (typeof value === "object" && value.includes(column)) {
+                    this.mappedColumns.emails.splice(this.mappedColumns.emails.indexOf(column), 1)
+                } else if (value === column) {
                     delete this.mappedColumns[key]
                     break
                 }
             }
             if (mapColumn) {
-                this.mappedColumns[mapColumn] = column;
+                // check if mapColumn in email1 or email2 then rather than having a string, have an array with all email keys columns
+                if (['email1', 'email2'].includes(mapColumn)) {
+                    if (this.mappedColumns['emails']) {
+                        this.mappedColumns['emails'].push(column)
+                    } else {
+                        this.mappedColumns['emails'] = []
+                        this.mappedColumns['emails'].push(column)
+                    }
+                } else {
+                    this.mappedColumns[mapColumn] = column;
+                }
             }
         },
     }
