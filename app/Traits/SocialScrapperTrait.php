@@ -38,8 +38,7 @@ trait SocialScrapperTrait {
         try {
             $client = new Client();
             $response = $client->get('https://gender-api.com/get?name='.$name.'&key=cElJXXxpyXcZSBCUKqaDLChNqmAD9kSb2tDF');
-            $response = json_decode($response->getBody()->getContents());
-            return $response->gender;
+            return json_decode($response->getBody()->getContents());
         } catch (Exception $exception) {
             return 'unknown';
         }

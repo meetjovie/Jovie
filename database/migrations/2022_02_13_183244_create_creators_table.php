@@ -17,6 +17,7 @@ class CreateCreatorsTable extends Migration
             $table->id();
             $table->mediumText('emails')->nullable();
             $table->string('gender')->nullable();
+            $table->unsignedInteger('gender_accuracy')->default(0)->nullable();
             $table->boolean('gender_updated')->default(false)->nullable();
             $table->string('location')->index()->nullable();
             $table->string('type');

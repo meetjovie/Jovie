@@ -129,7 +129,27 @@ class InstagramImport implements ShouldQueue
             $creator->type = $user->typename ?? 'CREATOR';
             $creator->tags = $this->getTags($this->tags, $creator);
             if (!$creator->gender_updated) {
-                $creator->gender = self::getUserGender($user->full_name);
+                // first check if instagram has pronouns check for gender in it
+                // in case not found hit gender api
+                $gender = 'unknown';
+                $genderAccuracy = 0;
+                $pronouns = $user->pronouns;
+                if (count($pronouns ?? [])) {
+                    if (in_array('she', $pronouns) || in_array('her', $pronouns) || in_array('hers', $pronouns)) {
+                        $gender = 'female';
+                        $genderAccuracy = 100;
+                    } elseif (in_array('he', $pronouns) || in_array('him', $pronouns) || in_array('his', $pronouns)) {
+                        $gender = 'male';
+                        $genderAccuracy = 100;
+                    }
+                }
+                if ($gender == 'unknown') {
+                    $genderResponse = self::getUserGender($user->full_name);
+                    $gender = $genderResponse->gender;
+                    $genderAccuracy = $genderResponse->accuracy;
+                }
+                $creator->gender = $gender;
+                $creator->gender_accuracy = $genderAccuracy;
             }
 
             $creator->emails = $this->getEmails($user, $creator->emails);
