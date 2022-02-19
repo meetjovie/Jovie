@@ -19,7 +19,8 @@
                                             Instagram Users
                                         </label>
                                         <div class="mt-1">
-                                            <textarea id="instagram" name="instagram" rows="3" v-model="importSet.instagram"
+                                            <textarea id="instagram" name="instagram" rows="3"
+                                                      v-model="importSet.instagram"
                                                       class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
                                                       placeholder="@username"/>
                                             <p v-if="errors.instagram" class="text-sm text-red-600 mt-2">
@@ -93,22 +94,21 @@
                                         <p v-if="errors.file" class="text-sm text-red-600 mt-2">{{ errors.file[0] }}</p>
                                     </div>
                                     <SwitchGroup as="div" class="flex items-center justify-between">
-                                <span class="flex-grow flex flex-col">
-                                <SwitchLabel as="span" class="text-sm font-medium text-gray-900"
-                                             passive>Update social data</SwitchLabel>
+                                        <span class="flex-grow flex flex-col">
+                                        <SwitchLabel as="span" class="text-sm font-medium text-gray-900"
+                                                     passive>Update social data</SwitchLabel>
 
-                                </span>
+                                        </span>
                                         <Switch v-model="enabled"
                                                 :class="[enabled ? 'bg-indigo-600' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
-                                    <span aria-hidden="true"
-                                          :class="[enabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"/>
+                                        <span aria-hidden="true"
+                                              :class="[enabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"/>
                                         </Switch>
                                     </SwitchGroup>
                                 </form>
                             </div>
                         </div>
                     </div>
-
                     <div class="flex justify-end">
                         <button @click="finishImport({})"
                                 class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -118,25 +118,29 @@
                 </div>
             </div>
         </div>
-        <div v-show="showMapping">
-            <ImportColumnMatching @finish="finishImport" :columns="columns"></ImportColumnMatching>
-        </div>
+    </div>
+    <div v-show="showMapping">
+        <ImportColumnMatching @finish="finishImport" :columns="columns"></ImportColumnMatching>
     </div>
 </template>
 <script>
-
-import {Switch, SwitchDescription, SwitchGroup, SwitchLabel} from '@headlessui/vue'
-import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue'
-import ImportService from "../services/api/admin/import.service";
+import {
+    Switch,
+    SwitchDescription,
+    SwitchGroup,
+    SwitchLabel,
+} from '@headlessui/vue';
+import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue';
+import ImportService from '../services/api/admin/import.service';
 
 export default {
-    name: "Import",
+    name: 'Import',
     components: {
         Switch,
         SwitchDescription,
         SwitchGroup,
         SwitchLabel,
-        ImportColumnMatching
+        ImportColumnMatching,
     },
     data() {
         return {
@@ -154,26 +158,29 @@ export default {
     },
     methods: {
         getColumnsFromCsv() {
-            this.fetchingColumns = true
-            this.errors = []
-            let form = new FormData()
-            form.append('import', this.$refs.file_upload.files[0])
-            ImportService.getColumnsFromCsv(form).then(response => {
-                response = response.data
-                if (response.status) {
-                    this.columns = response.columns
-                    this.showMapping = true
-                } else {
-                    // show toast error here later
-                }
-            }).catch(error => {
-                error = error.response
-                if (error.status == 422) {
-                    this.errors = error.data.errors
-                }
-            }).finally(response => {
-                this.fetchingColumns = false
-            })
+            this.fetchingColumns = true;
+            this.errors = [];
+            let form = new FormData();
+            form.append('import', this.$refs.file_upload.files[0]);
+            ImportService.getColumnsFromCsv(form)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        this.columns = response.columns;
+                        this.showMapping = true;
+                    } else {
+                        // show toast error here later
+                    }
+                })
+                .catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                        this.errors = error.data.errors;
+                    }
+                })
+                .finally((response) => {
+                    this.fetchingColumns = false;
+                });
         },
         finishImport(mappedColumns = {}) {
             this.importing = true
@@ -181,6 +188,7 @@ export default {
             var form = new FormData()
             form.append('instagram', this.importSet.instagram ?? '')
             form.append('youtube', this.importSet.youtube ?? '')
+            form.append('tags', this.importSet.tags ?? '')
             form.append('mappedColumns', JSON.stringify(mappedColumns))
             form.append('file', this.$refs.file_upload.files[0] ?? '')
             ImportService.import(form).then(response => {
@@ -199,11 +207,6 @@ export default {
                 this.importing = false
             })
         }
-    }
+    },
 }
-
 </script>
-
-
-
-
