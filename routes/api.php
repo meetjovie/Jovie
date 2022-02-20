@@ -29,4 +29,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 
 //    USER LISTS
     Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
+
+//    CRM
+    Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
 });

@@ -27,5 +27,10 @@ export default {
         return axios.get(`${baseUrlAdmin}/user-lists`, {
             headers:  await store.dispatch('headers')
         })
+    },
+    async getCrmCreators() {
+        return axios.get(`${baseUrlAdmin}/crm-creators`, {
+            headers:  await store.dispatch('headers')
+        })
     }
 }
