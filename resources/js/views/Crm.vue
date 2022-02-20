@@ -257,8 +257,16 @@
                               class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                               Rating
                             </th>
-                            <th scope="col" class="relative px-6 py-3">
-                              <span class="sr-only">Edit</span>
+                            <th
+                              scope="col"
+                              class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+                              <div class="hidden w-60 text-right 2xl:block">
+                                Showing 10 of 100 creators
+                              </div>
+                              <div
+                                class="hidden w-40 text-right lg:block 2xl:hidden">
+                                10 of 100
+                              </div>
                             </th>
                           </tr>
                         </thead>
@@ -302,18 +310,37 @@
                             <td class="whitespace-nowrap border px-2">
                               <div class="flex items-center">
                                 <div class="mr-2 h-8 w-8 flex-shrink-0">
-                                  <div class="p-0.5 rounded-full" :class="{
-                                      'bg-social-youtube/60':
-                                        creator.network == 'youtube'}, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : creator.network =='tiktok'}"
-                                    >
-                                <div class="bg-white p-0 rounded-full">
-                                  <img
-                                    class="rounded-full object-cover object-center"
-                                    
-                                    :src="creator.avatar"
-                                    alt="" />
+                                  <div
+                                    class="rounded-full p-0.5"
+                                    :class="[
+                                      {
+                                        'bg-social-youtube/60':
+                                          creator.network == 'youtube',
+                                      },
+                                      {
+                                        'bg-social-twitter/90':
+                                          creator.network == 'twitter',
+                                      },
+                                      {
+                                        'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90':
+                                          creator.network == 'instagram',
+                                      },
+                                      {
+                                        'bg-social-snapchat':
+                                          creator.network == 'snapchat',
+                                      },
+                                      {
+                                        'bg-gradient-to-l from-pink-700 to-sky-700':
+                                          creator.network == 'tiktok',
+                                      },
+                                    ]">
+                                    <div class="rounded-full bg-white p-0">
+                                      <img
+                                        class="rounded-full object-cover object-center"
+                                        :src="creator.avatar"
+                                        alt="" />
                                     </div>
-                                    </div>
+                                  </div>
                                 </div>
                                 <div class="">
                                   <div
@@ -332,7 +359,7 @@
                                   type="creator-firstname"
                                   name="creator-firstname"
                                   id="creator-firname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                   placeholder="First"
                                   aria-describedby="email-description" />
                               </div>
@@ -346,13 +373,13 @@
                                   type="creator-lastname"
                                   name="creator-lastname"
                                   id="creator-lastname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="Last"
                                   aria-describedby="email-description" />
                               </div>
                             </td>
                             <td
-                              class="border-1 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
+                              class="border-1 hidden border-collapse whitespace-nowrap border focus:border-indigo-500 lg:table-cell">
                               <div class="text-xs text-gray-700 line-clamp-1">
                                 <input
                                   v-model="creator.email"
@@ -360,17 +387,21 @@
                                   type="creator-email"
                                   name="creator-email"
                                   id="creator-email"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="creatoremail@gmail.com"
                                   aria-describedby="email-description" />
                               </div>
                             </td>
                             <td
                               class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
-                              <a :href="creator.networklink"
-                                class="text-nuetral-800 inline-flex items-center rounded-full  px-3 py-1 text-center justify-between text-xs font-bold">
-                                <div  class="mr-2 group-hover:opacity-100 opacity-30 items-center">
-                                <SocialIcons height="14px" :icon="creator.network" />
+                              <a
+                                :href="creator.networklink"
+                                class="text-nuetral-800 inline-flex items-center justify-between rounded-full px-3 py-1 text-center text-xs font-bold">
+                                <div
+                                  class="mr-2 items-center opacity-30 group-hover:opacity-100">
+                                  <SocialIcons
+                                    height="14px"
+                                    :icon="creator.network" />
                                 </div>
                                 {{ creator.followers }}
                               </a>
@@ -386,7 +417,7 @@
                                   type="creator-offer"
                                   name="creator-offer"
                                   id="creator-offer"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="5,000"
                                   aria-describedby="email-description" />
                               </span>
@@ -402,22 +433,22 @@
                               <Popover
                                 as="div"
                                 class="relative inline-block text-left">
-                                  <PopoverButton
-                                    class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
-                                    {{ creator.stage }}
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor">
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                  </PopoverButton>
+                                <PopoverButton
+                                  class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-indigo-100 px-2 py-1 text-xs font-semibold leading-5 text-indigo-800">
+                                  {{ creator.stage }}
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="ml-2 h-4 w-4 hover:text-indigo-700 group-hover:text-indigo-900"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                </PopoverButton>
                                 <transition
                                   enter-active-class="transition duration-100 ease-out"
                                   enter-from-class="transform scale-95 opacity-0"
@@ -426,7 +457,7 @@
                                   leave-from-class="transform scale-100 opacity-100"
                                   leave-to-class="transform scale-95 opacity-0">
                                   <PopoverPanel
-                                    class="center-0 absolute z-30 w-60 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                                    class="center-0 absolute z-30 mt-2 w-60 origin-top-right divide-y divide-gray-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus:outline-none">
                                     <div class="">
                                       <div class="">
                                         <button
@@ -434,44 +465,61 @@
                                             active
                                               ? 'bg-indigo-500 text-neutral-700'
                                               : 'text-gray-900',
-                                            'flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs',
+                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
                                           ]">
-                                          <div class="mr-2 font-bold  opacity-50">1</div>
-                                          <div class="font-bold">Interested</div>
+                                          <div
+                                            class="mr-2 font-bold opacity-50">
+                                            1
+                                          </div>
+                                          <div class="font-bold">
+                                            Interested
+                                          </div>
                                         </button>
-                                     
+
                                         <button
                                           :class="[
                                             active
                                               ? 'bg-indigo-500 text-neutral-700'
                                               : 'text-gray-900',
-                                            'flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs',
+                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
                                           ]">
-                                          <div class="mr-2 font-bold  opacity-50">2</div>
-                                          <div class="font-bold">Negotiating</div>
+                                          <div
+                                            class="mr-2 font-bold opacity-50">
+                                            2
+                                          </div>
+                                          <div class="font-bold">
+                                            Negotiating
+                                          </div>
                                         </button>
-                                         <button
+                                        <button
                                           :class="[
                                             active
                                               ? 'bg-indigo-500 text-neutral-700'
                                               : 'text-gray-900',
-                                            'flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs',
+                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
                                           ]">
-                                          <div class="mr-2 font-bold  opacity-50">3</div>
-                                          <div class="font-bold">In Progress</div>
+                                          <div
+                                            class="mr-2 font-bold opacity-50">
+                                            3
+                                          </div>
+                                          <div class="font-bold">
+                                            In Progress
+                                          </div>
                                         </button>
-                                         <button
+                                        <button
                                           :class="[
                                             active
                                               ? 'bg-indigo-500 text-neutral-700'
                                               : 'text-gray-900',
-                                            'flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs',
+                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
                                           ]">
-                                          <div class="mr-2 font-bold  opacity-50">4</div>
+                                          <div
+                                            class="mr-2 font-bold opacity-50">
+                                            4
+                                          </div>
                                           <div class="font-bold">Complete</div>
                                         </button>
                                       </div>
-                                      
                                     </div>
                                   </PopoverPanel>
                                 </transition>
@@ -485,7 +533,7 @@
                                 type="creator-offer"
                                 name="creator-offer"
                                 id="creator-offer"
-                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                 placeholder="--/--/----"
                                 aria-describedby="email-description" />
                             </td>
@@ -528,7 +576,7 @@
                                     leave-from-class="transform opacity-100 scale-100"
                                     leave-to-class="transform opacity-0 scale-95">
                                     <MenuItems
-                                      class="absolute right-10 z-10 mt-2 w-30 origin-top-right rounded-md bg-white/90 backdrop-fitler backdrop-blur-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                      class="w-30 backdrop-fitler absolute right-10 z-10 mt-2 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
                                       <div class="py-1">
                                         <MenuItem v-slot="{ active }">
                                           <a
@@ -540,23 +588,10 @@
                                                 : 'text-gray-700',
                                               'block px-4 py-2 text-sm',
                                             ]">
-                                            <ArchiveIcon class="inline mr-2 h-5 w-5"/>
-                                            Archive</a>
-                                          
-                                        </MenuItem>
-                                        <MenuItem v-slot="{ active }">
-                                          <a
-                                            href="#"
-                                           class="items-center text-neutral-400 hover:text-neutral-900"
-                                            :class="[
-                                              active
-                                                ? 'bg-gray-100 text-gray-900'
-                                                : 'text-gray-700',
-                                              'block px-4 py-2 text-sm',
-                                            ]"
-                                            >
-                                            <BanIcon class="inline mr-2 h-5 w-5"/>
-                                            Mute</a>
+                                            <ArchiveIcon
+                                              class="mr-2 inline h-5 w-5" />
+                                            Archive</a
+                                          >
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
                                           <a
@@ -567,9 +602,24 @@
                                                 ? 'bg-gray-100 text-gray-900'
                                                 : 'text-gray-700',
                                               'block px-4 py-2 text-sm',
-                                            ]"
-                                            >
-                                            <TrashIcon class="inline mr-2 h-5 w-5"/>
+                                            ]">
+                                            <BanIcon
+                                              class="mr-2 inline h-5 w-5" />
+                                            Mute</a
+                                          >
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                          <a
+                                            href="#"
+                                            class="items-center text-neutral-400 hover:text-neutral-900"
+                                            :class="[
+                                              active
+                                                ? 'bg-gray-100 text-gray-900'
+                                                : 'text-gray-700',
+                                              'block px-4 py-2 text-sm',
+                                            ]">
+                                            <TrashIcon
+                                              class="mr-2 inline h-5 w-5" />
                                             Remove</a
                                           >
                                         </MenuItem>
@@ -614,7 +664,7 @@ import {
   MenuItem,
   Popover,
   PopoverButton,
-  PopoverPanel
+  PopoverPanel,
 } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
 import {
@@ -626,7 +676,6 @@ import {
   DuplicateIcon,
   BanIcon,
   TrashIcon,
-
 } from '@heroicons/vue/solid';
 import SocialIcons from '../components/SocialIcons.vue';
 
@@ -677,9 +726,9 @@ export default {
     return {
       stages: [
         { icon: BanIcon, name: 'Interested' },
-        { icon: SearchCircleIcon, name: 'Qualified' },]
-    
-      ,
+        { icon: SearchCircleIcon, name: 'Qualified' },
+      ],
+
       creators: [
         {
           id: 1,

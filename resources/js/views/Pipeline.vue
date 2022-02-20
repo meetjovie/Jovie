@@ -1,10 +1,10 @@
 <template>
-  <div class="mx-auto py-4 justify-center w-full grid grid-flow-col h-full auto-cols-max">
+  <div
+    class="mx-auto grid h-full w-full auto-cols-max grid-flow-col justify-center py-4">
     <div
       v-for="list in lists"
-      class="h-full justify-center mx-auto divide-y divide-gray-200">
-      <div
-        class="border border-b-0 border-gray-200 lg:border-0">
+      class="mx-auto h-full justify-center divide-y divide-gray-200">
+      <div class="border border-b-0 border-gray-200 lg:border-0">
         <!-- Completed Step -->
         <a href="#" class="group">
           <span class="flex items-start px-2 py-2 text-sm font-medium">
@@ -24,85 +24,99 @@
               </span>
             </span>
           </span>
-          
-          
         </a>
-        
       </div>
       <draggable
-        class="list-group my-1 justify-center cursor-pointer gap-6 space-y-2 px-4 py-4"
+        class="list-group my-1 cursor-pointer justify-center gap-6 space-y-2 px-4 py-4"
         :list="list1"
         group="people"
         @change="log"
         itemKey="name">
-        <template #item="{ element, index }" >
-            <div class="w-60 h-12 items-center rounded-lg overflow-hidden hover:bg-gray-50 bg-white shadow-lg">
-                <div
-                    class="list-group-item flex w-full items-center justify-between ">
-                    <div class="flex-1 items-center overflow-hidden truncate">
-                        <div class="flex justify-between pr-4 items-center ">
-                            <div class="flex items-center">
-                                        <div class="overflow-hidden h-16 w-16 -ml-3 -mt-2 items-center flex-shrink-0">
-                                            <div class=" p-0.5 items-center rounded-full" :class="{
-                                            'bg-social-youtube/60':
-                                                element.network == 'youtube'}, {'bg-social-twitter/90' : element.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : element.network == 'instagram'}, {'bg-social-snapchat' : element.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : element.network =='tiktok'}">
-                                                <div class="bg-white p-0 rounded-full">
-                                                    <img
-                                                        class="rounded-full object-cover object-center"
-                                                        
-                                                        :src="element.avatar"
-                                                        alt="" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="block w-28 overflow-ellipsis ml-2 -mt-2">
-                                            <div
-                                                class="block text-xs line-clamp-1 text-ellipsis font-medium text-gray-900">
-                                                {{ element.name }}
-                                            </div>
-                                            <div class="block elipsis  line-clamp-1 text-2xs text-gray-500">
-                                                <span class="inline-flex items-center px-1 py-0 rounded-sm text-[8px] font-medium bg-neutral-100 text-neutral-800">
-                                                
-                                               {{ element.contacted}} 
-                                                </span>
-                                                 <span class="inline-flex text-[8px] font-medium text-gray-900">
-                                            - {{ element.daysinstage }} days ago
-                                            </span>
-                                            </div>
-                                           
-                                        </div>
-                                        
-                            </div>
-                            <div class="flex-shrink-0 w-12 -mt-2 items-center border-l">
-                                <div class="grid grid-cols-2  ml-1.5">
-                                    <div class="justify-center opacity-50 items-center"> 
-                                        <div class="text-2xs justify-center">
-                                            $
-                                        </div>
-                                        <div class="justify-center mt-1 items-center">
-                                            <SocialIcons height="8px" :icon="element.network" />
-                                        </div>
-                                    
-                                    </div>
-                                    <div class=" opacity-50 -ml-1 items-center">
-                                            <a :href="element.networklink"
-                                                    class="text-nuetral-800 flex items-center rounded-full text-center text-2xs font-bold">
-                                                   
-                                                    {{ element.followers }}
-                                                    
-                                            </a>
-                                             <a :href="element.networklink"
-                                                    class="text-nuetral-800 flex items-center rounded-full text-center text-2xs font-bold">
-                                                    
-                                                     {{element.offer}}
-                                            </a>
-                                    </div>
-                                </div>    
-                            </div>
+        <template #item="{ element, index }">
+          <div
+            class="h-12 w-60 items-center overflow-hidden rounded-lg bg-white shadow-lg hover:bg-gray-50">
+            <div
+              class="list-group-item flex w-full items-center justify-between">
+              <div class="flex-1 items-center overflow-hidden truncate">
+                <div class="flex items-center justify-between pr-4">
+                  <div class="flex items-center">
+                    <div
+                      class="-ml-3 -mt-2 h-16 w-16 flex-shrink-0 items-center overflow-hidden">
+                      <div
+                        class="items-center rounded-full p-0.5"
+                        :class="[
+                          {
+                            'bg-social-youtube/60':
+                              element.network == 'youtube',
+                          },
+                          {
+                            'bg-social-twitter/90':
+                              element.network == 'twitter',
+                          },
+                          {
+                            'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90':
+                              element.network == 'instagram',
+                          },
+                          {
+                            'bg-social-snapchat': element.network == 'snapchat',
+                          },
+                          {
+                            'bg-gradient-to-l from-pink-700 to-sky-700':
+                              element.network == 'tiktok',
+                          },
+                        ]">
+                        <div class="rounded-full bg-white p-0">
+                          <img
+                            class="rounded-full object-cover object-center"
+                            :src="element.avatar"
+                            alt="" />
                         </div>
+                      </div>
                     </div>
+                    <div class="ml-2 -mt-2 block w-28 overflow-ellipsis">
+                      <div
+                        class="block text-ellipsis text-xs font-medium text-gray-900 line-clamp-1">
+                        {{ element.name }}
+                      </div>
+                      <div
+                        class="elipsis block text-2xs text-gray-500 line-clamp-1">
+                        <span
+                          class="inline-flex items-center rounded-sm bg-neutral-100 px-1 py-0 text-[8px] font-medium text-neutral-800">
+                          {{ element.contacted }}
+                        </span>
+                        <span
+                          class="inline-flex text-[8px] font-medium text-gray-900">
+                          - {{ element.daysinstage }} days ago
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="-mt-2 w-12 flex-shrink-0 items-center border-l">
+                    <div class="ml-1.5 grid grid-cols-2">
+                      <div class="items-center justify-center opacity-50">
+                        <div class="justify-center text-2xs">$</div>
+                        <div class="mt-1 items-center justify-center">
+                          <SocialIcons height="8px" :icon="element.network" />
+                        </div>
+                      </div>
+                      <div class="-ml-1 items-center opacity-50">
+                        <a
+                          :href="element.networklink"
+                          class="text-nuetral-800 flex items-center rounded-full text-center text-2xs font-bold">
+                          {{ element.followers }}
+                        </a>
+                        <a
+                          :href="element.networklink"
+                          class="text-nuetral-800 flex items-center rounded-full text-center text-2xs font-bold">
+                          {{ element.offer }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </template>
       </draggable>
     </div>
@@ -114,8 +128,8 @@
 </template>
 <script>
 import draggable from 'vuedraggable';
-import CreatorTags from "../components/Creator/CreatorTags.vue";
-import SocialIcons from "../components/SocialIcons.vue";
+import CreatorTags from '../components/Creator/CreatorTags.vue';
+import SocialIcons from '../components/SocialIcons.vue';
 import { MailIcon, PhoneIcon } from '@heroicons/vue/solid';
 export default {
   name: 'two-lists',
@@ -126,7 +140,7 @@ export default {
     MailIcon,
     PhoneIcon,
     SocialIcons,
-    CreatorTags
+    CreatorTags,
   },
   data() {
     return {
@@ -141,14 +155,14 @@ export default {
         {
           name: 'List 2',
           id: 2,
-            count: 34,
+          count: 34,
           title: 'Contacted',
           subtitle: 'People who have been contacted',
         },
         {
           name: 'List 3',
           id: 3,
-            count: 17,
+          count: 17,
           title: 'Negotiating',
           subtitle: 'People who are currently in the process of negotiating',
         },
@@ -178,13 +192,13 @@ export default {
           stage: 'Onboarding',
           contacted: '1/12/2020',
           campaign: 'Zelf Beta',
-        category: 'Model',
+          category: 'Model',
           avatar: 'https://i.pravatar.cc/150?img=1',
         },
         {
           id: 2,
           favorite: false,
-          bio: "Free spirit, paid body.",
+          bio: 'Free spirit, paid body.',
           network: 'twitter',
           networklink: 'http://twitter.com/itstimwhite',
           name: 'Candice Mccoy',
@@ -198,7 +212,7 @@ export default {
           daysinstage: '3',
           contacted: '4/9/2020',
           campaign: 'Zelf Beta',
-           category: 'Actor',
+          category: 'Actor',
           avatar: 'https://i.pravatar.cc/150?img=2',
         },
         {
@@ -206,7 +220,7 @@ export default {
           favorite: false,
           daysinstage: '6',
           network: 'youtube',
-          bio: "Lost soul, found money.",
+          bio: 'Lost soul, found money.',
           networklink: 'http://youtube.com/timwhite',
           name: 'Taylor Smith',
           firstname: 'Taylor',
@@ -218,13 +232,13 @@ export default {
           stage: 'Onboarding',
           contacted: '1/4/2020',
           campaign: 'Zelf Beta',
-           category: 'Athelete',
+          category: 'Athelete',
           avatar: 'https://i.pravatar.cc/150?img=3',
         },
         {
           id: 4,
           favorite: false,
-          bio: "Have you seen jackass?",
+          bio: 'Have you seen jackass?',
           network: 'instagram',
           networklink: 'http://instagram.com/timwhite',
           name: 'Jordan Smith',
@@ -237,7 +251,7 @@ export default {
           offer: '900K',
           stage: 'Onboarding',
           contacted: '1/9/2020',
-           category: 'Singer',
+          category: 'Singer',
           campaign: 'Zelf Beta',
           avatar: 'https://i.pravatar.cc/150?img=11',
         },
@@ -245,7 +259,7 @@ export default {
           id: 5,
           favorite: false,
           network: 'instagram',
-          bio: "Star Wars if it took place in a Florida.",
+          bio: 'Star Wars if it took place in a Florida.',
           networklink: 'http://instagram.com/timwhite',
           name: 'Keira Jones',
           daysinstage: '12',
@@ -254,7 +268,7 @@ export default {
           email: '',
           rating: '4.9',
           followers: '4.2M',
-           category: 'Dancer',
+          category: 'Dancer',
           offer: '344K',
           stage: 'Negotiating',
           contacted: '3/2/2022',
@@ -265,7 +279,7 @@ export default {
           id: 6,
           favorite: false,
           network: 'snapchat',
-          bio: "I charge by the hour, I pay by the second.",
+          bio: 'I charge by the hour, I pay by the second.',
           networklink: 'http://snapchat.com/timwhite',
           name: 'Mila Vance',
           firstname: 'Mila',
@@ -285,12 +299,12 @@ export default {
           id: 7,
           favorite: false,
           network: 'tiktok',
-          bio: "Loved by many, known by few.",
+          bio: 'Loved by many, known by few.',
           networklink: 'http://tiktok.com/@timwhite',
           name: 'Kylie Brent',
           firstname: 'Kylie',
           lastname: 'Brent',
-            daysinstage: '1',
+          daysinstage: '1',
           email: '',
           category: 'Model',
           rating: '1.2',
@@ -324,7 +338,7 @@ export default {
         {
           id: 9,
           favorite: false,
-          bio: "I invented bacon salt.",
+          bio: 'I invented bacon salt.',
           network: 'snapchat',
           networklink: 'http://snapchat.com/timwhite',
           name: 'James Johnson',
@@ -344,13 +358,13 @@ export default {
         {
           id: 10,
           favorite: false,
-          bio: "Investor, investing in investable assets.",
+          bio: 'Investor, investing in investable assets.',
           network: 'instagram',
           networklink: 'http://instagram.com/timwhite',
           name: 'Mike Croft',
           firstname: 'Mike',
           lastname: 'Croft',
-            daysinstage: '1',
+          daysinstage: '1',
           category: 'Barista',
           email: '',
           rating: '1.2',

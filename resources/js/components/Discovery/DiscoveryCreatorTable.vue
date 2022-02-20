@@ -72,8 +72,12 @@
           Manage
         </th>
 
-        <th scope="col" class="relative px-6 py-3">
-          <span class="sr-only">Edit</span>
+        <th
+          scope="col"
+          class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+          <!--  Hide results count until a search is performed -->
+          <div class="hidden w-60 2xl:block">Showing 50 of 1,500 results</div>
+          <div class="hidden w-40 lg:block 2xl:hidden">50 of 1,500</div>
         </th>
       </tr>
     </thead>
@@ -118,10 +122,18 @@
           class="w-80 flex-none justify-center whitespace-nowrap border-l px-4 py-1">
           <div class="flex items-center">
             <div class="mr-2 h-24 w-24 flex-shrink-0">
+              <div class="rounded-full bg-neutral-200 p-0.5">
+                <img
+                  class="rounded-full object-cover object-center"
+                  :src="creator.avatar"
+                  alt="" />
+              </div>
+
+              <!--  <div class="mr-2 h-24 w-24 flex-shrink-0">
               <img
                 class="rounded-full border-2 object-cover object-center"
                 :src="creator.avatar"
-                alt="" />
+                alt="" /> -->
             </div>
             <div class="w-72">
               <div class="flex text-xs font-medium text-gray-900">
@@ -129,7 +141,7 @@
                 <div class="text-white">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="-mt-1 h-4 w-4"
+                    class="h-3 w-3"
                     fill="indigo"
                     viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -146,10 +158,10 @@
                 {{ creator.bio }}
               </div>
               <div class="pt-.05 pb-1 text-xs font-medium text-gray-900">
-                <CreatorTags color="None" text="Category" />
-                <CreatorTags color="purple" text="Fashion" />
-                <CreatorTags color="blue" text="Music" />
-                <CreatorTags color="pink" text="Other" />
+                <CreatorTags size="xs" color="none" text="Category" />
+                <CreatorTags size="xs" color="purple" text="Fashion" />
+                <CreatorTags size="xs" color="blue" text="Music" />
+                <CreatorTags size="xs" color="pink" text="Other" />
               </div>
               <CreatorSocialLinks class="mt-1" />
             </div>
@@ -175,16 +187,16 @@
           <div class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
             <div>
               <div class="font-bold">234</div>
-              <div class="text-xs">Followers</div>
+              <div class="text-2xs text-neutral-500">Followers</div>
             </div>
 
             <div class="hidden xl:block">
               <div class="font-bold">234</div>
-              <div class="text-xs">Engagement</div>
+              <div class="text-2xs text-neutral-500">Engagement</div>
             </div>
             <div class="hidden 2xl:block">
               <div class="font-bold">234</div>
-              <div class="text-xs">EF%</div>
+              <div class="text-2xs text-neutral-500">EF</div>
             </div>
           </div>
         </td>
