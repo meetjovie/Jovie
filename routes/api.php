@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,9 +24,9 @@ Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::cl
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 
 //    IMPORT CREATORS
-    Route::post('/get-columns-from-csv', [\App\Http\Controllers\Admin\ImportController::class, 'getColumnsFromCsv']);
-    Route::post('/import', [\App\Http\Controllers\Admin\ImportController::class, 'import']);
+    Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
+    Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
 
 //    USER LISTS
-    Route::get('/user-lists', [\App\Http\Controllers\Business\UserListsController::class, 'getLists']);
+    Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
 });

@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
-use App\Models\User;
 use App\Models\UserList;
 use App\Repositories\CustomAuth0UserRepository;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\HeadingRowImport;
+use function collect;
 
 class ImportController extends Controller
 {
