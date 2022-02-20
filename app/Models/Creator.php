@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Repositories\CustomAuth0UserRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,21 +14,7 @@ class Creator extends Model
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
     const CREATORS_CSV_PATH = 'public/creators_csv/';
 
-    public function getStageAttribute($value)
-    {
-        return $this->stages()[$value];
-    }
-
-    public function stages()
-    {
-        return [
-            0 => 'Onboarding',
-            1 => 'Interested',
-            2 => 'Negotiating',
-            3 => 'In Progress',
-            4 => 'Complete',
-        ];
-    }
+    const NETWORKS = ['instagram'];
 
     public function userLists()
     {
@@ -36,7 +23,12 @@ class Creator extends Model
 
     public function crms()
     {
-        return $this->belongsToMany(User::class, 'crms')->withPivot(['offer', 'stage', 'last_contact', 'muted']);
+        return $this->belongsToMany(User::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps();
+    }
+
+    public function crmRecordByUser()
+    {
+        return $this->hasOne(Crm::class)->where('user_id', CustomAuth0UserRepository::currentUser(request())->id);
     }
 
     public function getInstagramMediaAttribute($value)
@@ -62,6 +54,14 @@ class Creator extends Model
     public function getEmailsAttribute($value)
     {
         return json_decode($value ?? '[]');
+    }
+
+    public function getInstagramHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://instagram.com/'.$value;
+        }
+        return null;
     }
 
     public function brands()

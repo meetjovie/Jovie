@@ -31,7 +31,7 @@ trait GeneralTrait {
                             Storage::disk('s3')->delete($old_file_path);
                         }
                     }
-                    return $path;
+                    return Storage::disk('s3')->url($path);
                 }
             }
             return $old_file_path;

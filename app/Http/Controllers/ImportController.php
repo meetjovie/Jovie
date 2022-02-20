@@ -70,7 +70,9 @@ class ImportController extends Controller
     {
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->has('file')) {
-            $filePath = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
+            $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
+            $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
+            $filePath = Creator::CREATORS_CSV_PATH.$filename;
             $list = UserList::firstOrCreate([
                 'user_id' => CustomAuth0UserRepository::currentUser($request)->id,
                 'name' => $request->listName

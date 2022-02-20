@@ -17,10 +17,9 @@ class CreateCrmsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('creator_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->double('offer', null, 2)->default(0)->nullable();
-            $table->integer('stage')->default(0);
             $table->dateTime('last_contacted')->nullable();
-            $table->boolean('muted')->default(false)->nullable();
+            $table->double('instagram_offer', null, 2)->default(0)->nullable();
+            $table->integer('instagram_stage')->default(0);
             $table->timestamps();
         });
     }

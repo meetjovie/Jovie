@@ -186,7 +186,7 @@ class InstagramImport implements ShouldQueue
             $meta['average_comments'] = $averageLikesAndComments['averageComments'];
             $meta['average_likes'] = $averageLikesAndComments['averageLikes'];
             $meta['external_url'] = $user->external_url;
-            $meta['profile_pic_url'] = $this->getProfilePicUrl($user);
+            $meta['profile_pic_url'] = $this->getProfilePicUrl($user, $creator);
             $meta['average_video_views'] = $this->getAverageVideoView($user);
             $meta['has_blocked_viewer'] = $user->has_blocked_viewer;
             $meta['is_business_account'] = $user->is_business_account;
@@ -269,8 +269,14 @@ class InstagramImport implements ShouldQueue
         return json_encode(array_values(array_map('trim', $tags)));
     }
 
-    public function getProfilePicUrl($user)
+    public function getProfilePicUrl($user, $creator)
     {
+        try {
+            $filename = explode(Creator::CREATORS_PROFILE_PATH, $creator->instagram_meta->profile_pic_url)[1];
+            $path = Creator::CREATORS_MEDIA_PATH.$filename;
+            Storage::disk('s3')->delete($path);
+        } catch (\Exception $e) {
+        }
         $file = $user->profile_pic_url;
         if (is_null($file)) {
             $file = asset('images/thumnailLogo.5243720b.png');

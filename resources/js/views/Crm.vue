@@ -58,52 +58,28 @@
                                 leave-to-class="opacity-0">
                                 <ListboxOptions
                                     class="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none sm:text-xs">
-                                    <ListboxOption as="template" v-slot="{ active, selected }">
+                                    <ListboxOption as="template" v-slot="{ active, selected }" v-for="list in userLists">
                                         <li
                                             :class="[
-                        active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                        'relative cursor-default select-none py-2 pl-3 pr-9',
-                      ]">
-                      <span
-                          :class="[
-                          selected ? 'font-semibold' : 'font-normal',
-                          'block truncate',
-                        ]">
-                        This is a list
-                      </span>
+                                                active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                                                'relative cursor-default select-none py-2 pl-3 pr-9',
+                                              ]">
+                                              <span
+                                                  :class="[
+                                                  selected ? 'font-semibold' : 'font-normal',
+                                                  'block truncate',
+                                                ]">
+                                                {{ list.name }}
+                                              </span>
 
                                             <span
                                                 v-if="selected"
                                                 :class="[
-                          active ? 'text-white' : 'text-indigo-600',
-                          'absolute inset-y-0 right-0 flex items-center pr-4',
-                        ]">
-                        <CheckIcon class="h-5 w-5" aria-hidden="true"/>
-                      </span>
-                                        </li>
-                                    </ListboxOption>
-                                    <ListboxOption as="template" v-slot="{ active, selected }">
-                                        <li
-                                            :class="[
-                        active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                        'relative cursor-default select-none py-2 pl-3 pr-9',
-                      ]">
-                      <span
-                          :class="[
-                          selected ? 'font-semibold' : 'font-normal',
-                          'block truncate',
-                        ]">
-                        An so is this
-                      </span>
-
-                                            <span
-                                                v-if="selected"
-                                                :class="[
-                          active ? 'text-white' : 'text-indigo-600',
-                          'absolute inset-y-0 right-0 flex items-center pr-4',
-                        ]">
-                        <CheckIcon class="h-5 w-5" aria-hidden="true"/>
-                      </span>
+                                                  active ? 'text-white' : 'text-indigo-600',
+                                                  'absolute inset-y-0 right-0 flex items-center pr-4',
+                                                ]">
+                                                <CheckIcon class="h-5 w-5" aria-hidden="true"/>
+                                              </span>
                                         </li>
                                     </ListboxOption>
                                 </ListboxOptions>
@@ -263,28 +239,28 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody class="h-full divide-y divide-gray-200 bg-white">
-                                                    <template v-for="creator in creators"
-                                                              :key="creator">
-                                                        <tr
-                                                            v-for="creator in creators"
-                                                            :key="creator"
+                                                <template v-for="(creator, index) in creators"
+                                                          :key="creator">
+                                                    <template v-for="network in networks" :key="network">
+                                                        <tr v-if="creator[`${network}_meta`]"
                                                             class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                                                             <td
                                                                 class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                                                                 <div class="grid grid-cols-2 items-center">
                                                                     <div class="group mr-2">
-                                                              <span class="group-hover:hidden">
-                                                                {{ creator.id }}
-                                                              </span>
+                                                                      <span class="group-hover:hidden">
+                                                                        {{ creator.id }}
+                                                                      </span>
                                                                         <span class="hidden group-hover:block">
-                                                                <input
-                                                                    id="comments-description"
-                                                                    aria-describedby="comments-description"
-                                                                    name="comments"
-                                                                    type="checkbox"
-                                                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"/>
-                                                              </span>
+                                                                            <input
+                                                                                id="comments-description"
+                                                                                aria-describedby="comments-description"
+                                                                                name="comments"
+                                                                                type="checkbox"
+                                                                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"/>
+                                                                        </span>
                                                                     </div>
+<!--                                                                    favourite-->
                                                                     <div>
                                                                         <svg
                                                                             xmlns="http://www.w3.org/2000/svg"
@@ -304,14 +280,17 @@
                                                             <td class="whitespace-nowrap border px-2">
                                                                 <div class="flex items-center">
                                                                     <div class="mr-2 h-8 w-8 flex-shrink-0">
-                                                                        <div class="p-0.5 rounded-full" :class="{
-                                                                  'bg-social-youtube/60':
-                                                                    creator.network == 'youtube'}, {'bg-social-twitter/90' : creator.network == 'twitter'}, {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : creator.network == 'instagram'}, {'bg-social-snapchat' : creator.network == 'snapchat'}, {'bg-gradient-to-l from-pink-700 to-sky-700' : creator.network =='tiktok'}">
+                                                                        <div class="p-0.5 rounded-full" :class="
+                                                                            {'bg-social-youtube/60':network == 'youtube'},
+                                                                            {'bg-social-twitter/90' : network == 'twitter'},
+                                                                            {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : network == 'instagram'},
+                                                                            {'bg-social-snapchat' : network == 'snapchat'},
+                                                                            {'bg-gradient-to-l from-pink-700 to-sky-700' : network =='tiktok'}">
                                                                             <div class="bg-white p-0 rounded-full">
                                                                                 <img
                                                                                     class="rounded-full object-cover object-center"
 
-                                                                                    :src="creator.avatar"
+                                                                                    :src="creator[`${network}_meta`].profile_pic_url"
                                                                                     alt=""/>
                                                                             </div>
                                                                         </div>
@@ -319,7 +298,7 @@
                                                                     <div class="">
                                                                         <div
                                                                             class="text-xs font-medium text-gray-900">
-                                                                            {{ creator.name }}
+                                                                            {{ creator[`${network}_name`] }}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -356,7 +335,7 @@
                                                                 class="border-1 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
                                                                 <div class="text-xs text-gray-700 line-clamp-1">
                                                                     <input
-                                                                        v-model="creator.email"
+                                                                        v-model="creator.emails"
                                                                         autocomplete="off"
                                                                         type="creator-email"
                                                                         name="creator-email"
@@ -368,13 +347,14 @@
                                                             </td>
                                                             <td
                                                                 class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
-                                                                <a :href="creator.networklink"
+                                                                <a :href="creator[`${network}_handle`]"
                                                                    class="text-nuetral-800 inline-flex items-center rounded-full  px-3 py-1 text-center justify-between text-xs font-bold">
                                                                     <div
                                                                         class="mr-2 group-hover:opacity-100 opacity-30 items-center">
-                                                                        <SocialIcons height="14px" :icon="creator.network"/>
+                                                                        <SocialIcons height="14px"
+                                                                                     :icon="network"/>
                                                                     </div>
-                                                                    {{ creator.followers }}
+                                                                    {{ formatCount(creator[`${network}_followers`]) }}
                                                                 </a>
                                                             </td>
                                                             <td class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
@@ -382,7 +362,7 @@
                                                           class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
                                                         $
                                                         <input
-                                                            v-model="creator.offer"
+                                                            v-model="creator.crm_record_by_user[`${network}_offer`]"
                                                             autocomplete="off"
                                                             type="creator-offer"
                                                             name="creator-offer"
@@ -405,7 +385,7 @@
                                                                     class="relative inline-block text-left">
                                                                     <PopoverButton
                                                                         class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
-                                                                        {{ creator.stage }}
+                                                                        {{ creator.crm_record_by_user[`${network}_stage`] }}
                                                                         <svg
                                                                             xmlns="http://www.w3.org/2000/svg"
                                                                             class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
@@ -430,54 +410,15 @@
                                                                             class="center-0 absolute z-30 w-60 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                                                                             <div class="">
                                                                                 <div class="">
-                                                                                    <button
-                                                                                        :class="[
-                                                                                    active
-                                                                                    ? 'bg-indigo-500 text-neutral-700'
-                                                                                    : 'text-gray-900',
-                                                                                    'flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs'
-                                                                                    ]">
-                                                                                        <div class="mr-2 font-bold  opacity-50">
-                                                                                            1
+                                                                                    <button v-for="(stage, index) in stages" @click="updateCrmCreator(index, `crm_record_by_user.${network}_stage`, stage)"
+                                                                                        :class="[creator.crm_record_by_user[`${network}_stage`] == stage ? 'bg-indigo-500 text-neutral-700': 'text-gray-900','flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs']">
+                                                                                        <div
+                                                                                            class="mr-2 font-bold  opacity-50">
+                                                                                            {{ index + 1}}
                                                                                         </div>
-                                                                                        <div class="font-bold">Interested</div>
-                                                                                    </button>
-
-                                                                                    <button
-                                                                                        :class="[
-                                                                                    active
-                                                                                    ? 'bg-indigo-500 text-neutral-700'
-                                                                                    : 'text-gray-900',
-                                                                                    'flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs',
-                                                                                    ]">
-                                                                                        <div class="mr-2 font-bold  opacity-50">
-                                                                                            2
+                                                                                        <div class="font-bold">
+                                                                                            {{ stage }}
                                                                                         </div>
-                                                                                        <div class="font-bold">Negotiating</div>
-                                                                                    </button>
-                                                                                    <button
-                                                                                        :class="[
-                                                                                    active
-                                                                                    ? 'bg-indigo-500 text-neutral-700'
-                                                                                    : 'text-gray-900',
-                                                                                    'flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs',
-                                                                                    ]">
-                                                                                        <div class="mr-2 font-bold  opacity-50">
-                                                                                            3
-                                                                                        </div>
-                                                                                        <div class="font-bold">In Progress</div>
-                                                                                    </button>
-                                                                                    <button
-                                                                                        :class="[
-                                                                                    active
-                                                                                    ? 'bg-indigo-500 text-neutral-700'
-                                                                                    : 'text-gray-900',
-                                                                                    'flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs',
-                                                                                    ]">
-                                                                                        <div class="mr-2 font-bold  opacity-50">
-                                                                                            4
-                                                                                        </div>
-                                                                                        <div class="font-bold">Complete</div>
                                                                                     </button>
                                                                                 </div>
 
@@ -489,7 +430,7 @@
                                                             <td
                                                                 class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 xl:table-cell">
                                                                 <input
-                                                                    v-model="creator.contacted"
+                                                                    v-model="creator.crm_record_by_user.last_contacted"
                                                                     autocomplete="off"
                                                                     type="creator-offer"
                                                                     name="creator-offer"
@@ -523,7 +464,8 @@
                                                                         <div>
                                                                             <MenuButton
                                                                                 class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-                                                                                <span class="sr-only">Open options</span>
+                                                                                <span
+                                                                                    class="sr-only">Open options</span>
                                                                                 <DotsVerticalIcon
                                                                                     class="h-5 w-5"
                                                                                     aria-hidden="true"/>
@@ -558,7 +500,7 @@
                                                                                         <a
                                                                                             href="#"
                                                                                             class="items-center text-neutral-400 hover:text-neutral-900"
-                                                                                            :class="[active  ? 'bg-gray-100 text-gray-900'  : 'text-gray-700','block px-4 py-2 text-sm']"                                  >
+                                                                                            :class="[active  ? 'bg-gray-100 text-gray-900'  : 'text-gray-700','block px-4 py-2 text-sm']">
                                                                                             <BanIcon
                                                                                                 class="inline mr-2 h-5 w-5"/>
                                                                                             Mute</a>
@@ -567,7 +509,7 @@
                                                                                         <a
                                                                                             href="#"
                                                                                             class="items-center text-neutral-400 hover:text-neutral-900"
-                                                                                            :class="[active  ? 'bg-gray-100 text-gray-900'  : 'text-gray-700','block px-4 py-2 text-sm']"                                  >
+                                                                                            :class="[active  ? 'bg-gray-100 text-gray-900'  : 'text-gray-700','block px-4 py-2 text-sm']">
                                                                                             <TrashIcon
                                                                                                 class="inline mr-2 h-5 w-5"/>
                                                                                             Remove</a
@@ -583,6 +525,7 @@
                                                             </td>
                                                         </tr>
                                                     </template>
+                                                </template>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -664,12 +607,11 @@ export default {
     },
     data() {
         return {
-            stages: [
-                {icon: BanIcon, name: 'Interested'},
-                {icon: SearchCircleIcon, name: 'Qualified'},
-            ],
+            stages: [],
             loading: false,
             creators: [],
+            networks: [],
+            userLists: [],
             filters: {
                 'list': '',
                 'archive': 0
@@ -678,8 +620,18 @@ export default {
     },
     mounted() {
         this.getCrmCreators()
+        this.getUserLists()
     },
     methods: {
+        getUserLists() {
+            UserService.getUserLists()
+                .then(response => {
+                    response = response.data
+                    if (response.status) {
+                        this.userLists = response.lists
+                    }
+                })
+        },
         getCrmCreators() {
             this.loading = true
             UserService.getCrmCreators(this.filters)
@@ -688,8 +640,25 @@ export default {
                     response = response.data
                     if (response.status) {
                         this.creators = response.creators
+                        this.networks = response.networks
+                        this.stages = response.stages
                     }
                 })
+        },
+        updateCrmCreator(index, key, value) {
+            console.log(key);
+            let keySplits = key.split('.')
+            if (keySplits.length > 1) {
+                var key1 = keySplits[0]
+                var key2 = keySplits[1]
+                let obj = this.creators[index][key1];
+                obj[key2] = value
+                this.creators[index][key1] = obj
+                console.log(this.creators);
+            } else {
+                this.creators[index][key1] = value
+            }
+            console.log(this.creators);
         }
     }
 };

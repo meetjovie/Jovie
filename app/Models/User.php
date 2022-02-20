@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function crms()
     {
-        return $this->belongsToMany(Creator::class, 'crms')->withPivot(['offer', 'stage', 'last_contact', 'muted']);
+        return $this->belongsToMany(Creator::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps();
     }
 
     public function routeNotificationForSlack($notification)
