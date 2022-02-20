@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Creator;
 use App\Models\CreatorSocialLink;
+use App\Models\Crm;
 use App\Models\SocialInfo;
 use App\Notifications\ImportNotification;
 use App\Traits\GeneralTrait;
@@ -33,18 +34,22 @@ class InstagramImport implements ShouldQueue
     private $parentCreator;
     private $emails;
     private $brands = [];
+    private $listId;
+    private $userId;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($username, $tags, $recursive = false, $creatorId = null, $emails = null)
+    public function __construct($username, $tags, $recursive = false, $creatorId = null, $emails = null, $listId = null, $userId = null)
     {
         $this->username = $username;
         $this->tags = $tags;
         $this->recursive = $recursive;
         $this->parentCreator = $creatorId;
         $this->emails = $emails;
+        $this->listId = $listId;
+        $this->userId = $userId;
     }
 
     /**
@@ -188,12 +193,16 @@ class InstagramImport implements ShouldQueue
             $meta['has_ar_effects'] = $user->has_ar_effects;
             $creator->instagram_meta = json_encode($meta);
             $creator->save();
-
+            if ($this->listId) {
+                $creator->userLists()->syncWithoutDetaching($this->listId);
+            }
+            if ($this->userId) {
+                $creator->crms()->syncWithoutDetaching($this->userId);
+            }
             if ($this->parentCreator && $creator->account_type == 'BRAND') {
                 $parentCreator = Creator::where('id', $this->parentCreator)->first();
                 $parentCreator->brands()->syncWithoutDetaching($creator->id);
             }
-
             $this->creatorId = $creator->id;
         }
     }
@@ -219,7 +228,7 @@ class InstagramImport implements ShouldQueue
 
     public function addSocialLinksFromLinkTree($links, $oldLinks = [])
     {
-        return json_encode(array_map('trim', array_unique(array_merge($links, $oldLinks))));
+        return json_encode(array_values(array_map('trim', array_unique(array_merge($links, $oldLinks)))));
     }
 
     public function getEmails($user, $oldEmails)
@@ -234,7 +243,7 @@ class InstagramImport implements ShouldQueue
         if ($bioEmail = $this->getEmailFromBio($user->biography)) {
             $emails[] = $bioEmail;
         }
-        return json_encode(array_map('trim', array_unique(array_merge($emails, $oldEmails))));
+        return json_encode(array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
     }
 
     public function getAccountType($business)
@@ -253,11 +262,11 @@ class InstagramImport implements ShouldQueue
         if ($creator) {
             if (!$tags) return json_encode($creator->tags);
             $tags = explode(',', $tags);
-            return json_encode(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? []))));
+            return json_encode(array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
         }
         if (!$tags) return '[]';
         $tags = explode(',', $tags);
-        return json_encode(array_map('trim', $tags));
+        return json_encode(array_values(array_map('trim', $tags)));
     }
 
     public function getProfilePicUrl($user)

@@ -91,7 +91,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <p v-if="errors.file" class="text-sm text-red-600 mt-2">{{ errors.file[0] }}</p>
+                                        inputGr<p v-if="errors.file" class="text-sm text-red-600 mt-2">{{ errors.file[0] }}</p>
                                     </div>
                                     <SwitchGroup as="div" class="flex items-center justify-between">
                                         <span class="flex-grow flex flex-col">
@@ -120,7 +120,13 @@
         </div>
     </div>
     <div v-show="showMapping">
-        <ImportColumnMatching @finish="finishImport" :columns="columns"></ImportColumnMatching>
+        <ImportColumnMatching
+            @finish="finishImport"
+            :columns="columns"
+            :fileName="importSet.listName"
+            :userLists="userLists"
+            @listNameUpdated="updateListName"
+        />
     </div>
 </template>
 <script>
@@ -132,6 +138,7 @@ import {
 } from '@headlessui/vue';
 import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue';
 import ImportService from '../services/api/admin/import.service';
+import UserService from "../services/api/user.service";
 
 export default {
     name: 'Import',
@@ -151,12 +158,26 @@ export default {
             importSet: {
                 instagram: null,
                 youtube: null,
-                tags: null
+                tags: null,
+                listName: ''
             },
-            importing: false
+            importing: false,
+            userLists: []
         }
     },
+    mounted() {
+        this.getUserLists()
+    },
     methods: {
+        getUserLists() {
+            UserService.getUserLists()
+                .then(response => {
+                    response = response.data
+                    if (response.status) {
+                        this.userLists = response.lists
+                    }
+                })
+        },
         getColumnsFromCsv() {
             this.fetchingColumns = true;
             this.errors = [];
@@ -168,6 +189,7 @@ export default {
                     if (response.status) {
                         this.columns = response.columns;
                         this.showMapping = true;
+                        this.importSet.listName = this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, "")
                     } else {
                         // show toast error here later
                     }
@@ -182,6 +204,9 @@ export default {
                     this.fetchingColumns = false;
                 });
         },
+        updateListName(listName) {
+            this.importSet.listName = listName
+        },
         finishImport(mappedColumns = {}) {
             this.importing = true
             this.errors = []
@@ -191,6 +216,7 @@ export default {
             form.append('tags', this.importSet.tags ?? '')
             form.append('mappedColumns', JSON.stringify(mappedColumns))
             form.append('file', this.$refs.file_upload.files[0] ?? '')
+            form.append('listName', this.importSet.listName)
             ImportService.import(form).then(response => {
                 response = response.data
                 if (response.status) {

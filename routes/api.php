@@ -23,6 +23,11 @@ Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
 Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
+
+//    IMPORT CREATORS
     Route::post('/get-columns-from-csv', [\App\Http\Controllers\Admin\ImportController::class, 'getColumnsFromCsv']);
     Route::post('/import', [\App\Http\Controllers\Admin\ImportController::class, 'import']);
+
+//    USER LISTS
+    Route::get('/user-lists', [\App\Http\Controllers\Business\UserListsController::class, 'getLists']);
 });

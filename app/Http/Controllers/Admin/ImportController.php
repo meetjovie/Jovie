@@ -7,8 +7,12 @@ use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
+use App\Models\User;
+use App\Models\UserList;
+use App\Repositories\CustomAuth0UserRepository;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\HeadingRowImport;
@@ -70,7 +74,14 @@ class ImportController extends Controller
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->has('file')) {
             $filePath = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
-            FileImport::dispatch($filePath, $mappedColumns, $request->tags);
+            $list = UserList::firstOrCreate([
+                'user_id' => CustomAuth0UserRepository::currentUser($request)->id,
+                'name' => $request->listName
+            ], [
+                'user_id' => CustomAuth0UserRepository::currentUser($request)->id,
+                'name' => $request->listName
+            ]);
+            FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, CustomAuth0UserRepository::currentUser($request)->id);
         }
     }
 }

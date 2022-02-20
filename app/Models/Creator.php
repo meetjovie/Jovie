@@ -13,6 +13,32 @@ class Creator extends Model
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
     const CREATORS_CSV_PATH = 'public/creators_csv/';
 
+    public function getStageAttribute($value)
+    {
+        return $this->stages()[$value];
+    }
+
+    public function stages()
+    {
+        return [
+            0 => 'Onboarding',
+            1 => 'Interested',
+            2 => 'Negotiating',
+            3 => 'In Progress',
+            4 => 'Complete',
+        ];
+    }
+
+    public function userLists()
+    {
+        return $this->belongsToMany(UserList::class)->withTimestamps();
+    }
+
+    public function crms()
+    {
+        return $this->belongsToMany(User::class, 'crms')->withPivot(['offer', 'stage', 'last_contact', 'muted']);
+    }
+
     public function getInstagramMediaAttribute($value)
     {
         return json_decode($value ?? '[]');

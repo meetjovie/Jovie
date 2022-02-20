@@ -21,17 +21,21 @@ class FileImport implements ShouldQueue
     private $file;
     private $mappedColumns;
     private $tags;
+    private $listId;
+    private $userId;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($file, $mappedColumns, $tags)
+    public function __construct($file, $mappedColumns, $tags, $listId, $userId)
     {
         $this->file = $file;
         $this->mappedColumns = $mappedColumns;
         $this->tags = $tags;
+        $this->listId = $listId;
+        $this->userId = $userId;
     }
 
     /**
@@ -88,7 +92,7 @@ class FileImport implements ShouldQueue
                                 $username = substr($username, 1);
                             }
                             Bus::chain([
-                                new InstagramImport($username, $this->tags, true, null, $emails),
+                                new InstagramImport($username, $this->tags, true, null, $emails, $this->listId, $this->userId),
                                 new SendSlackNotification('imported instagram user '.$username)
                             ])->dispatch();
                         }

@@ -51,6 +51,11 @@ class User extends Authenticatable
 
     protected $appends = ['default_image'];
 
+    public function crms()
+    {
+        return $this->belongsToMany(Creator::class, 'crms')->withPivot(['offer', 'stage', 'last_contact', 'muted']);
+    }
+
     public function routeNotificationForSlack($notification)
     {
         return env('SLACK_NOTIFICATION_WEBHOOK');

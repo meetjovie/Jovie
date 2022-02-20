@@ -61,7 +61,7 @@ class CustomAuth0UserRepository extends Auth0UserRepository
         return $user;
     }
 
-    public function currentUser($request)
+    public static function currentUser($request)
     {
         if (config('app.env') == 'local') {
             return User::first();
@@ -69,6 +69,6 @@ class CustomAuth0UserRepository extends Auth0UserRepository
         $auth0 = \App::make('auth0');
         $accessToken = $request->bearerToken() ?? "";
         $tokenInfo = $auth0->decodeJWT($accessToken);
-        return $this->getUserByDecodedJWT($tokenInfo);
+        return self::getUserByDecodedJWT($tokenInfo);
     }
 }

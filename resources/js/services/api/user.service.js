@@ -2,6 +2,7 @@ import store from '../../store';
 
 const baseUrl = '/api'
 const baseUrlWeb = ''
+const baseUrlAdmin = '/api/admin'
 
 export default {
     async me() {
@@ -20,6 +21,11 @@ export default {
     async removeProfilePhoto() {
         return axios.post(`${baseUrl}/remove-profile-photo?_method=DELETE`, {}, {
             headers: await store.dispatch('headers')
+        })
+    },
+    async getUserLists() {
+        return axios.get(`${baseUrlAdmin}/user-lists`, {
+            headers:  await store.dispatch('headers')
         })
     }
 }
