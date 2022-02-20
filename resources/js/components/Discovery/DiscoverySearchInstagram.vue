@@ -78,13 +78,14 @@
 
     <InputGroup
       class="col-span-4"
+      shadow="false"
       icon="BriefcaseIcon"
       size="sm"
       placeholder="Brand Mentions" />
-    <div class="col-span-4"><Location class="z-30" show="true" /></div>
+    <div class="col-span-4"><LocationSelector class="z-30" show="true" /></div>
 
     <div class="justify-right col-span-4 text-right">
-      <ButtonGroup shadow="false" text="Search" class="w-full"></ButtonGroup>
+      <ButtonGroup text="Search" class="w-full"></ButtonGroup>
       <span
         class="justify-right cursor-pointer text-right text-xs text-indigo-500"
         >Reset</span
@@ -97,7 +98,7 @@ import InputGroup from '../InputGroup.vue';
 import ButtonGroup from '../ButtonGroup.vue';
 import MultiButton from '../MultiButton.vue';
 import RangeFilter from '../RangeFilter.vue';
-import Location from '../Location.vue';
+import LocationSelector from '../LocationSelector.vue';
 
 export default {
   components: {
@@ -105,7 +106,7 @@ export default {
     ButtonGroup,
     MultiButton,
     RangeFilter,
-    Location,
+    LocationSelector,
   },
 };
 </script>
