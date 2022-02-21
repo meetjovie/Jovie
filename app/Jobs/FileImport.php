@@ -106,7 +106,6 @@ class FileImport implements ShouldQueue
 //                        }
 //                    }
                 }
-                dd(1);
             }
         } catch (\Exception $e) {
             //            SendSlackNotification::dispatch('Error on Youtube Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine());

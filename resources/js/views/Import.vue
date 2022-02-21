@@ -220,7 +220,7 @@ export default {
             ImportService.import(form).then(response => {
                 response = response.data
                 if (response.status) {
-
+                    alert(response.message)
                 } else {
                     // show toast error here later
                 }

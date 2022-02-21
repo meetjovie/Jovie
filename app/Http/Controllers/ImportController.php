@@ -64,6 +64,10 @@ class ImportController extends Controller
                 'error' => $e->getMessage()
             ]);
         }
+        return collect([
+            'status' => true,
+            'error' => 'success'
+        ]);
     }
 
     public function handleImportFile($request)
