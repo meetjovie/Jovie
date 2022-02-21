@@ -33,10 +33,12 @@ class CheckAuth0JWT
      */
     public function handle($request, Closure $next)
     {
-        if (config('app.env') == 'local') {
-            Auth::login(User::first());
-            return $next($request);
-        }
+//        dd(config('app.env'));
+//        if (config('app.env') == 'local') {
+//            dd(123);
+//            Auth::login(User::first());
+//            return $next($request);
+//        }
         try {
             $user = CustomAuth0UserRepository::currentUser($request);
             if (!$user) {
