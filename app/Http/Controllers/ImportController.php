@@ -50,7 +50,7 @@ class ImportController extends Controller
                     $instagram = substr($instagram, 1);
                 }
                 Bus::chain([
-                    new InstagramImport($instagram, $request->tags, true),
+                    new InstagramImport($instagram, $request->tags, true, null, null, null, CustomAuth0UserRepository::currentUser($request)->id),
                     new SendSlackNotification('imported instagram user '.$instagram)
                 ])->dispatch();
             }
