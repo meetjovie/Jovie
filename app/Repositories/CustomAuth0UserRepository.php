@@ -69,6 +69,7 @@ class CustomAuth0UserRepository extends Auth0UserRepository
         $auth0 = \App::make('auth0');
         $accessToken = $request->bearerToken() ?? "";
         $tokenInfo = $auth0->decodeJWT($accessToken);
-        return self::getUserByDecodedJWT($tokenInfo);
+        $userRepo = new CustomAuth0UserRepository();
+        return $userRepo->getUserByDecodedJWT($tokenInfo);
     }
 }
