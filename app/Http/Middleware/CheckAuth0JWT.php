@@ -37,13 +37,8 @@ class CheckAuth0JWT
             Auth::login(User::first());
             return $next($request);
         }
-        $auth0 = \App::make('auth0');
-
-        $accessToken = $request->bearerToken() ?? "";
         try {
-            $tokenInfo = $auth0->decodeJWT($accessToken);
-            $user = $this->userRepository->getUserByDecodedJWT($tokenInfo);
-            $this->userRepository->upsertUser($user);
+            $user = CustomAuth0UserRepository::currentUser($request);
             if (!$user) {
                 return response()->json(["message" => "Unauthorized user"], 401);
             }

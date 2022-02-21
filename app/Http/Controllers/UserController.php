@@ -13,8 +13,6 @@ class UserController extends Controller
 {
     use GeneralTrait;
 
-    private $userRepo;
-
     public function me(Request $request)
     {
         return CustomAuth0UserRepository::currentUser($request);
