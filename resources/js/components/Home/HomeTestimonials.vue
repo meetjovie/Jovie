@@ -40,11 +40,12 @@
           alt="Zelf" />
         <blockquote class="mt-10">
           <div
-            class="mx-auto max-w-3xl text-center text-2xl font-medium leading-9 text-gray-900">
+            class="mx-auto max-w-3xl text-center text-sm font-medium leading-9 text-gray-900 md:text-lg">
             <p>
               &ldquo;Jovie allowed us to do in 2 weeks what we had been trying
-              to do for 3 months… Never had we seen such fast adoption by
-              creators. Five stars.&rdquo;
+              to do <br class="block sm:hidden" />for 3 months…
+              <br class="hideen sm:block" />Never had we seen such fast adoption
+              by creators. Five stars.&rdquo;
             </p>
           </div>
           <footer class="mt-8">
