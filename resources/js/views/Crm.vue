@@ -43,7 +43,7 @@
           <Listbox as="div" v-model="selected">
             <div class="relative mt-2 items-center">
               <ListboxButton
-                class="relative hidden w-60 cursor-default items-center rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-xs lg:block">
+                class="relative hidden w-60 cursor-default items-center rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 sm:text-xs lg:block">
                 <span class="block truncate">Filter by list</span>
                 <span
                   class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -57,7 +57,7 @@
                 leave-from-class="opacity-100"
                 leave-to-class="opacity-0">
                 <ListboxOptions
-                  class="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-xs">
+                  class="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none sm:text-xs">
                   <ListboxOption as="template" v-slot="{ active, selected }">
                     <li
                       :class="[
@@ -257,8 +257,16 @@
                               class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                               Rating
                             </th>
-                            <th scope="col" class="relative px-6 py-3">
-                              <span class="sr-only">Edit</span>
+                            <th
+                              scope="col"
+                              class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+                              <div class="hidden w-60 text-right 2xl:block">
+                                Showing 10 of 100 creators
+                              </div>
+                              <div
+                                class="hidden w-40 text-right lg:block 2xl:hidden">
+                                10 of 100
+                              </div>
                             </th>
                           </tr>
                         </thead>
@@ -266,7 +274,7 @@
                           <tr
                             v-for="creator in creators"
                             :key="creator"
-                            class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus:ring-indigo-700">
+                            class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                             <td
                               class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                               <div class="grid grid-cols-2 items-center">
@@ -274,7 +282,7 @@
                                   <span class="group-hover:hidden">
                                     {{ creator.id }}
                                   </span>
-                                  <span class="group-hover:block">
+                                  <span class="hidden group-hover:block">
                                     <input
                                       id="comments-description"
                                       aria-describedby="comments-description"
@@ -301,11 +309,38 @@
                             </td>
                             <td class="whitespace-nowrap border px-2">
                               <div class="flex items-center">
-                                <div class="mr-2 h-5 w-5 flex-shrink-0">
-                                  <img
-                                    class="rounded-full border-2 object-cover object-center"
-                                    :src="creator.avatar"
-                                    alt="" />
+                                <div class="mr-2 h-8 w-8 flex-shrink-0">
+                                  <div
+                                    class="rounded-full p-0.5"
+                                    :class="[
+                                      {
+                                        'bg-social-youtube/60':
+                                          creator.network == 'youtube',
+                                      },
+                                      {
+                                        'bg-social-twitter/90':
+                                          creator.network == 'twitter',
+                                      },
+                                      {
+                                        'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90':
+                                          creator.network == 'instagram',
+                                      },
+                                      {
+                                        'bg-social-snapchat':
+                                          creator.network == 'snapchat',
+                                      },
+                                      {
+                                        'bg-gradient-to-l from-pink-700 to-sky-700':
+                                          creator.network == 'tiktok',
+                                      },
+                                    ]">
+                                    <div class="rounded-full bg-white p-0">
+                                      <img
+                                        class="rounded-full object-cover object-center"
+                                        :src="creator.avatar"
+                                        alt="" />
+                                    </div>
+                                  </div>
                                 </div>
                                 <div class="">
                                   <div
@@ -324,7 +359,7 @@
                                   type="creator-firstname"
                                   name="creator-firstname"
                                   id="creator-firname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                   placeholder="First"
                                   aria-describedby="email-description" />
                               </div>
@@ -338,7 +373,7 @@
                                   type="creator-lastname"
                                   name="creator-lastname"
                                   id="creator-lastname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="Last"
                                   aria-describedby="email-description" />
                               </div>
@@ -352,40 +387,24 @@
                                   type="creator-email"
                                   name="creator-email"
                                   id="creator-email"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="creatoremail@gmail.com"
                                   aria-describedby="email-description" />
                               </div>
                             </td>
                             <td
-                              class="border-1 w-14 border-collapse items-center whitespace-nowrap border px-2 py-1">
-                              <span
-                                class="text-nuetral-800 inline-flex rounded-full px-2 text-center text-xs font-bold leading-5">
-                                <div v-if="creator.network === instagram">
-                                  <svg
-                                    class="h-5 w-5"
-                                    role="img"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <title>Instagram</title>
-                                    <path
-                                      d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
-                                  </svg>
+                              class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
+                              <a
+                                :href="creator.networklink"
+                                class="text-nuetral-800 inline-flex items-center justify-between rounded-full px-3 py-1 text-center text-xs font-bold">
+                                <div
+                                  class="mr-2 items-center opacity-30 group-hover:opacity-100">
+                                  <SocialIcons
+                                    height="14px"
+                                    :icon="creator.network" />
                                 </div>
-                                <div v-if="creator.network === tiktok">
-                                  <svg
-                                    class="h-5 w-5"
-                                    role="img"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <title>TikTok</title>
-                                    <path
-                                      d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
-                                  </svg>
-                                </div>
-                                <div v-else></div>
                                 {{ creator.followers }}
-                              </span>
+                              </a>
                             </td>
                             <td
                               class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
@@ -398,7 +417,7 @@
                                   type="creator-offer"
                                   name="creator-offer"
                                   id="creator-offer"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                   placeholder="5,000"
                                   aria-describedby="email-description" />
                               </span>
@@ -411,27 +430,25 @@
                                     </td> -->
                             <td
                               class="border-1 hidden w-32 border-collapse items-center whitespace-nowrap border md:table-cell">
-                              <Menu
+                              <Popover
                                 as="div"
                                 class="relative inline-block text-left">
-                                <div>
-                                  <MenuButton
-                                    class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
-                                    {{ creator.stage }}
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor">
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                  </MenuButton>
-                                </div>
+                                <PopoverButton
+                                  class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-indigo-100 px-2 py-1 text-xs font-semibold leading-5 text-indigo-800">
+                                  {{ creator.stage }}
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="ml-2 h-4 w-4 hover:text-indigo-700 group-hover:text-indigo-900"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                </PopoverButton>
                                 <transition
                                   enter-active-class="transition duration-100 ease-out"
                                   enter-from-class="transform scale-95 opacity-0"
@@ -439,118 +456,74 @@
                                   leave-active-class="transition duration-75 ease-in"
                                   leave-from-class="transform scale-100 opacity-100"
                                   leave-to-class="transform scale-95 opacity-0">
-                                  <MenuItems
-                                    class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus:outline-none">
+                                  <PopoverPanel
+                                    class="center-0 absolute z-30 mt-2 w-60 origin-top-right divide-y divide-gray-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus:outline-none">
                                     <div class="">
-                                      <MenuItem v-slot="{ active }">
+                                      <div class="">
                                         <button
                                           :class="[
                                             active
-                                              ? 'bg-indigo-500 text-white'
+                                              ? 'bg-indigo-500 text-neutral-700'
                                               : 'text-gray-900',
-                                            'group flex w-full items-center  text-xs',
+                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
                                           ]">
-                                          <EditIcon
-                                            :active="active"
-                                            class="mr-2 h-5 w-5 text-indigo-400"
-                                            aria-hidden="true" />
-                                          Interested
+                                          <div
+                                            class="mr-2 font-bold opacity-50">
+                                            1
+                                          </div>
+                                          <div class="font-bold">
+                                            Interested
+                                          </div>
                                         </button>
-                                      </MenuItem>
-                                      <MenuItem v-slot="{ active }">
+
                                         <button
                                           :class="[
                                             active
-                                              ? 'bg-indigo-500 text-white'
+                                              ? 'bg-indigo-500 text-neutral-700'
                                               : 'text-gray-900',
-                                            'group flex w-full items-center text-xs',
+                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
                                           ]">
-                                          <DuplicateIcon
-                                            :active="active"
-                                            class="mr-2 h-5 w-5 text-indigo-400"
-                                            aria-hidden="true" />
-                                          Not Interested
+                                          <div
+                                            class="mr-2 font-bold opacity-50">
+                                            2
+                                          </div>
+                                          <div class="font-bold">
+                                            Negotiating
+                                          </div>
                                         </button>
-                                      </MenuItem>
-                                      <MenuItem v-slot="{ active }">
                                         <button
                                           :class="[
                                             active
-                                              ? 'bg-indigo-500 text-white'
+                                              ? 'bg-indigo-500 text-neutral-700'
                                               : 'text-gray-900',
-                                            'group flex w-full items-center text-xs',
+                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
                                           ]">
-                                          <ArchiveIcon
-                                            :active="active"
-                                            class="mr-2 h-5 w-5 text-indigo-400"
-                                            aria-hidden="true" />
-                                          Negotiating
+                                          <div
+                                            class="mr-2 font-bold opacity-50">
+                                            3
+                                          </div>
+                                          <div class="font-bold">
+                                            In Progress
+                                          </div>
                                         </button>
-                                      </MenuItem>
-                                      <MenuItem v-slot="{ active }">
                                         <button
                                           :class="[
                                             active
-                                              ? 'bg-indigo-500 text-white'
+                                              ? 'bg-indigo-500 text-neutral-700'
                                               : 'text-gray-900',
-                                            'group flex w-full items-center  text-xs',
+                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
                                           ]">
-                                          <MoveIcon
-                                            :active="active"
-                                            class="mr-2 h-5 w-5 text-indigo-400"
-                                            aria-hidden="true" />
-                                          Shortlisted
+                                          <div
+                                            class="mr-2 font-bold opacity-50">
+                                            4
+                                          </div>
+                                          <div class="font-bold">Complete</div>
                                         </button>
-                                      </MenuItem>
-                                      <MenuItem v-slot="{ active }">
-                                        <button
-                                          :class="[
-                                            active
-                                              ? 'bg-indigo-500 text-white'
-                                              : 'text-gray-900',
-                                            'group flex w-full items-center  text-xs',
-                                          ]">
-                                          <DeleteIcon
-                                            :active="active"
-                                            class="mr-2 h-5 w-5 text-indigo-400"
-                                            aria-hidden="true" />
-                                          Back Up
-                                        </button>
-                                      </MenuItem>
-                                      <MenuItem v-slot="{ active }">
-                                        <button
-                                          :class="[
-                                            active
-                                              ? 'bg-indigo-500 text-white'
-                                              : 'text-gray-900',
-                                            'group flex w-full items-center  text-xs',
-                                          ]">
-                                          <DeleteIcon
-                                            :active="active"
-                                            class="mr-2 h-5 w-5 text-indigo-400"
-                                            aria-hidden="true" />
-                                          Participating
-                                        </button>
-                                      </MenuItem>
-                                      <MenuItem v-slot="{ active }">
-                                        <button
-                                          :class="[
-                                            active
-                                              ? 'bg-indigo-500 text-white'
-                                              : 'text-gray-900',
-                                            'group flex w-full items-center  text-xs',
-                                          ]">
-                                          <DeleteIcon
-                                            :active="active"
-                                            class="mr-2 h-5 w-5 rounded-b-md text-indigo-400"
-                                            aria-hidden="true" />
-                                          Complete
-                                        </button>
-                                      </MenuItem>
+                                      </div>
                                     </div>
-                                  </MenuItems>
+                                  </PopoverPanel>
                                 </transition>
-                              </Menu>
+                              </Popover>
                             </td>
                             <td
                               class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 xl:table-cell">
@@ -560,7 +533,7 @@
                                 type="creator-offer"
                                 name="creator-offer"
                                 id="creator-offer"
-                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
                                 placeholder="--/--/----"
                                 aria-describedby="email-description" />
                             </td>
@@ -603,42 +576,51 @@
                                     leave-from-class="transform opacity-100 scale-100"
                                     leave-to-class="transform opacity-0 scale-95">
                                     <MenuItems
-                                      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                      class="w-30 backdrop-fitler absolute right-10 z-10 mt-2 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
                                       <div class="py-1">
                                         <MenuItem v-slot="{ active }">
                                           <a
                                             href="#"
+                                            class="items-center text-neutral-400 hover:text-neutral-900"
                                             :class="[
                                               active
                                                 ? 'bg-gray-100 text-gray-900'
                                                 : 'text-gray-700',
                                               'block px-4 py-2 text-sm',
-                                            ]"
-                                            >Archive</a
+                                            ]">
+                                            <ArchiveIcon
+                                              class="mr-2 inline h-5 w-5" />
+                                            Archive</a
                                           >
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
                                           <a
                                             href="#"
+                                            class="items-center text-neutral-400 hover:text-neutral-900"
                                             :class="[
                                               active
                                                 ? 'bg-gray-100 text-gray-900'
                                                 : 'text-gray-700',
                                               'block px-4 py-2 text-sm',
-                                            ]"
-                                            >Mute</a
+                                            ]">
+                                            <BanIcon
+                                              class="mr-2 inline h-5 w-5" />
+                                            Mute</a
                                           >
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
                                           <a
                                             href="#"
+                                            class="items-center text-neutral-400 hover:text-neutral-900"
                                             :class="[
                                               active
                                                 ? 'bg-gray-100 text-gray-900'
                                                 : 'text-gray-700',
                                               'block px-4 py-2 text-sm',
-                                            ]"
-                                            >Remove</a
+                                            ]">
+                                            <TrashIcon
+                                              class="mr-2 inline h-5 w-5" />
+                                            Remove</a
                                           >
                                         </MenuItem>
                                       </div>
@@ -676,15 +658,26 @@ import {
   Tab,
   TabPanels,
   TabPanel,
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
 } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import {
   DotsVerticalIcon,
   ChevronDownIcon,
   CheckIcon,
   SearchCircleIcon,
+  ArchiveIcon,
+  DuplicateIcon,
+  BanIcon,
+  TrashIcon,
 } from '@heroicons/vue/solid';
+import SocialIcons from '../components/SocialIcons.vue';
 
 const people = [
   { id: 1, name: 'Wade Cooper' },
@@ -702,6 +695,8 @@ const people = [
 export default {
   name: 'CRM',
   components: {
+    DuplicateIcon,
+    ArchiveIcon,
     TabGroup,
     TabList,
     Tab,
@@ -720,14 +715,26 @@ export default {
     ChevronDownIcon,
     CheckIcon,
     SearchCircleIcon,
+    SocialIcons,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    BanIcon,
+    TrashIcon,
   },
   data() {
     return {
+      stages: [
+        { icon: BanIcon, name: 'Interested' },
+        { icon: SearchCircleIcon, name: 'Qualified' },
+      ],
+
       creators: [
         {
           id: 1,
           favorite: true,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Martha Hoover',
           firstname: 'Marth',
           lastname: 'Hoover',
@@ -743,7 +750,8 @@ export default {
         {
           id: 2,
           favorite: false,
-          network: 'tiktok',
+          network: 'twitter',
+          networklink: 'http://twitter.com/itstimwhite',
           name: 'Candice Mccoy',
           firstname: 'Candice',
           lastname: 'Mccoy',
@@ -760,6 +768,7 @@ export default {
           id: 3,
           favorite: false,
           network: 'youtube',
+          networklink: 'http://youtube.com/timwhite',
           name: 'Taylor Smith',
           firstname: 'Taylor',
           lastname: 'Smith',
@@ -774,24 +783,26 @@ export default {
         },
         {
           id: 4,
-          favorite: true,
+          favorite: false,
           network: 'instagram',
-          name: 'Alessandra Clause',
-          firstname: 'Alessandra',
-          lastname: 'Clause',
+          networklink: 'http://instagram.com/timwhite',
+          name: 'Taylor Smith',
+          firstname: 'Taylor',
+          lastname: 'Smith',
           email: '',
-          rating: '5',
-          followers: '1.2M',
-          offer: '104K',
+          rating: '2',
+          followers: '47.2K',
+          offer: '900K',
           stage: 'Onboarding',
-          contacted: '9/1/2020',
+          contacted: '1/1e/2020',
           campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=4',
+          avatar: 'https://i.pravatar.cc/150?img=3',
         },
         {
           id: 5,
           favorite: false,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Keira Jones',
           firstname: 'Keira',
           lastname: 'Jones',
@@ -807,7 +818,8 @@ export default {
         {
           id: 6,
           favorite: false,
-          network: 'instagram',
+          network: 'snapchat',
+          networklink: 'http://snapchat.com/timwhite',
           name: 'Mila Vance',
           firstname: 'Mila',
           lastname: 'Vance',
@@ -823,7 +835,8 @@ export default {
         {
           id: 7,
           favorite: false,
-          network: 'instagram',
+          network: 'tiktok',
+          networklink: 'http://tiktok.com/@timwhite',
           name: 'Kylie Brent',
           firstname: 'Kylie',
           lastname: 'Brent',
@@ -840,6 +853,7 @@ export default {
           id: 8,
           favorite: false,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Sophia Dustin',
           firstname: 'Sophia',
           lastname: 'Dustin',
@@ -855,7 +869,8 @@ export default {
         {
           id: 9,
           favorite: false,
-          network: 'instagram',
+          network: 'snapchat',
+          networklink: 'http://snapchat.com/timwhite',
           name: 'James Johnson',
           firstname: 'James',
           lastname: 'Johnson',
@@ -872,6 +887,7 @@ export default {
           id: 10,
           favorite: false,
           network: 'instagram',
+          networklink: 'http://instagram.com/timwhite',
           name: 'Mike Croft',
           firstname: 'Mike',
           lastname: 'Croft',

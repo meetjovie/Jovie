@@ -5,13 +5,13 @@
 <script>
 import App from './layouts/App';
 import Default from './layouts/Default';
-import Creators from './layouts/Creators';
+import Minimal from './layouts/Minimal';
 
 export default {
   components: {
     App,
     Default,
-    Creators,
+    Minimal,
   },
   data() {
     return {

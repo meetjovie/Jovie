@@ -1,10 +1,7 @@
 <template>
 
     <div>
-        <div v-if="showMapping">
-            <ImportColumnMatching @finish="importFile()" :columns="columns"></ImportColumnMatching>
-        </div>
-        <div v-else class="container mt-6 py-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div v-show="!showMapping" class="container mt-6 py-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div>
                 <div class="space-y-6">
                     <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
@@ -16,18 +13,51 @@
                                 </p>
                             </div>
                             <div class="mt-5 md:mt-0 md:col-span-2">
-                                <form class="space-y-6" action="#" method="POST">
+                                <form class="space-y-6">
                                     <div>
-                                        <label for="about" class="block text-sm font-medium text-gray-700">
-                                            Users
+                                        <label for="instagram" class="block text-sm font-medium text-gray-700">
+                                            Instagram Users
                                         </label>
                                         <div class="mt-1">
-                                    <textarea id="about" name="about" rows="3"
-                                              class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
-                                              placeholder="@username"/>
+                                            <textarea id="instagram" name="instagram" rows="3"
+                                                      v-model="importSet.instagram"
+                                                      class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                                      placeholder="@username"/>
+                                            <p v-if="errors.instagram" class="text-sm text-red-600 mt-2">
+                                                {{ errors.instagram[0] }}</p>
                                         </div>
                                         <p class="mt-2 text-sm text-gray-500">
-                                            A list of usernames, one per line.
+                                            A list of instagram usernames, one per line.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label for="youtube" class="block text-sm font-medium text-gray-700">
+                                            Youtube Users
+                                        </label>
+                                        <div class="mt-1">
+                                            <textarea id="youtube" name="youtube" rows="3" v-model="importSet.youtube"
+                                                      class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                                      placeholder="https://youtube.com/timwhite"/>
+                                            <p v-if="errors.youtube" class="text-sm text-red-600 mt-2">
+                                                {{ errors.youtube[0] }}</p>
+                                        </div>
+                                        <p class="mt-2 text-sm text-gray-500">
+                                            A list of youtube channel urls/vanity urls, one per line.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label for="youtube" class="block text-sm font-medium text-gray-700">
+                                            Tags
+                                        </label>
+                                        <div class="mt-1">
+                                            <textarea id="tags" name="tags" rows="3" v-model="importSet.tags"
+                                                      class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                                      placeholder="Fashion"/>
+                                            <p v-if="errors.tags" class="text-sm text-red-600 mt-2">
+                                                {{ errors.tags[0] }}</p>
+                                        </div>
+                                        <p class="mt-2 text-sm text-gray-500">
+                                            A list of tags to associate to users, one per line.
                                         </p>
                                     </div>
 
@@ -50,7 +80,8 @@
                                                     <label for="file-upload"
                                                            class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                                         <span>Upload a file</span>
-                                                        <input id="file-upload" name="file-upload" ref="file_upload" type="file" @change="getColumnsFromCsv()"
+                                                        <input id="file-upload" name="file-upload" ref="file_upload"
+                                                               type="file" @change="getColumnsFromCsv()"
                                                                class="sr-only"/>
                                                     </label>
                                                     <p class="pl-1">or drag and drop</p>
@@ -60,27 +91,26 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <p v-if="errors.import" class="text-sm text-red-600 mt-2">{{ errors.import[0] }}</p>
+                                        <p v-if="errors.file" class="text-sm text-red-600 mt-2">{{ errors.file[0] }}</p>
                                     </div>
                                     <SwitchGroup as="div" class="flex items-center justify-between">
-                                <span class="flex-grow flex flex-col">
-                                <SwitchLabel as="span" class="text-sm font-medium text-gray-900"
-                                             passive>Update social data</SwitchLabel>
+                                        <span class="flex-grow flex flex-col">
+                                        <SwitchLabel as="span" class="text-sm font-medium text-gray-900"
+                                                     passive>Update social data</SwitchLabel>
 
-                                </span>
+                                        </span>
                                         <Switch v-model="enabled"
                                                 :class="[enabled ? 'bg-indigo-600' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
-                                    <span aria-hidden="true"
-                                          :class="[enabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"/>
+                                        <span aria-hidden="true"
+                                              :class="[enabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"/>
                                         </Switch>
                                     </SwitchGroup>
                                 </form>
                             </div>
                         </div>
                     </div>
-
                     <div class="flex justify-end">
-                        <button type="submit"
+                        <button @click="finishImport({})"
                                 class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Import
                         </button>
@@ -89,41 +119,82 @@
             </div>
         </div>
     </div>
+    <div v-show="showMapping">
+        <ImportColumnMatching @finish="finishImport" :columns="columns"></ImportColumnMatching>
+    </div>
 </template>
 <script>
-
-import {Switch, SwitchDescription, SwitchGroup, SwitchLabel} from '@headlessui/vue'
-import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue'
-import ImportService from "../services/api/admin/import.service";
+import {
+    Switch,
+    SwitchDescription,
+    SwitchGroup,
+    SwitchLabel,
+} from '@headlessui/vue';
+import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue';
+import ImportService from '../services/api/admin/import.service';
 
 export default {
-    name: "Import",
+    name: 'Import',
     components: {
         Switch,
         SwitchDescription,
         SwitchGroup,
         SwitchLabel,
-        ImportColumnMatching
+        ImportColumnMatching,
     },
     data() {
         return {
             fetchingColumns: false,
             showMapping: false,
             columns: [],
-            errors: []
+            errors: [],
+            importSet: {
+                instagram: null,
+                youtube: null,
+                tags: null
+            },
+            importing: false
         }
     },
     methods: {
         getColumnsFromCsv() {
-            this.fetchingColumns = true
+            this.fetchingColumns = true;
+            this.errors = [];
+            let form = new FormData();
+            form.append('import', this.$refs.file_upload.files[0]);
+            ImportService.getColumnsFromCsv(form)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        this.columns = response.columns;
+                        this.showMapping = true;
+                    } else {
+                        // show toast error here later
+                    }
+                })
+                .catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                        this.errors = error.data.errors;
+                    }
+                })
+                .finally((response) => {
+                    this.fetchingColumns = false;
+                });
+        },
+        finishImport(mappedColumns = {}) {
+            this.importing = true
             this.errors = []
-            let form = new FormData()
-            form.append('import', this.$refs.file_upload.files[0])
-            ImportService.getColumnsFromCsv(form).then(response => {
+            var form = new FormData()
+            form.append('instagram', this.importSet.instagram ?? '')
+            form.append('youtube', this.importSet.youtube ?? '')
+            form.append('tags', this.importSet.tags ?? '')
+            form.append('mappedColumns', JSON.stringify(mappedColumns))
+            form.append('file', this.$refs.file_upload.files[0] ?? '')
+            ImportService.import(form).then(response => {
                 response = response.data
                 if (response.status) {
-                    this.columns = response.columns
-                    this.showMapping = true
+
                 } else {
                     // show toast error here later
                 }
@@ -133,17 +204,9 @@ export default {
                     this.errors = error.data.errors
                 }
             }).finally(response => {
-                this.fetchingColumns = false
+                this.importing = false
             })
-        },
-        importFile() {
-            console.log('finish');
         }
-    }
+    },
 }
-
 </script>
-
-
-
-

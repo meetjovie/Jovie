@@ -104,7 +104,7 @@
 import JovieLogo from '../components/JovieLogo.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import { MailOpenIcon } from '@heroicons/vue/solid';
-import CreatorProfiles from '../../../resources/json/creatorprofiles.json';
+import CreatorProfiles from '../../json/creatorprofiles.json';
 
 const profile = CreatorProfiles.find(
   (profile) => profile.username === '{{ $profile->username }}'

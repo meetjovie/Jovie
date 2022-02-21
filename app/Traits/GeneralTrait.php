@@ -15,14 +15,23 @@ trait GeneralTrait {
         try {
             if ($file) {
                 $timestamps = Str::slug(Carbon::now(), '_');
-                $path = ($path.$timestamps.'_'.uniqid(rand(), true));
+                $extension = null;
+                // check if it is uploaded file instance the get extension as it is probably import file csv
+                if (!is_string($file)) {
+                    $extension = $file->extension();
+                    if ($extension) {
+                        $extension = '.'.$extension;
+                    }
+                }
+                $file = file_get_contents($file);
+                $path = ($path.$timestamps.'_'.uniqid(rand(), true).$extension);
                 if ($upload = Storage::disk('s3')->put($path, $file, 'public')) {
                     if ($old_file_path) {
                         if (!is_null($old_file_path) && Storage::disk('s3')->exists($path)) {
                             Storage::disk('s3')->delete($old_file_path);
                         }
                     }
-                    return $upload;
+                    return $path;
                 }
             }
             return $old_file_path;

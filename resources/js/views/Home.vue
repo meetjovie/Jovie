@@ -104,7 +104,7 @@
                         >Email address</label
                       >
                       <input
-                          v-on:keyup.enter="requestDemo()"
+                        v-on:keyup.enter="requestDemo()"
                         v-if="!$store.state.addedToWaitList"
                         id="email-address"
                         v-model="waitListEmail"
@@ -125,7 +125,7 @@
                         type="button"
                         @click="requestDemo()"
                         class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                        Request Demo
+                        Request Access
                       </button>
                     </div>
                     <span class="float-left text-red-900">{{
@@ -144,7 +144,7 @@
       <!--   <HomeFeatureSequences></HomeFeatureSequences> -->
 
       <HomeCTA></HomeCTA>
-      <!--  <HomeTestimonials></HomeTestimonials> -->
+      <HomeTestimonials></HomeTestimonials>
       <HomeCTA2></HomeCTA2>
     </main>
   </div>
