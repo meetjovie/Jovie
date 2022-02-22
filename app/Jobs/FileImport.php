@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Imports\ImportFileImport;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -84,8 +85,9 @@ class FileImport implements ShouldQueue
                         }
                     }
                     // instagram
+                    $user = User::where('id', $this->userId)->first();
                     $instaFollowersCount = $row[$instagramFollowerCountKey] ?? 5001; // if no follower count then let go
-                    if (!is_null($instagramKey) && $instaFollowersCount > 5000) {
+                    if (!is_null($instagramKey) && ($instaFollowersCount > 5000 || ($user->is_admn ?? 0))) {
                         $username = $row[$instagramKey];
                         if ($username && $username != '') {
                             if ($username[0] == '@') {

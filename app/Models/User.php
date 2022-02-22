@@ -61,14 +61,6 @@ class User extends Authenticatable
         return env('SLACK_NOTIFICATION_WEBHOOK');
     }
 
-    public function getProfilePicUrlAttribute($value)
-    {
-        if ($value && Storage::disk('s3')->exists($value)) {
-            return Storage::disk('s3')->url($value);
-        }
-        return null;
-    }
-
     public function getDefaultImageAttribute()
     {
         return asset('img/noimage.webp');

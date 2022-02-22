@@ -25,7 +25,9 @@ class UserController extends Controller
             'last_name' => 'required|max:255',
             'profile_pic_url' => 'nullable|image',
         ]);
-        $file = self::uploadFile($request->profile_pic_url, User::UPLOAD_PATH, CustomAuth0UserRepository::currentUser($request)->getRawOriginal('profile_pic_url') ?? null);
+        $filename = explode(User::UPLOAD_PATH, CustomAuth0UserRepository::currentUser($request)->profile_pic_url)[1];
+        $path = User::UPLOAD_PATH.$filename;
+        $file = self::uploadFile($request->profile_pic_url, User::UPLOAD_PATH, $path);
         $data['profile_pic_url'] = $file;
         $user = User::where('id', CustomAuth0UserRepository::currentUser($request)->id)->update($data);
         if ($user) {
