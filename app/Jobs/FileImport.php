@@ -87,7 +87,7 @@ class FileImport implements ShouldQueue
                     // instagram
                     $user = User::where('id', $this->userId)->first();
                     $instaFollowersCount = $row[$instagramFollowerCountKey] ?? 5001; // if no follower count then let go
-                    if (!is_null($instagramKey) && ($instaFollowersCount > 5000 || ($user->is_admn ?? 0))) {
+                    if (!is_null($instagramKey) && ($user->is_admin || $instaFollowersCount > 5000)) {
                         $username = $row[$instagramKey];
                         if ($username && $username != '') {
                             if ($username[0] == '@') {
