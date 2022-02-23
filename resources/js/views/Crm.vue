@@ -528,6 +528,14 @@
                                                 </template>
                                                 </tbody>
                                             </table>
+                                            <Pagination
+                                                v-if="creators.length"
+                                                :totalItems="creatorsMeta.total"
+                                                :perPage="creatorsMeta.per_page"
+                                                :limit="creatorsMeta.per_page"
+                                                :disabled="loading"
+                                                v-model="creatorsMeta.current_page"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -574,6 +582,7 @@ import {
 } from '@heroicons/vue/solid';
 import SocialIcons from '../components/SocialIcons.vue';
 import UserService from "../services/api/user.service";
+import Pagination from '../components/Pagination';
 
 export default {
     name: 'CRM',
@@ -604,12 +613,14 @@ export default {
         PopoverPanel,
         BanIcon,
         TrashIcon,
+        Pagination
     },
     data() {
         return {
             stages: [],
             loading: false,
             creators: [],
+            creatorsMeta: {},
             networks: [],
             userLists: [],
             filters: {
@@ -639,7 +650,9 @@ export default {
                     this.loading = false
                     response = response.data
                     if (response.status) {
-                        this.creators = response.creators
+                        this.creators = response.creators.data
+                        delete response.creators.data
+                        this.creatorsMeta = response.creators
                         this.networks = response.networks
                         this.stages = response.stages
                     }

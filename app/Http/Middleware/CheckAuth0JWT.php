@@ -36,7 +36,8 @@ class CheckAuth0JWT
 //        dd(config('app.env'));
 //        if (config('app.env') == 'local') {
 //            dd(123);
-//            Auth::login(User::first());
+            Auth::login(User::first());
+        return $next($request);
 //            return $next($request);
 //        }
         try {

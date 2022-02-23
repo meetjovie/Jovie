@@ -6,7 +6,7 @@ export default {
         let token = null;
         if (process.env.MIX_APP_ENV === 'local') {
             token = 'local'
-            token = await store.state.AuthState.auth0.getIdTokenClaims()
+            // token = await store.state.AuthState.auth0.getIdTokenClaims()
         } else {
             token = await store.state.AuthState.auth0.getIdTokenClaims()
         }
