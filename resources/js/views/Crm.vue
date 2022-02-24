@@ -530,11 +530,11 @@
                                             </table>
                                             <Pagination
                                                 v-if="creators.length"
-                                                :totalItems="creatorsMeta.total"
+                                                :totalPages="creatorsMeta.total"
                                                 :perPage="creatorsMeta.per_page"
-                                                :limit="creatorsMeta.per_page"
+                                                :currentPage="creatorsMeta.current_page"
                                                 :disabled="loading"
-                                                v-model="creatorsMeta.current_page"
+                                                @pagechanged="getCrmCreators"
                                             />
                                         </div>
                                     </div>
@@ -624,8 +624,9 @@ export default {
             networks: [],
             userLists: [],
             filters: {
-                'list': '',
-                'archive': 0
+                list: '',
+                archive: 0,
+                page: 1
             }
         };
     },
@@ -643,8 +644,10 @@ export default {
                     }
                 })
         },
-        getCrmCreators() {
+        getCrmCreators(filters = {}) {
             this.loading = true
+            this.creatorsMeta.current_page = filters.page ? filters.page : 1
+            this.filters.page = filters.page ? filters.page : 1
             UserService.getCrmCreators(this.filters)
                 .then(response => {
                     this.loading = false

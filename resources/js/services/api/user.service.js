@@ -28,8 +28,9 @@ export default {
             headers:  await store.dispatch('headers')
         })
     },
-    async getCrmCreators() {
+    async getCrmCreators(data) {
         return axios.get(`${baseUrlAdmin}/crm-creators`, {
+            params: data,
             headers:  await store.dispatch('headers')
         })
     }
