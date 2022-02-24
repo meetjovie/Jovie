@@ -113,11 +113,13 @@
                 <div class="items-center px-2">
           <span
               class="relative z-0 inline-flex h-full items-center rounded-md shadow-sm">
+              <router-link to="/import">
             <button
                 type="button"
                 class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-1 px-4 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
               Add creator
             </button>
+            </router-link>
             <Menu as="span" class="relative -ml-px block">
               <MenuButton
                   class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
@@ -174,8 +176,8 @@
                                     <div class="inline-block w-full align-middle">
                                         <div
                                             class="overflow-hidden border-b border-gray-200 shadow">
-                                            <table class="min-w-full divide-y divide-gray-200">
-                                                <thead class="bg-gray-50 sticky">
+                                            <table class="min-w-full top-12 sticky divide-y divide-gray-200">
+                                                <thead class=" bg-gray-50">
                                                 <tr>
                                                     <th
                                                         scope="col"
