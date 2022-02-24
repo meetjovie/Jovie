@@ -40,75 +40,36 @@
                     </TabList>
                 </div>
                 <div class="items-center w-60">
-                    <Combobox as="div" v-model="selectedPerson">
-    
-    <div class="relative mt-1 ">
-      <ComboboxInput class="w-full rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" @change="query = $event.target.value" :display-value="(person) => person.name" />
-      <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-        <ChevronDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-      </ComboboxButton>
+                    <Combobox as="div" v-model="filters.list">
 
-      <ComboboxOptions v-if="filteredPeople.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-        <ComboboxOption v-for="person in filteredPeople" :key="person.id" :value="person" as="template" v-slot="{ active, selected }">
-          <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white' : 'text-gray-900']">
-            <span :class="['block truncate', selected && 'font-semibold']">
-              {{ person.name }}
-            </span>
-
-            <span v-if="selected" :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
-              <CheckIcon class="h-5 w-5" aria-hidden="true" />
-            </span>
-          </li>
-        </ComboboxOption>
-      </ComboboxOptions>
-    </div>
-  </Combobox>
-                  <!--   <Combobox as="div" v-model="selected">
-                        <div class="relative mt-2 items-center">
+                        <div class="relative mt-1 ">
+                            <ComboboxInput
+                                class="w-full rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                :displayValue="(list) => (list ? list.name : '')"
+                                @change="searchList = $event.target.value"/>
                             <ComboboxButton
-                                class="relative hidden w-60 cursor-default items-center rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 sm:text-xs lg:block">
-                                <span class="block truncate">Filter by list</span>
-                                <span
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <ChevronDownIcon
-                      class="h-5 w-5 text-gray-400"
-                      aria-hidden="true"/>
-                </span>
+                                class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                                <ChevronDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true"/>
                             </ComboboxButton>
-                            <transition
-                                leave-active-class="transition ease-in duration-100"
-                                leave-from-class="opacity-100"
-                                leave-to-class="opacity-0">
-                                <ComboboxOptions
-                                    class="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none sm:text-xs">
-                                    <ComboboxOption as="template" v-slot="{ active, selected }" v-for="list in userLists">
-                                        <li
-                                            :class="[
-                                                active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                                                'relative cursor-default select-none py-2 pl-3 pr-9',
-                                              ]">
-                                              <span
-                                                  :class="[
-                                                  selected ? 'font-semibold' : 'font-normal',
-                                                  'block truncate',
-                                                ]">
-                                                {{ list.name }}
-                                              </span>
 
-                                            <span
-                                                v-if="selected"
-                                                :class="[
-                                                  active ? 'text-white' : 'text-indigo-600',
-                                                  'absolute inset-y-0 right-0 flex items-center pr-4',
-                                                ]">
-                                                <CheckIcon class="h-5 w-5" aria-hidden="true"/>
-                                              </span>
-                                        </li>
-                                    </ComboboxOption>
-                                </ComboboxOptions>
-                            </transition>
+                            <ComboboxOptions v-if="filteredUsersLists.length > 0"
+                                             class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                <ComboboxOption v-for="list in filteredUsersLists" :key="list.id" :value="list" as="template"
+                                                v-slot="{ active, selected }">
+                                    <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white' : 'text-gray-900']">
+            <span :class="['block truncate', selected && 'font-semibold']">
+              {{ list.name }}
+            </span>
+
+                                        <span v-if="selected"
+                                              :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
+              <CheckIcon class="h-5 w-5" aria-hidden="true"/>
+            </span>
+                                    </li>
+                                </ComboboxOption>
+                            </ComboboxOptions>
                         </div>
-                    </Combobox> -->
+                    </Combobox>
                 </div>
                 <div class="items-center px-2">
           <span
@@ -285,7 +246,7 @@
                                                                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"/>
                                                                         </span>
                                                                     </div>
-<!--                                                                    favourite-->
+                                                                    <!--                                                                    favourite-->
                                                                     <div>
                                                                         <svg
                                                                             xmlns="http://www.w3.org/2000/svg"
@@ -372,7 +333,7 @@
                                                             </td>
                                                             <td
                                                                 class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
-                                                                <a :href="creator[`${network}_handle`]"
+                                                                <a :href="creator[`${network}_handler`]"
                                                                    class="text-nuetral-800 inline-flex items-center rounded-full  px-3 py-1 text-center justify-between text-xs font-bold">
                                                                     <div
                                                                         class="mr-2 group-hover:opacity-100 opacity-30 items-center">
@@ -410,7 +371,9 @@
                                                                     class="relative inline-block text-left">
                                                                     <PopoverButton
                                                                         class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
-                                                                        {{ creator.crm_record_by_user[`${network}_stage`] }}
+                                                                        {{
+                                                                            creator.crm_record_by_user[`${network}_stage`]
+                                                                        }}
                                                                         <svg
                                                                             xmlns="http://www.w3.org/2000/svg"
                                                                             class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
@@ -435,11 +398,13 @@
                                                                             class="center-0 absolute z-30 w-60 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                                                                             <div class="">
                                                                                 <div class="">
-                                                                                    <button v-for="(stage, index) in stages" @click="updateCrmCreator(index, `crm_record_by_user.${network}_stage`, stage)"
+                                                                                    <button
+                                                                                        v-for="(stage, index) in stages"
+                                                                                        @click="updateCrmCreator(index, `crm_record_by_user.${network}_stage`, stage)"
                                                                                         :class="[creator.crm_record_by_user[`${network}_stage`] == stage ? 'bg-indigo-500 text-neutral-700': 'text-gray-900','flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs']">
                                                                                         <div
                                                                                             class="mr-2 font-bold  opacity-50">
-                                                                                            {{ index + 1}}
+                                                                                            {{ index + 1 }}
                                                                                         </div>
                                                                                         <div class="font-bold">
                                                                                             {{ stage }}
@@ -610,13 +575,6 @@ import SocialIcons from '../components/SocialIcons.vue';
 import UserService from "../services/api/user.service";
 import Pagination from '../components/Pagination';
 
-import { computed, ref } from 'vue';
-
-const people = [
-  { id: 1, name: 'Leslie Alexander' },
-  // More users...
-]
-
 export default {
     name: 'CRM',
     components: {
@@ -649,24 +607,6 @@ export default {
         TrashIcon,
         Pagination
     },
-    setup() {
-    const query = ref('')
-    const selectedPerson = ref()
-    const filteredPeople = computed(() =>
-      query.value === ''
-        ? people
-        : people.filter((person) => {
-            return person.name.toLowerCase().includes(query.value.toLowerCase())
-          })
-    )
-
-    return {
-      query,
-      selectedPerson,
-      filteredPeople,
-    }
-  },
-
     data() {
         return {
             stages: [],
@@ -676,19 +616,32 @@ export default {
             networks: [],
             userLists: [],
             filters: {
-                list: '',
+                list: null,
                 archive: 0,
                 page: 1
-            }
+            },
+            searchList: ''
         };
     },
-    
+    watch: {
+        filters: {
+            deep: true,
+            handler: function (val) {
+                this.getCrmCreators()
+            }
+        }
+    },
+    computed: {
+        filteredUsersLists() {
+            if (!this.searchList) this.filters.list = null
+            return this.userLists.filter(list => list.name.toLowerCase().match(this.searchList.toLowerCase()))
+        }
+    },
     mounted() {
         this.getCrmCreators()
         this.getUserLists()
     },
-    methods: {
-        getUserLists() {
+    methods: {getUserLists() {
             UserService.getUserLists()
                 .then(response => {
                     response = response.data
@@ -699,9 +652,9 @@ export default {
         },
         getCrmCreators(filters = {}) {
             this.loading = true
-            this.creatorsMeta.current_page = filters.page ? filters.page : 1
-            this.filters.page = filters.page ? filters.page : 1
-            UserService.getCrmCreators(this.filters)
+            filters.page = filters.page ? filters.page : 1
+            filters.list = this.filters.list?.id
+            UserService.getCrmCreators(filters)
                 .then(response => {
                     this.loading = false
                     response = response.data
@@ -709,6 +662,7 @@ export default {
                         this.creators = response.creators.data
                         delete response.creators.data
                         this.creatorsMeta = response.creators
+                        this.filters.page = response.creators.current_page
                         this.networks = response.networks
                         this.stages = response.stages
                     }
