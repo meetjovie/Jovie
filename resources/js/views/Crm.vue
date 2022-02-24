@@ -333,7 +333,7 @@
                                                             </td>
                                                             <td
                                                                 class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
-                                                                <a :href="creator[`${network}_handler`]"
+                                                                <a :href="creator[`${network}_handler`]" target="_blank"
                                                                    class="text-nuetral-800 inline-flex items-center rounded-full  px-3 py-1 text-center justify-between text-xs font-bold">
                                                                     <div
                                                                         class="mr-2 group-hover:opacity-100 opacity-30 items-center">
