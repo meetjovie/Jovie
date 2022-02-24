@@ -176,7 +176,7 @@
                                     <div class="inline-block w-full align-middle">
                                         <div
                                             class="overflow-hidden border-b border-gray-200 shadow">
-                                            <table class="min-w-full top-12 sticky divide-y divide-gray-200">
+                                            <table class="min-w-full  divide-y divide-gray-200">
                                                 <thead class=" bg-gray-50">
                                                 <tr>
                                                     <th
