@@ -39,10 +39,33 @@
                         </div>
                     </TabList>
                 </div>
-                <div class="items-center">
-                    <Listbox as="div" v-model="selected">
+                <div class="items-center w-60">
+                    <Combobox as="div" v-model="selectedPerson">
+    
+    <div class="relative mt-1 ">
+      <ComboboxInput class="w-full rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" @change="query = $event.target.value" :display-value="(person) => person.name" />
+      <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+        <ChevronDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+      </ComboboxButton>
+
+      <ComboboxOptions v-if="filteredPeople.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+        <ComboboxOption v-for="person in filteredPeople" :key="person.id" :value="person" as="template" v-slot="{ active, selected }">
+          <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white' : 'text-gray-900']">
+            <span :class="['block truncate', selected && 'font-semibold']">
+              {{ person.name }}
+            </span>
+
+            <span v-if="selected" :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
+              <CheckIcon class="h-5 w-5" aria-hidden="true" />
+            </span>
+          </li>
+        </ComboboxOption>
+      </ComboboxOptions>
+    </div>
+  </Combobox>
+                  <!--   <Combobox as="div" v-model="selected">
                         <div class="relative mt-2 items-center">
-                            <ListboxButton
+                            <ComboboxButton
                                 class="relative hidden w-60 cursor-default items-center rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 sm:text-xs lg:block">
                                 <span class="block truncate">Filter by list</span>
                                 <span
@@ -51,14 +74,14 @@
                       class="h-5 w-5 text-gray-400"
                       aria-hidden="true"/>
                 </span>
-                            </ListboxButton>
+                            </ComboboxButton>
                             <transition
                                 leave-active-class="transition ease-in duration-100"
                                 leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <ListboxOptions
+                                <ComboboxOptions
                                     class="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none sm:text-xs">
-                                    <ListboxOption as="template" v-slot="{ active, selected }" v-for="list in userLists">
+                                    <ComboboxOption as="template" v-slot="{ active, selected }" v-for="list in userLists">
                                         <li
                                             :class="[
                                                 active ? 'bg-indigo-600 text-white' : 'text-gray-900',
@@ -81,11 +104,11 @@
                                                 <CheckIcon class="h-5 w-5" aria-hidden="true"/>
                                               </span>
                                         </li>
-                                    </ListboxOption>
-                                </ListboxOptions>
+                                    </ComboboxOption>
+                                </ComboboxOptions>
                             </transition>
                         </div>
-                    </Listbox>
+                    </Combobox> -->
                 </div>
                 <div class="items-center px-2">
           <span
@@ -152,7 +175,7 @@
                                         <div
                                             class="overflow-hidden border-b border-gray-200 shadow">
                                             <table class="min-w-full divide-y divide-gray-200">
-                                                <thead class="bg-gray-50">
+                                                <thead class="bg-gray-50 sticky">
                                                 <tr>
                                                     <th
                                                         scope="col"
@@ -543,10 +566,11 @@
 
 <script>
 import {
-    Listbox,
-    ListboxButton,
-    ListboxOptions,
-    ListboxOption,
+    Combobox,
+    ComboboxButton,
+    ComboboxInput,
+    ComboboxOptions,
+    ComboboxOption,
     TabGroup,
     TabList,
     Tab,
@@ -575,6 +599,13 @@ import {
 import SocialIcons from '../components/SocialIcons.vue';
 import UserService from "../services/api/user.service";
 
+import { computed, ref } from 'vue';
+
+const people = [
+  { id: 1, name: 'Leslie Alexander' },
+  // More users...
+]
+
 export default {
     name: 'CRM',
     components: {
@@ -586,10 +617,11 @@ export default {
         TabPanels,
         TabPanel,
         StarRating,
-        Listbox,
-        ListboxButton,
-        ListboxOptions,
-        ListboxOption,
+        Combobox,
+        ComboboxInput,
+        ComboboxButton,
+        ComboboxOptions,
+        ComboboxOption,
         Menu,
         MenuButton,
         MenuItems,
@@ -605,6 +637,24 @@ export default {
         BanIcon,
         TrashIcon,
     },
+    setup() {
+    const query = ref('')
+    const selectedPerson = ref()
+    const filteredPeople = computed(() =>
+      query.value === ''
+        ? people
+        : people.filter((person) => {
+            return person.name.toLowerCase().includes(query.value.toLowerCase())
+          })
+    )
+
+    return {
+      query,
+      selectedPerson,
+      filteredPeople,
+    }
+  },
+
     data() {
         return {
             stages: [],
@@ -618,6 +668,7 @@ export default {
             }
         };
     },
+    
     mounted() {
         this.getCrmCreators()
         this.getUserLists()
