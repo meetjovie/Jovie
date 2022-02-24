@@ -4,9 +4,8 @@ import store from "./index";
 export default {
     async headers(context, payload = null) {
         let token = null;
-        if (process.env.MIX_APP_ENV === 'local') {
+        if (process.env.MIX_IS_LOCAL === 'true') {
             token = 'local'
-            // token = await store.state.AuthState.auth0.getIdTokenClaims()
         } else {
             token = await store.state.AuthState.auth0.getIdTokenClaims()
         }

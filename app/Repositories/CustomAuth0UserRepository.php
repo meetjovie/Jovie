@@ -63,7 +63,7 @@ class CustomAuth0UserRepository extends Auth0UserRepository
 
     public static function currentUser($request)
     {
-        if (config('app.env') == 'local') {
+        if (config('app.local') === true) {
             return User::first();
         }
         $auth0 = \App::make('auth0');
