@@ -137,7 +137,7 @@
                                     <div class="inline-block w-full align-middle">
                                         <div
                                             class="overflow-hidden border-b border-gray-200 shadow">
-                                            <table class="min-w-full top-12 sticky divide-y divide-gray-200">
+                                            <table class="min-w-full  divide-y divide-gray-200">
                                                 <thead class=" bg-gray-50">
                                                 <tr>
                                                     <th
@@ -520,11 +520,11 @@
                                             </table>
                                             <Pagination
                                                 v-if="creators.length"
-                                                :totalPages="creatorsMeta.total"
+                                                :totalPages="creatorsMeta.last_page"
                                                 :perPage="creatorsMeta.per_page"
                                                 :currentPage="creatorsMeta.current_page"
                                                 :disabled="loading"
-                                                @pagechanged="getCrmCreators"
+                                                @pagechanged="pageChanged"
                                             />
                                         </div>
                                     </div>
@@ -627,7 +627,7 @@ export default {
         filters: {
             deep: true,
             handler: function (val) {
-                this.getCrmCreators()
+                this.getCrmCreators(val)
             }
         }
     },
@@ -641,7 +641,8 @@ export default {
         this.getCrmCreators()
         this.getUserLists()
     },
-    methods: {getUserLists() {
+    methods: {
+        getUserLists() {
             UserService.getUserLists()
                 .then(response => {
                     response = response.data
@@ -650,11 +651,15 @@ export default {
                     }
                 })
         },
+        pageChanged({page}) {
+            this.filters.page = page
+        },
         getCrmCreators(filters = {}) {
             this.loading = true
-            filters.page = filters.page ? filters.page : 1
-            filters.list = this.filters.list?.id
-            UserService.getCrmCreators(filters)
+            let data = {}
+            data.page = filters.page ? filters.page : 1
+            data.list = this.filters.list?.id
+            UserService.getCrmCreators(data)
                 .then(response => {
                     this.loading = false
                     response = response.data
