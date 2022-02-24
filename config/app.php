@@ -233,4 +233,6 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
+    'local' => env('MIX_IS_LOCAL', false),
+
 ];
