@@ -74,57 +74,45 @@
                 <div class="items-center px-2">
           <span
               class="relative z-0 inline-flex h-full items-center rounded-md shadow-sm">
-              <router-link to="/import">
+            <router-link to="/import">
             <button
                 type="button"
-                class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-1 px-4 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                class="relative inline-flex items-center h-6 rounded-l-md border border-gray-300 bg-white py-1 px-4 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
               Add creator
             </button>
             </router-link>
-            <Menu as="span" class="relative -ml-px block">
-              <MenuButton
-                  class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
-                <span class="sr-only text-xs">Add creator</span>
-                <ChevronDownIcon class="h-4 w-4" aria-hidden="true"/>
-              </MenuButton>
-              <transition
-                  enter-active-class="transition ease-out duration-100"
-                  enter-from-class="transform opacity-0 scale-95"
-                  enter-to-class="transform opacity-100 scale-100"
-                  leave-active-class="transition ease-in duration-75"
-                  leave-from-class="transform opacity-100 scale-100"
-                  leave-to-class="transform opacity-0 scale-95">
-                <MenuItems
-                    class="-0 absolute z-40 mt-2 -mr-1 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                  <div class="py-1">
-                    <MenuItem>
-                      <a
-                          :href="item.href"
-                          :class="[
-                          active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-xs',
-                        ]">
-                        Import from CSV
-                      </a>
-                    </MenuItem>
-                    <MenuItem>
-                      <a
-                          :href="item.href"
-                          :class="[
-                          active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-xs',
-                        ]">
-                        Import from list
-                      </a>
-                    </MenuItem>
-                  </div>
-                </MenuItems>
-              </transition>
-            </Menu>
+             <Menu as="div" class="relative inline-block text-left">
+    <div>
+      <MenuButton class="inline-flex justify-center w-full h-6 items-center rounded-r-md border border-gray-300 shadow-sm px-4 bg-white/90 backdrop-blur-2xl text-sm font-medium text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 focus-visible:ring-indigo-500">
+        
+        <ChevronDownIcon class="h-3 w-3" aria-hidden="true" />
+      </MenuButton>
+    </div>
+    
+
+    <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+      <MenuItems class="origin-top-right absolute z-30 right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus-visible:outline-none">
+        <div class="z-20">
+          <MenuItem v-slot="{ active }">
+            <router-link to="/import" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex first:pt-3 last:pt-3 items-center px-4 py-2 text-sm']">
+              <CloudUploadIcon class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+              Import a csv
+            </router-link>
+          </MenuItem>
+          
+        
+          <MenuItem v-slot="{ active }">
+            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex items-center first:pt-3 last:pt-3 px-4 py-2 text-sm']">
+              <DownloadIcon class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+              Export a csv
+            </a>
+          </MenuItem>
+          
+        </div>
+       
+      </MenuItems>
+    </transition>
+  </Menu>
           </span>
                 </div>
             </div>
@@ -448,19 +436,15 @@
                                                                         >Manage</a
                                                                         >
                                                                     </div>
-                                                                    <Menu
-                                                                        as="div"
-                                                                        class="relative inline-block text-left">
-                                                                        <div>
+                                                                    <Menu as="div" class="relative inline-block text-left">
                                                                             <MenuButton
                                                                                 class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
                                                                                 <span
                                                                                     class="sr-only">Open options</span>
                                                                                 <DotsVerticalIcon
-                                                                                    class="h-5 w-5"
+                                                                                    class="h-5 w-5 z-0"
                                                                                     aria-hidden="true"/>
                                                                             </MenuButton>
-                                                                        </div>
                                                                         <transition
                                                                             enter-active-class="transition ease-out duration-100"
                                                                             enter-from-class="transform opacity-0 scale-95"
@@ -471,7 +455,7 @@
                                                                             <MenuItems
                                                                                 class="absolute right-10 z-10 mt-2 w-30 origin-top-right rounded-md bg-white/90 backdrop-fitler backdrop-blur-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                                                                 <div class="py-1">
-                                                                                    <MenuItem v-slot="{ active }">
+                                                                                    <MenuItem v-slot="{ active }" class="items-center">
                                                                                         <a
                                                                                             href="#"
                                                                                             class="items-center text-neutral-400 hover:text-neutral-900"
@@ -482,26 +466,26 @@
                                                                                         'block px-4 py-2 text-sm',
                                                                                         ]">
                                                                                             <ArchiveIcon
-                                                                                                class="inline mr-2 h-5 w-5"/>
+                                                                                                class="inline mr-2 h-4 w-4"/>
                                                                                             Archive</a>
 
                                                                                     </MenuItem>
-                                                                                    <MenuItem v-slot="{ active }">
+                                                                                    <MenuItem v-slot="{ active }" class="items-center">
                                                                                         <a
                                                                                             href="#"
                                                                                             class="items-center text-neutral-400 hover:text-neutral-900"
                                                                                             :class="[active  ? 'bg-gray-100 text-gray-900'  : 'text-gray-700','block px-4 py-2 text-sm']">
                                                                                             <BanIcon
-                                                                                                class="inline mr-2 h-5 w-5"/>
+                                                                                                class="inline mr-2 h-4 w-4"/>
                                                                                             Mute</a>
                                                                                     </MenuItem>
-                                                                                    <MenuItem v-slot="{ active }">
+                                                                                    <MenuItem v-slot="{ active }" class="items-center">
                                                                                         <a
                                                                                             href="#"
                                                                                             class="items-center text-neutral-400 hover:text-neutral-900"
                                                                                             :class="[active  ? 'bg-gray-100 text-gray-900'  : 'text-gray-700','block px-4 py-2 text-sm']">
                                                                                             <TrashIcon
-                                                                                                class="inline mr-2 h-5 w-5"/>
+                                                                                                class="inline mr-2 h-4 w-4"/>
                                                                                             Remove</a
                                                                                         >
                                                                                     </MenuItem>
@@ -563,12 +547,14 @@ import StarRating from 'vue-star-rating';
 import {
     DotsVerticalIcon,
     ChevronDownIcon,
+    DownloadIcon,
     CheckIcon,
     SearchCircleIcon,
     ArchiveIcon,
     DuplicateIcon,
     BanIcon,
     TrashIcon,
+    CloudUploadIcon
 
 } from '@heroicons/vue/solid';
 import SocialIcons from '../components/SocialIcons.vue';
@@ -580,6 +566,7 @@ export default {
     components: {
         DuplicateIcon,
         ArchiveIcon,
+        DownloadIcon,
         TabGroup,
         TabList,
         Tab,
@@ -605,7 +592,8 @@ export default {
         PopoverPanel,
         BanIcon,
         TrashIcon,
-        Pagination
+        Pagination,
+        CloudUploadIcon
     },
     data() {
         return {
