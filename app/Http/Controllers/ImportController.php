@@ -56,7 +56,9 @@ class ImportController extends Controller
             }
         }
         try {
-            $this->handleImportFile($request);
+            if ($request->file) {
+                $this->handleImportFile($request);
+            }
         } catch (\Exception $e) {
             return collect([
                 'status' => false,
