@@ -41,7 +41,6 @@
                 </div>
                 <div class="items-center w-60">
                     <Combobox as="div" v-model="filters.list">
-
                         <div class="relative mt-1 ">
                             <ComboboxInput
                                 class="w-full rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
@@ -52,19 +51,18 @@
                                 <ChevronDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true"/>
                             </ComboboxButton>
 
-                            <ComboboxOptions v-if="filteredUsersLists.length > 0"
-                                             class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            <ComboboxOptions v-if="filteredUsersLists.length > 0"  class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                 <ComboboxOption v-for="list in filteredUsersLists" :key="list.id" :value="list" as="template"
                                                 v-slot="{ active, selected }">
                                     <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white' : 'text-gray-900']">
-            <span :class="['block truncate', selected && 'font-semibold']">
-              {{ list.name }}
-            </span>
+                                        <span :class="['block truncate', selected && 'font-semibold']">
+                                        {{ list.name }}
+                                        </span>
 
-                                        <span v-if="selected"
-                                              :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
-              <CheckIcon class="h-5 w-5" aria-hidden="true"/>
-            </span>
+                                                                    <span v-if="selected"
+                                                                        :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
+                                        <CheckIcon class="h-5 w-5" aria-hidden="true"/>
+                                        </span>
                                     </li>
                                 </ComboboxOption>
                             </ComboboxOptions>
@@ -72,48 +70,35 @@
                     </Combobox>
                 </div>
                 <div class="items-center px-2">
-          <span
-              class="relative z-0 inline-flex h-full items-center rounded-md shadow-sm">
-            <router-link to="/import">
-            <button
-                type="button"
-                class="relative inline-flex items-center h-6 rounded-l-md border border-gray-300 bg-white py-1 px-4 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
-              Add creator
-            </button>
-            </router-link>
-             <Menu as="div" class="relative inline-block text-left">
-    <div>
-      <MenuButton class="inline-flex justify-center w-full h-6 items-center rounded-r-md border border-gray-300 shadow-sm px-4 bg-white/90 backdrop-blur-2xl text-sm font-medium text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 focus-visible:ring-indigo-500">
-        
-        <ChevronDownIcon class="h-3 w-3" aria-hidden="true" />
-      </MenuButton>
-    </div>
-    
-
-    <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-      <MenuItems class="origin-top-right absolute z-30 right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus-visible:outline-none">
-        <div class="z-20">
-          <MenuItem v-slot="{ active }">
-            <router-link to="/import" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex first:pt-3 last:pt-3 items-center px-4 py-2 text-sm']">
-              <CloudUploadIcon class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-              Import a csv
-            </router-link>
-          </MenuItem>
-          
-        
-          <MenuItem v-slot="{ active }">
-            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex items-center first:pt-3 last:pt-3 px-4 py-2 text-sm']">
-              <DownloadIcon class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-              Export a csv
-            </a>
-          </MenuItem>
-          
-        </div>
-       
-      </MenuItems>
-    </transition>
-  </Menu>
-          </span>
+                    <Menu as="div" class="relative inline-block items-center text-left">
+                       <span class="relative z-0 inline-flex py-1 shadow-sm rounded-md ">
+                            <button as="router-link" to="/import" type="button" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-2 px-3 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                            Add creator
+                            </button>
+                            <MenuButton as="div" class="-ml-px relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 shadow-sm bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 focus-visible:ring-indigo-500">
+                                <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
+                            </MenuButton>
+                        </span>
+                        <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                            <MenuItems class="origin-top-right absolute z-30 right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus-visible:outline-none">
+                                <div class="">
+                                <MenuItem v-slot="{ active }">
+                                    <router-link to="/import" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex first:pt-3 last:pt-3 items-center px-4 py-2 text-sm']">
+                                    <CloudUploadIcon class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                    Import a csv
+                                    </router-link>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex items-center first:pt-3 last:pt-3 px-4 py-2 text-sm']">
+                                    <DownloadIcon class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                    Export a csv
+                                    </a>
+                                </MenuItem>
+                                
+                                </div>
+                            </MenuItems>
+                        </transition>
+                    </Menu>
                 </div>
             </div>
             <TabPanels>
@@ -213,8 +198,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody class="h-full divide-y divide-gray-200 bg-white">
-                                                <template v-for="(creator, index) in creators"
-                                                          :key="creator">
+                                                <template v-for="(creator, index) in creators" :key="creator">
                                                     <template v-for="network in networks" :key="network">
                                                         <tr v-if="creator[`${network}_meta`]"
                                                             class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
