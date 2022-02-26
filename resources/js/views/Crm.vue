@@ -94,7 +94,7 @@
                                     Export a csv
                                     </a>
                                 </MenuItem>
-                                
+
                                 </div>
                             </MenuItems>
                         </transition>
@@ -121,7 +121,7 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                               
+
                                             <table class="min-w-full  divide-y divide-gray-200">
                                                 <thead class=" bg-gray-50">
                                                 <tr>
@@ -211,7 +211,7 @@
                                                 </thead>
                                                 <tbody class="h-full divide-y divide-gray-200 bg-white">
                                                 <template v-for="(creator, index) in creators" :key="creator">
-                                                    <template v-for="network in networks" :key="network">
+                                                    <template v-for="(network, indexN) in networks" :key="network">
                                                         <tr v-if="creator[`${network}_meta`]"
                                                             class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                                                             <td
@@ -219,7 +219,7 @@
                                                                 <div class="grid grid-cols-2 items-center">
                                                                     <div class="group mr-2">
                                                                       <span class="group-hover:hidden">
-                                                                        {{ creator.id }}
+                                                                        {{ indexN+1 }}
                                                                       </span>
                                                                         <span class="hidden group-hover:block">
                                                                             <input
@@ -231,9 +231,10 @@
                                                                         </span>
                                                                     </div>
                                                                     <!--                                                                    favourite-->
-                                                                    <div>
+                                                                    <div class="cursor-pointer" @click="updateCreator(creator, index, creator.crm_record_by_user.favourite)">
                                                                         <svg
                                                                             xmlns="http://www.w3.org/2000/svg"
+                                                                            :class="{'text-red-500 fill-red-500' : creator.crm_record_by_user.favourite}"
                                                                             class="h-6 w-6 hover:fill-red-500 hover:text-red-500"
                                                                             fill="none"
                                                                             viewBox="0 0 24 24"
@@ -277,7 +278,8 @@
                                                                 class="border-1 hidden w-24 border-collapse whitespace-nowrap border lg:table-cell">
                                                                 <div class="text-sm text-gray-900 line-clamp-1">
                                                                     <input
-                                                                        v-model="creator.firstname"
+                                                                        v-model="creator.first_name"
+                                                                        @blur="updateCreator(creator, index)"
                                                                         autocomplete="off"
                                                                         type="creator-firstname"
                                                                         name="creator-firstname"
@@ -291,7 +293,8 @@
                                                                 class="border-1 hidden w-20 border-collapse whitespace-nowrap border xl:table-cell">
                                                                 <div class="text-xs text-gray-900 line-clamp-1">
                                                                     <input
-                                                                        v-model="creator.lastname"
+                                                                        v-model="creator.last_name"
+                                                                        @blur="updateCreator(creator, index)"
                                                                         autocomplete="off"
                                                                         type="creator-lastname"
                                                                         name="creator-lastname"
@@ -306,6 +309,7 @@
                                                                 <div class="text-xs text-gray-700 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.emails"
+                                                                        @blur="updateCreator(creator, index)"
                                                                         autocomplete="off"
                                                                         type="creator-email"
                                                                         name="creator-email"
@@ -556,6 +560,7 @@ import {
 import SocialIcons from '../components/SocialIcons.vue';
 import UserService from "../services/api/user.service";
 import Pagination from '../components/Pagination';
+import store from "../store";
 
 export default {
     name: 'CRM',
@@ -626,6 +631,27 @@ export default {
         this.getUserLists()
     },
     methods: {
+        updateCreator(creator, index, favourite = false) {
+            let data = {
+                'id': creator.id,
+                'first_name': creator.first_name,
+                'last_name': creator.last_name,
+                'emails': typeof creator.emails === "string" ? creator.emails.split(',') : creator.emails,
+                'favourite': favourite === false ? creator.crm_record_by_user.favourite : !favourite
+            }
+            this.$store.dispatch('updateCreator', data).then(response => {
+                response = response.data
+                if (response.status) {
+                    for (let [key, value] of Object.entries(data)) {
+                        if (key == 'favourite') {
+                            this.creators[index].crm_record_by_user[key] = value
+                        } else {
+                            this.creators[index][key] = value
+                        }
+                    }
+                }
+            })
+        },
         getUserLists() {
             UserService.getUserLists()
                 .then(response => {

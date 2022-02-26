@@ -40,5 +40,8 @@ export default {
         }).catch(error => {
             commit('setAuthStateUser', null)
         })
+    },
+    async updateCreator(context, payload) {
+        return await userService.updateCreator(payload)
     }
 }

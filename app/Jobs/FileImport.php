@@ -59,6 +59,12 @@ class FileImport implements ShouldQueue
             if (count($results) > 1) {
                 $results = $results->toArray();
                 $headers = $results[0];
+                if (isset($this->mappedColumns->firstName)) {
+                    $firstNameKey = array_search($this->mappedColumns->firstName, $headers);
+                }
+                if (isset($this->mappedColumns->lastName)) {
+                    $lastNameKey = array_search($this->mappedColumns->lastName, $headers);
+                }
                 if (isset($this->mappedColumns->instagram)) {
                     $instagramKey = array_search($this->mappedColumns->instagram, $headers);
                 }
@@ -93,8 +99,9 @@ class FileImport implements ShouldQueue
                             if ($username[0] == '@') {
                                 $username = substr($username, 1);
                             }
+                            $meta = ['emails' => $emails, 'firstName' => $row[$firstNameKey], 'lastName' => $row[$lastNameKey]];
                             Bus::chain([
-                                new InstagramImport($username, $this->tags, true, null, $emails, $this->listId, $this->userId),
+                                new InstagramImport($username, $this->tags, true, null, $meta, $this->listId, $this->userId),
                                 new SendSlackNotification('imported instagram user '.$username)
                             ])->dispatch();
                         }

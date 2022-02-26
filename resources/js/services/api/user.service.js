@@ -33,5 +33,10 @@ export default {
             params: data,
             headers:  await store.dispatch('headers')
         })
+    },
+    async updateCreator(data) {
+        return axios.post(`${baseUrlAdmin}/update-creator/${data.id}?_method=PUT`, data, {
+            headers: await store.dispatch('headers')
+        })
     }
 }

@@ -32,7 +32,7 @@ class InstagramImport implements ShouldQueue
     private $recursive;
     private $creatorId;
     private $parentCreator;
-    private $emails;
+    private $meta;
     private $brands = [];
     private $listId;
     private $userId;
@@ -41,13 +41,13 @@ class InstagramImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($username, $tags, $recursive = false, $creatorId = null, $emails = null, $listId = null, $userId = null)
+    public function __construct($username, $tags, $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null)
     {
         $this->username = $username;
         $this->tags = $tags;
         $this->recursive = $recursive;
         $this->parentCreator = $creatorId;
-        $this->emails = $emails;
+        $this->meta = $meta;
         $this->listId = $listId;
         $this->userId = $userId;
     }
@@ -129,6 +129,9 @@ class InstagramImport implements ShouldQueue
             $user = $response->graphql->user;
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
+            $creator->first_name = $this->meta['firstName'] ?? null;
+            $creator->last_name = $this->meta['lastName'] ?? null;
+            $creator->full_name = $user->full_name;
             $creator->social_links = $this->addSocialLinksFromLinkTree($links, $creator->social_links);
             $creator->location = $user->location ?? null;
             $creator->type = $user->typename ?? 'CREATOR';
@@ -175,6 +178,7 @@ class InstagramImport implements ShouldQueue
             $creator->instagram_is_verified = $user->is_verified;
 
             // meta
+            $meta['fbid'] = $user->fbid;
             $meta['engaged_follows'] = $this->getEngagedFollows($creator->instagram_engagement_rate, $creator->instagram_followers);
             $meta['business_category_name'] = $user->business_category_name ?? null;
             $meta['has_guides'] = $user->has_guides;
@@ -234,8 +238,8 @@ class InstagramImport implements ShouldQueue
     public function getEmails($user, $oldEmails)
     {
         $emails = [];
-        if ($this->emails && count($this->emails)) {
-            $emails = $this->emails;
+        if (isset($this->meta['emails']) && count($this->meta['emails'])) {
+            $emails = $this->meta['emails'];
         }
         if ($user->business_email) {
             $emails[] = $user->business_email;

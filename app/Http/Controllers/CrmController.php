@@ -28,4 +28,26 @@ class CrmController extends Controller
             'stages' => Crm::stages()
         ]);
     }
+
+    public function updateCrmCreator(Request $request, $id)
+    {
+        // update creator
+        $data = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'emails' => json_encode($request->emails)
+        ];
+        Creator::where('id', $id)->update($data);
+
+        // update interactions for crm
+        $data = [
+            'favourite' => $request->favourite,
+        ];
+        Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($data);
+
+        return collect([
+            'status' => true,
+            'data' => $data,
+        ]);
+    }
 }

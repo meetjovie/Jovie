@@ -66,6 +66,8 @@ export default {
     data() {
         return {
             columnsToMap: [
+                'firstName',
+                'lastName',
                 'instagram',
                 'youtube',
                 'twitter',
