@@ -219,7 +219,7 @@
                                                                 <div class="grid grid-cols-2 items-center">
                                                                     <div class="group mr-2">
                                                                       <span class="group-hover:hidden">
-                                                                        {{ indexN+1 }}
+                                                                        {{ (indexN + 1) }}
                                                                       </span>
                                                                         <span class="hidden group-hover:block">
                                                                             <input
@@ -231,7 +231,7 @@
                                                                         </span>
                                                                     </div>
                                                                     <!--                                                                    favourite-->
-                                                                    <div class="cursor-pointer" @click="updateCreator(creator, index, creator.crm_record_by_user.favourite)">
+                                                                    <div class="cursor-pointer" @click="updateCreator(creator, index, network, creator.crm_record_by_user.favourite)">
                                                                         <svg
                                                                             xmlns="http://www.w3.org/2000/svg"
                                                                             :class="{'text-red-500 fill-red-500' : creator.crm_record_by_user.favourite}"
@@ -279,7 +279,7 @@
                                                                 <div class="text-sm text-gray-900 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.first_name"
-                                                                        @blur="updateCreator(creator, index)"
+                                                                        @blur="updateCreator(creator, index, network) "
                                                                         autocomplete="off"
                                                                         type="creator-firstname"
                                                                         name="creator-firstname"
@@ -294,7 +294,7 @@
                                                                 <div class="text-xs text-gray-900 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.last_name"
-                                                                        @blur="updateCreator(creator, index)"
+                                                                        @blur="updateCreator(creator, index, network)"
                                                                         autocomplete="off"
                                                                         type="creator-lastname"
                                                                         name="creator-lastname"
@@ -309,7 +309,7 @@
                                                                 <div class="text-xs text-gray-700 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.emails"
-                                                                        @blur="updateCreator(creator, index)"
+                                                                        @blur="updateCreator(creator, index, network)"
                                                                         autocomplete="off"
                                                                         type="creator-email"
                                                                         name="creator-email"
@@ -423,7 +423,9 @@
                                                                     class="w-20"
                                                                     :star-size="12"
                                                                     :increment="0.5"
-                                                                    v-model:rating="creator.rating"></star-rating>
+                                                                    v-model:rating="creator.crm_record_by_user[`${network}_rating`]"
+                                                                    @update:rating="updateCreator(creator, index, network, creator.crm_record_by_user.favourite, $event)"
+                                                                ></star-rating>
                                                             </td>
                                                             <td
                                                                 class="justify-right whitespace-nowrap py-1 text-right text-xs font-medium">
@@ -631,7 +633,7 @@ export default {
         this.getUserLists()
     },
     methods: {
-        updateCreator(creator, index, favourite = false) {
+        updateCreator(creator, index, network, favourite = false, rating = false) {
             let data = {
                 'id': creator.id,
                 'first_name': creator.first_name,
@@ -639,6 +641,7 @@ export default {
                 'emails': typeof creator.emails === "string" ? creator.emails.split(',') : creator.emails,
                 'favourite': favourite === false ? creator.crm_record_by_user.favourite : !favourite
             }
+            data[`${network}_rating`] = rating === false ? creator.crm_record_by_user[`${network}_rating`] : rating
             this.$store.dispatch('updateCreator', data).then(response => {
                 response = response.data
                 if (response.status) {

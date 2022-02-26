@@ -43,6 +43,9 @@ class CrmController extends Controller
         $data = [
             'favourite' => $request->favourite,
         ];
+        if (isset($request->instagram_rating)) {
+            $data['instagram_rating'] = $request->instagram_rating;
+        }
         Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($data);
 
         return collect([

@@ -24,4 +24,21 @@ class Crm extends Model
             4 => 'Complete',
         ];
     }
+
+    protected $appends = [
+        'instagram_average_rating'
+    ];
+
+    public function getInstagramAverageRatingAttribute()
+    {
+        return Crm::where('creator_id', $this->creator_id)->avg('instagram_rating');
+    }
+
+    public function getInstagramRatingAttribute($value)
+    {
+        if (!$value) {
+            return $this->instagram_average_rating;
+        }
+        return $value;
+    }
 }
