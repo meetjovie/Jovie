@@ -71,7 +71,7 @@
                 </div>
                 <div class="items-center px-2">
                     <Menu as="div" class="relative inline-block items-center text-left">
-                       <span class="relative z-0 inline-flex py-1 shadow-sm rounded-md ">
+                       <span class="relative z-0 inline-flex py-1 rounded-md ">
                             <button as="router-link" to="/import" type="button" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-2 px-3 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                             Add creator
                             </button>
@@ -110,6 +110,18 @@
                                     <div class="inline-block w-full align-middle">
                                         <div
                                             class="overflow-hidden border-b border-gray-200 shadow">
+                                                <div v-if="creators.length < 1" class="max-w-7xl items-center py-24 mx-auto px-4 sm:px-6 lg:px-8">
+                                                    <div class="max-w-xl mx-auto">
+                                                        <button type="button" class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                            </svg>
+                                                            <span class="mt-2 block text-sm font-bold text-gray-900"> Select a file to upload </span>
+                                                            <span class="mt-2 block text-xs font-medium text-gray-400"> or drag and drop csv files</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                               
                                             <table class="min-w-full  divide-y divide-gray-200">
                                                 <thead class=" bg-gray-50">
                                                 <tr>
@@ -367,7 +379,7 @@
                                                                         leave-from-class="transform scale-100 opacity-100"
                                                                         leave-to-class="transform scale-95 opacity-0">
                                                                         <PopoverPanel
-                                                                            class="center-0 absolute z-30 w-60 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                                                                            class="center-0 absolute z-30 w-40 rounded-lg mt-2 origin-top-right divide-y divide-gray-100 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                                                                             <div class="">
                                                                                 <div class="">
                                                                                     <button
