@@ -231,7 +231,7 @@
                                                                         </span>
                                                                     </div>
                                                                     <!--                                                                    favourite-->
-                                                                    <div class="cursor-pointer" @click="updateCreator(creator, index, network, creator.crm_record_by_user.favourite)">
+                                                                    <div class="cursor-pointer" @click="updateCreator(creator.id, index, network, `crm_record_by_user.favourite`, !creator.crm_record_by_user.favourite)">
                                                                         <svg
                                                                             xmlns="http://www.w3.org/2000/svg"
                                                                             :class="{'text-red-500 fill-red-500' : creator.crm_record_by_user.favourite}"
@@ -279,7 +279,7 @@
                                                                 <div class="text-sm text-gray-900 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.first_name"
-                                                                        @blur="updateCreator(creator, index, network) "
+                                                                        @blur="updateCreator(creator.id, index, network, 'first_name', creator.first_name) "
                                                                         autocomplete="off"
                                                                         type="creator-firstname"
                                                                         name="creator-firstname"
@@ -294,7 +294,7 @@
                                                                 <div class="text-xs text-gray-900 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.last_name"
-                                                                        @blur="updateCreator(creator, index, network)"
+                                                                        @blur="updateCreator(creator.id, index, network, 'last_name', creator.last_name)"
                                                                         autocomplete="off"
                                                                         type="creator-lastname"
                                                                         name="creator-lastname"
@@ -309,7 +309,7 @@
                                                                 <div class="text-xs text-gray-700 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.emails"
-                                                                        @blur="updateCreator(creator, index, network)"
+                                                                        @blur="updateCreator(creator.id, index, network, 'emails', creator.emails)"
                                                                         autocomplete="off"
                                                                         type="creator-email"
                                                                         name="creator-email"
@@ -337,6 +337,7 @@
                                                         $
                                                         <input
                                                             v-model="creator.crm_record_by_user[`${network}_offer`]"
+                                                            @blur="updateCreator(creator.id, index, network, `crm_record_by_user.${network}_offer`, creator.crm_record_by_user[`${network}_offer`]) "
                                                             autocomplete="off"
                                                             type="creator-offer"
                                                             name="creator-offer"
@@ -387,9 +388,9 @@
                                                                             <div class="">
                                                                                 <div class="">
                                                                                     <button
-                                                                                        v-for="(stage, index) in stages"
-                                                                                        @click="updateCrmCreator(index, `crm_record_by_user.${network}_stage`, stage)"
-                                                                                        :class="[creator.crm_record_by_user[`${network}_stage`] == stage ? 'bg-indigo-500 text-neutral-700': 'text-gray-900','flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs']">
+                                                                                        v-for="(stage, key) in stages"
+                                                                                        @click="updateCreator(creator.id, index, network,`crm_record_by_user.${network}_stage`, key)"
+                                                                                        :class="[creator.crm_record_by_user[`${network}_stage`] == key ? 'bg-indigo-500 text-neutral-700': 'text-gray-900','flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs']">
                                                                                         <div
                                                                                             class="mr-2 font-bold  opacity-50">
                                                                                             {{ index + 1 }}
@@ -424,7 +425,7 @@
                                                                     :star-size="12"
                                                                     :increment="0.5"
                                                                     v-model:rating="creator.crm_record_by_user[`${network}_rating`]"
-                                                                    @update:rating="updateCreator(creator, index, network, creator.crm_record_by_user.favourite, $event)"
+                                                                    @update:rating="updateCreator(creator.id, index, network, `crm_record_by_user.${network}_rating`, $event)"
                                                                 ></star-rating>
                                                             </td>
                                                             <td
@@ -633,28 +634,6 @@ export default {
         this.getUserLists()
     },
     methods: {
-        updateCreator(creator, index, network, favourite = false, rating = false) {
-            let data = {
-                'id': creator.id,
-                'first_name': creator.first_name,
-                'last_name': creator.last_name,
-                'emails': typeof creator.emails === "string" ? creator.emails.split(',') : creator.emails,
-                'favourite': favourite === false ? creator.crm_record_by_user.favourite : !favourite
-            }
-            data[`${network}_rating`] = rating === false ? creator.crm_record_by_user[`${network}_rating`] : rating
-            this.$store.dispatch('updateCreator', data).then(response => {
-                response = response.data
-                if (response.status) {
-                    for (let [key, value] of Object.entries(data)) {
-                        if (key == 'favourite') {
-                            this.creators[index].crm_record_by_user[key] = value
-                        } else {
-                            this.creators[index][key] = value
-                        }
-                    }
-                }
-            })
-        },
         getUserLists() {
             UserService.getUserLists()
                 .then(response => {
@@ -686,21 +665,29 @@ export default {
                     }
                 })
         },
-        updateCrmCreator(index, key, value) {
-            console.log(key);
+        updateCreator(id, index, network, key, value) {
+
+            const data = {
+                id: id,
+            }
             let keySplits = key.split('.')
             if (keySplits.length > 1) {
                 var key1 = keySplits[0]
                 var key2 = keySplits[1]
-                let obj = this.creators[index][key1];
-                obj[key2] = value
-                this.creators[index][key1] = obj
-                console.log(this.creators);
+                data[key1] = {
+                    [key2]: value
+                }
             } else {
-                this.creators[index][key1] = value
+                data[key] = value
             }
-            console.log(this.creators);
-        }
+
+            this.$store.dispatch('updateCreator', data).then(response => {
+                response = response.data
+                if (response.status) {
+                    this.creators[index] = response.data
+                }
+            })
+        },
     }
 };
 </script>

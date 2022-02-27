@@ -35,7 +35,9 @@ export default {
         })
     },
     async updateCreator(data) {
-        return axios.post(`${baseUrlAdmin}/update-creator/${data.id}?_method=PUT`, data, {
+        const id = data.id
+        delete data.id
+        return axios.post(`${baseUrlAdmin}/update-creator/${id}?_method=PUT`, data, {
             headers: await store.dispatch('headers')
         })
     }

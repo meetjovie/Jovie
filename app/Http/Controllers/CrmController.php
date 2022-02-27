@@ -8,6 +8,7 @@ use App\Repositories\CustomAuth0UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CrmController extends Controller
 {
@@ -26,25 +27,26 @@ class CrmController extends Controller
     public function updateCrmCreator(Request $request, $id)
     {
         // update creator
-        $data = [
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'emails' => json_encode($request->emails)
-        ];
-        Creator::where('id', $id)->update($data);
+        $dataToUpdateForCrm = [];
+        $dataToUpdateForCreator = [];
+        foreach ($request->except(['_method', '_token', 'id', 'network']) as $k => $v) {
+                if ($k == 'crm_record_by_user') {
+                    foreach ($v as $key => $value) {
+                        $dataToUpdateForCrm[$key] = $value;
+                    }
+                } else {
+                    $v = $k == 'emails' ? json_encode($v) : $v;
+                    $dataToUpdateForCreator[$k] = $v;
+                }
+        }
+        Creator::where('id', $id)->update($dataToUpdateForCreator);
 
         // update interactions for crm
-        $data = [
-            'favourite' => $request->favourite,
-        ];
-        if (isset($request->instagram_rating)) {
-            $data['instagram_rating'] = $request->instagram_rating;
-        }
-        Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($data);
+        Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
 
         return collect([
             'status' => true,
-            'data' => $data,
+            'data' => Creator::getCrmCreators(['id' => $id])->first(),
         ]);
     }
 }

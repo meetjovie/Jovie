@@ -81,14 +81,34 @@ class Creator extends Model
                 return $q->whereHas('userLists', function ($query) use ($params) {
                     $query->where('user_lists.id', $params['list']);
                 });
-            })
-            ->paginate(50);
+            });
+
+        if (isset($params['id'])) {
+            $creators = $creators->where('creators.id', $params['id']);
+        }
+
+        $creators = $creators->paginate(50);
 
         // have suggested offer and make instagram offer == suggester offer in case instagram
         // offer is null or 0, so we can use same model on frontend
+        // same goes for ratings
+        // on frontend one can check if instagram_suggested_offer or instagram_average_rating is present then style different
+        // these properties would only show up if user specific values are not set
+
+        $ids = $creators->pluck('id')->toArray();
+        // fetch all rating for available creators once, so we don't do multiple queries
+        $avgRatings = Crm::selectRaw('AVG(instagram_rating) instagram_average_rating, creator_id')
+            ->whereIn('id', $ids)
+            ->groupBy('creator_id')
+            ->get()->keyBy('creator_id');
+
         foreach ($creators as &$creator) {
-            $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 2);
-            $creator->crmRecordByUser->instagram_offer = $creator->crmRecordByUser->instagram_offer == null ? $creator->crmRecordByUser->instagram_suggested_offer : $creator->crmRecordByUser->instagram_offer;
+            if (!$creator->crmRecordByUser->instagram_offer) {
+                $creator->crmRecordByUser->instagram_offer = $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 2);
+            }
+            if (!$creator->crmRecordByUser->instagram_rating && isset($avgRatings[$creator->id])) {
+                $creator->crmRecordByUser->instagram_average_rating = $creator->crmRecordByUser->instagram_rating = round($avgRatings[$creator->id]->instagram_average_rating);
+            }
         }
 
         return $creators;
