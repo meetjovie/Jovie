@@ -13,14 +13,8 @@ class CrmController extends Controller
 {
     public function crmCreators(Request $request)
     {
-        $creators = Creator::with(['crmRecordByUser'])
-            ->has('crmRecordByUser')
-            ->when($request->list, function ($q) use ($request) {
-                return $q->whereHas('userLists', function ($query) use ($request) {
-                    $query->where('user_lists.id', $request->list);
-                });
-            })
-            ->paginate(50);
+        $creators = Creator::getCrmCreators($request->all());
+
         return collect([
             'status' => true,
             'creators' => $creators,

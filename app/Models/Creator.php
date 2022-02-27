@@ -72,4 +72,25 @@ class Creator extends Model
             'id',
             'id')->withTimestamps();
     }
+
+    public static function getCrmCreators($params)
+    {
+        $creators = Creator::with(['crmRecordByUser'])
+            ->has('crmRecordByUser')
+            ->when(!empty($params['list']), function ($q) use ($params) {
+                return $q->whereHas('userLists', function ($query) use ($params) {
+                    $query->where('user_lists.id', $params['list']);
+                });
+            })
+            ->paginate(50);
+
+        // have suggested offer and make instagram offer == suggester offer in case instagram
+        // offer is null or 0, so we can use same model on frontend
+        foreach ($creators as &$creator) {
+            $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 2);
+            $creator->crmRecordByUser->instagram_offer = $creator->crmRecordByUser->instagram_offer == null ? $creator->crmRecordByUser->instagram_suggested_offer : $creator->crmRecordByUser->instagram_offer;
+        }
+
+        return $creators;
+    }
 }
