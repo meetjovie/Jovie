@@ -211,7 +211,7 @@
                                                 </thead>
                                                 <tbody class="h-full divide-y divide-gray-200 bg-white">
                                                 <template v-for="(creator, index) in creators" :key="creator">
-                                                    <template v-for="(network, indexN) in networks" :key="network">
+                                                    <template v-if="!creator.crm_record_by_user.archived" v-for="(network, indexN) in networks" :key="network">
                                                         <tr v-if="creator[`${network}_meta`]"
                                                             class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                                                             <td
@@ -463,6 +463,15 @@
                                                                                         <a
                                                                                             href="#"
                                                                                             class="items-center text-neutral-400 hover:text-neutral-900"
+                                                                                            :class="[active  ? 'bg-gray-100 text-gray-900'  : 'text-gray-700','block px-4 py-2 text-sm']">
+                                                                                            <BanIcon
+                                                                                                class="inline mr-2 h-4 w-4"/>
+                                                                                            Mute</a>
+                                                                                    </MenuItem>
+                                                                                    <MenuItem v-slot="{ active }" class="items-center" @click="updateCreator(creator.id, index, network, 'crm_record_by_user.archived', !creator.crm_record_by_user.archived)">
+                                                                                        <a
+                                                                                            href="#"
+                                                                                            class="items-center text-neutral-400 hover:text-neutral-900"
                                                                                             :class="[
                                                                                         active
                                                                                         ? 'bg-gray-100 text-gray-900'
@@ -473,15 +482,6 @@
                                                                                                 class="inline mr-2 h-4 w-4"/>
                                                                                             Archive</a>
 
-                                                                                    </MenuItem>
-                                                                                    <MenuItem v-slot="{ active }" class="items-center">
-                                                                                        <a
-                                                                                            href="#"
-                                                                                            class="items-center text-neutral-400 hover:text-neutral-900"
-                                                                                            :class="[active  ? 'bg-gray-100 text-gray-900'  : 'text-gray-700','block px-4 py-2 text-sm']">
-                                                                                            <BanIcon
-                                                                                                class="inline mr-2 h-4 w-4"/>
-                                                                                            Mute</a>
                                                                                     </MenuItem>
                                                                                     <MenuItem v-slot="{ active }" class="items-center">
                                                                                         <a
