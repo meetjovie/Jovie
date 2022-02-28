@@ -411,11 +411,11 @@
                                                                 class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 xl:table-cell">
                                                                 <input
                                                                     v-model="creator.crm_record_by_user.last_contacted"
+                                                                    @change="updateCreator(creator.id, index, network,`crm_record_by_user.last_contacted`, creator.crm_record_by_user.last_contacted)"
                                                                     autocomplete="off"
-                                                                    type="creator-offer"
-                                                                    name="creator-offer"
-                                                                    id="creator-offer"
-                                                                    class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                                                    type="datetime-local"
+                                                                    :id="creator.id+'_datepicker'"
+                                                                    class="block w-full"
                                                                     placeholder="--/--/----"
                                                                     aria-describedby="email-description"/>
                                                             </td>
@@ -564,7 +564,6 @@ import {
 import SocialIcons from '../components/SocialIcons.vue';
 import UserService from "../services/api/user.service";
 import Pagination from '../components/Pagination';
-import store from "../store";
 
 export default {
     name: 'CRM',
@@ -598,7 +597,7 @@ export default {
         BanIcon,
         TrashIcon,
         Pagination,
-        CloudUploadIcon
+        CloudUploadIcon,
     },
     data() {
         return {

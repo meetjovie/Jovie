@@ -104,10 +104,10 @@ class Creator extends Model
 
         foreach ($creators as &$creator) {
             if (!$creator->crmRecordByUser->instagram_offer) {
-                $creator->crmRecordByUser->instagram_offer = $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 0);
+                $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 2);
             }
             if (!$creator->crmRecordByUser->instagram_rating && isset($avgRatings[$creator->id])) {
-                $creator->crmRecordByUser->instagram_average_rating = $creator->crmRecordByUser->instagram_rating = round($avgRatings[$creator->id]->instagram_average_rating);
+                $creator->crmRecordByUser->instagram_average_rating = round($avgRatings[$creator->id]->instagram_average_rating);
             }
         }
 
