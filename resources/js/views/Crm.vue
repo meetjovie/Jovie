@@ -156,7 +156,7 @@
                                                     </th>
                                                     <th
                                                         scope="col"
-                                                        class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+                                                        class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                                                         Creator
                                                     </th>
                                                     <th
@@ -275,7 +275,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="border-1 hidden w-24 border-collapse whitespace-nowrap border lg:table-cell">
+                                                                class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
                                                                 <div class="text-sm text-gray-900 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.first_name"
@@ -290,7 +290,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="border-1 hidden w-20 border-collapse whitespace-nowrap border xl:table-cell">
+                                                                class="border-1 hidden w-24 border-collapse whitespace-nowrap border xl:table-cell">
                                                                 <div class="text-xs text-gray-900 line-clamp-1">
                                                                     <input
                                                                         v-model="creator.last_name"
@@ -342,8 +342,9 @@
                                                             type="creator-offer"
                                                             name="creator-offer"
                                                             id="creator-offer"
-                                                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
-                                                            placeholder="5,000"
+                                                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                                            
+                                                            :placeholder="creator.crm_record_by_user.instagram_suggested_offer"
                                                             aria-describedby="email-description"/>
                                                       </span>
                                                             </td>
