@@ -343,7 +343,7 @@
                                                             name="creator-offer"
                                                             id="creator-offer"
                                                             class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
-                                                            
+
                                                             :placeholder="creator.crm_record_by_user.instagram_suggested_offer"
                                                             aria-describedby="email-description"/>
                                                       </span>
@@ -394,7 +394,7 @@
                                                                                         :class="[creator.crm_record_by_user[`${network}_stage`] == key ? 'bg-indigo-500 text-neutral-700': 'text-gray-900','flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs']">
                                                                                         <div
                                                                                             class="mr-2 font-bold  opacity-50">
-                                                                                            {{ index + 1 }}
+                                                                                            {{ key + 1 }}
                                                                                         </div>
                                                                                         <div class="font-bold">
                                                                                             {{ stage }}
@@ -425,8 +425,8 @@
                                                                     class="w-20"
                                                                     :star-size="12"
                                                                     :increment="0.5"
-                                                                    v-model:rating="creator.crm_record_by_user[`${network}_rating`]"
-                                                                    @update:rating="updateCreator(creator.id, index, network, `crm_record_by_user.${network}_rating`, $event)"
+                                                                    v-model:rating="creator.crm_record_by_user.rating"
+                                                                    @update:rating="updateCreator(creator.id, index, network, `crm_record_by_user.rating`, $event)"
                                                                 ></star-rating>
                                                             </td>
                                                             <td

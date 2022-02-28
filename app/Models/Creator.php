@@ -97,7 +97,7 @@ class Creator extends Model
 
         $ids = $creators->pluck('id')->toArray();
         // fetch all rating for available creators once, so we don't do multiple queries
-        $avgRatings = Crm::selectRaw('AVG(instagram_rating) instagram_average_rating, creator_id')
+        $avgRatings = Crm::selectRaw('AVG(rating) average_rating, creator_id')
             ->whereIn('id', $ids)
             ->groupBy('creator_id')
             ->get()->keyBy('creator_id');
@@ -106,8 +106,8 @@ class Creator extends Model
             if (!$creator->crmRecordByUser->instagram_offer) {
                 $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 2);
             }
-            if (!$creator->crmRecordByUser->instagram_rating && isset($avgRatings[$creator->id])) {
-                $creator->crmRecordByUser->instagram_average_rating = round($avgRatings[$creator->id]->instagram_average_rating);
+            if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
+                $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);
             }
         }
 
