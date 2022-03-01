@@ -59,7 +59,7 @@ class Creator extends Model
     public function getInstagramHandlerAttribute($value)
     {
         if ($value) {
-            return 'https://instagram.com/'.$value;
+            return 'https://instagram.com/' . $value;
         }
         return null;
     }
@@ -76,13 +76,24 @@ class Creator extends Model
     public static function getCrmCreators($params)
     {
         $creators = Creator::with(['crmRecordByUser'])
-            ->whereHas('crmRecordByUser', function($q) {
-                $q->where('muted', null)->orWhere('muted', 0);
-             })->when(!empty($params['list']), function ($q) use ($params) {
+            ->whereHas('crmRecordByUser', function ($q) use ($params) {
+                $q->where(function ($q) {
+                    $q->where('muted', false);
+                })->where(function ($q) use ($params) {
+                    if (isset($params['archived']) && $params['archived'] == 1) {
+                        $q->where('instagram_archived', true);
+                    } else {
+                        $q->where(function ($q) {
+                            $q->where('instagram_archived', false);
+                        });
+                    }
+                });
+            })->when(!empty($params['list']), function ($q) use ($params) {
                 return $q->whereHas('userLists', function ($query) use ($params) {
                     $query->where('user_lists.id', $params['list']);
                 });
-            });
+            })->toSql();
+        dd($creators);
 
         if (isset($params['id'])) {
             $creators = $creators->where('creators.id', $params['id']);

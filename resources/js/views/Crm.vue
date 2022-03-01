@@ -158,7 +158,26 @@
                     </div>
                 </TabPanel>
                 <TabPanel>
-
+                    <div class="mx-auto w-full min-w-full">
+                        <div class="w-full">
+                            <div class="flex w-full flex-col">
+                                <div class="mx-auto w-full p-0">
+                                    <div class="inline-block w-full align-middle">
+                                        <div
+                                            class="overflow-hidden border-b border-gray-200 shadow">
+                                            <CrmTable @updateCreator="updateCreator" @pageChanged="pageChanged"
+                                                      :creators="creators"
+                                                      :networks="networks"
+                                                      :stages="stages"
+                                                      :creatorsMeta="creatorsMeta"
+                                                      :loading="loading"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </TabPanel>
             </TabPanels>
         </TabGroup>
@@ -222,24 +241,25 @@ export default {
     data() {
         return {
             stages: [],
+            networks: [],
+            userLists: [],
+
             loading: false,
             creators: [],
             creatorsMeta: {},
-            networks: [],
-            userLists: [],
             filters: {
                 list: null,
-                archive: 0,
+                archived: 0,
                 page: 1
             },
-            searchList: ''
+            searchList: '',
         };
     },
     watch: {
         filters: {
             deep: true,
             handler: function (val) {
-                this.getCrmCreators(val)
+                this.getCrmCreators()
             }
         }
     },
@@ -267,24 +287,33 @@ export default {
             this.filters.page = page
         },
         changeTab(index) {
-            console.log(index);
+            Object.assign(this.$data, this.$options.data())
+            if (index == 1) {
+                this.filters.archived = 1
+            } else {
+                this.filters.archived = 0
+            }
         },
         getCrmCreators(filters = {}) {
             this.loading = true
-            let data = {}
-            data.page = filters.page ? filters.page : 1
-            data.list = this.filters.list?.id
-            UserService.getCrmCreators(data)
+            UserService.getCrmCreators(this.filters)
                 .then(response => {
                     this.loading = false
                     response = response.data
                     if (response.status) {
-                        this.creators = response.creators.data
-                        delete response.creators.data
-                        this.creatorsMeta = response.creators
-                        this.filters.page = response.creators.current_page
                         this.networks = response.networks
                         this.stages = response.stages
+
+                        if (filters.archived) {
+                            this.archivedCreators = response.creators.data
+                            this.archivedCreatorsMeta = response.creators
+                            this.archivedFilters.page = response.creators.current_page
+                        } else {
+                            this.creators = response.creators.data
+                            this.creatorsMeta = response.creators
+                            this.filters.page = response.creators.current_page
+                        }
+                        delete response.creators.data
                     }
                 })
         },
