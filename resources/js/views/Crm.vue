@@ -212,7 +212,7 @@
                                                 <tbody class="h-full divide-y divide-gray-200 bg-white">
                                                 <template v-for="(creator, index) in creators" :key="creator">
                                                     <template v-for="(network, indexN) in networks" :key="network">
-                                                        <tr v-if="creator[`${network}_meta`] && !creator.crm_record_by_user[`${network}_archived`]"
+                                                        <tr v-if="creator[`${network}_meta`] && !creator.crm_record_by_user[`${network}_archived`] && !creator.crm_record_by_user[`${network}_removed`]"
                                                             class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                                                             <td
                                                                 class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
@@ -487,7 +487,7 @@
                                                                                             Archive</a>
 
                                                                                     </MenuItem>
-                                                                                    <MenuItem v-slot="{ active }" class="items-center">
+                                                                                    <MenuItem v-slot="{ active }" class="items-center" @click="updateCreator(creator.id, index, network, `crm_record_by_user.${network}_removed`, !creator.crm_record_by_user[`${network}_removed`])">
                                                                                         <a
                                                                                             href="#"
                                                                                             class="items-center text-neutral-400 hover:text-neutral-900"
