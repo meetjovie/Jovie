@@ -172,7 +172,7 @@
           class="w-24 flex-grow items-center whitespace-nowrap lg:w-48 xl:w-72">
           <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
             <img
-              class="aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
+              class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
               src="https://i.pravatar.cc/150?img=1" />
             <img
               class="hidden aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md lg:block"
