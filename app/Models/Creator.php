@@ -76,8 +76,9 @@ class Creator extends Model
     public static function getCrmCreators($params)
     {
         $creators = Creator::with(['crmRecordByUser'])
-            ->has('crmRecordByUser')
-            ->when(!empty($params['list']), function ($q) use ($params) {
+            ->whereHas('crmRecordByUser', function($q) {
+                $q->where('muted', null)->orWhere('muted', 0);
+             })->when(!empty($params['list']), function ($q) use ($params) {
                 return $q->whereHas('userLists', function ($query) use ($params) {
                     $query->where('user_lists.id', $params['list']);
                 });

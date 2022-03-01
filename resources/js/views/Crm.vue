@@ -463,7 +463,7 @@
                                                                             <MenuItems
                                                                                 class="absolute right-10 z-10 mt-2 w-30 origin-top-right rounded-md bg-white/90 backdrop-fitler backdrop-blur-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                                                                 <div class="py-1">
-                                                                                    <MenuItem v-slot="{ active }" class="items-center">
+                                                                                    <MenuItem v-slot="{ active }" class="items-center" @click="updateCreator(creator.id, index, network, `crm_record_by_user.muted`, !creator.crm_record_by_user.muted)">
                                                                                         <a
                                                                                             href="#"
                                                                                             class="items-center text-neutral-400 hover:text-neutral-900"
@@ -688,7 +688,11 @@ export default {
             this.$store.dispatch('updateCreator', data).then(response => {
                 response = response.data
                 if (response.status) {
-                    this.creators[index] = response.data
+                    if (response.data == null) {
+                        this.creators.splice(index, 1)
+                    } else {
+                        this.creators[index] = response.data
+                    }
                 }
             })
         },
