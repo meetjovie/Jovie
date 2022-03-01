@@ -181,9 +181,6 @@ import {
     MenuButton,
     MenuItems,
     MenuItem,
-    Popover,
-    PopoverButton,
-    PopoverPanel
 } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
 import {
@@ -191,11 +188,6 @@ import {
     ChevronDownIcon,
     DownloadIcon,
     CheckIcon,
-    SearchCircleIcon,
-    ArchiveIcon,
-    DuplicateIcon,
-    BanIcon,
-    TrashIcon,
     CloudUploadIcon
 
 } from '@heroicons/vue/solid';
@@ -205,8 +197,6 @@ import CrmTable from "../components/Crm/CrmTable";
 export default {
     name: 'CRM',
     components: {
-        DuplicateIcon,
-        ArchiveIcon,
         DownloadIcon,
         TabGroup,
         TabList,
@@ -226,12 +216,6 @@ export default {
         DotsVerticalIcon,
         ChevronDownIcon,
         CheckIcon,
-        SearchCircleIcon,
-        Popover,
-        PopoverButton,
-        PopoverPanel,
-        BanIcon,
-        TrashIcon,
         CloudUploadIcon,
         CrmTable
     },

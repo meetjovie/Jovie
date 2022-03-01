@@ -410,16 +410,6 @@
 <script>
 
 import {
-    Combobox,
-    ComboboxButton,
-    ComboboxInput,
-    ComboboxOptions,
-    ComboboxOption,
-    TabGroup,
-    TabList,
-    Tab,
-    TabPanels,
-    TabPanel,
     Menu,
     MenuButton,
     MenuItems,
@@ -431,15 +421,10 @@ import {
 import StarRating from 'vue-star-rating';
 import {
     DotsVerticalIcon,
-    ChevronDownIcon,
-    DownloadIcon,
-    CheckIcon,
-    SearchCircleIcon,
     ArchiveIcon,
     DuplicateIcon,
     BanIcon,
     TrashIcon,
-    CloudUploadIcon
 
 } from '@heroicons/vue/solid';
 import Pagination from '../../components/Pagination';
@@ -450,26 +435,12 @@ export default {
     components: {
         DuplicateIcon,
         ArchiveIcon,
-        DownloadIcon,
-        TabGroup,
-        TabList,
-        Tab,
-        TabPanels,
-        TabPanel,
         StarRating,
-        Combobox,
-        ComboboxInput,
-        ComboboxButton,
-        ComboboxOptions,
-        ComboboxOption,
         Menu,
         MenuButton,
         MenuItems,
         MenuItem,
         DotsVerticalIcon,
-        ChevronDownIcon,
-        CheckIcon,
-        SearchCircleIcon,
         SocialIcons,
         Popover,
         PopoverButton,
@@ -477,7 +448,6 @@ export default {
         BanIcon,
         TrashIcon,
         Pagination,
-        CloudUploadIcon,
     },
     props: ['creators', 'networks', 'stages', 'creatorsMeta', 'loading']
 }
