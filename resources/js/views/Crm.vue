@@ -196,12 +196,12 @@
                                                     </th>
                                                     <th
                                                         scope="col"
-                                                        class="hidden px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
+                                                        class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
                                                         Contacted
                                                     </th>
                                                     <th
                                                         scope="col"
-                                                        class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+                                                        class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                                                         Rating
                                                     </th>
                                                     <th scope="col" class="relative px-6 py-3">
@@ -413,9 +413,13 @@
                                                                     v-model="creator.crm_record_by_user.last_contacted"
                                                                     @change="updateCreator(creator.id, index, network,`crm_record_by_user.last_contacted`, creator.crm_record_by_user.last_contacted)"
                                                                     autocomplete="off"
+                                                                    enableTimePicker="false"
+                                                                    monthNameFormat="short"
+                                                                    data-format="yyyy-MM-dd"
+                                                                    autoApply="true"
                                                                     type="datetime-local"
                                                                     :id="creator.id+'_datepicker'"
-                                                                    class="block w-full"
+                                                                    class="block w-full px-2 py-1 placeholder-neutral-300 focus-visible:border-1 bg-white/0 text-xs border-0 text-neutral-500 rounded-md focus:border-1 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                                                                     placeholder="--/--/----"
                                                                     aria-describedby="email-description"/>
                                                             </td>
