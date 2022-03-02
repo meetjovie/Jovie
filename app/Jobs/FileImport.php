@@ -58,6 +58,8 @@ class FileImport implements ShouldQueue
             $youtubeFollowersCountKey = null;
             $firstNameKey = null;
             $lastNameKey = null;
+            $cityKey = null;
+            $countryKey = null;
             if (count($results) > 1) {
                 $results = $results->toArray();
                 $headers = $results[0];
@@ -66,6 +68,12 @@ class FileImport implements ShouldQueue
                 }
                 if (isset($this->mappedColumns->lastName)) {
                     $lastNameKey = array_search($this->mappedColumns->lastName, $headers);
+                }
+                if (isset($this->mappedColumns->city)) {
+                    $cityKey = array_search($this->mappedColumns->city, $headers);
+                }
+                if (isset($this->mappedColumns->country)) {
+                    $countryKey = array_search($this->mappedColumns->country, $headers);
                 }
                 if (isset($this->mappedColumns->instagram)) {
                     $instagramKey = array_search($this->mappedColumns->instagram, $headers);
@@ -101,7 +109,13 @@ class FileImport implements ShouldQueue
                             if ($username[0] == '@') {
                                 $username = substr($username, 1);
                             }
-                            $meta = ['emails' => $emails, 'firstName' => ($row[$firstNameKey] ?? null), 'lastName' => ($row[$lastNameKey] ?? null)];
+                            $meta = [
+                                'emails' => $emails,
+                                'firstName' => ($row[$firstNameKey] ?? null),
+                                'lastName' => ($row[$lastNameKey] ?? null),
+                                'city' => ($row[$cityKey] ?? null),
+                                'country' => ($row[$countryKey] ?? null),
+                            ];
                             Bus::chain([
                                 new InstagramImport($username, $this->tags, true, null, $meta, $this->listId, $this->userId),
                                 new SendSlackNotification('imported instagram user '.$username)

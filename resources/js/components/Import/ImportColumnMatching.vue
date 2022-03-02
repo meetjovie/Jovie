@@ -68,6 +68,8 @@ export default {
             columnsToMap: [
                 'firstName',
                 'lastName',
+                'city',
+                'country',
                 'instagram',
                 'youtube',
                 'twitter',
