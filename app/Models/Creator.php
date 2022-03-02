@@ -78,13 +78,13 @@ class Creator extends Model
         $creators = Creator::with(['crmRecordByUser'])
             ->whereHas('crmRecordByUser', function ($q) use ($params) {
                 $q->where(function ($q) {
-                    $q->where('muted', false);
+                    $q->where('muted', 0)->orWhere('muted', null);
                 })->where(function ($q) use ($params) {
                     if (isset($params['archived']) && $params['archived'] == 1) {
                         $q->where('instagram_archived', true);
                     } else {
                         $q->where(function ($q) {
-                            $q->where('instagram_archived', false);
+                            $q->where('instagram_archived', 0)->orWhere('instagram_archived', null);
                         });
                     }
                 });
@@ -92,8 +92,7 @@ class Creator extends Model
                 return $q->whereHas('userLists', function ($query) use ($params) {
                     $query->where('user_lists.id', $params['list']);
                 });
-            })->toSql();
-        dd($creators);
+            });
 
         if (isset($params['id'])) {
             $creators = $creators->where('creators.id', $params['id']);

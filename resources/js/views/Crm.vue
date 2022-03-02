@@ -170,6 +170,7 @@
                                                       :networks="networks"
                                                       :stages="stages"
                                                       :creatorsMeta="creatorsMeta"
+                                                      :arcvhied="true"
                                                       :loading="loading"
                                             />
                                         </div>
@@ -303,17 +304,9 @@ export default {
                     if (response.status) {
                         this.networks = response.networks
                         this.stages = response.stages
-
-                        if (filters.archived) {
-                            this.archivedCreators = response.creators.data
-                            this.archivedCreatorsMeta = response.creators
-                            this.archivedFilters.page = response.creators.current_page
-                        } else {
-                            this.creators = response.creators.data
-                            this.creatorsMeta = response.creators
-                            this.filters.page = response.creators.current_page
-                        }
-                        delete response.creators.data
+                        this.creators = response.creators.data
+                        this.creatorsMeta = response.creators
+                        this.filters.page = response.creators.current_page
                     }
                 })
         },
