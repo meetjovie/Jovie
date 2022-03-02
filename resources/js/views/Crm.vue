@@ -128,18 +128,22 @@
                                             <div v-if="!loading && creators.length < 1"
                                                  class="max-w-7xl items-center py-24 mx-auto px-4 sm:px-6 lg:px-8">
                                                 <div class="max-w-xl mx-auto">
-                                                    <button type="button"
-                                                            class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                             class="mx-auto h-12 w-12 text-gray-400" fill="none"
-                                                             viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                  stroke-width="2"
-                                                                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                                                        </svg>
-                                                        <span class="mt-2 block text-sm font-bold text-gray-900"> Select a file to upload </span>
-                                                        <span class="mt-2 block text-xs font-medium text-gray-400"> or drag and drop csv files</span>
-                                                    </button>
+                                                    <router-link to="import"
+                                                                 :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex first:pt-3 last:pt-3 items-center px-4 py-2 text-sm']">
+                                                        <button type="button"
+                                                                class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                 class="mx-auto h-12 w-12 text-gray-400" fill="none"
+                                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      stroke-width="2"
+                                                                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                                            </svg>
+                                                            <span class="mt-2 block text-sm font-bold text-gray-900"> Select a file to upload </span>
+                                                            <span class="mt-2 block text-xs font-medium text-gray-400"> or drag and drop csv files</span>
+                                                        </button>
+
+                                                    </router-link>
                                                 </div>
                                             </div>
 
