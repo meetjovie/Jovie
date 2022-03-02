@@ -187,16 +187,16 @@
           <div class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
             <div>
               <div class="font-bold">234</div>
-              <div class="text-2xs text-neutral-500">Followers</div>
+              <div class="text-[8px] text-neutral-500">Followers</div>
             </div>
 
             <div class="hidden xl:block">
-              <div class="font-bold">234</div>
-              <div class="text-2xs text-neutral-500">Engagement</div>
+              <div class="font-bold">3.4%</div>
+              <div class="text-[8px] text-neutral-500">ER%</div>
             </div>
             <div class="hidden 2xl:block">
               <div class="font-bold">234</div>
-              <div class="text-2xs text-neutral-500">EF</div>
+              <div class="text-[8px] text-neutral-500">EF</div>
             </div>
           </div>
         </td>
