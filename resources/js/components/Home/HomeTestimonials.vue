@@ -45,7 +45,8 @@
               &ldquo;Jovie allowed us to do in 2 weeks what we had been trying
               to do <br class="block sm:hidden" />for 3 months…
               <br class="hideen sm:block" />Never had we seen such fast adoption
-              by creators. Five stars.&rdquo;
+              by creators.
+              <!-- Five stars. -->&rdquo;
             </p>
           </div>
           <footer class="mt-8">

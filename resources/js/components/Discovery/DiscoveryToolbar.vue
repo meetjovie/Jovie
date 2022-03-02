@@ -17,13 +17,13 @@
           leave-to-class="scale-95 opacity-0">
           <PopoverPanel
             as="div"
-            class="absolute z-10 mt-2 rounded-md bg-white/90 shadow-2xl backdrop-blur-xl backdrop-filter">
+            class="absolute z-10 mt-2 rounded-md bg-white/70 shadow-2xl backdrop-blur-md backdrop-saturate-150 backdrop-filter">
             <div
               v-for="action in actions"
               :key="action"
-              class="group grid w-64 grid-cols-1 rounded-md">
+              class="group grid w-64 grid-cols-1 rounded-t-md">
               <div
-                class="flex cursor-pointer items-center justify-between px-4 py-1 text-xs text-neutral-700 first:rounded-t-md first:pt-2 last:rounded-b-md last:pb-2 even:border-2 even:border-b hover:bg-indigo-700 hover:text-white"
+                class="flex cursor-pointer items-center justify-between px-4 py-1 text-xs text-neutral-700 first:pt-2 last:pb-2 even:border-2 even:border-b hover:bg-indigo-700 hover:text-white"
                 href="#">
                 <div class="inline-flex items-center">
                   <Component :is="action.icon" class="mr-2 h-4 w-4"></Component>
@@ -35,7 +35,7 @@
                 <div
                   v-for="child in action.children"
                   :key="child"
-                  class="absolute left-64 hidden w-60 items-center justify-between bg-white/90 px-4 py-1 text-xs text-neutral-700 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter first:rounded-tr-md first:pt-2 last:rounded-br-md last:pb-2 only:rounded-r-md even:border-2 even:border-b hover:bg-indigo-700 hover:text-white group-hover:flex">
+                  class="absolute left-64 hidden w-60 items-center justify-between rounded-r-md bg-white/70 px-4 py-2 text-xs text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter first:pt-2 hover:bg-indigo-700 hover:text-white group-hover:flex">
                   <div class="inline-flex items-center">
                     <Component
                       :is="child.icon"
