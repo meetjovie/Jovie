@@ -169,7 +169,7 @@
             </button>
 
             <!-- Profile dropdown -->
-            <Menu as="div" class="relative ml-3 border-l px-4">
+            <Menu as="div" class="relative ml-3 border-l px-4" v-if="!$store.state.AuthState.loading && $store.state.AuthState.isAuthenticated">
               <MenuButton
                 as="div"
                 type="button"
