@@ -247,7 +247,7 @@ class InstagramImport implements ShouldQueue
     public function getEmails($user, $oldEmails)
     {
         $emails = [];
-        if (isset($this->meta['emails']) && count($this->meta['emails'])) {
+        if (isset($this->meta['emails']) && count($this->meta['emails']) && $this->platformUser->is_admin) {
             $emails = $this->meta['emails'];
         }
         if ($user->business_email) {
