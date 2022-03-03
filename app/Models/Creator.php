@@ -98,7 +98,11 @@ class Creator extends Model
             $creators = $creators->where('creators.id', $params['id']);
         }
 
-        $creators = $creators->paginate(50);
+        if (!isset($params['export'])) {
+            $creators = $creators->paginate(50);
+        } else {
+            $creators = $creators->get();
+        }
 
         // have suggested offer and make instagram offer == suggester offer in case instagram
         // offer is null or 0, so we can use same model on frontend

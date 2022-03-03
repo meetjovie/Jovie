@@ -38,6 +38,13 @@ export default {
       headers: await store.dispatch('headers'),
     });
   },
+    async exportCrmCreators(data) {
+    return axios.get(`${baseUrlAdmin}/export-crm-creators`, {
+      params: data,
+      headers: await store.dispatch('headers'),
+      responseType: 'blob'
+    });
+  },
   async updateCreator(data) {
     const id = data.id;
     delete data.id;

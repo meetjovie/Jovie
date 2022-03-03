@@ -33,4 +33,5 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 //    CRM
     Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
     Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
+    Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 });

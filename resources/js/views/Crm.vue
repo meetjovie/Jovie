@@ -102,7 +102,7 @@
                                         </router-link>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
-                                        <a href="#"
+                                        <a @click="exportCrmCreators()"
                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex items-center first:pt-3 last:pt-3 px-4 py-2 text-sm']">
                                             <DownloadIcon class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                                           aria-hidden="true"/>
@@ -312,6 +312,19 @@ export default {
                         this.creatorsMeta = response.creators
                         this.filters.page = response.creators.current_page
                     }
+                })
+        },
+        exportCrmCreators() {
+            UserService.exportCrmCreators(this.filters)
+                .then(response => {
+                    var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                    var fileLink = document.createElement('a');
+
+                    fileLink.href = fileURL;
+                    fileLink.setAttribute('download', 'creators.xlsx');
+                    document.body.appendChild(fileLink);
+
+                    fileLink.click();
                 })
         },
         updateCreator({id, index, network, key, value}) {

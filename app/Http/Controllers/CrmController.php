@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CrmExport;
 use App\Models\Creator;
 use App\Models\Crm;
 use App\Repositories\CustomAuth0UserRepository;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CrmController extends Controller
 {
@@ -48,5 +50,13 @@ class CrmController extends Controller
             'status' => true,
             'data' => Creator::getCrmCreators(['id' => $id])->first(),
         ]);
+    }
+
+    public function exportCrm(Request $request)
+    {
+        $params = $request->all();
+        $params['export'] = true;
+        $creators = Creator::getCrmCreators($params);
+        return Excel::download(new CrmExport($creators), 'creators.xlsx');
     }
 }
