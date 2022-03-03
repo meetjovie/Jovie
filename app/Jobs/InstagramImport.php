@@ -6,6 +6,7 @@ use App\Models\Creator;
 use App\Models\CreatorSocialLink;
 use App\Models\Crm;
 use App\Models\SocialInfo;
+use App\Models\User;
 use App\Notifications\ImportNotification;
 use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
@@ -50,6 +51,8 @@ class InstagramImport implements ShouldQueue
         $this->meta = $meta;
         $this->listId = $listId;
         $this->userId = $userId;
+        $this->platformUser = User::where('id', $this->userId)->first();
+
     }
 
     /**
@@ -60,6 +63,9 @@ class InstagramImport implements ShouldQueue
     public function handle()
     {
         try {
+            if (is_null($this->platformUser)) {
+                return;
+            }
             if ($this->username) {
                 $response = self::scrapInstagram($this->username);
                 $this->insertIntoDatabase($response);
@@ -129,10 +135,11 @@ class InstagramImport implements ShouldQueue
             $user = $response->graphql->user;
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
-            $creator->first_name = $creator->first_name ?? $this->meta['firstName'] ?? null;
-            $creator->last_name = $creator->last_name ?? $this->meta['lastName'] ?? null;
+            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name ?? null) : null;
+            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name ?? null) : null;
             $creator->city = $creator->city ?? $this->meta['city'] ?? null;
             $creator->country = $creator->country ?? $this->meta['country'] ?? null;
+            $creator->wiki_id = $creator->wiki_id ?? $this->meta['wikiId'] ?? null;
             $creator->full_name = $user->full_name;
             $creator->social_links = $this->addSocialLinksFromLinkTree($links, $creator->social_links);
             $creator->location = $user->location ?? null;

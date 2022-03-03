@@ -60,6 +60,7 @@ class FileImport implements ShouldQueue
             $lastNameKey = null;
             $cityKey = null;
             $countryKey = null;
+            $wikiKey = null;
             if (count($results) > 1) {
                 $results = $results->toArray();
                 $headers = $results[0];
@@ -92,6 +93,9 @@ class FileImport implements ShouldQueue
                 if (isset($this->mappedColumns->youtubeFollowersCount)) {
                     $youtubeFollowersCountKey = array_search($this->mappedColumns->youtubeFollowersCount, $headers);
                 }
+                if (isset($this->mappedColumns->wikiId)) {
+                    $wikiKey = array_search($this->mappedColumns->wikiId, $headers);
+                }
                 array_shift($results);
                 foreach ($results as $k => $row) {
                     $emails = [];
@@ -120,6 +124,7 @@ class FileImport implements ShouldQueue
                                 'lastName' => ($row[$lastNameKey] ?? null),
                                 'city' => ($row[$cityKey] ?? null),
                                 'country' => $country,
+                                'wikiId' => ($row[$wikiKey] ?? null)
                             ];
                             Bus::chain([
                                 new InstagramImport($username, $this->tags, true, null, $meta, $this->listId, $this->userId),

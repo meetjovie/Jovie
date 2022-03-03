@@ -85,6 +85,7 @@ export default {
                 'tiktokFollowersCount',
                 'email1',
                 'email2',
+                'wikiId',
             ],
             mappedColumns: {},
             csvFileName: ''
