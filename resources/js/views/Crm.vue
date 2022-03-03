@@ -301,7 +301,9 @@ export default {
         },
         getCrmCreators(filters = {}) {
             this.loading = true
-            UserService.getCrmCreators(this.filters)
+            let data = JSON.parse(JSON.stringify(this.filters))
+            data.list = data.list?.id
+            UserService.getCrmCreators(data)
                 .then(response => {
                     this.loading = false
                     response = response.data
