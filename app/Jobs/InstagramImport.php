@@ -37,6 +37,7 @@ class InstagramImport implements ShouldQueue
     private $brands = [];
     private $listId;
     private $userId;
+    private $platformUser;
     /**
      * Create a new job instance.
      *
