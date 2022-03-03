@@ -184,6 +184,22 @@ export const routes = [
       layout: 'App',
     },
   },
+  {
+    name: 'Profiles',
+    path: '/profiles',
+    component: loadPage('Profiles'),
+    meta: {
+      layout: 'Default',
+    },
+  },
+  {
+    name: 'Solutions',
+    path: '/solutions',
+    component: loadPage('Solutions'),
+    meta: {
+      layout: 'Default',
+    },
+  },
 
   /* {
     name: 'Profile',
