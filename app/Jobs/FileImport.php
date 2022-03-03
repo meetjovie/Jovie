@@ -109,12 +109,17 @@ class FileImport implements ShouldQueue
                             if ($username[0] == '@') {
                                 $username = substr($username, 1);
                             }
+                            $country = $row[$countryKey] ?? null;
+                            $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
+                            if ($row[$countryKey] && in_array(strtolower(trim($row[$countryKey])), array_map('strtolower', $usStates))) {
+                                $country = 'United States';
+                            }
                             $meta = [
                                 'emails' => $emails,
                                 'firstName' => ($row[$firstNameKey] ?? null),
                                 'lastName' => ($row[$lastNameKey] ?? null),
                                 'city' => ($row[$cityKey] ?? null),
-                                'country' => ($row[$countryKey] ?? null),
+                                'country' => $country,
                             ];
                             Bus::chain([
                                 new InstagramImport($username, $this->tags, true, null, $meta, $this->listId, $this->userId),
