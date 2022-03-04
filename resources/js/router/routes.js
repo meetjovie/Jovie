@@ -177,6 +177,14 @@ export const routes = [
     },
   },
   {
+    name: 'Creator Overview',
+    path: '/creator-overview',
+    component: loadPage('CreatorOverview'),
+    meta: {
+      layout: 'App',
+    },
+  },
+  {
     name: 'Pipeline',
     path: '/pipeline',
     component: loadPage('Pipeline'),
