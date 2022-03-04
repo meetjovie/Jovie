@@ -51,17 +51,14 @@ class User extends Authenticatable
 
     protected $appends = ['default_image'];
 
+    public function crms()
+    {
+        return $this->belongsToMany(Creator::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps();
+    }
+
     public function routeNotificationForSlack($notification)
     {
         return env('SLACK_NOTIFICATION_WEBHOOK');
-    }
-
-    public function getProfilePicUrlAttribute($value)
-    {
-        if ($value && Storage::disk('s3')->exists($value)) {
-            return Storage::disk('s3')->url($value);
-        }
-        return null;
     }
 
     public function getDefaultImageAttribute()

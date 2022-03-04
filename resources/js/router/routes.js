@@ -1,12 +1,13 @@
-import { authenticationGuard } from '../middlewares/auth';
+import {authenticationGuard} from '../middlewares/auth';
 
 import store from '../store';
 
 function loadPage(page) {
-  return () => import(`./../views/${page}.vue`);
+    return () => import(`./../views/${page}.vue`);
 }
 
 export const routes = [
+
   {
     name: 'Home',
     path: '/',
@@ -193,13 +194,14 @@ export const routes = [
     },
   },
 
-  /* {
-    name: 'Profile',
-    path: '/:username',
-    component: loadPage('Profile'),
-    props: true,
-    meta: {
-      layout: 'Minimal',
-    },
-  }, */
+
+    /* {
+      name: 'Profile',
+      path: '/:username',
+      component: loadPage('Profile'),
+      props: true,
+      meta: {
+        layout: 'Minimal',
+      },
+    }, */
 ];

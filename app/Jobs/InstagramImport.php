@@ -4,7 +4,9 @@ namespace App\Jobs;
 
 use App\Models\Creator;
 use App\Models\CreatorSocialLink;
+use App\Models\Crm;
 use App\Models\SocialInfo;
+use App\Models\User;
 use App\Notifications\ImportNotification;
 use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
@@ -31,20 +33,27 @@ class InstagramImport implements ShouldQueue
     private $recursive;
     private $creatorId;
     private $parentCreator;
-    private $emails;
+    private $meta;
     private $brands = [];
+    private $listId;
+    private $userId;
+    private $platformUser;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($username, $tags, $recursive = false, $creatorId = null, $emails = null)
+    public function __construct($username, $tags, $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null)
     {
         $this->username = $username;
         $this->tags = $tags;
         $this->recursive = $recursive;
         $this->parentCreator = $creatorId;
-        $this->emails = $emails;
+        $this->meta = $meta;
+        $this->listId = $listId;
+        $this->userId = $userId;
+        $this->platformUser = User::where('id', $this->userId)->first();
+
     }
 
     /**
@@ -55,6 +64,9 @@ class InstagramImport implements ShouldQueue
     public function handle()
     {
         try {
+            if (is_null($this->platformUser)) {
+                return;
+            }
             if ($this->username) {
                 $response = self::scrapInstagram($this->username);
                 $this->insertIntoDatabase($response);
@@ -124,6 +136,12 @@ class InstagramImport implements ShouldQueue
             $user = $response->graphql->user;
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
+            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name ?? null) : null;
+            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name ?? null) : null;
+            $creator->city = $creator->city ?? $this->meta['city'] ?? null;
+            $creator->country = $creator->country ?? $this->meta['country'] ?? null;
+            $creator->wiki_id = $creator->wiki_id ?? $this->meta['wikiId'] ?? null;
+            $creator->full_name = $user->full_name;
             $creator->social_links = $this->addSocialLinksFromLinkTree($links, $creator->social_links);
             $creator->location = $user->location ?? null;
             $creator->type = $user->typename ?? 'CREATOR';
@@ -170,6 +188,7 @@ class InstagramImport implements ShouldQueue
             $creator->instagram_is_verified = $user->is_verified;
 
             // meta
+            $meta['fbid'] = $user->fbid;
             $meta['engaged_follows'] = $this->getEngagedFollows($creator->instagram_engagement_rate, $creator->instagram_followers);
             $meta['business_category_name'] = $user->business_category_name ?? null;
             $meta['has_guides'] = $user->has_guides;
@@ -181,19 +200,23 @@ class InstagramImport implements ShouldQueue
             $meta['average_comments'] = $averageLikesAndComments['averageComments'];
             $meta['average_likes'] = $averageLikesAndComments['averageLikes'];
             $meta['external_url'] = $user->external_url;
-            $meta['profile_pic_url'] = $this->getProfilePicUrl($user);
+            $meta['profile_pic_url'] = $this->getProfilePicUrl($user, $creator);
             $meta['average_video_views'] = $this->getAverageVideoView($user);
             $meta['has_blocked_viewer'] = $user->has_blocked_viewer;
             $meta['is_business_account'] = $user->is_business_account;
             $meta['has_ar_effects'] = $user->has_ar_effects;
             $creator->instagram_meta = json_encode($meta);
             $creator->save();
-
+            if ($this->listId) {
+                $creator->userLists()->syncWithoutDetaching($this->listId);
+            }
+            if ($this->userId) {
+                $creator->crms()->syncWithoutDetaching($this->userId);
+            }
             if ($this->parentCreator && $creator->account_type == 'BRAND') {
                 $parentCreator = Creator::where('id', $this->parentCreator)->first();
                 $parentCreator->brands()->syncWithoutDetaching($creator->id);
             }
-
             $this->creatorId = $creator->id;
         }
     }
@@ -219,14 +242,14 @@ class InstagramImport implements ShouldQueue
 
     public function addSocialLinksFromLinkTree($links, $oldLinks = [])
     {
-        return json_encode(array_map('trim', array_unique(array_merge($links, $oldLinks))));
+        return json_encode(array_values(array_map('trim', array_unique(array_merge($links, $oldLinks)))));
     }
 
     public function getEmails($user, $oldEmails)
     {
         $emails = [];
-        if ($this->emails && count($this->emails)) {
-            $emails = $this->emails;
+        if (isset($this->meta['emails']) && count($this->meta['emails']) && $this->platformUser->is_admin) {
+            $emails = $this->meta['emails'];
         }
         if ($user->business_email) {
             $emails[] = $user->business_email;
@@ -234,7 +257,7 @@ class InstagramImport implements ShouldQueue
         if ($bioEmail = $this->getEmailFromBio($user->biography)) {
             $emails[] = $bioEmail;
         }
-        return json_encode(array_map('trim', array_unique(array_merge($emails, $oldEmails))));
+        return json_encode(array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
     }
 
     public function getAccountType($business)
@@ -253,15 +276,21 @@ class InstagramImport implements ShouldQueue
         if ($creator) {
             if (!$tags) return json_encode($creator->tags);
             $tags = explode(',', $tags);
-            return json_encode(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? []))));
+            return json_encode(array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
         }
         if (!$tags) return '[]';
         $tags = explode(',', $tags);
-        return json_encode(array_map('trim', $tags));
+        return json_encode(array_values(array_map('trim', $tags)));
     }
 
-    public function getProfilePicUrl($user)
+    public function getProfilePicUrl($user, $creator)
     {
+        try {
+            $filename = explode(Creator::CREATORS_PROFILE_PATH, $creator->instagram_meta->profile_pic_url)[1];
+            $path = Creator::CREATORS_MEDIA_PATH.$filename;
+            Storage::disk('s3')->delete($path);
+        } catch (\Exception $e) {
+        }
         $file = $user->profile_pic_url;
         if (is_null($file)) {
             $file = asset('images/thumnailLogo.5243720b.png');

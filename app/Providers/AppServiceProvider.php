@@ -14,10 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            \Auth0\Login\Contract\Auth0UserRepository::class,
-            \App\Repositories\CustomAuth0UserRepository::class
-        );
         HeadingRowFormatter::default('none');
     }
 

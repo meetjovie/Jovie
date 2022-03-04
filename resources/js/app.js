@@ -19,6 +19,17 @@ app.mixin({
         },
         unSlugify(value) {
             return value.toString().replaceAll('_', ' ')
+        },
+        formatCount(value) {
+            if (value < 1000) {
+                return value.toFixed(0)
+            } else if (value >= 1000 && value < 999999) {
+                return (value / 1000).toFixed(0) + 'K'
+            } else if (value >= 1000000 && value < 999999999) {
+                return (value / 1000000).toFixed(0) + 'M'
+            } else if (value >= 1000000000 && value < 999999999999) {
+                return (value / 1000000000).toFixed(0) + 'B'
+            }
         }
     }
 })

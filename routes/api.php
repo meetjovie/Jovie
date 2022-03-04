@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +22,16 @@ Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
 Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
-    Route::post('/get-columns-from-csv', [\App\Http\Controllers\Admin\ImportController::class, 'getColumnsFromCsv']);
-    Route::post('/import', [\App\Http\Controllers\Admin\ImportController::class, 'import']);
+
+//    IMPORT CREATORS
+    Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
+    Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
+
+//    USER LISTS
+    Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
+
+//    CRM
+    Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
+    Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
+    Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 });
