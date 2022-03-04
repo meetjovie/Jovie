@@ -8,6 +8,15 @@
     >
     <div class="relative mt-1">
       <div
+        v-if="socialicon"
+        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+        :class="{ 'pl-1': rounded == 'sm' }">
+        <component
+          :is="socialicon"
+          class="h-5 w-5 text-gray-400"
+          :class="{ 'h-3 w-3': rounded == 'sm' }" />
+      </div>
+      <div
         v-if="icon"
         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
         :class="{ 'pl-1': rounded == 'sm' }">
@@ -83,6 +92,10 @@ export default {
     size: {
       type: String,
       default: 'md',
+    },
+    socialicon: {
+      type: String,
+      default: 'twitter',
     },
   },
   components: {

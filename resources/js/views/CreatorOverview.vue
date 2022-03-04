@@ -2,20 +2,22 @@
   <div>
     <!-- Code block starts -->
     <div
+      v-for="creator"
       class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-gray-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
       <div class="inline-flex">
         <div class="mr-4 inline-flex">
-          <div class="relative">
-            <CreatorAvarar></CreatorAvarar>
+          <div class="relative aspect-square">
+            <CreatorAvatar size="sm" />
             <span
               class="absolute inset-0 rounded-full shadow-inner"
-              aria-hidden="true"></span>
+              aria-hidden="true">
+            </span>
           </div>
         </div>
         <div>
           <h4
             class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-100">
-            Jessica Jones
+            {{ creator.name }}
           </h4>
           <ul
             aria-label="current Status"
@@ -83,15 +85,18 @@
         <div class="space-y-6 lg:col-span-1 lg:col-start-1">
           <!-- Description list-->
           <section aria-labelledby="applicant-information-title">
-            <div class="bg-white shadow sm:rounded-lg">
-              <div class="px-4 py-5 sm:px-6">
+            <div class="grid-cols-2 bg-white shadow sm:rounded-lg">
+              <div>
+                <CreatorAvatar :Size="md" />
+              </div>
+              <div class="grid-cols-1 px-4 py-5 sm:px-6">
                 <h2
                   id="applicant-information-title"
                   class="text-lg font-medium leading-6 text-gray-900">
-                  Applicant Information
+                  {{ creator.name }}
                 </h2>
                 <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                  Personal details and application.
+                  {{ creator.bio }}
                 </p>
               </div>
               <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
@@ -123,13 +128,9 @@
                     <dd class="mt-1 text-sm text-gray-900">+1 555-555-5555</dd>
                   </div>
                   <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">About</dt>
+                    <dt class="text-sm font-medium text-gray-500">Bio</dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud
-                      anim incididunt cillum culpa consequat. Excepteur qui
-                      ipsum aliquip consequat sint. Sit id mollit nulla mollit
-                      nostrud in ea officia proident. Irure nostrud pariatur
-                      mollit ad adipisicing reprehenderit deserunt qui eu.
+                      {{ creator.bio }}
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
@@ -204,7 +205,7 @@
                 <a
                   href="#"
                   class="block bg-gray-50 px-4 py-4 text-center text-sm font-medium text-gray-500 hover:text-gray-700 sm:rounded-b-lg"
-                  >Read full application</a
+                  >View profile</a
                 >
               </div>
             </div>
@@ -221,17 +222,16 @@
               <!-- Activity Feed -->
               <div class="mt-6 flow-root">
                 <!-- Code block starts -->
-                <div class="flex flex-col py-4 lg:py-0">
-                  <InputGroup text="Hi" class=""></InputGroup>
+                <div
+                  v-for="social in socials"
+                  class="flex flex-col py-4 lg:py-0">
+                  <InputGroup
+                    :icon="social.icon"
+                    :placeholder="social.network"
+                    class=""></InputGroup>
                   <div class="relative">
                     <div
-                      class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-gray-700 dark:bg-indigo-600">
-                      <SocialIcons color="white"></SocialIcons>
-                    </div>
-                    <input
-                      id="email3"
-                      class="flex h-10 w-full items-center rounded border border-gray-300 bg-white pl-16 text-sm font-normal text-gray-600 shadow focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:focus:border-indigo-700"
-                      placeholder="creatorsemail@gmail.com" />
+                      class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-gray-700 dark:bg-indigo-600"></div>
                   </div>
                 </div>
               </div>
@@ -254,63 +254,34 @@
             <h2 id="timeline-title" class="text-lg font-medium text-gray-900">
               Timeline
             </h2>
-            <TransitionRoot as="template" :show="open">
-              <Dialog
-                as="div"
-                class="fixed inset-0 z-40 flex lg:hidden"
-                @close="open = false">
-                <TransitionChild
-                  as="template"
-                  enter="transition-opacity ease-linear duration-300"
-                  enter-from="opacity-0"
-                  enter-to="opacity-100"
-                  leave="transition-opacity ease-linear duration-300"
-                  leave-from="opacity-100"
-                  leave-to="opacity-0">
-                  <DialogOverlay class="fixed inset-0 bg-black bg-opacity-25" />
-                </TransitionChild>
 
-                <TransitionChild
-                  as="template"
-                  enter="transition ease-in-out duration-300 transform"
-                  enter-from="-translate-x-full"
-                  enter-to="translate-x-0"
-                  leave="transition ease-in-out duration-300 transform"
-                  leave-from="translate-x-0"
-                  leave-to="-translate-x-full">
-                  <div
-                    class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
-                    <!-- Links -->
-                    <TabGroup as="div" class="mt-2">
-                      <div class="border-b border-gray-200">
-                        <TabList class="-mb-px flex space-x-8 px-4">
-                          <Tab
-                            as="template"
-                            v-for="navLink in nav"
-                            :key="navLink.name"
-                            v-slot="{ selected }">
-                            <button
-                              :class="[
-                                selected
-                                  ? 'border-indigo-600 text-indigo-600'
-                                  : 'border-transparent text-gray-900',
-                                'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-medium',
-                              ]">
-                              {{ navLink.name }}
-                            </button>
-                          </Tab>
-                        </TabList>
-                      </div>
-                      <TabPanels as="template">
-                        <TabPanel class="space-y-12 px-4 pt-10 pb-6">
-                          Panel content
-                        </TabPanel>
-                      </TabPanels>
-                    </TabGroup>
-                  </div>
-                </TransitionChild>
-              </Dialog>
-            </TransitionRoot>
+            <!-- Links -->
+            <TabGroup as="div" class="mt-2">
+              <div class="border-b border-gray-200">
+                <TabList class="-mb-px flex space-x-8 px-4">
+                  <Tab
+                    as="template"
+                    v-for="navLink in nav"
+                    :key="navLink.name"
+                    v-slot="{ selected }">
+                    <button
+                      :class="[
+                        selected
+                          ? 'border-indigo-600 text-indigo-600'
+                          : 'border-transparent text-gray-900',
+                        'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-medium',
+                      ]">
+                      {{ navLink.name }}
+                    </button>
+                  </Tab>
+                </TabList>
+              </div>
+              <TabPanels as="template">
+                <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                  Panel content
+                </TabPanel>
+              </TabPanels>
+            </TabGroup>
 
             <!-- Activity Feed -->
             <div class="mt-6 flow-root">
@@ -535,6 +506,7 @@
 <script>
 import CreatorAvatar from '../components/Creator/CreatorAvatar.vue';
 import SocialIcons from '../components/SocialIcons.vue';
+import InputGroup from '../components/InputGroup.vue';
 import { PlusIcon } from '@heroicons/vue/solid';
 import {
   Tab,
@@ -558,6 +530,21 @@ export default {
     TabPanels,
     TransitionChild,
     TransitionRoot,
+    InputGroup,
+  },
+  data() {
+    return {
+      creator: {
+        name: 'Tim White',
+        avatar: '',
+        email: 'tim@timwhite.co',
+        bio: 'Been beat up and battered round Been sent up and Ive been shot down Youre the best thing that Ive ever found Handle me with care',
+      },
+      socials: [
+        { icon: 'UserIcon', name: '@itstimwhtie' },
+        { icon: 'instagram', name: '@timwhite' },
+      ],
+    };
   },
 };
 </script>
