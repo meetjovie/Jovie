@@ -8,7 +8,7 @@
     leave-to-class="scale-95 opacity-0">
     <PopoverPanel
       v-slot="{ open }"
-      class="absolute right-0 top-0 z-50 mb-12 -mr-4 -mt-28 h-screen w-192 border-l-4 border-neutral-50 bg-white/60 shadow-xl backdrop-blur-lg backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
+      class="absolute right-0 top-0 z-50 mb-12 -mr-4 -mt-28 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
       <div class="mt-4 flex justify-between px-4">
         <div>
           <XIcon class="h-5 w-5 text-neutral-700 hover:text-neutral-900" />
@@ -87,7 +87,7 @@
             class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
             <img
               src="https://unpkg.com/simple-icons@v6/icons/instagram.svg"
-              class="relative mr-1 h-4 w-4 opacity-50" />
+              class="relative mr-1 h-3 w-3 opacity-50" />
             <span class="-mt-0.5">Creator Name</span>
           </div>
           <div class="mt-1 text-xs font-medium text-neutral-500">
@@ -125,17 +125,12 @@
               >Other Social Profiles</span
             >
           </div>
-          <div v-for="sociallink in sociallinks" class="flex justify-between">
-            <div>
-              <img
-                height="12"
-                width="12"
-                class="mx-auto opacity-50"
-                :src="sociallink.url" />
-            </div>
-            <span class="text-left text-xs text-neutral-500">{{
-              sociallink.engagement
-            }}</span>
+          <div v-for="sociallink in sociallinks" class="flex grid-cols-2">
+            <img
+              height="12"
+              width="12"
+              class="mx-auto mr-1 opacity-50"
+              :src="sociallink.url" />
 
             <span class="text-xs text-neutral-500">{{
               sociallink.followers
@@ -146,52 +141,52 @@
 
       <div class="border-b px-4"></div>
       <div class="left-92 absolute w-192"></div>
-      <div class="group mt-2 grid grid-cols-3 justify-center px-4">
+      <div class="group grid grid-cols-3 justify-center">
         <img
           src="https://picsum.photos/220/300"
-          class="mx-auto aspect-square h-full justify-center object-cover object-center first:rounded-tl-lg last:rounded-tr-lg" />
+          class="mx-auto aspect-square h-full justify-center object-cover object-center" />
         <img
           src="https://picsum.photos/240/300"
-          class="mx-auto aspect-square h-full justify-center object-cover object-center first:rounded-tl-lg last:rounded-tr-lg" />
+          class="mx-auto aspect-square h-full justify-center object-cover object-center" />
         <img
           src="https://picsum.photos/230/300"
-          class="mx-auto aspect-square h-full justify-center object-cover object-center first:rounded-tl-lg last:rounded-tr-lg" />
+          class="mx-auto aspect-square h-full justify-center object-cover object-center" />
       </div>
-      <div class="group mx-auto grid grid-cols-3 justify-center px-4">
+      <div class="group mx-auto grid grid-cols-3 justify-center">
         <div
-          class="flex justify-between rounded-bl-md bg-neutral-700 px-6 py-0.5 text-center text-white">
+          class="flex justify-between bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl">
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-3 w-3" /> 34K
+            <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-4 w-4" /> 34K
+            <PlayIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-4 w-4" /> 34K
+            <ChatAlt2Icon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
         </div>
         <div
-          class="flex justify-between border-l border-r border-neutral-400 bg-neutral-700 px-6 py-0.5 text-center text-white">
+          class="flex justify-between bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl">
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-3 w-3" /> 34K
+            <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-4 w-4" /> 34K
+            <PlayIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-4 w-4" /> 34K
+            <ChatAlt2Icon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
         </div>
         <div
-          class="flex justify-between rounded-br-md bg-neutral-700 px-6 py-0.5 text-center text-white">
+          class="flex justify-between bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl">
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-3 w-3" /> 34K
+            <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-4 w-4" /> 34K
+            <PlayIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
           <div class="inline-flex text-xs">
-            <ChevronRightIcon class="h-4 w-4" /> 34K
+            <ChatAlt2Icon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
         </div>
       </div>
@@ -223,6 +218,9 @@ import {
   DuplicateIcon,
   PlusIcon,
   UserIcon,
+  ThumbUpIcon,
+  PlayIcon,
+  ChatAlt2Icon,
 } from '@heroicons/vue/solid';
 import CreatorTags from '../Creator/CreatorTags.vue';
 
@@ -250,6 +248,9 @@ export default {
     DuplicateIcon,
     PlusIcon,
     UserIcon,
+    ThumbUpIcon,
+    PlayIcon,
+    ChatAlt2Icon,
   },
   data() {
     return {
