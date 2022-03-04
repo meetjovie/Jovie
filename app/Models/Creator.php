@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Repositories\CustomAuth0UserRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Creator extends Model
 {
@@ -28,7 +28,7 @@ class Creator extends Model
 
     public function crmRecordByUser()
     {
-        return $this->hasOne(Crm::class)->where('user_id', CustomAuth0UserRepository::currentUser(request())->id);
+        return $this->hasOne(Crm::class)->where('user_id', Auth::user()->id);
     }
 
     public function getInstagramMediaAttribute($value)

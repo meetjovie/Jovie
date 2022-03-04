@@ -163,7 +163,6 @@ import {
   MailIcon,
 } from '@heroicons/vue/outline';
 import UserService from '../services/api/user.service';
-import { useAuth0 } from '../utils/useAuth0';
 import HomeLogoCloud from '../components/Home/HomeLogoCloud';
 import HomeFeatureSequences from '../components/Home/HomeFeatureSequences';
 import HomeFeatureDiscovery from '../components/Home/HomeFeatureDiscovery';
@@ -179,8 +178,6 @@ import {
   PopoverPanel,
   PopoverOverlay,
 } from '@headlessui/vue';
-
-const { login, logout, initAuth } = useAuth0();
 
 export default {
   name: 'Home',
@@ -237,10 +234,10 @@ export default {
   },
   methods: {
     login() {
-      login();
+      // login();
     },
     logout() {
-      logout();
+      // logout();
     },
     async requestDemo() {
       await UserService.addToWaitList({ email: this.waitListEmail })

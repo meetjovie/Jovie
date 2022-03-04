@@ -7,9 +7,9 @@ use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
 use App\Models\UserList;
-use App\Repositories\CustomAuth0UserRepository;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Maatwebsite\Excel\HeadingRowImport;
 use function collect;
@@ -50,7 +50,7 @@ class ImportController extends Controller
                     $instagram = substr($instagram, 1);
                 }
                 Bus::chain([
-                    new InstagramImport($instagram, $request->tags, true, null, null, null, CustomAuth0UserRepository::currentUser($request)->id),
+                    new InstagramImport($instagram, $request->tags, true, null, null, null, Auth::user()->id),
                     new SendSlackNotification('imported instagram user '.$instagram)
                 ])->dispatch();
             }
@@ -80,13 +80,13 @@ class ImportController extends Controller
             $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
             $filePath = Creator::CREATORS_CSV_PATH.$filename;
             $list = UserList::firstOrCreate([
-                'user_id' => CustomAuth0UserRepository::currentUser($request)->id,
+                'user_id' => Auth::user()->id,
                 'name' => $request->listName
             ], [
-                'user_id' => CustomAuth0UserRepository::currentUser($request)->id,
+                'user_id' => Auth::user()->id,
                 'name' => $request->listName
             ]);
-            FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, CustomAuth0UserRepository::currentUser($request)->id);
+            FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }
     }
 }
