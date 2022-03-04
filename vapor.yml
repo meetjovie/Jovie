@@ -2,7 +2,7 @@ id: 28038
 name: jovie
 environments:
   production:
-    queue-concurrency: 5
+    queue-concurrency: 30
     database: Jovie_Production
     memory: 1024
     cli-memory: 512

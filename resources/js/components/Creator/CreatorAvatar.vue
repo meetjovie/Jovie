@@ -1,30 +1,70 @@
 <template>
-        <img class="object-center border-4 border-neutral-400 object-cover w-48 h-48 aspect-square rounded-full"
-                :src="CreatorProfilePic"
-                :alt="CreatorName">
+  <!-- <img
+    class="aspect-square w-48 rounded-full border-4 border-neutral-400 object-cover object-center"
+    :src="CreatorProfilePic"
+    :alt="CreatorName" /> -->
+
+  <div
+    class="mx-auto h-40 flex-shrink-0 justify-center object-cover object-center">
+    <div
+      class="rounded-full p-1"
+      :class="[
+        {
+          'bg-social-youtube/60': network == 'youtube',
+        },
+        {
+          'bg-social-twitter/90': network == 'twitter',
+        },
+        {
+          'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90':
+            network == 'instagram',
+        },
+        {
+          'bg-social-snapchat': network == 'snapchat',
+        },
+        {
+          'bg-gradient-to-l from-pink-700 to-sky-700': network == 'tiktok',
+        },
+      ]">
+      <div class="items-center justify-center rounded-full bg-white p-0">
+        <img
+          class="aspect-square justify-center rounded-full object-cover object-center"
+          :src="CreatorProfilePic"
+          :alt="CreatorName" />
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
-    name: "CreatorAvatar",
-    props: {
-        CreatorProfilePic: {
-            type: String,
-            default: 'md',
-        },
-        CreatorName: {
-            type: String,
-            default: 'Creator Name',
-        },
-        Size: {
-            type: String,
-            default: 'md',
-        },
+  name: 'CreatorAvatar',
+  props: {
+    CreatorProfilePic: {
+      type: String,
+      default: 'md',
     },
-    data() {
-        return {
-            CreatorProfilePic: 'https://picsum.photos/200/300',
-            CreatorName: 'John Doe',
-        }
-    }
-}
+    CreatorName: {
+      type: String,
+      default: 'Creator Name',
+    },
+    Size: {
+      type: String,
+      default: 'md',
+    },
+    network: {
+      type: String,
+      default: 'instagram',
+    },
+    height: {
+      type: Number,
+      default: 48,
+    },
+  },
+  data() {
+    return {
+      CreatorProfilePic: 'https://picsum.photos/200/300',
+      CreatorName: 'John Doe',
+    };
+  },
+};
 </script>

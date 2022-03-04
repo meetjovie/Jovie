@@ -1,38 +1,54 @@
 <template>
-  <div class="relative">
-    <div class="absolute inset-0 flex items-center" aria-hidden="true">
-      <div class="w-full border-t border-gray-300" />
+  <div>
+    <div class="relative">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-gray-300" />
+      </div>
+      <div class="relative flex justify-start">
+        <span class="bg-neutral-50 pr-2 text-xs text-gray-500">
+          {{ label }}</span
+        >
+      </div>
     </div>
-    <div class="relative flex justify-start">
-      <span class="bg-white pr-2 text-xs text-gray-500"> {{ label }}</span>
+    <div class="grid grid-cols-2">
+      <InputGroup
+        size="sm"
+        rounded="top-left"
+        :icon="minicon"
+        :placeholder="mintext" />
+      <InputGroup
+        size="sm"
+        rounded="top-right"
+        :icon="maxicon"
+        :placeholder="maxtext" />
     </div>
-  </div>
-  <div class="grid grid-cols-2">
-    <InputGroup rounded="top-left" :icon="minicon" :placeholder="mintext" />
-    <InputGroup rounded="top-right" :icon="maxicon" :placeholder="maxtext" />
-  </div>
-  <div class="flex items-center justify-between">
-    <span class="relative z-0 mx-auto inline-flex w-full text-center">
-      <button
-        type="button"
-        class="py-.05 relative inline-flex w-full items-center justify-center border border-neutral-300 bg-indigo-500 px-2 text-center text-xs font-medium font-medium text-neutral-50 first:rounded-bl-md last:rounded-br-md hover:bg-indigo-600 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-neutral-100">
-        {{ preset1 }}
-      </button>
-      <button
-        type="button"
-        class="py-.05 relative inline-flex w-full items-center justify-center border border-neutral-300 bg-indigo-500 px-2 text-center text-xs font-medium font-medium text-neutral-50 first:rounded-bl-md last:rounded-br-md hover:bg-indigo-600 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-neutral-100">
-        {{ preset2 }}
-      </button>
-      <button
-        type="button"
-        class="py-.05 relative inline-flex w-full items-center justify-center border border-neutral-300 bg-indigo-500 px-2 text-center text-xs font-medium font-medium text-neutral-50 first:rounded-bl-md last:rounded-br-md hover:bg-indigo-600 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-neutral-100">
-        {{ preset3 }}
-      </button>
-    </span>
+    <div class="flex items-center justify-between">
+      <span class="relative z-0 mx-auto inline-flex w-full text-center">
+        <ButtonGroup
+          rounded="bl"
+          size="xs"
+          style="secondary"
+          class="w-full"
+          :text="preset1"></ButtonGroup>
+        <ButtonGroup
+          rounded="none"
+          size="xs"
+          style="secondary"
+          class="w-full"
+          :text="preset2"></ButtonGroup>
+        <ButtonGroup
+          rounded="br"
+          size="xs"
+          class="w-full"
+          style="secondary"
+          :text="preset3"></ButtonGroup>
+      </span>
+    </div>
   </div>
 </template>
 <script>
 import InputGroup from './InputGroup.vue';
+import ButtonGroup from './ButtonGroup.vue';
 
 export default {
   name: 'RangeFilter',
@@ -58,20 +74,21 @@ export default {
       default: 'Filter',
     },
     preset1: {
-      type: Array,
+      type: String,
       default: 'Preset 1',
     },
     preset2: {
-      type: Array,
+      type: String,
       default: 'Preset 2',
     },
     preset3: {
-      type: Array,
+      type: String,
       default: 'Preset 3',
     },
   },
   components: {
     InputGroup,
+    ButtonGroup,
   },
 };
 </script>

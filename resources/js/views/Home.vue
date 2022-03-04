@@ -144,7 +144,7 @@
       <!--   <HomeFeatureSequences></HomeFeatureSequences> -->
 
       <HomeCTA></HomeCTA>
-      <!--  <HomeTestimonials></HomeTestimonials> -->
+      <HomeTestimonials></HomeTestimonials>
       <HomeCTA2></HomeCTA2>
     </main>
   </div>

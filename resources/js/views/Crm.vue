@@ -109,7 +109,6 @@
                                             Export a csv
                                         </a>
                                     </MenuItem>
-
                                 </div>
                             </MenuItems>
                         </transition>

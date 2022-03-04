@@ -81,8 +81,11 @@
           class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
           Rating
         </th>
-        <th scope="col" class="relative px-6 py-3">
+        <th
+          scope="col"
+          class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
           <span class="sr-only">Edit</span>
+          Showing 50 of 1,500 results
         </th>
       </tr>
     </thead>
