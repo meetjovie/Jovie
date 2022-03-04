@@ -9,7 +9,8 @@ export const authenticationGuard = (to, from, next) => {
     initAuth()
 
     const guardAction = () => {
-        if (process.env.MIX_APP_ENV === 'local') {
+        if (process.env.MIX_IS_LOCAL === 'true') {
+            console.log('hello');
             store.dispatch('me').then(() => {
                 return next()
             })
@@ -26,7 +27,7 @@ export const authenticationGuard = (to, from, next) => {
                     return next();
                 }
             } else {
-                router.push({name: 'home'})
+                router.push({name: 'Home'})
             }
         }
     };

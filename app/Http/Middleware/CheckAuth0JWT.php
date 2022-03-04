@@ -3,10 +3,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use App\Repositories\CustomAuth0UserRepository;
 use Auth0\SDK\Exception\CoreException;
 use Auth0\SDK\Exception\InvalidTokenException;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class CheckAuth0JWT
 {
@@ -31,16 +33,12 @@ class CheckAuth0JWT
      */
     public function handle($request, Closure $next)
     {
-        if (config('app.env') == 'local') {
+        if (config('app.local') === true) {
+            Auth::login(User::first());
             return $next($request);
         }
-        $auth0 = \App::make('auth0');
-
-        $accessToken = $request->bearerToken() ?? "";
         try {
-            $tokenInfo = $auth0->decodeJWT($accessToken);
-            $user = $this->userRepository->getUserByDecodedJWT($tokenInfo);
-            $this->userRepository->upsertUser($user);
+            $user = CustomAuth0UserRepository::currentUser($request);
             if (!$user) {
                 return response()->json(["message" => "Unauthorized user"], 401);
             }

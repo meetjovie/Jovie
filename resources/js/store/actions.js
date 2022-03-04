@@ -4,7 +4,7 @@ import store from "./index";
 export default {
     async headers(context, payload = null) {
         let token = null;
-        if (process.env.MIX_APP_ENV === 'local') {
+        if (process.env.MIX_IS_LOCAL === 'true') {
             token = 'local'
         } else {
             token = await store.state.AuthState.auth0.getIdTokenClaims()
@@ -40,5 +40,8 @@ export default {
         }).catch(error => {
             commit('setAuthStateUser', null)
         })
+    },
+    async updateCreator(context, payload) {
+        return await userService.updateCreator(payload)
     }
 }

@@ -203,9 +203,6 @@ export default {
     SearchIcon,
     MailIcon,
   },
-  setup() {
-    initAuth();
-  },
   data() {
     return {
       waitListEmail: '',
