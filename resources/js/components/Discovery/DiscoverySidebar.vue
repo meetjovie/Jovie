@@ -118,7 +118,7 @@
         </div>
         <div class="col-span-1">
           <div
-            class="mx-auto mt-4 inline-flex w-full items-center justify-center text-center text-neutral-400">
+            class="mx-auto mt-6 inline-flex w-full items-center justify-center text-center text-neutral-400">
             <LocationMarkerIcon class="mr-1 h-4 w-4" /><span
               class="text-xs font-bold text-neutral-500"
               >New York, NY</span
