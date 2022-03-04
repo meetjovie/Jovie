@@ -102,39 +102,48 @@
             <CreatorTags size="sm" color="blue" text="Music" />
             <CreatorTags size="sm" color="green" text="Sports" />
           </div>
-          <div class="mt-1 grid grid-cols-3 border-t border-neutral-200 pt-1">
-            <div class="text-center">
-              <div class="text-md font-bold text-neutral-600">37K</div>
-              <div class="text-xs text-neutral-400">Followers</div>
-            </div>
-            <div class="text-center">
-              <div class="text-md font-bold text-neutral-600">3%</div>
-              <div class="text-xs text-neutral-400">Engagement</div>
-            </div>
-            <div class="text-center">
-              <div class="text-md font-bold text-neutral-600">3.5K</div>
-              <div class="text-xs text-neutral-400">Engaged Followers</div>
+          <div class="mx-auto mt-2 flex justify-start space-x-6">
+            <div v-for="sociallink in sociallinks" class="flex">
+              <img
+                height="14"
+                width="14"
+                class="z-0 mx-auto mr-1 opacity-50"
+                :src="sociallink.url" />
+
+              <span class="text-xs text-neutral-500">{{
+                sociallink.followers
+              }}</span>
             </div>
           </div>
         </div>
         <div class="col-span-1">
           <div
-            class="mx-auto mt-4 inline-flex w-full items-center justify-center border-b pt-4 text-sm text-neutral-400">
-            <ChartBarIcon class="mr-1 h-4 w-4" /><span
-              class="text-xs text-neutral-500"
-              >Other Social Profiles</span
+            class="mx-auto mt-4 inline-flex w-full items-center justify-center text-center text-neutral-400">
+            <LocationMarkerIcon class="mr-1 h-4 w-4" /><span
+              class="text-xs font-bold text-neutral-500"
+              >New York, NY</span
             >
           </div>
-          <div v-for="sociallink in sociallinks" class="flex grid-cols-2">
-            <img
-              height="12"
-              width="12"
-              class="mx-auto mr-1 opacity-50"
-              :src="sociallink.url" />
-
-            <span class="text-xs text-neutral-500">{{
-              sociallink.followers
-            }}</span>
+          <div
+            class="mx-auto inline-flex w-full justify-center text-sm text-neutral-400">
+            <div class="mt-1 grid grid-cols-2 gap-4 border-neutral-200 pt-1">
+              <div class="text-center">
+                <div class="text-sm font-bold text-neutral-600">37K</div>
+                <div class="text-[8px] text-neutral-400">Followers</div>
+              </div>
+              <div class="text-center">
+                <div class="text-sm font-bold text-neutral-600">3%</div>
+                <div class="text-[8px] text-neutral-400">Engagement</div>
+              </div>
+              <div class="text-center">
+                <div class="text-sm font-bold text-neutral-600">3.5K</div>
+                <div class="text-[8px] text-neutral-400">EF</div>
+              </div>
+              <div class="text-center">
+                <div class="text-sm font-bold text-neutral-600">$0.50</div>
+                <div class="text-[8px] text-neutral-400">CPE</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -154,7 +163,7 @@
       </div>
       <div class="group mx-auto grid grid-cols-3 justify-center">
         <div
-          class="flex justify-between bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl">
+          class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
           <div class="inline-flex text-xs">
             <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
@@ -166,7 +175,7 @@
           </div>
         </div>
         <div
-          class="flex justify-between bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl">
+          class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
           <div class="inline-flex text-xs">
             <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
@@ -178,7 +187,7 @@
           </div>
         </div>
         <div
-          class="flex justify-between bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl">
+          class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
           <div class="inline-flex text-xs">
             <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
           </div>
@@ -221,6 +230,7 @@ import {
   ThumbUpIcon,
   PlayIcon,
   ChatAlt2Icon,
+  LocationMarkerIcon,
 } from '@heroicons/vue/solid';
 import CreatorTags from '../Creator/CreatorTags.vue';
 
@@ -251,6 +261,7 @@ export default {
     ThumbUpIcon,
     PlayIcon,
     ChatAlt2Icon,
+    LocationMarkerIcon,
   },
   data() {
     return {
