@@ -6,10 +6,7 @@
       <div class="inline-flex">
         <div class="mr-4 inline-flex">
           <div class="relative">
-            <img
-              class="h-16 w-16 rounded-full"
-              src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-              alt="" />
+            <CreatorAvarar></CreatorAvarar>
             <span
               class="absolute inset-0 rounded-full shadow-inner"
               aria-hidden="true"></span>
@@ -218,62 +215,18 @@
             class="lg:col-span-1 lg:col-start-3">
             <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
               <h2 id="timeline-title" class="text-lg font-medium text-gray-900">
-                Contact Info
+                Social Info
               </h2>
 
               <!-- Activity Feed -->
               <div class="mt-6 flow-root">
                 <!-- Code block starts -->
                 <div class="flex flex-col py-4 lg:py-0">
-                  <label
-                    for="email3"
-                    class="mb-2 text-sm font-bold leading-tight tracking-normal text-gray-800 dark:text-gray-100"
-                    >Email</label
-                  >
+                  <InputGroup text="Hi" class=""></InputGroup>
                   <div class="relative">
                     <div
                       class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-gray-700 dark:bg-indigo-600">
-                      <img
-                        src="https://tuk-cdn.s3.amazonaws.com/can-uploader/input_with_icon_at_start-svg2.svg"
-                        alt="mail" />
-                    </div>
-                    <input
-                      id="email3"
-                      class="flex h-10 w-full items-center rounded border border-gray-300 bg-white pl-16 text-sm font-normal text-gray-600 shadow focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:focus:border-indigo-700"
-                      placeholder="creatorsemail@gmail.com" />
-                  </div>
-                </div>
-                <div class="flex flex-col py-4 lg:py-0">
-                  <label
-                    for="email3"
-                    class="mb-2 text-sm font-bold leading-tight tracking-normal text-gray-800 dark:text-gray-100"
-                    >Email</label
-                  >
-                  <div class="relative">
-                    <div
-                      class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-gray-700 dark:bg-indigo-600">
-                      <img
-                        src="https://tuk-cdn.s3.amazonaws.com/can-uploader/input_with_icon_at_start-svg2.svg"
-                        alt="mail" />
-                    </div>
-                    <input
-                      id="email3"
-                      class="flex h-10 w-full items-center rounded border border-gray-300 bg-white pl-16 text-sm font-normal text-gray-600 shadow focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:focus:border-indigo-700"
-                      placeholder="creatorsemail@gmail.com" />
-                  </div>
-                </div>
-                <div class="flex flex-col py-4 lg:py-0">
-                  <label
-                    for="email3"
-                    class="mb-2 text-sm font-bold leading-tight tracking-normal text-gray-800 dark:text-gray-100"
-                    >Email</label
-                  >
-                  <div class="relative">
-                    <div
-                      class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-gray-700 dark:bg-indigo-600">
-                      <img
-                        src="https://tuk-cdn.s3.amazonaws.com/can-uploader/input_with_icon_at_start-svg2.svg"
-                        alt="mail" />
+                      <SocialIcons color="white"></SocialIcons>
                     </div>
                     <input
                       id="email3"
@@ -286,7 +239,8 @@
                 <button
                   type="button"
                   class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                  Update
+                  Add network
+                  <PlusIcon class="ml-1 mt-0.5 h-4 w-4 text-white" />
                 </button>
               </div>
             </div>
@@ -300,6 +254,63 @@
             <h2 id="timeline-title" class="text-lg font-medium text-gray-900">
               Timeline
             </h2>
+            <TransitionRoot as="template" :show="open">
+              <Dialog
+                as="div"
+                class="fixed inset-0 z-40 flex lg:hidden"
+                @close="open = false">
+                <TransitionChild
+                  as="template"
+                  enter="transition-opacity ease-linear duration-300"
+                  enter-from="opacity-0"
+                  enter-to="opacity-100"
+                  leave="transition-opacity ease-linear duration-300"
+                  leave-from="opacity-100"
+                  leave-to="opacity-0">
+                  <DialogOverlay class="fixed inset-0 bg-black bg-opacity-25" />
+                </TransitionChild>
+
+                <TransitionChild
+                  as="template"
+                  enter="transition ease-in-out duration-300 transform"
+                  enter-from="-translate-x-full"
+                  enter-to="translate-x-0"
+                  leave="transition ease-in-out duration-300 transform"
+                  leave-from="translate-x-0"
+                  leave-to="-translate-x-full">
+                  <div
+                    class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
+                    <!-- Links -->
+                    <TabGroup as="div" class="mt-2">
+                      <div class="border-b border-gray-200">
+                        <TabList class="-mb-px flex space-x-8 px-4">
+                          <Tab
+                            as="template"
+                            v-for="navLink in nav"
+                            :key="navLink.name"
+                            v-slot="{ selected }">
+                            <button
+                              :class="[
+                                selected
+                                  ? 'border-indigo-600 text-indigo-600'
+                                  : 'border-transparent text-gray-900',
+                                'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-medium',
+                              ]">
+                              {{ navLink.name }}
+                            </button>
+                          </Tab>
+                        </TabList>
+                      </div>
+                      <TabPanels as="template">
+                        <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                          Panel content
+                        </TabPanel>
+                      </TabPanels>
+                    </TabGroup>
+                  </div>
+                </TransitionChild>
+              </Dialog>
+            </TransitionRoot>
 
             <!-- Activity Feed -->
             <div class="mt-6 flow-root">
@@ -521,3 +532,32 @@
     </main>
   </div>
 </template>
+<script>
+import CreatorAvatar from '../components/Creator/CreatorAvatar.vue';
+import SocialIcons from '../components/SocialIcons.vue';
+import { PlusIcon } from '@heroicons/vue/solid';
+import {
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+  TransitionChild,
+  TransitionRoot,
+} from '@headlessui/vue';
+
+export default {
+  components: {
+    CreatorAvatar,
+    SocialIcons,
+    PlusIcon,
+    Tab,
+    TabGroup,
+    TabList,
+    TabPanel,
+    TabPanels,
+    TransitionChild,
+    TransitionRoot,
+  },
+};
+</script>
