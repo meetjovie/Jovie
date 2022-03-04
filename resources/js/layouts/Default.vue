@@ -17,8 +17,8 @@
                                     </svg>
                                 </a>
                             </div>
-                           
-                                
+
+
 
                                 <div class="hidden md:block md:ml-6 items-center judtify- md:space-x-4">
                                     <Popover v-slot="{ open }" class="relative">
@@ -90,9 +90,9 @@
                                             </PopoverPanel>
                                         </transition>
                                     </Popover>
-                                   
-                        
-                
+
+
+
                                  </div>
                                   <router-link to="pricing" class="hidden md:inline-flex items-center px-3 py-1  z-20 text-xs font-medium text-neutral-300 hover:text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">Pricing</router-link>
                          </div>
@@ -142,7 +142,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
                 <!-- Mobile menu, show/hide based on menu state. -->
@@ -167,9 +167,9 @@
             </nav>
         </header>
     <router-view />
-   
+
     <ExternalFooter>
-      
+
     </ExternalFooter>
   </div>
 </template>
@@ -186,11 +186,9 @@ import {
     MailIcon
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
-import {useAuth0} from "../utils/useAuth0";
 import ExternalFooter from "../components/External/ExternalFooter";
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
 
-const {login, logout, initAuth} = useAuth0();
 
 export default {
     name: "Default",
@@ -208,9 +206,6 @@ export default {
         PopoverButton,
         PopoverPanel,
         PopoverOverlay
-    },
-    setup() {
-        initAuth();
     },
     data() {
         return {
@@ -243,10 +238,10 @@ export default {
     },
     methods: {
         login() {
-            login()
+            // login()
         },
         logout() {
-            logout()
+            // logout()
         },
         scrollFix: function(hashbang)
         {

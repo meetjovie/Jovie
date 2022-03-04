@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exports\CrmExport;
 use App\Models\Creator;
 use App\Models\Crm;
-use App\Repositories\CustomAuth0UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
