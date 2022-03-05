@@ -12,11 +12,15 @@
           </div>
         </div>
         <div>
-          <h4
-            class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-100">
-            {{ creator.name }}
-          </h4>
-          <ul
+          <button
+            class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
+            <ChevronLeftIcon class="h-5 w-5" />
+          </button>
+          <button
+            class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
+            <ChevronRightIcon class="h-5 w-5" />
+          </button>
+          <!-- <ul
             aria-label="current Status"
             class="mt-3 flex flex-col items-start text-sm text-gray-600 dark:text-gray-400 md:flex-row md:items-center">
             <li class="mr-4 flex items-center">
@@ -59,17 +63,17 @@
               <span>Last contacted </span
               ><span class="ml-2 font-bold text-neutral-400">Jan 2020</span>
             </li>
-          </ul>
+          </ul> -->
         </div>
       </div>
 
       <div class="mt-6 md:mt-0">
         <button
-          class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
+          class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
           Archive
         </button>
         <button
-          class="rounded bg-indigo-700 px-8 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-offset-2">
+          class="rounded bg-indigo-700 px-8 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
           Add to campaign
         </button>
       </div>
@@ -95,6 +99,9 @@
                 <p class="mt-1 max-w-2xl text-sm text-gray-500">
                   {{ creator.bio }}
                 </p>
+                <div class="mt-4">
+                  <CreatorSocialLinks iconstyle="horizontal" />
+                </div>
               </div>
               <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
                 <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
@@ -258,7 +265,7 @@
               <div class="justify-stretch mt-6 flex flex-col">
                 <button
                   type="button"
-                  class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   Add network
                   <PlusIcon class="ml-1 mt-0.5 h-4 w-4 text-white" />
                 </button>
@@ -317,9 +324,14 @@ import CreatorAvatar from '../components/Creator/CreatorAvatar.vue';
 import CreatorContentBar from '../components/Creator/CreatorContentBar.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import InputGroup from '../components/InputGroup.vue';
-import { PlusIcon } from '@heroicons/vue/solid';
+import {
+  PlusIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+} from '@heroicons/vue/solid';
 import CommentBox from '../components/CommentBox.vue';
 import ActivityFeed from '../components/ActivityFeed.vue';
+import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks.vue';
 import {
   Tab,
   TabGroup,
@@ -362,6 +374,9 @@ export default {
     CommentBox,
     ActivityFeed,
     CommentThread,
+    ChevronRightIcon,
+    ChevronLeftIcon,
+    CreatorSocialLinks,
   },
   data() {
     return {
