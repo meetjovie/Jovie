@@ -20,7 +20,7 @@
             <Menu as="div" class="relative z-20 inline-block text-left">
               <div>
                 <MenuButton
-                  class="inline-flex w-full justify-center rounded-md text-sm font-medium text-neutral-700 hover:text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                  class="inline-flex w-full justify-center rounded-md text-sm font-medium text-neutral-700 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                   <DotsVerticalIcon
                     class="-mr-24 h-5 w-5 text-neutral-400 hover:text-neutral-700"
                     aria-hidden="true" />
@@ -35,7 +35,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="absolute -right-12 z-50 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  class="absolute -right-12 z-50 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                   <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                       <button
@@ -103,17 +103,7 @@
             <CreatorTags size="sm" color="green" text="Sports" />
           </div>
           <div class="mx-auto mt-2 flex justify-start space-x-6">
-            <div v-for="sociallink in sociallinks" class="flex">
-              <img
-                height="14"
-                width="14"
-                class="z-0 mx-auto mr-1 opacity-50"
-                :src="sociallink.url" />
-
-              <span class="text-xs text-neutral-500">{{
-                sociallink.followers
-              }}</span>
-            </div>
+            <CreatorSocialLinks iconstyle="horizontal" />
           </div>
         </div>
         <div class="col-span-1">
@@ -149,56 +139,7 @@
       </div>
 
       <div class="border-b px-4"></div>
-      <div class="left-92 absolute w-192"></div>
-      <div class="group grid grid-cols-3 justify-center">
-        <img
-          src="https://picsum.photos/220/300"
-          class="mx-auto aspect-square h-full justify-center object-cover object-center" />
-        <img
-          src="https://picsum.photos/240/300"
-          class="mx-auto aspect-square h-full justify-center object-cover object-center" />
-        <img
-          src="https://picsum.photos/230/300"
-          class="mx-auto aspect-square h-full justify-center object-cover object-center" />
-      </div>
-      <div class="group mx-auto grid grid-cols-3 justify-center">
-        <div
-          class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
-          <div class="inline-flex text-xs">
-            <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-          <div class="inline-flex text-xs">
-            <PlayIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-          <div class="inline-flex text-xs">
-            <ChatAlt2Icon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-        </div>
-        <div
-          class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
-          <div class="inline-flex text-xs">
-            <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-          <div class="inline-flex text-xs">
-            <PlayIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-          <div class="inline-flex text-xs">
-            <ChatAlt2Icon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-        </div>
-        <div
-          class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
-          <div class="inline-flex text-xs">
-            <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-          <div class="inline-flex text-xs">
-            <PlayIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-          <div class="inline-flex text-xs">
-            <ChatAlt2Icon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
-          </div>
-        </div>
-      </div>
+      <CreatorContentBar />
     </PopoverPanel>
   </transition>
 </template>
@@ -214,6 +155,7 @@ import {
   MenuItem,
 } from '@headlessui/vue';
 import CreatorAvatar from '../Creator/CreatorAvatar.vue';
+import CreatorContentBar from '../Creator/CreatorContentBar.vue';
 import CreatorSocialLinks from '../Creator/CreatorSocialLinks.vue';
 import {
   XIcon,
@@ -246,22 +188,20 @@ export default {
     CreatorTags,
     HeartIcon,
     BanIcon,
-    ChartBarIcon,
-    ChevronRightIcon,
+
     DotsVerticalIcon,
     Menu,
     MenuButton,
     MenuItems,
     MenuItem,
-    ChevronDownIcon,
-    ArchiveIcon,
-    DuplicateIcon,
+
     PlusIcon,
     UserIcon,
     ThumbUpIcon,
     PlayIcon,
     ChatAlt2Icon,
     LocationMarkerIcon,
+    CreatorContentBar,
   },
   data() {
     return {

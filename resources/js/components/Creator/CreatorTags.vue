@@ -9,6 +9,10 @@
       {
         'py-0 pl-2 pr-0.5 text-[10px] font-light tracking-wider': size == 'sm',
       },
+      {
+        'py-0.5 pl-2 pr-0.5 text-[12px] font-light tracking-wider':
+          size == 'md',
+      },
       { 'py-0.5 pl-2.5 pr-1 text-sm ': size == 'lg' },
       { 'bg-neutral-100 text-neutral-900': color == 'none' },
       { 'bg-indigo-100 text-indigo-900': color == 'indigo' },
