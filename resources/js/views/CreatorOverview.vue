@@ -1,13 +1,10 @@
 <template>
   <div>
-    <!-- Code block starts -->
     <div
-      v-for="creator"
       class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-gray-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
       <div class="inline-flex">
         <div class="mr-4 inline-flex">
           <div class="relative aspect-square">
-            <CreatorAvatar size="sm" />
             <span
               class="absolute inset-0 rounded-full shadow-inner"
               aria-hidden="true">
@@ -86,10 +83,10 @@
           <!-- Description list-->
           <section aria-labelledby="applicant-information-title">
             <div class="grid-cols-2 bg-white shadow sm:rounded-lg">
-              <div>
-                <CreatorAvatar :Size="md" />
+              <div class="pt-5">
+                <CreatorAvatar size="md" />
               </div>
-              <div class="grid-cols-1 px-4 py-5 sm:px-6">
+              <div class="grid-cols-1 px-4 pb-5 pt-2 sm:px-6">
                 <h2
                   id="applicant-information-title"
                   class="text-lg font-medium leading-6 text-gray-900">
@@ -102,19 +99,19 @@
               <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
                 <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                   <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">
-                      Application for
-                    </dt>
+                    <dt class="text-sm font-medium text-gray-500">Rating</dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                      Backend Developer
+                      <star-rating
+                        class="w-20"
+                        :star-size="12"
+                        :increment="0.5"
+                        v-model:rating="creator.rating"></star-rating>
                     </dd>
                   </div>
                   <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">
-                      Email address
-                    </dt>
+                    <dt class="text-sm font-medium text-gray-500">Category</dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                      ricardocooper@example.com
+                      <CreatorTags size="md" text="Category" />
                     </dd>
                   </div>
                   <div class="sm:col-span-1">
@@ -128,15 +125,24 @@
                     <dd class="mt-1 text-sm text-gray-900">+1 555-555-5555</dd>
                   </div>
                   <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">Bio</dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                      {{ creator.bio }}
+                      <span class="ml-2 w-0 flex-1 truncate">
+                        <InputGroup
+                          icon="MailIcon"
+                          :placeholder="creator.email" />
+                      </span>
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">
-                      Attachments
-                    </dt>
+                    <dt class="text-sm font-medium text-gray-500">Tags</dt>
+                    <dd class="mt-1 text-sm text-gray-900">
+                      <CreatorTags size="md" color="pink" text="Fashion" />
+                      <CreatorTags size="md" color="blue" text="Music" />
+                      <CreatorTags size="md" color="green" text="Sports" />
+                    </dd>
+                  </div>
+                  <div class="sm:col-span-2">
+                    <dt class="text-sm font-medium text-gray-500">Reports</dt>
                     <dd class="mt-1 text-sm text-gray-900">
                       <ul
                         role="list"
@@ -157,35 +163,7 @@
                                 clip-rule="evenodd" />
                             </svg>
                             <span class="ml-2 w-0 flex-1 truncate">
-                              resume_front_end_developer.pdf
-                            </span>
-                          </div>
-                          <div class="ml-4 flex-shrink-0">
-                            <a
-                              href="#"
-                              class="font-medium text-indigo-600 hover:text-indigo-500">
-                              Download
-                            </a>
-                          </div>
-                        </li>
-
-                        <li
-                          class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
-                          <div class="flex w-0 flex-1 items-center">
-                            <!-- Heroicon name: solid/paper-clip -->
-                            <svg
-                              class="h-5 w-5 flex-shrink-0 text-gray-400"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              aria-hidden="true">
-                              <path
-                                fill-rule="evenodd"
-                                d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
-                                clip-rule="evenodd" />
-                            </svg>
-                            <span class="ml-2 w-0 flex-1 truncate">
-                              coverletter_front_end_developer.pdf
+                              {{ creator.name }} Creator Report.pdf
                             </span>
                           </div>
                           <div class="ml-4 flex-shrink-0">
@@ -224,11 +202,12 @@
                 <!-- Code block starts -->
                 <div
                   v-for="social in socials"
+                  :key="social.network"
                   class="flex flex-col py-4 lg:py-0">
-                  <InputGroup
-                    :icon="social.icon"
-                    :placeholder="social.network"
-                    class=""></InputGroup>
+                  <CreatorHandles
+                    :placeholder="social.placeholder"
+                    icon="TwitterIcon"></CreatorHandles>
+
                   <div class="relative">
                     <div
                       class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-gray-700 dark:bg-indigo-600"></div>
@@ -517,6 +496,9 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
+import CreatorTags from '../components/Creator/CreatorTags.vue';
+import StarRating from 'vue-star-rating';
+import CreatorHandles from '../components/Creator/CreatorHandles.vue';
 
 export default {
   components: {
@@ -531,18 +513,23 @@ export default {
     TransitionChild,
     TransitionRoot,
     InputGroup,
+    StarRating,
+    CreatorTags,
+    CreatorHandles,
   },
   data() {
     return {
       creator: {
-        name: 'Tim White',
+        name: 'Jessica Smith',
         avatar: '',
-        email: 'tim@timwhite.co',
+        email: 'jess@jov.ie',
+        rating: 4.5,
         bio: 'Been beat up and battered round Been sent up and Ive been shot down Youre the best thing that Ive ever found Handle me with care',
       },
       socials: [
-        { icon: 'UserIcon', name: '@itstimwhtie' },
-        { icon: 'instagram', name: '@timwhite' },
+        { icon: 'UserIcon', size: '24', placeholder: '@itstimwhtie' },
+        { icon: 'instagram', size: '24', placeholder: '@timwhite' },
+        { icon: 'TwitterIcon', size: '24', placeholder: '@timwhite' },
       ],
     };
   },

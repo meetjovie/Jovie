@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <table class="min-w-full  divide-y divide-gray-200">
-            <thead class=" bg-gray-50">
+    <div class="overflow-hidden">
+        <table class="min-w-full overflow-none overscroll-contain divide-y divide-gray-200">
+            <thead class=" bg-gray-50 sticky top-0 ">
             <tr>
                 <th
                     scope="col"

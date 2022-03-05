@@ -47,13 +47,13 @@ export default {
   props: {
     CreatorProfilePic: {
       type: String,
-      default: 'md',
+      default: 'https://www.aceshowbiz.com/images/photo/keira_knightley.jpg',
     },
     CreatorName: {
       type: String,
       default: 'Creator Name',
     },
-    Size: {
+    size: {
       type: String,
       default: 'md',
     },
@@ -65,12 +65,6 @@ export default {
       type: Number,
       default: 48,
     },
-  },
-  data() {
-    return {
-      CreatorProfilePic: 'https://picsum.photos/200/300',
-      CreatorName: 'John Doe',
-    };
   },
 };
 </script>

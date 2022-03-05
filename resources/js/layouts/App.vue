@@ -67,7 +67,7 @@
             <component :is="navitem.icon" class="h-5 w-5"></component>
 
             <div
-              class="text-md middle-8 px-.5 absolute left-14 -mt-3 hidden w-24 rounded-r-lg border border-indigo-200/20 bg-white/60 py-3.5 font-bold text-indigo-700 shadow-2xl shadow-indigo-900/70 backdrop-blur-md backdrop-filter group-hover:block">
+              class="text-md middle-8 px-.5 absolute left-14 -mt-3 hidden w-24 rounded-r-lg border border-indigo-200/20 bg-white/40 py-3.5 font-bold text-indigo-700 shadow-2xl shadow-indigo-900/70 backdrop-blur-xl backdrop-saturate-150 backdrop-filter group-hover:block">
               {{ navitem.name }}
             </div>
           </router-link>
@@ -169,7 +169,13 @@
             </button>
 
             <!-- Profile dropdown -->
-            <Menu as="div" class="relative ml-3 border-l px-4" v-if="!$store.state.AuthState.loading && $store.state.AuthState.isAuthenticated">
+            <Menu
+              as="div"
+              class="relative ml-3 border-l px-4"
+              v-if="
+                !$store.state.AuthState.loading &&
+                $store.state.AuthState.isAuthenticated
+              ">
               <MenuButton
                 as="div"
                 type="button"
