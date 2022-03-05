@@ -399,6 +399,38 @@ export default {
         { icon: 'instagram', size: '24', placeholder: '@timwhite' },
         { icon: 'TwitterIcon', size: '24', placeholder: '@timwhite' },
       ],
+      sociallinks: [
+        {
+          id: 1,
+          url: 'https://unpkg.com/simple-icons@v6/icons/instagram.svg',
+          followers: '800K',
+        },
+        {
+          id: 2,
+          url: 'https://unpkg.com/simple-icons@v6/icons/youtube.svg',
+          followers: '72K',
+        },
+        {
+          id: 3,
+          url: 'https://unpkg.com/simple-icons@v6/icons/tiktok.svg',
+          followers: '104K',
+        },
+        {
+          id: 4,
+          url: 'https://unpkg.com/simple-icons@v6/icons/twitter.svg',
+          followers: '22M',
+        },
+        {
+          id: 5,
+          url: 'https://unpkg.com/simple-icons@v6/icons/snapchat.svg',
+          followers: '1.2M',
+        },
+        {
+          id: 6,
+          url: 'https://unpkg.com/simple-icons@v6/icons/onlyfans.svg',
+          followers: '10K',
+        },
+      ],
     };
   },
 };
