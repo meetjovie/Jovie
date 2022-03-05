@@ -51,6 +51,11 @@ class User extends Authenticatable
 
     protected $appends = ['default_image'];
 
+    public function creatorProfile()
+    {
+        return $this->hasOne(Creator::class);
+    }
+
     public function crms()
     {
         return $this->belongsToMany(Creator::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps();

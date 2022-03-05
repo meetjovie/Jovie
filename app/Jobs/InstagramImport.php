@@ -291,7 +291,7 @@ class InstagramImport implements ShouldQueue
             Storage::disk('s3')->delete($path);
         } catch (\Exception $e) {
         }
-        $file = $user->profile_pic_url;
+        $file = $user->profile_pic_url_hd;
         if (is_null($file)) {
             $file = asset('images/thumnailLogo.5243720b.png');
         }

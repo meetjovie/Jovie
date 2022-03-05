@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('creator', function () {
     dd(\App\Models\Creator::first()->toArray());
 });
+
 Route::post('/waitlist', [\App\Http\Controllers\UserController::class, 'addToWaitList']);
+Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'publicProfile']);
 
 Route::get('creator', function () {
     $creator = \App\Models\Creator::first();

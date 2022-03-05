@@ -1,4 +1,5 @@
 import {authenticationGuard} from '../middlewares/auth';
+import {publicProfile} from '../middlewares/publicProfile';
 
 import store from '../store';
 
@@ -195,13 +196,14 @@ export const routes = [
   },
 
 
-    /* {
-      name: 'Profile',
-      path: '/:username',
-      component: loadPage('Profile'),
-      props: true,
-      meta: {
-        layout: 'Minimal',
-      },
-    }, */
+    {
+        name: 'Profile',
+        path: '/:username',
+        component: loadPage('Profile'),
+        beforeEnter: publicProfile,
+        props: true,
+        meta: {
+            layout: 'Minimal',
+        },
+    },
 ];
