@@ -36,5 +36,14 @@ export default {
     },
     async updateCreator(context, payload) {
         return await userService.updateCreator(payload)
-    }
+    },
+    getPublicProfile(context, payload) {
+        return new Promise((resolve, reject) => {
+            userService.getPublicProfile(payload).then(response => {
+                resolve(response.data)
+            }).catch(error => {
+                return reject(error)
+            })
+        })
+    },
 }
