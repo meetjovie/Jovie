@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Creator;
 use App\Models\User;
 use App\Models\Waitlist;
 use App\Traits\GeneralTrait;
@@ -24,13 +25,14 @@ class UserController extends Controller
 
         $user = User::query()->whereRaw('lower(username) = ?', [strtolower($request->username)])
             ->with(['creatorProfile' => function ($q) {
-                $q->select('instagram_handler', 'social_links');
+                $q->select('id', 'user_id', 'instagram_handler', 'instagram_meta->profile_pic_url as instagram_profile_pic');
             }])
-            ->get();
+            ->first();
         if ($user) {
             return response([
                 'status' => true,
-                'data' => $user
+                'data' => $user,
+                'networks' => Creator::NETWORKS,
             ], 200);
         }
         return response([
