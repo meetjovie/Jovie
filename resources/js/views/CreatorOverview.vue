@@ -96,7 +96,13 @@
                   class="text-lg font-medium leading-6 text-gray-900">
                   {{ creator.name }}
                 </h2>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                <p
+                  @click="fullbio = true"
+                  class="ext-sm mt-1 max-w-2xl cursor-pointer text-gray-500 line-clamp-2"
+                  :class="[
+                    { 'line-clamp-none': fullbio == true },
+                    { 'line-clamp-2': fullbio == false },
+                  ]">
                   {{ creator.bio }}
                 </p>
                 <div class="mt-4">
@@ -380,6 +386,7 @@ export default {
   },
   data() {
     return {
+      fullbio: false,
       creator: {
         name: 'Jessica Smith',
         avatar: '',
