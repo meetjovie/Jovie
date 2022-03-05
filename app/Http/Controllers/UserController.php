@@ -18,6 +18,27 @@ class UserController extends Controller
         return Auth::user();
     }
 
+    public function publicProfile(Request $request)
+    {
+        $request->validate(['username' => 'required']);
+
+        $user = User::query()->whereRaw('lower(username) = ?', [strtolower($request->username)])
+            ->with(['creatorProfile' => function ($q) {
+                $q->select('instagram_handler', 'social_links');
+            }])
+            ->get();
+        if ($user) {
+            return response([
+                'status' => true,
+                'data' => $user
+            ], 200);
+        }
+        return response([
+            'status' => false,
+            'message' => 'Creator not found.'
+        ]);
+    }
+
     public function update(Request $request)
     {
         $data = $request->validate([

@@ -16,6 +16,11 @@ class Creator extends Model
 
     const NETWORKS = ['instagram'];
 
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
     public function userLists()
     {
         return $this->belongsToMany(UserList::class)->withTimestamps();
