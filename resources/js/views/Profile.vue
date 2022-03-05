@@ -6,11 +6,11 @@
             <div>
                 <img
                     class="block-inline mx-auto mt-0 aspect-square w-48 rounded-full object-cover object-center sm:w-64 2xl:w-80"
-                    :src="profilePic"
+                    :src="user.profile_pic_url"
                     alt=""/>
                 <div class="mx-auto mt-6 flex 2xl:mt-12">
                     <h2 class="mx-auto flex text-3xl font-extrabold text-gray-900">
-                        {{ user.first_name +' '+user.last_name }}
+                        {{ user.name }}
                         <svg
                             v-if="user.is_verified"
                             xmlns="http://www.w3.org/2000/svg"
@@ -25,12 +25,12 @@
                     </h2>
                 </div>
                 <p class="mt-2 text-center text-sm text-gray-600">
-                    {{ user.bio }}
+                    {{ user.title }} {{ user.employer ? ' at ' : ''}}
                     <a
-                        v-if="user.biolink"
-                        :href="user.biolink"
+                        v-if="user.employer"
+                        :href="user.employer_link"
                         class="font-medium text-indigo-600 hover:text-indigo-500">
-                        {{ user.biolinktext }}
+                        {{ user.employer }}
                     </a>
                 </p>
             </div>
@@ -93,26 +93,6 @@ export default {
         return {
             user: null,
             networks: []
-        }
-    },
-    computed: {
-        profilePic() {
-            if (this.user.profile_pic_url) {
-                return this.user.profile_pic_url
-            }
-            const networkCount = this.networks.length
-            let profilePic = null;
-            if (this.user.creator_profile) {
-                for (let i=0; i<networkCount; i++) {
-                    if (profilePic = this.user.creator_profile[`${this.networks[i]}_profile_pic`]) {
-                        break
-                    }
-                }
-            }
-            if (!profilePic) {
-                return this.user.default_image
-            }
-            return profilePic
         }
     },
     mounted() {
