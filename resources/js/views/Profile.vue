@@ -34,7 +34,7 @@
                     </a>
                 </p>
             </div>
-            <div class="mt-2 2xl:mt-8">
+            <div class="mt-2 2xl:mt-8" v-if="user.creator_profile">
                 <fieldset class="mt-0 2xl:mt-2">
                     <legend class="sr-only">Social links</legend>
                     <div class="flex items-center justify-between gap-2 sm:grid-cols-6">
@@ -102,9 +102,11 @@ export default {
             }
             const networkCount = this.networks.length
             let profilePic = null;
-            for (let i=0; i<networkCount; i++) {
-                if (profilePic = this.user.creator_profile[`${this.networks[i]}_profile_pic`]) {
-                    break
+            if (this.user.creator_profile) {
+                for (let i=0; i<networkCount; i++) {
+                    if (profilePic = this.user.creator_profile[`${this.networks[i]}_profile_pic`]) {
+                        break
+                    }
                 }
             }
             if (!profilePic) {
