@@ -121,16 +121,57 @@
                     <dd class="mt-1 text-sm text-gray-900">$120,000</dd>
                   </div>
                   <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Phone</dt>
-                    <dd class="mt-1 text-sm text-gray-900">+1 555-555-5555</dd>
+                    <dt class="text-sm font-medium text-gray-500">Stage</dt>
+                    <dd class="mt-1 text-sm text-gray-900">
+                      <Popover as="div" class="relative inline-block text-left">
+                        <PopoverButton
+                          class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
+                          Stages
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </PopoverButton>
+                        <transition
+                          enter-active-class="transition duration-100 ease-out"
+                          enter-from-class="transform scale-95 opacity-0"
+                          enter-to-class="transform scale-100 opacity-100"
+                          leave-active-class="transition duration-75 ease-in"
+                          leave-from-class="transform scale-100 opacity-100"
+                          leave-to-class="transform scale-95 opacity-0">
+                          <PopoverPanel
+                            class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                            <div class="">
+                              <div class="">
+                                <button v-for="(stage, key) in stages">
+                                  <div class="mr-2 font-bold opacity-50">
+                                    {{ key + 1 }}
+                                  </div>
+                                  <div class="font-bold">
+                                    {{ stage }}
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </PopoverPanel>
+                        </transition>
+                      </Popover>
+                    </dd>
                   </div>
                   <div class="sm:col-span-2">
+                    <dt class="text-sm font-medium text-gray-500">Email</dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                      <span class="ml-2 w-0 flex-1 truncate">
-                        <InputGroup
-                          icon="MailIcon"
-                          :placeholder="creator.email" />
-                      </span>
+                      <InputGroup
+                        icon="MailIcon"
+                        :placeholder="creator.email" />
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
@@ -495,6 +536,10 @@ import {
   TabPanels,
   TransitionChild,
   TransitionRoot,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  PopoverGroup,
 } from '@headlessui/vue';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
 import StarRating from 'vue-star-rating';
@@ -516,6 +561,10 @@ export default {
     StarRating,
     CreatorTags,
     CreatorHandles,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    PopoverGroup,
   },
   data() {
     return {
@@ -526,6 +575,16 @@ export default {
         rating: 4.5,
         bio: 'Been beat up and battered round Been sent up and Ive been shot down Youre the best thing that Ive ever found Handle me with care',
       },
+      stages: [
+        {
+          name: 'Cold',
+          key: '1',
+        },
+        {
+          name: 'Warm',
+          key: '2',
+        },
+      ],
       socials: [
         { icon: 'UserIcon', size: '24', placeholder: '@itstimwhtie' },
         { icon: 'instagram', size: '24', placeholder: '@timwhite' },
