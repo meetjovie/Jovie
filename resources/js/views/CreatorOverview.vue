@@ -308,8 +308,12 @@
               </div>
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                  <CreatorContentBar />
+                </TabPanel>
+                <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <ActivityFeed button="Show more" />
                 </TabPanel>
+
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <CreatorContentBar />
                 </TabPanel>
@@ -405,6 +409,9 @@ export default {
         },
       ],
       tabs: [
+        {
+          name: 'Demographics',
+        },
         {
           name: 'Activity',
         },
