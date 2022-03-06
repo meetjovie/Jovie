@@ -14,7 +14,7 @@ class Creator extends Model
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
     const CREATORS_CSV_PATH = 'public/creators_csv/';
 
-    const NETWORKS = ['instagram'];
+    const NETWORKS = ['instagram', 'twitch', 'onlyFans', 'snapchat', 'linkedin', 'youtube', 'twitter', 'tiktok'];
 
     public function user()
     {
