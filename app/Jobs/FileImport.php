@@ -52,7 +52,13 @@ class FileImport implements ShouldQueue
             $results = $fileImport->data;
             Storage::disk('s3')->delete($this->file);
             $instagramKey = null;
+            $twitchKey = null;
+            $onlyFansKey = null;
+            $snapchatKey = null;
+            $linkedinKey = null;
             $youtubeKey = null;
+            $twitterKey = null;
+            $tiktokKey = null;
             $emailKeys = [];
             $instagramFollowerCountKey = null;
             $youtubeFollowersCountKey = null;
@@ -64,6 +70,14 @@ class FileImport implements ShouldQueue
             if (count($results) > 1) {
                 $results = $results->toArray();
                 $headers = $results[0];
+                $twitchKey = isset($this->mappedColumns->twitch) ? array_search($this->mappedColumns->twitch, $headers) : null;
+                $onlyFansKey = isset($this->mappedColumns->onlyFans) ? array_search($this->mappedColumns->onlyFans, $headers) : null;
+                $snapchatKey = isset($this->mappedColumns->snapchat) ? array_search($this->mappedColumns->snapchat, $headers) : null;
+                $linkedinKey = isset($this->mappedColumns->linkedin) ? array_search($this->mappedColumns->linkedin, $headers) : null;
+                $youtubeKey = isset($this->mappedColumns->youtube) ? array_search($this->mappedColumns->youtube, $headers) : null;
+                $twitterKey = isset($this->mappedColumns->twitter) ? array_search($this->mappedColumns->twitter, $headers) : null;
+                $tiktokKey = isset($this->mappedColumns->tiktok) ? array_search($this->mappedColumns->tiktok, $headers) : null;
+
                 if (isset($this->mappedColumns->firstName)) {
                     $firstNameKey = array_search($this->mappedColumns->firstName, $headers);
                 }
@@ -98,6 +112,16 @@ class FileImport implements ShouldQueue
                 }
                 array_shift($results);
                 foreach ($results as $k => $row) {
+                    $socialHandlers = [
+                        'twitch_handler' => $row[$twitchKey],
+                        'onlyFans_handler' => $row[$onlyFansKey],
+                        'snapchat_handler' => $row[$snapchatKey],
+                        'linkedin_handler' => $row[$linkedinKey],
+                        'youtube_handler' => $row[$youtubeKey],
+                        'twitter_handler' => $row[$twitterKey],
+                        'tiktok_handler' => $row[$tiktokKey],
+                    ];
+
                     $emails = [];
                     foreach ($emailKeys as $emailKey) {
                         if ($row[$emailKey]) {
@@ -124,7 +148,8 @@ class FileImport implements ShouldQueue
                                 'lastName' => ($row[$lastNameKey] ?? null),
                                 'city' => ($row[$cityKey] ?? null),
                                 'country' => $country,
-                                'wikiId' => ($row[$wikiKey] ?? null)
+                                'wikiId' => ($row[$wikiKey] ?? null),
+                                'socialHandlers' => $socialHandlers
                             ];
                             Bus::chain([
                                 new InstagramImport($username, $this->tags, true, null, $meta, $this->listId, $this->userId),

@@ -76,6 +76,8 @@ export default {
                 'onlyFans',
                 'twitch',
                 'tiktok',
+                'linkedin',
+                'snapchat',
                 'instagramFollowersCount',
                 'youtubeFollowersCount',
                 'youtubeFollowersCount',

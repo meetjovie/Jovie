@@ -136,6 +136,14 @@ class InstagramImport implements ShouldQueue
             $user = $response->graphql->user;
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
+
+            if (isset($this->meta->socialHandlers)) {
+                foreach ($this->meta->socialHandlers as $k => $handler) {
+                    $creator[$k] = $handler;
+                }
+            }
+            $creator->save();
+            dd($creator);
             $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name ?? null) : null;
             $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name ?? null) : null;
             $creator->city = $creator->city ?? $this->meta['city'] ?? null;
