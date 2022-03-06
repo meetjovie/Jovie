@@ -36,6 +36,95 @@ class Creator extends Model
         return $this->hasOne(Crm::class)->where('user_id', Auth::user()->id);
     }
 
+    public function setInstagramHandlerAttribute($value)
+    {
+        // Regex for verifying an instagram URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_\.]+)/im';
+
+        // Verify valid Instagram URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setTiktokHandlerAttribute($value)
+    {
+        // Regex for verifying an tiktok URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:tiktok\.com)\/([\@|A-Za-z0-9-_\.]+)/';
+
+        // Verify valid tiktok URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setOnlyFansHandlerAttribute($value)
+    {
+        // Regex for verifying an onlyFans URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:onlyfans\.com)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid onlyFans URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setLinkedinHandlerAttribute($value)
+    {
+        // Regex for verifying an linkedin URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:linkedin\.com\/)?(?:in)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid linkedin URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setTwitterHandlerAttribute($value)
+    {
+        // Regex for verifying a twitter URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitter\.com)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid twitter URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setSnapchatHandlerAttribute($value)
+    {
+        // Regex for verifying a snapchat URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:snapchat\.com\/)?(?:add)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid snapchat URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setTwitchHandlerAttribute($value)
+    {
+        // Regex for verifying a twitch URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid twitch URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+//    public function setYoutubeHandlerAttribute()
+//    {
+//
+//    }
+
     public function getInstagramMediaAttribute($value)
     {
         return json_decode($value ?? '[]');
