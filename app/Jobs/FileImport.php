@@ -120,8 +120,8 @@ class FileImport implements ShouldQueue
                         'youtube_handler' => $row[$youtubeKey],
                         'twitter_handler' => $row[$twitterKey],
                         'tiktok_handler' => $row[$tiktokKey],
+                        'instagram_handler' => $row[$instagramKey],
                     ];
-
                     $emails = [];
                     foreach ($emailKeys as $emailKey) {
                         if ($row[$emailKey]) {
@@ -139,7 +139,7 @@ class FileImport implements ShouldQueue
                             }
                             $country = $row[$countryKey] ?? null;
                             $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
-                            if ($row[$countryKey] && in_array(strtolower(trim($row[$countryKey])), array_map('strtolower', $usStates))) {
+                            if ($countryKey && $row[$countryKey] && in_array(strtolower(trim($row[$countryKey])), array_map('strtolower', $usStates))) {
                                 $country = 'United States';
                             }
                             $meta = [

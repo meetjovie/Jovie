@@ -137,15 +137,15 @@ class InstagramImport implements ShouldQueue
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
 
-            if (isset($this->meta->socialHandlers)) {
-                foreach ($this->meta->socialHandlers as $k => $handler) {
-                    $creator[$k] = $handler;
+            if (isset($this->meta['socialHandlers'])) {
+                foreach ($this->meta['socialHandlers'] as $k => $handler) {
+                    $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator['handler']) : $creator['handler'];
                 }
             }
             $creator->save();
             dd($creator);
-            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name ?? null) : null;
-            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name ?? null) : null;
+            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name) : $creator->first_name;
+            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name) : $creator->last_name;
             $creator->city = $creator->city ?? $this->meta['city'] ?? null;
             $creator->country = $creator->country ?? $this->meta['country'] ?? null;
             $creator->wiki_id = $creator->wiki_id ?? $this->meta['wikiId'] ?? null;
