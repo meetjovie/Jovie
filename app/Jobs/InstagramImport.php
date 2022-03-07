@@ -139,7 +139,11 @@ class InstagramImport implements ShouldQueue
 
             if (isset($this->meta['socialHandlers'])) {
                 foreach ($this->meta['socialHandlers'] as $k => $handler) {
-                    if ($handler) {
+                    if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
+                        $creator[$k] = $handler;
+                    } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
+                        // donot do any thing
+                    } elseif ($handler) {
                         $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
                     }
                 }
