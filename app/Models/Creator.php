@@ -149,7 +149,11 @@ class Creator extends Model
 
     public function getYoutubeHandlerAttribute()
     {
-        return json_decode(is_null($this->attributes['youtube_handler']) ? '{}' : $this->attributes['youtube_handler']);
+        if (isset($this->attributes['youtube_handler'])) {
+            return json_decode(is_null($this->attributes['youtube_handler']) ? '{}' : $this->attributes['youtube_handler']);
+        } else {
+            return json_decode('{}');
+        }
     }
 
     public function getInstagramMediaAttribute($value)
