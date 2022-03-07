@@ -147,13 +147,9 @@ class Creator extends Model
         }
     }
 
-    public function getYoutubeHandlerAttribute()
+    public function getYoutubeHandlerAttribute($value)
     {
-        if (isset($this->attributes['youtube_handler'])) {
-            return json_decode(is_null($this->attributes['youtube_handler']) ? '{}' : $this->attributes['youtube_handler']);
-        } else {
-            return json_decode('{}');
-        }
+        return json_decode($value ?? '{}');
     }
 
     public function getInstagramMediaAttribute($value)
