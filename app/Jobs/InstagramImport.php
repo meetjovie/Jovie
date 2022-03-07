@@ -137,13 +137,14 @@ class InstagramImport implements ShouldQueue
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
 
+            $handlerData = [];
             if (isset($this->meta['socialHandlers'])) {
                 foreach ($this->meta['socialHandlers'] as $k => $handler) {
-                    $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator['handler']) : $creator['handler'];
+                    if ($handler) {
+                        $handlerData[$k] = $this->platformUser->is_admin ? ($handler ?? $creator['handler']) : $creator['handler'];
+                    }
                 }
             }
-            $creator->save();
-            dd($creator);
             $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name) : $creator->first_name;
             $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name) : $creator->last_name;
             $creator->city = $creator->city ?? $this->meta['city'] ?? null;
@@ -215,6 +216,9 @@ class InstagramImport implements ShouldQueue
             $meta['has_ar_effects'] = $user->has_ar_effects;
             $creator->instagram_meta = json_encode($meta);
             $creator->save();
+            if (count($handlerData)) {
+                Creator::where('id', $creator->id)->update($handlerData);
+            }
             if ($this->listId) {
                 $creator->userLists()->syncWithoutDetaching($this->listId);
             }

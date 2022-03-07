@@ -113,14 +113,14 @@ class FileImport implements ShouldQueue
                 array_shift($results);
                 foreach ($results as $k => $row) {
                     $socialHandlers = [
-                        'twitch_handler' => $row[$twitchKey],
-                        'onlyFans_handler' => $row[$onlyFansKey],
-                        'snapchat_handler' => $row[$snapchatKey],
-                        'linkedin_handler' => $row[$linkedinKey],
-                        'youtube_handler' => $row[$youtubeKey],
-                        'twitter_handler' => $row[$twitterKey],
-                        'tiktok_handler' => $row[$tiktokKey],
-                        'instagram_handler' => $row[$instagramKey],
+                        'twitch_handler' => $twitchKey ? $row[$twitchKey] : null,
+                        'onlyFans_handler' => $onlyFansKey ? $row[$onlyFansKey] : null,
+                        'snapchat_handler' => $snapchatKey ? $row[$snapchatKey] : null,
+                        'linkedin_handler' => $linkedinKey ? $row[$linkedinKey] : null,
+                        'youtube_handler' => $youtubeKey ? $row[$youtubeKey] : null,
+                        'twitter_handler' => $twitterKey ? $row[$twitterKey] : null,
+                        'tiktok_handler' => $tiktokKey ? $row[$tiktokKey] : null,
+                        'instagram_handler' => $instagramKey ? $row[$instagramKey] : null,
                     ];
                     $emails = [];
                     foreach ($emailKeys as $emailKey) {
@@ -168,6 +168,7 @@ class FileImport implements ShouldQueue
                 }
             }
         } catch (\Exception $e) {
+//            dd($e->getMessage(), $e->getLine());
             //            SendSlackNotification::dispatch('Error on Youtube Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine());
         }
     }
