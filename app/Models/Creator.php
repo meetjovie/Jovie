@@ -127,25 +127,24 @@ class Creator extends Model
         $oldYoutube = $this->youtube_handler;
         // Regex for verifying a youtube URL - channel id
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
-
         // Verify valid youtube URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $oldYoutube->channel_id = $matches[1];
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
         }
         // Regex for verifying a youtube URL - channel name
-        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/';
-        if ( preg_match( $regex, $value, $matches ) ) {
+        elseif ( preg_match( '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/', $value, $matches ) ) {
             $oldYoutube->channel_name = $matches[1];
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
         }
 
-        if (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
+        elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
             $oldYoutube->channel_id = $value;
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        } else {
+            $oldYoutube->channel_name = $value;
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
         }
-        $oldYoutube->channel_name = $value;
-        $this->attributes['youtube_handler'] = json_encode($oldYoutube);
     }
 
     public function getYoutubeHandlerAttribute()
