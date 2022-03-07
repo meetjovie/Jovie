@@ -16,6 +16,8 @@ class Creator extends Model
 
     const NETWORKS = ['instagram', 'twitch', 'onlyFans', 'snapchat', 'linkedin', 'youtube', 'twitter', 'tiktok'];
 
+    protected $guarded = [];
+
     public function user()
     {
         return $this->hasOne(User::class);
@@ -43,9 +45,9 @@ class Creator extends Model
 
         // Verify valid Instagram URL
         if ( preg_match( $regex, $value, $matches ) ) {
-            return $matches[1];
+            $this->attributes['instagram_handler'] =  $matches[1];
         }
-        return $value;
+        $this->attributes['instagram_handler'] = $value;
     }
 
     public function setTiktokHandlerAttribute($value)
@@ -55,9 +57,9 @@ class Creator extends Model
 
         // Verify valid tiktok URL
         if ( preg_match( $regex, $value, $matches ) ) {
-            return $matches[1];
+            $this->attributes['tiktok_handler'] = $matches[1];
         }
-        return $value;
+        $this->attributes['tiktok_handler'] = $value;
     }
 
     public function setOnlyFansHandlerAttribute($value)
@@ -67,9 +69,9 @@ class Creator extends Model
 
         // Verify valid onlyFans URL
         if ( preg_match( $regex, $value, $matches ) ) {
-            return $matches[1];
+            $this->attributes['onlyFans_handler'] = $matches[1];
         }
-        return $value;
+        $this->attributes['onlyFans_handler'] = $value;
     }
 
     public function setLinkedinHandlerAttribute($value)
@@ -79,9 +81,9 @@ class Creator extends Model
 
         // Verify valid linkedin URL
         if ( preg_match( $regex, $value, $matches ) ) {
-            return $matches[1];
+            $this->attributes['linkedin_handler'] = $matches[1];
         }
-        return $value;
+        $this->attributes['linkedin_handler'] = $value;
     }
 
     public function setTwitterHandlerAttribute($value)
@@ -91,9 +93,9 @@ class Creator extends Model
 
         // Verify valid twitter URL
         if ( preg_match( $regex, $value, $matches ) ) {
-            return $matches[1];
+            $this->attributes['twitter_handler'] = $matches[1];
         }
-        return $value;
+        $this->attributes['twitter_handler'] = $value;
     }
 
     public function setSnapchatHandlerAttribute($value)
@@ -103,9 +105,9 @@ class Creator extends Model
 
         // Verify valid snapchat URL
         if ( preg_match( $regex, $value, $matches ) ) {
-            return $matches[1];
+            $this->attributes['snapchat_handler'] = $matches[1];
         }
-        return $value;
+        $this->attributes['snapchat_handler'] = $value;
     }
 
     public function setTwitchHandlerAttribute($value)
@@ -115,15 +117,41 @@ class Creator extends Model
 
         // Verify valid twitch URL
         if ( preg_match( $regex, $value, $matches ) ) {
-            return $matches[1];
+            $this->attributes['twitch_handler'] = $matches[1];
         }
-        return $value;
+        $this->attributes['twitch_handler'] = $value;
     }
 
-//    public function setYoutubeHandlerAttribute()
-//    {
-//
-//    }
+    public function setYoutubeHandlerAttribute($value)
+    {
+        $oldYoutube = $this->youtube_handler;
+        // Regex for verifying a youtube URL - channel id
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid youtube URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $oldYoutube->channel_id = $matches[1];
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        }
+        // Regex for verifying a youtube URL - channel name
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/';
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $oldYoutube->channel_name = $matches[1];
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        }
+
+        if (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
+            $oldYoutube->channel_id = $value;
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        }
+        $oldYoutube->channel_name = $value;
+        $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+    }
+
+    public function getYoutubeHandlerAttribute()
+    {
+        return json_decode(is_null($this->attributes['youtube_handler']) ? '{}' : $this->attributes['youtube_handler']);
+    }
 
     public function getInstagramMediaAttribute($value)
     {
