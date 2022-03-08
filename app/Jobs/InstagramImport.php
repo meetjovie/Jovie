@@ -136,8 +136,20 @@ class InstagramImport implements ShouldQueue
             $user = $response->graphql->user;
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
-            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name ?? null) : null;
-            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name ?? null) : null;
+
+            if (isset($this->meta['socialHandlers'])) {
+                foreach ($this->meta['socialHandlers'] as $k => $handler) {
+                    if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
+                        $creator[$k] = $handler;
+                    } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
+                        // donot do any thing
+                    } elseif ($handler) {
+                        $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
+                    }
+                }
+            }
+            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name) : $creator->first_name;
+            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name) : $creator->last_name;
             $creator->city = $creator->city ?? $this->meta['city'] ?? null;
             $creator->country = $creator->country ?? $this->meta['country'] ?? null;
             $creator->wiki_id = $creator->wiki_id ?? $this->meta['wikiId'] ?? null;

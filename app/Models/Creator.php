@@ -14,7 +14,9 @@ class Creator extends Model
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
     const CREATORS_CSV_PATH = 'public/creators_csv/';
 
-    const NETWORKS = ['instagram'];
+    const NETWORKS = ['instagram', 'twitch', 'onlyFans', 'snapchat', 'linkedin', 'youtube', 'twitter', 'tiktok'];
+
+    protected $guarded = [];
 
     public function user()
     {
@@ -34,6 +36,120 @@ class Creator extends Model
     public function crmRecordByUser()
     {
         return $this->hasOne(Crm::class)->where('user_id', Auth::user()->id);
+    }
+
+    public function setInstagramHandlerAttribute($value)
+    {
+        // Regex for verifying an instagram URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_\.]+)/im';
+
+        // Verify valid Instagram URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $this->attributes['instagram_handler'] =  $matches[1];
+        }
+        $this->attributes['instagram_handler'] = $value;
+    }
+
+    public function setTiktokHandlerAttribute($value)
+    {
+        // Regex for verifying an tiktok URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:tiktok\.com)\/([\@|A-Za-z0-9-_\.]+)/';
+
+        // Verify valid tiktok URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $this->attributes['tiktok_handler'] = $matches[1];
+        }
+        $this->attributes['tiktok_handler'] = $value;
+    }
+
+    public function setOnlyFansHandlerAttribute($value)
+    {
+        // Regex for verifying an onlyFans URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:onlyfans\.com)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid onlyFans URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $this->attributes['onlyFans_handler'] = $matches[1];
+        }
+        $this->attributes['onlyFans_handler'] = $value;
+    }
+
+    public function setLinkedinHandlerAttribute($value)
+    {
+        // Regex for verifying an linkedin URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:linkedin\.com\/)?(?:in)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid linkedin URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $this->attributes['linkedin_handler'] = $matches[1];
+        }
+        $this->attributes['linkedin_handler'] = $value;
+    }
+
+    public function setTwitterHandlerAttribute($value)
+    {
+        // Regex for verifying a twitter URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitter\.com)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid twitter URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $this->attributes['twitter_handler'] = $matches[1];
+        }
+        $this->attributes['twitter_handler'] = $value;
+    }
+
+    public function setSnapchatHandlerAttribute($value)
+    {
+        // Regex for verifying a snapchat URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:snapchat\.com\/)?(?:add)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid snapchat URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $this->attributes['snapchat_handler'] = $matches[1];
+        }
+        $this->attributes['snapchat_handler'] = $value;
+    }
+
+    public function setTwitchHandlerAttribute($value)
+    {
+        // Regex for verifying a twitch URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid twitch URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $this->attributes['twitch_handler'] = $matches[1];
+        }
+        $this->attributes['twitch_handler'] = $value;
+    }
+
+    public function setYoutubeHandlerAttribute($value)
+    {
+        $oldYoutube = $this->youtube_handler;
+        // Regex for verifying a youtube URL - channel id
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
+        // Verify valid youtube URL
+        if ( preg_match( $regex, $value, $matches ) ) {
+            $oldYoutube->channel_id = $matches[1];
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        }
+        // Regex for verifying a youtube URL - channel name
+        elseif ( preg_match( '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/', $value, $matches ) ) {
+            $oldYoutube->channel_name = $matches[1];
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        }
+
+        elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
+            $oldYoutube->channel_id = $value;
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        } else {
+            $oldYoutube->channel_name = $value;
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        }
+    }
+
+    public function getYoutubeHandlerAttribute($value)
+    {
+        return json_decode($value ?? '{}');
     }
 
     public function getInstagramMediaAttribute($value)
