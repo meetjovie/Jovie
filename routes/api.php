@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| routes are lo aded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
@@ -17,21 +17,29 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
-Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
-Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
+Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
+Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
 
-Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
-//    IMPORT CREATORS
-    Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
-    Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
+    //    PROFILE
+    Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
+    Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
+    Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
-//    USER LISTS
-    Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
+    Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 
-//    CRM
-    Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
-    Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
-    Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
+//      IMPORT CREATORS
+        Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
+        Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
+
+//      USER LISTS
+        Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
+
+//      CRM
+        Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
+        Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
+        Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
+
+    });
 });

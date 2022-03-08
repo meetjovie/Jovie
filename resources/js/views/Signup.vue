@@ -20,7 +20,7 @@
             Or if you already have an account
             {{ ' ' }}
             <router-link
-              to="/login"
+              to="Login"
               class="font-medium text-indigo-600 hover:text-indigo-500">
               login
             </router-link>
