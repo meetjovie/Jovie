@@ -251,7 +251,9 @@
                                         tabindex="-1">
                                         <component class="mr-4 h-4 w-4" :is="dropdownmenuitem.icon">
                                         </component>
-                                        {{ dropdownmenuitem.name }}
+                                        <router-link :to="dropdownmenuitem.route">
+                                            {{ dropdownmenuitem.name }}
+                                        </router-link>
                                     </MenuItem>
                                     <MenuItem
                                         as="div"
@@ -327,7 +329,7 @@ export default {
             ],
             dropdownmenuitems: [
                 {name: 'Profile', route: '/', icon: UserGroupIcon},
-                {name: 'Settings', route: 'account', icon: CogIcon},
+                {name: 'Settings', route: 'Account', icon: CogIcon},
             ],
             isShowing: false
         };
