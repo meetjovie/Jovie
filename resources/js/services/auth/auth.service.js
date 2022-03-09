@@ -32,4 +32,26 @@ export default {
             });
         })
     },
+    async register(data) {
+        return new Promise((resolve, reject) => {
+            axios.get('/sanctum/csrf-cookie').then(() => {
+                axios.post(`${baseApiUrl}/register`, data).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                });
+            });
+        })
+    },
+    async validateStep1(data) {
+        return new Promise((resolve, reject) => {
+            axios.get('/sanctum/csrf-cookie').then(() => {
+                axios.post(`${baseApiUrl}/validate-step-1`, data).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                });
+            });
+        })
+    }
 };
