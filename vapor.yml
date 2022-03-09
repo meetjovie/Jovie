@@ -41,7 +41,6 @@ environments:
   dev:
     queue-concurrency: 5
     database: Jovie-staging
-    storage: jovie-staging-store
     memory: 1024
     cli-memory: 512
     runtime: 'php-8.1:al2'
