@@ -2,9 +2,16 @@
     <div class="items-center mx-auto min-h-screen">
         <div class="mx-auto bg-white rounded-lg shadow-lg max-w-3xl mt-12 mb-8 items-center h-full justify-center ">
             <CardHeading title="Import" subtitle="Please select the columns you wish to import into Jovie." />
+            <InputGroup
+                v-model="fileName"
+                :error="listExists"
+                name="fileName"
+                label="List Name"
+                placeholder="Enter list name to create"
+                type="text" />
             <table class="w-full rounded-md px-8">
                 <tr class="border-b border border-neutrual-400 text-neutral-500 rounded-md-t">
-                    <th class="font-medium">Columns from <span class="font-bold">imports.csv</span></th>
+                    <th class="font-medium">Columns from <span class="font-bold">{{ csvFileName }}</span></th>
                     <th>Import to...</th>
                 </tr>
                 <tr v-for="column in columns" :key="column" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
@@ -32,6 +39,7 @@
 import ButtonGroup from "../ButtonGroup.vue";
 import CardHeading from "../CardHeading.vue";
 import ColumnsDropdown from "./ColumnsDropdown";
+import InputGroup from '../InputGroup';
 
 export default {
     name: "ImportColumnMatching",
@@ -39,9 +47,18 @@ export default {
         ColumnsDropdown,
         ButtonGroup,
         CardHeading,
+        InputGroup
     },
     props: {
         columns: {
+            type: Array,
+            default: []
+        },
+        fileName: {
+            type: String,
+            required: true
+        },
+        userLists: {
             type: Array,
             default: []
         }
@@ -49,12 +66,18 @@ export default {
     data() {
         return {
             columnsToMap: [
+                'firstName',
+                'lastName',
+                'city',
+                'country',
                 'instagram',
                 'youtube',
                 'twitter',
                 'onlyFans',
                 'twitch',
                 'tiktok',
+                'linkedin',
+                'snapchat',
                 'instagramFollowersCount',
                 'youtubeFollowersCount',
                 'youtubeFollowersCount',
@@ -64,11 +87,30 @@ export default {
                 'tiktokFollowersCount',
                 'email1',
                 'email2',
+                'wikiId',
             ],
-            mappedColumns: {}
+            mappedColumns: {},
+            csvFileName: ''
         }
     },
+    watch: {
+        fileName: function (val) {
+            this.checkDuplicateList()
+            this.$emit('listNameUpdated', val)
+        }
+    },
+    mounted() {
+        this.csvFileName = this.fileName
+        this.checkDuplicateList()
+    },
     methods: {
+        checkDuplicateList() {
+            if (this.userLists.filter(list => list.name.toLowerCase().trim() == this.fileName.toLowerCase().trim()).length) {
+                this.listExists = 'A list with same name already exists. Continuing will merge all data in one.'
+            } else {
+                this.listExists = ''
+            }
+        },
         setMappedColumns({mapColumn, column}) {
             if (this.mappedColumns.hasOwnProperty(mapColumn)) {
                 this.$refs[`columnDropdown_${column}`][0].selected = null

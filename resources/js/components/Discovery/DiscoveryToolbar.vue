@@ -16,13 +16,14 @@
           leave-from-class="scale-100 opacity-100"
           leave-to-class="scale-95 opacity-0">
           <PopoverPanel
-            class="absolute z-10 mt-2 rounded-md bg-white/90 shadow-2xl backdrop-blur-xl backdrop-filter">
+            as="div"
+            class="absolute z-10 mt-2 rounded-md bg-white/70 shadow-2xl backdrop-blur-md backdrop-saturate-150 backdrop-filter">
             <div
               v-for="action in actions"
               :key="action"
-              class="group grid w-64 grid-cols-1 rounded-md">
+              class="group grid w-64 grid-cols-1 rounded-t-md">
               <div
-                class="flex cursor-pointer items-center justify-between px-4 py-1 text-xs text-neutral-700 first:rounded-t-md first:pt-2 last:rounded-b-md last:pb-2 even:border-2 even:border-b hover:bg-indigo-700 hover:text-white"
+                class="flex cursor-pointer items-center justify-between px-4 py-1 text-xs text-neutral-700 first:pt-2 last:pb-2 even:border-2 even:border-b hover:bg-indigo-700 hover:text-white"
                 href="#">
                 <div class="inline-flex items-center">
                   <Component :is="action.icon" class="mr-2 h-4 w-4"></Component>
@@ -30,6 +31,17 @@
                 </div>
                 <div v-if="action.haschild">
                   <ChevronRightIcon class="h-4 w-4" />
+                </div>
+                <div
+                  v-for="child in action.children"
+                  :key="child"
+                  class="absolute left-64 hidden w-60 items-center justify-between rounded-r-md bg-white/70 px-4 py-2 text-xs text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter first:pt-2 hover:bg-indigo-700 hover:text-white group-hover:flex">
+                  <div class="inline-flex items-center">
+                    <Component
+                      :is="child.icon"
+                      class="mr-2 h-4 w-4"></Component>
+                    {{ child.name }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -75,18 +87,21 @@
     </div>
     <div class="items-center">
       <Popover v-slot="{ open }" class="relative z-20 inline">
-        <ButtonGroup style="secondary" size="xs" rounded="left" text="Export" />
-        <ButtonGroup
-          size="xs"
-          rounded="right"
-          style="secondary"
-          icon="ChevronRightIcon" />
+        <span class="inline-flex items-center">
+          <ButtonGroup
+            style="secondary"
+            size="sm"
+            rounded="left"
+            text="Export" />
 
-        <PopoverButton
-          as="button"
-          class="relative inline-flex cursor-pointer items-center rounded-r-md border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:bg-indigo-700 active:text-white active:text-white">
-          <ChevronRightIcon class="h-5 w-5"></ChevronRightIcon>
-        </PopoverButton>
+          <PopoverButton
+            size="sm"
+            rounded="right"
+            class="group relative inline-flex cursor-pointer items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-indigo-700 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white">
+            <ChevronRightIcon
+              class="h-3 w-3 group-hover:text-white"></ChevronRightIcon>
+          </PopoverButton>
+        </span>
         <DiscoverySidebar></DiscoverySidebar>
         <PopoverOverlay
           class="bg-black"
@@ -177,6 +192,16 @@ export default {
           name: 'Add tag',
           icon: 'TagIcon',
           haschild: true,
+          children: [
+            {
+              name: 'Tag 2',
+              icon: 'TagIcon',
+            },
+            {
+              name: 'Tag 3',
+              icon: 'TagIcon',
+            },
+          ],
         },
         {
           name: 'Switch type',

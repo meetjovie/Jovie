@@ -6,6 +6,13 @@
       {
         'py-0 pl-2 pr-0.5 text-[8px] font-light tracking-wider': size == 'xs',
       },
+      {
+        'py-0 pl-2 pr-0.5 text-[10px] font-light tracking-wider': size == 'sm',
+      },
+      {
+        'py-0.5 pl-2 pr-0.5 text-[12px] font-light tracking-wider':
+          size == 'md',
+      },
       { 'py-0.5 pl-2.5 pr-1 text-sm ': size == 'lg' },
       { 'bg-neutral-100 text-neutral-900': color == 'none' },
       { 'bg-indigo-100 text-indigo-900': color == 'indigo' },
@@ -22,6 +29,7 @@
       class="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus-visible:bg-indigo-500 focus-visible:text-white focus-visible:outline-none"
       :class="[
         { 'py-0 pl-0.5 pr-0.5 text-[10px]': size == 'xs' },
+        { 'py-0 pl-1 pr-1 text-2xs': size == 'sm' },
         { 'py-0.5 pl-2.5 pr-1 text-sm ': size == 'lg' },
         {
           'bg-neutral-100 text-neutral-700 hover:text-neutral-900 ':
@@ -69,7 +77,7 @@ export default {
     },
     size: {
       type: String,
-      default: 'small',
+      default: 'sm',
     },
     color: {
       type: String,

@@ -4,7 +4,7 @@
       <div class="mx-auto flex">
         <div
           v-if="searchopen"
-          class="z-10 hidden w-60 bg-neutral-50 shadow-lg lg:flex">
+          class="z-10 hidden w-60 shrink-0 bg-neutral-50 shadow-lg lg:flex">
           <nav
             aria-label="Searchbar"
             class="min-h-screen divide-y divide-gray-300">

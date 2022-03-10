@@ -67,7 +67,7 @@
             <component :is="navitem.icon" class="h-5 w-5"></component>
 
             <div
-              class="text-md middle-8 px-.5 absolute left-14 -mt-3 hidden w-24 rounded-r-lg border border-indigo-200/20 bg-white/60 py-3.5 font-bold text-indigo-700 shadow-2xl shadow-indigo-900/70 backdrop-blur-md backdrop-filter group-hover:block">
+              class="text-md middle-8 px-.5 absolute left-14 -mt-3 hidden w-24 rounded-r-lg border border-indigo-200/20 bg-white/40 py-3.5 font-bold text-indigo-700 shadow-2xl shadow-indigo-900/70 backdrop-blur-xl backdrop-saturate-150 backdrop-filter group-hover:block">
               {{ navitem.name }}
             </div>
           </router-link>
@@ -181,8 +181,13 @@
                 <span class="sr-only">Open user menu</span>
 
                 <img
-                  class="h-8 w-8 rounded-full object-cover"
-                  src="/img/External/stock_profile_pic.webp" />
+                  id="profile_pic_url_img"
+                  ref="profile_pic_url_img"
+                  class="h-8 w-8 rounded-full border border-neutral-200 object-cover object-center"
+                  :src="
+                    $store.state.AuthState.user.profile_pic_url ??
+                    $store.state.AuthState.user.default_image
+                  " />
               </MenuButton>
 
               <transition
@@ -196,7 +201,7 @@
                   as="div"
                   active=""
                   id="profileDropdown"
-                  class="d-none absolute right-0 z-20 mt-2 w-60 origin-top-right rounded-md bg-white/90 py-1 shadow-xl backdrop-blur-sm backdrop-filter"
+                  class="d-none absolute right-0 z-20 mt-2 w-40 origin-top-right rounded-md bg-white/90 py-1 shadow-xl backdrop-blur-sm backdrop-filter"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
@@ -205,25 +210,59 @@
                   <MenuItem
                     v-bind:is="user"
                     as="div"
-                    class="block border-b-2 border-opacity-30 px-4 py-4 text-left text-sm font-bold text-neutral-700"
+                    class="block border-b-2 border-opacity-30 px-4 py-2 text-left text-xs font-bold text-neutral-400"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-0"
-                    >Hi User ! !</MenuItem
-                  >
+                    id="user-menu-item-0">
+                    <router-link
+                      to="/account"
+                      class="group block flex-shrink-0">
+                      <div class="flex items-center">
+                        <div>
+                          <img
+                            class="inline-block h-6 w-6 rounded-full"
+                            :src="
+                              $store.state.AuthState.user.profile_pic_url ??
+                              $store.state.AuthState.user.default_image
+                            "
+                            alt="" />
+                        </div>
+                        <div class="ml-3">
+                          <p
+                            class="text-xs font-medium text-gray-700 group-hover:text-gray-900">
+                            {{ $store.state.AuthState.user.first_name }}
+                          </p>
+                          <p
+                            class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                            View profile
+                          </p>
+                        </div>
+                      </div>
+                    </router-link>
+                  </MenuItem>
                   <MenuItem
                     v-for="dropdownmenuitem in dropdownmenuitems"
                     :key="dropdownmenuitem"
                     as="router-link"
                     :to="dropdownmenuitem.route"
-                    class="inline-flex w-full px-4 py-2 text-sm text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                    class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                     role="menuitem"
-                    tabindex="-1"
-                    ><component
-                      class="mr-2 h-5 w-5"
-                      :is="dropdownmenuitem.icon"></component
-                    >{{ dropdownmenuitem.name }}</MenuItem
-                  >
+                    tabindex="-1">
+                    <component class="mr-4 h-4 w-4" :is="dropdownmenuitem.icon">
+                    </component>
+                    <router-link :to="dropdownmenuitem.route">
+                      {{ dropdownmenuitem.name }}
+                    </router-link>
+                  </MenuItem>
+                  <MenuItem
+                    as="div"
+                    @click="$store.dispatch('logout')"
+                    class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                    role="menuitem"
+                    tabindex="-1">
+                    <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
+                    Sign out
+                  </MenuItem>
                 </MenuItems>
               </transition>
             </Menu>
@@ -288,9 +327,9 @@ export default {
       ],
       dropdownmenuitems: [
         { name: 'Profile', route: '/', icon: UserGroupIcon },
-        { name: 'Settings', route: '/account', icon: CogIcon },
-        { name: 'Sign out', route: '/logout', icon: LogoutIcon },
+        { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
+      isShowing: false,
     };
   },
   mounted() {},

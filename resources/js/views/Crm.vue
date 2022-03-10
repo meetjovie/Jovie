@@ -1,6 +1,6 @@
 <template>
   <div id="crm" class="mx-auto w-full min-w-full">
-    <TabGroup :defaultIndex="0" as="div">
+    <TabGroup :defaultIndex="0" as="div" @change="changeTab">
       <div class="items-bottom flex w-full justify-between border-b bg-white">
         <div>
           <div class="relative mx-auto w-full rounded sm:hidden">
@@ -39,601 +39,169 @@
             </div>
           </TabList>
         </div>
-        <div class="items-center">
-          <Listbox as="div" v-model="selected">
-            <div class="relative mt-2 items-center">
-              <ListboxButton
-                class="relative hidden w-60 cursor-default items-center rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 sm:text-xs lg:block">
-                <span class="block truncate">Filter by list</span>
-                <span
-                  class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <ChevronDownIcon
-                    class="h-5 w-5 text-gray-400"
-                    aria-hidden="true" />
-                </span>
-              </ListboxButton>
-              <transition
-                leave-active-class="transition ease-in duration-100"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0">
-                <ListboxOptions
-                  class="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none sm:text-xs">
-                  <ListboxOption as="template" v-slot="{ active, selected }">
-                    <li
-                      :class="[
-                        active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                        'relative cursor-default select-none py-2 pl-3 pr-9',
-                      ]">
-                      <span
-                        :class="[
-                          selected ? 'font-semibold' : 'font-normal',
-                          'block truncate',
-                        ]">
-                        This is a list
-                      </span>
+        <div class="w-60 items-center">
+          <Combobox as="div" v-model="filters.list">
+            <div class="relative mt-1">
+              <ComboboxInput
+                class="w-full rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                :displayValue="(list) => (list ? list.name : '')"
+                @change="searchList = $event.target.value" />
+              <ComboboxButton
+                class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                <ChevronDownIcon
+                  class="h-5 w-5 text-gray-400"
+                  aria-hidden="true" />
+              </ComboboxButton>
 
-                      <span
-                        v-if="selected"
-                        :class="[
-                          active ? 'text-white' : 'text-indigo-600',
-                          'absolute inset-y-0 right-0 flex items-center pr-4',
-                        ]">
-                        <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                      </span>
-                    </li>
-                  </ListboxOption>
-                  <ListboxOption as="template" v-slot="{ active, selected }">
-                    <li
-                      :class="[
-                        active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                        'relative cursor-default select-none py-2 pl-3 pr-9',
-                      ]">
-                      <span
-                        :class="[
-                          selected ? 'font-semibold' : 'font-normal',
-                          'block truncate',
-                        ]">
-                        An so is this
-                      </span>
+              <ComboboxOptions
+                v-if="filteredUsersLists.length > 0"
+                class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <ComboboxOption
+                  v-for="list in filteredUsersLists"
+                  :key="list.id"
+                  :value="list"
+                  as="template"
+                  v-slot="{ active, selected }">
+                  <li
+                    :class="[
+                      'relative cursor-default select-none py-2 pl-3 pr-9',
+                      active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                    ]">
+                    <span
+                      :class="['block truncate', selected && 'font-semibold']">
+                      {{ list.name }}
+                    </span>
 
-                      <span
-                        v-if="selected"
-                        :class="[
-                          active ? 'text-white' : 'text-indigo-600',
-                          'absolute inset-y-0 right-0 flex items-center pr-4',
-                        ]">
-                        <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                      </span>
-                    </li>
-                  </ListboxOption>
-                </ListboxOptions>
-              </transition>
+                    <span
+                      v-if="selected"
+                      :class="[
+                        'absolute inset-y-0 right-0 flex items-center pr-4',
+                        active ? 'text-white' : 'text-indigo-600',
+                      ]">
+                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  </li>
+                </ComboboxOption>
+              </ComboboxOptions>
             </div>
-          </Listbox>
+          </Combobox>
         </div>
         <div class="items-center px-2">
-          <span
-            class="relative z-0 inline-flex h-full items-center rounded-md shadow-sm">
-            <button
-              type="button"
-              class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-1 px-4 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
-              Add creator
-            </button>
-            <Menu as="span" class="relative -ml-px block">
+          <Menu as="div" class="relative inline-block items-center text-left">
+            <span class="relative z-0 inline-flex rounded-md py-1">
+              <button
+                as="router-link"
+                to="/import"
+                type="button"
+                class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-2 px-3 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                Add creator
+              </button>
               <MenuButton
-                class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
-                <span class="sr-only text-xs">Add creator</span>
+                as="div"
+                class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
                 <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
               </MenuButton>
-              <transition
-                enter-active-class="transition ease-out duration-100"
-                enter-from-class="transform opacity-0 scale-95"
-                enter-to-class="transform opacity-100 scale-100"
-                leave-active-class="transition ease-in duration-75"
-                leave-from-class="transform opacity-100 scale-100"
-                leave-to-class="transform opacity-0 scale-95">
-                <MenuItems
-                  class="-0 absolute z-40 mt-2 -mr-1 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                  <div class="py-1">
-                    <MenuItem>
-                      <a
-                        :href="item.href"
-                        :class="[
-                          active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-xs',
-                        ]">
-                        Import from CSV
-                      </a>
-                    </MenuItem>
-                    <MenuItem>
-                      <a
-                        :href="item.href"
-                        :class="[
-                          active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-xs',
-                        ]">
-                        Import from list
-                      </a>
-                    </MenuItem>
-                  </div>
-                </MenuItems>
-              </transition>
-            </Menu>
-          </span>
+            </span>
+            <transition
+              enter-active-class="transition ease-out duration-100"
+              enter-from-class="transform opacity-0 scale-95"
+              enter-to-class="transform opacity-100 scale-100"
+              leave-active-class="transition ease-in duration-75"
+              leave-from-class="transform opacity-100 scale-100"
+              leave-to-class="transform opacity-0 scale-95">
+              <MenuItems
+                class="absolute right-0 z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                <div class="">
+                  <MenuItem v-slot="{ active }">
+                    <router-link
+                      to="/import"
+                      :class="[
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        'group flex items-center px-4 py-2 text-sm first:pt-3 last:pt-3',
+                      ]">
+                      <CloudUploadIcon
+                        class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                        aria-hidden="true" />
+                      Import a csv
+                    </router-link>
+                  </MenuItem>
+                  <MenuItem v-slot="{ active }">
+                    <a
+                      @click="exportCrmCreators()"
+                      :class="[
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        'group flex items-center px-4 py-2 text-sm first:pt-3 last:pt-3',
+                      ]">
+                      <DownloadIcon
+                        class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                        aria-hidden="true" />
+                      Export a csv
+                    </a>
+                  </MenuItem>
+                </div>
+              </MenuItems>
+            </transition>
+          </Menu>
         </div>
       </div>
       <TabPanels>
         <TabPanel>
-          <div id="crm" class="mx-auto w-full min-w-full">
+          <div class="mx-auto w-full min-w-full">
             <div class="w-full">
               <div class="flex w-full flex-col">
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
                     <div
                       class="overflow-hidden border-b border-gray-200 shadow">
-                      <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                          <tr>
-                            <th
-                              scope="col"
-                              class="items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500">
-                              <div class="grid grid-cols-2 items-center">
-                                <div class="h-5 items-center text-center">
-                                  <input
-                                    id="comments"
-                                    aria-describedby="comments-description"
-                                    name="comments"
-                                    type="checkbox"
-                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
-                                </div>
-                                <div
-                                  class="group sr-only items-center text-center text-gray-300 hover:text-red-500">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 group-hover:fill-red-500"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                  </svg>
-                                </div>
-                              </div>
-                            </th>
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
-                              Creator
-                            </th>
-                            <th
-                              scope="col"
-                              class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
-                              First
-                            </th>
-                            <th
-                              scope="col"
-                              class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:flex">
-                              Last
-                            </th>
-                            <th
-                              scope="col"
-                              class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
-                              Email
-                            </th>
-                            <th
-                              scope="col"
-                              class="flex items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
-                              Followers
-                            </th>
-                            <th
-                              scope="col"
-                              class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
-                              Offer
-                            </th>
-
-                            <!-- <th scope="col"
-                                        class="px-2 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
-                                        Campaign
-                                    </th> -->
-                            <th
-                              scope="col"
-                              class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 md:table-cell">
-                              Stage
-                            </th>
-                            <th
-                              scope="col"
-                              class="hidden px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
-                              Contacted
-                            </th>
-                            <th
-                              scope="col"
-                              class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
-                              Rating
-                            </th>
-                            <th
-                              scope="col"
-                              class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
-                              <div class="hidden w-60 text-right 2xl:block">
-                                Showing 10 of 100 creators
-                              </div>
-                              <div
-                                class="hidden w-40 text-right lg:block 2xl:hidden">
-                                10 of 100
-                              </div>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody class="h-full divide-y divide-gray-200 bg-white">
-                          <tr
-                            v-for="creator in creators"
-                            :key="creator"
-                            class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
-                            <td
-                              class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
-                              <div class="grid grid-cols-2 items-center">
-                                <div class="group mr-2">
-                                  <span class="group-hover:hidden">
-                                    {{ creator.id }}
-                                  </span>
-                                  <span class="hidden group-hover:block">
-                                    <input
-                                      id="comments-description"
-                                      aria-describedby="comments-description"
-                                      name="comments"
-                                      type="checkbox"
-                                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
-                                  </span>
-                                </div>
-                                <div>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 hover:fill-red-500 hover:text-red-500"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                  </svg>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="whitespace-nowrap border px-2">
-                              <div class="flex items-center">
-                                <div class="mr-2 h-8 w-8 flex-shrink-0">
-                                  <div
-                                    class="rounded-full p-0.5"
-                                    :class="[
-                                      {
-                                        'bg-social-youtube/60':
-                                          creator.network == 'youtube',
-                                      },
-                                      {
-                                        'bg-social-twitter/90':
-                                          creator.network == 'twitter',
-                                      },
-                                      {
-                                        'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90':
-                                          creator.network == 'instagram',
-                                      },
-                                      {
-                                        'bg-social-snapchat':
-                                          creator.network == 'snapchat',
-                                      },
-                                      {
-                                        'bg-gradient-to-l from-pink-700 to-sky-700':
-                                          creator.network == 'tiktok',
-                                      },
-                                    ]">
-                                    <div class="rounded-full bg-white p-0">
-                                      <img
-                                        class="rounded-full object-cover object-center"
-                                        :src="creator.avatar"
-                                        alt="" />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="">
-                                  <div
-                                    class="text-xs font-medium text-gray-900">
-                                    {{ creator.name }}
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                            <td
-                              class="border-1 hidden w-24 border-collapse whitespace-nowrap border lg:table-cell">
-                              <div class="text-sm text-gray-900 line-clamp-1">
-                                <input
-                                  v-model="creator.firstname"
-                                  autocomplete="off"
-                                  type="creator-firstname"
-                                  name="creator-firstname"
-                                  id="creator-firname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
-                                  placeholder="First"
-                                  aria-describedby="email-description" />
-                              </div>
-                            </td>
-                            <td
-                              class="border-1 hidden w-20 border-collapse whitespace-nowrap border xl:table-cell">
-                              <div class="text-xs text-gray-900 line-clamp-1">
-                                <input
-                                  v-model="creator.lastname"
-                                  autocomplete="off"
-                                  type="creator-lastname"
-                                  name="creator-lastname"
-                                  id="creator-lastname"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
-                                  placeholder="Last"
-                                  aria-describedby="email-description" />
-                              </div>
-                            </td>
-                            <td
-                              class="border-1 hidden border-collapse whitespace-nowrap border focus:border-indigo-500 lg:table-cell">
-                              <div class="text-xs text-gray-700 line-clamp-1">
-                                <input
-                                  v-model="creator.email"
-                                  autocomplete="off"
-                                  type="creator-email"
-                                  name="creator-email"
-                                  id="creator-email"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
-                                  placeholder="creatoremail@gmail.com"
-                                  aria-describedby="email-description" />
-                              </div>
-                            </td>
-                            <td
-                              class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
-                              <a
-                                :href="creator.networklink"
-                                class="text-nuetral-800 inline-flex items-center justify-between rounded-full px-3 py-1 text-center text-xs font-bold">
-                                <div
-                                  class="mr-2 items-center opacity-30 group-hover:opacity-100">
-                                  <SocialIcons
-                                    height="14px"
-                                    :icon="creator.network" />
-                                </div>
-                                {{ creator.followers }}
-                              </a>
-                            </td>
-                            <td
-                              class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
+                      <div
+                        v-if="!loading && creators.length < 1"
+                        class="mx-auto max-w-7xl items-center py-24 px-4 sm:px-6 lg:px-8">
+                        <div class="mx-auto max-w-xl">
+                          <router-link
+                            to="import"
+                            :class="[
+                              active
+                                ? 'bg-gray-100 text-gray-900'
+                                : 'text-gray-700',
+                              'group flex items-center px-4 py-2 text-sm first:pt-3 last:pt-3',
+                            ]">
+                            <button
+                              type="button"
+                              class="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="mx-auto h-12 w-12 text-gray-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                              </svg>
                               <span
-                                class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
-                                $
-                                <input
-                                  v-model="creator.offer"
-                                  autocomplete="off"
-                                  type="creator-offer"
-                                  name="creator-offer"
-                                  id="creator-offer"
-                                  class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
-                                  placeholder="5,000"
-                                  aria-describedby="email-description" />
+                                class="mt-2 block text-sm font-bold text-gray-900">
+                                Select a file to upload
                               </span>
-                            </td>
-                            <!-- <td class="px-2 py-1 border border-collapse border-1 whitespace-nowrap">
-                                                 <span
-                                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-nuetral-800">
-                                                       {{creator.campaign}}
-                                                 </span>
-                                    </td> -->
-                            <td
-                              class="border-1 hidden w-32 border-collapse items-center whitespace-nowrap border md:table-cell">
-                              <Popover
-                                as="div"
-                                class="relative inline-block text-left">
-                                <PopoverButton
-                                  class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-indigo-100 px-2 py-1 text-xs font-semibold leading-5 text-indigo-800">
-                                  {{ creator.stage }}
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="ml-2 h-4 w-4 hover:text-indigo-700 group-hover:text-indigo-900"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M19 9l-7 7-7-7" />
-                                  </svg>
-                                </PopoverButton>
-                                <transition
-                                  enter-active-class="transition duration-100 ease-out"
-                                  enter-from-class="transform scale-95 opacity-0"
-                                  enter-to-class="transform scale-100 opacity-100"
-                                  leave-active-class="transition duration-75 ease-in"
-                                  leave-from-class="transform scale-100 opacity-100"
-                                  leave-to-class="transform scale-95 opacity-0">
-                                  <PopoverPanel
-                                    class="center-0 absolute z-30 mt-2 w-60 origin-top-right divide-y divide-gray-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus:outline-none">
-                                    <div class="">
-                                      <div class="">
-                                        <button
-                                          :class="[
-                                            active
-                                              ? 'bg-indigo-500 text-neutral-700'
-                                              : 'text-gray-900',
-                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
-                                          ]">
-                                          <div
-                                            class="mr-2 font-bold opacity-50">
-                                            1
-                                          </div>
-                                          <div class="font-bold">
-                                            Interested
-                                          </div>
-                                        </button>
+                              <span
+                                class="mt-2 block text-xs font-medium text-gray-400">
+                                or drag and drop csv files</span
+                              >
+                            </button>
+                          </router-link>
+                        </div>
+                      </div>
 
-                                        <button
-                                          :class="[
-                                            active
-                                              ? 'bg-indigo-500 text-neutral-700'
-                                              : 'text-gray-900',
-                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
-                                          ]">
-                                          <div
-                                            class="mr-2 font-bold opacity-50">
-                                            2
-                                          </div>
-                                          <div class="font-bold">
-                                            Negotiating
-                                          </div>
-                                        </button>
-                                        <button
-                                          :class="[
-                                            active
-                                              ? 'bg-indigo-500 text-neutral-700'
-                                              : 'text-gray-900',
-                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
-                                          ]">
-                                          <div
-                                            class="mr-2 font-bold opacity-50">
-                                            3
-                                          </div>
-                                          <div class="font-bold">
-                                            In Progress
-                                          </div>
-                                        </button>
-                                        <button
-                                          :class="[
-                                            active
-                                              ? 'bg-indigo-500 text-neutral-700'
-                                              : 'text-gray-900',
-                                            'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
-                                          ]">
-                                          <div
-                                            class="mr-2 font-bold opacity-50">
-                                            4
-                                          </div>
-                                          <div class="font-bold">Complete</div>
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </PopoverPanel>
-                                </transition>
-                              </Popover>
-                            </td>
-                            <td
-                              class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 xl:table-cell">
-                              <input
-                                v-model="creator.contacted"
-                                autocomplete="off"
-                                type="creator-offer"
-                                name="creator-offer"
-                                id="creator-offer"
-                                class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs"
-                                placeholder="--/--/----"
-                                aria-describedby="email-description" />
-                            </td>
-                            <td
-                              class="W-28 whitespace-nowrap px-6 py-1 text-sm text-gray-500">
-                              <star-rating
-                                class="w-20"
-                                :star-size="12"
-                                :increment="0.5"
-                                v-model:rating="creator.rating"></star-rating>
-                            </td>
-                            <td
-                              class="justify-right whitespace-nowrap py-1 text-right text-xs font-medium">
-                              <div
-                                class="justify-right grid grid-cols-2 items-center gap-4">
-                                <div>
-                                  <a
-                                    href="/creatoroverview"
-                                    class="text-indigo-600 hover:text-indigo-900"
-                                    >Manage</a
-                                  >
-                                </div>
-                                <Menu
-                                  as="div"
-                                  class="relative inline-block text-left">
-                                  <div>
-                                    <MenuButton
-                                      class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-                                      <span class="sr-only">Open options</span>
-                                      <DotsVerticalIcon
-                                        class="h-5 w-5"
-                                        aria-hidden="true" />
-                                    </MenuButton>
-                                  </div>
-                                  <transition
-                                    enter-active-class="transition ease-out duration-100"
-                                    enter-from-class="transform opacity-0 scale-95"
-                                    enter-to-class="transform opacity-100 scale-100"
-                                    leave-active-class="transition ease-in duration-75"
-                                    leave-from-class="transform opacity-100 scale-100"
-                                    leave-to-class="transform opacity-0 scale-95">
-                                    <MenuItems
-                                      class="w-30 backdrop-fitler absolute right-10 z-10 mt-2 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
-                                      <div class="py-1">
-                                        <MenuItem v-slot="{ active }">
-                                          <a
-                                            href="#"
-                                            class="items-center text-neutral-400 hover:text-neutral-900"
-                                            :class="[
-                                              active
-                                                ? 'bg-gray-100 text-gray-900'
-                                                : 'text-gray-700',
-                                              'block px-4 py-2 text-sm',
-                                            ]">
-                                            <ArchiveIcon
-                                              class="mr-2 inline h-5 w-5" />
-                                            Archive</a
-                                          >
-                                        </MenuItem>
-                                        <MenuItem v-slot="{ active }">
-                                          <a
-                                            href="#"
-                                            class="items-center text-neutral-400 hover:text-neutral-900"
-                                            :class="[
-                                              active
-                                                ? 'bg-gray-100 text-gray-900'
-                                                : 'text-gray-700',
-                                              'block px-4 py-2 text-sm',
-                                            ]">
-                                            <BanIcon
-                                              class="mr-2 inline h-5 w-5" />
-                                            Mute</a
-                                          >
-                                        </MenuItem>
-                                        <MenuItem v-slot="{ active }">
-                                          <a
-                                            href="#"
-                                            class="items-center text-neutral-400 hover:text-neutral-900"
-                                            :class="[
-                                              active
-                                                ? 'bg-gray-100 text-gray-900'
-                                                : 'text-gray-700',
-                                              'block px-4 py-2 text-sm',
-                                            ]">
-                                            <TrashIcon
-                                              class="mr-2 inline h-5 w-5" />
-                                            Remove</a
-                                          >
-                                        </MenuItem>
-                                      </div>
-                                    </MenuItems>
-                                  </transition>
-                                </Menu>
-
-                                <!-- This example requires Tailwind CSS v2.0+ -->
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <CrmTable
+                        v-else
+                        @updateCreator="updateCreator"
+                        @pageChanged="pageChanged"
+                        :creators="creators"
+                        :networks="networks"
+                        :stages="stages"
+                        :creatorsMeta="creatorsMeta"
+                        :loading="loading" />
                     </div>
                   </div>
                 </div>
@@ -641,7 +209,30 @@
             </div>
           </div>
         </TabPanel>
-        <TabPanel>Content 2</TabPanel>
+        <TabPanel>
+          <div class="mx-auto w-full min-w-full">
+            <div class="w-full">
+              <div class="flex w-full flex-col">
+                <div class="mx-auto w-full p-0">
+                  <div class="inline-block w-full align-middle">
+                    <div
+                      class="overflow-hidden border-b border-gray-200 shadow">
+                      <CrmTable
+                        @updateCreator="updateCreator"
+                        @pageChanged="pageChanged"
+                        :creators="creators"
+                        :networks="networks"
+                        :stages="stages"
+                        :creatorsMeta="creatorsMeta"
+                        :arcvhied="true"
+                        :loading="loading" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </TabPanel>
       </TabPanels>
     </TabGroup>
   </div>
@@ -649,10 +240,11 @@
 
 <script>
 import {
-  Listbox,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption,
+  Combobox,
+  ComboboxButton,
+  ComboboxInput,
+  ComboboxOptions,
+  ComboboxOption,
   TabGroup,
   TabList,
   Tab,
@@ -662,51 +254,33 @@ import {
   MenuButton,
   MenuItems,
   MenuItem,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
 } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
 import {
   DotsVerticalIcon,
   ChevronDownIcon,
+  DownloadIcon,
   CheckIcon,
-  SearchCircleIcon,
-  ArchiveIcon,
-  DuplicateIcon,
-  BanIcon,
-  TrashIcon,
+  CloudUploadIcon,
 } from '@heroicons/vue/solid';
-import SocialIcons from '../components/SocialIcons.vue';
-
-const people = [
-  { id: 1, name: 'Wade Cooper' },
-  { id: 2, name: 'Arlene Mccoy' },
-  { id: 3, name: 'Devon Webb' },
-  { id: 4, name: 'Tom Cook' },
-  { id: 5, name: 'Tanya Fox' },
-  { id: 6, name: 'Hellen Schmidt' },
-  { id: 7, name: 'Caroline Schultz' },
-  { id: 8, name: 'Mason Heaney' },
-  { id: 9, name: 'Claudie Smitham' },
-  { id: 10, name: 'Emil Schaefer' },
-];
+import UserService from '../services/api/user.service';
+import CrmTable from '../components/Crm/CrmTable';
 
 export default {
   name: 'CRM',
   components: {
-    DuplicateIcon,
-    ArchiveIcon,
+    DownloadIcon,
     TabGroup,
     TabList,
     Tab,
     TabPanels,
     TabPanel,
     StarRating,
-    Listbox,
-    ListboxButton,
-    ListboxOptions,
-    ListboxOption,
+    Combobox,
+    ComboboxInput,
+    ComboboxButton,
+    ComboboxOptions,
+    ComboboxOption,
     Menu,
     MenuButton,
     MenuItems,
@@ -714,194 +288,120 @@ export default {
     DotsVerticalIcon,
     ChevronDownIcon,
     CheckIcon,
-    SearchCircleIcon,
-    SocialIcons,
-    Popover,
-    PopoverButton,
-    PopoverPanel,
-    BanIcon,
-    TrashIcon,
+    CloudUploadIcon,
+    CrmTable,
   },
   data() {
     return {
-      stages: [
-        { icon: BanIcon, name: 'Interested' },
-        { icon: SearchCircleIcon, name: 'Qualified' },
-      ],
+      stages: [],
+      networks: [],
+      userLists: [],
 
-      creators: [
-        {
-          id: 1,
-          favorite: true,
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Martha Hoover',
-          firstname: 'Marth',
-          lastname: 'Hoover',
-          email: 'mhoover@gmail.com',
-          rating: '4.3',
-          followers: '1.5M',
-          offer: '240K',
-          stage: 'Onboarding',
-          contacted: '1/12/2020',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=1',
-        },
-        {
-          id: 2,
-          favorite: false,
-          network: 'twitter',
-          networklink: 'http://twitter.com/itstimwhite',
-          name: 'Candice Mccoy',
-          firstname: 'Candice',
-          lastname: 'Mccoy',
-          email: 'candicem@gmail.com',
-          rating: '3',
-          followers: '1.2M',
-          offer: '12K',
-          stage: 'Onboarding',
-          contacted: '1/1e/2020',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=2',
-        },
-        {
-          id: 3,
-          favorite: false,
-          network: 'youtube',
-          networklink: 'http://youtube.com/timwhite',
-          name: 'Taylor Smith',
-          firstname: 'Taylor',
-          lastname: 'Smith',
-          email: '',
-          rating: '2',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Onboarding',
-          contacted: '1/1e/2020',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=3',
-        },
-        {
-          id: 4,
-          favorite: false,
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Taylor Smith',
-          firstname: 'Taylor',
-          lastname: 'Smith',
-          email: '',
-          rating: '2',
-          followers: '47.2K',
-          offer: '900K',
-          stage: 'Onboarding',
-          contacted: '1/1e/2020',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=3',
-        },
-        {
-          id: 5,
-          favorite: false,
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Keira Jones',
-          firstname: 'Keira',
-          lastname: 'Jones',
-          email: '',
-          rating: '4.9',
-          followers: '4.2M',
-          offer: '344K',
-          stage: 'Negotiating',
-          contacted: '3/2/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=5',
-        },
-        {
-          id: 6,
-          favorite: false,
-          network: 'snapchat',
-          networklink: 'http://snapchat.com/timwhite',
-          name: 'Mila Vance',
-          firstname: 'Mila',
-          lastname: 'Vance',
-          email: '',
-          rating: '2.9',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Complete',
-          contacted: '1/11/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=6',
-        },
-        {
-          id: 7,
-          favorite: false,
-          network: 'tiktok',
-          networklink: 'http://tiktok.com/@timwhite',
-          name: 'Kylie Brent',
-          firstname: 'Kylie',
-          lastname: 'Brent',
-          email: '',
-          rating: '1.2',
-          followers: '1.2B',
-          offer: '10K',
-          stage: 'Interested',
-          contacted: '4/5/2021',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=7',
-        },
-        {
-          id: 8,
-          favorite: false,
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Sophia Dustin',
-          firstname: 'Sophia',
-          lastname: 'Dustin',
-          email: '',
-          rating: '4.9',
-          followers: '4.2M',
-          offer: '344K',
-          stage: 'Negotiating',
-          contacted: '3/2/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=8',
-        },
-        {
-          id: 9,
-          favorite: false,
-          network: 'snapchat',
-          networklink: 'http://snapchat.com/timwhite',
-          name: 'James Johnson',
-          firstname: 'James',
-          lastname: 'Johnson',
-          email: '',
-          rating: '2.9',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Complete',
-          contacted: '1/11/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=9',
-        },
-        {
-          id: 10,
-          favorite: false,
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Mike Croft',
-          firstname: 'Mike',
-          lastname: 'Croft',
-          email: '',
-          rating: '1.2',
-          followers: '1.2B',
-          offer: '10K',
-          stage: 'Interested',
-          contacted: '4/5/2021',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=10',
-        },
-      ],
+      loading: false,
+      creators: [],
+      creatorsMeta: {},
+      filters: {
+        list: null,
+        archived: 0,
+        page: 1,
+      },
+      searchList: '',
     };
+  },
+  watch: {
+    filters: {
+      deep: true,
+      handler: function (val) {
+        this.getCrmCreators();
+      },
+    },
+  },
+  computed: {
+    filteredUsersLists() {
+      if (!this.searchList) this.filters.list = null;
+      return this.userLists.filter((list) =>
+        list.name.toLowerCase().match(this.searchList.toLowerCase())
+      );
+    },
+  },
+  mounted() {
+    this.getCrmCreators();
+    this.getUserLists();
+  },
+  methods: {
+    getUserLists() {
+      UserService.getUserLists().then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.userLists = response.lists;
+        }
+      });
+    },
+    pageChanged({ page }) {
+      this.filters.page = page;
+    },
+    changeTab(index) {
+      Object.assign(this.$data, this.$options.data());
+      if (index == 1) {
+        this.filters.archived = 1;
+      } else {
+        this.filters.archived = 0;
+      }
+    },
+    getCrmCreators(filters = {}) {
+      this.loading = true;
+      let data = JSON.parse(JSON.stringify(this.filters));
+      data.list = data.list?.id;
+      UserService.getCrmCreators(data).then((response) => {
+        this.loading = false;
+        response = response.data;
+        if (response.status) {
+          this.networks = response.networks;
+          this.stages = response.stages;
+          this.creators = response.creators.data;
+          this.creatorsMeta = response.creators;
+          this.filters.page = response.creators.current_page;
+        }
+      });
+    },
+    exportCrmCreators() {
+      UserService.exportCrmCreators(this.filters).then((response) => {
+        var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        var fileLink = document.createElement('a');
+
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'creators.csv');
+        document.body.appendChild(fileLink);
+
+        fileLink.click();
+      });
+    },
+    updateCreator({ id, index, network, key, value }) {
+      const data = {
+        id: id,
+      };
+      let keySplits = key.split('.');
+      if (keySplits.length > 1) {
+        var key1 = keySplits[0];
+        var key2 = keySplits[1];
+        data[key1] = {
+          [key2]: value,
+        };
+      } else {
+        data[key] = value;
+      }
+
+      this.$store.dispatch('updateCreator', data).then((response) => {
+        response = response.data;
+        if (response.status) {
+          if (response.data == null) {
+            this.creators.splice(index, 1);
+          } else {
+            this.creators[index] = response.data;
+          }
+        }
+      });
+    },
   },
 };
 </script>

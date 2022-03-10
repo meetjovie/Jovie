@@ -69,7 +69,7 @@
 
                         <input type="text" name="email" id="email"
                                class="mt-4 focus-visible:ring-indigo-500 py-3 focus-visible:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                               placeholder="you@example.com"> 
+                               placeholder="you@example.com">
 
                 </div>
                 </div>

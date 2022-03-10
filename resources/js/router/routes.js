@@ -1,4 +1,5 @@
 import { authenticationGuard } from '../middlewares/auth';
+import { publicProfile } from '../middlewares/publicProfile';
 
 import store from '../store';
 
@@ -33,6 +34,7 @@ export const routes = [
     name: 'Dashboard',
     path: '/dashboard',
     component: loadPage('Dashboard'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
     },
@@ -92,6 +94,7 @@ export const routes = [
     name: 'Import',
     path: '/import',
     component: loadPage('Import'),
+
     meta: {
       layout: 'App',
     },
@@ -100,6 +103,7 @@ export const routes = [
     name: 'Admin Panel',
     path: '/admin',
     component: loadPage('Admin'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
     },
@@ -108,6 +112,8 @@ export const routes = [
     name: 'Outreach',
     path: '/outreach',
     component: loadPage('Outreach'),
+    beforeEnter: authenticationGuard,
+
     meta: {
       layout: 'App',
     },
@@ -116,6 +122,7 @@ export const routes = [
     name: 'Discovery',
     path: '/discovery',
     component: loadPage('Discovery'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
     },
@@ -124,6 +131,7 @@ export const routes = [
     name: 'Analytics',
     path: '/analytics',
     component: loadPage('Analytics'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
     },
@@ -132,24 +140,9 @@ export const routes = [
     name: 'Campaigns',
     path: '/campaigns',
     component: loadPage('Campaigns'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
-    },
-  },
-  {
-    name: 'Tim White Profile',
-    path: '/tim',
-    component: loadPage('Tim'),
-    meta: {
-      layout: 'Minimal',
-    },
-  },
-  {
-    name: 'Profile',
-    path: '/haruki',
-    component: loadPage('Haruki'),
-    meta: {
-      layout: 'Minimal',
     },
   },
   {
@@ -177,21 +170,32 @@ export const routes = [
     },
   },
   {
+    name: 'Creator Overview',
+    path: '/creatoroverview',
+    component: loadPage('CreatorOverview'),
+    beforeEnter: authenticationGuard,
+    meta: {
+      layout: 'App',
+    },
+  },
+  {
     name: 'Pipeline',
     path: '/pipeline',
     component: loadPage('Pipeline'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
     },
   },
 
-  /* {
+  {
     name: 'Profile',
     path: '/:username',
     component: loadPage('Profile'),
+    beforeEnter: publicProfile,
     props: true,
     meta: {
       layout: 'Minimal',
     },
-  }, */
+  },
 ];
