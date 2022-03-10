@@ -23,8 +23,21 @@ export default {
         })
     },
 
-    async updateCreator(context, payload) {
-        return await userService.updateCreator(payload)
+    async updateCreator(context, { id, index, network, key, value }) {
+        const data = {
+            id: id,
+        };
+        let keySplits = key.split('.');
+        if (keySplits.length > 1) {
+            var key1 = keySplits[0];
+            var key2 = keySplits[1];
+            data[key1] = {
+                [key2]: value,
+            };
+        } else {
+            data[key] = value;
+        }
+        return await userService.updateCreator(data)
     },
 
     getPublicProfile(context, payload) {

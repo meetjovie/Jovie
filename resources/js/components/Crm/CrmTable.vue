@@ -317,11 +317,9 @@
                             <div
                                 class="justify-right grid grid-cols-2 items-center gap-4">
                                 <div>
-                                    <a
-                                        href="/creatoroverview"
-                                        class="text-indigo-600 hover:text-indigo-900"
-                                    >Manage</a
-                                    >
+                                    <router-link :to="{name: 'Creator Overview', params: {id: creator.id}}" class="text-indigo-600 hover:text-indigo-900">
+                                        Manage
+                                    </router-link>
                                 </div>
                                 <Menu as="div"
                                       class="relative inline-block text-left">

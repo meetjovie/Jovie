@@ -44,6 +44,7 @@ export const routes = [
         name: 'CRM',
         path: '/crm',
         component: loadPage('Crm'),
+        beforeEnter: authenticationGuard,
         meta: {
             layout: 'App',
         },
@@ -182,8 +183,9 @@ export const routes = [
     },
     {
         name: 'Creator Overview',
-        path: '/creatoroverview',
+        path: '/creator-overview/:id',
         component: loadPage('CreatorOverview'),
+        props: true,
         beforeEnter: authenticationGuard,
         meta: {
             layout: 'App',

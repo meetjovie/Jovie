@@ -219,6 +219,10 @@ class Creator extends Model
             $creators = $creators->where('creators.id', $params['id']);
         }
 
+        if (isset($params['username'])) {
+            $creators = $creators->where('creators.username', $params['username']);
+        }
+
         if (!isset($params['export'])) {
             $creators = $creators->paginate(50);
         } else {
