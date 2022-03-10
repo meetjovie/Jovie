@@ -101,10 +101,10 @@
                                 <div v-if="!$store.state.AuthState.loading">
                                     <div v-if="!$store.state.AuthState.isAuthenticated" class="cursor-pointer">
                                         <div class="inline-flex">
-                                            <a @click="login()"
+                                            <router-link to="login"
                                                class="text-neutral-300 cursor-hover:text-neutral-200 hover:text-white px-4 py-2 rounded-md text-xs font-medium">Sign
                                                 in
-                                            </a>
+                                            </router-link>
                                         </div>
                                         <div class="inline-flex">
                                             <a class:="justify-center px-2 max-auto" @click="demo">
