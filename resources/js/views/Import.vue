@@ -110,7 +110,7 @@
                         <div class="flex text-sm text-gray-600">
                           <label
                             for="file-upload"
-                            class="focus-active:underline-indigo-500 focus-active:ring-offset-2 relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 hover:text-indigo-500">
+                            class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500">
                             <span>Upload a file</span>
                             <input
                               id="file-upload"
