@@ -94,7 +94,7 @@ export const routes = [
     name: 'Import',
     path: '/import',
     component: loadPage('Import'),
-    beforeEnter: authenticationGuard,
+
     meta: {
       layout: 'App',
     },

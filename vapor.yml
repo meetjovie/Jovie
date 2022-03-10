@@ -12,7 +12,6 @@ environments:
       - 'php artisan event:cache'
       - 'npm ci && npm run prod && rm -rf node_modules'
     domain:
-      - prod.jov.ie
       - jov.ie
     network: A7X3-PRIMARY
     timeout: 900
