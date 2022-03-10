@@ -184,6 +184,7 @@ export const routes = [
         name: 'Creator Overview',
         path: '/creatoroverview',
         component: loadPage('CreatorOverview'),
+        beforeEnter: authenticationGuard,
         meta: {
             layout: 'App',
         },
