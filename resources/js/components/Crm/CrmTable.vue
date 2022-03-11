@@ -241,7 +241,7 @@
                                 <PopoverButton
                                     class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
                                     {{
-                                        creator.crm_record_by_user[`${network}_stage`]
+                                        creator.crm_record_by_user.stage
                                     }}
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -269,8 +269,8 @@
                                             <div class="">
                                                 <button
                                                     v-for="(stage, key) in stages"
-                                                    @click="$emit('updateCreator', {id:creator.id, index: index, network: network, key: `crm_record_by_user.${network}_stage`, value: key})"
-                                                    :class="[creator.crm_record_by_user[`${network}_stage`] == key ? 'bg-indigo-500 text-neutral-700': 'text-gray-900','flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs']">
+                                                    @click="$emit('updateCreator', {id:creator.id, index: index, network: network, key: `crm_record_by_user.stage`, value: key})"
+                                                    :class="[creator.crm_record_by_user.stage == key ? 'bg-indigo-500 text-neutral-700': 'text-gray-900','flex w-full items-center group first:rounded-t-lg last:rounded-b-lg px-2 py-2 first:pt-2 last:pb-2 text-neutral-700 hover:bg-indigo-700 hover:text-white text-xs']">
                                                     <div
                                                         class="mr-2 font-bold  opacity-50">
                                                         {{ key + 1 }}

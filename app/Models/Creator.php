@@ -18,16 +18,21 @@ class Creator extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['name', 'biography'];
+    protected $appends = ['name', 'biography', 'category'];
 
     public function getNameAttribute()
     {
-        return $this->instagram_name ?? $this->twitter_name;
+        return $this->full_name ?? ($this->first_name.' '.$this->last_name) ?? $this->instagram_name ?? $this->twitter_name;
     }
 
     public function getBiographyAttribute()
     {
         return $this->instagram_biography ?? $this->twitter_biography;
+    }
+
+    public function getCategoryAttribute()
+    {
+        return $this->instagram_category ?? $this->twitter_category;
     }
 
     public function user()

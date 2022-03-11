@@ -61,11 +61,11 @@ class CrmController extends Controller
 
     public function overview($id)
     {
-        $creators = Creator::where('id', $id)->with('crmRecordByUser')->has('crmRecordByUser')->first();
+        $creator = Creator::where('id', $id)->with('crmRecordByUser')->has('crmRecordByUser')->first();
 
         return collect([
             'status' => true,
-            'creators' => $creators,
+            'creator' => $creator,
 //            'networks' => Creator::NETWORKS,
             'stages' => Crm::stages()
         ]);

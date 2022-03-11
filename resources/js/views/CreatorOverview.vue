@@ -98,7 +98,7 @@
                                 </h2>
                                 <p
                                     class="ext-sm mt-1 max-w-2xl cursor-pointer text-gray-500 line-clamp-2 line-clamp-none">
-                                    {{ creator.instagram_biography }}
+                                    {{ creator.biography }}
                                 </p>
                                 <div class="mt-4">
                                     <CreatorSocialLinks iconstyle="horizontal"/>
@@ -122,7 +122,7 @@
                                             <Popover as="div" class="relative inline-block text-left">
                                                 <PopoverButton
                                                     class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
-                                                    {{ creator.crm_record_by_user.instgram_stage }}
+                                                    {{ creator.crm_record_by_user.stage }}
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
@@ -171,7 +171,7 @@
                                     <div class="sm:col-span-1">
                                         <dt class="text-sm font-medium text-gray-500">Category</dt>
                                         <dd class="mt-1 text-sm text-gray-900">
-                                            <CreatorTags size="md" text="Category"/>
+                                            <CreatorTags size="md" :text="creator.category"/>
                                         </dd>
                                     </div>
                                     <div class="sm:col-span-2">
@@ -424,7 +424,9 @@ export default {
                 if (response.status) {
                     this.networks = response.networks;
                     this.stages = response.stages;
-                    this.creator = response.creators.data[0];
+                    this.creator = response.creator;
+                    console.log('this.creator');
+                    console.log(this.creator);
                 }
             });
         },
