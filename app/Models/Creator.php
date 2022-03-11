@@ -16,9 +16,19 @@ class Creator extends Model
 
     const NETWORKS = ['instagram', 'twitch', 'onlyFans', 'snapchat', 'linkedin', 'youtube', 'twitter', 'tiktok'];
 
-    protected $guarded = ['name', 'biography'];
+    protected $guarded = [];
 
-    protected $appends = [];
+    protected $appends = ['name', 'biography'];
+
+    public function getNameAttribute()
+    {
+        return $this->instagram_name ?? $this->twitter_name;
+    }
+
+    public function getBiographyAttribute()
+    {
+        return $this->instagram_biography ?? $this->twitter_biography;
+    }
 
     public function user()
     {
