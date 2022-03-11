@@ -59,14 +59,14 @@ class CrmController extends Controller
         return Excel::download(new CrmExport($creators), 'creators.csv');
     }
 
-    public function a(Request $request)
+    public function overview($id)
     {
-        $creators = Creator::getCrmCreators($request->all());
+        $creators = Creator::where('id', $id)->with('crmRecordByUser')->has('crmRecordByUser')->first();
 
         return collect([
             'status' => true,
             'creators' => $creators,
-            'networks' => Creator::NETWORKS,
+//            'networks' => Creator::NETWORKS,
             'stages' => Crm::stages()
         ]);
     }

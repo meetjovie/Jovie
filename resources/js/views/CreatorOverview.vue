@@ -97,13 +97,8 @@
                                     {{ creator.name }}
                                 </h2>
                                 <p
-                                    @click="fullbio = true"
-                                    class="ext-sm mt-1 max-w-2xl cursor-pointer text-gray-500 line-clamp-2"
-                                    :class="[
-                    { 'line-clamp-none': fullbio == true },
-                    { 'line-clamp-2': fullbio == false },
-                  ]">
-                                    {{ creator.bio }}
+                                    class="ext-sm mt-1 max-w-2xl cursor-pointer text-gray-500 line-clamp-2 line-clamp-none">
+                                    {{ creator.instagram_biography }}
                                 </p>
                                 <div class="mt-4">
                                     <CreatorSocialLinks iconstyle="horizontal"/>
@@ -394,7 +389,6 @@ export default {
     props: ['profile', 'socialNetworks', 'creatorId'],
     data() {
         return {
-            fullbio: false,
             creator: null,
             stages: [],
             networks: [],
@@ -421,11 +415,10 @@ export default {
         };
     },
     methods: {
-        getCrmCreators() {
+        getCreatorOverview() {
             this.loading = true;
             const id = this.$route.params.id
-            let data = {id: id};
-            UserService.getCrmCreators(data).then((response) => {
+            UserService.getCreatorOverview(id).then((response) => {
                 this.loading = false;
                 response = response.data;
                 if (response.status) {
@@ -449,7 +442,7 @@ export default {
         },
     },
     mounted() {
-        this.getCrmCreators()
+        this.getCreatorOverview()
     }
 
 };

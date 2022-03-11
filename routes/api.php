@@ -43,5 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
         Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 
+//      OVERVIEW
+        Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
     });
 });
