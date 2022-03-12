@@ -25,6 +25,7 @@
     ]">
     {{ text }}
     <button
+        v-if="showX"
       type="button"
       class="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus-visible:bg-indigo-500 focus-visible:text-white focus-visible:outline-none"
       :class="[
@@ -83,6 +84,10 @@ export default {
       type: String,
       default: 'none',
     },
+      showX: {
+        type: Boolean,
+          default: true
+      }
   },
 };
 </script>

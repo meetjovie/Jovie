@@ -183,7 +183,7 @@
                                     <div class="sm:col-span-1">
                                         <dt class="text-sm font-medium text-gray-500">Category</dt>
                                         <dd class="mt-1 text-sm text-gray-900">
-                                            <CreatorTags size="md" :text="creator.category"/>
+                                            <CreatorTags :showX="false" size="md" :text="creator.category"/>
                                         </dd>
                                     </div>
                                     <div class="sm:col-span-2">
