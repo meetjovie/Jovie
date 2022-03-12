@@ -18,7 +18,7 @@ class Creator extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['name', 'biography', 'category'];
+    protected $appends = ['name', 'biography', 'category', 'socialLinksWithFollowers'];
 
     public function getNameAttribute()
     {
@@ -33,6 +33,23 @@ class Creator extends Model
     public function getCategoryAttribute()
     {
         return $this->instagram_category ?? $this->twitter_category;
+    }
+
+    public function getSocialLinksWithFollowersAttribute()
+    {
+        $socialLinks = collect();
+        $networks = self::NETWORKS;
+
+        foreach ($networks as $network) {
+            if (!is_null($this[$network.'_handler']) && isset($this[$network.'_handler'])) {
+                $socialLinks->push([
+                    'url' => $this[$network.'_handler'],
+                    'followers' => $this[$network.'_followers'],
+                    'network' => $network
+                ]);
+            }
+        }
+        return $socialLinks;
     }
 
     public function user()
@@ -164,10 +181,29 @@ class Creator extends Model
         }
     }
 
-    public function getYoutubeHandlerAttribute($value)
+    public function getTwitterHandlerAttribute($value)
     {
-        return json_decode($value ?? '{}');
+        if ($value) {
+            return 'https://twitter.com/' . $value;
+        }
+        return null;
     }
+
+    public function getInstagramHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://instagram.com/' . $value;
+        }
+        return null;
+    }
+
+//    public function getYoutubeHandlerAttribute($value)
+//    {
+//        if (is_null($value)) {
+//            return $value;
+//        }
+//        return json_decode($value ?? '{}');
+//    }
 
     public function getInstagramMediaAttribute($value)
     {
@@ -192,14 +228,6 @@ class Creator extends Model
     public function getEmailsAttribute($value)
     {
         return json_decode($value ?? '[]');
-    }
-
-    public function getInstagramHandlerAttribute($value)
-    {
-        if ($value) {
-            return 'https://instagram.com/' . $value;
-        }
-        return null;
     }
 
     public function brands()

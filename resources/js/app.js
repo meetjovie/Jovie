@@ -30,6 +30,11 @@ app.mixin({
             } else if (value >= 1000000000 && value < 999999999999) {
                 return (value / 1000000000).toFixed(0) + 'B'
             }
+        },
+        openLink(link, newWindow) {
+            if (link) {
+                window.open(link, (newWindow ? '_blank' : ''))
+            }
         }
     }
 })

@@ -101,7 +101,7 @@
                                     {{ creator.biography }}
                                 </p>
                                 <div class="mt-4">
-                                    <CreatorSocialLinks iconstyle="horizontal"/>
+                                    <CreatorSocialLinks :socialLinks="creator.socialLinksWithFollowers" iconstyle="horizontal"/>
                                 </div>
                             </div>
                             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
@@ -113,7 +113,9 @@
                                                 class="w-20"
                                                 :star-size="12"
                                                 :increment="0.5"
-                                                v-model:rating="creator.crm_record_by_user.rating"></star-rating>
+                                                v-model:rating="creator.crm_record_by_user.rating"
+                                                @update:rating="updateCreator({id:creator.id, key: `crm_record_by_user.rating`, value: $event})"
+                                            ></star-rating>
                                         </dd>
                                     </div>
                                     <div class="sm:col-span-1">
@@ -147,7 +149,9 @@
                                                         class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                                                         <div class="">
                                                             <div class="">
-                                                                <button v-for="(stage, key) in stages">
+                                                                <button v-for="(stage, key) in stages"
+                                                                        @click="updateCreator({id:creator.id, key: `crm_record_by_user.stage`, value: key})"
+                                                                >
                                                                     <div class="mr-2 font-bold opacity-50">
                                                                         {{ key + 1 }}
                                                                     </div>
@@ -178,6 +182,8 @@
                                         <dt class="text-sm font-medium text-gray-500">Email</dt>
                                         <dd class="mt-1 text-sm text-gray-900">
                                             <InputGroup
+                                                v-model="creator.emails"
+                                                @blur="updateCreator({id:creator.id, key: `emails`, value: creator.emails})"
                                                 icon="MailIcon"
                                                 :placeholder="creator.email"/>
                                         </dd>
@@ -185,9 +191,11 @@
                                     <div class="sm:col-span-2">
                                         <dt class="text-sm font-medium text-gray-500">Tags</dt>
                                         <dd class="mt-1 text-sm text-gray-900">
-                                            <CreatorTags size="md" color="pink" text="Fashion"/>
-                                            <CreatorTags size="md" color="blue" text="Music"/>
-                                            <CreatorTags size="md" color="green" text="Sports"/>
+                                            <template v-for="(tag, index) in creator.tags">
+                                                <CreatorTags v-if="index == 0" size="md" color="pink" :text="tag"/>
+                                                <CreatorTags v-if="index == 1" size="md" color="blue" :text="tag"/>
+                                                <CreatorTags v-if="index == 2" size="md" color="green" :text="tag"/>
+                                            </template>
                                         </dd>
                                     </div>
                                     <div class="sm:col-span-2">
@@ -437,7 +445,7 @@ export default {
                     if (response.data == null) {
                         this.creators.splice(params.index, 1);
                     } else {
-                        this.creators[params.index] = response.data;
+                        this.creator = response.data;
                     }
                 }
             });
