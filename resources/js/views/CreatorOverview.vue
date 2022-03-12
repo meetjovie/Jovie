@@ -1,5 +1,13 @@
 <template>
     <div>
+        <CreatorMediaGroup>
+            <CreatorMediaItem>
+            </CreatorMediaItem>
+            <CreatorMediaItem>
+            </CreatorMediaItem>
+            <CreatorMediaItem>
+            </CreatorMediaItem>
+        </CreatorMediaGroup>
         <div
             class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-gray-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
             <div class="inline-flex">
@@ -365,9 +373,13 @@ import CreatorHandles from '../components/Creator/CreatorHandles.vue';
 import store from "../store";
 import router from "../router";
 import UserService from "../services/api/user.service";
+import CreatorMediaGroup from "../components/TimelineMedia/CreatorMediaGroup";
+import CreatorMediaItem from "../components/TimelineMedia/CreatorMediaItem";
 
 export default {
     components: {
+        CreatorMediaItem,
+        CreatorMediaGroup,
         CreatorAvatar,
         SocialIcons,
         PlusIcon,
