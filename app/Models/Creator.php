@@ -159,7 +159,7 @@ class Creator extends Model
 
     public function getInstagramMetaAttribute($value)
     {
-        return json_decode($value ?? '[]');
+        return json_decode($value ?? '{}');
     }
 
     public function getSocialLinksAttribute($value)
