@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Creator extends Model
 {
@@ -246,24 +247,36 @@ class Creator extends Model
 
     public static function getCrmCreators($params)
     {
-        $creators = Creator::with(['crmRecordByUser'])
-            ->whereHas('crmRecordByUser', function ($q) use ($params) {
-                $q->where(function ($q) {
-                    $q->where('muted', 0)->orWhere('muted', null);
-                })->where(function ($q) use ($params) {
-                    if (isset($params['archived']) && $params['archived'] == 1) {
-                        $q->where('instagram_archived', true);
-                    } else {
-                        $q->where(function ($q) {
-                            $q->where('instagram_archived', 0)->orWhere('instagram_archived', null);
-                        });
-                    }
-                });
-            })->when(!empty($params['list']), function ($q) use ($params) {
-                return $q->whereHas('userLists', function ($query) use ($params) {
-                    $query->where('user_lists.id', $params['list']);
+        $creators = DB::table('creators')
+            ->join('crms', function ($join) use ($params) {
+                $join->on('crms.creator_id', '=', 'creators.id')
+                    ->where('crms.user_id', Auth::id())
+                    ->where(function ($q) {
+                        $q->where('crms.muted', 0)->orWhere('crms.muted', null);
+                    });
+            });
+
+        if (isset($params['archived']) && $params['archived'] == 1) {
+            $creators = $creators->where(function ($q) {
+                $q->where('instagram_archived', true)->orWhere('twitter_archived', true);
+            });
+        } else {
+            $creators = $creators->where(function ($q) {
+                $q->where(function ($qq) {
+                    $qq->where('instagram_archived', 0)->orWhere('instagram_archived', null);
+                })->orWhere(function ($qq) {
+                    $qq->where('twitter_archived', 0)->orWhere('twitter_archived', null);
                 });
             });
+        }
+
+        if (!empty($params['list'])) {
+            $creators = $creators->join('user_lists', function ($join) use ($params) {
+                $join->on('user_lists.user_id', '=', 'users.id')
+                ->where('user_id', Auth::id())
+                ->where('user_lists.id', $params['list']);
+            });
+        }
 
         if (isset($params['id'])) {
             $creators = $creators->where('creators.id', $params['id']);
@@ -279,27 +292,74 @@ class Creator extends Model
             $creators = $creators->get();
         }
 
+        $creatorAccessor = new Creator();
+        foreach ($creators as &$creator) {
+            $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
+            $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
+
+//            $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
+//            $creator->twitter_media = $creatorAccessor->getTwitterMediaAttribute($creator->twitter_media);
+
+            $creator->social_links = $creatorAccessor->getSocialLinksAttribute($creator->social_links);
+            $creator->emails = $creatorAccessor->getEmailsAttribute($creator->emails);
+            $creator->tags = $creatorAccessor->getTagsAttribute($creator->tags);
+
+            $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
+            $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
+
+            // crm
+            $creator->crm_record_by_user = [];
+            $creator->crm_record_by_user['user_id'] = Auth::id();
+            $creator->crm_record_by_user['creator_id'] = $creator->id;
+            $creator->crm_record_by_user['last_contacted'] = $creator->last_contacted;
+            $creator->crm_record_by_user['instagram_offer'] = $creator->instagram_offer;
+            $creator->crm_record_by_user['instagram_archived'] = $creator->instagram_archived;
+            $creator->crm_record_by_user['instagram_removed'] = $creator->instagram_removed;
+            $creator->crm_record_by_user['twitter_offer'] = $creator->twitter_offer;
+            $creator->crm_record_by_user['twitter_archived'] = $creator->twitter_archived;
+            $creator->crm_record_by_user['twitter_removed'] = $creator->twitter_removed;
+            $creator->crm_record_by_user['rating'] = $creator->rating;
+            $crm = new Crm();
+            $creator->crm_record_by_user['stage'] = $crm->getStageAttribute($creator->stage);
+            $creator->crm_record_by_user['favourite'] = $creator->favourite;
+            $creator->crm_record_by_user['muted'] = $creator->muted;
+            $creator->crm_record_by_user['created_at'] = $creator->created_at;
+            $creator->crm_record_by_user['updated_at'] = $creator->updated_at;
+            unset($creator->creator_id);
+            unset($creator->last_contacted);
+            unset($creator->instagram_offer);
+            unset($creator->instagram_archived);
+            unset($creator->instagram_removed);
+            unset($creator->twitter_offer);
+            unset($creator->twitter_archived);
+            unset($creator->twitter_removed);
+            unset($creator->rating);
+            unset($creator->stage);
+            unset($creator->favourite);
+            unset($creator->muted);
+        }
+
         // have suggested offer and make instagram offer == suggester offer in case instagram
         // offer is null or 0, so we can use same model on frontend
         // same goes for ratings
         // on frontend one can check if instagram_suggested_offer or instagram_average_rating is present then style different
         // these properties would only show up if user specific values are not set
 
-        $ids = $creators->pluck('id')->toArray();
+//        $ids = $creators->pluck('id')->toArray();
         // fetch all rating for available creators once, so we don't do multiple queries
-        $avgRatings = Crm::selectRaw('AVG(rating) average_rating, creator_id')
-            ->whereIn('id', $ids)
-            ->groupBy('creator_id')
-            ->get()->keyBy('creator_id');
-
-        foreach ($creators as &$creator) {
-            if (!$creator->crmRecordByUser->instagram_offer) {
-                $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 0);
-            }
-            if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
-                $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);
-            }
-        }
+//        $avgRatings = Crm::selectRaw('AVG(rating) average_rating, creator_id')
+//            ->whereIn('id', $ids)
+//            ->groupBy('creator_id')
+//            ->get()->keyBy('creator_id');
+//
+//        foreach ($creators as &$creator) {
+//            if (!$creator->crmRecordByUser->instagram_offer) {
+//                $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 0);
+//            }
+//            if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
+//                $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);
+//            }
+//        }
 
         return $creators;
     }
