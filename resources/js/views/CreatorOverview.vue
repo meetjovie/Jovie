@@ -1,13 +1,13 @@
 <template>
     <div>
-        <CreatorMediaGroup>
-            <CreatorMediaItem>
-            </CreatorMediaItem>
-            <CreatorMediaItem>
-            </CreatorMediaItem>
-            <CreatorMediaItem>
-            </CreatorMediaItem>
-        </CreatorMediaGroup>
+<!--        <CreatorMediaGroup>-->
+<!--            <CreatorMediaItem>-->
+<!--            </CreatorMediaItem>-->
+<!--            <CreatorMediaItem>-->
+<!--            </CreatorMediaItem>-->
+<!--            <CreatorMediaItem>-->
+<!--            </CreatorMediaItem>-->
+<!--        </CreatorMediaGroup>-->
         <div
             class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-gray-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
             <div class="inline-flex">
