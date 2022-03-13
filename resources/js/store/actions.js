@@ -34,6 +34,11 @@ export default {
             data[key1] = {
                 [key2]: value,
             };
+        } else if (key == 'emails') {
+            if (typeof value == 'string') {
+                value = value.split(',')
+                data[key] = value;
+            }
         } else {
             data[key] = value;
         }

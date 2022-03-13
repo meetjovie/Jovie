@@ -1,13 +1,5 @@
 <template>
   <div>
-    <!--        <CreatorMediaGroup>-->
-    <!--            <CreatorMediaItem>-->
-    <!--            </CreatorMediaItem>-->
-    <!--            <CreatorMediaItem>-->
-    <!--            </CreatorMediaItem>-->
-    <!--            <CreatorMediaItem>-->
-    <!--            </CreatorMediaItem>-->
-    <!--        </CreatorMediaGroup>-->
     <div
       class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-gray-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
       <div class="inline-flex">
@@ -363,7 +355,11 @@
                 </TabPanel>
 
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
-                  <CreatorContentBar />
+                  <CreatorMediaGroup>
+                      <CreatorMediaItem></CreatorMediaItem>
+                      <CreatorMediaItem></CreatorMediaItem>
+                      <CreatorMediaItem></CreatorMediaItem>
+                  </CreatorMediaGroup>
                 </TabPanel>
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <CommentThread />

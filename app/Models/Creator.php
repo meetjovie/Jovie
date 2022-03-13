@@ -20,6 +20,11 @@ class Creator extends Model
 
     protected $appends = ['name', 'biography', 'category', 'socialLinksWithFollowers'];
 
+    public function setEmailsAttribute($value)
+    {
+        $this->attributes['emails'] = json_encode($value);
+    }
+
     public function getNameAttribute()
     {
         return $this->full_name ?? ($this->first_name.' '.$this->last_name) ?? $this->instagram_name ?? $this->twitter_name;
