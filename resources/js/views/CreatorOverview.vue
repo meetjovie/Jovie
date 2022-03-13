@@ -200,9 +200,9 @@
                                         <dt class="text-sm font-medium text-gray-500">Tags</dt>
                                         <dd class="mt-1 text-sm text-gray-900">
                                             <template v-for="(tag, index) in creator.tags">
-                                                <CreatorTags v-if="index == 0" size="md" color="pink" :text="tag"/>
-                                                <CreatorTags v-if="index == 1" size="md" color="blue" :text="tag"/>
-                                                <CreatorTags v-if="index == 2" size="md" color="green" :text="tag"/>
+                                                <CreatorTags @deleteTag="deleteTag(creator.id, index)" v-if="index == 0" size="md" color="pink" :text="tag"/>
+                                                <CreatorTags @deleteTag="deleteTag(creator.id, index)" v-if="index == 1" size="md" color="blue" :text="tag"/>
+                                                <CreatorTags @deleteTag="deleteTag(creator.id, index)" v-if="index == 2" size="md" color="green" :text="tag"/>
                                             </template>
                                         </dd>
                                     </div>
@@ -454,14 +454,15 @@ export default {
             this.$store.dispatch('updateCreator', params).then((response) => {
                 response = response.data;
                 if (response.status) {
-                    if (response.data == null) {
-                        this.creators.splice(params.index, 1);
-                    } else {
-                        this.creator = response.data;
-                    }
+                    this.creator = response.data;
                 }
             });
         },
+        deleteTag(creatorId, index) {
+            let updatedTags = this.creator.tags
+            updatedTags.splice(index, 1)
+            this.updateCreator({id: creatorId, key: 'tags', value: updatedTags})
+        }
     },
     mounted() {
         this.getCreatorOverview()

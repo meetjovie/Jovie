@@ -26,6 +26,7 @@
     {{ text }}
     <button
         v-if="showX"
+        @click="$emit('deleteTag')"
       type="button"
       class="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus-visible:bg-indigo-500 focus-visible:text-white focus-visible:outline-none"
       :class="[
