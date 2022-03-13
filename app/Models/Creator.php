@@ -202,10 +202,11 @@ class Creator extends Model
                     $q->where('muted', 0)->orWhere('muted', null);
                 })->where(function ($q) use ($params) {
                     if (isset($params['archived']) && $params['archived'] == 1) {
-                        $q->where('instagram_archived', true);
+                        $q->where('instagram_archived', true)->orWhere('twitter_archived', true);
                     } else {
                         $q->where(function ($q) {
-                            $q->where('instagram_archived', 0)->orWhere('instagram_archived', null);
+                            $q->where('instagram_archived', 0)->orWhere('instagram_archived', null)
+                            ->orWhere('twitter_archived', 0)->orWhere('twitter_archived', null);
                         });
                     }
                 });
