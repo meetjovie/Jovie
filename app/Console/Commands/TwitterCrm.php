@@ -47,7 +47,7 @@ class TwitterCrm extends Command
 
         if (!is_null($user)) {
             if ($network == 'twitter') {
-                $twitters = Creator::query()->whereNotNull('twitter_handler')->pluck('id')->toArray();
+                $twitters = Creator::query()->whereNotNull('twitter_handler')->limit(100)->pluck('id')->toArray();
                 $user->crms()->syncWithoutDetaching($twitters);
             }
         }
