@@ -273,6 +273,8 @@ class Creator extends Model
     public static function getCrmCreators($params)
     {
         $creators = DB::table('creators')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')
+            ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params) {
                 $join->on('crms.creator_id', '=', 'creators.id')
                     ->where('crms.user_id', Auth::id())
@@ -296,10 +298,9 @@ class Creator extends Model
         }
 
         if (!empty($params['list'])) {
-            $creators = $creators->join('user_lists', function ($join) use ($params) {
-                $join->on('user_lists.user_id', '=', 'users.id')
-                ->where('user_id', Auth::id())
-                ->where('user_lists.id', $params['list']);
+            $creators = $creators->join('creator_user_list', function ($join) use ($params) {
+                $join->on('crms.creator_id', '=', 'creator_user_list.creator_id')
+                ->where('user_list_id', $params['list']);
             });
         }
 
@@ -364,12 +365,12 @@ class Creator extends Model
 
             foreach ($creators as &$creator) {
                 foreach (Creator::NETWORKS as $network) {
-                    if (!$creator->crmRecordByUser[$network.'_offer'] && count((array) $creator[$network.'_meta'])) {
-                        $creator->crmRecordByUser[$network.'_suggested_offer'] = round(($creator[$network.'_meta']->engaged_follows ?? 0) * 0.5, 0);
+                    if (!empty($creator->crm_record_by_user->{$network.'_offer'}) && count((array) $creator->{$network.'_meta'})) {
+                        $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
                     }
                 }
-                if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
-                    $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);
+                if (!empty($creator->crm_record_by_user->rating) && isset($avgRatings[$creator->id])) {
+                    $creator->crm_record_by_user->average_rating = round($avgRatings[$creator->id]->average_rating);
                 }
             }
         }

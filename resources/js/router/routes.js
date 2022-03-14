@@ -262,33 +262,6 @@ export const routes = [
         },
     },
     {
-        name: 'Login',
-        path: '/login',
-        component: loadPage('Login'),
-        meta: {
-            layout: 'Minimal',
-        },
-    },
-    {
-        name: 'Creator Overview',
-        path: '/creatoroverview',
-        component: loadPage('CreatorOverview'),
-        beforeEnter: authenticationGuard,
-        meta: {
-            layout: 'App',
-        },
-    },
-    {
-        name: 'Pipeline',
-        path: '/pipeline',
-        component: loadPage('Pipeline'),
-        beforeEnter: authenticationGuard,
-        meta: {
-            layout: 'App',
-        },
-    },
-
-    {
         name: 'Profile',
         path: '/:username',
         component: loadPage('Profile'),
