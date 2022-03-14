@@ -41,6 +41,7 @@ environments:
     cli-memory: 512
     runtime: 'php-8.1:al2'
     gateway-version: 2
+    timeout: 900
     domain:
       - dev.jov.ie
     network: A7X3-PRIMARY
