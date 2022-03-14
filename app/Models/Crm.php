@@ -11,6 +11,7 @@ class Crm extends Model
 
     public function getStageAttribute($value)
     {
+        $value = $value ?? 0;
         return self::stages()[$value];
     }
 

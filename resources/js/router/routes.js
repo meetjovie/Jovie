@@ -1,7 +1,6 @@
 import {authenticationGuard} from '../middlewares/auth';
 import {publicProfile} from '../middlewares/publicProfile';
 
-
 import store from '../store';
 
 function loadPage(page) {
@@ -246,7 +245,48 @@ export const routes = [
             layout: 'App',
         },
     },
-
+    {
+        name: 'Create Account',
+        path: '/signup',
+        component: loadPage('Signup'),
+        meta: {
+            layout: 'Minimal',
+        },
+    },
+    {
+        name: 'Forgot Password',
+        path: '/forgot-password',
+        component: loadPage('ForgotPassword'),
+        meta: {
+            layout: 'Minimal',
+        },
+    },
+    {
+        name: 'Login',
+        path: '/login',
+        component: loadPage('Login'),
+        meta: {
+            layout: 'Minimal',
+        },
+    },
+    {
+        name: 'Creator Overview',
+        path: '/creatoroverview',
+        component: loadPage('CreatorOverview'),
+        beforeEnter: authenticationGuard,
+        meta: {
+            layout: 'App',
+        },
+    },
+    {
+        name: 'Pipeline',
+        path: '/pipeline',
+        component: loadPage('Pipeline'),
+        beforeEnter: authenticationGuard,
+        meta: {
+            layout: 'App',
+        },
+    },
 
     {
         name: 'Profile',
@@ -258,5 +298,4 @@ export const routes = [
             layout: 'Minimal',
         },
     },
-
 ];

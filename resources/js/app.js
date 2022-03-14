@@ -21,6 +21,7 @@ app.mixin({
             return value.toString().replaceAll('_', ' ')
         },
         formatCount(value) {
+            value = value ? value : 0;
             if (value < 1000) {
                 return value.toFixed(0)
             } else if (value >= 1000 && value < 999999) {

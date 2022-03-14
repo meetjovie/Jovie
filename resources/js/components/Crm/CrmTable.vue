@@ -223,7 +223,7 @@
                                                             id="creator-offer"
                                                             class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
 
-                                                            :placeholder="creator.crm_record_by_user.instagram_suggested_offer"
+                                                            :placeholder="creator.crm_record_by_user[`${network}_suggested_offer`]"
                                                             aria-describedby="email-description"/>
                                                       </span>
                         </td>

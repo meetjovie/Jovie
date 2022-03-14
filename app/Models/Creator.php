@@ -21,11 +21,6 @@ class Creator extends Model
 
     protected $appends = ['name', 'biography', 'category', 'socialLinksWithFollowers'];
 
-    public function setEmailsAttribute($value)
-    {
-        $this->attributes['emails'] = json_encode($value);
-    }
-
     public function getNameAttribute()
     {
         return $this->full_name ?? ($this->first_name.' '.$this->last_name) ?? $this->instagram_name ?? $this->twitter_name;
@@ -203,6 +198,20 @@ class Creator extends Model
         return null;
     }
 
+    public function getTwitterMetaAttribute($value)
+    {
+        return json_decode($value ?? '{}');
+    }
+
+    public function brands()
+    {
+        return $this->belongsToMany(Creator::class, 'brand_creator',
+            'creator_id',
+            'brand_id',
+            'id',
+            'id')->withTimestamps();
+    }
+
 //    public function getYoutubeHandlerAttribute($value)
 //    {
 //        if (is_null($value)) {
@@ -218,7 +227,7 @@ class Creator extends Model
 
     public function getInstagramMetaAttribute($value)
     {
-        return json_decode($value ?? '[]');
+        return json_decode($value ?? '{}');
     }
 
     public function getSocialLinksAttribute($value)
@@ -236,13 +245,29 @@ class Creator extends Model
         return json_decode($value ?? '[]');
     }
 
-    public function brands()
+    public function setEmailsAttribute($value)
     {
-        return $this->belongsToMany(Creator::class, 'brand_creator',
-            'creator_id',
-            'brand_id',
-            'id',
-            'id')->withTimestamps();
+        $this->attributes['emails'] = json_encode($value ?? []);
+    }
+
+    public function setTagsAttribute($value)
+    {
+        $this->attributes['tags'] = json_encode($value ?? []);
+    }
+
+    public function setInstagramMediaAttribute($value)
+    {
+        $this->attributes['instagram_media'] = json_encode($value ?? []);
+    }
+
+    public function setInstagramMetaAttribute($value)
+    {
+        $this->attributes['instagram_meta'] = json_encode($value ?? []);
+    }
+
+    public function setSocialLinksAttribute($value)
+    {
+        $this->attributes['social_links'] = json_encode($value ?? []);
     }
 
     public static function getCrmCreators($params)
@@ -297,8 +322,7 @@ class Creator extends Model
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
 
-//            $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
-//            $creator->twitter_media = $creatorAccessor->getTwitterMediaAttribute($creator->twitter_media);
+            $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
 
             $creator->social_links = $creatorAccessor->getSocialLinksAttribute($creator->social_links);
             $creator->emails = $creatorAccessor->getEmailsAttribute($creator->emails);
