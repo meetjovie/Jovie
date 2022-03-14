@@ -332,23 +332,23 @@ class Creator extends Model
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
 
             // crm
-            $creator->crm_record_by_user = [];
-            $creator->crm_record_by_user['user_id'] = Auth::id();
-            $creator->crm_record_by_user['creator_id'] = $creator->id;
-            $creator->crm_record_by_user['last_contacted'] = $creator->last_contacted;
-            $creator->crm_record_by_user['instagram_offer'] = $creator->instagram_offer;
-            $creator->crm_record_by_user['instagram_archived'] = $creator->instagram_archived;
-            $creator->crm_record_by_user['instagram_removed'] = $creator->instagram_removed;
-            $creator->crm_record_by_user['twitter_offer'] = $creator->twitter_offer;
-            $creator->crm_record_by_user['twitter_archived'] = $creator->twitter_archived;
-            $creator->crm_record_by_user['twitter_removed'] = $creator->twitter_removed;
-            $creator->crm_record_by_user['rating'] = $creator->rating;
+            $creator->crm_record_by_user = (object) [];
+            $creator->crm_record_by_user->user_id = Auth::id();
+            $creator->crm_record_by_user->creator_id = $creator->id;
+            $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
+            $creator->crm_record_by_user->instagram_offer = $creator->instagram_offer;
+            $creator->crm_record_by_user->instagram_archived = $creator->instagram_archived;
+            $creator->crm_record_by_user->instagram_removed = $creator->instagram_removed;
+            $creator->crm_record_by_user->twitter_offer = $creator->twitter_offer;
+            $creator->crm_record_by_user->twitter_archived = $creator->twitter_archived;
+            $creator->crm_record_by_user->twitter_removed = $creator->twitter_removed;
+            $creator->crm_record_by_user->rating = $creator->rating;
             $crm = new Crm();
-            $creator->crm_record_by_user['stage'] = $crm->getStageAttribute($creator->stage);
-            $creator->crm_record_by_user['favourite'] = $creator->favourite;
-            $creator->crm_record_by_user['muted'] = $creator->muted;
-            $creator->crm_record_by_user['created_at'] = $creator->created_at;
-            $creator->crm_record_by_user['updated_at'] = $creator->updated_at;
+            $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
+            $creator->crm_record_by_user->favourite = $creator->favourite;
+            $creator->crm_record_by_user->muted = $creator->muted;
+            $creator->crm_record_by_user->created_at = $creator->created_at;
+            $creator->crm_record_by_user->updated_at = $creator->updated_at;
             unset($creator->creator_id);
             unset($creator->last_contacted);
             unset($creator->instagram_offer);
@@ -361,6 +361,17 @@ class Creator extends Model
             unset($creator->stage);
             unset($creator->favourite);
             unset($creator->muted);
+
+            foreach ($creators as &$creator) {
+                foreach (Creator::NETWORKS as $network) {
+                    if (!$creator->crmRecordByUser[$network.'_offer'] && count((array) $creator[$network.'_meta'])) {
+                        $creator->crmRecordByUser[$network.'_suggested_offer'] = round(($creator[$network.'_meta']->engaged_follows ?? 0) * 0.5, 0);
+                    }
+                }
+                if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
+                    $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);
+                }
+            }
         }
 
         // have suggested offer and make instagram offer == suggester offer in case instagram
