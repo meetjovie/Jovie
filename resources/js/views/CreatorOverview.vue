@@ -356,9 +356,7 @@
 
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <CreatorMediaGroup>
-                      <CreatorMediaItem></CreatorMediaItem>
-                      <CreatorMediaItem></CreatorMediaItem>
-                      <CreatorMediaItem></CreatorMediaItem>
+                      <CreatorMediaItem v-for="media in creator.overviewMedia" :media="media"></CreatorMediaItem>
                   </CreatorMediaGroup>
                 </TabPanel>
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">

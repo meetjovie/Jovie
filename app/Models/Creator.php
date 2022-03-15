@@ -19,7 +19,7 @@ class Creator extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['name', 'biography', 'category', 'socialLinksWithFollowers'];
+    protected $appends = ['name', 'biography', 'category', 'socialLinksWithFollowers', 'overviewMedia'];
 
     public function getNameAttribute()
     {
@@ -51,6 +51,21 @@ class Creator extends Model
             }
         }
         return $socialLinks;
+    }
+
+    public function getOverviewMediaAttribute()
+    {
+        $media = [];
+        foreach (Creator::NETWORKS as $network) {
+            if (!empty($this->{$network.'_media'})) {
+                $nMedia = array_map(function ($value) use ($network) {
+                    $value->network = $network;
+                    return $value;
+                }, $this->{$network.'_media'});
+                $media = array_merge($media, $nMedia);
+            }
+        }
+        return collect($media)->sortByDesc('datetime')->take(3);
     }
 
     public function user()
