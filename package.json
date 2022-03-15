@@ -44,6 +44,7 @@
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
     "@vue-stripe/vue-stripe": "^4.4.1",
+    "moment": "^2.29.1",
     "simple-icons": "^6.9.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "vue": "^3.2.30",

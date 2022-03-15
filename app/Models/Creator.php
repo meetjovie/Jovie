@@ -19,7 +19,16 @@ class Creator extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['name', 'biography', 'category', 'socialLinksWithFollowers', 'overviewMedia'];
+    protected $appends = ['name', 'biography', 'category', 'social_links_with_followers', 'overview_media', 'profile_pic_url'];
+
+    public function getProfilePicUrlAttribute()
+    {
+        foreach (Creator::NETWORKS as $network) {
+            if ($this->{$network.'_meta'}->profile_pic_url) {
+                return $this->{$network.'_meta'}->profile_pic_url;
+            }
+        }
+    }
 
     public function getNameAttribute()
     {
