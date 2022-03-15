@@ -47,5 +47,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
         Route::post('/add-comment', [\App\Http\Controllers\CrmController::class, 'addComment']);
         Route::get('/get-comments/{id}', [\App\Http\Controllers\CrmController::class, 'getComments']);
+
+        Route::get('/next-creator/{id}', [\App\Http\Controllers\CrmController::class, 'nextCreator']);
+        Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']);
     });
 });

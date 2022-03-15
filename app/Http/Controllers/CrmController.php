@@ -112,4 +112,36 @@ class CrmController extends Controller
             'comments' => $comments
         ]);
     }
+
+    public function nextCreator($id)
+    {
+        $creator = Creator::where('id', '>', $id)->with('crmRecordByUser')->has('crmRecordByUser')->orderByDesc('crms.id')->first();
+        if ($creator) {
+            return response([
+                'status' => true,
+                'data' => $creator
+            ]);
+        }
+        return response([
+            'status' => false,
+            'data' => null,
+            'message' => 'No more creators.'
+        ]);
+    }
+
+    public function previousCreator($id)
+    {
+        $creator = Creator::where('id', '<', $id)->with('crmRecordByUser')->has('crmRecordByUser')->orderByDesc('crms.id')->first();
+        if ($creator) {
+            return response([
+                'status' => true,
+                'data' => $creator
+            ]);
+        }
+        return response([
+            'status' => false,
+            'data' => null,
+            'message' => 'No more creators.'
+        ]);
+    }
 }

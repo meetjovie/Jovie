@@ -10,4 +10,10 @@ export default {
     async addComment(data) {
         return axios.post(`${baseUrlAdmin}/add-comment`, data);
     },
+    async previousCreator(id) {
+        return axios.get(`${baseUrlAdmin}/previous-creator/${id}`);
+    },
+    async nextCreator(id) {
+        return axios.get(`${baseUrlAdmin}/next-creator/${id}`);
+    }
 }

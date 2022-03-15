@@ -333,13 +333,14 @@ class Creator extends Model
         }
 
         if (isset($params['id'])) {
-            $creators = $creators->where('creators.id', $params['id']);
+            $creators = $creators->where('creators.id', $params['id'])->limit(1);
         }
 
         if (isset($params['username'])) {
-            $creators = $creators->where('creators.username', $params['username']);
+            $creators = $creators->where('creators.username', $params['username'])->limit(1);
         }
 
+        $creators = $creators->orderByDesc('crms.id');
         if (!isset($params['export'])) {
             $creators = $creators->paginate(50);
         } else {

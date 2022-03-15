@@ -13,10 +13,12 @@
                 </div>
                 <div>
                     <button
+                        @click="nextCreator(creator.id)"
                         class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
                         <ChevronLeftIcon class="h-5 w-5"/>
                     </button>
                     <button
+                        @click="previousCreator(creator.id)"
                         class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
                         <ChevronRightIcon class="h-5 w-5"/>
                     </button>
@@ -519,8 +521,6 @@ export default {
                     this.networks = response.networks;
                     this.stages = response.stages;
                     this.creator = response.creator;
-                    console.log('this.creator');
-                    console.log(this.creator);
                 }
             });
         },
@@ -537,6 +537,26 @@ export default {
             updatedTags.splice(index, 1);
             this.updateCreator({id: creatorId, key: 'tags', value: updatedTags});
         },
+        previousCreator(id) {
+            CreatorService.previousCreator(id).then(response => {
+                response = response.data
+                if (response.status) {
+                    this.creator = response.data
+                } else {
+
+                }
+            })
+        },
+        nextCreator(id) {
+            CreatorService.nextCreator(id).then(response => {
+                response = response.data
+                if (response.status) {
+                    this.creator = response.data
+                } else {
+
+                }
+            })
+        }
     },
     mounted() {
         this.getCreatorOverview();
