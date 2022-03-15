@@ -217,7 +217,7 @@ class InstagramImport implements ShouldQueue
             $meta['has_blocked_viewer'] = $user->has_blocked_viewer;
             $meta['is_business_account'] = $user->is_business_account;
             $meta['has_ar_effects'] = $user->has_ar_effects;
-            $creator->instagram_meta = json_encode($meta);
+            $creator->instagram_meta = ($meta);
             $creator->save();
             if ($this->listId) {
                 $creator->userLists()->syncWithoutDetaching($this->listId);
@@ -254,7 +254,7 @@ class InstagramImport implements ShouldQueue
 
     public function addSocialLinksFromLinkTree($links, $oldLinks = [])
     {
-        return json_encode(array_values(array_map('trim', array_unique(array_merge($links, $oldLinks)))));
+        return (array_values(array_map('trim', array_unique(array_merge($links, $oldLinks)))));
     }
 
     public function getEmails($user, $oldEmails)
@@ -269,7 +269,7 @@ class InstagramImport implements ShouldQueue
         if ($bioEmail = $this->getEmailFromBio($user->biography)) {
             $emails[] = $bioEmail;
         }
-        return json_encode(array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
+        return (array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
     }
 
     public function getAccountType($business)
@@ -286,13 +286,13 @@ class InstagramImport implements ShouldQueue
     public function getTags($tags, $creator)
     {
         if ($creator) {
-            if (!$tags) return json_encode($creator->tags);
+            if (!$tags) return ($creator->tags);
             $tags = explode(',', $tags);
-            return json_encode(array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
+            return (array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
         }
         if (!$tags) return '[]';
         $tags = explode(',', $tags);
-        return json_encode(array_values(array_map('trim', $tags)));
+        return (array_values(array_map('trim', $tags)));
     }
 
     public function getProfilePicUrl($user, $creator)
@@ -365,7 +365,7 @@ class InstagramImport implements ShouldQueue
                 }
             }
         }
-        return json_encode($timelineMedia->toArray());
+        return ($timelineMedia->toArray());
     }
 
     public function getBrandsFromTimelineMediaCaptions($caption)

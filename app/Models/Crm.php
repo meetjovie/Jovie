@@ -9,8 +9,9 @@ class Crm extends Model
 {
     use HasFactory;
 
-    public function getInstagramStageAttribute($value)
+    public function getStageAttribute($value)
     {
+        $value = $value ?? 0;
         return self::stages()[$value];
     }
 

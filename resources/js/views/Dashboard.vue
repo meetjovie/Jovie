@@ -9,14 +9,17 @@
             <div class="flex items-center">
               <img
                 class="hidden h-16 w-16 rounded-full sm:block"
-                src=""
+                :src="
+                  $store.state.AuthState.user.profile_pic_url ??
+                  $store.state.AuthState.user.default_image
+                "
                 alt="" />
               <div>
                 <div class="flex items-center">
                   <img class="h-16 w-16 rounded-full sm:hidden" src="" alt="" />
                   <h1
                     class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
-                    Welcome user
+                    Welcome {{ $store.state.AuthState.user.first_name }}!
                   </h1>
                 </div>
                 <dl

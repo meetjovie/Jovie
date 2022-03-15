@@ -147,6 +147,28 @@ class Creator extends Model
         }
     }
 
+    public function getInstagramHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://instagram.com/' . $value;
+        }
+        return null;
+    }
+
+    public function getTwitterMetaAttribute($value)
+    {
+        return json_decode($value ?? '{}');
+    }
+
+    public function brands()
+    {
+        return $this->belongsToMany(Creator::class, 'brand_creator',
+            'creator_id',
+            'brand_id',
+            'id',
+            'id')->withTimestamps();
+    }
+
     public function getYoutubeHandlerAttribute($value)
     {
         return json_decode($value ?? '{}');
@@ -159,7 +181,7 @@ class Creator extends Model
 
     public function getInstagramMetaAttribute($value)
     {
-        return json_decode($value ?? '[]');
+        return json_decode($value ?? '{}');
     }
 
     public function getSocialLinksAttribute($value)
@@ -177,21 +199,29 @@ class Creator extends Model
         return json_decode($value ?? '[]');
     }
 
-    public function getInstagramHandlerAttribute($value)
+    public function setEmailsAttribute($value)
     {
-        if ($value) {
-            return 'https://instagram.com/' . $value;
-        }
-        return null;
+        $this->attributes['emails'] = json_encode($value ?? []);
     }
 
-    public function brands()
+    public function setTagsAttribute($value)
     {
-        return $this->belongsToMany(Creator::class, 'brand_creator',
-            'creator_id',
-            'brand_id',
-            'id',
-            'id')->withTimestamps();
+        $this->attributes['tags'] = json_encode($value ?? []);
+    }
+
+    public function setInstagramMediaAttribute($value)
+    {
+        $this->attributes['instagram_media'] = json_encode($value ?? []);
+    }
+
+    public function setInstagramMetaAttribute($value)
+    {
+        $this->attributes['instagram_meta'] = json_encode($value ?? []);
+    }
+
+    public function setSocialLinksAttribute($value)
+    {
+        $this->attributes['social_links'] = json_encode($value ?? []);
     }
 
     public static function getCrmCreators($params)
@@ -202,10 +232,11 @@ class Creator extends Model
                     $q->where('muted', 0)->orWhere('muted', null);
                 })->where(function ($q) use ($params) {
                     if (isset($params['archived']) && $params['archived'] == 1) {
-                        $q->where('instagram_archived', true);
+                        $q->where('instagram_archived', true)->orWhere('twitter_archived', true);
                     } else {
                         $q->where(function ($q) {
-                            $q->where('instagram_archived', 0)->orWhere('instagram_archived', null);
+                            $q->where('instagram_archived', 0)->orWhere('instagram_archived', null)
+                            ->orWhere('twitter_archived', 0)->orWhere('twitter_archived', null);
                         });
                     }
                 });
@@ -239,8 +270,10 @@ class Creator extends Model
             ->get()->keyBy('creator_id');
 
         foreach ($creators as &$creator) {
-            if (!$creator->crmRecordByUser->instagram_offer) {
-                $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 0);
+            foreach (Creator::NETWORKS as $network) {
+                if (!$creator->crmRecordByUser[$network.'_offer'] && count((array) $creator[$network.'_meta'])) {
+                    $creator->crmRecordByUser[$network.'_suggested_offer'] = round(($creator[$network.'_meta']->engaged_follows ?? 0) * 0.5, 0);
+                }
             }
             if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
                 $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);

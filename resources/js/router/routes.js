@@ -43,6 +43,7 @@ export const routes = [
     name: 'CRM',
     path: '/crm',
     component: loadPage('Crm'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
     },
@@ -93,6 +94,7 @@ export const routes = [
   {
     name: 'Import',
     path: '/import',
+    beforeEnter: authenticationGuard,
     component: loadPage('Import'),
 
     meta: {

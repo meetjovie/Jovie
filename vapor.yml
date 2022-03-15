@@ -16,12 +16,7 @@ environments:
       - jov.ie
     network: A7X3-PRIMARY
     timeout: 900
-    firewall:
-      rate-limit: 500
-      bot-control:
-        - SignalKnownBotDataCenter
-        - SignalAutomatedBrowser
-        - CategoryScrapingFramework
+
   staging:
     queue-concurrency: 5
     database: Jovie-staging
@@ -46,6 +41,7 @@ environments:
     cli-memory: 512
     runtime: 'php-8.1:al2'
     gateway-version: 2
+    timeout: 900
     domain:
       - dev.jov.ie
     network: A7X3-PRIMARY
