@@ -2,9 +2,11 @@
 
 ## AboutJovie
 
+Jovie is a vue.js SPA with a Laravel backend. It utilizes tailwind css.
+
 ## Branching
 
-Our main working branch id develop. When you begind working on a feature please pull develop first. Create a new branch and start working on it. When you are done and it has been reviewed, open a pull request to merge it back into develop.
+Our main working branch is **develop**. When you begind working on a feature please pull develop first. Create a new branch and start working on it. When you are done and it has been reviewed, open a pull request to merge it back into develop.
 
 Staging, & Master are for testing and deployment. You should never push to staging or master.
 
