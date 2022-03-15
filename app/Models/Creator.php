@@ -21,11 +21,14 @@ class Creator extends Model
 
     protected $appends = ['name', 'biography', 'category', 'social_links_with_followers', 'overview_media', 'profile_pic_url'];
 
-    public function getProfilePicUrlAttribute()
+    public function getProfilePicUrlAttribute($creator = null)
     {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
         foreach (Creator::NETWORKS as $network) {
-            if (!empty($this->{$network.'_meta'}->profile_pic_url)) {
-                return $this->{$network.'_meta'}->profile_pic_url;
+            if (!empty($creator->{$network.'_meta'}->profile_pic_url)) {
+                return $creator->{$network.'_meta'}->profile_pic_url;
             }
         }
         return asset('img/noimage.webp');
@@ -345,6 +348,7 @@ class Creator extends Model
 
         $creatorAccessor = new Creator();
         foreach ($creators as &$creator) {
+
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
 
@@ -356,6 +360,8 @@ class Creator extends Model
 
             $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
+
+            $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
 
             // crm
             $creator->crm_record_by_user = (object) [];
