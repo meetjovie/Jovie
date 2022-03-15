@@ -24,10 +24,11 @@ class Creator extends Model
     public function getProfilePicUrlAttribute()
     {
         foreach (Creator::NETWORKS as $network) {
-            if ($this->{$network.'_meta'}->profile_pic_url) {
+            if (!empty($this->{$network.'_meta'}->profile_pic_url)) {
                 return $this->{$network.'_meta'}->profile_pic_url;
             }
         }
+        return asset('img/noimage.webp');
     }
 
     public function getNameAttribute()
