@@ -164,6 +164,7 @@
                             <div class="">
                               <div class="">
                                 <button
+                                  class="group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"
                                   v-for="(stage, key) in stages"
                                   @click="
                                     updateCreator({

@@ -85,8 +85,8 @@
                 <th scope="col" class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 px-6 py-3  text-right text-xs font-medium tracking-wider text-gray-500">
                     <span class="sr-only">Edit</span>
 
-                    <div class="hidden w-60 2xl:block">Showing 50 of 1,500 results</div>
-          <div class="hidden w-40 lg:block 2xl:hidden">50 of 1,500</div>
+                    <div class="hidden w-60 2xl:block">Showing {{creators.length}}  of 1,500 results</div>
+          <div class="hidden w-40 lg:block 2xl:hidden">{{creators.length}}  of 1,500</div>
                 </th>
             </tr>
             </thead>
@@ -210,7 +210,7 @@
                                     type="creator-email"
                                     name="creator-email"
                                     id="creator-email"
-                                    class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                    class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                     placeholder="creatoremail@gmail.com"
                                     aria-describedby="email-description"/>
                             </div>
@@ -238,7 +238,7 @@
                                                             type="creator-offer"
                                                             name="creator-offer"
                                                             id="creator-offer"
-                                                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
 
                                                             :placeholder="creator.crm_record_by_user[`${network}_suggested_offer`]"
                                                             aria-describedby="email-description"/>
@@ -315,7 +315,7 @@
                                 autoApply="true"
                                 type="datetime-local"
                                 :id="creator.id+'_datepicker'"
-                                class="block w-full px-2 py-1 placeholder-neutral-300 focus-visible:border-1 bg-white/0 text-xs border-0 text-neutral-500 rounded-md focus:border-1 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                                class="block w-full px-2 py-1 placeholder-neutral-300 focus-visible:border-1 bg-white/0 text-xs border-0 text-neutral-500 rounded-md focus-visible:border-1 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                                 placeholder="--/--/----"
                                 aria-describedby="email-description"/>
                         </td>
@@ -383,7 +383,7 @@
                                                                                         ]">
                                                         <ArchiveIcon
                                                             class="inline mr-2 h-4 w-4"/>
-                                                        {{ creator.crm_record_by_user[`${network}_archived`] ? 'UnArchived' : 'Archive'}}
+                                                        {{ creator.crm_record_by_user[`${network}_archived`] ? 'Unarchived' : 'Archive'}}
 
                                                     </a>
 
