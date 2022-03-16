@@ -23,8 +23,7 @@ export default {
     },
     async getCrmCreators(data) {
         return axios.get(`${baseUrlAdmin}/crm-creators`, {
-            params: data,
-            headers: await store.dispatch('headers'),
+            params: data
         });
     },
     async exportCrmCreators(data) {
@@ -45,5 +44,8 @@ export default {
                 params: data,
             }
         );
+    },
+    async getCreatorOverview(id) {
+        return axios.get(`${baseUrlAdmin}/creators-overview/${id}`);
     }
 };

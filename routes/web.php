@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('creator', function () {
+    $url = ('https://www.instagram.com/timwhite/?__a=1&hl=en');
+    $client = new \GuzzleHttp\Client();
+    $response = $client->get('https://api.webscraping.ai/html', array(
+        'query' => [
+            'api_key' => config('import.scrapper_api_key'),
+            'url' => $url,
+            'proxy' => 'residential',
+            'timeout' => 30000
+        ]
+    ));
+    dd(json_decode($response->getBody()->getContents()));
+    return json_decode($response->getBody()->getContents());
     $creator = \App\Models\Creator::first();
     $creator->instagram_handler = 'https://wwadinstagram.com/timwhite';
     $creator->tiktok_handler = 'https://www.tiktok.com/@timwhite';

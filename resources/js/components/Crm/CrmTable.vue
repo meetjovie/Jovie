@@ -88,9 +88,20 @@
             </tr>
             </thead>
             <tbody class="h-full divide-y divide-gray-200 bg-white">
-            <template v-for="(creator, index) in creators" :key="creator">
+            <template v-if="loading">
+                <tr>
+                    <td colspan="11">
+                        <div class="flex justify-center items-center">
+                            <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+                                <span class="visually-hidden sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </template>
+            <template v-else v-for="(creator, index) in creators" :key="creator">
                 <template v-for="(network, indexN) in networks" :key="network">
-                    <tr v-if="creator[`${network}_meta`] && !creator.crm_record_by_user[`${network}_removed`] &&  (arcvhied ? creator.crm_record_by_user[`${network}_archived`] : !creator.crm_record_by_user[`${network}_archived`])"
+                    <tr v-if="creator[`${network}_meta`] && Object.keys(creator[`${network}_meta`]).length && !creator.crm_record_by_user[`${network}_removed`] &&  (arcvhied ? creator.crm_record_by_user[`${network}_archived`] : !creator.crm_record_by_user[`${network}_archived`])"
                         class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                         <td
                             class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
@@ -145,10 +156,10 @@
                                     </div>
                                 </div>
                                 <div class="">
-                                    <div
+                                    <router-link :to="{name: 'Creator Overview', params: {id: creator.id}}"
                                         class="text-xs font-medium text-gray-900">
                                         {{ creator[`${network}_name`] }}
-                                    </div>
+                                    </router-link>
                                 </div>
                             </div>
                         </td>
@@ -316,11 +327,9 @@
                             <div
                                 class="justify-right grid grid-cols-2 items-center gap-4">
                                 <div>
-                                    <a
-                                        href="/creatoroverview"
-                                        class="text-indigo-600 hover:text-indigo-900"
-                                    >Manage</a
-                                    >
+                                    <router-link :to="{name: 'Creator Overview', params: {id: creator.id}}" class="text-indigo-600 hover:text-indigo-900">
+                                        Manage
+                                    </router-link>
                                 </div>
                                 <Menu as="div"
                                       class="relative inline-block text-left">

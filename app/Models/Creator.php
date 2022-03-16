@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class Creator extends Model
 {
@@ -17,6 +19,68 @@ class Creator extends Model
     const NETWORKS = ['instagram', 'twitch', 'onlyFans', 'snapchat', 'linkedin', 'youtube', 'twitter', 'tiktok'];
 
     protected $guarded = [];
+
+    protected $appends = ['name', 'biography', 'category', 'social_links_with_followers', 'overview_media', 'profile_pic_url'];
+
+    public function getProfilePicUrlAttribute($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+        foreach (Creator::NETWORKS as $network) {
+            if (!empty($creator->{$network.'_meta'}->profile_pic_url)) {
+                return $creator->{$network.'_meta'}->profile_pic_url;
+            }
+        }
+        return asset('img/noimage.webp');
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->full_name ?? ($this->first_name.' '.$this->last_name) ?? $this->instagram_name ?? $this->twitter_name;
+    }
+
+    public function getBiographyAttribute()
+    {
+        return $this->instagram_biography ?? $this->twitter_biography;
+    }
+
+    public function getCategoryAttribute()
+    {
+        return $this->instagram_category ?? $this->twitter_category;
+    }
+
+    public function getSocialLinksWithFollowersAttribute()
+    {
+        $socialLinks = collect();
+        $networks = self::NETWORKS;
+
+        foreach ($networks as $network) {
+            if (!is_null($this[$network.'_handler']) && isset($this[$network.'_handler'])) {
+                $socialLinks->push([
+                    'url' => $this[$network.'_handler'],
+                    'followers' => $this[$network.'_followers'],
+                    'network' => $network
+                ]);
+            }
+        }
+        return $socialLinks;
+    }
+
+    public function getOverviewMediaAttribute()
+    {
+        $media = [];
+        foreach (Creator::NETWORKS as $network) {
+            if (!empty($this->{$network.'_media'})) {
+                $nMedia = array_map(function ($value) use ($network) {
+                    $value->network = $network;
+                    return $value;
+                }, $this->{$network.'_media'});
+                $media = array_merge($media, $nMedia);
+            }
+        }
+        return collect($media)->sortByDesc('datetime')->take(3);
+    }
 
     public function user()
     {
@@ -147,6 +211,14 @@ class Creator extends Model
         }
     }
 
+    public function getTwitterHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://twitter.com/' . $value;
+        }
+        return null;
+    }
+
     public function getInstagramHandlerAttribute($value)
     {
         if ($value) {
@@ -169,10 +241,13 @@ class Creator extends Model
             'id')->withTimestamps();
     }
 
-    public function getYoutubeHandlerAttribute($value)
-    {
-        return json_decode($value ?? '{}');
-    }
+//    public function getYoutubeHandlerAttribute($value)
+//    {
+//        if (is_null($value)) {
+//            return $value;
+//        }
+//        return json_decode($value ?? '{}');
+//    }
 
     public function getInstagramMediaAttribute($value)
     {
@@ -226,34 +301,111 @@ class Creator extends Model
 
     public static function getCrmCreators($params)
     {
-        $creators = Creator::with(['crmRecordByUser'])
-            ->whereHas('crmRecordByUser', function ($q) use ($params) {
-                $q->where(function ($q) {
-                    $q->where('muted', 0)->orWhere('muted', null);
-                })->where(function ($q) use ($params) {
-                    if (isset($params['archived']) && $params['archived'] == 1) {
-                        $q->where('instagram_archived', true)->orWhere('twitter_archived', true);
-                    } else {
-                        $q->where(function ($q) {
-                            $q->where('instagram_archived', 0)->orWhere('instagram_archived', null)
-                            ->orWhere('twitter_archived', 0)->orWhere('twitter_archived', null);
-                        });
-                    }
-                });
-            })->when(!empty($params['list']), function ($q) use ($params) {
-                return $q->whereHas('userLists', function ($query) use ($params) {
-                    $query->where('user_lists.id', $params['list']);
-                });
+        $creators = DB::table('creators')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')
+            ->addSelect('creators.*')->addSelect('creators.id as id')
+            ->join('crms', function ($join) use ($params) {
+                $join->on('crms.creator_id', '=', 'creators.id')
+                    ->where('crms.user_id', Auth::id())
+                    ->where(function ($q) {
+                        $q->where('crms.muted', 0)->orWhere('crms.muted', null);
+                    });
             });
 
-        if (isset($params['id'])) {
-            $creators = $creators->where('creators.id', $params['id']);
+        if (isset($params['archived']) && $params['archived'] == 1) {
+            $creators = $creators->where(function ($q) {
+                $q->where('instagram_archived', true)->orWhere('twitter_archived', true);
+            });
+        } else {
+            $creators = $creators->where(function ($q) {
+                $q->where(function ($qq) {
+                    $qq->where('instagram_archived', 0)->orWhere('instagram_archived', null);
+                })->orWhere(function ($qq) {
+                    $qq->where('twitter_archived', 0)->orWhere('twitter_archived', null);
+                });
+            });
         }
 
+        if (!empty($params['list'])) {
+            $creators = $creators->join('creator_user_list', function ($join) use ($params) {
+                $join->on('crms.creator_id', '=', 'creator_user_list.creator_id')
+                ->where('user_list_id', $params['list']);
+            });
+        }
+
+        if (isset($params['id'])) {
+            $creators = $creators->where('creators.id', $params['id'])->limit(1);
+        }
+
+        if (isset($params['username'])) {
+            $creators = $creators->where('creators.username', $params['username'])->limit(1);
+        }
+
+        $creators = $creators->orderByDesc('crms.id');
         if (!isset($params['export'])) {
             $creators = $creators->paginate(50);
         } else {
             $creators = $creators->get();
+        }
+
+        $creatorAccessor = new Creator();
+        foreach ($creators as &$creator) {
+
+            $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
+            $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
+
+            $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
+
+            $creator->social_links = $creatorAccessor->getSocialLinksAttribute($creator->social_links);
+            $creator->emails = $creatorAccessor->getEmailsAttribute($creator->emails);
+            $creator->tags = $creatorAccessor->getTagsAttribute($creator->tags);
+
+            $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
+            $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
+
+            $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
+
+            // crm
+            $creator->crm_record_by_user = (object) [];
+            $creator->crm_record_by_user->user_id = Auth::id();
+            $creator->crm_record_by_user->creator_id = $creator->id;
+            $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
+            $creator->crm_record_by_user->instagram_offer = $creator->instagram_offer;
+            $creator->crm_record_by_user->instagram_archived = $creator->instagram_archived;
+            $creator->crm_record_by_user->instagram_removed = $creator->instagram_removed;
+            $creator->crm_record_by_user->twitter_offer = $creator->twitter_offer;
+            $creator->crm_record_by_user->twitter_archived = $creator->twitter_archived;
+            $creator->crm_record_by_user->twitter_removed = $creator->twitter_removed;
+            $creator->crm_record_by_user->rating = $creator->rating;
+            $crm = new Crm();
+            $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
+            $creator->crm_record_by_user->favourite = $creator->favourite;
+            $creator->crm_record_by_user->muted = $creator->muted;
+            $creator->crm_record_by_user->created_at = $creator->created_at;
+            $creator->crm_record_by_user->updated_at = $creator->updated_at;
+            unset($creator->creator_id);
+            unset($creator->last_contacted);
+            unset($creator->instagram_offer);
+            unset($creator->instagram_archived);
+            unset($creator->instagram_removed);
+            unset($creator->twitter_offer);
+            unset($creator->twitter_archived);
+            unset($creator->twitter_removed);
+            unset($creator->rating);
+            unset($creator->stage);
+            unset($creator->favourite);
+            unset($creator->muted);
+
+            foreach ($creators as &$creator) {
+                foreach (Creator::NETWORKS as $network) {
+                    if (!empty($creator->crm_record_by_user->{$network.'_offer'}) && count((array) $creator->{$network.'_meta'})) {
+                        $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
+                    }
+                }
+                if (!empty($creator->crm_record_by_user->rating) && isset($avgRatings[$creator->id])) {
+                    $creator->crm_record_by_user->average_rating = round($avgRatings[$creator->id]->average_rating);
+                }
+            }
         }
 
         // have suggested offer and make instagram offer == suggester offer in case instagram
@@ -262,24 +414,45 @@ class Creator extends Model
         // on frontend one can check if instagram_suggested_offer or instagram_average_rating is present then style different
         // these properties would only show up if user specific values are not set
 
-        $ids = $creators->pluck('id')->toArray();
+//        $ids = $creators->pluck('id')->toArray();
         // fetch all rating for available creators once, so we don't do multiple queries
-        $avgRatings = Crm::selectRaw('AVG(rating) average_rating, creator_id')
-            ->whereIn('id', $ids)
-            ->groupBy('creator_id')
-            ->get()->keyBy('creator_id');
-
-        foreach ($creators as &$creator) {
-            foreach (Creator::NETWORKS as $network) {
-                if (!$creator->crmRecordByUser[$network.'_offer'] && count((array) $creator[$network.'_meta'])) {
-                    $creator->crmRecordByUser[$network.'_suggested_offer'] = round(($creator[$network.'_meta']->engaged_follows ?? 0) * 0.5, 0);
-                }
-            }
-            if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
-                $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);
-            }
-        }
+//        $avgRatings = Crm::selectRaw('AVG(rating) average_rating, creator_id')
+//            ->whereIn('id', $ids)
+//            ->groupBy('creator_id')
+//            ->get()->keyBy('creator_id');
+//
+//        foreach ($creators as &$creator) {
+//            if (!$creator->crmRecordByUser->instagram_offer) {
+//                $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 0);
+//            }
+//            if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
+//                $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);
+//            }
+//        }
 
         return $creators;
+    }
+
+    public static function updateCrmCreator($request, $id)
+    {
+        $dataToUpdateForCrm = [];
+        $dataToUpdateForCreator = [];
+        foreach ($request->except(['_method', '_token', 'id', 'network']) as $k => $v) {
+            if ($k == 'crm_record_by_user') {
+                foreach ($v as $key => $value) {
+                    $isColExist = Schema::hasColumn('crms',$key);
+                    if ($isColExist) {
+                        $dataToUpdateForCrm[$key] = $value;
+                    }
+                }
+            } else {
+                $v = $k == 'emails' ? json_encode($v) : $v;
+                $dataToUpdateForCreator[$k] = $v;
+            }
+        }
+        Creator::where('id', $id)->update($dataToUpdateForCreator);
+
+        // update interactions for crm
+        Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
     }
 }
