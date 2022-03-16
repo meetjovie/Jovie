@@ -2,13 +2,13 @@
   <button
     type="button"
     :disabled="disabled"
-    class="inline-flex items-center border border-neutral-200 bg-white px-4 py-2 text-sm font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md hover:bg-indigo-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    class="group inline-flex items-center border border-neutral-200 px-4 py-2 text-sm font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
     :class="[
       { 'py-0 text-xs': size == 'xs' },
       { 'py-1 text-sm': size == 'sm' },
-      { 'bg-white  text-red-900': style == 'secondary' },
+      { 'bg-white text-red-900 hover:bg-indigo-500': style == 'secondary' },
       { 'bg-indigo-500 text-white': style == 'primary' },
-      { 'bg-red-500': style == 'danger' },
+      { 'bg-red-500 ': style == 'danger' },
       { 'rounded-r-md': rounded == 'right' },
       { 'rounded-l-md': rounded == 'left' },
       { 'rounded-t-md': rounded == 'top' },
@@ -29,6 +29,7 @@
       :class="[
         { 'text-2xs': size == 'xs' },
         { 'py-0 text-xs': size == 'sm' },
+        { 'bg-red-500 text-white ': style == 'danger' },
         { 'bg-white text-neutral-500': style == 'secondary' },
         { 'bg-indigo-500 text-white': style == 'primary' },
       ]">

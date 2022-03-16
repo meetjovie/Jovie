@@ -82,8 +82,11 @@
                     class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Rating
                 </th>
-                <th scope="col" class="relative px-6 py-3">
+                <th scope="col" class="relative px-6 py-3  text-right text-xs font-medium tracking-wider text-gray-500">
                     <span class="sr-only">Edit</span>
+
+                    <div class="hidden w-60 2xl:block">Showing 50 of 1,500 results</div>
+          <div class="hidden w-40 lg:block 2xl:hidden">50 of 1,500</div>
                 </th>
             </tr>
             </thead>
@@ -117,6 +120,9 @@
                                                                                 name="comments"
                                                                                 type="checkbox"
                                                                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"/>
+                                                                                <div  class="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
+             
+            </div>
                                                                         </span>
                                 </div>
                                 <!--                                                                    favourite-->
