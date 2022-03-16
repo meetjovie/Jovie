@@ -13,12 +13,12 @@
         </div>
         <div>
           <button
-            @click="nextCreator(creator.id)"
+            @click="previousCreator(creator.crm_record_by_user.id)"
             class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
             <ChevronLeftIcon class="h-5 w-5" />
           </button>
           <button
-            @click="previousCreator(creator.id)"
+            @click="nextCreator(creator.crm_record_by_user.id)"
             class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
             <ChevronRightIcon class="h-5 w-5" />
           </button>
@@ -557,6 +557,7 @@ export default {
         if (response.status) {
           this.creator = response.data;
         } else {
+            this.$router.push({name: 'CRM'})
         }
       });
     },
@@ -566,6 +567,7 @@ export default {
         if (response.status) {
           this.creator = response.data;
         } else {
+            this.$router.push({name: 'CRM'})
         }
       });
     },

@@ -111,12 +111,17 @@ class CrmController extends Controller
 
     public function nextCreator($id)
     {
-        $creator = Creator::where('id', '>', $id)->with('crmRecordByUser')->has('crmRecordByUser')->orderByDesc('crms.id')->first();
-        if ($creator) {
-            return response([
-                'status' => true,
-                'data' => $creator
-            ]);
+        $crm = Crm::where('id', '<', $id)->where('user_id', Auth::id())->orderByDesc('id')->first();
+        if ($crm) {
+            $creator = Creator::with('crmRecordByUser')->whereHas('crmRecordByUser', function ($q) use ($crm) {
+                $q->where('id', $crm->id);
+            })->first();
+            if ($creator) {
+                return response([
+                    'status' => true,
+                    'data' => $creator
+                ]);
+            }
         }
         return response([
             'status' => false,
@@ -127,12 +132,17 @@ class CrmController extends Controller
 
     public function previousCreator($id)
     {
-        $creator = Creator::where('id', '<', $id)->with('crmRecordByUser')->has('crmRecordByUser')->orderByDesc('crms.id')->first();
-        if ($creator) {
-            return response([
-                'status' => true,
-                'data' => $creator
-            ]);
+        $crm = Crm::where('id', '>', $id)->where('user_id', Auth::id())->first();
+        if ($crm) {
+            $creator = Creator::with('crmRecordByUser')->whereHas('crmRecordByUser', function ($q) use ($crm) {
+                $q->where('id', $crm->id);
+            })->first();
+            if ($creator) {
+                return response([
+                    'status' => true,
+                    'data' => $creator
+                ]);
+            }
         }
         return response([
             'status' => false,
