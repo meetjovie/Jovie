@@ -157,10 +157,10 @@
                                     </div>
                                 </div>
                                 <div class="">
-                                    <div
+                                    <router-link :to="{name: 'Creator Overview', params: {id: creator.id}}"
                                         class="text-xs font-medium text-gray-900">
                                         {{ creator[`${network}_name`] }}
-                                    </div>
+                                    </router-link>
                                 </div>
                             </div>
                         </td>

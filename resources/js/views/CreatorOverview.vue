@@ -74,10 +74,10 @@
           class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
           Archive
         </button>
-        <button
+        <!-- <button
           class="rounded bg-indigo-700 px-8 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
           Add to campaign
-        </button>
+        </button> -->
       </div>
     </div>
     <!-- Code block ends -->
@@ -263,7 +263,7 @@
                                 d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
                                 clip-rule="evenodd" />
                             </svg>
-                            <span class="ml-2 w-0 flex-1 truncate">
+                            <span class="ml-2 w-0 flex-1 truncate text-xs">
                               {{ creator.name }} Creator Report.pdf
                             </span>
                           </div>
@@ -354,12 +354,12 @@
                 </TabList>
               </div>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                <!--  <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <CreatorContentBar />
                 </TabPanel>
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <ActivityFeed button="Show more" />
-                </TabPanel>
+                </TabPanel> -->
 
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <CreatorMediaGroup>
@@ -460,12 +460,12 @@ export default {
       stages: [],
       networks: [],
       tabs: [
-        {
+        /* {
           name: 'Demographics',
         },
         {
           name: 'Activity',
-        },
+        }, */
         {
           name: 'Content',
         },
