@@ -20,8 +20,10 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return view('teamwork.index')
-            ->with('teams', auth()->user()->teams);
+        return response([
+            'status' => true,
+            'teams' => auth()->user()->teams
+        ]);
     }
 
     /**
@@ -54,7 +56,10 @@ class TeamController extends Controller
         ]);
         $request->user()->attachTeam($team);
 
-        return redirect(route('teams.index'));
+        return response([
+            'status' => true,
+            'team' => $team
+        ]);
     }
 
     /**
@@ -70,10 +75,15 @@ class TeamController extends Controller
         try {
             auth()->user()->switchTeam($team);
         } catch (UserNotInTeamException $e) {
-            abort(403);
+            return response([
+                'status' => false,
+            ], 403);
         }
 
-        return redirect(route('teams.index'));
+        return response([
+            'status' => true,
+            'team' => $team
+        ]);
     }
 
     /**
@@ -88,10 +98,14 @@ class TeamController extends Controller
         $team = $teamModel::findOrFail($id);
 
         if (! auth()->user()->isOwnerOfTeam($team)) {
-            abort(403);
+            return response([
+                'status' => false,
+            ], 403);
         }
-
-        return view('teamwork.edit')->withTeam($team);
+        return response([
+            'status' => true,
+            'team' => $team
+        ]);
     }
 
     /**
@@ -113,7 +127,10 @@ class TeamController extends Controller
         $team->name = $request->name;
         $team->save();
 
-        return redirect(route('teams.index'));
+        return response([
+            'status' => true,
+            'team' => $team
+        ]);
     }
 
     /**
@@ -128,7 +145,9 @@ class TeamController extends Controller
 
         $team = $teamModel::findOrFail($id);
         if (! auth()->user()->isOwnerOfTeam($team)) {
-            abort(403);
+            return response([
+                'status' => false,
+            ], 403);
         }
 
         $team->delete();
@@ -137,6 +156,9 @@ class TeamController extends Controller
         $userModel::where('current_team_id', $id)
                     ->update(['current_team_id' => null]);
 
-        return redirect(route('teams.index'));
+        return response([
+            'status' => true,
+            'team' => $team
+        ]);
     }
 }

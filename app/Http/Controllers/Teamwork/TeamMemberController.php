@@ -25,8 +25,10 @@ class TeamMemberController extends Controller
     {
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($id);
-
-        return view('teamwork.members.list')->withTeam($team);
+        return response([
+            'status' => true,
+            'team' => $team
+        ]);
     }
 
     /**
@@ -42,18 +44,25 @@ class TeamMemberController extends Controller
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($team_id);
         if (! auth()->user()->isOwnerOfTeam($team)) {
-            abort(403);
+            return response([
+                'status' => false
+            ], 403);
         }
 
         $userModel = config('teamwork.user_model');
         $user = $userModel::findOrFail($user_id);
         if ($user->getKey() === auth()->user()->getKey()) {
-            abort(403);
+            return response([
+                'status' => false
+            ], 403);
         }
 
         $user->detachTeam($team);
 
-        return redirect(route('teams.index'));
+        return response([
+            'status' => true,
+            'team' => $team
+        ]);
     }
 
     /**
@@ -78,12 +87,15 @@ class TeamMemberController extends Controller
                 // Send email to user
             });
         } else {
-            return redirect()->back()->withErrors([
-                'email' => 'The email address is already invited to the team.',
+            return response([
+                'status' => false,
+                'message' => 'The email address is already invited to the team.'
             ]);
         }
-
-        return redirect(route('teams.members.show', $team->id));
+        return response([
+            'status' => true,
+            'teams' => $team
+        ]);
     }
 
     /**
@@ -99,6 +111,9 @@ class TeamMemberController extends Controller
             $m->to($invite->email)->subject('Invitation to join team '.$invite->team->name);
         });
 
-        return redirect(route('teams.members.show', $invite->team));
+        return response([
+            'status' => true,
+            'team' => $invite->team
+        ]);
     }
 }
