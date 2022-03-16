@@ -8,6 +8,7 @@
       { 'py-1 text-sm': size == 'sm' },
       { 'bg-white  text-red-900': style == 'secondary' },
       { 'bg-indigo-500 text-white': style == 'primary' },
+      { 'bg-red-500': style == 'danger' },
       { 'rounded-r-md': rounded == 'right' },
       { 'rounded-l-md': rounded == 'left' },
       { 'rounded-t-md': rounded == 'top' },

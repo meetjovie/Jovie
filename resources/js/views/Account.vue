@@ -148,10 +148,11 @@ import UserService from '../services/api/user.service';
 import InputGroup from '../components/InputGroup';
 import CardHeading from '../components/CardHeading';
 import CardLayout from '../components/CardLayout';
+import ButtonGroup from '../components/ButtonGroup';
 
 export default {
   name: 'Account',
-  components: { InputGroup, CardHeading, CardLayout },
+  components: { InputGroup, CardHeading, CardLayout, ButtonGroup },
   data() {
     return {
       errors: {},
