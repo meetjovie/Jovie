@@ -94,11 +94,11 @@
             <template v-if="loading">
                 <tr>
                     <td colspan="11">
-                        <div class="flex justify-center items-center">
-                            <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+                        <div class="flex justify-center h-48 items-center">
+                            <JovieSpinner />
                                 <span class="visually-hidden sr-only">Loading...</span>
                             </div>
-                        </div>
+                       
                     </td>
                 </tr>
             </template>
@@ -446,6 +446,7 @@ import {
 } from '@heroicons/vue/solid';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
+import JovieSpinner from '../../components/JovieSpinner.vue';
 
 export default {
     name: "CrmTable",
@@ -465,6 +466,7 @@ export default {
         BanIcon,
         TrashIcon,
         Pagination,
+        JovieSpinner,
     },
     props: ['creators', 'networks', 'stages', 'creatorsMeta', 'loading', 'arcvhied']
 }
