@@ -52,7 +52,7 @@ class CrmController extends Controller
         return collect([
             'status' => true,
             'creator' => $creator,
-//            'networks' => Creator::NETWORKS,
+            'networks' => Creator::NETWORKS,
             'stages' => Crm::stages()
         ]);
     }

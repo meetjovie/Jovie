@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class Creator extends Model
 {
@@ -439,7 +440,10 @@ class Creator extends Model
         foreach ($request->except(['_method', '_token', 'id', 'network']) as $k => $v) {
             if ($k == 'crm_record_by_user') {
                 foreach ($v as $key => $value) {
-                    $dataToUpdateForCrm[$key] = $value;
+                    $isColExist = Schema::hasColumn('crms',$key);
+                    if ($isColExist) {
+                        $dataToUpdateForCrm[$key] = $value;
+                    }
                 }
             } else {
                 $v = $k == 'emails' ? json_encode($v) : $v;
