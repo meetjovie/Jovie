@@ -43,6 +43,7 @@
           <Combobox as="div" v-model="filters.list">
             <div class="relative mt-1">
               <ComboboxInput
+                placeholder="Filter by list"
                 class="w-full rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                 :displayValue="(list) => (list ? list.name : '')"
                 @change="searchList = $event.target.value" />
@@ -55,7 +56,7 @@
 
               <ComboboxOptions
                 v-if="filteredUsersLists.length > 0"
-                class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 <ComboboxOption
                   v-for="list in filteredUsersLists"
                   :key="list.id"
@@ -151,8 +152,7 @@
               <div class="flex w-full flex-col">
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
-                    <div
-                      class="overflow-hidden border-b border-gray-200 shadow">
+                    <div class="border-b border-gray-200 shadow">
                       <div
                         v-if="!loading && creators.length < 1"
                         class="mx-auto max-w-7xl items-center py-24 px-4 sm:px-6 lg:px-8">
@@ -215,8 +215,7 @@
               <div class="flex w-full flex-col">
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
-                    <div
-                      class="overflow-hidden border-b border-gray-200 shadow">
+                    <div class="border-b border-gray-200 shadow">
                       <CrmTable
                         @updateCreator="updateCreator"
                         @pageChanged="pageChanged"
@@ -376,28 +375,14 @@ export default {
         fileLink.click();
       });
     },
-    updateCreator({ id, index, network, key, value }) {
-      const data = {
-        id: id,
-      };
-      let keySplits = key.split('.');
-      if (keySplits.length > 1) {
-        var key1 = keySplits[0];
-        var key2 = keySplits[1];
-        data[key1] = {
-          [key2]: value,
-        };
-      } else {
-        data[key] = value;
-      }
-
-      this.$store.dispatch('updateCreator', data).then((response) => {
+    updateCreator(params) {
+      this.$store.dispatch('updateCreator', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {
-            this.creators.splice(index, 1);
+            this.creators.splice(params.index, 1);
           } else {
-            this.creators[index] = response.data;
+            this.creators[params.index] = response.data;
           }
         }
       });

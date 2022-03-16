@@ -5,6 +5,7 @@ require('./bootstrap');
 import * as Vue from 'vue'
 import router from './router/index'
 import store from './store/index'
+import moment from "moment";
 const Vapor = require('laravel-vapor')
 
 const myMixin = {
@@ -21,6 +22,7 @@ app.mixin({
             return value.toString().replaceAll('_', ' ')
         },
         formatCount(value) {
+            value = value ? value : 0;
             if (value < 1000) {
                 return value.toFixed(0)
             } else if (value >= 1000 && value < 999999) {
@@ -30,6 +32,17 @@ app.mixin({
             } else if (value >= 1000000000 && value < 999999999999) {
                 return (value / 1000000000).toFixed(0) + 'B'
             }
+        },
+        openLink(link, newWindow) {
+            if (link) {
+                window.open(link, (newWindow ? '_blank' : ''))
+            }
+        },
+        formatDate(value) {
+            if (!value) {
+                return moment().format('ddd MMM DD, YYYY [at] HH:mm a')
+            }
+            return moment(value).format('ddd MMM DD, YYYY [at] HH:mm a')
         }
     }
 })

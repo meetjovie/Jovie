@@ -108,12 +108,8 @@
 
             <div
               class="flex items-center justify-end bg-neutral-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
-              <button
-                type="submit"
-                :disabled="updating"
-                class="inline-flex items-center rounded-md border border-transparent bg-neutral-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-neutral-700 focus-visible:border-neutral-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-neutral-300 active:bg-neutral-900 disabled:opacity-25">
-                Save
-              </button>
+              <ButtonGroup type="submit" :disabled="updating" text="Save">
+              </ButtonGroup>
             </div>
           </form>
 
@@ -121,14 +117,15 @@
             <CardHeading
               title="Manage Subscription"
               subtitle="You can change your plan at any time."
-              buttontext="Delete"
-              buttocolor="red" />
+              buttontext="Manage billing"
+              buttonstyle="primary" />
           </CardLayout>
           <CardLayout>
             <CardHeading
-              title="Delete Account"
-              subtitle="This is permanent and cannot be undone.">
-              <ButtonGroup icon="BanIcon" text="hi" />
+              title="Danger Zone"
+              subtitle="This is permanent and cannot be undone."
+              buttontext="Permanently delete account"
+              buttonstyle="danger">
             </CardHeading>
           </CardLayout>
         </div>
@@ -148,10 +145,11 @@ import UserService from '../services/api/user.service';
 import InputGroup from '../components/InputGroup';
 import CardHeading from '../components/CardHeading';
 import CardLayout from '../components/CardLayout';
+import ButtonGroup from '../components/ButtonGroup';
 
 export default {
   name: 'Account',
-  components: { InputGroup, CardHeading, CardLayout },
+  components: { InputGroup, CardHeading, CardLayout, ButtonGroup },
   data() {
     return {
       errors: {},

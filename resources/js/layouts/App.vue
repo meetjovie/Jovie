@@ -87,7 +87,7 @@
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <div
-        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/100 backdrop-blur-xl backdrop-filter">
+        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/75 backdrop-blur-md backdrop-filter">
         <button
           id="showSidebar"
           class="border-r border-neutral-200 px-4 text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden">
@@ -169,13 +169,7 @@
             </button>
 
             <!-- Profile dropdown -->
-            <Menu
-              as="div"
-              class="relative ml-3 border-l px-4"
-              v-if="
-                !$store.state.AuthState.loading &&
-                $store.state.AuthState.isAuthenticated
-              ">
+            <Menu as="div" class="relative ml-3 border-l px-4">
               <MenuButton
                 as="div"
                 type="button"
@@ -246,7 +240,6 @@
                       </div>
                     </router-link>
                   </MenuItem>
-
                   <MenuItem
                     v-for="dropdownmenuitem in dropdownmenuitems"
                     :key="dropdownmenuitem"
@@ -257,7 +250,18 @@
                     tabindex="-1">
                     <component class="mr-4 h-4 w-4" :is="dropdownmenuitem.icon">
                     </component>
-                    {{ dropdownmenuitem.name }}
+                    <router-link :to="dropdownmenuitem.route">
+                      {{ dropdownmenuitem.name }}
+                    </router-link>
+                  </MenuItem>
+                  <MenuItem
+                    as="div"
+                    @click="$store.dispatch('logout')"
+                    class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                    role="menuitem"
+                    tabindex="-1">
+                    <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
+                    Sign out
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -323,9 +327,9 @@ export default {
       ],
       dropdownmenuitems: [
         { name: 'Profile', route: '/', icon: UserGroupIcon },
-        { name: 'Settings', route: '/account', icon: CogIcon },
-        { name: 'Sign out', route: '/logout', icon: LogoutIcon },
+        { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
+      isShowing: false,
     };
   },
   mounted() {},

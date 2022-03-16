@@ -5,6 +5,7 @@
     viewBox="0 0 24 24"
     :height="height"
     :weight="width"
+    :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'"
     xmlns="http://www.w3.org/2000/svg">
     <title>Twitter</title>
     <path
@@ -16,6 +17,7 @@
     viewBox="0 0 24 24"
     :height="height"
     :weight="width"
+    :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'"
     xmlns="http://www.w3.org/2000/svg">
     <title>Instagram</title>
     <path
@@ -27,6 +29,7 @@
     viewBox="0 0 24 24"
     :height="height"
     :weight="width"
+    :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'"
     xmlns="http://www.w3.org/2000/svg">
     <title>YouTube</title>
     <path
@@ -37,6 +40,7 @@
     viewBox="0 0 24 24"
     :height="height"
     :weight="width"
+    :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'"
     v-if="icon == 'snapchat'"
     xmlns="http://www.w3.org/2000/svg">
     <title>Snapchat</title>
@@ -48,6 +52,7 @@
     viewBox="0 0 24 24"
     :height="height"
     :weight="width"
+    :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'"
     v-if="icon == 'tiktok'"
     xmlns="http://www.w3.org/2000/svg">
     <title>TikTok</title>
@@ -70,6 +75,10 @@ export default {
       type: String,
       default: 'twitter',
     },
+      iconstyle: {
+          type: String,
+          default: 'horizontal',
+      },
   },
 };
 </script>

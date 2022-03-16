@@ -136,8 +136,20 @@ class InstagramImport implements ShouldQueue
             $user = $response->graphql->user;
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
-            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name ?? null) : null;
-            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name ?? null) : null;
+
+            if (isset($this->meta['socialHandlers'])) {
+                foreach ($this->meta['socialHandlers'] as $k => $handler) {
+                    if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
+                        $creator[$k] = $handler;
+                    } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
+                        // donot do any thing
+                    } elseif ($handler) {
+                        $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
+                    }
+                }
+            }
+            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name) : $creator->first_name;
+            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name) : $creator->last_name;
             $creator->city = $creator->city ?? $this->meta['city'] ?? null;
             $creator->country = $creator->country ?? $this->meta['country'] ?? null;
             $creator->wiki_id = $creator->wiki_id ?? $this->meta['wikiId'] ?? null;
@@ -205,7 +217,7 @@ class InstagramImport implements ShouldQueue
             $meta['has_blocked_viewer'] = $user->has_blocked_viewer;
             $meta['is_business_account'] = $user->is_business_account;
             $meta['has_ar_effects'] = $user->has_ar_effects;
-            $creator->instagram_meta = json_encode($meta);
+            $creator->instagram_meta = ($meta);
             $creator->save();
             if ($this->listId) {
                 $creator->userLists()->syncWithoutDetaching($this->listId);
@@ -242,7 +254,7 @@ class InstagramImport implements ShouldQueue
 
     public function addSocialLinksFromLinkTree($links, $oldLinks = [])
     {
-        return json_encode(array_values(array_map('trim', array_unique(array_merge($links, $oldLinks)))));
+        return (array_values(array_map('trim', array_unique(array_merge($links, $oldLinks)))));
     }
 
     public function getEmails($user, $oldEmails)
@@ -257,7 +269,7 @@ class InstagramImport implements ShouldQueue
         if ($bioEmail = $this->getEmailFromBio($user->biography)) {
             $emails[] = $bioEmail;
         }
-        return json_encode(array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
+        return (array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
     }
 
     public function getAccountType($business)
@@ -274,13 +286,13 @@ class InstagramImport implements ShouldQueue
     public function getTags($tags, $creator)
     {
         if ($creator) {
-            if (!$tags) return json_encode($creator->tags);
+            if (!$tags) return ($creator->tags);
             $tags = explode(',', $tags);
-            return json_encode(array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
+            return (array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
         }
         if (!$tags) return '[]';
         $tags = explode(',', $tags);
-        return json_encode(array_values(array_map('trim', $tags)));
+        return (array_values(array_map('trim', $tags)));
     }
 
     public function getProfilePicUrl($user, $creator)
@@ -293,10 +305,10 @@ class InstagramImport implements ShouldQueue
         }
         $file = $user->profile_pic_url_hd;
         if (is_null($file)) {
-            $file = asset('images/thumnailLogo.5243720b.png');
+            return asset('images/thumnailLogo.5243720b.png');
         }
         if ($user->is_private) {
-            $file = asset('images/thumbnailPrivateLogo.f3b513fc.png');
+            return asset('images/thumbnailPrivateLogo.f3b513fc.png');
         }
         return self::uploadFile($file, Creator::CREATORS_PROFILE_PATH);
     }
@@ -318,18 +330,21 @@ class InstagramImport implements ShouldQueue
             && count($user->edge_owner_to_timeline_media->edges)) {
             foreach ($user->edge_owner_to_timeline_media->edges as $edge) {
                 if ($node = $edge->node) {
+                    $display_url = null;
                     if ($node->is_video) {
                         $file = $node->thumbnail_src;
                     } else {
                         $file = $node->display_url;
                     }
                     if (is_null($file)) {
-                        $file = asset('images/thumnailLogo.5243720b.png');
+                        $display_url = asset('images/thumnailLogo.5243720b.png');
                     }
                     if ($user->is_private) {
-                        $file = asset('images/thumbnailPrivateLogo.f3b513fc.png');
+                        $display_url = asset('images/thumbnailPrivateLogo.f3b513fc.png');
                     }
-                    $display_url = self::uploadFile($file, Creator::CREATORS_MEDIA_PATH);
+                    if (is_null($display_url)) {
+                        $display_url = self::uploadFile($file, Creator::CREATORS_MEDIA_PATH);
+                    }
                     $caption = '';
                     foreach ($node->edge_media_to_caption->edges as $captionNode) {
                         $caption .= $captionNode->node->text;
@@ -341,7 +356,8 @@ class InstagramImport implements ShouldQueue
                         'comments' => $node->edge_media_to_comment->count,
                         'views' => $node->edge_media_preview_like->count,
                         'caption' => $caption,
-                        'accessibility_caption' => $node->accessibility_caption
+                        'accessibility_caption' => $node->accessibility_caption,
+                        'datetime' => date('Y-m-d H:i:s', $node->taken_at_timestamp)
                     ]);
                     foreach ($node->edge_media_to_caption->edges as $edge) {
                         if ($caption = $edge->node) {
@@ -353,7 +369,7 @@ class InstagramImport implements ShouldQueue
                 }
             }
         }
-        return json_encode($timelineMedia->toArray());
+        return ($timelineMedia->toArray());
     }
 
     public function getBrandsFromTimelineMediaCaptions($caption)

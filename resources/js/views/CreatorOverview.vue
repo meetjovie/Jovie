@@ -13,57 +13,59 @@
         </div>
         <div>
           <button
+            @click="nextCreator(creator.id)"
             class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
             <ChevronLeftIcon class="h-5 w-5" />
           </button>
           <button
+            @click="previousCreator(creator.id)"
             class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
             <ChevronRightIcon class="h-5 w-5" />
           </button>
           <!-- <ul
-            aria-label="current Status"
-            class="mt-3 flex flex-col items-start text-sm text-gray-600 dark:text-gray-400 md:flex-row md:items-center">
-            <li class="mr-4 flex items-center">
-              <div class="mr-1">
-                <img
-                  class="dark:hidden"
-                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg1.svg"
-                  alt="Active" />
-                <img
-                  class="hidden dark:block"
-                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg1dark.svg"
-                  alt="Active" />
-              </div>
-              <span>Onboarding</span>
-            </li>
-            <li class="mr-4 mt-4 flex items-center md:mt-0">
-              <div class="mr-1">
-                <img
-                  class="dark:hidden"
-                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg2.svg"
-                  alt="Trending" />
-                <img
-                  class="hidden dark:block"
-                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg2dark.svg"
-                  alt="Trending" />
-              </div>
-              <span> Trending</span>
-            </li>
-            <li class="mt-4 flex items-center md:mt-0">
-              <div class="mr-1">
-                <img
-                  class="dark:hidden"
-                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg3.svg"
-                  alt="date" />
-                <img
-                  class="hidden dark:block"
-                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg3dark.svg"
-                  alt="date" />
-              </div>
-              <span>Last contacted </span
-              ><span class="ml-2 font-bold text-neutral-400">Jan 2020</span>
-            </li>
-          </ul> -->
+                                aria-label="current Status"
+                                class="mt-3 flex flex-col items-start text-sm text-gray-600 dark:text-gray-400 md:flex-row md:items-center">
+                                <li class="mr-4 flex items-center">
+                                  <div class="mr-1">
+                                    <img
+                                      class="dark:hidden"
+                                      src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg1.svg"
+                                      alt="Active" />
+                                    <img
+                                      class="hidden dark:block"
+                                      src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg1dark.svg"
+                                      alt="Active" />
+                                  </div>
+                                  <span>Onboarding</span>
+                                </li>
+                                <li class="mr-4 mt-4 flex items-center md:mt-0">
+                                  <div class="mr-1">
+                                    <img
+                                      class="dark:hidden"
+                                      src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg2.svg"
+                                      alt="Trending" />
+                                    <img
+                                      class="hidden dark:block"
+                                      src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg2dark.svg"
+                                      alt="Trending" />
+                                  </div>
+                                  <span> Trending</span>
+                                </li>
+                                <li class="mt-4 flex items-center md:mt-0">
+                                  <div class="mr-1">
+                                    <img
+                                      class="dark:hidden"
+                                      src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg3.svg"
+                                      alt="date" />
+                                    <img
+                                      class="hidden dark:block"
+                                      src="https://tuk-cdn.s3.amazonaws.com/can-uploader/simple_with_sub_text_and_border-svg3dark.svg"
+                                      alt="date" />
+                                  </div>
+                                  <span>Last contacted </span
+                                  ><span class="ml-2 font-bold text-neutral-400">Jan 2020</span>
+                                </li>
+                              </ul> -->
         </div>
       </div>
 
@@ -72,14 +74,14 @@
           class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
           Archive
         </button>
-        <button
+        <!-- <button
           class="rounded bg-indigo-700 px-8 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
           Add to campaign
-        </button>
+        </button> -->
       </div>
     </div>
     <!-- Code block ends -->
-    <main class="mb-12 py-2">
+    <main class="mb-12 py-2" v-if="creator">
       <!-- Page header -->
       <div
         class="mx-auto mt-2 grid max-w-3xl grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
@@ -88,7 +90,7 @@
           <section aria-labelledby="applicant-information-title">
             <div class="grid-cols-2 bg-white shadow sm:rounded-lg">
               <div class="pt-5">
-                <CreatorAvatar size="md" />
+                <CreatorAvatar size="md" :imageUrl="creator.profile_pic_url" />
               </div>
               <div class="grid-cols-1 px-4 pb-5 pt-2 sm:px-6">
                 <h2
@@ -98,15 +100,17 @@
                 </h2>
                 <p
                   @click="fullbio = true"
-                  class="ext-sm mt-1 max-w-2xl cursor-pointer text-gray-500 line-clamp-2"
+                  class="mt-1 max-w-2xl cursor-pointer text-sm text-gray-500"
                   :class="[
                     { 'line-clamp-none': fullbio == true },
                     { 'line-clamp-2': fullbio == false },
                   ]">
-                  {{ creator.bio }}
+                  {{ creator.biography }}
                 </p>
                 <div class="mt-4">
-                  <CreatorSocialLinks iconstyle="horizontal" />
+                  <CreatorSocialLinks
+                    :socialLinks="creator.social_links_with_followers"
+                    iconstyle="horizontal" />
                 </div>
               </div>
               <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
@@ -118,7 +122,14 @@
                         class="w-20"
                         :star-size="12"
                         :increment="0.5"
-                        v-model:rating="creator.rating"></star-rating>
+                        v-model:rating="creator.crm_record_by_user.rating"
+                        @update:rating="
+                          updateCreator({
+                            id: creator.id,
+                            key: `crm_record_by_user.rating`,
+                            value: $event,
+                          })
+                        "></star-rating>
                     </dd>
                   </div>
                   <div class="sm:col-span-1">
@@ -127,7 +138,7 @@
                       <Popover as="div" class="relative inline-block text-left">
                         <PopoverButton
                           class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
-                          Stages
+                          {{ creator.crm_record_by_user.stage }}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
@@ -152,7 +163,16 @@
                             class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                             <div class="">
                               <div class="">
-                                <button v-for="(stage, key) in stages">
+                                <button
+                                  class="group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"
+                                  v-for="(stage, key) in stages"
+                                  @click="
+                                    updateCreator({
+                                      id: creator.id,
+                                      key: `crm_record_by_user.stage`,
+                                      value: key,
+                                    })
+                                  ">
                                   <div class="mr-2 font-bold opacity-50">
                                     {{ key + 1 }}
                                   </div>
@@ -176,13 +196,24 @@
                   <div class="sm:col-span-1">
                     <dt class="text-sm font-medium text-gray-500">Category</dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                      <CreatorTags size="md" text="Category" />
+                      <CreatorTags
+                        :showX="false"
+                        size="md"
+                        :text="creator.category" />
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">Email</dt>
                     <dd class="mt-1 text-sm text-gray-900">
                       <InputGroup
+                        v-model="creator.emails"
+                        @blur="
+                          updateCreator({
+                            id: creator.id,
+                            key: `emails`,
+                            value: creator.emails,
+                          })
+                        "
                         icon="MailIcon"
                         :placeholder="creator.email" />
                     </dd>
@@ -190,9 +221,26 @@
                   <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">Tags</dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                      <CreatorTags size="md" color="pink" text="Fashion" />
-                      <CreatorTags size="md" color="blue" text="Music" />
-                      <CreatorTags size="md" color="green" text="Sports" />
+                      <template v-for="(tag, index) in creator.tags">
+                        <CreatorTags
+                          @deleteTag="deleteTag(creator.id, index)"
+                          v-if="index == 0"
+                          size="md"
+                          color="pink"
+                          :text="tag" />
+                        <CreatorTags
+                          @deleteTag="deleteTag(creator.id, index)"
+                          v-if="index == 1"
+                          size="md"
+                          color="blue"
+                          :text="tag" />
+                        <CreatorTags
+                          @deleteTag="deleteTag(creator.id, index)"
+                          v-if="index == 2"
+                          size="md"
+                          color="green"
+                          :text="tag" />
+                      </template>
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
@@ -216,7 +264,7 @@
                                 d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
                                 clip-rule="evenodd" />
                             </svg>
-                            <span class="ml-2 w-0 flex-1 truncate">
+                            <span class="ml-2 w-0 flex-1 truncate text-xs">
                               {{ creator.name }} Creator Report.pdf
                             </span>
                           </div>
@@ -284,7 +332,7 @@
           aria-labelledby="timeline-title"
           class="lg:col-span-2 lg:col-start-2">
           <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-            <TabGroup as="div">
+            <TabGroup as="div" @change="changeTab">
               <!-- Links -->
 
               <div class="border-b border-gray-200">
@@ -307,19 +355,28 @@
                 </TabList>
               </div>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                <!--  <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <CreatorContentBar />
                 </TabPanel>
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                   <ActivityFeed button="Show more" />
-                </TabPanel>
+                </TabPanel> -->
 
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
-                  <CreatorContentBar />
+                  <CreatorMediaGroup>
+                    <CreatorMediaItem
+                      v-for="media in creator.overview_media"
+                      :media="media"></CreatorMediaItem>
+                  </CreatorMediaGroup>
                 </TabPanel>
                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
-                  <CommentThread />
-                  <CommentBox />
+                  <CommentThread
+                    :comments="comments"
+                    @getComments="getComments" />
+                  <CommentBox
+                    ref="commentBox"
+                    :loading="addingComment"
+                    @addComment="addComment" />
                 </TabPanel>
               </TabPanels>
             </TabGroup>
@@ -359,9 +416,17 @@ import CreatorTags from '../components/Creator/CreatorTags.vue';
 import StarRating from 'vue-star-rating';
 import CommentThread from '../components/CommentThread.vue';
 import CreatorHandles from '../components/Creator/CreatorHandles.vue';
+import store from '../store';
+import router from '../router';
+import UserService from '../services/api/user.service';
+import CreatorMediaGroup from '../components/TimelineMedia/CreatorMediaGroup';
+import CreatorMediaItem from '../components/TimelineMedia/CreatorMediaItem';
+import CreatorService from '../services/api/creator.service';
 
 export default {
   components: {
+    CreatorMediaItem,
+    CreatorMediaGroup,
     CreatorAvatar,
     SocialIcons,
     PlusIcon,
@@ -388,33 +453,20 @@ export default {
     ChevronLeftIcon,
     CreatorSocialLinks,
   },
+  props: ['profile', 'socialNetworks', 'creatorId'],
   data() {
     return {
       fullbio: false,
-      creator: {
-        name: 'Jessica Smith',
-        avatar: '',
-        email: 'jess@jov.ie',
-        rating: 4.5,
-        bio: 'Been beat up and battered round Been sent up and Ive been shot down Youre the best thing that Ive ever found Handle me with care',
-      },
-      stages: [
-        {
-          name: 'Cold',
-          key: '1',
-        },
-        {
-          name: 'Warm',
-          key: '2',
-        },
-      ],
+      creator: null,
+      stages: [],
+      networks: [],
       tabs: [
-        {
+        /* {
           name: 'Demographics',
         },
         {
           name: 'Activity',
-        },
+        }, */
         {
           name: 'Content',
         },
@@ -428,39 +480,99 @@ export default {
         { icon: 'instagram', size: '24', placeholder: '@timwhite' },
         { icon: 'TwitterIcon', size: '24', placeholder: '@timwhite' },
       ],
-      sociallinks: [
-        {
-          id: 1,
-          url: 'https://unpkg.com/simple-icons@v6/icons/instagram.svg',
-          followers: '800K',
-        },
-        {
-          id: 2,
-          url: 'https://unpkg.com/simple-icons@v6/icons/youtube.svg',
-          followers: '72K',
-        },
-        {
-          id: 3,
-          url: 'https://unpkg.com/simple-icons@v6/icons/tiktok.svg',
-          followers: '104K',
-        },
-        {
-          id: 4,
-          url: 'https://unpkg.com/simple-icons@v6/icons/twitter.svg',
-          followers: '22M',
-        },
-        {
-          id: 5,
-          url: 'https://unpkg.com/simple-icons@v6/icons/snapchat.svg',
-          followers: '1.2M',
-        },
-        {
-          id: 6,
-          url: 'https://unpkg.com/simple-icons@v6/icons/onlyfans.svg',
-          followers: '10K',
-        },
-      ],
+      errors: [],
+      addingComment: false,
+      comments: [],
     };
+  },
+  methods: {
+    changeTab(index) {
+      if (index == 3) {
+        this.getComments();
+      }
+    },
+    getComments(limit = 3) {
+      CreatorService.getComments(this.creator.id, limit).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.comments = response.comments.reverse();
+        }
+      });
+    },
+    addComment(comment) {
+      if (!comment) return;
+
+      this.addingComment = true;
+      const data = {
+        comment: comment,
+        creator_id: this.creator.id,
+      };
+      CreatorService.addComment(data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$refs.commentBox.comment = '';
+            this.comments.push(response.data);
+          } else {
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          this.addingComment = false;
+        });
+    },
+    getCreatorOverview() {
+      this.loading = true;
+      const id = this.$route.params.id;
+      UserService.getCreatorOverview(id).then((response) => {
+        this.loading = false;
+        response = response.data;
+        if (response.status) {
+          this.networks = response.networks;
+          this.stages = response.stages;
+          this.creator = response.creator;
+        }
+      });
+    },
+    updateCreator(params) {
+      this.$store.dispatch('updateCreator', params).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.creator = response.data;
+        }
+      });
+    },
+    deleteTag(creatorId, index) {
+      let updatedTags = this.creator.tags;
+      updatedTags.splice(index, 1);
+      this.updateCreator({ id: creatorId, key: 'tags', value: updatedTags });
+    },
+    previousCreator(id) {
+      CreatorService.previousCreator(id).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.creator = response.data;
+        } else {
+        }
+      });
+    },
+    nextCreator(id) {
+      CreatorService.nextCreator(id).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.creator = response.data;
+        } else {
+        }
+      });
+    },
+  },
+  mounted() {
+    this.getCreatorOverview();
   },
 };
 </script>

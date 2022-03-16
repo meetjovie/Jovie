@@ -31,6 +31,7 @@
         :id="name"
         :disabled="disabled"
         :value="modelValue ?? value"
+        @blur="$emit('blur')"
         @input="$emit('update:modelValue', $event.target.value)"
         class="block w-full border-neutral-200 py-2 text-sm text-neutral-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
         :class="[

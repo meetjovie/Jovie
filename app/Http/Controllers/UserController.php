@@ -78,7 +78,10 @@ class UserController extends Controller
             $user->call_to_action = $this->getCta($user);
 
             // when user is from creator default each link to show
-            $user->show_instagram = true;
+            foreach (Creator::NETWORKS as $network) {
+                $user['show_'.$network] = true;
+            }
+
             return response([
                 'status' => true,
                 'data' => $user,

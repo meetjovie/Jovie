@@ -1,42 +1,50 @@
 import userService from "../services/api/user.service";
+import AuthService from "../services/auth/auth.service";
+import router from "../router";
 
 export default {
-    async headers(context, payload = null) {
-        let token = 'token'
-        let headers = { 'Authorization': `Bearer ${token}` }
-        if (payload) {
-            headers = {...headers, ...payload}
-        }
-        return headers;
-    } ,
-    async handleStateChangeForAuth(context) {
-        context.commit('setStateChangeForAuth', {
-            isAuthenticated: !!(await context.state.AuthState.auth0.isAuthenticated()),
-            user: await context.AuthState.auth0.getUser(),
-            loading: false
-        })
-    },
-    async login(context) {
-        await context.state.AuthState.auth0.loginWithPopup();
-        await context.commit('handleStateChangeForAuth')
-    },
+
     async logout(context) {
-        context.state.AuthState.auth0.logout({
-            returnTo: window.location.origin,
-        });
-    },
-    async me({state, commit}) {
-        userService.me().then(response => {
-            response = response.data
-            commit('setAuthStateUser', response)
-            return Promise.resolve(response)
-        }).catch(error => {
-            commit('setAuthStateUser', null)
+        AuthService.logout().then(response => {
+            router.push({name: 'Login'})
         })
     },
-    async updateCreator(context, payload) {
-        return await userService.updateCreator(payload)
+
+    async me({state, commit}) {
+        return new Promise((resolve, reject) => {
+            userService.me().then(response => {
+                response = response.data
+                commit('setAuthStateUser', response)
+                return resolve(response)
+            }).catch(error => {
+                commit('setAuthStateUser', null)
+                return reject(error)
+            })
+        })
     },
+
+    async updateCreator(context, { id, index, network, key, value }) {
+        const data = {
+            id: id,
+        };
+        let keySplits = key.split('.');
+        if (keySplits.length > 1) {
+            var key1 = keySplits[0];
+            var key2 = keySplits[1];
+            data[key1] = {
+                [key2]: value,
+            };
+        } else if (key == 'emails') {
+            if (typeof value == 'string') {
+                value = value.split(',')
+                data[key] = value;
+            }
+        } else {
+            data[key] = value;
+        }
+        return await userService.updateCreator(data)
+    },
+
     getPublicProfile(context, payload) {
         return new Promise((resolve, reject) => {
             userService.getPublicProfile(payload).then(response => {
