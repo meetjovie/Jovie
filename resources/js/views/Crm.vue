@@ -151,8 +151,7 @@
               <div class="flex w-full flex-col">
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
-                    <div
-                      class="overflow-hidden border-b border-gray-200 shadow">
+                    <div class="border-b border-gray-200 shadow">
                       <div
                         v-if="!loading && creators.length < 1"
                         class="mx-auto max-w-7xl items-center py-24 px-4 sm:px-6 lg:px-8">
@@ -215,8 +214,7 @@
               <div class="flex w-full flex-col">
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
-                    <div
-                      class="overflow-hidden border-b border-gray-200 shadow">
+                    <div class="border-b border-gray-200 shadow">
                       <CrmTable
                         @updateCreator="updateCreator"
                         @pageChanged="pageChanged"

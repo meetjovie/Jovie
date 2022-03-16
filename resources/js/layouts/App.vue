@@ -87,7 +87,7 @@
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <div
-        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/100 backdrop-blur-xl backdrop-filter">
+        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/75 backdrop-blur-md backdrop-filter">
         <button
           id="showSidebar"
           class="border-r border-neutral-200 px-4 text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden">

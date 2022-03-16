@@ -1,11 +1,11 @@
 <template>
-    <div class="overflow-hidden">
-        <table class="min-w-full overflow-none overscroll-contain divide-y divide-gray-200">
-            <thead class=" bg-gray-50 sticky top-0 ">
+    <div class="">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class=" bg-gray-50">
             <tr>
                 <th
                     scope="col"
-                    class="items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500">
                     <div class="grid grid-cols-2 items-center">
                         <div class="h-5 items-center text-center">
                             <input
@@ -34,32 +34,32 @@
                 </th>
                 <th
                     scope="col"
-                    class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Creator
                 </th>
                 <th
                     scope="col"
-                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
                     First
                 </th>
                 <th
                     scope="col"
-                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:flex">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
                     Last
                 </th>
                 <th
                     scope="col"
-                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
                     Email
                 </th>
                 <th
                     scope="col"
-                    class="flex items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 table-cell items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Followers
                 </th>
                 <th
                     scope="col"
-                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
                     Offer
                 </th>
 
@@ -69,20 +69,20 @@
                         </th> -->
                 <th
                     scope="col"
-                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 md:table-cell">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 md:table-cell">
                     Stage
                 </th>
                 <th
                     scope="col"
-                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
                     Contacted
                 </th>
                 <th
                     scope="col"
-                    class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Rating
                 </th>
-                <th scope="col" class="relative px-6 py-3  text-right text-xs font-medium tracking-wider text-gray-500">
+                <th scope="col" class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 px-6 py-3  text-right text-xs font-medium tracking-wider text-gray-500">
                     <span class="sr-only">Edit</span>
 
                     <div class="hidden w-60 2xl:block">Showing 50 of 1,500 results</div>
