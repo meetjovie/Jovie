@@ -1,12 +1,16 @@
 <template>
     <div class="">
+        
         <table class="min-w-full divide-y divide-gray-200">
             <thead class=" bg-gray-50">
+                
             <tr>
+                
                 <th
                     scope="col"
                     class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500">
                     <div class="grid grid-cols-2 items-center">
+                        
                         <div class="h-5 items-center text-center">
                             <input
                                 id="comments"
@@ -56,6 +60,7 @@
                     scope="col"
                     class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 table-cell items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Followers
+                     
                 </th>
                 <th
                     scope="col"
@@ -439,9 +444,10 @@ import StarRating from 'vue-star-rating';
 import {
     DotsVerticalIcon,
     ArchiveIcon,
-    DuplicateIcon,
     BanIcon,
     TrashIcon,
+    ChevronDownIcon,
+    ChevronUpIcon,
 
 } from '@heroicons/vue/solid';
 import Pagination from '../../components/Pagination';
@@ -451,7 +457,7 @@ import JovieSpinner from '../../components/JovieSpinner.vue';
 export default {
     name: "CrmTable",
     components: {
-        DuplicateIcon,
+        
         ArchiveIcon,
         StarRating,
         Menu,
@@ -467,6 +473,8 @@ export default {
         TrashIcon,
         Pagination,
         JovieSpinner,
+        ChevronDownIcon,
+        ChevronUpIcon,
     },
     props: ['creators', 'networks', 'stages', 'creatorsMeta', 'loading', 'arcvhied']
 }
