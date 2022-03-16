@@ -101,8 +101,10 @@
                     <td colspan="11">
                         <div class="flex justify-center bg-gray-50 min-h-screen items-center">
                             <JovieSpinner />
-                                <span class="visually-hidden sr-only">Loading...</span>
-                            </div>
+                                <span class="visually-hidden sr-only">
+                                    Loading...
+                                </span>
+                        </div>
                        
                     </td>
                 </tr>
