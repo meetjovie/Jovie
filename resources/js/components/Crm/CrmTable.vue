@@ -99,7 +99,7 @@
             <template v-if="loading">
                 <tr>
                     <td colspan="11">
-                        <div class="flex justify-center h-48 items-center">
+                        <div class="flex justify-center bg-gray-50 min-h-screen items-center">
                             <JovieSpinner />
                                 <span class="visually-hidden sr-only">Loading...</span>
                             </div>
@@ -112,8 +112,8 @@
                     <tr v-if="creator[`${network}_meta`] && Object.keys(creator[`${network}_meta`]).length && !creator.crm_record_by_user[`${network}_removed`] &&  (arcvhied ? creator.crm_record_by_user[`${network}_archived`] : !creator.crm_record_by_user[`${network}_archived`])"
                         class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                         <td
-                            class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
-                            <div class="grid grid-cols-2 items-center">
+                            class="w-18 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                            <div class="grid grid-cols-2 gap-2 items-center">
                                 <div class="group mr-2">
                                                                       <span class="group-hover:hidden">
                                                                         {{ (indexN + 1) }}
