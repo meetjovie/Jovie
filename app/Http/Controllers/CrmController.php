@@ -29,22 +29,7 @@ class CrmController extends Controller
     public function updateCrmCreator(Request $request, $id)
     {
         // update creator
-        $dataToUpdateForCrm = [];
-        $dataToUpdateForCreator = [];
-        foreach ($request->except(['_method', '_token', 'id', 'network']) as $k => $v) {
-                if ($k == 'crm_record_by_user') {
-                    foreach ($v as $key => $value) {
-                        $dataToUpdateForCrm[$key] = $value;
-                    }
-                } else {
-                    $v = $k == 'emails' ? json_encode($v) : $v;
-                    $dataToUpdateForCreator[$k] = $v;
-                }
-        }
-        Creator::where('id', $id)->update($dataToUpdateForCreator);
-
-        // update interactions for crm
-        Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
+        Creator::updateCrmCreator($request, $id);
 
         return collect([
             'status' => true,
@@ -69,6 +54,17 @@ class CrmController extends Controller
             'creator' => $creator,
 //            'networks' => Creator::NETWORKS,
             'stages' => Crm::stages()
+        ]);
+    }
+
+    public function updateOverviewCreator(Request $request, $id)
+    {
+        // update creator
+        Creator::updateCrmCreator($request, $id);
+
+        return collect([
+            'status' => true,
+            'data' => Creator::where('id', $id)->with('crmRecordByUser')->has('crmRecordByUser')->first(),
         ]);
     }
 

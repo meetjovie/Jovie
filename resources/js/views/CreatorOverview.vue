@@ -539,7 +539,7 @@ export default {
       });
     },
     updateCreator(params) {
-      this.$store.dispatch('updateCreator', params).then((response) => {
+      this.$store.dispatch('updateOverviewCreator', params).then((response) => {
         response = response.data;
         if (response.status) {
           this.creator = response.data;

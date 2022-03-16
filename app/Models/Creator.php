@@ -431,4 +431,24 @@ class Creator extends Model
 
         return $creators;
     }
+
+    public static function updateCrmCreator($request, $id)
+    {
+        $dataToUpdateForCrm = [];
+        $dataToUpdateForCreator = [];
+        foreach ($request->except(['_method', '_token', 'id', 'network']) as $k => $v) {
+            if ($k == 'crm_record_by_user') {
+                foreach ($v as $key => $value) {
+                    $dataToUpdateForCrm[$key] = $value;
+                }
+            } else {
+                $v = $k == 'emails' ? json_encode($v) : $v;
+                $dataToUpdateForCreator[$k] = $v;
+            }
+        }
+        Creator::where('id', $id)->update($dataToUpdateForCreator);
+
+        // update interactions for crm
+        Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
+    }
 }
