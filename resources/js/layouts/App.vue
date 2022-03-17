@@ -149,6 +149,7 @@
           </div>
 
           <div class="z-10 ml-2 flex items-center md:ml-6">
+            <SwitchTeams />
             <button
               class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
               <span class="sr-only">View notifications</span>
@@ -300,6 +301,7 @@ import {
 } from '@heroicons/vue/outline';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import UserService from '../services/api/user.service';
+import SwitchTeams from '../components/SwitchTeams.vue';
 
 /* const pages = [
   { name: 'CRM', href: '/outreach', current: false },
@@ -358,6 +360,7 @@ export default {
     ChevronLeftIcon,
     LogoutIcon,
     SwitchHorizontalIcon,
+    SwitchTeams,
   },
 };
 </script>
