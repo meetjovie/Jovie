@@ -30,6 +30,16 @@ class User extends Authenticatable
         'profile_pic_url'
     ];
 
+    protected $attributes = [
+        'id',
+        'current_team_id',
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'profile_pic_url'
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -50,6 +60,13 @@ class User extends Authenticatable
     ];
 
     protected $appends = ['default_image', 'full_name'];
+
+    protected $with = ['teams', 'currentTeam', 'ownedTeams'];
+
+    public function ownedTeams()
+    {
+        return $this->hasMany(Team::class, 'owner_id', 'id');
+    }
 
     public function creatorProfile()
     {

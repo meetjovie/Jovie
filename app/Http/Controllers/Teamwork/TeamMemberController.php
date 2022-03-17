@@ -24,7 +24,7 @@ class TeamMemberController extends Controller
     public function show($id)
     {
         $teamModel = config('teamwork.team_model');
-        $team = $teamModel::findOrFail($id);
+        $team = $teamModel::with('users')->findOrFail($id);
         return response([
             'status' => true,
             'team' => $team
