@@ -14,7 +14,7 @@ export default {
         return axios.get(`${baseApiUrlTeams}/team/${id}`);
     },
     async updateTeam(data, id) {
-        return axios.post(`${baseApiUrlTeams}/update/${id}`, data);
+        return axios.post(`${baseApiUrlTeams}/update/${id}?_method=PUT`, data);
     },
     async deleteTeam(data, id) {
         return axios.post(`${baseApiUrlTeams}/destroy/${id}?_method=DELETE`, data);

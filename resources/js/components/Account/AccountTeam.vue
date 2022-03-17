@@ -9,23 +9,26 @@
 
         <div class="mt-6">
             <dl class="divide-y">
-                <Disclosure v-for="team in user.teams">
+                <Disclosure v-for="(team, index) in user.teams">
                     <DisclosureButton>
                         <div
                             class="items-center py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
                             <dt class="text-sm font-medium text-gray-500">Team Name</dt>
                             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                 <InputGroup
+                                    :disabled="loading.updating"
                                     placeholder="Team Name"
-                                    :value="team.name"
+                                    v-model="team.name"
                                     class="flex-grow"></InputGroup>
                                 <span class="ml-4 flex-shrink-0">
-                  <button
-                      type="button"
-                      class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                    Update
-                  </button>
-                </span>
+                                  <button
+                                      :disabled="loading.updating"
+                                      @click="updateTeam(team)"
+                                      type="button"
+                                      class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                                    Update
+                                  </button>
+                                </span>
                             </dd>
                         </div>
                     </DisclosureButton>
@@ -161,26 +164,27 @@
                                 No Users
                             </li>
                         </ul>
+                        <div class="mt-12 py-8 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-2">
+                            <dt class="text-sm font-medium text-gray-500 sm:pt-5">
+                                Invite addition team members
+                            </dt>
+                            <dd
+                                class="mt-1 flex items-center text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                <span class="flex-grow">
+                                    <InputGroup placeholder="Example@jov.ie" v-model="team.memberToInvite"></InputGroup>
+                                </span>
+                                <span class="s ml-4 flex flex-shrink-0 items-start space-x-4">
+                                  <button
+                                      @click="inviteMember(team, index)"
+                                      type="button"
+                                      class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                                    Send Invite
+                                  </button>
+                                </span>
+                            </dd>
+                        </div>
                     </DisclosurePanel>
                 </Disclosure>
-                <div class="mt-12 py-8 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-2">
-                    <dt class="text-sm font-medium text-gray-500 sm:pt-5">
-                        Invite addition team members
-                    </dt>
-                    <dd
-                        class="mt-1 flex items-center text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-            <span class="flex-grow"
-            ><InputGroup placeholder="Example@jov.ie"></InputGroup
-            ></span>
-                        <span class="s ml-4 flex flex-shrink-0 items-start space-x-4">
-              <button
-                  type="button"
-                  class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                Send Invite
-              </button>
-            </span>
-                    </dd>
-                </div>
             </dl>
         </div>
     </div>
@@ -193,48 +197,7 @@ import {
 } from '@heroicons/vue/solid';
 import InputGroup from '../../components/InputGroup.vue';
 import {Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/vue';
-
-const applications = [
-    {
-        applicant: {
-            name: 'Ricardo Cooper',
-            email: 'ricardo.cooper@example.com',
-            imageUrl:
-                'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        date: '2020-01-07',
-        dateFull: 'Invitation sent...',
-        teamrole: 'Invitation pending',
-        href: '#',
-        status: 'pending',
-    },
-    {
-        applicant: {
-            name: 'Kristen Ramos',
-            email: 'kristen.ramos@example.com',
-            imageUrl:
-                'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        date: '2020-01-07',
-        dateFull: 'January 7, 2020',
-        teamrole: 'Team member',
-        href: '#',
-        status: 'active',
-    },
-    {
-        applicant: {
-            name: 'Ted Fox',
-            email: 'ted.fox@example.com',
-            imageUrl:
-                'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        date: '2020-01-07',
-        dateFull: 'January 7, 2020',
-        teamrole: 'Team owner',
-        href: '#',
-        status: 'active',
-    },
-];
+import TeamService from "../../services/api/team.service";
 
 export default {
     name: 'AccountTeam',
@@ -254,8 +217,46 @@ export default {
     },
     data() {
         return {
-            applications,
+            loading: {
+                updating: false,
+                inviting: false
+            },
+            errors: {}
         };
     },
+    methods: {
+        updateTeam(team) {
+            this.loading.updating = true
+            TeamService.updateTeam({name: team.name}, team.id).then(response => {
+                response = response.data
+                if (response.status) {
+
+                }
+            }).catch((error) => {
+                error = error.response;
+                if (error.status == 422) {
+                    this.errors = error.data.errors;
+                }
+            }).finally(() => {
+                this.loading.updating = false;
+            });
+        },
+        inviteMember(team, index) {
+            this.loading.inviting = true
+            TeamService.inviteMember({email: team.memberToInvite}, team.id).then(response => {
+                response = response.data
+                if (response.status) {
+                    this.user.teams[index].memberToInvite = ''
+                }
+            }).catch((error) => {
+                error = error.response;
+                if (error.status == 422) {
+                    this.errors = error.data.errors;
+                }
+            }).finally(() => {
+                this.loading.inviting = false;
+            });
+        }
+    }
 };
 </script>
