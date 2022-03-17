@@ -8,7 +8,7 @@ use Mpociot\Teamwork\TeamworkTeam;
 
 class Team extends TeamworkTeam
 {
-    protected $with = ['users'];
+    protected $with = ['users', 'invites'];
 
     public function users()
     {

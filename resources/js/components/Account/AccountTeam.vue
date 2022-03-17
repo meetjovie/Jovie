@@ -31,7 +31,9 @@
                     </DisclosureButton>
                     <DisclosurePanel>
                         <ul role="list" class="divide-y divide-gray-200">
+                            Joined Members
                             <li
+                                v-if="team.users.length"
                                 v-for="user in team.users"
                                 :key="user.id">
                                 <a :href="user.email" class="block hover:bg-gray-50">
@@ -66,22 +68,14 @@
                                                             Joined on
                                                             {{ ' ' }}
                                                             <time :datetime="user.pivot.created_at">{{
-                                                                    formatDate(user.created_at)
+                                                                    formatDate(user.pivot.created_at)
                                                                 }}
                                                             </time>
                                                         </p>
                                                         <p
                                                             class="mt-2 flex items-center text-sm text-gray-500">
                                                             <CheckCircleIcon
-                                                                class="mr-1.5 h-5 w-5 flex-shrink-0"
-                                                                :class="{
-                                  'text-green-400':
-                                    user.status === 'active',
-                                  'text-red-400':
-                                    user.status === 'removed',
-                                  'text-gray-400':
-                                    user.status === 'pending',
-                                }"
+                                                                class="mr-1.5 h-5 w-5 flex-shrink-0 text-green-400"
                                                                 aria-hidden="true"/>
                                                             {{ user.teamrole }}
                                                         </p>
@@ -90,16 +84,81 @@
                                             </div>
                                         </div>
                                         <div>
-                      <span class="ml-4 flex-shrink-0">
-                        <button
-                            type="button"
-                            class="rounded-md bg-gray-100 text-xs font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                          Resend Invite
-                        </button>
-                      </span>
+                                          <span class="ml-4 flex-shrink-0">
+                                            <button
+                                                type="button"
+                                                class="rounded-md bg-gray-100 text-xs font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                                              Resend Invite
+                                            </button>
+                                          </span>
                                         </div>
                                     </div>
                                 </a>
+                            </li>
+                            <li v-else>
+                                No Users
+                            </li>
+                        </ul>
+                        <ul role="list" class="divide-y divide-gray-200">
+                            Pending Invites
+                            <li
+                                v-if="team.invites.length"
+                                v-for="user in team.invites"
+                                :key="user.id">
+                                <a :href="user.email" class="block hover:bg-gray-50">
+                                    <div class="flex items-center px-4 py-4 sm:px-6">
+                                        <div class="flex min-w-0 flex-1 items-center">
+                                            <div class="flex-shrink-0">
+                                                <img
+                                                    class="h-12 w-12 rounded-full"
+                                                    :src="user.profile_pic_url"
+                                                    :alt="user.full_name"/>
+                                            </div>
+                                            <div
+                                                class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                                                <div>
+                                                    <p
+                                                        class="truncate text-sm font-medium text-indigo-600">
+                                                        {{ user.email }}
+                                                    </p>
+                                                    <p
+                                                        class="mt-2 flex items-center text-sm text-gray-500">
+                                                        <MailIcon
+                                                            class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                                                            aria-hidden="true"/>
+                                                        <span class="truncate">{{
+                                                                user.email
+                                                            }}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="hidden md:block">
+                                                    <div>
+                                                        <p class="text-sm text-gray-900">
+                                                            Sent on
+                                                            {{ ' ' }}
+                                                            <time :datetime="user.updated">{{
+                                                                    formatDate(user.updated)
+                                                                }}
+                                                            </time>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                          <span class="ml-4 flex-shrink-0">
+                                            <button
+                                                type="button"
+                                                class="rounded-md bg-gray-100 text-xs font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                                              Resend Invite
+                                            </button>
+                                          </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li v-else>
+                                No Users
                             </li>
                         </ul>
                     </DisclosurePanel>
