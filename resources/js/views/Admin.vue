@@ -62,7 +62,9 @@
         </div>
       </div>
     </div>
-
+    <div>
+      https://img.shields.io/endpoint?url=https://app.chipperci.com/projects/58d17d0b-dae3-441a-aeff-e24718ab5042/status/main
+    </div>
     <div class="mt-8">
       <div class="flex max-w-xl justify-between gap-8 px-4 sm:px-6 lg:px-8">
         <a href="https://dashboard.stripe.com/">
