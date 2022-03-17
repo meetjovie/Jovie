@@ -61,11 +61,9 @@ class User extends Authenticatable
 
     protected $appends = ['default_image', 'full_name'];
 
-    protected $with = ['teams', 'currentTeam', 'ownedTeams'];
-
     public function ownedTeams()
     {
-        return $this->hasMany(Team::class, 'owner_id', 'id');
+        return $this->hasMany(Team::class, 'owner_id', 'id')->with('users');
     }
 
     public function creatorProfile()
