@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\User;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\ValidationException;
@@ -24,16 +24,16 @@ class SparkServiceProvider extends ServiceProvider
     }
     public function boot()
     {
-        Spark::billable(User::class)->resolve(function (Request $request) {
-            return $request->user();
+        Spark::billable(Team::class)->resolve(function (Request $request) {
+            return $request->team();
         });
 
-        Spark::billable(User::class)->authorize(function (User $billable, Request $request) {
+        Spark::billable(Team::class)->authorize(function (Team $billable, Request $request) {
             return $request->user() &&
-                   $request->user()->id == $billable->id;
+                   $request->user()->ownsTeam($billable);
         });
 
-        Spark::billable(User::class)->checkPlanEligibility(function (User $billable, Plan $plan) {
+        Spark::billable(Team::class)->checkPlanEligibility(function (Team $billable, Plan $plan) {
             // if ($billable->projects > 5 && $plan->name == 'Basic') {
             //     throw ValidationException::withMessages([
             //         'plan' => 'You have too many projects for the selected plan.'

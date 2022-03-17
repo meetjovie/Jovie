@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\Team;
 use Spark\Features;
 
 return [
@@ -43,10 +43,10 @@ return [
     |
     */
 
-    // 'brand' =>  [
-    //     'logo' => realpath(__DIR__.'/../public/svg/billing-logo.svg'),
-    //     'color' => 'bg-gray-800',
-    // ],
+     'brand' =>  [
+         'logo' => realpath(__DIR__.'/../public/svg/billing-logo.svg'),
+         'color' => 'bg-indigo-700',
+     ],
 
     /*
     |--------------------------------------------------------------------------
@@ -93,11 +93,11 @@ return [
     */
 
     'receipt_data' => [
-        'vendor' => 'Your Product',
-        'product' => 'Your Product',
-        'street' => '111 Example St.',
-        'location' => 'Los Angeles, CA',
-        'phone' => '555-555-5555',
+        'vendor' => 'Jovie',
+        'product' => 'Creaor Parnerships Platform',
+        'street' => '251 little falls drive',
+        'location' => 'Deleware, DE',
+        
     ],
 
     /*
@@ -118,23 +118,26 @@ return [
     'billables' => [
 
         'user' => [
-            'model' => User::class,
+            'model' => Team::class,
 
-            'trial_days' => 5,
+            'trial_days' => 0,
 
-            'default_interval' => 'monthly',
+            'default_interval' => 'yearly',
 
             'plans' => [
                 [
-                    'name' => 'Standard',
-                    'short_description' => 'This is a short, human friendly description of the plan.',
-                    'monthly_id' => 'price_id',
-                    'yearly_id' => 'price_id',
+                    'name' => 'Jovie - Early Access',
+                    'short_description' => 'Our basic plan includes super fast AI powered search of Instagram creators.',
+                    'monthly_id' => env('Jovie_Early_MONTHLY_PLAN', 1000),
+                    'yearly_id' => env('Jovie_Early_YEARLY_PLAN', 1001),
                     'features' => [
-                        'Feature 1',
-                        'Feature 2',
-                        'Feature 3',
+                        'Search by products & content within creators photos',
+                        'Search by brand mentions',
+                        'Search by creators categories & hashtags',
+                        'Filter by gender, engagement, follower count, verification status, & more',
+                        'View contact information',
                     ],
+                    'archived' => false,
                 ],
             ],
 
