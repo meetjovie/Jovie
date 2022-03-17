@@ -40,15 +40,15 @@
                                             <div class="flex-shrink-0">
                                                 <img
                                                     class="h-12 w-12 rounded-full"
-                                                    :src="application.applicant.imageUrl"
-                                                    alt=""/>
+                                                    :src="user.profile_pic_url"
+                                                    :alt="user.full_name"/>
                                             </div>
                                             <div
                                                 class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                 <div>
                                                     <p
                                                         class="truncate text-sm font-medium text-indigo-600">
-                                                        {{ application.applicant.name }}
+                                                        {{ user.full_name }}
                                                     </p>
                                                     <p
                                                         class="mt-2 flex items-center text-sm text-gray-500">
@@ -56,7 +56,7 @@
                                                             class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                                                             aria-hidden="true"/>
                                                         <span class="truncate">{{
-                                                                application.applicant.email
+                                                                user.email
                                                             }}</span>
                                                     </p>
                                                 </div>
@@ -65,8 +65,8 @@
                                                         <p class="text-sm text-gray-900">
                                                             Joined on
                                                             {{ ' ' }}
-                                                            <time :datetime="application.date">{{
-                                                                    application.dateFull
+                                                            <time :datetime="user.pivot.created_at">{{
+                                                                    formatDate(user.created_at)
                                                                 }}
                                                             </time>
                                                         </p>
@@ -76,14 +76,14 @@
                                                                 class="mr-1.5 h-5 w-5 flex-shrink-0"
                                                                 :class="{
                                   'text-green-400':
-                                    application.status === 'active',
+                                    user.status === 'active',
                                   'text-red-400':
-                                    application.status === 'removed',
+                                    user.status === 'removed',
                                   'text-gray-400':
-                                    application.status === 'pending',
+                                    user.status === 'pending',
                                 }"
                                                                 aria-hidden="true"/>
-                                                            {{ application.teamrole }}
+                                                            {{ user.teamrole }}
                                                         </p>
                                                     </div>
                                                 </div>

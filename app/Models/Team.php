@@ -12,6 +12,6 @@ class Team extends TeamworkTeam
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'team_user', 'team_id', 'team_id');
+        return $this->belongsToMany(User::class, 'team_user', 'team_id', 'team_id')->withTimestamps();
     }
 }
