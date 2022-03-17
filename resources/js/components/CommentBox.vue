@@ -1,7 +1,10 @@
 <template>
   <div class="flex items-start space-x-4">
     <div class="flex-shrink-0">
-      <CreatorAvatar />
+      <CreatorAvatar
+        size="xsm"
+        :imageUrl="user.profile_pic_url"
+        :name="user.full_name" />
     </div>
     <div class="min-w-0 flex-1">
       <form action="#" class="relative">
@@ -11,6 +14,7 @@
           <textarea
             rows="3"
             name="comment"
+            v-model="comment"
             id="comment"
             class="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm"
             placeholder="Add your comment..." />
@@ -27,17 +31,17 @@
         <div
           class="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
           <div class="flex items-center space-x-5">
-            <div class="flex items-center">
-              <button
-                type="button"
-                class="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
-                <PaperClipIcon class="h-5 w-5" aria-hidden="true" />
-                <span class="sr-only">Attach a file</span>
-              </button>
-            </div>
+            <!-- <div class="flex items-center">
+                            <button
+                                type="button"
+                                class="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+                                <PaperClipIcon class="h-5 w-5" aria-hidden="true"/>
+                                <span class="sr-only">Attach a file</span>
+                            </button>
+                        </div> -->
             <div class="flex items-center">
               <Listbox as="div" v-model="selected">
-                <ListboxLabel class="sr-only"> Your mood </ListboxLabel>
+                <ListboxLabel class="sr-only"> Your mood</ListboxLabel>
                 <div class="relative">
                   <ListboxButton
                     class="relative -m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
@@ -109,9 +113,11 @@
           </div>
           <div class="flex-shrink-0">
             <button
-              type="submit"
+              @click="$emit('addComment', comment)"
+              :disabled="loading || !comment"
+              type="button"
               class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-              Post
+              Post comment
             </button>
           </div>
         </div>
@@ -138,6 +144,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/vue';
+import CreatorAvatar from './Creator/CreatorAvatar';
 
 const moods = [
   {
@@ -193,7 +200,9 @@ export default {
     ListboxOptions,
     EmojiHappyIcon,
     PaperClipIcon,
+    CreatorAvatar,
   },
+  props: ['loading'],
   setup() {
     const selected = ref(moods[5]);
 
@@ -201,6 +210,17 @@ export default {
       moods,
       selected,
     };
+  },
+  data() {
+    return {
+      comment: '',
+      addingComment: false,
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.state.AuthState.user;
+    },
   },
 };
 </script>

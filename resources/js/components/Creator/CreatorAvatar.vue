@@ -1,12 +1,17 @@
 <template>
   <!-- <img
     class="aspect-square w-48 rounded-full border-4 border-neutral-400 object-cover object-center"
-    :src="CreatorProfilePic"
-    :alt="CreatorName" /> -->
+    :src="imageUrl"
+    :alt="name" /> -->
 
   <div
     class="mx-auto aspect-square flex-shrink-0 justify-center object-cover object-center"
-    :class="[{ 'h-40 w-40': size == 'md' }, { 'h-24 w-24': size == 'sm' }]">
+    :class="[
+            { 'h-40 w-40': size == 'md' },
+            { 'h-24 w-24': size == 'sm' },
+            { 'h-12 w-12': size == 'xsm' },
+            { 'h-6 w-6': size == 'xxsm' },
+          ]">
     <div
       class="rounded-full p-1"
       :class="[
@@ -34,9 +39,11 @@
           :class="[
             { 'h-40 w-40': size == 'md' },
             { 'h-24 w-24': size == 'sm' },
+            { 'h-12 w-12': size == 'xsm' },
+            { 'h-6 w-6': size == 'xxsm' },
           ]"
-          :src="CreatorProfilePic"
-          :alt="CreatorName" />
+          :src="imageUrl"
+          :alt="name" />
       </div>
     </div>
   </div>
@@ -45,13 +52,13 @@
 export default {
   name: 'CreatorAvatar',
   props: {
-    CreatorProfilePic: {
+    imageUrl: {
       type: String,
       default: 'https://www.aceshowbiz.com/images/photo/keira_knightley.jpg',
     },
-    CreatorName: {
+    name: {
       type: String,
-      default: 'Creator Name',
+      default: 'Creator',
     },
     size: {
       type: String,
@@ -59,7 +66,7 @@ export default {
     },
     network: {
       type: String,
-      default: 'instagram',
+      default: null,
     },
     height: {
       type: Number,

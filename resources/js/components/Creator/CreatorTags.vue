@@ -10,8 +10,7 @@
         'py-0 pl-2 pr-0.5 text-[10px] font-light tracking-wider': size == 'sm',
       },
       {
-        'py-0.5 pl-2 pr-0.5 text-[12px] font-light tracking-wider':
-          size == 'md',
+        'py-0.5 pl-2 pr-2 text-[12px] font-light tracking-wider': size == 'md',
       },
       { 'py-0.5 pl-2.5 pr-1 text-sm ': size == 'lg' },
       { 'bg-neutral-100 text-neutral-900': color == 'none' },
@@ -25,6 +24,8 @@
     ]">
     {{ text }}
     <button
+      v-if="showX"
+      @click="$emit('deleteTag')"
       type="button"
       class="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus-visible:bg-indigo-500 focus-visible:text-white focus-visible:outline-none"
       :class="[
@@ -82,6 +83,10 @@ export default {
     color: {
       type: String,
       default: 'none',
+    },
+    showX: {
+      type: Boolean,
+      default: true,
     },
   },
 };

@@ -305,10 +305,10 @@ class InstagramImport implements ShouldQueue
         }
         $file = $user->profile_pic_url_hd;
         if (is_null($file)) {
-            $file = asset('images/thumnailLogo.5243720b.png');
+            return asset('images/thumnailLogo.5243720b.png');
         }
         if ($user->is_private) {
-            $file = asset('images/thumbnailPrivateLogo.f3b513fc.png');
+            return asset('images/thumbnailPrivateLogo.f3b513fc.png');
         }
         return self::uploadFile($file, Creator::CREATORS_PROFILE_PATH);
     }
@@ -330,18 +330,21 @@ class InstagramImport implements ShouldQueue
             && count($user->edge_owner_to_timeline_media->edges)) {
             foreach ($user->edge_owner_to_timeline_media->edges as $edge) {
                 if ($node = $edge->node) {
+                    $display_url = null;
                     if ($node->is_video) {
                         $file = $node->thumbnail_src;
                     } else {
                         $file = $node->display_url;
                     }
                     if (is_null($file)) {
-                        $file = asset('images/thumnailLogo.5243720b.png');
+                        $display_url = asset('images/thumnailLogo.5243720b.png');
                     }
                     if ($user->is_private) {
-                        $file = asset('images/thumbnailPrivateLogo.f3b513fc.png');
+                        $display_url = asset('images/thumbnailPrivateLogo.f3b513fc.png');
                     }
-                    $display_url = self::uploadFile($file, Creator::CREATORS_MEDIA_PATH);
+                    if (is_null($display_url)) {
+                        $display_url = self::uploadFile($file, Creator::CREATORS_MEDIA_PATH);
+                    }
                     $caption = '';
                     foreach ($node->edge_media_to_caption->edges as $captionNode) {
                         $caption .= $captionNode->node->text;
@@ -353,7 +356,8 @@ class InstagramImport implements ShouldQueue
                         'comments' => $node->edge_media_to_comment->count,
                         'views' => $node->edge_media_preview_like->count,
                         'caption' => $caption,
-                        'accessibility_caption' => $node->accessibility_caption
+                        'accessibility_caption' => $node->accessibility_caption,
+                        'datetime' => date('Y-m-d H:i:s', $node->taken_at_timestamp)
                     ]);
                     foreach ($node->edge_media_to_caption->edges as $edge) {
                         if ($caption = $edge->node) {

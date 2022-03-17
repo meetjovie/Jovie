@@ -376,28 +376,14 @@ export default {
         fileLink.click();
       });
     },
-    updateCreator({ id, index, network, key, value }) {
-      const data = {
-        id: id,
-      };
-      let keySplits = key.split('.');
-      if (keySplits.length > 1) {
-        var key1 = keySplits[0];
-        var key2 = keySplits[1];
-        data[key1] = {
-          [key2]: value,
-        };
-      } else {
-        data[key] = value;
-      }
-
-      this.$store.dispatch('updateCreator', data).then((response) => {
+    updateCreator(params) {
+      this.$store.dispatch('updateCreator', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {
-            this.creators.splice(index, 1);
+            this.creators.splice(params.index, 1);
           } else {
-            this.creators[index] = response.data;
+            this.creators[params.index] = response.data;
           }
         }
       });
