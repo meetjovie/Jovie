@@ -14,13 +14,6 @@ pipeline:
       cp -v .env.example .env
       composer install --no-interaction --prefer-dist --optimize-autoloader
       php artisan key:generate
-  - name: Compile Dev Assets
-    cmd: |
-      npm ci && npm run prod && rm -rf node_modules
-      npm run dev
-  - name: Run Tests
-    cmd: phpunit
-
   - name: Deploy
     cmd: |
       if [[ $CI_COMMIT_BRANCH == 'master' ]]; then
