@@ -16,7 +16,7 @@ pipeline:
       php artisan key:generate
   - name: Compile Dev Assets
     cmd: |
-      npm install --prefer-offline --no-audit --force
+      'npm ci && npm run prod && rm -rf node_modules'
       npm run dev
   - name: Run Tests
     cmd: phpunit
