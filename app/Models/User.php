@@ -30,16 +30,6 @@ class User extends Authenticatable
         'profile_pic_url'
     ];
 
-    protected $attributes = [
-        'id',
-        'current_team_id',
-        'first_name',
-        'last_name',
-        'email',
-        'password',
-        'profile_pic_url'
-    ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
