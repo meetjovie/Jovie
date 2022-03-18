@@ -9,5 +9,8 @@ export default {
     },
     setAddedToWaitList(state) {
         state.addedToWaitList = true
+    },
+    switchTeam(state, payload) {
+        state.AuthState.user.current_team = payload
     }
 }

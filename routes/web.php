@@ -45,6 +45,7 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 //    $creator = \App\Models\Creator::first();
 //    dd($creator->instagram_media);
 //});
+
 Route::get('{any?}', function () {
     return view('welcome');
 });
