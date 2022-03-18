@@ -6,6 +6,38 @@
                 Invite collaborators to join your team.
             </p>
         </div>
+        <div class="space-y-1">
+            <button
+                v-if="!addTeam"
+                @click="addTeam = true"
+                type="button"
+                class="rounded-md bg-red-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                Add New Team
+            </button>
+            <div v-if="addTeam">
+                <InputGroup
+                    :disabled="loading.addingTeam"
+                    placeholder="Team Name"
+                    v-model="teamName"
+                    class="flex-grow"></InputGroup>
+                <span class="ml-4 flex-shrink-0">
+              <button
+                  :disabled="loading.addingTeam"
+                  @click="createTeam()"
+                  type="button"
+                  class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                Update
+              </button>
+                    <button
+                        :disabled="loading.addingTeam"
+                        @click="teamName = ''; addTeam = false"
+                        type="button"
+                        class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                Cancel
+              </button>
+            </span>
+            </div>
+        </div>
 
         <div class="mt-6">
             <dl class="divide-y">
@@ -43,7 +75,7 @@
                         <ul role="list" class="divide-y divide-gray-200">
                             Joined Members
                             <li
-                                v-if="team.users.length"
+                                v-if="team.users && team.users.length"
                                 v-for="(user, uIndex) in team.users"
                                 :key="user.id">
                                 <div class="flex items-center px-4 py-4 sm:px-6">
@@ -112,7 +144,7 @@
                         <ul role="list" class="divide-y divide-gray-200">
                             Pending Invites
                             <li
-                                v-if="team.invites.length"
+                                v-if="team.invites && team.invites.length"
                                 v-for="user in team.invites"
                                 :key="user.id">
                                 <div class="flex items-center px-4 py-4 sm:px-6">
@@ -228,18 +260,40 @@ export default {
             loading: {
                 updating: false,
                 inviting: false,
-                deleting: false
+                deleting: false,
+                addingTeam: false
             },
-            errors: {}
+            errors: {},
+            addTeam: false,
+            teamName: ''
         };
     },
     methods: {
+        createTeam() {
+            this.loading.addingTeam = true
+            TeamService.createTeam({name: this.teamName}).then(response => {
+                response = response.data
+                if (response.status) {
+                    this.currentUser.teams.push(response.team)
+                    this.teamName = ''
+                    this.addTeam = false
+                    alert('added')
+                }
+            }).catch((error) => {
+                error = error.response;
+                if (error.status == 422) {
+                    this.errors = error.data.errors;
+                }
+            }).finally(() => {
+                this.loading.addingTeam = false;
+            });
+        },
         updateTeam(team) {
             this.loading.updating = true
             TeamService.updateTeam({name: team.name}, team.id).then(response => {
                 response = response.data
                 if (response.status) {
-
+                    alert('Updated')
                 }
             }).catch((error) => {
                 error = error.response;
@@ -257,6 +311,7 @@ export default {
                 if (response.status) {
                     this.currentUser.teams[index].memberToInvite = ''
                     this.currentUser.teams[index] = response.teams
+                    alert('invited')
                 }
             }).catch((error) => {
                 error = error.response;
@@ -272,7 +327,11 @@ export default {
             TeamService.deleteTeam(team.id).then(response => {
                 response = response.data
                 if (response.status) {
+                    if (this.currentUser.current_team.id == this.currentUser.teams[index].id) {
+                        this.$store.commit('switchTeam', null)
+                    }
                     this.currentUser.teams.splice(index, 1)
+                    alert('deleted')
                 }
             }).catch((error) => {
                 error = error.response;
@@ -289,6 +348,7 @@ export default {
                 response = response.data
                 if (response.status) {
                     this.currentUser.teams[tIndex].users.splice(uIndex, 1)
+                    alert('deleted')
                 }
             }).catch((error) => {
                 error = error.response;
@@ -304,6 +364,7 @@ export default {
             TeamService.resendInvite(inviteId).then(response => {
                 response = response.data
                 if (response.status) {
+                    alert('Sent')
                 }
             }).catch((error) => {
                 error = error.response;
