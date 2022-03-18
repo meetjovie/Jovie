@@ -94,7 +94,7 @@ class TeamMemberController extends Controller
         }
         return response([
             'status' => true,
-            'teams' => $team
+            'teams' => $team->load(['users', 'invites'])
         ]);
     }
 

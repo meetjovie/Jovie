@@ -256,6 +256,7 @@ export default {
                 response = response.data
                 if (response.status) {
                     this.currentUser.teams[index].memberToInvite = ''
+                    this.currentUser.teams[index] = response.teams
                 }
             }).catch((error) => {
                 error = error.response;
