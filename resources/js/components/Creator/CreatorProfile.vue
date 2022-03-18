@@ -1,6 +1,7 @@
 <template>
   <div
     class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
+    <!--sse-->
     <div
       v-for="profile in profiles"
       :key="profile.username"
@@ -100,6 +101,7 @@
         </div>
       </router-link>
     </div>
+    <!--/sse-->
   </div>
 </template>
 <script>
