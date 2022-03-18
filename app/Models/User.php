@@ -25,7 +25,6 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'sub',
         'password',
         'profile_pic_url'
     ];
@@ -49,18 +48,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['default_image'];
+    protected $appends = ['default_image', 'full_name'];
 
-    public function getProfilePicUrlAttribute($value)
+    public function creatorProfile()
     {
-        if ($value && Storage::disk('s3')->exists($value)) {
-            return Storage::disk('s3')->url($value);
-        }
-        return null;
+        return $this->hasOne(Creator::class);
+    }
+
+    public function crms()
+    {
+        return $this->belongsToMany(Creator::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps();
+    }
+
+    public function routeNotificationForSlack($notification)
+    {
+        return env('SLACK_NOTIFICATION_WEBHOOK');
+    }
+
+    public function getProfilePicUrlAttribute()
+    {
+        return $this->profile_pic_url ?? asset('img/noimage.webp');
     }
 
     public function getDefaultImageAttribute()
     {
-        return asset('images/noimage.png');
+        return asset('img/noimage.webp');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 }
