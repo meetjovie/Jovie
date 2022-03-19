@@ -1,0 +1,52 @@
+<template>
+    <div>
+        <div
+            v-if="iconstyle == 'vertical'"
+            class="mt-1 grid grid-cols-6 items-center text-center">
+            <div
+                v-for="socialLink in socialLinks"
+                :key="socialLink.id" @click="openLink(socialLink.url, true)"
+                class="mx-auto items-center justify-center cursor-pointer">
+                <div class="text-neutral-5 mx-auto justify-center text-center">
+                    <SocialIcons :height="'14px'"
+                                 :iconstyle="iconstyle"
+                                 :icon="socialLink.network"/>
+                </div>
+                <div class="mx-auto text-center text-2xs text-neutral-500"> v-if=socialLink.followers
+                    {{ formatCount(socialLink.followers) }}
+                </div>
+            </div>
+        </div>
+        <div
+            v-if="iconstyle == 'horizontal'"
+            class="mx-auto mt-2 flex justify-start space-x-6">
+            <div v-for="socialLink in socialLinks"
+                 :key="socialLink.id" @click="openLink(socialLink.url, true)"
+                 class="flex cursor-pointer">
+                <SocialIcons :height="'14px'"
+                             :iconstyle="iconstyle"
+                             :icon="socialLink.network"/>
+                <span class="text-xs text-neutral-500" v-if="socialLink.followers">{{ formatCount(socialLink.followers) }}</span>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import SocialIcons from "../SocialIcons";
+
+export default {
+    components: {SocialIcons},
+    props: {
+        iconstyle: {
+            type: String,
+            default: 'horizontal',
+        },
+        socialLinks: {
+            type: Array
+        }
+    },
+    data() {
+        return {};
+    },
+};
+</script>
