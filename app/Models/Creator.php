@@ -395,6 +395,8 @@ class Creator extends Model
 
             $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
+            $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
+            $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
 
             $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
 
