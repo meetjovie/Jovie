@@ -21,6 +21,7 @@ class ImportController extends Controller
 
     public function getColumnsFromCsv(Request $request)
     {
+
 //        $request->validate([
 //            'import' => 'required|mimes:csv'
 //        ]);
@@ -43,7 +44,7 @@ class ImportController extends Controller
     public function import(Request $request)
     {
 
-        
+
         $request->validate([
             'instagram' => 'required_without_all:file,youtube',
 //            'youtube' => 'required_without_all:file,instagram',
@@ -80,7 +81,7 @@ class ImportController extends Controller
 
     public function handleImportFile($request)
     {
-        
+
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->has('file')) {
             $fileUrl  = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
