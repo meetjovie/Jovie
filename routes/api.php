@@ -24,26 +24,24 @@ Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    //    PROFILE
-    Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
-    Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
-    Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
+        //    PROFILE
+        Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
+        Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
+        Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
-    Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
-
-//      IMPORT CREATORS
+        //IMPORT CREATORS
         Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
         Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
 
-//      USER LISTS
+        //      USER LISTS
         Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
 
-//      CRM
+        //      CRM
         Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
         Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
         Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 
-//      OVERVIEW
+        //      OVERVIEW
         Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
         Route::post('/add-comment', [\App\Http\Controllers\CrmController::class, 'addComment']);
         Route::get('/get-comments/{id}', [\App\Http\Controllers\CrmController::class, 'getComments']);
@@ -51,6 +49,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::get('/next-creator/{id}', [\App\Http\Controllers\CrmController::class, 'nextCreator']);
         Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']);
+
+Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
+
+        //     
     });
 
     /**
