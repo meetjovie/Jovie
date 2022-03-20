@@ -27,20 +27,20 @@
         <ButtonGroup
           rounded="bl"
           size="xs"
-          style="secondary"
+          design="secondary"
           class="w-full"
           :text="preset1"></ButtonGroup>
         <ButtonGroup
           rounded="none"
           size="xs"
-          style="secondary"
+          design="secondary"
           class="w-full"
           :text="preset2"></ButtonGroup>
         <ButtonGroup
           rounded="br"
           size="xs"
           class="w-full"
-          style="secondary"
+          design="secondary"
           :text="preset3"></ButtonGroup>
       </span>
     </div>
