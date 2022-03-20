@@ -35,7 +35,7 @@
               </TabPanels>
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
-                  Password (Coming soon)
+                  <AccountSecurity />
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
@@ -73,6 +73,7 @@
 <script>
 import AccountTeam from '../components/Account/AccountTeam.vue';
 import AccountProfile from '../components/Account/AccountProfile.vue';
+import AccountSecurity from '../components/Account/AccountSecurity.vue';
 
 import { ref } from 'vue';
 import {
@@ -146,6 +147,7 @@ export default {
     Tab,
     ButtonGroup,
     AccountProfile,
+    AccountSecurity,
   },
   data() {
     return {
