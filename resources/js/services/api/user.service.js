@@ -1,4 +1,5 @@
 import store from '../../store';
+import axios from "axios";
 
 const baseApiUrl = '/api';
 const baseUrlWeb = '';
@@ -47,5 +48,12 @@ export default {
     },
     async getCreatorOverview(id) {
         return axios.get(`${baseUrlAdmin}/creators-overview/${id}`);
+    },
+    async subscribe(token, selectedPlan) {
+        return axios.post(
+            `${baseApiUrl}/subscription`, {'paymentMethod': token, 'selectedPlan': selectedPlan});
+    },
+    async getSubscriptionPlans() {
+        return axios.get(`${baseApiUrl}/subscription-plans`)
     }
 };

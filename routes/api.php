@@ -72,4 +72,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::get('accept/{token}', [App\Http\Controllers\Teamwork\AuthController::class, 'acceptInvite'])->name('teams.accept_invite');
     });
+
+    // SUBSCRIPTIONS
+    Route::get('/subscription-plans', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'getSubscriptionPlans']);
+    Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
 });

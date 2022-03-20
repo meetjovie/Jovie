@@ -11,6 +11,7 @@
     "compress": "bread-compressor -s public/css/*.css public/js/*.js"
   },
   "devDependencies": {
+    "@stripe/stripe-js": "^1.25.0",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/line-clamp": "^0.3.1",
@@ -43,7 +44,6 @@
     "@heroicons/vue": "^1.0.6",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
-    "@vue-stripe/vue-stripe": "^4.4.1",
     "moment": "^2.29.1",
     "simple-icons": "^6.9.0",
     "tailwind-scrollbar-hide": "^1.1.7",
