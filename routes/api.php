@@ -50,16 +50,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/next-creator/{id}', [\App\Http\Controllers\CrmController::class, 'nextCreator']);
         Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']);
 
-Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
+        Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 
-        //     
-    });
+                //     
+        });
 
-    /**
-     * Teamwork routes
-     */
-    Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function()
-    {
+        /**
+         * Teamwork routes
+         */
+        Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function()
+        {
         Route::get('/', [App\Http\Controllers\Teamwork\TeamController::class, 'index'])->name('teams.index');
         Route::post('teams', [App\Http\Controllers\Teamwork\TeamController::class, 'store'])->name('teams.store');
         Route::get('team/{id}', [App\Http\Controllers\Teamwork\TeamController::class, 'edit'])->name('teams.edit');
@@ -73,5 +73,5 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::delete('members/{id}/{user_id}', [App\Http\Controllers\Teamwork\TeamMemberController::class, 'destroy'])->name('teams.members.destroy');
 
         Route::get('accept/{token}', [App\Http\Controllers\Teamwork\AuthController::class, 'acceptInvite'])->name('teams.accept_invite');
-    });
+        });
 });

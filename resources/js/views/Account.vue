@@ -30,11 +30,13 @@
               </div>
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
-                  <AccountTeam />
+                  <AccountProfile />
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6"> Password </TabPanel>
+                <TabPanel class="space-y-12 px-4 py-6">
+                  Password (Coming soon)
+                </TabPanel>
               </TabPanels>
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
@@ -42,11 +44,18 @@
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6"> Plan </TabPanel>
+                <TabPanel class="space-y-12 px-4 py-6">
+                  Plan (Coming soon)
+                </TabPanel>
               </TabPanels>
 
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6"> Billing </TabPanel>
+                <TabPanel class="space-y-12 px-4 py-6">
+                  <div class="flex justify-between py-4 px-4">
+                    <div>Manage Billing</div>
+                    <ButtonGroup text="Manage"></ButtonGroup>
+                  </div>
+                </TabPanel>
               </TabPanels>
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
@@ -92,6 +101,7 @@ import {
   XIcon,
 } from '@heroicons/vue/outline';
 import { SearchIcon } from '@heroicons/vue/solid';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -133,6 +143,7 @@ export default {
     TabPanel,
     TabPanels,
     Tab,
+    ButtonGroup,
   },
   data() {
     return {
