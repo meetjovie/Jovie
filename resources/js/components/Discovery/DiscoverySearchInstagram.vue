@@ -26,20 +26,20 @@
       <ButtonGroup
         size="xs"
         rounded="left"
-        style="secondary"
+        design="secondary"
         class="rounded-tl-md"
         icon="LocationMarkerIcon"
         text="Male" />
       <ButtonGroup
         size="xs"
         rounded="none"
-        style="secondary"
+        design="secondary"
         icon="LocationMarkerIcon"
         text="Female" />
       <ButtonGroup
         size="xs"
         rounded="right"
-        style="secondary"
+        design="secondary"
         icon="LocationMarkerIcon"
         text="Other" />
     </div>

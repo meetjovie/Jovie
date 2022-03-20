@@ -7,10 +7,11 @@
       { 'py-0 text-xs': size == 'xs' },
       { 'py-1 text-sm': size == 'sm' },
       {
-        'bg-white  text-red-900 hover:bg-indigo-500 hover:text-white ':
-          style == 'secondary',
+        'bg-white   hover:bg-indigo-500 hover:text-white ':
+          design == 'secondary',
       },
-      { 'bg-indigo-500 text-white': style == 'primary' },
+      { 'bg-red-500 text-white': design == 'danger' },
+      { 'bg-indigo-500 text-white': design == 'primary' },
       { 'rounded-r-md': rounded == 'right' },
       { 'rounded-l-md': rounded == 'left' },
       { 'rounded-t-md': rounded == 'top' },
@@ -28,12 +29,7 @@
     <p
       v-if="text"
       class="mx-auto text-center text-sm hover:text-white"
-      :class="[
-        { 'text-2xs': size == 'xs' },
-        { 'py-0 text-xs': size == 'sm' },
-        { 'bg-white text-neutral-500': style == 'secondary' },
-        { 'bg-indigo-500 text-white': style == 'primary' },
-      ]">
+      :class="[{ 'text-2xs': size == 'xs' }, { 'py-0 text-xs': size == 'sm' }]">
       {{ text }}
     </p>
   </button>
@@ -65,7 +61,7 @@ export default {
       type: String,
       default: 'md',
     },
-    style: {
+    design: {
       type: String,
       default: 'primary',
     },

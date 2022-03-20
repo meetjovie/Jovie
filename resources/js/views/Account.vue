@@ -72,6 +72,7 @@
 
 <script>
 import AccountTeam from '../components/Account/AccountTeam.vue';
+import AccountProfile from '../components/Account/AccountProfile.vue';
 
 import { ref } from 'vue';
 import {
@@ -144,6 +145,7 @@ export default {
     TabPanels,
     Tab,
     ButtonGroup,
+    AccountProfile,
   },
   data() {
     return {
