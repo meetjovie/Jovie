@@ -40,51 +40,10 @@
           </TabList>
         </div>
         <div class="w-60 items-center">
-          <Combobox as="div" v-model="filters.list">
-            <div class="relative mt-1">
-              <ComboboxInput
-                class="w-full rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                :displayValue="(list) => (list ? list.name : '')"
-                @change="searchList = $event.target.value" />
-              <ComboboxButton
-                class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                <ChevronDownIcon
-                  class="h-5 w-5 text-gray-400"
-                  aria-hidden="true" />
-              </ComboboxButton>
-
-              <ComboboxOptions
-                v-if="filteredUsersLists.length > 0"
-                class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                <ComboboxOption
-                  v-for="list in filteredUsersLists"
-                  :key="list.id"
-                  :value="list"
-                  as="template"
-                  v-slot="{ active, selected }">
-                  <li
-                    :class="[
-                      'relative cursor-default select-none py-2 pl-3 pr-9',
-                      active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                    ]">
-                    <span
-                      :class="['block truncate', selected && 'font-semibold']">
-                      {{ list.name }}
-                    </span>
-
-                    <span
-                      v-if="selected"
-                      :class="[
-                        'absolute inset-y-0 right-0 flex items-center pr-4',
-                        active ? 'text-white' : 'text-indigo-600',
-                      ]">
-                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                    </span>
-                  </li>
-                </ComboboxOption>
-              </ComboboxOptions>
-            </div>
-          </Combobox>
+          <select id="dropdown-1" text="Dropdown Button" class="rounded-md relative mt-1">
+            <option disabled :value="null">Select one</option>
+            <option v-for="item in filters.list" :key="item.title" value="{{item.id}}">{{item.title}}</option>
+          </select>
         </div>
         <div class="items-center px-2">
           <Menu as="div" class="relative inline-block items-center text-left">
@@ -296,12 +255,33 @@ export default {
       stages: [],
       networks: [],
       userLists: [],
-
+      filterId: 1,
       loading: false,
       creators: [],
       creatorsMeta: {},
       filters: {
-        list: null,
+          list:  [
+            {
+              id: 1,
+              title: 'All'
+            },
+            {
+              id: 2,
+              title: 'Prospects'
+            },
+            {
+              id: 3,
+              title: 'Contacted'
+            },
+            {
+              id: 4,
+              title: 'Negotiating'
+            },
+            {
+              id: 5,
+              title: 'Closed'
+            },
+          ],
         archived: 0,
         page: 1,
       },
@@ -318,7 +298,7 @@ export default {
   },
   computed: {
     filteredUsersLists() {
-      if (!this.searchList) this.filters.list = null;
+      if (!this.searchList) //this.filters.list = null;
       return this.userLists.filter((list) =>
         list.name.toLowerCase().match(this.searchList.toLowerCase())
       );
