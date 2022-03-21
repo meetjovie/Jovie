@@ -238,9 +238,9 @@ export const routes = [
     },
   },
   {
-    name: 'Subscriptions',
-    path: '/subscriptions',
-    component: loadPage('Subscriptions'),
+    name: 'Subscribe',
+    path: '/subscribe',
+    component: loadPage('Subscribe'),
     props: true,
     meta: {
       layout: 'Minimal',
