@@ -326,7 +326,7 @@
                     <div class="mt-5 sm:flex sm:items-center">
                       <div class="w-full space-x-4 sm:max-w-xs">
                         <div
-                          id="card"
+                          id="payment"
                           class="flex-inline mr-4 appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"></div>
                       </div>
                       <ButtonGroup
@@ -496,16 +496,24 @@ export default {
     },
     async changeTab(index) {
       if (index == 4) {
-        UserService.getSubscriptionPlans().then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.plans = response.plans;
-          }
-        });
-        this.stripe = await loadStripe(this.stripeKey);
-        const elements = this.stripe.elements();
-        this.cardElement = elements.create('card');
-        this.cardElement.mount('#card');
+          UserService.paymentIntent().then(async response => {
+              response = response.data
+              if (response.status) {
+                  const paymentIntent = response.intent
+                  UserService.getSubscriptionPlans().then((response) => {
+                      response = response.data;
+                      if (response.status) {
+                          this.plans = response.plans;
+                      }
+                  });
+                  this.stripe = await loadStripe(this.stripeKey);
+                  const elements = this.stripe.elements({clientSecret: paymentIntent.client_secret});
+                  this.cardElement = elements.create('payment');
+                  this.cardElement.mount('#payment');
+              } else {
+                  alert(response.message)
+              }
+          })
       }
     },
   },

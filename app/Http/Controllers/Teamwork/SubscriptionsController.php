@@ -7,6 +7,21 @@ use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
 {
+    public function paymentIntent(Request $request)
+    {
+        $user = $request->user()->load('currentTeam');
+        if ($user->currentTeam) {
+            return response([
+                'intent' => $user->currentTeam->createSetupIntent(),
+                'status' => true,
+            ]);
+        }
+        return response([
+            'status' => false,
+            'message' => 'Please select a team to continue.'
+        ]);
+    }
+
     public function getSubscriptionPlans()
     {
         $key = \config('services.stripe.secret');

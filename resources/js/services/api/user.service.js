@@ -53,6 +53,9 @@ export default {
         return axios.post(
             `${baseApiUrl}/subscription`, {'paymentMethod': token, 'selectedPlan': selectedPlan});
     },
+    async paymentIntent() {
+        return axios.get(`${baseApiUrl}/payment-intent`)
+    },
     async getSubscriptionPlans() {
         return axios.get(`${baseApiUrl}/subscription-plans`)
     }
