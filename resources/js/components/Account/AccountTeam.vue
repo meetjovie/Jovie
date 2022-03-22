@@ -299,7 +299,7 @@ export default {
           if (response.status) {
             this.currentUser.teams.push(response.team);
             this.teamName = '';
-            this.addTeam = false;
+            this.addTeam  = false;
             alert('added');
           }
         })

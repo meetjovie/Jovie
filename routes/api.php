@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         //    PROFILE
         Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
         Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
+        Route::post('/update-password', [\App\Http\Controllers\UserController::class, 'update_password']);
         Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
         //IMPORT CREATORS
@@ -52,7 +53,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 
-                //     
+                //
         });
 
         /**
