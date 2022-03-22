@@ -165,6 +165,11 @@
                   </div>
                 </div>
               </template>
+                <template v-if="step == 3">
+                    <div class="space-y-1">
+                        <Subscription />
+                    </div>
+                </template>
             </form>
           </div>
         </div>
@@ -178,9 +183,11 @@ import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import router from '../router';
 import AuthService from '../services/auth/auth.service';
+import Subscription from "../components/Subscription";
 
 export default {
   components: {
+      Subscription,
     JovieLogo,
     AuthFooter,
   },
@@ -244,7 +251,7 @@ export default {
           response = response.data;
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
-            router.push({ name: 'Dashboard' });
+            this.step = 3
           } else {
             this.error = response.error;
           }
