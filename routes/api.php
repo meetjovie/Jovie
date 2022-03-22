@@ -19,20 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
 Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
-Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
+Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    //    PROFILE
-    Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
-    Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
-    Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
+        //    PROFILE
+        Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
+        Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
+        Route::post('/update-password', [\App\Http\Controllers\UserController::class, 'update_password']);
+        Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
-
-    Route::group(['middleware' => 'subscribed'], function () {
-
-        //
         //IMPORT CREATORS
         Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
         Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
@@ -54,25 +51,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/next-creator/{id}', [\App\Http\Controllers\CrmController::class, 'nextCreator']);
         Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']);
 
-        // DISCOVERY
-        Route::post('/add-to-crm', [\App\Http\Controllers\CrmController::class, 'addCreatorToCreator']);
+        Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 
-        // SUBSCRIPTIONS
-        Route::post('/cancel-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'cancelSubscription']);
-        Route::post('/resume-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'resumeSubscription']);
-        Route::post('/change-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'changeSubscription']);
-        Route::post('/buy-seats', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'buySeats']);
-    });
+                //
+        });
 
-    // SUBSCRIPTIONS
-    Route::get('/payment-intent', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'paymentIntent']);
-    Route::get('/subscription-products', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'getSubscriptionProducts']);
-    Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
-
-    /**
-     * Teamwork routes
-     */
-    Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function () {
+        /**
+         * Teamwork routes
+         */
+        Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function()
+        {
         Route::get('/', [App\Http\Controllers\Teamwork\TeamController::class, 'index'])->name('teams.index');
         Route::post('teams', [App\Http\Controllers\Teamwork\TeamController::class, 'store'])->name('teams.store');
         Route::get('team/{id}', [App\Http\Controllers\Teamwork\TeamController::class, 'edit'])->name('teams.edit');
@@ -86,5 +74,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('members/{id}/{user_id}', [App\Http\Controllers\Teamwork\TeamMemberController::class, 'destroy'])->name('teams.members.destroy');
 
         Route::get('accept/{token}', [App\Http\Controllers\Teamwork\AuthController::class, 'acceptInvite'])->name('teams.accept_invite');
-    });
+        });
 });

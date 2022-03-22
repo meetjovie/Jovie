@@ -14,6 +14,9 @@ export default {
     async updateProfile(data) {
         return axios.post(`${baseApiUrl}/profile?_method=PUT`, data);
     },
+    async updatePassword(data) {
+        return axios.post(`${baseApiUrl}/update-password`, data);
+    },
     async removeProfilePhoto() {
         return axios.post(
             `${baseApiUrl}/remove-profile-photo?_method=DELETE`);
