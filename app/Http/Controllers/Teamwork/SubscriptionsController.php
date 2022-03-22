@@ -22,22 +22,25 @@ class SubscriptionsController extends Controller
         ]);
     }
 
-    public function getSubscriptionPlans()
+    public function getSubscriptionProducts()
     {
         $key = \config('services.stripe.secret');
         $stripe = new \Stripe\StripeClient($key);
-        $plansraw = $stripe->plans->all();
-        $plans = $plansraw->data;
+        $productsraw = $stripe->products->all([
+            'active' => true
+        ]);
+        $products = $productsraw->data;
 
-        foreach($plans as &$plan) {
-            $prod = $stripe->products->retrieve(
-                $plan->product,[]
-            );
-            $plan->product = $prod;
+        foreach($products as &$product) {
+            $plansRaw = $stripe->plans->all([
+                'product' => $product->id
+            ]);
+            $plans = $plansRaw->data;
+            $product->plans = $plans;
         }
         return response([
             'status' => true,
-            'plans' => $plans
+            'products' => $products
         ]);
     }
     public function subscribe(Request $request)

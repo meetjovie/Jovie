@@ -56,7 +56,7 @@ export default {
     async paymentIntent() {
         return axios.get(`${baseApiUrl}/payment-intent`)
     },
-    async getSubscriptionPlans() {
-        return axios.get(`${baseApiUrl}/subscription-plans`)
+    async getSubscriptionProducts() {
+        return axios.get(`${baseApiUrl}/subscription-products`)
     }
 };
