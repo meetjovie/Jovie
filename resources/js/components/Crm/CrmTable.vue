@@ -163,7 +163,7 @@
                                         <div class="bg-white p-0 rounded-full">
                                             <img
                                                 class="rounded-full object-cover object-center"
-                                                :src="creator[`${network}_meta`].profile_pic_url ?? '/img/noprofile.webp'"
+                                                :src="creator[`${network}_meta`].profile_pic_url ??  '/img/noprofile.webp'"
                                                 alt="Profile Image"/>
                                         </div>
                                     </div>

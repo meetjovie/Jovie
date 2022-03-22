@@ -28,14 +28,17 @@ class Creator extends Model
 
     public function getProfilePicUrlAttribute($creator = null)
     {
+
         if (is_null($creator)) {
             $creator = $this;
         }
         foreach (Creator::NETWORKS as $network) {
             if (!empty($creator->{$network.'_meta'}->profile_pic_url)) {
+
                 return $creator->{$network.'_meta'}->profile_pic_url;
             }
         }
+
         return asset('img/noimage.webp');
     }
 
@@ -268,7 +271,17 @@ class Creator extends Model
         return json_decode($value ?? '[]');
     }
 
+    public function getTiktokMediaAttribute($value)
+    {
+        return json_decode($value ?? '[]');
+    }
+
     public function getInstagramMetaAttribute($value)
+    {
+        return json_decode($value ?? '{}');
+    }
+
+    public function getTiktokMetaAttribute($value)
     {
         return json_decode($value ?? '{}');
     }
@@ -371,6 +384,9 @@ class Creator extends Model
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
 
+            $creator->tiktok_meta = $creatorAccessor->getTiktokMetaAttribute($creator->tiktok_meta);
+//            $creator->tiktok_media = $creatorAccessor->getTiktokMediaAttribute($creator->tiktok_media);
+
             $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
 
             $creator->social_links = $creatorAccessor->getSocialLinksAttribute($creator->social_links);
@@ -379,7 +395,7 @@ class Creator extends Model
 
             $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
-            $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
+
             $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
 
             $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
