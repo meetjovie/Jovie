@@ -8,6 +8,8 @@ use App\Models\Waitlist;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -162,6 +164,24 @@ class UserController extends Controller
             'status' => false,
             'message' => 'Something went wrong. Please try again later.'
         ]);
+    }
+
+    public function update_password(Request $request){
+        $request->validate([
+            'old_password'     => ['required', new MatchOldPassword],
+            'new_password'     => ['required'],
+            'confirm_password' => ['same:new_password'],
+        ]);
+
+        User::where('id', Auth::user()->id)->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+        return collect([
+            'status'  => true,
+            'message' => 'Password Updated Successfully.',
+            'user'    => User::where('id', Auth::user()->id)->first()
+        ]);
+
     }
 
     public function removeProfilePhoto(Request $request)
