@@ -1,10 +1,17 @@
 <template>
-  <div class="mt-10 divide-y divide-gray-200">
+<!--    NO SUBSCRIPTION OR NO TEAM SUBSCRIPTION-->
+    <div class="mt-10 divide-y divide-gray-200" v-if="!currentUser.current_subscription || !currentUser.current_subscription.seats">
+        Please upgrade to teams plan to use this feature.
+    </div>
+    <div class="mt-10 divide-y divide-gray-200" v-else>
     <div class="space-y-1">
       <h3 class="text-lg font-medium leading-6 text-gray-900">Team</h3>
       <p class="max-w-2xl text-sm text-gray-500">
         Invite collaborators to join your team.
       </p>
+        <p class="max-w-2xl text-sm text-gray-500">
+            With you current plan, you can add {{ currentUser.current_subscription.seats }} member/members.
+        </p>
     </div>
     <div class="space-y-1">
       <button

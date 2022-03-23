@@ -243,7 +243,8 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.$router.push({name: 'Dashboard'})
+              this.$store.commit('setAuthStateUser', response.user);
+            this.step = 3
           } else {
             this.error = response.error;
           }

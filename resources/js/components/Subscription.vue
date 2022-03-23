@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="!currentUser.current_subscription || showSubscriptionPlans">
+    <template v-if="!currentUser || (currentUser && !currentUser.current_subscription || showSubscriptionPlans)">
       <div>
         <h2
           id="payment-details-heading"
@@ -312,7 +312,7 @@ export default {
     },
   },
   async mounted() {
-    if (!this.currentUser.current_subscription) {
+    if (!this.currentUser || !this.currentUser.current_subscription) {
       await this.initSubscriptions();
     }
   },
