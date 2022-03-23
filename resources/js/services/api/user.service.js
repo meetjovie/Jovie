@@ -64,5 +64,8 @@ export default {
     },
     async resumeSubscription() {
         return axios.post(`${baseApiUrl}/resume-subscription`)
+    },
+    async changeSubscription(token, selectedPlan, selectedProduct) {
+        return axios.post(`${baseApiUrl}/change-subscription`, {'paymentMethod': token, 'selectedPlan': selectedPlan, selectedProduct: selectedProduct})
     }
 };

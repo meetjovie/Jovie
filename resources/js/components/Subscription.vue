@@ -1,6 +1,6 @@
 <template>
     <div>
-        <template v-if="!currentUser.current_subscription">
+        <template v-if="!currentUser.current_subscription || showSubscriptionPlans">
             <div>
                 <h2
                     id="payment-details-heading"
@@ -135,7 +135,7 @@
                     <div>
                         <ButtonGroup
                             :disabled="processingPayment"
-                            text="Pay"
+                            :text="processingPayment ? 'Processing' : 'Pay'"
                             type="button"
                             @click="pay"/>
                     </div>
@@ -148,13 +148,15 @@
                 <label for="">Current Plan</label>
                 <ul>
                     <li>
-                        <strong>Name: </strong><span> {{ currentUser.current_subscription.name}}</span>
+                        <strong>Name: </strong><span> {{ currentUser.current_subscription.name }}</span>
                     </li>
                     <li>
-                        <strong>Interval: </strong><span> {{ currentUser.current_subscription.interval}}</span>
+                        <strong>Interval: </strong><span> {{ currentUser.current_subscription.interval }}</span>
                     </li>
                     <li>
-                        <strong>Price: </strong><span> {{ currentUser.current_subscription.amount/100 }} {{ currentUser.current_subscription.currency }}</span>
+                        <strong>Price: </strong><span> {{
+                            currentUser.current_subscription.amount / 100
+                        }} {{ currentUser.current_subscription.currency }}</span>
                     </li>
                 </ul>
             </div>
@@ -171,6 +173,11 @@
                     :disabled="updatingSubscription"
                     design="secondary"
                     text="Cancel Subscription"/>
+                <ButtonGroup
+                    @click="toggleChangeSubscription(true)"
+                    :disabled="updatingSubscription"
+                    design="secondary"
+                    text="Change Subscription"/>
             </div>
         </template>
     </div>
@@ -178,7 +185,15 @@
 
 <script>
 import AccountPlan from "./Account/AccountPlan";
-import {RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption, SwitchGroup, Switch, SwitchLabel} from "@headlessui/vue";
+import {
+    RadioGroup,
+    RadioGroupDescription,
+    RadioGroupLabel,
+    RadioGroupOption,
+    SwitchGroup,
+    Switch,
+    SwitchLabel
+} from "@headlessui/vue";
 import ButtonGroup from "./ButtonGroup";
 import UserService from "../services/api/user.service";
 import {loadStripe} from "@stripe/stripe-js";
@@ -218,28 +233,27 @@ export default {
             paymentIntent: null,
             elements: null,
             updatingSubscription: false,
-            processingPayment: false
+            processingPayment: false,
+            showSubscriptionPlans: false
         };
     },
     watch: {
         selectedProduct(val) {
+            if (!val) return
             try {
                 const interval = this.annualBillingEnabled ? 'year' : 'month'
                 let selectedProduct = this.products.filter(product => product.id == val)[0]
                 this.selectedPlan = selectedProduct.plans.filter(plan => plan.interval == interval)[0].id
-                console.log(this.selectedProduct);
-                console.log(this.selectedPlan);
             } catch (e) {
                 alert('Problem in selecting product')
             }
         },
         annualBillingEnabled(val) {
+            if (!this.selectedProduct) return
             try {
                 const interval = val ? 'year' : 'month'
                 let selectedProduct = this.products.filter(product => product.id == this.selectedProduct)[0]
                 this.selectedPlan = selectedProduct.plans.filter(plan => plan.interval == interval)[0].id
-                console.log(this.selectedProduct);
-                console.log(this.selectedPlan);
             } catch (e) {
                 alert('Problem in selecting plan')
             }
@@ -262,6 +276,19 @@ export default {
             const elements = this.stripe.elements()
             this.cardElement = elements.create('card')
             this.cardElement.mount('#card')
+        },
+        toggleChangeSubscription(toggle) {
+            this.showSubscriptionPlans = toggle
+            if (toggle) {
+                this.initSubscriptions()
+            } else {
+                this.resetSelections()
+            }
+        },
+        resetSelections() {
+            this.selectedPlan = null
+            this.selectedProduct = null
+            this.annualBillingEnabled = false
         },
         resumeSubscription() {
             this.updatingSubscription = true
@@ -293,7 +320,19 @@ export default {
         },
         async pay() {
             if (this.processingPayment) return
+            if (!this.selectedProduct || !this.selectedPlan) {
+                alert('You must select a product and pricing to continue.')
+                return
+            }
             this.processingPayment = true
+            this.cardElement.update({disabled: true})
+            if (this.showSubscriptionPlans) {
+                this.changeSubscription()
+            } else {
+                this.newSubscription()
+            }
+        },
+        newSubscription() {
             this.stripe.createPaymentMethod(
                 'card', this.cardElement, {
                     billing_details: {
@@ -307,29 +346,71 @@ export default {
                 if (result.error) {
                     alert(result.error.message)
                 } else {
-                    UserService.subscribe(result.paymentMethod.id, this.selectedPlan, this.selectedProduct)
-                        .then(response => {
-                            response = response.data
-                            if (response.status) {
-                                alert(response.message)
-                                this.$router.push({name: 'Account'})
-                            } else {
-                                alert(response.message)
-                            }
-                        })
-                        .catch((error) => {
-                            error = error.response;
-                            if (error.status == 422) {
-                                this.error = error.data.errors.email[0];
-                            }
-                        });
-                    ;
-                    this.cardElement.clear();
+                    UserService.subscribe(result.paymentMethod.id, this.selectedPlan, this.selectedProduct).then(response => {
+                        response = response.data
+                        if (response.status) {
+                            alert(response.message)
+                            this.resetSelections()
+                            this.currentUser.current_subscription = response.subscription
+                            this.$router.push({name: 'Account'})
+                        } else {
+                            alert(response.message)
+                        }
+                    }).catch((error) => {
+                        error = error.response;
+                        if (error.status == 422) {
+                            this.error = error.data.errors.email[0];
+                        }
+                    }).finally(() => {
+                        this.cardElement.clear();
+                        this.cardElement.update({disabled: false})
+                        this.processingPayment = false
+                    });
                 }
             }).finally(() => {
-                this.processingPayment = false
+
             })
         },
+        changeSubscription() {
+            this.stripe.createPaymentMethod(
+                'card', this.cardElement, {
+                    billing_details: {
+                        address: this.address,
+                        email: this.currentUser.email,
+                        name: this.currentUser.full_name,
+                        phone: this.phone
+                    }
+                }
+            ).then((result) => {
+                if (result.error) {
+                    alert(result.error.message)
+                } else {
+                    UserService.changeSubscription(result.paymentMethod.id, this.selectedPlan, this.selectedProduct).then(response => {
+                        response = response.data
+                        if (response.status) {
+                            alert(response.message)
+                            this.resetSelections()
+                            this.currentUser.current_subscription = response.subscription
+                            this.toggleChangeSubscription(false)
+                            this.$router.push({name: 'Account'})
+                        } else {
+                            alert(response.message)
+                        }
+                    }).catch((error) => {
+                        error = error.response;
+                        if (error.status == 422) {
+                            this.error = error.data.errors.email[0];
+                        }
+                    }).finally(() => {
+                        this.cardElement.clear();
+                        this.cardElement.update({disabled: false})
+                        this.processingPayment = false
+                    });
+                }
+            }).finally(() => {
+
+            })
+        }
     },
     computed: {
         stripeKey() {

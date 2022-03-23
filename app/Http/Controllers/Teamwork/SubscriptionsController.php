@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teamwork;
 
 use App\Http\Controllers\Controller;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\Exception\ApiErrorException;
 
@@ -52,6 +53,11 @@ class SubscriptionsController extends Controller
         $plan = $request->selectedPlan;
         $product = $request->selectedProduct;
 
+        return $this->subscribeTeam($product, $plan, $paymentMethod, $user);
+    }
+
+    public function subscribeTeam($product, $plan, $paymentMethod, $user)
+    {
         $key = \config('services.stripe.secret');
         $stripe = new \Stripe\StripeClient($key);
         try {
@@ -71,9 +77,11 @@ class SubscriptionsController extends Controller
                 $user->currentTeam->newSubscription($product->name, $plan)->create($paymentMethod, [
                     'email' => $user->email
                 ]);
+                $currentSubscription = Team::where('id', $user->currentTeam->id)->first()->currentSubscription();
                 return response([
                     'status' => true,
-                    'message' => 'You are subscribed'
+                    'message' => 'You are subscribed',
+                    'subscription' => $currentSubscription
                 ]);
             } catch (\Exception $e) {
                 return response([
@@ -130,6 +138,24 @@ class SubscriptionsController extends Controller
         return response([
             'status' => false,
             'message' => 'Please select a team to continue.'
+        ]);
+    }
+
+    public function changeSubscription(Request $request)
+    {
+        $user = $request->user()->load('currentTeam');
+        $paymentMethod = $request->paymentMethod;
+        $plan = $request->selectedPlan;
+        $product = $request->selectedProduct;
+
+        $currentSubscription = $user->currentTeam->currentSubscription();
+        if ($currentSubscription) {
+            $user->currentTeam->subscription($currentSubscription->name)->cancelNow();
+            return $this->subscribeTeam($product, $plan, $paymentMethod, $user);
+        }
+        return response([
+            'status' => false,
+            'message' => 'You are not subscribed to any plan. Try subscribing to a new plan.'
         ]);
     }
 }
