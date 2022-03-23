@@ -24,6 +24,7 @@
           id="old-password"
           v-model="old_password"
           autocomplete="given-name"
+          @change="updateButtonState()"
           class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
       </div>
     </div>
@@ -42,6 +43,7 @@
           id="new-password"
           v-model="new_password"
           autocomplete="family-name"
+          @change="updateButtonState()"
           class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
       </div>
     </div>
@@ -59,12 +61,13 @@
           v-model="confirm_password"
           id="confirm-password"
           autocomplete="family-name"
+          @change="updateButtonState()"
           class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
       </div>
     </div>
     <div
       class="justify-right sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-      <ButtonGroup text="Update password"  @click="UpdatePassword()" />
+      <ButtonGroup id="update_button" text="Update password"  @click="UpdatePassword()" disabled="disabled" />
     </div>
   </div>
 </template>
@@ -77,6 +80,13 @@ export default {
     ButtonGroup,
   },
     methods: {
+      updateButtonState() {
+        if (this.old_password && this.new_password && this.confirm_password) {
+            document.getElementById('update_button').removeAttribute("disabled");
+        } else {
+            document.getElementById('update_button').setAttribute("disabled", "disabled");
+        }
+      },
         UpdatePassword() {
             let data            = new FormData();
             let oldpassword     = this.old_password;
@@ -114,8 +124,12 @@ export default {
                         this.old_password     = "";
                         this.new_password     = "";
                         this.confirm_password = "";
+                        document.getElementById('old-password').value = "";
+                        document.getElementById('new-password').value = "";
+                        document.getElementById('confirm-password').value = "";
+                        document.getElementById('update_button').setAttribute("disabled", "disabled");
                         // this.$store.commit('setAuthStateUser', response.user);
-                        console.log(response.status);
+                        // console.log(response.status);
                         alert("Password Changed Successfully!");
                         this.errors = {};
 
