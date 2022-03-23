@@ -1,6 +1,6 @@
 <template>
     <!-- add `data-active` and the event listeners -->
-    <div :data-active="active"  @dragenter.prevent="setActive" @dragover.prevent="setActive" @dragleave.prevent="setInactive" @drop.prevent="onDrop">
+    <div :data-active="active" @dragenter.prevent="setActive" @dragover.prevent="setActive" @dragleave.prevent="setInactive" @drop.prevent="onDrop">
         <!-- share state with the scoped slot -->
         <slot :dropZoneActive="active"></slot>
     </div>
