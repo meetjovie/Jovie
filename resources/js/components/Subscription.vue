@@ -30,7 +30,7 @@
                       : '',
                     checked ? 'bg-indigo-700/80 text-white ' : 'bg-white ',
                   ]"
-                  class="relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none">
+                  class="relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus-visible:outline-none">
                   <div class="flex w-full items-center justify-between">
                     <div class="flex items-center">
                       <div class="text-sm">
@@ -50,9 +50,9 @@
                             {{ plan.amount / 100 }}/{{ plan.interval }}</span
                           >
                           <span aria-hidden="true"> &middot; </span>
-                          <span class="text-xs uppercase">{{
-                            plan.currency
-                          }}</span>
+                          <span class="text-xs uppercase">
+                            {{ plan.currency }}</span
+                          >
                         </RadioGroupDescription>
                       </div>
                     </div>
@@ -96,7 +96,7 @@
               v-model="annualBillingEnabled"
               :class="[
                 annualBillingEnabled ? 'bg-indigo-500' : 'bg-gray-200',
-                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2',
+                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2',
               ]">
               <span
                 aria-hidden="true"
@@ -125,42 +125,88 @@
 
     <template v-else>
       <div>
-        <label for="">Current Plan</label>
+        <h3 class="text-lg font-medium leading-6 text-gray-900">
+          Manage your subscription:
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          {{ currentUser.current_subscription.name }}
+        </p>
+      </div>
+      <div>
         <ul>
-          <li>
-            <strong>Name: </strong
-            ><span> {{ currentUser.current_subscription.name }}</span>
-          </li>
-          <li>
-            <strong>Interval: </strong
-            ><span> {{ currentUser.current_subscription.interval }}</span>
-          </li>
-          <li>
-            <strong>Price: </strong
-            ><span>
-              {{ currentUser.current_subscription.amount / 100 }}
-              {{ currentUser.current_subscription.currency }}</span
-            >
-          </li>
+          <li></li>
         </ul>
       </div>
-      <div class="w-full px-4">
+      <div class="mt-5 border-t border-gray-200">
+        <dl class="divide-y divide-gray-200">
+          <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
+            <dt class="text-sm font-medium text-gray-500">Current plan</dt>
+
+            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+              <span class="flex-grow">{{
+                currentUser.current_subscription.name
+              }}</span>
+              <span class="ml-4 flex-shrink-0">
+                <button
+                  type="button"
+                  class="rounded-md bg-neutral-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  Upgrade
+                </button>
+              </span>
+            </dd>
+          </div>
+          <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
+            <dt class="text-sm font-medium text-gray-500">Price</dt>
+            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+              <span class="flex-grow">
+                <span class="flex-grow">
+                  {{ currentUser.current_subscription.amount / 100
+                  }}<span
+                    v-if="currentUser.current_subscription.interval === 'month'"
+                    >/mo</span
+                  >
+                  <span v-else>/yr</span>
+                  <span class="font-bolder text-xs uppercase text-neutral-400">
+                    {{ currentUser.current_subscription.currency }}</span
+                  ></span
+                ></span
+              >
+            </dd>
+          </div>
+          <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
+            <dt class="text-sm font-medium text-gray-500">Email credits</dt>
+            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+              <span class="flex-grow">500/2500 Remaining</span>
+            </dd>
+          </div>
+          <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
+            <dt class="text-sm font-medium text-gray-500">Seats</dt>
+            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+              <span class="flex-grow"> 1</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+      <div class="justify-right mx-auto mt-4 w-full">
         <ButtonGroup
           v-if="currentUser.current_subscription.ends_at"
           @click="resumeSubscription()"
           :disabled="updatingSubscription"
           design="secondary"
+          class="mr-4"
           text="Resume Subscription" />
         <ButtonGroup
           v-else
           @click="cancelSubscription()"
           :disabled="updatingSubscription"
           design="secondary"
+          class="mr-4"
           text="Cancel Subscription" />
         <ButtonGroup
           @click="toggleChangeSubscription(true)"
           :disabled="updatingSubscription"
           design="secondary"
+          class="mr-4"
           text="Change Subscription" />
       </div>
     </template>
