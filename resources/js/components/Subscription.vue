@@ -128,9 +128,7 @@
         <h3 class="text-lg font-medium leading-6 text-gray-900">
           Manage your subscription:
         </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          {{ currentUser.current_subscription.name }}
-        </p>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500"></p>
       </div>
       <div>
         <ul>
