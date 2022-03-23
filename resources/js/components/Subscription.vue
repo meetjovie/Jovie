@@ -201,7 +201,7 @@
           v-else
           @click="cancelSubscription()"
           :disabled="updatingSubscription"
-          design="secondary"
+          design="danger"
           class="mr-4"
           text="Cancel Subscription" />
         <ButtonGroup
