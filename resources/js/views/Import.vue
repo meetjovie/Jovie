@@ -221,12 +221,10 @@ export default {
     };
   },
   mounted() {
+      window.test = this;
     this.getUserLists();
   },
   methods: {
-    addFiles(newFiles) {
-      this.getColumnsFromCsv(newFiles);
-    },
     getUserLists() {
       UserService.getUserLists().then((response) => {
         response = response.data;
@@ -298,10 +296,36 @@ export default {
 };
 </script>
 
-<script setup>import DropZone from "../components/DropZone";</script>
+<script setup>
+import { onMounted, onUnmounted } from 'vue'
+const emit = defineEmits(['files-dropped'])
 
-<style>
-.drop-area{
-    width: 100% !important;
+function onDrop(e) {
+    emit('files-dropped', [...e.dataTransfer.files])
 }
-</style>
+
+function preventDefaults(e) {
+    e.preventDefault()
+}
+
+const events = ['dragenter', 'dragover', 'dragleave', 'drop']
+
+onMounted(() => {
+    events.forEach((eventName) => {
+        document.body.addEventListener(eventName, preventDefaults)
+    })
+})
+
+onUnmounted(() => {
+    events.forEach((eventName) => {
+        document.body.removeEventListener(eventName, preventDefaults)
+    })
+})
+
+import DropZone from "../components/DropZone";
+
+function addFiles(newFiles) {
+    window.test.getColumnsFromCsv(newFiles);
+}
+
+</script>
