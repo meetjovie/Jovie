@@ -79,16 +79,16 @@
           </RadioGroup>
         </div>
       </div>
-      <div class="w-full px-4">
+      <div class="w-full">
         <div class="mx-auto w-full max-w-4xl">
-          <div class="w-full space-x-4">
+          <div class="w-full">
             <div
               id="card"
-              class="flex-inline mr-4 appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"></div>
+              class="flex-inline appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"></div>
           </div>
         </div>
       </div>
-      <div class="w-full px-4">
+      <div class="mt-2 w-full">
         <div class="flex justify-between">
           <SwitchGroup as="div" class="flex items-center">
             <Switch
