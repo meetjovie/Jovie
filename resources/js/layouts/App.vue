@@ -149,6 +149,12 @@
           </div>
 
           <div class="z-10 ml-2 flex items-center md:ml-6">
+            <div
+              as="router-link"
+              to="/account"
+              class="underline-2 mr-4 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+              Upgrade
+            </div>
             <SwitchTeams />
             <button
               class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">

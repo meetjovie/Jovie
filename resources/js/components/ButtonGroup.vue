@@ -21,6 +21,7 @@
       { 'rounded-bl-md': rounded == 'blt' },
       { 'rounded-br-md': rounded == 'br' },
     ]">
+    <div v-if="loader">Loader</div>
     <component
       :is="icon"
       class="absolute -ml-1 mr-3 h-5 w-5"
@@ -73,6 +74,10 @@ export default {
       type: String,
       default: 'all',
     },
+  },
+  loader: {
+    type: Boolean,
+    default: false,
   },
   components: {
     MailIcon,
