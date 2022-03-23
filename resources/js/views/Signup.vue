@@ -174,7 +174,6 @@
 import CreateAccount from '../components/External/CreateAccount.vue';
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
-import router from '../router';
 import AuthService from '../services/auth/auth.service';
 import Subscription from '../components/Subscription';
 
@@ -244,8 +243,7 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.$store.commit('setAuthStateUser', response.user);
-            this.step = 3;
+            this.$router.push({name: 'Dashboard'})
           } else {
             this.error = response.error;
           }
