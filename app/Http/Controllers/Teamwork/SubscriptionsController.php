@@ -62,6 +62,7 @@ class SubscriptionsController extends Controller
         $stripe = new \Stripe\StripeClient($key);
         try {
             $product = $stripe->products->retrieve($product);
+            $plan = $stripe->plans->retrieve($plan);
         } catch (ApiErrorException $e) {
             return response([
                 'status' => false,
@@ -74,14 +75,19 @@ class SubscriptionsController extends Controller
             $user->currentTeam->addPaymentMethod($paymentMethod);
             $user->currentTeam->updateDefaultPaymentMethod($paymentMethod);
             try {
-                $user->currentTeam->newSubscription($product->name, $plan)->create($paymentMethod, [
+                $subscription = $user->currentTeam->newSubscription($product->name, $plan->id)->create($paymentMethod, [
                     'email' => $user->email
                 ]);
-                $currentSubscription = Team::where('id', $user->currentTeam->id)->first()->currentSubscription();
+                $subscription->seats = $product->metadata->seats;
+                $subscription->credits = $product->metadata->credits;
+                $subscription->amount = $plan->amount;
+                $subscription->currency = $plan->currency;
+                $subscription->interval = $plan->interval;
+                $subscription->save();
                 return response([
                     'status' => true,
                     'message' => 'You are subscribed',
-                    'subscription' => $currentSubscription
+                    'subscription' => $subscription
                 ]);
             } catch (\Exception $e) {
                 return response([
