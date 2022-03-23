@@ -1,28 +1,30 @@
 <template>
     <div>
-        <h2
-            id="payment-details-heading"
-            class="text-lg font-medium leading-6 text-gray-900">
-            Payment details
-        </h2>
-        <p class="mt-1 text-sm text-gray-500">
-            Update your billing information. Please note that updating
-            your location could affect your tax rates.
-        </p>
-    </div>
-    <div class="w-full px-4 py-4">
-        <div class="mx-auto w-full max-w-4xl">
-            <RadioGroup v-model="selectedProduct">
-                <RadioGroupLabel class="sr-only">Plan</RadioGroupLabel>
-                <div class="space-y-2">
-                    <RadioGroupOption
-                        as="template"
-                        v-for="product in products"
-                        :key="product.name"
-                        :value="product.id"
-                        v-slot="{ active, checked }">
-                        <div
-                            :class="[
+        <template v-if="!currentUser.current_subscription">
+            <div>
+                <h2
+                    id="payment-details-heading"
+                    class="text-lg font-medium leading-6 text-gray-900">
+                    Payment details
+                </h2>
+                <p class="mt-1 text-sm text-gray-500">
+                    Update your billing information. Please note that updating
+                    your location could affect your tax rates.
+                </p>
+            </div>
+            <div class="w-full px-4 py-4">
+                <div class="mx-auto w-full max-w-4xl">
+                    <RadioGroup v-model="selectedProduct">
+                        <RadioGroupLabel class="sr-only">Plan</RadioGroupLabel>
+                        <div class="space-y-2">
+                            <RadioGroupOption
+                                as="template"
+                                v-for="product in products"
+                                :key="product.name"
+                                :value="product.id"
+                                v-slot="{ active, checked }">
+                                <div
+                                    :class="[
                                                                 active
                                                                   ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-indigo-300'
                                                                   : '',
@@ -30,85 +32,85 @@
                                                                   ? 'bg-indigo-700/80 text-white '
                                                                   : 'bg-white ',
                                                               ]"
-                            class="relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none">
-                            <div
-                                class="flex w-full items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="text-sm">
-                                        <RadioGroupLabel
-                                            as="p"
-                                            :for="product.id"
-                                            :class="
+                                    class="relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none">
+                                    <div
+                                        class="flex w-full items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="text-sm">
+                                                <RadioGroupLabel
+                                                    as="p"
+                                                    :for="product.id"
+                                                    :class="
                                                                                 checked ? 'text-white' : 'text-gray-900'
                                                                               "
-                                            class="font-medium">
-                                            {{ product.name }}
-                                        </RadioGroupLabel>
-                                        <RadioGroupDescription
-                                            v-for="plan in product.plans"
-                                            as="span"
-                                            :class="
+                                                    class="font-medium">
+                                                    {{ product.name }}
+                                                </RadioGroupLabel>
+                                                <RadioGroupDescription
+                                                    v-for="plan in product.plans"
+                                                    as="span"
+                                                    :class="
                                                                                 checked
                                                                                   ? 'text-indigo-100'
                                                                                   : 'text-gray-500'
                                                                         "
-                                            class="inline">
+                                                    class="inline">
                                                                               <span>
                                                                                 {{ plan.amount / 100 }}/{{
                                                                                       plan.interval
                                                                                   }}</span
                                                                               >
-                                            <span aria-hidden="true"> &middot; </span>
-                                            <span class="text-xs uppercase">{{
-                                                    plan.currency
-                                                }}</span>
-                                        </RadioGroupDescription>
+                                                    <span aria-hidden="true"> &middot; </span>
+                                                    <span class="text-xs uppercase">{{
+                                                            plan.currency
+                                                        }}</span>
+                                                </RadioGroupDescription>
+                                            </div>
+                                        </div>
+                                        <div
+                                            v-show="checked"
+                                            class="flex-shrink-0 text-white">
+                                            <svg
+                                                class="h-6 w-6"
+                                                viewBox="0 0 24 24"
+                                                fill="none">
+                                                <circle
+                                                    cx="12"
+                                                    cy="12"
+                                                    r="12"
+                                                    fill="#fff"
+                                                    fill-opacity="0.2"/>
+                                                <path
+                                                    d="M7 13l3 3 7-7"
+                                                    stroke="#fff"
+                                                    stroke-width="1.5"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
-                                <div
-                                    v-show="checked"
-                                    class="flex-shrink-0 text-white">
-                                    <svg
-                                        class="h-6 w-6"
-                                        viewBox="0 0 24 24"
-                                        fill="none">
-                                        <circle
-                                            cx="12"
-                                            cy="12"
-                                            r="12"
-                                            fill="#fff"
-                                            fill-opacity="0.2"/>
-                                        <path
-                                            d="M7 13l3 3 7-7"
-                                            stroke="#fff"
-                                            stroke-width="1.5"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
-                            </div>
+                            </RadioGroupOption>
                         </div>
-                    </RadioGroupOption>
+                    </RadioGroup>
                 </div>
-            </RadioGroup>
-        </div>
-    </div>
-    <div class="w-full px-4">
-        <div class="mx-auto w-full max-w-4xl">
-            <div class="w-full space-x-4">
-                <div
-                    id="card"
-                    class="flex-inline mr-4 appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"></div>
             </div>
-        </div>
-    </div>
-    <div class="w-full px-4">
-        <div class="flex justify-between">
-            <SwitchGroup as="div" class="flex items-center">
-                <Switch
-                    :disabled="!selectedProduct"
-                    v-model="annualBillingEnabled"
-                    :class="[
+            <div class="w-full px-4">
+                <div class="mx-auto w-full max-w-4xl">
+                    <div class="w-full space-x-4">
+                        <div
+                            id="card"
+                            class="flex-inline mr-4 appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full px-4">
+                <div class="flex justify-between">
+                    <SwitchGroup as="div" class="flex items-center">
+                        <Switch
+                            :disabled="!selectedProduct"
+                            v-model="annualBillingEnabled"
+                            :class="[
                                                       annualBillingEnabled
                                                         ? 'bg-indigo-500'
                                                         : 'bg-gray-200',
@@ -122,26 +124,55 @@
                                                           : 'translate-x-0',
                                                         'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                                                       ]"/>
-                </Switch>
-                <SwitchLabel as="span" class="ml-3">
+                        </Switch>
+                        <SwitchLabel as="span" class="ml-3">
                                                     <span class="text-sm font-medium text-gray-900"
                                                     >Annual billing
                                                     </span>
-                    <span class="text-sm text-gray-500">(Save 10%)</span>
-                </SwitchLabel>
-            </SwitchGroup>
-            <div>
-                <ButtonGroup
-                    text="Pay"
-                    type="button"
-                    @click="pay"/>
+                            <span class="text-sm text-gray-500">(Save 10%)</span>
+                        </SwitchLabel>
+                    </SwitchGroup>
+                    <div>
+                        <ButtonGroup
+                            :disabled="processingPayment"
+                            text="Pay"
+                            type="button"
+                            @click="pay"/>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="w-full px-4">
-        <ButtonGroup
-            design="secondary"
-            text="Cancel Subscription"/>
+        </template>
+
+        <template v-else>
+            <div>
+                <label for="">Current Plan</label>
+                <ul>
+                    <li>
+                        <strong>Name: </strong><span> {{ currentUser.current_subscription.name}}</span>
+                    </li>
+                    <li>
+                        <strong>Interval: </strong><span> {{ currentUser.current_subscription.interval}}</span>
+                    </li>
+                    <li>
+                        <strong>Price: </strong><span> {{ currentUser.current_subscription.amount/100 }} {{ currentUser.current_subscription.currency }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="w-full px-4">
+                <ButtonGroup
+                    v-if="currentUser.current_subscription.ends_at"
+                    @click="resumeSubscription()"
+                    :disabled="updatingSubscription"
+                    design="secondary"
+                    text="Resume Subscription"/>
+                <ButtonGroup
+                    v-else
+                    @click="cancelSubscription()"
+                    :disabled="updatingSubscription"
+                    design="secondary"
+                    text="Cancel Subscription"/>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -185,7 +216,9 @@ export default {
             errors: {},
             annualBillingEnabled: false,
             paymentIntent: null,
-            elements: null
+            elements: null,
+            updatingSubscription: false,
+            processingPayment: false
         };
     },
     watch: {
@@ -213,19 +246,53 @@ export default {
         }
     },
     async mounted() {
-        UserService.getSubscriptionProducts().then(response => {
-            response = response.data
-            if (response.status) {
-                this.products = response.products
-            }
-        })
-        this.stripe = await loadStripe(this.stripeKey)
-        const elements = this.stripe.elements()
-        this.cardElement = elements.create('card')
-        this.cardElement.mount('#card')
+        if (!this.currentUser.current_subscription) {
+            await this.initSubscriptions()
+        }
     },
     methods: {
+        async initSubscriptions() {
+            UserService.getSubscriptionProducts().then(response => {
+                response = response.data
+                if (response.status) {
+                    this.products = response.products
+                }
+            })
+            this.stripe = await loadStripe(this.stripeKey)
+            const elements = this.stripe.elements()
+            this.cardElement = elements.create('card')
+            this.cardElement.mount('#card')
+        },
+        resumeSubscription() {
+            this.updatingSubscription = true
+            UserService.resumeSubscription().then(response => {
+                response = response.data
+                if (response.status) {
+                    alert(response.message)
+                    this.currentUser.current_subscription = response.subscription
+                } else {
+                    alert(response.message)
+                }
+            }).finally(() => {
+                this.updatingSubscription = false
+            })
+        },
+        cancelSubscription() {
+            this.updatingSubscription = true
+            UserService.cancelSubscription().then(response => {
+                response = response.data
+                if (response.status) {
+                    alert(response.message)
+                    this.currentUser.current_subscription = response.subscription
+                } else {
+                    alert(response.message)
+                }
+            }).finally(() => {
+                this.updatingSubscription = false
+            })
+        },
         async pay() {
+            if (this.processingPayment) return
             this.processingPayment = true
             this.stripe.createPaymentMethod(
                 'card', this.cardElement, {
@@ -238,9 +305,9 @@ export default {
                 }
             ).then((result) => {
                 if (result.error) {
-                    this.addPaymentStatusError = result.error.message;
+                    alert(result.error.message)
                 } else {
-                    UserService.subscribe(result.paymentMethod.id, this.selectedPlan)
+                    UserService.subscribe(result.paymentMethod.id, this.selectedPlan, this.selectedProduct)
                         .then(response => {
                             response = response.data
                             if (response.status) {
@@ -259,6 +326,8 @@ export default {
                     ;
                     this.cardElement.clear();
                 }
+            }).finally(() => {
+                this.processingPayment = false
             })
         },
     },

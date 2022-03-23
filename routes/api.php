@@ -77,4 +77,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/payment-intent', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'paymentIntent']);
     Route::get('/subscription-products', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'getSubscriptionProducts']);
     Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
+    Route::post('/cancel-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'cancelSubscription']);
+    Route::post('/resume-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'resumeSubscription']);
 });

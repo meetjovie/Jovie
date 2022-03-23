@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Teamwork;
 
 use App\Http\Controllers\Controller;
+use App\Models\Team;
 use Illuminate\Http\Request;
+use Stripe\Exception\ApiErrorException;
 
 class SubscriptionsController extends Controller
 {
@@ -48,12 +50,25 @@ class SubscriptionsController extends Controller
         $user = $request->user()->load('currentTeam');
         $paymentMethod = $request->paymentMethod;
         $plan = $request->selectedPlan;
+        $product = $request->selectedProduct;
+
+        $key = \config('services.stripe.secret');
+        $stripe = new \Stripe\StripeClient($key);
+        try {
+            $product = $stripe->products->retrieve($product);
+        } catch (ApiErrorException $e) {
+            return response([
+                'status' => false,
+                'message' => 'Error creating subscription.',
+                'error' => $e->getMessage()
+            ]);
+        }
         if ($user->currentTeam) {
             $user->currentTeam->createOrGetStripeCustomer();
             $user->currentTeam->addPaymentMethod($paymentMethod);
             $user->currentTeam->updateDefaultPaymentMethod($paymentMethod);
             try {
-                $user->currentTeam->newSubscription('default', $plan)->create($paymentMethod, [
+                $user->currentTeam->newSubscription($product->name, $plan)->create($paymentMethod, [
                     'email' => $user->email
                 ]);
                 return response([
@@ -68,5 +83,53 @@ class SubscriptionsController extends Controller
                 ]);
             }
         }
+    }
+
+    public function cancelSubscription(Request $request)
+    {
+        $user = $request->user()->load('currentTeam');
+        if ($user->currentTeam) {
+            $currentSubscription = $user->currentTeam->currentSubscription();
+            if ($currentSubscription) {
+                $user->currentTeam->subscription($currentSubscription->name)->cancel();
+                return response([
+                    'message' => 'Subscription cancelled. You can resume it during the grace period.',
+                    'status' => true,
+                    'subscription' => $user->currentTeam->currentSubscription()
+                ]);
+            }
+            return response([
+                'status' => false,
+                'message' => 'You are not subscribed to any plan.'
+            ]);
+        }
+        return response([
+            'status' => false,
+            'message' => 'Please select a team to continue.'
+        ]);
+    }
+
+    public function resumeSubscription(Request $request)
+    {
+        $user = $request->user()->load('currentTeam');
+        if ($user->currentTeam) {
+            $currentSubscription = $user->currentTeam->currentSubscription();
+            if ($currentSubscription) {
+                $user->currentTeam->subscription($currentSubscription->name)->resume();
+                return response([
+                    'message' => 'Subscription resumed.',
+                    'status' => true,
+                    'subscription' => $user->currentTeam->currentSubscription()
+                ]);
+            }
+            return response([
+                'status' => false,
+                'message' => 'You are not subscribed to any plan.'
+            ]);
+        }
+        return response([
+            'status' => false,
+            'message' => 'Please select a team to continue.'
+        ]);
     }
 }
