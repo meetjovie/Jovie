@@ -1,6 +1,7 @@
 <template>
     <div class="overflow-hidden">
-        <table class="min-w-full overflow-none overscroll-contain divide-y divide-gray-200">
+        <div style="float: right; margin: 10px"><p>Showing {{creators.length < creatorsMeta.per_page ? creators.length : creatorsMeta.per_page * creatorsMeta.current_page}} of {{creators.length}}</p></div>
+        <table id="creators_table" class="min-w-full overflow-none overscroll-contain divide-y divide-gray-200">
             <thead class=" bg-gray-50 sticky top-0 ">
             <tr>
                 <th
@@ -53,6 +54,13 @@
                     Email
                 </th>
                 <th
+                    scope="col"
+                    class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                    Platform
+                </th>
+                <th
+                    @click="sortTable(6)"
+                    style="cursor: pointer"
                     scope="col"
                     class="flex items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Followers
@@ -217,8 +225,11 @@
                                     <SocialIcons height="14px"
                                                  :icon="network"/>
                                 </div>
-                                {{ formatCount(creator[`${network}_followers`]) }}
                             </a>
+                        </td>
+                        <td
+                            class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
+                            {{ formatCount(creator[`${network}_followers`]) }}
                         </td>
                         <td class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
                                                       <span
@@ -459,10 +470,53 @@ export default {
         TrashIcon,
         Pagination,
     },
-    props: ['creators', 'networks', 'stages', 'creatorsMeta', 'loading', 'arcvhied']
+    props: ['creators', 'networks', 'stages', 'creatorsMeta', 'loading', 'arcvhied'],
+    methods:{
+        sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("creators_table");
+            switching = true;
+            dir = "asc";
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount ++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    }
 }
 </script>
 
 <style scoped>
 
 </style>
+
+
