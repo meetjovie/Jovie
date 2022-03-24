@@ -194,10 +194,12 @@ import {
 import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue';
 import ImportService from '../services/api/admin/import.service';
 import UserService from '../services/api/user.service';
+import DropZone from "../components/DropZone";
 
 export default {
   name: 'Import',
   components: {
+      DropZone,
     Switch,
     SwitchDescription,
     SwitchGroup,
@@ -221,13 +223,12 @@ export default {
     };
   },
   mounted() {
-      window.test = this;
     this.getUserLists();
   },
   methods: {
     addFiles(newFiles) {
       this.getColumnsFromCsv(newFiles);
-    }
+    },
     getUserLists() {
       UserService.getUserLists().then((response) => {
         response = response.data;
@@ -298,8 +299,6 @@ export default {
   },
 };
 </script>
-
-<script setup>import DropZone from "../components/DropZone";</script>
 
 <style>
 .drop-area{
