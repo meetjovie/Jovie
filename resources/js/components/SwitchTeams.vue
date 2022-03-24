@@ -21,10 +21,7 @@
       <PopoverPanel
         class="-middle-24 absolute mt-4 w-40 origin-bottom-left divide-y divide-gray-100 rounded-md bg-white/80 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
         <div class="">
-          <div
-            v-slot="{ active }"
-            v-if="currentUser.teams"
-            v-for="team in currentUser.teams">
+          <div v-if="currentUser.teams" v-for="team in currentUser.teams">
             <button
               @click="switchTeam(team.id)"
               class="px-1 py-1 text-sm font-medium hover:bg-indigo-500 hover:text-white"
