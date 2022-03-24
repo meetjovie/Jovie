@@ -247,6 +247,15 @@ export const routes = [
     },
   },
   {
+    name: 'Search',
+    path: '/search',
+    component: loadPage('Search'),
+    beforeEnter: authenticationGuard,
+    meta: {
+      layout: 'App',
+    },
+  },
+  {
     name: 'Create Account',
     path: '/signup',
     component: loadPage('Signup'),
