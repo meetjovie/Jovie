@@ -221,13 +221,12 @@ export default {
     };
   },
   mounted() {
-      window.test = this;
     this.getUserLists();
   },
   methods: {
     addFiles(newFiles) {
       this.getColumnsFromCsv(newFiles);
-    }
+    },
     getUserLists() {
       UserService.getUserLists().then((response) => {
         response = response.data;
