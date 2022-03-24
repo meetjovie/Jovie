@@ -1,6 +1,12 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="relative bg-indigo-600">
+  <div
+    class="relative"
+    :class="[
+      { 'bg-indigo-600': design == 'primary' },
+      { 'bg-red-600': design == 'danger' },
+      { 'bg-green-600': design == 'success' },
+    ]">
     <div class="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
       <div class="pr-16 sm:px-16 sm:text-center">
         <p class="font-medium text-white">
