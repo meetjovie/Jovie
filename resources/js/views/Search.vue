@@ -5,7 +5,11 @@
         is="div"
         class="w-full rounded-lg text-neutral-500"
         placeholder="Search for a creator" />
-      <ais-hits> </ais-hits>
+      <ais-hits>
+          <template v-slot:item="{ item }">
+              <h2>{{ item.full_name }}</h2>
+          </template>
+      </ais-hits>
     </ais-instant-search>
   </div>
 </template>
@@ -20,7 +24,7 @@ export default {
   },
   data() {
     return {
-      searchClient: instantMeiliSearch(process.env.MIX_MEILISEARCH_HOST, '', {
+      searchClient: instantMeiliSearch(process.env.MIX_MEILISEARCH_HOST, process.env.MIX_MEILISEARCH_KEY, {
         placeholderSearch: true, // default: true.
         primaryKey: 'id', // default: undefined
         // ...
