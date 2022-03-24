@@ -74,10 +74,10 @@ export default {
       type: String,
       default: 'all',
     },
-  },
-  loader: {
-    type: Boolean,
-    default: false,
+      loader: {
+          type: Boolean,
+          default: false,
+      },
   },
   components: {
     MailIcon,
