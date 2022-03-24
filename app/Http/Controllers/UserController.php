@@ -16,7 +16,8 @@ class UserController extends Controller
 
     public function me(Request $request)
     {
-        return Auth::user();
+        return User::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
+            ->where('id', Auth::id())->first();
     }
 
     public function publicProfile(Request $request)

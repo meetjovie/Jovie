@@ -14,15 +14,15 @@
             <JovieLogo height="28px" />
           </div>
           <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Sign in</h2>
-          <!-- <p class="mt-2 text-sm text-gray-600">
-                        Or
-                        {{ ' ' }}
-                        <router-link
-                            to="/signup"
-                            class="font-medium text-indigo-600 hover:text-indigo-500">
-                            Create an account
-                        </router-link>
-                    </p> -->
+          <p class="mt-2 text-sm text-gray-600">
+            Or
+            {{ ' ' }}
+            <router-link
+              to="/signup"
+              class="font-medium text-indigo-600 hover:text-indigo-500">
+              Create an account
+            </router-link>
+          </p>
 
           <ul v-if="error" class="text-red-900">
             <li>{{ error }}</li>

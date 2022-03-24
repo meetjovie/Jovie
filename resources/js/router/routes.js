@@ -241,6 +241,7 @@ export const routes = [
     name: 'Pipeline',
     path: '/pipeline',
     component: loadPage('Pipeline'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
     },
@@ -254,13 +255,7 @@ export const routes = [
     },
   },
   {
-    name: 'Delete Account',
-    path: '/delete-account',
-    beforeEnter(to, from, next) {
-      window.open('mailto:support@jov.ie', '_blank');
-    },
-  },
-  {
+
     name: 'Forgot Password',
     path: '/forgot-password',
     component: loadPage('ForgotPassword'),

@@ -1,11 +1,11 @@
 version: 1
 
 environment:
-  php: 8.1    # 7.1, 7.2, 7.3, 7.4, 8.0, 8.1
-  node: 16    # 6, 8, 10, 12, 14, 16
+  php: 8.1 # 7.1, 7.2, 7.3, 7.4, 8.0, 8.1
+  node: 14 # 6, 8, 10, 12, 14, 16
 
 services:
-  - mysql: 5.7
+  - mysql: 8.0
   - redis:
 
 pipeline:
@@ -14,13 +14,15 @@ pipeline:
       cp -v .env.example .env
       composer install --no-interaction --prefer-dist --optimize-autoloader
       php artisan key:generate
-  - name: Compile Dev Assets
+    - name: Compile Dev Assets
     cmd: |
-      npm install --prefer-offline --no-audit
-      npm run dev
-  - name: Run Tests
-    cmd: phpunit
-
+      if [[ -f "yarn.lock" ]]; then
+          yarn
+          yarn dev
+      else
+          npm ci --no-audit
+          npm run dev
+      fi    
   - name: Deploy
     cmd: |
       if [[ $CI_COMMIT_BRANCH == 'master' ]]; then

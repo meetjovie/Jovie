@@ -15,5 +15,11 @@ export default {
     },
     async nextCreator(id) {
         return axios.get(`${baseUrlAdmin}/next-creator/${id}`);
-    }
+    },
+    async updateOverviewCreator(data) {
+        const id = data.id;
+        delete data.id;
+        return axios.post(
+            `${baseUrlAdmin}/update-overview-creator/${id}?_method=PUT`, data);
+    },
 }

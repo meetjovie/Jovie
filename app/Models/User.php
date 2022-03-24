@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
+use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
 
     const UPLOAD_PATH = 'public/jovie/user/profiles/';
 
@@ -49,6 +50,11 @@ class User extends Authenticatable
     ];
 
     protected $appends = ['default_image', 'full_name'];
+
+    public function ownedTeams()
+    {
+        return $this->hasMany(Team::class, 'owner_id', 'id')->with('users');
+    }
 
     public function creatorProfile()
     {
