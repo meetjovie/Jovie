@@ -42,7 +42,7 @@
                 <div
                   class="min-w-full items-center divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
                   <div
-                    class="sticky top-0 flex justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
+                    class="sticky top-0 flex items-center justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
                     <div
                       scope="col"
                       class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:inline-flex">
@@ -115,13 +115,22 @@
                     </div>
 
                     <div
-                      class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+                      class="relative items-center px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
                       <!--  Hide results count until a search is performed -->
-                      <div class="hidden w-60 2xl:block">
-                        <ais-stats />
+                      <div class="hidden w-60 items-center 2xl:block">
+                        <ais-stats>
+                          <template v-slot="{ nbHits, processingTimeMS }">
+                            {{ nbHits }} creators found in
+                            {{ processingTimeMS }}ms
+                          </template>
+                        </ais-stats>
                       </div>
-                      <div class="hidden w-40 lg:block 2xl:hidden">
-                        <ais-stats />
+                      <div class="hidden w-40 items-center lg:block 2xl:hidden">
+                        <ais-stats>
+                          <template v-slot="{ nbHits }">
+                            {{ nbHits }} creators
+                          </template>
+                        </ais-stats>
                       </div>
                     </div>
                   </div>
@@ -136,7 +145,7 @@
                           <div class="mx-auto grid grid-cols-2 items-center">
                             <div class="group mx-auto">
                               <span class="mx-auto group-hover:hidden">
-                                {{ item.id }}
+                                {{ formatCount(item.id) }}
                               </span>
                               <span class="mx-auto hidden group-hover:block">
                                 <input
@@ -258,9 +267,9 @@
                               <div class="font-bold">
                                 {{
                                   formatCount(item.instagram_engagement_rate)
-                                }}
+                                }}%
                               </div>
-                              <div class="text-[8px] text-neutral-500">ER%</div>
+                              <div class="text-[8px] text-neutral-500">ER</div>
                             </div>
                             <div class="hidden 2xl:block">
                               <div class="font-bold">
