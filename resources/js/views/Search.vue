@@ -36,7 +36,7 @@
                   class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"></FilterIcon>
               </button>
 
-              <DiscoveryStats></DiscoveryStats>
+              <!--  <DiscoveryStats></DiscoveryStats> -->
               <TabGroup :defaultIndex="0">
                 <DiscoveryToolbar class="px-4"></DiscoveryToolbar>
                 <div

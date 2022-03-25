@@ -157,7 +157,7 @@ export const routes = [
   {
     name: 'Discovery',
     path: '/discovery',
-    component: loadPage('Discovery'),
+    component: loadPage('Search'),
     beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
@@ -264,7 +264,6 @@ export const routes = [
     },
   },
   {
-
     name: 'Forgot Password',
     path: '/forgot-password',
     component: loadPage('ForgotPassword'),
