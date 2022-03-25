@@ -420,6 +420,7 @@ export default {
   data() {
     return {
       cache: createInfiniteHitsSessionStorageCache(),
+      searchopen: true,
       creators: [
         {
           id: 1,
