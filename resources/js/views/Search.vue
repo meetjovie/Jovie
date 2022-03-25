@@ -41,9 +41,9 @@
                 <DiscoveryToolbar class="px-4"></DiscoveryToolbar>
 
                 <div
-                  class="min-w-full items-center divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
+                  class="sticky top-0 min-w-full items-center divide-y divide-gray-200 overflow-y-scroll">
                   <div
-                    class="sticky top-0 flex items-center justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
+                    class="sticky top-0 z-10 flex items-center justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
                     <div
                       scope="col"
                       class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:inline-flex">
@@ -121,8 +121,10 @@
                       <div class="hidden w-60 items-center 2xl:block">
                         <ais-stats>
                           <template v-slot="{ nbHits, processingTimeMS }">
-                            {{ nbHits }} creators found in
-                            {{ processingTimeMS }}ms
+                            {{ nbHits }} Creators<br />
+                            <span class="text-2xs"
+                              >Search speed ({{ processingTimeMS }}ms)</span
+                            >
                           </template>
                         </ais-stats>
                       </div>
