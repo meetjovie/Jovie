@@ -39,6 +39,7 @@
               <!--  <DiscoveryStats></DiscoveryStats> -->
               <TabGroup :defaultIndex="0">
                 <DiscoveryToolbar class="px-4"></DiscoveryToolbar>
+
                 <div
                   class="min-w-full items-center divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
                   <div
@@ -89,7 +90,7 @@
                             }">
                             <div class="relative mt-1 flex items-center py-1">
                               <input
-                                class="block w-96 rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                class="block w-96 rounded-md border-gray-300 pr-12 shadow-sm focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm"
                                 submit-title="Let's go!"
                                 reset-title="Reset"
                                 autofocus="true"
@@ -136,7 +137,7 @@
                   </div>
                 </div>
                 <ais-infinite-hits :cache="cache">
-                  <template v-slot:item="{ item }">
+                  <template v-slot:item="{ item, index }">
                     <div class="h-full divide-y divide-gray-200 bg-white">
                       <div
                         class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
@@ -145,7 +146,7 @@
                           <div class="mx-auto grid grid-cols-2 items-center">
                             <div class="group mx-auto">
                               <span class="mx-auto group-hover:hidden">
-                                {{ formatCount(item.id) }}
+                                {{ formatCount(index + 1) }}
                               </span>
                               <span class="mx-auto hidden group-hover:block">
                                 <input
@@ -236,7 +237,31 @@
                                   color="pink"
                                   text="Other" /> -->
                               </div>
-                              <CreatorSocialLinks class="mt-1" />
+
+                              <div
+                                class="mt-1 grid w-80 grid-cols-6 items-center justify-start text-center">
+                                <div
+                                  class="text-neutral-5 mx-auto justify-center text-center"
+                                  :class="[
+                                    {
+                                      'opacity-100': item.instagram_handler,
+                                    },
+                                    'opacity-10',
+                                  ]"
+                                  @click="
+                                    openLink(
+                                      'http://instagram.com/{{item.instagram_handler}}'
+                                        .url,
+                                      true
+                                    )
+                                  ">
+                                  <SocialIcons height="14px" icon="instagram" />
+                                  <div
+                                    class="mx-auto text-center text-2xs text-neutral-500">
+                                    {{ formatCount(item.instagram_followers) }}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -400,20 +425,20 @@ import DiscoveryStats from '../components/Discovery/DiscoveryStats.vue';
 import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue';
 import { createInfiniteHitsSessionStorageCache } from 'instantsearch.js/es/lib/infiniteHitsCache';
 import JovieSpinner from '../components/JovieSpinner.vue';
+import SocialIcons from '../components/SocialIcons.vue';
 
 export default {
   components: {
     instantMeiliSearch,
     InputGroup,
     JovieSpinner,
-
+    TabGroup,
+    SocialIcons,
     DiscoveryStats,
     DiscoveryToolbar,
     FilterIcon,
     ChevronLeftIcon,
-
     DiscoverySearch,
-    TabGroup,
     StarRating,
     Menu,
     MenuButton,

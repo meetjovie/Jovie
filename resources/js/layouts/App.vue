@@ -318,12 +318,10 @@ export default {
         { name: 'Admin', route: '/admin', icon: CheckCircleIcon },
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
         { name: 'Search', route: '/discovery', icon: SearchIcon },
-        { name: 'CRM', route: '/crm', icon: UserGroupIcon },
+        { name: 'Contacts', route: '/crm', icon: UserGroupIcon },
         { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon },
         { name: 'Outreach', route: '/outreach', icon: MailIcon },
-        { name: 'Campaings', route: '/campaigns', icon: FolderOpenIcon },
 
-        { name: 'Analytics', route: '/analytics', icon: ChartBarIcon },
         { name: 'Import', route: '/import', icon: CloudUploadIcon },
         { name: 'Settings', route: '/account', icon: CogIcon },
       ],
