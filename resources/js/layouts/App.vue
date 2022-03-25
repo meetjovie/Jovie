@@ -170,8 +170,9 @@
             </button>
 
             <!-- Profile dropdown -->
-            <Menu as="div" class="relative ml-3 border-l px-4">
-              <MenuButton
+
+            <Popover as="div" class="relative ml-3 border-l px-4">
+              <PopoverButton
                 as="div"
                 type="button"
                 class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
@@ -189,7 +190,7 @@
                     $store.state.AuthState.user.profile_pic_url ??
                     $store.state.AuthState.user.default_image
                   " />
-              </MenuButton>
+              </PopoverButton>
 
               <transition
                 enter-active-class="transition duration-150 ease-out"
@@ -198,18 +199,17 @@
                 leave-active-class="transition duration-150 ease-out"
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
-                <MenuItems
+                <PopoverPanel
                   as="div"
                   active=""
                   id="profileDropdown"
-                  class="d-none absolute right-0 z-20 mt-2 w-40 origin-top-right rounded-md bg-white/90 py-1 shadow-xl backdrop-blur-sm backdrop-filter"
+                  class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
                   tabindex="-1">
                   <!-- Active: "bg-neutral-100", Not Active: "" -->
-                  <MenuItem
-                    v-bind:is="user"
+                  <div
                     as="div"
                     class="block border-b-2 border-opacity-30 px-4 py-2 text-left text-xs font-bold text-neutral-400"
                     role="menuitem"
@@ -217,31 +217,33 @@
                     id="user-menu-item-0">
                     <router-link
                       to="/account"
-                      class="group block flex-shrink-0">
+                      class="group 0 block flex-shrink-0">
                       <div class="flex items-center">
                         <div>
                           <img
                             class="inline-block h-6 w-6 rounded-full"
                             :src="
-                              $store.state.AuthState.user.profile_pic_url ??
+                              currentUser.profile_pic_url ??
                               $store.state.AuthState.user.default_image
                             "
                             alt="" />
                         </div>
                         <div class="ml-3">
                           <p
-                            class="text-xs font-medium text-gray-700 group-hover:text-gray-900">
-                            {{ $store.state.AuthState.user.first_name }}
+                            class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
+                            {{ currentUser.first_name }}
+                            {{ currentUser.last_name }}
                           </p>
+
                           <p
                             class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                            View profile
+                            {{ currentUser.email }}
                           </p>
                         </div>
                       </div>
                     </router-link>
-                  </MenuItem>
-                  <MenuItem
+                  </div>
+                  <div
                     v-for="dropdownmenuitem in dropdownmenuitems"
                     :key="dropdownmenuitem"
                     as="router-link"
@@ -254,8 +256,8 @@
                     <router-link :to="dropdownmenuitem.route">
                       {{ dropdownmenuitem.name }}
                     </router-link>
-                  </MenuItem>
-                  <MenuItem
+                  </div>
+                  <div
                     as="div"
                     @click="$store.dispatch('logout')"
                     class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
@@ -263,10 +265,10 @@
                     tabindex="-1">
                     <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
                     Sign out
-                  </MenuItem>
-                </MenuItems>
+                  </div>
+                </PopoverPanel>
               </transition>
-            </Menu>
+            </Popover>
           </div>
         </div>
       </div>
@@ -299,7 +301,16 @@ import {
   LogoutIcon,
   SwitchHorizontalIcon,
 } from '@heroicons/vue/outline';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  PopoverGroup,
+} from '@headlessui/vue';
 import UserService from '../services/api/user.service';
 import SwitchTeams from '../components/SwitchTeams.vue';
 
@@ -359,6 +370,10 @@ export default {
     LogoutIcon,
     SwitchHorizontalIcon,
     SwitchTeams,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    PopoverGroup,
   },
 };
 </script>

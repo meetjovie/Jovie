@@ -13,6 +13,11 @@ const myMixin = {};
 
 const app = Vue.createApp({});
 app.mixin({
+  computed: {
+    currentUser() {
+      return store.state.AuthState.user;
+    },
+  },
   methods: {
     asset(path) {
       return Vapor.asset(path);

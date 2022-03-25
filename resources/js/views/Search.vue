@@ -509,20 +509,22 @@
                         </div>
                       </template>
                     </ais-infinite-hits>
-                    <div v-else class="mx-auto h-screen w-full items-center">
+                    <div v-else class="mx-auto w-full items-center">
                       <div
                         class="mx-auto mt-24 max-w-xl items-center p-12 text-center text-sm font-bold text-neutral-500">
                         <span class="text-xl text-neutral-700"
-                          >Welcome to Jovie Creator Search.</span
+                          ><span class="font-bold">Jovie</span>
+                          <span class="font-medium">
+                            Creator Search.</span
+                          ></span
                         ><br />
-                        To get started, enter a search term. You may further
-                        refine your target audience by using the
+                        Enter a search term above to start. <br />Refine your
+                        audience with
                         <span
                           @click="searchopen = true"
                           class="cursor-pointer font-bold text-indigo-500"
                           >filters</span
-                        >
-                        on the left.
+                        >.
                       </div>
                     </div>
                   </template>
