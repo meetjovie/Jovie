@@ -28,6 +28,7 @@
                   </Tab>
                 </TabList>
               </div>
+
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
                   <AccountProfile />
@@ -64,6 +65,7 @@
               </TabPanels>
             </TabGroup>
           </div>
+
         </div>
       </div>
     </div>
@@ -147,6 +149,7 @@ export default {
     ButtonGroup,
     AccountProfile,
   },
+
   data() {
     return {
       navigation,

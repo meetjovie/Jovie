@@ -264,6 +264,7 @@ export const routes = [
     },
   },
   {
+
     name: 'Forgot Password',
     path: '/forgot-password',
     component: loadPage('ForgotPassword'),
