@@ -144,7 +144,7 @@
                       <template v-slot:item="{ item, index }">
                         <div class="h-full divide-y divide-gray-200 bg-white">
                           <div
-                            class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+                            class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700 active:bg-indigo-100">
                             <div
                               class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
                               <div
@@ -469,7 +469,19 @@
                                                   : 'text-gray-700',
                                                 'block px-4 py-2 text-sm',
                                               ]"
-                                              >Archive</a
+                                              >Add to contacts</a
+                                            >
+                                          </MenuItem>
+                                          <MenuItem v-slot="{ active }">
+                                            <a
+                                              href="#"
+                                              :class="[
+                                                active
+                                                  ? 'bg-gray-100 text-gray-900'
+                                                  : 'text-gray-700',
+                                                'block px-4 py-2 text-sm',
+                                              ]"
+                                              >Favorite</a
                                             >
                                           </MenuItem>
                                           <MenuItem v-slot="{ active }">
@@ -482,18 +494,6 @@
                                                 'block px-4 py-2 text-sm',
                                               ]"
                                               >Mute</a
-                                            >
-                                          </MenuItem>
-                                          <MenuItem v-slot="{ active }">
-                                            <a
-                                              href="#"
-                                              :class="[
-                                                active
-                                                  ? 'bg-gray-100 text-gray-900'
-                                                  : 'text-gray-700',
-                                                'block px-4 py-2 text-sm',
-                                              ]"
-                                              >Remove</a
                                             >
                                           </MenuItem>
                                         </div>
@@ -588,10 +588,18 @@ export default {
     CreatorSocialLinks,
     ChevronUpIcon,
   },
+  methods: {
+    selectCreator(item) {
+      this.selectedCreators.push(item.id);
+      return;
+    },
+  },
   data() {
     return {
       cache: createInfiniteHitsSessionStorageCache(),
       searchopen: false,
+      activeCreator: null,
+      selectedCreators: [],
       creators: [
         {
           id: 1,
