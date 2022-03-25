@@ -244,9 +244,10 @@
                                   class="text-neutral-5 mx-auto justify-center text-center"
                                   :class="[
                                     {
-                                      'opacity-100': item.instagram_handler,
+                                      'opacity-10':
+                                        item.instagram_handler == null,
                                     },
-                                    'opacity-10',
+                                    'opacity-100',
                                   ]"
                                   @click="
                                     openLink(
