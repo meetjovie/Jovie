@@ -1,9 +1,8 @@
 <template>
   <div>
     <ais-instant-search
-      class="rounded-md"
       :search-client="searchClient"
-      placeholderSearch="true"
+      placeholderSearch="*"
       index-name="creators">
       <div class="min-h-screen bg-gray-100">
         <div class="">
@@ -41,12 +40,12 @@
               <TabGroup :defaultIndex="0">
                 <DiscoveryToolbar class="px-4"></DiscoveryToolbar>
                 <div
-                  class="min-w-full divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
+                  class="min-w-full items-center divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
                   <div
                     class="sticky top-0 flex justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
                     <div
                       scope="col"
-                      class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                      class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:inline-flex">
                       <div class="grid grid-cols-2 items-center">
                         <div class="h-5 items-center text-center">
                           <input
@@ -72,11 +71,49 @@
                           </svg>
                         </div>
                       </div>
+                      <div class="sticky top-0 mx-auto items-center">
+                        <ais-search-box
+                          as="div"
+                          class="mx-auto mt-1"
+                          placeholder="Search for a creator,
+      hashtag, or keyword..."
+                          submit-title="Let's go!"
+                          reset-title="Reset"
+                          autofocus="true"
+                          show-loading-indicator="true">
+                          <template
+                            v-slot="{
+                              currentRefinement,
+                              isSearchStalled,
+                              refine,
+                            }">
+                            <div class="relative mt-1 flex items-center py-1">
+                              <input
+                                class="block w-96 rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                submit-title="Let's go!"
+                                reset-title="Reset"
+                                autofocus="true"
+                                type="search"
+                                placeholder="Search for a creator, hashtag, or keyword..."
+                                :value="currentRefinement"
+                                @input="refine($event.currentTarget.value)" />
+                              <div
+                                class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+                                <span
+                                  mclass="-mr-14"
+                                  :hidden="!isSearchStalled">
+                                  <kbd
+                                    class="inline-flex items-center px-2 font-sans text-sm font-medium text-gray-400">
+                                    <JovieSpinner />
+                                  </kbd>
+                                </span>
+                              </div>
+                            </div>
+                          </template>
+                        </ais-search-box>
+                      </div>
                     </div>
-                    <div
-                      class="sticky top-0 px-6 py-3 text-center text-xs font-medium tracking-wider text-gray-500">
-                      Creators
-                    </div>
+
                     <div
                       class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
                       <!--  Hide results count until a search is performed -->
@@ -343,6 +380,7 @@ import {
   ChevronUpIcon,
   FilterIcon,
   ChevronLeftIcon,
+  SearchIcon,
 } from '@heroicons/vue/solid';
 import CreatorTags from '../components/Creator/CreatorTags';
 import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks';
@@ -352,10 +390,13 @@ import DiscoveryMain from '../components/Discovery/DiscoveryMain.vue';
 import DiscoveryStats from '../components/Discovery/DiscoveryStats.vue';
 import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue';
 import { createInfiniteHitsSessionStorageCache } from 'instantsearch.js/es/lib/infiniteHitsCache';
+import JovieSpinner from '../components/JovieSpinner.vue';
 
 export default {
   components: {
     instantMeiliSearch,
+    InputGroup,
+    JovieSpinner,
 
     DiscoveryStats,
     DiscoveryToolbar,
@@ -364,16 +405,14 @@ export default {
 
     DiscoverySearch,
     TabGroup,
-
     StarRating,
-
     Menu,
     MenuButton,
     MenuItems,
     MenuItem,
     DotsVerticalIcon,
     ChevronDownIcon,
-
+    SearchIcon,
     CreatorTags,
     CreatorSocialLinks,
     ChevronUpIcon,
