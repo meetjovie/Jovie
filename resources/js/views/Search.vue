@@ -2,7 +2,7 @@
   <div>
     <ais-instant-search
       :search-client="searchClient"
-      placeholderSearch="*"
+      placeholderSearch=""
       index-name="creators">
       <div class="min-h-screen bg-gray-100">
         <div class="">

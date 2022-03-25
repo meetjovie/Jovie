@@ -1,5 +1,6 @@
 <template>
   <div class="space-y-4 px-4 py-8 text-sm font-bold">
+    <!-- <ais-menu attribute="instagram_category" /> -->
     <ais-clear-refinements :included-attributes="['instagram_followers']">
       <template v-slot="{ canRefine, refine, createURL }">
         <a :href="createURL()" @click.prevent="refine" v-if="canRefine">
