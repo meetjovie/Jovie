@@ -2,6 +2,10 @@
   <div>
     <ais-search-box />
     <form class="grid grid-cols-4 gap-y-2 py-4 px-2" action="#" method="get">
+      <ais-search-box
+        is="div"
+        class="w-full rounded-lg text-neutral-500"
+        placeholder="Search for a creator" />
       <InputGroup
         rounded="all"
         class="col-span-4"
@@ -104,7 +108,7 @@ import ButtonGroup from '../ButtonGroup.vue';
 import MultiButton from '../MultiButton.vue';
 import RangeFilter from '../RangeFilter.vue';
 import LocationSelector from '../LocationSelector.vue';
-import instantMeiliSearch from '@meilisearch/instant-meilisearch';
+import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
 
 export default {
   components: {
@@ -113,7 +117,6 @@ export default {
     MultiButton,
     RangeFilter,
     LocationSelector,
-    instantMeiliSearch,
   },
 };
 </script>

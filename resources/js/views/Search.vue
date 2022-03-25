@@ -1,373 +1,420 @@
 <template>
-  <div class="mx-auto w-full">
+  <div>
     <ais-instant-search
       class="rounded-md"
       :search-client="searchClient"
       placeholderSearch="true"
       index-name="creators">
-      <ais-search-box
-        is="div"
-        class="w-full rounded-lg text-neutral-500"
-        placeholder="Search for a creator" />
+      <div class="min-h-screen bg-gray-100">
+        <div class="">
+          <div class="mx-auto flex">
+            <div
+              v-if="searchopen"
+              class="z-10 hidden w-60 shrink-0 bg-neutral-50 shadow-lg lg:flex">
+              <nav
+                aria-label="Searchbar"
+                class="min-h-screen divide-y divide-gray-300">
+                <transition
+                  enter-active-class="transition duration-300 ease-out"
+                  enter-from-class="-translate-x-48 opacity-95"
+                  enter-to-class="translate-x-0 opacity-100"
+                  leave-active-class="transition duration-300 ease-in"
+                  leave-from-class="scale-100 opacity-100"
+                  leave-to-class="scale-95 opacity-0">
+                  <DiscoverySearch :searchopen="searchopen"></DiscoverySearch>
+                </transition>
+              </nav>
+            </div>
+            <main class="flex-auto">
+              <button @click="searchopen = !searchopen">
+                <ChevronLeftIcon
+                  v-if="searchopen"
+                  class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"
+                  :class="{ 'text-indigo-700': searchopen }"
+                  aria-hidden="true"></ChevronLeftIcon>
+                <FilterIcon
+                  v-if="searchopen == false"
+                  class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"></FilterIcon>
+              </button>
 
-      <table
-        class="min-w-full divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
-        <thead
-          class="sticky top-0 bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
-          <tr>
-            <th
-              scope="col"
-              class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
-              <div class="grid grid-cols-2 items-center">
-                <div class="h-5 items-center text-center">
-                  <input
-                    id="comments"
-                    aria-describedby="comments-description"
-                    name="comments"
-                    type="checkbox"
-                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
-                </div>
-                <div
-                  class="group sr-only items-center text-center text-gray-300 hover:text-red-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 group-hover:fill-red-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
-                </div>
-              </div>
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-center text-xs font-medium tracking-wider text-gray-500">
-              Creators
-            </th>
-            <th
-              scope="col"
-              class="table-cell px-2 py-3 text-center text-xs font-medium tracking-wider text-gray-500">
-              Content
-            </th>
-            <th
-              scope="col"
-              class="hidden text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
-              <div
-                class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
-                <div
-                  class="inline-flex h-full cursor-pointer items-center justify-center py-3 pl-1 hover:bg-indigo-50">
-                  Followers
-                  <ChevronDownIcon class="ml-1 mt-0.5 h-3 w-3 text-gray-500" />
-                </div>
-                <div
-                  class="group hidden h-full cursor-pointer items-center justify-center py-3 hover:bg-indigo-50 xl:inline-flex">
-                  ER
-                  <ChevronUpIcon
-                    class="ml-1 hidden h-3 w-3 text-gray-500 group-hover:block" />
-                </div>
-                <div
-                  class="group hidden h-full cursor-pointer items-center justify-center py-3 pr-1 hover:bg-indigo-50 2xl:inline-flex">
-                  EF
-                  <ChevronDownIcon
-                    class="ml-1 mt-0.5 hidden h-3 w-3 text-gray-500 group-hover:block" />
-                </div>
-              </div>
-            </th>
-            <th
-              scope="col"
-              class="sr-only px-2 py-3 text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
-              Manage
-            </th>
+              <DiscoveryStats></DiscoveryStats>
+              <TabGroup :defaultIndex="0">
+                <DiscoveryToolbar class="px-4"></DiscoveryToolbar>
+                <table
+                  class="min-w-full divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
+                  <thead
+                    class="sticky top-0 bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
+                    <tr>
+                      <th
+                        scope="col"
+                        class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                        <div class="grid grid-cols-2 items-center">
+                          <div class="h-5 items-center text-center">
+                            <input
+                              id="comments"
+                              aria-describedby="comments-description"
+                              name="comments"
+                              type="checkbox"
+                              class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                          </div>
+                          <div
+                            class="group sr-only items-center text-center text-gray-300 hover:text-red-500">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-6 w-6 group-hover:fill-red-500"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor">
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-center text-xs font-medium tracking-wider text-gray-500">
+                        Creators
+                      </th>
+                      <th
+                        scope="col"
+                        class="table-cell px-2 py-3 text-center text-xs font-medium tracking-wider text-gray-500">
+                        Content
+                      </th>
+                      <th
+                        scope="col"
+                        class="hidden text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                        <div
+                          class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
+                          <div
+                            class="inline-flex h-full cursor-pointer items-center justify-center py-3 pl-1 hover:bg-indigo-50">
+                            Followers
+                            <ChevronDownIcon
+                              class="ml-1 mt-0.5 h-3 w-3 text-gray-500" />
+                          </div>
+                          <div
+                            class="group hidden h-full cursor-pointer items-center justify-center py-3 hover:bg-indigo-50 xl:inline-flex">
+                            ER
+                            <ChevronUpIcon
+                              class="ml-1 hidden h-3 w-3 text-gray-500 group-hover:block" />
+                          </div>
+                          <div
+                            class="group hidden h-full cursor-pointer items-center justify-center py-3 pr-1 hover:bg-indigo-50 2xl:inline-flex">
+                            EF
+                            <ChevronDownIcon
+                              class="ml-1 mt-0.5 hidden h-3 w-3 text-gray-500 group-hover:block" />
+                          </div>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="sr-only px-2 py-3 text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                        Manage
+                      </th>
 
-            <th
-              scope="col"
-              class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
-              <!--  Hide results count until a search is performed -->
-              <div class="hidden w-60 2xl:block">
-                Showing 50 of 1,500 results
-              </div>
-              <div class="hidden w-40 lg:block 2xl:hidden">50 of 1,500</div>
-            </th>
-          </tr>
-        </thead>
-        <ais-hits>
-          <template v-slot:item="{ item }">
-            <tbody class="h-full divide-y divide-gray-200 bg-white">
-              <tr
-                class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
-                <td
-                  class="hidden w-16 whitespace-nowrap py-1 pl-2 pr-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
-                  <div class="grid grid-cols-2 items-center">
-                    <div class="group mr-2">
-                      <span class="group-hover:hidden">
-                        {{ item.id }}
-                      </span>
-                      <span class="hidden group-hover:block">
-                        <input
-                          id="comments-description"
-                          aria-describedby="comments-description"
-                          name="comments"
-                          type="checkbox"
-                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
-                      </span>
-                    </div>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 hover:fill-red-500 hover:text-red-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                      </svg>
-                    </div>
-                  </div>
-                </td>
-                <td
-                  class="w-80 flex-none justify-center whitespace-nowrap border-l px-4 py-1">
-                  <div class="flex items-center">
-                    <div class="mr-2 h-24 w-24 flex-shrink-0">
-                      <div class="rounded-full bg-neutral-200 p-0.5">
-                        <img
-                          class="rounded-full object-cover object-center"
-                          :src="
-                            item.instagram_meta.profile_pic_url ??
-                            'https://instagram.frao1-1.fna.fbcdn.net/v/t51.2885-19/s150x150/82644897_817098240982432_8129899983_n.jpg?_nc_ht=instagram.frao1-1.fna.fbcdn.net&_nc_ohc=q-_X_Q_Z-_kAX-_X_Q-&oh=f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8&oe=5F5E9E9A'
-                          "
-                          alt="" />
-                      </div>
+                      <th
+                        scope="col"
+                        class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+                        <!--  Hide results count until a search is performed -->
+                        <div class="hidden w-60 2xl:block">
+                          <ais-stats />
+                        </div>
+                        <div class="hidden w-40 lg:block 2xl:hidden">
+                          <ais-stats />
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <ais-hits>
+                    <template v-slot:item="{ item }">
+                      <tbody class="h-full divide-y divide-gray-200 bg-white">
+                        <tr
+                          class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+                          <td
+                            class="hidden w-16 whitespace-nowrap py-1 pl-2 pr-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
+                            <div class="grid grid-cols-2 items-center">
+                              <div class="group mr-2">
+                                <span class="group-hover:hidden">
+                                  {{ item.id }}
+                                </span>
+                                <span class="hidden group-hover:block">
+                                  <input
+                                    id="comments-description"
+                                    aria-describedby="comments-description"
+                                    name="comments"
+                                    type="checkbox"
+                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                                </span>
+                              </div>
+                              <div>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="h-6 w-6 hover:fill-red-500 hover:text-red-500"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor">
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                              </div>
+                            </div>
+                          </td>
+                          <td
+                            class="w-80 flex-none justify-center whitespace-nowrap border-l px-4 py-1">
+                            <div class="flex items-center">
+                              <div class="mr-2 h-24 w-24 flex-shrink-0">
+                                <div class="rounded-full bg-neutral-200 p-0.5">
+                                  <img
+                                    class="rounded-full object-cover object-center"
+                                    :src="item.instagram_meta.profile_pic_url"
+                                    alt="" />
+                                </div>
 
-                      <!--  <div class="mr-2 h-24 w-24 flex-shrink-0">
+                                <!--  <div class="mr-2 h-24 w-24 flex-shrink-0">
               <img
                 class="rounded-full border-2 object-cover object-center"
                 :src="item.avatar"
                 alt="" /> -->
-                    </div>
-                    <div class="w-72">
-                      <div class="flex text-xs font-medium text-gray-900">
-                        {{ item.name }}
-                        <div class="text-white">
-                          <svg
-                            v-if="item.instagram_is_verified"
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-3 w-3"
-                            fill="indigo"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="wrap -mt-1 truncate text-2xs font-light text-gray-900">
-                        {{ item.biography }}
-                      </div>
-                      <div
-                        class="pt-.05 pb-1 text-xs font-medium text-gray-900">
-                        <CreatorTags
-                          v-if="item.instagram_category"
-                          size="xs"
-                          color="none"
-                          :text="item.instagram_category" />
-                        <CreatorTags
-                          v-if="item.tags > 0"
-                          size="xs"
-                          color="purple"
-                          :text="item.tags[1]" />
-                        <CreatorTags size="xs" color="blue" text="Music" />
-                        <CreatorTags size="xs" color="pink" text="Other" />
-                      </div>
-                      <CreatorSocialLinks class="mt-1" />
-                    </div>
-                  </div>
-                </td>
+                              </div>
+                              <div class="w-72">
+                                <div
+                                  class="flex text-xs font-medium text-gray-900">
+                                  {{ item.name }}
+                                  <div class="text-white">
+                                    <svg
+                                      v-if="item.instagram_is_verified"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      class="h-3 w-3"
+                                      fill="indigo"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor">
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                    </svg>
+                                  </div>
+                                </div>
+                                <div
+                                  class="wrap -mt-1 truncate text-2xs font-light text-gray-900">
+                                  {{ item.biography }}
+                                </div>
+                                <div
+                                  class="pt-.05 pb-1 text-xs font-medium text-gray-900">
+                                  <CreatorTags
+                                    v-if="item.instagram_category"
+                                    size="xs"
+                                    color="none"
+                                    :text="item.instagram_category" />
+                                  <CreatorTags
+                                    v-if="item.tags > 0"
+                                    size="xs"
+                                    color="purple"
+                                    :text="item.tags[1]" />
+                                  <CreatorTags
+                                    size="xs"
+                                    color="blue"
+                                    text="Music" />
+                                  <CreatorTags
+                                    size="xs"
+                                    color="pink"
+                                    text="Other" />
+                                </div>
+                                <CreatorSocialLinks class="mt-1" />
+                              </div>
+                            </div>
+                          </td>
 
-                <td
-                  class="w-24 flex-grow items-center whitespace-nowrap lg:w-48 xl:w-72">
-                  <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-                    <img
-                      class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
-                      :src="item.instagram_media.display_url" />
-                    <img
-                      class="hidden aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md lg:block"
-                      :src="item.profile_pic_url" />
-                    <img
-                      class="hidden aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md xl:block"
-                      :src="item.profile_pic_url" />
-                  </div>
-                </td>
-                <td
-                  class="border-1 hidden w-24 border-collapse whitespace-nowrap border-r lg:table-cell xl:w-48 2xl:w-72">
-                  <div
-                    class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
-                    <div>
-                      <div class="font-bold">
-                        {{ formatCount(item.instagram_followers) }}
-                      </div>
-                      <div class="text-[8px] text-neutral-500">Followers</div>
-                    </div>
+                          <td
+                            class="w-24 flex-grow items-center whitespace-nowrap lg:w-48 xl:w-72">
+                            <div
+                              class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                              <img
+                                v-for="media in item.instagram_media"
+                                :key="media"
+                                class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
+                                :src="media.display_url" />
+                            </div>
+                          </td>
+                          <td
+                            class="border-1 hidden w-24 border-collapse whitespace-nowrap border-r lg:table-cell xl:w-48 2xl:w-72">
+                            <div
+                              class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
+                              <div>
+                                <div class="font-bold">
+                                  {{ formatCount(item.instagram_followers) }}
+                                </div>
+                                <div class="text-[8px] text-neutral-500">
+                                  Followers
+                                </div>
+                              </div>
 
-                    <div class="hidden xl:block">
-                      <div class="font-bold">
-                        {{ formatCount(item.instagram_engagement_rate) }}
-                      </div>
-                      <div class="text-[8px] text-neutral-500">ER%</div>
-                    </div>
-                    <div class="hidden 2xl:block">
-                      <div class="font-bold">
-                        {{ formatCount(item.instagram_followers) }}
-                      </div>
-                      <div class="text-[8px] text-neutral-500">EF</div>
-                    </div>
-                  </div>
-                </td>
-                <td
-                  class="W-28 flex-grow whitespace-nowrap px-6 py-1 text-sm text-gray-500">
-                  <star-rating
-                    class="w-20"
-                    :star-size="12"
-                    :increment="0.5"
-                    v-model:rating="item.rating"></star-rating>
-                </td>
-                <td
-                  class="justify-right flex-grow whitespace-nowrap py-1 text-right text-xs font-medium">
-                  <div
-                    class="justify-right grid grid-cols-2 items-center gap-4">
-                    <Menu as="div" class="relative inline-block text-left">
-                      <div>
-                        <MenuButton
-                          class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-                          <span class="sr-only">Open options</span>
-                          <DotsVerticalIcon
-                            class="h-5 w-5"
-                            aria-hidden="true" />
-                        </MenuButton>
-                      </div>
-                      <transition
-                        enter-active-class="transition ease-out duration-100"
-                        enter-from-class="transform opacity-0 scale-95"
-                        enter-to-class="transform opacity-100 scale-100"
-                        leave-active-class="transition ease-in duration-75"
-                        leave-from-class="transform opacity-100 scale-100"
-                        leave-to-class="transform opacity-0 scale-95">
-                        <MenuItems
-                          class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                          <div class="py-1">
-                            <MenuItem v-slot="{ active }">
-                              <a
-                                href="#"
-                                :class="[
-                                  active
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-700',
-                                  'block px-4 py-2 text-sm',
-                                ]"
-                                >Archive</a
-                              >
-                            </MenuItem>
-                            <MenuItem v-slot="{ active }">
-                              <a
-                                href="#"
-                                :class="[
-                                  active
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-700',
-                                  'block px-4 py-2 text-sm',
-                                ]"
-                                >Mute</a
-                              >
-                            </MenuItem>
-                            <MenuItem v-slot="{ active }">
-                              <a
-                                href="#"
-                                :class="[
-                                  active
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-700',
-                                  'block px-4 py-2 text-sm',
-                                ]"
-                                >Remove</a
-                              >
-                            </MenuItem>
-                          </div>
-                        </MenuItems>
-                      </transition>
-                    </Menu>
+                              <div class="hidden xl:block">
+                                <div class="font-bold">
+                                  {{
+                                    formatCount(item.instagram_engagement_rate)
+                                  }}
+                                </div>
+                                <div class="text-[8px] text-neutral-500">
+                                  ER%
+                                </div>
+                              </div>
+                              <div class="hidden 2xl:block">
+                                <div class="font-bold">
+                                  {{
+                                    formatCount(
+                                      item.instagram_meta.engaged_follows
+                                    )
+                                  }}
+                                </div>
+                                <div class="text-[8px] text-neutral-500">
+                                  EF
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td
+                            class="W-28 flex-grow whitespace-nowrap px-6 py-1 text-sm text-gray-500">
+                            <star-rating
+                              class="w-20"
+                              :star-size="12"
+                              :increment="0.5"
+                              v-model:rating="item.rating"></star-rating>
+                          </td>
+                          <td
+                            class="justify-right flex-grow whitespace-nowrap py-1 text-right text-xs font-medium">
+                            <div
+                              class="justify-right grid grid-cols-2 items-center gap-4">
+                              <Menu
+                                as="div"
+                                class="relative inline-block text-left">
+                                <div>
+                                  <MenuButton
+                                    class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
+                                    <span class="sr-only">Open options</span>
+                                    <DotsVerticalIcon
+                                      class="h-5 w-5"
+                                      aria-hidden="true" />
+                                  </MenuButton>
+                                </div>
+                                <transition
+                                  enter-active-class="transition ease-out duration-100"
+                                  enter-from-class="transform opacity-0 scale-95"
+                                  enter-to-class="transform opacity-100 scale-100"
+                                  leave-active-class="transition ease-in duration-75"
+                                  leave-from-class="transform opacity-100 scale-100"
+                                  leave-to-class="transform opacity-0 scale-95">
+                                  <MenuItems
+                                    class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                    <div class="py-1">
+                                      <MenuItem v-slot="{ active }">
+                                        <a
+                                          href="#"
+                                          :class="[
+                                            active
+                                              ? 'bg-gray-100 text-gray-900'
+                                              : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                          ]"
+                                          >Archive</a
+                                        >
+                                      </MenuItem>
+                                      <MenuItem v-slot="{ active }">
+                                        <a
+                                          href="#"
+                                          :class="[
+                                            active
+                                              ? 'bg-gray-100 text-gray-900'
+                                              : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                          ]"
+                                          >Mute</a
+                                        >
+                                      </MenuItem>
+                                      <MenuItem v-slot="{ active }">
+                                        <a
+                                          href="#"
+                                          :class="[
+                                            active
+                                              ? 'bg-gray-100 text-gray-900'
+                                              : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                          ]"
+                                          >Remove</a
+                                        >
+                                      </MenuItem>
+                                    </div>
+                                  </MenuItems>
+                                </transition>
+                              </Menu>
 
-                    <!-- This example requires Tailwind CSS v2.0+ -->
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </ais-hits>
-      </table>
+                              <!-- This example requires Tailwind CSS v2.0+ -->
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </ais-hits>
+                </table>
+              </TabGroup>
+            </main>
+          </div>
+        </div>
+      </div>
     </ais-instant-search>
   </div>
 </template>
 
 <script>
+import DiscoverySearch from '../components/Discovery/DiscoverySearch.vue';
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
 import InputGroup from '../components/InputGroup.vue';
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption,
-  TabGroup,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-} from '@headlessui/vue';
+import { TabGroup } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import {
   DotsVerticalIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  CheckIcon,
-  SearchCircleIcon,
+  FilterIcon,
+  ChevronLeftIcon,
 } from '@heroicons/vue/solid';
 import CreatorTags from '../components/Creator/CreatorTags';
 import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks';
 import DiscoveryCreatorTable from '../components/Discovery/DiscoveryCreatorTable.vue';
+import DiscoverySidebar from '../components/Discovery/DiscoverySidebar.vue';
+import DiscoveryMain from '../components/Discovery/DiscoveryMain.vue';
+import DiscoveryStats from '../components/Discovery/DiscoveryStats.vue';
+import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue';
+
 export default {
   components: {
     instantMeiliSearch,
-    InputGroup,
-    DiscoveryCreatorTable,
+
+    DiscoveryStats,
+    DiscoveryToolbar,
+    FilterIcon,
+    ChevronLeftIcon,
+
+    DiscoverySearch,
     TabGroup,
-    TabList,
-    Tab,
-    TabPanels,
-    TabPanel,
+
     StarRating,
-    Listbox,
-    ListboxButton,
-    ListboxOptions,
-    ListboxOption,
+
     Menu,
     MenuButton,
     MenuItems,
     MenuItem,
     DotsVerticalIcon,
     ChevronDownIcon,
-    CheckIcon,
-    SearchCircleIcon,
+
     CreatorTags,
     CreatorSocialLinks,
     ChevronUpIcon,
