@@ -136,94 +136,99 @@
                     </div>
                   </div>
                 </div>
-                <ais-infinite-hits :cache="cache">
-                  <template v-slot:item="{ item, index }">
-                    <div class="h-full divide-y divide-gray-200 bg-white">
-                      <div
-                        class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
-                        <div
-                          class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
-                          <div class="mx-auto grid grid-cols-2 items-center">
-                            <div class="group mx-auto">
-                              <span class="mx-auto group-hover:hidden">
-                                {{ formatCount(index + 1) }}
-                              </span>
-                              <span class="mx-auto hidden group-hover:block">
-                                <input
-                                  id="comments-description"
-                                  aria-describedby="comments-description"
-                                  name="comments"
-                                  type="checkbox"
-                                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
-                              </span>
-                            </div>
-                            <div class="mx-auto">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6 hover:fill-red-500 hover:text-red-500"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="w-96 flex-none justify-center border-l px-4 py-1 xl:w-128">
-                          <div class="flex items-center">
-                            <div class="mr-2 h-24 w-24 flex-shrink-0">
-                              <div class="rounded-full bg-neutral-200 p-0.5">
-                                <img
-                                  class="rounded-full object-cover object-center"
-                                  :src="item.instagram_meta.profile_pic_url"
-                                  alt="" />
-                              </div>
-
-                              <!--  <div class="mr-2 h-24 w-24 flex-shrink-0">
-                                <img
-                                    class="rounded-full border-2 object-cover object-center"
-                                    :src="item.avatar"
-                                    alt="" /> -->
-                            </div>
-                            <div class="w-96">
+                <ais-state-results>
+                  <template v-slot="{ results: { hits } }">
+                    <ais-infinite-hits v-if="hits.length > 0" :cache="cache">
+                      <template v-slot:item="{ item, index }">
+                        <div class="h-full divide-y divide-gray-200 bg-white">
+                          <div
+                            class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+                            <div
+                              class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
                               <div
-                                class="flex text-xs font-medium text-gray-900">
-                                {{ item.name }}
-                                <div class="text-white">
+                                class="mx-auto grid grid-cols-2 items-center">
+                                <div class="group mx-auto">
+                                  <span class="mx-auto group-hover:hidden">
+                                    {{ formatCount(index + 1) }}
+                                  </span>
+                                  <span
+                                    class="mx-auto hidden group-hover:block">
+                                    <input
+                                      id="comments-description"
+                                      aria-describedby="comments-description"
+                                      name="comments"
+                                      type="checkbox"
+                                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                                  </span>
+                                </div>
+                                <div class="mx-auto">
                                   <svg
-                                    v-if="item.instagram_is_verified"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-3 w-3"
-                                    fill="indigo"
+                                    class="h-6 w-6 hover:fill-red-500 hover:text-red-500"
+                                    fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="2"
-                                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                   </svg>
                                 </div>
                               </div>
-                              <div
-                                class="wrap -mt-1 h-14 text-2xs font-light text-gray-900">
-                                <p class="line-clamp-2">
-                                  {{ item.biography }}
-                                </p>
-                              </div>
-                              <div
-                                class="pt-.05 pb-1 text-xs font-medium text-gray-900">
-                                <CreatorTags
-                                  v-if="item.instagram_category"
-                                  size="xs"
-                                  color="none"
-                                  :text="item.instagram_category" />
-                                <!-- <CreatorTags
+                            </div>
+                            <div
+                              class="w-96 flex-none justify-center border-l px-4 py-1 xl:w-128">
+                              <div class="flex items-center">
+                                <div class="mr-2 h-24 w-24 flex-shrink-0">
+                                  <div
+                                    class="rounded-full bg-neutral-200 p-0.5">
+                                    <img
+                                      class="rounded-full object-cover object-center"
+                                      :src="item.instagram_meta.profile_pic_url"
+                                      alt="" />
+                                  </div>
+
+                                  <!--  <div class="mr-2 h-24 w-24 flex-shrink-0">
+                                <img
+                                    class="rounded-full border-2 object-cover object-center"
+                                    :src="item.avatar"
+                                    alt="" /> -->
+                                </div>
+                                <div class="w-96">
+                                  <div
+                                    class="flex text-xs font-medium text-gray-900">
+                                    {{ item.name }}
+                                    <div class="text-white">
+                                      <svg
+                                        v-if="item.instagram_is_verified"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-3 w-3"
+                                        fill="indigo"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                      </svg>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="wrap -mt-1 h-14 text-2xs font-light text-gray-900">
+                                    <p class="line-clamp-2">
+                                      {{ item.biography }}
+                                    </p>
+                                  </div>
+                                  <div
+                                    class="pt-.05 pb-1 text-xs font-medium text-gray-900">
+                                    <CreatorTags
+                                      v-if="item.instagram_category"
+                                      size="xs"
+                                      color="none"
+                                      :text="item.instagram_category" />
+                                    <!-- <CreatorTags
                                   v-if="item.tags > 0"
                                   size="xs"
                                   color="purple"
@@ -236,163 +241,290 @@
                                   size="xs"
                                   color="pink"
                                   text="Other" /> -->
-                              </div>
+                                  </div>
 
-                              <div
-                                class="mt-1 grid w-80 grid-cols-6 items-center justify-start text-center">
-                                <div
-                                  class="text-neutral-5 mx-auto justify-center text-center"
-                                  :class="[
-                                    {
-                                      'opacity-10':
-                                        item.instagram_handler == null,
-                                    },
-                                    'opacity-100',
-                                  ]"
-                                  @click="
-                                    openLink(
-                                      'http://instagram.com/{{item.instagram_handler}}'
-                                        .url,
-                                      true
-                                    )
-                                  ">
-                                  <SocialIcons height="14px" icon="instagram" />
                                   <div
-                                    class="mx-auto text-center text-2xs text-neutral-500">
-                                    {{ formatCount(item.instagram_followers) }}
+                                    class="mt-1 grid w-80 grid-cols-6 items-center justify-start text-center">
+                                    <div
+                                      class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                                      :class="[
+                                        {
+                                          'opacity-10':
+                                            item.instagram_handler == null,
+                                        },
+                                        'opacity-100',
+                                      ]"
+                                      @click="
+                                        openLink(
+                                          ('https://instagram.com/',
+                                          item.instagram_handler),
+                                          true
+                                        )
+                                      ">
+                                      <SocialIcons
+                                        height="14px"
+                                        icon="instagram" />
+                                      <div
+                                        class="mx-auto text-center text-2xs text-neutral-500">
+                                        {{
+                                          formatCount(item.instagram_followers)
+                                        }}
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                                      :class="[
+                                        {
+                                          'opacity-100': item.tiktok_handler,
+                                        },
+                                        'opacity-20',
+                                      ]"
+                                      @click="
+                                        openLink(
+                                          ('https://tiktok.com/',
+                                          item.tiktok_handler),
+                                          true
+                                        )
+                                      ">
+                                      <SocialIcons
+                                        height="14px"
+                                        icon="tiktok" />
+                                      <div
+                                        class="mx-auto text-center text-2xs text-neutral-500"
+                                        :class="[
+                                          {
+                                            'opacity-100':
+                                              item.youtube_followers > 0,
+                                          },
+                                          'opacity-20',
+                                        ]">
+                                        {{
+                                          formatCount(item.youtube_followers)
+                                        }}
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                                      :class="[
+                                        {
+                                          'opacity-100': item.twitch_handler,
+                                        },
+                                        'opacity-20',
+                                      ]"
+                                      @click="
+                                        openLink(
+                                          ('https://twitch.com/',
+                                          item.twitch_handler),
+                                          true
+                                        )
+                                      ">
+                                      <SocialIcons
+                                        height="14px"
+                                        icon="twitch" />
+                                      <div
+                                        class="mx-auto text-center text-2xs text-neutral-500"
+                                        :class="[
+                                          {
+                                            'opacity-100':
+                                              item.youtube_followers > 0,
+                                          },
+                                          'opacity-20',
+                                        ]">
+                                        {{
+                                          formatCount(item.youtube_followers)
+                                        }}
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                                      :class="[
+                                        {
+                                          'opacity-100': item.youtube_handler,
+                                        },
+                                        'opacity-20',
+                                      ]"
+                                      @click="
+                                        openLink(
+                                          ('https://youtube.com/',
+                                          item.youtube_handler),
+                                          true
+                                        )
+                                      ">
+                                      <SocialIcons
+                                        height="14px"
+                                        icon="youtube" />
+                                      <div
+                                        class="mx-auto text-center text-2xs text-neutral-500"
+                                        :class="[
+                                          {
+                                            'opacity-100':
+                                              item.youtube_followers > 0,
+                                          },
+                                          'opacity-20',
+                                        ]">
+                                        {{
+                                          formatCount(item.youtube_followers)
+                                        }}
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="grow items-center whitespace-nowrap px-4">
-                          <div
-                            class="grid w-24 grid-cols-1 lg:w-48 lg:grid-cols-2 xl:w-72 xl:grid-cols-3">
-                            <img
-                              v-for="media in item.instagram_media"
-                              :key="media"
-                              class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
-                              :src="media.display_url" />
-                          </div>
-                        </div>
-                        <div
-                          class="border-1 mx-auto w-24 border-collapse border-r xl:w-48 2xl:w-72">
-                          <div
-                            class="grid text-center xl:grid-cols-2 2xl:grid-cols-3">
-                            <div>
-                              <div class="font-bold">
-                                {{ formatCount(item.instagram_followers) }}
-                              </div>
-                              <div class="text-[8px] text-neutral-500">
-                                Followers
+                            <div
+                              class="grow items-center whitespace-nowrap px-4">
+                              <div
+                                class="grid w-24 grid-cols-1 lg:w-48 lg:grid-cols-2 xl:w-72 xl:grid-cols-3">
+                                <img
+                                  v-for="media in item.instagram_media"
+                                  :key="media"
+                                  class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
+                                  :src="media.display_url" />
                               </div>
                             </div>
-
-                            <div class="hidden xl:block">
-                              <div class="font-bold">
-                                {{
-                                  formatCount(item.instagram_engagement_rate)
-                                }}%
-                              </div>
-                              <div class="text-[8px] text-neutral-500">ER</div>
-                            </div>
-                            <div class="hidden 2xl:block">
-                              <div class="font-bold">
-                                {{
-                                  formatCount(
-                                    item.instagram_meta.engaged_follows
-                                  )
-                                }}
-                              </div>
-                              <div class="text-[8px] text-neutral-500">EF</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="mx-auto grid grow grid-cols-2 items-center justify-between">
-                          <div
-                            class="W-28 mx-auto flex-grow px-6 py-1 text-sm text-gray-500">
-                            <star-rating
-                              class="w-20"
-                              :star-size="12"
-                              :increment="0.5"
-                              v-model:rating="item.rating"></star-rating>
-                          </div>
-                          <div
-                            class="justify-self-right mx-auto py-1 text-right text-xs font-medium">
-                            <div class="mx-auto items-center gap-4">
-                              <Menu
-                                as="div"
-                                class="relative inline-block text-left">
+                            <div
+                              class="border-1 mx-auto w-24 border-collapse border-r xl:w-48 2xl:w-72">
+                              <div
+                                class="grid text-center xl:grid-cols-2 2xl:grid-cols-3">
                                 <div>
-                                  <MenuButton
-                                    class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-                                    <span class="sr-only">Open options</span>
-                                    <DotsVerticalIcon
-                                      class="h-5 w-5"
-                                      aria-hidden="true" />
-                                  </MenuButton>
+                                  <div class="font-bold">
+                                    {{ formatCount(item.instagram_followers) }}
+                                  </div>
+                                  <div class="text-[8px] text-neutral-500">
+                                    Followers
+                                  </div>
                                 </div>
-                                <transition
-                                  enter-active-class="transition ease-out duration-100"
-                                  enter-from-class="transform opacity-0 scale-95"
-                                  enter-to-class="transform opacity-100 scale-100"
-                                  leave-active-class="transition ease-in duration-75"
-                                  leave-from-class="transform opacity-100 scale-100"
-                                  leave-to-class="transform opacity-0 scale-95">
-                                  <MenuItems
-                                    class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                                    <div class="py-1">
-                                      <MenuItem v-slot="{ active }">
-                                        <a
-                                          href="#"
-                                          :class="[
-                                            active
-                                              ? 'bg-gray-100 text-gray-900'
-                                              : 'text-gray-700',
-                                            'block px-4 py-2 text-sm',
-                                          ]"
-                                          >Archive</a
-                                        >
-                                      </MenuItem>
-                                      <MenuItem v-slot="{ active }">
-                                        <a
-                                          href="#"
-                                          :class="[
-                                            active
-                                              ? 'bg-gray-100 text-gray-900'
-                                              : 'text-gray-700',
-                                            'block px-4 py-2 text-sm',
-                                          ]"
-                                          >Mute</a
-                                        >
-                                      </MenuItem>
-                                      <MenuItem v-slot="{ active }">
-                                        <a
-                                          href="#"
-                                          :class="[
-                                            active
-                                              ? 'bg-gray-100 text-gray-900'
-                                              : 'text-gray-700',
-                                            'block px-4 py-2 text-sm',
-                                          ]"
-                                          >Remove</a
-                                        >
-                                      </MenuItem>
-                                    </div>
-                                  </MenuItems>
-                                </transition>
-                              </Menu>
 
-                              <!-- This example requires Tailwind CSS v2.0+ -->
+                                <div class="hidden xl:block">
+                                  <div class="font-bold">
+                                    {{
+                                      formatCount(
+                                        item.instagram_engagement_rate
+                                      )
+                                    }}%
+                                  </div>
+                                  <div class="text-[8px] text-neutral-500">
+                                    ER
+                                  </div>
+                                </div>
+                                <div class="hidden 2xl:block">
+                                  <div class="font-bold">
+                                    {{
+                                      formatCount(
+                                        item.instagram_meta.engaged_follows
+                                      )
+                                    }}
+                                  </div>
+                                  <div class="text-[8px] text-neutral-500">
+                                    EF
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="mx-auto grid grow grid-cols-2 items-center justify-between">
+                              <div
+                                class="W-28 mx-auto flex-grow px-6 py-1 text-sm text-gray-500">
+                                <star-rating
+                                  class="w-20"
+                                  :star-size="12"
+                                  :increment="0.5"
+                                  v-model:rating="item.rating"></star-rating>
+                              </div>
+                              <div
+                                class="justify-self-right mx-auto py-1 text-right text-xs font-medium">
+                                <div class="mx-auto items-center gap-4">
+                                  <Menu
+                                    as="div"
+                                    class="relative inline-block text-left">
+                                    <div>
+                                      <MenuButton
+                                        class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
+                                        <span class="sr-only"
+                                          >Open options</span
+                                        >
+                                        <DotsVerticalIcon
+                                          class="h-5 w-5"
+                                          aria-hidden="true" />
+                                      </MenuButton>
+                                    </div>
+                                    <transition
+                                      enter-active-class="transition ease-out duration-100"
+                                      enter-from-class="transform opacity-0 scale-95"
+                                      enter-to-class="transform opacity-100 scale-100"
+                                      leave-active-class="transition ease-in duration-75"
+                                      leave-from-class="transform opacity-100 scale-100"
+                                      leave-to-class="transform opacity-0 scale-95">
+                                      <MenuItems
+                                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                        <div class="py-1">
+                                          <MenuItem v-slot="{ active }">
+                                            <a
+                                              href="#"
+                                              :class="[
+                                                active
+                                                  ? 'bg-gray-100 text-gray-900'
+                                                  : 'text-gray-700',
+                                                'block px-4 py-2 text-sm',
+                                              ]"
+                                              >Archive</a
+                                            >
+                                          </MenuItem>
+                                          <MenuItem v-slot="{ active }">
+                                            <a
+                                              href="#"
+                                              :class="[
+                                                active
+                                                  ? 'bg-gray-100 text-gray-900'
+                                                  : 'text-gray-700',
+                                                'block px-4 py-2 text-sm',
+                                              ]"
+                                              >Mute</a
+                                            >
+                                          </MenuItem>
+                                          <MenuItem v-slot="{ active }">
+                                            <a
+                                              href="#"
+                                              :class="[
+                                                active
+                                                  ? 'bg-gray-100 text-gray-900'
+                                                  : 'text-gray-700',
+                                                'block px-4 py-2 text-sm',
+                                              ]"
+                                              >Remove</a
+                                            >
+                                          </MenuItem>
+                                        </div>
+                                      </MenuItems>
+                                    </transition>
+                                  </Menu>
+
+                                  <!-- This example requires Tailwind CSS v2.0+ -->
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
+                      </template>
+                    </ais-infinite-hits>
+                    <div v-else class="mx-auto h-screen w-full items-center">
+                      <div
+                        class="mx-auto mt-24 max-w-xl items-center p-12 text-center text-sm font-bold text-neutral-500">
+                        <span class="text-xl text-neutral-700"
+                          >Welcome to Jovie Creator Search.</span
+                        ><br />
+                        To get started, enter a search term. You may further
+                        refine your target audience by using the
+                        <span
+                          @click="searchopen = true"
+                          class="cursor-pointer font-bold text-indigo-500"
+                          >filters</span
+                        >
+                        on the left.
                       </div>
                     </div>
                   </template>
-                </ais-infinite-hits>
+                </ais-state-results>
               </TabGroup>
             </main>
           </div>
@@ -455,7 +587,7 @@ export default {
   data() {
     return {
       cache: createInfiniteHitsSessionStorageCache(),
-      searchopen: true,
+      searchopen: false,
       creators: [
         {
           id: 1,
