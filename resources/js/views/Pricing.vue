@@ -83,8 +83,13 @@
                 <span class="text-base font-medium text-neutral-500">/mo</span>
                 <br />
                 <span class="text-sm font-medium text-neutral-500"
-                  >Billed yearly as ${{ tier.priceAnnual.toFixed(0) }}</span
-                >
+                  >Billed as
+                  <span
+                    class="text-sm font-medium text-neutral-400 line-through">
+                    ${{ tier.priceMonthly.toFixed(0) * 12 }}</span
+                  >
+                  ${{ tier.priceAnnual.toFixed(0) }}/yr
+                </span>
               </p>
               <p v-else class="mt-4">
                 <span class="text-xs font-medium text-neutral-500"></span><br />
@@ -101,7 +106,7 @@
               <router-link
                 v-if="tier.name == 'Enterprise'"
                 :to="tier.href"
-                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white py-2 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-700"
+                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white py-2 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-600 hover:text-white"
                 >Contact Sales</router-link
               >
               <router-link
