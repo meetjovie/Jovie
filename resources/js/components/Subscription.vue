@@ -41,19 +41,20 @@
                                                     class="font-medium">
                                                     {{ product.name }}
                                                 </RadioGroupLabel>
-                                                <RadioGroupDescription
-                                                    v-for="plan in product.plans"
-                                                    as="span"
-                                                    :class="checked ? 'text-indigo-100' : 'text-gray-500'"
-                                                    class="inline">
+                                                <template v-for="plan in product.plans">
+                                                    <RadioGroupDescription
+                                                        as="span"
+                                                        :class="checked ? 'text-indigo-100' : 'text-gray-500'"
+                                                        class="inline">
                           <span>
                             {{ plan.amount / 100 }}/{{ plan.interval }}</span
                           >
-                                                    <span aria-hidden="true"> &middot; </span>
-                                                    <span class="text-xs uppercase">
+                                                        <span aria-hidden="true"> &middot; </span>
+                                                        <span class="text-xs uppercase">
                             {{ plan.currency }}</span
-                                                    >
-                                                </RadioGroupDescription>
+                                                        >
+                                                    </RadioGroupDescription>
+                                                </template>
                                             </div>
                                         </div>
                                         <div v-show="checked" class="flex-shrink-0 text-white">

@@ -67,5 +67,8 @@ export default {
     },
     async changeSubscription(token, selectedPlan, selectedProduct) {
         return axios.post(`${baseApiUrl}/change-subscription`, {'paymentMethod': token, 'selectedPlan': selectedPlan, selectedProduct: selectedProduct})
+    },
+    buySeats(numberOfSeats) {
+        return axios.post(`${baseApiUrl}/buy-seats`, {'numberOfSeats': numberOfSeats})
     }
 };
