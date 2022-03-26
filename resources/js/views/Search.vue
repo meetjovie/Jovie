@@ -118,9 +118,6 @@
                               </div>
                             </div>
                           </template>
-                          <template v-slot:reset-icon
-                            ><XIcon class="h-5 w-5"></XIcon
-                          ></template>
                         </ais-search-box>
                       </div>
                     </div>
