@@ -183,6 +183,12 @@ class SubscriptionsController extends Controller
 
     public function buySeats(Request $request)
     {
+        if ($request->numberOfSeats < 1) {
+            return response([
+                'status' => false,
+                'message' => 'Seats must be 1 or more.'
+            ]);
+        }
         $user = $request->user()->load('currentTeam');
         $currentSubscription = $user->currentTeam->currentSubscription();
 
@@ -212,16 +218,18 @@ class SubscriptionsController extends Controller
                         ->first();
                     if (is_null($similarAdOn)) {
                         $currentSubscription->addPriceAndInvoice($plans[$i]->id, $request->numberOfSeats);
-                        $currentSubscription->items->where('stripe_price', $plans[$i]->id)->update('type', Team::AD_ON_SEAT);
+                        DB::commit();
+                        $currentSubscription->items->where('stripe_price', $plans[$i]->id)->first()->update(['type' => Team::AD_ON_SEAT]);
                     } else {
                         $similarAdOn->type = Team::AD_ON_SEAT;
                         $similarAdOn->save();
+                        DB::commit();
                         $currentSubscription->incrementQuantity($request->numberOfSeats, $plans[$i]->id);
                     }
-                    DB::commit();
                     return response([
                         'status' => true,
-                        'subscription' => $user->currentTeam->currentSubscription()
+                        'subscription' => $user->currentTeam->currentSubscription(),
+                        'message' => 'Seats added to your plan.'
                     ]);
                 }
             }

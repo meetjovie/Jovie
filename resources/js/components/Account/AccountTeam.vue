@@ -13,19 +13,25 @@
             <p class="max-w-2xl text-sm text-gray-500">
                 With your current team's plan, you can add {{ currentUser.current_team.current_subscription.seats }}
                 member/members to you current active team.
-                <span class="mr-2"><a href="">Buy more seats</a></span>
+                <span class="mr-2" v-if="currentUser.isCurrentTeamOwner">
+                    <button
+                        class="rounded-md bg-red-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                        @click="showBuySeats()">Buy more seats</button></span>
             </p>
-            <div class="flex">
+            <div class="flex" v-if="isBuySeats && currentUser.isCurrentTeamOwner">
                 <button
+                    @click="decrementSeats()"
                     class="rounded-md bg-red-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     -
                 </button>
                 <InputGroup
                     :disabled="loading.addingTeam"
-                    placeholder="Team Name"
+                    type="number"
+                    placeholder="Number of seats"
                     v-model="numberOfSeats"
                     class="flex-grow"></InputGroup>
                 <button
+                    @click="incrementSeats()"
                     class="rounded-md bg-red-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     +
                 </button>
@@ -33,6 +39,11 @@
                         :disabled="loading.buyingSeats"
                         class="ml-4 rounded-md bg-red-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     {{ loading.buyingSeats ? 'Buying Seats' : 'Buy Seats'}}
+                </button>
+                <button
+                    @click="cancelBuySeats()"
+                    class="rounded-md bg-red-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    Cancel
                 </button>
             </div>
         </div>
@@ -296,15 +307,40 @@ export default {
             addTeam: false,
             teamName: '',
             numberOfSeats: 1,
+            isBuySeats: false
         };
     },
+    watch: {
+        numberOfSeats(val) {
+            val = val ? parseInt(val) : 0
+            console.log('val');
+            console.log(val);
+            if (val == '' || val <= 1) {
+                this.numberOfSeats = 1
+            }
+        }
+    },
     methods: {
+        cancelBuySeats() {
+            this.isBuySeats = false
+            this.numberOfSeats = 1
+        },
+        showBuySeats() {
+            this.isBuySeats = true
+        },
+        incrementSeats() {
+            this.numberOfSeats++
+        },
+        decrementSeats() {
+            this.numberOfSeats--
+        },
         buySeats() {
             this.loading.buyingSeats = true;
             UserService.buySeats(this.numberOfSeats).then(response => {
-                response = response.status
+                response = response.data
                 if (response.status) {
                     alert(response.message)
+                    this.isBuySeats = false
                     this.currentUser.current_team.current_subscription = response.subscription;
                 } else {
                     alert(response.message)
