@@ -29,7 +29,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
         Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
-        //IMPORT CREATORS
+        
+
+        Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
+
+                //    
+                //IMPORT CREATORS
         Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
         Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
 
@@ -48,11 +53,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/update-overview-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateOverviewCreator']);
 
         Route::get('/next-creator/{id}', [\App\Http\Controllers\CrmController::class, 'nextCreator']);
-        Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']);
-
-        Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
-
-                //     
+        Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']); 
         });
 
         /**
