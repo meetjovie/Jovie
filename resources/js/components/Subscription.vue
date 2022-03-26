@@ -409,6 +409,8 @@ export default {
                 },
             })
                 .then((result) => {
+                    console.log('result');
+                    console.log(result);
                     if (result.error) {
                         alert(result.error.message);
                         this.paymentElement.update({readOnly: false});
@@ -417,7 +419,7 @@ export default {
                         if (this.showSubscriptionPlans) {
                             this.changeSubscription(result.setupIntent.payment_method);
                         } else {
-                            this.newSubscription(result.paymentMethod.payment_method);
+                            this.newSubscription(result.setupIntent.payment_method);
                         }
                     }
                 });

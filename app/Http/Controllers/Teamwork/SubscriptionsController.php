@@ -71,11 +71,11 @@ class SubscriptionsController extends Controller
             ]);
         }
         if ($user->currentTeam) {
-            $user->currentTeam->createOrGetStripeCustomer();
+            $customer = $user->currentTeam->createOrGetStripeCustomer();
             $user->currentTeam->addPaymentMethod($paymentMethod);
             $user->currentTeam->updateDefaultPaymentMethod($paymentMethod);
             try {
-                $subscription = $user->currentTeam->newSubscription($product->name, $plan->id)->create($paymentMethod, [
+                $subscription = $user->currentTeam->newSubscription($product->name, $plan->id)->create($customer->invoice_settings->default_payment_method, [
                     'email' => $user->email
                 ]);
                 $subscription->seats = $product->metadata->seats;

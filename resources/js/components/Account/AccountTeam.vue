@@ -10,7 +10,7 @@
         Invite collaborators to join your team.
       </p>
         <p class="max-w-2xl text-sm text-gray-500">
-            With you current plan, you can add {{ currentUser.current_team.current_subscription.seats }} member/members.
+            With your current team's plan, you can add {{ currentUser.current_team.current_subscription.seats }} member/members to you current active team.
         </p>
     </div>
     <div class="space-y-1">
@@ -58,23 +58,30 @@
               <dt class="text-sm font-medium text-gray-500">Team Name</dt>
               <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <InputGroup
-                  :disabled="loading.updating"
+                  :disabled="loading.updating || loading.deleting"
                   placeholder="Team Name"
                   v-model="team.name"
                   class="flex-grow"></InputGroup>
                 <span class="ml-4 flex-shrink-0">
                   <button
-                    :disabled="loading.updating"
+                    :disabled="loading.updating || loading.deleting"
                     @click="updateTeam(team)"
                     type="button"
                     class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     Update
                   </button>
                   <button
-                    :disabled="loading.deleting"
+                    :disabled="loading.deleting || loading.updating"
                     @click="deleteTeam(team, index)"
                     type="button"
                     class="rounded-md bg-red-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    Delete
+                  </button>
+                    <button
+                        :disabled="loading.deleting || loading.updating"
+                        @click="openAdditionalSeatModal(team.id, )"
+                        type="button"
+                        class="rounded-md bg-red-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     Delete
                   </button>
                 </span>
