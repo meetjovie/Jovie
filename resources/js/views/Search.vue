@@ -206,7 +206,9 @@
                                 <div class="w-96">
                                   <div
                                     class="flex text-xs font-medium text-gray-900">
-                                    {{ item.name }}
+                                    <span class="line-clamp-1">
+                                      {{ item.name }}</span
+                                    >
                                     <div class="text-white">
                                       <svg
                                         v-if="item.instagram_is_verified"
@@ -224,13 +226,13 @@
                                     </div>
                                   </div>
                                   <div
-                                    class="wrap -mt-1 h-14 text-2xs font-light text-gray-900">
+                                    class="wrap -mt-1 h-8 text-2xs font-light text-gray-900">
                                     <p class="line-clamp-2">
                                       {{ item.biography }}
                                     </p>
                                   </div>
                                   <div
-                                    class="pt-.05 pb-1 text-xs font-medium text-gray-900">
+                                    class="pt-.05 pb-1 text-xs font-medium text-gray-900 line-clamp-1">
                                     <CreatorTags
                                       v-if="item.instagram_category"
                                       size="xs"
@@ -443,6 +445,7 @@
                               <div
                                 class="justify-self-right mx-auto py-1 text-right text-xs font-medium">
                                 <div class="mx-auto items-center gap-4">
+                                  <div>Add to crm</div>
                                   <Menu
                                     as="div"
                                     class="relative inline-block text-left">

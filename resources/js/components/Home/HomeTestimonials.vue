@@ -70,7 +70,7 @@
             <div
               class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-neutral-200">
               <img
-                :src="asset('../img/External/Mackenzie_Moore.webp')"
+                :src="asset('img/External/Mackenzie_Moore.webp')"
                 class="object-enter h-10 w-10 rounded-full object-cover"
                 alt="profile" />
             </div>
@@ -137,7 +137,7 @@
             <div
               class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-neutral-200">
               <img
-                :src="asset('../img/External/Pepijn_vann_Kesteren.webp')"
+                :src="asset('img/External/Pepijn_vann_Kesteren.webp')"
                 class="object-enter h-10 w-10 rounded-full object-cover"
                 alt="profile" />
             </div>

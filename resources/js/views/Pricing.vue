@@ -25,14 +25,14 @@
                   <div class="absolute mx-auto grid w-full grid-cols-2">
                     <div
                       :class="
-                        annualBilling ? 'text-neutral-700' : 'text-neutral-500'
+                        annualBilling ? 'text-indigo-700' : 'text-neutral-500'
                       "
                       class="text-sm font-medium focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
                       Yearly Billing
                     </div>
                     <div
                       :class="
-                        annualBilling ? 'text-neutral-500' : 'text-neutral-700'
+                        annualBilling ? 'text-neutral-500' : 'text-indigo-700'
                       "
                       class="text-sm font-medium text-neutral-700 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
                       Monthly Billing
@@ -58,13 +58,13 @@
               </p>
               <p v-if="annualBilling" class="mt-8">
                 <span class="text-4xl font-extrabold text-neutral-900"
-                  >${{ (tier.priceAnnual / 12).toFixed(2) }}</span
+                  >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
                 >
                 {{ ' ' }}
                 <span class="text-base font-medium text-neutral-500">/mo</span>
                 <br />
                 <span class="text-sm font-medium text-neutral-500"
-                  >Billed yearly as ${{ tier.priceAnnual.toFixed(2) }}</span
+                  >Billed yearly as ${{ tier.priceAnnual.toFixed(0) }}</span
                 >
               </p>
               <p v-else class="mt-8">
@@ -94,10 +94,13 @@
                   v-for="feature in tier.features"
                   :key="feature"
                   class="flex space-x-3">
-                  <CheckIcon
-                    class="h-5 w-5 flex-shrink-0 text-indigo-500"
+                  <component
+                    :is="feature.icon"
+                    class="h-5 w-5 flex-shrink-0 text-indigo-400"
                     aria-hidden="true" />
-                  <span class="text-sm text-neutral-500">{{ feature }}</span>
+                  <span class="text-sm text-neutral-500">{{
+                    feature.name
+                  }}</span>
                 </li>
               </ul>
             </div>
@@ -108,7 +111,7 @@
   </div>
   <!-- FAQ -->
   <div class="bg-gradient-to-b from-neutral-50 to-white">
-    <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:py-24 lg:px-8">
       <div class="mx-auto max-w-3xl divide-y-2 divide-gray-200">
         <h2
           class="text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -186,50 +189,75 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from '@headlessui/vue';
-import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid';
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  MailIcon,
+  LightningBoltIcon,
+  DatabaseIcon,
+  SupportIcon,
+  UserIcon,
+  UserGroupIcon,
+  UsersIcon,
+  UserAddIcon,
+  CloudDownloadIcon,
+  ChatAlt2Icon,
+  TableIcon,
+  PhoneIcon,
+} from '@heroicons/vue/outline';
 const annualBilling = ref(true);
 
 const tiers = [
   {
     name: 'Professional',
     href: '/signup',
+    featured: false,
     priceMonthly: 199,
-    priceAnnual: 2199,
+    priceAnnual: 2148,
     description: 'For freelancers',
-    featureIcons: ['EmailIcon', 'EmailIcon', 'EmailIcon', 'EmailIcon'],
     features: [
-      '500 contact credits/month',
-      'Database of 2M+ creators',
-      'Blazing fast search',
-      'CRM, CSV exports,',
+      { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
+      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
+      { name: '500 contact credits/month', icon: 'MailIcon' },
+      { name: '1 Seat included', icon: 'UserIcon' },
+      { name: 'CSV exports', icon: 'CloudDownloadIcon' },
     ],
   },
   {
     name: 'Team',
     href: '/signup',
+    featured: true,
     priceMonthly: 499,
-    priceAnnual: 4999,
+    priceAnnual: 5400,
     description: 'Built for startups and growing teams',
-    featureIcons: ['EmailIcon', 'EmailIcon', 'EmailIcon', 'EmailIcon'],
     features: [
-      'Everything in the Professional plan, plus:',
-      '2,500 contact credits/month',
-      'Collaboration & team managment.',
-      'Additional seats $99/mo',
+      { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
+      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
+      { name: '2,500 contact credits/month', icon: 'MailIcon' },
+      { name: '2 Seats included', icon: 'UsersIcon' },
+      { name: 'CSV exports', icon: 'CloudDownloadIcon' },
+      { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
+      { name: 'Additional seats $99/mo', icon: 'UserAddIcon' },
+      { name: 'Data enrichment credits', icon: 'TableIcon' },
     ],
   },
   {
     name: 'Enterprise',
     href: '/signup',
+    featured: false,
     priceMonthly: 2499,
     priceAnnual: 24999,
     description: 'For large teams and enterprises',
-    featureIcons: ['EmailIcon', 'EmailIcon', 'EmailIcon', 'EmailIcon'],
     features: [
-      '10,000 contact credits/month',
-      '5 Seats',
-      'Dedicated support',
-      'Additional seats $99/mo',
+      { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
+      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
+      { name: '10,00 contact credits/month', icon: 'MailIcon' },
+      { name: '5 Seats included', icon: 'UserGroupIcon' },
+      { name: 'CSV exports', icon: 'CloudDownloadIcon' },
+      { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
+      { name: 'Additional seats $99/mo', icon: 'UserAddIcon' },
+      { name: 'Data enrichment credits', icon: 'TableIcon' },
+      { name: 'Dedicated support', icon: 'PhoneIcon' },
     ],
   },
 ];
@@ -242,7 +270,17 @@ const faqs = [
   {
     question: 'What is a contact credit?',
     answer:
-      'Jovie provides access to a database of millions of creators.  You can leverage this data for your outreach efforts or to enrich your own customer data.  A contact credit is deducted from your account when you send a message to a contact or export a us.',
+      'Jovie provides access to a database of millions of creators.  You can leverage this data for your outreach efforts.  A contact credit is deducted from your account when you send a message to a contact or export an email address.',
+  },
+  {
+    question: 'What is a data enrichment credit?',
+    answer:
+      'Jovie allows you to enrich your contacts with data from your own database or customer lists.  When you upload contacts, we match them against our data to provide you an enriched profile with social metrics, content, & other details.  You are only charged for succcessful matches.',
+  },
+  {
+    question: 'Doy you offer trials?',
+    answer:
+      'We do not offer free trials.  But we do think you will love Jovie.  If youre unsure which plan meets your needs you can start with our professional plan and upgrade later.  If you have questions or would like to schedule a demo, please contact us.',
   },
 ];
 
@@ -252,10 +290,22 @@ export default {
     SwitchGroup,
     SwitchLabel,
     CheckIcon,
+    UserAddIcon,
+    CloudDownloadIcon,
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
     ChevronDownIcon,
+    MailIcon,
+    LightningBoltIcon,
+    DatabaseIcon,
+    SupportIcon,
+    UserIcon,
+    UserGroupIcon,
+    UsersIcon,
+    ChatAlt2Icon,
+    TableIcon,
+    PhoneIcon,
   },
   setup() {
     return {

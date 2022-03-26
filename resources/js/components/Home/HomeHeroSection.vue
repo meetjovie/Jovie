@@ -93,14 +93,10 @@
             <div class="rounded-md">
               <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
                 <form class="sm:flex">
-                  <label
-                    v-if="!$store.state.addedToWaitList"
-                    for="email-address"
-                    class="sr-only"
+                  <label for="email-address" class="sr-only"
                     >Email address</label
                   >
                   <input
-                    v-if="!$store.state.addedToWaitList"
                     id="email-address"
                     v-model="waitListEmail"
                     name="email-address"
@@ -109,19 +105,13 @@
                     required=""
                     class="w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-gray-500 shadow-xl shadow-indigo-700/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700"
                     placeholder="Enter your email" />
-                  <button
-                    v-if="$store.state.addedToWaitList"
-                    type="button"
-                    class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                    Added to waitlist
-                  </button>
-                  <button
-                    v-else
-                    type="button"
-                    @click="requestDemo()"
-                    class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                    Request Demo
-                  </button>
+                  <router-link to="signup">
+                    <button
+                      type="button"
+                      class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                      Get started
+                    </button>
+                  </router-link>
                 </form>
                 <span class="float-left text-red-900">{{ this.error }}</span>
               </div>
