@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+    'host' => env('MEILISEARCH_HOST', 'https://search.jov.ie:7700'),
 
     /*
     |--------------------------------------------------------------------------

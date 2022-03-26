@@ -281,4 +281,12 @@ export const routes = [
       layout: 'Minimal',
     },
   },
+  {
+    name: '404',
+    path: '/notfound',
+    component: loadPage('404Page'),
+    meta: {
+      layout: 'Minimal',
+    },
+  },
 ];
