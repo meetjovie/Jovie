@@ -48,7 +48,7 @@
             <p class="mt-4 text-base leading-6 text-gray-500">
               Thanks to Jovie, software is no longer a bottleneck in my
               workflow. The search feels instantaneous and the keyboard
-              shortcuts are clearly built for power users like me.
+              shortcuts are a game changer.
             </p>
             <div class="absolute bottom-0 -mb-4 ml-10">
               <svg
@@ -68,10 +68,10 @@
           </div>
           <div class="mt-7 flex items-center">
             <div
-              class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-indigo-600">
+              class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-neutral-200">
               <img
-                :src="asset('/img/External/Mackenzie_Moore.webp')"
-                class="h-10 w-10 rounded-full"
+                :src="asset('../img/External/Mackenzie_Moore.webp')"
+                class="object-enter h-10 w-10 rounded-full object-cover"
                 alt="profile" />
             </div>
             <div class="ml-4 flex flex-col items-start">
@@ -135,10 +135,10 @@
           </div>
           <div class="mt-7 flex items-center">
             <div
-              class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-indigo-600">
+              class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-neutral-200">
               <img
-                :src="asset('/img/External/Pepijn_vann_Kesteren.webp')"
-                class="h-10 w-10 rounded-full"
+                :src="asset('../img/External/Pepijn_vann_Kesteren.webp')"
+                class="object-enter h-10 w-10 rounded-full object-cover"
                 alt="profile" />
             </div>
             <div class="ml-4 flex flex-col items-start">

@@ -13,7 +13,7 @@
         </p>
         <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           Jovie's database of
-          <span class="text-indigo-500">2Million+ creators</span> is a powerful
+          <span class="text-indigo-500">2 Million+ creators</span> is a powerful
           tool for finding new prospects and building partnerships.
         </p>
       </div>
