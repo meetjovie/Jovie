@@ -48,7 +48,11 @@
           <div
             v-for="tier in tiers"
             :key="tier.name"
-            class="divide-y divide-neutral-200 rounded-lg border border-neutral-200 shadow-sm">
+            class="divide-y divide-neutral-200 rounded-lg shadow-sm"
+            :class="[
+              { 'border-2 border-indigo-400': tier.featured == true },
+              'border border-neutral-200',
+            ]">
             <div class="p-6">
               <h2 class="text-lg font-medium leading-6 text-neutral-900">
                 {{ tier.name }}
@@ -56,7 +60,22 @@
               <p class="mt-4 text-sm text-neutral-500">
                 {{ tier.description }}
               </p>
-              <p v-if="annualBilling" class="mt-8">
+              <p v-if="tier.name === 'Enterprise'" class="mt-4">
+                <span class="text-xs font-medium text-neutral-500"
+                  >Starts at</span
+                ><br />
+                <span class="-mt-2 text-4xl font-extrabold text-neutral-900"
+                  >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
+                >
+                {{ ' ' }}
+                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <br />
+                <span class="text-sm font-medium text-neutral-500"
+                  >Annual billing only</span
+                >
+              </p>
+              <p v-else-if="annualBilling" class="mt-4">
+                <span class="text-xs font-medium text-neutral-500"></span><br />
                 <span class="text-4xl font-extrabold text-neutral-900"
                   >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
                 >
@@ -67,7 +86,7 @@
                   >Billed yearly as ${{ tier.priceAnnual.toFixed(0) }}</span
                 >
               </p>
-              <p v-else class="mt-8">
+              <p v-else class="mt-4">
                 <span class="text-4xl font-extrabold text-neutral-900"
                   >${{ tier.priceMonthly }}</span
                 >
@@ -78,10 +97,17 @@
                   >Billed monthly</span
                 >
               </p>
-              <a
-                :href="tier.href"
+              <router-link
+                v-if="tier.name == 'Enterprise'"
+                :to="tier.href"
                 class="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-700"
-                >Buy {{ tier.name }}</a
+                >Request Pricing</router-link
+              >
+              <router-link
+                v-else
+                :to="tier.href"
+                class="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+                >Buy {{ tier.name }}</router-link
               >
             </div>
             <div class="px-6 pt-6 pb-8">
@@ -210,7 +236,7 @@ const annualBilling = ref(true);
 const tiers = [
   {
     name: 'Professional',
-    href: '/signup',
+    href: 'signup',
     featured: false,
     priceMonthly: 199,
     priceAnnual: 2148,
@@ -219,13 +245,13 @@ const tiers = [
       { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
       { name: '500 contact credits/month', icon: 'MailIcon' },
-      { name: '1 Seat included', icon: 'UserIcon' },
+      { name: '1 User included', icon: 'UserIcon' },
       { name: 'CSV exports', icon: 'CloudDownloadIcon' },
     ],
   },
   {
     name: 'Team',
-    href: '/signup',
+    href: 'signup',
     featured: true,
     priceMonthly: 499,
     priceAnnual: 5400,
@@ -234,28 +260,28 @@ const tiers = [
       { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
       { name: '2,500 contact credits/month', icon: 'MailIcon' },
-      { name: '2 Seats included', icon: 'UsersIcon' },
+      { name: '2 Users included', icon: 'UsersIcon' },
       { name: 'CSV exports', icon: 'CloudDownloadIcon' },
       { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
-      { name: 'Additional seats $99/mo', icon: 'UserAddIcon' },
+      { name: 'Additional users $99/mo', icon: 'UserAddIcon' },
       { name: 'Data enrichment credits', icon: 'TableIcon' },
     ],
   },
   {
     name: 'Enterprise',
-    href: '/signup',
+    href: 'request-demo',
     featured: false,
-    priceMonthly: 2499,
+    priceMonthly: 'Annual Only',
     priceAnnual: 24999,
     description: 'For large teams and enterprises',
     features: [
       { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
       { name: '10,00 contact credits/month', icon: 'MailIcon' },
-      { name: '5 Seats included', icon: 'UserGroupIcon' },
+      { name: '5 Users included', icon: 'UserGroupIcon' },
       { name: 'CSV exports', icon: 'CloudDownloadIcon' },
       { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
-      { name: 'Additional seats $99/mo', icon: 'UserAddIcon' },
+      { name: 'Additional users $99/mo', icon: 'UserAddIcon' },
       { name: 'Data enrichment credits', icon: 'TableIcon' },
       { name: 'Dedicated support', icon: 'PhoneIcon' },
     ],
