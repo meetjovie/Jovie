@@ -1,113 +1,78 @@
 <template>
-  <div class="min-h-screen">
-    <div class="flex min-h-full">
-      <div class="relative hidden w-0 flex-1 lg:block">
-        <div
-          class="absolute inset-0 min-h-screen w-full items-center justify-center bg-indigo-700 px-8 py-12">
+  <div class="">
+    <!-- Pricing with four tiers and toggle -->
+    <div class="h-screen bg-gradient-to-b from-white to-gray-50">
+      <div class="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
+        <div class="sm:align-center sm:flex sm:flex-col">
+          <h1 class="text-5xl font-extrabold text-gray-900 sm:text-center">
+            Jovie Pricing
+          </h1>
+          <p class="mt-5 text-xl text-gray-500 sm:text-center">
+            Everything you need to scale your creator partnerships.
+          </p>
           <div
-            class="shadown-sm flex items-center justify-center rounded-md px-8 py-2">
-            <div
-              class="mx-auto max-w-4xl px-4 py-16 pb-24 sm:px-6 sm:pt-20 lg:max-w-7xl lg:px-8 lg:pt-24">
-              <h2 class="text-3xl font-extrabold tracking-tight text-white">
-                Scale your
-                <span class="underline decoration-pink-500"
-                  >creator partnerships</span
-                >
-              </h2>
-              <p class="mt-4 max-w-3xl text-lg text-indigo-200">
-                Jovie gives you the tools to build, manage, & grow creator
-                communities at scale
-              </p>
-
-              <div>
-                <div class="mt-8 items-center">
-                  <div
-                    class="font-xs flex-inline px-6 py-4 text-indigo-100 xl:px-12">
-                    <CheckIcon class="h5 mr-4 inline w-5" />Discover creators
-                    with AI powered search tools
-                  </div>
-                  <div
-                    class="font-xs flex-inline px-6 py-4 text-indigo-100 xl:px-12">
-                    <CheckIcon class="h5 mr-4 inline w-5" />Manage your
-                    relationships with a CRM built for the creator economy
-                  </div>
-                  <div
-                    class="font-xs flex-inline px-6 py-4 text-indigo-100 xl:px-12">
-                    <CheckIcon class="h5 mr-4 inline w-5" />Automate & track
-                    your entire pipeline
-                  </div>
-                </div>
-              </div>
-            </div>
+            class="relative mt-6 flex self-center rounded-lg bg-gray-100 p-0.5 sm:mt-8">
+            <button
+              @click="billing = 'monthly'"
+              type="button"
+              :class="[
+                {
+                  'border-gray-200 bg-white text-gray-700 ':
+                    billing == 'monthly',
+                },
+                'rounded-lg text-gray-900 ',
+              ]"
+              class="relative w-1/2 whitespace-nowrap rounded-md py-2 text-sm font-medium shadow-sm focus:z-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:w-auto sm:px-8">
+              Monthly billing
+            </button>
+            <button
+              @click="billing = 'annual'"
+              type="button"
+              class="relative ml-0.5 w-1/2 whitespace-nowrap rounded-md border border-transparent py-2 text-sm font-medium text-gray-700 focus:z-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:w-auto sm:px-8">
+              Yearly billing
+            </button>
           </div>
         </div>
-      </div>
-      <div
-        class="flex min-h-screen flex-1 flex-col items-center justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-        <div class="mx-auto w-full max-w-sm sm:pb-40 lg:w-96">
-          <div>
-            <JovieLogo :height="40" />
-            <div class="mt-8 text-center">
-              <h2
-                class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                Request pricing
+        <div
+          class="mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-3">
+          <div
+            v-for="tier in tiers"
+            :key="tier.name"
+            class="divide-y divide-gray-200 rounded-lg border border-gray-200 shadow-sm">
+            <div class="p-6">
+              <h2 class="text-lg font-medium leading-6 text-gray-900">
+                {{ tier.name }}
               </h2>
-              <p class="mt-4 text-sm leading-6 text-gray-500">
-                There are many factors that influence pricing. We just need a
-                few details about your use case and we can get you pricing
-                details that fit your exact needs.
+              <p class="mt-4 text-sm text-gray-500">{{ tier.description }}</p>
+              <p class="mt-8">
+                <span class="text-4xl font-extrabold text-gray-900"
+                  >${{ tier.priceMonthly }}</span
+                >
+                {{ ' ' }}
+                <span class="text-base font-medium text-gray-500">/mo</span>
               </p>
+              <a
+                :href="tier.href"
+                class="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+                >Buy {{ tier.name }}</a
+              >
             </div>
-          </div>
-
-          <div class="mt-8">
-            <div class="mt-6">
-              <form class="space-y-6">
-                <div>
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700">
-                    Email address
-                  </label>
-                  <div class="mt-1">
-                    <input
-                      v-if="!$store.state.addedToWaitList"
-                      v-model="waitListEmail"
-                      id="email"
-                      name="email"
-                      type="email"
-                      autocomplete="email"
-                      required=""
-                      class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                    <!-- <input  id="email-address"
-                                                    
-                                            <button  type="button"
-                                                    class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                                                Added to waitlist
-                                            </button>
-                                            <button v-else type="button" @click="requestDemo()"
-                                                    class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                                                Request Access
-                                            </button> -->
-                  </div>
-                </div>
-
-                <div>
-                  <button
-                    v-if="$store.state.addedToWaitList"
-                    type="submit"
-                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                    Request submitted
-                  </button>
-                  <button
-                    v-else
-                    type="submit"
-                    @click="requestDemo()"
-                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                    Request pricing
-                  </button>
-                </div>
-              </form>
+            <div class="px-6 pt-6 pb-8">
+              <h3
+                class="text-xs font-medium uppercase tracking-wide text-gray-900">
+                What's included
+              </h3>
+              <ul role="list" class="mt-6 space-y-4">
+                <li
+                  v-for="feature in tier.features"
+                  :key="feature"
+                  class="flex space-x-3">
+                  <CheckIconSolid
+                    class="h-5 w-5 flex-shrink-0 text-green-500"
+                    aria-hidden="true" />
+                  <span class="text-sm text-gray-500">{{ feature }}</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -115,41 +80,128 @@
     </div>
   </div>
 </template>
+
 <script>
-import JovieLogo from '../components/JovieLogo.vue';
-import { CheckIcon } from '@heroicons/vue/outline';
-import UserService from '../services/api/user.service';
+import { defineComponent, h } from 'vue';
+import {
+  Popover,
+  PopoverButton,
+  PopoverGroup,
+  PopoverPanel,
+} from '@headlessui/vue';
+import {
+  BookmarkAltIcon,
+  CalendarIcon,
+  ChartBarIcon,
+  CheckIcon as CheckIconOutline,
+  CursorClickIcon,
+  MenuIcon,
+  PhoneIcon,
+  PlayIcon,
+  RefreshIcon,
+  ShieldCheckIcon,
+  SupportIcon,
+  ViewGridIcon,
+  XIcon,
+} from '@heroicons/vue/outline';
+import {
+  CheckIcon as CheckIconSolid,
+  ChevronDownIcon,
+} from '@heroicons/vue/solid';
+
+const solutions = [
+  {
+    name: 'Analytics',
+    description:
+      'Get a better understanding of where your traffic is coming from.',
+    href: '#',
+    icon: ChartBarIcon,
+  },
+  {
+    name: 'Engagement',
+    description: 'Speak directly to your customers in a more meaningful way.',
+    href: '#',
+    icon: CursorClickIcon,
+  },
+  {
+    name: 'Security',
+    description: "Your customers' data will be safe and secure.",
+    href: '#',
+    icon: ShieldCheckIcon,
+  },
+  {
+    name: 'Integrations',
+    description: "Connect with third-party tools that you're already using.",
+    href: '#',
+    icon: ViewGridIcon,
+  },
+  {
+    name: 'Automations',
+    description:
+      'Build strategic funnels that will drive your customers to convert',
+    href: '#',
+    icon: RefreshIcon,
+  },
+];
+
+const billing = 'monthly';
+
+const tiers = [
+  {
+    name: 'Professional',
+    href: '/signup',
+    priceMonthly: 199,
+    description: 'For freelancers',
+    features: [
+      '500 contact credits/month',
+      'Database of 2M+ creators',
+      'Blazing fast search',
+      'CRM, CSV exports,',
+    ],
+  },
+  {
+    name: 'Team',
+    href: '/signup',
+    priceMonthly: 499,
+    description: 'Built for startups and growing teams',
+    features: [
+      'Everything in the Professional plan, plus:',
+      '2,500 contact credits/month',
+      'Collaboration & team managment.',
+      'Additional seats $99/mo',
+    ],
+  },
+  {
+    name: 'Enterprise',
+    href: '/signup',
+    priceMonthly: 2499,
+    description: 'For large teams and enterprises',
+    features: [
+      '10,000 contact credits/month',
+      '5 Seats',
+      'Dedicated support',
+      'Additional seats $99/mo',
+    ],
+  },
+];
 
 export default {
   components: {
-    JovieLogo,
-    CheckIcon,
+    Popover,
+    PopoverButton,
+    PopoverGroup,
+    PopoverPanel,
+    CheckIconOutline,
+    CheckIconSolid,
+    ChevronDownIcon,
+    MenuIcon,
+    XIcon,
   },
-  data() {
+  setup() {
     return {
-      waitListEmail: '',
-      error: null,
+      tiers,
+      billing,
     };
-  },
-  methods: {
-    async requestDemo() {
-      await UserService.addToWaitList({ email: this.waitListEmail })
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.$store.commit('setAddedToWaitList');
-            this.waitListEmail = '';
-            this.error = null;
-            this.$router.push('demo');
-          }
-        })
-        .catch((error) => {
-          error = error.response;
-          if (error.status == 422) {
-            this.error = error.data.errors.email[0];
-          }
-        });
-    },
   },
 };
 </script>
