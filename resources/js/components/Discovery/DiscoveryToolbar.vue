@@ -89,7 +89,7 @@
       <Popover v-slot="{ open }" class="relative z-20 inline">
         <span class="inline-flex items-center">
           <ButtonGroup
-            style="secondary"
+            design="secondary"
             size="sm"
             rounded="left"
             text="Export" />

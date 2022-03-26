@@ -157,7 +157,7 @@ export const routes = [
   {
     name: 'Discovery',
     path: '/discovery',
-    component: loadPage('Discovery'),
+    component: loadPage('Search'),
     beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
@@ -238,18 +238,19 @@ export const routes = [
     },
   },
   {
-    name: 'Subscribe',
-    path: '/subscribe',
-    component: loadPage('Subscribe'),
-    props: true,
-    meta: {
-      layout: 'Minimal',
-    },
-  },
-  {
     name: 'Pipeline',
     path: '/pipeline',
     component: loadPage('Pipeline'),
+    beforeEnter: authenticationGuard,
+    meta: {
+      layout: 'App',
+    },
+  },
+  {
+    name: 'Search',
+    path: '/search',
+    component: loadPage('Search'),
+    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
     },
@@ -276,6 +277,14 @@ export const routes = [
     component: loadPage('Profile'),
     beforeEnter: publicProfile,
     props: true,
+    meta: {
+      layout: 'Minimal',
+    },
+  },
+  {
+    name: '404',
+    path: '/notfound',
+    component: loadPage('404Page'),
     meta: {
       layout: 'Minimal',
     },

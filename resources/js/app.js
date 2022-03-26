@@ -1,18 +1,17 @@
-import App from "./App.vue";
+import App from './App.vue';
 
 require('./bootstrap');
 
-import * as Vue from 'vue'
-import router from './router/index'
-import store from './store/index'
-import moment from "moment";
-const Vapor = require('laravel-vapor')
+import * as Vue from 'vue';
+import router from './router/index';
+import store from './store/index';
+import moment from 'moment';
+import InstantSearch from 'vue-instantsearch/vue3/es'; // Vue 3
+const Vapor = require('laravel-vapor');
 
-const myMixin = {
+const myMixin = {};
 
-}
-
-const app = Vue.createApp({})
+const app = Vue.createApp({});
 app.mixin({
     computed: {
         currentUser() {
@@ -53,5 +52,6 @@ app.mixin({
 })
 app.use(router)
 app.use(store)
+app.use(InstantSearch);
 app.component('App', App)
 app.mount('#app')

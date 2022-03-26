@@ -13,9 +13,9 @@
           <span class="text-indigo-700">creator economy</span>.
         </p>
         <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-          Jovie's CRM, pipeline tracker, and social insights give you creator
-          specific intelligence allowing you to prioritize the relationships
-          most valuable to your business.
+          Empower your creator partnership steam with the only sales engagemnt
+          platform built from the ground up for
+          <span class="font-bold">creator economy </span>companies.
         </p>
       </div>
       <div class="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">

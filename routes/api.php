@@ -29,21 +29,23 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
+
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 
-//      IMPORT CREATORS
+        //
+        //IMPORT CREATORS
         Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
         Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
 
-//      USER LISTS
+        //      USER LISTS
         Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
 
-//      CRM
+        //      CRM
         Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
         Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
         Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 
-//      OVERVIEW
+        //      OVERVIEW
         Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
         Route::post('/add-comment', [\App\Http\Controllers\CrmController::class, 'addComment']);
         Route::get('/get-comments/{id}', [\App\Http\Controllers\CrmController::class, 'getComments']);
@@ -56,8 +58,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     /**
      * Teamwork routes
      */
-    Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function()
-    {
+    Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function () {
         Route::get('/', [App\Http\Controllers\Teamwork\TeamController::class, 'index'])->name('teams.index');
         Route::post('teams', [App\Http\Controllers\Teamwork\TeamController::class, 'store'])->name('teams.store');
         Route::get('team/{id}', [App\Http\Controllers\Teamwork\TeamController::class, 'edit'])->name('teams.edit');

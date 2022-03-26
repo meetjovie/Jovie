@@ -9,11 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
+    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, Searchable;
 
     const UPLOAD_PATH = 'public/jovie/user/profiles/';
 

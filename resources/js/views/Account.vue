@@ -28,13 +28,16 @@
                   </Tab>
                 </TabList>
               </div>
+
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
-                  <AccountTeam />
+                  <AccountProfile />
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6"> Password</TabPanel>
+                <TabPanel class="space-y-12 px-4 py-6">
+                  Password (Coming soon)
+                </TabPanel>
               </TabPanels>
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
@@ -42,7 +45,9 @@
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6"> Plan </TabPanel>
+                <TabPanel class="space-y-12 px-4 py-6">
+                  Plan (Coming soon)
+                </TabPanel>
               </TabPanels>
 
               <TabPanels as="template">
@@ -60,6 +65,7 @@
               </TabPanels>
             </TabGroup>
           </div>
+
         </div>
       </div>
     </div>
@@ -68,6 +74,7 @@
 
 <script>
 import AccountTeam from '../components/Account/AccountTeam.vue';
+import AccountProfile from '../components/Account/AccountProfile.vue';
 
 import { ref } from 'vue';
 import {
@@ -155,7 +162,9 @@ export default {
     RadioGroupOption,
     RadioGroupDescription,
     ButtonGroup,
+    AccountProfile,
   },
+
   data() {
     return {
       navigation,
