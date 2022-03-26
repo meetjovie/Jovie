@@ -8,7 +8,7 @@
             Jovie Pricing
           </h1>
           <p class="mt-5 text-xl text-gray-500 sm:text-center">
-            Pricing that scales.
+            Everything you need to scale your creator partnerships.
           </p>
           <div
             class="relative mt-6 flex self-center rounded-lg bg-gray-100 p-0.5 sm:mt-8">
@@ -149,7 +149,7 @@ const billing = 'monthly';
 const tiers = [
   {
     name: 'Professional',
-    href: '#',
+    href: '/signup',
     priceMonthly: 199,
     description: 'For freelancers',
     features: [
@@ -161,7 +161,7 @@ const tiers = [
   },
   {
     name: 'Team',
-    href: '#',
+    href: '/signup',
     priceMonthly: 499,
     description: 'Built for startups and growing teams',
     features: [
@@ -173,7 +173,7 @@ const tiers = [
   },
   {
     name: 'Enterprise',
-    href: '#',
+    href: '/signup',
     priceMonthly: 2499,
     description: 'For large teams and enterprises',
     features: [
