@@ -70,7 +70,7 @@
             <div
               class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-indigo-600">
               <img
-                src="/img/External/Mackenzie_Moore.webp"
+                :src="asset('/img/External/Mackenzie_Moore.webp')"
                 class="h-10 w-10 rounded-full"
                 alt="profile" />
             </div>
@@ -135,9 +135,9 @@
           </div>
           <div class="mt-7 flex items-center">
             <div
-              class="flex h-12 w-12 items-center justify-center rounded-full border border-indigo-600">
+              class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-indigo-600">
               <img
-                src="/img/External/Pepijn_vann_Kesteren.webp"
+                :src="asset('/img/External/Pepijn_vann_Kesteren.webp')"
                 class="h-10 w-10 rounded-full"
                 alt="profile" />
             </div>
