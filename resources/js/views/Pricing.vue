@@ -87,6 +87,7 @@
                 >
               </p>
               <p v-else class="mt-4">
+                <span class="text-xs font-medium text-neutral-500"></span><br />
                 <span class="text-4xl font-extrabold text-neutral-900"
                   >${{ tier.priceMonthly }}</span
                 >
@@ -101,7 +102,7 @@
                 v-if="tier.name == 'Enterprise'"
                 :to="tier.href"
                 class="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-700"
-                >Request Pricing</router-link
+                >Contact Sales</router-link
               >
               <router-link
                 v-else
@@ -272,7 +273,7 @@ const tiers = [
     href: 'request-demo',
     featured: false,
     priceMonthly: 'Annual Only',
-    priceAnnual: 24999,
+    priceAnnual: 26400,
     description: 'For large teams and enterprises',
     features: [
       { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
