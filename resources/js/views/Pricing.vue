@@ -101,14 +101,14 @@
               <router-link
                 v-if="tier.name == 'Enterprise'"
                 :to="tier.href"
-                class="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white py-2 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-700"
                 >Contact Sales</router-link
               >
               <router-link
                 v-else
                 :to="tier.href"
                 class="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-700"
-                >Buy {{ tier.name }}</router-link
+                >Buy Now</router-link
               >
             </div>
             <div class="px-6 pt-6 pb-8">
@@ -255,7 +255,7 @@ const tiers = [
     href: 'signup',
     featured: true,
     priceMonthly: 499,
-    priceAnnual: 5400,
+    priceAnnual: 5388,
     description: 'Built for startups and growing teams',
     features: [
       { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
@@ -273,7 +273,7 @@ const tiers = [
     href: 'request-demo',
     featured: false,
     priceMonthly: 'Annual Only',
-    priceAnnual: 26400,
+    priceAnnual: 26388,
     description: 'For large teams and enterprises',
     features: [
       { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
