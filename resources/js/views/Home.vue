@@ -138,10 +138,12 @@
           </main>
         </div>
       </div>
-      <!-- <HomeLogoCloud></HomeLogoCloud> -->
-      <!-- <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
+      <HomeLogoCloud></HomeLogoCloud>
+
       <HomeFeatureCRM id="crm"></HomeFeatureCRM>
+      <HomeCreatorSearch id="discovery"></HomeCreatorSearch>
       <!--   <HomeFeatureSequences></HomeFeatureSequences> -->
+      <HomeFeatureHero></HomeFeatureHero>
 
       <HomeCTA></HomeCTA>
       <HomeTestimonials></HomeTestimonials>
@@ -172,6 +174,7 @@ import HomeTestimonials from '../components/Home/HomeTestimonials';
 import HomeCTA2 from '../components/Home/HomeCTA2';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
+import HomeFeatureHero from '../components/Home/HomeFeatureHero';
 import {
   Popover,
   PopoverButton,
@@ -191,6 +194,7 @@ export default {
     HomeTestimonials,
     HomeCTA2,
     HomeFeatureCRM,
+    HomeFeatureHero,
     Popover,
     PopoverButton,
     PopoverPanel,
