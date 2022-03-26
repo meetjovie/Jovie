@@ -25,17 +25,6 @@
               </nav>
             </div>
             <main class="flex-auto">
-              <button @click="searchopen = !searchopen">
-                <ChevronLeftIcon
-                  v-if="searchopen"
-                  class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"
-                  :class="{ 'text-indigo-700': searchopen }"
-                  aria-hidden="true"></ChevronLeftIcon>
-                <FilterIcon
-                  v-if="searchopen == false"
-                  class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"></FilterIcon>
-              </button>
-
               <!--  <DiscoveryStats></DiscoveryStats> -->
               <TabGroup :defaultIndex="0">
                 <DiscoveryToolbar class="px-4"></DiscoveryToolbar>
@@ -43,11 +32,21 @@
                 <div
                   class="sticky top-0 min-w-full items-center divide-y divide-gray-200 overflow-y-scroll">
                   <div
-                    class="sticky top-0 z-10 flex items-center justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
+                    class="sticky top-0 z-10 flex grid grid-cols-3 items-center justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
                     <div
                       scope="col"
                       class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:inline-flex">
                       <div class="grid grid-cols-2 items-center">
+                        <button @click="searchopen = !searchopen">
+                          <ChevronLeftIcon
+                            v-if="searchopen"
+                            class="ml-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"
+                            :class="{ 'text-indigo-700': searchopen }"
+                            aria-hidden="true"></ChevronLeftIcon>
+                          <FilterIcon
+                            v-if="searchopen == false"
+                            class="mx-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"></FilterIcon>
+                        </button>
                         <div class="h-5 items-center text-center">
                           <input
                             id="comments"
@@ -72,10 +71,16 @@
                           </svg>
                         </div>
                       </div>
-                      <div class="sticky top-0 mx-auto items-center">
+                    </div>
+                    <div
+                      class="sticky top-0 mx-auto w-full items-center text-center">
+                      <div class="mx-auto inline-flex w-full items-center">
+                        <SearchIcon
+                          class="mr-1 mt-0.5 inline-flex h-7 w-7 text-gray-400"
+                          aria-hidden="true"></SearchIcon>
                         <ais-search-box
                           as="div"
-                          class="mx-auto mt-1"
+                          class="mx-auto mt-1 w-full border-0 outline-0 ring-0 focus:outline-none"
                           placeholder="Search for a creator,
       hashtag, or keyword..."
                           submit-title="Let's go!"
@@ -88,9 +93,10 @@
                               isSearchStalled,
                               refine,
                             }">
-                            <div class="relative mt-1 flex items-center py-1">
+                            <div
+                              class="relative mx-auto mt-1 flex w-full items-center py-1">
                               <input
-                                class="block w-96 rounded-md border-gray-300 pr-12 shadow-sm focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm"
+                                class="flex-auto rounded-md border-0 bg-white/0 py-2 text-base leading-6 text-gray-500 placeholder-gray-500 outline-0 ring-0 focus:border-0 focus:placeholder-gray-400 focus:outline-none focus:outline-none focus:ring-0"
                                 submit-title="Let's go!"
                                 reset-title="Reset"
                                 autofocus="true"
@@ -98,6 +104,7 @@
                                 placeholder="Search for a creator, hashtag, or keyword..."
                                 :value="currentRefinement"
                                 @input="refine($event.currentTarget.value)" />
+
                               <div
                                 class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
                                 <span
@@ -111,14 +118,16 @@
                               </div>
                             </div>
                           </template>
+                          <template v-slot:reset-icon
+                            ><XIcon class="h-5 w-5"></XIcon
+                          ></template>
                         </ais-search-box>
                       </div>
                     </div>
-
                     <div
-                      class="relative items-center px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+                      class="justfy-right relative items-center px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
                       <!--  Hide results count until a search is performed -->
-                      <div class="hidden w-60 items-center 2xl:block">
+                      <div class="hidden w-full items-center 2xl:block">
                         <ais-stats>
                           <template v-slot="{ nbHits, processingTimeMS }">
                             {{ nbHits }} Creators<br />
@@ -144,7 +153,7 @@
                       <template v-slot:item="{ item, index }">
                         <div class="h-full divide-y divide-gray-200 bg-white">
                           <div
-                            class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700 active:bg-indigo-100">
+                            class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 active:bg-indigo-100">
                             <div
                               class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
                               <div
@@ -265,6 +274,7 @@
                                       ">
                                       <SocialIcons
                                         height="14px"
+                                        class="z-0"
                                         icon="instagram" />
                                       <div
                                         class="mx-auto text-center text-2xs text-neutral-500">
@@ -512,6 +522,9 @@
                     <div v-else class="mx-auto w-full items-center">
                       <div
                         class="mx-auto mt-24 max-w-xl items-center p-12 text-center text-sm font-bold text-neutral-500">
+                        <ChevronUpIcon
+                          class="mx-auto h-24 w-24 text-neutral-200"
+                          aria-hidden="true" />
                         <span class="text-xl text-neutral-700"
                           ><span class="font-bold">Jovie</span>
                           <span class="font-medium">
@@ -552,6 +565,7 @@ import {
   FilterIcon,
   ChevronLeftIcon,
   SearchIcon,
+  XIcon,
 } from '@heroicons/vue/solid';
 import CreatorTags from '../components/Creator/CreatorTags';
 import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks';
@@ -569,6 +583,7 @@ export default {
     instantMeiliSearch,
     InputGroup,
     JovieSpinner,
+    XIcon,
     TabGroup,
     SocialIcons,
     DiscoveryStats,
