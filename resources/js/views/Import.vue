@@ -228,7 +228,7 @@ export default {
       this.getColumnsFromCsv(newFiles);
     },
     getUserLists() {
-      UserService.getUserLists().then((response) =>  {
+      UserService.getUserLists().then((response) => {
         response = response.data;
         if (response.status) {
           this.userLists = response.lists;
