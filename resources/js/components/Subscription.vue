@@ -1,6 +1,6 @@
 <template>
     <div>
-        <template v-if="!currentUser || (currentUser && !currentUser.current_subscription || showSubscriptionPlans)">
+        <template v-if="!currentUser || (currentUser && !currentUser.current_team.current_subscription || showSubscriptionPlans)">
             <div>
                 <h2
                     id="payment-details-heading"
@@ -143,7 +143,7 @@
 
                         <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <span class="flex-grow">{{
-                      currentUser.current_subscription.name
+                      currentUser.current_team.current_subscription.name
                   }}</span>
                             <span class="ml-4 flex-shrink-0">
                 <button
@@ -160,15 +160,15 @@
               <span class="flex-grow">
                 <span class="flex-grow">
                   {{
-                        currentUser.current_subscription.amount / 100
+                        currentUser.current_team.current_subscription.amount / 100
                     }}<span
-                    v-if="currentUser.current_subscription.interval === 'month'"
+                    v-if="currentUser.current_team.current_subscription.interval === 'month'"
                 >/mo</span
                 >
                   <span v-else>/yr</span>
                   <span
                       class="font-bolder ml-1 text-xs uppercase text-neutral-400">
-                    {{ currentUser.current_subscription.currency }}</span
+                    {{ currentUser.current_team.current_subscription.currency }}</span
                   ></span
                 ></span
               >
@@ -192,7 +192,7 @@
             </div>
             <div class="justify-right mx-auto mt-4 w-full">
                 <ButtonGroup
-                    v-if="currentUser.current_subscription.ends_at"
+                    v-if="currentUser.current_team.current_subscription.ends_at"
                     @click="resumeSubscription()"
                     :disabled="updatingSubscription"
                     design="secondary"
@@ -313,7 +313,7 @@ export default {
         },
     },
     async mounted() {
-        if (!this.currentUser || !this.currentUser.current_subscription) {
+        if (!this.currentUser || !this.currentUser.current_team.current_subscription) {
             UserService.getSubscriptionProducts().then((response) => {
                 response = response.data;
                 if (response.status) {
@@ -366,7 +366,7 @@ export default {
                     response = response.data;
                     if (response.status) {
                         alert(response.message);
-                        this.currentUser.current_subscription = response.subscription;
+                        this.currentUser.current_team.current_subscription = response.subscription;
                     } else {
                         alert(response.message);
                     }
@@ -382,7 +382,7 @@ export default {
                     response = response.data;
                     if (response.status) {
                         alert(response.message);
-                        this.currentUser.current_subscription = response.subscription;
+                        this.currentUser.current_team.current_subscription = response.subscription;
                     } else {
                         alert(response.message);
                     }
@@ -429,7 +429,7 @@ export default {
                     if (response.status) {
                         alert(response.message);
                         this.resetSelections();
-                        this.currentUser.current_subscription = response.subscription;
+                        this.currentUser.current_team.current_subscription = response.subscription;
                         this.$router.push({name: 'Account'});
                     } else {
                         alert(response.message);
@@ -458,7 +458,7 @@ export default {
                     if (response.status) {
                         alert(response.message);
                         this.resetSelections();
-                        this.currentUser.current_subscription = response.subscription;
+                        this.currentUser.current_team.current_subscription = response.subscription;
                         this.toggleChangeSubscription(false);
                         this.$router.push({name: 'Account'});
                     } else {

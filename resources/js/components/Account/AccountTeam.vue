@@ -1,6 +1,6 @@
 <template>
 <!--    NO SUBSCRIPTION OR NO TEAM SUBSCRIPTION-->
-    <div class="mt-10 divide-y divide-gray-200" v-if="!currentUser.current_subscription || !currentUser.current_subscription.seats">
+    <div class="mt-10 divide-y divide-gray-200" v-if="!currentUser.current_team.current_subscription || !currentUser.current_team.current_subscription.seats">
         Please upgrade to teams plan to use this feature.
     </div>
     <div class="mt-10 divide-y divide-gray-200" v-else>
@@ -10,7 +10,7 @@
         Invite collaborators to join your team.
       </p>
         <p class="max-w-2xl text-sm text-gray-500">
-            With you current plan, you can add {{ currentUser.current_subscription.seats }} member/members.
+            With you current plan, you can add {{ currentUser.current_team.current_subscription.seats }} member/members.
         </p>
     </div>
     <div class="space-y-1">
@@ -316,7 +316,10 @@ export default {
           if (response.status) {
             this.currentUser.teams[index].memberToInvite = '';
             this.currentUser.teams[index] = response.teams;
-            alert('invited');
+            alert(response.message);
+          } else {
+              alert(response.message)
+              this.currentUser.teams[index].memberToInvite = '';
           }
         })
         .catch((error) => {
