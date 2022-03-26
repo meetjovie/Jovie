@@ -466,6 +466,5 @@ class Creator extends Model
  
         return $array;
     }
-    public function toFilter
   
 }

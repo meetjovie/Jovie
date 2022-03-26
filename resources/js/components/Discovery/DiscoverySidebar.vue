@@ -8,8 +8,8 @@
     leave-to-class="scale-95 opacity-0">
     <PopoverPanel
       v-slot="{ open }"
-      class="absolute right-0 top-0 z-50 mb-12 -mr-4 -mt-28 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
-      <div class="mt-4 flex justify-between px-4">
+      class="absolute right-0 top-0 z-50 mb-12 -mr-4 -mt-14 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
+      <div class="mt-8 flex justify-between px-4">
         <div>
           <XIcon class="h-5 w-5 text-neutral-700 hover:text-neutral-900" />
         </div>
@@ -82,13 +82,15 @@
           as="div"
           class="col-span-1 aspect-square items-center"
           size="lg" />
-        <div class="col-span-3 block pr-6 pl-8">
+        <div
+          v-for="creator in selectedCreators"
+          class="col-span-3 block pr-6 pl-8">
           <div
             class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
             <img
               src="https://unpkg.com/simple-icons@v6/icons/instagram.svg"
               class="relative mr-1 h-3 w-3 opacity-50" />
-            <span class="-mt-0.5">Creator Name</span>
+            <span class="-mt-0.5">{{ creator.id }}</span>
           </div>
           <div class="mt-1 text-xs font-medium text-neutral-500">
             Creator Bios are long and bording they ramble on and on and never
