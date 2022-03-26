@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <!-- Pricing with four tiers and toggle -->
-    <div class="h-screen bg-gradient-to-b from-white to-neutral-50">
+    <div class="bg-gradient-to-b from-white to-neutral-50">
       <div class="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
         <div class="sm:align-center sm:flex sm:flex-col">
           <h1 class="text-5xl font-extrabold text-neutral-900 sm:text-center">
@@ -12,7 +12,7 @@
           </p>
 
           <div
-            class="relative mt-6 flex self-center rounded-lg bg-neutral-200 py-1 px-2 sm:mt-8">
+            class="relative mt-6 flex self-center rounded-lg bg-neutral-200 py-0.5 px-2 sm:mt-8">
             <SwitchGroup as="div" class="flex items-center">
               <div class="flex items-center">
                 <Switch
@@ -21,7 +21,7 @@
                   class="relative inline-flex h-14 w-96 items-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   <span
                     :class="annualBilling ? 'translate-x-0' : 'translate-x-48'"
-                    class="inline-block h-12 w-1/2 transform rounded-md bg-white transition-transform" />
+                    class="inline-block h-12 w-1/2 transform rounded-md bg-white shadow-sm transition-transform" />
                   <div class="absolute mx-auto grid w-full grid-cols-2">
                     <div
                       :class="
@@ -106,12 +106,87 @@
       </div>
     </div>
   </div>
+  <!-- FAQ -->
+  <div class="bg-gradient-to-b from-neutral-50 to-white">
+    <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl divide-y-2 divide-gray-200">
+        <h2
+          class="text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          Frequently asked questions
+        </h2>
+        <dl class="mt-6 space-y-6 divide-y divide-gray-200">
+          <Disclosure
+            as="div"
+            v-for="faq in faqs"
+            :key="faq.question"
+            class="pt-6"
+            v-slot="{ open }">
+            <dt class="text-lg">
+              <DisclosureButton
+                class="flex w-full items-start justify-between text-left text-gray-400">
+                <span class="font-medium text-gray-900">
+                  {{ faq.question }}
+                </span>
+                <span class="ml-6 flex h-7 items-center">
+                  <ChevronDownIcon
+                    :class="[
+                      open ? '-rotate-180' : 'rotate-0',
+                      'h-6 w-6 transform',
+                    ]"
+                    aria-hidden="true" />
+                </span>
+              </DisclosureButton>
+            </dt>
+            <DisclosurePanel as="dd" class="mt-2 pr-12">
+              <p class="text-base text-gray-500">
+                {{ faq.answer }}
+              </p>
+            </DisclosurePanel>
+          </Disclosure>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <!-- CTA -->
+
+  <div class="bg-white">
+    <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20">
+      <h2
+        class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+        <span class="block">Ready to dive in?</span>
+        <span class="block text-indigo-600">Get started right now.</span>
+      </h2>
+      <div class="mt-8 flex">
+        <div class="inline-flex rounded-md shadow">
+          <router-link
+            to="signup"
+            class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700">
+            Get started
+          </router-link>
+        </div>
+        <div class="ml-3 inline-flex">
+          <router-link
+            to="/"
+            class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-100 px-5 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200">
+            Learn more
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { ref } from 'vue';
-import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
-import { CheckIcon } from '@heroicons/vue/solid';
+import {
+  Switch,
+  SwitchGroup,
+  SwitchLabel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from '@headlessui/vue';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid';
 const annualBilling = ref(true);
 
 const tiers = [
@@ -158,6 +233,18 @@ const tiers = [
     ],
   },
 ];
+const faqs = [
+  {
+    question: 'Can I add additional users to my account?',
+    answer:
+      'Yes. Team & enterprise plans allow you to invite team members and collaborate.  The Team plan includes 2 seats and you can add more for $99/mo.',
+  },
+  {
+    question: 'What is a contact credit?',
+    answer:
+      'Jovie provides access to a database of millions of creators.  You can leverage this data for your outreach efforts or to enrich your own customer data.  A contact credit is deducted from your account when you send a message to a contact or export a us.',
+  },
+];
 
 export default {
   components: {
@@ -165,10 +252,15 @@ export default {
     SwitchGroup,
     SwitchLabel,
     CheckIcon,
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
+    ChevronDownIcon,
   },
   setup() {
     return {
       tiers,
+      faqs,
       annualBilling,
     };
   },
