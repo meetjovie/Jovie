@@ -160,6 +160,9 @@
                           @click="setCurrentCreator(item)"
                           class="h-full divide-y divide-gray-200 bg-white">
                           <div
+                            :class="{
+                              'bg-indigo-500': item.id == selectedCreator.id,
+                            }"
                             class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 active:bg-indigo-100">
                             <div
                               class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
