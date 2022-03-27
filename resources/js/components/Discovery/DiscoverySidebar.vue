@@ -8,8 +8,8 @@
     leave-to-class="scale-95 opacity-0">
     <PopoverPanel
       v-slot="{ open }"
-      class="absolute right-0 top-0 z-50 mb-12 -mr-4 -mt-14 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
-      <div class="mt-8 flex justify-between px-4">
+      class="absolute right-0 top-0 z-50 mb-12 -mr-4 -mt-28 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
+      <div class="mt-4 flex justify-between px-4">
         <div>
           <XIcon class="h-5 w-5 text-neutral-700 hover:text-neutral-900" />
         </div>
@@ -82,24 +82,19 @@
           as="div"
           class="col-span-1 aspect-square items-center"
           size="lg" />
-        <div
-          v-for="creator in selectedCreators"
-          class="col-span-3 block pr-6 pl-8">
+        <div class="col-span-3 block pr-6 pl-8">
           <div
             class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
             <img
-              src="https://unpkg.com/simple-icons@v6/icons/instagram.svg"
+              :src="selectedCreator.instagram_meta"
               class="relative mr-1 h-3 w-3 opacity-50" />
-            <span class="-mt-0.5">{{ creator.id }}</span>
+            <span class="-mt-0.5">{{ selectedCreator.full_name }}</span>
           </div>
-          <div class="mt-1 text-xs font-medium text-neutral-500">
-            Creator Bios are long and bording they ramble on and on and never
-            seem to get anywhere omg this is so long I can't even finish this
-            sentence I can't even finish this paragraph Im so sorry for this
-            long sentence
+          <div class="mt-1 text-xs font-medium text-neutral-500 line-clamp-4">
+            {{ selectedCreator.instagram_biography }}
           </div>
           <div>
-            <CreatorTags size="sm" text="Category" />
+            <CreatorTags size="sm" :text="selectedCreator.instagram_category" />
             <CreatorTags size="sm" color="pink" text="Fashion" />
             <CreatorTags size="sm" color="blue" text="Music" />
             <CreatorTags size="sm" color="green" text="Sports" />
@@ -120,15 +115,23 @@
             class="mx-auto inline-flex w-full justify-center text-sm text-neutral-400">
             <div class="mt-1 grid grid-cols-2 gap-4 border-neutral-200 pt-1">
               <div class="text-center">
-                <div class="text-sm font-bold text-neutral-600">37K</div>
+                <div class="text-sm font-bold text-neutral-600">
+                  {{ formatCount(selectedCreator.instagram_followers) }}}
+                </div>
                 <div class="text-[8px] text-neutral-400">Followers</div>
               </div>
               <div class="text-center">
-                <div class="text-sm font-bold text-neutral-600">3%</div>
+                <div class="text-sm font-bold text-neutral-600">
+                  {{ formatCount(selectedCreator.instagram_meta.engagement) }}}%
+                </div>
                 <div class="text-[8px] text-neutral-400">Engagement</div>
               </div>
               <div class="text-center">
-                <div class="text-sm font-bold text-neutral-600">3.5K</div>
+                <div class="text-sm font-bold text-neutral-600">
+                  {{
+                    formatCount(selectedCreator.instagram_meta.engaged_follows)
+                  }}}
+                </div>
                 <div class="text-[8px] text-neutral-400">EF</div>
               </div>
               <div class="text-center">
