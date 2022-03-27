@@ -2,14 +2,11 @@
   <button
     type="button"
     :disabled="disabled"
-
     class="inline-flex items-center border border-neutral-200 px-4 py-2 text-sm font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-
     :class="[
       { 'py-0 text-xs': size == 'xs' },
       { 'py-1 text-sm': size == 'sm' },
       {
-
         'bg-white   hover:bg-indigo-500 hover:text-white ':
           design == 'secondary',
       },
@@ -26,16 +23,14 @@
       { 'rounded-bl-md': rounded == 'blt' },
       { 'rounded-br-md': rounded == 'br' },
     ]">
-    <div v-if="loader">Loader</div>
+    <div v-if="loader"><JovieSpinner /></div>
     <component
       :is="icon"
       class="absolute -ml-1 mr-3 h-5 w-5"
       aria-hidden="true" />
     <p
       v-if="text"
-
       class="mx-auto text-center text-sm hover:text-white"
-
       :class="[{ 'text-2xs': size == 'xs' }, { 'py-0 text-xs': size == 'sm' }]">
       {{ text }}
     </p>
@@ -76,10 +71,10 @@ export default {
       type: String,
       default: 'all',
     },
-      loader: {
-          type: Boolean,
-          default: false,
-      },
+    loader: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     MailIcon,
