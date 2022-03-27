@@ -59,8 +59,8 @@
         },
         { 'bg-pink-100 text-pink-700 hover:text-pink-900': color == 'pink' },
       ]">
-      <span class="sr-only">Remove {{ text }}</span>
-      <XIcon class="h-3 w-3" />
+      <span v-if="showX" class="sr-only">Remove {{ text }}</span>
+      <XIcon v-if="showX" class="h-3 w-3" />
     </button>
   </span>
 </template>

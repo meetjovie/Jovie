@@ -50,6 +50,7 @@
     "tailwind-scrollbar-hide": "^1.1.7",
     "vue": "^3.2.30",
     "vue-instantsearch": "^4.3.3",
+    "vue-mousetrap": "^1.0.5",
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^4.0.12",
     "vue-scrollto": "^2.20.0",

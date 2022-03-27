@@ -252,6 +252,7 @@
                                     <CreatorTags
                                       v-if="item.instagram_category"
                                       size="xs"
+                                      :showX="false"
                                       color="none"
                                       :text="item.instagram_category" />
                                     <!-- <CreatorTags
@@ -680,6 +681,7 @@
                       <div>
                         <CreatorTags
                           size="sm"
+                          :showX="false"
                           :text="selectedCreator.instagram_category" />
                         <!-- <CreatorTags
                                 size="sm"
@@ -726,7 +728,7 @@
                                 formatCount(
                                   selectedCreator.instagram_engagement_rate
                                 )
-                              }}}%
+                              }}%
                             </div>
                             <div class="text-[8px] text-neutral-400">
                               Engagement
@@ -830,6 +832,9 @@ export default {
     PopoverGroup,
     PopoverPanel,
   },
+  mounted() {
+    this.$mousetrap.bind(['space'], this.toggleSidebar);
+  },
   methods: {
     setCurrentCreator(item) {
       this.selectedCreator = item;
@@ -847,7 +852,7 @@ export default {
       sidebarOpen: false,
       cache: createInfiniteHitsSessionStorageCache(),
       searchopen: false,
-      selectedCreator: [{}],
+      selectedCreator: [],
       searchClient: instantMeiliSearch(
         process.env.MIX_MEILISEARCH_HOST,
         process.env.MIX_MEILISEARCH_KEY,
