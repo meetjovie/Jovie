@@ -45,6 +45,8 @@ import {
   ChevronRightIcon,
 } from '@heroicons/vue/solid';
 
+import JovieSpinner from '../components/JovieSpinner';
+
 export default {
   props: {
     text: {
@@ -81,6 +83,7 @@ export default {
     SearchIcon,
     BanIcon,
     ChevronRightIcon,
+      JovieSpinner
   },
 };
 </script>
