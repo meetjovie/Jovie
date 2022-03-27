@@ -161,7 +161,7 @@
                           class="h-full divide-y divide-gray-200 bg-white">
                           <div
                             :class="{
-                              'bg-indigo-500': item.id == selectedCreator.id,
+                              'bg-indigo-200': item.id == selectedCreator.id,
                             }"
                             class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 active:bg-indigo-100">
                             <div
@@ -203,7 +203,7 @@
                               <div class="flex items-center">
                                 <div class="mr-2 h-24 w-24 flex-shrink-0">
                                   <div
-                                    @click="sidebaropen = true"
+                                    @click="toggleSidebar"
                                     class="rounded-full bg-neutral-200 p-0.5">
                                     <img
                                       class="rounded-full object-cover object-center"
@@ -220,7 +220,9 @@
                                 <div class="w-96">
                                   <div
                                     class="flex text-xs font-medium text-gray-900">
-                                    <span class="line-clamp-1">
+                                    <span
+                                      @click="toggleSidebar"
+                                      class="cursor-pointer line-clamp-1">
                                       {{ item.name }}</span
                                     >
                                     <div class="text-white">
@@ -399,6 +401,7 @@
                             <div
                               class="grow items-center whitespace-nowrap px-4">
                               <div
+                                @click="toggleSidebar"
                                 class="grid w-24 grid-cols-1 lg:w-48 lg:grid-cols-2 xl:w-72 xl:grid-cols-3">
                                 <img
                                   v-for="media in item.instagram_media"
@@ -570,109 +573,115 @@
                 </ais-state-results>
               </TabGroup>
             </main>
-
-            <div
-              v-if="sidebaropen"
-              class="fixed right-0 z-10 hidden w-60 shrink-0 bg-neutral-50 shadow-lg lg:flex">
+            <TransitionGroup
+              show="{sidebarOpen}"
+              enter="transition-opacity duration-150"
+              enterFrom="translate-x-80 opacity-80"
+              enterTo="translate-x-0 opacity-100"
+              leave="transition-opacity duration-300"
+              leaveFrom="translate-x-0 opacity-100"
+              leaveTo="translate-x-80 opacity-80">
               <div
-                class="absolute right-0 top-24 z-50 mb-12 -mr-4 -mt-28 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
-                <div class="mt-4 flex justify-between px-4">
-                  <div>
-                    <XIcon
-                      @click="searchopen = fasle"
-                      class="h-5 w-5 text-neutral-700 hover:text-neutral-900" />
-                  </div>
-                  <div class="mr-4 flex space-x-2 text-xs text-neutral-400">
-                    <HeartIcon
-                      class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
-                    <BanIcon
-                      class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
-                    <div class="fixed top-4 text-right">
-                      <Menu
-                        as="div"
-                        class="relative z-20 inline-block text-left">
-                        <div>
-                          <MenuButton
-                            class="inline-flex w-full justify-center rounded-md text-sm font-medium text-neutral-700 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                            <DotsVerticalIcon
-                              class="-mr-24 h-5 w-5 text-neutral-400 hover:text-neutral-700"
-                              aria-hidden="true" />
-                          </MenuButton>
-                        </div>
+                v-if="sidebarOpen"
+                class="fixed right-0 z-10 hidden w-60 shrink-0 bg-neutral-50 shadow-lg lg:flex">
+                <div
+                  class="top-0f absolute right-0 z-50 mb-12 -mr-4 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
+                  <div class="mt-4 flex justify-between px-4">
+                    <div class="group" @click="sidebarOpen = false">
+                      <XIcon
+                        class="groupd-active:text-indigo-700 h-5 w-5 text-neutral-700 hover:text-neutral-900" />
+                    </div>
+                    <div class="mr-4 flex space-x-2 text-xs text-neutral-400">
+                      <HeartIcon
+                        class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
+                      <BanIcon
+                        class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
+                      <div class="fixed top-4 text-right">
+                        <Menu
+                          as="div"
+                          class="relative z-20 inline-block text-left">
+                          <div>
+                            <MenuButton
+                              class="inline-flex w-full justify-center rounded-md text-sm font-medium text-neutral-700 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                              <DotsVerticalIcon
+                                class="-mr-24 h-5 w-5 text-neutral-400 hover:text-neutral-700"
+                                aria-hidden="true" />
+                            </MenuButton>
+                          </div>
 
-                        <transition
-                          enter-active-class="transition duration-100 ease-out"
-                          enter-from-class="transform scale-95 opacity-0"
-                          enter-to-class="transform scale-100 opacity-100"
-                          leave-active-class="transition duration-75 ease-in"
-                          leave-from-class="transform scale-100 opacity-100"
-                          leave-to-class="transform scale-95 opacity-0">
-                          <MenuItems
-                            class="absolute -right-12 z-50 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                            <div class="px-1 py-1">
-                              <MenuItem v-slot="{ active }">
-                                <button
-                                  :class="[
-                                    active
-                                      ? 'bg-indigo-500 text-white'
-                                      : 'text-gray-900',
-                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                                  ]">
-                                  <UserIcon
-                                    :active="active"
-                                    class="mr-2 h-5 w-5 text-indigo-400"
-                                    aria-hidden="true" />
-                                  Add to CRM
-                                </button>
-                              </MenuItem>
-                              <MenuItem v-slot="{ active }">
-                                <button
-                                  :class="[
-                                    active
-                                      ? 'bg-indigo-500 text-white'
-                                      : 'text-gray-900',
-                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                                  ]">
-                                  <PlusIcon
-                                    :active="active"
-                                    class="mr-2 h-5 w-5 text-indigo-400"
-                                    aria-hidden="true" />
-                                  Add to list
-                                </button>
-                              </MenuItem>
-                            </div>
-                          </MenuItems>
-                        </transition>
-                      </Menu>
+                          <transition
+                            enter-active-class="transition duration-100 ease-out"
+                            enter-from-class="transform scale-95 opacity-0"
+                            enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-in"
+                            leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0">
+                            <MenuItems
+                              class="absolute -right-12 z-50 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                              <div class="px-1 py-1">
+                                <MenuItem v-slot="{ active }">
+                                  <button
+                                    :class="[
+                                      active
+                                        ? 'bg-indigo-500 text-white'
+                                        : 'text-gray-900',
+                                      'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                    ]">
+                                    <UserIcon
+                                      :active="active"
+                                      class="mr-2 h-5 w-5 text-indigo-400"
+                                      aria-hidden="true" />
+                                    Add to CRM
+                                  </button>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                  <button
+                                    :class="[
+                                      active
+                                        ? 'bg-indigo-500 text-white'
+                                        : 'text-gray-900',
+                                      'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                    ]">
+                                    <PlusIcon
+                                      :active="active"
+                                      class="mr-2 h-5 w-5 text-indigo-400"
+                                      aria-hidden="true" />
+                                    Add to list
+                                  </button>
+                                </MenuItem>
+                              </div>
+                            </MenuItems>
+                          </transition>
+                        </Menu>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="grid grid-cols-5 py-2 px-4">
-                  <CreatorAvatar
-                    :imageUrl="selectedCreator.instagram_meta.profile_pic_url"
-                    as="div"
-                    class="col-span-1 aspect-square items-center"
-                    size="lg" />
-                  <div class="col-span-3 block pr-6 pl-8">
-                    <div
-                      class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
-                      <img
-                        :src="selectedCreator.instagram_meta.profile_pic_url"
-                        class="relative mr-1 h-3 w-3 opacity-50" />
-                      <span class="-mt-0.5">{{
-                        selectedCreator.full_name
-                      }}</span>
-                    </div>
-                    <div
-                      class="mt-1 text-xs font-medium text-neutral-500 line-clamp-4">
-                      {{ selectedCreator.instagram_biography }}
-                    </div>
-                    <div>
-                      <CreatorTags
-                        size="sm"
-                        :text="selectedCreator.instagram_category" />
-                      <!-- <CreatorTags
+                  <div class="grid grid-cols-5 py-2 px-4">
+                    <CreatorAvatar
+                      :imageUrl="selectedCreator.instagram_meta.profile_pic_url"
+                      as="div"
+                      class="col-span-1 aspect-square items-center"
+                      size="lg" />
+                    <div class="col-span-3 block pr-6 pl-8">
+                      <div
+                        class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
+                        <img
+                          :src="selectedCreator.instagram_meta.profile_pic_url"
+                          class="relative mr-1 h-3 w-3 opacity-50" />
+                        <span class="-mt-0.5">{{
+                          selectedCreator.full_name
+                        }}</span>
+                      </div>
+                      <div
+                        class="mt-1 text-xs font-medium text-neutral-500 line-clamp-4">
+                        {{ selectedCreator.instagram_biography }}
+                      </div>
+                      <div>
+                        <CreatorTags
+                          size="sm"
+                          :text="selectedCreator.instagram_category" />
+                        <!-- <CreatorTags
                                 size="sm"
                                 color="pink"
                                 text="Fashion" />
@@ -684,66 +693,67 @@
                                 size="sm"
                                 color="green"
                                 text="Sports" /> -->
+                      </div>
+                      <div class="mx-auto mt-2 flex justify-start space-x-6">
+                        <CreatorSocialLinks iconstyle="horizontal" />
+                      </div>
                     </div>
-                    <div class="mx-auto mt-2 flex justify-start space-x-6">
-                      <CreatorSocialLinks iconstyle="horizontal" />
-                    </div>
-                  </div>
-                  <div class="col-span-1">
-                    <div
-                      class="mx-auto mt-6 inline-flex w-full items-center justify-center text-center text-neutral-400">
-                      <LocationMarkerIcon class="mr-1 h-4 w-4" /><span
-                        class="text-xs font-bold text-neutral-500"
-                        >New York, NY</span
-                      >
-                    </div>
-                    <div
-                      class="mx-auto inline-flex w-full justify-center text-sm text-neutral-400">
+                    <div class="col-span-1">
                       <div
-                        class="mt-1 grid grid-cols-2 gap-4 border-neutral-200 pt-1">
-                        <div class="text-center">
-                          <div class="text-sm font-bold text-neutral-600">
-                            {{
-                              formatCount(selectedCreator.instagram_followers)
-                            }}
+                        class="mx-auto mt-6 inline-flex w-full items-center justify-center text-center text-neutral-400">
+                        <LocationMarkerIcon class="mr-1 h-4 w-4" /><span
+                          class="text-xs font-bold text-neutral-500"
+                          >New York, NY</span
+                        >
+                      </div>
+                      <div
+                        class="mx-auto inline-flex w-full justify-center text-sm text-neutral-400">
+                        <div
+                          class="mt-1 grid grid-cols-2 gap-4 border-neutral-200 pt-1">
+                          <div class="text-center">
+                            <div class="text-sm font-bold text-neutral-600">
+                              {{
+                                formatCount(selectedCreator.instagram_followers)
+                              }}
+                            </div>
+                            <div class="text-[8px] text-neutral-400">
+                              Followers
+                            </div>
                           </div>
-                          <div class="text-[8px] text-neutral-400">
-                            Followers
+                          <div class="text-center">
+                            <div class="text-sm font-bold text-neutral-600">
+                              {{
+                                formatCount(
+                                  selectedCreator.instagram_engagement_rate
+                                )
+                              }}}%
+                            </div>
+                            <div class="text-[8px] text-neutral-400">
+                              Engagement
+                            </div>
                           </div>
-                        </div>
-                        <div class="text-center">
-                          <div class="text-sm font-bold text-neutral-600">
-                            {{
-                              formatCount(
-                                selectedCreator.instagram_engagement_rate
-                              )
-                            }}}%
+                          <div class="text-center">
+                            <div class="text-sm font-bold text-neutral-600">
+                              {{ selectedCreator.instagr }}
+                            </div>
+                            <div class="text-[8px] text-neutral-400">EF</div>
                           </div>
-                          <div class="text-[8px] text-neutral-400">
-                            Engagement
+                          <div class="text-center">
+                            <div class="text-sm font-bold text-neutral-600">
+                              $0.50
+                            </div>
+                            <div class="text-[8px] text-neutral-400">CPE</div>
                           </div>
-                        </div>
-                        <div class="text-center">
-                          <div class="text-sm font-bold text-neutral-600">
-                            {{ selectedCreator.instagr }}
-                          </div>
-                          <div class="text-[8px] text-neutral-400">EF</div>
-                        </div>
-                        <div class="text-center">
-                          <div class="text-sm font-bold text-neutral-600">
-                            $0.50
-                          </div>
-                          <div class="text-[8px] text-neutral-400">CPE</div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="border-b px-4"></div>
-                <CreatorContentBar />
+                  <div class="border-b px-4"></div>
+                  <CreatorContentBar />
+                </div>
               </div>
-            </div>
+            </TransitionGroup>
           </div>
         </div>
       </div>
@@ -824,188 +834,20 @@ export default {
     setCurrentCreator(item) {
       this.selectedCreator = item;
     },
+    toggleSidebar() {
+      if (this.sidebarOpen) {
+        this.sidebarOpen = false;
+      } else {
+        this.sidebarOpen = true;
+      }
+    },
   },
   data() {
     return {
-      sidebaropen: false,
+      sidebarOpen: false,
       cache: createInfiniteHitsSessionStorageCache(),
       searchopen: false,
       selectedCreator: [{}],
-      creators: [
-        {
-          id: 1,
-          favorite: true,
-          network: 'instagram',
-          name: 'Martha Hoover',
-          bio: "hello from the otherside. I'm a great person",
-          firstname: 'Marth',
-          lastname: 'Hoover',
-          email: 'mhoover@gmail.com',
-          rating: '4.3',
-          followers: '1.5M',
-          offer: '240K',
-          stage: 'Onboarding',
-          contacted: '1/12/2020',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=1',
-          timeline1: 'https://i.pravatar.cc/150?img=1',
-          timeline2: 'https://i.pravatar.cc/150?img=2',
-          timeline3: 'https://i.pravatar.cc/150?img=3',
-        },
-        {
-          id: 2,
-          favorite: false,
-          network: 'tiktok',
-          name: 'Candice Mccoy',
-          bio: 'Candice Mccoy is a professional photographer and videographer. She has worked for a variety of clients, including the US Department of Agriculture, the US Department of Homeland Security, and the US Department of Education. She has also worked for a variety of clients, including the US Department of Agriculture, the US Department of Homeland Security, and the US Department of Education.',
-          firstname: 'Candice',
-          lastname: 'Mccoy',
-          email: 'candicem@gmail.com',
-          rating: '3',
-          followers: '1.2M',
-          offer: '12K',
-          stage: 'Onboarding',
-          contacted: '1/1e/2020',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=2',
-        },
-        {
-          id: 3,
-          favorite: false,
-          network: 'youtube',
-          name: 'Taylor Smith',
-          bio: 'Taylor Smith is a YouTube channel owner and founder of the YouTube channel Taylor Smith.',
-          firstname: 'Taylor',
-          lastname: 'Smith',
-          email: '',
-          rating: '2',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Onboarding',
-          contacted: '1/1e/2020',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=3',
-        },
-        {
-          id: 4,
-          favorite: true,
-          network: 'instagram',
-          name: 'Alessandra Clause',
-          bio: 'get the best of both worlds',
-          firstname: 'Alessandra',
-          lastname: 'Clause',
-          email: '',
-          rating: '5',
-          followers: '1.2M',
-          offer: '104K',
-          stage: 'Onboarding',
-          contacted: '9/1/2020',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=4',
-        },
-        {
-          id: 5,
-          favorite: false,
-          network: 'instagram',
-          name: 'Keira Jones',
-          bio: 'Some time in the future when the world is a better place, I will be able to create a new reality.',
-          firstname: 'Keira',
-          lastname: 'Jones',
-          email: '',
-          rating: '4.9',
-          followers: '4.2M',
-          offer: '344K',
-          stage: 'Negotiating',
-          contacted: '3/2/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=5',
-        },
-        {
-          id: 6,
-          favorite: false,
-          network: 'instagram',
-          name: 'Mila Vance',
-          bio: 'Let us be friends in the dark',
-          firstname: 'Mila',
-          lastname: 'Vance',
-          email: '',
-          rating: '2.9',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Complete',
-          contacted: '1/11/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=6',
-        },
-        {
-          id: 7,
-          favorite: false,
-          network: 'instagram',
-          name: 'Kylie Brent',
-          firstname: 'Kylie',
-          bio: "When you're not in the spotlight, you're in the spotlight",
-          lastname: 'Brent',
-          email: '',
-          rating: '1.2',
-          followers: '1.2B',
-          offer: '10K',
-          stage: 'Interested',
-          contacted: '4/5/2021',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=7',
-        },
-        {
-          id: 8,
-          favorite: false,
-          network: 'instagram',
-          name: 'Sophia Dustin',
-          bio: "let's talk about the future. Then we'll talk about the past. Finally, we'll talk about the present.",
-          firstname: 'Sophia',
-          lastname: 'Dustin',
-          email: '',
-          rating: '4.9',
-          followers: '4.2M',
-          offer: '344K',
-          stage: 'Negotiating',
-          contacted: '3/2/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=8',
-        },
-        {
-          id: 9,
-          favorite: false,
-          network: 'instagram',
-          name: 'James Johnson',
-          bio: 'Everyones favorite is not me but me',
-          firstname: 'James',
-          lastname: 'Johnson',
-          email: '',
-          rating: '2.9',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Complete',
-          contacted: '1/11/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=9',
-        },
-        {
-          id: 10,
-          favorite: false,
-          network: 'instagram',
-          name: 'Mike Croft',
-          bio: 'Welcome to the real world she said to me',
-          firstname: 'Mike',
-          lastname: 'Croft',
-          email: '',
-          rating: '1.2',
-          followers: '1.2B',
-          offer: '10K',
-          stage: 'Interested',
-          contacted: '4/5/2021',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=10',
-        },
-      ],
       searchClient: instantMeiliSearch(
         process.env.MIX_MEILISEARCH_HOST,
         process.env.MIX_MEILISEARCH_KEY,
