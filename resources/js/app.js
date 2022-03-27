@@ -20,6 +20,9 @@ app.mixin({
       return store.state.AuthState.user;
     },
   },
+  mounted() {
+    this.$mousetrap.bind(['command + 1'], this.toggleSidebar);
+  },
   methods: {
     asset(path) {
       return Vapor.asset(path);
