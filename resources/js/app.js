@@ -7,6 +7,7 @@ import router from './router/index';
 import store from './store/index';
 import moment from 'moment';
 import InstantSearch from 'vue-instantsearch/vue3/es'; // Vue 3
+import VueObserveVisibility from 'vue-observe-visibility';
 const Vapor = require('laravel-vapor');
 
 const myMixin = {};
@@ -53,5 +54,6 @@ app.mixin({
 app.use(router);
 app.use(store);
 app.use(InstantSearch);
+app.use(VueObserveVisibility);
 app.component('App', App);
 app.mount('#app');

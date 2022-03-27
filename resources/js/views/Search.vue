@@ -134,10 +134,27 @@
                           </template>
                         </ais-stats>
                       </div>
-                      <div class="hidden w-40 items-center lg:block 2xl:hidden">
+                      <div
+                        class="justify-right hidden w-full items-center lg:block 2xl:hidden">
                         <ais-stats>
-                          <template v-slot="{ nbHits }">
+                          <template v-slot="{ nbHits, processingTimeMS }">
                             {{ nbHits }} creators
+                            <br />
+                            <div
+                              class="inline-flex items-center text-2xs text-neutral-400">
+                              <div class="group">
+                                <div
+                                  class="absolute right-32 hidden rounded-md bg-white/60 py-0.5 px-4 text-neutral-700 shadow-md backdrop-blur-2xl backdrop-saturate-150 backdrop-filter group-hover:block">
+                                  Search Speed
+                                </div>
+                                <LightningBoltIcon
+                                  class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></LightningBoltIcon>
+                              </div>
+                              <span>
+                                {{ (processingTimeMS / 1000).toFixed(1) }}
+                                Seconds</span
+                              >
+                            </div>
                           </template>
                         </ais-stats>
                       </div>
@@ -552,6 +569,7 @@
 </template>
 
 <script>
+import { connectInfiniteHits } from 'instantsearch.js/es/connectors';
 import DiscoverySearch from '../components/Discovery/DiscoverySearch.vue';
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
 import InputGroup from '../components/InputGroup.vue';
@@ -567,6 +585,7 @@ import {
   SearchIcon,
   XIcon,
 } from '@heroicons/vue/solid';
+import { LightningBoltIcon } from '@heroicons/vue/outline';
 import CreatorTags from '../components/Creator/CreatorTags';
 import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks';
 import DiscoveryCreatorTable from '../components/Discovery/DiscoveryCreatorTable.vue';
@@ -602,11 +621,17 @@ export default {
     CreatorTags,
     CreatorSocialLinks,
     ChevronUpIcon,
+    LightningBoltIcon,
   },
   methods: {
     selectCreator(item) {
       this.selectedCreators.push(item.id);
       return;
+    },
+    visibilityChanged(isVisible) {
+      if (isVisible && !this.state.isLastPage) {
+        this.state.showMore();
+      }
     },
   },
   data() {
