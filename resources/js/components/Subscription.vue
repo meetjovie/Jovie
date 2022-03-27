@@ -44,22 +44,48 @@
                           :for="product.id"
                           :class="checked ? 'text-white' : 'text-gray-900'"
                           class="font-medium">
-                          {{ product.name }}
+                          {{ product.name }} -
+                          <span class="text-xs font-bold text-neutral-400"
+                            >Built for startups and growing teams</span
+                          >
                         </RadioGroupLabel>
                         <template v-for="plan in product.plans">
                           <RadioGroupDescription
                             as="span"
+                            v-if="annualBillingEnabled"
                             :class="
                               checked ? 'text-indigo-100' : 'text-gray-500'
                             "
                             class="inline">
-                            <span>
-                              {{ plan.amount / 100 }}/{{ plan.interval }}</span
-                            >
-                            <span aria-hidden="true"> &middot; </span>
-                            <span class="text-xs uppercase">
-                              {{ plan.currency }}</span
-                            >
+                            <span v-if="plan.interval == 'year'">
+                              ${{ plan.amount / 100 }}/{{ plan.interval
+                              }}<span class="text-xs uppercase">
+                                {{ plan.currency }}</span
+                              >
+
+                              <span aria-hidden="true"> &middot; </span>
+                              <span class="text-xs uppercase">
+                                500 contact credits</span
+                              >
+                            </span>
+                          </RadioGroupDescription>
+                          <RadioGroupDescription
+                            as="span"
+                            v-else
+                            :class="
+                              checked ? 'text-indigo-100' : 'text-gray-500'
+                            "
+                            class="inline">
+                            <span v-if="plan.interval == 'month'">
+                              ${{ plan.amount / 100 }}/{{ plan.interval }}
+                              <span class="text-xs uppercase">
+                                {{ plan.currency }}</span
+                              >
+                              <span aria-hidden="true"> &middot; </span>
+                              <span class="text-xs uppercase">
+                                500 contact credits</span
+                              >
+                            </span>
                           </RadioGroupDescription>
                         </template>
                       </div>
@@ -150,9 +176,9 @@
             <dt class="text-sm font-medium text-gray-500">Current plan</dt>
 
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <span class="flex-grow">{{
-                currentUser.current_team.current_subscription.name
-              }}</span> - <span>Built for startups and growing teams</span>
+              <span class="flex-grow"
+                >{{ currentUser.current_team.current_subscription.name }}
+              </span>
               <span class="ml-4 flex-shrink-0">
                 <button
                   type="button"
@@ -199,8 +225,8 @@
               Data enrichment credits
             </dt>
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <span class="flex-grow"
-                ><span class="text-neutral-600">Not available on current plan</span
+              <span class="flex-grow text-neutral-600"
+                >Not available on current plan</span
               >
             </dd>
           </div>
