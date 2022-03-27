@@ -124,20 +124,27 @@
                     <div
                       class="justfy-right relative items-center px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
                       <!--  Hide results count until a search is performed -->
-                      <div class="hidden w-full items-center 2xl:block">
+                      <div
+                        class="justify-right hidden w-full items-center lg:block">
                         <ais-stats>
                           <template v-slot="{ nbHits, processingTimeMS }">
-                            {{ nbHits }} Creators<br />
-                            <span class="text-2xs"
-                              >Search speed ({{ processingTimeMS }}ms)</span
-                            >
-                          </template>
-                        </ais-stats>
-                      </div>
-                      <div class="hidden w-40 items-center lg:block 2xl:hidden">
-                        <ais-stats>
-                          <template v-slot="{ nbHits }">
                             {{ nbHits }} creators
+                            <br />
+                            <div
+                              class="inline-flex items-center text-2xs text-neutral-400">
+                              <div class="group">
+                                <div
+                                  class="absolute right-32 hidden rounded-md bg-white/60 py-0.5 px-4 text-neutral-700 shadow-md backdrop-blur-2xl backdrop-saturate-150 backdrop-filter group-hover:block">
+                                  Search Speed
+                                </div>
+                                <LightningBoltIcon
+                                  class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></LightningBoltIcon>
+                              </div>
+                              <span>
+                                {{ (processingTimeMS / 1000).toFixed(1) }}
+                                Seconds</span
+                              >
+                            </div>
                           </template>
                         </ais-stats>
                       </div>
@@ -389,7 +396,7 @@
                                 <img
                                   v-for="media in item.instagram_media"
                                   :key="media"
-                                  class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
+                                  class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center line-clamp-1 first:rounded-l-md last:rounded-r-md"
                                   :src="media.display_url" />
                               </div>
                             </div>
@@ -491,7 +498,19 @@
                                                   : 'text-gray-700',
                                                 'block px-4 py-2 text-sm',
                                               ]"
-                                              >Favorite</a
+                                              >Shortlist</a
+                                            >
+                                          </MenuItem>
+                                          <MenuItem v-slot="{ active }">
+                                            <a
+                                              href="#"
+                                              :class="[
+                                                active
+                                                  ? 'bg-gray-100 text-gray-900'
+                                                  : 'text-gray-700',
+                                                'block px-4 py-2 text-sm',
+                                              ]"
+                                              >Dismisst</a
                                             >
                                           </MenuItem>
                                           <MenuItem v-slot="{ active }">
@@ -552,6 +571,7 @@
 </template>
 
 <script>
+import { connectInfiniteHits } from 'instantsearch.js/es/connectors';
 import DiscoverySearch from '../components/Discovery/DiscoverySearch.vue';
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
 import InputGroup from '../components/InputGroup.vue';
@@ -567,6 +587,7 @@ import {
   SearchIcon,
   XIcon,
 } from '@heroicons/vue/solid';
+import { LightningBoltIcon } from '@heroicons/vue/outline';
 import CreatorTags from '../components/Creator/CreatorTags';
 import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks';
 import DiscoveryCreatorTable from '../components/Discovery/DiscoveryCreatorTable.vue';
@@ -602,11 +623,17 @@ export default {
     CreatorTags,
     CreatorSocialLinks,
     ChevronUpIcon,
+    LightningBoltIcon,
   },
   methods: {
     selectCreator(item) {
       this.selectedCreators.push(item.id);
       return;
+    },
+    visibilityChanged(isVisible) {
+      if (isVisible && !this.state.isLastPage) {
+        this.state.showMore();
+      }
     },
   },
   data() {

@@ -124,7 +124,7 @@
                 viewBox="0 0 23 22"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg">
-                <rect x="1" width="20" height="21" fill="white" />
+                <rect x="1" width="20" height="21" fill="none" />
                 <path
                   d="M21.5 6L11.5 21L1 6"
                   stroke="#E5E7EB"
