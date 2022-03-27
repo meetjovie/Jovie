@@ -157,7 +157,7 @@
                     <ais-infinite-hits v-if="hits.length > 0" :cache="cache">
                       <template v-slot:item="{ item, index }">
                         <div
-                          @click="setCurrentCreator(item)"
+                          @mouseover="setCurrentCreator(item)"
                           class="h-full divide-y divide-gray-200 bg-white">
                           <div
                             :class="{
@@ -834,10 +834,35 @@ export default {
   },
   mounted() {
     this.$mousetrap.bind(['space'], this.toggleSidebar);
+    this.$mousetrap.bind(['command+k', 'ctrl+k'], this.clearSearch);
+    this.$mousetrap.bind(['up'], this.logIt);
+    this.$mousetrap.bind('down', this.setNextCreator);
+  },
+  computed: {
+    searchPlaceholder() {
+      if (navigator.appVersion.indexOf('Mac') !== -1) {
+        return 'Search - ⌘k to focus';
+      } else if (navigator.appVersion.indexOf('Win') !== -1) {
+        return 'Search - Win + k to focus';
+      } else {
+        return 'Search';
+      }
+    },
   },
   methods: {
+    logIt(e) {
+      console.log(e);
+      return false;
+    },
     setCurrentCreator(item) {
       this.selectedCreator = item;
+    },
+    setNextCreator(item) {
+      this.selectedCreator = [selectedCreator.index + 1];
+    },
+    clearSearch() {
+      //move focus to the search box and clear the current search from instantsearch
+      this.$refs.search.focus();
     },
     toggleSidebar() {
       if (this.sidebarOpen) {
