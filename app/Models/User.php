@@ -52,6 +52,15 @@ class User extends Authenticatable
 
     protected $appends = ['default_image', 'full_name'];
 
+    public static function currentLoggedInUser()
+    {
+        $user = User::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
+            ->where('id', Auth::id())->first();
+        $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
+        $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
+        return $user;
+    }
+
     public function ownedTeams()
     {
         return $this->hasMany(Team::class, 'owner_id', 'id')->with('users');

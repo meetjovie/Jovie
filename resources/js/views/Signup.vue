@@ -13,27 +13,13 @@
           <div class="block lg:hidden">
             <JovieLogo height="28px" />
           </div>
-          <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-            Create an account
-          </h2>
-          <p class="mt-2 text-sm text-gray-600">
-            Or if you already have an account
-            {{ ' ' }}
-            <router-link
-              to="Login"
-              class="font-medium text-indigo-600 hover:text-indigo-500">
-              login
-            </router-link>
-          </p>
-          <ul v-if="error" class="mt-2 text-sm text-red-900">
-            <li>{{ error }}</li>
-          </ul>
         </div>
 
         <div class="mt-8">
           <div class="mt-6">
             <form action="#" method="POST" class="space-y-6">
               <template v-if="step == 1">
+                <CreateAccount />
                 <div class="grid grid-cols-2 gap-6">
                   <div class="col-span-1">
                     <label for="first_name" class="sr-only"> First Name </label>
@@ -105,6 +91,7 @@
                 </div>
               </template>
               <template v-if="step == 2">
+                <CreateAccount text="Enter a password" />
                 <div class="space-y-1">
                   <label for="password" class="sr-only"> Password </label>
                   <div class="mt-1">
@@ -165,6 +152,16 @@
                   </div>
                 </div>
               </template>
+              <template v-if="step == 3">
+                <CreateAccount text="Choose a plan">
+                  <p class="mt-1 text-sm text-gray-500">
+                    Choose a plan that fits your needs.
+                  </p>
+                </CreateAccount>
+                <div class="space-y-1">
+                  <Subscription />
+                </div>
+              </template>
             </form>
           </div>
         </div>
@@ -174,15 +171,18 @@
   </div>
 </template>
 <script>
+import CreateAccount from '../components/External/CreateAccount.vue';
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
-import router from '../router';
 import AuthService from '../services/auth/auth.service';
+import Subscription from '../components/Subscription';
 
 export default {
   components: {
+    Subscription,
     JovieLogo,
     AuthFooter,
+    CreateAccount,
   },
   data() {
     return {
@@ -243,8 +243,8 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.$store.commit('setAuthStateUser', response.user);
-            router.push({ name: 'Dashboard' });
+              this.$store.commit('setAuthStateUser', response.user);
+            this.step = 3
           } else {
             this.error = response.error;
           }
