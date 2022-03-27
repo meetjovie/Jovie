@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Team;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Cashier::useCustomerModel(Team::class);
+        Cashier::calculateTaxes();
     }
 }

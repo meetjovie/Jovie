@@ -1,4 +1,5 @@
 import store from '../../store';
+import axios from "axios";
 
 const baseApiUrl = '/api';
 const baseUrlWeb = '';
@@ -47,5 +48,27 @@ export default {
     },
     async getCreatorOverview(id) {
         return axios.get(`${baseUrlAdmin}/creators-overview/${id}`);
+    },
+    async subscribe(token, selectedPlan, selectedProduct) {
+        return axios.post(
+            `${baseApiUrl}/subscription`, {'paymentMethod': token, 'selectedPlan': selectedPlan, selectedProduct: selectedProduct});
+    },
+    async paymentIntent() {
+        return axios.get(`${baseApiUrl}/payment-intent`)
+    },
+    async getSubscriptionProducts() {
+        return axios.get(`${baseApiUrl}/subscription-products`)
+    },
+    async cancelSubscription() {
+        return axios.post(`${baseApiUrl}/cancel-subscription`)
+    },
+    async resumeSubscription() {
+        return axios.post(`${baseApiUrl}/resume-subscription`)
+    },
+    async changeSubscription(token, selectedPlan, selectedProduct) {
+        return axios.post(`${baseApiUrl}/change-subscription`, {'paymentMethod': token, 'selectedPlan': selectedPlan, selectedProduct: selectedProduct})
+    },
+    buySeats(numberOfSeats) {
+        return axios.post(`${baseApiUrl}/buy-seats`, {'numberOfSeats': numberOfSeats})
     }
 };
