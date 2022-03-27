@@ -96,7 +96,7 @@
                             <div
                               class="relative mx-auto mt-1 flex w-full items-center py-1">
                               <input
-                                class="flex-auto rounded-md border-0 bg-white/0 py-2 text-base leading-6 text-gray-500 placeholder-gray-500 outline-0 ring-0 focus:border-0 focus:placeholder-gray-400 focus:outline-none focus:outline-none focus:ring-0"
+                                class="flex-auto rounded-md border-0 bg-white/0 py-2 text-base leading-6 text-gray-500 placeholder-gray-500 outline-0 ring-0 focus-visible:border-0 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:outline-none focus-visible:ring-0"
                                 submit-title="Let's go!"
                                 reset-title="Reset"
                                 autofocus="true"
@@ -137,6 +137,7 @@
                                   class="absolute right-32 hidden rounded-md bg-white/60 py-0.5 px-4 text-neutral-700 shadow-md backdrop-blur-2xl backdrop-saturate-150 backdrop-filter group-hover:block">
                                   Search Speed
                                 </div>
+
                                 <LightningBoltIcon
                                   class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></LightningBoltIcon>
                               </div>
@@ -155,8 +156,13 @@
                   <template v-slot="{ results: { hits } }">
                     <ais-infinite-hits v-if="hits.length > 0" :cache="cache">
                       <template v-slot:item="{ item, index }">
-                        <div class="h-full divide-y divide-gray-200 bg-white">
+                        <div
+                          @click="setCurrentCreator(item)"
+                          class="h-full divide-y divide-gray-200 bg-white">
                           <div
+                            :class="{
+                              'bg-indigo-500': item.id == selectedCreator.id,
+                            }"
                             class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 active:bg-indigo-100">
                             <div
                               class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
@@ -197,6 +203,7 @@
                               <div class="flex items-center">
                                 <div class="mr-2 h-24 w-24 flex-shrink-0">
                                   <div
+                                    @click="sidebaropen = true"
                                     class="rounded-full bg-neutral-200 p-0.5">
                                     <img
                                       class="rounded-full object-cover object-center"
@@ -563,6 +570,180 @@
                 </ais-state-results>
               </TabGroup>
             </main>
+
+            <div
+              v-if="sidebaropen"
+              class="fixed right-0 z-10 hidden w-60 shrink-0 bg-neutral-50 shadow-lg lg:flex">
+              <div
+                class="absolute right-0 top-24 z-50 mb-12 -mr-4 -mt-28 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
+                <div class="mt-4 flex justify-between px-4">
+                  <div>
+                    <XIcon
+                      @click="searchopen = fasle"
+                      class="h-5 w-5 text-neutral-700 hover:text-neutral-900" />
+                  </div>
+                  <div class="mr-4 flex space-x-2 text-xs text-neutral-400">
+                    <HeartIcon
+                      class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
+                    <BanIcon
+                      class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
+                    <div class="fixed top-4 text-right">
+                      <Menu
+                        as="div"
+                        class="relative z-20 inline-block text-left">
+                        <div>
+                          <MenuButton
+                            class="inline-flex w-full justify-center rounded-md text-sm font-medium text-neutral-700 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                            <DotsVerticalIcon
+                              class="-mr-24 h-5 w-5 text-neutral-400 hover:text-neutral-700"
+                              aria-hidden="true" />
+                          </MenuButton>
+                        </div>
+
+                        <transition
+                          enter-active-class="transition duration-100 ease-out"
+                          enter-from-class="transform scale-95 opacity-0"
+                          enter-to-class="transform scale-100 opacity-100"
+                          leave-active-class="transition duration-75 ease-in"
+                          leave-from-class="transform scale-100 opacity-100"
+                          leave-to-class="transform scale-95 opacity-0">
+                          <MenuItems
+                            class="absolute -right-12 z-50 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                            <div class="px-1 py-1">
+                              <MenuItem v-slot="{ active }">
+                                <button
+                                  :class="[
+                                    active
+                                      ? 'bg-indigo-500 text-white'
+                                      : 'text-gray-900',
+                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                  ]">
+                                  <UserIcon
+                                    :active="active"
+                                    class="mr-2 h-5 w-5 text-indigo-400"
+                                    aria-hidden="true" />
+                                  Add to CRM
+                                </button>
+                              </MenuItem>
+                              <MenuItem v-slot="{ active }">
+                                <button
+                                  :class="[
+                                    active
+                                      ? 'bg-indigo-500 text-white'
+                                      : 'text-gray-900',
+                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                  ]">
+                                  <PlusIcon
+                                    :active="active"
+                                    class="mr-2 h-5 w-5 text-indigo-400"
+                                    aria-hidden="true" />
+                                  Add to list
+                                </button>
+                              </MenuItem>
+                            </div>
+                          </MenuItems>
+                        </transition>
+                      </Menu>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-5 py-2 px-4">
+                  <CreatorAvatar
+                    :imageUrl="selectedCreator.instagram_meta.profile_pic_url"
+                    as="div"
+                    class="col-span-1 aspect-square items-center"
+                    size="lg" />
+                  <div class="col-span-3 block pr-6 pl-8">
+                    <div
+                      class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
+                      <img
+                        :src="selectedCreator.instagram_meta.profile_pic_url"
+                        class="relative mr-1 h-3 w-3 opacity-50" />
+                      <span class="-mt-0.5">{{
+                        selectedCreator.full_name
+                      }}</span>
+                    </div>
+                    <div
+                      class="mt-1 text-xs font-medium text-neutral-500 line-clamp-4">
+                      {{ selectedCreator.instagram_biography }}
+                    </div>
+                    <div>
+                      <CreatorTags
+                        size="sm"
+                        :text="selectedCreator.instagram_category" />
+                      <!-- <CreatorTags
+                                size="sm"
+                                color="pink"
+                                text="Fashion" />
+                              <CreatorTags
+                                size="sm"
+                                color="blue"
+                                text="Music" />
+                              <CreatorTags
+                                size="sm"
+                                color="green"
+                                text="Sports" /> -->
+                    </div>
+                    <div class="mx-auto mt-2 flex justify-start space-x-6">
+                      <CreatorSocialLinks iconstyle="horizontal" />
+                    </div>
+                  </div>
+                  <div class="col-span-1">
+                    <div
+                      class="mx-auto mt-6 inline-flex w-full items-center justify-center text-center text-neutral-400">
+                      <LocationMarkerIcon class="mr-1 h-4 w-4" /><span
+                        class="text-xs font-bold text-neutral-500"
+                        >New York, NY</span
+                      >
+                    </div>
+                    <div
+                      class="mx-auto inline-flex w-full justify-center text-sm text-neutral-400">
+                      <div
+                        class="mt-1 grid grid-cols-2 gap-4 border-neutral-200 pt-1">
+                        <div class="text-center">
+                          <div class="text-sm font-bold text-neutral-600">
+                            {{
+                              formatCount(selectedCreator.instagram_followers)
+                            }}
+                          </div>
+                          <div class="text-[8px] text-neutral-400">
+                            Followers
+                          </div>
+                        </div>
+                        <div class="text-center">
+                          <div class="text-sm font-bold text-neutral-600">
+                            {{
+                              formatCount(
+                                selectedCreator.instagram_engagement_rate
+                              )
+                            }}}%
+                          </div>
+                          <div class="text-[8px] text-neutral-400">
+                            Engagement
+                          </div>
+                        </div>
+                        <div class="text-center">
+                          <div class="text-sm font-bold text-neutral-600">
+                            {{ selectedCreator.instagr }}
+                          </div>
+                          <div class="text-[8px] text-neutral-400">EF</div>
+                        </div>
+                        <div class="text-center">
+                          <div class="text-sm font-bold text-neutral-600">
+                            $0.50
+                          </div>
+                          <div class="text-[8px] text-neutral-400">CPE</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-b px-4"></div>
+                <CreatorContentBar />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -577,7 +758,17 @@ import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
 import InputGroup from '../components/InputGroup.vue';
 import { TabGroup } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+import {
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  PopoverGroup,
+  TransitionRoot,
+} from '@headlessui/vue';
 import {
   DotsVerticalIcon,
   ChevronDownIcon,
@@ -624,24 +815,22 @@ export default {
     CreatorSocialLinks,
     ChevronUpIcon,
     LightningBoltIcon,
+    Popover,
+    PopoverButton,
+    PopoverGroup,
+    PopoverPanel,
   },
   methods: {
-    selectCreator(item) {
-      this.selectedCreators.push(item.id);
-      return;
-    },
-    visibilityChanged(isVisible) {
-      if (isVisible && !this.state.isLastPage) {
-        this.state.showMore();
-      }
+    setCurrentCreator(item) {
+      this.selectedCreator = item;
     },
   },
   data() {
     return {
+      sidebaropen: false,
       cache: createInfiniteHitsSessionStorageCache(),
       searchopen: false,
-      activeCreator: null,
-      selectedCreators: [],
+      selectedCreator: [{}],
       creators: [
         {
           id: 1,

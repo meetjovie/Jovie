@@ -320,11 +320,6 @@ import {
 import UserService from '../services/api/user.service';
 import SwitchTeams from '../components/SwitchTeams.vue';
 
-/* const pages = [
-  { name: 'CRM', href: '/outreach', current: false },
-  { name: 'Creators', href: '#', current: true },
-]; */
-
 export default {
   name: 'App',
   data() {
@@ -337,8 +332,6 @@ export default {
         { name: 'Search', route: '/discovery', icon: SearchIcon },
         { name: 'Contacts', route: '/crm', icon: UserGroupIcon },
         { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon },
-        { name: 'Outreach', route: '/outreach', icon: MailIcon },
-
         { name: 'Import', route: '/import', icon: CloudUploadIcon },
         { name: 'Settings', route: '/account', icon: CogIcon },
       ],
