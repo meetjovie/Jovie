@@ -124,18 +124,8 @@
                     <div
                       class="justfy-right relative items-center px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
                       <!--  Hide results count until a search is performed -->
-                      <div class="hidden w-full items-center 2xl:block">
-                        <ais-stats>
-                          <template v-slot="{ nbHits, processingTimeMS }">
-                            {{ nbHits }} Creators<br />
-                            <span class="text-2xs"
-                              >Search speed ({{ processingTimeMS }}ms)</span
-                            >
-                          </template>
-                        </ais-stats>
-                      </div>
                       <div
-                        class="justify-right hidden w-full items-center lg:block 2xl:hidden">
+                        class="justify-right hidden w-full items-center lg:block">
                         <ais-stats>
                           <template v-slot="{ nbHits, processingTimeMS }">
                             {{ nbHits }} creators
@@ -406,7 +396,7 @@
                                 <img
                                   v-for="media in item.instagram_media"
                                   :key="media"
-                                  class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
+                                  class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center line-clamp-1 first:rounded-l-md last:rounded-r-md"
                                   :src="media.display_url" />
                               </div>
                             </div>
