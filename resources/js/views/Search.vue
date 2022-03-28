@@ -532,15 +532,14 @@
                                       </MenuItems>
                                     </transition>
                                   </Menu>
-                                  <div v-observe-visibility="visibilityChanged">
-                                    hi
-                                  </div>
+
                                   <!-- This example requires Tailwind CSS v2.0+ -->
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <div v-observe-visibility="visibilityChanged"></div>
                       </template>
                     </ais-infinite-hits>
 
