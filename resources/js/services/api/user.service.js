@@ -70,5 +70,9 @@ export default {
     },
     buySeats(numberOfSeats) {
         return axios.post(`${baseApiUrl}/buy-seats`, {'numberOfSeats': numberOfSeats})
-    }
+    },
+    addCreatorToCrm(creatorId) {
+        return axios.post(
+            `${baseApiUrl}/add-to-crm`, {creator_id: creatorId});
+    },
 };

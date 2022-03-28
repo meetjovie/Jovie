@@ -150,4 +150,21 @@ class CrmController extends Controller
             'message' => 'No more creators.'
         ]);
     }
+
+    public function addCreatorToCreator(Request $request)
+    {
+        $request->validate([
+            'creator_id' => 'required'
+        ]);
+
+        $crm = Crm::updateOrCreate(['user_id' => Auth::id(),'creator_id' => $request->creator_id],
+            ['user_id' => Auth::id(),'creator_id' => $request->creator_id]
+        );
+
+        return response([
+            'status' => true,
+            'message' => 'Added to crm.',
+            'crm' => $crm
+        ]);
+    }
 }

@@ -82,4 +82,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/resume-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'resumeSubscription']);
     Route::post('/change-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'changeSubscription']);
     Route::post('/buy-seats', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'buySeats']);
+
+    // DISCOVERY
+    Route::post('/add-to-crm', [\App\Http\Controllers\CrmController::class, 'addCreatorToCreator']);
 });
