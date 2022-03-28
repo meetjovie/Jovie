@@ -899,13 +899,19 @@
                     </div>
                   </div>
 
-                  <div class="items-center px-4 py-5 sm:p-6">
+                  <div
+                    class="mx-auto items-center justify-center py-5 text-center sm:p-6">
                     <form class="mt-5 sm:flex sm:items-center">
+                      <span
+                        class="mr-4 mt-1 items-center text-sm font-bold text-neutral-500"
+                        >Contact options:
+                      </span>
                       <div
                         class="relative mt-1 w-full rounded-md shadow-sm sm:max-w-sm">
                         <div
                           class="absolute inset-y-0 left-0 flex items-center pl-3">
                           <DuplicateIcon
+                            tooltip="Copy to clipboard"
                             @click="copyToClipboard(selectedCreator.emails[0])"
                             class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700 active:mt-0.5 active:mr-0.5 active:text-neutral-500"
                             aria-hidden="true" />
@@ -915,11 +921,11 @@
                           name="email"
                           id="email"
                           :value="selectedCreator.emails[0]"
-                          class="z-10 block w-full rounded-l-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                          class="z-10 mt-0.5 block w-full rounded-md border-gray-300 bg-transparent bg-white/0 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                       </div>
                       <button
                         type="submit"
-                        class="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-3 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        class="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2.5 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                         Add to contacts
                       </button>
                     </form>
