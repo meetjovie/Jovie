@@ -1,7 +1,7 @@
 <template>
   <Popover>
-    <PopoverButton class="-mt-1 inline-flex items-center border-x px-4">
-      <span class="text-2xs font-bold text-neutral-700">
+    <PopoverButton class="-mt-1 inline-flex items-center">
+      <span class="items-center text-xs font-bold text-neutral-700">
         {{
           currentUser.current_team
             ? currentUser.current_team.name
@@ -19,8 +19,9 @@
       leave-from-class="transform scale-100 opacity-100"
       leave-to-class="transform scale-95 opacity-0">
       <PopoverPanel
-        class="-middle-24 absolute mt-4 w-40 origin-bottom-left divide-y divide-gray-100 rounded-md bg-white/80 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+        class="-middle-24 rbackdrop-blur-xl absolute mt-4 w-40 origin-bottom-left rounded-md bg-white/80 shadow-lg backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
         <div class="">
+          <div class="px-1 py-1 text-sm font-medium">Your teams:</div>
           <div v-if="currentUser.teams" v-for="team in currentUser.teams">
             <button
               @click="switchTeam(team.id)"

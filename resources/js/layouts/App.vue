@@ -148,28 +148,29 @@
             </div>
           </div>
 
-          <div class="z-10 ml-2 flex items-center md:ml-6">
-            <div class="inline-flex items-center space-x-4 divide-x px-4">
+          <div class="z-10 flex items-center">
+            <div class="inline-flex items-center space-x-4">
               <div
                 as="router-link"
                 to="/account"
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
                 Upgrade
               </div>
+              <SwitchTeams />
               <PopoverGroup>
-                <Popover as="div" class="relative ml-3 border-l px-4">
+                <Popover as="div" class="relative">
                   <PopoverButton
                     as="div"
                     type="button"
-                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
+                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none"
                     id="user-menu-button"
                     aria-expanded="false"
                     aria-haspopup="true"
                     @click="isShowing = !isShowing">
                     <span class="sr-only">Open user menu</span>
 
-                    <QuestionMarkCircleIcon
-                      class="h-5 w-5 rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
+                    <SupportIcon
+                      class="h-5 w-5 rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
                   </PopoverButton>
 
                   <transition
@@ -183,7 +184,7 @@
                       as="div"
                       active=""
                       id="profileDropdown"
-                      class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                      class="absolute right-0 z-10 mt-4 w-40 origin-top-right rounded-md bg-white/60 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
                       role="menu"
                       aria-orientation="vertical"
                       aria-labelledby="user-menu-button"
@@ -195,7 +196,7 @@
                         :key="helpmenuitem"
                         as="router-link"
                         :to="helpmenuitem.route"
-                        class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                        class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 first:pt-3 hover:bg-indigo-700 hover:text-white"
                         role="menuitem"
                         tabindex="-1">
                         <component class="mr-4 h-4 w-4" :is="helpmenuitem.icon">
@@ -204,11 +205,17 @@
                           {{ helpmenuitem.name }}
                         </router-link>
                       </div>
+                      <div
+                        onclick="Chattrigger"
+                        class="inline-flex w-full cursor-pointer px-4 pt-2 pb-3 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white">
+                        <ChatAltIcon class="mr-4 h-4 w-4" />
+                        Chat
+                      </div>
                     </PopoverPanel>
                   </transition>
                 </Popover>
               </PopoverGroup>
-              <SwitchTeams />
+
               <button
                 class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
                 <BellIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
@@ -294,7 +301,7 @@
                       :key="dropdownmenuitem"
                       as="router-link"
                       :to="dropdownmenuitem.route"
-                      class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-mdtext-neutral-700 inline-flex w-full px-4 py-2 text-xs hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
                       <component
@@ -308,7 +315,7 @@
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
-                      class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="inline-flex w-full rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
                       <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
@@ -353,7 +360,7 @@ import {
   LogoutIcon,
   SwitchHorizontalIcon,
   SpeakerphoneIcon,
-  QuestionMarkCircleIcon,
+  SupportIcon,
 } from '@heroicons/vue/outline';
 import {
   Menu,
@@ -388,7 +395,6 @@ export default {
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
       helpmenuitems: [
-        { name: 'Chat', route: '/', icon: ChatAltIcon },
         { name: 'Shortcuts', route: 'Account', icon: CursorClickIcon },
         { name: 'Feedback', route: 'Account', icon: SpeakerphoneIcon },
       ],
@@ -430,7 +436,7 @@ export default {
     PopoverButton,
     PopoverPanel,
     PopoverGroup,
-    QuestionMarkCircleIcon,
+    SupportIcon,
   },
 };
 </script>
