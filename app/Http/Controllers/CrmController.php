@@ -163,7 +163,7 @@ class CrmController extends Controller
 
         return response([
             'status' => true,
-            'message' => 'Added to crm.',
+            'message' => 'Added to contacts.',
             'crm' => $crm
         ]);
     }

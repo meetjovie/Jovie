@@ -57,7 +57,7 @@
                                                     <div
                                                     class="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12"
                                                     >
-                                                    <div class="bg-indigo-200 rounded-md p-2">
+                                                    <div class=" rounded-md p-2">
                                                         <component :is="item.icon" class="h-6 w-6 text-indigo-600"/>
                                                     </div>
                                                     </div>
@@ -183,7 +183,8 @@ import {
     ChevronDownIcon,
     SearchIcon,
     UserGroupIcon,
-    MailIcon
+    MailIcon,
+    DatabaseIcon,
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
 import ExternalFooter from "../components/External/ExternalFooter";
@@ -202,6 +203,7 @@ export default {
         SearchIcon,
         UserGroupIcon,
         MailIcon,
+        DatabaseIcon,
         Popover,
         PopoverButton,
         PopoverPanel,
@@ -211,8 +213,8 @@ export default {
         return {
           features: [
         {
-          name: 'AI Discovery',
-          description: 'Identify the perfect creators',
+          name: 'Creator search',
+          description: 'Search 3M+ creators and find the best match for your business',
           href: '/',
           anchor: '#discovery',
           icon: 'SearchIcon',
@@ -230,6 +232,13 @@ export default {
           href: '/',
           anchor: '#outreach',
           icon: 'MailIcon',
+        },
+        {
+          name: 'Data Enrichment',
+          description: 'Enrich your existing customer lists with creator specific data', 
+          href: '/',
+          anchor: '#outreach',
+          icon: 'DatabaseIcon',
         },
             ],
             waitListEmail: '',

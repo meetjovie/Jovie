@@ -447,12 +447,9 @@
                                     class="relative inline-block text-left">
                                     <div class="inline-flex space-x-2">
                                       <PlusIcon
+                                        @click="addToCrm(selectedCreator.id)"
                                         class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
 
-                                      <HeartIcon
-                                        class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
-                                      <BanIcon
-                                        class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
                                       <MenuButton
                                         class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
                                         <span class="sr-only"
