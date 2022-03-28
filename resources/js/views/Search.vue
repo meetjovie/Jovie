@@ -428,16 +428,6 @@
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                class="W-28 mx-auto flex-grow px-6 py-1 text-sm text-gray-500">
-                                <star-rating
-                                  class="w-20"
-                                  :star-size="12"
-                                  :increment="0.5"
-                                  v-model:rating="
-                                    selectedCreator.rating
-                                  "></star-rating>
-                              </div>
                             </div>
                             <div
                               class="mx-auto grid grow grid-cols-2 items-center justify-between">
@@ -893,6 +883,16 @@
                               $0.50
                             </div>
                             <div class="text-[8px] text-neutral-400">CPE</div>
+                          </div>
+                          <div
+                            class="mx-auto w-full flex-grow justify-center px-6 py-1 text-sm text-gray-500">
+                            <star-rating
+                              class="w-full"
+                              :star-size="12"
+                              :increment="0.5"
+                              v-model:rating="
+                                selectedCreator.rating
+                              "></star-rating>
                           </div>
                         </div>
                       </div>
