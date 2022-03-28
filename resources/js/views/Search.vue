@@ -425,6 +425,16 @@
                                   </div>
                                 </div>
                               </div>
+                              <div
+                                class="W-28 mx-auto flex-grow px-6 py-1 text-sm text-gray-500">
+                                <star-rating
+                                  class="w-20"
+                                  :star-size="12"
+                                  :increment="0.5"
+                                  v-model:rating="
+                                    selectedCreator.rating
+                                  "></star-rating>
+                              </div>
                             </div>
                             <div
                               class="mx-auto grid grow grid-cols-2 items-center justify-between">
@@ -574,7 +584,7 @@
                 v-if="sidebarOpen"
                 class="fixed right-0 z-10 hidden w-60 shrink-0 bg-neutral-50 shadow-lg lg:flex">
                 <div
-                  class="top-0f absolute right-0 z-50 mb-12 -mr-4 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
+                  class="absolute top-0 right-0 z-50 mb-12 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
                   <div class="mt-4 flex justify-between px-4">
                     <div class="group" @click="sidebarOpen = false">
                       <XIcon
@@ -687,8 +697,128 @@
                                 color="green"
                                 text="Sports" /> -->
                       </div>
+
                       <div class="mx-auto mt-2 flex justify-start space-x-6">
-                        <CreatorSocialLinks iconstyle="horizontal" />
+                        <div
+                          class="mt-1 grid w-80 grid-cols-6 items-center justify-start text-center">
+                          <div
+                            class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                            :class="[
+                              {
+                                'opacity-10':
+                                  selectedCreator.instagram_handler == null,
+                              },
+                              'opacity-100',
+                            ]"
+                            @click="
+                              openLink(
+                                ('https://instagram.com/',
+                                selectedCreator.instagram_handler),
+                                true
+                              )
+                            ">
+                            <SocialIcons
+                              height="14px"
+                              class="z-0"
+                              icon="instagram" />
+                            <div
+                              class="mx-auto text-center text-2xs text-neutral-500">
+                              {{
+                                formatCount(selectedCreator.instagram_followers)
+                              }}
+                            </div>
+                          </div>
+                          <div
+                            class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                            :class="[
+                              {
+                                'opacity-100': selectedCreator.tiktok_handler,
+                              },
+                              'opacity-20',
+                            ]"
+                            @click="
+                              openLink(
+                                ('https://tiktok.com/',
+                                selectedCreator.tiktok_handler),
+                                true
+                              )
+                            ">
+                            <SocialIcons height="14px" icon="tiktok" />
+                            <div
+                              class="mx-auto text-center text-2xs text-neutral-500"
+                              :class="[
+                                {
+                                  'opacity-100':
+                                    selectedCreator.youtube_followers > 0,
+                                },
+                                'opacity-20',
+                              ]">
+                              {{
+                                formatCount(selectedCreator.youtube_followers)
+                              }}
+                            </div>
+                          </div>
+                          <div
+                            class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                            :class="[
+                              {
+                                'opacity-100': selectedCreator.twitch_handler,
+                              },
+                              'opacity-20',
+                            ]"
+                            @click="
+                              openLink(
+                                ('https://twitch.com/',
+                                selectedCreator.twitch_handler),
+                                true
+                              )
+                            ">
+                            <SocialIcons height="14px" icon="twitch" />
+                            <div
+                              class="mx-auto text-center text-2xs text-neutral-500"
+                              :class="[
+                                {
+                                  'opacity-100':
+                                    selectedCreator.youtube_followers > 0,
+                                },
+                                'opacity-20',
+                              ]">
+                              {{
+                                formatCount(selectedCreator.youtube_followers)
+                              }}
+                            </div>
+                          </div>
+                          <div
+                            class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                            :class="[
+                              {
+                                'opacity-100': selectedCreator.youtube_handler,
+                              },
+                              'opacity-20',
+                            ]"
+                            @click="
+                              openLink(
+                                ('https://youtube.com/',
+                                selectedCreator.youtube_handler),
+                                true
+                              )
+                            ">
+                            <SocialIcons height="14px" icon="youtube" />
+                            <div
+                              class="mx-auto text-center text-2xs text-neutral-500"
+                              :class="[
+                                {
+                                  'opacity-100':
+                                    selectedCreator.youtube_followers > 0,
+                                },
+                                'opacity-20',
+                              ]">
+                              {{
+                                formatCount(selectedCreator.youtube_followers)
+                              }}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="col-span-1">
@@ -756,7 +886,26 @@
                       </div>
                     </div>
                   </div>
-
+                  <div
+                    class="mt-1 text-xs font-medium text-neutral-500 line-clamp-1">
+                    <div class="py-2 px-4">
+                      <div class="relative mt-1 rounded-md shadow-sm">
+                        <div
+                          class="absolute inset-y-0 left-0 flex items-center pl-3">
+                          <DuplicateIcon
+                            @click="copyToClipboard(selectedCreator.emails[0])"
+                            class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700"
+                            aria-hidden="true" />
+                        </div>
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          :value="selectedCreator.emails[0]"
+                          class="z-10 block w-full rounded-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                      </div>
+                    </div>
+                  </div>
                   <div class="mt-2 grid grid-cols-3 border-b">
                     <div
                       v-for="media in selectedCreator.instagram_media"
@@ -824,14 +973,12 @@ import {
   ChevronLeftIcon,
   SearchIcon,
   PlusIcon,
+  DuplicateIcon,
   XIcon,
 } from '@heroicons/vue/solid';
 import { LightningBoltIcon } from '@heroicons/vue/outline';
 import CreatorTags from '../components/Creator/CreatorTags';
 import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks';
-import DiscoveryCreatorTable from '../components/Discovery/DiscoveryCreatorTable.vue';
-import DiscoverySidebar from '../components/Discovery/DiscoverySidebar.vue';
-import DiscoveryMain from '../components/Discovery/DiscoveryMain.vue';
 import DiscoveryStats from '../components/Discovery/DiscoveryStats.vue';
 import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue';
 import { createInfiniteHitsSessionStorageCache } from 'instantsearch.js/es/lib/infiniteHitsCache';
@@ -848,11 +995,13 @@ export default {
     InputGroup,
     VerifiedBadge,
     CreatorAvatar,
+    CreatorSocialLinks,
     JovieSpinner,
     XIcon,
     TabGroup,
     SocialIcons,
     DiscoveryStats,
+    DuplicateIcon,
     DiscoveryToolbar,
     HeartIcon,
     BanIcon,
@@ -904,6 +1053,11 @@ export default {
     logIt(e) {
       console.log(e);
       return false;
+    },
+    //write a vue method to copy the value of an input to the clipboard
+
+    copyToClipboard(text) {
+      this.logIt(text);
     },
     setCurrentCreator(item) {
       this.selectedCreator = item;
