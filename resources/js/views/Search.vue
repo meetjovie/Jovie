@@ -48,12 +48,12 @@
                             class="mx-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"></FilterIcon>
                         </button>
                         <div class="h-5 items-center text-center">
-                          <input
+                          <!--  <input
                             id="comments"
                             aria-describedby="comments-description"
                             name="comments"
                             type="checkbox"
-                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
                         </div>
                         <div
                           class="group sr-only items-center text-center text-gray-300 hover:text-red-500">
@@ -133,10 +133,7 @@
                             <div
                               class="inline-flex items-center text-2xs text-neutral-400">
                               <div class="group">
-                                <div
-                                  class="absolute right-32 hidden rounded-md bg-white/60 py-0.5 px-4 text-neutral-700 shadow-md backdrop-blur-2xl backdrop-saturate-150 backdrop-filter group-hover:block">
-                                  Search Speed
-                                </div>
+                                <JovieTooltip text="Search spped" />
 
                                 <LightningBoltIcon
                                   class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></LightningBoltIcon>
@@ -166,9 +163,8 @@
                             class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 active:bg-indigo-100">
                             <div
                               class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
-                              <div
-                                class="mx-auto grid grid-cols-2 items-center">
-                                <div class="group mx-auto">
+                              <div class="mx-auto items-center">
+                                <div class="group mx-auto w-4">
                                   <span class="mx-auto group-hover:hidden">
                                     {{ formatCount(index + 1) }}
                                   </span>
@@ -181,20 +177,6 @@
                                       type="checkbox"
                                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
                                   </span>
-                                </div>
-                                <div class="mx-auto">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 hover:fill-red-500 hover:text-red-500"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                  </svg>
                                 </div>
                               </div>
                             </div>
@@ -463,11 +445,19 @@
                               <div
                                 class="justify-self-right mx-auto py-1 text-right text-xs font-medium">
                                 <div class="mx-auto items-center gap-4">
-                                  <div>Add to crm</div>
                                   <Menu
                                     as="div"
                                     class="relative inline-block text-left">
-                                    <div>
+                                    <div class="inline-flex space-x-2">
+                                     
+                                        <PlusIcon
+                                          class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
+                                       
+                                    
+                                      <HeartIcon
+                                        class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
+                                      <BanIcon
+                                        class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
                                       <MenuButton
                                         class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
                                         <span class="sr-only"
@@ -490,14 +480,18 @@
                                         <div class="py-1">
                                           <MenuItem v-slot="{ active }">
                                             <a
+                                              v-for="menu in creatorMenu"
                                               href="#"
                                               :class="[
                                                 active
                                                   ? 'bg-gray-100 text-gray-900'
                                                   : 'text-gray-700',
                                                 'block px-4 py-2 text-sm',
-                                              ]"
-                                              >Add to contacts</a
+                                              ]">
+                                              <PlusIcon
+                                                class="mr-2 h-4 w-4 cursor-pointer hover:text-indigo-700"
+                                                aria-hidden="true" />
+                                              Add to contacts</a
                                             >
                                           </MenuItem>
                                           <MenuItem v-slot="{ active }">
@@ -521,7 +515,7 @@
                                                   : 'text-gray-700',
                                                 'block px-4 py-2 text-sm',
                                               ]"
-                                              >Dismisst</a
+                                              >Dismiss</a
                                             >
                                           </MenuItem>
                                           <MenuItem v-slot="{ active }">
@@ -590,7 +584,7 @@
                   <div class="mt-4 flex justify-between px-4">
                     <div class="group" @click="sidebarOpen = false">
                       <XIcon
-                        class="groupd-active:text-indigo-700 h-5 w-5 text-neutral-700 hover:text-neutral-900" />
+                        class="h-5 w-5 cursor-pointer text-neutral-700 hover:text-neutral-900 group-active:text-indigo-700" />
                     </div>
                     <div class="mr-4 flex space-x-2 text-xs text-neutral-400">
                       <HeartIcon
@@ -632,7 +626,7 @@
                                       :active="active"
                                       class="mr-2 h-5 w-5 text-indigo-400"
                                       aria-hidden="true" />
-                                    Add to CRM
+                                    Add to contacts
                                   </button>
                                 </MenuItem>
                                 <MenuItem v-slot="{ active }">
@@ -660,7 +654,7 @@
 
                   <div class="grid grid-cols-5 py-2 px-4">
                     <CreatorAvatar
-                      :imageUrl="selectedCreator.instagram_meta.profile_pic_url"
+                      :imageUrl="selectedCreator.instagram_meta[0]"
                       as="div"
                       class="col-span-1 aspect-square items-center"
                       size="lg" />
@@ -703,9 +697,15 @@
                     <div class="col-span-1">
                       <div
                         class="mx-auto mt-6 inline-flex w-full items-center justify-center text-center text-neutral-400">
-                        <LocationMarkerIcon class="mr-1 h-4 w-4" /><span
+                        <LocationMarkerIcon class="mr-1 h-4 w-4" />
+                        <span
+                          v-if="selectedCreator.instagram_meta.city"
                           class="text-xs font-bold text-neutral-500"
-                          >New York, NY</span
+                          >{{ selectedCreator.city }}</span
+                        ><span
+                          v-if="selectedCreator.instagram_meta.country"
+                          class="text-xs font-bold text-neutral-500"
+                          >{{ selectedCreator.country }}</span
                         >
                       </div>
                       <div
@@ -786,8 +786,11 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   FilterIcon,
+  HeartIcon,
+  BanIcon,
   ChevronLeftIcon,
   SearchIcon,
+  PlusIcon,
   XIcon,
 } from '@heroicons/vue/solid';
 import { LightningBoltIcon } from '@heroicons/vue/outline';
@@ -801,6 +804,7 @@ import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue';
 import { createInfiniteHitsSessionStorageCache } from 'instantsearch.js/es/lib/infiniteHitsCache';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
+import JovieTooltip from '../components/JovieTooltip.vue';
 
 export default {
   components: {
@@ -812,6 +816,8 @@ export default {
     SocialIcons,
     DiscoveryStats,
     DiscoveryToolbar,
+    HeartIcon,
+    BanIcon,
     FilterIcon,
     ChevronLeftIcon,
     DiscoverySearch,
@@ -831,8 +837,11 @@ export default {
     PopoverButton,
     PopoverGroup,
     PopoverPanel,
+    PlusIcon,
+    JovieTooltip,
   },
   mounted() {
+    this.$mousetrap.unbind(['space']);
     this.$mousetrap.bind(['space'], this.toggleSidebar);
     this.$mousetrap.bind(['command+k', 'ctrl+k'], this.clearSearch);
     this.$mousetrap.bind(['up'], this.logIt);
@@ -875,6 +884,12 @@ export default {
   data() {
     return {
       sidebarOpen: false,
+      creatorMenu: [
+        {
+          name: 'Add to contacts',
+          icon: PlusIcon,
+        },
+      ],
       cache: createInfiniteHitsSessionStorageCache(),
       searchopen: false,
       selectedCreator: [],

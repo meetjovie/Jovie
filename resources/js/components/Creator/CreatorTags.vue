@@ -4,10 +4,10 @@
     class="mr-1 inline-flex items-center font-medium first:rounded-l-md last:rounded-r-md only:rounded-md"
     :class="[
       {
-        'py-0 pl-2 pr-0.5 text-[8px] font-light tracking-wider': size == 'xs',
+        'py-0 px-2 text-[8px] font-light tracking-wider': size == 'xs',
       },
       {
-        'py-0 pl-2 pr-0.5 text-[10px] font-light tracking-wider': size == 'sm',
+        'py-0 px-2 text-[10px] font-light tracking-wider': size == 'sm',
       },
       {
         'py-0.5 pl-2 pr-2 text-[12px] font-light tracking-wider': size == 'md',
