@@ -2,7 +2,7 @@
   <div
     class="mx-auto grid h-full w-full auto-cols-max grid-flow-col justify-center py-4">
     <div
-      v-for="list in lists"
+      v-for="(list, i) in lists"
       class="mx-auto h-full justify-center divide-y divide-gray-200">
       <div class="border border-b-0 border-gray-200 lg:border-0">
         <!-- Completed Step -->
@@ -28,9 +28,9 @@
       </div>
       <draggable
         class="list-group my-1 cursor-pointer justify-center gap-6 space-y-2 px-4 py-4"
-        :list="list1"
+        :list="list1[i]"
         group="people"
-        @change="log"
+        @change="(event) => handleStage(i, event)"
         itemKey="name">
         <template #item="{ element, index }">
           <div
@@ -68,7 +68,7 @@
                         <div class="rounded-full bg-white p-0">
                           <img
                             class="rounded-full object-cover object-center"
-                            :src="element.avatar"
+                            :src="element.profile_pic_url"
                             alt="" />
                         </div>
                       </div>
@@ -76,13 +76,13 @@
                     <div class="ml-2 -mt-2 block w-28 overflow-ellipsis">
                       <div
                         class="block text-ellipsis text-xs font-medium text-gray-900 line-clamp-1">
-                        {{ element.name }}
+                        {{ element.full_name }}
                       </div>
                       <div
                         class="elipsis block text-2xs text-gray-500 line-clamp-1">
                         <span
                           class="inline-flex items-center rounded-sm bg-neutral-100 px-1 py-0 text-[8px] font-medium text-neutral-800">
-                          {{ element.contacted }}
+                          {{ element.crm_record_by_user.last_contacted }}
                         </span>
                         <span
                           class="inline-flex text-[8px] font-medium text-gray-900">
@@ -103,7 +103,11 @@
                         <a
                           :href="element.networklink"
                           class="text-nuetral-800 flex items-center rounded-full text-center text-2xs font-bold">
-                          {{ element.followers }}
+                          {{
+                            element.instagram_followers +
+                            element.twitter_followers +
+                            element.tiktok_followers
+                          }}
                         </a>
                         <a
                           :href="element.networklink"
@@ -131,6 +135,8 @@ import draggable from 'vuedraggable';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import { MailIcon, PhoneIcon } from '@heroicons/vue/solid';
+import UserService from '../services/api/user.service';
+import userService from '../services/api/user.service';
 export default {
   name: 'two-lists',
   display: 'Two Lists',
@@ -145,237 +151,65 @@ export default {
   data() {
     return {
       lists: [
-        {
-          name: 'List 1',
-          id: 1,
-          count: 10,
-          title: 'Prospects',
-          subtitle: 'Creators added from discover',
-        },
-        {
-          name: 'List 2',
-          id: 2,
-          count: 34,
-          title: 'Contacted',
-          subtitle: 'People who have been contacted',
-        },
-        {
-          name: 'List 3',
-          id: 3,
-          count: 17,
-          title: 'Negotiating',
-          subtitle: 'People who are currently in the process of negotiating',
-        },
-        {
-          name: 'List 4',
-          id: 4,
-          count: 5,
-          title: 'Closed',
-          subtitle: 'Creators who have onboarded',
-        },
+        // {
+        //   name: 'List 1',
+        //   id: 0,
+        //   count: 0,
+        //   title: 'Onboarding',
+        //   subtitle: 'Creators added from discover',
+        // },
+        // {
+        //   name: 'List 2',
+        //   id: 1,
+        //   count: 0,
+        //   title: 'Interested',
+        //   subtitle: 'People who have been contacted',
+        // },
+        // {
+        //   name: 'List 3',
+        //   id: 2,
+        //   count: 0,
+        //   title: 'Negotiating',
+        //   subtitle: 'People who are currently in the process of negotiating',
+        // },
+        // {
+        //   name: 'List 4',
+        //   id: 3,
+        //   count: 0,
+        //   title: 'Inprogress',
+        //   subtitle: 'Creators who have onboarded',
+        // },
+        // {
+        //   name: 'List 5',
+        //   id: 4,
+        //   count: 0,
+        //   title: 'Complete',
+        //   subtitle: 'Creators who have onboarded',
+        // },
       ],
       list1: [
-        {
-          id: 1,
-          favorite: true,
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Martha Hoover goes deep on the reall meaning of life and the universe',
-          bio: 'Born in LA, Living in space.',
-          firstname: 'Marth',
-          lastname: 'Hoover',
-          email: 'mhoover@gmail.com',
-          rating: '4.3',
-          followers: '1.5M',
-          daysinstage: '2',
-          offer: '240K',
-          stage: 'Onboarding',
-          contacted: '1/12/2020',
-          campaign: 'Zelf Beta',
-          category: 'Model',
-          avatar: 'https://i.pravatar.cc/150?img=1',
-        },
-        {
-          id: 2,
-          favorite: false,
-          bio: 'Free spirit, paid body.',
-          network: 'twitter',
-          networklink: 'http://twitter.com/itstimwhite',
-          name: 'Candice Mccoy',
-          firstname: 'Candice',
-          lastname: 'Mccoy',
-          email: 'candicem@gmail.com',
-          rating: '3',
-          followers: '1.2M',
-          offer: '12K',
-          stage: 'Onboarding',
-          daysinstage: '3',
-          contacted: '4/9/2020',
-          campaign: 'Zelf Beta',
-          category: 'Actor',
-          avatar: 'https://i.pravatar.cc/150?img=2',
-        },
-        {
-          id: 3,
-          favorite: false,
-          daysinstage: '6',
-          network: 'youtube',
-          bio: 'Lost soul, found money.',
-          networklink: 'http://youtube.com/timwhite',
-          name: 'Taylor Smith',
-          firstname: 'Taylor',
-          lastname: 'Smith',
-          email: '',
-          rating: '2',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Onboarding',
-          contacted: '1/4/2020',
-          campaign: 'Zelf Beta',
-          category: 'Athelete',
-          avatar: 'https://i.pravatar.cc/150?img=3',
-        },
-        {
-          id: 4,
-          favorite: false,
-          bio: 'Have you seen jackass?',
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Jordan Smith',
-          firstname: 'Taylor',
-          lastname: 'Smith',
-          daysinstage: '1',
-          email: '',
-          rating: '2',
-          followers: '47.2K',
-          offer: '900K',
-          stage: 'Onboarding',
-          contacted: '1/9/2020',
-          category: 'Singer',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=11',
-        },
-        {
-          id: 5,
-          favorite: false,
-          network: 'instagram',
-          bio: 'Star Wars if it took place in a Florida.',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Keira Jones',
-          daysinstage: '12',
-          firstname: 'Keira',
-          lastname: 'Jones',
-          email: '',
-          rating: '4.9',
-          followers: '4.2M',
-          category: 'Dancer',
-          offer: '344K',
-          stage: 'Negotiating',
-          contacted: '3/2/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=5',
-        },
-        {
-          id: 6,
-          favorite: false,
-          network: 'snapchat',
-          bio: 'I charge by the hour, I pay by the second.',
-          networklink: 'http://snapchat.com/timwhite',
-          name: 'Mila Vance',
-          firstname: 'Mila',
-          lastname: 'Vance',
-          daysinstage: '5',
-          category: 'Actor',
-          email: '',
-          rating: '2.9',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Complete',
-          contacted: '1/11/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=6',
-        },
-        {
-          id: 7,
-          favorite: false,
-          network: 'tiktok',
-          bio: 'Loved by many, known by few.',
-          networklink: 'http://tiktok.com/@timwhite',
-          name: 'Kylie Brent',
-          firstname: 'Kylie',
-          lastname: 'Brent',
-          daysinstage: '1',
-          email: '',
-          category: 'Model',
-          rating: '1.2',
-          followers: '1.2B',
-          offer: '10K',
-          stage: 'Interested',
-          contacted: '4/5/2021',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=7',
-        },
-        {
-          id: 8,
-          favorite: false,
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Sophia Dustin',
-          bio: "I'm a big fan of the Kardashians.",
-          firstname: 'Sophia',
-          lastname: 'Dustin',
-          email: '',
-          category: 'Model',
-          daysinstage: '12',
-          rating: '4.9',
-          followers: '4.2M',
-          offer: '344K',
-          stage: 'Negotiating',
-          contacted: '3/2/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=8',
-        },
-        {
-          id: 9,
-          favorite: false,
-          bio: 'I invented bacon salt.',
-          network: 'snapchat',
-          networklink: 'http://snapchat.com/timwhite',
-          name: 'James Johnson',
-          firstname: 'James',
-          lastname: 'Johnson',
-          daysinstage: '5',
-          category: 'Actor',
-          email: '',
-          rating: '2.9',
-          followers: '1.2K',
-          offer: '104K',
-          stage: 'Complete',
-          contacted: '1/11/2022',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=9',
-        },
-        {
-          id: 10,
-          favorite: false,
-          bio: 'Investor, investing in investable assets.',
-          network: 'instagram',
-          networklink: 'http://instagram.com/timwhite',
-          name: 'Mike Croft',
-          firstname: 'Mike',
-          lastname: 'Croft',
-          daysinstage: '1',
-          category: 'Barista',
-          email: '',
-          rating: '1.2',
-          followers: '1.2B',
-          offer: '10K',
-          stage: 'Interested',
-          contacted: '4/5/2021',
-          campaign: 'Zelf Beta',
-          avatar: 'https://i.pravatar.cc/150?img=10',
-        },
+        // {
+        //   id: 1,
+        //   favorite: true,
+        //   network: 'instagram',
+        //   networklink: 'http://instagram.com/timwhite',
+        //   name: 'Martha Hoover goes deep on the reall meaning of life and the universe',
+        //   bio: 'Born in LA, Living in space.',
+        //   firstname: 'Marth',
+        //   lastname: 'Hoover',
+        //   email: 'mhoover@gmail.com',
+        //   rating: '4.3',
+        //   followers: '1.5M',
+        //   daysinstage: '2',
+        //   offer: '240K',
+        //   stage: 'Onboarding',
+        //   contacted: '1/12/2020',
+        //   campaign: 'Zelf Beta',
+        //   category: 'Model',
+        //   avatar: 'https://i.pravatar.cc/150?img=1',
+        // }
       ],
+      networks: [],
       list2: [
         { name: 'Trinity', id: 5 },
         { name: 'Edgard', id: 6 },
@@ -383,7 +217,42 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.get();
+  },
   methods: {
+    get: function () {
+      let data = {
+        list: null,
+        archived: 0,
+        page: 1,
+      };
+      UserService.getCrmCreators(data).then((response) => {
+        this.loading = false;
+        response = response.data;
+        if (response.status) {
+          // console.log(response);
+          let header = [];
+          let items = [];
+          for (let i = 0; i < response.stages.length; i++) {
+            let list = {
+              id: i,
+              name: 'List' + (i + 1),
+              title: response.stages[i],
+              count: response.creators.data.filter((item) => item.stage == i)
+                .length,
+            };
+            items.push(
+              response.creators.data.filter((item) => item.stage == i)
+            );
+            header.push(list);
+          }
+          this.lists = header;
+          this.list1 = items;
+          this.networks = response.networks;
+        }
+      });
+    },
     add: function () {
       this.list.push({ name: 'Juan' });
     },
@@ -395,8 +264,21 @@ export default {
         name: el.name + ' cloned',
       };
     },
-    log: function (evt) {
-      window.console.log(evt);
+    handleStage: function (index, evt) {
+      if (evt.added) {
+        console.log(evt);
+        userService
+          .updateCreatorStage({
+            crm_id: evt.added.element.crm_id,
+            stage: index,
+            newIndex: evt.added.newIndex,
+          })
+          .then((response) => {
+            if (response.status) {
+              this.get();
+            }
+          });
+      }
     },
   },
 };

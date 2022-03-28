@@ -26,6 +26,11 @@ export default {
             params: data
         });
     },
+    async updateCreatorStage(data) {
+        return axios.get(`${baseUrlAdmin}/update-creator-stage`, {
+            params: data
+        });
+    },
     async exportCrmCreators(data) {
         return axios.get(`${baseApiUrl}/export-crm-creators`, {
             params: data,

@@ -26,6 +26,21 @@ class CrmController extends Controller
         ]);
     }
 
+
+    public function updateCreatorStage(Request $request)
+    {
+        $creators = Crm::where('id' ,$request->crm_id)->update([
+            'stage' => $request->stage,
+            'pipeline_index' => $request->newIndex
+        ]);
+
+        return collect([
+            'status' => true,
+        ]);
+    }
+
+
+
     public function updateCrmCreator(Request $request, $id)
     {
         // update creator
