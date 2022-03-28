@@ -574,10 +574,10 @@
                 </ais-state-results>
               </TabGroup>
             </main>
-            <TransitionGroup
+            <TransitionRoot
               show="{sidebarOpen}"
-              enter="transition-opacity duration-150"
-              enterFrom="translate-x-80 opacity-80"
+              enter="transition-opacity duration-300 ease-in"
+              enterFrom="translate-x-190 opacity-80"
               enterTo="translate-x-0 opacity-100"
               leave="transition-opacity duration-300"
               leaveFrom="translate-x-0 opacity-100"
@@ -755,7 +755,7 @@
                   <CreatorContentBar />
                 </div>
               </div>
-            </TransitionGroup>
+            </TransitionRoot>
           </div>
         </div>
       </div>
