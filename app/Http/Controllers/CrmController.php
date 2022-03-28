@@ -29,10 +29,62 @@ class CrmController extends Controller
 
     public function updateCreatorStage(Request $request)
     {
-        $creators = Crm::where('id' ,$request->crm_id)->update([
+        $user_id = Crm::where('id', $request->crm_id)->first();
+        Crm::where('id' ,$request->crm_id)->update([
             'stage' => $request->stage,
             'pipeline_index' => $request->newIndex
         ]);
+
+        if ($request->newIndex) {
+            for ($i = 0; $i < $request->newIndex; $i++) {
+                Crm::where('user_id' , $user_id)->orderBy('pipeline_index', 'asc')->update([
+                    'stage' => $request->stage,
+                    'pipeline_index' => $request->newIndex
+                ]);
+            }
+            Crm::where('id' ,$request->crm_id)->update([
+                'stage' => $request->stage,
+                'pipeline_index' => $request->newIndex
+            ]);
+        } else {
+            Crm::where('user_id' ,$user_id)->where('pipeline_index', 0)->update([
+                'pipeline_index' => 1
+            ]);
+            Crm::where('id' ,$request->crm_id)->update([
+                'pipeline_index' => 0
+            ]);
+
+        }
+
+        return collect([
+            'status' => true,
+        ]);
+    }
+
+    public function updateCreatorIndex(Request $request)
+    {
+        $user_id = Crm::where('id', $request->crm_id)->first();
+
+        if ($request->newIndex) {
+            for ($i = 0; $i < $request->newIndex; $i++) {
+                Crm::where('user_id' , $user_id)->where('stage')->orderBy('pipeline_index', 'asc')->update([
+                    'stage' => $request->stage,
+                    'pipeline_index' => $request->newIndex
+                ]);
+            }
+            Crm::where('id' ,$request->crm_id)->update([
+                'stage' => $request->stage,
+                'pipeline_index' => $request->newIndex
+            ]);
+        } else {
+            Crm::where('user_id' ,$user_id)->where('pipeline_index', 0)->update([
+                'pipeline_index' => 1
+            ]);
+            Crm::where('id' ,$request->crm_id)->update([
+                'pipeline_index' => 0
+            ]);
+
+        }
 
         return collect([
             'status' => true,

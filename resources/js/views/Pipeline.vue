@@ -266,12 +266,23 @@ export default {
     },
     handleStage: function (index, evt) {
       if (evt.added) {
-        console.log(evt);
         userService
           .updateCreatorStage({
             crm_id: evt.added.element.crm_id,
             stage: index,
             newIndex: evt.added.newIndex,
+          })
+          .then((response) => {
+            if (response.status) {
+              this.get();
+            }
+          });
+      } else if (evt.moved) {
+        userService
+          .updateCreatorIndex({
+            crm_id: evt.moved.element.crm_id,
+            stage: index,
+            newIndex: evt.moved.newIndex,
           })
           .then((response) => {
             if (response.status) {
