@@ -292,6 +292,7 @@
                                       ">
                                       <SocialIcons
                                         height="14px"
+                                        class="z-0 mx-auto"
                                         icon="tiktok" />
                                       <div
                                         class="mx-auto text-center text-2xs text-neutral-500"
@@ -324,6 +325,7 @@
                                       ">
                                       <SocialIcons
                                         height="14px"
+                                        class="z-0 mx-auto"
                                         icon="twitch" />
                                       <div
                                         class="mx-auto text-center text-2xs text-neutral-500"
@@ -356,6 +358,7 @@
                                       ">
                                       <SocialIcons
                                         height="14px"
+                                        class="z-0 mx-auto"
                                         icon="youtube" />
                                       <div
                                         class="mx-auto text-center text-2xs text-neutral-500"
@@ -588,7 +591,7 @@
                   <div class="mt-4 flex justify-between px-4">
                     <div class="group" @click="sidebarOpen = false">
                       <XIcon
-                        class="h-5 w-5 cursor-pointer text-neutral-700 hover:text-neutral-900 group-active:text-indigo-700" />
+                        class="h-5 w-5 cursor-pointer text-neutral-700 hover:text-neutral-900 active:text-neutral-400 group-active:text-indigo-700" />
                     </div>
                     <div class="mr-4 flex space-x-2 text-xs text-neutral-400">
                       <HeartIcon
@@ -678,7 +681,7 @@
                         class="mt-1 h-20 text-xs font-medium text-neutral-500 line-clamp-4">
                         {{ selectedCreator.instagram_biography }}
                       </div>
-                      <div>
+                      <div class="h-8">
                         <CreatorTags
                           v-if="selectedCreator.instagram_category"
                           size="sm"
@@ -719,7 +722,7 @@
                             ">
                             <SocialIcons
                               height="14px"
-                              class="z-0"
+                              class="z-0 mx-auto"
                               icon="instagram" />
                             <div
                               class="mx-auto text-center text-2xs text-neutral-500">
@@ -743,7 +746,10 @@
                                 true
                               )
                             ">
-                            <SocialIcons height="14px" icon="tiktok" />
+                            <SocialIcons
+                              height="14px"
+                              class="z-0 mx-auto"
+                              icon="tiktok" />
                             <div
                               class="mx-auto text-center text-2xs text-neutral-500"
                               :class="[
@@ -773,7 +779,10 @@
                                 true
                               )
                             ">
-                            <SocialIcons height="14px" icon="twitch" />
+                            <SocialIcons
+                              height="14px"
+                              class="z-0 mx-auto"
+                              icon="twitch" />
                             <div
                               class="mx-auto text-center text-2xs text-neutral-500"
                               :class="[
@@ -803,7 +812,10 @@
                                 true
                               )
                             ">
-                            <SocialIcons height="14px" icon="youtube" />
+                            <SocialIcons
+                              height="14px"
+                              class="z-0 mx-auto"
+                              icon="youtube" />
                             <div
                               class="mx-auto text-center text-2xs text-neutral-500"
                               :class="[
@@ -886,15 +898,16 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="mt-1 text-xs font-medium text-neutral-500 line-clamp-1">
-                    <div class="py-2 px-4">
-                      <div class="relative mt-1 rounded-md shadow-sm">
+
+                  <div class="items-center px-4 py-5 sm:p-6">
+                    <form class="mt-5 sm:flex sm:items-center">
+                      <div
+                        class="relative mt-1 w-full rounded-md shadow-sm sm:max-w-sm">
                         <div
                           class="absolute inset-y-0 left-0 flex items-center pl-3">
                           <DuplicateIcon
                             @click="copyToClipboard(selectedCreator.emails[0])"
-                            class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700"
+                            class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700 active:mt-0.5 active:mr-0.5 active:text-neutral-500"
                             aria-hidden="true" />
                         </div>
                         <input
@@ -902,9 +915,14 @@
                           name="email"
                           id="email"
                           :value="selectedCreator.emails[0]"
-                          class="z-10 block w-full rounded-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                          class="z-10 block w-full rounded-l-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                       </div>
-                    </div>
+                      <button
+                        type="submit"
+                        class="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-3 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Add to contacts
+                      </button>
+                    </form>
                   </div>
                   <div class="mt-2 grid grid-cols-3 border-b">
                     <div
@@ -988,6 +1006,7 @@ import JovieTooltip from '../components/JovieTooltip.vue';
 import CreatorMediaItem from '../components/TimelineMedia/CreatorMediaItem.vue';
 import VerifiedBadge from '../components/VerifiedBadge.vue';
 import CreatorAvatar from '../components/Creator/CreatorAvatar.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 export default {
   components: {
@@ -1027,6 +1046,7 @@ export default {
     LightningBoltIcon,
     Popover,
     PopoverButton,
+    ButtonGroup,
     PopoverGroup,
     PopoverPanel,
     PlusIcon,
@@ -1057,7 +1077,10 @@ export default {
     //write a vue method to copy the value of an input to the clipboard
 
     copyToClipboard(text) {
-      this.logIt(text);
+      //if text is undefined then return null
+
+      //add text to clipboard
+      navigator.clipboard.writeText(text);
     },
     setCurrentCreator(item) {
       this.selectedCreator = item;

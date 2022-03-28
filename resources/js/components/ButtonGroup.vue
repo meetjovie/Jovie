@@ -7,11 +7,13 @@
       { 'py-0 text-xs': size == 'xs' },
       { 'py-1 text-sm': size == 'sm' },
       {
-        'bg-white   hover:bg-indigo-500 hover:text-white ':
+        'bg-white   hover:bg-indigo-500 hover:text-white  ':
           design == 'secondary',
       },
       { 'bg-red-500 text-white': design == 'danger' },
-      { 'bg-indigo-500 text-white': design == 'primary' },
+      {
+        'bg-indigo-500 text-white active:bg-indigo-600': design == 'primary',
+      },
 
       { 'rounded-r-md': rounded == 'right' },
       { 'rounded-l-md': rounded == 'left' },
@@ -83,7 +85,7 @@ export default {
     SearchIcon,
     BanIcon,
     ChevronRightIcon,
-      JovieSpinner
+    JovieSpinner,
   },
 };
 </script>
