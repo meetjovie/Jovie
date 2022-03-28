@@ -157,14 +157,55 @@
                 Upgrade
               </div>
               <PopoverGroup>
-                <Popover as="div" class="relative">
+                <Popover as="div" class="relative ml-3 border-l px-4">
                   <PopoverButton
-                    class="rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
+                    as="div"
+                    type="button"
+                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
+                    id="user-menu-button"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    @click="isShowing = !isShowing">
+                    <span class="sr-only">Open user menu</span>
+
                     <QuestionMarkCircleIcon
-                      class="mt-1 h-5 w-5 flex-shrink-0 text-neutral-500 hover:text-indigo-700"
-                      aria-hidden="true" />
+                      class="h-5 w-5 rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
                   </PopoverButton>
-                  <PopoverPanel> Hi </PopoverPanel>
+
+                  <transition
+                    enter-active-class="transition duration-150 ease-out"
+                    enter-from-class="transform scale-95 opacity-0"
+                    enter-to-class="transform scale-100 opacity-100"
+                    leave-active-class="transition duration-150 ease-out"
+                    leave-from-class="transform scale-100 opacity-100"
+                    leave-to-class="transform scale-95 opacity-0">
+                    <PopoverPanel
+                      as="div"
+                      active=""
+                      id="profileDropdown"
+                      class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="user-menu-button"
+                      tabindex="-1">
+                      <!-- Active: "bg-neutral-100", Not Active: "" -->
+
+                      <div
+                        v-for="helpmenuitem in helpmenuitems"
+                        :key="helpmenuitem"
+                        as="router-link"
+                        :to="helpmenuitem.route"
+                        class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                        role="menuitem"
+                        tabindex="-1">
+                        <component class="mr-4 h-4 w-4" :is="helpmenuitem.icon">
+                        </component>
+                        <router-link :to="helpmenuitem.route">
+                          {{ helpmenuitem.name }}
+                        </router-link>
+                      </div>
+                    </PopoverPanel>
+                  </transition>
                 </Popover>
               </PopoverGroup>
               <SwitchTeams />
@@ -306,10 +347,13 @@ import {
   UserGroupIcon,
   FolderOpenIcon,
   CogIcon,
+  BellIcon,
+  CursorClickIcon,
+  ChatAltIcon,
   LogoutIcon,
   SwitchHorizontalIcon,
+  SpeakerphoneIcon,
   QuestionMarkCircleIcon,
-  BellIcon,
 } from '@heroicons/vue/outline';
 import {
   Menu,
@@ -343,6 +387,11 @@ export default {
         { name: 'Profile', route: '/', icon: UserGroupIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
+      helpmenuitems: [
+        { name: 'Chat', route: '/', icon: ChatAltIcon },
+        { name: 'Shortcuts', route: 'Account', icon: CursorClickIcon },
+        { name: 'Feedback', route: 'Account', icon: SpeakerphoneIcon },
+      ],
       isShowing: false,
     };
   },
@@ -361,9 +410,12 @@ export default {
     HomeIcon,
     MenuItem,
     MenuItems,
+    ChatAltIcon,
     SearchIcon,
     BellIcon,
+    SpeakerphoneIcon,
     MailIcon,
+    CursorClickIcon,
     ChartBarIcon,
     CheckCircleIcon,
     CloudUploadIcon,
