@@ -449,11 +449,9 @@
                                     as="div"
                                     class="relative inline-block text-left">
                                     <div class="inline-flex space-x-2">
-                                     
-                                        <PlusIcon
-                                          class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
-                                       
-                                    
+                                      <PlusIcon
+                                        class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
+
                                       <HeartIcon
                                         class="h-5 w-5 cursor-pointer text-gray-500 hover:text-indigo-500" />
                                       <BanIcon
@@ -534,7 +532,9 @@
                                       </MenuItems>
                                     </transition>
                                   </Menu>
-
+                                  <div v-observe-visibility="visibilityChanged">
+                                    hi
+                                  </div>
                                   <!-- This example requires Tailwind CSS v2.0+ -->
                                 </div>
                               </div>
@@ -543,6 +543,7 @@
                         </div>
                       </template>
                     </ais-infinite-hits>
+
                     <div v-else class="mx-auto w-full items-center">
                       <div
                         class="mx-auto mt-24 max-w-xl items-center p-12 text-center text-sm font-bold text-neutral-500">
@@ -872,6 +873,10 @@ export default {
     clearSearch() {
       //move focus to the search box and clear the current search from instantsearch
       this.$refs.search.focus();
+    },
+    visibilityChanged(isVisible, entry) {
+      this.isVisible = isVisible;
+      console.log(entry);
     },
     toggleSidebar() {
       if (this.sidebarOpen) {
