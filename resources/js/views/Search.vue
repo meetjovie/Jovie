@@ -189,7 +189,10 @@
                                     class="rounded-full bg-neutral-200 p-0.5">
                                     <img
                                       class="rounded-full object-cover object-center"
-                                      :src="item.instagram_meta.profile_pic_url"
+                                      :src="
+                                        item.instagram_meta.profile_pic_url ??
+                                        currentUser.default_image
+                                      "
                                       alt="" />
                                   </div>
 
@@ -208,19 +211,10 @@
                                       {{ item.name }}</span
                                     >
                                     <div class="text-white">
-                                      <svg
-                                        v-if="item.instagram_is_verified"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="h-3 w-3"
-                                        fill="indigo"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                                      </svg>
+                                      <!-- <VerifiedBadge
+                                        :verified="
+                                          item.instagram_is_verified
+                                        " /> -->
                                     </div>
                                   </div>
                                   <div
@@ -654,26 +648,29 @@
 
                   <div class="grid grid-cols-5 py-2 px-4">
                     <CreatorAvatar
-                      :imageUrl="selectedCreator.instagram_meta[0]"
+                      :imageUrl="
+                        selectedCreator.instagram_meta.profile_pic_url ??
+                        currentUser.default_image
+                      "
                       as="div"
                       class="col-span-1 aspect-square items-center"
-                      size="lg" />
+                      size="md" />
                     <div class="col-span-3 block pr-6 pl-8">
                       <div
                         class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
-                        <img
-                          :src="selectedCreator.instagram_meta.profile_pic_url"
-                          class="relative mr-1 h-3 w-3 opacity-50" />
+                        <!--  <VerifiedBadge
+                          :verified="selectedCreator.instagram_is_verified" /> -->
                         <span class="-mt-0.5">{{
                           selectedCreator.full_name
                         }}</span>
                       </div>
                       <div
-                        class="mt-1 text-xs font-medium text-neutral-500 line-clamp-4">
+                        class="mt-1 h-20 text-xs font-medium text-neutral-500 line-clamp-4">
                         {{ selectedCreator.instagram_biography }}
                       </div>
                       <div>
                         <CreatorTags
+                          v-if="selectedCreator.instagram_category"
                           size="sm"
                           :showX="false"
                           :text="selectedCreator.instagram_category" />
@@ -736,7 +733,11 @@
                           </div>
                           <div class="text-center">
                             <div class="text-sm font-bold text-neutral-600">
-                              {{ selectedCreator.instagr }}
+                              {{
+                                formatCount(
+                                  selectedCreator.instagram_meta.engaged_follows
+                                )
+                              }}
                             </div>
                             <div class="text-[8px] text-neutral-400">EF</div>
                           </div>
@@ -751,8 +752,8 @@
                     </div>
                   </div>
 
-                  <div class="border-b px-4"></div>
-                  <CreatorContentBar />
+                  <div class="mt-2 border-b px-4"></div>
+                  <CreatorMediaItem :media="selectedCreator.instagram_media" />
                 </div>
               </div>
             </TransitionRoot>
@@ -805,11 +806,16 @@ import { createInfiniteHitsSessionStorageCache } from 'instantsearch.js/es/lib/i
 import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import JovieTooltip from '../components/JovieTooltip.vue';
+import CreatorMediaItem from '../components/TimelineMedia/CreatorMediaItem.vue';
+import VerifiedBadge from '../components/VerifiedBadge.vue';
+import CreatorAvatar from '../components/Creator/CreatorAvatar.vue';
 
 export default {
   components: {
     instantMeiliSearch,
     InputGroup,
+    VerifiedBadge,
+    CreatorAvatar,
     JovieSpinner,
     XIcon,
     TabGroup,
@@ -826,6 +832,7 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
+    CreatorMediaItem,
     DotsVerticalIcon,
     ChevronDownIcon,
     SearchIcon,

@@ -149,132 +149,134 @@
           </div>
 
           <div class="z-10 ml-2 flex items-center md:ml-6">
-            <div
-              as="router-link"
-              to="/account"
-              class="underline-2 mr-4 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
-              Upgrade
+            <div class="inline-flex items-center space-x-4 divide-x px-4">
+              <div
+                as="router-link"
+                to="/account"
+                class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+                Upgrade
+              </div>
+              <PopoverGroup>
+                <Popover as="div" class="relative">
+                  <PopoverButton
+                    class="rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
+                    <QuestionMarkCircleIcon
+                      class="mt-1 h-5 w-5 flex-shrink-0 text-neutral-500 hover:text-indigo-700"
+                      aria-hidden="true" />
+                  </PopoverButton>
+                  <PopoverPanel> Hi </PopoverPanel>
+                </Popover>
+              </PopoverGroup>
+              <SwitchTeams />
+              <button
+                class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
+                <BellIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+              </button>
             </div>
-            <SwitchTeams />
-            <button
-              class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
-              <span class="sr-only">View notifications</span>
-
-              <svg
-                class="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </button>
 
             <!-- Profile dropdown -->
-
-            <Popover as="div" class="relative ml-3 border-l px-4">
-              <PopoverButton
-                as="div"
-                type="button"
-                class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
-                id="user-menu-button"
-                aria-expanded="false"
-                aria-haspopup="true"
-                @click="isShowing = !isShowing">
-                <span class="sr-only">Open user menu</span>
-
-                <img
-                  id="profile_pic_url_img"
-                  ref="profile_pic_url_img"
-                  class="h-8 w-8 rounded-full border border-neutral-200 object-cover object-center"
-                  :src="
-                    $store.state.AuthState.user.profile_pic_url ??
-                    $store.state.AuthState.user.default_image
-                  " />
-              </PopoverButton>
-
-              <transition
-                enter-active-class="transition duration-150 ease-out"
-                enter-from-class="transform scale-95 opacity-0"
-                enter-to-class="transform scale-100 opacity-100"
-                leave-active-class="transition duration-150 ease-out"
-                leave-from-class="transform scale-100 opacity-100"
-                leave-to-class="transform scale-95 opacity-0">
-                <PopoverPanel
+            <PopoverGroup>
+              <Popover as="div" class="relative ml-3 border-l px-4">
+                <PopoverButton
                   as="div"
-                  active=""
-                  id="profileDropdown"
-                  class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="user-menu-button"
-                  tabindex="-1">
-                  <!-- Active: "bg-neutral-100", Not Active: "" -->
-                  <div
-                    as="div"
-                    class="block border-b-2 border-opacity-30 px-4 py-2 text-left text-xs font-bold text-neutral-400"
-                    role="menuitem"
-                    tabindex="-1"
-                    id="user-menu-item-0">
-                    <router-link
-                      to="/account"
-                      class="group 0 block flex-shrink-0">
-                      <div class="flex items-center">
-                        <div>
-                          <img
-                            class="inline-block h-6 w-6 rounded-full"
-                            :src="
-                              currentUser.profile_pic_url ??
-                              $store.state.AuthState.user.default_image
-                            "
-                            alt="" />
-                        </div>
-                        <div class="ml-3">
-                          <p
-                            class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
-                            {{ currentUser.first_name }}
-                            {{ currentUser.last_name }}
-                          </p>
+                  type="button"
+                  class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
+                  id="user-menu-button"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  @click="isShowing = !isShowing">
+                  <span class="sr-only">Open user menu</span>
 
-                          <p
-                            class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                            {{ currentUser.email }}
-                          </p>
-                        </div>
-                      </div>
-                    </router-link>
-                  </div>
-                  <div
-                    v-for="dropdownmenuitem in dropdownmenuitems"
-                    :key="dropdownmenuitem"
-                    as="router-link"
-                    :to="dropdownmenuitem.route"
-                    class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
-                    role="menuitem"
-                    tabindex="-1">
-                    <component class="mr-4 h-4 w-4" :is="dropdownmenuitem.icon">
-                    </component>
-                    <router-link :to="dropdownmenuitem.route">
-                      {{ dropdownmenuitem.name }}
-                    </router-link>
-                  </div>
-                  <div
+                  <img
+                    id="profile_pic_url_img"
+                    ref="profile_pic_url_img"
+                    class="h-8 w-8 rounded-full border border-neutral-200 object-cover object-center"
+                    :src="
+                      $store.state.AuthState.user.profile_pic_url ??
+                      $store.state.AuthState.user.default_image
+                    " />
+                </PopoverButton>
+
+                <transition
+                  enter-active-class="transition duration-150 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-150 ease-out"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0">
+                  <PopoverPanel
                     as="div"
-                    @click="$store.dispatch('logout')"
-                    class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
-                    role="menuitem"
+                    active=""
+                    id="profileDropdown"
+                    class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu-button"
                     tabindex="-1">
-                    <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
-                    Sign out
-                  </div>
-                </PopoverPanel>
-              </transition>
-            </Popover>
+                    <!-- Active: "bg-neutral-100", Not Active: "" -->
+                    <div
+                      as="div"
+                      class="block border-b-2 border-opacity-30 px-4 py-2 text-left text-xs font-bold text-neutral-400"
+                      role="menuitem"
+                      tabindex="-1"
+                      id="user-menu-item-0">
+                      <router-link
+                        to="/account"
+                        class="group 0 block flex-shrink-0">
+                        <div class="flex items-center">
+                          <div>
+                            <img
+                              class="inline-block h-6 w-6 rounded-full"
+                              :src="
+                                currentUser.profile_pic_url ??
+                                currentUser.default_image
+                              "
+                              alt="" />
+                          </div>
+                          <div class="ml-3">
+                            <p
+                              class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
+                              {{ currentUser.first_name }}
+                              {{ currentUser.last_name }}
+                            </p>
+
+                            <p
+                              class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                              {{ currentUser.email }}
+                            </p>
+                          </div>
+                        </div>
+                      </router-link>
+                    </div>
+                    <div
+                      v-for="dropdownmenuitem in dropdownmenuitems"
+                      :key="dropdownmenuitem"
+                      as="router-link"
+                      :to="dropdownmenuitem.route"
+                      class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      role="menuitem"
+                      tabindex="-1">
+                      <component
+                        class="mr-4 h-4 w-4"
+                        :is="dropdownmenuitem.icon">
+                      </component>
+                      <router-link :to="dropdownmenuitem.route">
+                        {{ dropdownmenuitem.name }}
+                      </router-link>
+                    </div>
+                    <div
+                      as="div"
+                      @click="$store.dispatch('logout')"
+                      class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      role="menuitem"
+                      tabindex="-1">
+                      <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
+                      Sign out
+                    </div>
+                  </PopoverPanel>
+                </transition>
+              </Popover>
+            </PopoverGroup>
           </div>
         </div>
       </div>
@@ -306,6 +308,8 @@ import {
   CogIcon,
   LogoutIcon,
   SwitchHorizontalIcon,
+  QuestionMarkCircleIcon,
+  BellIcon,
 } from '@heroicons/vue/outline';
 import {
   Menu,
@@ -358,6 +362,7 @@ export default {
     MenuItem,
     MenuItems,
     SearchIcon,
+    BellIcon,
     MailIcon,
     ChartBarIcon,
     CheckCircleIcon,
@@ -373,6 +378,7 @@ export default {
     PopoverButton,
     PopoverPanel,
     PopoverGroup,
+    QuestionMarkCircleIcon,
   },
 };
 </script>
