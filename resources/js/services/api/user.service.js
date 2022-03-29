@@ -3,7 +3,6 @@ import axios from "axios";
 
 const baseApiUrl = '/api';
 const baseUrlWeb = '';
-const baseUrlAdmin = '/api/admin';
 
 export default {
     async me() {
@@ -20,15 +19,15 @@ export default {
             `${baseApiUrl}/remove-profile-photo?_method=DELETE`);
     },
     async getUserLists() {
-        return axios.get(`${baseUrlAdmin}/user-lists`);
+        return axios.get(`${baseApiUrl}/user-lists`);
     },
     async getCrmCreators(data) {
-        return axios.get(`${baseUrlAdmin}/crm-creators`, {
+        return axios.get(`${baseApiUrl}/crm-creators`, {
             params: data
         });
     },
     async exportCrmCreators(data) {
-        return axios.get(`${baseUrlAdmin}/export-crm-creators`, {
+        return axios.get(`${baseApiUrl}/export-crm-creators`, {
             params: data,
             responseType: 'blob'
         });
@@ -37,7 +36,7 @@ export default {
         const id = data.id;
         delete data.id;
         return axios.post(
-            `${baseUrlAdmin}/update-creator/${id}?_method=PUT`, data);
+            `${baseApiUrl}/update-creator/${id}?_method=PUT`, data);
     },
     async getPublicProfile(data) {
         return axios.get(
@@ -47,7 +46,7 @@ export default {
         );
     },
     async getCreatorOverview(id) {
-        return axios.get(`${baseUrlAdmin}/creators-overview/${id}`);
+        return axios.get(`${baseApiUrl}/creators-overview/${id}`);
     },
     async subscribe(token, selectedPlan, selectedProduct) {
         return axios.post(
