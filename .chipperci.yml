@@ -11,7 +11,7 @@ services:
 pipeline:
   - name: Setup
     cmd: |
-      cp -v .env.example .env
+      cp -v .env
       composer install --no-interaction --prefer-dist --optimize-autoloader
       php artisan key:generate
   - name: Compile Dev Assets
