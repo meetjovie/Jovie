@@ -12,7 +12,7 @@ router.beforeEach(async (to, from) => {
         await store.dispatch('me').then(response => {
             const user = response
             if (to.meta.requiresAuth !== true) {
-                if (to.name == 'Login' || to.name == 'Create Account') {
+                if (to.name == 'Login' || to.name == 'Create Account' || to.name == 'Home') {
                     return router.push({name: 'Dashboard'})
                 }
             } else {
