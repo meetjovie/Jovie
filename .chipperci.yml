@@ -14,7 +14,7 @@ pipeline:
       cp -v .env.example .env
       composer install --no-interaction --prefer-dist --optimize-autoloader
       php artisan key:generate
-    - name: Compile Dev Assets
+  - name: Compile Dev Assets
     cmd: |
       if [[ -f "yarn.lock" ]]; then
           yarn
@@ -22,7 +22,7 @@ pipeline:
       else
           npm ci --no-audit
           npm run dev
-      fi    
+      fi
   - name: Deploy
     cmd: |
       if [[ $CI_COMMIT_BRANCH == 'master' ]]; then
