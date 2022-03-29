@@ -134,8 +134,7 @@ import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
 const featuredNav = [
   {
     name: 'Find creators',
-    description:
-      "Search through Jovie's database of 3 million+ creators to instantly find new prospects for your business.",
+    description: `Search through Jovie's database of ${store.state.creatorsDBCount}+ creators to instantly find new prospects for your business.`,
     link: 'search',
     cta: 'Create a search',
     icon: 'SearchIcon',
