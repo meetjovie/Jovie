@@ -20,10 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
 Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
 Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
+Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
-    Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
 
     //    PROFILE
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
