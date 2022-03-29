@@ -44,8 +44,8 @@ export const routes = [
     },
   },
   {
-    name: 'CRM',
-    path: '/crm',
+    name: 'Contacts',
+    path: '/contacts',
     component: loadPage('Crm'),
     meta: {
       layout: 'App',

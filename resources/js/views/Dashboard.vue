@@ -114,11 +114,11 @@
             </p>
           </div>
           <div class="mt-3 text-sm">
-            <router-link
-              :to="nav.link"
+            <a
+              :href="nav.link"
               class="font-medium text-indigo-600 hover:text-indigo-500">
               {{ nav.cta }}
-              <span aria-hidden="true">&rarr;</span></router-link
+              <span aria-hidden="true">&rarr;</span></a
             >
           </div>
         </div>
