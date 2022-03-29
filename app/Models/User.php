@@ -58,7 +58,10 @@ class User extends Authenticatable
             ->where('id', Auth::id())->first();
         $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
         $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
-        $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
+        $user->currentTeam->subscribed = false;
+        if ($user->currentTeam->current_subscription) {
+            $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
+        }
         return $user;
     }
 
