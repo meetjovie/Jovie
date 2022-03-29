@@ -87,7 +87,7 @@
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <div
-        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/100 backdrop-blur-xl backdrop-filter">
+        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/75 backdrop-blur-md backdrop-filter">
         <button
           id="showSidebar"
           class="border-r border-neutral-200 px-4 text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden">
@@ -148,124 +148,183 @@
             </div>
           </div>
 
-          <div class="z-10 ml-2 flex items-center md:ml-6">
-            <button
-              class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
-              <span class="sr-only">View notifications</span>
+          <div class="z-10 flex items-center">
+            <div class="inline-flex items-center space-x-4">
+              <div
+                as="router-link"
+                to="/account"
+                class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+                Upgrade
+              </div>
+              <SwitchTeams />
+              <PopoverGroup>
+                <Popover as="div" class="relative">
+                  <PopoverButton
+                    as="div"
+                    type="button"
+                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none"
+                    id="user-menu-button"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    @click="isShowing = !isShowing">
+                    <span class="sr-only">Open user menu</span>
 
-              <svg
-                class="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </button>
+                    <SupportIcon
+                      class="h-5 w-5 rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
+                  </PopoverButton>
+
+                  <transition
+                    enter-active-class="transition duration-150 ease-out"
+                    enter-from-class="transform scale-95 opacity-0"
+                    enter-to-class="transform scale-100 opacity-100"
+                    leave-active-class="transition duration-150 ease-out"
+                    leave-from-class="transform scale-100 opacity-100"
+                    leave-to-class="transform scale-95 opacity-0">
+                    <PopoverPanel
+                      as="div"
+                      active=""
+                      id="profileDropdown"
+                      class="absolute right-0 z-10 mt-4 w-40 origin-top-right rounded-md bg-white/60 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="user-menu-button"
+                      tabindex="-1">
+                      <!-- Active: "bg-neutral-100", Not Active: "" -->
+
+                      <div
+                        v-for="helpmenuitem in helpmenuitems"
+                        :key="helpmenuitem"
+                        as="router-link"
+                        :to="helpmenuitem.route"
+                        class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 first:pt-3 hover:bg-indigo-700 hover:text-white"
+                        role="menuitem"
+                        tabindex="-1">
+                        <component class="mr-4 h-4 w-4" :is="helpmenuitem.icon">
+                        </component>
+                        <router-link :to="helpmenuitem.route">
+                          {{ helpmenuitem.name }}
+                        </router-link>
+                      </div>
+                      <div
+                        onclick="Chattrigger"
+                        class="inline-flex w-full cursor-pointer px-4 pt-2 pb-3 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white">
+                        <ChatAltIcon class="mr-4 h-4 w-4" />
+                        Chat
+                      </div>
+                    </PopoverPanel>
+                  </transition>
+                </Popover>
+              </PopoverGroup>
+
+              <button
+                class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
+                <BellIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+              </button>
+            </div>
 
             <!-- Profile dropdown -->
-            <Menu as="div" class="relative ml-3 border-l px-4">
-              <MenuButton
-                as="div"
-                type="button"
-                class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
-                id="user-menu-button"
-                aria-expanded="false"
-                aria-haspopup="true"
-                @click="isShowing = !isShowing">
-                <span class="sr-only">Open user menu</span>
-
-                <img
-                  id="profile_pic_url_img"
-                  ref="profile_pic_url_img"
-                  class="h-8 w-8 rounded-full border border-neutral-200 object-cover object-center"
-                  :src="
-                    $store.state.AuthState.user.profile_pic_url ??
-                    $store.state.AuthState.user.default_image
-                  " />
-              </MenuButton>
-
-              <transition
-                enter-active-class="transition duration-150 ease-out"
-                enter-from-class="transform scale-95 opacity-0"
-                enter-to-class="transform scale-100 opacity-100"
-                leave-active-class="transition duration-150 ease-out"
-                leave-from-class="transform scale-100 opacity-100"
-                leave-to-class="transform scale-95 opacity-0">
-                <MenuItems
+            <PopoverGroup>
+              <Popover as="div" class="relative ml-3 border-l px-4">
+                <PopoverButton
                   as="div"
-                  active=""
-                  id="profileDropdown"
-                  class="d-none absolute right-0 z-20 mt-2 w-40 origin-top-right rounded-md bg-white/90 py-1 shadow-xl backdrop-blur-sm backdrop-filter"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="user-menu-button"
-                  tabindex="-1">
-                  <!-- Active: "bg-neutral-100", Not Active: "" -->
-                  <MenuItem
-                    v-bind:is="user"
+                  type="button"
+                  class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
+                  id="user-menu-button"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  @click="isShowing = !isShowing">
+                  <span class="sr-only">Open user menu</span>
+
+                  <img
+                    id="profile_pic_url_img"
+                    ref="profile_pic_url_img"
+                    class="h-8 w-8 rounded-full border border-neutral-200 object-cover object-center"
+                    :src="
+                      $store.state.AuthState.user.profile_pic_url ??
+                      $store.state.AuthState.user.default_image
+                    " />
+                </PopoverButton>
+
+                <transition
+                  enter-active-class="transition duration-150 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-150 ease-out"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0">
+                  <PopoverPanel
                     as="div"
-                    class="block border-b-2 border-opacity-30 px-4 py-2 text-left text-xs font-bold text-neutral-400"
-                    role="menuitem"
-                    tabindex="-1"
-                    id="user-menu-item-0">
-                    <router-link
-                      to="/account"
-                      class="group block flex-shrink-0">
-                      <div class="flex items-center">
-                        <div>
-                          <img
-                            class="inline-block h-6 w-6 rounded-full"
-                            :src="
-                              $store.state.AuthState.user.profile_pic_url ??
-                              $store.state.AuthState.user.default_image
-                            "
-                            alt="" />
-                        </div>
-                        <div class="ml-3">
-                          <p
-                            class="text-xs font-medium text-gray-700 group-hover:text-gray-900">
-                            {{ $store.state.AuthState.user.first_name }}
-                          </p>
-                          <p
-                            class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                            View profile
-                          </p>
-                        </div>
-                      </div>
-                    </router-link>
-                  </MenuItem>
-                  <MenuItem
-                    v-for="dropdownmenuitem in dropdownmenuitems"
-                    :key="dropdownmenuitem"
-                    as="router-link"
-                    :to="dropdownmenuitem.route"
-                    class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
-                    role="menuitem"
+                    active=""
+                    id="profileDropdown"
+                    class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu-button"
                     tabindex="-1">
-                    <component class="mr-4 h-4 w-4" :is="dropdownmenuitem.icon">
-                    </component>
-                    <router-link :to="dropdownmenuitem.route">
-                      {{ dropdownmenuitem.name }}
-                    </router-link>
-                  </MenuItem>
-                  <MenuItem
-                    as="div"
-                    @click="$store.dispatch('logout')"
-                    class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
-                    role="menuitem"
-                    tabindex="-1">
-                    <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
-                    Sign out
-                  </MenuItem>
-                </MenuItems>
-              </transition>
-            </Menu>
+                    <!-- Active: "bg-neutral-100", Not Active: "" -->
+                    <div
+                      as="div"
+                      class="block border-b-2 border-opacity-30 px-4 py-2 text-left text-xs font-bold text-neutral-400"
+                      role="menuitem"
+                      tabindex="-1"
+                      id="user-menu-item-0">
+                      <router-link
+                        to="/account"
+                        class="group 0 block flex-shrink-0">
+                        <div class="flex items-center">
+                          <div>
+                            <img
+                              class="inline-block h-6 w-6 rounded-full"
+                              :src="
+                                currentUser.profile_pic_url ??
+                                currentUser.default_image
+                              "
+                              alt="" />
+                          </div>
+                          <div class="ml-3">
+                            <p
+                              class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
+                              {{ currentUser.first_name }}
+                              {{ currentUser.last_name }}
+                            </p>
+
+                            <p
+                              class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                              {{ currentUser.email }}
+                            </p>
+                          </div>
+                        </div>
+                      </router-link>
+                    </div>
+                    <div
+                      v-for="dropdownmenuitem in dropdownmenuitems"
+                      :key="dropdownmenuitem"
+                      as="router-link"
+                      :to="dropdownmenuitem.route"
+                      class="first-rounded-t-mdtext-neutral-700 inline-flex w-full px-4 py-2 text-xs hover:bg-indigo-700 hover:text-white"
+                      role="menuitem"
+                      tabindex="-1">
+                      <component
+                        class="mr-4 h-4 w-4"
+                        :is="dropdownmenuitem.icon">
+                      </component>
+                      <router-link :to="dropdownmenuitem.route">
+                        {{ dropdownmenuitem.name }}
+                      </router-link>
+                    </div>
+                    <div
+                      as="div"
+                      @click="$store.dispatch('logout')"
+                      class="inline-flex w-full rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      role="menuitem"
+                      tabindex="-1">
+                      <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
+                      Sign out
+                    </div>
+                  </PopoverPanel>
+                </transition>
+              </Popover>
+            </PopoverGroup>
           </div>
         </div>
       </div>
@@ -295,16 +354,26 @@ import {
   UserGroupIcon,
   FolderOpenIcon,
   CogIcon,
+  BellIcon,
+  CursorClickIcon,
+  ChatAltIcon,
   LogoutIcon,
   SwitchHorizontalIcon,
+  SpeakerphoneIcon,
+  SupportIcon,
 } from '@heroicons/vue/outline';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  PopoverGroup,
+} from '@headlessui/vue';
 import UserService from '../services/api/user.service';
-
-/* const pages = [
-  { name: 'CRM', href: '/outreach', current: false },
-  { name: 'Creators', href: '#', current: true },
-]; */
+import SwitchTeams from '../components/SwitchTeams.vue';
 
 export default {
   name: 'App',
@@ -316,18 +385,18 @@ export default {
         { name: 'Admin', route: '/admin', icon: CheckCircleIcon },
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
         { name: 'Search', route: '/discovery', icon: SearchIcon },
-        { name: 'CRM', route: '/crm', icon: UserGroupIcon },
+        { name: 'Contacts', route: '/crm', icon: UserGroupIcon },
         { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon },
-        { name: 'Outreach', route: '/outreach', icon: MailIcon },
-        { name: 'Campaings', route: '/campaigns', icon: FolderOpenIcon },
-
-        { name: 'Analytics', route: '/analytics', icon: ChartBarIcon },
         { name: 'Import', route: '/import', icon: CloudUploadIcon },
         { name: 'Settings', route: '/account', icon: CogIcon },
       ],
       dropdownmenuitems: [
         { name: 'Profile', route: '/', icon: UserGroupIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
+      ],
+      helpmenuitems: [
+        { name: 'Shortcuts', route: 'Account', icon: CursorClickIcon },
+        { name: 'Feedback', route: 'Account', icon: SpeakerphoneIcon },
       ],
       isShowing: false,
     };
@@ -347,8 +416,12 @@ export default {
     HomeIcon,
     MenuItem,
     MenuItems,
+    ChatAltIcon,
     SearchIcon,
+    BellIcon,
+    SpeakerphoneIcon,
     MailIcon,
+    CursorClickIcon,
     ChartBarIcon,
     CheckCircleIcon,
     CloudUploadIcon,
@@ -358,6 +431,12 @@ export default {
     ChevronLeftIcon,
     LogoutIcon,
     SwitchHorizontalIcon,
+    SwitchTeams,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    PopoverGroup,
+    SupportIcon,
   },
 };
 </script>

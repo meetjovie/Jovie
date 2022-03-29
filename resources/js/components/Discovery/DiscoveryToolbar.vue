@@ -86,31 +86,13 @@
       </TabList>
     </div>
     <div class="items-center">
-      <Popover v-slot="{ open }" class="relative z-20 inline">
-        <span class="inline-flex items-center">
-          <ButtonGroup
-            style="secondary"
-            size="sm"
-            rounded="left"
-            text="Export" />
-
-          <PopoverButton
-            size="sm"
-            rounded="right"
-            class="group relative inline-flex cursor-pointer items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-indigo-700 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white">
-            <ChevronRightIcon
-              class="h-3 w-3 group-hover:text-white"></ChevronRightIcon>
-          </PopoverButton>
-        </span>
-        <DiscoverySidebar></DiscoverySidebar>
-        <PopoverOverlay
-          class="bg-black"
-          :class="
-            open
-              ? 'fixed inset-0 z-20 h-full opacity-30 backdrop-blur-2xl backdrop-filter'
-              : 'opacity-0'
-          " />
-      </Popover>
+      <span class="inline-flex items-center">
+        <ButtonGroup
+          design="secondary"
+          size="sm"
+          rounded="left"
+          text="Export" />
+      </span>
     </div>
   </div>
 </template>

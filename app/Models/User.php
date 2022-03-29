@@ -9,10 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
+use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, Searchable;
 
     const UPLOAD_PATH = 'public/jovie/user/profiles/';
 
@@ -49,6 +51,24 @@ class User extends Authenticatable
     ];
 
     protected $appends = ['default_image', 'full_name'];
+
+    public static function currentLoggedInUser()
+    {
+        $user = User::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
+            ->where('id', Auth::id())->first();
+        $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
+        $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
+        $user->currentTeam->subscribed = false;
+        if ($user->currentTeam->current_subscription) {
+            $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
+        }
+        return $user;
+    }
+
+    public function ownedTeams()
+    {
+        return $this->hasMany(Team::class, 'owner_id', 'id')->with('users');
+    }
 
     public function creatorProfile()
     {

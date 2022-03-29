@@ -23,7 +23,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'user' => Auth::user()
+                'user' => User::currentLoggedInUser()
             ], 200);
         }
 
@@ -60,11 +60,19 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $teamModel = config('teamwork.team_model');
+
+        $team = $teamModel::create([
+            'name' => $request->first_name,
+            'owner_id' => $user->id,
+        ]);
+        $user->attachTeam($team);
+
         Auth::login($user);
 
         return response()->json([
             'status' => true,
-            'user' => Auth::user()
+            'user' => User::currentLoggedInUser()
         ], 200);
     }
 

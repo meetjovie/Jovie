@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function me(Request $request)
     {
-        return Auth::user();
+        return User::currentLoggedInUser();
     }
 
     public function publicProfile(Request $request)

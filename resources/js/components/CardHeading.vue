@@ -9,7 +9,10 @@
         <p v-if="subtitle" class="mt-1 text-xs text-gray-500">{{ subtitle }}</p>
       </div>
       <div class="ml-4 mt-4 flex-shrink-0">
-        <slot></slot>
+        <ButtonGroup
+          :style="buttonstyle"
+          :icon="buttonicon"
+          :text="buttontext" />
       </div>
     </div>
   </div>
@@ -32,6 +35,14 @@ export default {
       default: null,
     },
     buttontext: {
+      type: String,
+      default: null,
+    },
+    buttonstyle: {
+      type: String,
+      default: null,
+    },
+    buttonicon: {
       type: String,
       default: null,
     },

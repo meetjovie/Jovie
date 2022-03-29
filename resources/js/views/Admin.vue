@@ -5,7 +5,7 @@
         <h2 class="text-lg font-medium leading-6 text-neutral-900">KPIs</h2>
         <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2">
           <!-- Card -->
-
+          <div></div>
           <div class="overflow-hidden rounded-lg bg-white shadow">
             <div class="p-5">
               <div class="flex items-center">
@@ -62,9 +62,7 @@
         </div>
       </div>
     </div>
-    <div>
-      https://img.shields.io/endpoint?url=https://app.chipperci.com/projects/58d17d0b-dae3-441a-aeff-e24718ab5042/status/main
-    </div>
+
     <div class="mt-8">
       <div class="flex max-w-xl justify-between gap-8 px-4 sm:px-6 lg:px-8">
         <a href="https://dashboard.stripe.com/">
