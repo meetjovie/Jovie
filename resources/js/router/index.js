@@ -14,6 +14,8 @@ router.beforeEach(async (to, from) => {
             if (to.meta.requiresAuth !== true) {
                 if (to.name == 'Login' || to.name == 'Create Account' || to.name == 'Home') {
                     return router.push({name: 'Dashboard'})
+                } else {
+
                 }
             } else {
                 if (to.meta.requiresAdmin && !user.is_admin) {
@@ -24,7 +26,11 @@ router.beforeEach(async (to, from) => {
                 }
             }
         }).catch(() => {
-            if (to.name !== 'Login') {
+            if (to.meta.requiresAuth !== true) {
+                if (to.name != 'Login') {
+
+                }
+            } else if (to.name !== 'Login') {
                 return router.push({name: 'Login'})
             }
         })
