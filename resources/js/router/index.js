@@ -9,24 +9,25 @@ const router = VueRouter.createRouter({
 })
 router.beforeEach(async (to, from) => {
     if (to.meta) {
-        if (to.meta.requiresAuth) {
-            await store.dispatch('me').then(response => {
-                const user = response
+        await store.dispatch('me').then(response => {
+            const user = response
+            if (to.meta.requiresAuth !== true) {
                 if (to.name == 'Login' || to.name == 'Create Account') {
                     return router.push({name: 'Dashboard'})
                 }
+            } else {
                 if (to.meta.requiresAdmin && !user.is_admin) {
                     return router.push({name: from.name})
                 }
                 if (to.meta.requiresSubscribe && !user.current_team.subscribed) {
                     return router.push({name: from.name})
                 }
-            }).catch(() => {
-                if (to.name !== 'Login') {
-                    return router.push({name: 'Login'})
-                }
-            })
-        }
+            }
+        }).catch(() => {
+            if (to.name !== 'Login') {
+                return router.push({name: 'Login'})
+            }
+        })
     }
 })
 // router.beforeEach(async (to, from, next) => {
