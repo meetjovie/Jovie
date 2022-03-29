@@ -151,7 +151,7 @@
                 </div>
             </template>
             <div v-show="showPayment">
-                <PaymentElement ref="paymentElement" :buttonText="showSubscriptionPlans ? 'Update' : 'Pay'" :processingPayment="processingPayment" @pay="pay" />
+                <PaymentElement @setPaymentElement="setPaymentElement" :buttonText="showSubscriptionPlans ? 'Update' : 'Pay'" :processingPayment="processingPayment" @pay="pay" />
             </div>
             <div class="flex justify-center" v-if="loadingProducts">
                 <JovieSpinner/>
@@ -333,7 +333,8 @@ export default {
             processingPayment: false,
             showSubscriptionPlans: false,
             showPayment: false,
-            stripe: null
+            stripe: null,
+            paymentElement: null
         };
     },
     watch: {
@@ -476,6 +477,9 @@ export default {
                     }
                 });
         },
+        setPaymentElement(paymentElement) {
+            this.paymentElement = paymentElement
+        },
         newSubscription(paymentId) {
             UserService.subscribe(paymentId, this.selectedPlan, this.selectedProduct)
                 .then((response) => {
@@ -497,7 +501,7 @@ export default {
                     }
                 })
                 .finally(() => {
-                    this.$refs.paymentElement.clear();
+                    this.paymentElement.clear();
                     this.processingPayment = false;
                 });
         },
@@ -527,7 +531,7 @@ export default {
                     }
                 })
                 .finally(() => {
-                    this.$refs.paymentElement.clear();
+                    this.paymentElement.clear();
                     this.processingPayment = false;
                 });
         },
