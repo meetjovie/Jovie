@@ -19,7 +19,7 @@ class Subscribed
     public function handle(Request $request, Closure $next)
     {
         $user = User::currentLoggedInUser();
-        if ($user->currentTeam->current_subscription && $user->currentTeam->subscribed($user->currentTeam->current_subscription->name)) {
+        if ($user->is_admin || ($user->currentTeam->current_subscription && $user->currentTeam->subscribed($user->currentTeam->current_subscription->name))) {
             return $next($request);
         }
         return response()->json(["message" => "You are not subscribed. Please upgrade your plan."], 401);

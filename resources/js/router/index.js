@@ -21,7 +21,7 @@ router.beforeEach(async (to, from) => {
                 if (to.meta.requiresAdmin && !user.is_admin) {
                     return router.push({name: from.name})
                 }
-                if (to.meta.requiresSubscribe && !user.current_team.subscribed) {
+                if (to.meta.requiresSubscribe && (!user.current_team.subscribed && !user.is_admin)) {
                     return router.push({name: from.name})
                 }
             }
