@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use MeiliSearch\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/filters-scout', function () {
+    $client = new Client(config('scout.meilisearch.host'));
+    $response = $client->index('creators')->updateFilterableAttributes(['instagram_followers']);
+    dd($response);
+});
 Route::get('creator', function () {
     $url = ('https://www.instagram.com/timwhite/?__a=1&hl=en');
     $client = new \GuzzleHttp\Client();
