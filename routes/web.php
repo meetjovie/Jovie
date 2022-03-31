@@ -15,7 +15,17 @@ use MeiliSearch\Client;
 */
 Route::get('/filters-scout', function () {
     $client = new Client(config('scout.meilisearch.host'));
-    $response = $client->index('creators')->updateFilterableAttributes(['instagram_followers']);
+    $response = $client->index('creators')->updateFilterableAttributes([
+        'instagram_followers',
+        'instagram_engagement_rate',
+        'engaged_follows',
+        'gender',
+        'city',
+        'country',
+        'instagram_category',
+        'email'
+    ]);
+    $response = $client->index('creators')->getFilterableAttributes();
     dd($response);
 });
 Route::get('creator', function () {

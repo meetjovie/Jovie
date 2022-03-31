@@ -130,6 +130,7 @@
 <script>
 import TeamService from '../services/api/team.service';
 import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
+import store from '../store/index'
 
 const featuredNav = [
   {
