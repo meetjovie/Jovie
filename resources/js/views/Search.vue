@@ -1132,7 +1132,7 @@ export default {
       selectedCreator: [],
       searchClient: instantMeiliSearch(
         'https://search.jov.ie',
-        '14pUwwlK3f1cbd15e184c2ca41a0d0fc5eb22c07a73c4adf86c3e3534407e33b7ab0a56c',
+        'MGM1ZDIxYTljMWJjOWFlNzFlNWU2YmI3',
         {
           placeholderSearch: true, // default: true.
           primaryKey: 'id', // default: undefined
