@@ -192,7 +192,7 @@ import {
   SwitchLabel,
 } from '@headlessui/vue';
 import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue';
-import ImportService from '../services/api/admin/import.service';
+import ImportService from '../services/api/import.service';
 import UserService from '../services/api/user.service';
 
 export default {

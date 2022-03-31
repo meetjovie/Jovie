@@ -27,7 +27,7 @@
             <main class="flex-auto">
               <!--  <DiscoveryStats></DiscoveryStats> -->
               <TabGroup :defaultIndex="0">
-                <DiscoveryToolbar class="px-4"></DiscoveryToolbar>
+                <!-- <DiscoveryToolbar class="px-4"></DiscoveryToolbar> -->
 
                 <div
                   class="sticky top-0 min-w-full items-center divide-y divide-gray-200 overflow-y-scroll">

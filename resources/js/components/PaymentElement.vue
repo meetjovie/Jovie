@@ -74,6 +74,7 @@ export default {
                 });
                 this.paymentElement = this.elements.create('payment');
                 this.paymentElement.mount('#card');
+                this.$emit('setPaymentElement', this.paymentElement)
             } else {
                 alert(response.message);
             }

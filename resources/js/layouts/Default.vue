@@ -214,7 +214,7 @@ export default {
           features: [
         {
           name: 'Creator search',
-          description: 'Search 3M+ creators and find the best match for your business',
+          description: `Search ${this.$store.state.creatorsDBCount}+ creators and find the best match for your business`,
           href: '/',
           anchor: '#discovery',
           icon: 'SearchIcon',

@@ -1,7 +1,8 @@
 export default {
-    AuthState: {
-        user: null,
-        isAuthenticated: false,
-    },
-    addedToWaitList: false
-}
+  AuthState: {
+    user: null,
+    isAuthenticated: false,
+  },
+  addedToWaitList: false,
+  creatorsDBCount: '3M',
+};
