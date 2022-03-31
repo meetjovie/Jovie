@@ -21,24 +21,18 @@ class Creator extends Model
 
     protected $guarded = [];
 
-
     protected $appends = ['name', 'biography', 'category', 'social_links_with_followers', 'overview_media', 'profile_pic_url'];
-
-
 
     public function getProfilePicUrlAttribute($creator = null)
     {
-
         if (is_null($creator)) {
             $creator = $this;
         }
         foreach (Creator::NETWORKS as $network) {
             if (!empty($creator->{$network.'_meta'}->profile_pic_url)) {
-
                 return $creator->{$network.'_meta'}->profile_pic_url;
             }
         }
-
         return asset('img/noimage.webp');
     }
 
@@ -226,16 +220,6 @@ class Creator extends Model
         return null;
     }
 
-
-    public function getTiktokHandlerAttribute($value)
-    {
-        if ($value) {
-            return 'https://www.tiktok.com/@' . $value;
-        }
-        return null;
-    }
-
-
     public function getInstagramHandlerAttribute($value)
     {
         if ($value) {
@@ -271,17 +255,7 @@ class Creator extends Model
         return json_decode($value ?? '[]');
     }
 
-    public function getTiktokMediaAttribute($value)
-    {
-        return json_decode($value ?? '[]');
-    }
-
     public function getInstagramMetaAttribute($value)
-    {
-        return json_decode($value ?? '{}');
-    }
-
-    public function getTiktokMetaAttribute($value)
     {
         return json_decode($value ?? '{}');
     }
@@ -328,7 +302,6 @@ class Creator extends Model
 
     public static function getCrmCreators($params)
     {
-
         $creators = DB::table('creators')
             ->addSelect('crms.*')->addSelect('crms.id as crm_id')
             ->addSelect('creators.*')->addSelect('creators.id as id')
@@ -339,8 +312,6 @@ class Creator extends Model
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
             });
-
-
 
         if (isset($params['archived']) && $params['archived'] == 1) {
             $creators = $creators->where(function ($q) {
@@ -359,7 +330,7 @@ class Creator extends Model
         if (!empty($params['list'])) {
             $creators = $creators->join('creator_user_list', function ($join) use ($params) {
                 $join->on('crms.creator_id', '=', 'creator_user_list.creator_id')
-                    ->where('user_list_id', $params['list']);
+                ->where('user_list_id', $params['list']);
             });
         }
 
@@ -384,9 +355,6 @@ class Creator extends Model
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
 
-            $creator->tiktok_meta = $creatorAccessor->getTiktokMetaAttribute($creator->tiktok_meta);
-//            $creator->tiktok_media = $creatorAccessor->getTiktokMediaAttribute($creator->tiktok_media);
-
             $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
 
             $creator->social_links = $creatorAccessor->getSocialLinksAttribute($creator->social_links);
@@ -395,8 +363,6 @@ class Creator extends Model
 
             $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
-
-            $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
 
             $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
 
@@ -490,14 +456,10 @@ class Creator extends Model
         // update interactions for crm
         Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
     }
+
     public function toSearchableArray()
     {
         $array = $this->toArray();
-
-        // Customize the data array...
-
-
-
         return $array;
     }
 

@@ -237,6 +237,7 @@ import {
   TableIcon,
   PhoneIcon,
 } from '@heroicons/vue/outline';
+import store from '../store';
 const annualBilling = ref(true);
 
 const tiers = [
@@ -248,7 +249,10 @@ const tiers = [
     priceAnnual: 2148,
     description: 'For freelancers',
     features: [
-      { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
+      {
+        name: `Database of ${store.state.creatorsDBCount}+ creators`,
+        icon: 'DatabaseIcon',
+      },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
       { name: '500 contact credits/month', icon: 'MailIcon' },
       { name: '1 User included', icon: 'UserIcon' },
@@ -263,7 +267,10 @@ const tiers = [
     priceAnnual: 5388,
     description: 'Built for startups and growing teams',
     features: [
-      { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
+      {
+        name: `Database of ${store.state.creatorsDBCount}+ creators`,
+        icon: 'DatabaseIcon',
+      },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
       { name: '2,500 contact credits/month', icon: 'MailIcon' },
       { name: '2 Users included', icon: 'UsersIcon' },
@@ -281,7 +288,10 @@ const tiers = [
     priceAnnual: 26388,
     description: 'For large teams and enterprises',
     features: [
-      { name: 'Database of 2M+ creators', icon: 'DatabaseIcon' },
+      {
+        name: `Database of ${store.state.creatorsDBCount}+ creators`,
+        icon: 'DatabaseIcon',
+      },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
       { name: '10,00 contact credits/month', icon: 'MailIcon' },
       { name: '5 Users included', icon: 'UserGroupIcon' },
