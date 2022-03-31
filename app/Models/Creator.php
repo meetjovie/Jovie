@@ -398,10 +398,6 @@ class Creator extends Model
 
             $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
 
-            $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
-
-            $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
-
             $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
 
             // crm
@@ -497,12 +493,12 @@ class Creator extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
- 
+
         // Customize the data array...
-       
-       
- 
+
+
+
         return $array;
     }
-  
+
 }
