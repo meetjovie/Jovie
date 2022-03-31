@@ -8,7 +8,7 @@
         </h1>
         <p
           class="mt-4 text-center text-base font-medium leading-6 text-gray-500">
-          The creator economy's most innovative startups use Jovie to empower
+          The creator economy's most innovative companies use Jovie to empower
           their creator partnerships teams.
         </p>
       </div>
