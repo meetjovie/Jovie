@@ -129,14 +129,14 @@
           </main>
         </div>
       </div>
-      <HomeLogoCloud></HomeLogoCloud>
+      <!-- <HomeLogoCloud></HomeLogoCloud> -->
 
       <HomeFeatureCRM id="crm"></HomeFeatureCRM>
-      <HomeCreatorSearch id="discovery"></HomeCreatorSearch>
+      <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
       <!--   <HomeFeatureSequences></HomeFeatureSequences> -->
-      <HomeFeatureHero></HomeFeatureHero>
+      <!--  <HomeFeatureHero></HomeFeatureHero> -->
 
-      <HomeCTA></HomeCTA>
+      <!--  <HomeCTA></HomeCTA> -->
       <HomeTestimonials></HomeTestimonials>
       <HomeCTA2></HomeCTA2>
     </main>

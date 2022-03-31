@@ -14,7 +14,6 @@ export const routes = [
     component: loadPage('Home'),
     meta: {
       requiresAuth: false,
-      onlyAdmin: false,
     },
   },
   {
@@ -24,50 +23,42 @@ export const routes = [
     meta: {
       layout: 'default',
       requiresAuth: false,
-      onlyAdmin: false,
     },
   },
   {
     name: 'Account',
     path: '/account',
     component: loadPage('Account'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
       requiresAuth: true,
-      onlyAdmin: false,
     },
   },
   {
     name: 'Dashboard',
     path: '/dashboard',
     component: loadPage('Dashboard'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
       requiresAuth: true,
-      onlyAdmin: false,
     },
   },
   {
-    name: 'CRM',
-    path: '/crm',
+    name: 'Contacts',
+    path: '/contacts',
     component: loadPage('Crm'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
       requiresAuth: true,
-      onlyAdmin: true,
+      requiresSubscribe: true,
     },
   },
   {
     about: 'About',
     path: '/about',
     component: loadPage('About'),
-    beforeEnter: authenticationGuard,
     meta: {
       requiresAuth: false,
-      onlyAdmin: false,
     },
   },
   {
@@ -77,7 +68,6 @@ export const routes = [
     meta: {
       layout: 'Default',
       requiresAuth: false,
-      onlyAdmin: false,
     },
   },
   {
@@ -87,7 +77,6 @@ export const routes = [
     meta: {
       layout: 'Default',
       requiresAuth: false,
-      onlyAdmin: false,
     },
   },
   {
@@ -98,7 +87,6 @@ export const routes = [
     },
     meta: {
       requiresAuth: false,
-      onlyAdmin: false,
     },
   },
   {
@@ -109,7 +97,7 @@ export const routes = [
     },
     meta: {
       requiresAuth: true,
-      onlyAdmin: false,
+      requiresSubscribe: true,
     },
   },
   {
@@ -120,71 +108,64 @@ export const routes = [
     },
     meta: {
       requiresAuth: false,
-      onlyAdmin: false,
     },
   },
   {
     name: 'Import',
     path: '/import',
     component: loadPage('Import'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
       requiresAuth: true,
-      onlyAdmin: true,
+      requiresSubscribe: true,
     },
   },
   {
     name: 'Admin Panel',
     path: '/admin',
     component: loadPage('Admin'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
       requiresAuth: true,
-      onlyAdmin: true,
+      requiresAdmin: true,
     },
   },
   {
     name: 'Outreach',
     path: '/outreach',
     component: loadPage('Outreach'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
+      requiresAuth: true,
+      requiresSubscribe: true,
     },
   },
   {
     name: 'Discovery',
     path: '/discovery',
     component: loadPage('Search'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
       requiresAuth: true,
-      onlyAdmin: true,
+      requiresSubscribe: true,
     },
   },
   {
     name: 'Analytics',
     path: '/analytics',
     component: loadPage('Analytics'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
       requiresAuth: true,
-      onlyAdmin: true,
     },
   },
   {
     name: 'Campaigns',
     path: '/campaigns',
     component: loadPage('Campaigns'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
       requiresAuth: true,
-      onlyAdmin: true,
     },
   },
   {
@@ -232,43 +213,30 @@ export const routes = [
     path: '/creator-overview/:id',
     component: loadPage('CreatorOverview'),
     props: true,
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
+      requiresAuth: true,
+      requiresSubscribe: true,
     },
   },
   {
     name: 'Pipeline',
     path: '/pipeline',
     component: loadPage('Pipeline'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
+      requiresAuth: true,
+      requiresSubscribe: true,
     },
   },
   {
     name: 'Search',
     path: '/search',
     component: loadPage('Search'),
-    beforeEnter: authenticationGuard,
     meta: {
       layout: 'App',
-    },
-  },
-  {
-    name: 'Create Account',
-    path: '/signup',
-    component: loadPage('Signup'),
-    meta: {
-      layout: 'Minimal',
-    },
-  },
-  {
-    name: 'Forgot Password',
-    path: '/forgot-password',
-    component: loadPage('ForgotPassword'),
-    meta: {
-      layout: 'Minimal',
+      requiresAuth: true,
+      requiresSubscribe: true,
     },
   },
   {

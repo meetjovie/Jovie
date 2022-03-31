@@ -398,6 +398,8 @@ class Creator extends Model
 
             $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
 
+            $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
+
             $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
 
             // crm
@@ -490,14 +492,10 @@ class Creator extends Model
         // update interactions for crm
         Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
     }
+
     public function toSearchableArray()
     {
         $array = $this->toArray();
-
-        // Customize the data array...
-
-
-
         return $array;
     }
 

@@ -1,16 +1,13 @@
 <template>
-    <div class="">
-        
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class=" bg-gray-50">
-                
+    <div class="overflow-hidden">
+        <div style="float: right; margin: 10px"><p>Showing {{creators.length < creatorsMeta.per_page ? creators.length : creatorsMeta.per_page * creatorsMeta.current_page}} of {{creators.length}}</p></div>
+        <table id="creators_table" class="min-w-full overflow-none overscroll-contain divide-y divide-gray-200">
+            <thead class=" bg-gray-50 sticky top-0 ">
             <tr>
-                
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500">
+                    class="items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500">
                     <div class="grid grid-cols-2 items-center">
-                        
                         <div class="h-5 items-center text-center">
                             <input
                                 id="comments"
@@ -38,33 +35,39 @@
                 </th>
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+                    class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Creator
                 </th>
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
                     First
                 </th>
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
+                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:flex">
                     Last
                 </th>
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
                     Email
                 </th>
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 table-cell items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+                    class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                    Platform
+                </th>
+                <th
+                    @click="sortTable(6)"
+                    style="cursor: pointer"
+                    scope="col"
+                    class="flex items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Followers
-                     
                 </th>
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
                     Offer
                 </th>
 
@@ -74,24 +77,21 @@
                         </th> -->
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 md:table-cell">
+                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 md:table-cell">
                     Stage
                 </th>
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
+                    class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
                     Contacted
                 </th>
                 <th
                     scope="col"
-                    class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+                    class="px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
                     Rating
                 </th>
-                <th scope="col" class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 px-6 py-3  text-right text-xs font-medium tracking-wider text-gray-500">
+                <th scope="col" class="relative px-6 py-3">
                     <span class="sr-only">Edit</span>
-
-                    <div class="hidden w-60 2xl:block">Showing {{creators.length}}  of 1,500 results</div>
-          <div class="hidden w-40 lg:block 2xl:hidden">{{creators.length}}  of 1,500</div>
                 </th>
             </tr>
             </thead>
@@ -99,13 +99,11 @@
             <template v-if="loading">
                 <tr>
                     <td colspan="11">
-                        <div class="flex pb-80 justify-center bg-gray-50 min-h-screen items-center">
-                            <JovieSpinner />
-                                <span class="visually-hidden sr-only">
-                                    Loading...
-                                </span>
+                        <div class="flex justify-center items-center">
+                            <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+                                <span class="visually-hidden sr-only">Loading...</span>
+                            </div>
                         </div>
-                       
                     </td>
                 </tr>
             </template>
@@ -114,8 +112,8 @@
                     <tr v-if="creator[`${network}_meta`] && Object.keys(creator[`${network}_meta`]).length && !creator.crm_record_by_user[`${network}_removed`] &&  (arcvhied ? creator.crm_record_by_user[`${network}_archived`] : !creator.crm_record_by_user[`${network}_archived`])"
                         class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                         <td
-                            class="w-18 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
-                            <div class="grid grid-cols-2 gap-2 items-center">
+                            class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                            <div class="grid grid-cols-2 items-center">
                                 <div class="group mr-2">
                                                                       <span class="group-hover:hidden">
                                                                         {{ (indexN + 1) }}
@@ -127,9 +125,6 @@
                                                                                 name="comments"
                                                                                 type="checkbox"
                                                                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"/>
-                                                                                <div  class="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
-             
-            </div>
                                                                         </span>
                                 </div>
                                 <!--                                                                    favourite-->
@@ -216,7 +211,7 @@
                                     type="creator-email"
                                     name="creator-email"
                                     id="creator-email"
-                                    class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                    class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                                     placeholder="creatoremail@gmail.com"
                                     aria-describedby="email-description"/>
                             </div>
@@ -230,8 +225,11 @@
                                     <SocialIcons height="14px"
                                                  :icon="network"/>
                                 </div>
-                                {{ formatCount(creator[`${network}_followers`]) }}
                             </a>
+                        </td>
+                        <td
+                            class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
+                            {{ formatCount(creator[`${network}_followers`]) }}
                         </td>
                         <td class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
                                                       <span
@@ -244,7 +242,7 @@
                                                             type="creator-offer"
                                                             name="creator-offer"
                                                             id="creator-offer"
-                                                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                                                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
 
                                                             :placeholder="creator.crm_record_by_user[`${network}_suggested_offer`]"
                                                             aria-describedby="email-description"/>
@@ -321,7 +319,7 @@
                                 autoApply="true"
                                 type="datetime-local"
                                 :id="creator.id+'_datepicker'"
-                                class="block w-full px-2 py-1 placeholder-neutral-300 focus-visible:border-1 bg-white/0 text-xs border-0 text-neutral-500 rounded-md focus-visible:border-1 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                                class="block w-full px-2 py-1 placeholder-neutral-300 focus-visible:border-1 bg-white/0 text-xs border-0 text-neutral-500 rounded-md focus:border-1 focus:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                                 placeholder="--/--/----"
                                 aria-describedby="email-description"/>
                         </td>
@@ -389,7 +387,7 @@
                                                                                         ]">
                                                         <ArchiveIcon
                                                             class="inline mr-2 h-4 w-4"/>
-                                                        {{ creator.crm_record_by_user[`${network}_archived`] ? 'Unarchived' : 'Archive'}}
+                                                        {{ creator.crm_record_by_user[`${network}_archived`] ? 'UnArchived' : 'Archive'}}
 
                                                     </a>
 
@@ -445,20 +443,18 @@ import StarRating from 'vue-star-rating';
 import {
     DotsVerticalIcon,
     ArchiveIcon,
+    DuplicateIcon,
     BanIcon,
     TrashIcon,
-    ChevronDownIcon,
-    ChevronUpIcon,
 
 } from '@heroicons/vue/solid';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
-import JovieSpinner from '../../components/JovieSpinner.vue';
 
 export default {
     name: "CrmTable",
     components: {
-        
+        DuplicateIcon,
         ArchiveIcon,
         StarRating,
         Menu,
@@ -473,14 +469,54 @@ export default {
         BanIcon,
         TrashIcon,
         Pagination,
-        JovieSpinner,
-        ChevronDownIcon,
-        ChevronUpIcon,
     },
-    props: ['creators', 'networks', 'stages', 'creatorsMeta', 'loading', 'arcvhied']
+    props: ['creators', 'networks', 'stages', 'creatorsMeta', 'loading', 'arcvhied'],
+    methods:{
+        sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("creators_table");
+            switching = true;
+            dir = "asc";
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount ++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    }
 }
 </script>
 
 <style scoped>
 
 </style>
+
+

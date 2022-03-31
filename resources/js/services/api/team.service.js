@@ -1,7 +1,7 @@
 
 const baseApiUrlTeams = '/api/teams';
 const baseUrlWeb = '';
-const baseUrlAdmin = '/api/admin';
+const baseApiUrl = '/api';
 
 export default {
     getTeams() {

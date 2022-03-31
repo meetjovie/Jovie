@@ -97,21 +97,28 @@
     <div>
       <!-- This example requires Tailwind CSS v2.0+ -->
       <div
-        class="items-centeritems-middle mx-auto mt-8 max-w-5xl bg-white px-8 shadow sm:rounded-lg">
+        v-for="nav in featuredNav"
+        class="items-middle mx-auto mt-8 max-w-5xl items-center bg-white px-8 shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg font-medium leading-6 text-gray-900">Discovery</h3>
+          <div class="inline-flex">
+            <component
+              :is="nav.icon"
+              class="mr-2 mt-0.5 h-5 w-5 text-indigo-600"></component>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">
+              {{ nav.name }}
+            </h3>
+          </div>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
             <p>
-              Campaigns start with discovery. Find the creators that fit your
-              campaign by searching our database. You can filter down results
-              and favorite the best ones for later.
+              {{ nav.description }}
             </p>
           </div>
           <div class="mt-3 text-sm">
             <a
-              href="/discovery"
+              :href="nav.link"
               class="font-medium text-indigo-600 hover:text-indigo-500">
-              Create a search <span aria-hidden="true">&rarr;</span></a
+              {{ nav.cta }}
+              <span aria-hidden="true">&rarr;</span></a
             >
           </div>
         </div>
@@ -122,11 +129,36 @@
 
 <script>
 import TeamService from '../services/api/team.service';
+import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
+
+const featuredNav = [
+  {
+    name: 'Find creators',
+    description: `Search through Jovie's database of ${store.state.creatorsDBCount}+ creators to instantly find new prospects for your business.`,
+    link: 'search',
+    cta: 'Create a search',
+    icon: 'SearchIcon',
+  },
+  {
+    name: 'Enrich your data',
+    description:
+      'Upload existing contacts & Jovie will automatically enrich those regards records with addiational details including social media profiles & metrics, social content, and more.',
+    link: 'contacts',
+    cta: 'Upload contacts',
+    icon: 'CloudUploadIcon',
+  },
+];
+
 export default {
   name: 'Dashboard',
+  components: {
+    SearchIcon,
+    CloudUploadIcon,
+  },
   data() {
     return {
       user: this.$store.state.AuthState.user,
+      featuredNav,
     };
   },
   mounted() {},
