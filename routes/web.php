@@ -13,9 +13,14 @@ use MeiliSearch\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('config-mili', function () {
+    return config('scout.meilisearch');
+});
 Route::get('/filters-scout', function () {
-    $client = new Client(config('scout.meilisearch.host'));
-    $response = $client->index('creators')->updateFilterableAttributes(['instagram_followers']);
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+//    dd($client);
+    $response = $client->getAllIndexes();
+//    $response = $client->index('creators')->updateFilterableAttributes(['instagram_followers']);
     dd($response);
 });
 Route::get('creator', function () {
