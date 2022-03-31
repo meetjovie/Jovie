@@ -13,8 +13,11 @@
         </p>
         <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           Jovie's database of
-          <span class="text-indigo-500">200,000+ creators</span> is a powerful
-          tool for finding new prospects and building partnerships.
+          <span class="text-indigo-500"
+            >{{ store.state.creatorsDBCount }}+ creators</span
+          >
+          is a powerful tool for finding new prospects and building
+          partnerships.
         </p>
       </div>
 

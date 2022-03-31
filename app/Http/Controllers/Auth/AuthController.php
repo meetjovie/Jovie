@@ -23,7 +23,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'user' => Auth::user()
+                'user' => User::currentLoggedInUser()
             ], 200);
         }
 
@@ -72,7 +72,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => true,
-            'user' => Auth::user()
+            'user' => User::currentLoggedInUser()
         ], 200);
     }
 

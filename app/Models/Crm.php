@@ -9,6 +9,11 @@ class Crm extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'creator_id',
+        'user_id'
+    ];
+
     public function getStageAttribute($value)
     {
         $value = $value ?? 0;

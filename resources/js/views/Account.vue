@@ -28,6 +28,7 @@
                   </Tab>
                 </TabList>
               </div>
+
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
                   <AccountProfile />
@@ -51,10 +52,10 @@
 
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
-                  <div class="flex justify-between py-4 px-4">
-                    <div>Manage Billing</div>
-                    <ButtonGroup text="Manage"></ButtonGroup>
-                  </div>
+                  <Subscription
+                    title="Payment details"
+                    subtitle="Update your billing information. Please note that updating your
+          location could affect your tax rates." />
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
@@ -64,6 +65,7 @@
               </TabPanels>
             </TabGroup>
           </div>
+
         </div>
       </div>
     </div>
@@ -89,6 +91,10 @@ import {
   TabList,
   TabPanel,
   TabPanels,
+  RadioGroup,
+  RadioGroupLabel,
+  RadioGroupOption,
+  RadioGroupDescription,
 } from '@headlessui/vue';
 import {
   BellIcon,
@@ -126,8 +132,14 @@ const tabs = [
   { name: 'Team Members', href: '#', current: false },
 ];
 
+import AccountPlan from '../components/Account/AccountPlan.vue';
+import Subscribe from '../views/Subscribe';
+import Subscription from '../components/Subscription';
+
 export default {
   components: {
+    Subscription,
+    Subscribe,
     Dialog,
     DialogOverlay,
     Switch,
@@ -145,10 +157,16 @@ export default {
     TabPanel,
     TabPanels,
     Tab,
+    AccountPlan,
+    RadioGroup,
+    RadioGroupLabel,
+    RadioGroupOption,
+    RadioGroupDescription,
     ButtonGroup,
     AccountProfile,
     AccountSecurity,
   },
+
   data() {
     return {
       navigation,

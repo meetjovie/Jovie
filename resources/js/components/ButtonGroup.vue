@@ -7,11 +7,14 @@
       { 'py-0 text-xs': size == 'xs' },
       { 'py-1 text-sm': size == 'sm' },
       {
-        'bg-white   hover:bg-indigo-500 hover:text-white ':
+        'bg-white   hover:bg-indigo-500 hover:text-white  ':
           design == 'secondary',
       },
       { 'bg-red-500 text-white': design == 'danger' },
-      { 'bg-indigo-500 text-white': design == 'primary' },
+      {
+        'bg-indigo-500 text-white active:bg-indigo-600': design == 'primary',
+      },
+
       { 'rounded-r-md': rounded == 'right' },
       { 'rounded-l-md': rounded == 'left' },
       { 'rounded-t-md': rounded == 'top' },
@@ -22,6 +25,7 @@
       { 'rounded-bl-md': rounded == 'blt' },
       { 'rounded-br-md': rounded == 'br' },
     ]">
+    <div v-if="loader"><JovieSpinner /></div>
     <component
       :is="icon"
       class="absolute -ml-1 mr-3 h-5 w-5"
@@ -42,6 +46,8 @@ import {
   BanIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/solid';
+
+import JovieSpinner from '../components/JovieSpinner';
 
 export default {
   props: {
@@ -69,12 +75,17 @@ export default {
       type: String,
       default: 'all',
     },
+    loader: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     MailIcon,
     SearchIcon,
     BanIcon,
     ChevronRightIcon,
+    JovieSpinner,
   },
 };
 </script>

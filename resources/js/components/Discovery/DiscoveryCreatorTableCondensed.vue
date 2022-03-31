@@ -85,7 +85,8 @@
           scope="col"
           class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
           <span class="sr-only">Edit</span>
-          Showing 50 of 1,500 results
+          <div class="hidden w-60 2xl:block">Showing 50 of 1,500 results</div>
+          <div class="hidden w-40 lg:block 2xl:hidden">50 of 1,500</div>
         </th>
       </tr>
     </thead>
