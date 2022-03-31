@@ -57,7 +57,7 @@
                                                     <div
                                                     class="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12"
                                                     >
-                                                    <div class="bg-indigo-200 rounded-md p-2">
+                                                    <div class=" rounded-md p-2">
                                                         <component :is="item.icon" class="h-6 w-6 text-indigo-600"/>
                                                     </div>
                                                     </div>
@@ -73,12 +73,12 @@
                                                 </div>
                                                 <div class="p-4 bg-gray-50">
                                                 <router-link
-                                                    to="demo"
+                                                    to="signup"
                                                     class="flow-root px-2 py-2 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
                                                 >
                                                     <span class="flex items-center">
                                                     <span class="text-sm font-medium text-gray-900">
-                                                        Request a demo
+                                                        Get started
                                                     </span>
                                                     </span>
                                                     <span class="block text-sm text-gray-500">
@@ -107,10 +107,10 @@
                                             </router-link>
                                         </div>
                                         <div class="inline-flex">
-                                            <a class:="justify-center px-2 max-auto" @click="demo">
-                                                <router-link to='demo'
+                                            <a class:="justify-center px-2 max-auto" >
+                                                <router-link to='signup'
                                                              class="relative inline-flex group items-center px-2 py-1 border text-xs font-medium rounded-md text-neutral-200 hover:text-white bg-neutral-800 border-1 border-neutral-300 hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 focus-visible:ring-neutral-500">
-                                                    <span>Request Access</span>
+                                                    <span>Get started</span>
                                                     <span>
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                              class="block group-hover:hidden ml-1 h-4 w-4" fill="none"
@@ -183,7 +183,8 @@ import {
     ChevronDownIcon,
     SearchIcon,
     UserGroupIcon,
-    MailIcon
+    MailIcon,
+    DatabaseIcon,
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
 import ExternalFooter from "../components/External/ExternalFooter";
@@ -202,6 +203,7 @@ export default {
         SearchIcon,
         UserGroupIcon,
         MailIcon,
+        DatabaseIcon,
         Popover,
         PopoverButton,
         PopoverPanel,
@@ -211,8 +213,8 @@ export default {
         return {
           features: [
         {
-          name: 'AI Discovery',
-          description: 'Identify the perfect creators',
+          name: 'Creator search',
+          description: `Search ${this.$store.state.creatorsDBCount}+ creators and find the best match for your business`,
           href: '/',
           anchor: '#discovery',
           icon: 'SearchIcon',
@@ -230,6 +232,13 @@ export default {
           href: '/',
           anchor: '#outreach',
           icon: 'MailIcon',
+        },
+        {
+          name: 'Data Enrichment',
+          description: 'Enrich your existing customer lists with creator specific data', 
+          href: '/',
+          anchor: '#outreach',
+          icon: 'DatabaseIcon',
         },
             ],
             waitListEmail: '',

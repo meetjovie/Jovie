@@ -1,17 +1,16 @@
-import store from '../../../store';
+import store from '../../store';
 
 const baseUrl = '/api'
 const baseUrlWeb = ''
-const baseUrlAdmin = '/api/admin'
 
 export default {
     async getColumnsFromCsv(data) {
-        return axios.post(`${baseUrlAdmin}/get-columns-from-csv`, data, {
+        return axios.post(`${baseApiUrl}/get-columns-from-csv`, data, {
             headers: await store.dispatch('headers', {'Content-Type': 'multipart/form-data'})
         })
     },
     async import(data) {
-        return axios.post(`${baseUrlAdmin}/import`, data, {
+        return axios.post(`${baseApiUrl}/import`, data, {
             headers: await store.dispatch('headers', {'Content-Type': 'multipart/form-data'})
         })
     }

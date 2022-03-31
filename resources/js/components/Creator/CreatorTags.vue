@@ -4,10 +4,10 @@
     class="mr-1 inline-flex items-center font-medium first:rounded-l-md last:rounded-r-md only:rounded-md"
     :class="[
       {
-        'py-0 pl-2 pr-0.5 text-[8px] font-light tracking-wider': size == 'xs',
+        'py-0 px-2 text-[8px] font-light tracking-wider': size == 'xs',
       },
       {
-        'py-0 pl-2 pr-0.5 text-[10px] font-light tracking-wider': size == 'sm',
+        'py-0 px-2 text-[10px] font-light tracking-wider': size == 'sm',
       },
       {
         'py-0.5 pl-2 pr-2 text-[12px] font-light tracking-wider': size == 'md',
@@ -59,8 +59,8 @@
         },
         { 'bg-pink-100 text-pink-700 hover:text-pink-900': color == 'pink' },
       ]">
-      <span class="sr-only">Remove {{ text }}</span>
-      <XIcon class="h-3 w-3" />
+      <span v-if="showX" class="sr-only">Remove {{ text }}</span>
+      <XIcon v-if="showX" class="h-3 w-3" />
     </button>
   </span>
 </template>

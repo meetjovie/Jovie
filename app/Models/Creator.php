@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Scout\Searchable;
 
 class Creator extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     const CREATORS_MEDIA_PATH = 'public/creators_media/timeline_media/';
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
@@ -491,4 +492,11 @@ class Creator extends Model
         // update interactions for crm
         Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
     }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        return $array;
+    }
+
 }

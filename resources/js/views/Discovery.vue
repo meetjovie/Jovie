@@ -63,10 +63,5 @@ export default {
     FilterIcon,
     ChevronLeftIcon,
   },
-  data() {
-    return {
-      searchopen: true,
-    };
-  },
 };
 </script>

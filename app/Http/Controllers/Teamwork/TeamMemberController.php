@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teamwork;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -76,6 +77,15 @@ class TeamMemberController extends Controller
             'email' => 'required|email',
         ]);
 
+        $user = User::currentLoggedInUser();
+        $currentTeamMembersCount = $user->currentTeam->users->count() - 1;
+        if ($currentTeamMembersCount >= $user->currentTeam->current_subscription->seats) {
+            return response([
+                'status' => false,
+                'message' => 'You have already consumed all your seats. Please upgrade your plan.'
+            ]);
+        }
+
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($team_id);
 
@@ -94,7 +104,8 @@ class TeamMemberController extends Controller
         }
         return response([
             'status' => true,
-            'teams' => $team->load(['users', 'invites'])
+            'teams' => $team->load(['users', 'invites']),
+            'message' => 'Invite.'
         ]);
     }
 
