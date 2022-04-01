@@ -127,25 +127,34 @@
                       <!--  Hide results count until a search is performed -->
                       <div
                         class="justify-right hidden w-full items-center lg:block">
-                        <ais-stats>
-                          <template v-slot="{ nbHits, processingTimeMS }">
-                            {{ nbHits }} creators
-                            <br />
-                            <div
-                              class="inline-flex items-center text-2xs text-neutral-400">
-                              <div class="group">
-                                <JovieTooltip text="Search spped" />
+                        <div class="justify-right inline-flex items-center">
+                          <div class="">
+                            <ais-stats>
+                              <template v-slot="{ nbHits, processingTimeMS }">
+                                {{ nbHits }} creators
+                                <br />
+                                <div
+                                  class="inline-flex items-center text-2xs text-neutral-400">
+                                  <div class="group">
+                                    <JovieTooltip text="Search spped" />
 
-                                <LightningBoltIcon
-                                  class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></LightningBoltIcon>
-                              </div>
-                              <span>
-                                {{ (processingTimeMS / 1000).toFixed(1) }}
-                                Seconds</span
-                              >
-                            </div>
-                          </template>
-                        </ais-stats>
+                                    <LightningBoltIcon
+                                      class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></LightningBoltIcon>
+                                  </div>
+                                  <span>
+                                    {{ (processingTimeMS / 1000).toFixed(1) }}
+                                    Seconds</span
+                                  >
+                                </div>
+                              </template>
+                            </ais-stats>
+                          </div>
+                          <div class="">
+                            <ChevronRightIcon
+                              @click="toggleSidebar"
+                              class="mx-2 mt-0.5 h-5 w-5 cursor-pointer text-gray-400 hover:text-indigo-700" />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -155,7 +164,7 @@
                     <ais-infinite-hits v-if="hits.length > 0" :cache="cache">
                       <template v-slot:item="{ item, index }">
                         <div
-                          @mouseover="setCurrentCreator(item)"
+                          @click="setCurrentCreator(item)"
                           class="h-full divide-y divide-gray-200 bg-white">
                           <div
                             :class="{
@@ -207,9 +216,9 @@
                                   <div
                                     class="flex text-xs font-medium text-gray-900">
                                     <span
-                                      @click="toggleSidebar"
+                                      @click="sidebarOpen = true"
                                       class="cursor-pointer line-clamp-1">
-                                      {{ item.name }}</span
+                                      {{ item.instagram_name }}</span
                                     >
                                     <div class="text-white">
                                       <!-- <VerifiedBadge
@@ -989,6 +998,7 @@ import {
   ChevronUpIcon,
   FilterIcon,
   HeartIcon,
+  ChevronRightIcon,
   PlayIcon,
   ThumbUpIcon,
   LocationMarkerIcon,
@@ -1040,6 +1050,7 @@ export default {
     PlayIcon,
     ThumbUpIcon,
     LocationMarkerIcon,
+    ChevronRightIcon,
     ChatAlt2Icon,
     Menu,
     MenuButton,
