@@ -24,7 +24,7 @@
           id="old-password"
           v-model="old_password"
           autocomplete="given-name"
-          @change="updateButtonState()"
+          @change="validateForm()"
           class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
       </div>
     </div>
@@ -43,7 +43,7 @@
           id="new-password"
           v-model="new_password"
           autocomplete="family-name"
-          @change="updateButtonState()"
+          @change="validateForm()"
           class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
       </div>
     </div>
@@ -61,93 +61,95 @@
           v-model="confirm_password"
           id="confirm-password"
           autocomplete="family-name"
-          @change="updateButtonState()"
+          @change="validateForm()"
           class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
       </div>
     </div>
     <div
       class="justify-right sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-      <ButtonGroup id="update_button" text="Update password"  @click="UpdatePassword()" disabled="disabled" />
+      <ButtonGroup
+        id="update_button"
+        text="Update password"
+        @click="UpdatePassword()"
+        :disabled="!validated" />
     </div>
   </div>
 </template>
 <script>
 import ButtonGroup from '../../components/ButtonGroup.vue';
-import UserService from "../../services/api/user.service";
+import UserService from '../../services/api/user.service';
 
 export default {
+  validated: false,
   components: {
     ButtonGroup,
   },
-    methods: {
-      updateButtonState() {
-        if (this.old_password && this.new_password && this.confirm_password) {
-            document.getElementById('update_button').removeAttribute("disabled");
-        } else {
-            document.getElementById('update_button').setAttribute("disabled", "disabled");
-        }
-      },
-        UpdatePassword() {
-            let data            = new FormData();
-            let oldpassword     = this.old_password;
-            let newpassword     = this.new_password;
-            let confirmpassword = this.confirm_password;
-            if(oldpassword =="" || oldpassword ==null){
-                alert("Please Enter the Old Password First");
-
-                return;
-            }
-
-            if(newpassword =="" || newpassword ==null){
-                alert("Please Enter the New Password");
-                return;
-            }
-
-            if(confirmpassword =="" || confirmpassword ==null){
-                alert("Please Enter the Confirm Password");
-                return;
-            }
-
-            if(newpassword != confirmpassword){
-                alert("New Password and Confirm Password Should be same.");
-                return;
-            }
-
-            data.append('old_password', this.old_password);
-            data.append('new_password', this.new_password);
-            data.append('confirm_password', this.confirm_password);
-            this.updating = true;
-            UserService.updatePassword(data)
-                .then((response) => {
-                    response = response.data;
-                    if (response.status) {
-                        this.old_password     = "";
-                        this.new_password     = "";
-                        this.confirm_password = "";
-                        document.getElementById('old-password').value = "";
-                        document.getElementById('new-password').value = "";
-                        document.getElementById('confirm-password').value = "";
-                        document.getElementById('update_button').setAttribute("disabled", "disabled");
-                        // this.$store.commit('setAuthStateUser', response.user);
-                        // console.log(response.status);
-                        alert("Password Changed Successfully!");
-                        this.errors = {};
-
-
-                    }
-                })
-                .catch((error) => {
-                    error = error.response;
-                    if (error.status == 422) {
-                        this.errors = error.data.errors;
-                        console.log(this.errors);
-                        alert("Please Enter the Correct Password!");
-                    }
-                })
-                .finally((response) => {
-                    this.updating = false;
-                });
-        },
+  methods: {
+    validateForm() {
+      if (this.old_password && this.new_password && this.confirm_password) {
+        this.validated = true;
+      } else {
+        this.validated = false;
+      }
     },
+    UpdatePassword() {
+      let data = new FormData();
+      let oldpassword = this.old_password;
+      let newpassword = this.new_password;
+      let confirmpassword = this.confirm_password;
+      if (oldpassword == '' || oldpassword == null) {
+        alert('Please Enter the Old Password First');
+
+        return;
+      }
+
+      if (newpassword == '' || newpassword == null) {
+        alert('Please Enter the New Password');
+        return;
+      }
+
+      if (confirmpassword == '' || confirmpassword == null) {
+        alert('Please Enter the Confirm Password');
+        return;
+      }
+
+      if (newpassword != confirmpassword) {
+        alert('New Password and Confirm Password Should be same.');
+        return;
+      }
+
+      data.append('old_password', this.old_password);
+      data.append('new_password', this.new_password);
+      data.append('confirm_password', this.confirm_password);
+      this.updating = true;
+      UserService.updatePassword(data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.old_password = '';
+            this.new_password = '';
+            this.confirm_password = '';
+            document.getElementById('old-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+            document
+              .getElementById('update_button')
+              .setAttribute('disabled', 'disabled');
+            alert('Password Changed Successfully!');
+            this.errors = {};
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            alert('Please Enter the Correct Password!');
+          }
+        })
+        .finally((response) => {
+          this.updating = false;
+        });
+    },
+  },
 };
 </script>
