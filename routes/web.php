@@ -23,7 +23,9 @@ Route::get('/filters-scout', function () {
         'city',
         'country',
         'instagram_category',
-        'email'
+        'emails',
+        'has_emails',
+        'tags'
     ]);
     $response = $client->index('creators')->getFilterableAttributes();
     dd($response);
@@ -64,3 +66,4 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 Route::get('{any?}', function () {
     return view('welcome');
 });
+

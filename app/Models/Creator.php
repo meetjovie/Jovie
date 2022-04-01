@@ -21,7 +21,12 @@ class Creator extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['name', 'biography', 'category', 'social_links_with_followers', 'overview_media', 'profile_pic_url'];
+    protected $appends = ['name', 'biography', 'category', 'social_links_with_followers', 'overview_media', 'profile_pic_url', 'has_emails'];
+
+    public function getHasEmailsAttribute()
+    {
+        return is_array($this->emails) && count($this->emails);
+    }
 
     public function getProfilePicUrlAttribute($creator = null)
     {

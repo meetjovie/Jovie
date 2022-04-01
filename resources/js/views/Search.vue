@@ -6,9 +6,15 @@
       index-name="creators">
         <ais-range-input attribute="instagram_followers" :min="0" :max="100000000000000" />
         <ais-range-input attribute="instagram_engagement_rate" :min="0" :max="1" :precision="2" />
+        <ais-menu-select attribute="instagram_category" />
         <ais-menu-select attribute="city" />
         <ais-menu-select attribute="country" />
         <ais-menu-select attribute="gender" />
+        <ais-menu-select attribute="tags" />
+        <ais-toggle-refinement
+            attribute="has_emails"
+            label="Email"
+        />
 
         <div class="min-h-screen bg-gray-100">
         <div class="">
@@ -1138,7 +1144,7 @@ export default {
       selectedCreator: [],
       searchClient: instantMeiliSearch(
         process.env.MIX_MEILISEARCH_HOST,
-        process.env.MIX_MEILISEARCH_KEY,
+        process.env.MIX_MEILISEARCH_FRONT_KEY,
         {
           placeholderSearch: true, // default: true.
           primaryKey: 'id', // default: undefined
