@@ -185,6 +185,10 @@
                                       aria-describedby="comments-description"
                                       name="comments"
                                       type="checkbox"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      autocapitalize="none"
+                                      spellcheck="false"
                                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
                                   </span>
                                 </div>
@@ -201,6 +205,7 @@
                                       class="rounded-full object-cover object-center"
                                       :src="
                                         item.instagram_meta.profile_pic_url ??
+                                        item.twitter_meta.profile_pic_url ??
                                         currentUser.default_image
                                       "
                                       alt="" />
@@ -218,7 +223,9 @@
                                     <span
                                       @click="sidebarOpen = true"
                                       class="cursor-pointer line-clamp-1">
-                                      {{ item.instagram_name }}</span
+                                      {{
+                                        item.instagram_name ?? item.twitter_name
+                                      }}</span
                                     >
                                     <div class="text-white">
                                       <!-- <VerifiedBadge
@@ -322,32 +329,32 @@
                                       class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
                                       :class="[
                                         {
-                                          'opacity-100': item.twitch_handler,
+                                          'opacity-100': item.twitter_handler,
                                         },
                                         'opacity-20',
                                       ]"
                                       @click="
                                         openLink(
-                                          ('https://twitch.com/',
-                                          item.twitch_handler),
+                                          ('https://twitter.com/',
+                                          item.twitter_handler),
                                           true
                                         )
                                       ">
                                       <SocialIcons
                                         height="14px"
                                         class="z-0 mx-auto"
-                                        icon="twitch" />
+                                        icon="twitter" />
                                       <div
                                         class="mx-auto text-center text-2xs text-neutral-500"
                                         :class="[
                                           {
                                             'opacity-100':
-                                              item.youtube_followers > 0,
+                                              item.twitter_followers > 0,
                                           },
                                           'opacity-20',
                                         ]">
                                         {{
-                                          formatCount(item.youtube_followers)
+                                          formatCount(item.twitter_followers)
                                         }}
                                       </div>
                                     </div>
@@ -662,6 +669,7 @@
                     <CreatorAvatar
                       :imageUrl="
                         selectedCreator.instagram_meta.profile_pic_url ??
+                        selectedCreator.twitter_meta.profile_image_url ??
                         currentUser.default_image
                       "
                       as="div"
@@ -673,12 +681,17 @@
                         <!--  <VerifiedBadge
                                                   :verified="selectedCreator.instagram_is_verified" /> -->
                         <span class="-mt-0.5">{{
-                          selectedCreator.full_name
+                          selectedCreator.full_name ??
+                          selectedCreator.instagram_name ??
+                          selectedCreator.twitter_name
                         }}</span>
                       </div>
                       <div
                         class="mt-1 h-20 text-xs font-medium text-neutral-500 line-clamp-4">
-                        {{ selectedCreator.instagram_biography }}
+                        {{
+                          selectedCreator.instagram_biography ??
+                          selectedCreator.twitter_biography
+                        }}
                       </div>
                       <div class="h-8">
                         <CreatorTags
@@ -767,32 +780,32 @@
                             class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
                             :class="[
                               {
-                                'opacity-100': selectedCreator.twitch_handler,
+                                'opacity-100': selectedCreator.twitter_handler,
                               },
                               'opacity-20',
                             ]"
                             @click="
                               openLink(
-                                ('https://twitch.com/',
-                                selectedCreator.twitch_handler),
+                                ('https://twitter.com/',
+                                selectedCreator.twitter_handler),
                                 true
                               )
                             ">
                             <SocialIcons
                               height="14px"
                               class="z-0 mx-auto"
-                              icon="twitch" />
+                              icon="twitter" />
                             <div
                               class="mx-auto text-center text-2xs text-neutral-500"
                               :class="[
                                 {
                                   'opacity-100':
-                                    selectedCreator.youtube_followers > 0,
+                                    selectedCreator.twitter_followers > 0,
                                 },
                                 'opacity-20',
                               ]">
                               {{
-                                formatCount(selectedCreator.youtube_followers)
+                                formatCount(selectedCreator.twitter_followers)
                               }}
                             </div>
                           </div>
