@@ -136,7 +136,7 @@
                                 <div
                                   class="inline-flex items-center text-2xs text-neutral-400">
                                   <div class="group">
-                                    <JovieTooltip text="Search spped" />
+                                    <JovieTooltip text="Search speed" />
 
                                     <LightningBoltIcon
                                       class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></LightningBoltIcon>
