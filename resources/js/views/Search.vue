@@ -95,7 +95,8 @@
                             }">
                             <div
                               class="relative mx-auto mt-1 flex w-full items-center py-1">
-                              <input
+                              <AppDebouncedSearchBox :delay="200" />
+                              <!-- <input
                                 class="flex-auto rounded-md border-0 bg-white/0 py-2 text-base leading-6 text-gray-500 placeholder-gray-500 outline-0 ring-0 focus-visible:border-0 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:outline-none focus-visible:ring-0"
                                 submit-title="Let's go!"
                                 reset-title="Reset"
@@ -103,7 +104,7 @@
                                 type="search"
                                 placeholder="Search for a creator, hashtag, or keyword..."
                                 :value="currentRefinement"
-                                @input="refine($event.currentTarget.value)" />
+                                @input="refine($event.currentTarget.value)" /> -->
 
                               <div
                                 class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
@@ -1013,10 +1014,12 @@ import VerifiedBadge from '../components/VerifiedBadge.vue';
 import CreatorAvatar from '../components/Creator/CreatorAvatar.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import UserService from '../services/api/user.service';
+import AppDebouncedSearchBox from '../components/AppDebouncedSearchBox.vue';
 
 export default {
   components: {
     instantMeiliSearch,
+    AppDebouncedSearchBox,
     InputGroup,
     VerifiedBadge,
     CreatorAvatar,
