@@ -30,6 +30,7 @@ class VaporUiServiceProvider extends ServiceProvider
             return in_array(optional($user)->email, [
                 //
                 'tim@jov.ie',
+                'aamishirfan2662@gmail.com',
             ]);
         });
     }
