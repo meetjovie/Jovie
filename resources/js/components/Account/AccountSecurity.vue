@@ -80,9 +80,16 @@ import ButtonGroup from '../../components/ButtonGroup.vue';
 import UserService from '../../services/api/user.service';
 
 export default {
-  validated: false,
   components: {
     ButtonGroup,
+  },
+  data() {
+    return {
+      validated: false,
+      old_password: '',
+      new_password: '',
+      confirm_password: '',
+    };
   },
   methods: {
     validateForm() {
@@ -129,12 +136,6 @@ export default {
             this.old_password = '';
             this.new_password = '';
             this.confirm_password = '';
-            document.getElementById('old-password').value = '';
-            document.getElementById('new-password').value = '';
-            document.getElementById('confirm-password').value = '';
-            document
-              .getElementById('update_button')
-              .setAttribute('disabled', 'disabled');
             alert('Password Changed Successfully!');
             this.errors = {};
           }
