@@ -30,6 +30,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/update-password', [\App\Http\Controllers\UserController::class, 'update_password']);
         Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
+    Route::group(['middleware' => 'subscribed'], function () {
+
+        //
         //IMPORT CREATORS
         Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
         Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
@@ -51,10 +54,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/next-creator/{id}', [\App\Http\Controllers\CrmController::class, 'nextCreator']);
         Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']);
 
-        Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
+        // DISCOVERY
+        Route::post('/add-to-crm', [\App\Http\Controllers\CrmController::class, 'addCreatorToCreator']);
 
-                //
-        });
+        // SUBSCRIPTIONS
+        Route::post('/cancel-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'cancelSubscription']);
+        Route::post('/resume-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'resumeSubscription']);
+        Route::post('/change-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'changeSubscription']);
+        Route::post('/buy-seats', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'buySeats']);
+    });
+
+    // SUBSCRIPTIONS
+    Route::get('/payment-intent', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'paymentIntent']);
+    Route::get('/subscription-products', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'getSubscriptionProducts']);
+    Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
 
         /**
          * Teamwork routes
