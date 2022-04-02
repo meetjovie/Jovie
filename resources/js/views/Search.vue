@@ -205,7 +205,6 @@
                                       class="rounded-full object-cover object-center"
                                       :src="
                                         item.instagram_meta.profile_pic_url ??
-                                        item.twitter_meta.profile_pic_url ??
                                         currentUser.default_image
                                       "
                                       alt="" />
@@ -1155,7 +1154,7 @@ export default {
         },
       ],
       cache: createInfiniteHitsSessionStorageCache(),
-      searchopen: false,
+      searchopen: true,
       selectedCreator: [],
       searchClient: instantMeiliSearch(
         process.env.MIX_MEILISEARCH_HOST,
