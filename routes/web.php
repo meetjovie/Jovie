@@ -17,7 +17,7 @@ Route::get('config-mili', function () {
     return config('scout.meilisearch');
 });
 Route::get('/filters-scout', function () {
-    $client = new Client(config('scout.meilisearch.host'));
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
     $response = $client->index('creators')->updateFilterableAttributes([
         'instagram_followers',
         'instagram_engagement_rate',
@@ -31,10 +31,6 @@ Route::get('/filters-scout', function () {
         'tags'
     ]);
     $response = $client->index('creators')->getFilterableAttributes();
-    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
-//    dd($client);
-    $response = $client->getAllIndexes();
-//    $response = $client->index('creators')->updateFilterableAttributes(['instagram_followers']);
     dd($response);
 });
 Route::get('creator', function () {
