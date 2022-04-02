@@ -1157,8 +1157,8 @@ export default {
       searchopen: true,
       selectedCreator: [],
       searchClient: instantMeiliSearch(
-        process.env.MIX_MEILISEARCH_HOST,
-        process.env.MIX_MEILISEARCH_FRONT_KEY,
+        'https://search.jov.ie/',
+        'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
         {
           placeholderSearch: true, // default: true.
           primaryKey: 'id', // default: undefined
