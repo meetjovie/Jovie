@@ -231,7 +231,6 @@ export default {
         this.loading = false;
         response = response.data;
         if (response.status) {
-          // console.log(response);
           let header = [];
           let items = [];
           for (let i = 0; i < response.stages.length; i++) {

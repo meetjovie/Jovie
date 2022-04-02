@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
         Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
         Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
+        Route::get('/update-creator-stage', [\App\Http\Controllers\CrmController::class, 'updateCreatorStage']);
+        Route::get('/update-creator-index', [\App\Http\Controllers\CrmController::class, 'updateCreatorIndex']);
 
         //      OVERVIEW
         Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);

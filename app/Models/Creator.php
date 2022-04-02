@@ -393,7 +393,6 @@ class Creator extends Model
             unset($creator->twitter_archived);
             unset($creator->twitter_removed);
             unset($creator->rating);
-            unset($creator->stage);
             unset($creator->favourite);
             unset($creator->muted);
 
