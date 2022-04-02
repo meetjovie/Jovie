@@ -17,9 +17,6 @@
                                     </svg>
                                 </a>
                             </div>
-
-
-
                                 <div class="hidden md:block md:ml-6 items-center judtify- md:space-x-4">
                                     <Popover v-slot="{ open }" class="relative">
                                         <PopoverButton
