@@ -1,6 +1,6 @@
 import store from '../../store';
 
-const baseUrl = '/api'
+const baseApiUrl = '/api'
 const baseUrlWeb = ''
 
 export default {
