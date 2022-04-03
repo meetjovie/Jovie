@@ -18,18 +18,18 @@ Route::get('config-mili', function () {
 });
 Route::get('/filters-scout', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
-    $response = $client->index('creators')->updateFilterableAttributes([
-        'instagram_followers',
-        'instagram_engagement_rate',
-        'engaged_follows',
-        'gender',
-        'city',
-        'country',
-        'instagram_category',
-        'emails',
-        'has_emails',
-        'tags'
-    ]);
+//    $response = $client->index('creators')->updateFilterableAttributes([
+//        'instagram_followers',
+//        'instagram_engagement_rate',
+//        'engaged_follows',
+//        'gender',
+//        'city',
+//        'country',
+//        'instagram_category',
+//        'emails',
+//        'has_emails',
+//        'tags'
+//    ]);
     $response = $client->index('creators')->getFilterableAttributes();
     dd($response);
 });
