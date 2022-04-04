@@ -103,6 +103,11 @@ class Creator extends Model
         return $this->belongsToMany(User::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps();
     }
 
+    public function crmRecords()
+    {
+        return $this->hasMany(Crm::class);
+    }
+
     public function crmRecordByUser()
     {
         return $this->hasOne(Crm::class)->where('user_id', Auth::user()->id);
@@ -465,6 +470,7 @@ class Creator extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
+        $array['crms'] = $this->crmRecords;
         return $array;
     }
 
