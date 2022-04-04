@@ -464,7 +464,7 @@ class Creator extends Model
         Creator::where('id', $id)->update($dataToUpdateForCreator);
 
         // update interactions for crm
-        Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
+        Crm::updateOrCreate(['creator_id' => $id, 'user_id' => Auth::id()], array_merge(['creator_id' => $id, 'user_id' => Auth::id()], $dataToUpdateForCrm));
     }
 
     public function toSearchableArray()

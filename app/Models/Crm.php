@@ -11,7 +11,9 @@ class Crm extends Model
 
     protected $fillable = [
         'creator_id',
-        'user_id'
+        'user_id',
+        'selected',
+        'rejected',
     ];
 
     public function getStageAttribute($value)

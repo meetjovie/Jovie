@@ -1091,6 +1091,8 @@ export default {
         this.$mousetrap.bind(['command+k', 'ctrl+k'], this.clearSearch);
         this.$mousetrap.bind(['up'], this.logIt);
         this.$mousetrap.bind('down', this.setNextCreator);
+        this.$mousetrap.bind('right', this.addToSelected);
+        this.$mousetrap.bind('left', this.addToRejected);
     },
     computed: {
         searchPlaceholder() {
@@ -1104,29 +1106,45 @@ export default {
         },
     },
     methods: {
+        addToSelected() {
+            if (!this.selectedCreator) return
+            let params = {
+                id: this.selectedCreator.id,
+                key: 'crm_record_by_user.selected',
+                value: 1
+            }
+            this.$store.dispatch('updateCreator', params).then((response) => {
+                response = response.data;
+                if (response.status) {
+                }
+            })
+        },
+        addToRejected() {
+            if (!this.selectedCreator) return
+            let params = {
+                id: this.selectedCreator.id,
+                key: 'crm_record_by_user.rejected',
+                value: 1
+            }
+            this.$store.dispatch('updateCreator', params).then((response) => {
+                response = response.data;
+                if (response.status) {
+                }
+            })
+        },
         checkIfMuted(crms) {
+            if (crms == undefined) return false
             crms = JSON.parse(JSON.stringify(crms))
             if (!crms.length) return false
             const length = crms.length
             const currentUser = this.currentUser
             let muted = false;
             for (let i=0; i<length; i++) {
-                console.log('crms[i].user_id');
-                console.log(crms[i].user_id);
-                console.log('currentUser.id');
-                console.log(currentUser.id);
                 if (crms[i].user_id == currentUser.id) {
-                    console.log('crms[i]');
-                    console.log(crms[i]);
                     muted = crms[i].muted == 1 ? true : false
-                    console.log('muted');
-                    console.log(muted);
-                    console.log('----');
                     break
                 }
             }
-            console.log('muted');
-            console.log(muted);
             return muted;
         },
         addToCrm(creatorId) {
@@ -1184,8 +1202,10 @@ export default {
             searchopen: true,
             selectedCreator: [],
             searchClient: instantMeiliSearch(
-                'https://search.jov.ie/',
-                'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
+                // 'https://search.jov.ie/',
+                // 'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
+                process.env.MIX_MEILISEARCH_HOST,
+                process.env.MIX_MEILISEARCH_FRONT_KEY,
                 {
                     placeholderSearch: true, // default: true.
                     primaryKey: 'id', // default: undefined
