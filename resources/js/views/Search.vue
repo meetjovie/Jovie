@@ -28,7 +28,9 @@
                         <main class="flex-auto">
                             <!--  <DiscoveryStats></DiscoveryStats> -->
                             <TabGroup :defaultIndex="0">
-                                <!-- <DiscoveryToolbar class="px-4"></DiscoveryToolbar> -->
+                                 <DiscoveryToolbar
+                                     class="px-4">
+                                 </DiscoveryToolbar>
 
                                 <div
                                     class="sticky top-0 min-w-full items-center divide-y divide-gray-200 overflow-y-scroll">
@@ -162,11 +164,11 @@
                                 </div>
                                 <ais-state-results>
                                     <template v-slot="{ results: { hits } }">
-                                        <ais-infinite-hits v-if="hits.length > 0" :cache="cache">
+                                        <ais-infinite-hits ref="hitResults" v-if="hits.length > 0" :cache="cache">
                                             <template v-slot:item="{ item, index }">
                                                 <div
-                                                    v-if="!checkIfMuted(item.crms)"
-                                                    @click="setCurrentCreator(item)"
+                                                    v-if="!checkIfMuted(item.crms) && checkIfAll(item.crms)"
+                                                    @click="setCurrentCreator(item, index)"
                                                     class="h-full divide-y divide-gray-200 bg-white">
                                                     <div
                                                         :class="{
@@ -1106,29 +1108,31 @@ export default {
         },
     },
     methods: {
-        addToSelected() {
+        async addToSelected() {
             if (!this.selectedCreator) return
             let params = {
                 id: this.selectedCreator.id,
                 key: 'crm_record_by_user.selected',
                 value: 1
             }
-            this.$store.dispatch('updateCreator', params).then((response) => {
+            await this.$store.dispatch('updateCreator', params).then((response) => {
                 response = response.data;
                 if (response.status) {
+                    this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1)
                 }
             })
         },
-        addToRejected() {
+        async addToRejected() {
             if (!this.selectedCreator) return
             let params = {
                 id: this.selectedCreator.id,
                 key: 'crm_record_by_user.rejected',
                 value: 1
             }
-            this.$store.dispatch('updateCreator', params).then((response) => {
+            await this.$store.dispatch('updateCreator', params).then((response) => {
                 response = response.data;
                 if (response.status) {
+                    this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1)
                 }
             })
         },
@@ -1146,6 +1150,21 @@ export default {
                 }
             }
             return muted;
+        },
+        checkIfAll(crms) {
+            if (crms == undefined) return true
+            crms = JSON.parse(JSON.stringify(crms))
+            if (!crms.length) return true
+            const length = crms.length
+            const currentUser = this.currentUser
+            let all = true;
+            for (let i=0; i<length; i++) {
+                if (crms[i].user_id == currentUser.id) {
+                    all = crms[i].selected == 1 || crms[i].rejected == 1 ? false : true
+                    break
+                }
+            }
+            return all;
         },
         addToCrm(creatorId) {
             UserService.addCreatorToCrm(creatorId).then((response) => {
@@ -1167,11 +1186,12 @@ export default {
             //add text to clipboard
             navigator.clipboard.writeText(text);
         },
-        setCurrentCreator(item) {
+        setCurrentCreator(item, index) {
             this.selectedCreator = item;
+            this.selectedCreatorIndex = index;
         },
         setNextCreator(item) {
-            this.selectedCreator = [selectedCreator.index + 1];
+            this.selectedCreator = [this.selectedCreator.index + 1];
         },
         clearSearch() {
             //move focus to the search box and clear the current search from instantsearch
@@ -1200,7 +1220,8 @@ export default {
             ],
             cache: createInfiniteHitsSessionStorageCache(),
             searchopen: true,
-            selectedCreator: [],
+            selectedCreator: {},
+            selectedCreatorIndex: [],
             searchClient: instantMeiliSearch(
                 // 'https://search.jov.ie/',
                 // 'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
@@ -1218,6 +1239,8 @@ export default {
                 console.log('results');
                 console.log(res);
                 console.log('res');
+                console.log('this.state');
+                console.log(this.state);
                 // }
             },
         };
