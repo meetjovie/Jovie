@@ -1,6 +1,7 @@
 <template>
   <div>
     <AlertBanner
+      design="danger"
       title="Your subscribtion is inactive"
       subtitle="Please update your billing information to continue using Jovie."
       cta="Update billing information"
