@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative bg-indigo-600"
+    class="relative"
     :class="[
       { 'bg-indigo-500': design == 'primary' },
       { 'bg-red-500': design == 'danger' },
@@ -8,9 +8,9 @@
     <div class="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
       <div class="pr-16 sm:px-16 sm:text-center">
         <p class="font-medium text-white">
-          <span class="md:hidden"> {{ title }} </span>
+          <span class="md:hidden"> {{ mobiletitle }} </span>
           <span class="hidden md:inline">
-            {{ subtitle }}
+            {{ title }}
           </span>
           <span class="block sm:ml-2 sm:inline-block">
             <a :href="ctalink" class="font-bold text-white underline">
@@ -23,9 +23,11 @@
         class="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-start sm:pt-1 sm:pr-2">
         <button
           type="button"
-          class="flex rounded-md p-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white">
+          class="group flex rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-white">
           <span class="sr-only">Dismiss</span>
-          <XIcon class="h-6 w-6 text-white" aria-hidden="true" />
+          <XIcon
+            class="h-6 w-6 text-neutral-100 group-hover:text-white"
+            aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -45,7 +47,7 @@ export default {
       type: String,
       default: '',
     },
-    subtitle: {
+    mobiletitle: {
       type: String,
       default: '',
     },
