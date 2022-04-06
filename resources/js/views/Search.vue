@@ -1119,6 +1119,16 @@ export default {
                 response = response.data;
                 if (response.status) {
                     this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1)
+                    if (!this.$refs.hitResults.items[this.selectedCreatorIndex].crms.length) {
+                        this.$refs.hitResults.items[this.selectedCreatorIndex].crms.push(response.data.crm_record_by_user)
+                    } else {
+                        this.$refs.hitResults.items[this.selectedCreatorIndex].crms.forEach((crm, index) => {
+                            if (crm.user_id == this.currentUser.id) {
+                                this.$refs.hitResults.items[this.selectedCreatorIndex].crms[index] = response.data.crm_record_by_user
+                            }
+                        })
+                    }
+                    this.searchFunction(this.helper)
                 }
             })
         },
@@ -1133,6 +1143,16 @@ export default {
                 response = response.data;
                 if (response.status) {
                     this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1)
+                    if (!this.$refs.hitResults.items[this.selectedCreatorIndex].crms.length) {
+                        this.$refs.hitResults.items[this.selectedCreatorIndex].crms.push(response.data.crm_record_by_user)
+                    } else {
+                        this.$refs.hitResults.items[this.selectedCreatorIndex].crms.forEach((crm, index) => {
+                            if (crm.user_id == this.currentUser.id) {
+                                this.$refs.hitResults.items[this.selectedCreatorIndex].crms[index] = response.data.crm_record_by_user
+                            }
+                        })
+                    }
+                    this.searchFunction(this.helper)
                 }
             })
         },

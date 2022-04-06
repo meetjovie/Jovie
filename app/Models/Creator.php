@@ -392,6 +392,8 @@ class Creator extends Model
             $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
             $creator->crm_record_by_user->favourite = $creator->favourite;
             $creator->crm_record_by_user->muted = $creator->muted;
+            $creator->crm_record_by_user->selected = $creator->selected;
+            $creator->crm_record_by_user->rejected = $creator->rejected;
             $creator->crm_record_by_user->created_at = $creator->created_at;
             $creator->crm_record_by_user->updated_at = $creator->updated_at;
             unset($creator->creator_id);
@@ -461,10 +463,13 @@ class Creator extends Model
                 $dataToUpdateForCreator[$k] = $v;
             }
         }
-        Creator::where('id', $id)->update($dataToUpdateForCreator);
-
+        $creator = Creator::where('id', $id)->first();
+        foreach ($dataToUpdateForCreator as $k => $v) {
+            $creator->{$k} = $v;
+        }
         // update interactions for crm
         Crm::updateOrCreate(['creator_id' => $id, 'user_id' => Auth::id()], array_merge(['creator_id' => $id, 'user_id' => Auth::id()], $dataToUpdateForCrm));
+        $creator->save();
     }
 
     public function toSearchableArray()
