@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use MeiliSearch\Client;
 
@@ -13,6 +14,64 @@ use MeiliSearch\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/search-mili', function (Request $request) {
+
+    $creators = \App\Models\Creator::search($request->q);
+
+    if (!empty($request->gender)) {
+        $creators = $creators->where('gender', $request->gender);
+    }
+    if (!empty($request->instagram_category)) {
+        $creators = $creators->where('instagram_category', $request->instagram_category);
+    }
+    if (!empty($request->city)) {
+        $creators = $creators->where('city', $request->city);
+    }
+    if (!empty($request->country)) {
+        $creators = $creators->where('country', $request->country);
+    }
+    $creators = $creators->take(PHP_INT_MAX)->raw();
+
+    $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
+
+    $crms = \App\Models\Crm::search("")
+        ->where('user_id', 1)
+        ->where('selected', $request->selected)
+        ->where('rejected', $request->rejected)
+        ->take(PHP_INT_MAX)
+        ->raw();
+    $crms = collect($crms['hits']);
+    $crmCreatorIds = $crms->pluck('creator_id')->toArray();
+
+    $hits = [];
+    foreach ($creators['hits'] as &$creator) {
+        if (in_array($creator['id'], $crmCreatorIds)) {
+            $crm = $crms->where('creator_id', $creator['id'])->first();
+            $muted = $crm['muted'];
+            if ($muted) {
+                continue;
+            } else {
+                $creator['crm'] = $crm;
+            }
+        }
+
+        $matched = true;
+        if ($request->instagram_engagement_rate) {
+            if (!empty($request->instagram_engagement_rate[0])) {
+                $matched = $creator['instagram_engagement_rate'] >= $request->instagram_engagement_rate[0] / 100
+                    && $creator['instagram_engagement_rate'] <= $request->instagram_engagement_rate[1] / 100;
+            } else {
+                $matched = false;
+            }
+        }
+        if ($matched) {
+            $hits[] = $creator;
+        }
+    }
+
+    $creators['hits'] = $hits;
+    dd($creators);
+});
 Route::get('config-mili', function () {
     return config('scout.meilisearch');
 });
@@ -31,6 +90,16 @@ Route::get('/filters-scout', function () {
 //        'tags'
 //    ]);
     $response = $client->index('creators')->getFilterableAttributes();
+    $response = $client->index('crms')->updateFilterableAttributes([
+        'creator_id',
+        'user_id',
+        'selected',
+        'rejected',
+        'muted',
+        'favourite',
+        'stage',
+        'rating',
+    ]);
     dd($response);
 });
 Route::get('creator', function () {

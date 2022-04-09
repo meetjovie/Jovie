@@ -475,7 +475,6 @@ class Creator extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
-        $array['crms'] = $this->crmRecords;
         return $array;
     }
 

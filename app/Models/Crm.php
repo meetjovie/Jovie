@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Crm extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'creator_id',
@@ -15,6 +16,12 @@ class Crm extends Model
         'selected',
         'rejected',
     ];
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        return $array;
+    }
 
     public function getStageAttribute($value)
     {
