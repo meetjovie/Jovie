@@ -17,15 +17,19 @@ class SendSlackNotification implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $message = null;
+    private $internalMessage = null;
+    private $data = [];
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, $internalMessage = '', $data = [])
     {
         $this->message = $message;
+        $this->internalMessage = $internalMessage;
+        $this->data = $data;
     }
 
     /**
@@ -37,7 +41,7 @@ class SendSlackNotification implements ShouldQueue
     {
         try {
             $user = new User();
-            $user->notify(new ImportNotification($this->message));
+            $user->notify(new ImportNotification($this->message, $this->internalMessage, $this->data));
         } catch (\Exception $e) {
 
         }

@@ -12,14 +12,18 @@ class ImportNotification extends Notification
 {
     use Queueable;
     private $message;
+    private $internalMessage;
+    private $data;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, $internalMessage = '', $data = [])
     {
         $this->message = $message;
+        $this->internalMessage = $internalMessage;
+        $this->data = $data;
     }
 
     /**
@@ -41,7 +45,8 @@ class ImportNotification extends Notification
      */
     public function toSlack($notifiable)
     {
-        return (new SlackMessage)->content($this->message);
+        $content = [$this->message, $this->internalMessage, $this->data];
+        return (new SlackMessage)->content(json_encode($content));
     }
 
     /**

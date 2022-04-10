@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\FileSaveImport;
 use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
+use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
+use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
@@ -38,6 +41,53 @@ class ImportController extends Controller
     }
 
     public function import(Request $request)
+    {
+        $request->validate([
+            'instagram' => 'required_without_all:file,youtube',
+//            'file' => 'required_without_all:instagram,youtube|mimes:csv'
+        ]);
+        if ($request->instagram) {
+            foreach (explode('\n', $request->instagram) as $instagram) {
+                if ($instagram[0] == '@') {
+                    $instagram = substr($instagram, 1);
+                }
+                Bus::chain([
+                    new InstagramImport($instagram, $request->tags, true, null, null, null, Auth::user()->id),
+                    new SendSlackNotification('imported instagram user '.$instagram)
+                ])->dispatch();
+            }
+        }
+        try {
+            if ($request->file) {
+                $this->saveImport($request);
+            }
+        } catch (\Exception $e) {
+            return collect([
+                'status' => false,
+//                'error' => 'Your file is not imported.'
+                'error' => $e->getMessage(). $e->getLine()
+            ]);
+        }
+        return collect([
+            'status' => false,
+            'message' => 'Successful. Your import will start soon.',
+        ]);
+    }
+
+    public function saveImport($request)
+    {
+        $mappedColumns = json_decode($request->mappedColumns);
+        if ($request->has('file')) {
+            $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
+            $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
+            $filePath = Creator::CREATORS_CSV_PATH.$filename;
+            $listName = $request->listName;
+            User::where('id', Auth::id())->increment('queued_count');
+            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
+        }
+    }
+
+    public function importX(Request $request)
     {
         $request->validate([
             'instagram' => 'required_without_all:file,youtube',

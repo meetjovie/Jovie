@@ -271,6 +271,7 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
+            this.$store.state.AuthState.user.queued_count += 1;
             alert(response.message);
           } else {
             // show toast error here later

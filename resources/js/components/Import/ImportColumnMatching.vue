@@ -14,12 +14,12 @@
                     <th class="font-medium">Columns from <span class="font-bold">{{ csvFileName }}</span></th>
                     <th>Import to...</th>
                 </tr>
-                <tr v-for="column in columns" :key="column" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
+                <tr v-for="(column, index) in columns" :key="column" class="text-center rounded-md odd:bg-white even:bg-indigo-100">
                     <td class="text-sm last:rounded-md-br text-indigo-700 font-bold py-2 text-center mx-auto items-center">
                         {{ column }}
                     </td>
                     <td class="px-2 py-1 justify-center items-center">
-                        <ColumnsDropdown :ref="'columnDropdown_'+column" @setMappedColumns="setMappedColumns" :mappedColumns="mappedColumns" :column="column" :columnsToMap="columnsToMap" class="rounded-md inline w-72" />
+                        <ColumnsDropdown :ref="'columnDropdown_'+index" @setMappedColumns="setMappedColumns(index, $event)" :mappedColumns="mappedColumns" :column="column" :columnsToMap="columnsToMap" class="rounded-md inline w-72" />
                     </td>
                 </tr>
             </table>
@@ -88,6 +88,8 @@ export default {
                 'email1',
                 'email2',
                 'wikiId',
+                'phone',
+                'gender',
             ],
             mappedColumns: {},
             csvFileName: ''
@@ -111,17 +113,17 @@ export default {
                 this.listExists = ''
             }
         },
-        setMappedColumns({mapColumn, column}) {
+        setMappedColumns(index, {mapColumn}) {
             if (this.mappedColumns.hasOwnProperty(mapColumn)) {
-                this.$refs[`columnDropdown_${column}`][0].selected = null
+                this.$refs[`columnDropdown_${index}`][0].selected = null
                 return
             }
             // remove key from mapped column if its unselected
             for (const [key, value] of Object.entries(this.mappedColumns)) {
                 // check if value of mapped column is an object (which refers to emails). Then rather than deleting key splice from array
-                if (typeof value === "object" && value.includes(column)) {
-                    this.mappedColumns.emails.splice(this.mappedColumns.emails.indexOf(column), 1)
-                } else if (value === column) {
+                if (typeof value === "object" && value.includes(index)) {
+                    this.mappedColumns.emails.splice(this.mappedColumns.emails.indexOf(index), 1)
+                } else if (value === index) {
                     delete this.mappedColumns[key]
                     break
                 }
@@ -130,13 +132,13 @@ export default {
                 // check if mapColumn in email1 or email2 then rather than having a string, have an array with all email keys columns
                 if (['email1', 'email2'].includes(mapColumn)) {
                     if (this.mappedColumns['emails']) {
-                        this.mappedColumns['emails'].push(column)
+                        this.mappedColumns['emails'].push(index)
                     } else {
                         this.mappedColumns['emails'] = []
-                        this.mappedColumns['emails'].push(column)
+                        this.mappedColumns['emails'].push(index)
                     }
                 } else {
-                    this.mappedColumns[mapColumn] = column;
+                    this.mappedColumns[mapColumn] = index;
                 }
             }
         },
