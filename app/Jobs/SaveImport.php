@@ -85,7 +85,7 @@ class SaveImport implements ShouldQueue
 
                     $country = isset($this->mappedColumns->country) ? $row[$this->mappedColumns->country] : null;
                     $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
-                    if ($this->mappedColumns->country && $country && in_array(strtolower(trim($row[$this->mappedColumns->country])), array_map('strtolower', $usStates))) {
+                    if (isset($this->mappedColumns->country) && $country && in_array(strtolower(trim($row[$this->mappedColumns->country])), array_map('strtolower', $usStates))) {
                         $country = 'United States';
                     }
 
