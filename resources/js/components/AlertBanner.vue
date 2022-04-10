@@ -51,6 +51,10 @@ export default {
       type: String,
       required: false,
     },
+      design: {
+        type: String,
+          default: 'success'
+      }
   },
   components: {
     XIcon,

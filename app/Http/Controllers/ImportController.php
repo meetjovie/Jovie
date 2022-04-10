@@ -69,8 +69,9 @@ class ImportController extends Controller
             ]);
         }
         return collect([
-            'status' => false,
+            'status' => true,
             'message' => 'Successful. Your import will start soon.',
+            'queued_count' => Auth::user()->queued_count
         ]);
     }
 
