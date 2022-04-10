@@ -70,26 +70,31 @@ Route::get('/search-mili', function (Request $request) {
     }
 
     $creators['hits'] = $hits;
-    dd($creators);
+    return $creators;
 });
 Route::get('config-mili', function () {
     return config('scout.meilisearch');
 });
+Route::get('index-mili', function () {
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+    return $client->getAllIndexes();
+});
 Route::get('/filters-scout', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
-//    $response = $client->index('creators')->updateFilterableAttributes([
-//        'instagram_followers',
-//        'instagram_engagement_rate',
-//        'engaged_follows',
-//        'gender',
-//        'city',
-//        'country',
-//        'instagram_category',
-//        'emails',
-//        'has_emails',
-//        'tags'
-//    ]);
+    $response = $client->index('creators')->updateFilterableAttributes([
+        'instagram_followers',
+        'instagram_engagement_rate',
+        'engaged_follows',
+        'gender',
+        'city',
+        'country',
+        'instagram_category',
+        'emails',
+        'has_emails',
+        'tags'
+    ]);
     $response = $client->index('creators')->getFilterableAttributes();
+    dump($response);
     $response = $client->index('crms')->updateFilterableAttributes([
         'creator_id',
         'user_id',
@@ -100,6 +105,7 @@ Route::get('/filters-scout', function () {
         'stage',
         'rating',
     ]);
+    $response = $client->index('crms')->getFilterableAttributes();
     dd($response);
 });
 Route::get('creator', function () {
