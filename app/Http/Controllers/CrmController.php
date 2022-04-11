@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use MeiliSearch\Client;
 
 class CrmController extends Controller
 {
@@ -178,23 +179,63 @@ class CrmController extends Controller
     {
         $creators = \App\Models\Creator::search($request->q);
 
+        $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+
+        $filtersString = '(mutedRecord!=user_'.Auth::id().' OR mutedRecordCount = 0)';
+
+        $filtersString .= ' AND (selectedRecord!=user_'.Auth::id().' OR selectedRecordCount=0)';
+        $filtersString .= ' AND (rejectedRecord!=user_'.Auth::id().' OR rejectedRecordCount=0)';
+//        dd($filtersString);
         if (!empty($request->gender)) {
-            $creators = $creators->where('gender', $request->gender);
+            $filtersString = $filtersString.' AND gender='.$request->gender;
         }
         if (!empty($request->instagram_category)) {
-            $creators = $creators->where('instagram_category', $request->instagram_category);
+            $filtersString = $filtersString.' AND instagram_category='.$request->instagram_category;
         }
         if (!empty($request->city)) {
-            $creators = $creators->where('city', $request->city);
+            $filtersString = $filtersString.' AND city='.$request->city;
         }
         if (!empty($request->country)) {
-            $creators = $creators->where('country', $request->country);
+            $filtersString = $filtersString.' AND country='.$request->country;
         }
-        $creators = $creators->take(PHP_INT_MAX)->paginateRaw($page);
 
         $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
+        if ($request->instagram_engagement_rate) {
+            if (!empty($request->instagram_engagement_rate[0])) {
+                $filtersString = $filtersString.' AND instagram_engagement_rate>='.($request->instagram_engagement_rate[0]/100);
+            }
+            if (!empty($request->instagram_engagement_rate[1])) {
+                $filtersString = $filtersString.' AND instagram_engagement_rate<='.($request->instagram_engagement_rate[1]/100);
+            }
+        }
+        $request->instagram_followers = json_decode($request->instagram_followers);
+        if ($request->instagram_followers) {
+            if (!empty($request->instagram_followers[0])) {
+                $filtersString = $filtersString.' AND instagram_followers>='.$request->instagram_followers[0];
+            }
+            if (!empty($request->instagram_followers[1])) {
+                $filtersString = $filtersString.' AND instagram_followers<='.$request->instagram_followers[1];
+            }
+        }
+
+        if (!empty($request->emails)) {
+            $filtersString = $filtersString.' AND emails='.$request->emails;
+        }
+
+//dd($filtersString);
+        $data = $client->index('creators')->search($request->q, [
+            'filter' => $filtersString,
+            'offset' => $request->page,
+            'limit' => 30
+        ])->getRaw();
+        dd($data);
 
         if (!$crms) {
+            $crms = $client->index('crms')->search('', [
+                'filter' => ('selected='.$request->selected.' AND rejected='.$request->rejected),
+                'offset' => $request->page,
+                'limit' => 30
+            ])->getRaw();
             $crms = \App\Models\Crm::search("")
                 ->where('user_id', 1)
                 ->where('selected', $request->selected)
@@ -216,19 +257,6 @@ class CrmController extends Controller
                 } else {
                     $tempCreator['crm'] = $crm;
                 }
-            }
-
-            $matched = true;
-            if ($request->instagram_engagement_rate) {
-                if (!empty($request->instagram_engagement_rate[0])) {
-                    $matched = $creator['instagram_engagement_rate'] >= $request->instagram_engagement_rate[0] / 100
-                        && $creator['instagram_engagement_rate'] <= $request->instagram_engagement_rate[1] / 100;
-                } else {
-                    $matched = false;
-                }
-            }
-            if ($matched) {
-                $hits[] = $tempCreator;
             }
         }
 

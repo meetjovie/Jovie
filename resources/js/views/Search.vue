@@ -1243,10 +1243,10 @@ export default {
             selectedCreator: {},
             selectedCreatorIndex: [],
             searchClient: instantMeiliSearch(
-                'https://search.jov.ie/',
-                'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
-                // process.env.MIX_MEILISEARCH_HOST,
-                // process.env.MIX_MEILISEARCH_FRONT_KEY,
+                // 'https://search.jov.ie/',
+                // 'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
+                process.env.MIX_MEILISEARCH_HOST,
+                process.env.MIX_MEILISEARCH_FRONT_KEY,
                 {
                     placeholderSearch: true, // default: true.
                     primaryKey: 'id', // default: undefined
@@ -1255,6 +1255,10 @@ export default {
             ),
             searchFunction(helper) {
                 // helper.state.query = 'tim'
+                console.log('helper.state');
+                console.log(helper.state.setFacets('gender=male'));
+                // helper.setFacets('gender=male')
+                console.log(helper.state.filter);
                 let res = helper.search();
                 console.log('results');
                 console.log(res);

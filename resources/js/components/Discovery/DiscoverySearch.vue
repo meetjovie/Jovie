@@ -1,33 +1,33 @@
 <template>
   <div
     class="fixed top-8 w-60 justify-center space-y-8 px-4 py-8 text-sm font-bold">
-<!--    <div class="w-full">-->
-<!--      <span class="text-center text-sm font-bold">Refine your search</span>-->
+    <div class="w-full">
+      <span class="text-center text-sm font-bold">Refine your search</span>
 
-<!--      <FollowerCount :min="1000" :max="1000000000" />-->
+      <FollowerCount :min="1000" :max="1000000000" />
 
-<!--      <EngagementFilter-->
-<!--        :min="0"-->
-<!--        :max="100"-->
-<!--        attribute="instagram_engagement_rate" />-->
-<!--    </div>-->
-<!--    <span class="text-xs font-bold text-neutral-700">Instagram Category</span>-->
-<!--    <CategoryFilter></CategoryFilter>-->
+      <EngagementFilter
+        :min="0"
+        :max="100"
+        attribute="instagram_engagement_rate" />
+    </div>
+    <span class="text-xs font-bold text-neutral-700">Instagram Category</span>
+    <CategoryFilter></CategoryFilter>
 
-<!--    &lt;!&ndash;  <ais-menu-select attribute="city" />-->
-<!--    <ais-menu-select attribute="country" /> &ndash;&gt;-->
-<!--    <span class="text-xs font-bold text-neutral-700">Gender</span>-->
-<!--    <ais-menu-select attribute="gender" />-->
-<!--    &lt;!&ndash;  <ais-menu-select attribute="tags" /> &ndash;&gt;-->
+    <!--  <ais-menu-select attribute="city" />
+    <ais-menu-select attribute="country" /> -->
+    <span class="text-xs font-bold text-neutral-700">Gender</span>
+    <ais-menu-select attribute="gender" />
+    <!--  <ais-menu-select attribute="tags" /> -->
 
-<!--    <ais-toggle-refinement-->
-<!--      :class-names="{-->
-<!--        'ais-RefinementList-checkbox': 'rounded-md',-->
+    <ais-toggle-refinement
+      :class-names="{
+        'ais-RefinementList-checkbox': 'rounded-md',
 
-<!--        // ...-->
-<!--      }"-->
-<!--      attribute="has_emails"-->
-<!--      label="Email" />-->
+        // ...
+      }"
+      attribute="has_emails"
+      label="Email" />
   </div>
 </template>
 <script>

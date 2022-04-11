@@ -83,6 +83,7 @@ Route::get('index-mili', function () {
 Route::get('/filters-scout', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
     $response = $client->index('creators')->updateFilterableAttributes([
+        'id',
         'instagram_followers',
         'instagram_engagement_rate',
         'engaged_follows',
@@ -92,7 +93,13 @@ Route::get('/filters-scout', function () {
         'instagram_category',
         'emails',
         'has_emails',
-        'tags'
+        'tags',
+        'mutedRecord',
+        'mutedRecordCount',
+        'selectedRecord',
+        'selectedRecordCount',
+        'rejectedRecord',
+        'rejectedRecordCount'
     ]);
     $response = $client->index('creators')->getFilterableAttributes();
     dump($response);

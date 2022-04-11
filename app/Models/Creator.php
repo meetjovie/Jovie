@@ -475,6 +475,27 @@ class Creator extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
+        $mutedRecord = [];
+        $selectedRecord = [];
+        $rejectedRecord = [];
+        foreach ($this->crmRecords as $crm) {
+            if ($crm->selected) {
+                $selectedRecord[] = 'user_'.$crm->user_id;
+            }
+            if ($crm->rejected) {
+                $rejectedRecord[] = 'user_'.$crm->user_id;
+            }
+            if ($crm->muted) {
+                $mutedRecord[] = 'user_'.$crm->user_id;
+            }
+        }
+        $array['emailCount'] = count($this->emails);
+        $array['mutedRecord'] = $mutedRecord;
+        $array['mutedRecordCount'] = count($mutedRecord);
+        $array['rejectedRecord'] = $rejectedRecord;
+        $array['rejectedRecordCount'] = count($rejectedRecord);
+        $array['selectedRecord'] = $selectedRecord;
+        $array['selectedRecordCount'] = count($selectedRecord);
         return $array;
     }
 
