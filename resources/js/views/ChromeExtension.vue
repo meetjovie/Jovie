@@ -47,11 +47,11 @@
               </div>
               <div class="mt-6 sm:max-w-xl">
                 <h1
-                  class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+                  class="text-4xl font-extrabold tracking-tight text-indigo-600 sm:text-5xl">
                   Creator insights
                 </h1>
                 <h1
-                  class="-mt-4 text-4xl font-extrabold tracking-tight text-indigo-600 sm:text-5xl">
+                  class="-mt-4 text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl">
                   right inside gmail
                 </h1>
 
@@ -60,28 +60,25 @@
                   inbox.
                 </p>
               </div>
-              <div
-                class="mt-4 sm:mt-12 sm:flex sm:w-full sm:max-w-lg">
+              <div class="mt-4 sm:mt-12 sm:flex sm:w-full sm:max-w-lg">
                 <div class="min-w-0 flex-1">
                   <label for="hero-email" class="sr-only">Email address</label>
                   <input
-                      v-on:keyup.enter="requestDemo()"
-                      v-model="waitListEmail"
+                    v-on:keyup.enter="requestDemo()"
+                    v-model="waitListEmail"
                     id="hero-email"
                     type="email"
-                    class="block w-full rounded-md border border-gray-300 px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    class="block w-full rounded-md border border-gray-300 px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                     placeholder="Enter your email" />
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-3">
                   <button
-                      @click="requestDemo()"
+                    @click="requestDemo()"
                     type="button"
-                    class="block w-full rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:px-10">
+                    class="block w-full rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:px-10">
                     Get early access
                   </button>
-                    <span class="float-left text-red-900">{{
-                            this.error
-                        }}</span>
+                  <span class="float-left text-red-900">{{ this.error }}</span>
                 </div>
               </div>
               <div class="mt-6">
@@ -172,7 +169,7 @@
 <script>
 import { defineComponent, h } from 'vue';
 import { ChevronRightIcon, StarIcon } from '@heroicons/vue/solid';
-import UserService from "../services/api/user.service";
+import UserService from '../services/api/user.service';
 
 const stats = [
   { label: 'Founded', value: '2021' },
@@ -299,29 +296,32 @@ export default {
       footerNavigation,
     };
   },
-    data() {
-      return {
-          waitListEmail: '',
-          error: ''
-      }
+  data() {
+    return {
+      waitListEmail: '',
+      error: '',
+    };
+  },
+  methods: {
+    async requestDemo() {
+      await UserService.addToWaitList({
+        email: this.waitListEmail,
+        page: 'Extension',
+      })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.waitListEmail = '';
+            this.error = null;
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.error = error.data.errors.email[0];
+          }
+        });
     },
-    methods: {
-        async requestDemo() {
-            await UserService.addToWaitList({ email: this.waitListEmail, page: 'Extension' })
-                .then((response) => {
-                    response = response.data;
-                    if (response.status) {
-                        this.waitListEmail = '';
-                        this.error = null;
-                    }
-                })
-                .catch((error) => {
-                    error = error.response;
-                    if (error.status == 422) {
-                        this.error = error.data.errors.email[0];
-                    }
-                });
-        },
-    }
+  },
 };
 </script>
