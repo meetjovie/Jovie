@@ -1,12 +1,12 @@
 <!--
-  This example requires Tailwind CSS v2.0+ 
-  
+  This example requires Tailwind CSS v2.0+
+
   This example requires some changes to your config:
-  
+
   ```
   // tailwind.config.js
   const colors = require('tailwindcss/colors')
-  
+
   module.exports = {
     // ...
     theme: {
@@ -60,12 +60,13 @@
                   inbox.
                 </p>
               </div>
-              <form
-                action="#"
+              <div
                 class="mt-4 sm:mt-12 sm:flex sm:w-full sm:max-w-lg">
                 <div class="min-w-0 flex-1">
                   <label for="hero-email" class="sr-only">Email address</label>
                   <input
+                      v-on:keyup.enter="requestDemo()"
+                      v-model="waitListEmail"
                     id="hero-email"
                     type="email"
                     class="block w-full rounded-md border border-gray-300 px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -73,12 +74,16 @@
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-3">
                   <button
-                    type="submit"
+                      @click="requestDemo()"
+                    type="button"
                     class="block w-full rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:px-10">
                     Get early access
                   </button>
+                    <span class="float-left text-red-900">{{
+                            this.error
+                        }}</span>
                 </div>
-              </form>
+              </div>
               <div class="mt-6">
                 <div class="inline-flex items-center divide-x divide-gray-300">
                   <div class="flex flex-shrink-0 pr-5">
@@ -167,6 +172,7 @@
 <script>
 import { defineComponent, h } from 'vue';
 import { ChevronRightIcon, StarIcon } from '@heroicons/vue/solid';
+import UserService from "../services/api/user.service";
 
 const stats = [
   { label: 'Founded', value: '2021' },
@@ -293,5 +299,29 @@ export default {
       footerNavigation,
     };
   },
+    data() {
+      return {
+          waitListEmail: '',
+          error: ''
+      }
+    },
+    methods: {
+        async requestDemo() {
+            await UserService.addToWaitList({ email: this.waitListEmail, page: 'Extension' })
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        this.waitListEmail = '';
+                        this.error = null;
+                    }
+                })
+                .catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                        this.error = error.data.errors.email[0];
+                    }
+                });
+        },
+    }
 };
 </script>
