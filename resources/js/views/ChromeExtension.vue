@@ -33,7 +33,7 @@
           <div>
             <div class="">
               <div>
-                <a href="#" class="inline-flex space-x-4">
+                <a href="#" class="hidden space-x-4 sm:inline-flex">
                   <span
                     class="rounded bg-indigo-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-500">
                     Chrome Extension
@@ -48,15 +48,21 @@
               <div class="mt-6 sm:max-w-xl">
                 <h1
                   class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-                  Creator insights<br />
-                  <span class="text-indigo-600">right inside gmail</span>
+                  Creator insights
                 </h1>
-                <p class="mt-6 text-xl text-gray-500">
+                <h1
+                  class="-mt-4 text-4xl font-extrabold tracking-tight text-indigo-600 sm:text-5xl">
+                  right inside gmail
+                </h1>
+
+                <p class="mt-2 text-xs text-gray-500 sm:mt-6 sm:text-xl">
                   See content & social metrics of creators right inside your
                   inbox.
                 </p>
               </div>
-              <form action="#" class="mt-12 sm:flex sm:w-full sm:max-w-lg">
+              <form
+                action="#"
+                class="mt-4 sm:mt-12 sm:flex sm:w-full sm:max-w-lg">
                 <div class="min-w-0 flex-1">
                   <label for="hero-email" class="sr-only">Email address</label>
                   <input
@@ -139,7 +145,7 @@
               <div
                 class="absolute inset-y-0 left-1/2 w-screen rounded-l-3xl bg-gray-50 lg:left-80 lg:right-0 lg:w-full">
                 <img
-                  class="z-10 w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 blur-sm lg:h-full lg:w-auto lg:max-w-none"
+                  class="z-10 w-full rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 blur-sm lg:h-full lg:w-auto lg:max-w-none"
                   :src="asset('img/External/gmail.jpeg')"
                   alt="" />
               </div>
