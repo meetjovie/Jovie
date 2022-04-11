@@ -33,17 +33,17 @@
           <div>
             <div class="">
               <div>
-                <a href="#" class="hidden space-x-4 sm:inline-flex">
+                <div class="hidden space-x-4 sm:inline-flex">
                   <span
                     class="rounded bg-indigo-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-500">
-                    Chrome Extension
+                    Coming soon
                   </span>
                   <span
-                    class="inline-flex items-center space-x-1 text-sm font-medium text-indigo-500">
-                    <span>Jovie inside Gmail</span>
+                    class="inline-flex items-center space-x-1 text-sm font-medium text-neutral-500">
+                    <span>Jovie Chrome Extension</span>
                     <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
                   </span>
-                </a>
+                </div>
               </div>
               <div class="mt-6 sm:max-w-xl">
                 <h1
@@ -156,7 +156,7 @@
               class="relative -mr-20 pl-4 sm:mx-auto sm:max-w-3xl sm:px-0 lg:h-full lg:max-w-none lg:pl-12">
               <img
                 class="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
-                :src="asset('img/External/chrome.png')"
+                :src="asset('img/External/chrome.webp')"
                 alt="" />
             </div>
           </div>
