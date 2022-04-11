@@ -36,7 +36,7 @@
                 <a href="#" class="inline-flex space-x-4">
                   <span
                     class="rounded bg-indigo-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-500">
-                    Coming soon
+                    Chrome Extension
                   </span>
                   <span
                     class="inline-flex items-center space-x-1 text-sm font-medium text-indigo-500">
@@ -69,7 +69,7 @@
                   <button
                     type="submit"
                     class="block w-full rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:px-10">
-                    Notify me
+                    Get early access
                   </button>
                 </div>
               </form>
