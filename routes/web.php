@@ -14,7 +14,8 @@ use MeiliSearch\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/search-mili', function (Request $request) {
+Route::get('/search-mili', [\App\Http\Controllers\CrmController::class, 'discovery']);
+Route::get('/search-miali', function (Request $request) {
 
     $creators = \App\Models\Creator::search($request->q);
 
@@ -30,7 +31,7 @@ Route::get('/search-mili', function (Request $request) {
     if (!empty($request->country)) {
         $creators = $creators->where('country', $request->country);
     }
-    $creators = $creators->take(PHP_INT_MAX)->raw();
+    $creators = $creators->take(PHP_INT_MAX)->paginateRaw($request->page);
 
     $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
 

@@ -167,4 +167,72 @@ class CrmController extends Controller
             'crm' => $crm
         ]);
     }
+
+    public function discovery(Request $request)
+    {
+        $data = $this->fetchCreators($request, [], $request->page);
+        return $data;
+    }
+
+    public function fetchCreators($request, $crms = null, $page = 1, $iteration = 1)
+    {
+        $creators = \App\Models\Creator::search($request->q);
+
+        if (!empty($request->gender)) {
+            $creators = $creators->where('gender', $request->gender);
+        }
+        if (!empty($request->instagram_category)) {
+            $creators = $creators->where('instagram_category', $request->instagram_category);
+        }
+        if (!empty($request->city)) {
+            $creators = $creators->where('city', $request->city);
+        }
+        if (!empty($request->country)) {
+            $creators = $creators->where('country', $request->country);
+        }
+        $creators = $creators->take(PHP_INT_MAX)->paginateRaw($page);
+
+        $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
+
+        if (!$crms) {
+            $crms = \App\Models\Crm::search("")
+                ->where('user_id', 1)
+                ->where('selected', $request->selected)
+                ->where('rejected', $request->rejected)
+                ->take(PHP_INT_MAX)
+                ->raw();
+        }
+        $crms = collect($crms['hits']);
+        $crmCreatorIds = $crms->pluck('creator_id')->toArray();
+
+        $hits = [];
+        foreach ($creators['hits'] as $creator) {
+            $tempCreator = $creator;
+            if (in_array($creator['id'], $crmCreatorIds)) {
+                $crm = $crms->where('creator_id', $creator['id'])->first();
+                $muted = $crm['muted'];
+                if ($muted) {
+                    continue;
+                } else {
+                    $tempCreator['crm'] = $crm;
+                }
+            }
+
+            $matched = true;
+            if ($request->instagram_engagement_rate) {
+                if (!empty($request->instagram_engagement_rate[0])) {
+                    $matched = $creator['instagram_engagement_rate'] >= $request->instagram_engagement_rate[0] / 100
+                        && $creator['instagram_engagement_rate'] <= $request->instagram_engagement_rate[1] / 100;
+                } else {
+                    $matched = false;
+                }
+            }
+            if ($matched) {
+                $hits[] = $tempCreator;
+            }
+        }
+
+        $creators['hits'] = $hits;
+        return $creators;
+    }
 }
