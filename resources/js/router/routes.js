@@ -240,6 +240,16 @@ export const routes = [
     },
   },
   {
+    name: 'Chrome Extension',
+    path: '/chrome-extension',
+    component: loadPage('ChromeExtension'),
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+      requiresSubscribe: false,
+    },
+  },
+  {
     name: 'Profile',
     path: '/:username',
     component: loadPage('Profile'),
