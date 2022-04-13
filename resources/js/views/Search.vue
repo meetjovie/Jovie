@@ -28,7 +28,7 @@
                         <main class="flex-auto">
                             <!--  <DiscoveryStats></DiscoveryStats> -->
                             <TabGroup :defaultIndex="0">
-                                 <DiscoveryToolbar
+                                 <DiscoveryToolbar @changeTab="changeTab"
                                      class="px-4">
                                  </DiscoveryToolbar>
 
@@ -78,6 +78,8 @@
                                         <div
                                             class="sticky top-0 mx-auto w-full items-center text-center">
                                             <div class="mx-auto inline-flex w-full items-center">
+                                                <ais-clear-refinements ref="clear" :included-attributes="['query']" />
+
                                                 <SearchIcon
                                                     class="mr-1 mt-0.5 inline-flex h-7 w-7 text-gray-400"
                                                     aria-hidden="true"></SearchIcon>
@@ -164,10 +166,9 @@
                                 </div>
                                 <ais-state-results>
                                     <template v-slot="{ results: { hits } }">
-                                        <ais-infinite-hits ref="hitResults" v-if="hits.length > 0" :cache="cache">
+                                        <ais-infinite-hits ref="hitResults" v-if="hits.length > 0">
                                             <template v-slot:item="{ item, index }">
                                                 <div
-                                                    v-if="!checkIfMuted(item.crms) && checkIfAll(item.crms)"
                                                     @click="setCurrentCreator(item, index)"
                                                     class="h-full divide-y divide-gray-200 bg-white">
                                                     <div
@@ -1108,8 +1109,49 @@ export default {
         },
     },
     methods: {
+        searchFunction(helper) {
+            console.log(helper);
+            if (helper) {
+                this.helper = helper
+                if (this.currentTab == 0) {
+                    helper.state.hierarchicalFacetsRefinements['not_muted_record'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['not_selected_record'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['not_rejected_record'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['rejected_record'] = []
+                    helper.state.hierarchicalFacetsRefinements['selected_record'] = []
+                } else if (this.currentTab == 1) {
+                    helper.state.hierarchicalFacetsRefinements.not_rejected_record = []
+                    helper.state.hierarchicalFacetsRefinements.not_selected_record = []
+                    helper.state.hierarchicalFacetsRefinements.rejected_record = []
+
+                    helper.state.hierarchicalFacetsRefinements['not_muted_record'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['selected_record'] = ['user_1']
+                } else if (this.currentTab == 2) {
+                    helper.state.hierarchicalFacetsRefinements.not_rejected_record = []
+                    helper.state.hierarchicalFacetsRefinements.not_selected_record = []
+                    helper.state.hierarchicalFacetsRefinements.selected_record = []
+
+                    helper.state.hierarchicalFacetsRefinements['not_muted_record'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['rejected_record'] = ['user_1']
+                }
+                if (helper.state.query == '') {
+                    helper.state.query = '*'
+                }
+                helper.search();
+            }
+        },
+        changeTab(e) {
+            this.currentTab = e
+            console.log('this.helper');
+            console.log(this.helper);
+            document.querySelector('div.ais-ClearRefinements button').click()
+            this.$refs.clear.click()
+            if (this.helper) {
+                this.searchFunction(this.helper)
+            }
+        },
         async addToSelected() {
-            if (!this.selectedCreator) return
+            if (!this.selectedCreator || this.currentTab == 1) return
             let params = {
                 id: this.selectedCreator.id,
                 key: 'crm_record_by_user.selected',
@@ -1133,7 +1175,7 @@ export default {
             })
         },
         async addToRejected() {
-            if (!this.selectedCreator) return
+            if (!this.selectedCreator || this.currentTab == 2) return
             let params = {
                 id: this.selectedCreator.id,
                 key: 'crm_record_by_user.rejected',
@@ -1231,6 +1273,7 @@ export default {
     },
     data() {
         return {
+            currentTab: 0,
             sidebarOpen: false,
             creatorMenu: [
                 {
@@ -1253,20 +1296,6 @@ export default {
                     // ...
                 }
             ),
-            searchFunction(helper) {
-                // helper.state.query = 'tim'
-                console.log('helper.state');
-                console.log(helper.state.setFacets('gender=male'));
-                // helper.setFacets('gender=male')
-                console.log(helper.state.filter);
-                let res = helper.search();
-                console.log('results');
-                console.log(res);
-                console.log('res');
-                console.log('this.state');
-                console.log(this.state);
-                // }
-            },
         };
     },
 };

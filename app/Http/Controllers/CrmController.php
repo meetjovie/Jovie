@@ -223,6 +223,7 @@ class CrmController extends Controller
         }
 
 //dd($filtersString);
+        dd($client->index('creators')->getSearchableAttributes());
         $data = $client->index('creators')->search($request->q, [
             'filter' => $filtersString,
             'offset' => $request->page,

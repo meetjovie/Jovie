@@ -475,27 +475,32 @@ class Creator extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
-        $mutedRecord = [];
+        $notMutedRecord = [];
+        $notSelectedRecord = [];
+        $notRejectedRecord = [];
         $selectedRecord = [];
         $rejectedRecord = [];
         foreach ($this->crmRecords as $crm) {
-            if ($crm->selected) {
+            if (!$crm->selected) {
+                $notSelectedRecord[] = 'user_'.$crm->user_id;
+            } else {
                 $selectedRecord[] = 'user_'.$crm->user_id;
             }
-            if ($crm->rejected) {
+            if (!$crm->rejected) {
+                $notRejectedRecord[] = 'user_'.$crm->user_id;
+            } else {
                 $rejectedRecord[] = 'user_'.$crm->user_id;
             }
-            if ($crm->muted) {
-                $mutedRecord[] = 'user_'.$crm->user_id;
+            if (!$crm->muted) {
+                $notMutedRecord[] = 'user_'.$crm->user_id;
             }
         }
         $array['emailCount'] = count($this->emails);
-        $array['mutedRecord'] = $mutedRecord;
-        $array['mutedRecordCount'] = count($mutedRecord);
-        $array['rejectedRecord'] = $rejectedRecord;
-        $array['rejectedRecordCount'] = count($rejectedRecord);
-        $array['selectedRecord'] = $selectedRecord;
-        $array['selectedRecordCount'] = count($selectedRecord);
+        $array['not_muted_record'] = $notMutedRecord;
+        $array['not_rejected_record'] = $notRejectedRecord;
+        $array['not_selected_record'] = $notSelectedRecord;
+        $array['selected_record'] = $selectedRecord;
+        $array['rejected_record'] = $rejectedRecord;
         return $array;
     }
 

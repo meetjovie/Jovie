@@ -4,6 +4,82 @@
     <div class="w-full">
       <span class="text-center text-sm font-bold">Refine your search</span>
 
+        <ais-menu-select searchable attribute="not_muted_record" style="display: none">
+            <template v-slot="{ items, refine, sendEvent }">
+                <select @change="refine($event.currentTarget.value)">
+                    <option class="w-full" value="">All</option>
+                    <option
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        v-for="item in items"
+                        :key="item.value"
+                        :value="item.value"
+                        :selected="item.isRefined">
+                        {{ item.label }}
+                    </option>
+                </select>
+            </template>
+        </ais-menu-select>
+        <ais-menu-select searchable attribute="not_selected_record" style="display: none">
+            <template v-slot="{ items, refine, sendEvent }">
+                <select @change="refine($event.currentTarget.value)">
+                    <option class="w-full" value="">All</option>
+                    <option
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        v-for="item in items"
+                        :key="item.value"
+                        :value="item.value"
+                        :selected="item.isRefined">
+                        {{ item.label }}
+                    </option>
+                </select>
+            </template>
+        </ais-menu-select>
+        <ais-menu-select searchable attribute="not_rejected_record" style="display: none">
+            <template v-slot="{ items, refine, sendEvent }">
+                <select @change="refine($event.currentTarget.value)">
+                    <option class="w-full" value="">All</option>
+                    <option
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        v-for="item in items"
+                        :key="item.value"
+                        :value="item.value"
+                        :selected="item.isRefined">
+                        {{ item.label }}
+                    </option>
+                </select>
+            </template>
+        </ais-menu-select>
+        <ais-menu-select searchable attribute="selected_record" style="display: none">
+            <template v-slot="{ items, refine, sendEvent }">
+                <select @change="refine($event.currentTarget.value)">
+                    <option class="w-full" value="">All</option>
+                    <option
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        v-for="item in items"
+                        :key="item.value"
+                        :value="item.value"
+                        :selected="item.isRefined">
+                        {{ item.label }}
+                    </option>
+                </select>
+            </template>
+        </ais-menu-select>
+        <ais-menu-select searchable attribute="rejected_record" style="display: none">
+            <template v-slot="{ items, refine, sendEvent }">
+                <select @change="refine($event.currentTarget.value)">
+                    <option class="w-full" value="">All</option>
+                    <option
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        v-for="item in items"
+                        :key="item.value"
+                        :value="item.value"
+                        :selected="item.isRefined">
+                        {{ item.label }}
+                    </option>
+                </select>
+            </template>
+        </ais-menu-select>
+
       <FollowerCount :min="1000" :max="1000000000" />
 
       <EngagementFilter

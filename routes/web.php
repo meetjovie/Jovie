@@ -94,26 +94,13 @@ Route::get('/filters-scout', function () {
         'emails',
         'has_emails',
         'tags',
-        'mutedRecord',
-        'mutedRecordCount',
-        'selectedRecord',
-        'selectedRecordCount',
-        'rejectedRecord',
-        'rejectedRecordCount'
+        'not_muted_record',
+        'not_rejected_record',
+        'not_selected_record',
+        'selected_record',
+        'rejected_record',
     ]);
     $response = $client->index('creators')->getFilterableAttributes();
-    dump($response);
-    $response = $client->index('crms')->updateFilterableAttributes([
-        'creator_id',
-        'user_id',
-        'selected',
-        'rejected',
-        'muted',
-        'favourite',
-        'stage',
-        'rating',
-    ]);
-    $response = $client->index('crms')->getFilterableAttributes();
     dd($response);
 });
 Route::get('creator', function () {
