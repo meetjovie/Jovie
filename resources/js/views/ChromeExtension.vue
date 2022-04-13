@@ -84,11 +84,11 @@
                     Awesome! We'll be in touch soon.
                   </p>
                 </div>
-                <span
-                  class="float-left h-8 px-2 text-xs font-bold text-red-500"
-                  >{{ this.error }}</span
-                >
               </div>
+              <span
+                class="float-left h-8 px-2 text-xs font-bold text-red-500"
+                >{{ this.error }}</span
+              >
               <div class="mt-6">
                 <div class="inline-flex items-center divide-x divide-gray-300">
                   <div class="flex flex-shrink-0 pr-5">
@@ -332,6 +332,7 @@ export default {
         })
         .catch((error) => {
           error = error.response;
+          this.loading = false;
           if (error.status == 422) {
             this.error = error.data.errors.email[0];
           }

@@ -196,6 +196,7 @@ export default {
         })
         .catch((error) => {
           error = error.response;
+          this.loading = false;
           if (error.status == 422) {
             this.error = error.data.errors.email[0];
           }
