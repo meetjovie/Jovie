@@ -34,25 +34,27 @@
         <div class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
           <div class="rounded-md">
             <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
-              <form class="sm:flex">
+              <div class="sm:flex">
                 <label for="email-address" class="sr-only">Email address</label>
                 <input
+                  v-on:keyup.enter="requestDemo()"
                   id="email-address"
                   v-model="waitListEmail"
                   name="email-address"
                   type="email"
-                  autocomplete="email"
+                  autocomplete="off"
                   required=""
-                  class="w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-gray-500 shadow-xl shadow-indigo-700/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700"
+                  class="focus:ring-none focus:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-gray-500 shadow-xl shadow-indigo-700/20 focus:border-none focus:outline-none focus-visible:outline-none"
                   placeholder="Enter your email" />
-                <router-link to="signup">
-                  <button
-                    type="button"
-                    class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                    Get started
-                  </button>
-                </router-link>
-              </form>
+
+                <button
+                  type="button"
+                  as="router-link"
+                  @click="requestDemo()"
+                  class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                  Get started
+                </button>
+              </div>
               <span class="float-left text-red-900">{{ this.error }}</span>
             </div>
           </div>
@@ -61,33 +63,3 @@
     </div>
   </body>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      waitListEmail: '',
-      error: null,
-    };
-  },
-  methods: {
-    async requestDemo() {
-      await UserService.addToWaitList({ email: this.waitListEmail })
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.$store.commit('setAddedToWaitList');
-            this.waitListEmail = '';
-            this.error = null;
-            this.$router.push('demo');
-          }
-        })
-        .catch((error) => {
-          error = error.response;
-          if (error.status == 422) {
-            this.error = error.data.errors.email[0];
-          }
-        });
-    },
-  },
-};
-</script>
