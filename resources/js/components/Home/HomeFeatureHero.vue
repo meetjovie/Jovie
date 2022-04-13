@@ -36,9 +36,9 @@
             <blockquote>
               <div>
                 <p class="text-base text-gray-500">
-                  &ldquo;Cras velit quis eros eget rhoncus lacus ultrices sed
-                  diam. Sit orci risus aenean curabitur donec aliquet. Mi
-                  venenatis in euismod ut.&rdquo;
+                  &ldquo;Thanks to Jovie, software is no longer a bottleneck in
+                  my workflow. The search feels instantaneous and the keyboard
+                  shortcuts are a game changer.&rdquo;
                 </p>
               </div>
               <footer class="mt-3">
@@ -46,11 +46,11 @@
                   <div class="flex-shrink-0">
                     <img
                       class="h-6 w-6 rounded-full"
-                      src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
+                      :src="asset('img/External/Mackenzie_Moore.webp')"
                       alt="" />
                   </div>
                   <div class="text-base font-medium text-gray-700">
-                    Marcia Hill, Digital Marketing Manager
+                    NP Digital, Creator Partnerships
                   </div>
                 </div>
               </footer>
@@ -62,13 +62,13 @@
             class="-mr-48 pl-4 sm:pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
             <img
               class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-              src="https://tailwindui.com/img/component-images/inbox-app-screenshot-1.jpg"
+              :src="asset('img/External/search.webp')"
               alt="Inbox user interface" />
           </div>
         </div>
       </div>
     </div>
-    <div class="mt-24">
+    <!--  <div class="mt-24">
       <div
         class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
         <div
@@ -103,12 +103,12 @@
             class="-ml-48 pr-4 sm:pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0">
             <img
               class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-              src="https://tailwindui.com/img/component-images/inbox-app-screenshot-2.jpg"
+              :src="asset('img/External/search.webp')"
               alt="Customer profile user interface" />
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
