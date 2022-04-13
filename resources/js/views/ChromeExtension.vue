@@ -61,7 +61,7 @@
                 </p>
               </div>
               <div class="mt-4 sm:mt-12 sm:flex sm:w-full sm:max-w-lg">
-                <div class="min-w-0 flex-1">
+                <div v-if="waitlistComplete == false" class="flex min-w-0">
                   <label for="hero-email" class="sr-only">Email address</label>
                   <input
                     v-on:keyup.enter="requestDemo()"
@@ -70,16 +70,24 @@
                     type="email"
                     class="block w-full rounded-md border border-gray-300 px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                     placeholder="Enter your email" />
-                </div>
-                <div class="mt-4 sm:mt-0 sm:ml-3">
-                  <button
-                    @click="requestDemo()"
+
+                  <ButtonGroup
                     type="button"
-                    class="block w-full rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:px-10">
-                    Get early access
-                  </button>
-                  <span class="float-left text-red-900">{{ this.error }}</span>
+                    :loader="loading"
+                    @click="requestDemo()"
+                    text="Get early access"
+                    design="hero">
+                  </ButtonGroup>
                 </div>
+                <div v-else class="flex min-w-0">
+                  <p class="text-sm text-gray-500">
+                    Awesome! We'll be in touch soon.
+                  </p>
+                </div>
+                <span
+                  class="float-left h-8 px-2 text-xs font-bold text-red-500"
+                  >{{ this.error }}</span
+                >
               </div>
               <div class="mt-6">
                 <div class="inline-flex items-center divide-x divide-gray-300">
@@ -170,6 +178,7 @@
 import { defineComponent, h } from 'vue';
 import { ChevronRightIcon, StarIcon } from '@heroicons/vue/solid';
 import UserService from '../services/api/user.service';
+import ButtonGroup from '../components/ButtonGroup';
 
 const stats = [
   { label: 'Founded', value: '2021' },
@@ -288,6 +297,7 @@ export default {
   components: {
     ChevronRightIcon,
     StarIcon,
+    ButtonGroup,
   },
   setup() {
     return {
@@ -300,10 +310,13 @@ export default {
     return {
       waitListEmail: '',
       error: '',
+      loading: false,
+      waitlistComplete: false,
     };
   },
   methods: {
     async requestDemo() {
+      this.loading = true;
       await UserService.addToWaitList({
         email: this.waitListEmail,
         page: 'Extension',
@@ -313,6 +326,8 @@ export default {
           if (response.status) {
             this.waitListEmail = '';
             this.error = null;
+            this.loading = false;
+            this.waitlistComplete = true;
           }
         })
         .catch((error) => {

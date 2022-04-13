@@ -36,7 +36,7 @@
             <div
               class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
               <div class="rounded-md">
-                <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
+                <div class="mt-8 h-20 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
                   <div class="sm:flex">
                     <label for="email-address" class="sr-only"
                       >Email address</label
@@ -52,15 +52,20 @@
                       class="focus:ring-none focus:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-gray-500 shadow-xl shadow-indigo-700/20 focus:border-none focus:outline-none focus-visible:outline-none"
                       placeholder="Enter your email" />
 
-                    <button
+                    <ButtonGroup
                       type="button"
+                      :loader="loading"
                       as="router-link"
                       @click="requestDemo()"
-                      class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                      text="Get Started"
+                      design="hero">
                       Get started
-                    </button>
+                    </ButtonGroup>
                   </div>
-                  <span class="float-left text-red-900">{{ this.error }}</span>
+                  <span
+                    class="float-left px-2 text-xs font-bold text-red-500"
+                    >{{ this.error }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -112,7 +117,7 @@ import {
   PopoverPanel,
   PopoverOverlay,
 } from '@headlessui/vue';
-
+import ButtonGroup from '@/components/ButtonGroup';
 export default {
   name: 'Home',
   components: {
@@ -122,6 +127,7 @@ export default {
     HomeFeatureDiscovery,
     HomeHeroSection,
     HomeCTA,
+    ButtonGroup,
     HomeTestimonials,
     HomeCTA2,
     HomeFeatureCRM,
@@ -177,6 +183,7 @@ export default {
       // logout();
     },
     async requestDemo() {
+      this.loading = true;
       await UserService.addToWaitList({ email: this.waitListEmail })
         .then((response) => {
           response = response.data;
