@@ -61,23 +61,33 @@
                 </p>
               </div>
               <div class="mt-4 sm:mt-12 sm:flex sm:w-full sm:max-w-lg">
-                <div v-if="waitlistComplete == false" class="flex min-w-0">
-                  <label for="hero-email" class="sr-only">Email address</label>
-                  <input
-                    v-on:keyup.enter="requestDemo()"
-                    v-model="waitListEmail"
-                    id="hero-email"
-                    type="email"
-                    class="block w-full rounded-md border border-gray-300 px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
-                    placeholder="Enter your email" />
+                <div v-if="waitlistComplete == false" class="min-w-0">
+                  <div class="flex">
+                    <label for="hero-email" class="sr-only"
+                      >Email address</label
+                    >
+                    <input
+                      v-on:keyup.enter="requestDemo()"
+                      v-model="waitListEmail"
+                      id="hero-email"
+                      type="email"
+                      class="block w-full rounded-md border border-gray-300 px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                      placeholder="Enter your email" />
 
-                  <ButtonGroup
-                    type="button"
-                    :loader="loading"
-                    @click="requestDemo()"
-                    text="Get early access"
-                    design="hero">
-                  </ButtonGroup>
+                    <ButtonGroup
+                      type="button"
+                      :loader="loading"
+                      @click="requestDemo()"
+                      text="Get early access"
+                      design="hero">
+                    </ButtonGroup>
+                  </div>
+                  <div>
+                    <span
+                      class="float-left h-8 px-2 text-xs font-bold text-red-500"
+                      >{{ this.error }}</span
+                    >
+                  </div>
                 </div>
                 <div v-else class="flex min-w-0">
                   <p class="text-sm text-gray-500">
@@ -85,10 +95,7 @@
                   </p>
                 </div>
               </div>
-              <span
-                class="float-left h-8 px-2 text-xs font-bold text-red-500"
-                >{{ this.error }}</span
-              >
+
               <div class="mt-6">
                 <div class="inline-flex items-center divide-x divide-gray-300">
                   <div class="flex flex-shrink-0 pr-5">
