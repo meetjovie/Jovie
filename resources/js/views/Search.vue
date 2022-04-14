@@ -78,7 +78,7 @@
                                         <div
                                             class="sticky top-0 mx-auto w-full items-center text-center">
                                             <div class="mx-auto inline-flex w-full items-center">
-                                                <ais-clear-refinements ref="clear" :included-attributes="['query']" />
+                                                <ais-clear-refinements ref="clear" />
 
                                                 <SearchIcon
                                                     class="mr-1 mt-0.5 inline-flex h-7 w-7 text-gray-400"
@@ -1112,6 +1112,16 @@ export default {
         searchFunction(helper) {
             console.log(helper);
             if (helper) {
+                console.log('resetQuery')
+                console.log(this.resetQuery)
+                if (this.resetQuery == '*') {
+                    helper.state.query = '*'
+                }
+                console.log('helper.state.query')
+                console.log(helper.state.query)
+                setTimeout(() => {
+                    this.resetQuery = null
+                }, 500)
                 this.helper = helper
                 if (this.currentTab == 0) {
                     helper.state.hierarchicalFacetsRefinements['not_muted_record'] = ['user_1']
@@ -1142,12 +1152,11 @@ export default {
         },
         changeTab(e) {
             this.currentTab = e
-            console.log('this.helper');
-            console.log(this.helper);
-            document.querySelector('div.ais-ClearRefinements button').click()
-            this.$refs.clear.click()
             if (this.helper) {
-                this.searchFunction(this.helper)
+                this.resetQuery = '*'
+
+                document.querySelector('div.ais-ClearRefinements button').click()
+                document.querySelector('div.ais-SearchBox input').value = ''
             }
         },
         async addToSelected() {
@@ -1273,6 +1282,7 @@ export default {
     },
     data() {
         return {
+            resetQuery: null,
             currentTab: 0,
             sidebarOpen: false,
             creatorMenu: [
