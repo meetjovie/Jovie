@@ -2,10 +2,10 @@
 <template>
   <div class="py-12">
     <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-      <!--  <h2
+      <h2
         class="bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 bg-clip-text text-center text-xs font-semibold uppercase tracking-wide text-transparent">
         Social first customer data
-      </h2> -->
+      </h2>
       <p
         class="mt-2 text-center text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
         Empower your team with social data
@@ -13,6 +13,8 @@
       <p class="text-md mt-4 max-w-2xl text-gray-500 lg:mx-auto">
         Jovie aggregates, enriches, & transforms data on
         <span class="text-indigo-500">3M+ creators</span> from 50+ sources.
+        Easily engage creators from within Jovie, or export data to your
+        existing tools.
         <!--  All
         of this information is available as unified profiles managabled within
         Jovie or your existing tools. -->
@@ -183,6 +185,12 @@
               <path
                 d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
             </svg>
+          </div>
+          <div
+            class="m-2 mx-auto h-10 w-10 items-center rounded-lg border-2 text-neutral-400 shadow-md">
+            <span class="mx-auto mt-4 items-center text-xs text-neutral-400"
+              >50+</span
+            >
           </div>
           <line
             class="absolute right-0"
@@ -379,24 +387,7 @@
     </div>
   </div>
   <div class="bg-white py-12">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="lg:text-center">
-        <h2
-          class="text-base font-semibold uppercase tracking-wide text-indigo-600">
-          Creator Data
-        </h2>
-        <p
-          class="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-          A better way to find creators
-        </p>
-        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-          Jovie's database of
-          <span class="text-indigo-500">3M+ creators</span>
-          is a powerful tool for finding new prospects and building
-          partnerships.
-        </p>
-      </div>
-      <!-- 
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
       <div class="mt-10">
         <dl
           class="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
@@ -409,7 +400,7 @@
                   class="h-6 w-6"
                   aria-hidden="true" />
               </div>
-              <p class="ml-16 text-lg font-medium leading-6 text-gray-900">
+              <p class="ml-16 text-sm font-medium leading-6 text-gray-900">
                 {{ feature.name }}
               </p>
             </dt>
@@ -418,7 +409,7 @@
             </dd>
           </div>
         </dl>
-      </div>-->
+      </div>
     </div>
   </div>
 </template>
@@ -433,9 +424,9 @@ import {
 
 const features = [
   {
-    name: 'Power search filters',
+    name: 'Data Enrichment',
     description:
-      'Within Jovie, you have the ability to search for creators not just by basic metrics like follower count & engagement, but also by more advanced properties like type contents of their photos, the sentiment of their captions, and more.',
+      'Upload your existing customer lists and instantly enrich your data.  Pay only for matched profiles.',
     icon: SearchIcon,
   },
   {

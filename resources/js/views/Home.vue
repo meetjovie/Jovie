@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>
-        <!--  <HomeLogoCloud></HomeLogoCloud> -->
+        <HomeLogoCloud></HomeLogoCloud>
       </div>
 
       <HomeCreatorSearch id="discovery"></HomeCreatorSearch>

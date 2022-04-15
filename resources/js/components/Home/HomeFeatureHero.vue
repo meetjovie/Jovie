@@ -8,20 +8,26 @@
           class="mx-auto max-w-xl px-4 sm:px-6 lg:mx-0 lg:max-w-none lg:py-16 lg:px-0">
           <div>
             <div>
-              <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-indigo-600">
+              <!-- <span
+                class="flex h-12 w-12 items-center justify-center rounded-md">
                 <LightningBoltIcon
-                  class="h-6 w-6 text-white"
+                  class="text-windigo-500 h-6 w-6"
                   aria-hidden="true" />
-              </span>
+              </span> -->
             </div>
             <div class="mt-6">
-              <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">
-                Fast. Reliable. Creator Search.
+              <h2
+                class="bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
+                Creator search
               </h2>
-              <p class="mt-4 text-lg text-gray-500">
-                Jovie is built for speed. Our creator search engine analyzes
-                millions of records in under 1/10th of a second.
+              <p
+                class="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
+                Identify new partners
+              </p>
+
+              <p class="text-md mt-4 text-gray-500">
+                Jovie analyzes millions of records in under 1/10th of a second
+                so you can instantly add ideal creators to your pipeline.
               </p>
               <div class="mt-6">
                 <router-link
