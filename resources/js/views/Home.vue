@@ -73,11 +73,11 @@
         </div>
         <HomeLogoCloud></HomeLogoCloud>
       </div>
-
-      <HomeCreatorSearch id="discovery"></HomeCreatorSearch>
+      <HomeFeatureCRM id="crm"></HomeFeatureCRM>
+      <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 
       <HomeFeatureHero></HomeFeatureHero>
-      <HomeFeatureCRM id="crm"></HomeFeatureCRM>
+
       <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
       <HomeCTA></HomeCTA>
       <HomeTestimonials></HomeTestimonials>
