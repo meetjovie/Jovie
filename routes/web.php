@@ -94,11 +94,9 @@ Route::get('/filters-scout', function () {
         'emails',
         'has_emails',
         'tags',
-        'not_muted_record',
-        'not_rejected_record',
-        'not_selected_record',
-        'selected_record',
-        'rejected_record',
+        'all_to',
+        'selected_to',
+        'rejected_to'
     ]);
     $response = $client->index('creators')->getFilterableAttributes();
     dd($response);

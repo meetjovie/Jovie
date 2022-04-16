@@ -1124,25 +1124,17 @@ export default {
                 }, 500)
                 this.helper = helper
                 if (this.currentTab == 0) {
-                    helper.state.hierarchicalFacetsRefinements['not_muted_record'] = ['user_1']
-                    helper.state.hierarchicalFacetsRefinements['not_selected_record'] = ['user_1']
-                    helper.state.hierarchicalFacetsRefinements['not_rejected_record'] = ['user_1']
-                    helper.state.hierarchicalFacetsRefinements['rejected_record'] = []
-                    helper.state.hierarchicalFacetsRefinements['selected_record'] = []
+                    helper.state.hierarchicalFacetsRefinements['all_to'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['selected_to'] = []
+                    helper.state.hierarchicalFacetsRefinements['rejected_to'] = []
                 } else if (this.currentTab == 1) {
-                    helper.state.hierarchicalFacetsRefinements.not_rejected_record = []
-                    helper.state.hierarchicalFacetsRefinements.not_selected_record = []
-                    helper.state.hierarchicalFacetsRefinements.rejected_record = []
-
-                    helper.state.hierarchicalFacetsRefinements['not_muted_record'] = ['user_1']
-                    helper.state.hierarchicalFacetsRefinements['selected_record'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['all_to'] = []
+                    helper.state.hierarchicalFacetsRefinements['selected_to'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['rejected_to'] = []
                 } else if (this.currentTab == 2) {
-                    helper.state.hierarchicalFacetsRefinements.not_rejected_record = []
-                    helper.state.hierarchicalFacetsRefinements.not_selected_record = []
-                    helper.state.hierarchicalFacetsRefinements.selected_record = []
-
-                    helper.state.hierarchicalFacetsRefinements['not_muted_record'] = ['user_1']
-                    helper.state.hierarchicalFacetsRefinements['rejected_record'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['all_to'] = []
+                    helper.state.hierarchicalFacetsRefinements['selected_to'] = []
+                    helper.state.hierarchicalFacetsRefinements['rejected_to'] = ['user_1']
                 }
                 if (helper.state.query == '') {
                     helper.state.query = '*'
@@ -1156,53 +1148,43 @@ export default {
                 this.resetQuery = '*'
 
                 document.querySelector('div.ais-ClearRefinements button').click()
+                document.querySelector('div.ais-SearchBox input').value = 'slsmd'
                 document.querySelector('div.ais-SearchBox input').value = ''
+                this.searchFunction(this.helper)
             }
         },
         async addToSelected() {
             if (!this.selectedCreator || this.currentTab == 1) return
             let params = {
-                id: this.selectedCreator.id,
-                key: 'crm_record_by_user.selected',
-                value: 1
+                selected: 1,
+                rejected: 0,
+                id: this.selectedCreator.id
             }
-            await this.$store.dispatch('updateCreator', params).then((response) => {
+            await this.$store.dispatch('moveCreator', params).then((response) => {
                 response = response.data;
                 if (response.status) {
                     this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1)
-                    if (!this.$refs.hitResults.items[this.selectedCreatorIndex].crms.length) {
-                        this.$refs.hitResults.items[this.selectedCreatorIndex].crms.push(response.data.crm_record_by_user)
-                    } else {
-                        this.$refs.hitResults.items[this.selectedCreatorIndex].crms.forEach((crm, index) => {
-                            if (crm.user_id == this.currentUser.id) {
-                                this.$refs.hitResults.items[this.selectedCreatorIndex].crms[index] = response.data.crm_record_by_user
-                            }
-                        })
-                    }
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.indexOf('user_1'), 1)
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].rejected_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].rejected_to.indexOf('user_1'), 1)
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].selected_to.push(response.data)
                     this.searchFunction(this.helper)
                 }
             })
         },
         async addToRejected() {
-            if (!this.selectedCreator || this.currentTab == 2) return
+            if (!this.selectedCreator || this.currentTab == 1) return
             let params = {
-                id: this.selectedCreator.id,
-                key: 'crm_record_by_user.rejected',
-                value: 1
+                selected: 0,
+                rejected: 1,
+                id: this.selectedCreator.id
             }
-            await this.$store.dispatch('updateCreator', params).then((response) => {
+            await this.$store.dispatch('moveCreator', params).then((response) => {
                 response = response.data;
                 if (response.status) {
                     this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1)
-                    if (!this.$refs.hitResults.items[this.selectedCreatorIndex].crms.length) {
-                        this.$refs.hitResults.items[this.selectedCreatorIndex].crms.push(response.data.crm_record_by_user)
-                    } else {
-                        this.$refs.hitResults.items[this.selectedCreatorIndex].crms.forEach((crm, index) => {
-                            if (crm.user_id == this.currentUser.id) {
-                                this.$refs.hitResults.items[this.selectedCreatorIndex].crms[index] = response.data.crm_record_by_user
-                            }
-                        })
-                    }
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.indexOf('user_1'), 1)
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].selected_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].selected_to.indexOf('user_1'), 1)
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].rejected_to.push(response.data)
                     this.searchFunction(this.helper)
                 }
             })
@@ -1291,7 +1273,6 @@ export default {
                     icon: PlusIcon,
                 },
             ],
-            cache: createInfiniteHitsSessionStorageCache(),
             searchopen: true,
             selectedCreator: {},
             selectedCreatorIndex: [],

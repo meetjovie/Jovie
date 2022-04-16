@@ -76,4 +76,8 @@ export default {
             })
         })
     },
+
+    async moveCreator(context, payload) {
+        return await userService.moveCreator(payload)
+    }
 }

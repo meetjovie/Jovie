@@ -38,6 +38,20 @@ class CrmController extends Controller
         ]);
     }
 
+    public function moveCreator(Request $request, $creatorId) {
+        $data = $request->validate([
+            'selected' => 'required|numeric',
+            'rejected' => 'required|numeric'
+        ]);
+        $crm = Crm::updateOrCreate(['creator_id' => $creatorId, 'user_id' => Auth::id()], $data);
+        Creator::where('id', $creatorId)->searchable();
+        return response([
+            'status' => true,
+            'data' => $crm,
+            'message' => 'Creator moved.'
+        ]);
+    }
+
     public function exportCrm(Request $request)
     {
         $params = $request->all();

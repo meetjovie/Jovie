@@ -476,8 +476,9 @@ class Creator extends Model
     {
         $array = $this->toArray();
         $notMutedRecord = [];
-        $notSelectedRecord = [];
+        $mutedRecord = [];
         $notRejectedRecord = [];
+        $notSelectedRecord = [];
         $selectedRecord = [];
         $rejectedRecord = [];
         foreach ($this->crmRecords as $crm) {
@@ -493,14 +494,32 @@ class Creator extends Model
             }
             if (!$crm->muted) {
                 $notMutedRecord[] = 'user_'.$crm->user_id;
+            } else {
+                $mutedRecord =  'user_'.$crm->user_id;
             }
         }
+
+        $allUsers = User::all()->pluck('id')->toArray();
+
+        $selectedTo = array_intersect($selectedRecord, $notMutedRecord);
+        $rejectedTo = array_intersect($rejectedRecord, $notMutedRecord);
+
+        $selectedRejectedMutedTo = array_unique(array_merge($selectedRecord, $rejectedRecord, $mutedRecord));
+        $selectedRejectedMutedToIds = array_values(array_map(function ($value) {
+            return explode('_', $value)[1];
+        }, $selectedRejectedMutedTo));
+
+        $allTo = array_diff($allUsers, $selectedRejectedMutedToIds);
+
+        foreach ($allTo as &$all) {
+            $all = 'user_'.$all;
+        }
+
         $array['emailCount'] = count($this->emails);
-        $array['not_muted_record'] = $notMutedRecord;
-        $array['not_rejected_record'] = $notRejectedRecord;
-        $array['not_selected_record'] = $notSelectedRecord;
-        $array['selected_record'] = $selectedRecord;
-        $array['rejected_record'] = $rejectedRecord;
+        $array['all_to'] = $allTo;
+        $array['selected_to'] = $selectedTo;
+        $array['rejected_to'] = $rejectedTo;
+        $array['crms'] = $this->crmRecords;
         return $array;
     }
 
