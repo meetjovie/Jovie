@@ -74,21 +74,16 @@
         </div>
       </div>
     </div>
-    <!--  <div class="mt-24">
+    <div class="mt-24">
       <div
         class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
         <div
           class="mx-auto max-w-xl px-4 sm:px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:py-32 lg:px-0">
           <div>
-            <div>
-              <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-indigo-600">
-                <SparklesIcon class="h-6 w-6 text-white" aria-hidden="true" />
-              </span>
-            </div>
             <div class="mt-6">
-              <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">
-                Simple. Visual. Insightful.
+              <h2
+                class="bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
+                Chrome extension
               </h2>
               <p class="mt-4 text-lg text-gray-500">
                 Jovie makes it easy to see exactly what needs your attention
@@ -114,7 +109,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
