@@ -3,34 +3,7 @@
     class="fixed top-8 w-60 justify-center space-y-8 px-4 py-8 text-sm font-bold">
     <div class="w-full">
       <span class="text-center text-sm font-bold">Refine your search</span>
-<!--        <ais-refinement-list attribute="all_to" operator="or">-->
-<!--            <template v-slot="{ items, refine }">-->
-<!--                <label class="ais-RefinementList-label" v-for="item in items">-->
-<!--                    <input type="checkbox" class="ais-RefinementList-checkbox" :value="item.value">-->
-<!--                    <span class="ais-RefinementList-labelText"><ais-highlight attribute="item" :hit="item"/></span>-->
-<!--                    <span class="ais-RefinementList-count">({{ item.count.toLocaleString() }})</span>-->
-<!--                </label>-->
-<!--            </template>-->
-<!--        </ais-refinement-list>-->
-<!--        <ais-refinement-list attribute="selected_to" operator="or">-->
-<!--            <template v-slot="{ items, refine }">-->
-<!--                <label class="ais-RefinementList-label" v-for="item in items">-->
-<!--                    <input type="checkbox" class="ais-RefinementList-checkbox" :value="item.value">-->
-<!--                    <span class="ais-RefinementList-labelText"><ais-highlight attribute="item" :hit="item"/></span>-->
-<!--                    <span class="ais-RefinementList-count">({{ item.count.toLocaleString() }})</span>-->
-<!--                </label>-->
-<!--            </template>-->
-<!--        </ais-refinement-list>-->
-<!--        <ais-refinement-list attribute="rejected_to" operator="or">-->
-<!--            <template v-slot="{ items, refine }">-->
-<!--                <label class="ais-RefinementList-label" v-for="item in items">-->
-<!--                    <input type="checkbox" class="ais-RefinementList-checkbox" :value="item.value">-->
-<!--                    <span class="ais-RefinementList-labelText"><ais-highlight attribute="item" :hit="item"/></span>-->
-<!--                    <span class="ais-RefinementList-count">({{ item.count.toLocaleString() }})</span>-->
-<!--                </label>-->
-<!--            </template>-->
-<!--        </ais-refinement-list>-->
-
+        <ais-range-input attribute="unique" :min="1" :max="10000000000000000000" style="display: none"></ais-range-input>
         <ais-menu-select searchable attribute="all_to" style="display: none">
             <template v-slot="{ items, refine, sendEvent }">
                 <select @change="refine($event.currentTarget.value)">
@@ -85,10 +58,10 @@
         attribute="instagram_engagement_rate" />
     </div>
     <span class="text-xs font-bold text-neutral-700">Instagram Category</span>
-<!--    <CategoryFilter></CategoryFilter>-->
+    <CategoryFilter></CategoryFilter>
 
-    <!--  <ais-menu-select attribute="city" />
-    <ais-menu-select attribute="country" /> -->
+    <ais-menu-select attribute="city" />
+    <ais-menu-select attribute="country" />
     <span class="text-xs font-bold text-neutral-700">Gender</span>
     <ais-menu-select attribute="gender" />
     <!--  <ais-menu-select attribute="tags" /> -->

@@ -96,7 +96,8 @@ Route::get('/filters-scout', function () {
         'tags',
         'all_to',
         'selected_to',
-        'rejected_to'
+        'rejected_to',
+        'unique'
     ]);
     $response = $client->index('creators')->getFilterableAttributes();
     dd($response);

@@ -520,6 +520,7 @@ class Creator extends Model
         $array['selected_to'] = $selectedTo;
         $array['rejected_to'] = $rejectedTo;
         $array['crms'] = $this->crmRecords;
+        $array['unique'] = 10000000000000000000; // it will fail only if user changes the tab this much times :p
         return $array;
     }
 

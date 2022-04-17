@@ -458,7 +458,8 @@
                                                                     class="w-20"
                                                                     :star-size="12"
                                                                     :increment="0.5"
-                                                                    v-model:rating="item.rating"></star-rating>
+                                                                    :read-only="true"
+                                                                    :rating="getRating(item.crms)"></star-rating>
                                                             </div>
                                                             <div
                                                                 class="justify-self-right mx-auto py-1 text-right text-xs font-medium">
@@ -1110,19 +1111,16 @@ export default {
     },
     methods: {
         searchFunction(helper) {
-            console.log(helper);
+            this.uniqueId++
             if (helper) {
-                console.log('resetQuery')
-                console.log(this.resetQuery)
                 if (this.resetQuery == '*') {
                     helper.state.query = '*'
                 }
-                console.log('helper.state.query')
-                console.log(helper.state.query)
                 setTimeout(() => {
                     this.resetQuery = null
                 }, 500)
                 this.helper = helper
+                helper.state.numericRefinements.unique['>='] = [this.uniqueId]
                 if (this.currentTab == 0) {
                     helper.state.hierarchicalFacetsRefinements['all_to'] = ['user_1']
                     helper.state.hierarchicalFacetsRefinements['selected_to'] = []
@@ -1144,11 +1142,11 @@ export default {
         },
         changeTab(e) {
             this.currentTab = e
+
             if (this.helper) {
                 this.resetQuery = '*'
 
                 document.querySelector('div.ais-ClearRefinements button').click()
-                document.querySelector('div.ais-SearchBox input').value = 'slsmd'
                 document.querySelector('div.ais-SearchBox input').value = ''
                 this.searchFunction(this.helper)
             }
@@ -1228,7 +1226,6 @@ export default {
             });
         },
         logIt(e) {
-            console.log(e);
             return false;
         },
         //write a vue method to copy the value of an input to the clipboard
@@ -1252,7 +1249,6 @@ export default {
         },
         visibilityChanged(isVisible, entry) {
             this.isVisible = isVisible;
-            console.log(entry);
         },
         toggleSidebar() {
             if (this.sidebarOpen) {
@@ -1261,9 +1257,22 @@ export default {
                 this.sidebarOpen = true;
             }
         },
+        getRating(crms) {
+            if (!crms.length) return 0;
+
+            let rating = 0;
+            let length = crms.length
+            for (let i=0; i<length; i++) {
+                if (crms[i].user_id == this.currentUser.id) {
+                    rating = crms[i].rating
+                }
+            }
+            return rating;
+        }
     },
     data() {
         return {
+            uniqueId: 0,
             resetQuery: null,
             currentTab: 0,
             sidebarOpen: false,
