@@ -1,99 +1,102 @@
 <template>
-  <TransitionRoot
-    :show="searchopen"
-    enter="transition-opacity duration-75"
-    enter-from="opacity-0"
-    enter-to="opacity-100"
-    leave="transition-opacity duration-150"
-    leave-from="opacity-100"
-    leave-to="opacity-0">
-    <TabGroup>
-      <TabList class="grid grid-cols-3 px-2 py-0" :defaultIndex="2">
-        <Tab v-slot="{ selected }" as="template">
-          <button
-            :class="[
-              selected
-                ? 'inline-flex items-center justify-center text-center text-2xs font-bold text-indigo-700 underline decoration-indigo-700 decoration-2 underline-offset-4'
-                : 'inline-flex items-center justify-center text-center text-2xs font-bold',
-            ]">
-            <img
-              height="8"
-              width="8"
-              class="mr-1"
-              src="https://unpkg.com/simple-icons@v6/icons/instagram.svg" />
-            <span class="font-medium">Instagram</span>
-          </button>
-        </Tab>
-        <Tab v-slot="{ selected }" as="template">
-          <button
-            :class="[
-              selected
-                ? 'inline-flex items-center justify-center text-center text-2xs font-bold text-indigo-700 underline decoration-indigo-700 decoration-2 underline-offset-4'
-                : 'inline-flex items-center justify-center text-center text-2xs font-bold',
-            ]">
-            <img
-              height="8"
-              width="8"
-              class="mr-1"
-              src="https://unpkg.com/simple-icons@v6/icons/tiktok.svg" />
-            <span class="font-medium">Tiktok</span>
-          </button>
-        </Tab>
-        <Tab v-slot="{ selected }" as="template">
-          <button
-            :class="[
-              selected
-                ? 'inline-flex items-center justify-center text-center text-2xs font-bold text-indigo-700 underline decoration-indigo-700 decoration-2 underline-offset-4'
-                : 'inline-flex items-center justify-center text-center text-2xs font-bold',
-            ]">
-            <img
-              height="8"
-              width="8"
-              class="mr-1"
-              src="https://unpkg.com/simple-icons@v6/icons/youtube.svg" />
-            Youtube
-          </button>
-        </Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel><DiscoverySearchInstagram /></TabPanel>
-        <TabPanel><DiscoverySearchTiktok /></TabPanel>
-        <TabPanel><DiscoverySearchYoutube /></TabPanel>
-      </TabPanels>
-    </TabGroup>
-  </TransitionRoot>
-</template>
+  <div
+    class="fixed top-8 w-60 justify-center space-y-8 px-4 py-8 text-sm font-bold">
+    <div class="w-full">
+      <span class="text-center text-sm font-bold">Refine your search</span>
+        <ais-range-input attribute="unique" :min="1" :max="10000000000000000000" style="display: none"></ais-range-input>
+        <ais-menu-select searchable attribute="all_to" style="display: none">
+            <template v-slot="{ items, refine, sendEvent }">
+                <select @change="refine($event.currentTarget.value)">
+                    <option class="w-full" value="">All</option>
+                    <option
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        v-for="item in items"
+                        :key="item.value"
+                        :value="item.value"
+                        :selected="item.isRefined">
+                        {{ item.label }}
+                    </option>
+                </select>
+            </template>
+        </ais-menu-select>
+        <ais-menu-select searchable attribute="selected_to" style="display: none">
+            <template v-slot="{ items, refine, sendEvent }">
+                <select @change="refine($event.currentTarget.value)">
+                    <option class="w-full" value="">All</option>
+                    <option
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        v-for="item in items"
+                        :key="item.value"
+                        :value="item.value"
+                        :selected="item.isRefined">
+                        {{ item.label }}
+                    </option>
+                </select>
+            </template>
+        </ais-menu-select>
+        <ais-menu-select searchable attribute="rejected_to" style="display: none">
+            <template v-slot="{ items, refine, sendEvent }">
+                <select @change="refine($event.currentTarget.value)">
+                    <option class="w-full" value="">All</option>
+                    <option
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        v-for="item in items"
+                        :key="item.value"
+                        :value="item.value"
+                        :selected="item.isRefined">
+                        {{ item.label }}
+                    </option>
+                </select>
+            </template>
+        </ais-menu-select>
 
+      <FollowerCount :min="1000" :max="1000000000" />
+
+      <EngagementFilter
+        :min="0"
+        :max="100"
+        attribute="instagram_engagement_rate" />
+    </div>
+    <span class="text-xs font-bold text-neutral-700">Instagram Category</span>
+    <CategoryFilter></CategoryFilter>
+
+    <ais-menu-select attribute="city" />
+    <ais-menu-select attribute="country" />
+    <span class="text-xs font-bold text-neutral-700">Gender</span>
+    <ais-menu-select attribute="gender" />
+    <!--  <ais-menu-select attribute="tags" /> -->
+
+    <ais-toggle-refinement
+      :class-names="{
+        'ais-RefinementList-checkbox': 'rounded-md',
+
+        // ...
+      }"
+      attribute="has_emails"
+      label="Email" />
+  </div>
+</template>
 <script>
-import {
-  TabGroup,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  TransitionRoot,
-} from '@headlessui/vue';
-import DiscoverySearchTiktok from '../Discovery/DiscoverySearchTiktok.vue';
-import DiscoverySearchYoutube from '../Discovery/DiscoverySearchYoutube.vue';
-import DiscoverySearchInstagram from '../Discovery/DiscoverySearchInstagram.vue';
+import InputGroup from '../InputGroup.vue';
+import ButtonGroup from '../ButtonGroup.vue';
+import MultiButton from '../MultiButton.vue';
+import RangeFilter from '../RangeFilter.vue';
+import LocationSelector from '../LocationSelector.vue';
+import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
+import EngagementFilter from '../Search/EngagementFilter.vue';
+import FollowerCount from '../Search/FollowerCount.vue';
+import CategoryFilter from '../Search/CategoryFilter.vue';
 
 export default {
-  props: {
-    searchopen: {
-      type: Boolean,
-      default: false,
-    },
-  },
   components: {
-    TabGroup,
-    TabList,
-    Tab,
-    TabPanels,
-    TabPanel,
-    TransitionRoot,
-    DiscoverySearchTiktok,
-    DiscoverySearchYoutube,
-    DiscoverySearchInstagram,
+    InputGroup,
+    ButtonGroup,
+    MultiButton,
+    RangeFilter,
+    LocationSelector,
+    EngagementFilter,
+    FollowerCount,
+    CategoryFilter,
   },
 };
 </script>

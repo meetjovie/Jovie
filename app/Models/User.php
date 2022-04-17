@@ -14,7 +14,7 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, Searchable;
+    use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
 
     const UPLOAD_PATH = 'public/jovie/user/profiles/';
 

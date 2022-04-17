@@ -1,7 +1,8 @@
 <template>
   <svg
     role="status"
-    class="mr-2 h-5 w-5 animate-spin fill-indigo-600 text-gray-200 dark:text-gray-600"
+    class="mr-2 animate-spin fill-indigo-600 text-gray-200 dark:text-gray-600"
+    :class="[{ 'h-5 w-5': rounded == 'sm' }, { 'h-8 w-8': rounded == 'md' }]"
     viewBox="0 0 100 101"
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
@@ -13,3 +14,13 @@
       fill="currentFill" />
   </svg>
 </template>
+<script>
+export default {
+  props: {
+    spinnerSize: {
+      type: String,
+      default: 'sm',
+    },
+  },
+};
+</script>

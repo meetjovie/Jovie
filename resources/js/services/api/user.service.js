@@ -74,4 +74,10 @@ export default {
         return axios.post(
             `${baseApiUrl}/add-to-crm`, {creator_id: creatorId});
     },
+    async moveCreator(data) {
+        const id = data.id;
+        delete data.id;
+        return axios.post(
+            `${baseApiUrl}/move-creator/${id}?_method=PUT`, data);
+    }
 };
