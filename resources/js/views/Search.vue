@@ -1122,17 +1122,17 @@ export default {
                 this.helper = helper
                 helper.state.numericRefinements.unique['>='] = [this.uniqueId]
                 if (this.currentTab == 0) {
-                    helper.state.hierarchicalFacetsRefinements['all_to'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['all_to'] = [`user_${this.currentUser.id}`]
                     helper.state.hierarchicalFacetsRefinements['selected_to'] = []
                     helper.state.hierarchicalFacetsRefinements['rejected_to'] = []
                 } else if (this.currentTab == 1) {
                     helper.state.hierarchicalFacetsRefinements['all_to'] = []
-                    helper.state.hierarchicalFacetsRefinements['selected_to'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['selected_to'] = [`user_${this.currentUser.id}`]
                     helper.state.hierarchicalFacetsRefinements['rejected_to'] = []
                 } else if (this.currentTab == 2) {
                     helper.state.hierarchicalFacetsRefinements['all_to'] = []
                     helper.state.hierarchicalFacetsRefinements['selected_to'] = []
-                    helper.state.hierarchicalFacetsRefinements['rejected_to'] = ['user_1']
+                    helper.state.hierarchicalFacetsRefinements['rejected_to'] = [`user_${this.currentUser.id}`]
                 }
                 if (helper.state.query == '') {
                     helper.state.query = '*'
@@ -1162,8 +1162,8 @@ export default {
                 response = response.data;
                 if (response.status) {
                     this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1)
-                    this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.indexOf('user_1'), 1)
-                    this.$refs.hitResults.items[this.selectedCreatorIndex].rejected_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].rejected_to.indexOf('user_1'), 1)
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.indexOf(`user_${this.currentUser.id}`), 1)
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].rejected_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].rejected_to.indexOf(`user_${this.currentUser.id}`), 1)
                     this.$refs.hitResults.items[this.selectedCreatorIndex].selected_to.push(response.data)
                     this.searchFunction(this.helper)
                 }
@@ -1180,8 +1180,8 @@ export default {
                 response = response.data;
                 if (response.status) {
                     this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1)
-                    this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.indexOf('user_1'), 1)
-                    this.$refs.hitResults.items[this.selectedCreatorIndex].selected_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].selected_to.indexOf('user_1'), 1)
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.indexOf(`user_${this.currentUser.id}`), 1)
+                    this.$refs.hitResults.items[this.selectedCreatorIndex].selected_to.splice(this.$refs.hitResults.items[this.selectedCreatorIndex].selected_to.indexOf(`user_${this.currentUser.id}`), 1)
                     this.$refs.hitResults.items[this.selectedCreatorIndex].rejected_to.push(response.data)
                     this.searchFunction(this.helper)
                 }
