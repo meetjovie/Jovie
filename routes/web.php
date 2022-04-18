@@ -80,6 +80,11 @@ Route::get('index-mili', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
     return $client->getAllIndexes();
 });
+Route::get('available-filters', function () {
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+    $response = $client->index('creators')->getFilterableAttributes();
+    dd($response);
+});
 Route::get('/filters-scout', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
     $response = $client->index('creators')->updateFilterableAttributes([
