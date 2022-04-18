@@ -87,12 +87,20 @@ Route::get('available-filters', function () {
 });
 Route::get('meili-tasks', function (Request $request) {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
-    if ($request->id) {
-        $response = $client->index('creators')->getTask($request->id);
-    } else {
-        $response = $client->index('creators')->getTasks();
+    try {
+        $index = $client->getIndex('creators');
+        if ($request->id) {
+            $response = $client->index('creators')->getTask($request->id);
+        } else {
+            $response = $client->index('creators')->getTasks();
+        }
+        return $response;
+    } catch (Exception $e) {
+        $response = $client->getTasks();
+        $data[0] = $e->getMessage().' Showing all tasks.';
+        $data[1] = $response;
+        return $data;
     }
-    return $response;
 });
 Route::get('/filters-scout', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
