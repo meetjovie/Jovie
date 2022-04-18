@@ -2,7 +2,12 @@
   <svg
     role="status"
     class="mr-2 animate-spin fill-indigo-600 text-gray-200 dark:text-gray-600"
-    :class="[{ 'h-5 w-5': rounded == 'sm' }, { 'h-8 w-8': rounded == 'md' }]"
+    :class="[
+      { 'h-5 w-5': spinnerSize == 'sm' },
+      { 'h-8 w-8': spinnerSize == 'md' },
+      { 'h-10 w-10': spinnerSize == 'lg' },
+      { 'h-12 w-12': spinnerSize == 'xl' },
+    ]"
     viewBox="0 0 100 101"
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
