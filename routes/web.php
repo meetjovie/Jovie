@@ -92,7 +92,7 @@ Route::get('meili-tasks', function (Request $request) {
     } else {
         $response = $client->index('creators')->getTasks();
     }
-    dd($response);
+    return $response;
 });
 Route::get('/filters-scout', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
