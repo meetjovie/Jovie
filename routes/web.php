@@ -85,6 +85,15 @@ Route::get('available-filters', function () {
     $response = $client->index('creators')->getFilterableAttributes();
     dd($response);
 });
+Route::get('meili-tasks', function (Request $request) {
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+    if ($request->id) {
+        $response = $client->index('creators')->getTask($request->id);
+    } else {
+        $response = $client->index('creators')->getTasks();
+    }
+    dd($response);
+});
 Route::get('/filters-scout', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
     $response = $client->index('creators')->updateFilterableAttributes([
