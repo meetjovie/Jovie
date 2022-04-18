@@ -483,19 +483,19 @@ class Creator extends Model
         $rejectedRecord = [];
         foreach ($this->crmRecords as $crm) {
             if (!$crm->selected) {
-                $notSelectedRecord[] = 'user_'.$crm->user_id;
+                $notSelectedRecord[] = $crm->user_id;
             } else {
-                $selectedRecord[] = 'user_'.$crm->user_id;
+                $selectedRecord[] = $crm->user_id;
             }
             if (!$crm->rejected) {
-                $notRejectedRecord[] = 'user_'.$crm->user_id;
+                $notRejectedRecord[] = $crm->user_id;
             } else {
-                $rejectedRecord[] = 'user_'.$crm->user_id;
+                $rejectedRecord[] = $crm->user_id;
             }
             if (!$crm->muted) {
-                $notMutedRecord[] = 'user_'.$crm->user_id;
+                $notMutedRecord[] = $crm->user_id;
             } else {
-                $mutedRecord =  'user_'.$crm->user_id;
+                $mutedRecord[] =  $crm->user_id;
             }
         }
 
@@ -505,17 +505,10 @@ class Creator extends Model
         $rejectedTo = array_intersect($rejectedRecord, $notMutedRecord);
 
         $selectedRejectedMutedTo = array_unique(array_merge($selectedRecord, $rejectedRecord, $mutedRecord));
-        $selectedRejectedMutedToIds = array_values(array_map(function ($value) {
-            return explode('_', $value)[1];
-        }, $selectedRejectedMutedTo));
 
-        $allTo = array_diff($allUsers, $selectedRejectedMutedToIds);
+        $allTo = array_diff($allUsers, $selectedRejectedMutedTo);
 
-        foreach ($allTo as &$all) {
-            $all = 'user_'.$all;
-        }
-
-        $array['emailCount'] = count($this->emails);
+        $array['emailCount'] = count($this->emails ?? []);
         $array['all_to'] = $allTo;
         $array['selected_to'] = $selectedTo;
         $array['rejected_to'] = $rejectedTo;
