@@ -169,22 +169,6 @@ export const routes = [
     },
   },
   {
-    name: 'Tim White Profile',
-    path: '/tim',
-    component: loadPage('Tim'),
-    meta: {
-      layout: 'Minimal',
-    },
-  },
-  {
-    name: 'Profile',
-    path: '/haruki',
-    component: loadPage('Haruki'),
-    meta: {
-      layout: 'Minimal',
-    },
-  },
-  {
     name: 'Create Account',
     path: '/signup',
     component: loadPage('Signup'),
