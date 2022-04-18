@@ -1122,21 +1122,21 @@ export default {
         helper.state.numericRefinements.unique['>='] = [this.uniqueId];
         if (this.currentTab == 0) {
           helper.state.hierarchicalFacetsRefinements['all_to'] = [
-            this.currentUser.id,
+            this.currentUser.id.toString(),
           ];
           helper.state.hierarchicalFacetsRefinements['selected_to'] = [];
           helper.state.hierarchicalFacetsRefinements['rejected_to'] = [];
         } else if (this.currentTab == 1) {
           helper.state.hierarchicalFacetsRefinements['all_to'] = [];
           helper.state.hierarchicalFacetsRefinements['selected_to'] = [
-            this.currentUser.id,
+            this.currentUser.id.toString(),
           ];
           helper.state.hierarchicalFacetsRefinements['rejected_to'] = [];
         } else if (this.currentTab == 2) {
           helper.state.hierarchicalFacetsRefinements['all_to'] = [];
           helper.state.hierarchicalFacetsRefinements['selected_to'] = [];
           helper.state.hierarchicalFacetsRefinements['rejected_to'] = [
-            this.currentUser.id,
+            this.currentUser.id.toString(),
           ];
         }
         if (helper.state.query == '') {
@@ -1170,7 +1170,7 @@ export default {
           this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(
             this.$refs.hitResults.items[
               this.selectedCreatorIndex
-            ].all_to.indexOf(this.currentUser.id),
+            ].all_to.indexOf(this.currentUser.id.toString()),
             1
           );
           this.$refs.hitResults.items[
@@ -1178,7 +1178,7 @@ export default {
           ].rejected_to.splice(
             this.$refs.hitResults.items[
               this.selectedCreatorIndex
-            ].rejected_to.indexOf(this.currentUser.id),
+            ].rejected_to.indexOf(this.currentUser.id.toString()),
             1
           );
           this.$refs.hitResults.items[
@@ -1202,7 +1202,7 @@ export default {
           this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(
             this.$refs.hitResults.items[
               this.selectedCreatorIndex
-            ].all_to.indexOf(this.currentUser.id),
+            ].all_to.indexOf(this.currentUser.id.toString()),
             1
           );
           this.$refs.hitResults.items[
@@ -1210,7 +1210,7 @@ export default {
           ].selected_to.splice(
             this.$refs.hitResults.items[
               this.selectedCreatorIndex
-            ].selected_to.indexOf(this.currentUser.id),
+            ].selected_to.indexOf(this.currentUser.id.toString()),
             1
           );
           this.$refs.hitResults.items[
