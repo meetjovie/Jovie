@@ -59,13 +59,7 @@ return [
             'queue' => env('SQS_QUEUE', 'default'),
             'suffix' => env('SQS_SUFFIX'),
             'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-            'after_commit' => false,
-            'disk_options' => [
-                'always_store' => false,
-                'cleanup' => false,
-                'disk' => 's3',
-                'prefix' => 'sqs-queue',
-            ],
+            'after_commit' => false
         ],
 
         'redis' => [
@@ -94,6 +88,41 @@ return [
         'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
+    ],
+
+    /*
+      |--------------------------------------------------------------------------
+      | SQS Disk Queue Configuration
+      |--------------------------------------------------------------------------
+      |
+      | Here you may configure the SQS disk queue driver.  It shares all of the same
+      | configuration options from the built in Laravel SQS queue driver.  The only added
+      | option is `disk_options` which are explained below.
+      |
+      | always_store: Determines if all payloads should be stored on a disk regardless if they are over SQS's 256KB limit.
+      | cleanup:      Determines if the payload files should be removed from the disk once the job is processed. Leaveing the
+      |                 files behind can be useful to replay the queue jobs later for debugging reasons.
+      | disk:         The disk to save SQS payloads to.  This disk should be configured in your Laravel filesystems.php config file.
+      | prefix        The prefix (folder) to store the payloads with.  This is useful if you are sharing a disk with other SQS queues.
+      |                 Using a prefix allows for the queue:clear command to destroy the files separately from other sqs-disk backed queues
+      |                 sharing the same disk.
+      |
+      */
+    'sqs-disk' => [
+        'driver' => 'sqs-disk',
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
+        'queue' => env('SQS_QUEUE', 'default'),
+        'suffix' => env('SQS_SUFFIX'),
+        'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+        'after_commit' => false,
+        'disk_options' => [
+            'always_store' => false,
+            'cleanup' => false,
+            'disk' => 's3',
+            'prefix' => 'sqs-import',
+        ],
     ],
 
 ];
