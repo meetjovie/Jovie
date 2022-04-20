@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Imports\ImportFileImport;
 use App\Models\Import;
 use App\Models\User;
+use App\Models\UserList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -59,6 +60,13 @@ class SaveImport implements ShouldQueue
                 $results = $results->toArray();
                 array_shift($results);
 
+                $list = UserList::firstOrCreate([
+                    'user_id' => $this->userId,
+                    'name' => $this->listName
+                ], [
+                    'user_id' => $this->userId,
+                    'name' => $this->listName
+                ]);
                 foreach ($results as $k => $row) {
                     $socialHandlers = [
                         'twitch_handler' => isset($this->mappedColumns->twitch) ? $row[$this->mappedColumns->twitch] : null,
@@ -92,7 +100,7 @@ class SaveImport implements ShouldQueue
                     $youtubeFollowersCountKey = $this->mappedColumns->youtubeFollowersCount ?? null;
 
                     $import = new Import();
-                    $import->list_name = $this->listName;
+                    $import->user_list_id = $list->id;
                     if ($this->tags) {
                         $tags = explode(',', $this->tags);
                         $import->tags = json_encode(array_values(array_map('trim', $tags)));

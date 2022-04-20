@@ -10,6 +10,8 @@ class Import extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_list_id',
+        'tags',
         'first_name',
         'last_name',
         'city',
