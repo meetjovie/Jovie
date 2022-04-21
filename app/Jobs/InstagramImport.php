@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Notifications\ImportNotification;
 use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -136,6 +137,14 @@ class InstagramImport implements ShouldQueue
             $user = $response->graphql->user;
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
+
+            // 30 days diff
+            if (!is_null($creator->last_scrapped_at)) {
+                $lastScrappedDate = Carbon::parse($creator->last_scrapped_at);
+                if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+                    return;
+                }
+            }
 
             if (isset($this->meta['socialHandlers'])) {
                 foreach ($this->meta['socialHandlers'] as $k => $handler) {
