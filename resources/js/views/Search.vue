@@ -1319,7 +1319,7 @@ export default {
       selectedCreator: {},
       selectedCreatorIndex: [],
       searchClient: instantMeiliSearch(
-        'https://search.jov.ie/',
+        'https://search2.jov.ie/',
         'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
         // 'https://devsearch.jov.ie/',
         // 'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',

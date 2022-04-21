@@ -76,6 +76,9 @@ Route::get('/search-miali', function (Request $request) {
 Route::get('config-mili', function () {
     return config('scout.meilisearch');
 });
+    Route::get('config-queue', function () {
+    return config('queue');
+});
 Route::get('index-mili', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
     return $client->getAllIndexes();
