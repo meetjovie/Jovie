@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,9 +26,12 @@ class VaporUiServiceProvider extends ServiceProvider
      */
     protected function gate()
     {
-        $emails = User::where('is_admin', 1)->get()->pluck('email')->toArray();
-        Gate::define('viewVaporUI', function ($user = null) use ($emails) {
-            return in_array(optional($user)->email, $emails);
+        Gate::define('viewVaporUI', function ($user = null) {
+            return in_array(optional($user)->email, [
+                //
+                'tim@jov.ie',
+                'aamishirfan2662@gmail.com'
+            ]);
         });
     }
 
