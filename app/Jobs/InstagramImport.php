@@ -144,8 +144,8 @@ class InstagramImport implements ShouldQueue
             $creator = $this->getOrCreateCreator($links);
 
             // 30 days diff
-            if (!is_null($creator->last_scrapped_at)) {
-                $lastScrappedDate = Carbon::parse($creator->last_scrapped_at);
+            if (!is_null($creator->instagram_last_scrapped_at)) {
+                $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
                     return;
                 }
@@ -233,7 +233,7 @@ class InstagramImport implements ShouldQueue
             $meta['is_business_account'] = $user->is_business_account;
             $meta['has_ar_effects'] = $user->has_ar_effects;
             $creator->instagram_meta = ($meta);
-            $creator->last_scrapped_at = Carbon::now()->toDateTimeString();
+            $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->save();
             if ($this->listId) {
                 $creator->userLists()->syncWithoutDetaching($this->listId);
