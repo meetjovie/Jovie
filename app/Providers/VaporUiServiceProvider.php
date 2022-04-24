@@ -27,7 +27,7 @@ class VaporUiServiceProvider extends ServiceProvider
      */
     protected function gate()
     {
-        $emails = User::where('is_admin', 1)->get()->pluck('email')->toArray;
+        $emails = User::where('is_admin', 1)->get()->pluck('email')->toArray();
         Gate::define('viewVaporUI', function ($user = null) use ($emails) {
             return in_array(optional($user)->email, $emails);
         });
