@@ -100,6 +100,7 @@ class SaveImport implements ShouldQueue
                     $youtubeFollowersCountKey = $this->mappedColumns->youtubeFollowersCount ?? null;
 
                     $import = new Import();
+                    $import->user_id = $this->userId;
                     $import->user_list_id = $list->id;
                     if ($this->tags) {
                         $tags = explode(',', $this->tags);

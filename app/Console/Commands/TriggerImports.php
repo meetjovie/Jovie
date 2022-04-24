@@ -43,6 +43,8 @@ class TriggerImports extends Command
      */
     public function handle()
     {
+        SendSlackNotification::dispatch('NEW IMPORT SCHEDULED START');
+
         $imports = Import::query()->limit(100)->get();
 
         foreach ($imports as $import) {
@@ -71,11 +73,11 @@ class TriggerImports extends Command
             }
             if ($import->instagram) {
                 Bus::chain([
-                    new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $this->userId),
+                    new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id),
                     new SendSlackNotification('imported instagram user '.$import->instagram)
                 ])->dispatch();
             }
-
         }
+        SendSlackNotification::dispatch('NEW IMPORT SCHEDULED END');
     }
 }
