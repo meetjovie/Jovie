@@ -45,8 +45,7 @@ class TriggerImports extends Command
     {
         SendSlackNotification::dispatch('NEW IMPORT SCHEDULED START');
 
-        $imports = Import::query()->limit(100)->get();
-
+        $imports = Import::get();
         foreach ($imports as $import) {
             $socialHandlers = [
                 'twitch_handler' => $import->twitch,
