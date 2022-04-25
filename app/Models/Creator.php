@@ -21,7 +21,12 @@ class Creator extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['name', 'biography', 'category', 'social_links_with_followers', 'overview_media', 'profile_pic_url'];
+    protected $appends = ['name', 'biography', 'category', 'social_links_with_followers', 'overview_media', 'profile_pic_url', 'has_emails'];
+
+    public function getHasEmailsAttribute()
+    {
+        return is_array($this->emails) && count($this->emails);
+    }
 
     public function getProfilePicUrlAttribute($creator = null)
     {
@@ -96,6 +101,11 @@ class Creator extends Model
     public function crms()
     {
         return $this->belongsToMany(User::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps();
+    }
+
+    public function crmRecords()
+    {
+        return $this->hasMany(Crm::class);
     }
 
     public function crmRecordByUser()
@@ -382,6 +392,8 @@ class Creator extends Model
             $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
             $creator->crm_record_by_user->favourite = $creator->favourite;
             $creator->crm_record_by_user->muted = $creator->muted;
+            $creator->crm_record_by_user->selected = $creator->selected;
+            $creator->crm_record_by_user->rejected = $creator->rejected;
             $creator->crm_record_by_user->created_at = $creator->created_at;
             $creator->crm_record_by_user->updated_at = $creator->updated_at;
             unset($creator->creator_id);
@@ -451,15 +463,57 @@ class Creator extends Model
                 $dataToUpdateForCreator[$k] = $v;
             }
         }
-        Creator::where('id', $id)->update($dataToUpdateForCreator);
-
+        $creator = Creator::where('id', $id)->first();
+        foreach ($dataToUpdateForCreator as $k => $v) {
+            $creator->{$k} = $v;
+        }
         // update interactions for crm
-        Crm::where(['creator_id' => $id, 'user_id' => Auth::id()])->update($dataToUpdateForCrm);
+        Crm::updateOrCreate(['creator_id' => $id, 'user_id' => Auth::id()], array_merge(['creator_id' => $id, 'user_id' => Auth::id()], $dataToUpdateForCrm));
+        $creator->save();
     }
 
     public function toSearchableArray()
     {
         $array = $this->toArray();
+        $notMutedRecord = [];
+        $mutedRecord = [];
+        $notRejectedRecord = [];
+        $notSelectedRecord = [];
+        $selectedRecord = [];
+        $rejectedRecord = [];
+        foreach ($this->crmRecords as $crm) {
+            if (!$crm->selected) {
+                $notSelectedRecord[] = $crm->user_id;
+            } else {
+                $selectedRecord[] = $crm->user_id;
+            }
+            if (!$crm->rejected) {
+                $notRejectedRecord[] = $crm->user_id;
+            } else {
+                $rejectedRecord[] = $crm->user_id;
+            }
+            if (!$crm->muted) {
+                $notMutedRecord[] = $crm->user_id;
+            } else {
+                $mutedRecord[] =  $crm->user_id;
+            }
+        }
+
+        $allUsers = User::all()->pluck('id')->toArray();
+
+        $selectedTo = array_intersect($selectedRecord, $notMutedRecord);
+        $rejectedTo = array_intersect($rejectedRecord, $notMutedRecord);
+
+        $selectedRejectedMutedTo = array_unique(array_merge($selectedRecord, $rejectedRecord, $mutedRecord));
+
+        $allTo = array_diff($allUsers, $selectedRejectedMutedTo);
+
+        $array['emailCount'] = count($this->emails ?? []);
+        $array['all_to'] = $allTo;
+        $array['selected_to'] = $selectedTo;
+        $array['rejected_to'] = $rejectedTo;
+        $array['crms'] = $this->crmRecords;
+        $array['unique'] = 10000000000000000000; // it will fail only if user changes the tab this much times :p
         return $array;
     }
 

@@ -13,7 +13,7 @@
           <span class="text-indigo-700">creator economy</span>.
         </p>
         <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-          Empower your creator partnership steam with the only sales engagemnt
+          Empower your creator partnerships team with the only sales engagemnt
           platform built from the ground up for
           <span class="font-bold">creator economy </span>companies.
         </p>

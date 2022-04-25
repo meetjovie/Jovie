@@ -3,20 +3,19 @@
   <div
     class="relative"
     :class="[
-      { 'bg-indigo-600': design == 'primary' },
-      { 'bg-red-600': design == 'danger' },
-      { 'bg-green-600': design == 'success' },
+      { 'bg-indigo-500': design == 'primary' },
+      { 'bg-red-500': design == 'danger' },
     ]">
     <div class="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
       <div class="pr-16 sm:px-16 sm:text-center">
         <p class="font-medium text-white">
-          <span class="md:hidden"> {{ textshort }} </span>
+          <span class="md:hidden"> {{ mobiletitle }} </span>
           <span class="hidden md:inline">
-            {{ text }}
+            {{ title }}
           </span>
           <span class="block sm:ml-2 sm:inline-block">
-            <a href="#" class="font-bold text-white underline">
-              {{ cta }} <span aria-hidden="true">&rarr;</span></a
+            <a :href="ctalink" class="font-bold text-white underline">
+              {{ cta }}<span aria-hidden="true">&rarr;</span></a
             >
           </span>
         </p>
@@ -25,9 +24,11 @@
         class="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-start sm:pt-1 sm:pr-2">
         <button
           type="button"
-          class="flex rounded-md p-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white">
+          class="group flex rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-white">
           <span class="sr-only">Dismiss</span>
-          <XIcon class="h-6 w-6 text-white" aria-hidden="true" />
+          <XIcon
+            class="h-6 w-6 text-neutral-100 group-hover:text-white"
+            aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -39,22 +40,26 @@ import { XIcon } from '@heroicons/vue/outline';
 
 export default {
   props: {
+    design: {
+      type: String,
+      default: 'primary',
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    mobiletitle: {
+      type: String,
+      default: '',
+    },
     cta: {
       type: String,
-      required: false,
+      default: '',
     },
-    text: {
+    ctaLink: {
       type: String,
-      required: false,
+      default: '',
     },
-    textshort: {
-      type: String,
-      required: false,
-    },
-      design: {
-        type: String,
-          default: 'success'
-      }
   },
   components: {
     XIcon,

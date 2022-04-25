@@ -17,9 +17,6 @@
                                     </svg>
                                 </a>
                             </div>
-
-
-
                                 <div class="hidden md:block md:ml-6 items-center judtify- md:space-x-4">
                                     <Popover v-slot="{ open }" class="relative">
                                         <PopoverButton
@@ -73,16 +70,16 @@
                                                 </div>
                                                 <div class="p-4 bg-gray-50">
                                                 <router-link
-                                                    to="signup"
+                                                    to="chrome-extension"
                                                     class="flow-root px-2 py-2 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
                                                 >
                                                     <span class="flex items-center">
                                                     <span class="text-sm font-medium text-gray-900">
-                                                        Get started
+                                                        Chrome Extension
                                                     </span>
                                                     </span>
                                                     <span class="block text-sm text-gray-500">
-                                                    Wanna see what Jovie can do?
+                                                   Get creator insights & social content right inside Gmail.
                                                     </span>
                                                 </router-link>
                                                 </div>

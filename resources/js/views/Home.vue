@@ -1,134 +1,78 @@
 <template>
   <div>
     <main>
-      <div
-        class="relative overflow-hidden bg-gradient-to-r from-white to-indigo-50">
+      <div class="overflow-y-hidden">
         <div
-          class="hidden sm:absolute sm:inset-y-0 sm:block sm:h-full sm:w-full"
-          aria-hidden="true">
-          <div class="relative mx-auto h-full max-w-7xl">
-            <svg
-              class="absolute right-full translate-y-1/4 translate-x-1/4 transform lg:translate-x-1/2"
-              width="404"
-              height="784"
-              fill="none"
-              viewBox="0 0 404 784">
-              <defs class="text-indigo-700">
-                <pattern
-                  id="f210dbf6-a58d-4871-961e-36d5016a0f49"
-                  x="0"
-                  y="0"
-                  width="20"
-                  height="20"
-                  patternUnits="userSpaceOnUse">
-                  <rect
-                    x="0"
-                    y="0"
-                    width="4"
-                    height="4"
-                    class="text-gray-200 opacity-50"
-                    fill="currentColor" />
-                </pattern>
-              </defs>
-              <rect
-                width="404"
-                height="784"
-                fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)" />
-            </svg>
-            <svg
-              class="absolute left-full -translate-y-3/4 -translate-x-1/4 transform md:-translate-y-1/2 lg:-translate-x-1/2"
-              width="404"
-              height="784"
-              fill="none"
-              viewBox="0 0 404 784">
-              <defs>
-                <pattern
-                  id="5d0dd344-b041-4d26-bec4-8d33ea57ec9b"
-                  x="0"
-                  y="0"
-                  width="20"
-                  height="20"
-                  patternUnits="userSpaceOnUse">
-                  <rect
-                    x="0"
-                    y="0"
-                    width="4"
-                    height="4"
-                    class="text-gray-200"
-                    fill="currentColor" />
-                </pattern>
-              </defs>
-              <rect
-                width="404"
-                height="784"
-                class
-                fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)" />
-            </svg>
-          </div>
-        </div>
+          class="flex w-full flex-col-reverse items-center justify-center py-12 sm:py-24 md:flex-col md:py-40">
+          <img
+            :src="asset('img/External/bgImg.webp')"
+            class="mt-6 hidden w-full object-fill object-center md:mt-0 xl:block"
+            alt="background image" />
+          <img
+            :src="asset('img/External/tabley.webp')"
+            class="mt-6 w-full object-fill object-center md:mt-0 xl:hidden"
+            alt="background image" />
+          <div class="absolute flex flex-col items-center justify-center px-4">
+            <h1
+              class="text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl xl:text-6xl">
+              <span class="inline">Scale your</span>
+              {{ ' ' }}
+              <span class="inline text-indigo-700">creator</span>
 
-        <div class="relative pt-12 pb-16 sm:pb-24">
-          <main
-            class="min-h-1/2 mx-auto mt-16 max-w-7xl py-8 px-4 sm:mt-24 lg:py-24">
-            <div class="text-center">
-              <h1
-                class="text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl xl:text-6xl">
-                <span class="inline">Scale your</span>
-                {{ ' ' }}
-                <span class="inline text-indigo-700">creator</span>
+              {{ ' ' }}
+              <span class="inline"> partnerships</span>
+            </h1>
+            <p
+              class="mx-auto mt-3 max-w-md text-center text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
+              <span class="font-bold">Easily </span>
+              {{ ' ' }}
+              <span class="font-bold text-indigo-600">build</span>,
+              <span class="font-bold text-indigo-600">manage</span>, &
+              <span class="font-bold text-indigo-600">grow </span>
+              <span class="font-bold underline decoration-pink-500 decoration-4"
+                >creator communities</span
+              >.
+            </p>
+            <div
+              class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
+              <div class="rounded-md">
+                <div class="mt-8 h-20 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
+                  <div class="sm:flex">
+                    <label for="email-address" class="sr-only"
+                      >Email address</label
+                    >
+                    <input
+                      v-on:keyup.enter="requestDemo()"
+                      id="email-address"
+                      v-model="waitListEmail"
+                      name="email-address"
+                      type="email"
+                      autocomplete="off"
+                      required=""
+                      class="focus:ring-none focus:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-gray-500 shadow-xl shadow-indigo-700/20 focus:border-none focus:outline-none focus-visible:outline-none"
+                      placeholder="Enter your email" />
 
-                {{ ' ' }}
-                <span class="inline"> partnerships</span>
-              </h1>
-              <p
-                class="mx-auto mt-3 max-w-md text-center text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-                <span class="font-bold">Easily </span>
-                {{ ' ' }}
-                <span class="font-bold text-indigo-600">build</span>,
-                <span class="font-bold text-indigo-600">manage</span>, &
-                <span class="font-bold text-indigo-600">grow </span>
-                <span
-                  class="font-bold underline decoration-pink-500 decoration-4"
-                  >creator communities</span
-                >.
-              </p>
-              <div
-                class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
-                <div class="rounded-md">
-                  <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
-                    <div class="sm:flex">
-                      <label for="email-address" class="sr-only"
-                        >Email address</label
-                      >
-                      <input
-                        v-on:keyup.enter="requestDemo()"
-                        id="email-address"
-                        v-model="waitListEmail"
-                        name="email-address"
-                        type="email"
-                        autocomplete="off"
-                        required=""
-                        class="focus:ring-none focus:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-gray-500 shadow-xl shadow-indigo-700/20 focus:border-none focus:outline-none focus-visible:outline-none"
-                        placeholder="Enter your email" />
-
-                      <button
-                        type="button"
-                        as="router-link"
-                        @click="requestDemo()"
-                        class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                        Get started
-                      </button>
-                    </div>
-                    <span class="float-left text-red-900">{{
-                      this.error
-                    }}</span>
+                    <ButtonGroup
+                      type="button"
+                      :loader="loading"
+                      as="router-link"
+                      @click="requestDemo()"
+                      text="Get Started"
+                      design="hero">
+                      Get started
+                    </ButtonGroup>
                   </div>
+                  <span
+                    class="float-left px-2 text-xs font-bold text-red-500"
+                    >{{ this.error }}</span
+                  >
                 </div>
               </div>
             </div>
-          </main>
+          </div>
         </div>
       </div>
+
       <!-- <HomeLogoCloud></HomeLogoCloud> -->
 
       <HomeFeatureCRM id="crm"></HomeFeatureCRM>
@@ -166,13 +110,14 @@ import HomeCTA2 from '../components/Home/HomeCTA2';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
 import HomeFeatureHero from '../components/Home/HomeFeatureHero';
+import HomeCTA3 from '../components/Home/HomeCTA3';
 import {
   Popover,
   PopoverButton,
   PopoverPanel,
   PopoverOverlay,
 } from '@headlessui/vue';
-
+import ButtonGroup from '@/components/ButtonGroup';
 export default {
   name: 'Home',
   components: {
@@ -182,10 +127,12 @@ export default {
     HomeFeatureDiscovery,
     HomeHeroSection,
     HomeCTA,
+    ButtonGroup,
     HomeTestimonials,
     HomeCTA2,
     HomeFeatureCRM,
     HomeFeatureHero,
+    HomeCTA3,
     Popover,
     PopoverButton,
     PopoverPanel,
@@ -199,6 +146,7 @@ export default {
     return {
       waitListEmail: '',
       error: null,
+      loading: false,
       features: [
         {
           name: 'Discover creators by the products they use',
@@ -235,6 +183,7 @@ export default {
       // logout();
     },
     async requestDemo() {
+      this.loading = true;
       await UserService.addToWaitList({ email: this.waitListEmail })
         .then((response) => {
           response = response.data;
@@ -247,6 +196,7 @@ export default {
         })
         .catch((error) => {
           error = error.response;
+          this.loading = false;
           if (error.status == 422) {
             this.error = error.data.errors.email[0];
           }

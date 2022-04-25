@@ -191,7 +191,7 @@ class UserController extends Controller
     public function addToWaitList(Request $request)
     {
         $request->validate(['email' => 'required|email|max:255']);
-        $status = Waitlist::updateOrCreate(['email' => $request->email], ['email' => $request->email]);
+        $status = Waitlist::updateOrCreate(['email' => $request->email, 'page' => $request->page], ['email' => $request->email, 'page' => $request->page]);
         if ($status) {
             return collect([
                 'status' => true,
