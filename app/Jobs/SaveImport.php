@@ -50,6 +50,8 @@ class SaveImport implements ShouldQueue
      */
     public function handle()
     {
+        User::where('id', Auth::id())->increment('queued_count');
+
         try {
             $fileImport = new ImportFileImport();
             Excel::import($fileImport, $this->file, 's3', \Maatwebsite\Excel\Excel::CSV); // file is now loaded in results, so don't need it
@@ -139,7 +141,7 @@ class SaveImport implements ShouldQueue
                 }
             }
         } catch (Exception $e) {
-            SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Youtube Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine()), [
+            SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine()), [
                 'file' => $this->file,
                 'mappedColumns' => $this->mappedColumns,
                 'tags' => $this->tags,

@@ -83,7 +83,6 @@ class ImportController extends Controller
             $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
             $filePath = Creator::CREATORS_CSV_PATH.$filename;
             $listName = $request->listName;
-            User::where('id', Auth::id())->increment('queued_count');
             SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
         }
     }
