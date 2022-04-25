@@ -50,7 +50,7 @@ class SaveImport implements ShouldQueue
      */
     public function handle()
     {
-        User::where('id', Auth::id())->increment('queued_count');
+        User::where('id', $this->userId)->increment('queued_count');
 
         try {
             $fileImport = new ImportFileImport();
