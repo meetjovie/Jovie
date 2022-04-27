@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\SubscriptionItem;
 use Stripe\Exception\ApiErrorException;
+use function Clue\StreamFilter\fun;
 
 class SubscriptionsController extends Controller
 {
@@ -32,14 +33,18 @@ class SubscriptionsController extends Controller
         $key = \config('services.stripe.secret');
         $stripe = new \Stripe\StripeClient($key);
         $productsraw = $stripe->products->all([
-            'active' => true
+            'active' => true,
         ]);
         $products = $productsraw->data;
 
+        $products = array_filter($products, function ($product) {
+            return $product->metadata->is_featured == 1;
+        });
         foreach($products as &$product) {
             $plansRaw = $stripe->plans->all([
                 'product' => $product->id
             ]);
+
             $plans = collect($plansRaw->data);
             $finalPlans = [];
             foreach ($plans as $plan) {
