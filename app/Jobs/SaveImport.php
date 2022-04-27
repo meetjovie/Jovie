@@ -118,6 +118,9 @@ class SaveImport implements ShouldQueue
 
                     if (isset($this->mappedColumns->instagram) && ($user->is_admin || $instaFollowersCount > 5000)) {
                         $import->instagram = $row[$this->mappedColumns->instagram];
+                        if ($import->instagram[0] == '@') {
+                            $import->instagram = substr($import->instagram, 1);
+                        }
                     }
 
                     $youtubeFollowersCount = isset($this->mappedColumns->youtubeFollowersCount) ? $row[$this->mappedColumns->youtubeFollowersCount] : 1001;
