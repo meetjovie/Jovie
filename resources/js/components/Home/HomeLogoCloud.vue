@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="mx-auto max-w-xl py-16 px-4 sm:py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-xl py-4 px-4 sm:px-6 sm:py-8 lg:px-8">
       <div class="justify center mx-auto items-center">
         <h2
           class="mx-auto max-w-md py-4 text-center text-xs font-extrabold text-neutral-400 lg:max-w-xl lg:text-center">
