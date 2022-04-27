@@ -57,9 +57,10 @@ class ImportController extends Controller
                 ])->dispatch();
             }
         }
+        $file = null;
         try {
             if ($request->file) {
-                $this->saveImport($request);
+                $file = $this->saveImport($request);
             }
         } catch (\Exception $e) {
             return collect([
@@ -69,22 +70,25 @@ class ImportController extends Controller
             ]);
         }
         return collect([
-            'status' => false,
+            'status' => true,
             'message' => 'Successful. Your import will start soon.',
+            'file' => $file,
+            'queued_count' => Auth::user()->queued_count
         ]);
     }
 
     public function saveImport($request)
     {
+        $filePath = null;
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->has('file')) {
             $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
             $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
             $filePath = Creator::CREATORS_CSV_PATH.$filename;
             $listName = $request->listName;
-            User::where('id', Auth::id())->increment('queued_count');
             SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
         }
+        return $fileUrl;
     }
 
     public function importX(Request $request)

@@ -161,6 +161,7 @@
           </div>
           <div class="flex justify-end">
             <button
+                :disabled="importing"
               @click="finishImport({})"
               class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               Import
@@ -271,7 +272,7 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.$store.state.AuthState.user.queued_count += 1;
+            this.currentUser.queued_count = response.queued_count;
             alert(response.message);
           } else {
             // show toast error here later

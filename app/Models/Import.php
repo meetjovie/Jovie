@@ -10,6 +10,8 @@ class Import extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_list_id',
+        'tags',
         'first_name',
         'last_name',
         'city',
@@ -27,4 +29,14 @@ class Import extends Model
         'phone',
         'gender',
     ];
+
+    public function getEmailsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getSocialHandlersAttribute($value)
+    {
+        return json_decode($value);
+    }
 }
