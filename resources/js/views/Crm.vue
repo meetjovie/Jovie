@@ -311,21 +311,28 @@ export default {
     filters: {
       deep: true,
       handler: function (val) {
-        this.getCrmCreators();
+          this.getCrmCreators();
+        if (val.list) {
+            localStorage.setItem("filterListCrm", JSON.stringify(val.list));
+        }
       },
     },
   },
   computed: {
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
+        let filterList = localStorage.getItem("filterListCrm")
+        if (filterList) {
+            this.filters.list = JSON.parse(filterList)
+        }
       return this.userLists.filter((list) =>
         list.name.toLowerCase().match(this.searchList.toLowerCase())
       );
     },
   },
   mounted() {
-    this.getCrmCreators();
-    this.getUserLists();
+      this.getUserLists();
+      this.getCrmCreators();
   },
   methods: {
     getUserLists() {
