@@ -143,13 +143,13 @@ class InstagramImport implements ShouldQueue
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
 
-            // 30 days diff
-            if (!is_null($creator->instagram_last_scrapped_at)) {
-                $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
-                if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                    return;
-                }
-            }
+//            // 30 days diff
+//            if (!is_null($creator->instagram_last_scrapped_at)) {
+//                $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
+//                if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+//                    return;
+//                }
+//            }
 
             if (isset($this->meta['socialHandlers'])) {
                 foreach ($this->meta['socialHandlers'] as $k => $handler) {
