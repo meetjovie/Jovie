@@ -364,7 +364,11 @@ export default {
       });
     },
     exportCrmCreators() {
-      UserService.exportCrmCreators(this.filters).then((response) => {
+        let obj = JSON.parse(JSON.stringify(this.filters))
+        if (obj.list) {
+            obj.list = obj.list.id
+        }
+      UserService.exportCrmCreators(obj).then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]));
         var fileLink = document.createElement('a');
 
