@@ -380,7 +380,7 @@ export default {
         var fileLink = document.createElement('a');
 
         fileLink.href = fileURL;
-        fileLink.setAttribute('download', 'creators.csv');
+        fileLink.setAttribute('download', `${this.filters.list ? this.filters.list.name : 'creators'}.csv`);
         document.body.appendChild(fileLink);
 
         fileLink.click();
