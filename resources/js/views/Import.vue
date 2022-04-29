@@ -125,7 +125,15 @@
                         <p class="text-xs text-gray-500">CSV</p>
                       </div>
                     </div>
-                      <p v-if="uploadProgress">{{ uploadProgress }}%</p>
+
+                    <ProgressBar
+                      v-if="uploadProgress"
+                      :percentage="uploadProgress" />
+                    <p
+                      v-if="uploadProgress"
+                      class="mx-auto w-full text-center text-xs font-bold text-neutral-400">
+                      {{ uploadProgress }}%
+                    </p>
                     <p v-if="errors.key" class="mt-2 text-sm text-red-600">
                       {{ errors.key[0] }}
                     </p>
@@ -161,7 +169,7 @@
           </div>
           <div class="flex justify-end">
             <button
-                :disabled="importing"
+              :disabled="importing"
               @click="finishImport({})"
               class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               Import
@@ -190,6 +198,7 @@ import {
 import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue';
 import ImportService from '../services/api/import.service';
 import UserService from '../services/api/user.service';
+import ProgressBar from '../components/ProgressBar.vue';
 
 export default {
   name: 'Import',
@@ -199,6 +208,7 @@ export default {
     SwitchGroup,
     SwitchLabel,
     ImportColumnMatching,
+    ProgressBar,
   },
   data() {
     return {
@@ -214,8 +224,8 @@ export default {
       },
       importing: false,
       userLists: [],
-        bucketResponse: null,
-        uploadProgress: 0
+      bucketResponse: null,
+      uploadProgress: 0,
     };
   },
   mounted() {
@@ -231,42 +241,45 @@ export default {
       });
     },
     getColumnsFromCsv() {
-        this.uploadProgress = 0;
+      this.uploadProgress = 0;
       this.fetchingColumns = true;
       this.errors = [];
 
-        Vapor.store(this.$refs.file_upload.files[0], {
-            visibility: 'public-read',
-            progress: progress => {
-                this.uploadProgress = Math.round(progress * 100);
+      Vapor.store(this.$refs.file_upload.files[0], {
+        visibility: 'public-read',
+        progress: (progress) => {
+          this.uploadProgress = Math.round(progress * 100);
+        },
+      }).then((response) => {
+        this.bucketResponse = response;
+        ImportService.getColumnsFromCsv({
+          uuid: response.uuid,
+          key: response.key,
+          bucket: response.bucket,
+          name: this.$refs.file_upload.files[0].name,
+          content_type: this.$refs.file_upload.files[0].type,
+        })
+          .then((response) => {
+            response = response.data;
+            if (response.status) {
+              this.columns = response.columns;
+              this.showMapping = true;
+              this.importSet.listName =
+                this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, '');
+            } else {
+              // show toast error here later
             }
-        }).then(response => {
-            this.bucketResponse = response
-            ImportService.getColumnsFromCsv({
-                    uuid: response.uuid,
-                    key: response.key,
-                    bucket: response.bucket,
-                    name: this.$refs.file_upload.files[0].name,
-                    content_type: this.$refs.file_upload.files[0].type,
-                }).then((response) => {
-                    response = response.data;
-                    if (response.status) {
-                        this.columns = response.columns;
-                        this.showMapping = true;
-                        this.importSet.listName =
-                            this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, '');
-                    } else {
-                        // show toast error here later
-                    }
-                }).catch((error) => {
-                    error = error.response;
-                    if (error.status == 422) {
-                        this.errors = error.data.errors;
-                    }
-                }).finally((response) => {
-                    this.fetchingColumns = false;
-                });
-        });
+          })
+          .catch((error) => {
+            error = error.response;
+            if (error.status == 422) {
+              this.errors = error.data.errors;
+            }
+          })
+          .finally((response) => {
+            this.fetchingColumns = false;
+          });
+      });
     },
     updateListName(listName) {
       this.importSet.listName = listName;

@@ -4,7 +4,8 @@
     class="relative"
     :class="[
       { 'bg-indigo-500': design == 'primary' },
-      { 'bg-red-500': design == 'danger' },
+      { 'bg-red-500 ': design == 'danger' },
+      { 'hidden transition-all': dismissed },
     ]">
     <div class="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
       <div class="pr-16 sm:px-16 sm:text-center">
@@ -14,7 +15,9 @@
             {{ title }}
           </span>
           <span class="block sm:ml-2 sm:inline-block">
-            <a :href="ctalink" class="font-bold text-white underline">
+            <a
+              :href="ctalink"
+              class="cursor-pointer font-bold text-white underline">
               {{ cta }}<span aria-hidden="true">&rarr;</span></a
             >
           </span>
@@ -23,11 +26,12 @@
       <div
         class="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-start sm:pt-1 sm:pr-2">
         <button
+          @click="dismissed"
           type="button"
-          class="group flex rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-white">
+          class="group flex rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
           <span class="sr-only">Dismiss</span>
           <XIcon
-            class="h-6 w-6 text-neutral-100 group-hover:text-white"
+            class="h-6 w-6 font-medium text-neutral-50 group-hover:font-bold group-hover:text-white"
             aria-hidden="true" />
         </button>
       </div>
@@ -59,6 +63,10 @@ export default {
     ctaLink: {
       type: String,
       default: '',
+    },
+    dismissed: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {
