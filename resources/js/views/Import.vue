@@ -125,7 +125,7 @@
                         <p class="text-xs text-gray-500">CSV</p>
                       </div>
                     </div>
-                    inputGr
+                      <p v-if="uploadProgress">{{ uploadProgress }}%</p>
                     <p v-if="errors.key" class="mt-2 text-sm text-red-600">
                       {{ errors.key[0] }}
                     </p>
@@ -214,7 +214,8 @@ export default {
       },
       importing: false,
       userLists: [],
-        bucketResponse: null
+        bucketResponse: null,
+        uploadProgress: 0
     };
   },
   mounted() {
@@ -230,14 +231,14 @@ export default {
       });
     },
     getColumnsFromCsv() {
+        this.uploadProgress = 0;
       this.fetchingColumns = true;
       this.errors = [];
 
         Vapor.store(this.$refs.file_upload.files[0], {
             visibility: 'public-read',
             progress: progress => {
-                console.log(Math.round(progress * 100));
-                // this.uploadProgress = Math.round(progress * 100);
+                this.uploadProgress = Math.round(progress * 100);
             }
         }).then(response => {
             this.bucketResponse = response
