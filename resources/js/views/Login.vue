@@ -45,7 +45,7 @@
                     class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
                   <label
                     for="email"
-                    class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400">
+                    class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium">
                     Email address
                   </label>
                   <p class="mt-2 text-sm text-red-900" v-if="this.errors.email">
@@ -64,10 +64,10 @@
                     type="password"
                     autocomplete="current-password"
                     required=""
-                    class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                    class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
                   <label
                     for="password"
-                    class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400">
+                    class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium">
                     Password
                   </label>
                   <p
