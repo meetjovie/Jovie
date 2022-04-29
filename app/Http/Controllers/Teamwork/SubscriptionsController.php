@@ -38,7 +38,7 @@ class SubscriptionsController extends Controller
         $products = $productsraw->data;
 
         $products = array_filter($products, function ($product) {
-            return is_null($product->metadata->is_featured) || $product->metadata->is_featured != 1;
+            return $product->metadata->is_featured == 1;
         });
         foreach($products as &$product) {
             $plansRaw = $stripe->plans->all([
