@@ -14,6 +14,7 @@ use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\HeadingRowImport;
 use function collect;
 
@@ -23,10 +24,7 @@ class ImportController extends Controller
 
     public function getColumnsFromCsv(Request $request)
     {
-//        $request->validate([
-//            'import' => 'required|mimes:csv'
-//        ]);
-        $headings = (new HeadingRowImport)->toArray($request->import);
+        $headings = (new HeadingRowImport)->toArray($request->input('key'), 's3', \Maatwebsite\Excel\Excel::CSV);
         if (count($headings)) {
             return collect([
                 'status' => true,
@@ -43,8 +41,8 @@ class ImportController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:file,youtube',
-//            'file' => 'required_without_all:instagram,youtube|mimes:csv'
+            'instagram' => 'required_without_all:key,youtube',
+            'key' => 'required_without_all:instagram,youtube|string'
         ]);
         if ($request->instagram) {
             foreach (explode('\n', $request->instagram) as $instagram) {
@@ -59,7 +57,7 @@ class ImportController extends Controller
         }
         $file = null;
         try {
-            if ($request->file) {
+            if ($request->input('key')) {
                 $file = $this->saveImport($request);
             }
         } catch (\Exception $e) {
@@ -81,14 +79,16 @@ class ImportController extends Controller
     {
         $filePath = null;
         $mappedColumns = json_decode($request->mappedColumns);
-        if ($request->has('file')) {
-            $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
-            $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
-            $filePath = Creator::CREATORS_CSV_PATH.$filename;
+        if ($request->input('key')) {
+            Storage::disk('s3')->copy(
+                ('tmp/'.$request->input('key')),
+               (Creator::CREATORS_CSV_PATH.$request->input('key'))
+            );
+            $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
             $listName = $request->listName;
             SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
         }
-        return $fileUrl;
+        return $filePath;
     }
 
     public function importX(Request $request)

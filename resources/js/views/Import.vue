@@ -126,8 +126,8 @@
                       </div>
                     </div>
                     inputGr
-                    <p v-if="errors.file" class="mt-2 text-sm text-red-600">
-                      {{ errors.file[0] }}
+                    <p v-if="errors.key" class="mt-2 text-sm text-red-600">
+                      {{ errors.key[0] }}
                     </p>
                   </div>
                   <SwitchGroup
@@ -214,6 +214,7 @@ export default {
       },
       importing: false,
       userLists: [],
+        bucketResponse: null
     };
   },
   mounted() {
@@ -231,28 +232,39 @@ export default {
     getColumnsFromCsv() {
       this.fetchingColumns = true;
       this.errors = [];
-      let form = new FormData();
-      form.append('import', this.$refs.file_upload.files[0]);
-      ImportService.getColumnsFromCsv(form)
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.columns = response.columns;
-            this.showMapping = true;
-            this.importSet.listName =
-              this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, '');
-          } else {
-            // show toast error here later
-          }
-        })
-        .catch((error) => {
-          error = error.response;
-          if (error.status == 422) {
-            this.errors = error.data.errors;
-          }
-        })
-        .finally((response) => {
-          this.fetchingColumns = false;
+
+        Vapor.store(this.$refs.file_upload.files[0], {
+            visibility: 'public-read',
+            progress: progress => {
+                console.log(Math.round(progress * 100));
+                // this.uploadProgress = Math.round(progress * 100);
+            }
+        }).then(response => {
+            this.bucketResponse = response
+            ImportService.getColumnsFromCsv({
+                    uuid: response.uuid,
+                    key: response.key,
+                    bucket: response.bucket,
+                    name: this.$refs.file_upload.files[0].name,
+                    content_type: this.$refs.file_upload.files[0].type,
+                }).then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        this.columns = response.columns;
+                        this.showMapping = true;
+                        this.importSet.listName =
+                            this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, '');
+                    } else {
+                        // show toast error here later
+                    }
+                }).catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                        this.errors = error.data.errors;
+                    }
+                }).finally((response) => {
+                    this.fetchingColumns = false;
+                });
         });
     },
     updateListName(listName) {
@@ -266,7 +278,7 @@ export default {
       form.append('youtube', this.importSet.youtube ?? '');
       form.append('tags', this.importSet.tags ?? '');
       form.append('mappedColumns', JSON.stringify(mappedColumns));
-      form.append('file', this.$refs.file_upload.files[0] ?? '');
+      form.append('key', this.bucketResponse ? this.bucketResponse.uuid : '');
       form.append('listName', this.importSet.listName);
       ImportService.import(form)
         .then((response) => {

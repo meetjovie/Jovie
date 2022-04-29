@@ -9,7 +9,7 @@ import moment from 'moment';
 import InstantSearch from 'vue-instantsearch/vue3/es'; // Vue 3
 import VueObserveVisibility from 'vue-observe-visibility';
 import VueMousetrapPlugin from 'vue-mousetrap';
-const Vapor = require('laravel-vapor');
+window.Vapor = require('laravel-vapor');
 
 const myMixin = {};
 

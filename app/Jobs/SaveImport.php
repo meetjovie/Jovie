@@ -57,7 +57,6 @@ class SaveImport implements ShouldQueue
             Excel::import($fileImport, $this->file, 's3', \Maatwebsite\Excel\Excel::CSV); // file is now loaded in results, so don't need it
             $results = $fileImport->data;
             Storage::disk('s3')->delete($this->file);
-
             if (count($results) > 1) {
                 $results = $results->toArray();
                 array_shift($results);
