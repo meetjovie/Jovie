@@ -128,12 +128,17 @@
 
                     <ProgressBar
                       v-if="uploadProgress"
-                      :percentage="uploadProgress" />
-                    <p
-                      v-if="uploadProgress"
-                      class="mx-auto w-full text-center text-xs font-bold text-neutral-400">
-                      {{ uploadProgress }}%
-                    </p>
+                      :percentage="uploadProgress">
+                      <p
+                        v-if="uploadProgress"
+                        class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
+                        :class="[
+                          { 'text-white': uploadProgress > 50 },
+                          { 'text-indigo-700': uploadProgress <= 50 },
+                        ]">
+                        {{ uploadProgress }}%
+                      </p>
+                    </ProgressBar>
                     <p v-if="errors.key" class="mt-2 text-sm text-red-600">
                       {{ errors.key[0] }}
                     </p>

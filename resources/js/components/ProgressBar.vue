@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative h-2 w-full overflow-hidden bg-gray-200"
+    class="relative h-3 w-full overflow-hidden bg-gray-200"
     :class="[{ 'rounded-full': rounded }, { indeterminate: indeterminate }]">
     <div
       class="progressbar h-full"
