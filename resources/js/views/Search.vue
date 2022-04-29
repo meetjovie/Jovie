@@ -77,8 +77,6 @@
                     <div
                       class="sticky top-0 mx-auto w-full items-center text-center">
                       <div class="mx-auto inline-flex w-full items-center">
-                        <ais-clear-refinements ref="clear" />
-
                         <SearchIcon
                           class="mr-1 mt-0.5 inline-flex h-7 w-7 text-gray-400"
                           aria-hidden="true"></SearchIcon>

@@ -33,20 +33,21 @@
           <div class="mt-6">
             <form action="#" method="POST" class="space-y-6">
               <div>
-                <label
-                  for="email"
-                  class="block text-sm font-medium text-gray-700">
-                  Email address
-                </label>
-                <div class="mt-1">
+                <div class="relative mt-1">
                   <input
                     v-model="user.email"
                     id="email"
                     name="email"
                     type="email"
                     autocomplete="email"
+                    placeholder="Email"
                     required=""
-                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                    class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                  <label
+                    for="email"
+                    class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400">
+                    Email address
+                  </label>
                   <p class="mt-2 text-sm text-red-900" v-if="this.errors.email">
                     {{ this.errors.email[0] }}
                   </p>
@@ -54,20 +55,21 @@
               </div>
 
               <div>
-                <label
-                  for="password"
-                  class="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <div class="mt-1">
+                <div class="relative mt-1">
                   <input
                     v-model="user.password"
                     id="password"
                     name="password"
+                    placeholder="Password"
                     type="password"
                     autocomplete="current-password"
                     required=""
-                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                    class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                  <label
+                    for="password"
+                    class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400">
+                    Password
+                  </label>
                   <p
                     class="mt-2 text-sm text-red-900"
                     v-if="this.errors.password">
