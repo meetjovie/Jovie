@@ -53,22 +53,34 @@ class SaveImport implements ShouldQueue
         User::where('id', $this->userId)->increment('queued_count');
 
         try {
-            $fileImport = new ImportFileImport();
-            Excel::import($fileImport, $this->file, 's3', \Maatwebsite\Excel\Excel::CSV); // file is now loaded in results, so don't need it
-            $results = $fileImport->data;
-            Storage::disk('s3')->delete($this->file);
-            if (count($results) > 1) {
-                $results = $results->toArray();
-                array_shift($results);
-
-                $list = UserList::firstOrCreate([
-                    'user_id' => $this->userId,
-                    'name' => $this->listName
-                ], [
-                    'user_id' => $this->userId,
-                    'name' => $this->listName
-                ]);
-                foreach ($results as $k => $row) {
+            $file = fopen(Storage::disk('s3')->url($this->file), 'r');
+            $i = 0;
+            $usStates = [];
+            $user = null;
+            $list = null;
+            while (($row = fgetcsv($file)) !== FALSE) {
+                if ($i == 0) {
+                    $i++;
+                } elseif ($i == 1) {
+                    $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
+                    $user = User::where('id', $this->userId)->first();
+                    $list = UserList::firstOrCreate([
+                        'user_id' => $this->userId,
+                        'name' => $this->listName
+                    ], [
+                        'user_id' => $this->userId,
+                        'name' => $this->listName
+                    ]);
+                    $i++;
+                } else {
+                    $mappedColumns = collect($this->mappedColumns);
+                    $maxColumn = max($mappedColumns->flatten()->toArray());
+                    if (count($row) < $maxColumn) {
+                        $missColumnCount = $maxColumn - count($row);
+                        for ($i=0; $i<=$missColumnCount; $i++) {
+                            array_push($row, null);
+                        }
+                    }
                     $socialHandlers = [
                         'twitch_handler' => isset($this->mappedColumns->twitch) ? $row[$this->mappedColumns->twitch] : null,
                         'onlyFans_handler' => isset($this->mappedColumns->onlyFans) ? $row[$this->mappedColumns->onlyFans] : null,
@@ -90,10 +102,7 @@ class SaveImport implements ShouldQueue
                     }
 
                     // instagram
-                    $user = User::where('id', $this->userId)->first();
-
                     $country = isset($this->mappedColumns->country) ? $row[$this->mappedColumns->country] : null;
-                    $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
                     if (isset($this->mappedColumns->country) && $country && in_array(strtolower(trim($row[$this->mappedColumns->country])), array_map('strtolower', $usStates))) {
                         $country = 'United States';
                     }
@@ -117,9 +126,6 @@ class SaveImport implements ShouldQueue
 
                     if (isset($this->mappedColumns->instagram) && ($user->is_admin || $instaFollowersCount > 5000)) {
                         $import->instagram = $row[$this->mappedColumns->instagram];
-                        if ($import->instagram[0] == '@') {
-                            $import->instagram = substr($import->instagram, 1);
-                        }
                     }
 
                     $youtubeFollowersCount = isset($this->mappedColumns->youtubeFollowersCount) ? $row[$this->mappedColumns->youtubeFollowersCount] : 1001;
@@ -142,6 +148,8 @@ class SaveImport implements ShouldQueue
                     $import->save();
                 }
             }
+            fclose($file);
+            Storage::disk('s3')->delete($this->file);
         } catch (Exception $e) {
             SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine()), [
                 'file' => $this->file,

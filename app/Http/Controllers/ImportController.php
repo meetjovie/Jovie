@@ -11,6 +11,7 @@ use App\Models\Creator;
 use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
+use Aws\S3\S3Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
@@ -24,16 +25,25 @@ class ImportController extends Controller
 
     public function getColumnsFromCsv(Request $request)
     {
-        $headings = (new HeadingRowImport)->toArray($request->input('key'), 's3', \Maatwebsite\Excel\Excel::CSV);
+        $client = new S3Client(array_merge(config('filesystems.disks.s3'), [
+            'version' => 'latest'
+        ]));
+        $client->registerStreamWrapper();
+        $file = fopen('s3://'.(config('filesystems.disks.s3.bucket').'/'.$request->input('key')), 'r');
+        while (($row = fgetcsv($file)) !== FALSE) {
+            $headings = $row;
+            break;
+        }
+        fclose($file);
         if (count($headings)) {
             return collect([
                 'status' => true,
-                'columns' => $headings[0][0]
+                'columns' => $headings
             ]);
         }
         return collect([
             'status' => false,
-            'columns' => $headings[0][0],
+            'columns' => $headings,
             'message' => 'No heading found.'
         ]);
     }
@@ -63,8 +73,8 @@ class ImportController extends Controller
         } catch (\Exception $e) {
             return collect([
                 'status' => false,
-//                'error' => 'Your file is not imported.'
-                'error' => $e->getMessage(). $e->getLine()
+                'ss' => 'Your file is not imported.',
+                'error' => ($e->getMessage(). $e->getLine(). $e->getFile())
             ]);
         }
         return collect([
@@ -80,10 +90,10 @@ class ImportController extends Controller
         $filePath = null;
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->input('key')) {
-            Storage::disk('s3')->copy(
-                ('tmp/'.$request->input('key')),
-               (Creator::CREATORS_CSV_PATH.$request->input('key'))
-            );
+//            Storage::disk('s3')->copy(
+//                ('tmp/'.$request->input('key')),
+//               (Creator::CREATORS_CSV_PATH.$request->input('key'))
+//            );
             $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
             $listName = $request->listName;
             SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
