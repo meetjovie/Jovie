@@ -90,10 +90,10 @@ class ImportController extends Controller
         $filePath = null;
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->input('key')) {
-//            Storage::disk('s3')->copy(
-//                ('tmp/'.$request->input('key')),
-//               (Creator::CREATORS_CSV_PATH.$request->input('key'))
-//            );
+            Storage::disk('s3')->copy(
+                ('tmp/'.$request->input('key')),
+               (Creator::CREATORS_CSV_PATH.$request->input('key'))
+            );
             $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
             $listName = $request->listName;
             SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
