@@ -85,9 +85,9 @@ class User extends Authenticatable
         return env('SLACK_NOTIFICATION_WEBHOOK');
     }
 
-    public function getProfilePicUrlAttribute()
+    public function getProfilePicUrlAttribute($value)
     {
-        return $this->profile_pic_url ?? asset('img/noimage.webp');
+        return $value ?? asset('img/noimage.webp');
     }
 
     public function getDefaultImageAttribute()
