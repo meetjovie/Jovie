@@ -69,8 +69,16 @@ return [
 
         'slack' => [
             'driver' => 'slack',
-            'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
+            'url' => env('SLACK_NOTIFICATION_WEBHOOK'),
+            'username' => 'Import Log',
+            'emoji' => ':information_source:',
+            'level' => env('LOG_LEVEL', 'critical'),
+        ],
+
+        'slack_warning' => [
+            'driver' => 'slack',
+            'url' => env('SLACK_NOTIFICATION_WEBHOOK'),
+            'username' => 'Import Log',
             'emoji' => ':boom:',
             'level' => env('LOG_LEVEL', 'critical'),
         ],

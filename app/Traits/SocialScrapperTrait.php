@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Jobs\SendSlackNotification;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 
 trait SocialScrapperTrait {
@@ -23,13 +24,9 @@ trait SocialScrapperTrait {
                     'timeout' => 50000
                 ]
             ));
-            return json_decode($response->getBody()->getContents());
+            return $response;
         } catch (\Exception $e) {
-            if ($e->getCode() == 402) {
-                Artisan::command('php artisan queue:clear sqs');
-            }
-            SendSlackNotification::dispatch('Error on Instagram Import WEB SCRAPPER API '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine());
-            return null;
+            return $e->getResponse();
         }
     }
 

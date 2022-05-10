@@ -58,8 +58,8 @@ class Test extends Command
      */
     public function handle()
     {
-        $batch = Bus::findBatch('9642d2a1-aa71-4f34-b83d-3d4aadd45d7d');
-        dd(Import::getProgress($batch));
+//        $batch = Bus::findBatch('96448e4a-4372-43cf-980c-47d57465830f');
+//        dd(Import::getProgress($batch));
         $users = User::whereHas('pendingImports')->with('pendingImports')->get();
         foreach ($users as $user) {
             foreach ($user->pendingImports as $import) {
@@ -98,8 +98,7 @@ class Test extends Command
             $tags = implode(',', json_decode($import->tags));
         }
         $batch->add([
-            new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id),
-            new SendSlackNotification('imported instagram user '.$import->instagram)
+            new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id)
         ]);
     }
 

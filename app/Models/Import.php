@@ -40,17 +40,17 @@ class Import extends Model
         $batch = DB::table('job_batches')->where('id', $batch->id)->first();
         if ($batch) {
             $totalExpectedJobs = Import::where('user_list_id', $batch->user_list_id)->count();
-            return $totalExpectedJobs > 0 ? round((self::pendingImports($batch) / $totalExpectedJobs) * 100) : 0;
+            return $totalExpectedJobs > 0 ? round((self::processedImports($batch) / $totalExpectedJobs) * 100) : 0;
         }
 
     }
 
-    public static function pendingImports($batch)
+    public static function processedImports($batch)
     {
         $batch = DB::table('job_batches')->where('id', $batch->id)->first();
         if ($batch) {
-            $totalExpectedJobs = Import::where('user_list_id', $batch->user_list_id)->count();
-            return $totalExpectedJobs - $batch->pending_jobs;
+//            $totalExpectedJobs = Import::where('user_list_id', $batch->user_list_id)->count();
+            return $batch->total_jobs - $batch->pending_jobs;
         }
     }
 

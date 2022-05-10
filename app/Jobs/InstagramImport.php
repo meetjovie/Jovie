@@ -72,20 +72,28 @@ class InstagramImport implements ShouldQueue
         }
         if ($this->username) {
             $response = self::scrapInstagram($this->username);
-            $this->insertIntoDatabase($response);
-        }
-        if ($this->importId) {
+            if ($response->getStatusCode() == 200) {
+                $dataResponse = json_decode($response->getBody()->getContents());
+                if (!is_null($dataResponse) && isset($dataResponse->graphql)) {
+                    $this->insertIntoDatabase($dataResponse);
+                    Log::channel('slack')->info('imported instagram user.', ['username' => $this->username]);
+                } else {
+                    Log::channel('slack_warning')->info('no such profile', ['username' => $this->username]);
+                }
+            } elseif ($response->getStatusCode() == 504) {
+                Log::channel('slack_warning')->info('Timed out for instagram.', ['username' => $this->username]);
+                throw new \ErrorException(('Timed out for username '.$this->username));
+            } else {
+                Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
+            }
+            if ($this->importId) {
 //            Import::deleteImport($this->importId);
-        }
-        try {
+            }
             if ($this->recursive) {
                 foreach ($this->brands as $username) {
                     \App\Jobs\InstagramImport::dispatch($username, null, false, $this->creatorId);
                 }
             }
-        } catch (\Exception $e) {
-            dd($e->getMessage(), $e->getLine(), $e->getFile());
-//            SendSlackNotification::dispatch('Error on Instagram Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine());
         }
     }
 
@@ -139,10 +147,9 @@ class InstagramImport implements ShouldQueue
 
     public function insertIntoDatabase($response)
     {
-        if (!is_null($response) && isset($response->graphql)) {
-            $user = $response->graphql->user;
-            $links = $this->scrapLinkTree($user->external_url);
-            $creator = $this->getOrCreateCreator($links);
+        $user = $response->graphql->user;
+        $links = $this->scrapLinkTree($user->external_url);
+        $creator = $this->getOrCreateCreator($links);
 
 //            // 30 days diff
 //            if (!is_null($creator->instagram_last_scrapped_at)) {
@@ -152,102 +159,101 @@ class InstagramImport implements ShouldQueue
 //                }
 //            }
 
-            if (isset($this->meta['socialHandlers'])) {
-                foreach ($this->meta['socialHandlers'] as $k => $handler) {
-                    if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
-                        $creator[$k] = $handler;
-                    } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
-                        // donot do any thing
-                        // donot do any thing
-                    } elseif ($handler) {
-                        $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
-                    }
+        if (isset($this->meta['socialHandlers'])) {
+            foreach ($this->meta['socialHandlers'] as $k => $handler) {
+                if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
+                    $creator[$k] = $handler;
+                } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
+                    // donot do any thing
+                    // donot do any thing
+                } elseif ($handler) {
+                    $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
                 }
             }
-            $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name) : $creator->first_name;
-            $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name) : $creator->last_name;
-            $creator->city = $creator->city ?? $this->meta['city'] ?? null;
-            $creator->country = $creator->country ?? $this->meta['country'] ?? null;
-            $creator->wiki_id = $creator->wiki_id ?? $this->meta['wikiId'] ?? null;
-            $creator->full_name = $user->full_name;
-            $creator->social_links = $this->addSocialLinksFromLinkTree($links, $creator->social_links);
-            $creator->location = $user->location ?? null;
-            $creator->type = $user->typename ?? 'CREATOR';
-            $creator->tags = $this->getTags($this->tags, $creator);
-            if (!$creator->gender_updated) {
-                // first check if instagram has pronouns check for gender in it
-                // in case not found hit gender api
-                $gender = 'unknown';
-                $genderAccuracy = 0;
-                $pronouns = $user->pronouns;
-                if (count($pronouns ?? [])) {
-                    if (in_array('she', $pronouns) || in_array('her', $pronouns) || in_array('hers', $pronouns)) {
-                        $gender = 'female';
-                        $genderAccuracy = 100;
-                    } elseif (in_array('he', $pronouns) || in_array('him', $pronouns) || in_array('his', $pronouns)) {
-                        $gender = 'male';
-                        $genderAccuracy = 100;
-                    }
-                }
-                if ($gender == 'unknown') {
-                    $genderResponse = self::getUserGender($user->full_name);
-                    $gender = $genderResponse->gender;
-                    $genderAccuracy = $genderResponse->accuracy;
-                }
-                $creator->gender = $gender;
-                $creator->gender_accuracy = $genderAccuracy;
-            }
-
-            $creator->emails = $this->getEmails($user, $creator->emails);
-
-            if (!$creator->instagram_name_updated) {
-                $creator->instagram_name = $this->remove_emoji($user->full_name);
-            }
-            $creator->instagram_handler = $user->username;
-            $creator->account_type = $this->getAccountType($user->is_business_account);
-
-            $creator->instagram_media = $this->getTimelineMedia($user, $creator);
-            $creator->instagram_followers = $this->getFollowers($user);
-            $creator->instagram_category = $user->category_name ?? null;
-
-            $creator->instagram_engagement_rate = $this->getEngagementRate($user);
-            $creator->instagram_biography = $user->biography;
-            $creator->instagram_is_private = $user->is_private;
-            $creator->instagram_is_verified = $user->is_verified;
-
-            // meta
-            $meta['fbid'] = $user->fbid;
-            $meta['engaged_follows'] = $this->getEngagedFollows($creator->instagram_engagement_rate, $creator->instagram_followers);
-            $meta['business_category_name'] = $user->business_category_name ?? null;
-            $meta['has_guides'] = $user->has_guides;
-            $meta['has_channel'] = $user->has_channel;
-            $meta['average_igtv_views'] = 0;
-            $meta['is_joined_recently'] = $user->is_joined_recently;
-            $meta['has_clips'] = $user->has_clips;
-            $averageLikesAndComments = $this->getAverageLikesAndComments($user);
-            $meta['average_comments'] = $averageLikesAndComments['averageComments'];
-            $meta['average_likes'] = $averageLikesAndComments['averageLikes'];
-            $meta['external_url'] = $user->external_url;
-            $meta['profile_pic_url'] = $this->getProfilePicUrl($user, $creator);
-            $meta['average_video_views'] = $this->getAverageVideoView($user);
-            $meta['has_blocked_viewer'] = $user->has_blocked_viewer;
-            $meta['is_business_account'] = $user->is_business_account;
-            $meta['has_ar_effects'] = $user->has_ar_effects;
-            $creator->instagram_meta = ($meta);
-            $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
-            $creator->save();
-            if ($this->listId) {
-                $creator->userLists()->syncWithoutDetaching($this->listId);
-            }
-            if ($this->userId) {
-                $creator->crms()->syncWithoutDetaching($this->userId);
-            }
-            if ($this->parentCreator && $creator->account_type == 'BRAND') {
-                $parentCreator = Creator::where('id', $this->parentCreator)->first();
-                $parentCreator->brands()->syncWithoutDetaching($creator->id);
-            }
-            $this->creatorId = $creator->id;
         }
+        $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name) : $creator->first_name;
+        $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name) : $creator->last_name;
+        $creator->city = $creator->city ?? $this->meta['city'] ?? null;
+        $creator->country = $creator->country ?? $this->meta['country'] ?? null;
+        $creator->wiki_id = $creator->wiki_id ?? $this->meta['wikiId'] ?? null;
+        $creator->full_name = $user->full_name;
+        $creator->social_links = $this->addSocialLinksFromLinkTree($links, $creator->social_links);
+        $creator->location = $user->location ?? null;
+        $creator->type = $user->typename ?? 'CREATOR';
+        $creator->tags = $this->getTags($this->tags, $creator);
+        if (!$creator->gender_updated) {
+            // first check if instagram has pronouns check for gender in it
+            // in case not found hit gender api
+            $gender = 'unknown';
+            $genderAccuracy = 0;
+            $pronouns = $user->pronouns;
+            if (count($pronouns ?? [])) {
+                if (in_array('she', $pronouns) || in_array('her', $pronouns) || in_array('hers', $pronouns)) {
+                    $gender = 'female';
+                    $genderAccuracy = 100;
+                } elseif (in_array('he', $pronouns) || in_array('him', $pronouns) || in_array('his', $pronouns)) {
+                    $gender = 'male';
+                    $genderAccuracy = 100;
+                }
+            }
+            if ($gender == 'unknown') {
+                $genderResponse = self::getUserGender($user->full_name);
+                $gender = $genderResponse->gender;
+                $genderAccuracy = $genderResponse->accuracy;
+            }
+            $creator->gender = $gender;
+            $creator->gender_accuracy = $genderAccuracy;
+        }
+
+        $creator->emails = $this->getEmails($user, $creator->emails);
+
+        if (!$creator->instagram_name_updated) {
+            $creator->instagram_name = $this->remove_emoji($user->full_name);
+        }
+        $creator->instagram_handler = $user->username;
+        $creator->account_type = $this->getAccountType($user->is_business_account);
+
+        $creator->instagram_media = $this->getTimelineMedia($user, $creator);
+        $creator->instagram_followers = $this->getFollowers($user);
+        $creator->instagram_category = $user->category_name ?? null;
+
+        $creator->instagram_engagement_rate = $this->getEngagementRate($user);
+        $creator->instagram_biography = $user->biography;
+        $creator->instagram_is_private = $user->is_private;
+        $creator->instagram_is_verified = $user->is_verified;
+
+        // meta
+        $meta['fbid'] = $user->fbid;
+        $meta['engaged_follows'] = $this->getEngagedFollows($creator->instagram_engagement_rate, $creator->instagram_followers);
+        $meta['business_category_name'] = $user->business_category_name ?? null;
+        $meta['has_guides'] = $user->has_guides;
+        $meta['has_channel'] = $user->has_channel;
+        $meta['average_igtv_views'] = 0;
+        $meta['is_joined_recently'] = $user->is_joined_recently;
+        $meta['has_clips'] = $user->has_clips;
+        $averageLikesAndComments = $this->getAverageLikesAndComments($user);
+        $meta['average_comments'] = $averageLikesAndComments['averageComments'];
+        $meta['average_likes'] = $averageLikesAndComments['averageLikes'];
+        $meta['external_url'] = $user->external_url;
+        $meta['profile_pic_url'] = $this->getProfilePicUrl($user, $creator);
+        $meta['average_video_views'] = $this->getAverageVideoView($user);
+        $meta['has_blocked_viewer'] = $user->has_blocked_viewer;
+        $meta['is_business_account'] = $user->is_business_account;
+        $meta['has_ar_effects'] = $user->has_ar_effects;
+        $creator->instagram_meta = ($meta);
+        $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
+        $creator->save();
+        if ($this->listId) {
+            $creator->userLists()->syncWithoutDetaching($this->listId);
+        }
+        if ($this->userId) {
+            $creator->crms()->syncWithoutDetaching($this->userId);
+        }
+        if ($this->parentCreator && $creator->account_type == 'BRAND') {
+            $parentCreator = Creator::where('id', $this->parentCreator)->first();
+            $parentCreator->brands()->syncWithoutDetaching($creator->id);
+        }
+        $this->creatorId = $creator->id;
     }
 
     public function scrapLinkTree($url)
