@@ -2,14 +2,22 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\InstagramImport;
+use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
+use App\Models\Import;
+use App\Models\User;
 use Aws\S3\S3Client;
+use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use League\Csv\Statement;
+use Throwable;
 use function Clue\StreamFilter\fun;
 
 class Test extends Command
@@ -19,7 +27,7 @@ class Test extends Command
      *
      * @var string
      */
-    protected $signature = 'test {path} {page=1}';
+    protected $signature = 'test';
 
     /**
      * The console command description.
@@ -50,58 +58,76 @@ class Test extends Command
      */
     public function handle()
     {
-        //        $url = 'https://jovie-production-store.s3.amazonaws.com/public/creators_csv/f2afcb9f-6d43-42c9-a30f-b3bfdc3a8058';
-
-        $ecode = base64_encode(json_encode(['s' => 3]));
-        $decode = base64_decode($ecode);
-        dd(json_decode($decode));
-        $this->page = $this->argument('page');
-        $this->path = $this->argument('path');
-        Log::info($this->page);
-        dump($this->page);
-        dump($this->path);
-        $stream = $this->getStream($this->path);
-        $reader = Reader::createFromStream($stream);
-
-        if ($this->page == 1) {
-            $totalRecords = $reader->count();
-
-            for ($page=0; $page<ceil($totalRecords/self::PER_PAGE); $page++) {
-                $path = $this->path;
-                $command = "php artisan test $path $page";
-
-                // Spawn the command in the background.
-                Artisan::command($command, function () {});
-//                exec($command . ' > /dev/null 2>&1 & echo $!');
-            }
-        } else {
-            $records = $this->records($reader, $this->page);
-            foreach ($records as $offset => $record) {
-                //$offset : represents the record offset
-                dump($this->page);
+        $batch = Bus::findBatch('9642d2a1-aa71-4f34-b83d-3d4aadd45d7d');
+        dd(Import::getProgress($batch));
+        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
+        foreach ($users as $user) {
+            foreach ($user->pendingImports as $import) {
+                $batch = $this->getBatch($import);
+                if ($import->instagram && $import->instagram_scrapped != 1) {
+                    // trigger instagram import
+                    $this->triggerInstagramImport($import, $batch);
+                }
             }
         }
     }
 
-    public function records($reader, $page)
+    public function triggerInstagramImport($import, $batch)
     {
-        return (new Statement)
-            ->offset($page * self::PER_PAGE)
-            ->limit(self::PER_PAGE)
-            ->process($reader);
+        $socialHandlers = [
+            'twitch_handler' => $import->twitch,
+            'onlyFans_handler' => $import->onlyFans,
+            'snapchat_handler' => $import->snapchat,
+            'linkedin_handler' => $import->linkedin,
+            'youtube_handler' => $import->youtube,
+            'twitter_handler' => $import->twitter,
+            'tiktok_handler' => $import->tiktok,
+            'instagram_handler' => $import->instagram,
+        ];
+        $meta = [
+            'emails' => $import->emails,
+            'firstName' => $import->first_name,
+            'lastName' => $import->last_name,
+            'city' => $import->city,
+            'country' => $import->country,
+            'wikiId' => $import->wikiId,
+            'socialHandlers' => $socialHandlers
+        ];
+        $tags = null;
+        if ($import->tags && json_decode($import->tags)) {
+            $tags = implode(',', json_decode($import->tags));
+        }
+        $batch->add([
+            new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id),
+            new SendSlackNotification('imported instagram user '.$import->instagram)
+        ]);
     }
 
-    public function getStream($path)
+    public function getBatch($import)
     {
-        $client = new S3Client(array_merge(config('filesystems.disks.s3'), [
-            'version' => 'latest'
-        ]));
-        $client->registerStreamWrapper();
-        // Now we can use the s3:// protocol.
-        $path = ('s3://' . config('filesystems.disks.s3.bucket') . '/' . $path);
-        // Return the stream.
-        return fopen($path, 'r', false, stream_context_create([
-            's3' => ['seekable' => true]
-        ]));
+        $batch = DB::table('job_batches')->where('user_list_id', $import->user_list_id)->first();
+        if (is_null($batch)) {
+            $batch = Bus::batch([
+            ])->then(function (Batch $batch) {
+
+                Log::info('All jobs completed successfully...');
+
+            })->catch(function (Batch $batch, Throwable $e) {
+
+                Log::info('First batch job failure detected...');
+
+            })->finally(function (Batch $batch) {
+
+                Log::info('The batch has finished executing...');
+
+            })->allowFailures()->dispatch();
+
+            DB::table('job_batches')->where('id', $batch->id)->update([
+                'user_list_id' => $import->user_list_id
+            ]);
+        } else {
+            $batch = Bus::findBatch($batch->id);
+        }
+        return $batch;
     }
 }

@@ -99,4 +99,9 @@ class User extends Authenticatable
     {
         return $this->first_name.' '.$this->last_name;
     }
+
+    public function pendingImports()
+    {
+        return $this->hasMany(Import::class)->orderByDesc('created_at')->limit(100);
+    }
 }

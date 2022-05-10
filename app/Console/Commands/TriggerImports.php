@@ -5,10 +5,13 @@ namespace App\Console\Commands;
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Import;
+use App\Models\User;
 use App\Models\UserList;
+use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
 
 class TriggerImports extends Command
 {
@@ -43,6 +46,30 @@ class TriggerImports extends Command
      */
     public function handle()
     {
+        // get first 100 importrs for each user in pipeline
+        // if which networks it has
+        // dispath job in bus for each available network
+
+        $users = User::with('pendingImports')->get();
+
+        dd($users);
+
+        $imports =
+        $batch = Bus::batch([
+            new \App\Jobs\Test(),
+            new \App\Jobs\Test(),
+            new \App\Jobs\Test(),
+            new \App\Jobs\Test(),
+            new \App\Jobs\Test(),
+        ])->then(function (Batch $batch) {
+            // All jobs completed successfully...
+            Log::info('finsh');
+        })->catch(function (Batch $batch, Throwable $e) {
+            // First batch job failure detected...
+        })->finally(function (Batch $batch) {
+            // The batch has finished executing...
+        })->dispatch();
+
         SendSlackNotification::dispatch('NEW IMPORT SCHEDULED START');
 
         $imports = Import::get();

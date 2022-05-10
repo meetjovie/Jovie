@@ -13,6 +13,7 @@ use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -28,7 +29,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class InstagramImport implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, SocialScrapperTrait, GeneralTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, SocialScrapperTrait, GeneralTrait, Batchable;
 
     private $username;
     private $tags;
@@ -66,17 +67,17 @@ class InstagramImport implements ShouldQueue
      */
     public function handle()
     {
+        if (is_null($this->platformUser)) {
+            return;
+        }
+        if ($this->username) {
+            $response = self::scrapInstagram($this->username);
+            $this->insertIntoDatabase($response);
+        }
+        if ($this->importId) {
+//            Import::deleteImport($this->importId);
+        }
         try {
-            if (is_null($this->platformUser)) {
-                return;
-            }
-            if ($this->username) {
-                $response = self::scrapInstagram($this->username);
-                $this->insertIntoDatabase($response);
-            }
-            if ($this->importId) {
-                Import::where('id', $this->importId)->delete();
-            }
             if ($this->recursive) {
                 foreach ($this->brands as $username) {
                     \App\Jobs\InstagramImport::dispatch($username, null, false, $this->creatorId);
