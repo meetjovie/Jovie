@@ -334,13 +334,13 @@
         id="main">
         <div class="h-full">
           <div class="h-full">
-              <AlertBanner
-                  v-if="currentUser.queued_count"
-                  design="primary"
-                  mobiletitle="Your subscribtion is inactive"
-                  title="Your imports are in progress"
-                  :cta="`There are a total of ${currentUser.queued_count} imports in progress. Once they are done, we would soon start scrapping them.`"
-                   />
+            <AlertBanner
+              v-if="currentUser.queued_count"
+              design="primary"
+              :mobiletitle="`Importing ${currentUser.queued_count} items.`"
+              :title="`Importing ${currentUser.queued_count}  items.`"
+              :cta="`View`"
+              ctaLink="/contacts" />
             <router-view></router-view>
           </div>
         </div>
@@ -380,7 +380,7 @@ import {
   PopoverGroup,
 } from '@headlessui/vue';
 import SwitchTeams from '../components/SwitchTeams.vue';
-import AlertBanner from "../components/AlertBanner";
+import AlertBanner from '../components/AlertBanner';
 
 export default {
   name: 'App',
@@ -444,7 +444,7 @@ export default {
     PopoverPanel,
     PopoverGroup,
     SupportIcon,
-      AlertBanner
+    AlertBanner,
   },
 };
 </script>

@@ -8,7 +8,7 @@
         </h3>
         <p v-if="subtitle" class="mt-1 text-xs text-gray-500">{{ subtitle }}</p>
       </div>
-      <div class="ml-4 mt-4 flex-shrink-0">
+      <div v-if="buttontext" class="ml-4 mt-4 flex-shrink-0">
         <ButtonGroup
           :style="buttonstyle"
           :icon="buttonicon"

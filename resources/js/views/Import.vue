@@ -5,7 +5,7 @@
       class="container mx-auto mt-6 max-w-3xl py-12 px-4 sm:px-6 lg:px-8">
       <div>
         <div class="space-y-6">
-          <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+          <!-- <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
             <div class="md:grid md:grid-cols-3 md:gap-6">
               <div class="md:col-span-1">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -88,61 +88,6 @@
                     </p>
                   </div>
 
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                      Upload list
-                    </label>
-                    <div
-                      class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                      <div class="space-y-1 text-center">
-                        <svg
-                          class="mx-auto h-12 w-12 text-gray-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="true">
-                          <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        </svg>
-                        <div class="flex text-sm text-gray-600">
-                          <label
-                            for="file-upload"
-                            class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500">
-                            <span>Upload a file</span>
-                            <input
-                              id="file-upload"
-                              name="file-upload"
-                              ref="file_upload"
-                              type="file"
-                              @change="getColumnsFromCsv()"
-                              class="sr-only" />
-                          </label>
-                          <p class="pl-1">or drag and drop</p>
-                        </div>
-                        <p class="text-xs text-gray-500">CSV</p>
-                      </div>
-                    </div>
-
-                    <ProgressBar
-                      v-if="uploadProgress"
-                      :percentage="uploadProgress">
-                      <p
-                        v-if="uploadProgress"
-                        class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
-                        :class="[
-                          { 'text-white': uploadProgress > 50 },
-                          { 'text-indigo-700': uploadProgress <= 50 },
-                        ]">
-                        {{ uploadProgress }}%
-                      </p>
-                    </ProgressBar>
-                    <p v-if="errors.key" class="mt-2 text-sm text-red-600">
-                      {{ errors.key[0] }}
-                    </p>
-                  </div>
                   <SwitchGroup
                     as="div"
                     class="flex items-center justify-between">
@@ -171,15 +116,120 @@
                 </form>
               </div>
             </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">
+                Upload list
+              </label>
+              <div
+                class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                <div class="space-y-1 text-center">
+                  <svg
+                    class="mx-auto h-12 w-12 text-gray-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true">
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  <div class="flex text-sm text-gray-600">
+                    <label
+                      for="file-upload"
+                      class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500">
+                      <span>Upload a file</span>
+                      <input
+                        id="file-upload"
+                        name="file-upload"
+                        ref="file_upload"
+                        type="file"
+                        @change="getColumnsFromCsv()"
+                        class="sr-only" />
+                    </label>
+                    <p class="pl-1">or drag and drop</p>
+                  </div>
+                  <p class="text-xs text-gray-500">CSV</p>
+                </div>
+              </div>
+
+              <ProgressBar v-if="uploadProgress" :percentage="uploadProgress">
+                <p
+                  v-if="uploadProgress"
+                  class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
+                  :class="[
+                    { 'text-white': uploadProgress > 50 },
+                    { 'text-indigo-700': uploadProgress <= 50 },
+                  ]">
+                  {{ uploadProgress }}%
+                </p>
+              </ProgressBar>
+              <p v-if="errors.key" class="mt-2 text-sm text-red-600">
+                {{ errors.key[0] }}
+              </p>
+            </div>
+          </div> -->
+          <div class="min-h-screen items-center py-12">
+            <label class="sr-only block text-sm font-medium text-gray-700">
+              Upload list
+            </label>
+
+            <div
+              @dragcenter.prevent="toggelActive"
+              @dragleave.prevent="toggleActive"
+              @dragover.prevent
+              @drop.prevent="toggleActive"
+              :class="{ 'bg-indigo-100': active }"
+              class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 py-12 hover:border-gray-400">
+              <div class="space-y-1 text-center">
+                <CloudUploadIcon
+                  class="mx-auto h-12 w-12 text-neutral-200 group-hover:text-gray-400" />
+                <div class="flex text-sm text-gray-600">
+                  <label
+                    for="file-upload"
+                    class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md bg-neutral-100 font-medium text-indigo-600 hover:text-indigo-500">
+                    <span>Upload a file</span>
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      ref="file_upload"
+                      type="file"
+                      @change="getColumnsFromCsv()"
+                      class="sr-only" />
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs text-gray-500">CSV</p>
+              </div>
+            </div>
+
+            <ProgressBar
+              class="mt-4"
+              v-if="uploadProgress"
+              :percentage="uploadProgress">
+              <p
+                v-if="uploadProgress"
+                class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
+                :class="[
+                  { 'text-white': uploadProgress > 50 },
+                  { 'text-indigo-700': uploadProgress <= 50 },
+                ]">
+                {{ uploadProgress }}%
+              </p>
+            </ProgressBar>
+            <p v-if="errors.key" class="mt-2 text-sm text-red-600">
+              {{ errors.key[0] }}
+            </p>
           </div>
-          <div class="flex justify-end">
+          <!--  <div class="flex justify-end">
             <button
               :disabled="importing"
               @click="finishImport({})"
               class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               Import
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -204,6 +254,8 @@ import ImportColumnMatching from '../components/Import/ImportColumnMatching.vue'
 import ImportService from '../services/api/import.service';
 import UserService from '../services/api/user.service';
 import ProgressBar from '../components/ProgressBar.vue';
+import draggable from 'vuedraggable';
+import { CloudUploadIcon } from '@heroicons/vue/solid';
 
 export default {
   name: 'Import',
@@ -214,6 +266,8 @@ export default {
     SwitchLabel,
     ImportColumnMatching,
     ProgressBar,
+    draggable,
+    CloudUploadIcon,
   },
   data() {
     return {
@@ -221,6 +275,8 @@ export default {
       showMapping: false,
       columns: [],
       errors: [],
+      active: false,
+      drag: false,
       importSet: {
         instagram: null,
         youtube: null,
@@ -237,6 +293,9 @@ export default {
     this.getUserLists();
   },
   methods: {
+    toggleActive() {
+      this.active = !this.active;
+    },
     getUserLists() {
       UserService.getUserLists().then((response) => {
         response = response.data;
