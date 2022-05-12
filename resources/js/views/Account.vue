@@ -44,11 +44,6 @@
                   Notifications
                 </TabPanel>
               </TabPanels>
-              <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
-                  Plan (Coming soon)
-                </TabPanel>
-              </TabPanels>
 
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
@@ -65,7 +60,6 @@
               </TabPanels>
             </TabGroup>
           </div>
-
         </div>
       </div>
     </div>
@@ -126,7 +120,6 @@ const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
   { name: 'Notifications', href: '#', current: false },
-  { name: 'Plan', href: '#', current: false },
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
 ];

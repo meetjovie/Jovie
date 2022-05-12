@@ -389,13 +389,13 @@ export default {
       errors: [],
       user: this.$store.state.AuthState.user,
       nav: [
-        { name: 'Admin', route: '/admin', icon: CheckCircleIcon },
+        /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
         { name: 'Search', route: '/discovery', icon: SearchIcon },
         { name: 'Contacts', route: '/contacts', icon: UserGroupIcon },
         { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon },
         { name: 'Import', route: '/import', icon: CloudUploadIcon },
-        { name: 'Settings', route: '/account', icon: CogIcon },
+        /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [
         { name: 'Profile', route: '/', icon: UserGroupIcon },
