@@ -9,11 +9,12 @@
         <p v-if="subtitle" class="mt-1 text-xs text-gray-500">{{ subtitle }}</p>
       </div>
       <div v-if="buttontext" class="ml-4 mt-4 flex-shrink-0">
-        <ButtonGroup
-          :buttonlink="buttonlink"
-          :design="buttonstyle"
-          :icon="buttonicon"
-          :text="buttontext" />
+        <a :href="buttonlink">
+          <ButtonGroup
+            :design="buttonstyle"
+            :icon="buttonicon"
+            :text="buttontext" />
+        </a>
       </div>
     </div>
   </div>
