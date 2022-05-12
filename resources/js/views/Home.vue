@@ -1,9 +1,9 @@
 <template>
   <div>
     <main>
-      <div class="overflow-y-hidden">
+      <div class="min-h-screen">
         <div
-          class="flex w-full flex-col-reverse items-center justify-center py-12 sm:py-24 md:flex-col md:py-40">
+          class="mt-24 flex w-full flex-col-reverse items-center justify-center py-24 sm:mt-0 sm:py-24 md:flex-col md:py-40">
           <img
             :src="asset('img/External/bgImg.webp')"
             class="mt-6 hidden w-full object-fill object-center md:mt-0 xl:block"
@@ -14,7 +14,7 @@
             alt="background image" />
           <div class="absolute flex flex-col items-center justify-center px-4">
             <h1
-              class="text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl xl:text-6xl">
+              class="text-center text-4xl font-extrabold tracking-tight text-gray-900 sm:text-3xl md:text-5xl xl:text-6xl">
               <span class="inline">Scale your</span>
               {{ ' ' }}
               <span class="inline text-indigo-700">creator</span>
@@ -23,7 +23,7 @@
               <span class="inline"> partnerships</span>
             </h1>
             <p
-              class="mx-auto mt-3 max-w-md text-center text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
+              class="mx-auto mt-8 max-w-md text-center text-base text-gray-500 sm:mt-3 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
               <span class="font-bold">Easily </span>
               {{ ' ' }}
               <span class="font-bold text-indigo-600">build</span>,
@@ -33,8 +33,7 @@
                 >creator communities</span
               >.
             </p>
-            <div
-              class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
+            <div class="mx-auto mt-8 flex max-w-md justify-center md:mt-5">
               <div class="rounded-md">
                 <div class="mt-8 h-20 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
                   <div class="sm:flex">
