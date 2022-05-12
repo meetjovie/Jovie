@@ -10,7 +10,8 @@
       </div>
       <div v-if="buttontext" class="ml-4 mt-4 flex-shrink-0">
         <ButtonGroup
-          :style="buttonstyle"
+          :buttonlink="buttonlink"
+          :design="buttonstyle"
           :icon="buttonicon"
           :text="buttontext" />
       </div>
@@ -18,7 +19,7 @@
   </div>
 </template>
 <script>
-import ButtonGroup from './ButtonGroup.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 export default {
   name: 'CardHeading',
@@ -34,13 +35,17 @@ export default {
       type: String,
       default: null,
     },
+    buttonlink: {
+      type: String,
+      default: null,
+    },
     buttontext: {
       type: String,
       default: null,
     },
     buttonstyle: {
       type: String,
-      default: null,
+      default: 'primary',
     },
     buttonicon: {
       type: String,
