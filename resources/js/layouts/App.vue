@@ -301,24 +301,28 @@
                       :key="dropdownmenuitem"
                       as="router-link"
                       :to="dropdownmenuitem.route"
-                      class="first-rounded-t-mdtext-neutral-700 inline-flex w-full px-4 py-2 text-xs hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component
-                        class="mr-4 h-4 w-4"
-                        :is="dropdownmenuitem.icon">
-                      </component>
-                      <router-link :to="dropdownmenuitem.route">
+                      <router-link
+                        class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                        :to="dropdownmenuitem.route">
+                        <component
+                          class="mr-4 h-4 w-4 cursor-pointer"
+                          :is="dropdownmenuitem.icon">
+                        </component>
+
                         {{ dropdownmenuitem.name }}
                       </router-link>
                     </div>
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
-                      class="inline-flex w-full rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component class="mr-4 h-4 w-4" is="CogIcon"> </component>
+                      <component class="mr-4 h-4 w-4" is="LogoutIcon">
+                      </component>
                       Sign out
                     </div>
                   </PopoverPanel>
