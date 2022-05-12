@@ -1,10 +1,16 @@
 <template>
   <ais-menu-select searchable attribute="instagram_category">
     <template v-slot="{ items, refine, sendEvent }">
-      <select @change="refine($event.currentTarget.value)">
-        <option class="w-full" value="">All</option>
+      <select
+        class="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md border border-neutral-400 outline-none ring-0 focus:outline-none sm:text-xs"
+        @change="refine($event.currentTarget.value)">
         <option
-          class="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md bg-white/90 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-xs"
+          class="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md bg-white/60 py-1 text-base shadow-lg backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none sm:text-xs"
+          value="">
+          Filter by Category
+        </option>
+        <option
+          class="absolute mt-1 w-40 overflow-auto rounded-md bg-white/60 py-1 text-base shadow-lg backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none sm:text-xs"
           v-for="item in items"
           :key="item.value"
           :value="item.value"
