@@ -78,6 +78,15 @@ class Import extends Model
         ]));
     }
 
+    public static function markNetworksAsScrapped($importId, array $networks)
+    {
+        $scrapped = [];
+        foreach ($networks as $network) {
+            $scrapped[$network.'_scrapped'] = 1;
+        }
+        return Import::where('id', $importId)->update($scrapped);
+    }
+
     public static function deleteImport($importId)
     {
         $import = Import::where('id', $importId)->first();
@@ -85,8 +94,8 @@ class Import extends Model
             if (
                 $import->instagram && $import->instagram_scrapped
             ) {
-                Log::info('deelte '.$importId);
-//                $import->delete();
+//                Log::info('deelte '.$importId);
+                $import->delete();
             }
         }
     }

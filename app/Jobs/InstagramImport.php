@@ -31,6 +31,8 @@ class InstagramImport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, SocialScrapperTrait, GeneralTrait, Batchable;
 
+    public $tries = 3;
+
     private $username;
     private $tags;
     private $recursive;
@@ -76,18 +78,29 @@ class InstagramImport implements ShouldQueue
                 $dataResponse = json_decode($response->getBody()->getContents());
                 if (!is_null($dataResponse) && isset($dataResponse->graphql)) {
                     $this->insertIntoDatabase($dataResponse);
+                    if ($this->importId) {
+                        Import::markNetworksAsScrapped($this->importId, ['instagram']);
+                        Import::deleteImport($this->importId);
+                    }
                     Log::channel('slack')->info('imported instagram user.', ['username' => $this->username]);
                 } else {
+                    if ($this->importId) {
+                        Import::markNetworksAsScrapped($this->importId, ['instagram']);
+                        Import::deleteImport($this->importId);
+                    }
                     Log::channel('slack_warning')->info('no such profile', ['username' => $this->username]);
                 }
             } elseif ($response->getStatusCode() == 504) {
+                if ($this->attempts() < $this->tries) {
+                    $this->release('15');
+                }
                 Log::channel('slack_warning')->info('Timed out for instagram.', ['username' => $this->username]);
                 throw new \ErrorException(('Timed out for username '.$this->username));
             } else {
+                if ($this->attempts() < $this->tries) {
+                    $this->release('15');
+                }
                 Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
-            }
-            if ($this->importId) {
-//            Import::deleteImport($this->importId);
             }
             if ($this->recursive) {
                 foreach ($this->brands as $username) {

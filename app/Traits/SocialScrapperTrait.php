@@ -21,7 +21,7 @@ trait SocialScrapperTrait {
                     'api_key' => config('import.scrapper_api_key'),
                     'url' => $url,
                     'proxy' => 'residential',
-                    'timeout' => 50000
+                    'timeout' => 5
                 ]
             ));
             return $response;
