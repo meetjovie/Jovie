@@ -102,6 +102,6 @@ class User extends Authenticatable
 
     public function pendingImports()
     {
-        return $this->hasMany(Import::class)->orderByDesc('created_at')->limit(100);
+        return $this->hasMany(Import::class)->orderByDesc('created_at')->limit(2);
     }
 }

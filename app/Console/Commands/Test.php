@@ -10,6 +10,7 @@ use App\Models\User;
 use Aws\S3\S3Client;
 use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
+use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +59,9 @@ class Test extends Command
      */
     public function handle()
     {
-//        $batch = Bus::findBatch('96448e4a-4372-43cf-980c-47d57465830f');
+//        $job = DB::table('jobs')->where('id', 158)->first();
+//        dd($job->getRawBody());
+//        $batch = Bus::findBatch('964b685c-2e3e-4fe3-a05b-6e9e29432cdf');
 //        dd(Import::getProgress($batch));
         $users = User::whereHas('pendingImports')->with('pendingImports')->get();
         foreach ($users as $user) {
@@ -122,7 +125,8 @@ class Test extends Command
             })->allowFailures()->dispatch();
 
             DB::table('job_batches')->where('id', $batch->id)->update([
-                'user_list_id' => $import->user_list_id
+                'user_list_id' => $import->user_list_id,
+                'initial_total_in_file' => Import::where('user_list_id', $import->user_list_id)->count()
             ]);
         } else {
             $batch = Bus::findBatch($batch->id);

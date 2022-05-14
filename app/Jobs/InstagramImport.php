@@ -31,6 +31,7 @@ class InstagramImport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, SocialScrapperTrait, GeneralTrait, Batchable;
 
+    public $name = 'instagram_import';
     public $tries = 3;
 
     private $username;
@@ -69,38 +70,48 @@ class InstagramImport implements ShouldQueue
      */
     public function handle()
     {
+        dd($this->job->getName());
         if (is_null($this->platformUser)) {
             return;
         }
         if ($this->username) {
-            $response = self::scrapInstagram($this->username);
-            if ($response->getStatusCode() == 200) {
-                $dataResponse = json_decode($response->getBody()->getContents());
-                if (!is_null($dataResponse) && isset($dataResponse->graphql)) {
-                    $this->insertIntoDatabase($dataResponse);
-                    if ($this->importId) {
-                        Import::markNetworksAsScrapped($this->importId, ['instagram']);
-                        Import::deleteImport($this->importId);
+            try {
+                $response = self::scrapInstagram($this->username);
+                if ($response->getStatusCode() == 200) {
+                    $dataResponse = json_decode($response->getBody()->getContents());
+                    if (!is_null($dataResponse) && isset($dataResponse->graphql)) {
+                        $this->insertIntoDatabase($dataResponse);
+                        if ($this->importId) {
+                            Import::markNetworksAsScrapped($this->importId, ['instagram']);
+                            Import::deleteImport($this->importId);
+                        }
+                        Log::channel('slack')->info('imported instagram user.', ['username' => $this->username]);
+                    } else {
+                        if ($this->importId) {
+                            Import::markNetworksAsScrapped($this->importId, ['instagram']);
+                            Import::deleteImport($this->importId);
+                        }
+                        Log::channel('slack_warning')->info('no such profile', ['username' => $this->username]);
                     }
-                    Log::channel('slack')->info('imported instagram user.', ['username' => $this->username]);
+                } elseif ($response->getStatusCode() == 504) {
+                    if ($this->attempts() < $this->tries) {
+                        $this->release(30);
+                    } else {
+                        Log::channel('slack_warning')->info('Timed out for instagram.', ['username' => $this->username]);
+                    }
                 } else {
-                    if ($this->importId) {
-                        Import::markNetworksAsScrapped($this->importId, ['instagram']);
-                        Import::deleteImport($this->importId);
+                    if ($this->attempts() < $this->tries) {
+                        $this->release(30);
+                    } else {
+                        Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
                     }
-                    Log::channel('slack_warning')->info('no such profile', ['username' => $this->username]);
                 }
-            } elseif ($response->getStatusCode() == 504) {
+            } catch (\Exception $e) {
                 if ($this->attempts() < $this->tries) {
-                    $this->release('15');
+                    $this->release(30);
+                } else {
+                    Log::channel('slack_warning')->info('internal error', ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
                 }
-                Log::channel('slack_warning')->info('Timed out for instagram.', ['username' => $this->username]);
-                throw new \ErrorException(('Timed out for username '.$this->username));
-            } else {
-                if ($this->attempts() < $this->tries) {
-                    $this->release('15');
-                }
-                Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
             }
             if ($this->recursive) {
                 foreach ($this->brands as $username) {
