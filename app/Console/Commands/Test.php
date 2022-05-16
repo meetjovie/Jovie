@@ -8,6 +8,7 @@ use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
 use Aws\S3\S3Client;
+use Carbon\Carbon;
 use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Queue\Jobs\Job;
@@ -59,12 +60,9 @@ class Test extends Command
      */
     public function handle()
     {
-//        $job = DB::table('jobs')->where('id', 158)->first();
-//        dd($job->getRawBody());
-//        $batch = Bus::findBatch('964b685c-2e3e-4fe3-a05b-6e9e29432cdf');
-//        dd(Import::getProgress($batch));
         $users = User::whereHas('pendingImports')->with('pendingImports')->get();
         foreach ($users as $user) {
+            dd($user->pendingImports->pluck('id')->toArray());
             foreach ($user->pendingImports as $import) {
                 $batch = $this->getBatch($import);
                 if ($import->instagram && $import->instagram_scrapped != 1) {
@@ -72,7 +70,6 @@ class Test extends Command
                     $this->triggerInstagramImport($import, $batch);
                 }
             }
-            Import::whereIn('id', $user->pendingImports->pluck('id')->toArray())->delete();
         }
     }
 
@@ -123,7 +120,7 @@ class Test extends Command
 
                 Log::info('The batch has finished executing...');
 
-            })->allowFailures()->dispatch();
+            })->allowFailures()->onConnection('instagram')->dispatch();
 
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'user_list_id' => $import->user_list_id,

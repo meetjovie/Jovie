@@ -13,5 +13,8 @@ export default {
         return axios.post(`${baseApiUrl}/import`, data, {
             headers: await store.dispatch('headers', {'Content-Type': 'multipart/form-data'})
         })
+    },
+    async getImportBatches() {
+        return axios.get(`${baseApiUrl}/import-batches`)
     }
 }

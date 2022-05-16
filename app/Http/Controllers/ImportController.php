@@ -8,12 +8,14 @@ use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
+use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\HeadingRowImport;
 use function collect;
@@ -142,5 +144,23 @@ class ImportController extends Controller
             ]);
             FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }
+    }
+
+    public function getImportBatches()
+    {
+        $userListIds = UserList::where('user_id', Auth::id())->pluck('id')->toArray();
+        $batches = DB::table('job_batches')
+            ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
+            ->select('job_batches.*', 'user_lists.name')
+            ->whereIn('user_list_id', $userListIds)
+            ->get();
+        foreach ($batches as &$batch) {
+            $batch->progress = Import::getProgress($batch);
+            unset($batch->options);
+        }
+        return response()->json([
+            'status' => true,
+            'batches' => $batches
+        ], 200);
     }
 }

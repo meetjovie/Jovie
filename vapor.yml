@@ -48,3 +48,6 @@ environments:
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
       - 'npm ci && npm run prod && rm -rf node_modules'
+    queues:
+      - default
+      - instagram

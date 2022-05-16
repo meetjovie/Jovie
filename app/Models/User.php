@@ -102,6 +102,11 @@ class User extends Authenticatable
 
     public function pendingImports()
     {
-        return $this->hasMany(Import::class)->orderByDesc('created_at')->where('dispatched', '!=', 1)->limit(2);
+        return $this->hasMany(Import::class)->orderByDesc('created_at')
+            ->where('dispatched', '!=', 1)
+            ->where(function ($q) {
+                $q->where('instagram_scrapped', '!=', 1);
+            })
+            ->limit(2);
     }
 }
