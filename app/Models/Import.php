@@ -39,8 +39,7 @@ class Import extends Model
     {
         $batch = DB::table('job_batches')->where('id', $batch->id)->first();
         if ($batch) {
-            $totalExpectedJobs = Import::where('user_list_id', $batch->user_list_id)->count();
-            return $totalExpectedJobs > 0 ? round((self::processedImports($batch) / $totalExpectedJobs) * 100) : 0;
+            return $batch->initial_total_count > 0 ? round((self::processedImports($batch) / $batch->initial_total_count) * 100) : 0;
         }
     }
 
@@ -48,8 +47,12 @@ class Import extends Model
     {
         $batch = DB::table('job_batches')->where('id', $batch->id)->first();
         if ($batch) {
-            $totalExpectedJobs = Import::where('user_list_id', $batch->user_list_id)->count();
-            return $totalExpectedJobs - $batch->pending_jobs;
+            $processedJobs = $batch->total_jobs - $batch->pending_jobs;
+            if ($processedJobs == 0) {
+                return $batch->total_jobs;
+            } else {
+                return $batch->total_jobs - $batch->pending_jobs;
+            }
         }
     }
 

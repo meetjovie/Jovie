@@ -3,10 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Creator;
-use App\Models\CreatorSocialLink;
 use App\Models\Crm;
 use App\Models\Import;
-use App\Models\SocialInfo;
 use App\Models\User;
 use App\Notifications\ImportNotification;
 use App\Traits\GeneralTrait;
@@ -20,6 +18,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -64,14 +63,22 @@ class InstagramImport implements ShouldQueue
     }
 
     /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+//    public function middleware() {
+//        return [new RateLimited('instagramImport')];
+//    }
+
+    /**
      * Execute the job.
      *
      * @return void
      */
     public function handle()
     {
-        dd($this->job->getName());
-        if (is_null($this->platformUser)) {
+        if (is_null($this->platformUser) || $this->batch()->cancelled()) {
             return;
         }
         if ($this->username) {
@@ -95,20 +102,20 @@ class InstagramImport implements ShouldQueue
                     }
                 } elseif ($response->getStatusCode() == 504) {
                     if ($this->attempts() < $this->tries) {
-                        $this->release(30);
+                        $this->release(10);
                     } else {
                         Log::channel('slack_warning')->info('Timed out for instagram.', ['username' => $this->username]);
                     }
                 } else {
                     if ($this->attempts() < $this->tries) {
-                        $this->release(30);
+                        $this->release(10);
                     } else {
                         Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
                     }
                 }
             } catch (\Exception $e) {
                 if ($this->attempts() < $this->tries) {
-                    $this->release(30);
+                    $this->release(10);
                 } else {
                     Log::channel('slack_warning')->info('internal error', ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
                 }

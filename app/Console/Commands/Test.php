@@ -72,6 +72,7 @@ class Test extends Command
                     $this->triggerInstagramImport($import, $batch);
                 }
             }
+            Import::whereIn('id', $user->pendingImports->pluck('id')->toArray())->delete();
         }
     }
 
@@ -101,7 +102,7 @@ class Test extends Command
             $tags = implode(',', json_decode($import->tags));
         }
         $batch->add([
-            new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id)
+            (new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
         ]);
     }
 
