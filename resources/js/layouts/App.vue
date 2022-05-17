@@ -449,7 +449,6 @@ import {
 import SwitchTeams from '../components/SwitchTeams.vue';
 import AlertBanner from '../components/AlertBanner';
 import ImportService from '../services/api/import.service';
-import NotificationsMenu from '../components/NotificationsMenu';
 import ProgressBar from '../components/ProgressBar';
 
 export default {
