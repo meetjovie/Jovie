@@ -531,7 +531,6 @@ export default {
     PopoverGroup,
     SupportIcon,
     AlertBanner,
-    NotificationsMenu,
   },
 };
 </script>
