@@ -241,12 +241,12 @@
                     leave-from-class="opacity-100 translate-y-0"
                     leave-to-class="opacity-0 translate-y-1">
                     <PopoverPanel
-                      class="absolute left-1/2 z-10 mt-3 w-screen max-w-xs -translate-x-1/2 transform px-2 sm:px-0">
+                      class="absolute left-0 z-10 mt-3 w-screen max-w-xs -translate-x-full transform px-2 sm:px-0">
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div
-                          class="relative grid gap-6 bg-white px-1 py-6 sm:gap-8">
+                          class="relative grid gap-6 bg-white px-1 py-2 sm:gap-8">
                           <div
                             as="div"
                             class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 first:pt-3"
@@ -255,33 +255,29 @@
                             v-for="batch in batches"
                             :key="batch.id">
                             <router-link
-                              to="/account"
+                              to="/imports"
                               class="group 0 block flex-shrink-0">
                               <div class="flex items-center">
                                 <div>
                                   <component
-                                    class="mr-4 h-4 w-4"
+                                    class="mx-auto h-5 w-5 text-neutral-400"
                                     :is="'CloudUploadIcon'">
                                   </component>
                                 </div>
-                                <div class="ml-3">
+                                <div class="ml-3 w-full">
                                   <p
                                     class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
                                     {{ batch.name }}
                                   </p>
-                                  <div class="grid grid-cols-2">
+                                  <div class="w-full">
                                     <p
-                                      class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                                      total: {{ batch.initial_total_in_file }}
-                                    </p>
-                                    <p
-                                      class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                                      progress: {{ batch.progress }} %
+                                      class="text-xs font-medium text-gray-500">
+                                      Total: {{ batch.initial_total_in_file }}
                                     </p>
                                   </div>
-                                  <progress-bar
+                                  <ProgressBar
                                     :progress="batch.progress"
-                                    class="w-full" />
+                                    class="mx-auto w-full" />
                                 </div>
                               </div>
                             </router-link>
@@ -480,6 +476,7 @@ export default {
         { name: 'Feedback', route: 'Account', icon: SpeakerphoneIcon },
       ],
       isShowing: false,
+      isLoading: false,
       batches: [],
     };
   },
