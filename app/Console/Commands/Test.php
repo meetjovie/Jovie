@@ -62,9 +62,8 @@ class Test extends Command
     {
         $users = User::whereHas('pendingImports')->with('pendingImports')->get();
         foreach ($users as $user) {
-            dd($user->pendingImports->pluck('id')->toArray());
             foreach ($user->pendingImports as $import) {
-                $batch = $this->getBatch($import);
+                $batch = $import->getBatch($import);
                 if ($import->instagram && $import->instagram_scrapped != 1) {
                     // trigger instagram import
                     $this->triggerInstagramImport($import, $batch);
@@ -101,34 +100,5 @@ class Test extends Command
         $batch->add([
             (new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
         ]);
-    }
-
-    public function getBatch($import)
-    {
-        $batch = DB::table('job_batches')->where('user_list_id', $import->user_list_id)->first();
-        if (is_null($batch)) {
-            $batch = Bus::batch([
-            ])->then(function (Batch $batch) {
-
-                Log::info('All jobs completed successfully...');
-
-            })->catch(function (Batch $batch, Throwable $e) {
-
-                Log::info('First batch job failure detected...');
-
-            })->finally(function (Batch $batch) {
-
-                Log::info('The batch has finished executing...');
-
-            })->allowFailures()->onConnection('instagram')->dispatch();
-
-            DB::table('job_batches')->where('id', $batch->id)->update([
-                'user_list_id' => $import->user_list_id,
-                'initial_total_in_file' => Import::where('user_list_id', $import->user_list_id)->count()
-            ]);
-        } else {
-            $batch = Bus::findBatch($batch->id);
-        }
-        return $batch;
     }
 }

@@ -75,6 +75,7 @@ export default {
                 'twitter',
                 'onlyFans',
                 'twitch',
+                'twitchId',
                 'tiktok',
                 'linkedin',
                 'snapchat',

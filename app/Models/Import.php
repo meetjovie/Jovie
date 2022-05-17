@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Aws\S3\S3Client;
+use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use League\Csv\Statement;
+use Throwable;
 
 class Import extends Model
 {
@@ -39,16 +43,14 @@ class Import extends Model
     {
         $batch = DB::table('job_batches')->where('id', $batch->id)->first();
         if ($batch) {
-            return $batch->initial_total_in_file > 0 ? round((self::processedImports($batch) / $batch->initial_total_in_file) * 100) : 0;
+            return $batch->initial_total_in_file > 0 ? round((self::processedImports($batch, $batch->user_list_id) / $batch->initial_total_in_file) * 100) : 0;
         }
     }
 
-    public static function processedImports($batch)
+    public static function processedImports($batch, $userListId)
     {
-        $batch = DB::table('job_batches')->where('id', $batch->id)->first();
-        if ($batch) {
-            return $batch->total_jobs - $batch->pending_jobs;
-        }
+        $remainingInList = UserList::where('id', $userListId)->count();
+        return $batch->initial_total_in_file - ($batch->initial_total_in_file - $remainingInList);
     }
 
     public function getEmailsAttribute($value)
@@ -95,5 +97,42 @@ class Import extends Model
                 $import->delete();
             }
         }
+    }
+
+    public function getBatch()
+    {
+        $batch = DB::table('job_batches')->where('user_list_id', $this->user_list_id)->first();
+        if (is_null($batch)) {
+            $batch = Bus::batch([
+            ])->then(function (Batch $batch) {
+
+                Log::info('All jobs completed successfully...');
+
+            })->catch(function (Batch $batch, Throwable $e) {
+
+                Log::info('First batch job failure detected...');
+
+            })->finally(function (Batch $batch) {
+
+                Log::info('The batch has finished executing...');
+
+            })->allowFailures()->onConnection('instagram')->dispatch();
+
+            DB::table('job_batches')->where('id', $batch->id)->update([
+                'user_list_id' => $this->user_list_id,
+                'initial_total_in_file' => Import::where('user_list_id', $this->user_list_id)->count()
+            ]);
+        } else {
+            $batch = Bus::findBatch($batch->id);
+        }
+        return $batch;
+    }
+
+    public static function records($reader, $page, $limit = Import::PER_PAGE)
+    {
+        return (new Statement)
+            ->offset($page * $limit)
+            ->limit($limit)
+            ->process($reader);
     }
 }

@@ -37,11 +37,11 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(1);
         });
 
-        Queue::looping(function ($queue) {
-            \Illuminate\Support\Facades\Log::info($queue->queue);
-            if ($queue->queue == 'default') {
-                return false;
-            }
-        });
+//        Queue::looping(function ($queue) {
+//            \Illuminate\Support\Facades\Log::info($queue->queue);
+//            if ($queue->queue == 'default') {
+//                return false;
+//            }
+//        });
     }
 }

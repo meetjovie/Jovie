@@ -9,7 +9,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use League\Csv\Reader;
-use League\Csv\Statement;
 
 class SaveImportChunk extends Command
 {
@@ -51,7 +50,7 @@ class SaveImportChunk extends Command
 
             $stream = Import::getStream($path);
             $reader = Reader::createFromStream($stream);
-            $records = $this->records($reader, $page);
+            $records = Import::records($reader, $page);
 
             $list = UserList::firstOrCreate([
                 'user_id' => $payload->userId,
@@ -84,6 +83,7 @@ class SaveImportChunk extends Command
 
                 $socialHandlers = [
                     'twitch_handler' => isset($payload->mappedColumns->twitch) ? $row[$payload->mappedColumns->twitch] : null,
+                    'twitch_id' => isset($payload->mappedColumns->twitchId) ? $row[$payload->mappedColumns->twitchId] : null,
                     'onlyFans_handler' => isset($payload->mappedColumns->onlyFans) ? $row[$payload->mappedColumns->onlyFans] : null,
                     'snapchat_handler' => isset($payload->mappedColumns->snapchat) ? $row[$payload->mappedColumns->snapchat] : null,
                     'linkedin_handler' => isset($payload->mappedColumns->linkedin) ? $row[$payload->mappedColumns->linkedin] : null,
@@ -137,6 +137,7 @@ class SaveImportChunk extends Command
 
                 $data['twitter'] = isset($payload->mappedColumns->twitter) ? $row[$payload->mappedColumns->twitter] : null;
                 $data['twitch'] = isset($payload->mappedColumns->twitch) ? $row[$payload->mappedColumns->twitch] : null;
+                $data['twitch_id'] = isset($payload->mappedColumns->twitchId) ? $row[$payload->mappedColumns->twitchId] : null;
                 $data['onlyFans'] = isset($payload->mappedColumns->onlyFans) ? $row[$payload->mappedColumns->onlyFans] : null;
                 $data['tiktok'] = isset($payload->mappedColumns->tiktok) ? $row[$payload->mappedColumns->tiktok] : null;
                 $data['linkedin'] = isset($payload->mappedColumns->linkedin) ? $row[$payload->mappedColumns->linkedin] : null;
@@ -154,13 +155,5 @@ class SaveImportChunk extends Command
         } catch (\Exception $e) {
             Log::info($e->getMessage().' = '.$e->getLine());
         }
-    }
-
-    public function records($reader, $page)
-    {
-        return (new Statement)
-            ->offset($page * Import::PER_PAGE)
-            ->limit(Import::PER_PAGE)
-            ->process($reader);
     }
 }

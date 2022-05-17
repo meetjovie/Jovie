@@ -50,60 +50,46 @@ class TriggerImports extends Command
         // if which networks it has
         // dispath job in bus for each available network
 
-        $users = User::with('pendingImports')->get();
-
-        dd($users);
-
-        $imports =
-        $batch = Bus::batch([
-            new \App\Jobs\Test(),
-            new \App\Jobs\Test(),
-            new \App\Jobs\Test(),
-            new \App\Jobs\Test(),
-            new \App\Jobs\Test(),
-        ])->then(function (Batch $batch) {
-            // All jobs completed successfully...
-            Log::info('finsh');
-        })->catch(function (Batch $batch, Throwable $e) {
-            // First batch job failure detected...
-        })->finally(function (Batch $batch) {
-            // The batch has finished executing...
-        })->dispatch();
-
-        SendSlackNotification::dispatch('NEW IMPORT SCHEDULED START');
-
-        $imports = Import::get();
-        foreach ($imports as $import) {
-            $socialHandlers = [
-                'twitch_handler' => $import->twitch,
-                'onlyFans_handler' => $import->onlyFans,
-                'snapchat_handler' => $import->snapchat,
-                'linkedin_handler' => $import->linkedin,
-                'youtube_handler' => $import->youtube,
-                'twitter_handler' => $import->twitter,
-                'tiktok_handler' => $import->tiktok,
-                'instagram_handler' => $import->instagram,
-            ];
-            $meta = [
-                'emails' => $import->emails,
-                'firstName' => $import->first_name,
-                'lastName' => $import->last_name,
-                'city' => $import->city,
-                'country' => $import->country,
-                'wikiId' => $import->wikiId,
-                'socialHandlers' => $socialHandlers
-            ];
-            $tags = null;
-            if ($import->tags && json_decode($import->tags)) {
-                $tags = implode(',', json_decode($import->tags));
-            }
-            if ($import->instagram) {
-                Bus::chain([
-                    new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id),
-                    new SendSlackNotification('imported instagram user '.$import->instagram)
-                ])->dispatch();
+        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
+        foreach ($users as $user) {
+            foreach ($user->pendingImports as $import) {
+                $batch = $import->getBatch();
+                if ($import->instagram && $import->instagram_scrapped != 1) {
+                    // trigger instagram import
+                    $this->triggerInstagramImport($import, $batch);
+                }
             }
         }
-        SendSlackNotification::dispatch('NEW IMPORT SCHEDULED END');
+    }
+
+    public function triggerInstagramImport($import, $batch)
+    {
+        $socialHandlers = [
+            'twitch_handler' => $import->twitch,
+            'twitch_id' => $import->twitch_id,
+            'onlyFans_handler' => $import->onlyFans,
+            'snapchat_handler' => $import->snapchat,
+            'linkedin_handler' => $import->linkedin,
+            'youtube_handler' => $import->youtube,
+            'twitter_handler' => $import->twitter,
+            'tiktok_handler' => $import->tiktok,
+            'instagram_handler' => $import->instagram,
+        ];
+        $meta = [
+            'emails' => $import->emails,
+            'firstName' => $import->first_name,
+            'lastName' => $import->last_name,
+            'city' => $import->city,
+            'country' => $import->country,
+            'wikiId' => $import->wikiId,
+            'socialHandlers' => $socialHandlers
+        ];
+        $tags = null;
+        if ($import->tags && json_decode($import->tags)) {
+            $tags = implode(',', json_decode($import->tags));
+        }
+        $batch->add([
+            (new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
+        ]);
     }
 }

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\HeadingRowImport;
+use League\Csv\Reader;
 use function collect;
 
 class ImportController extends Controller
@@ -26,16 +26,18 @@ class ImportController extends Controller
 
     public function getColumnsFromCsv(Request $request)
     {
-        $headings = (new HeadingRowImport)->toArray($request->input('key'), 's3', \Maatwebsite\Excel\Excel::CSV);
-        if (count($headings)) {
+        $stream = Import::getStream($request->input('key'));
+        $reader = Reader::createFromStream($stream);
+        $records = Import::records($reader, 0, 1);
+        if (count($records)) {
             return collect([
                 'status' => true,
-                'columns' => $headings[0][0]
+                'columns' => $records->getRecords()->current()
             ]);
         }
         return collect([
             'status' => false,
-            'columns' => $headings[0][0],
+            'columns' => [],
             'message' => 'No heading found.'
         ]);
     }
@@ -51,10 +53,7 @@ class ImportController extends Controller
                 if ($instagram[0] == '@') {
                     $instagram = substr($instagram, 1);
                 }
-                Bus::chain([
-                    new InstagramImport($instagram, $request->tags, true, null, null, null, Auth::user()->id),
-                    new SendSlackNotification('imported instagram user '.$instagram)
-                ])->dispatch();
+                InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id);
             }
         }
         $file = null;
