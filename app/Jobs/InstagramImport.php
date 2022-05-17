@@ -78,9 +78,18 @@ class InstagramImport implements ShouldQueue
      */
     public function handle()
     {
+        $creator = Creator::where('instagram_handler', $this->username)->first();
+        // 30 days diff
+        if ($creator && !is_null($creator->instagram_last_scrapped_at)) {
+            $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
+            if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+                return;
+            }
+        }
         if (is_null($this->platformUser) || $this->batch()->cancelled()) {
             return;
         }
+
         if ($this->username) {
             try {
                 $response = self::scrapInstagram($this->username);
@@ -181,14 +190,6 @@ class InstagramImport implements ShouldQueue
         $user = $response->graphql->user;
         $links = $this->scrapLinkTree($user->external_url);
         $creator = $this->getOrCreateCreator($links);
-
-//            // 30 days diff
-//            if (!is_null($creator->instagram_last_scrapped_at)) {
-//                $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
-//                if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-//                    return;
-//                }
-//            }
 
         if (isset($this->meta['socialHandlers'])) {
             foreach ($this->meta['socialHandlers'] as $k => $handler) {
