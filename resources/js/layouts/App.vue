@@ -246,7 +246,7 @@
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div
-                          class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                          class="relative grid gap-6 bg-white px-1 py-6 sm:gap-8">
                           <div
                             as="div"
                             class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 first:pt-3"
@@ -269,15 +269,19 @@
                                     class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
                                     {{ batch.name }}
                                   </p>
-
-                                  <p
-                                    class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                                    total: {{ batch.initial_total_in_file }}
-                                  </p>
-                                  <p
-                                    class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                                    progress: {{ batch.progress }} %
-                                  </p>
+                                  <div class="grid grid-cols-2">
+                                    <p
+                                      class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                                      total: {{ batch.initial_total_in_file }}
+                                    </p>
+                                    <p
+                                      class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                                      progress: {{ batch.progress }} %
+                                    </p>
+                                  </div>
+                                  <progress-bar
+                                    :progress="batch.progress"
+                                    class="w-full" />
                                 </div>
                               </div>
                             </router-link>
@@ -450,6 +454,7 @@ import SwitchTeams from '../components/SwitchTeams.vue';
 import AlertBanner from '../components/AlertBanner';
 import ImportService from '../services/api/import.service';
 import NotificationsMenu from '../components/NotificationsMenu';
+import ProgressBar from '../components/ProgressBar';
 
 export default {
   name: 'App',
@@ -508,6 +513,7 @@ export default {
     MenuItem,
     MenuItems,
     ChatAltIcon,
+    ProgressBar,
     SearchIcon,
     BellIcon,
     SpeakerphoneIcon,
