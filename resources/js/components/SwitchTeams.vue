@@ -21,7 +21,7 @@
       leave-from-class="transform scale-100 opacity-100"
       leave-to-class="transform scale-95 opacity-0">
       <PopoverPanel
-        class="-middle-24 absolute mt-4 w-40 origin-bottom-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+        class="middle-0 absolute mt-14 w-40 origin-bottom-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
         <div class="">
           <div
             class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">

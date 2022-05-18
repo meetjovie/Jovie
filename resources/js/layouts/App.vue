@@ -157,7 +157,67 @@
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
                 Upgrade
               </div>
-              <SwitchTeams />
+              <Popover>
+                <PopoverButton class="group inline-flex items-center">
+                  <span
+                    class="-mt-1.5 items-center text-xs font-bold text-neutral-400 group-hover:text-neutral-500">
+                    {{
+                      currentUser.current_team
+                        ? currentUser.current_team.name
+                        : 'Select a team'
+                    }}
+                  </span>
+                  <ChevronDownIcon
+                    class="ml-1 -mt-1.5 h-4 w-4 text-neutral-400 group-hover:text-neutral-500" />
+                </PopoverButton>
+
+                <transition
+                  enter-active-class="transition duration-100 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-75 ease-in"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0">
+                  <PopoverPanel
+                    class="-middle-32 absolute mt-4 w-40 origin-bottom-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                    <div class="">
+                      <div
+                        class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">
+                        Your teams:
+                      </div>
+                      <div
+                        v-if="currentUser.teams"
+                        v-for="team in currentUser.teams">
+                        <button
+                          @click="switchTeam(team.id)"
+                          class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
+                          :class="[
+                            active
+                              ? 'bg-white px-1 py-2 font-bold text-indigo-700'
+                              : 'text-sm text-gray-500',
+                            'group flex w-full items-center px-2 py-2 text-xs',
+                          ]">
+                          <ChevronRightIcon
+                            :active="active"
+                            class="mr-1 h-4 w-4 text-indigo-400 group-hover:text-white"
+                            aria-hidden="true" />
+                          {{ team.name }}
+                        </button>
+                      </div>
+                      <div class="mx-auto w-full">
+                        <button
+                          class="group mx-auto flex w-full items-center rounded-b-md px-1 py-1 text-xs font-bold text-neutral-400 hover:bg-indigo-700 hover:text-white">
+                          Add Team
+                          <PlusIcon
+                            :active="active"
+                            class="ml-1 h-3 w-3 font-bold text-indigo-400 group-hover:text-white"
+                            aria-hidden="true" />
+                        </button>
+                      </div>
+                    </div>
+                  </PopoverPanel>
+                </transition>
+              </Popover>
               <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
@@ -216,8 +276,8 @@
                   </transition>
                 </Popover>
               </PopoverGroup>
-
-              <PopoverGroup v-if="batches.length">
+              <!-- v-if="batches.length" -->
+              <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
                     as="div"
@@ -434,11 +494,14 @@ import {
   MailIcon,
   ChartBarIcon,
   ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDownIcon,
   CheckCircleIcon,
   CloudUploadIcon,
   LogoutIcon,
   UserGroupIcon,
   FolderOpenIcon,
+  PlusIcon,
   CogIcon,
   BellIcon,
   CursorClickIcon,
@@ -457,7 +520,7 @@ import {
   PopoverPanel,
   PopoverGroup,
 } from '@headlessui/vue';
-import SwitchTeams from '../components/SwitchTeams.vue';
+import TeamService from '../services/api/team.service';
 import AlertBanner from '../components/AlertBanner';
 import ImportService from '../services/api/import.service';
 import ProgressBar from '../components/ProgressBar';
@@ -505,6 +568,14 @@ export default {
         }
       });
     },
+    switchTeam(id) {
+      TeamService.switchTeam(id).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.$store.commit('switchTeam', response.team);
+        }
+      });
+    },
   },
   computed: {
     currentRouteName() {
@@ -534,9 +605,11 @@ export default {
     FolderOpenIcon,
     CogIcon,
     ChevronLeftIcon,
+    ChevronDownIcon,
     LogoutIcon,
     SwitchHorizontalIcon,
-    SwitchTeams,
+    ChevronRightIcon,
+    PlusIcon,
     Popover,
     PopoverButton,
     PopoverPanel,
