@@ -217,7 +217,7 @@
               </PopoverGroup>
               <NotificationsMenu :batches="batches" />
 
-              <PopoverGroup>
+              <PopoverGroup v-if="batches.length">
                 <Popover as="div" class="relative">
                   <PopoverButton
                     as="div"
@@ -480,7 +480,8 @@ export default {
     };
   },
   mounted() {
-    setInterval(() => {
+      this.getImportBatches();
+      setInterval(() => {
       this.getImportBatches();
     }, 5000);
   },
