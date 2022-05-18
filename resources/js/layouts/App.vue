@@ -245,8 +245,7 @@
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div
-                          class="relative grid gap-6 bg-white px-1 py-2 sm:gap-8">
+                        <div class="relative gap-6 bg-white px-1 py-2 sm:gap-8">
                           <div class="mx-auto w-full">
                             <p
                               class="mx-auto border-b text-xs font-bold text-neutral-400">
@@ -271,7 +270,7 @@
                                     :is="'CloudUploadIcon'">
                                   </component>
                                 </div>
-                                <div class="ml-3 w-full">
+                                <div class="ml-3 w-60">
                                   <p
                                     class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
                                     {{ batch.name }}
@@ -487,8 +486,8 @@ export default {
     };
   },
   mounted() {
-      this.getImportBatches();
-      setInterval(() => {
+    this.getImportBatches();
+    setInterval(() => {
       this.getImportBatches();
     }, 5000);
   },
