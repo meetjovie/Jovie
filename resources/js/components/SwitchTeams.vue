@@ -30,12 +30,12 @@
           <div v-if="currentUser.teams" v-for="team in currentUser.teams">
             <button
               @click="switchTeam(team.id)"
-              class="group px-1 py-1 text-sm font-medium hover:bg-indigo-500 hover:text-white"
+              class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
               :class="[
                 active
                   ? 'bg-white px-1 py-2 font-bold text-indigo-700'
-                  : 'text-gray-600',
-                'group flex w-full items-center px-2 py-2 text-sm  last:rounded-b-md',
+                  : 'text-sm text-gray-500',
+                'group flex w-full items-center px-2 py-2 text-xs  last:rounded-b-md',
               ]">
               <ChevronRightIcon
                 :active="active"
