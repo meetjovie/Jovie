@@ -33,6 +33,11 @@ export const routes = [
       layout: 'App',
       requiresAuth: true,
     },
+    children: [
+      {
+        path: 'team',
+      },
+    ],
   },
   {
     name: 'Dashboard',

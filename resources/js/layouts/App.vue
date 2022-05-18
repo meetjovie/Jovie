@@ -160,7 +160,7 @@
               <Popover>
                 <PopoverButton class="group inline-flex items-center">
                   <span
-                    class="-mt-1.5 items-center text-xs font-bold text-neutral-400 group-hover:text-neutral-500">
+                    class="z-20 -mt-1.5 items-center text-xs font-bold text-neutral-400 group-hover:text-neutral-500">
                     {{
                       currentUser.current_team
                         ? currentUser.current_team.name
@@ -172,14 +172,14 @@
                 </PopoverButton>
 
                 <transition
-                  enter-active-class="transition duration-100 ease-out"
+                  enter-active-class="transition duration-150 ease-out"
                   enter-from-class="transform scale-95 opacity-0"
                   enter-to-class="transform scale-100 opacity-100"
-                  leave-active-class="transition duration-75 ease-in"
+                  leave-active-class="transition duration-150 ease-out"
                   leave-from-class="transform scale-100 opacity-100"
                   leave-to-class="transform scale-95 opacity-0">
                   <PopoverPanel
-                    class="-middle-32 absolute mt-4 w-40 origin-bottom-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                    class="absolute right-40 z-10 mt-3 w-40 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                     <div class="">
                       <div
                         class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">
@@ -204,15 +204,18 @@
                           {{ team.name }}
                         </button>
                       </div>
-                      <div class="mx-auto w-full">
-                        <button
-                          class="group mx-auto flex w-full items-center rounded-b-md px-1 py-1 text-xs font-bold text-neutral-400 hover:bg-indigo-700 hover:text-white">
-                          Add Team
-                          <PlusIcon
-                            :active="active"
-                            class="ml-1 h-3 w-3 font-bold text-indigo-400 group-hover:text-white"
-                            aria-hidden="true" />
-                        </button>
+                      <div class="mx-auto w-full text-center">
+                        <router-link
+                          to="/account/team"
+                          class="group mx-auto flex w-full items-center rounded-b-md border-t px-4 py-1 text-center text-xs font-bold text-neutral-400 hover:bg-indigo-700 hover:text-white">
+                          <div class="mx-auto inline-flex items-center">
+                            Add Team
+                            <PlusIcon
+                              :active="active"
+                              class="ml-1 h-3 w-3 font-bold text-neutral-400 group-hover:text-white"
+                              aria-hidden="true" />
+                          </div>
+                        </router-link>
                       </div>
                     </div>
                   </PopoverPanel>
@@ -245,7 +248,7 @@
                       as="div"
                       active=""
                       id="profileDropdown"
-                      class="absolute right-0 z-10 mt-4 w-40 origin-top-right rounded-lg bg-white shadow-lg shadow-xl ring-1 ring-black ring-opacity-5"
+                      class="absolute right-0 z-10 mt-3 w-40 origin-top-right rounded-lg bg-white shadow-lg shadow-xl ring-1 ring-black ring-opacity-5"
                       role="menu"
                       aria-orientation="vertical"
                       aria-labelledby="user-menu-button"
@@ -257,7 +260,7 @@
                         :key="helpmenuitem"
                         as="router-link"
                         :to="helpmenuitem.route"
-                        class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 first:rounded-t-md hover:bg-indigo-700 hover:text-white"
+                        class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-500 first:rounded-t-md hover:bg-indigo-700 hover:text-white"
                         role="menuitem"
                         tabindex="-1">
                         <component class="mr-4 h-4 w-4" :is="helpmenuitem.icon">
@@ -268,7 +271,7 @@
                       </div>
                       <div
                         onclick="Chattrigger"
-                        class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white">
+                        class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-500 hover:bg-indigo-700 hover:text-white">
                         <ChatAltIcon class="mr-4 h-4 w-4" />
                         Chat
                       </div>
@@ -294,14 +297,14 @@
                   </PopoverButton>
 
                   <transition
-                    enter-active-class="transition ease-out duration-200"
-                    enter-from-class="opacity-0 translate-y-1"
-                    enter-to-class="opacity-100 translate-y-0"
-                    leave-active-class="transition ease-in duration-150"
-                    leave-from-class="opacity-100 translate-y-0"
-                    leave-to-class="opacity-0 translate-y-1">
+                    enter-active-class="transition duration-150 ease-out"
+                    enter-from-class="transform scale-95 opacity-0"
+                    enter-to-class="transform scale-100 opacity-100"
+                    leave-active-class="transition duration-150 ease-out"
+                    leave-from-class="transform scale-100 opacity-100"
+                    leave-to-class="transform scale-95 opacity-0">
                     <PopoverPanel
-                      class="absolute left-0 z-10 mt-3 w-screen max-w-xs -translate-x-full transform px-2 sm:px-0">
+                      class="absolute left-6 z-10 mt-2 w-screen max-w-xs -translate-x-full transform px-2 sm:px-0">
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
@@ -452,7 +455,7 @@
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
-                      class="inline-flex w-full rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
                       <component
