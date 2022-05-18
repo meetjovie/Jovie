@@ -248,7 +248,7 @@
                         <div class="relative gap-6 bg-white px-1 py-2 sm:gap-8">
                           <div class="mx-auto w-full">
                             <p
-                              class="mx-auto border-b text-xs font-bold text-neutral-400">
+                              class="mx-auto border-b px-2 text-xs font-bold text-neutral-400">
                               Notifications
                             </p>
                           </div>
