@@ -21,24 +21,25 @@
       leave-from-class="transform scale-100 opacity-100"
       leave-to-class="transform scale-95 opacity-0">
       <PopoverPanel
-        class="-middle-24 rbackdrop-blur-xl absolute mt-4 w-40 origin-bottom-left rounded-md bg-white/90 shadow-lg backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+        class="-middle-24 absolute mt-4 w-40 origin-bottom-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
         <div class="">
-          <div class="px-2 py-1 text-xs font-medium text-neutral-400">
+          <div
+            class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">
             Your teams:
           </div>
           <div v-if="currentUser.teams" v-for="team in currentUser.teams">
             <button
               @click="switchTeam(team.id)"
-              class="px-1 py-1 text-sm font-medium hover:bg-indigo-500 hover:text-white"
+              class="group px-1 py-1 text-sm font-medium hover:bg-indigo-500 hover:text-white"
               :class="[
                 active
                   ? 'bg-white px-1 py-2 font-bold text-indigo-700'
-                  : 'text-gray-900',
-                'group flex w-full items-center px-2 py-2 text-sm first:rounded-t-md last:rounded-b-md',
+                  : 'text-gray-600',
+                'group flex w-full items-center px-2 py-2 text-sm  last:rounded-b-md',
               ]">
               <ChevronRightIcon
                 :active="active"
-                class="mr-2 h-5 w-5 text-indigo-400"
+                class="mr-1 h-5 w-5 text-indigo-400 group-hover:text-white"
                 aria-hidden="true" />
               {{ team.name }}
             </button>

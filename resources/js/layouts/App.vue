@@ -151,6 +151,7 @@
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
               <div
+                v-if="!currentUser.current_team.current_subscription"
                 as="router-link"
                 to="/account"
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
@@ -184,7 +185,7 @@
                       as="div"
                       active=""
                       id="profileDropdown"
-                      class="absolute right-0 z-10 mt-4 w-40 origin-top-right rounded-md bg-white/60 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                      class="absolute right-0 z-10 mt-4 w-40 origin-top-right rounded-lg bg-white shadow-lg shadow-xl ring-1 ring-black ring-opacity-5"
                       role="menu"
                       aria-orientation="vertical"
                       aria-labelledby="user-menu-button"
@@ -196,7 +197,7 @@
                         :key="helpmenuitem"
                         as="router-link"
                         :to="helpmenuitem.route"
-                        class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 first:pt-3 hover:bg-indigo-700 hover:text-white"
+                        class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 first:rounded-t-md hover:bg-indigo-700 hover:text-white"
                         role="menuitem"
                         tabindex="-1">
                         <component class="mr-4 h-4 w-4" :is="helpmenuitem.icon">
@@ -207,7 +208,7 @@
                       </div>
                       <div
                         onclick="Chattrigger"
-                        class="inline-flex w-full cursor-pointer px-4 pt-2 pb-3 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white">
+                        class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white">
                         <ChatAltIcon class="mr-4 h-4 w-4" />
                         Chat
                       </div>
@@ -215,7 +216,6 @@
                   </transition>
                 </Popover>
               </PopoverGroup>
-              <NotificationsMenu :batches="batches" />
 
               <PopoverGroup v-if="batches.length">
                 <Popover as="div" class="relative">
@@ -246,11 +246,15 @@
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div class="relative gap-6 bg-white px-1 py-2 sm:gap-8">
-                          <div class="mx-auto w-full">
-                            <p
-                              class="mx-auto border-b px-2 text-xs font-bold text-neutral-400">
+                          <div
+                            class="mx-auto inline-flex w-full items-center border-b pb-1">
+                            <p class="px-2 text-xs font-bold text-neutral-400">
                               Notifications
                             </p>
+                            <span
+                              class="inline-flex items-center rounded bg-indigo-100 px-1 py-0 text-2xs font-medium text-indigo-800">
+                              5
+                            </span>
                           </div>
 
                           <div
@@ -330,7 +334,7 @@
                     as="div"
                     active=""
                     id="profileDropdown"
-                    class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                    class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
@@ -344,7 +348,7 @@
                       id="user-menu-item-0">
                       <router-link
                         to="/account"
-                        class="group 0 block flex-shrink-0">
+                        class="group 0 block flex-shrink-0 cursor-pointer">
                         <div class="flex items-center">
                           <div>
                             <img
@@ -362,8 +366,7 @@
                               {{ currentUser.last_name }}
                             </p>
 
-                            <p
-                              class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                            <p class="text-xs font-light text-gray-500">
                               {{ currentUser.email }}
                             </p>
                           </div>
@@ -375,7 +378,7 @@
                       :key="dropdownmenuitem"
                       as="router-link"
                       :to="dropdownmenuitem.route"
-                      class="first-rounded-t-mdtext-neutral-700 inline-flex w-full px-4 py-2 text-xs hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
                       <component
@@ -392,7 +395,9 @@
                       class="inline-flex w-full rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component class="mr-4 h-4 w-4" is="CogIcon"></component>
+                      <component
+                        class="mr-4 h-4 w-4"
+                        is="LogoutIcon"></component>
                       Sign out
                     </div>
                   </PopoverPanel>
@@ -431,13 +436,13 @@ import {
   ChevronLeftIcon,
   CheckCircleIcon,
   CloudUploadIcon,
+  LogoutIcon,
   UserGroupIcon,
   FolderOpenIcon,
   CogIcon,
   BellIcon,
   CursorClickIcon,
   ChatAltIcon,
-  LogoutIcon,
   SwitchHorizontalIcon,
   SpeakerphoneIcon,
   SupportIcon,
