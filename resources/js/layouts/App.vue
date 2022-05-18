@@ -247,9 +247,16 @@
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div
                           class="relative grid gap-6 bg-white px-1 py-2 sm:gap-8">
+                          <div class="mx-auto w-full">
+                            <p
+                              class="mx-auto border-b text-xs font-bold text-neutral-400">
+                              Notifications
+                            </p>
+                          </div>
+
                           <div
                             as="div"
-                            class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 first:pt-3"
+                            class="inline-flex w-full px-2 py-2 text-xs text-neutral-700 first:pt-3"
                             role="menuitem"
                             tabindex="-1"
                             v-for="batch in batches"
@@ -257,7 +264,7 @@
                             <router-link
                               to="/imports"
                               class="group 0 block flex-shrink-0">
-                              <div class="flex items-center">
+                              <div class="flex w-full items-center">
                                 <div>
                                   <component
                                     class="mx-auto h-5 w-5 text-neutral-400"
@@ -276,7 +283,7 @@
                                     </p>
                                   </div>
                                   <ProgressBar
-                                    :progress="batch.progress"
+                                    :percentage="batch.progress"
                                     class="mx-auto w-full" />
                                 </div>
                               </div>
