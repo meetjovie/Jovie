@@ -234,7 +234,7 @@
                     <span class="sr-only">Open user menu</span>
 
                     <SupportIcon
-                      class="h-5 w-5 rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
+                      class="h-5 w-5 cursor-pointer rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
                   </PopoverButton>
 
                   <transition
@@ -254,7 +254,12 @@
                       aria-labelledby="user-menu-button"
                       tabindex="-1">
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
-
+                      <div
+                        class="mx-auto inline-flex w-full items-center border-b pt-2 pb-1">
+                        <p class="px-2 text-xs font-bold text-neutral-400">
+                          Get help
+                        </p>
+                      </div>
                       <div
                         v-for="helpmenuitem in helpmenuitems"
                         :key="helpmenuitem"
@@ -291,7 +296,9 @@
                     aria-haspopup="true"
                     @click="getImportBatches()">
                     <span class="sr-only">Open import notification</span>
-                    <BellIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true">
+                    <BellIcon
+                      class="h-5 w-5 flex-shrink-0 cursor-pointer"
+                      aria-hidden="true">
                       <span
                         class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800">
                         7
@@ -307,15 +314,16 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0">
                     <PopoverPanel
-                      class="absolute left-6 z-10 mt-2 w-screen max-w-xs -translate-x-full transform px-2 sm:px-0">
+                      class="absolute left-6 z-10 mt-2 w-screen max-w-sm -translate-x-full transform px-2 sm:px-0">
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div
-                          class="min-h-40 relative h-40 gap-6 bg-white px-1 py-2 sm:gap-8">
+                          class="min-h-40 relative h-40 gap-6 bg-white px-1 sm:gap-8">
                           <div
                             class="mx-auto inline-flex w-full items-center border-b pb-1">
-                            <p class="px-2 text-xs font-bold text-neutral-400">
+                            <p
+                              class="px-2 pt-2 text-xs font-bold text-neutral-400">
                               Notifications
                             </p>
                           </div>
