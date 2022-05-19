@@ -291,9 +291,12 @@
                     aria-haspopup="true"
                     @click="getImportBatches()">
                     <span class="sr-only">Open import notification</span>
-                    <BellIcon
-                      class="h-5 w-5 flex-shrink-0"
-                      aria-hidden="true" />
+                    <BellIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true">
+                      <span
+                        class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800">
+                        7
+                      </span>
+                    </BellIcon>
                   </PopoverButton>
 
                   <transition
@@ -308,52 +311,60 @@
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div class="relative gap-6 bg-white px-1 py-2 sm:gap-8">
+                        <div
+                          class="min-h-40 relative h-40 gap-6 bg-white px-1 py-2 sm:gap-8">
                           <div
                             class="mx-auto inline-flex w-full items-center border-b pb-1">
                             <p class="px-2 text-xs font-bold text-neutral-400">
                               Notifications
                             </p>
-                            <span
-                              class="inline-flex items-center rounded bg-indigo-100 px-1 py-0 text-2xs font-medium text-indigo-800">
-                              5
-                            </span>
                           </div>
-
-                          <div
-                            as="div"
-                            class="inline-flex w-full px-2 py-2 text-xs text-neutral-700 first:pt-3"
-                            role="menuitem"
-                            tabindex="-1"
-                            v-for="batch in batches"
-                            :key="batch.id">
-                            <router-link
-                              to="/imports"
-                              class="group 0 block flex-shrink-0">
-                              <div class="flex w-full items-center">
-                                <div>
-                                  <component
-                                    class="mx-auto h-5 w-5 text-neutral-400"
-                                    :is="'CloudUploadIcon'">
-                                  </component>
-                                </div>
-                                <div class="ml-3 w-60">
-                                  <p
-                                    class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
-                                    {{ batch.name }}
-                                  </p>
-                                  <div class="w-full">
-                                    <p
-                                      class="text-xs font-medium text-gray-500">
-                                      Total: {{ batch.initial_total_in_file }}
-                                    </p>
+                          <div class="overflow-y-scroll" v-if="batches.length">
+                            <div
+                              as="div"
+                              class="inline-flex w-full px-2 py-2 text-xs text-neutral-700 first:pt-3"
+                              role="menuitem"
+                              tabindex="-1"
+                              v-for="batch in batches"
+                              :key="batch.id">
+                              <router-link
+                                to="/imports"
+                                class="group 0 block flex-shrink-0">
+                                <div class="flex w-full items-center">
+                                  <div>
+                                    <component
+                                      class="mx-auto h-5 w-5 text-neutral-400"
+                                      :is="'CloudUploadIcon'">
+                                    </component>
                                   </div>
-                                  <ProgressBar
-                                    :percentage="batch.progress"
-                                    class="mx-auto w-full" />
+                                  <div class="ml-3 w-60">
+                                    <p
+                                      class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
+                                      {{ batch.name }}
+                                    </p>
+                                    <div class="w-full">
+                                      <p
+                                        class="text-xs font-medium text-gray-500">
+                                        Total: {{ batch.initial_total_in_file }}
+                                      </p>
+                                    </div>
+                                    <ProgressBar
+                                      :percentage="batch.progress"
+                                      class="mx-auto w-full" />
+                                  </div>
                                 </div>
-                              </div>
-                            </router-link>
+                              </router-link>
+                            </div>
+                          </div>
+                          <div
+                            class="mx-auto w-full items-center py-4 text-center"
+                            v-else>
+                            <span
+                              class="mx-auto items-center text-sm font-bold text-neutral-400"
+                              ><EmojiHappyIcon
+                                class="mx-auto h-14 w-14 text-neutral-200" />No
+                              notifications</span
+                            >
                           </div>
                         </div>
                       </div>
@@ -495,6 +506,7 @@ import {
   HomeIcon,
   SearchIcon,
   MailIcon,
+  EmojiHappyIcon,
   ChartBarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -611,6 +623,7 @@ export default {
     ChevronDownIcon,
     LogoutIcon,
     SwitchHorizontalIcon,
+    EmojiHappyIcon,
     ChevronRightIcon,
     PlusIcon,
     Popover,
