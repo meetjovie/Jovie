@@ -160,7 +160,7 @@
               <Popover>
                 <PopoverButton class="group inline-flex items-center">
                   <span
-                    class="-mt-1.5 items-center text-xs font-bold text-neutral-400 group-hover:text-neutral-500">
+                    class="z-20 -mt-1.5 items-center text-xs font-bold text-neutral-400 group-hover:text-neutral-500">
                     {{
                       currentUser.current_team
                         ? currentUser.current_team.name
@@ -172,14 +172,14 @@
                 </PopoverButton>
 
                 <transition
-                  enter-active-class="transition duration-100 ease-out"
+                  enter-active-class="transition duration-150 ease-out"
                   enter-from-class="transform scale-95 opacity-0"
                   enter-to-class="transform scale-100 opacity-100"
-                  leave-active-class="transition duration-75 ease-in"
+                  leave-active-class="transition duration-150 ease-out"
                   leave-from-class="transform scale-100 opacity-100"
                   leave-to-class="transform scale-95 opacity-0">
                   <PopoverPanel
-                    class="-middle-32 absolute mt-4 w-40 origin-bottom-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                    class="absolute right-40 z-10 mt-3 w-40 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                     <div class="">
                       <div
                         class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">
@@ -204,15 +204,18 @@
                           {{ team.name }}
                         </button>
                       </div>
-                      <div class="mx-auto w-full">
-                        <button
-                          class="group mx-auto flex w-full items-center rounded-b-md px-1 py-1 text-xs font-bold text-neutral-400 hover:bg-indigo-700 hover:text-white">
-                          Add Team
-                          <PlusIcon
-                            :active="active"
-                            class="ml-1 h-3 w-3 font-bold text-indigo-400 group-hover:text-white"
-                            aria-hidden="true" />
-                        </button>
+                      <div class="mx-auto w-full text-center">
+                        <router-link
+                          to="/account/team"
+                          class="group mx-auto flex w-full items-center rounded-b-md border-t px-4 py-1 text-center text-xs font-bold text-neutral-400 hover:bg-indigo-700 hover:text-white">
+                          <div class="mx-auto inline-flex items-center">
+                            Add Team
+                            <PlusIcon
+                              :active="active"
+                              class="ml-1 h-3 w-3 font-bold text-neutral-400 group-hover:text-white"
+                              aria-hidden="true" />
+                          </div>
+                        </router-link>
                       </div>
                     </div>
                   </PopoverPanel>
@@ -231,7 +234,7 @@
                     <span class="sr-only">Open user menu</span>
 
                     <SupportIcon
-                      class="h-5 w-5 rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
+                      class="h-5 w-5 cursor-pointer rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
                   </PopoverButton>
 
                   <transition
@@ -245,19 +248,24 @@
                       as="div"
                       active=""
                       id="profileDropdown"
-                      class="absolute right-0 z-10 mt-4 w-40 origin-top-right rounded-lg bg-white shadow-lg shadow-xl ring-1 ring-black ring-opacity-5"
+                      class="absolute right-0 z-10 mt-3 w-40 origin-top-right rounded-lg bg-white shadow-lg shadow-xl ring-1 ring-black ring-opacity-5"
                       role="menu"
                       aria-orientation="vertical"
                       aria-labelledby="user-menu-button"
                       tabindex="-1">
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
-
+                      <div
+                        class="mx-auto inline-flex w-full items-center border-b pt-2 pb-1">
+                        <p class="px-2 text-xs font-bold text-neutral-400">
+                          Get help
+                        </p>
+                      </div>
                       <div
                         v-for="helpmenuitem in helpmenuitems"
                         :key="helpmenuitem"
                         as="router-link"
                         :to="helpmenuitem.route"
-                        class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 first:rounded-t-md hover:bg-indigo-700 hover:text-white"
+                        class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-500 first:rounded-t-md hover:bg-indigo-700 hover:text-white"
                         role="menuitem"
                         tabindex="-1">
                         <component class="mr-4 h-4 w-4" :is="helpmenuitem.icon">
@@ -268,7 +276,7 @@
                       </div>
                       <div
                         onclick="Chattrigger"
-                        class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white">
+                        class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-500 hover:bg-indigo-700 hover:text-white">
                         <ChatAltIcon class="mr-4 h-4 w-4" />
                         Chat
                       </div>
@@ -276,7 +284,6 @@
                   </transition>
                 </Popover>
               </PopoverGroup>
-              <!-- v-if="batches.length" -->
               <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
@@ -288,69 +295,90 @@
                     aria-haspopup="true"
                     @click="getImportBatches()">
                     <span class="sr-only">Open import notification</span>
+                    <span
+                      v-if="batches.length"
+                      class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
+                      <span
+                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
+                      <span
+                        class="relative inline-flex h-1 w-1 rounded-full bg-indigo-500"></span>
+                    </span>
                     <BellIcon
-                      class="h-5 w-5 flex-shrink-0"
-                      aria-hidden="true" />
+                      class="h-5 w-5 flex-shrink-0 cursor-pointer"
+                      aria-hidden="true">
+                    </BellIcon>
                   </PopoverButton>
 
                   <transition
-                    enter-active-class="transition ease-out duration-200"
-                    enter-from-class="opacity-0 translate-y-1"
-                    enter-to-class="opacity-100 translate-y-0"
-                    leave-active-class="transition ease-in duration-150"
-                    leave-from-class="opacity-100 translate-y-0"
-                    leave-to-class="opacity-0 translate-y-1">
+                    enter-active-class="transition duration-150 ease-out"
+                    enter-from-class="transform scale-95 opacity-0"
+                    enter-to-class="transform scale-100 opacity-100"
+                    leave-active-class="transition duration-150 ease-out"
+                    leave-from-class="transform scale-100 opacity-100"
+                    leave-to-class="transform scale-95 opacity-0">
                     <PopoverPanel
-                      class="absolute left-0 z-10 mt-3 w-screen max-w-xs -translate-x-full transform px-2 sm:px-0">
+                      class="absolute left-6 z-10 mt-2 w-screen max-w-sm -translate-x-full transform px-2 sm:px-0">
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div class="relative gap-6 bg-white px-1 py-2 sm:gap-8">
+                        <div class="relative h-40 gap-6 bg-white px-1 sm:gap-8">
                           <div
                             class="mx-auto inline-flex w-full items-center border-b pb-1">
-                            <p class="px-2 text-xs font-bold text-neutral-400">
+                            <p
+                              class="px-2 pt-2 text-xs font-bold text-neutral-400">
                               Notifications
                             </p>
-                            <span
-                              class="inline-flex items-center rounded bg-indigo-100 px-1 py-0 text-2xs font-medium text-indigo-800">
-                              5
-                            </span>
                           </div>
-
-                          <div
-                            as="div"
-                            class="inline-flex w-full px-2 py-2 text-xs text-neutral-700 first:pt-3"
-                            role="menuitem"
-                            tabindex="-1"
-                            v-for="batch in batches"
-                            :key="batch.id">
-                            <router-link
-                              to="/imports"
-                              class="group 0 block flex-shrink-0">
-                              <div class="flex w-full items-center">
-                                <div>
-                                  <component
-                                    class="mx-auto h-5 w-5 text-neutral-400"
-                                    :is="'CloudUploadIcon'">
-                                  </component>
-                                </div>
-                                <div class="ml-3 w-60">
-                                  <p
-                                    class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
-                                    {{ batch.name }}
-                                  </p>
-                                  <div class="w-full">
-                                    <p
-                                      class="text-xs font-medium text-gray-500">
-                                      Total: {{ batch.initial_total_in_file }}
-                                    </p>
+                          <div class="overflow-y-scroll" v-if="batches.length">
+                            <div
+                              as="div"
+                              class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
+                              role="menuitem"
+                              tabindex="-1"
+                              v-for="batch in batches"
+                              :key="batch.id">
+                              <router-link
+                                to="/imports"
+                                class="group 0 block flex-shrink-0">
+                                <div class="flex w-full items-center">
+                                  <div>
+                                    <component
+                                      class="mx-auto h-5 w-5 text-neutral-400"
+                                      :is="'CloudUploadIcon'">
+                                    </component>
                                   </div>
-                                  <ProgressBar
-                                    :percentage="batch.progress"
-                                    class="mx-auto w-full" />
+                                  <div class="ml-3 w-60">
+                                    <p
+                                      class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
+                                      {{ batch.name }}
+                                      <span
+                                        class="text-2xs font-light text-neutral-500"
+                                        >- Instagram Profiles</span
+                                      >
+                                    </p>
+                                    <div class="w-full">
+                                      <p
+                                        class="text-xs font-medium text-gray-500">
+                                        Total: {{ batch.initial_total_in_file }}
+                                      </p>
+                                    </div>
+                                    <ProgressBar
+                                      :percentage="batch.progress"
+                                      class="mx-auto w-full" />
+                                  </div>
                                 </div>
-                              </div>
-                            </router-link>
+                              </router-link>
+                            </div>
+                          </div>
+                          <div
+                            class="mx-auto w-full items-center py-4 text-center"
+                            v-else>
+                            <span
+                              class="mx-auto items-center text-sm font-bold text-neutral-400"
+                              ><EmojiHappyIcon
+                                class="mx-auto h-14 w-14 text-neutral-200" />No
+                              notifications</span
+                            >
                           </div>
                         </div>
                       </div>
@@ -452,7 +480,7 @@
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
-                      class="inline-flex w-full rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
                       <component
@@ -492,6 +520,7 @@ import {
   HomeIcon,
   SearchIcon,
   MailIcon,
+  EmojiHappyIcon,
   ChartBarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -608,6 +637,7 @@ export default {
     ChevronDownIcon,
     LogoutIcon,
     SwitchHorizontalIcon,
+    EmojiHappyIcon,
     ChevronRightIcon,
     PlusIcon,
     Popover,
