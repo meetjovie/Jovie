@@ -203,20 +203,20 @@ class InstagramImport implements ShouldQueue
                 }
             }
         }
-        $creator->first_name = $this->platformUser->is_admin ? ($this->meta['firstName'] ??  $creator->first_name) : $creator->first_name;
-        $creator->last_name = $this->platformUser->is_admin ? ($this->meta['lastName'] ??  $creator->last_name) : $creator->last_name;
-        $creator->city = $creator->city ?? $this->meta['city'] ?? null;
-        $creator->country = $creator->country ?? $this->meta['country'] ?? null;
-        $creator->wiki_id = $creator->wiki_id ?? $this->meta['wikiId'] ?? null;
+        $creator->first_name = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
+        $creator->last_name = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
+        $creator->city = $this->meta['city'] ?? $creator->city;
+        $creator->country = $this->meta['country'] ?? $creator->country;
+        $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;
         $creator->full_name = $user->full_name;
         $creator->social_links = $this->addSocialLinksFromLinkTree($links, $creator->social_links);
         $creator->location = $user->location ?? null;
         $creator->type = $user->typename ?? 'CREATOR';
         $creator->tags = $this->getTags($this->tags, $creator);
-        if (!$creator->gender_updated) {
+        $gender = strtolower($this->meta['gender']);
+        if (!$creator->gender_updated && !in_array($gender, ['male', 'female'])) {
             // first check if instagram has pronouns check for gender in it
             // in case not found hit gender api
-            $gender = 'unknown';
             $genderAccuracy = 0;
             $pronouns = $user->pronouns;
             if (count($pronouns ?? [])) {
@@ -235,6 +235,9 @@ class InstagramImport implements ShouldQueue
             }
             $creator->gender = $gender;
             $creator->gender_accuracy = $genderAccuracy;
+        } elseif (in_array($gender, ['male', 'female'])) {
+            $creator->gender = $gender;
+            $creator->gender_accuracy = 100;
         }
 
         $creator->emails = $this->getEmails($user, $creator->emails);
@@ -315,7 +318,7 @@ class InstagramImport implements ShouldQueue
     public function getEmails($user, $oldEmails)
     {
         $emails = [];
-        if (isset($this->meta['emails']) && count($this->meta['emails'] ?? []) && $this->platformUser->is_admin) {
+        if (isset($this->meta['emails']) && count($this->meta['emails'] ?? [])) {
             $emails = $this->meta['emails'];
         }
         if ($user->business_email) {

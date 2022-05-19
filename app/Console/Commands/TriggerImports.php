@@ -76,6 +76,7 @@ class TriggerImports extends Command
             'instagram_handler' => $import->instagram,
         ];
         $meta = [
+            'gender' => $import->gender,
             'emails' => $import->emails,
             'firstName' => $import->first_name,
             'lastName' => $import->last_name,
