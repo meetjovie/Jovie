@@ -284,7 +284,6 @@
                   </transition>
                 </Popover>
               </PopoverGroup>
-              <!-- v-if="batches.length" -->
               <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
@@ -322,8 +321,7 @@
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div
-                          class="min-h-40 relative h-40 gap-6 bg-white px-1 sm:gap-8">
+                        <div class="relative h-40 gap-6 bg-white px-1 sm:gap-8">
                           <div
                             class="mx-auto inline-flex w-full items-center border-b pb-1">
                             <p
@@ -334,7 +332,7 @@
                           <div class="overflow-y-scroll" v-if="batches.length">
                             <div
                               as="div"
-                              class="inline-flex w-full px-2 py-2 text-xs text-neutral-700 first:pt-3"
+                              class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
                               role="menuitem"
                               tabindex="-1"
                               v-for="batch in batches"
@@ -353,6 +351,10 @@
                                     <p
                                       class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
                                       {{ batch.name }}
+                                      <span
+                                        class="text-2xs font-light text-neutral-500"
+                                        >- Instagram Profiles</span
+                                      >
                                     </p>
                                     <div class="w-full">
                                       <p
