@@ -1,6 +1,6 @@
 <template>
   <main class="flex-1">
-    <div class="relative mx-auto max-w-4xl md:px-8 xl:px-0">
+    <div class="relative mx-auto max-w-7xl md:px-8 xl:px-0">
       <div class="pb-16">
         <div class="px-4 sm:px-6 md:px-0">
           <div class="pt-2 pb-6">
@@ -22,7 +22,7 @@
                         selected
                           ? 'border-indigo-600 text-indigo-600'
                           : 'border-transparent text-gray-900',
-                        'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-medium',
+                        'flex-1 whitespace-nowrap border-b-2 py-2 px-1 text-xs font-medium',
                       ]">
                       {{ tab.name }}
                     </button>
@@ -31,28 +31,28 @@
               </div>
 
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   <AccountProfile />
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   Password (Coming soon)
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   Notifications
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   Plan (Coming soon)
                 </TabPanel>
               </TabPanels>
 
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   <Subscription
                     title="Payment details"
                     subtitle="Update your billing information. Please note that updating your
@@ -60,7 +60,7 @@
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   <AccountTeam />
                 </TabPanel>
               </TabPanels>
