@@ -63,10 +63,12 @@ class Test extends Command
         $users = User::whereHas('pendingImports')->with('pendingImports')->get();
         foreach ($users as $user) {
             foreach ($user->pendingImports as $import) {
-                $batch = $import->getBatch($import);
                 if ($import->instagram && $import->instagram_scrapped != 1) {
                     // trigger instagram import
-                    $this->triggerInstagramImport($import, $batch);
+                    $instagramBatch = $import->getImportBatch('instagram');
+                    if (! $instagramBatch->cancelled()) {
+                        $this->triggerInstagramImport($import, $instagramBatch);
+                    }
                 }
             }
         }

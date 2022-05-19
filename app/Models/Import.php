@@ -99,9 +99,9 @@ class Import extends Model
         }
     }
 
-    public function getBatch()
+    public function getImportBatch($queue = 'instagram')
     {
-        $batch = DB::table('job_batches')->where('user_list_id', $this->user_list_id)->first();
+        $batch = DB::table('job_batches')->where('user_list_id', $this->user_list_id)->where('type', $queue)->first();
         if (is_null($batch)) {
             $batch = Bus::batch([
             ])->then(function (Batch $batch) {
@@ -116,11 +116,12 @@ class Import extends Model
 
                 Log::info('The batch has finished executing...');
 
-            })->allowFailures()->onConnection('instagram')->dispatch();
+            })->allowFailures()->onConnection($queue)->dispatch();
 
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'user_list_id' => $this->user_list_id,
-                'initial_total_in_file' => Import::where('user_list_id', $this->user_list_id)->count()
+                'initial_total_in_file' => Import::where('user_list_id', $this->user_list_id)->count(),
+                'type' => $queue
             ]);
         } else {
             $batch = Bus::findBatch($batch->id);

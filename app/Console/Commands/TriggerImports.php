@@ -48,15 +48,16 @@ class TriggerImports extends Command
     {
         // get first 100 importrs for each user in pipeline
         // if which networks it has
-        // dispath job in bus for each available network
+        // dispath batch in bus for each available network
 
         $users = User::whereHas('pendingImports')->with('pendingImports')->get();
         foreach ($users as $user) {
             foreach ($user->pendingImports as $import) {
-                $batch = $import->getBatch();
                 if ($import->instagram && $import->instagram_scrapped != 1) {
                     // trigger instagram import
-                    $this->triggerInstagramImport($import, $batch);
+                    $instagramBatch = $import->getImportBatch('instagram');
+                    dd($instagramBatch->cancelled_at);
+                    $this->triggerInstagramImport($import, $instagramBatch);
                 }
             }
         }
