@@ -1,18 +1,15 @@
 <template>
   <main class="flex-1">
     <div class="relative mx-auto max-w-4xl md:px-8 xl:px-0">
-      <div class="pt-10 pb-16">
+      <div class="pb-16">
         <div class="px-4 sm:px-6 md:px-0">
-          <h1 class="text-xl font-extrabold text-gray-900">Settings</h1>
-        </div>
-        <div class="px-4 sm:px-6 md:px-0">
-          <div class="py-6">
+          <div class="pt-2 pb-6">
             <!-- Tabs -->
             <TabGroup
               :selectedIndex="selectedTab"
               @change="changeTab"
               as="div"
-              class="mt-2">
+              class="mt-0">
               <div class="border-b border-gray-200">
                 <TabList class="-mb-px flex space-x-8 px-4">
                   <Tab

@@ -296,13 +296,17 @@
                     aria-haspopup="true"
                     @click="getImportBatches()">
                     <span class="sr-only">Open import notification</span>
+                    <span
+                      v-if="batches.length"
+                      class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
+                      <span
+                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
+                      <span
+                        class="relative inline-flex h-1 w-1 rounded-full bg-indigo-500"></span>
+                    </span>
                     <BellIcon
                       class="h-5 w-5 flex-shrink-0 cursor-pointer"
                       aria-hidden="true">
-                      <span
-                        class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800">
-                        7
-                      </span>
                     </BellIcon>
                   </PopoverButton>
 
