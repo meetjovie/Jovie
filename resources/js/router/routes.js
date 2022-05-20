@@ -244,6 +244,19 @@ export const routes = [
     },
   },
   {
+    name: 'API',
+    path: '/api',
+    beforeEnter(to, from, next) {
+      window.open(
+        'https://u3yaoaf518v.typeform.com/to/pngWHiwK?typeform-source=admin.typeform.com',
+        '_blank'
+      );
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
     name: '404',
     path: '/notfound',
     component: loadPage('404Page'),
