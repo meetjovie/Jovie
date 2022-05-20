@@ -20,7 +20,7 @@ trait SocialScrapperTrait {
                     'api_key' => config('import.scrapper_api_key'),
                     'url' => $url,
                     'proxy' => 'residential',
-                    'timeout' => 30000
+                    'timeout' => 50000
                 ]
             ));
             return json_decode($response->getBody()->getContents());

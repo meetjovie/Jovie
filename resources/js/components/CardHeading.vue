@@ -8,17 +8,19 @@
         </h3>
         <p v-if="subtitle" class="mt-1 text-xs text-gray-500">{{ subtitle }}</p>
       </div>
-      <div class="ml-4 mt-4 flex-shrink-0">
-        <ButtonGroup
-          :style="buttonstyle"
-          :icon="buttonicon"
-          :text="buttontext" />
+      <div v-if="buttontext" class="ml-4 mt-4 flex-shrink-0">
+        <a :href="buttonlink">
+          <ButtonGroup
+            :design="buttonstyle"
+            :icon="buttonicon"
+            :text="buttontext" />
+        </a>
       </div>
     </div>
   </div>
 </template>
 <script>
-import ButtonGroup from './ButtonGroup.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 export default {
   name: 'CardHeading',
@@ -34,13 +36,17 @@ export default {
       type: String,
       default: null,
     },
+    buttonlink: {
+      type: String,
+      default: null,
+    },
     buttontext: {
       type: String,
       default: null,
     },
     buttonstyle: {
       type: String,
-      default: null,
+      default: 'primary',
     },
     buttonicon: {
       type: String,

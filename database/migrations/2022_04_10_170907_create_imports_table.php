@@ -15,7 +15,7 @@ class CreateImportsTable extends Migration
     {
         Schema::create('imports', function (Blueprint $table) {
             $table->id();
-            $table->string('list_name')->nullable();
+            $table->foreignId('user_list_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->mediumText('tags')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();

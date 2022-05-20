@@ -169,22 +169,6 @@ export const routes = [
     },
   },
   {
-    name: 'Tim White Profile',
-    path: '/tim',
-    component: loadPage('Tim'),
-    meta: {
-      layout: 'Minimal',
-    },
-  },
-  {
-    name: 'Profile',
-    path: '/haruki',
-    component: loadPage('Haruki'),
-    meta: {
-      layout: 'Minimal',
-    },
-  },
-  {
     name: 'Create Account',
     path: '/signup',
     component: loadPage('Signup'),
@@ -257,6 +241,19 @@ export const routes = [
     props: true,
     meta: {
       layout: 'Minimal',
+    },
+  },
+  {
+    name: 'API',
+    path: '/api',
+    beforeEnter(to, from, next) {
+      window.open(
+        'https://u3yaoaf518v.typeform.com/to/pngWHiwK?typeform-source=admin.typeform.com',
+        '_blank'
+      );
+    },
+    meta: {
+      requiresAuth: false,
     },
   },
   {

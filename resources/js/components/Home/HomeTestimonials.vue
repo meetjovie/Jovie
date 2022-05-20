@@ -15,7 +15,7 @@
 
       <div
         class="mx-auto mt-10 max-w-5xl items-center gap-6 border-b pb-12 lg:flex">
-        <div class="lg:w-1/2">
+        <!-- <div class="lg:w-1/2">
           <div
             class="relative rounded-md border border-gray-200 bg-white p-6 sm:p-10">
             <div>
@@ -83,8 +83,8 @@
               </p>
             </div>
           </div>
-        </div>
-        <div class="mt-16 lg:mt-0 lg:w-1/2">
+        </div> -->
+        <div class="mx-auto mt-16 lg:mt-0 lg:w-1/2">
           <div
             class="relative rounded-md border border-gray-200 bg-white p-6 sm:p-10">
             <div>

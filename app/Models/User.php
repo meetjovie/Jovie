@@ -14,7 +14,7 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, Searchable;
+    use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
 
     const UPLOAD_PATH = 'public/jovie/user/profiles/';
 
@@ -85,9 +85,9 @@ class User extends Authenticatable
         return env('SLACK_NOTIFICATION_WEBHOOK');
     }
 
-    public function getProfilePicUrlAttribute()
+    public function getProfilePicUrlAttribute($value)
     {
-        return $this->profile_pic_url ?? asset('img/noimage.webp');
+        return $value ?? asset('img/noimage.webp');
     }
 
     public function getDefaultImageAttribute()

@@ -14,6 +14,7 @@ use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\HeadingRowImport;
 use function collect;
 
@@ -23,10 +24,7 @@ class ImportController extends Controller
 
     public function getColumnsFromCsv(Request $request)
     {
-//        $request->validate([
-//            'import' => 'required|mimes:csv'
-//        ]);
-        $headings = (new HeadingRowImport)->toArray($request->import);
+        $headings = (new HeadingRowImport)->toArray($request->input('key'), 's3', \Maatwebsite\Excel\Excel::CSV);
         if (count($headings)) {
             return collect([
                 'status' => true,
@@ -43,8 +41,8 @@ class ImportController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:file,youtube',
-//            'file' => 'required_without_all:instagram,youtube|mimes:csv'
+            'instagram' => 'required_without_all:key,youtube',
+            'key' => 'required_without_all:instagram,youtube|string'
         ]);
         if ($request->instagram) {
             foreach (explode('\n', $request->instagram) as $instagram) {
@@ -57,9 +55,10 @@ class ImportController extends Controller
                 ])->dispatch();
             }
         }
+        $file = null;
         try {
-            if ($request->file) {
-                $this->saveImport($request);
+            if ($request->input('key')) {
+                $file = $this->saveImport($request);
             }
         } catch (\Exception $e) {
             return collect([
@@ -69,22 +68,27 @@ class ImportController extends Controller
             ]);
         }
         return collect([
-            'status' => false,
+            'status' => true,
             'message' => 'Successful. Your import will start soon.',
+            'file' => $file,
+            'queued_count' => Auth::user()->queued_count
         ]);
     }
 
     public function saveImport($request)
     {
+        $filePath = null;
         $mappedColumns = json_decode($request->mappedColumns);
-        if ($request->has('file')) {
-            $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
-            $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
-            $filePath = Creator::CREATORS_CSV_PATH.$filename;
+        if ($request->input('key')) {
+            Storage::disk('s3')->copy(
+                ('tmp/'.$request->input('key')),
+               (Creator::CREATORS_CSV_PATH.$request->input('key'))
+            );
+            $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
             $listName = $request->listName;
-            User::where('id', Auth::id())->increment('queued_count');
             SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
         }
+        return $filePath;
     }
 
     public function importX(Request $request)

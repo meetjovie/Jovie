@@ -1,5 +1,11 @@
 <template>
   <div>
+    <AlertBanner
+      design="danger"
+      mobiletitle="Your subscribtion is inactive"
+      title="Please update your billing information to continue using Jovie."
+      cta="Update billing information"
+      ctaLink="/billing" />
     <div class="bg-white shadow">
       <div class="px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
         <div
@@ -128,6 +134,7 @@
 </template>
 
 <script>
+import AlertBanner from '../components/AlertBanner.vue';
 import TeamService from '../services/api/team.service';
 import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
 import store from '../store/index';
@@ -155,6 +162,7 @@ export default {
   components: {
     SearchIcon,
     CloudUploadIcon,
+    AlertBanner,
   },
   data() {
     return {

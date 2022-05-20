@@ -23,6 +23,7 @@
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.23.1",
         "mpociot/teamwork": "^7.0",
+        "simplesoftwareio/simple-sqs-extended-client": "~1",
         "weidner/goutte": "^2.1"
     },
     "require-dev": {

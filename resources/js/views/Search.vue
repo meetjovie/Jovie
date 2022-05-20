@@ -2,6 +2,7 @@
   <div>
     <ais-instant-search
       :search-client="searchClient"
+      :search-function="searchFunction"
       placeholderSearch=""
       index-name="creators">
       <div class="min-h-screen bg-gray-100">
@@ -27,7 +28,8 @@
             <main class="flex-auto">
               <!--  <DiscoveryStats></DiscoveryStats> -->
               <TabGroup :defaultIndex="0">
-                <!-- <DiscoveryToolbar class="px-4"></DiscoveryToolbar> -->
+                <DiscoveryToolbar @changeTab="changeTab" class="px-4">
+                </DiscoveryToolbar>
 
                 <div
                   class="sticky top-0 min-w-full items-center divide-y divide-gray-200 overflow-y-scroll">
@@ -49,11 +51,11 @@
                         </button>
                         <div class="h-5 items-center text-center">
                           <!--  <input
-                                                      id="comments"
-                                                      aria-describedby="comments-description"
-                                                      name="comments"
-                                                      type="checkbox"
-                                                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
+                                                                                id="comments"
+                                                                                aria-describedby="comments-description"
+                                                                                name="comments"
+                                                                                type="checkbox"
+                                                                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
                         </div>
                         <div
                           class="group sr-only items-center text-center text-gray-300 hover:text-red-500">
@@ -97,14 +99,14 @@
                               class="relative mx-auto mt-1 flex w-full items-center py-1">
                               <AppDebouncedSearchBox :delay="200" />
                               <!-- <input
-                                class="flex-auto rounded-md border-0 bg-white/0 py-2 text-base leading-6 text-gray-500 placeholder-gray-500 outline-0 ring-0 focus-visible:border-0 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:outline-none focus-visible:ring-0"
-                                submit-title="Let's go!"
-                                reset-title="Reset"
-                                autofocus="true"
-                                type="search"
-                                placeholder="Search for a creator, hashtag, or keyword..."
-                                :value="currentRefinement"
-                                @input="refine($event.currentTarget.value)" /> -->
+                                                              class="flex-auto rounded-md border-0 bg-white/0 py-2 text-base leading-6 text-gray-500 placeholder-gray-500 outline-0 ring-0 focus-visible:border-0 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:outline-none focus-visible:ring-0"
+                                                              submit-title="Let's go!"
+                                                              reset-title="Reset"
+                                                              autofocus="true"
+                                                              type="search"
+                                                              placeholder="Search for a creator, hashtag, or keyword..."
+                                                              :value="currentRefinement"
+                                                              @input="refine($event.currentTarget.value)" /> -->
 
                               <div
                                 class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
@@ -161,10 +163,10 @@
                 </div>
                 <ais-state-results>
                   <template v-slot="{ results: { hits } }">
-                    <ais-infinite-hits v-if="hits.length > 0" :cache="cache">
+                    <ais-infinite-hits ref="hitResults" v-if="hits.length > 0">
                       <template v-slot:item="{ item, index }">
                         <div
-                          @click="setCurrentCreator(item)"
+                          @click="setCurrentCreator(item, index)"
                           class="h-full divide-y divide-gray-200 bg-white">
                           <div
                             :class="{
@@ -205,17 +207,16 @@
                                       class="rounded-full object-cover object-center"
                                       :src="
                                         item.instagram_meta.profile_pic_url ??
-                                        item.twitter_meta.profile_pic_url ??
                                         currentUser.default_image
                                       "
                                       alt="" />
                                   </div>
 
                                   <!--  <div class="mr-2 h-24 w-24 flex-shrink-0">
-                                                                  <img
-                                                                      class="rounded-full border-2 object-cover object-center"
-                                                                      :src="item.avatar"
-                                                                      alt="" /> -->
+                                                                                                    <img
+                                                                                                        class="rounded-full border-2 object-cover object-center"
+                                                                                                        :src="item.avatar"
+                                                                                                        alt="" /> -->
                                 </div>
                                 <div class="w-96">
                                   <div
@@ -229,9 +230,9 @@
                                     >
                                     <div class="text-white">
                                       <!-- <VerifiedBadge
-                                                                              :verified="
-                                                                                item.instagram_is_verified
-                                                                              " /> -->
+                                                                                                                    :verified="
+                                                                                                                      item.instagram_is_verified
+                                                                                                                    " /> -->
                                     </div>
                                   </div>
                                   <div
@@ -249,18 +250,18 @@
                                       color="none"
                                       :text="item.instagram_category" />
                                     <!-- <CreatorTags
-                                                                      v-if="item.tags > 0"
-                                                                      size="xs"
-                                                                      color="purple"
-                                                                      :text="item.tags[1]" />
-                                                                    <CreatorTags
-                                                                      size="xs"
-                                                                      color="blue"
-                                                                      text="Music" />
-                                                                    <CreatorTags
-                                                                      size="xs"
-                                                                      color="pink"
-                                                                      text="Other" /> -->
+                                                                                                          v-if="item.tags > 0"
+                                                                                                          size="xs"
+                                                                                                          color="purple"
+                                                                                                          :text="item.tags[1]" />
+                                                                                                        <CreatorTags
+                                                                                                          size="xs"
+                                                                                                          color="blue"
+                                                                                                          text="Music" />
+                                                                                                        <CreatorTags
+                                                                                                          size="xs"
+                                                                                                          color="pink"
+                                                                                                          text="Other" /> -->
                                   </div>
 
                                   <div
@@ -454,7 +455,8 @@
                                   class="w-20"
                                   :star-size="12"
                                   :increment="0.5"
-                                  v-model:rating="item.rating"></star-rating>
+                                  :read-only="true"
+                                  :rating="getRating(item.crms)"></star-rating>
                               </div>
                               <div
                                 class="justify-self-right mx-auto py-1 text-right text-xs font-medium">
@@ -679,7 +681,7 @@
                       <div
                         class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
                         <!--  <VerifiedBadge
-                                                  :verified="selectedCreator.instagram_is_verified" /> -->
+                                                                          :verified="selectedCreator.instagram_is_verified" /> -->
                         <span class="-mt-0.5">{{
                           selectedCreator.full_name ??
                           selectedCreator.instagram_name ??
@@ -700,17 +702,17 @@
                           :showX="false"
                           :text="selectedCreator.instagram_category" />
                         <!-- <CreatorTags
-                                                        size="sm"
-                                                        color="pink"
-                                                        text="Fashion" />
-                                                      <CreatorTags
-                                                        size="sm"
-                                                        color="blue"
-                                                        text="Music" />
-                                                      <CreatorTags
-                                                        size="sm"
-                                                        color="green"
-                                                        text="Sports" /> -->
+                                                                                size="sm"
+                                                                                color="pink"
+                                                                                text="Fashion" />
+                                                                              <CreatorTags
+                                                                                size="sm"
+                                                                                color="blue"
+                                                                                text="Music" />
+                                                                              <CreatorTags
+                                                                                size="sm"
+                                                                                color="green"
+                                                                                text="Sports" /> -->
                       </div>
 
                       <div class="mx-auto mt-2 flex justify-start space-x-6">
@@ -1090,6 +1092,8 @@ export default {
     this.$mousetrap.bind(['command+k', 'ctrl+k'], this.clearSearch);
     this.$mousetrap.bind(['up'], this.logIt);
     this.$mousetrap.bind('down', this.setNextCreator);
+    this.$mousetrap.bind('right', this.addToSelected);
+    this.$mousetrap.bind('left', this.addToRejected);
   },
   computed: {
     searchPlaceholder() {
@@ -1103,6 +1107,147 @@ export default {
     },
   },
   methods: {
+    searchFunction(helper) {
+      this.uniqueId++;
+      if (helper) {
+        if (this.resetQuery == '*') {
+          helper.state.query = '*';
+        }
+        setTimeout(() => {
+          this.resetQuery = null;
+        }, 500);
+        this.helper = helper;
+        helper.state.numericRefinements.unique['>='] = [this.uniqueId];
+        if (this.currentTab == 0) {
+          helper.state.hierarchicalFacetsRefinements['all_to'] = [
+            this.currentUser.id.toString(),
+          ];
+          helper.state.hierarchicalFacetsRefinements['selected_to'] = [];
+          helper.state.hierarchicalFacetsRefinements['rejected_to'] = [];
+        } else if (this.currentTab == 1) {
+          helper.state.hierarchicalFacetsRefinements['all_to'] = [];
+          helper.state.hierarchicalFacetsRefinements['selected_to'] = [
+            this.currentUser.id.toString(),
+          ];
+          helper.state.hierarchicalFacetsRefinements['rejected_to'] = [];
+        } else if (this.currentTab == 2) {
+          helper.state.hierarchicalFacetsRefinements['all_to'] = [];
+          helper.state.hierarchicalFacetsRefinements['selected_to'] = [];
+          helper.state.hierarchicalFacetsRefinements['rejected_to'] = [
+            this.currentUser.id.toString(),
+          ];
+        }
+        if (helper.state.query == '') {
+          helper.state.query = '*';
+        }
+        helper.search();
+      }
+    },
+    changeTab(e) {
+      this.currentTab = e;
+
+      if (this.helper) {
+        this.resetQuery = '*';
+
+        document.querySelector('div.ais-ClearRefinements a').click();
+        document.querySelector('div.ais-SearchBox input').value = '';
+        this.searchFunction(this.helper);
+      }
+    },
+    async addToSelected() {
+      if (!this.selectedCreator || this.currentTab == 1) return;
+      let params = {
+        selected: 1,
+        rejected: 0,
+        id: this.selectedCreator.id,
+      };
+      await this.$store.dispatch('moveCreator', params).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1);
+          this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(
+            this.$refs.hitResults.items[
+              this.selectedCreatorIndex
+            ].all_to.indexOf(this.currentUser.id.toString()),
+            1
+          );
+          this.$refs.hitResults.items[
+            this.selectedCreatorIndex
+          ].rejected_to.splice(
+            this.$refs.hitResults.items[
+              this.selectedCreatorIndex
+            ].rejected_to.indexOf(this.currentUser.id.toString()),
+            1
+          );
+          this.$refs.hitResults.items[
+            this.selectedCreatorIndex
+          ].selected_to.push(response.data);
+          this.searchFunction(this.helper);
+        }
+      });
+    },
+    async addToRejected() {
+      if (!this.selectedCreator || this.currentTab == 1) return;
+      let params = {
+        selected: 0,
+        rejected: 1,
+        id: this.selectedCreator.id,
+      };
+      await this.$store.dispatch('moveCreator', params).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.$refs.hitResults.items.splice(this.selectedCreatorIndex, 1);
+          this.$refs.hitResults.items[this.selectedCreatorIndex].all_to.splice(
+            this.$refs.hitResults.items[
+              this.selectedCreatorIndex
+            ].all_to.indexOf(this.currentUser.id.toString()),
+            1
+          );
+          this.$refs.hitResults.items[
+            this.selectedCreatorIndex
+          ].selected_to.splice(
+            this.$refs.hitResults.items[
+              this.selectedCreatorIndex
+            ].selected_to.indexOf(this.currentUser.id.toString()),
+            1
+          );
+          this.$refs.hitResults.items[
+            this.selectedCreatorIndex
+          ].rejected_to.push(response.data);
+          this.searchFunction(this.helper);
+        }
+      });
+    },
+    checkIfMuted(crms) {
+      if (crms == undefined) return false;
+      crms = JSON.parse(JSON.stringify(crms));
+      if (!crms.length) return false;
+      const length = crms.length;
+      const currentUser = this.currentUser;
+      let muted = false;
+      for (let i = 0; i < length; i++) {
+        if (crms[i].user_id == currentUser.id) {
+          muted = crms[i].muted == 1 ? true : false;
+          break;
+        }
+      }
+      return muted;
+    },
+    checkIfAll(crms) {
+      if (crms == undefined) return true;
+      crms = JSON.parse(JSON.stringify(crms));
+      if (!crms.length) return true;
+      const length = crms.length;
+      const currentUser = this.currentUser;
+      let all = true;
+      for (let i = 0; i < length; i++) {
+        if (crms[i].user_id == currentUser.id) {
+          all = crms[i].selected == 1 || crms[i].rejected == 1 ? false : true;
+          break;
+        }
+      }
+      return all;
+    },
     addToCrm(creatorId) {
       UserService.addCreatorToCrm(creatorId).then((response) => {
         response = response.data;
@@ -1112,7 +1257,6 @@ export default {
       });
     },
     logIt(e) {
-      console.log(e);
       return false;
     },
     //write a vue method to copy the value of an input to the clipboard
@@ -1123,11 +1267,12 @@ export default {
       //add text to clipboard
       navigator.clipboard.writeText(text);
     },
-    setCurrentCreator(item) {
+    setCurrentCreator(item, index) {
       this.selectedCreator = item;
+      this.selectedCreatorIndex = index;
     },
     setNextCreator(item) {
-      this.selectedCreator = [selectedCreator.index + 1];
+      this.selectedCreator = [this.selectedCreator.index + 1];
     },
     clearSearch() {
       //move focus to the search box and clear the current search from instantsearch
@@ -1135,7 +1280,6 @@ export default {
     },
     visibilityChanged(isVisible, entry) {
       this.isVisible = isVisible;
-      console.log(entry);
     },
     toggleSidebar() {
       if (this.sidebarOpen) {
@@ -1144,9 +1288,24 @@ export default {
         this.sidebarOpen = true;
       }
     },
+    getRating(crms) {
+      if (!crms.length) return 0;
+
+      let rating = 0;
+      let length = crms.length;
+      for (let i = 0; i < length; i++) {
+        if (crms[i].user_id == this.currentUser.id) {
+          rating = crms[i].rating;
+        }
+      }
+      return rating;
+    },
   },
   data() {
     return {
+      uniqueId: 0,
+      resetQuery: null,
+      currentTab: 0,
       sidebarOpen: false,
       creatorMenu: [
         {
@@ -1154,12 +1313,16 @@ export default {
           icon: PlusIcon,
         },
       ],
-      cache: createInfiniteHitsSessionStorageCache(),
-      searchopen: false,
-      selectedCreator: [],
+      searchopen: true,
+      selectedCreator: {},
+      selectedCreatorIndex: [],
       searchClient: instantMeiliSearch(
-        'https://search.jov.ie',
-        'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
+        'https://search2.jov.ie/',
+        'hHf2WS0bbd8d57b035f3232266df72f0b9d112c16d6354ffb9538379f3b57bb20db8fd13',
+        // 'https://devsearch.jov.ie/',
+        // 'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
+        // process.env.MIX_MEILISEARCH_HOST,
+        // process.env.MIX_MEILISEARCH_FRONT_KEY,
         {
           placeholderSearch: true, // default: true.
           primaryKey: 'id', // default: undefined

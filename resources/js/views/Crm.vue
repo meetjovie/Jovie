@@ -311,21 +311,28 @@ export default {
     filters: {
       deep: true,
       handler: function (val) {
-        this.getCrmCreators();
+          this.getCrmCreators();
+        if (val.list) {
+            localStorage.setItem("filterListCrm", JSON.stringify(val.list));
+        }
       },
     },
   },
   computed: {
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
+        let filterList = localStorage.getItem("filterListCrm")
+        if (filterList) {
+            this.filters.list = JSON.parse(filterList)
+        }
       return this.userLists.filter((list) =>
         list.name.toLowerCase().match(this.searchList.toLowerCase())
       );
     },
   },
   mounted() {
-    this.getCrmCreators();
-    this.getUserLists();
+      this.getUserLists();
+      this.getCrmCreators();
   },
   methods: {
     getUserLists() {
@@ -364,12 +371,16 @@ export default {
       });
     },
     exportCrmCreators() {
-      UserService.exportCrmCreators(this.filters).then((response) => {
+        let obj = JSON.parse(JSON.stringify(this.filters))
+        if (obj.list) {
+            obj.list = obj.list.id
+        }
+      UserService.exportCrmCreators(obj).then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]));
         var fileLink = document.createElement('a');
 
         fileLink.href = fileURL;
-        fileLink.setAttribute('download', 'creators.csv');
+        fileLink.setAttribute('download', `${this.filters.list ? this.filters.list.name : 'creators'}.csv`);
         document.body.appendChild(fileLink);
 
         fileLink.click();

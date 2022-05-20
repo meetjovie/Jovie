@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Imports\ImportFileImport;
 use App\Models\Import;
 use App\Models\User;
+use App\Models\UserList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,16 +50,24 @@ class SaveImport implements ShouldQueue
      */
     public function handle()
     {
+        User::where('id', $this->userId)->increment('queued_count');
+
         try {
             $fileImport = new ImportFileImport();
             Excel::import($fileImport, $this->file, 's3', \Maatwebsite\Excel\Excel::CSV); // file is now loaded in results, so don't need it
             $results = $fileImport->data;
             Storage::disk('s3')->delete($this->file);
-
             if (count($results) > 1) {
                 $results = $results->toArray();
                 array_shift($results);
 
+                $list = UserList::firstOrCreate([
+                    'user_id' => $this->userId,
+                    'name' => $this->listName
+                ], [
+                    'user_id' => $this->userId,
+                    'name' => $this->listName
+                ]);
                 foreach ($results as $k => $row) {
                     $socialHandlers = [
                         'twitch_handler' => isset($this->mappedColumns->twitch) ? $row[$this->mappedColumns->twitch] : null,
@@ -85,14 +94,15 @@ class SaveImport implements ShouldQueue
 
                     $country = isset($this->mappedColumns->country) ? $row[$this->mappedColumns->country] : null;
                     $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
-                    if ($this->mappedColumns->country && $country && in_array(strtolower(trim($row[$this->mappedColumns->country])), array_map('strtolower', $usStates))) {
+                    if (isset($this->mappedColumns->country) && $country && in_array(strtolower(trim($row[$this->mappedColumns->country])), array_map('strtolower', $usStates))) {
                         $country = 'United States';
                     }
 
                     $youtubeFollowersCountKey = $this->mappedColumns->youtubeFollowersCount ?? null;
 
                     $import = new Import();
-                    $import->list_name = $this->listName;
+                    $import->user_id = $this->userId;
+                    $import->user_list_id = $list->id;
                     if ($this->tags) {
                         $tags = explode(',', $this->tags);
                         $import->tags = json_encode(array_values(array_map('trim', $tags)));
@@ -107,6 +117,9 @@ class SaveImport implements ShouldQueue
 
                     if (isset($this->mappedColumns->instagram) && ($user->is_admin || $instaFollowersCount > 5000)) {
                         $import->instagram = $row[$this->mappedColumns->instagram];
+                        if ($import->instagram[0] == '@') {
+                            $import->instagram = substr($import->instagram, 1);
+                        }
                     }
 
                     $youtubeFollowersCount = isset($this->mappedColumns->youtubeFollowersCount) ? $row[$this->mappedColumns->youtubeFollowersCount] : 1001;
@@ -130,7 +143,7 @@ class SaveImport implements ShouldQueue
                 }
             }
         } catch (Exception $e) {
-            SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Youtube Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine()), [
+            SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine()), [
                 'file' => $this->file,
                 'mappedColumns' => $this->mappedColumns,
                 'tags' => $this->tags,

@@ -52,7 +52,7 @@ return [
         ],
 
         'sqs' => [
-            'driver' => 'sqs',
+            'driver' => 'sqs-disk',
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
@@ -60,6 +60,12 @@ return [
             'suffix' => env('SQS_SUFFIX'),
             'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
             'after_commit' => false,
+            'disk_options' => [
+                'always_store' => false,
+                'cleanup' => false,
+                'disk' => 's3',
+                'prefix' => 'sqs-import',
+            ],
         ],
 
         'redis' => [
