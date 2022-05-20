@@ -317,7 +317,7 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0">
                     <PopoverPanel
-                      class="absolute left-6 z-10 mt-2 w-screen max-w-sm -translate-x-full transform px-2 sm:px-0">
+                      class="absolute left-6 z-10 mt-2 w-screen max-w-md -translate-x-full transform px-2 sm:px-0">
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
@@ -340,8 +340,9 @@
                               <router-link
                                 to="/imports"
                                 class="group 0 block flex-shrink-0">
-                                <div class="flex w-full items-center">
-                                  <div>
+                                <div
+                                  class="flex w-full items-center justify-between">
+                                  <div class="px-2">
                                     <component
                                       class="mx-auto h-5 w-5 text-neutral-400"
                                       :is="'CloudUploadIcon'">
@@ -350,10 +351,10 @@
                                   <div class="ml-3 w-60">
                                     <p
                                       class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
-                                      {{ batch.name }}
+                                      Importing {{ batch.name }}
                                       <span
                                         class="text-2xs font-light text-neutral-500"
-                                        >- Instagram Profiles</span
+                                        >- {{ batch.type }} Profiles</span
                                       >
                                     </p>
                                     <div class="w-full">
@@ -365,6 +366,10 @@
                                     <ProgressBar
                                       :percentage="batch.progress"
                                       class="mx-auto w-full" />
+                                  </div>
+                                  <div
+                                    class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
+                                    {{ formatDate(batch.created_at) }}
                                   </div>
                                 </div>
                               </router-link>
