@@ -321,7 +321,7 @@
                       <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div class="relative h-40 gap-6 bg-white px-1 sm:gap-8">
+                        <div class="relative h-80 gap-6 bg-white px-1 sm:gap-8">
                           <div
                             class="mx-auto inline-flex w-full items-center border-b pb-1">
                             <p
@@ -329,7 +329,7 @@
                               Notifications
                             </p>
                           </div>
-                          <div class="overflow-y-scroll" v-if="batches.length">
+                          <div class="" v-if="batches.length">
                             <div
                               as="div"
                               class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
@@ -363,8 +363,15 @@
                                         Total: {{ batch.initial_total_in_file }}
                                       </p>
                                     </div>
-                                    <p class="text-red-700" v-if="batch.cancelled_at">Your {{ batch.type }} import for this file cancelled with error code {{ batch.error_code }}</p>
-                                    <ProgressBar v-else
+                                    <p
+                                      class="mx-auto text-2xs text-red-400"
+                                      v-if="batch.cancelled_at">
+                                      Importing {{ batch.type }} profiles failed
+                                      with error code:
+                                      {{ batch.error_code }}
+                                    </p>
+                                    <ProgressBar
+                                      v-else
                                       :percentage="batch.progress"
                                       class="mx-auto w-full" />
                                   </div>
