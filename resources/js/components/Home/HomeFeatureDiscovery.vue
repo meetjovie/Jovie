@@ -120,7 +120,7 @@
       </div>
     </div>
   </div>
-  <!-- 
+
   <div
     class="grid grid-cols-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-8 backdrop-blur-xl backdrop-saturate-150">
     <div
@@ -134,14 +134,14 @@
       </p>
       <div
         class="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 lg:mt-16 lg:gap-x-8 lg:gap-y-8">
-        <div v-for="feature in features" :key="feature.name" class="col-span-1">
+        <!--  <div v-for="feature in features" :key="feature.name" class="col-span-1">
           <div class="mt-6">
             <h3 class="text-sm font-medium text-white">{{ feature.name }}</h3>
             <p class="mt-2 text-xs text-indigo-100">
               {{ feature.description }}
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="items-center py-8">
@@ -162,8 +162,8 @@
           >sunglasses</span
         >
       </div>
-    </div> 
-  </div> -->
+    </div>
+  </div>
 </template>
 <script>
 import {

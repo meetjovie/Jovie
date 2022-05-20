@@ -3,7 +3,9 @@
     <main>
       <div class="min-h-screen">
         <div
-          class="mt-24 flex w-full flex-col-reverse items-center justify-center py-24 sm:mt-0 sm:py-24 md:flex-col md:py-40">
+
+          class="flex w-full flex-col-reverse items-center justify-center pt-12 sm:py-12 md:flex-col md:py-40">
+
           <img
             :src="asset('img/External/bgImg.webp')"
             class="mt-6 hidden w-full object-fill object-center md:mt-0 xl:block"
@@ -70,16 +72,15 @@
             </div>
           </div>
         </div>
+        <HomeLogoCloud></HomeLogoCloud>
       </div>
-
-      <!-- <HomeLogoCloud></HomeLogoCloud> -->
-
       <HomeFeatureCRM id="crm"></HomeFeatureCRM>
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
-      <!--   <HomeFeatureSequences></HomeFeatureSequences> -->
-      <!--  <HomeFeatureHero></HomeFeatureHero> -->
 
-      <!--  <HomeCTA></HomeCTA> -->
+      <HomeFeatureHero></HomeFeatureHero>
+
+      <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
+      <HomeCTA></HomeCTA>
       <HomeTestimonials></HomeTestimonials>
       <HomeCTA2></HomeCTA2>
     </main>
