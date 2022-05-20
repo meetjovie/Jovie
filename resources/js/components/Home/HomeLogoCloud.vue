@@ -9,23 +9,23 @@
         <div class="mt-12 flow-root self-center lg:mt-0">
           <div class="-mt-4 -ml-8 flex flex-wrap justify-between lg:-ml-4">
             <div
-              class="mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0">
+              class="mx-auto mt-6 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0">
               <img
-                class="h-8 opacity-30 saturate-0"
+                class="mx-auto ml-2 h-6 opacity-30 saturate-0"
                 :src="asset('img/External/Logos/Zelf.svg')"
                 alt="Zelf" />
             </div>
             <div
-              class="mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0">
+              class="mx-auto mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0">
               <img
-                class="h-8 opacity-30 saturate-0"
+                class="mx-auto ml-4 h-8 opacity-30 saturate-0"
                 :src="asset('img/External/Logos/Fuego.svg')"
                 alt="Fuego" />
             </div>
             <div
-              class="mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0">
+              class="mx-auto mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0">
               <img
-                class="h-8 opacity-30 saturate-0"
+                class="mx-auto h-8 opacity-30 saturate-0"
                 :src="asset('img/External/Logos/superjoi.webp')"
                 alt="Fuego" />
             </div>

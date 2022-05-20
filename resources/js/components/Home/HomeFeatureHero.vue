@@ -36,7 +36,7 @@
         </div>
       </div>
     </div> -->
-  <div class="py-12">
+  <!-- <div class="py-12">
     <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
       <h2
         class="bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 bg-clip-text text-center text-xs font-semibold uppercase tracking-wide text-transparent">
@@ -50,9 +50,7 @@
         Jovie aggregates, enriches, & transforms data on
         <span class="text-indigo-500">3M+ creators</span> from 50+ sources.
 
-        <!--  All
-        of this information is available as unified profiles managabled within
-        Jovie or your existing tools. -->
+       
       </p>
       <div class="mx-auto grid grid-cols-3 items-center py-8">
         <div class="mx-auto grid grid-cols-4 items-center justify-center gap-4">
@@ -223,7 +221,7 @@
           </div>
           <div
             class="m-2 mx-auto h-10 w-10 items-center rounded-lg border-2 text-neutral-400 shadow-md">
-            <span class="mx-auto mt-4 items-center text-xs text-neutral-400"
+            <span class="mx-auto mt-6 items-center text-xs text-neutral-400"
               >50+</span
             >
           </div>
@@ -245,21 +243,7 @@
         </div>
         <div class="rounded-lg border-2 border-neutral-200 py-2 px-4 shadow-md">
           <div class="min-h-full w-full px-2 py-2">
-            <!--  <div
-              class="absolute top-2 right-0 w-full justify-end text-right text-xs font-bold text-neutral-400 hover:text-neutral-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="absolute top-0 right-0 h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            </div> -->
+            
             <div class="grid grid-cols-3">
               <div class="">
                 <img
@@ -420,8 +404,8 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="relative overflow-hidden bg-white pt-16 pb-32">
+  </div> -->
+  <!--  <div class="relative overflow-hidden bg-white pt-16 pb-32">
     <div class="relative">
       <div
         class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
@@ -429,12 +413,7 @@
           class="mx-auto max-w-xl px-4 sm:px-6 lg:mx-0 lg:max-w-none lg:py-16 lg:px-0">
           <div>
             <div>
-              <!-- <span
-                class="flex h-12 w-12 items-center justify-center rounded-md">
-                <LightningBoltIcon
-                  class="text-windigo-500 h-6 w-6"
-                  aria-hidden="true" />
-              </span> -->
+             
             </div>
             <div class="mt-6">
               <h2
@@ -495,7 +474,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>

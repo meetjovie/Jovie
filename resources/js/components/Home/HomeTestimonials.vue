@@ -15,7 +15,7 @@
 
       <div
         class="mx-auto mt-10 max-w-5xl items-center gap-6 border-b pb-12 lg:flex">
-        <!-- <div class="lg:w-1/2">
+      <div class="lg:w-1/2">
           <div
             class="relative rounded-md border border-gray-200 bg-white p-6 sm:p-10">
             <div>
@@ -83,7 +83,7 @@
               </p>
             </div>
           </div>
-        </div> -->
+        </div> 
         <div class="mx-auto mt-16 lg:mt-0 lg:w-1/2">
           <div
             class="relative rounded-md border border-gray-200 bg-white p-6 sm:p-10">
@@ -165,7 +165,7 @@
         viewBox="0 0 404 404"
         role="img"
         aria-labelledby="svg-workcation">
-        <title id="svg-workcation">Workcation</title>
+        <title id="svg-workcation">Jovie</title>
         <defs>
           <pattern
             id="ad119f34-7694-4c31-947f-5c9d249b21f3"
