@@ -39,6 +39,9 @@ class Import extends Model
 
     const PER_PAGE = 1000;
 
+    const ERROR_INTERNAL_MONTHLY_CREDITS_REACHED = 0;
+    const ERROR_EXCEPTION_DURING_IMPORT = 1;
+
     public static function getProgress($batch)
     {
         $batch = DB::table('job_batches')->where('id', $batch->id)->first();
@@ -116,11 +119,11 @@ class Import extends Model
 
                 Log::info('The batch has finished executing...');
 
-            })->allowFailures()->onConnection($queue)->dispatch();
+            })->onConnection($queue)->dispatch();
 
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'user_list_id' => $this->user_list_id,
-                'initial_total_in_file' => Import::where('user_list_id', $this->user_list_id)->count(),
+                'initial_total_in_file' => Import::where('user_list_id', $this->user_list_id)->whereNotNull($queue)->count(),
                 'type' => $queue
             ]);
         } else {

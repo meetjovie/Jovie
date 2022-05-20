@@ -70,8 +70,21 @@ class Test extends Command
                         $this->triggerInstagramImport($import, $instagramBatch);
                     }
                 }
+//                do this for each network
+//                if ($import->twitter && $import->twitter_scrapped != 1) {
+//                    // trigger instagram import
+//                    $twitterBatch = $import->getImportBatch('twitter');
+//                    if (! $twitterBatch->cancelled()) {
+//                        $this->triggerTwitterImport($import, $twitterBatch);
+//                    }
+//                }
             }
         }
+    }
+
+    public function triggerTwitterImport($import, $twitterBatch)
+    {
+
     }
 
     public function triggerInstagramImport($import, $batch)

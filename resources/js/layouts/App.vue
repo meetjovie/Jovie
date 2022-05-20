@@ -363,7 +363,8 @@
                                         Total: {{ batch.initial_total_in_file }}
                                       </p>
                                     </div>
-                                    <ProgressBar
+                                    <p class="text-red-700" v-if="batch.cancelled_at">Your {{ batch.type }} import for this file cancelled with error code {{ batch.error_code }}</p>
+                                    <ProgressBar v-else
                                       :percentage="batch.progress"
                                       class="mx-auto w-full" />
                                   </div>
