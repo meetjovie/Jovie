@@ -122,7 +122,7 @@ class InstagramImport implements ShouldQueue
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED]);
+                        DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_NO_RESPONSE]);
                         $this->fail();
                         Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
                     }

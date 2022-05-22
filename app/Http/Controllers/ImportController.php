@@ -46,8 +46,8 @@ class ImportController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:key,youtube',
-            'key' => 'required_without_all:instagram,youtube|string'
+            'instagram' => 'required_without_all:key',
+            'key' => 'required_without_all:instagram|nullable|string'
         ]);
         if ($request->instagram) {
             foreach (explode('\n', $request->instagram) as $instagram) {

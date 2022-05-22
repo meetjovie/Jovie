@@ -317,6 +317,8 @@ export default {
         })
         .finally((response) => {
           this.importing = false;
+          Object.assign(this.$data, this.$options.data());
+            this.getUserLists();
         });
     },
   },

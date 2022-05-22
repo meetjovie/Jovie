@@ -40,7 +40,8 @@ class Import extends Model
     const PER_PAGE = 1000;
 
     const ERROR_INTERNAL_MONTHLY_CREDITS_REACHED = 0;
-    const ERROR_EXCEPTION_DURING_IMPORT = 1;
+    const ERROR_INTERNAL_NO_RESPONSE = 1;
+    const ERROR_EXCEPTION_DURING_IMPORT = 2;
 
     public static function getProgress($batch)
     {
