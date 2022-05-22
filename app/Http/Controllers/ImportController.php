@@ -12,6 +12,7 @@ use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
@@ -153,8 +154,10 @@ class ImportController extends Controller
             ->select('job_batches.*', 'user_lists.name')
             ->whereIn('user_list_id', $userListIds)
             ->get();
+        $now = Carbon::now();
         foreach ($batches as &$batch) {
             $batch->progress = Import::getProgress($batch);
+            $batch->duration_formated = Carbon::createFromTimestamp($batch->created_at)->diffForHumans($now);
             unset($batch->options);
         }
         return response()->json([

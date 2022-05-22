@@ -377,7 +377,7 @@
                                   </div>
                                   <div
                                     class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
-                                    {{ formatDate(batch.created_at) }}
+                                    {{ batch.duration_formated }}
                                   </div>
                                 </div>
                               </router-link>
