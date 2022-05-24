@@ -61,18 +61,18 @@ class TriggerImports extends Command
                     }
                 }
 //                do this for each network
-//                if ($import->twitter && $import->twitter_scrapped != 1) {
-//                    // trigger instagram import
-//                    $twitterBatch = $import->getImportBatch('twitter');
-//                    if (! $twitterBatch->cancelled()) {
-//                        $this->triggerTwitterImport($import, $twitterBatch);
-//                    }
-//                }
+                if ($import->twitter && $import->twitter_scrapped != 1) {
+                    // trigger instagram import
+                    $twitterBatch = $import->getImportBatch('twitter');
+                    if (! $twitterBatch->cancelled()) {
+                        $this->triggerTwitterImport($import, $twitterBatch);
+                    }
+                }
             }
         }
     }
 
-    public function triggerTwitterImport($import, $twitterBatch)
+    public function triggerTwitchImport($import, $twitterBatch)
     {
 
     }
