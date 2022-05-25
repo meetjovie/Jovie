@@ -350,7 +350,7 @@
                                   </div>
                                   <div class="ml-3 w-60">
                                     <p
-                                      class="justify-between text-xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
+                                      class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
                                       Importing {{ batch.name }}
                                       <span
                                         class="text-2xs font-light text-neutral-500"
@@ -359,7 +359,7 @@
                                     </p>
                                     <div class="w-full">
                                       <p
-                                        class="text-xs font-medium text-gray-500">
+                                        class="text-2xs font-medium text-gray-500">
                                         Total: {{ batch.initial_total_in_file }}
                                       </p>
                                     </div>
