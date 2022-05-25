@@ -210,6 +210,7 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
+      requiresAdmin: true,
       requiresSubscribe: true,
     },
   },
