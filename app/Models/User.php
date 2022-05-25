@@ -105,7 +105,7 @@ class User extends Authenticatable
         return $this->hasMany(Import::class)->orderByDesc('created_at')
             ->where('dispatched', '!=', 1)
             ->orWhere(function ($q) {
-                $q->where('instagram_scrapped', '!=', 1);
+                $q->where('instagram_scrapped', '!=', 1)->orWhere('twitch_scrapped', '!=', 1);
             })
             ->limit(2);
     }

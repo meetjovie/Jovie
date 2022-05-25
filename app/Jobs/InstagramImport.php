@@ -86,7 +86,7 @@ class InstagramImport implements ShouldQueue
                 return;
             }
         }
-        if (is_null($this->platformUser) || $this->batch()->cancelled()) {
+        if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
             return;
         }
 

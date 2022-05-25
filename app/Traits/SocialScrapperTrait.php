@@ -30,6 +30,48 @@ trait SocialScrapperTrait {
         }
     }
 
+    public function generateTwitchToken()
+    {
+        try {
+            $client = new \GuzzleHttp\Client();
+            $response = $client->post('https://id.twitch.tv/oauth2/token', array(
+                'query' => [
+                    'client_id' => config('import.twitch_client_id'),
+                    'client_secret' => config('import.twitch_client_secret'),
+                    'grant_type' => 'client_credentials',
+                ]
+            ));
+            return json_decode($response->getBody()->getContents());
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function scrapTwitch($username, $token = null)
+    {
+        if (empty($token)) {
+            $response = $this->generateTwitchToken();
+            if (!is_null($response) && $response->access_token) {
+                $token = $response->access_token;
+            }
+        }
+        try {
+            $client = new \GuzzleHttp\Client();
+            $response = $client->get('https://api.twitch.tv/helix/users', array(
+                'query' => [
+                    'login' => 'ninja',
+                ],
+                'headers' => [
+                    'Authorization' => "Bearer {$token}",
+                    'client-id' => config('import.twitch_client_id')
+                ]
+            ));
+            return $response;
+        } catch (\Exception $e) {
+            return $e->getResponse();
+        }
+    }
+
     public function getUserGender($name)
     {
         try {

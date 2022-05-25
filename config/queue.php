@@ -50,10 +50,10 @@ return [
             'after_commit' => false,
         ],
 
-        'twitter' => [
+        'twitch' => [
             'driver' => 'database',
             'table' => 'jobs',
-            'queue' => 'instagram',
+            'queue' => 'twitch',
             'retry_after' => 90,
             'after_commit' => false,
         ],

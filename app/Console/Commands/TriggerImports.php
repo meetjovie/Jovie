@@ -4,17 +4,22 @@ namespace App\Console\Commands;
 
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
+use App\Jobs\TwitchImport;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
+use App\Traits\SocialScrapperTrait;
 use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class TriggerImports extends Command
 {
+    use SocialScrapperTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -53,31 +58,40 @@ class TriggerImports extends Command
         $users = User::whereHas('pendingImports')->with('pendingImports')->get();
         foreach ($users as $user) {
             foreach ($user->pendingImports as $import) {
+
+                $commonData = $this->setCommonDateForImport($import);
+
                 if ($import->instagram && $import->instagram_scrapped != 1) {
                     // trigger instagram import
                     $instagramBatch = $import->getImportBatch('instagram');
                     if (! $instagramBatch->cancelled()) {
-                        $this->triggerInstagramImport($import, $instagramBatch);
+                        $this->triggerInstagramImport($import, $instagramBatch, $commonData);
                     }
                 }
 //                do this for each network
-                if ($import->twitter && $import->twitter_scrapped != 1) {
+                if ($import->twitch && $import->twitch_scrapped != 1) {
                     // trigger instagram import
-                    $twitterBatch = $import->getImportBatch('twitter');
-                    if (! $twitterBatch->cancelled()) {
-                        $this->triggerTwitterImport($import, $twitterBatch);
+                    $twitchBatch = $import->getImportBatch('twitch');
+                    $response = $this->generateTwitchToken();
+                    if (!is_null($response) && $response->access_token) {
+                        Cache::put('twitch_token_'.$twitchBatch->user_list_id, $response->access_token, now()->addDay());
+                        if (! $twitchBatch->cancelled()) {
+                            $this->triggerTwitchImport($import, $twitchBatch, $commonData);
+                        }
                     }
                 }
             }
         }
     }
 
-    public function triggerTwitchImport($import, $twitterBatch)
+    public function triggerTwitchImport($import, $batch, $commonData)
     {
-
+        $batch->add([
+            (new TwitchImport($import->twitch_id, $import->twitch, $commonData['tags'], $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
+        ]);
     }
 
-    public function triggerInstagramImport($import, $batch)
+    public function setCommonDateForImport($import)
     {
         $socialHandlers = [
             'twitch_handler' => $import->twitch,
@@ -104,8 +118,17 @@ class TriggerImports extends Command
         if ($import->tags && json_decode($import->tags)) {
             $tags = implode(',', json_decode($import->tags));
         }
+
+        return [
+            'meta' => $meta,
+            'tags' => $tags
+        ];
+    }
+
+    public function triggerInstagramImport($import, $batch, $commonData)
+    {
         $batch->add([
-            (new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
+            (new InstagramImport($import->instagram, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
         ]);
     }
 }
