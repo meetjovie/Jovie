@@ -14,10 +14,9 @@
         </p>
 
         <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-          Empower your creator partnerships team with the only sales engagemnt
+          Empower your creator partnerships team with the only sales engagement
           platform built from the ground up for
           <span class="font-bold">creator economy </span>companies.
-
         </p>
       </div>
       <div class="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">

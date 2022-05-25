@@ -1,5 +1,5 @@
 <template>
-  <!-- <body class="bg-neutral-50">
+  <!--  <body class="bg-neutral-50">
     <div class="px-4 py-24 md:px-6 lg:px-20">
       <div class="flex flex-col items-center justify-center">
         <h1 class="text-center text-xl font-bold text-gray-500 lg:text-2xl">
@@ -15,7 +15,7 @@
 
       <div
         class="mx-auto mt-10 max-w-5xl items-center gap-6 border-b pb-12 lg:flex">
-        <!-- <div class="lg:w-1/2">
+       <div class="lg:w-1/2">
           <div
             class="relative rounded-md border border-gray-200 bg-white p-6 sm:p-10">
             <div>
@@ -83,7 +83,7 @@
               </p>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="mx-auto mt-16 lg:mt-0 lg:w-1/2">
           <div
             class="relative rounded-md border border-gray-200 bg-white p-6 sm:p-10">
@@ -153,7 +153,7 @@
         </div>
       </div>
     </div>
-  </body> -->
+  </body>  -->
 
   <section class="overflow-hidden bg-gray-50 py-12 md:py-20 lg:py-24">
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
