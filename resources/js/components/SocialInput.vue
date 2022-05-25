@@ -57,7 +57,7 @@
         class="group absolute inset-y-0 right-0 flex cursor-pointer py-1.5 pr-3 active:pr-2.5">
         <kbd
           class="inline-flex select-none items-center rounded border border-indigo-200 px-2 font-sans text-sm font-medium text-indigo-400 active:border-indigo-500 group-hover:border-indigo-400">
-          Import
+          Add to Jovie
         </kbd>
       </div>
     </div>
