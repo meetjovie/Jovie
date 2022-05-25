@@ -51,12 +51,14 @@
         type="social-media-profile-url"
         name="social-media-profile-url"
         id="social-media-profile-url"
-        class="border-1 block w-full rounded-md border-indigo-300 py-2 pl-10 placeholder:font-semibold placeholder:text-neutral-400 focus:border-indigo-500 focus:ring-indigo-500 active:border-indigo-500 sm:text-sm"
+        tabindex="1"
+        class="border-1 block w-full rounded-md border-indigo-300 py-2 pl-10 placeholder:font-semibold placeholder:text-neutral-400 focus:border-indigo-400 focus:ring-indigo-500 active:border-indigo-500 sm:text-sm"
         placeholder="http://instagram.com/username" />
       <div
-        class="group absolute inset-y-0 right-0 flex cursor-pointer py-1.5 pr-3 active:pr-2.5">
+        class="group absolute inset-y-0 right-0 flex cursor-pointer py-1.5 pr-3 active:pt-2">
         <kbd
-          class="inline-flex select-none items-center rounded border border-indigo-200 px-2 font-sans text-sm font-medium text-indigo-400 active:border-indigo-500 group-hover:border-indigo-400">
+          tabindex="2"
+          class="inline-flex select-none items-center rounded border border-indigo-200 px-2 font-sans text-sm font-medium text-indigo-400 focus:bg-indigo-500 focus:text-white active:border-indigo-500 group-hover:border-indigo-400">
           Add to Jovie
         </kbd>
       </div>
