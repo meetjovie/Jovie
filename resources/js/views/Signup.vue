@@ -268,7 +268,7 @@ export default {
           response = response.data;
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
-            this.step = 3;
+            this.$router.push({ name: 'Home' });
           } else {
             this.error = response.error;
           }

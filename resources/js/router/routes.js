@@ -59,7 +59,7 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-      requiresSubscribe: true,
+      requiresSubscribe: false,
     },
   },
   {
