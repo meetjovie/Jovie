@@ -101,6 +101,10 @@
                     Next
                   </button>
                 </div>
+
+                <h3 class="mx-auto -mt-8 text-center text-xs text-gray-400">
+                  No credit card required.
+                </h3>
               </template>
               <template v-if="step == 2">
                 <CreateAccount text="Enter a password" />
@@ -172,7 +176,7 @@
                   </div>
                 </div>
               </template>
-              <template v-if="step == 3">
+              <!--  <template v-if="step == 3">
                 <CreateAccount text="Choose a plan">
                   <p class="mt-1 text-sm text-gray-500">
                     Choose a plan that fits your needs.
@@ -181,7 +185,7 @@
                 <div class="space-y-1">
                   <Subscription />
                 </div>
-              </template>
+              </template> -->
             </form>
           </div>
         </div>

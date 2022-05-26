@@ -26,6 +26,15 @@ export const routes = [
     },
   },
   {
+    name: 'Enrichment',
+    path: '/enrichment',
+    component: loadPage('Enrichment'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Account',
     path: '/account',
     component: loadPage('Account'),

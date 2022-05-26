@@ -235,8 +235,8 @@ export default {
         {
           name: 'Data Enrichment',
           description: 'Enrich your existing customer lists with creator specific data', 
-          href: '/',
-          anchor: '#outreach',
+          href: 'Enrichment',
+          anchor: '',
           icon: 'DatabaseIcon',
         },
             ],
