@@ -102,13 +102,18 @@
     </div>
     <div class="container mx-auto max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
       <div>
-        <h1 class="text-md font-bold">Lookup a creator.</h1>
+        <h1 class="text-md font-bold">Add a creator.</h1>
         <span class="text-sm font-medium text-neutral-500"
-          >Enter the url of a social profile to get started.</span
+          >Enter the url of a social profile to add a creator to your
+          contacts.</span
         >
       </div>
       <SocialInput />
+      <p class="text-xs font-medium text-neutral-400">
+        Enter a social URL to add a creator to your contacts.
+      </p>
     </div>
+
     <div>
       <!-- This example requires Tailwind CSS v2.0+ -->
       <div
