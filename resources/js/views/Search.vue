@@ -1149,7 +1149,7 @@ export default {
       if (this.helper) {
         this.resetQuery = '*';
 
-        document.querySelector('div.ais-ClearRefinements button').click();
+        document.querySelector('div.ais-ClearRefinements a').click();
         document.querySelector('div.ais-SearchBox input').value = '';
         this.searchFunction(this.helper);
       }

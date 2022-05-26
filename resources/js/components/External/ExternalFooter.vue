@@ -8,6 +8,9 @@
           <p
             class="justify-right items-center text-center text-xs text-gray-400">
             <span class="divide divide-x-1 flex divide-gray-200">
+              <router-link class="px-2 hover:text-neutral-700" to="/api"
+                >API</router-link
+              >
               <router-link class="px-2 hover:text-neutral-700" to="/pricing"
                 >Pricing</router-link
               >

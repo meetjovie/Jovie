@@ -26,6 +26,15 @@ export const routes = [
     },
   },
   {
+    name: 'Enrichment',
+    path: '/enrichment',
+    component: loadPage('Enrichment'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Account',
     path: '/account',
     component: loadPage('Account'),
@@ -55,7 +64,7 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-      requiresSubscribe: true,
+      requiresSubscribe: false,
     },
   },
   {
@@ -215,6 +224,7 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
+      requiresAdmin: true,
       requiresSubscribe: true,
     },
   },
@@ -246,6 +256,19 @@ export const routes = [
     props: true,
     meta: {
       layout: 'Minimal',
+    },
+  },
+  {
+    name: 'API',
+    path: '/api',
+    beforeEnter(to, from, next) {
+      window.open(
+        'https://u3yaoaf518v.typeform.com/to/pngWHiwK?typeform-source=admin.typeform.com',
+        '_blank'
+      );
+    },
+    meta: {
+      requiresAuth: false,
     },
   },
   {

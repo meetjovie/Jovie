@@ -151,76 +151,22 @@
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
               <div
-                v-if="!currentUser.current_team.current_subscription"
+                  v-if="!currentUser.current_team.current_subscription"
                 as="router-link"
                 to="/account"
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
                 Upgrade
               </div>
-              <Popover>
-                <PopoverButton class="group inline-flex items-center">
-                  <span
-                    class="z-20 -mt-1.5 items-center text-xs font-bold text-neutral-400 group-hover:text-neutral-500">
-                    {{
-                      currentUser.current_team
-                        ? currentUser.current_team.name
-                        : 'Select a team'
-                    }}
-                  </span>
-                  <ChevronDownIcon
-                    class="ml-1 -mt-1.5 h-4 w-4 text-neutral-400 group-hover:text-neutral-500" />
-                </PopoverButton>
-
-                <transition
-                  enter-active-class="transition duration-150 ease-out"
-                  enter-from-class="transform scale-95 opacity-0"
-                  enter-to-class="transform scale-100 opacity-100"
-                  leave-active-class="transition duration-150 ease-out"
-                  leave-from-class="transform scale-100 opacity-100"
-                  leave-to-class="transform scale-95 opacity-0">
-                  <PopoverPanel
-                    class="absolute right-40 z-10 mt-3 w-40 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                    <div class="">
-                      <div
-                        class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">
-                        Your teams:
-                      </div>
-                      <div
-                        v-if="currentUser.teams"
-                        v-for="team in currentUser.teams">
-                        <button
-                          @click="switchTeam(team.id)"
-                          class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
-                          :class="[
-                            active
-                              ? 'bg-white px-1 py-2 font-bold text-indigo-700'
-                              : 'text-sm text-gray-500',
-                            'group flex w-full items-center px-2 py-2 text-xs',
-                          ]">
-                          <ChevronRightIcon
-                            :active="active"
-                            class="mr-1 h-4 w-4 text-indigo-400 group-hover:text-white"
-                            aria-hidden="true" />
-                          {{ team.name }}
-                        </button>
-                      </div>
-                      <div class="mx-auto w-full text-center">
-                        <router-link
-                          to="/account/team"
-                          class="group mx-auto flex w-full items-center rounded-b-md border-t px-4 py-1 text-center text-xs font-bold text-neutral-400 hover:bg-indigo-700 hover:text-white">
-                          <div class="mx-auto inline-flex items-center">
-                            Add Team
-                            <PlusIcon
-                              :active="active"
-                              class="ml-1 h-3 w-3 font-bold text-neutral-400 group-hover:text-white"
-                              aria-hidden="true" />
-                          </div>
-                        </router-link>
-                      </div>
-                    </div>
-                  </PopoverPanel>
-                </transition>
-              </Popover>
+              <div>
+                <div
+                  class="text-center text-2xs font-semibold text-neutral-500">
+                  25
+                </div>
+                <div class="-mt-1 text-center text-[8px] text-neutral-400">
+                  Credits
+                </div>
+              </div>
+              <SwitchTeams />
               <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
@@ -479,14 +425,17 @@
                       :key="dropdownmenuitem"
                       as="router-link"
                       :to="dropdownmenuitem.route"
-                      class="first-rounded-t-md inline-flex w-full px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component
-                        class="mr-4 h-4 w-4"
-                        :is="dropdownmenuitem.icon">
-                      </component>
-                      <router-link :to="dropdownmenuitem.route">
+                      <router-link
+                        class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                        :to="dropdownmenuitem.route">
+                        <component
+                          class="mr-4 h-4 w-4 cursor-pointer"
+                          :is="dropdownmenuitem.icon">
+                        </component>
+
                         {{ dropdownmenuitem.name }}
                       </router-link>
                     </div>
@@ -496,9 +445,8 @@
                       class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component
-                        class="mr-4 h-4 w-4"
-                        is="LogoutIcon"></component>
+                      <component class="mr-4 h-4 w-4" is="LogoutIcon">
+                      </component>
                       Sign out
                     </div>
                   </PopoverPanel>
@@ -517,9 +465,10 @@
             <AlertBanner
               v-if="currentUser.queued_count"
               design="primary"
-              mobiletitle="Your subscribtion is inactive"
-              title="Your imports are in progress"
-              :cta="`There are a total of ${currentUser.queued_count} imports in progress. Once they are done, we would soon start scrapping them.`" />
+              :mobiletitle="`Importing ${currentUser.queued_count} items.`"
+              :title="`Importing ${currentUser.queued_count}  items.`"
+              :cta="`View`"
+              ctaLink="/contacts" />
             <router-view></router-view>
           </div>
         </div>
@@ -562,10 +511,12 @@ import {
   PopoverPanel,
   PopoverGroup,
 } from '@headlessui/vue';
+
 import TeamService from '../services/api/team.service';
-import AlertBanner from '../components/AlertBanner';
 import ImportService from '../services/api/import.service';
 import ProgressBar from '../components/ProgressBar';
+import SwitchTeams from '../components/SwitchTeams.vue';
+import AlertBanner from '../components/AlertBanner';
 
 export default {
   name: 'App',
@@ -574,13 +525,13 @@ export default {
       errors: [],
       user: this.$store.state.AuthState.user,
       nav: [
-        { name: 'Admin', route: '/admin', icon: CheckCircleIcon },
+        /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
         { name: 'Search', route: '/discovery', icon: SearchIcon },
         { name: 'Contacts', route: '/contacts', icon: UserGroupIcon },
         { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon },
         { name: 'Import', route: '/import', icon: CloudUploadIcon },
-        { name: 'Settings', route: '/account', icon: CogIcon },
+        /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [
         { name: 'Profile', route: '/', icon: UserGroupIcon },
@@ -659,6 +610,7 @@ export default {
     PopoverGroup,
     SupportIcon,
     AlertBanner,
+      SwitchTeams
   },
 };
 </script>

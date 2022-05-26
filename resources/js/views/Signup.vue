@@ -101,6 +101,10 @@
                     Next
                   </button>
                 </div>
+
+                <h3 class="mx-auto -mt-8 text-center text-xs text-gray-400">
+                  No credit card required.
+                </h3>
               </template>
               <template v-if="step == 2">
                 <CreateAccount text="Enter a password" />
@@ -155,6 +159,7 @@
                     <button
                       type="button"
                       @click="back()"
+                      tabindex="2"
                       class="col-span-1 cursor-pointer justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Back
                     </button>
@@ -162,6 +167,7 @@
                   <div>
                     <button
                       type="button"
+                      tabindex="1"
                       @click="register()"
                       :disabled="submitting"
                       class="col-span-1 w-full cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
@@ -170,7 +176,7 @@
                   </div>
                 </div>
               </template>
-              <template v-if="step == 3">
+              <!--  <template v-if="step == 3">
                 <CreateAccount text="Choose a plan">
                   <p class="mt-1 text-sm text-gray-500">
                     Choose a plan that fits your needs.
@@ -179,7 +185,7 @@
                 <div class="space-y-1">
                   <Subscription />
                 </div>
-              </template>
+              </template> -->
             </form>
           </div>
         </div>
@@ -262,7 +268,7 @@ export default {
           response = response.data;
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
-            this.step = 3;
+            this.$router.push({ name: 'Home' });
           } else {
             this.error = response.error;
           }

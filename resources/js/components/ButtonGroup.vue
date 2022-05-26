@@ -62,10 +62,16 @@ export default {
     icon: {
       type: String,
       default: null,
+      required: false,
     },
     disabled: {
       type: Boolean,
       default: false,
+    },
+    buttonlink: {
+      type: String,
+      default: null,
+      required: false,
     },
     size: {
       type: String,

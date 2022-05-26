@@ -47,12 +47,6 @@
               </TabPanels>
               <TabPanels as="template">
                 <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
-                  Plan (Coming soon)
-                </TabPanel>
-              </TabPanels>
-
-              <TabPanels as="template">
-                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   <Subscription
                     title="Payment details"
                     subtitle="Update your billing information. Please note that updating your
@@ -126,7 +120,6 @@ const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
   { name: 'Notifications', href: '#', current: false },
-  { name: 'Plan', href: '#', current: false },
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
 ];

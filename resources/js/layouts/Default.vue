@@ -60,7 +60,7 @@
                                                     </div>
                                                     <div class="ml-4">
                                                     <p class="text-sm font-medium text-gray-900">
-                                                        {{ item.name }}
+                                                        {{ item.name }}  <span v-if="item.label" class="ml-3 inline-flex items-center px-2 py-0 rounded-md text-2xs font-medium leading-5 bg-pink-100 text-pink-800"> {{item.label}} </span>
                                                     </p>
                                                     <p class="text-sm text-gray-500">
                                                         {{ item.description }}
@@ -77,6 +77,7 @@
                                                     <span class="text-sm font-medium text-gray-900">
                                                         Chrome Extension
                                                     </span>
+                                                     <span class="ml-3 inline-flex items-center px-2 py-0 rounded-md text-2xs font-medium leading-5 bg-indigo-100 text-indigo-800"> New </span>
                                                     </span>
                                                     <span class="block text-sm text-gray-500">
                                                    Get creator insights & social content right inside Gmail.
@@ -226,6 +227,7 @@ export default {
         {
           name: 'Outreach',
           description: 'Onboard new creators at scale',
+          label: 'Coming soon',
           href: '/',
           anchor: '#outreach',
           icon: 'MailIcon',
@@ -233,8 +235,8 @@ export default {
         {
           name: 'Data Enrichment',
           description: 'Enrich your existing customer lists with creator specific data', 
-          href: '/',
-          anchor: '#outreach',
+          href: 'Enrichment',
+          anchor: '',
           icon: 'DatabaseIcon',
         },
             ],
