@@ -151,7 +151,6 @@
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
               <div
-                v-if=""
                 as="router-link"
                 to="/account"
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
