@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Jobs\SendSlackNotification;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 
@@ -30,7 +31,7 @@ trait SocialScrapperTrait {
         }
     }
 
-    public function generateTwitchToken()
+    public static function generateTwitchToken()
     {
         try {
             $client = new \GuzzleHttp\Client();
@@ -49,17 +50,11 @@ trait SocialScrapperTrait {
 
     public function scrapTwitch($username, $token = null)
     {
-        if (empty($token)) {
-            $response = $this->generateTwitchToken();
-            if (!is_null($response) && $response->access_token) {
-                $token = $response->access_token;
-            }
-        }
         try {
             $client = new \GuzzleHttp\Client();
             $response = $client->get('https://api.twitch.tv/helix/users', array(
                 'query' => [
-                    'login' => 'ninja',
+                    'id' => $username,
                 ],
                 'headers' => [
                     'Authorization' => "Bearer {$token}",

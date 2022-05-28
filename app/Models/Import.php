@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\SocialScrapperTrait;
 use Aws\S3\S3Client;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use League\Csv\Statement;
@@ -14,7 +16,7 @@ use Throwable;
 
 class Import extends Model
 {
-    use HasFactory;
+    use HasFactory, SocialScrapperTrait;
 
     protected $fillable = [
         'user_list_id',
@@ -124,7 +126,10 @@ class Import extends Model
 
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'user_list_id' => $this->user_list_id,
-                'initial_total_in_file' => Import::where('user_list_id', $this->user_list_id)->whereNotNull($queue)->count(),
+                'initial_total_in_file' => $queue != 'twitch' ? Import::where('user_list_id', $this->user_list_id)->whereNotNull($queue)->count() :
+                    Import::where('user_list_id', $this->user_list_id)->where(function ($q) use($queue) {
+                        $q->whereNotNull($queue)->orWhereNotNull($queue.'_id');
+                    })->count(),
                 'type' => $queue
             ]);
         } else {
@@ -139,5 +144,16 @@ class Import extends Model
             ->offset($page * $limit)
             ->limit($limit)
             ->process($reader);
+    }
+
+    public static function saveSwitchToken($listId)
+    {
+        $token = null;
+        $response = Import::generateTwitchToken();
+        if (!is_null($response) && $response->access_token) {
+            $token = $response->access_token;
+            Cache::put('twitch_token_'.$listId, $token, now()->addDay());
+        }
+        return $token;
     }
 }

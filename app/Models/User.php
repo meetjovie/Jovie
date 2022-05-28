@@ -107,6 +107,6 @@ class User extends Authenticatable
             ->orWhere(function ($q) {
                 $q->where('instagram_scrapped', '!=', 1)->orWhere('twitch_scrapped', '!=', 1);
             })
-            ->limit(2);
+            ->limit(200000000000000000000000);
     }
 }

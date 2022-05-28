@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Team;
-use AWS\CRT\Log;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -37,11 +38,14 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(1);
         });
 
-//        Queue::looping(function ($queue) {
-//            \Illuminate\Support\Facades\Log::info($queue->queue);
-//            if ($queue->queue == 'default') {
-//                return false;
-//            }
-//        });
+        Queue::looping(function ($queue) {
+            \Illuminate\Support\Facades\Log::info($queue->queue);
+            if ($queue->queue == 'twitch' && Cache::has('twitch_lock')) {
+                Log::info('twitch is locked');
+                return false;
+            } elseif ($queue->queue == 'twitch') {
+                Log::info('twitch is unlocked');
+            }
+        });
     }
 }

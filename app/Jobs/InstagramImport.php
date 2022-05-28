@@ -219,7 +219,7 @@ class InstagramImport implements ShouldQueue
         $creator->social_links = $this->addSocialLinksFromLinkTree($links, $creator->social_links);
         $creator->location = $user->location ?? null;
         $creator->type = $user->typename ?? 'CREATOR';
-        $creator->tags = $this->getTags($this->tags, $creator);
+        $creator->tags = Creator::getTags($this->tags, $creator);
         $gender = strtolower($this->meta['gender']);
         if (!$creator->gender_updated && !in_array($gender, ['male', 'female'])) {
             // first check if instagram has pronouns check for gender in it
@@ -247,7 +247,7 @@ class InstagramImport implements ShouldQueue
             $creator->gender_accuracy = 100;
         }
 
-        $creator->emails = $this->getEmails($user, $creator->emails);
+        $creator->emails = Creator::getEmails($user, $this->meta['emails'] ?? [], $creator->emails);
 
         if (!$creator->instagram_name_updated) {
             $creator->instagram_name = $this->remove_emoji($user->full_name);
@@ -322,42 +322,9 @@ class InstagramImport implements ShouldQueue
         return (array_values(array_map('trim', array_unique(array_merge($links, $oldLinks)))));
     }
 
-    public function getEmails($user, $oldEmails)
-    {
-        $emails = [];
-        if (isset($this->meta['emails']) && count($this->meta['emails'] ?? [])) {
-            $emails = $this->meta['emails'];
-        }
-        if ($user->business_email) {
-            $emails[] = $user->business_email;
-        }
-        if ($bioEmail = $this->getEmailFromBio($user->biography)) {
-            $emails[] = $bioEmail;
-        }
-        return (array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
-    }
-
     public function getAccountType($business)
     {
         return $business ? 'BRAND' : "CREATOR";
-    }
-
-    public function getEmailFromBio($bio)
-    {
-        $pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
-        preg_match_all($pattern, $bio, $matches);
-        return $matches[0] ? ($matches[0][0] ?? null) : null;
-    }
-    public function getTags($tags, $creator)
-    {
-        if ($creator) {
-            if (!$tags) return ($creator->tags);
-            $tags = explode(',', $tags);
-            return (array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
-        }
-        if (!$tags) return '[]';
-        $tags = explode(',', $tags);
-        return (array_values(array_map('trim', $tags)));
     }
 
     public function getProfilePicUrl($user, $creator)

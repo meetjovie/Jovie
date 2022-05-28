@@ -69,15 +69,14 @@ class TriggerImports extends Command
                     }
                 }
 //                do this for each network
-                if ($import->twitch && $import->twitch_scrapped != 1) {
+                if (($import->twitch || $import->twitch_id) && $import->twitch_scrapped != 1) {
                     // trigger instagram import
                     $twitchBatch = $import->getImportBatch('twitch');
-                    $response = $this->generateTwitchToken();
-                    if (!is_null($response) && $response->access_token) {
-                        Cache::put('twitch_token_'.$twitchBatch->user_list_id, $response->access_token, now()->addDay());
-                        if (! $twitchBatch->cancelled()) {
-                            $this->triggerTwitchImport($import, $twitchBatch, $commonData);
+                    if (! $twitchBatch->cancelled()) {
+                        if (!Cache::has('twitch_token_'.$twitchBatch->user_list_id)) {
+                            Import::saveSwitchToken($twitchBatch->user_list_id);
                         }
+                        $this->triggerTwitchImport($import, $twitchBatch, $commonData);
                     }
                 }
             }
@@ -87,7 +86,7 @@ class TriggerImports extends Command
     public function triggerTwitchImport($import, $batch, $commonData)
     {
         $batch->add([
-            (new TwitchImport($import->twitch_id, $import->twitch, $commonData['tags'], $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
+            (new TwitchImport($import->twitch_id, $import->twitch, $commonData['tags'], $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(2))
         ]);
     }
 

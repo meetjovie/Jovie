@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\GeneralTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use Laravel\Scout\Searchable;
 
 class Creator extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory, Searchable, GeneralTrait;
 
     const CREATORS_MEDIA_PATH = 'public/creators_media/timeline_media/';
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
@@ -515,6 +516,34 @@ class Creator extends Model
         $array['crms'] = $this->crmRecords;
         $array['unique'] = 10000000000000000000; // it will fail only if user changes the tab this much times :p
         return $array;
+    }
+
+    public static function getTags($tags, $creator = null)
+    {
+        if ($creator) {
+            if (!$tags) return ($creator->tags);
+            $tags = explode(',', $tags);
+            return (array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
+        }
+        if (!$tags) return '[]';
+        $tags = explode(',', $tags);
+        return (array_unique(array_values(array_map('trim', $tags))));
+    }
+
+    public static function getEmails($user, $newEmails = [], $oldEmails = [])
+    {
+        $emails = [];
+        if (count($newEmails)) {
+            $emails = $newEmails;
+        }
+        if (!empty($user->business_email)) {
+            $emails[] = $user->business_email;
+        }
+        $emailString = $user->biography ?? $user->description;
+        if ($bioEmail = self::getEmailFromString($emailString)) {
+            $emails[] = $bioEmail;
+        }
+        return (array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
     }
 
 }

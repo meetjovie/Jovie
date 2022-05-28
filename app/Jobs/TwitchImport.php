@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Creator;
+use App\Models\Import;
 use App\Models\User;
 use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
@@ -15,6 +16,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class TwitchImport implements ShouldQueue
 {
@@ -76,7 +78,52 @@ class TwitchImport implements ShouldQueue
 
         if ($this->id || $this->username) {
             $token = Cache::get('twitch_token_'.$this->listId);
+            if (empty($token)) {
+                $token = Import::saveSwitchToken($this->listId);
+            }
             $response = self::scrapTwitch($this->id, $token);
+            if ($response->getStatusCode() == 200) {
+                $response = json_decode($response->getBody()->getContents());
+                if (count($response->data)) {
+                    $this->insertInDatabase($response->data);
+                }
+            } elseif ($response->getStatusCode() == 401) {
+                Import::saveSwitchToken($this->listId);
+                $this->release(5);
+            } elseif ($response->getStatusCode() == 429) {
+                Cache::put('twitch_lock',  1, now()->addMinute());
+            }
         }
+    }
+
+    public function insertInDatabase($data)
+    {
+        $creatorIds = [];
+        foreach ($data as $user) {
+            $creator['twitch_id'] = $user->id;
+            $creator['twitch_handler'] = $user->login;
+            $creator['twitch_name'] = $user->display_name;
+            $creator['twitch_biography'] = $user->description;
+
+            $meta = [];
+            $meta['broadcaster_type'] = $user->broadcaster_type;
+            $meta['profile_image_url'] = $user->profile_image_url;
+            $meta['offline_image_url'] = $user->offline_image_url;
+            $meta['view_count'] = $user->view_count;
+            $meta['created_at'] = $user->created_at;
+            $creator['twitch_meta'] = $meta;
+
+            $existing = Creator::where('twitch_handler', $user->login)->orWhere('twitch_id', $user->id)->first();
+            if ($existing) {
+                $creator['tags'] = Creator::getTags($this->tags, $creator);
+                $creator['emails'] = Creator::getEmails($user, $this->meta['emails'], $existing->emails);
+                $existing->update($creator);
+                $creatorIds[] = $existing->id;
+            } else {
+                $creator['emails'] = Creator::getEmails($user, $this->meta['emails'] ?? []);
+                $creatorIds[] = Creator::create($creator)->id;
+            }
+        }
+        return $creatorIds;
     }
 }
