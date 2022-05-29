@@ -16,6 +16,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class TwitchImport implements ShouldQueue
@@ -58,40 +59,82 @@ class TwitchImport implements ShouldQueue
      */
     public function handle()
     {
-        $creator = null;
-        if ($this->id) {
-            $creator = Creator::where('twitch_id', $this->id)->first();
-        }
-        if (is_null($creator) && $this->username) {
-            $creator = Creator::where('twitch_handler', $this->username)->first();
-        }
-        // 30 days diff
-        if ($creator && !is_null($creator->twitch_last_scrapped_at)) {
-            $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
-            if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+        try {
+            $creator = null;
+            if ($this->id) {
+                $creator = Creator::where('twitch_id', $this->id)->first();
+            }
+            if (is_null($creator) && $this->username) {
+                $creator = Creator::where('twitch_handler', $this->username)->first();
+            }
+            // 30 days diff
+            if ($creator && !is_null($creator->twitch_last_scrapped_at)) {
+                $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
+                if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+                    return;
+                }
+            }
+            if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
                 return;
             }
-        }
-        if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
-            return;
-        }
 
-        if ($this->id || $this->username) {
-            $token = Cache::get('twitch_token_'.$this->listId);
-            if (empty($token)) {
-                $token = Import::saveSwitchToken($this->listId);
-            }
-            $response = self::scrapTwitch($this->id, $token);
-            if ($response->getStatusCode() == 200) {
-                $response = json_decode($response->getBody()->getContents());
-                if (count($response->data)) {
-                    $this->insertInDatabase($response->data);
+            if ($this->id || $this->username) {
+                $token = Cache::get('twitch_token_'.$this->listId);
+                if (empty($token)) {
+                    $token = Import::saveSwitchToken($this->listId);
                 }
-            } elseif ($response->getStatusCode() == 401) {
-                Import::saveSwitchToken($this->listId);
-                $this->release(5);
-            } elseif ($response->getStatusCode() == 429) {
-                Cache::put('twitch_lock',  1, now()->addMinute());
+                $response = self::scrapTwitch($this->id, $token);
+                if ($response->getStatusCode() == 200) {
+                    $response = json_decode($response->getBody()->getContents());
+                    if (count($response->data)) {
+                        $this->insertInDatabase($response->data);
+                        if ($this->importId) {
+                            Import::markNetworksAsScrapped($this->importId, ['twitch']);
+                            Import::deleteImport($this->importId);
+                        }
+                        Log::channel('slack')->info('imported twitch user.', ['id' => $this->id, 'username' => $this->username]);
+                    } else {
+                        if ($this->importId) {
+                            Import::markNetworksAsScrapped($this->importId, ['twitch']);
+                            Import::deleteImport($this->importId);
+                        }
+                        Log::channel('slack_warning')->info('no such profile', ['id' => $this->id, 'username' => $this->username]);
+                    }
+                } elseif ($response->getStatusCode() == 504) {
+                    if ($this->attempts() < $this->tries) {
+                        $this->release(10);
+                    } else {
+                        Log::channel('slack_warning')->info('Timed out for twitch.', ['id' => $this->id, 'username' => $this->username]);
+                    }
+                } elseif ($response->getStatusCode() == 401) {
+                    Import::saveSwitchToken($this->listId);
+                    $this->release(5);
+                } elseif ($response->getStatusCode() == 429) {
+                    $this->release(5);
+                    Cache::put('twitch_lock',  1, now()->addMinute());
+                } else {
+                    if ($this->attempts() < $this->tries) {
+                        $this->release(10);
+                    } else {
+                        if ($this->batch()) {
+                            DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_NO_RESPONSE]);
+                        }
+                        $this->fail();
+                        Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            if ($this->attempts() < $this->tries) {
+                $this->release(10);
+            } else {
+                if ($this->batch()) {
+                    DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_EXCEPTION_DURING_IMPORT]);
+                    Log::channel('slack_warning')->info('internal error, batch cancelled with id '.$this->batch()->id, ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                } else {
+                    Log::channel('slack_warning')->info('internal error, import cancelled.', ['id' => $this->id, 'username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                }
+                $this->fail($e);
             }
         }
     }
@@ -100,6 +143,21 @@ class TwitchImport implements ShouldQueue
     {
         $creatorIds = [];
         foreach ($data as $user) {
+            $creator = Creator::where('twitch_handler', $user->login)->orWhere('twitch_id', $user->id)->first() ?? new Creator();
+            $creator->setAppends([]);
+            if (isset($this->meta['socialHandlers'])) {
+                foreach ($this->meta['socialHandlers'] as $k => $handler) {
+                    if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
+                        $creator[$k] = $handler;
+                    } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
+                        // donot do any thing
+                        // donot do any thing
+                    } elseif ($handler) {
+                        $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
+                    }
+                }
+            }
+
             $creator['twitch_id'] = $user->id;
             $creator['twitch_handler'] = $user->login;
             $creator['twitch_name'] = $user->display_name;
@@ -111,18 +169,30 @@ class TwitchImport implements ShouldQueue
             $meta['offline_image_url'] = $user->offline_image_url;
             $meta['view_count'] = $user->view_count;
             $meta['created_at'] = $user->created_at;
-            $creator['twitch_meta'] = $meta;
 
-            $existing = Creator::where('twitch_handler', $user->login)->orWhere('twitch_id', $user->id)->first();
-            if ($existing) {
-                $creator['tags'] = Creator::getTags($this->tags, $creator);
-                $creator['emails'] = Creator::getEmails($user, $this->meta['emails'], $existing->emails);
-                $existing->update($creator);
-                $creatorIds[] = $existing->id;
-            } else {
-                $creator['emails'] = Creator::getEmails($user, $this->meta['emails'] ?? []);
-                $creatorIds[] = Creator::create($creator)->id;
+            $creator['twitch_meta'] = $meta;
+            $creator['type'] = 'CREATOR';
+
+            $creator['tags'] = Creator::getTags($this->tags, $creator);
+            $creator['emails'] = Creator::getEmails($user, $this->meta['emails'], $creator->emails);
+
+            $creator['first_name'] = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
+            $creator['last_name'] = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
+            $creator['city'] = $this->meta['city'] ?? $creator->city;
+            $creator['country'] = $this->meta['country'] ?? $creator->country;
+            $creator['wiki_id'] = $this->meta['wikiId'] ?? $creator->wiki_id;
+
+            $creator = Creator::updateOrCreate([
+                'twitch_id' => $creator['twitch_id'],
+                'twitch_handler' => $creator['twitch_handler']
+            ], $creator->toArray());
+            if ($this->listId) {
+                $creator->userLists()->syncWithoutDetaching($this->listId);
             }
+            if ($this->userId) {
+                $creator->crms()->syncWithoutDetaching($this->userId);
+            }
+            $creatorIds[] = $creator->id;
         }
         return $creatorIds;
     }

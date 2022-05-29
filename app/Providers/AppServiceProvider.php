@@ -41,10 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Queue::looping(function ($queue) {
             \Illuminate\Support\Facades\Log::info($queue->queue);
             if ($queue->queue == 'twitch' && Cache::has('twitch_lock')) {
-                Log::info('twitch is locked');
                 return false;
-            } elseif ($queue->queue == 'twitch') {
-                Log::info('twitch is unlocked');
             }
         });
     }

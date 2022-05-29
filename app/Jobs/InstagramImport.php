@@ -116,13 +116,17 @@ class InstagramImport implements ShouldQueue
                         Log::channel('slack_warning')->info('Timed out for instagram.', ['username' => $this->username]);
                     }
                 } elseif ($response->getStatusCode() == 402) {
-                    DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED]);
+                    if ($this->batch()) {
+                        DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED]);
+                    }
                     $this->fail();
                 } else {
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_NO_RESPONSE]);
+                        if ($this->batch()) {
+                            DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_NO_RESPONSE]);
+                        }
                         $this->fail();
                         Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
                     }
@@ -131,8 +135,12 @@ class InstagramImport implements ShouldQueue
                 if ($this->attempts() < $this->tries) {
                     $this->release(10);
                 } else {
-                    DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_EXCEPTION_DURING_IMPORT]);
-                    Log::channel('slack_warning')->info('internal error, batch cancelled with id '.$this->batch()->id, ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                    if ($this->batch()) {
+                        DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_EXCEPTION_DURING_IMPORT]);
+                        Log::channel('slack_warning')->info('internal error, batch cancelled with id '.$this->batch()->id, ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                    } else {
+                        Log::channel('slack_warning')->info('internal error, import cancelled.'.$this->batch()->id, ['username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                    }
                     $this->fail($e);
                 }
             }

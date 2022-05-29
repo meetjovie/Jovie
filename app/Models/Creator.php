@@ -311,6 +311,11 @@ class Creator extends Model
         $this->attributes['social_links'] = json_encode($value ?? []);
     }
 
+    public function setTwitchMetaAttribute($value)
+    {
+        $this->attributes['twitch_meta'] = json_encode($value ?? []);
+    }
+
     public static function getCrmCreators($params)
     {
         $creators = DB::table('creators')
