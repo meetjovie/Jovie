@@ -412,6 +412,7 @@ export default {
       ],
       dropdownmenuitems: [
         { name: 'Profile', route: '/', icon: UserGroupIcon },
+        { name: 'Support', route: '/support', icon: SupportIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
       helpmenuitems: [
