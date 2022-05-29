@@ -166,7 +166,7 @@
                 </div>
               </div>
               <SwitchTeams />
-              <PopoverGroup>
+              <!--  <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
                     as="div"
@@ -198,7 +198,7 @@
                       aria-orientation="vertical"
                       aria-labelledby="user-menu-button"
                       tabindex="-1">
-                      <!-- Active: "bg-neutral-100", Not Active: "" -->
+                     
 
                       <div
                         v-for="helpmenuitem in helpmenuitems"
@@ -223,7 +223,7 @@
                     </PopoverPanel>
                   </transition>
                 </Popover>
-              </PopoverGroup>
+              </PopoverGroup> -->
 
               <button
                 class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">

@@ -26,6 +26,15 @@ export const routes = [
     },
   },
   {
+    name: 'Support',
+    path: '/support',
+    component: loadPage('Support'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Enrichment',
     path: '/enrichment',
     component: loadPage('Enrichment'),
