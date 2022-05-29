@@ -162,7 +162,7 @@
           :processingPayment="processingPayment"
           @pay="pay" />
       </div>
-      <div class="flex justify-center" v-if="loadingProducts">
+      <div class="flex h-80 justify-center" v-if="loadingProducts">
         <JovieSpinner />
       </div>
     </template>
@@ -200,7 +200,11 @@
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
             <dt class="text-sm font-medium text-gray-500">Price</dt>
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <span class="flex-grow">
+              <span
+                v-if="
+                  currentUser.current_team.current_subscription.amount !== 0
+                "
+                class="flex-grow">
                 <span class="flex-grow">
                   {{ currentUser.current_team.current_subscription.amount / 100
                   }}<span
@@ -219,6 +223,7 @@
                   ></span
                 ></span
               >
+              <span v-else class="flex-grow"> Free </span>
             </dd>
           </div>
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">

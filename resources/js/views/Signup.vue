@@ -11,7 +11,7 @@
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
-            <JovieLogo height="28px" />
+            <JovieLogo tabindex="-1" height="28px" />
           </div>
         </div>
 
@@ -159,7 +159,7 @@
                     <button
                       type="button"
                       @click="back()"
-                      tabindex="2"
+                      tabindex="0"
                       class="col-span-1 cursor-pointer justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Back
                     </button>
@@ -167,7 +167,7 @@
                   <div>
                     <button
                       type="button"
-                      tabindex="1"
+                      tabindex="0"
                       @click="register()"
                       :disabled="submitting"
                       class="col-span-1 w-full cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
