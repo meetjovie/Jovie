@@ -89,11 +89,11 @@
             </div>
           </div>
           <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-            <a href="/discovery">
+            <a href="/account">
               <button
                 type="button"
                 class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2">
-                Find creators
+                Account Settings
               </button></a
             >
           </div>
@@ -109,13 +109,26 @@
         >
       </div>
       <SocialInput />
-      <p class="text-xs font-medium text-neutral-400">
-        Enter a social URL to add a creator to your contacts.
-      </p>
+
+      <div class="text-xs text-neutral-400">
+        Supports:
+        <div class="inline-flex">
+          <SocialIcons
+            height="10px"
+            width="10px"
+            class="text-neutral-400"
+            icon="twitch" />
+          <SocialIcons
+            height="10px"
+            width="10px"
+            class="text-neutral-400"
+            icon="instagram" />
+        </div>
+      </div>
     </div>
 
-    <div>
-      <!-- This example requires Tailwind CSS v2.0+ -->
+    <!--  <div>
+      
       <div
         v-for="nav in featuredNav"
         class="items-middle mx-auto mt-8 max-w-5xl items-center bg-white px-8 shadow sm:rounded-lg">
@@ -143,7 +156,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -153,6 +166,7 @@ import TeamService from '../services/api/team.service';
 import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
 import store from '../store/index';
 import SocialInput from '../components/SocialInput.vue';
+import SocialIcons from '../components/SocialIcons.vue';
 
 const featuredNav = [
   {
@@ -172,6 +186,7 @@ export default {
     CloudUploadIcon,
     AlertBanner,
     SocialInput,
+    SocialIcons,
   },
   data() {
     return {
