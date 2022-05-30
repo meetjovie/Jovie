@@ -38,7 +38,7 @@
             class="relative mt-4 hidden h-48 rounded sm:ml-6 sm:mt-0 sm:block md:h-64 lg:h-72">
             <img
               class="inset-0 h-full w-full rounded object-cover object-center"
-              :src="asset('img/External/mackenzie.webp')"
+              :src="asset('img/External/Mackenzie_Moore.webp')"
               alt="Display Picture of Mackenzie"
               role="img" />
             <div class="absolute left-0 bottom-0 rounded-tr bg-white px-6 py-4">
@@ -54,15 +54,13 @@
             class="relative block h-full w-10/12 rounded sm:hidden sm:w-auto">
             <img
               class="h-full w-full rounded object-cover object-top xl:object-center"
-              src="https://i.ibb.co/kJBqSy6/mob-img-1.png"
-              alt="Display Picture of Jack Bill"
+              :src="asset('img/External/timwhite.webp')"
+              alt="Display Picture of Tim"
               role="img" />
             <div class="absolute left-0 bottom-0 rounded-tr bg-white px-6 py-4">
-              <h5 class="mb-2 text-base leading-none text-gray-800">
-                Anna Bill
-              </h5>
+              <h5 class="mb-2 text-base leading-none text-gray-800">Tim</h5>
               <p class="text-base font-semibold leading-none text-gray-600">
-                Support
+                Founder
               </p>
             </div>
           </div>
@@ -70,15 +68,15 @@
             class="relative mt-4 block h-full w-10/12 rounded sm:ml-6 sm:mt-0 sm:hidden sm:w-auto">
             <img
               class="h-full w-full rounded object-cover object-center"
-              src="https://i.ibb.co/cry3nM8/mob-img-2.png"
-              alt="Display Picture of Dan Joseph"
+              :src="asset('img/External/Mackenzie_Moore.webp')"
+              alt="Display Picture of Mackenzie"
               role="img" />
             <div class="absolute left-0 bottom-0 rounded-tr bg-white px-6 py-4">
               <h5 class="mb-2 text-base leading-none text-gray-800">
-                Dan Joseph
+                Mackenzie
               </h5>
               <p class="text-base font-semibold leading-none text-gray-600">
-                Manager
+                Operations
               </p>
             </div>
           </div>
@@ -86,15 +84,13 @@
         <div class="relative mt-6 hidden h-48 rounded sm:block md:h-64 lg:h-72">
           <img
             class="absolute inset-0 h-full w-full rounded object-cover object-center"
-            src="https://i.ibb.co/XSRytCy/img-3.png"
-            alt="A group of four people"
+            :src="asset('img/External/based_in_la.webp')"
+            alt="Based in LA"
             role="img" />
           <div class="absolute left-0 bottom-0 rounded-tr bg-white px-6 py-4">
-            <h5 class="mb-2 text-base leading-none text-gray-800">
-              Anna, Bill, Sam, Ashly
-            </h5>
+            <h5 class="mb-2 text-base leading-none text-gray-800">Based in</h5>
             <p class="text-base font-semibold leading-none text-gray-600">
-              Designers
+              Los Angeles
             </p>
           </div>
         </div>
@@ -102,15 +98,13 @@
           class="relative mt-6 block h-72 w-10/12 rounded sm:hidden sm:w-auto">
           <img
             class="absolute inset-0 h-full w-full rounded object-cover object-center"
-            src="https://i.ibb.co/SBGQchk/mob-img-3.png"
+            :src="asset('img/External/based_in_la.webp')"
             alt="A group of four people"
             role="img" />
           <div class="absolute left-0 bottom-0 rounded-tr bg-white px-6 py-4">
-            <h5 class="mb-2 text-base leading-none text-gray-800">
-              Anna, Bill, Sam, Ashly
-            </h5>
+            <h5 class="mb-2 text-base leading-none text-gray-800">Based in</h5>
             <p class="text-base font-semibold leading-none text-gray-600">
-              Designers
+              Los Angeles
             </p>
           </div>
         </div>
