@@ -14,20 +14,39 @@
                 Free resources, tips, & news right in your inbox
               </p>
             </div>
-            <form class="mt-4 sm:flex sm:max-w-md lg:mt-0">
+            <form
+              v-if="waitlistComplete == false"
+              class="mt-4 sm:flex sm:max-w-md lg:mt-0">
               <label for="email-address" class="sr-only">Email address</label>
               <input
                 type="email"
+                v-on:keyup.enter="requestDemo()"
+                v-model="waitListEmail"
                 name="email-address"
-                id="email-address"
+                id="hero-email"
                 autocomplete="email"
                 required=""
                 class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus-visible:border-indigo-500 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:ring-indigo-500 sm:max-w-xs"
                 placeholder="Enter your email" />
               <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-                <ButtonGroup type="submit" text="Subscribe"></ButtonGroup>
+                <ButtonGroup
+                  type="submit"
+                  :loader="loading"
+                  @click="requestDemo()"
+                  text="Subscribe"
+                  design="hero">
+                </ButtonGroup>
+              </div>
+              <div>
+                <span
+                  class="float-left h-8 px-2 text-xs font-bold text-red-500"
+                  >{{ this.error }}</span
+                >
               </div>
             </form>
+            <div v-else class="flex min-w-0">
+              <p class="text-sm text-gray-500">You're subscribed!</p>
+            </div>
 
             <div class="flex space-x-6">
               <a
@@ -89,6 +108,7 @@
                   </li>
                 </ul>
               </div>
+
               <div class="mt-12 md:mt-0">
                 <h3
                   class="text-sm font-semibold uppercase tracking-wider text-gray-400">
@@ -163,11 +183,41 @@
   </footer>
 </template>
 <script>
+import UserService from '../../services/api/user.service.js';
 export default {
   data() {
     return {
       currentYear: new Date().getFullYear(),
+      waitListEmail: '',
+      error: '',
+      loading: false,
+      waitlistComplete: false,
     };
+  },
+  methods: {
+    async requestDemo() {
+      this.loading = true;
+      await UserService.addToWaitList({
+        email: this.waitListEmail,
+        page: 'Footer',
+      })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.waitListEmail = '';
+            this.error = null;
+            this.loading = false;
+            this.waitlistComplete = true;
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          this.loading = false;
+          if (error.status == 422) {
+            this.error = error.data.errors.email[0];
+          }
+        });
+    },
   },
   props: {
     minimal: {
