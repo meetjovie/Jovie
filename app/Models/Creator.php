@@ -201,6 +201,9 @@ class Creator extends Model
     public function setYoutubeHandlerAttribute($value)
     {
         $oldYoutube = $this->youtube_handler;
+        if (!count((array) $value)) {
+            return $oldYoutube;
+        }
         // Regex for verifying a youtube URL - channel id
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
         // Verify valid youtube URL
@@ -253,13 +256,13 @@ class Creator extends Model
             'id')->withTimestamps();
     }
 
-//    public function getYoutubeHandlerAttribute($value)
-//    {
-//        if (is_null($value)) {
-//            return $value;
-//        }
-//        return json_decode($value ?? '{}');
-//    }
+    public function getYoutubeHandlerAttribute($value)
+    {
+        if (is_null($value)) {
+            return json_decode('{}');
+        }
+        return json_decode($value ?? '{}');
+    }
 
     public function getInstagramMediaAttribute($value)
     {
@@ -267,6 +270,11 @@ class Creator extends Model
     }
 
     public function getInstagramMetaAttribute($value)
+    {
+        return json_decode($value ?? '{}');
+    }
+
+    public function getTwitchMetaAttribute($value)
     {
         return json_decode($value ?? '{}');
     }

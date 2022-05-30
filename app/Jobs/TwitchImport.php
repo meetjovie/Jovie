@@ -148,20 +148,20 @@ class TwitchImport implements ShouldQueue
             if (isset($this->meta['socialHandlers'])) {
                 foreach ($this->meta['socialHandlers'] as $k => $handler) {
                     if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
-                        $creator[$k] = $handler;
+                        $creator->{$k} = $handler;
                     } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
                         // donot do any thing
                         // donot do any thing
                     } elseif ($handler) {
-                        $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
+                        $creator->{$k} = $this->platformUser->is_admin ? ($handler ?? $creator->{$k}) : $creator->{$k};
                     }
                 }
             }
 
-            $creator['twitch_id'] = $user->id;
-            $creator['twitch_handler'] = $user->login;
-            $creator['twitch_name'] = $user->display_name;
-            $creator['twitch_biography'] = $user->description;
+            $creator->twitch_id = $user->id;
+            $creator->twitch_handler = $user->login;
+            $creator->twitch_name = $user->display_name;
+            $creator->twitch_biography = $user->description;
 
             $meta = [];
             $meta['broadcaster_type'] = $user->broadcaster_type;
@@ -170,22 +170,19 @@ class TwitchImport implements ShouldQueue
             $meta['view_count'] = $user->view_count;
             $meta['created_at'] = $user->created_at;
 
-            $creator['twitch_meta'] = $meta;
-            $creator['type'] = 'CREATOR';
+            $creator->twitch_meta = $meta;
+            $creator->type = 'CREATOR';
 
-            $creator['tags'] = Creator::getTags($this->tags, $creator);
-            $creator['emails'] = Creator::getEmails($user, $this->meta['emails'], $creator->emails);
+            $creator->tags = Creator::getTags($this->tags, $creator);
+            $creator->emails = Creator::getEmails($user, $this->meta['emails'], $creator->emails);
 
-            $creator['first_name'] = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
-            $creator['last_name'] = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
-            $creator['city'] = $this->meta['city'] ?? $creator->city;
-            $creator['country'] = $this->meta['country'] ?? $creator->country;
-            $creator['wiki_id'] = $this->meta['wikiId'] ?? $creator->wiki_id;
+            $creator->first_name = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
+            $creator->last_name = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
+            $creator->city = $this->meta['city'] ?? $creator->city;
+            $creator->country = $this->meta['country'] ?? $creator->country;
+            $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;
 
-            $creator = Creator::updateOrCreate([
-                'twitch_id' => $creator['twitch_id'],
-                'twitch_handler' => $creator['twitch_handler']
-            ], $creator->toArray());
+            $creator->save();
             if ($this->listId) {
                 $creator->userLists()->syncWithoutDetaching($this->listId);
             }

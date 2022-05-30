@@ -92,17 +92,6 @@ class TriggerImports extends Command
 
     public function setCommonDateForImport($import)
     {
-        $socialHandlers = [
-            'twitch_handler' => $import->twitch,
-            'twitch_id' => $import->twitch_id,
-            'onlyFans_handler' => $import->onlyFans,
-            'snapchat_handler' => $import->snapchat,
-            'linkedin_handler' => $import->linkedin,
-            'youtube_handler' => $import->youtube,
-            'twitter_handler' => $import->twitter,
-            'tiktok_handler' => $import->tiktok,
-            'instagram_handler' => $import->instagram,
-        ];
         $meta = [
             'gender' => $import->gender,
             'emails' => $import->emails,
@@ -111,7 +100,7 @@ class TriggerImports extends Command
             'city' => $import->city,
             'country' => $import->country,
             'wikiId' => $import->wikiId,
-            'socialHandlers' => $socialHandlers
+            'socialHandlers' => $import->social_handlers
         ];
         $tags = null;
         if ($import->tags && json_decode($import->tags)) {
