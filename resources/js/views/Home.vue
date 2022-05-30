@@ -79,6 +79,7 @@
 
       <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
       <HomeCTA></HomeCTA>
+      <JovieReplaces></JovieReplaces>
       <HomeTestimonials></HomeTestimonials>
       <HomeCTA2></HomeCTA2>
     </main>
@@ -97,6 +98,7 @@ import {
   UserGroupIcon,
   MailIcon,
 } from '@heroicons/vue/outline';
+import JovieReplaces from '../components/External/JovieReplaces.vue';
 import UserService from '../services/api/user.service';
 import HomeLogoCloud from '../components/Home/HomeLogoCloud';
 import HomeFeatureSequences from '../components/Home/HomeFeatureSequences';
@@ -136,6 +138,7 @@ export default {
     PopoverPanel,
     PopoverOverlay,
     ChevronDownIcon,
+    JovieReplaces,
     UserGroupIcon,
     SearchIcon,
     MailIcon,

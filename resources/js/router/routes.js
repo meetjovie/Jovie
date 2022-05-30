@@ -26,9 +26,36 @@ export const routes = [
     },
   },
   {
+    name: 'About Us',
+    path: '/about',
+    component: loadPage('AboutUs'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Support',
     path: '/support',
     component: loadPage('Support'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Careers',
+    path: '/careers',
+    component: loadPage('Careers'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Data',
+    path: '/data',
+    component: loadPage('OurData'),
     meta: {
       layout: 'default',
       requiresAuth: false,
@@ -165,7 +192,6 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-      requiresSubscribe: true,
     },
   },
   {

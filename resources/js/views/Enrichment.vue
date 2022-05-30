@@ -44,6 +44,7 @@
           alt="" />
       </div>
     </main>
+    <HomeCTA2 />
   </div>
 </template>
 
@@ -70,6 +71,7 @@ import {
 } from '@heroicons/vue/outline';
 import { ChevronDownIcon } from '@heroicons/vue/solid';
 import ButtonGroup from '../components/ButtonGroup.vue';
+import HomeCTA2 from '../components/Home/HomeCTA2.vue';
 
 const features = [
   {

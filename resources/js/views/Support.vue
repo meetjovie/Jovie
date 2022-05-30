@@ -20,4 +20,8 @@
       </div>
     </div>
   </div>
+  <JoinOurTeam />
 </template>
+<script setup>
+import JoinOurTeam from '../components/JoinOurTeam.vue';
+</script>

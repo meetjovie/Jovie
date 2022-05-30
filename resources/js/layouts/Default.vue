@@ -39,7 +39,7 @@
                                             leave-to-class="translate-y-1 opacity-0"
                                         >
                                             <PopoverPanel
-                                            class="absolute z-10 w-screen max-w-sm px-4 mt-3 transform left-1/2 sm:px-0 lg:max-w-3xl"
+                                            class="absolute z-50 w-screen max-w-sm px-4 mt-3 transform left-1/2 sm:px-0 lg:max-w-3xl"
                                             >
                                             <div
                                                 class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
@@ -93,6 +93,7 @@
 
                                  </div>
                                   <router-link to="pricing" class="hidden md:inline-flex items-center px-3 py-1  z-20 text-xs font-medium text-neutral-300 hover:text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">Pricing</router-link>
+                                  <router-link to="about" class="hidden md:inline-flex items-center px-3 py-1  z-20 text-xs font-medium text-neutral-300 hover:text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">Company</router-link>
                          </div>
                         <div class="hidden sm:flex items-center">
                             <div class="flex-shrink-0 ">
