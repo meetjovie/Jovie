@@ -50,12 +50,19 @@ trait SocialScrapperTrait {
 
     public function scrapTwitch($username, $token = null)
     {
+        if (is_numeric($username)) {
+            $query = [
+                'id' => $username,
+            ];
+        } else {
+            $query = [
+                'login' => $username,
+            ];
+        }
         try {
             $client = new \GuzzleHttp\Client();
             $response = $client->get('https://api.twitch.tv/helix/users', array(
-                'query' => [
-                    'id' => $username,
-                ],
+                'query' => $query,
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                     'client-id' => config('import.twitch_client_id')
