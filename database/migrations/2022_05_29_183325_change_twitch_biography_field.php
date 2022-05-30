@@ -14,7 +14,7 @@ class ChangeTwitchBiographyField extends Migration
     public function up()
     {
         Schema::table('creators', function (Blueprint $table) {
-            //
+            $table->text('twitch_biography')->nullable()->fulltext()->change();
         });
     }
 
@@ -26,7 +26,6 @@ class ChangeTwitchBiographyField extends Migration
     public function down()
     {
         Schema::table('creators', function (Blueprint $table) {
-            $table->longText('twitch_biography')->nullable()->fulltext()->change();
         });
     }
 }
