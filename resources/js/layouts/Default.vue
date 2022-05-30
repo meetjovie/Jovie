@@ -62,7 +62,7 @@
                                                     <p class="text-sm font-medium text-gray-900">
                                                         {{ item.name }}  <span v-if="item.label" class="ml-3 inline-flex items-center px-2 py-0 rounded-md text-2xs font-medium leading-5 bg-pink-100 text-pink-800"> {{item.label}} </span>
                                                     </p>
-                                                    <p class="text-sm text-gray-500">
+                                                    <p class="text-xs text-gray-500">
                                                         {{ item.description }}
                                                     </p>
                                                     </div>
@@ -93,7 +93,7 @@
 
                                  </div>
                                   <router-link to="pricing" class="hidden md:inline-flex items-center px-3 py-1  z-20 text-xs font-medium text-neutral-300 hover:text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">Pricing</router-link>
-                                  <router-link to="about" class="hidden md:inline-flex items-center px-3 py-1  z-20 text-xs font-medium text-neutral-300 hover:text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">Company</router-link>
+                                 
                          </div>
                         <div class="hidden sm:flex items-center">
                             <div class="flex-shrink-0 ">
@@ -109,7 +109,7 @@
                                             <a class:="justify-center px-2 max-auto" >
                                                 <router-link to='signup'
                                                              class="relative inline-flex group items-center px-2 py-1 border text-xs font-medium rounded-md text-neutral-200 hover:text-white bg-neutral-800 border-1 border-neutral-300 hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 focus-visible:ring-neutral-500">
-                                                    <span>Get started</span>
+                                                    <span>Get started free</span>
                                                     <span>
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                              class="block group-hover:hidden ml-1 h-4 w-4" fill="none"
@@ -219,7 +219,7 @@ export default {
           icon: 'SearchIcon',
         },
         {
-          name: 'CRM',
+          name: 'Social CRM',
           description: 'Manage your relationships',
           href: '/',
           anchor: '#crm',

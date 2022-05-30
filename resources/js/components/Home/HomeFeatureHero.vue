@@ -19,7 +19,7 @@
                 <router-link
                   to="signup"
                   class="inline-flex rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-                  Get started
+                  Get started free
                 </router-link>
               </div>
             </div>
@@ -454,7 +454,7 @@
                 <router-link
                   to="signup"
                   class="inline-flex rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-                  Get started
+                  Get started free
                 </router-link>
               </div>
             </div>

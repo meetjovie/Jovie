@@ -56,9 +56,9 @@
                       :loader="loading"
                       as="router-link"
                       @click="requestDemo()"
-                      text="Get Started"
+                      text="Get started free"
                       design="hero">
-                      Get started
+                      Get started free
                     </ButtonGroup>
                   </div>
                   <span
