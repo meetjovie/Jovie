@@ -4,51 +4,53 @@
       <h2 id="footer-heading" class="sr-only">Footer</h2>
       <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
         <div class="pb-8 xl:grid xl:grid-cols-3 xl:gap-8">
-          <div class="space-y-8 text-left xl:col-span-1">
+          <div class="text-left xl:col-span-1">
             <div>
               <h3
                 class="text-sm font-semibold uppercase tracking-wider text-gray-400">
-                Subscribe to our newsletter
+                Stay in the loop
               </h3>
-              <p class="mt-2 text-sm text-gray-500">
-                Free resources, tips, & news right in your inbox
+              <p class="mt-0 text-xs font-bold tracking-wide text-gray-400">
+                Insights & updates.
               </p>
             </div>
-            <form
-              v-if="waitlistComplete == false"
-              class="mt-4 sm:flex sm:max-w-md lg:mt-0">
-              <label for="email-address" class="sr-only">Email address</label>
-              <input
-                type="email"
-                v-on:keyup.enter="requestDemo()"
-                v-model="waitListEmail"
-                name="email-address"
-                id="hero-email"
-                autocomplete="email"
-                required=""
-                class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus-visible:border-indigo-500 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:ring-indigo-500 sm:max-w-xs"
-                placeholder="Enter your email" />
-              <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-                <ButtonGroup
-                  type="submit"
-                  :loader="loading"
-                  @click="requestDemo()"
-                  text="Subscribe"
-                  design="hero">
-                </ButtonGroup>
+            <div class="mt-2">
+              <form
+                v-if="waitlistComplete == false"
+                class="mt-4 sm:flex sm:max-w-md lg:mt-0">
+                <label for="email-address" class="sr-only">Email address</label>
+                <input
+                  type="email"
+                  v-on:keyup.enter="requestDemo()"
+                  v-model="waitListEmail"
+                  name="email-address"
+                  id="hero-email"
+                  autocomplete="email"
+                  required=""
+                  class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus-visible:border-indigo-500 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:ring-indigo-500 sm:max-w-xs"
+                  placeholder="Enter your email" />
+                <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+                  <ButtonGroup
+                    type="submit"
+                    :loader="loading"
+                    @click="requestDemo()"
+                    text="Subscribe"
+                    design="hero">
+                  </ButtonGroup>
+                </div>
+                <div>
+                  <span
+                    class="float-left h-8 px-2 text-xs font-bold text-red-500"
+                    >{{ this.error }}</span
+                  >
+                </div>
+              </form>
+              <div v-else class="flex min-w-0">
+                <p class="text-sm text-gray-500">You're subscribed!</p>
               </div>
-              <div>
-                <span
-                  class="float-left h-8 px-2 text-xs font-bold text-red-500"
-                  >{{ this.error }}</span
-                >
-              </div>
-            </form>
-            <div v-else class="flex min-w-0">
-              <p class="text-sm text-gray-500">You're subscribed!</p>
             </div>
 
-            <div class="flex space-x-6">
+            <div class="mt-4 flex space-x-6">
               <a
                 v-for="item in navigation.social"
                 :key="item.name"
