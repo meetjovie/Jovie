@@ -23,7 +23,7 @@
                                             :class="open ? '' : 'text-opacity-90'"
                                             class="inline-flex items-center px-3 py-1 -mt-1 z-20 text-xs font-medium text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                                         >
-                                            <span>Features</span>
+                                            <span>Product</span>
                                             <ChevronDownIcon
                                             :class="open ? '' : 'text-opacity-70'"
                                             class="w-5 h-5 ml-2 mt-1 text-neutral-300 transition duration-150 ease-in-out group-hover:text-opacity-80"

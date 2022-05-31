@@ -2,7 +2,7 @@
   <div id="app" class="flex h-screen overflow-hidden bg-neutral-100">
     <div
       id="overlay"
-      class="fixed inset-0 flex md:hidden"
+      class="fixed inset-0 z-30 flex md:hidden"
       role="dialog"
       aria-modal="true">
       <div
@@ -14,21 +14,11 @@
         class="relative flex w-full flex-1 flex-col bg-neutral-500/50 pt-5 pb-4 backdrop-blur-md">
         <div class="mx-auto flex h-screen w-full items-center justify-center">
           <a href="{{ route('dashboard') }}">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="39px"
-              height="11px">
-              <image
-                x="0px"
-                y="0px"
-                width="69px"
-                height="20px"
-                xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAALCAMAAADLE2RKAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABj1BMVEX//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7///+eFSkTAAAAg3RSTlMATdnCqN8nY/vWMVrkFSwhEwUQNDgOAygrEeqw0DN++fFPAtzRpdIZeakUz+XggqpCm220lAlZi4w9/r248IYGpPdE89eNZwwfUsbBcjW3d/ixfMBp7wvyMulu23aAYFBBP7XseDyJr/0mYWKj5+EPF+IKNuYbXKK7s1ehv2uPbBqSzKPEmjsAAAABYktHRIRi0FpxAAAAB3RJTUUH5gIEERYvU8bXwQAAAS5JREFUGNNlkOk3gkEYxW+bPcSrDYmSrZSdSJYsKWsk+15U9n1L3H/cvPnAyf0w95nfuXPPzACyFEqlCvlSazQFeaiQLPqXKyZL8lApWSZMW14BVOp0MtJVVUtSDaA3GE1/c2aYaknW1VsarI1oslntzQ5HC1rNAra1/+Y6TE7SJWAn6YZHeBep7yZ7egXv+8n1i+0AOYghL4dH6MMovf4xjk9MMgBMkdOYmfUYESTnQqQBcNIeJucXqIaKzkVyibKWsUJGsCr63KQErNEXNdO1zhhC3Ngkt7Z3doN7+zgQ6cMj8lgSnSdxMgFxA9qACE/PAvI/KJKpKJDOFZ9roc4NF5e4EpYCrsmb2xzj3b14xMPj07NFHMDL61si7BfDeyYu1o9MJovYp+ornQS+Ad8rYVmvC0oPAAAAAElFTkSuQmCC" />
-            </svg>
+            <JovieLogo color="#ffffff" height="40px" />
             <h2
               class="align-center mt-4 flex text-center text-sm font-bold text-white opacity-90">
-              Your screen is too small. Jovie is built for larger devices.
+              Your screen is too small. Jovie is built for larger devices. If
+              you'd like to use Jovie on your phone, please let us know.
             </h2>
           </a>
         </div>
@@ -41,20 +31,8 @@
         class="mx-auto flex w-full flex-col items-center justify-center py-4 text-center">
         <a href="/">
           <div
-            class="mx-auto mt-2 -mr-4 flex-shrink-0 items-center justify-center text-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="71px"
-              height="20px">
-              <image
-                x="0px"
-                y="0px"
-                width="50px"
-                height="10px"
-                class="mx-auto"
-                xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAUCAMAAADodNB0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACRlBMVEX//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7///8Cqp9UAAAAwHRSTlMAPOjl4PC0AQjB4W9F0QmBQcYKhQSx1c3ZaQMHBQIWZaPPy7J/O3CEfIJyBlF9X250OB1sprmRW1rbnw9D2orOiGvkx0m8yYks+rh5/Mg99sTeV3Og1HtjEbu/2C4Xoewz0vEgxdbCmhXcda4U8xNi+V79DZa6QKxNIq8o/mQ10BJPapeYp+aew6VOP/IcTJNS7yP3hsrX3aLn7jRZH+qQthtGJfXijbdIR6R6XcypEI8LDKsy49OMmw6qsBm9XN/3tA8RAAAAAWJLR0TBZGbvbgAAAAd0SU1FB+YCBBIVJZp400UAAAKsSURBVDjLpVT5O5RRFH5lhozGEhGDIbJnjCJb2YpJRLK0KFSabI1Mk9A0KZU2LSppXxTtqzYt86d1z5nvs2bqeTo/nPc95577fveee78LyOaywFWhULq5w6kt9FAqVEpPJxWL7GTqv+h4KajK20mFD+v4OpfBYleq8vtvHf8lAYGBS4P+WSdYE0Lwh12GiiZhZtV8OmHacN+IZZFRy4HomNjYuPgEyibGrIj1jkrS6XTJeopTVq4SValpq0Pm0UnPsEuWmeXJmE07WkNsbQ75XBHn5ctVBevm6hQAfvYpW68pJCgS44YNguSjmOKNQNy0qhKfOTql2MRYVr6ZUVfBcmJ8C5FKVBFUI9HxmZpoXrti62ydbdhOsKM2eOcuInX1DcLv3gPspdAHjQTx2EdgFNP2NxFrnq3T0tpGUCESB+qIJRWRN8HQLiACCKDwYFiZ8B16mM04RAnLlM5h1uk8UiJ8WxdluikR3nNU+G4kU2BFAuskHiPfYStVq8tVRBtx3NB74mRfFqS+nDKRP51COmeI9oNOSBV6ltqQBS/WOXfePtMuIJW+33ERGODEpcvkr1wlnU6ihcgTfrCC2nNNXEHW6dXzMTVcV6vVETk2241+xzmKBSOTSVwXgwvpDBG7idZhAbcGhbst69y5S5stqQ81mxOktgTxvHvN9x0L1IEP8sFDIJcTA4BRWnwxZB0dGuTriHTro9rHrdKpyDaSAi2TJ09HGUdF5Zg0+GxSpxrNnDEa9M+ZvABeTtcxif+wc1o8TI1yf8XcFiy4JsBxnzUWzilHGF6/EUPadnlWWw3/xG8nZXwNvHcrB/xYvJPfn/cfpr7W53gWPqbZhlTjqk+fe6SeZX9pFHGGm9XfEX/9ZpmwTHwnqjH+iIz0+EnU1JLxa1zVVFU5JoLfcqHrK3VV344AAAAASUVORK5CYII=" />
-            </svg>
+            class="mx-auto mt-2 flex-shrink-0 items-center justify-center text-center">
+            <JovieLogo color="#ffffff" height="10px" />
           </div>
         </a>
         <div
@@ -394,7 +372,7 @@ import {
 } from '@headlessui/vue';
 import SwitchTeams from '../components/SwitchTeams.vue';
 import AlertBanner from '../components/AlertBanner';
-
+import JovieLogo from '../components/JovieLogo';
 export default {
   name: 'App',
   data() {
@@ -452,6 +430,7 @@ export default {
     ChevronLeftIcon,
     LogoutIcon,
     SwitchHorizontalIcon,
+    JovieLogo,
     SwitchTeams,
     Popover,
     PopoverButton,

@@ -100,7 +100,7 @@
         </div>
       </div>
     </div>
-    <div class="container mx-auto max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+    <div class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
       <div>
         <h1 class="text-md font-bold">Add a creator.</h1>
         <span class="text-sm font-medium text-neutral-500"
