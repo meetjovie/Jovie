@@ -55,8 +55,8 @@ class Import extends Model
 
     public static function processedImports($batch, $userListId)
     {
-        $remainingInList = UserList::where('id', $userListId)->count();
-        return $batch->initial_total_in_file - ($batch->initial_total_in_file - $remainingInList);
+        $remainingInList = Import::where('user_list_id', $userListId)->count();
+        return $batch->initial_total_in_file - $remainingInList;
     }
 
     public function getEmailsAttribute($value)

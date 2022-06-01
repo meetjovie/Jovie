@@ -162,6 +162,7 @@ class TwitchImport implements ShouldQueue
             $creator->twitch_handler = $user->login;
             $creator->twitch_name = $user->display_name;
             $creator->twitch_biography = $user->description;
+            $creator->twitch_is_verified = $user->broadcaster_type == 'partner';
 
             $meta = [];
             $meta['broadcaster_type'] = $user->broadcaster_type;
@@ -188,6 +189,33 @@ class TwitchImport implements ShouldQueue
             }
             if ($this->userId) {
                 $creator->crms()->syncWithoutDetaching($this->userId);
+            }
+            $summary = null;
+            try {
+                $response = self::scrapTwitchSummary($user->login);
+                if ($response->getStatusCode() == 200) {
+                    $summary = json_decode($response->getBody()->getContents());
+                }
+            } catch (\Exception $e) {}
+            if (!is_null($summary) && count((array) $summary)) {
+                try {
+                    $creator->twitch_average_viewers = $summary->avg_viewers;
+                    $creator->twitch_followers = $summary->followers_total;
+                    $meta = $creator->meta;
+                    $meta['followers'] = $summary->followers;
+                    $meta['rank'] = $summary->rank;
+                    $meta['minutes_streamed'] = $summary->minutes_streamed;
+                    $meta['max_viewers'] = $summary->max_viewers;
+                    $meta['hours_watched'] = $summary->hours_watched;
+                    $meta['views'] = $summary->views;
+                    $meta['views_total'] = $summary->views_total;
+                    $creator->twitch_meta = $meta;
+                    $creator->twitch_engagement_rate = round($summary->avg_viewers / $summary->followers_total, 2);
+                    $creator->save();
+                } catch (\Exception $e) {
+                    Log::info($user->login);
+                    Log::info($e->getMessage());
+                }
             }
             $creatorIds[] = $creator->id;
         }

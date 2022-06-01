@@ -74,6 +74,17 @@ trait SocialScrapperTrait {
         }
     }
 
+    public function scrapTwitchSummary($username)
+    {
+        try {
+            $client = new \GuzzleHttp\Client();
+            $response = $client->get('https://twitchtracker.com/api/channels/summary/'.$username);
+            return $response;
+        } catch (\Exception $e) {
+            return $e->getResponse();
+        }
+    }
+
     public function getUserGender($name)
     {
         try {
