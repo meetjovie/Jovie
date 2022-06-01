@@ -1,6 +1,6 @@
 <template>
   <div v-if="!minimal">
-    <footer class="bg-white" aria-labelledby="footer-heading">
+    <footer class="bg-neutral-50" aria-labelledby="footer-heading">
       <h2 id="footer-heading" class="sr-only">Footer</h2>
       <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
         <div class="pb-8 xl:grid xl:grid-cols-3 xl:gap-8">
