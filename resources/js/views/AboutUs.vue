@@ -209,7 +209,7 @@ import NewsletterSignup from '../components/External/NewsletterSignup.vue';
 const features = [
   {
     name: "Be so good they can't ignore you",
-    description: `We beleive in excellence. `,
+    description: `We’re here to build products that are undeniably good.  We work hard everyday to be better that. `,
     icon: ThumbUpIcon,
   },
   {
