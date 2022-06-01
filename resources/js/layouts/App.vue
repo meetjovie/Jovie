@@ -151,7 +151,7 @@
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
               <div
-                  v-if="!currentUser.current_team.current_subscription"
+                v-if="!currentUser.current_team.current_subscription"
                 as="router-link"
                 to="/account"
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
@@ -316,6 +316,13 @@
                                       with error code:
                                       {{ batch.error_code }}
                                     </p>
+                                    <p
+                                      class="mx-auto text-2xs text-red-400"
+                                      v-else-if="batch.completed_at">
+                                      Completed {{ batch.type }} import at
+                                      {{ batch.completed_at }}
+                                    </p>
+
                                     <ProgressBar
                                       v-else
                                       :percentage="batch.progress"
@@ -610,7 +617,7 @@ export default {
     PopoverGroup,
     SupportIcon,
     AlertBanner,
-      SwitchTeams
+    SwitchTeams,
   },
 };
 </script>

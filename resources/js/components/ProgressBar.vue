@@ -5,7 +5,8 @@
     <div
       class="progressbar h-full"
       :class="[
-        `bg-${color}-500`,
+        { 'bg-green-500': percentage === 100 },
+        { 'bg-indigo-400': percentage < 100 },
         { 'absolute top-0': indeterminate },
         { 'rounded-full': rounded },
       ]"
