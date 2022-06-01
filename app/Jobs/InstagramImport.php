@@ -228,7 +228,7 @@ class InstagramImport implements ShouldQueue
         $creator->location = $user->location ?? null;
         $creator->type = $user->typename ?? 'CREATOR';
         $creator->tags = Creator::getTags($this->tags, $creator);
-        $gender = strtolower($this->meta['gender'] ?? '');
+        $gender = strtolower($this->meta['gender'] ?? null);
         if (!$creator->gender_updated && !in_array($gender, ['male', 'female'])) {
             // first check if instagram has pronouns check for gender in it
             // in case not found hit gender api
@@ -243,7 +243,7 @@ class InstagramImport implements ShouldQueue
                     $genderAccuracy = 100;
                 }
             }
-            if ($gender == 'unknown') {
+            if (is_null($gender) || $gender == 'unknown') {
                 $genderResponse = self::getUserGender($user->full_name);
                 $gender = $genderResponse->gender;
                 $genderAccuracy = $genderResponse->accuracy;

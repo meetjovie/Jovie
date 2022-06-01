@@ -183,6 +183,19 @@ class TwitchImport implements ShouldQueue
             $creator->country = $this->meta['country'] ?? $creator->country;
             $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;
 
+            $gender = strtolower($this->meta['gender'] ?? null);
+            if (!$creator->gender_updated && !in_array($gender, ['male', 'female'])) {
+                // in case not found hit gender api
+                $genderResponse = self::getUserGender($user->display_name);
+                $gender = $genderResponse->gender;
+                $genderAccuracy = $genderResponse->accuracy;
+                $creator->gender = $gender;
+                $creator->gender_accuracy = $genderAccuracy;
+            } elseif (in_array($gender, ['male', 'female'])) {
+                $creator->gender = $gender;
+                $creator->gender_accuracy = 100;
+            }
+
             $creator->save();
             if ($this->listId) {
                 $creator->userLists()->syncWithoutDetaching($this->listId);

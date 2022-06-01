@@ -107,7 +107,10 @@ class Import extends Model
 
     public function getImportBatch($queue = 'instagram')
     {
-        $batch = DB::table('job_batches')->where('cancelled_at', null)->where('user_list_id', $this->user_list_id)->where('type', $queue)->first();
+        $batch = DB::table('job_batches')
+            ->where('cancelled_at', null)
+            ->where('finished_at', null)
+            ->where('user_list_id', $this->user_list_id)->where('type', $queue)->first();
         if (is_null($batch)) {
             $batch = Bus::batch([
             ])->then(function (Batch $batch) {
