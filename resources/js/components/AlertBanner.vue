@@ -24,6 +24,7 @@
         </p>
       </div>
       <div
+        v-if="dismissable"
         class="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-start sm:pt-1 sm:pr-2">
         <button
           @click="dismissed = true"
@@ -68,6 +69,10 @@ export default {
     ctaLink: {
       type: String,
       default: '',
+    },
+    dismissable: {
+      type: Boolean,
+      default: true,
     },
     dismissed: {
       type: Boolean,
