@@ -20,6 +20,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -120,6 +121,9 @@ class InstagramImport implements ShouldQueue
                         DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED]);
                     }
                     $this->fail();
+                } elseif ($response->getStatusCode() == 429) {
+                    $this->release(5);
+                    Cache::put('instagram_lock',  1, now()->addMinutes(5));
                 } else {
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
@@ -243,7 +247,7 @@ class InstagramImport implements ShouldQueue
                     $genderAccuracy = 100;
                 }
             }
-            if (is_null($gender) || $gender == 'unknown') {
+            if (empty($gender) || $gender == 'unknown') {
                 $genderResponse = self::getUserGender($user->full_name);
                 $gender = $genderResponse->gender;
                 $genderAccuracy = $genderResponse->accuracy;

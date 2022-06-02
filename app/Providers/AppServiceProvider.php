@@ -42,6 +42,9 @@ class AppServiceProvider extends ServiceProvider
             if ($queue->queue == 'twitch' && Cache::has('twitch_lock')) {
                 return false;
             }
+            elseif ($queue->queue == 'instagram' && Cache::has('instagram_lock')) {
+                return false;
+            }
         });
     }
 }
