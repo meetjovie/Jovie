@@ -195,7 +195,8 @@ class TwitchImport implements ShouldQueue
                 $creator->gender = $gender;
                 $creator->gender_accuracy = 100;
             }
-
+            $creator->twitch_last_scrapped_at = Carbon::now()->toDateTimeString();
+            $creator->twitch_summary_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->save();
             if ($this->listId) {
                 $creator->userLists()->syncWithoutDetaching($this->listId);
