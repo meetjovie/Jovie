@@ -15,7 +15,6 @@ class AddTwitchIsVerifiedFieldInCreatorsTable extends Migration
     {
         Schema::table('creators', function (Blueprint $table) {
             $table->boolean('twitch_is_verified')->index()->default(false)->after('twitch_followers');
-            $table->boolean('twitch_is_verified')->index()->default(false)->after('twitch_followers');
         });
     }
 

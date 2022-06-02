@@ -115,8 +115,12 @@ class TriggerImports extends Command
 
     public function triggerInstagramImport($import, $batch, $commonData)
     {
+        $instagram = $import->instagram;
+        if (!empty($instagram) && $instagram[0] == '@') {
+            $instagram = substr($instagram, 1);
+        }
         $batch->add([
-            (new InstagramImport($import->instagram, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
+            (new InstagramImport($instagram, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
         ]);
     }
 }

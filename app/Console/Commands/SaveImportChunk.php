@@ -69,6 +69,7 @@ class SaveImportChunk extends Command
             $mappedColumns = collect($payload->mappedColumns);
             $maxColumn = max($mappedColumns->flatten()->toArray());
             foreach ($records as $offset => $row) {
+                $import = new Import();
                 if ($page == 0 && $offset == 0) {
                     $bar->advance();
                     continue;
@@ -108,49 +109,49 @@ class SaveImportChunk extends Command
                     $country = 'United States';
                 }
 
-                $data = [];
-                $data['user_id'] = $payload->userId;
-                $data['user_list_id'] = $list->id;
+                $import->user_id = $list->user_id;
+                $import->user_list_id = $list->id;
                 if ($payload->tags) {
                     $tags = explode(',', $payload->tags);
-                    $data['tags'] = json_encode(array_values(array_map('trim', $tags)));
+                    $import->tags = json_encode(array_values(array_map('trim', $tags)));
                 }
-                $data['first_name'] = isset($payload->mappedColumns->firstName) ? $row[$payload->mappedColumns->firstName] : null;
-                $data['last_name'] = isset($payload->mappedColumns->lastName) ? $row[$payload->mappedColumns->lastName] : null;
-                $data['city'] = isset($payload->mappedColumns->lastName) ? $row[$payload->mappedColumns->lastName] : null;
-                $data['country'] = $country;
+                $import->first_name = isset($payload->mappedColumns->firstName) ? $row[$payload->mappedColumns->firstName] : null;
+                $import->last_name = isset($payload->mappedColumns->lastName) ? $row[$payload->mappedColumns->lastName] : null;
+                $import->city = isset($payload->mappedColumns->lastName) ? $row[$payload->mappedColumns->lastName] : null;
+                $import->country = $country;
 
                 $instaFollowersCount = isset($payload->mappedColumns->instagramFollowersCount) ? $row[$payload->mappedColumns->instagramFollowersCount] : 5001;
 
                 // if no follower count then let go
                 if (isset($payload->mappedColumns->instagram) && ($user->is_admin || $instaFollowersCount > 5000)) {
-                    $data['instagram'] = $row[$payload->mappedColumns->instagram];
-                    if ($data['instagram'][0] == '@') {
-                        $data['instagram'] = substr($data['instagram'], 1);
+                    $import->instagram = $row[$payload->mappedColumns->instagram] ?? null;
+                    if (!empty($import->instagram) && $import->instagram[0] == '@') {
+                        $import->instagram = substr($import->instagram, 1);
                     }
                 }
 
                 $youtubeFollowersCount = isset($payload->mappedColumns->youtubeFollowersCount) ? $row[$payload->mappedColumns->youtubeFollowersCount] : 1001;
                 if (isset($payload->mappedColumns->youtube) && ($user->is_admin || $youtubeFollowersCount > 1000)) {
-                    $data['youtube'] = $row[$payload->mappedColumns->youtube];
+                    $import->youtube = $row[$payload->mappedColumns->youtube] ?? null;
                 }
 
-                $data['twitter'] = isset($payload->mappedColumns->twitter) ? $row[$payload->mappedColumns->twitter] : null;
-                $data['twitch'] = isset($payload->mappedColumns->twitch) ? $row[$payload->mappedColumns->twitch] : null;
-                $data['twitch_id'] = isset($payload->mappedColumns->twitchId) ? $row[$payload->mappedColumns->twitchId] : null;
-                $data['onlyFans'] = isset($payload->mappedColumns->onlyFans) ? $row[$payload->mappedColumns->onlyFans] : null;
-                $data['tiktok'] = isset($payload->mappedColumns->tiktok) ? $row[$payload->mappedColumns->tiktok] : null;
-                $data['linkedin'] = isset($payload->mappedColumns->linkedin) ? $row[$payload->mappedColumns->linkedin] : null;
-                $data['snapchat'] = isset($payload->mappedColumns->snapchat) ? $row[$payload->mappedColumns->snapchat] : null;
-                $data['wikiId'] = isset($payload->mappedColumns->wikiId) ? $row[$payload->mappedColumns->wikiId] : null;
-                $data['gender'] = isset($payload->mappedColumns->gender) ? $row[$payload->mappedColumns->gender] : null;
-                $data['phone'] = isset($payload->mappedColumns->phone) ? $row[$payload->mappedColumns->phone] : null;
-                $data['emails'] = json_encode($emails);
-                $data['social_handlers'] = json_encode($socialHandlers);
-                array_push($imports, $data);
+                $import->twitter = isset($payload->mappedColumns->twitter) ? $row[$payload->mappedColumns->twitter] : null;
+                $import->twitch = isset($payload->mappedColumns->twitch) ? $row[$payload->mappedColumns->twitch] : null;
+                $import->twitch_id = isset($payload->mappedColumns->twitchId) ? $row[$payload->mappedColumns->twitchId] : null;
+                $import->onlyFans = isset($payload->mappedColumns->onlyFans) ? $row[$payload->mappedColumns->onlyFans] : null;
+                $import->tiktok = isset($payload->mappedColumns->tiktok) ? $row[$payload->mappedColumns->tiktok] : null;
+                $import->linkedin = isset($payload->mappedColumns->linkedin) ? $row[$payload->mappedColumns->linkedin] : null;
+                $import->snapchat = isset($payload->mappedColumns->snapchat) ? $row[$payload->mappedColumns->snapchat] : null;
+                $import->wikiId = isset($payload->mappedColumns->wikiId) ? $row[$payload->mappedColumns->wikiId] : null;
+                $import->gender = isset($payload->mappedColumns->gender) ? $row[$payload->mappedColumns->gender] : null;
+                $import->phone = isset($payload->mappedColumns->phone) ? $row[$payload->mappedColumns->phone] : null;
+                $import->emails = json_encode($emails);
+                $import->social_handlers = json_encode($socialHandlers);
+                $import->save();
+//                array_push($imports, $data);
                 $bar->advance();
             }
-            DB::table('imports')->insert($imports);
+//            Import::query()->insert($imports);
             $bar->finish();
         } catch (\Exception $e) {
             Log::info($e->getMessage().' = '.$e->getLine());

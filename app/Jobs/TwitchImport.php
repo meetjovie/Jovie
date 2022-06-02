@@ -83,7 +83,7 @@ class TwitchImport implements ShouldQueue
                 if (empty($token)) {
                     $token = Import::saveSwitchToken($this->listId);
                 }
-                $response = self::scrapTwitch($this->id, $token);
+                $response = self::scrapTwitch($this->username ?? $this->id, $token);
                 if ($response->getStatusCode() == 200) {
                     $response = json_decode($response->getBody()->getContents());
                     if (count($response->data)) {
