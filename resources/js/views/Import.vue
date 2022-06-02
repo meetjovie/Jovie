@@ -208,15 +208,6 @@
               class="mt-4"
               v-if="uploadProgress"
               :percentage="uploadProgress">
-              <p
-                v-if="uploadProgress"
-                class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
-                :class="[
-                  { 'text-white': uploadProgress > 50 },
-                  { 'text-indigo-700': uploadProgress <= 50 },
-                ]">
-                {{ uploadProgress }}%
-              </p>
             </ProgressBar>
             <p v-if="errors.key" class="mt-2 text-sm text-red-600">
               {{ errors.key[0] }}
@@ -377,7 +368,7 @@ export default {
         .finally((response) => {
           this.importing = false;
           Object.assign(this.$data, this.$options.data());
-            this.getUserLists();
+          this.getUserLists();
         });
     },
   },
