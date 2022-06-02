@@ -7,7 +7,7 @@
       :class="[
         { 'bg-green-500': percentage === 100 },
         { 'bg-indigo-400': percentage < 100 && percentage > 0 },
-        { 'bg-neutral-500': percentage === 0 }
+        { 'bg-neutral-500': percentage === 0 },
         { 'absolute top-0': indeterminate },
         { 'rounded-full': rounded },
       ]"
