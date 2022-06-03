@@ -102,8 +102,8 @@
                   </button>
                 </div>
 
-                <h3 class="mx-auto -mt-8 text-center text-xs text-gray-400">
-                  No credit card required.
+                <h3 class="mx-auto text-center text-xs text-gray-400">
+                  Fast & easy. No credit card required.
                 </h3>
               </template>
               <template v-if="step == 2">
@@ -175,6 +175,15 @@
                     </button>
                   </div>
                 </div>
+                <p class="text-2xs text-gray-400">
+                  By clicking “Sign up” you agree to our
+                  <router-link class="underline" to="privacy"
+                    >privacy policy</router-link
+                  >.and
+                  <router-link class="underline" to="terms">terms</router-link>
+                  of use. You’re also opting in to receive marketing emails. You
+                  can unsubscribe at anytime.
+                </p>
               </template>
               <!--  <template v-if="step == 3">
                 <CreateAccount text="Choose a plan">
