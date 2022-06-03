@@ -554,6 +554,7 @@ import {
   BellIcon,
   CursorClickIcon,
   ChatAltIcon,
+  CreditCardIcon,
   SwitchHorizontalIcon,
   SpeakerphoneIcon,
   SupportIcon,
@@ -591,8 +592,8 @@ export default {
         /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [
-        { name: 'Profile', route: '/', icon: UserGroupIcon },
-        { name: 'Settings', route: 'Account', icon: CogIcon },
+        { name: 'Billing', route: 'Account', icon: CreditCardIcon },
+        { name: 'Account Settings', route: 'Account', icon: CogIcon },
       ],
       helpmenuitems: [
         { name: 'Shortcuts', route: 'Account', icon: CursorClickIcon },
