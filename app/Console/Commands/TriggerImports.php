@@ -57,8 +57,12 @@ class TriggerImports extends Command
 
         $users = User::whereHas('pendingImports')->with('pendingImports')->get();
         foreach ($users as $user) {
-            foreach ($user->pendingImports as $import) {
+            foreach ($user->pendingImports as $import) { // timwhite and timwwhiteT
 
+                //fetch a creator that has instagram == timwhite OR twitch == timwhiteT
+                // else create a new instance of creator new Creator()
+                // after either of the above case runs we get a creator instance and we can pass that save creator instance to each network job of that single import
+                //
                 $commonData = $this->setCommonDateForImport($import);
 
                 if ($import->instagram && $import->instagram_scrapped != 1) {

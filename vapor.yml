@@ -51,3 +51,4 @@ environments:
     queues:
       - default
       - instagram
+      - twitch
