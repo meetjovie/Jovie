@@ -122,6 +122,7 @@ class Creator extends Model
         // Verify valid Instagram URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['instagram_handler'] =  $matches[1];
+            return;
         }
         $this->attributes['instagram_handler'] = $value;
     }
@@ -134,6 +135,7 @@ class Creator extends Model
         // Verify valid tiktok URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['tiktok_handler'] = $matches[1];
+            return;
         }
         $this->attributes['tiktok_handler'] = $value;
     }
@@ -146,6 +148,7 @@ class Creator extends Model
         // Verify valid onlyFans URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['onlyFans_handler'] = $matches[1];
+            return;
         }
         $this->attributes['onlyFans_handler'] = $value;
     }
@@ -158,6 +161,7 @@ class Creator extends Model
         // Verify valid linkedin URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['linkedin_handler'] = $matches[1];
+            return;
         }
         $this->attributes['linkedin_handler'] = $value;
     }
@@ -170,6 +174,7 @@ class Creator extends Model
         // Verify valid twitter URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['twitter_handler'] = $matches[1];
+            return;
         }
         $this->attributes['twitter_handler'] = $value;
     }
@@ -182,6 +187,7 @@ class Creator extends Model
         // Verify valid snapchat URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['snapchat_handler'] = $matches[1];
+            return;
         }
         $this->attributes['snapchat_handler'] = $value;
     }
@@ -194,6 +200,7 @@ class Creator extends Model
         // Verify valid twitch URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['twitch_handler'] = $matches[1];
+            return;
         }
         $this->attributes['twitch_handler'] = $value;
     }
@@ -216,7 +223,10 @@ class Creator extends Model
             $oldYoutube->channel_name = $matches[1];
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
         }
-
+        elseif ( preg_match( '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:user)\/([A-Za-z0-9-_\.]+)/', $value, $matches ) ) {
+            $oldYoutube->channel_name = $matches[1];
+            $this->attributes['youtube'] = json_encode($oldYoutube);
+        }
         elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
             $oldYoutube->channel_id = $value;
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
