@@ -166,7 +166,57 @@
                   Credits
                 </div>
               </div>
-              <SwitchTeams />
+              <Popover>
+                <PopoverButton class="group inline-flex items-center">
+                  <span
+                    class="-mt-1.5 items-center text-xs font-bold text-neutral-400 group-hover:text-neutral-700">
+                    {{
+                      currentUser.current_team
+                        ? currentUser.current_team.name
+                        : 'Select a team'
+                    }}
+                  </span>
+                  <ChevronDownIcon
+                    class="ml-1 -mt-1.5 h-5 w-5 text-neutral-500 group-hover:text-neutral-700" />
+                </PopoverButton>
+
+                <transition
+                  enter-active-class="transition duration-150 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-150 ease-out"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0">
+                  <PopoverPanel
+                    class="absolute right-24 z-10 mt-2.5 w-40 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div class="">
+                      <div
+                        class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">
+                        Your teams:
+                      </div>
+                      <div
+                        v-if="currentUser.teams"
+                        v-for="team in currentUser.teams">
+                        <button
+                          @click="switchTeam(team.id)"
+                          class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
+                          :class="[
+                            active
+                              ? 'bg-white px-1 py-2 font-bold text-indigo-700'
+                              : 'text-sm text-gray-500',
+                            'group flex w-full items-center px-2 py-2 text-xs  last:rounded-b-md',
+                          ]">
+                          <ChevronRightIcon
+                            :active="active"
+                            class="mr-1 h-5 w-5 text-indigo-400 group-hover:text-white"
+                            aria-hidden="true" />
+                          {{ team.name }}
+                        </button>
+                      </div>
+                    </div>
+                  </PopoverPanel>
+                </transition>
+              </Popover>
               <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
@@ -194,7 +244,7 @@
                       as="div"
                       active=""
                       id="profileDropdown"
-                      class="absolute right-0 z-10 mt-3 w-40 origin-top-right rounded-lg bg-white shadow-lg shadow-xl ring-1 ring-black ring-opacity-5"
+                      class="absolute right-0 z-10 mt-3 w-40 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
                       role="menu"
                       aria-orientation="vertical"
                       aria-labelledby="user-menu-button"
