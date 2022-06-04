@@ -209,7 +209,7 @@ import NewsletterSignup from '../components/External/NewsletterSignup.vue';
 const features = [
   {
     name: "Be so good they can't ignore you",
-    description: `We’re here to build products that are undeniably good.  We work hard everyday to be better that. `,
+    description: `We’re here to build products that are undeniably good.  We work hard everyday to be better at that. `,
     icon: ThumbUpIcon,
   },
   {
@@ -221,7 +221,7 @@ const features = [
   {
     name: 'Move fast & break often',
     description:
-      'We move quickly with a bias for action.  We step back often to see how our work fits in to the bigger picture.  Sprint, walk, repeat.',
+      'We move quickly with a bias for action.  We step back often to see how our work fits in to the bigger picture. Sprint, walk, repeat.',
     icon: LightningBoltIcon,
   },
   {

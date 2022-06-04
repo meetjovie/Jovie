@@ -2,13 +2,18 @@
   <button
     type="button"
     :disabled="disabled"
-    class="inline-flex items-center border border-neutral-200 px-4 py-2 text-sm font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    class="inline-flex items-center font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
     :class="[
       { 'py-0 text-xs': size == 'xs' },
       { 'py-1 text-sm': size == 'sm' },
+      { 'py-3  text-base': size == 'base' },
       {
         'bg-white   hover:bg-indigo-500 hover:text-white  ':
           design == 'secondary',
+      },
+      {
+        'hover:bg-indig-600 w-full bg-indigo-500 py-3 px-4 font-medium text-white shadow hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900':
+          design == 'primary',
       },
       {
         'mt-3 flex w-full items-center justify-center rounded-md border-none bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0':

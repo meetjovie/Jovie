@@ -7,14 +7,14 @@
       { 'bg-red-500 ': design == 'danger' },
       { 'hidden transition-all': dismissed },
     ]">
-    <div class="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
-      <div class="pr-16 sm:px-16 sm:text-center">
+    <div class="mx-auto max-w-7xl py-3 px-3 text-center sm:px-6 lg:px-8">
+      <div class="inline-flex pr-16 sm:px-16 sm:text-center">
         <p class="text-sm font-medium text-white">
           <span class="md:hidden"> {{ mobiletitle }} </span>
           <span class="hidden md:inline">
             {{ title }}
           </span>
-          <span class="block sm:ml-2 sm:inline-block">
+          <span v-if="cta" class="block sm:ml-2 sm:inline-block">
             <a
               :href="ctalink"
               class="cursor-pointer font-bold text-white underline">
@@ -22,7 +22,9 @@
             >
           </span>
         </p>
+        <slot></slot>
       </div>
+
       <div
         class="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-start sm:pt-1 sm:pr-2">
         <button

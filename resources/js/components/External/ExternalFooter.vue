@@ -10,8 +10,9 @@
                 class="text-sm font-semibold uppercase tracking-wider text-gray-400">
                 Stay in the loop
               </h3>
-              <p class="mt-0 text-xs font-bold tracking-wide text-gray-400">
-                Insights & updates.
+              <p
+                class="mt-0 text-xs font-semibold tracking-wider text-gray-400">
+                Insights & updates from the team.
               </p>
             </div>
             <div class="mt-2">

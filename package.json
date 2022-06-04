@@ -49,6 +49,7 @@
     "simple-icons": "^6.9.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "vue": "^3.2.30",
+    "vue-cookies": "^1.8.1",
     "vue-instantsearch": "^4.3.3",
     "vue-mousetrap": "^1.0.5",
     "vue-observe-visibility": "^1.0.0",

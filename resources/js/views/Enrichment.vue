@@ -1,49 +1,85 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="relative bg-gray-50">
-    <main class="lg:relative">
-      <div
-        class="mx-auto w-full max-w-7xl pt-16 pb-20 text-center lg:py-48 lg:text-left">
-        <div class="px-4 sm:px-8 lg:w-1/2 xl:pr-16">
-          <h1
-            class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-5xl">
-            <span class="block xl:inline">Enrich your contacts</span>
-            {{ ' ' }}
-            <span class="block text-neutral-900 xl:inline"
-              >with <span class="text-indigo-600">social data</span></span
-            >
-          </h1>
-          <p
-            class="mx-auto mt-3 max-w-md text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl">
-            Get instant insight into every relationship. Jovie aggregates social
-            data from across the web so you have context for every contact.
-          </p>
-          <div class="mt-10 sm:flex sm:justify-center lg:justify-start">
-            <div class="rounded-md shadow">
-              <router-link
-                to="signup"
-                class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-1.5 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg">
-                Get Started
-              </router-link>
-            </div>
-            <!-- <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-              <a
+  <div class="relative bg-gray-800">
+    <div class="bg-gray-900 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-8">
+          <div
+            class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:flex lg:items-center lg:px-0 lg:text-left">
+            <div class="lg:py-24">
+              <!--  <a
                 href="#"
-                class="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-indigo-600 hover:bg-gray-50 md:py-4 md:px-10 md:text-lg">
-                Live demo
-              </a>
-            </div> -->
+                class="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base">
+                <span
+                  class="rounded-full bg-indigo-500 px-3 py-0.5 text-xs font-semibold uppercase leading-5 tracking-wide text-white"
+                  >Data enrichment</span
+                >
+                <span class="ml-4 text-sm">powered by Jovie</span>
+                <ChevronRightIcon
+                  class="ml-2 h-5 w-5 text-gray-500"
+                  aria-hidden="true" />
+              </a> -->
+              <h1
+                class="mt-4 text-4xl font-extrabold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-5xl">
+                <span class="block">Enrich your contacts</span>
+                <span class="block text-indigo-400">with social data</span>
+              </h1>
+              <p
+                class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                Get instant insight into every relationship. Jovie aggregates
+                social data from across the web so you have context for every
+                contact.
+              </p>
+              <div class="mt-10 sm:mt-12">
+                <form action="#" class="sm:mx-auto sm:max-w-xl lg:mx-0">
+                  <div class="sm:flex">
+                    <div class="min-w-0 flex-1">
+                      <label for="email" class="sr-only">Email address</label>
+                      <input
+                        id="email"
+                        type="email"
+                        v-on:keyup.enter="requestDemo()"
+                        v-model="waitListEmail"
+                        placeholder="Enter your email"
+                        class="block w-full rounded-md border-0 px-4 py-3 text-base text-gray-900 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900" />
+                    </div>
+                    <div class="mt-3 sm:mt-0 sm:ml-3">
+                      <ButtonGroup
+                        :loader="loading"
+                        @click="requestDemo()"
+                        size="base"
+                        design="primary"
+                        text="Get started free" />
+                    </div>
+                  </div>
+                  <span
+                    class="float-left px-2 text-xs font-bold text-red-500"
+                    >{{ this.error }}</span
+                  >
+                  <p class="mt-3 text-sm text-gray-300 sm:mt-4">
+                    No credit card required. By providing your email, you agree
+                    to our
+                    <a href="#" class="font-medium text-white"
+                      >terms of service</a
+                    >.
+                  </p>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="mt-12 -mb-16 sm:-mb-48 lg:relative lg:m-0">
+            <div
+              class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0">
+              <!-- Illustration taken from Lucid Illustrations: https://lucid.pixsellz.io/ -->
+              <img
+                class="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
+                :src="asset('img/External/jovie_social_data_enrichment.png')"
+                alt="" />
+            </div>
           </div>
         </div>
       </div>
-      <div
-        class="relative h-64 w-full sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-1/2">
-        <img
-          class="absolute inset-0 h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
-          alt="" />
-      </div>
-    </main>
+    </div>
     <HomeCTA2 />
   </div>
 </template>
@@ -149,4 +185,43 @@ const recentPosts = [
   },
   { id: 3, name: 'Improve your customer experience', href: '#' },
 ];
+</script>
+<script>
+import UserService from '../services/api/user.service';
+export default {
+  data() {
+    return {
+      waitListEmail: '',
+      error: '',
+      loading: false,
+      waitlistComplete: false,
+    };
+  },
+  methods: {
+    async requestDemo() {
+      this.loading = true;
+      await UserService.addToWaitList({
+        email: this.waitListEmail,
+        page: 'Enrichment',
+      })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.waitListEmail = '';
+            this.error = null;
+            this.loading = false;
+            this.waitlistComplete = true;
+            this.$router.push('/signup');
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          this.loading = false;
+          if (error.status == 422) {
+            this.error = error.data.errors.email[0];
+          }
+        });
+    },
+  },
+};
 </script>
