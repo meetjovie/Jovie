@@ -68,14 +68,10 @@
             </div>
           </div>
           <div class="mt-12 -mb-16 sm:-mb-48 lg:relative lg:m-0">
-            <div
-              class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0">
-              <!-- Illustration taken from Lucid Illustrations: https://lucid.pixsellz.io/ -->
-              <img
-                class="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                :src="asset('img/External/jovie_social_data_enrichment.png')"
-                alt="" />
-            </div>
+            <img
+              class="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
+              :src="asset('img/External/jovie_social_data_enrichment.png')"
+              alt="" />
           </div>
         </div>
       </div>
@@ -211,7 +207,7 @@ export default {
             this.error = null;
             this.loading = false;
             this.waitlistComplete = true;
-            this.$router.push('/signup');
+            this.$router.push('signup');
           }
         })
         .catch((error) => {

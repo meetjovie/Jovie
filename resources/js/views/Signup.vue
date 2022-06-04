@@ -232,6 +232,9 @@ export default {
       submitting: false,
     };
   },
+  created() {
+    const email = this.$route.params.email;
+  },
   methods: {
     back() {
       this.user.password = '';

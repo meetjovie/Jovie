@@ -32,12 +32,12 @@
         <form
           v-if="waitlistComplete == false"
           class="mt-4 sm:flex sm:max-w-md lg:mt-0">
-          <label for="email-address" class="sr-only">Email address</label>
+          <label for="email" class="sr-only">Email address</label>
           <input
             type="email"
             v-on:keyup.enter="requestDemo()"
             v-model="waitListEmail"
-            name="email-address"
+            name="email"
             id="hero-email"
             autocomplete="email"
             required=""
@@ -95,6 +95,7 @@ export default {
             this.error = null;
             this.loading = false;
             this.waitlistComplete = true;
+            window.location.href = '/signup?email=' + this.waitListEmail;
           }
         })
         .catch((error) => {
