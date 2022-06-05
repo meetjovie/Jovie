@@ -199,11 +199,12 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
+            this.$store.commit('setAddedToWaitList');
             this.waitListEmail = '';
             this.error = null;
             this.loading = false;
             this.waitlistComplete = true;
-            this.$router.push({ name: 'signup' });
+            this.$router.push('signup');
           }
         })
         .catch((error) => {

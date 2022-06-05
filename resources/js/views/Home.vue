@@ -187,7 +187,10 @@ export default {
     },
     async requestDemo() {
       this.loading = true;
-      await UserService.addToWaitList({ email: this.waitListEmail })
+      await UserService.addToWaitList({
+        email: this.waitListEmail,
+        page: 'Home',
+      })
         .then((response) => {
           response = response.data;
           if (response.status) {

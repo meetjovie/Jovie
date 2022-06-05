@@ -17,10 +17,10 @@
               <Switch
                 v-model="beforeAfter"
                 :class="beforeAfter ? 'bg-neutral-200' : 'bg-neutral-200'"
-                class="relative inline-flex h-4 w-80 items-center rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                class="relative inline-flex h-6 w-80 items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                 <span
                   :class="beforeAfter ? 'translate-x-0' : 'translate-x-40'"
-                  class="inline-block h-4 w-1/2 transform rounded-lg bg-indigo-700 shadow-sm transition-transform" />
+                  class="inline-block h-6 w-1/2 transform rounded-full bg-indigo-700 shadow-sm transition-transform" />
                 <div class="absolute mx-auto grid w-full grid-cols-2 py-2">
                   <div
                     :class="beforeAfter ? 'text-white' : 'text-neutral-500'"
@@ -41,12 +41,10 @@
     </div>
     <div class="mx-auto h-80 max-w-md items-center px-4 pb-6 text-center">
       <div v-if="beforeAfter">
-        <img class="rounded-lg" :src="asset('img/External/1.png')" />
-     
+        <img class="rounded-full" :src="asset('img/External/1.png')" />
       </div>
       <div v-else>
-        <img class="rounded-lg" :src="asset('img/External/2.png')" />
-        
+        <img class="rounded-full" :src="asset('img/External/2.png')" />
       </div>
     </div>
     <div class="mx-auto max-w-3xl py-6 text-center">
