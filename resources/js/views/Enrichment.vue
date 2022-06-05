@@ -56,12 +56,8 @@
                     class="float-left px-2 text-xs font-bold text-red-500"
                     >{{ this.error }}</span
                   >
-                  <p class="mt-3 text-sm text-gray-300 sm:mt-4">
-                    No credit card required. By providing your email, you agree
-                    to our
-                    <a href="#" class="font-medium text-white"
-                      >terms of service</a
-                    >.
+                  <p class="mt-3 text-xs text-gray-300 sm:mt-4">
+                    No credit card required.
                   </p>
                 </form>
               </div>
@@ -207,7 +203,7 @@ export default {
             this.error = null;
             this.loading = false;
             this.waitlistComplete = true;
-            this.$router.push('signup');
+            this.$router.push({ name: 'signup' });
           }
         })
         .catch((error) => {
