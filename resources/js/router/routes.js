@@ -53,6 +53,15 @@ export const routes = [
     },
   },
   {
+    name: 'Relationship Management',
+    path: '/relationship-management',
+    component: loadPage('RelationshipManagement'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Data',
     path: '/data',
     component: loadPage('OurData'),

@@ -6,7 +6,7 @@
           class="flex w-full flex-col-reverse items-center justify-center pt-12 sm:py-12 md:flex-col md:py-40">
           <img
             :src="asset('img/External/bgImg.webp')"
-            class="mt-6 hidden h-96 w-full object-fill object-center md:mt-0 xl:block"
+            class="mt-6 hidden w-full object-fill object-center md:mt-0 xl:block"
             alt="background image" />
           <img
             :src="asset('img/External/tabley.webp')"
