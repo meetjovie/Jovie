@@ -56,7 +56,7 @@ class Import extends Model
 
     public static function processedImports($batch, $userListId)
     {
-        $remainingInList = Import::where('user_list_id', $userListId)->count();
+        $remainingInList = Import::where('user_list_id', $userListId)->where($batch->type, '!=', null)->count();
         return $batch->initial_total_in_file - $remainingInList;
     }
 
@@ -118,7 +118,7 @@ class Import extends Model
 
                 Log::info('All jobs completed successfully...');
 
-            })->catch(function (Batch $batch, Throwable $e) {
+            })->catch(function (Batch $batch, Throwable $e = null) {
 
                 Log::info('First batch job failure detected...');
 
