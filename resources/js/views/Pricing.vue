@@ -351,7 +351,7 @@ const faqs = [
       'Jovie allows you to enrich your contacts with data from your own database or customer lists.  When you upload contacts, we match them against our data to provide you an enriched profile with social metrics, content, & other details.  You are only charged for succcessful matches.',
   },
   {
-    question: 'Doy you offer trials?',
+    question: 'Do you offer trials?',
     answer:
       'Our basic plan is completely free. You can upgrade at any time.  If you have questions or would like to schedule a demo of our advanced features, please contact us.',
   },

@@ -61,7 +61,7 @@
                               as="span"
                               v-if="annualBillingEnabled"
                               :class="
-                                checked ? 'text-indigo-100' : 'text-gray-500'
+                                checked ? 'text-indigo-100' : 'text-gray-100'
                               "
                               class="inline">
                               <span v-if="plan.interval == 'year'">
@@ -282,7 +282,6 @@
 </template>
 
 <script>
-import AccountPlan from './Account/AccountPlan';
 import {
   RadioGroup,
   RadioGroupDescription,
@@ -302,7 +301,7 @@ export default {
   components: {
     JovieSpinner,
     PaymentElement,
-    AccountPlan,
+
     RadioGroup,
     RadioGroupLabel,
     RadioGroupOption,

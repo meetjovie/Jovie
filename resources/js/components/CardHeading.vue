@@ -12,6 +12,7 @@
         <a :href="buttonlink">
           <ButtonGroup
             :design="buttonstyle"
+            :size="buttonsize"
             :icon="buttonicon"
             :text="buttontext" />
         </a>
@@ -47,6 +48,10 @@ export default {
     buttonstyle: {
       type: String,
       default: 'primary',
+    },
+    buttonsize: {
+      type: String,
+      default: 'md',
     },
     buttonicon: {
       type: String,
