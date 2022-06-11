@@ -325,6 +325,7 @@
         id="main">
         <div class="h-full">
           <div class="h-full">
+            <CommandPallette as="div" :open="CommandPalletteOpen" />
             <AlertBanner
               v-if="currentUser.queued_count"
               design="primary"
@@ -373,6 +374,7 @@ import {
 import SwitchTeams from '../components/SwitchTeams.vue';
 import AlertBanner from '../components/AlertBanner';
 import JovieLogo from '../components/JovieLogo';
+
 export default {
   name: 'App',
   data() {

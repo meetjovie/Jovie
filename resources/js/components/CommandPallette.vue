@@ -1,3 +1,19 @@
+<!--
+  This example requires Tailwind CSS v3.0+ 
+  
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
 <template>
   <TransitionRoot :show="open" as="template" @after-leave="query = ''" appear>
     <Dialog as="div" class="relative z-10" @close="open = false">
@@ -23,104 +39,43 @@
           leave-from="opacity-100 scale-100"
           leave-to="opacity-0 scale-95">
           <DialogPanel
-            class="mx-auto max-w-2xl transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+            class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
             <Combobox @update:modelValue="onSelect">
               <div class="relative">
                 <SearchIcon
-                  class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-900 text-opacity-40"
+                  class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
                   aria-hidden="true" />
                 <ComboboxInput
-                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
                   placeholder="Search..."
                   @change="query = $event.target.value" />
               </div>
 
               <ComboboxOptions
-                v-if="query === '' || filteredProjects.length > 0"
+                v-if="filteredPeople.length > 0"
                 static
-                class="max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-10 overflow-y-auto">
-                <li class="p-2">
-                  <h2
-                    v-if="query === ''"
-                    class="mt-4 mb-2 px-3 text-xs font-semibold text-gray-900">
-                    Recent searches
-                  </h2>
-                  <ul class="text-sm text-gray-700">
-                    <ComboboxOption
-                      v-for="project in query === ''
-                        ? recent
-                        : filteredProjects"
-                      :key="project.id"
-                      :value="project"
-                      as="template"
-                      v-slot="{ active }">
-                      <li
-                        :class="[
-                          'flex cursor-default select-none items-center rounded-md px-3 py-2',
-                          active && 'bg-gray-900 bg-opacity-5 text-gray-900',
-                        ]">
-                        <FolderIcon
-                          :class="[
-                            'h-6 w-6 flex-none text-gray-900 text-opacity-40',
-                            active && 'text-opacity-100',
-                          ]"
-                          aria-hidden="true" />
-                        <span class="ml-3 flex-auto truncate">{{
-                          project.name
-                        }}</span>
-                        <span v-if="active" class="ml-3 flex-none text-gray-500"
-                          >Jump to...</span
-                        >
-                      </li>
-                    </ComboboxOption>
-                  </ul>
-                </li>
-                <li v-if="query === ''" class="p-2">
-                  <h2 class="sr-only">Quick actions</h2>
-                  <ul class="text-sm text-gray-700">
-                    <ComboboxOption
-                      v-for="action in quickActions"
-                      :key="action.shortcut"
-                      :value="action"
-                      as="template"
-                      v-slot="{ active }">
-                      <li
-                        :class="[
-                          'flex cursor-default select-none items-center rounded-md px-3 py-2',
-                          active && 'bg-gray-900 bg-opacity-5 text-gray-900',
-                        ]">
-                        <component
-                          :is="action.icon"
-                          :class="[
-                            'h-6 w-6 flex-none text-gray-900 text-opacity-40',
-                            active && 'text-opacity-100',
-                          ]"
-                          aria-hidden="true" />
-                        <span class="ml-3 flex-auto truncate">{{
-                          action.name
-                        }}</span>
-                        <span
-                          class="ml-3 flex-none text-xs font-semibold text-gray-500">
-                          <kbd class="font-sans">⌘</kbd>
-                          <kbd class="font-sans">{{ action.shortcut }}</kbd>
-                        </span>
-                      </li>
-                    </ComboboxOption>
-                  </ul>
-                </li>
+                class="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800">
+                <ComboboxOption
+                  v-for="person in filteredPeople"
+                  :key="person.id"
+                  :value="person"
+                  as="template"
+                  v-slot="{ active }">
+                  <li
+                    :class="[
+                      'cursor-default select-none px-4 py-2',
+                      active && 'bg-indigo-600 text-white',
+                    ]">
+                    {{ person.name }}
+                  </li>
+                </ComboboxOption>
               </ComboboxOptions>
 
-              <div
-                v-if="query !== '' && filteredProjects.length === 0"
-                class="py-14 px-6 text-center sm:px-14">
-                <FolderIcon
-                  class="mx-auto h-6 w-6 text-gray-900 text-opacity-40"
-                  aria-hidden="true" />
-                <p class="mt-4 text-sm text-gray-900">
-                  We couldn't find any projects with that term. Please try
-                  again.
-                </p>
-              </div>
+              <p
+                v-if="query !== '' && filteredPeople.length === 0"
+                class="p-4 text-sm text-gray-500">
+                No people found.
+              </p>
             </Combobox>
           </DialogPanel>
         </TransitionChild>
@@ -133,13 +88,6 @@
 import { computed, ref } from 'vue';
 import { SearchIcon } from '@heroicons/vue/solid';
 import {
-  DocumentAddIcon,
-  FolderIcon,
-  FolderAddIcon,
-  HashtagIcon,
-  TagIcon,
-} from '@heroicons/vue/outline';
-import {
   Combobox,
   ComboboxInput,
   ComboboxOptions,
@@ -150,29 +98,22 @@ import {
   TransitionRoot,
 } from '@headlessui/vue';
 
-const projects = [
-  { id: 1, name: 'Workflow Inc. / Website Redesign', url: '#' },
-  // More projects...
-];
-const recent = [projects[0]];
-const quickActions = [
-  { name: 'Contacts', icon: DocumentAddIcon, shortcut: 'C', url: 'contacts' },
-  { name: 'Creator Search', icon: FolderAddIcon, shortcut: 'S', url: 'search' },
-  { name: 'Dashboard', icon: HashtagIcon, shortcut: 'D', url: 'dashboard' },
-  { name: 'Help.', icon: TagIcon, shortcut: 'H', url: 'support' },
+const people = [
+  { id: 1, name: 'Leslie Alexander', url: '#' },
+  // More people...
 ];
 
 const open = ref(true);
 const query = ref('');
-const filteredProjects = computed(() =>
+const filteredPeople = computed(() =>
   query.value === ''
     ? []
-    : projects.filter((project) => {
-        return project.name.toLowerCase().includes(query.value.toLowerCase());
+    : people.filter((person) => {
+        return person.name.toLowerCase().includes(query.value.toLowerCase());
       })
 );
 
-function onSelect(item) {
-  window.location = item.url;
+function onSelect(person) {
+  window.location = person.url;
 }
 </script>

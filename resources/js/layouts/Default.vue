@@ -166,7 +166,7 @@
             </nav>
         </header>
     <router-view />
-
+ 
     <ExternalFooter>
 
     </ExternalFooter>
@@ -175,7 +175,7 @@
     <span class="text-2xs md:text-sm font-light text-white tracking-widest">We use <router-link class="underline cursor-pointer" to="privacy">cookies</router-link> to make this experience taste better. </span>
        <span @click="toggleAcceptCookies" class="text-xs md:text-sm text-neutral-50 font-bold hover:text-white active:text-white ml-2 cursor-pointer">Accept all cookies</span>
     </AlertBanner>
-    <CommandPallette />
+   
     </div>
   </div>
 </template>
@@ -196,8 +196,6 @@ import {
 import UserService from "../services/api/user.service";
 import ExternalFooter from "../components/External/ExternalFooter";
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue';
-import CommandPallette from '../components/CommandPallette.vue';
-
 
 export default {
     name: "Default",
@@ -217,7 +215,7 @@ export default {
         PopoverButton,
         PopoverPanel,
         PopoverOverlay,
-        CommandPallette
+    
     },
     data() {
         return {
@@ -254,7 +252,8 @@ export default {
             ],
             waitListEmail: '',
             acceptCookies: '',
-            error: null
+            error: null,
+            CommandPalletteOpen: false,
         }
     },
     mounted() {
@@ -269,10 +268,6 @@ export default {
             this.$cookies.set('acceptCookies', true, 60 * 60 * 24 * 365
             );
         },
-        openCommandPallette() {
-          this.$mousetrap.bind(['command+k', 'ctrl+k'], console.log('command+k'));
-        },
-        
         login() {
             // login()
         },

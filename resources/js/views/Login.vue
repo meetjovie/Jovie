@@ -55,8 +55,8 @@
                     v-model="user.password"
                     id="password"
                     name="password"
+                    label="Password"
                     placeholder="Password"
-                    laebl="Password"
                     type="password"
                     autocomplete="current-password"
                     required="" />
