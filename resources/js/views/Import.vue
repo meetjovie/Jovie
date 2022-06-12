@@ -222,7 +222,6 @@ export default {
         })
         .finally((response) => {
           this.importing = false;
-
           window.location.reload();
         });
     },
