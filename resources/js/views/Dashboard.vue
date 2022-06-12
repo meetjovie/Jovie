@@ -12,7 +12,7 @@
           class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
           <div class="min-w-0 flex-1">
             <!-- Profile -->
-            <div class="flex items-center">
+            <div @click="thatYou()" class="flex items-center">
               <img
                 class="hidden h-16 w-16 rounded-full sm:block"
                 :src="
@@ -193,6 +193,17 @@ export default {
       user: this.$store.state.AuthState.user,
       featuredNav,
     };
+  },
+  methods: {
+    thatYou() {
+      console.log(this.user);
+      this.$notify({
+        group: 'user',
+        title: 'Who are you?',
+        text: `You are ${this.user.first_name}`,
+        type: 'success',
+      });
+    },
   },
   mounted() {},
 };
