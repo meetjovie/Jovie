@@ -1,20 +1,22 @@
 <template>
   <div class="mx-auto min-h-screen items-center">
     <div
-      class="mx-auto mt-12 mb-8 h-full max-w-3xl items-center justify-center rounded-lg bg-white shadow-lg">
+      class="mx-auto mt-12 mb-8 h-full max-w-3xl items-center justify-center rounded-lg bg-white px-4 shadow-lg">
       <CardHeading
         title="Import"
         subtitle="Please select the columns you wish to import into Jovie." />
-      <InputGroup
-        v-model="fileName"
-        :error="listExists"
-        name="fileName"
-        label="List Name"
-        placeholder="Enter list name to create"
-        type="text" />
-      <table class="w-full rounded-md px-8">
+      <div class="mt-2">
+        <InputGroup
+          v-model="fileName"
+          :error="listExists"
+          name="fileName"
+          label="List Name"
+          placeholder="Enter list name to create"
+          type="text" />
+      </div>
+      <table class="w-full rounded-md py-2 px-8">
         <tr
-          class="border-neutrual-400 rounded-md-t border border-b text-neutral-500">
+          class="border-neutrual-400 rounded-md-t border border-b py-4 px-4 text-neutral-500">
           <th class="font-medium">
             Columns from <span class="font-bold">{{ csvFileName }}</span>
           </th>
@@ -23,9 +25,9 @@
         <tr
           v-for="(column, index) in columns"
           :key="column"
-          class="rounded-md text-center odd:bg-white even:bg-indigo-100">
+          class="rounded-md px-4 text-center odd:bg-white even:bg-indigo-100">
           <td
-            class="last:rounded-md-br mx-auto items-center py-2 text-center text-sm font-bold text-indigo-700">
+            class="last:rounded-md-br mx-auto items-center py-2 px-4 text-center text-sm font-bold text-indigo-700">
             {{ column }}
           </td>
           <td class="items-center justify-center px-2 py-1">

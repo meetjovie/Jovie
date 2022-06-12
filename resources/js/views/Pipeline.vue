@@ -1,8 +1,9 @@
 <template>
   <div
     v-if="
-      currentUser.current_team.current_subscription &&
-      currentUser.current_team.current_subscription.name !== 'basic'
+      (currentUser.current_team.current_subscription &&
+        currentUser.current_team.current_subscription.name !== 'basic') ||
+      currentUser.is_admin
     ">
     <div
       class="mx-auto grid h-full w-full auto-cols-max grid-flow-col justify-center py-4">

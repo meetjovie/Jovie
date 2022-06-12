@@ -2,8 +2,9 @@
   <div>
     <div
       v-if="
-        currentUser.current_team.current_subscription &&
-        currentUser.current_team.current_subscription.name !== 'basic'
+        (currentUser.current_team.current_subscription &&
+          currentUser.current_team.current_subscription.name !== 'basic') ||
+        currentUser.is_admin
       ">
       <ais-instant-search
         :search-client="searchClient"
@@ -1347,7 +1348,7 @@ export default {
       selectedCreatorIndex: [],
       searchClient: instantMeiliSearch(
         'https://search2.jov.ie/',
-        'hHf2WS0bbd8d57b035f3232266df72f0b9d112c16d6354ffb9538379f3b57bb20db8fd13',
+        '9ZQ4XlF5a1deb6f2afa4e8a643ffcf6ad22e4c33bbdc691f4b668e96aacc5e3566731267',
         // 'https://devsearch.jov.ie/',
         // 'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
         // process.env.MIX_MEILISEARCH_HOST,
