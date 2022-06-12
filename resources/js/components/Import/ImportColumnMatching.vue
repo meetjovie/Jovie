@@ -46,6 +46,7 @@
         <div>
           <ButtonGroup
             text="Finish"
+            :loader="importing"
             class="justify-right"
             :disabled="!Object.keys(mappedColumns).length"
             @click="$emit('finish', mappedColumns)"></ButtonGroup>
@@ -80,6 +81,10 @@ export default {
     userLists: {
       type: Array,
       default: [],
+    },
+    importing: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

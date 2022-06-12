@@ -75,6 +75,7 @@
       <ImportColumnMatching
         @finish="finishImport"
         :columns="columns"
+        :importing="importing"
         :fileName="importSet.listName"
         :userLists="userLists"
         @listNameUpdated="updateListName" />
@@ -221,6 +222,8 @@ export default {
         })
         .finally((response) => {
           this.importing = false;
+
+          window.location.reload();
         });
     },
   },
