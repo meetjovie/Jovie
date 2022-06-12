@@ -325,6 +325,7 @@
         id="main">
         <div class="h-full">
           <div class="h-full">
+            <CommandPallette as="div" :open="showCommandPallette" />
             <AlertBanner
               v-if="currentUser.queued_count"
               design="primary"
@@ -373,11 +374,14 @@ import {
 import SwitchTeams from '../components/SwitchTeams.vue';
 import AlertBanner from '../components/AlertBanner';
 import JovieLogo from '../components/JovieLogo';
+import CommandPallette from '../components/CommandPallette';
+
 export default {
   name: 'App',
   data() {
     return {
       errors: [],
+      showCommandPallette: false,
       user: this.$store.state.AuthState.user,
       nav: [
         /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
@@ -400,7 +404,17 @@ export default {
       isShowing: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
+      this.toggleCommandPallette();
+    });
+  },
+  methods: {
+    toggleCommandPallette() {
+      this.showCommandPallette = !this.showCommandPallette;
+    },
+  },
+
   computed: {
     currentRouteName() {
       return this.$route.name;
@@ -438,6 +452,7 @@ export default {
     PopoverGroup,
     SupportIcon,
     AlertBanner,
+    CommandPallette,
   },
 };
 </script>

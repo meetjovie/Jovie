@@ -23,20 +23,16 @@
                 <div class="grid grid-cols-2 gap-6">
                   <div class="col-span-1">
                     <div class="relative mt-1">
-                      <input
+                      <InputGroup
                         v-model="user.first_name"
                         id="first_name"
                         name="first_name"
                         type="text"
                         autocomplete="first_name"
                         required=""
-                        placeholder="First Name"
-                        class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                      <label
-                        for="first_name"
-                        class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
-                        >First Name
-                      </label>
+                        label="First Name"
+                        placeholder="First Name" />
+
                       <p
                         class="mt-2 text-sm text-red-900"
                         v-if="this.errors.first_name">
@@ -46,20 +42,15 @@
                   </div>
                   <div class="col-span-1">
                     <div class="relative mt-1">
-                      <input
+                      <InputGroup
                         v-model="user.last_name"
                         id="last_name"
                         name="last_name"
                         placeholder="Last Name"
+                        label="Last Name"
                         type="text"
                         autocomplete="last_name"
-                        required=""
-                        class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                      <label
-                        for="last_name"
-                        class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
-                        >Last Name</label
-                      >
+                        required="" />
                       <p
                         class="mt-2 text-sm text-red-900"
                         v-if="this.errors.last_name">
@@ -70,20 +61,15 @@
                 </div>
                 <div>
                   <div class="relative mt-1">
-                    <input
+                    <InputGroup
                       v-model="user.email"
                       id="email"
                       name="email"
+                      label="Email address"
                       placeholder="Email address"
                       type="email"
                       autocomplete="email"
-                      required=""
-                      class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                    <label
-                      for="email"
-                      class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium">
-                      Email address
-                    </label>
+                      required="" />
                     <p
                       class="mt-2 text-sm text-red-900"
                       v-if="this.errors.email">
@@ -110,20 +96,15 @@
                 <CreateAccount text="Enter a password" />
                 <div class="space-y-1">
                   <div class="relative mt-1">
-                    <input
+                    <InputGroup
                       v-model="user.password"
                       id="password"
                       name="password"
                       placeholder="Password"
+                      label="Password"
                       type="password"
                       autocomplete="current-password"
-                      required=""
-                      class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                    <label
-                      for="email"
-                      class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium">
-                      Password
-                    </label>
+                      required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
                       v-if="this.errors.password">
@@ -133,20 +114,15 @@
                 </div>
                 <div class="space-y-1">
                   <div class="relative mt-1">
-                    <input
+                    <InputGroup
                       v-model="user.password_confirmation"
                       id="password_confirmation"
                       name="password_confirmation"
                       placeholder="Confirm Password"
+                      label="Confirm Password"
                       type="password"
                       autocomplete="current-password"
-                      required=""
-                      class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                    <label
-                      for="password_confirmation"
-                      class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium">
-                      Confirm Password
-                    </label>
+                      required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
                       v-if="this.errors.password">
@@ -209,13 +185,14 @@ import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
 import Subscription from '../components/Subscription';
+import InputGroup from '../components/InputGroup.vue';
 
 export default {
   components: {
-    Subscription,
     JovieLogo,
     AuthFooter,
     CreateAccount,
+    InputGroup,
   },
   data() {
     return {
