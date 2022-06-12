@@ -7,7 +7,7 @@
         <div>
           <div class="space-y-6">
             <div class="min-h-screen items-center py-12">
-              <div @drop.prevent="drop" @change="getColumnsFromCsv()">
+              <div @drop.prevent="getColumnsFromCsv()">
                 <div
                   @dragenter.prevent="toggleActive"
                   @dragleave.prevent="toggleActive"
@@ -39,7 +39,7 @@
                 </div>
               </div>
               <span class="file-info py-2 text-xs font-bold text-neutral-400"
-                >Uploading file: {{ dropzoneFile.name }}</span
+                >Uploading file: {{ importSet.listName.name }}</span
               >
               <ProgressBar
                 class="mt-4"
@@ -137,8 +137,9 @@ export default {
     toggleActive() {
       this.ActiveDrag = !this.ActiveDrag;
     },
+
     drop() {
-      this.$refs.file_upload.files[0] = this.dropzoneFile;
+      this.getColumnsFromCsv();
     },
     getUserLists() {
       UserService.getUserLists().then((response) => {
