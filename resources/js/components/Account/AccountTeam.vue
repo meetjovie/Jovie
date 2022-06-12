@@ -21,11 +21,12 @@
           {{ currentUser.current_team.current_subscription.seats }}
           member/members to you current active team.
           <span
-            class="mx-auto w-40 items-center py-4"
+            class="mx-auto w-32 items-center py-4"
             v-if="currentUser.isCurrentTeamOwner">
             <ButtonGroup
               @click="showBuySeats()"
               icon="PlusIcon"
+              class="mx-auto w-48"
               text="Buy more seats" />
           </span>
         </p>
