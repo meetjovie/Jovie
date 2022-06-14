@@ -51,5 +51,8 @@ export default {
     JovieLogo,
     AuthFooter,
   },
+  mounted() {
+    window.analytics.page(this.$route.name);
+  },
 };
 </script>

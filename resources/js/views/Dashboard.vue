@@ -197,6 +197,8 @@ export default {
   methods: {
     thatYou() {
       console.log(this.user);
+      // track event in segment
+
       this.$notify({
         group: 'user',
         title: 'Who are you?',

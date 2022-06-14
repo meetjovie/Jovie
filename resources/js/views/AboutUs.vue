@@ -232,3 +232,10 @@ const features = [
   },
 ];
 </script>
+<script>
+export default {
+  mounted() {
+    window.analytics.page(this.$route.name);
+  },
+};
+</script>

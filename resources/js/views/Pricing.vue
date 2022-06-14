@@ -380,6 +380,10 @@ export default {
     TableIcon,
     PhoneIcon,
   },
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
+  },
   setup() {
     return {
       tiers,

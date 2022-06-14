@@ -51,6 +51,10 @@ export default {
     Mailboxes,
     Settings,
   },
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
+  },
   data() {
     return {
       tabs: [

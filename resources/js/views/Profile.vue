@@ -99,6 +99,8 @@ export default {
     };
   },
   mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
     if (!this.profile) {
       const username = this.$route.params.username;
       store

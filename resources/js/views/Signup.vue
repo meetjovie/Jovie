@@ -69,6 +69,7 @@
                       placeholder="Email address"
                       type="email"
                       autocomplete="email"
+                      v-on:keyup.enter="nextStep()"
                       required="" />
                     <p
                       class="mt-2 text-sm text-red-900"
@@ -82,6 +83,7 @@
                   <button
                     type="button"
                     @click="nextStep()"
+                    :loading="submitting"
                     :disabled="submitting"
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     Next
@@ -121,6 +123,7 @@
                       placeholder="Confirm Password"
                       label="Confirm Password"
                       type="password"
+                      v-on:keyup.enter="register()"
                       autocomplete="current-password"
                       required="" />
                     <p
@@ -145,6 +148,7 @@
                       type="button"
                       tabindex="0"
                       @click="register()"
+                      :loading="submitting"
                       :disabled="submitting"
                       class="col-span-1 w-full cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Create account
@@ -212,6 +216,10 @@ export default {
   created() {
     const email = this.$route.params.email;
   },
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
+  },
   methods: {
     back() {
       this.user.password = '';
@@ -245,6 +253,11 @@ export default {
           alert('Something went wrong.');
         })
         .finally(() => {
+          //identify call to segment
+          window.analytics.identify(this.user.email, {
+            email: this.user.email,
+            name: this.user.first_name + ' ' + this.user.last_name,
+          });
           this.submitting = false;
         });
     },
@@ -261,6 +274,12 @@ export default {
           } else {
             this.error = response.error;
           }
+        })
+        .then(() => {
+          //track call to segment
+          window.analytics.track('Signed Up', {
+            first_name: this.user.first_name,
+          });
         })
         .catch((error) => {
           if (error.response.status == 422) {

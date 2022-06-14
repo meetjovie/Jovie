@@ -58,6 +58,7 @@
                     label="Password"
                     placeholder="Password"
                     type="password"
+                    v-on:keyup.enter="login()"
                     autocomplete="current-password"
                     required="" />
                   <p
@@ -96,6 +97,10 @@ export default {
     JovieLogo,
     AuthFooter,
     InputGroup,
+  },
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
   },
   data() {
     return {

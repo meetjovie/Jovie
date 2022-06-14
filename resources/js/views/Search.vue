@@ -1118,6 +1118,8 @@ export default {
     JovieTooltip,
   },
   mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
     this.$mousetrap.bind(['space'], this.toggleSidebar);
     this.$mousetrap.bind(['command+k', 'ctrl+k'], this.clearSearch);
     this.$mousetrap.bind(['up'], this.logIt);

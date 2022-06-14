@@ -155,6 +155,10 @@ export default {
     NoAccess,
     CreatorTags,
   },
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
+  },
   data() {
     return {
       lists: [

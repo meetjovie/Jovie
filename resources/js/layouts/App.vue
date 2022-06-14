@@ -350,6 +350,15 @@
                     </div>
                     <div
                       as="div"
+                      @click="openWidget()"
+                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      role="menuitem">
+                      <component class="mr-4 h-4 w-4" is="SupportIcon">
+                      </component>
+                      Chat with support
+                    </div>
+                    <div
+                      as="div"
                       @click="$store.dispatch('logout')"
                       class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
@@ -440,7 +449,6 @@ export default {
       ],
       dropdownmenuitems: [
         { name: 'Profile', route: '/', icon: UserGroupIcon },
-        { name: 'Support', route: '/support', icon: SupportIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
       helpmenuitems: [
@@ -450,12 +458,25 @@ export default {
       isShowing: false,
     };
   },
+
   mounted() {
+    //identify call to segment
+    window.analytics.identify(this.user.email, {
+      email: this.user.email,
+      name: this.user.first_name + ' ' + this.user.last_name,
+      plan: this.user.plan,
+      team: this.user.team,
+      user_id: this.user.id,
+    });
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();
     });
   },
+
   methods: {
+    openSupportChat() {
+      this.$freshchat.open();
+    },
     toggleCommandPallette() {
       this.showCommandPallette = !this.showCommandPallette;
     },
@@ -502,5 +523,5 @@ export default {
   },
 };
 </script>
-
+<!-- End Freshdesk -->
 <style scoped></style>

@@ -132,6 +132,8 @@ export default {
     };
   },
   mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
     this.getUserLists();
   },
   methods: {

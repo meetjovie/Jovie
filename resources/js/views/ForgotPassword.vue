@@ -105,6 +105,10 @@ import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 
 export default {
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
+  },
   components: {
     JovieLogo,
     AuthFooter,

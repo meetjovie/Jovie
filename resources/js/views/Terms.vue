@@ -898,3 +898,10 @@
     <!-- /container base_container -->
   </div>
 </template>
+<script>
+export default {
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
+  },
+};</script>

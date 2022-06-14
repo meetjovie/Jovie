@@ -4,6 +4,7 @@ environments:
   production:
     queue-concurrency: 10
     database: Jovie_Production
+    storage: 'jovie-production-store'
     memory: 1024
     cli-memory: 512
     runtime: 'php-8.1:al2'
@@ -24,6 +25,7 @@ environments:
     cli-memory: 512
     runtime: 'php-8.1:al2'
     gateway-version: 2
+    storage: 'jovie-staging-store'
     domain:
       - staging.jov.ie
     network: A7X3-PRIMARY
@@ -35,6 +37,7 @@ environments:
     queue-concurrency: 5
     database: Jove-Dev
     memory: 1024
+    storage: 'jovie-dev-store'
     cli-memory: 512
     runtime: 'php-8.1:al2'
     gateway-version: 2

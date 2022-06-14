@@ -23,3 +23,11 @@
 import ButtonGroup from '../components/ButtonGroup.vue';
 import HomeCTA from '../components/Home/HomeCTA.vue';
 </script>
+<script>
+export default {
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
+  },
+};
+</script>

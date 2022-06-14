@@ -313,6 +313,9 @@ export default {
       footerNavigation,
     };
   },
+  mounted() {
+    window.analytics.page(this.$route.name);
+  },
   data() {
     return {
       waitListEmail: '',

@@ -486,6 +486,9 @@ export default {
       comments: [],
     };
   },
+  mounted() {
+    window.analytics.page(this.$route.name + ' - ' + this.$route.params.id);
+  },
   methods: {
     changeTab(index) {
       if (index == 3) {

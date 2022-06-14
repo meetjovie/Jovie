@@ -41,7 +41,7 @@
                       >Email address</label
                     >
                     <input
-                      v-on:keyup.enter="requestDemo()"
+                      v-on:keyup.enter="requestDemo() && identifyUser()"
                       id="email-address"
                       v-model="waitListEmail"
                       name="email-address"
@@ -55,7 +55,7 @@
                       type="button"
                       :loader="loading"
                       as="router-link"
-                      @click="requestDemo()"
+                      @click="requestDemo() && identifyUser()"
                       text="Get started free"
                       design="hero">
                       Get started free
@@ -178,6 +178,9 @@ export default {
       ],
     };
   },
+  mounted() {
+    window.analytics.page('Home');
+  },
   methods: {
     login() {
       // login();
@@ -185,8 +188,14 @@ export default {
     logout() {
       // logout();
     },
+    async identifyUser() {
+      window.analytics.identify({
+        email: this.email,
+      });
+    },
     async requestDemo() {
       this.loading = true;
+
       await UserService.addToWaitList({
         email: this.waitListEmail,
         page: 'Home',
