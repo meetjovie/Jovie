@@ -84,10 +84,12 @@ class InstagramImport implements ShouldQueue
         if ($creator && !is_null($creator->instagram_last_scrapped_at)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+                Import::markImport($this->importId, ['instagram']);
                 return;
             }
         }
         if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
+            Import::markImport($this->importId, ['instagram']);
             return;
         }
 
@@ -98,16 +100,10 @@ class InstagramImport implements ShouldQueue
                     $dataResponse = json_decode($response->getBody()->getContents());
                     if (!is_null($dataResponse) && isset($dataResponse->graphql)) {
                         $this->insertIntoDatabase($dataResponse);
-                        if ($this->importId) {
-                            Import::markNetworksAsScrapped($this->importId, ['instagram']);
-                            Import::deleteImport($this->importId);
-                        }
+                        Import::markImport($this->importId, ['instagram']);
                         Log::channel('slack')->info('imported instagram user.', ['username' => $this->username]);
                     } else {
-                        if ($this->importId) {
-                            Import::markNetworksAsScrapped($this->importId, ['instagram']);
-                            Import::deleteImport($this->importId);
-                        }
+                        Import::markImport($this->importId, ['instagram']);
                         Log::channel('slack_warning')->info('no such profile', ['username' => $this->username]);
                     }
                 } elseif ($response->getStatusCode() == 504) {

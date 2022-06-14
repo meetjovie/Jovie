@@ -106,6 +106,14 @@ class Import extends Model
         }
     }
 
+    public static function markImport($importId, $networks)
+    {
+        if ($importId) {
+            Import::markNetworksAsScrapped($importId, $networks);
+            Import::deleteImport($importId);
+        }
+    }
+
     public function getImportBatch($queue = 'instagram')
     {
         $batch = DB::table('job_batches')

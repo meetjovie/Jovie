@@ -71,10 +71,12 @@ class TwitchImport implements ShouldQueue
             if ($creator && !is_null($creator->twitch_last_scrapped_at)) {
                 $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+                    Import::markImport($this->importId, ['twitch']);
                     return;
                 }
             }
             if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
+                Import::markImport($this->importId, ['twitch']);
                 return;
             }
 
@@ -88,22 +90,17 @@ class TwitchImport implements ShouldQueue
                     $response = json_decode($response->getBody()->getContents());
                     if (count($response->data)) {
                         $this->insertInDatabase($response->data);
-                        if ($this->importId) {
-                            Import::markNetworksAsScrapped($this->importId, ['twitch']);
-                            Import::deleteImport($this->importId);
-                        }
+                        Import::markImport($this->importId, ['twitch']);
                         Log::channel('slack')->info('imported twitch user.', ['id' => $this->id, 'username' => $this->username]);
                     } else {
-                        if ($this->importId) {
-                            Import::markNetworksAsScrapped($this->importId, ['twitch']);
-                            Import::deleteImport($this->importId);
-                        }
+                        Import::markImport($this->importId, ['twitch']);
                         Log::channel('slack_warning')->info('no such profile', ['id' => $this->id, 'username' => $this->username]);
                     }
                 } elseif ($response->getStatusCode() == 504) {
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
+                        Import::markImport($this->importId, ['twitch']);
                         Log::channel('slack_warning')->info('Timed out for twitch.', ['id' => $this->id, 'username' => $this->username]);
                     }
                 } elseif ($response->getStatusCode() == 401) {
@@ -117,10 +114,11 @@ class TwitchImport implements ShouldQueue
                         $this->release(10);
                     } else {
                         if ($this->batch()) {
+                            Import::markImport($this->importId, ['twitch']);
                             DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_NO_RESPONSE]);
                         }
                         $this->fail();
-                        Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents()]);
+                        Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents(), 'username' => $this->username]);
                     }
                 }
             }
