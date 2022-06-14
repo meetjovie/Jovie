@@ -189,9 +189,12 @@ export default {
       // logout();
     },
     async identifyUser() {
+      //segment identify call
       window.analytics.identify({
-        email: this.email,
+        email: this.waitListEmail,
       });
+      //segment track call
+      window.analytics.track('Initated Sign Up');
     },
     async requestDemo() {
       this.loading = true;

@@ -67,7 +67,7 @@
                       >Email address</label
                     >
                     <input
-                      v-on:keyup.enter="requestDemo()"
+                      v-on:keyup.enter="requestDemo() && identifyUser()"
                       v-model="waitListEmail"
                       id="hero-email"
                       type="email"
@@ -77,7 +77,7 @@
                     <ButtonGroup
                       type="button"
                       :loader="loading"
-                      @click="requestDemo()"
+                      @click="requestDemo() && identifyUser()"
                       text="Get early access"
                       design="hero">
                     </ButtonGroup>
@@ -325,6 +325,16 @@ export default {
     };
   },
   methods: {
+    async identifyUser() {
+      //segment identify call
+      window.analytics.identify({
+        email: this.waitListEmail,
+      });
+      //segment track call
+      window.analytics.track('Joined Waitlist', {
+        product: 'Chrome Extension',
+      });
+    },
     async requestDemo() {
       this.loading = true;
       await UserService.addToWaitList({

@@ -35,7 +35,7 @@
           <label for="email" class="sr-only">Email address</label>
           <input
             type="email"
-            v-on:keyup.enter="requestDemo()"
+            v-on:keyup.enter="requestDemo() && identifyUser()"
             v-model="waitListEmail"
             name="email"
             id="hero-email"
@@ -47,7 +47,7 @@
             <ButtonGroup
               type="submit"
               :loader="loading"
-              @click="requestDemo()"
+              @click="requestDemo() && identifyUser()"
               text="Subscribe"
               design="hero">
             </ButtonGroup>
@@ -82,6 +82,16 @@ export default {
     };
   },
   methods: {
+    async identifyUser() {
+      //segment identify call
+      window.analytics.identify({
+        email: this.waitListEmail,
+      });
+      //segment track call
+      window.analytics.track('Subscribed to newsletter', {
+        email: this.waitListEmail,
+      });
+    },
     async requestDemo() {
       this.loading = true;
       await UserService.addToWaitList({

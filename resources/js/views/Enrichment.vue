@@ -38,7 +38,7 @@
                       <input
                         id="email"
                         type="email"
-                        v-on:keyup.enter="requestDemo()"
+                        v-on:keyup.enter="requestDemo() && identifyUser()"
                         v-model="waitListEmail"
                         placeholder="Enter your email"
                         class="block w-full rounded-md border-0 px-4 py-3 text-base text-gray-900 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900" />
@@ -46,7 +46,7 @@
                     <div class="mt-3 sm:mt-0 sm:ml-3">
                       <ButtonGroup
                         :loader="loading"
-                        @click="requestDemo()"
+                        @click="requestDemo() && identifyUser()"
                         size="base"
                         design="primary"
                         text="Get started free" />
@@ -194,6 +194,14 @@ export default {
     };
   },
   methods: {
+    async identifyUser() {
+      //segment identify call
+      window.analytics.identify({
+        email: this.waitListEmail,
+      });
+      //segment track call
+      window.analytics.track('Initated Sign Up');
+    },
     async requestDemo() {
       this.loading = true;
       await UserService.addToWaitList({
