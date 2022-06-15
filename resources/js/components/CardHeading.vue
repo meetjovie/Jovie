@@ -11,6 +11,7 @@
       <div v-if="buttontext" class="ml-4 mt-4 flex-shrink-0">
         <a :href="buttonlink">
           <ButtonGroup
+            @click="this.$emit('button-click')"
             :design="buttonstyle"
             :size="buttonsize"
             :icon="buttonicon"
@@ -55,6 +56,10 @@ export default {
     },
     buttonicon: {
       type: String,
+      default: null,
+    },
+    buttonClick: {
+      type: Function,
       default: null,
     },
   },

@@ -238,6 +238,7 @@ export default {
   name: 'CRM',
   components: {
     DownloadIcon,
+
     TabGroup,
     TabList,
     Tab,

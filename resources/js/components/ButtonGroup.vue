@@ -49,7 +49,7 @@
     </p>
     <div v-if="loader" class="transition-all"><JovieSpinner /></div>
     <div v-if="success">
-      <CheckCircleIcon class="h-5 w-5 text-white transition-all" />
+      <CheckIcon class="h-5 w-5 text-white transition-all" />
     </div>
   </button>
 </template>
@@ -65,7 +65,7 @@ import {
   PlusIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/solid';
-import { CheckCircleIcon } from '@heroicons/vue/outline';
+import { CheckIcon } from '@heroicons/vue/outline';
 
 import JovieSpinner from '../components/JovieSpinner';
 
@@ -121,7 +121,7 @@ export default {
     SearchIcon,
     BanIcon,
     PlusIcon,
-    CheckCircleIcon,
+    CheckIcon,
     MinusIcon,
     PlusCircleIcon,
     MinusCircleIcon,

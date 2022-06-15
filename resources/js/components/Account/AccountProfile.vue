@@ -123,7 +123,7 @@
               title="Delete Account"
               subtitle="This is permanent and cannot be undone."
               buttonstyle="danger"
-              buttonlink="mailto:admin@jov.ie"
+              @buttonClick="toggleDeleteModal()"
               buttontext="Delete">
             </CardHeading>
           </CardLayout>
@@ -137,6 +137,10 @@
       </div>
     </div>
   </div>
+  <ModalPopup
+    @primaryButtonClick="deleteAccount()"
+    :open="deleteModalOpen"
+    title="Deactivate account" />
 </template>
 
 <script>
@@ -146,19 +150,37 @@ import CardHeading from '../../components/CardHeading';
 import CardLayout from '../../components/CardLayout';
 import ButtonGroup from '../../components/ButtonGroup';
 import ImportService from '../../services/api/import.service';
+import ModalPopup from '../../components/ModalPopup';
 
 export default {
   name: 'AccountProfile',
-  components: { InputGroup, CardHeading, CardLayout, ButtonGroup },
+  components: { InputGroup, CardHeading, CardLayout, ButtonGroup, ModalPopup },
   data() {
     return {
       errors: {},
       updating: false,
       bucketResponse: null,
       uploadProgress: 0,
+      deleteModalOpen: false,
     };
   },
   methods: {
+    deleteAccount() {
+      console.log('deleteAccount');
+      this.$notify({
+        group: 'user',
+        type: 'success',
+        title: 'Deleting account',
+        text: 'This may take a few minutes.',
+      });
+      //add a function to cancel users current billing plan
+      //add a function to logout the user
+      //redirect user to the homepage
+      this.$router.push('/');
+    },
+    toggleDeleteModal() {
+      this.deleteModalOpen = !this.deleteModalOpen;
+    },
     fileChanged(e) {
       this.bucketResponse = null;
       this.uploadProgress = 0;
