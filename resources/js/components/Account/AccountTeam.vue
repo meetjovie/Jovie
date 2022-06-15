@@ -367,6 +367,9 @@ export default {
       }
     },
   },
+  mounted() {
+    window.analytics.page('Manage Team');
+  },
   methods: {
     cancelBuySeats() {
       this.isBuySeats = false;

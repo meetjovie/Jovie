@@ -164,6 +164,9 @@ export default {
       deleteModalOpen: false,
     };
   },
+  mounted() {
+    window.analytics.page('Manage Profile');
+  },
   methods: {
     deleteAccount() {
       console.log('deleteAccount');

@@ -89,6 +89,36 @@ export const routes = [
     },
   },
   {
+    name: 'Billing',
+    path: '/billing',
+    component: loadPage('Account'),
+    props: { defaultTab: 2 },
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
+  },
+  {
+    name: 'password',
+    path: '/password',
+    component: loadPage('Account'),
+    props: { defaultTab: 1 },
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
+  },
+  {
+    name: 'Team',
+    path: '/team',
+    component: loadPage('Account'),
+    props: { defaultTab: 3 },
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
+  },
+  {
     name: 'Dashboard',
     path: '/dashboard',
     component: loadPage('Dashboard'),

@@ -110,6 +110,9 @@ export default {
       uploadProgress: 0,
     };
   },
+  mounted() {
+    window.analytics.page('Manage Security');
+  },
   methods: {
     updatePassword() {
       let data = new FormData();

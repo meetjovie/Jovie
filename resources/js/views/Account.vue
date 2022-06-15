@@ -8,7 +8,7 @@
         <div class="px-4 sm:px-6 md:px-0">
           <div class="py-6">
             <!-- Tabs -->
-            <TabGroup as="div" class="mt-2">
+            <TabGroup :defaultIndex="defaultTab" as="div" class="mt-2">
               <div class="border-b border-gray-200">
                 <TabList class="-mb-px flex space-x-8 px-4">
                   <Tab
@@ -160,6 +160,12 @@ export default {
     AccountPassword,
   },
 
+  props: {
+    defaultTab: {
+      type: Number,
+      default: 3,
+    },
+  },
   data() {
     return {
       navigation,
