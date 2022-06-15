@@ -93,10 +93,6 @@ import {
   PencilAltIcon,
   TrashIcon,
   UsersIcon,
-  ChevronDownIcon,
-  SearchIcon,
-  UserGroupIcon,
-  MailIcon,
 } from '@heroicons/vue/outline';
 import JovieReplaces from '../components/External/JovieReplaces.vue';
 import UserService from '../services/api/user.service';
@@ -109,15 +105,9 @@ import HomeTestimonials from '../components/Home/HomeTestimonials';
 import HomeCTA2 from '../components/Home/HomeCTA2';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
-import HomeFeatureHero from '../components/Home/HomeFeatureHero';
-import HomeCTA3 from '../components/Home/HomeCTA3';
+
 import CallToAction from '../components/CallToAction';
-import {
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-  PopoverOverlay,
-} from '@headlessui/vue';
+
 import ButtonGroup from '@/components/ButtonGroup';
 export default {
   name: 'Home',
@@ -133,17 +123,7 @@ export default {
     CallToAction,
     HomeCTA2,
     HomeFeatureCRM,
-    HomeFeatureHero,
-    HomeCTA3,
-    Popover,
-    PopoverButton,
-    PopoverPanel,
-    PopoverOverlay,
-    ChevronDownIcon,
     JovieReplaces,
-    UserGroupIcon,
-    SearchIcon,
-    MailIcon,
   },
   data() {
     return {

@@ -85,7 +85,7 @@
                     @click="nextStep()"
                     :loader="loading"
                     :disabled="submitting"
-                    text="Next" />
+                    text="Next"
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     Next
                   </ButtonGroup>
@@ -150,6 +150,7 @@
                       tabindex="0"
                       @click="register()"
                       :loader="loading"
+                      :success="success"
                       :disabled="submitting"
                       text="Create Account">
                       Create account
@@ -214,6 +215,8 @@ export default {
         password_confirmation: '',
       },
       submitting: false,
+      success: false,
+      loading: false,
     };
   },
   created() {
@@ -267,6 +270,7 @@ export default {
         });
     },
     register() {
+      this.loading = true;
       this.errors = {};
       this.error = '';
       this.submitting = true;
@@ -296,6 +300,8 @@ export default {
         })
         .finally(() => {
           this.submitting = false;
+          this.success = true;
+          this.loading = false;
         });
     },
   },

@@ -145,6 +145,7 @@ export default {
     Switch,
     SwitchGroup,
   },
+
   data() {
     return {
       beforeAfter: false,
