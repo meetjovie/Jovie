@@ -83,7 +83,7 @@ class TwitchImport implements ShouldQueue
             if ($this->id || $this->username) {
                 $token = Cache::get('twitch_token_'.$this->listId);
                 if (empty($token)) {
-                    $token = Import::saveSwitchToken($this->listId);
+                    $token = Import::saveTwitchToken($this->listId);
                 }
                 $response = self::scrapTwitch($this->username ?? $this->id, $token);
                 if ($response->getStatusCode() == 200) {
@@ -106,7 +106,7 @@ class TwitchImport implements ShouldQueue
                         Log::channel('slack_warning')->info('Timed out.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     }
                 } elseif ($response->getStatusCode() == 401) {
-                    Import::saveSwitchToken($this->listId);
+                    Import::saveTwitchToken($this->listId);
                     $this->release(5);
                 } elseif ($response->getStatusCode() == 429) {
                     $this->release(5);

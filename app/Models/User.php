@@ -109,4 +109,9 @@ class User extends Authenticatable
             })
             ->limit(200000000000000000000000);
     }
+
+    public function pendingImportsByNetwork($network)
+    {
+        return Import::where('user_id', $this->id)->where($network, '!=', null)->where($network.'_dispatched', '!=', 1)->where($network.'_scrapped', '!=', 1)->limit(1000)->get();
+    }
 }
