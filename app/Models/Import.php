@@ -134,7 +134,7 @@ class Import extends Model
 
                 Log::info('The batch has finished executing...');
 
-            })->onConnection($queue)->dispatch();
+            })->onConnection($queue)->allowFailures()->dispatch();
 
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'user_list_id' => $this->user_list_id,
@@ -158,7 +158,7 @@ class Import extends Model
             ->process($reader);
     }
 
-    public static function saveSwitchToken($listId)
+    public static function saveSwitchToken($listId = null)
     {
         $token = null;
         $response = Import::generateTwitchToken();

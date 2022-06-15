@@ -91,17 +91,19 @@ class TwitchImport implements ShouldQueue
                     if (count($response->data)) {
                         $this->insertInDatabase($response->data);
                         Import::markImport($this->importId, ['twitch']);
-                        Log::channel('slack')->info('imported twitch user.', ['id' => $this->id, 'username' => $this->username]);
+                        Log::channel('slack')->info('imported user.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     } else {
                         Import::markImport($this->importId, ['twitch']);
-                        Log::channel('slack_warning')->info('no such profile', ['id' => $this->id, 'username' => $this->username]);
+                        $this->fail(new \Exception(('No profile data or no such profile for username '.$this->username), $response->getStatusCode()));
+                        Log::channel('slack_warning')->info('No profile data or no such profile for username', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     }
                 } elseif ($response->getStatusCode() == 504) {
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
                         Import::markImport($this->importId, ['twitch']);
-                        Log::channel('slack_warning')->info('Timed out for twitch.', ['id' => $this->id, 'username' => $this->username]);
+                        $this->fail(new \Exception(('Timed out for username '.$this->username), $response->getStatusCode()));
+                        Log::channel('slack_warning')->info('Timed out.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     }
                 } elseif ($response->getStatusCode() == 401) {
                     Import::saveSwitchToken($this->listId);
@@ -113,12 +115,9 @@ class TwitchImport implements ShouldQueue
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        if ($this->batch()) {
-                            Import::markImport($this->importId, ['twitch']);
-                            DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_NO_RESPONSE]);
-                        }
-                        $this->fail();
-                        Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents(), 'username' => $this->username]);
+                        Import::markImport($this->importId, ['twitch']);
+                        $this->fail(new \Exception($response->getBody()->getContents(), $response->getStatusCode()));
+                        Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents(), 'username' => $this->username, 'network' => 'twitch']);
                     }
                 }
             }
@@ -126,11 +125,11 @@ class TwitchImport implements ShouldQueue
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {
+                Import::markImport($this->importId, ['twitch']);
                 if ($this->batch()) {
-                    DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_EXCEPTION_DURING_IMPORT]);
-                    Log::channel('slack_warning')->info('internal error, batch cancelled with id '.$this->batch()->id, ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                    Log::channel('slack_warning')->info('internal error from with in batch '.$this->batch()->id, ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'twitch']);
                 } else {
-                    Log::channel('slack_warning')->info('internal error, import cancelled.', ['id' => $this->id, 'username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                    Log::channel('slack_warning')->info('internal error, import cancelled.', ['id' => $this->id, 'username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'twitch']);
                 }
                 $this->fail($e);
             }

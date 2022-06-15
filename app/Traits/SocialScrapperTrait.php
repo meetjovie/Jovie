@@ -15,7 +15,7 @@ trait SocialScrapperTrait {
     public function scrapInstagram($username)
     {
         try {
-            $url = ('https://www.instagram.com/'.$username.'/?__a=1&hl=en');
+            $url = ('https://www.instagram.com/'.$username.'/?__a=1&hl=en&js=false');
             $client = new \GuzzleHttp\Client();
             $response = $client->get($this->INSTAGRAM_SCRAPPER_URL, array(
                 'query' => [
