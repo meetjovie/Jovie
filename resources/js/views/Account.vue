@@ -39,11 +39,11 @@
                   <AccountPassword />
                 </TabPanel>
               </TabPanels>
-              <TabPanels as="template">
+              <!--  <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
                   Notifications
                 </TabPanel>
-              </TabPanels>
+              </TabPanels> -->
 
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
@@ -119,7 +119,7 @@ const secondaryNavigation = [
 const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
-  { name: 'Notifications', href: '#', current: false },
+
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
 ];
