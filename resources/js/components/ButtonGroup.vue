@@ -2,6 +2,7 @@
   <button
     type="button"
     :disabled="disabled"
+    @click="trackClick()"
     class="inline-flex items-center font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
     :class="[
       { 'py-0 px-2 text-xs': size == 'xs' },
@@ -70,6 +71,14 @@ import { CheckIcon } from '@heroicons/vue/outline';
 import JovieSpinner from '../components/JovieSpinner';
 
 export default {
+  methods: {
+    trackClick() {
+      window.analytics.track('Clicked Button', {
+        label: this.text,
+        page: this.$route.path,
+      });
+    },
+  },
   props: {
     text: {
       type: String,
