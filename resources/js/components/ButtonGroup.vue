@@ -36,8 +36,8 @@
       { 'rounded-bl-md': rounded == 'blt' },
       { 'rounded-br-md': rounded == 'br' },
     ]">
-    <div v-if="loader"><JovieSpinner /></div>
     <component
+      v-if="icon"
       :is="icon"
       class="absolute -ml-1 mr-3 h-5 w-5"
       aria-hidden="true" />
@@ -47,6 +47,7 @@
       :class="[{ 'text-2xs': size == 'xs' }, { 'text-xs': size == 'sm' }]">
       {{ text }}
     </p>
+    <div v-if="loader"><JovieSpinner /></div>
   </button>
 </template>
 
@@ -83,6 +84,11 @@ export default {
     buttonlink: {
       type: String,
       default: null,
+      required: false,
+    },
+    loaderPosition: {
+      type: String,
+      default: 'right',
       required: false,
     },
     size: {

@@ -36,7 +36,7 @@
               </TabPanels>
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
-                  Password (Coming soon)
+                  <AccountPassword />
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
@@ -127,6 +127,7 @@ const tabs = [
 import AccountPlan from '../components/Account/AccountPlan.vue';
 import Subscribe from '../views/Subscribe';
 import Subscription from '../components/Subscription';
+import AccountPassword from '../components/Account/AccountPassword.vue';
 
 export default {
   components: {
@@ -156,6 +157,7 @@ export default {
     RadioGroupDescription,
     ButtonGroup,
     AccountProfile,
+    AccountPassword,
   },
 
   data() {

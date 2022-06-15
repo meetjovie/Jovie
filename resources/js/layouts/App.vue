@@ -19,7 +19,7 @@
             move="transition duration-500"
             move-delay="delay-300">
             <div
-              class="mx-auto mt-4 flex w-full max-w-sm overflow-hidden rounded-lg border border-neutral-200/30 bg-white/60 shadow-md backdrop-blur-2xl backdrop-saturate-150"
+              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-neutral-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150"
               v-for="notification in notifications"
               :key="notification.id">
               <div class="flex w-12 items-center justify-center bg-indigo-500">

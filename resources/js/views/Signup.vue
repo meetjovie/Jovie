@@ -80,14 +80,15 @@
                 </div>
 
                 <div>
-                  <button
+                  <ButtonGroup
                     type="button"
                     @click="nextStep()"
-                    :loading="submitting"
+                    :loader="loading"
                     :disabled="submitting"
+                    text="Next" />
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     Next
-                  </button>
+                  </ButtonGroup>
                 </div>
 
                 <h3 class="mx-auto text-center text-xs text-gray-400">
@@ -144,15 +145,15 @@
                     </button>
                   </div>
                   <div>
-                    <button
+                    <ButtonGroup
                       type="button"
                       tabindex="0"
                       @click="register()"
-                      :loading="submitting"
+                      :loader="loading"
                       :disabled="submitting"
-                      class="col-span-1 w-full cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      text="Create Account">
                       Create account
-                    </button>
+                    </ButtonGroup>
                   </div>
                 </div>
                 <p class="text-2xs text-gray-400">
@@ -190,12 +191,14 @@ import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
 import Subscription from '../components/Subscription';
 import InputGroup from '../components/InputGroup.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 export default {
   components: {
     JovieLogo,
     AuthFooter,
     CreateAccount,
+    ButtonGroup,
     InputGroup,
   },
   data() {
@@ -227,6 +230,7 @@ export default {
       this.step = 1;
     },
     nextStep() {
+      this.loading = true;
       if (this.user.first_name && this.user.last_name && this.user.email) {
         this.errors = {};
         this.error = '';
@@ -259,6 +263,7 @@ export default {
             name: this.user.first_name + ' ' + this.user.last_name,
           });
           this.submitting = false;
+          this.loading = false;
         });
     },
     register() {
