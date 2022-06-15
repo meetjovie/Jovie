@@ -161,7 +161,9 @@
             </span>
           </p>
           <p class="ml-8 text-center text-2xs text-neutral-400/75">
-            <span class="block sm:inline">&copy; {{ currentYear }} </span>
+            <span class="block sm:inline"
+              >&copy; {{ currentYear }} Jovie Inc</span
+            >
           </p>
         </div>
       </div>
