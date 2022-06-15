@@ -157,6 +157,7 @@ class ImportController extends Controller
         $now = Carbon::now();
         foreach ($batches as &$batch) {
             $batch->progress = Import::getProgress($batch);
+            $batch->successful = Import::getSuccessfulCount($batch);
             $batch->duration_formated = Carbon::createFromTimestamp($batch->created_at)->diffForHumans($now);
             unset($batch->options);
         }

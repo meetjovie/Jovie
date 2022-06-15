@@ -54,6 +54,12 @@ class Import extends Model
         }
     }
 
+    public static function getSuccessfulCount($batch)
+    {
+        $batch = DB::table('job_batches')->where('id', $batch->id)->first();
+        return ($batch->total_jobs - $batch->pending_jobs) - $batch->failed_jobs;
+    }
+
     public static function processedImports($batch, $userListId)
     {
         $remainingInList = Import::where('user_list_id', $userListId)->where($batch->type, '!=', null)->count();

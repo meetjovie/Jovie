@@ -354,17 +354,19 @@
                                       >
                                     </p>
                                     <div class="w-full">
-                                      <p
+                                      <span
                                         class="text-2xs font-medium text-gray-500">
                                         Total: {{ batch.initial_total_in_file }}
-                                      </p>
+                                      </span> |
+                                        <span
+                                            class="text-2xs font-medium text-gray-500">
+                                        Successful: {{ batch.successful  }}
+                                      </span>
                                     </div>
                                     <p
-                                      class="mx-auto text-2xs text-red-400"
-                                      v-if="batch.cancelled_at">
-                                      Importing {{ batch.type }} profiles failed
-                                      with error code:
-                                      {{ batch.error_code }}
+                                      class="mx-auto text-2xs text-blue-500"
+                                      v-if="batch.error_code == 0">
+                                      Importing {{ batch.type }} profiles paused. We have been notified automatically and your import will soon begin again.
                                     </p>
                                     <p
                                       class="mx-auto text-2xs text-red-400"
