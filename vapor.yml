@@ -1,5 +1,5 @@
-id: 28038
-name: jovie
+id: 31817
+name: Jovie-Production
 environments:
   production:
     queue-concurrency: 10
@@ -15,7 +15,7 @@ environments:
       - 'npm ci && npm run prod && rm -rf node_modules'
     domain:
       - jov.ie
-    network: A7X3-PRIMARY
+    network: JOVIE-PRIMARY
     timeout: 900
 
   staging:
@@ -28,14 +28,14 @@ environments:
     storage: 'jovie-staging-store'
     domain:
       - staging.jov.ie
-    network: A7X3-PRIMARY
+    network: JOVIE-PRIMARY
     build:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
       - 'npm ci && npm run prod && rm -rf node_modules'
   dev:
     queue-concurrency: 5
-    database: Jove-Dev
+    database: Jovie-Dev
     memory: 1024
     storage: 'jovie-dev-store'
     cli-memory: 512
@@ -44,7 +44,7 @@ environments:
     timeout: 900
     domain:
       - dev.jov.ie
-    network: A7X3-PRIMARY
+    network: JOVIE-PRIMARY
     build:
       - 'composer install --no-dev'
       - 'composer update'
