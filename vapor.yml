@@ -2,9 +2,9 @@ id: 31817
 name: Jovie-Production
 environments:
   production:
-    queue-concurrency: 10
-    database: Jovie_Production
-    storage: 'jovie-production-store'
+    queue-concurrency: 50
+    database: jovie-production-db
+    storage: 'jovie-production-storage'
     memory: 1024
     cli-memory: 512
     runtime: 'php-8.1:al2'
@@ -14,37 +14,35 @@ environments:
       - 'php artisan event:cache'
       - 'npm ci && npm run prod && rm -rf node_modules'
     domain:
-      - jov.ie
-    network: JOVIE-PRIMARY
+
+    network: Jovie
     timeout: 900
 
   staging:
-    queue-concurrency: 5
-    database: jovie-staging-restore
+    queue-concurrency: 10
+    database: jovie-staging-db
     memory: 1024
     cli-memory: 512
     runtime: 'php-8.1:al2'
     gateway-version: 2
-    storage: 'jovie-staging-store'
+    storage: 'jovie-staging-storage'
     domain:
-      - staging.jov.ie
-    network: JOVIE-PRIMARY
+
+    network: Jovie
     build:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
       - 'npm ci && npm run prod && rm -rf node_modules'
   dev:
-    queue-concurrency: 5
-    database: Jovie-Dev
+    database: jovie-dev-db
     memory: 1024
-    storage: 'jovie-dev-store'
+    storage: 'jovie-dev-storage'
     cli-memory: 512
     runtime: 'php-8.1:al2'
     gateway-version: 2
     timeout: 900
     domain:
-      - dev.jov.ie
-    network: JOVIE-PRIMARY
+    network: Jovie
     build:
       - 'composer install --no-dev'
       - 'composer update'
