@@ -34,7 +34,7 @@ jobs:
         run: composer global require laravel/vapor-cli
       - name: Install Project Dependencies
         run: |
-          composer install --no-interaction --prefer-dist --optimize-autoloader
+          composer install --no-dev
           composer update
       - name: Deploy Environment
         run: vapor deploy $GITHUB_ENV
