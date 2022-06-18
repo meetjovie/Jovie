@@ -79,18 +79,25 @@ class InstagramImport implements ShouldQueue
      */
     public function handle()
     {
+        if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
+            Import::markImport($this->importId, ['instagram']);
+            return;
+        }
+
         $creator = Creator::where('instagram_handler', $this->username)->first();
         // 30 days diff
         if ($creator && !is_null($creator->instagram_last_scrapped_at)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+                if ($this->listId) {
+                    $creator->userLists()->syncWithoutDetaching($this->listId);
+                }
+                if ($this->userId) {
+                    $creator->crms()->syncWithoutDetaching($this->userId);
+                }
                 Import::markImport($this->importId, ['instagram']);
                 return;
             }
-        }
-        if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
-            Import::markImport($this->importId, ['instagram']);
-            return;
         }
 
         if ($this->username) {

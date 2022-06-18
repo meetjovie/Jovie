@@ -60,6 +60,12 @@ class TwitchImport implements ShouldQueue
     public function handle()
     {
         try {
+
+            if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
+                Import::markImport($this->importId, ['twitch']);
+                return;
+            }
+
             $creator = null;
             if ($this->id) {
                 $creator = Creator::where('twitch_id', $this->id)->first();
@@ -71,13 +77,15 @@ class TwitchImport implements ShouldQueue
             if ($creator && !is_null($creator->twitch_last_scrapped_at)) {
                 $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+                    if ($this->listId) {
+                        $creator->userLists()->syncWithoutDetaching($this->listId);
+                    }
+                    if ($this->userId) {
+                        $creator->crms()->syncWithoutDetaching($this->userId);
+                    }
                     Import::markImport($this->importId, ['twitch']);
                     return;
                 }
-            }
-            if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
-                Import::markImport($this->importId, ['twitch']);
-                return;
             }
 
             if ($this->id || $this->username) {

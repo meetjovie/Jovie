@@ -164,7 +164,7 @@ class Import extends Model
             ->process($reader);
     }
 
-    public static function saveSwitchToken($listId = null)
+    public static function saveTwitchToken($listId = null)
     {
         $token = null;
         $response = Import::generateTwitchToken();
