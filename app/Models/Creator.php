@@ -195,7 +195,7 @@ class Creator extends Model
     public function setTwitchHandlerAttribute($value)
     {
         // Regex for verifying a twitch URL
-        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv)\/([A-Za-z0-9-_\.]+)/';
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv|twitch\.com)\/([A-Za-z0-9-_\.]+)/';
 
         // Verify valid twitch URL
         if ( preg_match( $regex, $value, $matches ) ) {

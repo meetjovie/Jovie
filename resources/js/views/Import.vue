@@ -333,6 +333,7 @@ export default {
           })
           .finally((response) => {
             this.fetchingColumns = false;
+              this.$refs.file_upload.value = null
           });
       });
     },

@@ -94,6 +94,11 @@ class SaveImportChunk extends Command
                     'instagram_handler' => isset($payload->mappedColumns->instagram) ? $row[$payload->mappedColumns->instagram] : null,
                 ];
 
+                if (!count(array_filter($socialHandlers))) {
+                    $bar->advance();
+                    continue;
+                }
+
                 $emails = [];
                 if (isset($payload->mappedColumns->emails)) {
                     foreach ($payload->mappedColumns->emails as $emailKey) {

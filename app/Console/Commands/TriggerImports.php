@@ -55,68 +55,77 @@ class TriggerImports extends Command
         // if which networks it has
         // dispath batch in bus for each available network
 
-//        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
+        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
 
-        $users = User::get();
-        foreach ($users as $user) {
-            $instagramImports = $user->pendingImportsByNetwork('instagram');
-            foreach ($instagramImports as $k => $import) {
-                if ($k == 0) {
-                    $instagramBatch = $import->getImportBatch('instagram');
-                }
-                $commonData = $this->setCommonDateForImport($import);
-                if (! $instagramBatch->cancelled() && is_null($instagramBatch->error_code)) { // we are not cancelling the batch now only pausing it in case of credits our or api limit. we set error_code in either case
-                    $this->triggerInstagramImport($import, $instagramBatch, $commonData);
-                    $import->instagram_dispatched = 1;
-                    $import->save();
-                }
-            }
-
-            $twitchImports = $user->pendingImportsByNetwork('twitch');
-            foreach ($twitchImports as $k => $import) {
-                if ($k == 0) {
-                    $twitchBatch = $import->getImportBatch('twitch');
-                }
-                $commonData = $this->setCommonDateForImport($import);
-                if (! $twitchBatch->cancelled() && is_null($twitchBatch->error_code)) { // we are not cancelling the batch now only pausing it in case of credits our or api limit. we set error_code in either case
-                    if (!Cache::has('twitch_token_'.$twitchBatch->user_list_id)) {
-                        Import::saveTwitchToken($twitchBatch->user_list_id);
-                    }
-                    $this->triggerTwitchImport($import, $twitchBatch, $commonData);
-                    $import->twitch_dispatched = 1;
-                    $import->save();
-                }
-            }
-        }
+//        $users = User::get();
 //        foreach ($users as $user) {
-//            foreach ($user->pendingImports as $import) { // timwhite and timwwhiteT
-//
-//                //fetch a creator that has instagram == timwhite OR twitch == timwhiteT
-//                // else create a new instance of creator new Creator()
-//                // after either of the above case runs we get a creator instance and we can pass that save creator instance to each network job of that single import
-//                //
-//                $commonData = $this->setCommonDateForImport($import);
-//
-//                if ($import->instagram && $import->instagram_scrapped != 1) {
-//                    // trigger instagram import
+//            $instagramImports = $user->pendingImportsByNetwork('instagram');
+//            foreach ($instagramImports as $k => $import) {
+//                if ($k == 0) {
 //                    $instagramBatch = $import->getImportBatch('instagram');
-//                    if (! $instagramBatch->cancelled()) {
-//                        $this->triggerInstagramImport($import, $instagramBatch, $commonData);
-//                    }
 //                }
-////                do this for each network
-//                if (($import->twitch || $import->twitch_id) && $import->twitch_scrapped != 1) {
-//                    // trigger instagram import
+//                $commonData = $this->setCommonDateForImport($import);
+//                if (! $instagramBatch->cancelled() && is_null($instagramBatch->error_code)) { // we are not cancelling the batch now only pausing it in case of credits our or api limit. we set error_code in either case
+//                    $this->triggerInstagramImport($import, $instagramBatch, $commonData);
+//                    $import->instagram_dispatched = 1;
+//                    $import->save();
+//                }
+//            }
+//
+//            $twitchImports = $user->pendingImportsByNetwork('twitch');
+//            foreach ($twitchImports as $k => $import) {
+//                if ($k == 0) {
 //                    $twitchBatch = $import->getImportBatch('twitch');
-//                    if (! $twitchBatch->cancelled()) {
-//                        if (!Cache::has('twitch_token_'.$twitchBatch->user_list_id)) {
-//                            Import::saveTwitchToken($twitchBatch->user_list_id);
-//                        }
-//                        $this->triggerTwitchImport($import, $twitchBatch, $commonData);
+//                }
+//                $commonData = $this->setCommonDateForImport($import);
+//                if (! $twitchBatch->cancelled() && is_null($twitchBatch->error_code)) { // we are not cancelling the batch now only pausing it in case of credits our or api limit. we set error_code in either case
+//                    if (!Cache::has('twitch_token_'.$twitchBatch->user_list_id)) {
+//                        Import::saveTwitchToken($twitchBatch->user_list_id);
 //                    }
+//                    $this->triggerTwitchImport($import, $twitchBatch, $commonData);
+//                    $import->twitch_dispatched = 1;
+//                    $import->save();
 //                }
 //            }
 //        }
+        foreach ($users as $user) {
+            foreach ($user->pendingImports as $import) { // timwhite and timwwhiteT
+                $dispatched = false;
+                //fetch a creator that has instagram == timwhite OR twitch == timwhiteT
+                // else create a new instance of creator new Creator()
+                // after either of the above case runs we get a creator instance and we can pass that save creator instance to each network job of that single import
+                //
+                $commonData = $this->setCommonDateForImport($import);
+
+                if ($import->instagram && $import->instagram_scrapped != 1) {
+                    // trigger instagram import
+                    $instagramBatch = $import->getImportBatch('instagram');
+                    if (! $instagramBatch->cancelled()) {
+                        $this->triggerInstagramImport($import, $instagramBatch, $commonData);
+                        $import->instagram_dispatched = 1;
+                        $import->save();
+                        $dispatched = true;
+                    }
+                }
+//                do this for each network
+                if (($import->twitch || $import->twitch_id) && $import->twitch_scrapped != 1) {
+                    // trigger instagram import
+                    $twitchBatch = $import->getImportBatch('twitch');
+                    if (! $twitchBatch->cancelled()) {
+                        if (!Cache::has('twitch_token_'.$twitchBatch->user_list_id)) {
+                            Import::saveTwitchToken($twitchBatch->user_list_id);
+                        }
+                        $this->triggerTwitchImport($import, $twitchBatch, $commonData);
+                        $import->twitch_dispatched = 1;
+                        $import->save();
+                        $dispatched = true;
+                    }
+                }
+                if (!$dispatched) {
+                    Import::where('id', $import->id)->delete();
+                }
+            }
+        }
     }
 
     public function triggerTwitchImport($import, $batch, $commonData)
