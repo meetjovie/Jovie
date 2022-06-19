@@ -93,6 +93,7 @@ class SubscriptionsController extends Controller
                 $subscription->interval = $plan->interval;
                 $subscription->save();
 
+                $user->currentTeam->addCredits($subscription->credits);
                 $item = $subscription->items->first();
                 $item->type = $product->metadata->type == 1 ? Team::AD_ON_SEAT : null;
                 $item->save();

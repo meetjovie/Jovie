@@ -89,12 +89,7 @@ class InstagramImport implements ShouldQueue
         if ($creator && !is_null($creator->instagram_last_scrapped_at)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                if ($this->listId) {
-                    $creator->userLists()->syncWithoutDetaching($this->listId);
-                }
-                if ($this->userId) {
-                    $creator->crms()->syncWithoutDetaching($this->userId);
-                }
+                Creator::addToListAndCrm($creator, $this->listId, $this->userId);
                 Import::markImport($this->importId, ['instagram']);
                 return;
             }
@@ -302,12 +297,7 @@ class InstagramImport implements ShouldQueue
         $creator->instagram_meta = ($meta);
         $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
         $creator->save();
-        if ($this->listId) {
-            $creator->userLists()->syncWithoutDetaching($this->listId);
-        }
-        if ($this->userId) {
-            $creator->crms()->syncWithoutDetaching($this->userId);
-        }
+        Creator::addToListAndCrm($creator, $this->listId, $this->userId);
         if ($this->parentCreator && $creator->account_type == 'BRAND') {
             $parentCreator = Creator::where('id', $this->parentCreator)->first();
             $parentCreator->brands()->syncWithoutDetaching($creator->id);

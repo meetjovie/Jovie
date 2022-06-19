@@ -14,6 +14,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class TriggerImports extends Command
@@ -51,6 +52,13 @@ class TriggerImports extends Command
      */
     public function handle()
     {
+//        $faileds = DB::table('failed_jobs')->get();
+//        foreach ($faileds as $failed) {
+//            $payload = json_decode($failed->payload);
+//            $obj = unserialize($payload->data->command);
+//            dump($obj->getUsername());
+//        }
+//        dd('---');
         // get first 100 importrs for each user in pipeline
         // if which networks it has
         // dispath batch in bus for each available network

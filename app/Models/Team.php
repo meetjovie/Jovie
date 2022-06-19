@@ -30,4 +30,12 @@ class Team extends TeamworkTeam
         }
         return null;
     }
+
+    public function addCredits($credits)
+    {
+        if (!empty($credits)) {
+            $this->credits += (int) $credits;
+            $this->save();
+        }
+    }
 }

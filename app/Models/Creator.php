@@ -569,4 +569,20 @@ class Creator extends Model
         return (array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
     }
 
+    public static function addToListAndCrm($creator, $listId = null, $userId = null)
+    {
+        if ($listId) {
+            $creator->userLists()->syncWithoutDetaching($listId);
+        }
+        if ($userId) {
+            $changes = $creator->crms()->syncWithoutDetaching($userId);
+            if (count($changes['attached'])) {
+                $user = User::with('currentTeam')->where('id', $userId)->first();
+                if ($user && $user->currentTeam) {
+                    $user->currentTeam->decrement('credits');
+                }
+            }
+        }
+    }
+
 }

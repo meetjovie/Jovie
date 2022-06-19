@@ -77,12 +77,7 @@ class TwitchImport implements ShouldQueue
             if ($creator && !is_null($creator->twitch_last_scrapped_at)) {
                 $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                    if ($this->listId) {
-                        $creator->userLists()->syncWithoutDetaching($this->listId);
-                    }
-                    if ($this->userId) {
-                        $creator->crms()->syncWithoutDetaching($this->userId);
-                    }
+                    Creator::addToListAndCrm($creator, $this->listId, $this->userId);
                     Import::markImport($this->importId, ['twitch']);
                     return;
                 }
@@ -102,7 +97,7 @@ class TwitchImport implements ShouldQueue
                         Log::channel('slack')->info('imported user.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     } else {
                         Import::markImport($this->importId, ['twitch']);
-                        $this->fail(new \Exception(('No profile data or no such profile for username '.$this->username), $response->getStatusCode()));
+                        $this->fail(new \Exception(('No profile data or no such profile for username '.$this->username), 200));
                         Log::channel('slack_warning')->info('No profile data or no such profile for username', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     }
                 } elseif ($response->getStatusCode() == 504) {
@@ -203,12 +198,7 @@ class TwitchImport implements ShouldQueue
             $creator->twitch_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->twitch_summary_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->save();
-            if ($this->listId) {
-                $creator->userLists()->syncWithoutDetaching($this->listId);
-            }
-            if ($this->userId) {
-                $creator->crms()->syncWithoutDetaching($this->userId);
-            }
+            Creator::addToListAndCrm($creator, $this->listId, $this->userId);
             $summary = null;
             try {
                 $response = self::scrapTwitchSummary($user->login);

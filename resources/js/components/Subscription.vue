@@ -352,21 +352,22 @@ export default {
       if (!val) return;
       try {
         const interval = this.annualBillingEnabled ? 'year' : 'month';
-        let selectedProduct = this.products.filter(
+          let selectedProduct = Object.values(this.products).filter(
           (product) => product.id == val
         )[0];
         this.selectedPlan = selectedProduct.plans.filter(
           (plan) => plan.interval == interval
         )[0].id;
       } catch (e) {
-        alert('Problem in selecting product');
+          console.log(e);
+          alert('Problem in selecting product');
       }
     },
     annualBillingEnabled(val) {
       if (!this.selectedProduct) return;
       try {
         const interval = val ? 'year' : 'month';
-        let selectedProduct = this.products.filter(
+        let selectedProduct = Object.values(this.products).filter(
           (product) => product.id == this.selectedProduct
         )[0];
         this.selectedPlan = selectedProduct.plans.filter(

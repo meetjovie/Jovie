@@ -102,6 +102,7 @@ class Import extends Model
     public static function deleteImport($importId)
     {
         $import = Import::where('id', $importId)->first();
+        if (is_null($import)) return;
         $conditionInstagram = $import->instagram ? $import->instagram_scrapped : 1; // if no insta set scrapped condition as 1
         $conditionTwitch = ($import->twitch || $import->twitch_id) ? $import->twitch_scrapped : 1; // if no insta set scrapped condition as 1
         if ($import) {
