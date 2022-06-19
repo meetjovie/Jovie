@@ -353,7 +353,7 @@
                                         >- {{ batch.type }} Profiles</span
                                       >
                                     </p>
-                                    <div class="w-full">
+                                    <div class="w-full" v-if="batch.error_code === null">
                                       <span
                                         class="text-2xs font-medium text-gray-500">
                                         Total: {{ batch.initial_total_in_file }}
@@ -365,8 +365,10 @@
                                     </div>
                                     <p
                                       class="mx-auto text-2xs text-blue-500"
-                                      v-if="batch.error_code == 0">
-                                      Importing {{ batch.type }} profiles paused. We have been notified automatically and your import will soon begin again.
+                                      v-if="batch.error_code !== null">
+                                        {{
+                                            batch.error_message
+                                        }}
                                     </p>
                                     <p
                                       class="mx-auto text-2xs text-red-400"

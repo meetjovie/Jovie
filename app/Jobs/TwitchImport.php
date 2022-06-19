@@ -49,7 +49,7 @@ class TwitchImport implements ShouldQueue
         $this->listId = $listId;
         $this->userId = $userId;
         $this->importId = $importId;
-        $this->platformUser = User::where('id', $this->userId)->first();
+        $this->platformUser = User::with('currentTeam')->where('id', $this->userId)->first();
     }
 
     /**
@@ -61,8 +61,20 @@ class TwitchImport implements ShouldQueue
     {
         try {
 
+            if (!is_null($this->platformUser) && $this->platformUser->currentTeam->credits <= 0) {
+                Import::markImport($this->importId, ['twitch']);
+                if ($this->batch()) {
+                    $this->batch()->cancel();
+                    DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
+                }
+                return;
+            }
+
             if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
                 Import::markImport($this->importId, ['twitch']);
+                if ($this->batch() && !$this->batch()->cancelled()) {
+                    $this->batch()->cancel();
+                }
                 return;
             }
 

@@ -43,8 +43,7 @@ class Import extends Model
     const PER_PAGE = 1000;
 
     const ERROR_INTERNAL_MONTHLY_CREDITS_REACHED = 0;
-    const ERROR_INTERNAL_NO_RESPONSE = 1;
-    const ERROR_EXCEPTION_DURING_IMPORT = 2;
+    const ERROR_OUT_OF_CREDITS = 1;
 
     public static function getProgress($batch)
     {
@@ -64,6 +63,17 @@ class Import extends Model
     {
         $remainingInList = Import::where('user_list_id', $userListId)->where($batch->type, '!=', null)->count();
         return $batch->initial_total_in_file - $remainingInList;
+    }
+
+    public static function getBatchErrorMessage($batch)
+    {
+        if ($batch->error_code == self::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED) {
+            return ('Importing '. $batch->type .' profiles paused. We have been notified automatically and your import will soon begin again.');
+        } elseif ($batch->error_code == self::ERROR_OUT_OF_CREDITS) {
+            return ('Importing '. $batch->type .' profiles cancelled. You are out of credits. Please upgrade to continue.');
+        } else {
+            return null;
+        }
     }
 
     public function getEmailsAttribute($value)
