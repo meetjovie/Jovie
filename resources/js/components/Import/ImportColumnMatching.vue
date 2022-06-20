@@ -61,6 +61,10 @@ export default {
         userLists: {
             type: Array,
             default: []
+        },
+        fileCheck: {
+            type: Object,
+            default: {}
         }
     },
     data() {

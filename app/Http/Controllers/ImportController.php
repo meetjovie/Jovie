@@ -30,10 +30,17 @@ class ImportController extends Controller
         $stream = Import::getStream($request->input('key'));
         $reader = Reader::createFromStream($stream);
         $records = Import::records($reader, 0, 1);
+        $totalRecords = $reader->count() - 1;
+        $availableCredits = User::currentLoggedInUser()->currentTeam->credits ?? 0;
         if (count($records)) {
             return collect([
                 'status' => true,
-                'columns' => $records->getRecords()->current()
+                'columns' => $records->getRecords()->current(),
+                'fileCheck' => [
+                    'count' => $totalRecords,
+                    'limitExceeded' => $availableCredits < $totalRecords,
+                    'availableCredits' => $availableCredits
+                ]
             ]);
         }
         return collect([

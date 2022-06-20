@@ -228,6 +228,7 @@
   <div v-show="showMapping">
     <ImportColumnMatching
       @finish="finishImport"
+      :fileCheck="fileCheck"
       :columns="columns"
       :fileName="importSet.listName"
       :userLists="userLists"
@@ -278,6 +279,7 @@ export default {
       userLists: [],
       bucketResponse: null,
       uploadProgress: 0,
+      fileCheck: {}
     };
   },
   mounted() {
@@ -318,6 +320,7 @@ export default {
             response = response.data;
             if (response.status) {
               this.columns = response.columns;
+              this.fileCheck = response.fileCheck;
               this.showMapping = true;
               this.importSet.listName =
                 this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, '');
