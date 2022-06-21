@@ -26,6 +26,51 @@ export const routes = [
     },
   },
   {
+    name: 'About Us',
+    path: '/about',
+    component: loadPage('AboutUs'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Support',
+    path: '/support',
+    component: loadPage('Support'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Careers',
+    path: '/careers',
+    component: loadPage('Careers'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Relationship Management',
+    path: '/relationship-management',
+    component: loadPage('RelationshipManagement'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Data',
+    path: '/data',
+    component: loadPage('OurData'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Enrichment',
     path: '/enrichment',
     component: loadPage('Enrichment'),
@@ -47,6 +92,36 @@ export const routes = [
         path: 'team',
       },
     ],
+  },
+  {
+    name: 'Billing',
+    path: '/billing',
+    component: loadPage('Account'),
+    props: { defaultTab: 2 },
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
+  },
+  {
+    name: 'password',
+    path: '/password',
+    component: loadPage('Account'),
+    props: { defaultTab: 1 },
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
+  },
+  {
+    name: 'Team',
+    path: '/team',
+    component: loadPage('Account'),
+    props: { defaultTab: 3 },
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
   },
   {
     name: 'Dashboard',
@@ -161,7 +236,6 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-      requiresSubscribe: true,
     },
   },
   {

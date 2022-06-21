@@ -1,8 +1,54 @@
 <template>
   <div id="app" class="flex h-screen overflow-hidden bg-neutral-100">
+    <NotificationGroup group="user">
+      <!-- Global notification live region, render this permanently at the end of the document -->
+      <div
+        aria-live="assertive"
+        class="pointer-events-none absolute top-0 right-0 z-50 mr-4 mt-4 flex items-end px-4 py-6 sm:items-start sm:p-6">
+        <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+          <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
+
+          <Notification
+            v-slot="{ notifications }"
+            enter="transform ease-out duration-300 transition"
+            enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
+            enter-to="translate-y-0 opacity-100 sm:translate-x-0"
+            leave="transition ease-in duration-500"
+            leave-from="opacity-100"
+            leave-to="opacity-0"
+            move="transition duration-500"
+            move-delay="delay-300">
+            <div
+              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-neutral-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150"
+              v-for="notification in notifications"
+              :key="notification.id">
+              <div class="flex w-12 items-center justify-center bg-indigo-500">
+                <svg
+                  class="h-6 w-6 fill-current text-white"
+                  viewBox="0 0 40 40"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z" />
+                </svg>
+              </div>
+
+              <div class="-mx-3 px-4 py-2">
+                <div class="mx-3">
+                  <span class="font-semibold text-indigo-500">{{
+                    notification.title
+                  }}</span>
+                  <p class="text-sm text-gray-600">{{ notification.text }}</p>
+                </div>
+              </div>
+            </div>
+          </Notification>
+        </div>
+      </div>
+    </NotificationGroup>
+
     <div
       id="overlay"
-      class="fixed inset-0 flex md:hidden"
+      class="fixed inset-0 z-30 flex md:hidden"
       role="dialog"
       aria-modal="true">
       <div
@@ -14,21 +60,11 @@
         class="relative flex w-full flex-1 flex-col bg-neutral-500/50 pt-5 pb-4 backdrop-blur-md">
         <div class="mx-auto flex h-screen w-full items-center justify-center">
           <a href="{{ route('dashboard') }}">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="39px"
-              height="11px">
-              <image
-                x="0px"
-                y="0px"
-                width="69px"
-                height="20px"
-                xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAALCAMAAADLE2RKAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABj1BMVEX//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7///+eFSkTAAAAg3RSTlMATdnCqN8nY/vWMVrkFSwhEwUQNDgOAygrEeqw0DN++fFPAtzRpdIZeakUz+XggqpCm220lAlZi4w9/r248IYGpPdE89eNZwwfUsbBcjW3d/ixfMBp7wvyMulu23aAYFBBP7XseDyJr/0mYWKj5+EPF+IKNuYbXKK7s1ehv2uPbBqSzKPEmjsAAAABYktHRIRi0FpxAAAAB3RJTUUH5gIEERYvU8bXwQAAAS5JREFUGNNlkOk3gkEYxW+bPcSrDYmSrZSdSJYsKWsk+15U9n1L3H/cvPnAyf0w95nfuXPPzACyFEqlCvlSazQFeaiQLPqXKyZL8lApWSZMW14BVOp0MtJVVUtSDaA3GE1/c2aYaknW1VsarI1oslntzQ5HC1rNAra1/+Y6TE7SJWAn6YZHeBep7yZ7egXv+8n1i+0AOYghL4dH6MMovf4xjk9MMgBMkdOYmfUYESTnQqQBcNIeJucXqIaKzkVyibKWsUJGsCr63KQErNEXNdO1zhhC3Ngkt7Z3doN7+zgQ6cMj8lgSnSdxMgFxA9qACE/PAvI/KJKpKJDOFZ9roc4NF5e4EpYCrsmb2xzj3b14xMPj07NFHMDL61si7BfDeyYu1o9MJovYp+ornQS+Ad8rYVmvC0oPAAAAAElFTkSuQmCC" />
-            </svg>
+            <JovieLogo color="#ffffff" height="40px" />
             <h2
               class="align-center mt-4 flex text-center text-sm font-bold text-white opacity-90">
-              Your screen is too small. Jovie is built for larger devices.
+              Your screen is too small. Jovie is built for larger devices. If
+              you'd like to use Jovie on your phone, please let us know.
             </h2>
           </a>
         </div>
@@ -41,20 +77,8 @@
         class="mx-auto flex w-full flex-col items-center justify-center py-4 text-center">
         <a href="/">
           <div
-            class="mx-auto mt-2 -mr-4 flex-shrink-0 items-center justify-center text-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="71px"
-              height="20px">
-              <image
-                x="0px"
-                y="0px"
-                width="50px"
-                height="10px"
-                class="mx-auto"
-                xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAUCAMAAADodNB0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACRlBMVEX//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7//v7///8Cqp9UAAAAwHRSTlMAPOjl4PC0AQjB4W9F0QmBQcYKhQSx1c3ZaQMHBQIWZaPPy7J/O3CEfIJyBlF9X250OB1sprmRW1rbnw9D2orOiGvkx0m8yYks+rh5/Mg99sTeV3Og1HtjEbu/2C4Xoewz0vEgxdbCmhXcda4U8xNi+V79DZa6QKxNIq8o/mQ10BJPapeYp+aew6VOP/IcTJNS7yP3hsrX3aLn7jRZH+qQthtGJfXijbdIR6R6XcypEI8LDKsy49OMmw6qsBm9XN/3tA8RAAAAAWJLR0TBZGbvbgAAAAd0SU1FB+YCBBIVJZp400UAAAKsSURBVDjLpVT5O5RRFH5lhozGEhGDIbJnjCJb2YpJRLK0KFSabI1Mk9A0KZU2LSppXxTtqzYt86d1z5nvs2bqeTo/nPc95577fveee78LyOaywFWhULq5w6kt9FAqVEpPJxWL7GTqv+h4KajK20mFD+v4OpfBYleq8vtvHf8lAYGBS4P+WSdYE0Lwh12GiiZhZtV8OmHacN+IZZFRy4HomNjYuPgEyibGrIj1jkrS6XTJeopTVq4SValpq0Pm0UnPsEuWmeXJmE07WkNsbQ75XBHn5ctVBevm6hQAfvYpW68pJCgS44YNguSjmOKNQNy0qhKfOTql2MRYVr6ZUVfBcmJ8C5FKVBFUI9HxmZpoXrti62ydbdhOsKM2eOcuInX1DcLv3gPspdAHjQTx2EdgFNP2NxFrnq3T0tpGUCESB+qIJRWRN8HQLiACCKDwYFiZ8B16mM04RAnLlM5h1uk8UiJ8WxdluikR3nNU+G4kU2BFAuskHiPfYStVq8tVRBtx3NB74mRfFqS+nDKRP51COmeI9oNOSBV6ltqQBS/WOXfePtMuIJW+33ERGODEpcvkr1wlnU6ihcgTfrCC2nNNXEHW6dXzMTVcV6vVETk2241+xzmKBSOTSVwXgwvpDBG7idZhAbcGhbst69y5S5stqQ81mxOktgTxvHvN9x0L1IEP8sFDIJcTA4BRWnwxZB0dGuTriHTro9rHrdKpyDaSAi2TJ09HGUdF5Zg0+GxSpxrNnDEa9M+ZvABeTtcxif+wc1o8TI1yf8XcFiy4JsBxnzUWzilHGF6/EUPadnlWWw3/xG8nZXwNvHcrB/xYvJPfn/cfpr7W53gWPqbZhlTjqk+fe6SeZX9pFHGGm9XfEX/9ZpmwTHwnqjH+iIz0+EnU1JLxa1zVVFU5JoLfcqHrK3VV344AAAAASUVORK5CYII=" />
-            </svg>
+            class="mx-auto mt-2 flex-shrink-0 items-center justify-center text-center">
+            <JovieLogo color="#ffffff" height="10px" />
           </div>
         </a>
         <div
@@ -151,7 +175,6 @@
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
               <div
-                v-if="!currentUser.current_team.current_subscription"
                 as="router-link"
                 to="/account"
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
@@ -166,58 +189,8 @@
                   Credits
                 </div>
               </div>
-              <Popover>
-                <PopoverButton class="group inline-flex items-center">
-                  <span
-                    class="-mt-1.5 items-center text-xs font-bold text-neutral-400 group-hover:text-neutral-700">
-                    {{
-                      currentUser.current_team
-                        ? currentUser.current_team.name
-                        : 'Select a team'
-                    }}
-                  </span>
-                  <ChevronDownIcon
-                    class="ml-1 -mt-1.5 h-5 w-5 text-neutral-500 group-hover:text-neutral-700" />
-                </PopoverButton>
-
-                <transition
-                  enter-active-class="transition duration-150 ease-out"
-                  enter-from-class="transform scale-95 opacity-0"
-                  enter-to-class="transform scale-100 opacity-100"
-                  leave-active-class="transition duration-150 ease-out"
-                  leave-from-class="transform scale-100 opacity-100"
-                  leave-to-class="transform scale-95 opacity-0">
-                  <PopoverPanel
-                    class="absolute right-24 z-10 mt-2.5 w-40 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                    <div class="">
-                      <div
-                        class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">
-                        Your teams:
-                      </div>
-                      <div
-                        v-if="currentUser.teams"
-                        v-for="team in currentUser.teams">
-                        <button
-                          @click="switchTeam(team.id)"
-                          class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
-                          :class="[
-                            active
-                              ? 'bg-white px-1 py-2 font-bold text-indigo-700'
-                              : 'text-sm text-gray-500',
-                            'group flex w-full items-center px-2 py-2 text-xs  last:rounded-b-md',
-                          ]">
-                          <ChevronRightIcon
-                            :active="active"
-                            class="mr-1 h-5 w-5 text-indigo-400 group-hover:text-white"
-                            aria-hidden="true" />
-                          {{ team.name }}
-                        </button>
-                      </div>
-                    </div>
-                  </PopoverPanel>
-                </transition>
-              </Popover>
-              <PopoverGroup>
+              <SwitchTeams />
+              <!--  <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
                     as="div"
@@ -249,13 +222,6 @@
                       aria-orientation="vertical"
                       aria-labelledby="user-menu-button"
                       tabindex="-1">
-                      <!-- Active: "bg-neutral-100", Not Active: "" -->
-                      <div
-                        class="mx-auto inline-flex w-full items-center border-b pt-2 pb-1">
-                        <p class="px-2 text-xs font-bold text-neutral-400">
-                          Get help
-                        </p>
-                      </div>
                       <div
                         v-for="helpmenuitem in helpmenuitems"
                         :key="helpmenuitem"
@@ -279,133 +245,106 @@
                     </PopoverPanel>
                   </transition>
                 </Popover>
-              </PopoverGroup>
-              <PopoverGroup>
-                <Popover as="div" class="relative">
-                  <PopoverButton
-                    as="div"
-                    type="button"
-                    class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700"
-                    id="notification-button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    @click="getImportBatches()">
-                    <span class="sr-only">Open import notification</span>
-                    <span
-                      v-if="batches.length"
-                      class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
-                      <span
-                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
-                      <span
-                        class="relative inline-flex h-1 w-1 rounded-full bg-indigo-500"></span>
-                    </span>
-                    <BellIcon
-                      class="h-5 w-5 flex-shrink-0 cursor-pointer"
-                      aria-hidden="true">
-                    </BellIcon>
-                  </PopoverButton>
-
-                  <transition
-                    enter-active-class="transition duration-150 ease-out"
-                    enter-from-class="transform scale-95 opacity-0"
-                    enter-to-class="transform scale-100 opacity-100"
-                    leave-active-class="transition duration-150 ease-out"
-                    leave-from-class="transform scale-100 opacity-100"
-                    leave-to-class="transform scale-95 opacity-0">
-                    <PopoverPanel
-                      class="absolute left-6 z-10 mt-2 w-screen max-w-md -translate-x-full transform px-2 sm:px-0">
-                      <!-- Active: "bg-neutral-100", Not Active: "" -->
+              </PopoverGroup> -->
+              <transition
+                enter-active-class="transition duration-150 ease-out"
+                enter-from-class="transform scale-95 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+                leave-active-class="transition duration-150 ease-out"
+                leave-from-class="transform scale-100 opacity-100"
+                leave-to-class="transform scale-95 opacity-0">
+                <PopoverPanel
+                  class="absolute left-6 z-10 mt-2 w-screen max-w-md -translate-x-full transform px-2 sm:px-0">
+                  <!-- Active: "bg-neutral-100", Not Active: "" -->
+                  <div
+                    class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div class="relative h-80 gap-6 bg-white px-1 sm:gap-8">
                       <div
-                        class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div class="relative h-80 gap-6 bg-white px-1 sm:gap-8">
-                          <div
-                            class="mx-auto inline-flex w-full items-center border-b pb-1">
-                            <p
-                              class="px-2 pt-2 text-xs font-bold text-neutral-400">
-                              Notifications
-                            </p>
-                          </div>
-                          <div class="" v-if="batches.length">
+                        class="mx-auto inline-flex w-full items-center border-b pb-1">
+                        <p
+                          class="px-2 pt-2 text-xs font-bold text-neutral-400">
+                          Notifications
+                        </p>
+                      </div>
+                      <div class="" v-if="batches.length">
+                        <div
+                          as="div"
+                          class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
+                          role="menuitem"
+                          tabindex="-1"
+                          v-for="batch in batches"
+                          :key="batch.id">
+                          <router-link
+                            to="/imports"
+                            class="group 0 block flex-shrink-0">
                             <div
-                              as="div"
-                              class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
-                              role="menuitem"
-                              tabindex="-1"
-                              v-for="batch in batches"
-                              :key="batch.id">
-                              <router-link
-                                to="/imports"
-                                class="group 0 block flex-shrink-0">
-                                <div
-                                  class="flex w-full items-center justify-between">
-                                  <div class="px-2">
-                                    <component
-                                      class="mx-auto h-5 w-5 text-neutral-400"
-                                      :is="'CloudUploadIcon'">
-                                    </component>
-                                  </div>
-                                  <div class="ml-3 w-60">
-                                    <p
-                                      class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
-                                      Importing {{ batch.name }}
-                                      <span
-                                        class="text-2xs font-light text-neutral-500"
-                                        >- {{ batch.type }} Profiles</span
-                                      >
-                                    </p>
-                                    <div class="w-full" v-if="batch.error_code === null">
-                                      <span
+                              class="flex w-full items-center justify-between">
+                              <div class="px-2">
+                                <component
+                                  class="mx-auto h-5 w-5 text-neutral-400"
+                                  :is="'CloudUploadIcon'">
+                                </component>
+                              </div>
+                              <div class="ml-3 w-60">
+                                <p
+                                  class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
+                                  Importing {{ batch.name }}
+                                  <span
+                                    class="text-2xs font-light text-neutral-500"
+                                    >- {{ batch.type }} Profiles</span
+                                  >
+                                </p>
+                                <div class="w-full" v-if="batch.error_code === null">
+                                  <span
+                                    class="text-2xs font-medium text-gray-500">
+                                    Total: {{ batch.initial_total_in_file }}
+                                  </span> |
+                                    <span
                                         class="text-2xs font-medium text-gray-500">
-                                        Total: {{ batch.initial_total_in_file }}
-                                      </span> |
-                                        <span
-                                            class="text-2xs font-medium text-gray-500">
-                                        Successful: {{ batch.successful  }}
-                                      </span>
-                                    </div>
-                                    <p
-                                      class="mx-auto text-2xs text-blue-500"
-                                      v-if="batch.error_code !== null">
-                                        {{
-                                            batch.error_message
-                                        }}
-                                    </p>
-                                    <p
-                                      class="mx-auto text-2xs text-red-400"
-                                      v-else-if="batch.completed_at">
-                                      Completed {{ batch.type }} import at
-                                      {{ batch.completed_at }}
-                                    </p>
-
-                                    <ProgressBar
-                                      v-else
-                                      :percentage="batch.progress"
-                                      class="mx-auto w-full" />
-                                  </div>
-                                  <div
-                                    class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
-                                    {{ batch.duration_formated }}
-                                  </div>
+                                    Successful: {{ batch.successful  }}
+                                  </span>
                                 </div>
-                              </router-link>
+                                <p
+                                  class="mx-auto text-2xs text-blue-500"
+                                  v-if="batch.error_code !== null">
+                                    {{
+                                        batch.error_message
+                                    }}
+                                </p>
+                                <p
+                                  class="mx-auto text-2xs text-red-400"
+                                  v-else-if="batch.completed_at">
+                                  Completed {{ batch.type }} import at
+                                  {{ batch.completed_at }}
+                                </p>
+
+                                <ProgressBar
+                                  v-else
+                                  :percentage="batch.progress"
+                                  class="mx-auto w-full" />
+                              </div>
+                              <div
+                                class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
+                                {{ batch.duration_formated }}
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            class="mx-auto w-full items-center py-4 text-center"
-                            v-else>
-                            <span
-                              class="mx-auto items-center text-sm font-bold text-neutral-400"
-                              ><EmojiHappyIcon
-                                class="mx-auto h-14 w-14 text-neutral-200" />No
-                              notifications</span
-                            >
-                          </div>
+                          </router-link>
                         </div>
                       </div>
-                    </PopoverPanel>
-                  </transition>
-                </Popover>
-              </PopoverGroup>
+                      <div
+                        class="mx-auto w-full items-center py-4 text-center"
+                        v-else>
+                        <span
+                          class="mx-auto items-center text-sm font-bold text-neutral-400"
+                          ><EmojiHappyIcon
+                            class="mx-auto h-14 w-14 text-neutral-200" />No
+                          notifications</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </PopoverPanel>
+              </transition>
             </div>
 
             <!-- Profile dropdown -->
@@ -502,6 +441,15 @@
                     </div>
                     <div
                       as="div"
+                      @click="openWidget()"
+                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      role="menuitem">
+                      <component class="mr-4 h-4 w-4" is="SupportIcon">
+                      </component>
+                      Chat with support
+                    </div>
+                    <div
+                      as="div"
                       @click="$store.dispatch('logout')"
                       class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
@@ -523,6 +471,7 @@
         id="main">
         <div class="h-full">
           <div class="h-full">
+            <CommandPallette as="div" :open="showCommandPallette" />
             <AlertBanner
               v-if="currentUser.queued_count"
               design="primary"
@@ -546,14 +495,12 @@ import {
   EmojiHappyIcon,
   ChartBarIcon,
   ChevronLeftIcon,
-  ChevronRightIcon,
   ChevronDownIcon,
   CheckCircleIcon,
   CloudUploadIcon,
   LogoutIcon,
   UserGroupIcon,
   FolderOpenIcon,
-  PlusIcon,
   CogIcon,
   BellIcon,
   CursorClickIcon,
@@ -574,17 +521,19 @@ import {
   PopoverGroup,
 } from '@headlessui/vue';
 
-import TeamService from '../services/api/team.service';
 import ImportService from '../services/api/import.service';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams.vue';
 import AlertBanner from '../components/AlertBanner';
+import JovieLogo from '../components/JovieLogo';
+import CommandPallette from '../components/CommandPallette';
 
 export default {
   name: 'App',
   data() {
     return {
       errors: [],
+      showCommandPallette: false,
       user: this.$store.state.AuthState.user,
       nav: [
         /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
@@ -609,27 +558,37 @@ export default {
     };
   },
   mounted() {
+    //identify call to segment
+    window.analytics.identify(this.user.email, {
+      email: this.user.email,
+      name: this.user.first_name + ' ' + this.user.last_name,
+      plan: this.user.plan,
+      team: this.user.team,
+      user_id: this.user.id,
+    });
+    this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
+      this.toggleCommandPallette();
+    });
     this.getImportBatches();
     setInterval(() => {
-      this.getImportBatches();
+        this.getImportBatches();
     }, 5000);
   },
+
   methods: {
     getImportBatches() {
       ImportService.getImportBatches().then((response) => {
         response = response.data;
         if (response.status) {
-          this.batches = response.batches;
+            this.batches = response.batches;
         }
       });
     },
-    switchTeam(id) {
-      TeamService.switchTeam(id).then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.$store.commit('switchTeam', response.team);
-        }
-      });
+    openSupportChat() {
+      this.$freshchat.open();
+    },
+    toggleCommandPallette() {
+      this.showCommandPallette = !this.showCommandPallette;
     },
   },
   computed: {
@@ -664,17 +623,17 @@ export default {
     LogoutIcon,
     SwitchHorizontalIcon,
     EmojiHappyIcon,
-    ChevronRightIcon,
-    PlusIcon,
+    JovieLogo,
+    SwitchTeams,
     Popover,
     PopoverButton,
     PopoverPanel,
     PopoverGroup,
     SupportIcon,
     AlertBanner,
-    SwitchTeams,
+    CommandPallette,
   },
 };
 </script>
-
+<!-- End Freshdesk -->
 <style scoped></style>

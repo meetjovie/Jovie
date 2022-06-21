@@ -1,17 +1,12 @@
 <template>
-    <div>
-
-    </div>
+  <div></div>
 </template>
 
 <script>
 export default {
-    name: "About",
-    mounted() {
-    }
-}
+  name: 'About',
+  mounted() {},
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

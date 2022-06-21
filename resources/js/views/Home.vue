@@ -41,7 +41,7 @@
                       >Email address</label
                     >
                     <input
-                      v-on:keyup.enter="requestDemo()"
+                      v-on:keyup.enter="requestDemo() && identifyUser()"
                       id="email-address"
                       v-model="waitListEmail"
                       name="email-address"
@@ -55,10 +55,10 @@
                       type="button"
                       :loader="loading"
                       as="router-link"
-                      @click="requestDemo()"
-                      text="Get Started"
+                      @click="requestDemo() && identifyUser()"
+                      text="Get started free"
                       design="hero">
-                      Get started
+                      Get started free
                     </ButtonGroup>
                   </div>
                   <span
@@ -79,6 +79,7 @@
 
       <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
       <HomeCTA></HomeCTA>
+      <JovieReplaces></JovieReplaces>
       <HomeTestimonials></HomeTestimonials>
       <HomeCTA2></HomeCTA2>
     </main>
@@ -92,11 +93,8 @@ import {
   PencilAltIcon,
   TrashIcon,
   UsersIcon,
-  ChevronDownIcon,
-  SearchIcon,
-  UserGroupIcon,
-  MailIcon,
 } from '@heroicons/vue/outline';
+import JovieReplaces from '../components/External/JovieReplaces.vue';
 import UserService from '../services/api/user.service';
 import HomeLogoCloud from '../components/Home/HomeLogoCloud';
 import HomeFeatureSequences from '../components/Home/HomeFeatureSequences';
@@ -107,14 +105,9 @@ import HomeTestimonials from '../components/Home/HomeTestimonials';
 import HomeCTA2 from '../components/Home/HomeCTA2';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
-import HomeFeatureHero from '../components/Home/HomeFeatureHero';
-import HomeCTA3 from '../components/Home/HomeCTA3';
-import {
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-  PopoverOverlay,
-} from '@headlessui/vue';
+
+import CallToAction from '../components/CallToAction';
+
 import ButtonGroup from '@/components/ButtonGroup';
 export default {
   name: 'Home',
@@ -127,18 +120,10 @@ export default {
     HomeCTA,
     ButtonGroup,
     HomeTestimonials,
+    CallToAction,
     HomeCTA2,
     HomeFeatureCRM,
-    HomeFeatureHero,
-    HomeCTA3,
-    Popover,
-    PopoverButton,
-    PopoverPanel,
-    PopoverOverlay,
-    ChevronDownIcon,
-    UserGroupIcon,
-    SearchIcon,
-    MailIcon,
+    JovieReplaces,
   },
   data() {
     return {
@@ -173,6 +158,9 @@ export default {
       ],
     };
   },
+  mounted() {
+    window.analytics.page('Home');
+  },
   methods: {
     login() {
       // login();
@@ -180,9 +168,21 @@ export default {
     logout() {
       // logout();
     },
+    async identifyUser() {
+      //segment identify call
+      window.analytics.identify({
+        email: this.waitListEmail,
+      });
+      //segment track call
+      window.analytics.track('Initated Sign Up');
+    },
     async requestDemo() {
       this.loading = true;
-      await UserService.addToWaitList({ email: this.waitListEmail })
+
+      await UserService.addToWaitList({
+        email: this.waitListEmail,
+        page: 'Home',
+      })
         .then((response) => {
           response = response.data;
           if (response.status) {

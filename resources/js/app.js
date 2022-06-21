@@ -9,6 +9,9 @@ import moment from 'moment';
 import InstantSearch from 'vue-instantsearch/vue3/es'; // Vue 3
 import VueObserveVisibility from 'vue-observe-visibility';
 import VueMousetrapPlugin from 'vue-mousetrap';
+import VueCookies from 'vue-cookies';
+import Notifications from 'notiwind';
+
 window.Vapor = require('laravel-vapor');
 
 const myMixin = {};
@@ -64,7 +67,9 @@ app.mixin({
 app.use(router);
 app.use(store);
 app.use(InstantSearch);
+app.use(VueCookies);
 app.use(VueObserveVisibility);
 app.use(VueMousetrapPlugin);
+app.use(Notifications);
 app.component('App', App);
 app.mount('#app');

@@ -5,11 +5,7 @@
         <div class="px-4 sm:px-6 md:px-0">
           <div class="pt-2 pb-6">
             <!-- Tabs -->
-            <TabGroup
-              :selectedIndex="selectedTab"
-              @change="changeTab"
-              as="div"
-              class="mt-0">
+            <TabGroup :defaultIndex="defaultTab" as="div" class="mt-2">
               <div class="border-b border-gray-200">
                 <TabList class="-mb-px flex space-x-8 px-4">
                   <Tab
@@ -36,15 +32,16 @@
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
-                  Password (Coming soon)
+                <TabPanel class="space-y-12 px-4 py-6">
+                  <AccountPassword />
                 </TabPanel>
               </TabPanels>
-              <TabPanels as="template">
-                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
+              <!--  <TabPanels as="template">
+                <TabPanel class="space-y-12 px-4 py-6">
                   Notifications
                 </TabPanel>
-              </TabPanels>
+              </TabPanels> -->
+
               <TabPanels as="template">
                 <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   <Subscription
@@ -119,7 +116,7 @@ const secondaryNavigation = [
 const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
-  { name: 'Notifications', href: '#', current: false },
+
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
 ];
@@ -127,6 +124,7 @@ const tabs = [
 import AccountPlan from '../components/Account/AccountPlan.vue';
 import Subscribe from '../views/Subscribe';
 import Subscription from '../components/Subscription';
+import AccountPassword from '../components/Account/AccountPassword.vue';
 
 const selectedTab = ref(0);
 
@@ -161,8 +159,15 @@ export default {
     RadioGroupDescription,
     ButtonGroup,
     AccountProfile,
+    AccountPassword,
   },
 
+  props: {
+    defaultTab: {
+      type: Number,
+      default: 3,
+    },
+  },
   data() {
     return {
       navigation,

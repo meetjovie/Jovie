@@ -23,7 +23,7 @@
                                             :class="open ? '' : 'text-opacity-90'"
                                             class="inline-flex items-center px-3 py-1 -mt-1 z-20 text-xs font-medium text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                                         >
-                                            <span>Features</span>
+                                            <span>Product</span>
                                             <ChevronDownIcon
                                             :class="open ? '' : 'text-opacity-70'"
                                             class="w-5 h-5 ml-2 mt-1 text-neutral-300 transition duration-150 ease-in-out group-hover:text-opacity-80"
@@ -39,7 +39,7 @@
                                             leave-to-class="translate-y-1 opacity-0"
                                         >
                                             <PopoverPanel
-                                            class="absolute z-10 w-screen max-w-sm px-4 mt-3 transform left-1/2 sm:px-0 lg:max-w-3xl"
+                                            class="absolute z-50 w-screen max-w-sm px-4 mt-3 transform left-1/2 sm:px-0 lg:max-w-3xl"
                                             >
                                             <div
                                                 class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
@@ -62,7 +62,7 @@
                                                     <p class="text-sm font-medium text-gray-900">
                                                         {{ item.name }}  <span v-if="item.label" class="ml-3 inline-flex items-center px-2 py-0 rounded-md text-2xs font-medium leading-5 bg-pink-100 text-pink-800"> {{item.label}} </span>
                                                     </p>
-                                                    <p class="text-sm text-gray-500">
+                                                    <p class="text-xs text-gray-500">
                                                         {{ item.description }}
                                                     </p>
                                                     </div>
@@ -93,6 +93,7 @@
 
                                  </div>
                                   <router-link to="pricing" class="hidden md:inline-flex items-center px-3 py-1  z-20 text-xs font-medium text-neutral-300 hover:text-white rounded-md group hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">Pricing</router-link>
+                                 
                          </div>
                         <div class="hidden sm:flex items-center">
                             <div class="flex-shrink-0 ">
@@ -108,7 +109,7 @@
                                             <a class:="justify-center px-2 max-auto" >
                                                 <router-link to='signup'
                                                              class="relative inline-flex group items-center px-2 py-1 border text-xs font-medium rounded-md text-neutral-200 hover:text-white bg-neutral-800 border-1 border-neutral-300 hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 focus-visible:ring-neutral-500">
-                                                    <span>Get started</span>
+                                                    <span>Get started free</span>
                                                     <span>
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                              class="block group-hover:hidden ml-1 h-4 w-4" fill="none"
@@ -165,14 +166,22 @@
             </nav>
         </header>
     <router-view />
-
+ 
     <ExternalFooter>
 
     </ExternalFooter>
+    <div class="sticky bottom-0">
+    <AlertBanner class="hidden sm:block" dismissable="false" v-if="!acceptCookies">
+    <span class="text-2xs md:text-sm font-light text-white tracking-widest">We use <router-link class="underline cursor-pointer" to="privacy">cookies</router-link> to make this experience taste better. </span>
+       <span @click="toggleAcceptCookies" class="text-xs md:text-sm text-neutral-50 font-bold hover:text-white active:text-white ml-2 cursor-pointer">Accept all cookies</span>
+    </AlertBanner>
+   
+    </div>
   </div>
 </template>
 
 <script>
+import AlertBanner from '../components/AlertBanner.vue';
 import {
     InboxIcon,
     PencilAltIcon,
@@ -186,13 +195,13 @@ import {
 } from '@heroicons/vue/outline'
 import UserService from "../services/api/user.service";
 import ExternalFooter from "../components/External/ExternalFooter";
-import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
-
+import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue';
 
 export default {
     name: "Default",
     components: {
         InboxIcon,
+        AlertBanner,
         PencilAltIcon,
         TrashIcon,
         UsersIcon,
@@ -205,8 +214,10 @@ export default {
         Popover,
         PopoverButton,
         PopoverPanel,
-        PopoverOverlay
+        PopoverOverlay,
+    
     },
+   
     data() {
         return {
           features: [
@@ -218,7 +229,7 @@ export default {
           icon: 'SearchIcon',
         },
         {
-          name: 'CRM',
+          name: 'Social CRM',
           description: 'Manage your relationships',
           href: '/',
           anchor: '#crm',
@@ -241,10 +252,23 @@ export default {
         },
             ],
             waitListEmail: '',
-            error: null
+            acceptCookies: '',
+            error: null,
+            CommandPalletteOpen: false,
+        }
+    },
+    mounted() {
+        this.acceptCookies = this.$cookies.get('acceptCookies');
+        if (this.acceptCookies) {
+            this.$store.commit('setAcceptCookies', true);
         }
     },
     methods: {
+        toggleAcceptCookies() {
+            this.acceptCookies = true;
+            this.$cookies.set('acceptCookies', true, 60 * 60 * 24 * 365
+            );
+        },
         login() {
             // login()
         },

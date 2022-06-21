@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - develop
+      - staging
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set env vars (dev)
+        if: endsWith(github.ref, '/develop')
+        run: |
+          echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
+      - name: Set env vars (staging)
+        if: endsWith(github.ref, '/staging')
+        run: |
+          echo "DEPLOY_ENV=staging" >> $GITHUB_ENV
+      - name: Set env vars (production)
+        if: endsWith(github.ref, '/master')
+        run: |
+          echo "DEPLOY_ENV=production" >> $GITHUB_ENV
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          tools: composer:v2
+          coverage: none
+      - name: Install Project Dependencies
+        run: |
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+          composer update
+      - name: Require Vapor CLI
+        run: composer global require laravel/vapor-cli
+      - name: Deploy Environment
+        run: vapor deploy $GITHUB_ENV  --commit="${{ github.event.head_commit.id }}" --message="${{ github.event.head_commit.message }}"
+        env:
+          VAPOR_API_TOKEN: ${{ secrets.VAPOR_API_TOKEN }}

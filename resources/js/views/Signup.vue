@@ -11,7 +11,7 @@
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
-            <JovieLogo height="28px" />
+            <JovieLogo tabindex="-1" height="28px" />
           </div>
         </div>
 
@@ -23,20 +23,16 @@
                 <div class="grid grid-cols-2 gap-6">
                   <div class="col-span-1">
                     <div class="relative mt-1">
-                      <input
+                      <InputGroup
                         v-model="user.first_name"
                         id="first_name"
                         name="first_name"
                         type="text"
                         autocomplete="first_name"
                         required=""
-                        placeholder="First Name"
-                        class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                      <label
-                        for="first_name"
-                        class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
-                        >First Name
-                      </label>
+                        label="First Name"
+                        placeholder="First Name" />
+
                       <p
                         class="mt-2 text-sm text-red-900"
                         v-if="this.errors.first_name">
@@ -46,20 +42,15 @@
                   </div>
                   <div class="col-span-1">
                     <div class="relative mt-1">
-                      <input
+                      <InputGroup
                         v-model="user.last_name"
                         id="last_name"
                         name="last_name"
                         placeholder="Last Name"
+                        label="Last Name"
                         type="text"
                         autocomplete="last_name"
-                        required=""
-                        class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                      <label
-                        for="last_name"
-                        class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
-                        >Last Name</label
-                      >
+                        required="" />
                       <p
                         class="mt-2 text-sm text-red-900"
                         v-if="this.errors.last_name">
@@ -70,20 +61,16 @@
                 </div>
                 <div>
                   <div class="relative mt-1">
-                    <input
+                    <InputGroup
                       v-model="user.email"
                       id="email"
                       name="email"
+                      label="Email address"
                       placeholder="Email address"
                       type="email"
                       autocomplete="email"
-                      required=""
-                      class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                    <label
-                      for="email"
-                      class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium">
-                      Email address
-                    </label>
+                      v-on:keyup.enter="nextStep()"
+                      required="" />
                     <p
                       class="mt-2 text-sm text-red-900"
                       v-if="this.errors.email">
@@ -93,37 +80,34 @@
                 </div>
 
                 <div>
-                  <button
+                  <ButtonGroup
                     type="button"
                     @click="nextStep()"
+                    :loader="loading"
                     :disabled="submitting"
+                    text="Next"
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     Next
-                  </button>
+                  </ButtonGroup>
                 </div>
 
-                <h3 class="mx-auto -mt-8 text-center text-xs text-gray-400">
-                  No credit card required.
+                <h3 class="mx-auto text-center text-xs text-gray-400">
+                  Fast & easy. No credit card required.
                 </h3>
               </template>
               <template v-if="step == 2">
                 <CreateAccount text="Enter a password" />
                 <div class="space-y-1">
                   <div class="relative mt-1">
-                    <input
+                    <InputGroup
                       v-model="user.password"
                       id="password"
                       name="password"
                       placeholder="Password"
+                      label="Password"
                       type="password"
                       autocomplete="current-password"
-                      required=""
-                      class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                    <label
-                      for="email"
-                      class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium">
-                      Password
-                    </label>
+                      required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
                       v-if="this.errors.password">
@@ -133,20 +117,16 @@
                 </div>
                 <div class="space-y-1">
                   <div class="relative mt-1">
-                    <input
+                    <InputGroup
                       v-model="user.password_confirmation"
                       id="password_confirmation"
                       name="password_confirmation"
                       placeholder="Confirm Password"
+                      label="Confirm Password"
                       type="password"
+                      v-on:keyup.enter="register()"
                       autocomplete="current-password"
-                      required=""
-                      class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-transparent placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                    <label
-                      for="password_confirmation"
-                      class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium">
-                      Confirm Password
-                    </label>
+                      required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
                       v-if="this.errors.password">
@@ -159,22 +139,33 @@
                     <button
                       type="button"
                       @click="back()"
-                      tabindex="2"
+                      tabindex="0"
                       class="col-span-1 cursor-pointer justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Back
                     </button>
                   </div>
                   <div>
-                    <button
+                    <ButtonGroup
                       type="button"
-                      tabindex="1"
+                      tabindex="0"
                       @click="register()"
+                      :loader="loading"
+                      :success="success"
                       :disabled="submitting"
-                      class="col-span-1 w-full cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      text="Create Account">
                       Create account
-                    </button>
+                    </ButtonGroup>
                   </div>
                 </div>
+                <p class="text-2xs text-gray-400">
+                  By clicking “Sign up” you agree to our
+                  <router-link class="underline" to="privacy"
+                    >privacy policy</router-link
+                  >.and
+                  <router-link class="underline" to="terms">terms</router-link>
+                  of use. You’re also opting in to receive marketing emails. You
+                  can unsubscribe at anytime.
+                </p>
               </template>
               <!--  <template v-if="step == 3">
                 <CreateAccount text="Choose a plan">
@@ -200,13 +191,16 @@ import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
 import Subscription from '../components/Subscription';
+import InputGroup from '../components/InputGroup.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 export default {
   components: {
-    Subscription,
     JovieLogo,
     AuthFooter,
     CreateAccount,
+    ButtonGroup,
+    InputGroup,
   },
   data() {
     return {
@@ -221,7 +215,16 @@ export default {
         password_confirmation: '',
       },
       submitting: false,
+      success: false,
+      loading: false,
     };
+  },
+  created() {
+    const email = this.$route.params.email;
+  },
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
   },
   methods: {
     back() {
@@ -230,6 +233,7 @@ export default {
       this.step = 1;
     },
     nextStep() {
+      this.loading = true;
       if (this.user.first_name && this.user.last_name && this.user.email) {
         this.errors = {};
         this.error = '';
@@ -256,10 +260,17 @@ export default {
           alert('Something went wrong.');
         })
         .finally(() => {
+          //identify call to segment
+          window.analytics.identify(this.user.email, {
+            email: this.user.email,
+            name: this.user.first_name + ' ' + this.user.last_name,
+          });
           this.submitting = false;
+          this.loading = false;
         });
     },
     register() {
+      this.loading = true;
       this.errors = {};
       this.error = '';
       this.submitting = true;
@@ -273,6 +284,12 @@ export default {
             this.error = response.error;
           }
         })
+        .then(() => {
+          //track call to segment
+          window.analytics.track('Signed Up', {
+            first_name: this.user.first_name,
+          });
+        })
         .catch((error) => {
           if (error.response.status == 422) {
             this.errors = error.response.data.errors;
@@ -283,6 +300,8 @@ export default {
         })
         .finally(() => {
           this.submitting = false;
+          this.success = true;
+          this.loading = false;
         });
     },
   },
