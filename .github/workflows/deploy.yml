@@ -30,7 +30,7 @@ jobs:
           php-version: 8.1
           coverage: none
       - name: Setup Composer
-        uses: php-actions/composer@v6
+        uses: php-actions/composer@v6 --ignore-platform-reqs
       - name: Install Project Dependencies
         run: |
           composer update --no-interaction --prefer-dist --optimize-autoloader
