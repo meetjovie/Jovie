@@ -1,5 +1,4 @@
 name: Deploy
-
 on:
   push:
     branches:
@@ -33,10 +32,9 @@ jobs:
       - name: Install Project Dependencies
         run: |
           composer install --no-interaction --prefer-dist --optimize-autoloader
-          composer update
       - name: Require Vapor CLI
         run: composer global require laravel/vapor-cli
       - name: Deploy Environment
-        run: vapor deploy $GITHUB_ENV  --commit="${{ github.event.head_commit.id }}" --message="${{ github.event.head_commit.message }}"
+        run: vapor deploy
         env:
           VAPOR_API_TOKEN: ${{ secrets.VAPOR_API_TOKEN }}

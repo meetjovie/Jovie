@@ -12,7 +12,7 @@ environments:
     build:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
-      - 'npm ci && npm run prod && rm -rf node_modules'
+      - 'npm i && npm run prod && rm -rf node_modules'
     domain:
 
     network: Jovie
@@ -32,7 +32,7 @@ environments:
     build:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
-      - 'npm ci && npm run prod && rm -rf node_modules'
+      - 'npm i && npm run prod && rm -rf node_modules'
   dev:
     database: jovie-dev-db
     memory: 1024
@@ -49,7 +49,7 @@ environments:
       - 'composer update'
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
-      - 'npm ci && npm run prod && rm -rf node_modules'
+      - 'npm i && npm run prod && rm -rf node_modules'
     queues:
       - default
       - instagram
