@@ -33,7 +33,7 @@ jobs:
         uses: php-actions/composer@v2
       - name: Install Project Dependencies
         run: |
-          composer update --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader
+          composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader
       - name: Require Vapor CLI
         run: composer global require laravel/vapor-cli
       - name: Deploy Environment
