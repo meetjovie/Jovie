@@ -30,10 +30,10 @@ jobs:
           php-version: 8.1
           coverage: none
       - name: Setup Composer
-        uses: php-actions/composer@v6 --ignore-platform-reqs
+        uses: php-actions/composer@v6
       - name: Install Project Dependencies
         run: |
-          composer update --no-interaction --prefer-dist --optimize-autoloader
+          composer update --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader
       - name: Require Vapor CLI
         run: composer global require laravel/vapor-cli
       - name: Deploy Environment
