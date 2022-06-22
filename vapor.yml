@@ -49,4 +49,4 @@ environments:
       - 'composer update'
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
-      - 'npm ci && npm run prod && rm -rf node_modules'
+      - 'npm i && npm run prod && rm -rf node_modules'
