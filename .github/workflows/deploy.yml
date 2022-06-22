@@ -31,7 +31,6 @@ jobs:
           tools: composer:v2
           coverage: none
       - name: Install Project Dependencies
-        uses: php-actions/composer@v6
         run: |
           composer update --no-interaction --prefer-dist --optimize-autoloader
       - name: Require Vapor CLI
