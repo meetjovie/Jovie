@@ -46,7 +46,8 @@
         <label
           v-if="label"
           :for="name"
-          class="absolute -top-2.5 left-0 ml-3 block bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
+          :id="name"
+          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
           >{{ label }}</label
         >
 
