@@ -1,5 +1,4 @@
 name: Deploy
-
 on:
   push:
     branches:
@@ -28,12 +27,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.1
+          tools: composer:v2
           coverage: none
-      - name: Setup Composer
-        uses: php-actions/composer@v2
       - name: Install Project Dependencies
         run: |
-          composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader
+          composer install --no-interaction --prefer-dist --optimize-autoloader
       - name: Require Vapor CLI
         run: composer global require laravel/vapor-cli
       - name: Deploy Environment
