@@ -109,26 +109,10 @@
         >
       </div>
       <SocialInput />
-
-      <div class="text-xs text-neutral-400">
-        Supports:
-        <div class="inline-flex">
-          <SocialIcons
-            height="10px"
-            width="10px"
-            class="text-neutral-400"
-            icon="twitch" />
-          <SocialIcons
-            height="10px"
-            width="10px"
-            class="text-neutral-400"
-            icon="instagram" />
-        </div>
-      </div>
     </div>
 
     <!--  <div>
-      
+
       <div
         v-for="nav in featuredNav"
         class="items-middle mx-auto mt-8 max-w-5xl items-center bg-white px-8 shadow sm:rounded-lg">
@@ -162,11 +146,8 @@
 
 <script>
 import AlertBanner from '../components/AlertBanner.vue';
-import TeamService from '../services/api/team.service';
 import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
-import store from '../store/index';
 import SocialInput from '../components/SocialInput.vue';
-import SocialIcons from '../components/SocialIcons.vue';
 
 const featuredNav = [
   {
@@ -186,7 +167,6 @@ export default {
     CloudUploadIcon,
     AlertBanner,
     SocialInput,
-    SocialIcons,
   },
   data() {
     return {

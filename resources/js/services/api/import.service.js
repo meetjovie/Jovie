@@ -16,5 +16,8 @@ export default {
     },
     async getImportBatches() {
         return axios.get(`${baseApiUrl}/import-batches`)
+    },
+    async importSingle(url) {
+        return axios.post(`${baseApiUrl}/import-single`, {url: url})
     }
 }
