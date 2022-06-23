@@ -49,7 +49,7 @@
       {{ text }}
     </p>
     <div v-if="loader" class="transition-all"><JovieSpinner /></div>
-    <div v-if="success">
+    <div v-else-if="success">
       <CheckIcon class="h-5 w-5 text-white transition-all" />
     </div>
   </button>
