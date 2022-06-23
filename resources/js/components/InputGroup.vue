@@ -50,10 +50,10 @@
             v-if="valid"
             class="h-5 w-5 text-indigo-500"
             aria-hidden="true" />
-          <!--  <ExclamationCircleIcon
+          <ExclamationCircleIcon
             v-if="error"
             class="h-5 w-5 text-red-500"
-            aria-hidden="true" /> -->
+            aria-hidden="true" />
         </div>
         <label
           v-if="label"
@@ -62,9 +62,8 @@
           class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
           >{{ label }}</label
         >
-
-        <div v-if="error" class="mt-2 text-sm text-red-600">{{ error }}</div>
       </div>
+      <div v-if="error" class="mt-2 text-xs text-red-600">{{ error }}</div>
     </div>
   </div>
 </template>
@@ -111,7 +110,7 @@ export default {
     modelValue: {},
     error: {
       type: String,
-      default: 'Oops, something went wrong.',
+      default: null,
     },
     rounded: {
       type: String,

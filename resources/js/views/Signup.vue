@@ -28,6 +28,8 @@
                         id="first_name"
                         name="first_name"
                         type="text"
+                        :valid="firstNameIsValid"
+                        @blur="validateFirstName"
                         autocomplete="first_name"
                         required=""
                         label="First Name"
@@ -44,6 +46,8 @@
                       <InputGroup
                         v-model="user.last_name"
                         id="last_name"
+                        :valid="lastNameIsValid"
+                        @blur="validateLastName"
                         name="last_name"
                         placeholder="Last Name"
                         label="Last Name"
@@ -63,8 +67,10 @@
                     <InputGroup
                       v-model="user.email"
                       id="email"
+                      :valid="emailIsValid"
                       name="email"
                       label="Email address"
+                      @blur="validateEmail"
                       placeholder="Email address"
                       type="email"
                       autocomplete="email"
@@ -105,6 +111,8 @@
                       placeholder="Password"
                       label="Password"
                       type="password"
+                      :valid="passwordIsValid"
+                      @blur="validatePassword"
                       autocomplete="current-password"
                       required="" />
                     <p
@@ -206,6 +214,10 @@ export default {
       errors: {},
       error: '',
       step: 1,
+      emailIsValid: false,
+      firstNameIsValid: false,
+      lastNameIsValid: false,
+      passwordIsValid: false,
       user: {
         first_name: '',
         last_name: '',
@@ -241,6 +253,45 @@ export default {
         this.loading = false;
         this.error = 'Please fill in your name & email to continue.';
       }
+    },
+    validateEmail() {
+      if (this.user.email) {
+        this.emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user.email);
+
+        this.errors.email = [];
+      } else {
+        this.emailIsValid = false;
+        this.errors.email = ['Please enter your email.'];
+      }
+    },
+    validateFirstName() {
+      if (this.user.first_name) {
+        this.firstNameIsValid = /^[a-zA-Z]+$/.test(this.user.first_name);
+        this.errors.first_name = [];
+      } else {
+        this.firstNameIsValid = false;
+        this.errors.first_name = ['First name is required.'];
+      }
+    },
+    validateLastName() {
+      if (this.user.last_name) {
+        this.lastNameIsValid = /^[a-zA-Z]+$/.test(this.user.last_name);
+        this.errors.last_name = [];
+      } else {
+        this.lastNameIsValid = false;
+        this.errors.last_name = ['Last name is required.'];
+      }
+    },
+    validatePassword() {
+      AuthService.validateStep1(this.user.password).then(
+        (response) => {
+          this.passwordIsValid = true;
+          this.errors.password = [];
+        },
+        (error) => {
+          this.error = error.response.data.message;
+        }
+      );
     },
     validateStep1() {
       this.submitting = true;
