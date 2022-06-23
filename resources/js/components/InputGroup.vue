@@ -47,7 +47,7 @@
         <div
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <div v-if="loader" class="transition-all"><JovieSpinner /></div>
-          <div v-else-if>
+          <div v-else>
             <CheckCircleIcon
               v-if="valid"
               class="h-5 w-5 text-indigo-500"
