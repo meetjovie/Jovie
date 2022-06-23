@@ -108,6 +108,10 @@ export default {
       type: String,
       default: 'md',
     },
+    loader: {
+      type: Boolean,
+      default: false,
+    },
     design: {
       type: String,
       default: 'primary',
