@@ -48,14 +48,16 @@
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <div v-if="loader" class="transition-all"><JovieSpinner /></div>
           <div v-else>
-            <CheckCircleIcon
-              v-if="valid"
-              class="h-5 w-5 text-indigo-500"
-              aria-hidden="true" />
-            <ExclamationCircleIcon
-              v-if="error"
-              class="h-5 w-5 text-red-500"
-              aria-hidden="true" />
+            <div v-if="valid">
+              <CheckCircleIcon
+                class="h-5 w-5 text-indigo-500"
+                aria-hidden="true" />
+            </div>
+            <div v-if="isInvalid">
+              <ExclamationCircleIcon
+                class="h-5 w-5 text-red-500"
+                aria-hidden="true" />
+            </div>
           </div>
         </div>
         <label
@@ -114,6 +116,10 @@ export default {
     error: {
       type: String,
       default: null,
+    },
+    isInvalid: {
+      type: Boolean,
+      default: false,
     },
     rounded: {
       type: String,
