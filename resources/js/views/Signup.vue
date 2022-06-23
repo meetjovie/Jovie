@@ -32,7 +32,6 @@
                         required=""
                         label="First Name"
                         placeholder="First Name" />
-
                       <p
                         class="mt-2 text-sm text-red-900"
                         v-if="this.errors.first_name">
@@ -239,6 +238,7 @@ export default {
         this.error = '';
         this.validateStep1();
       } else {
+        this.loading = false;
         this.error = 'Please fill in your name & email to continue.';
       }
     },

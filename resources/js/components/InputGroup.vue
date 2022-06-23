@@ -23,7 +23,8 @@
         <input
           :type="type"
           :name="name"
-          :id="name"
+          :id="id"
+          :v-focus="focused"
           :disabled="disabled"
           :value="modelValue ?? value"
           @blur="$emit('blur')"
@@ -43,15 +44,26 @@
             { 'py-0 text-xs': size == 'sm' },
           ]"
           :placeholder="placeholder" />
+        <div
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+          <CheckCircleIcon
+            v-if="valid"
+            class="h-5 w-5 text-indigo-500"
+            aria-hidden="true" />
+          <!--  <ExclamationCircleIcon
+            v-if="error"
+            class="h-5 w-5 text-red-500"
+            aria-hidden="true" /> -->
+        </div>
         <label
           v-if="label"
           :for="name"
-          :id="name"
+          :id="id"
           class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
           >{{ label }}</label
         >
 
-        <p v-if="error" class="mt-2 text-sm text-red-600">{{ error }}</p>
+        <div v-if="error" class="mt-2 text-sm text-red-600">{{ error }}</div>
       </div>
     </div>
   </div>
@@ -65,12 +77,14 @@ import {
   LocationMarkerIcon,
   TrendingUpIcon,
   TrendingDownIcon,
+  ExclamationCircleIcon,
   TagIcon,
   UserIcon,
   UsersIcon,
   ArrowSmUpIcon,
   ArrowSmDownIcon,
   BriefcaseIcon,
+  CheckCircleIcon,
 } from '@heroicons/vue/solid';
 
 export default {
@@ -80,6 +94,7 @@ export default {
       type: String,
       default: null,
     },
+    id: String,
     name: String,
     type: {
       type: String,
@@ -89,15 +104,22 @@ export default {
       type: String,
       default: null,
     },
-
+    focused: { type: Boolean, default: false },
     disabled: Boolean,
     icon: String,
     value: String,
     modelValue: {},
-    error: String,
+    error: {
+      type: String,
+      default: 'Oops, something went wrong.',
+    },
     rounded: {
       type: String,
       default: 'all',
+    },
+    valid: {
+      type: Boolean,
+      default: false,
     },
     size: {
       type: String,
@@ -117,7 +139,9 @@ export default {
     TrendingDownIcon,
     TagIcon,
     UserIcon,
+    CheckCircleIcon,
     UsersIcon,
+    ExclamationCircleIcon,
     ArrowSmUpIcon,
     ArrowSmDownIcon,
     BriefcaseIcon,
