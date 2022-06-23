@@ -46,14 +46,17 @@
           :placeholder="placeholder" />
         <div
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-          <CheckCircleIcon
-            v-if="valid"
-            class="h-5 w-5 text-indigo-500"
-            aria-hidden="true" />
-          <ExclamationCircleIcon
-            v-if="error"
-            class="h-5 w-5 text-red-500"
-            aria-hidden="true" />
+          <div v-if="loader" class="transition-all"><JovieSpinner /></div>
+          <div v-else-if>
+            <CheckCircleIcon
+              v-if="valid"
+              class="h-5 w-5 text-indigo-500"
+              aria-hidden="true" />
+            <ExclamationCircleIcon
+              v-if="error"
+              class="h-5 w-5 text-red-500"
+              aria-hidden="true" />
+          </div>
         </div>
         <label
           v-if="label"

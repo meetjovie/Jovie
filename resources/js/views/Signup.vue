@@ -16,7 +16,7 @@
         </div>
 
         <div class="mt-8">
-          <div class="mt-6">
+          <div class="min-h-96 mt-6">
             <form action="#" method="POST" class="space-y-6">
               <template v-if="step == 1">
                 <CreateAccount />
@@ -110,6 +110,7 @@
                       name="password"
                       placeholder="Password"
                       label="Password"
+                      :loader="passwordIsLoading"
                       type="password"
                       :valid="passwordIsValid"
                       @blur="validatePassword"
@@ -218,6 +219,7 @@ export default {
       firstNameIsValid: false,
       lastNameIsValid: false,
       passwordIsValid: false,
+      passwordIsLoading: false,
       user: {
         first_name: '',
         last_name: '',
