@@ -236,6 +236,7 @@ export default {
 import { defineComponent, h } from 'vue';
 import JovieLogo from '../JovieLogo';
 import ButtonGroup from '../ButtonGroup.vue';
+
 const navigation = {
   solutions: [
     { name: 'Creator Search', href: '/' },

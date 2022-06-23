@@ -1,7 +1,7 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen dark:bg-gray-800">
     <div
-      class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
+      class="relative hidden h-screen flex-1 items-center bg-indigo-700 dark:bg-gray-900 lg:flex">
       <div class="m-auto flex h-full items-center">
         <JovieLogo height="48px" color="#fff" />
       </div>
