@@ -21,6 +21,7 @@
       </div>
       <div class="relative">
         <input
+          :autocomplete="autocomplete"
           :type="type"
           :name="name"
           :id="id"
@@ -116,6 +117,10 @@ export default {
     error: {
       type: String,
       default: null,
+    },
+    autocomplete: {
+      type: String,
+      default: 'off',
     },
     isInvalid: {
       type: Boolean,

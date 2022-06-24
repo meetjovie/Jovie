@@ -48,7 +48,9 @@
       :class="[{ 'text-2xs': size == 'xs' }, { 'text-xs': size == 'sm' }]">
       {{ text }}
     </p>
-    <div v-if="loader" class="transition-all"><JovieSpinner /></div>
+    <div v-if="loader" class="transition-all">
+      <JovieSpinner :spinnerColor="loaderColor" />
+    </div>
     <div v-else-if="success">
       <CheckIcon class="h-5 w-5 text-white transition-all" />
     </div>
@@ -112,6 +114,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    loaderColor: {
+      type: String,
+      default: 'white',
+    },
     design: {
       type: String,
       default: 'primary',
@@ -120,7 +126,6 @@ export default {
       type: String,
       default: 'all',
     },
-
     success: {
       type: Boolean,
       default: false,

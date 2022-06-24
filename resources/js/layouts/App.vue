@@ -353,8 +353,7 @@
                       @click="openWidget()"
                       class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem">
-                      <component class="mr-4 h-4 w-4" is="SupportIcon">
-                      </component>
+                      <component class="mr-4 h-4 w-4" is="SupportIcon" />
                       Chat with support
                     </div>
                     <div
@@ -363,8 +362,7 @@
                       class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component class="mr-4 h-4 w-4" is="LogoutIcon">
-                      </component>
+                      <component class="mr-4 h-4 w-4" is="LogoutIcon" />
                       Sign out
                     </div>
                   </PopoverPanel>

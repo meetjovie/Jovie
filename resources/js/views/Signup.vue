@@ -133,7 +133,7 @@
                       label="Confirm Password"
                       type="password"
                       v-on:keyup.enter="register()"
-                      autocomplete="current-password"
+                      autocomplete="confirm-password"
                       required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
@@ -198,7 +198,6 @@ import CreateAccount from '../components/External/CreateAccount.vue';
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
-import Subscription from '../components/Subscription';
 import InputGroup from '../components/InputGroup.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 
@@ -231,9 +230,6 @@ export default {
       success: false,
       loading: false,
     };
-  },
-  created() {
-    const email = this.$route.params.email;
   },
   mounted() {
     //add segment analytics
