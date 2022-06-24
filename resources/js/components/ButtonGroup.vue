@@ -120,10 +120,7 @@ export default {
       type: String,
       default: 'all',
     },
-    loader: {
-      type: Boolean,
-      default: false,
-    },
+
     success: {
       type: Boolean,
       default: false,
