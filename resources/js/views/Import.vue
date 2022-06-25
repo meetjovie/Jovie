@@ -95,7 +95,6 @@ import UserService from '../services/api/user.service';
 import ProgressBar from '../components/ProgressBar.vue';
 import draggable from 'vuedraggable';
 import { CloudUploadIcon } from '@heroicons/vue/solid';
-import { ref } from 'vue';
 
 export default {
   name: 'Import',

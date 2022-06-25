@@ -54,6 +54,11 @@
                 tabindex="1"
                 class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-neutral-400 focus:border-indigo-400 focus:outline-none focus:ring-indigo-500 active:border-indigo-500 sm:text-sm"
                 placeholder="http://instagram.com/username"/>
+            <p
+                v-if="network && errors[network]"
+                class="mt-2 text-sm text-red-600">
+                {{ errors[network][0] }}
+            </p>
             <button
                 :disabled="adding"
                 @click="add()"
@@ -86,6 +91,7 @@
 <script>
 import {UserIcon, ClipboardIcon} from '@heroicons/vue/solid';
 import SocialIcons from './SocialIcons';
+import ImportService from "../services/api/import.service";
 
 export default {
     components: {
@@ -97,7 +103,9 @@ export default {
     data() {
         return {
             socialMediaProfileUrl: '',
-            adding: false
+            adding: false,
+            network: null,
+            errors: {}
         }
     },
     methods: {
@@ -121,11 +129,7 @@ export default {
                 });
                 return
             }
-            console.log('adding');
-            this.adding = true
-            setTimeout(() => {
-                this.adding = false
-            }, 2000)
+            this.finishImport()
         },
         validateNetworkUrl(url) {
             // check for insta
@@ -135,6 +139,7 @@ export default {
 
             // Verify valid Instagram URL
             if (url.match(regex) && url.match(regex)[1]) {
+                this.network = 'instagram'
                 return true
             }
 
@@ -142,11 +147,47 @@ export default {
             regex = '(?:(?:http|https)://)?(?:www.)?(?:twitch.tv|twitch.com)/([A-Za-z0-9-_.]+)?(?:/)?'
             // Verify valid Twitch URL
             if (url.match(regex) ) {
+                this.network = 'twitch'
                 return true
             }
 
             return false;
-        }
+        },
+        finishImport(mappedColumns = {}) {
+            this.adding = true;
+            this.errors = [];
+            var form = new FormData();
+            form.append(this.network, this.socialMediaProfileUrl);
+            ImportService.import(form)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        this.$notify({
+                            group: 'user',
+                            type: 'success',
+                            title: 'Dispatched',
+                            text: 'You data is dispatched and it will soon be imported.',
+                        });
+                    } else {
+                        this.$notify({
+                            group: 'user',
+                            type: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                        this.errors = error.data.errors;
+                    }
+                })
+                .finally((response) => {
+                    this.adding = false;
+                    Object.assign(this.$data, this.$options.data());
+                });
+        },
     }
 };
 </script>

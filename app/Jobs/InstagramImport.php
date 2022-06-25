@@ -79,7 +79,7 @@ class InstagramImport implements ShouldQueue
      */
     public function handle()
     {
-        if (!is_null($this->platformUser) && $this->platformUser->currentTeam->credits <= 0) {
+        if (($this->userId && !is_null($this->platformUser)) && $this->platformUser->currentTeam->credits <= 0) {
             if ($this->batch()) {
                 $this->batch()->cancel();
                 DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
@@ -87,7 +87,7 @@ class InstagramImport implements ShouldQueue
             return;
         }
 
-        if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
+        if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
             Import::markImport($this->importId, ['instagram']);
             if ($this->batch() && !$this->batch()->cancelled()) {
                 $this->batch()->cancel();
@@ -161,7 +161,7 @@ class InstagramImport implements ShouldQueue
             }
             if ($this->recursive) {
                 foreach ($this->brands as $username) {
-                    \App\Jobs\InstagramImport::dispatch($username, null, false, $this->creatorId);
+                    \App\Jobs\InstagramImport::dispatch($username, null, false, $this->creatorId)->onQueue('instagram');
                 }
             }
         }

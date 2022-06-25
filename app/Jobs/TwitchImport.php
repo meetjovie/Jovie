@@ -61,7 +61,7 @@ class TwitchImport implements ShouldQueue
     {
         try {
 
-            if (!is_null($this->platformUser) && $this->platformUser->currentTeam->credits <= 0) {
+            if ($this->userId && !is_null($this->platformUser) && $this->platformUser->currentTeam->credits <= 0) {
                 Import::markImport($this->importId, ['twitch']);
                 if ($this->batch()) {
                     $this->batch()->cancel();
@@ -70,7 +70,7 @@ class TwitchImport implements ShouldQueue
                 return;
             }
 
-            if (is_null($this->platformUser) || ($this->batch() && $this->batch()->cancelled())) {
+            if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
                 Import::markImport($this->importId, ['twitch']);
                 if ($this->batch() && !$this->batch()->cancelled()) {
                     $this->batch()->cancel();
@@ -187,7 +187,7 @@ class TwitchImport implements ShouldQueue
             $creator->type = 'CREATOR';
 
             $creator->tags = Creator::getTags($this->tags, $creator);
-            $creator->emails = Creator::getEmails($user, $this->meta['emails'], $creator->emails);
+            $creator->emails = Creator::getEmails($user, $this->meta['emails'] ?? [], $creator->emails);
 
             $creator->first_name = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
             $creator->last_name = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));

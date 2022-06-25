@@ -7,6 +7,7 @@ use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
+use App\Jobs\TwitchImport;
 use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
@@ -53,16 +54,24 @@ class ImportController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:key',
-            'key' => 'required_without_all:instagram|nullable|string'
+            'instagram' => 'required_without_all:key,twitch',
+            'twitch' => 'required_without_all:instagram,key',
+            'key' => 'required_without_all:instagram,twitch|nullable|string'
         ]);
         if ($request->instagram) {
-            foreach (explode('\n', $request->instagram) as $instagram) {
-                if ($instagram[0] == '@') {
-                    $instagram = substr($instagram, 1);
-                }
-                InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id);
+            $import = new Import();
+            $import->instagram = $request->instagram;
+            $instagram = $import->instagram;
+            if ($instagram[0] == '@') {
+                $instagram = substr($instagram, 1);
             }
+            InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id)->onQueue('instagram');
+        }
+        if ($request->twitch) {
+            $import = new Import();
+            $import->twitch = $request->twitch;
+            $twitch = $import->twitch;
+            TwitchImport::dispatch(null, $twitch, $request->tags, null, null, Auth::user()->id, null)->onQueue('twitch');
         }
         $file = null;
         try {
