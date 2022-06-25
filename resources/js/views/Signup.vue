@@ -27,7 +27,6 @@
                         v-model="user.first_name"
                         id="first_name"
                         name="first_name"
-                        v-focus
                         type="text"
                         :valid="firstNameIsValid"
                         @blur="validateFirstName"
