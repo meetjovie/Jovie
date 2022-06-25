@@ -1,12 +1,18 @@
 <template>
   <div>
+    <AlertBanner
+      design="danger"
+      mobiletitle="Your subscribtion is inactive"
+      title="Please update your billing information to continue using Jovie."
+      cta="Update billing information"
+      ctaLink="/billing" />
     <div class="bg-white shadow">
       <div class="px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
         <div
           class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
           <div class="min-w-0 flex-1">
             <!-- Profile -->
-            <div class="flex items-center">
+            <div @click="thatYou()" class="flex items-center">
               <img
                 class="hidden h-16 w-16 rounded-full sm:block"
                 :src="
@@ -83,19 +89,46 @@
             </div>
           </div>
           <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-            <a href="/discovery">
+            <a href="/account">
               <button
                 type="button"
                 class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2">
-                Find creators
+                Account Settings
               </button></a
             >
           </div>
         </div>
       </div>
     </div>
-    <div>
-      <!-- This example requires Tailwind CSS v2.0+ -->
+    <div class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+      <div>
+        <h1 class="text-md font-bold">Add a creator.</h1>
+        <span class="text-sm font-medium text-neutral-500"
+          >Enter the url of a social profile to add a creator to your
+          contacts.</span
+        >
+      </div>
+      <SocialInput />
+
+      <div class="text-xs text-neutral-400">
+        Supports:
+        <div class="inline-flex">
+          <SocialIcons
+            height="10px"
+            width="10px"
+            class="text-neutral-400"
+            icon="twitch" />
+          <SocialIcons
+            height="10px"
+            width="10px"
+            class="text-neutral-400"
+            icon="instagram" />
+        </div>
+      </div>
+    </div>
+
+    <!--  <div>
+      
       <div
         v-for="nav in featuredNav"
         class="items-middle mx-auto mt-8 max-w-5xl items-center bg-white px-8 shadow sm:rounded-lg">
@@ -123,24 +156,21 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import AlertBanner from '../components/AlertBanner.vue';
 import TeamService from '../services/api/team.service';
 import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
+import store from '../store/index';
+import SocialInput from '../components/SocialInput.vue';
+import SocialIcons from '../components/SocialIcons.vue';
 
 const featuredNav = [
   {
-    name: 'Find creators',
-    description: `Search through Jovie's database of ${store.state.creatorsDBCount}+ creators to instantly find new prospects for your business.`,
-    link: 'search',
-    cta: 'Create a search',
-    icon: 'SearchIcon',
-  },
-  {
-    name: 'Enrich your data',
+    name: 'Bulk Enrich your data',
     description:
       'Upload existing contacts & Jovie will automatically enrich those regards records with addiational details including social media profiles & metrics, social content, and more.',
     link: 'contacts',
@@ -154,12 +184,28 @@ export default {
   components: {
     SearchIcon,
     CloudUploadIcon,
+    AlertBanner,
+    SocialInput,
+    SocialIcons,
   },
   data() {
     return {
       user: this.$store.state.AuthState.user,
       featuredNav,
     };
+  },
+  methods: {
+    thatYou() {
+      console.log(this.user);
+      // track event in segment
+
+      this.$notify({
+        group: 'user',
+        title: 'Who are you?',
+        text: `You are ${this.user.first_name}`,
+        type: 'success',
+      });
+    },
   },
   mounted() {},
 };

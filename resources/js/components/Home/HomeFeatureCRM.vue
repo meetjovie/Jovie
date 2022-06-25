@@ -4,7 +4,7 @@
       class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
       <div>
         <h2
-          class="text-base font-semibold uppercase tracking-wider text-indigo-600">
+          class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
           Manage your creator relationships
         </h2>
         <p
@@ -12,8 +12,9 @@
           The operating system for the
           <span class="text-indigo-700">creator economy</span>.
         </p>
+
         <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-          Empower your creator partnership steam with the only sales engagemnt
+          Empower your creator partnerships team with the only sales engagement
           platform built from the ground up for
           <span class="font-bold">creator economy </span>companies.
         </p>

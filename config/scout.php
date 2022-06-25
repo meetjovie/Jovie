@@ -68,8 +68,8 @@ return [
     */
 
     'chunk' => [
-        'searchable' => 500,
-        'unsearchable' => 500,
+        'searchable' => 5000,
+        'unsearchable' => 5000,
     ],
 
     /*
@@ -130,8 +130,8 @@ return [
     */
 
     'meilisearch' => [
-        'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
-        'key' => env('MEILISEARCH_KEY', null),
+        'host' => env('MEILISEARCH_HOST'),
+        'key' => env('MEILISEARCH_KEY'),
     ],
 
 ];

@@ -157,39 +157,7 @@
                         v-if="!loading && creators.length < 1"
                         class="mx-auto max-w-7xl items-center py-24 px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
-                          <router-link
-                            to="import"
-                            :class="[
-                              active
-                                ? 'bg-gray-100 text-gray-900'
-                                : 'text-gray-700',
-                              'group flex items-center px-4 py-2 text-sm first:pt-3 last:pt-3',
-                            ]">
-                            <button
-                              type="button"
-                              class="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="mx-auto h-12 w-12 text-gray-400"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                              </svg>
-                              <span
-                                class="mt-2 block text-sm font-bold text-gray-900">
-                                Select a file to upload
-                              </span>
-                              <span
-                                class="mt-2 block text-xs font-medium text-gray-400">
-                                or drag and drop csv files</span
-                              >
-                            </button>
-                          </router-link>
+                          <Import />
                         </div>
                       </div>
 
@@ -264,11 +232,13 @@ import {
 } from '@heroicons/vue/solid';
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
+import Import from './Import.vue';
 
 export default {
   name: 'CRM',
   components: {
     DownloadIcon,
+
     TabGroup,
     TabList,
     Tab,
@@ -289,6 +259,7 @@ export default {
     CheckIcon,
     CloudUploadIcon,
     CrmTable,
+    Import,
   },
   data() {
     return {
@@ -312,20 +283,27 @@ export default {
       deep: true,
       handler: function (val) {
         this.getCrmCreators();
+        if (val.list) {
+          localStorage.setItem('filterListCrm', JSON.stringify(val.list));
+        }
       },
     },
   },
   computed: {
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
+      let filterList = localStorage.getItem('filterListCrm');
+      if (filterList) {
+        this.filters.list = JSON.parse(filterList);
+      }
       return this.userLists.filter((list) =>
         list.name.toLowerCase().match(this.searchList.toLowerCase())
       );
     },
   },
   mounted() {
-    this.getCrmCreators();
     this.getUserLists();
+    this.getCrmCreators();
   },
   methods: {
     getUserLists() {
@@ -364,12 +342,19 @@ export default {
       });
     },
     exportCrmCreators() {
-      UserService.exportCrmCreators(this.filters).then((response) => {
+      let obj = JSON.parse(JSON.stringify(this.filters));
+      if (obj.list) {
+        obj.list = obj.list.id;
+      }
+      UserService.exportCrmCreators(obj).then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]));
         var fileLink = document.createElement('a');
 
         fileLink.href = fileURL;
-        fileLink.setAttribute('download', 'creators.csv');
+        fileLink.setAttribute(
+          'download',
+          `${this.filters.list ? this.filters.list.name : 'creators'}.csv`
+        );
         document.body.appendChild(fileLink);
 
         fileLink.click();

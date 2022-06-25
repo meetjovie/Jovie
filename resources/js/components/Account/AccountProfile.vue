@@ -52,6 +52,7 @@
                       name="profile_pic_url"
                       id="profile_pic_url"
                       style="display: none" />
+                    <span v-if="uploadProgress">{{ uploadProgress }} %</span>
                     <p
                       v-if="errors.profile_pic_url"
                       class="mt-2 text-sm text-red-600">
@@ -120,8 +121,10 @@
           <CardLayout>
             <CardHeading
               title="Delete Account"
-              subtitle="This is permanent and cannot be undone.">
-              <ButtonGroup design="danger" text="Permanently Delete" />
+              subtitle="This is permanent and cannot be undone."
+              buttonstyle="danger"
+              @buttonClick="toggleDeleteModal()"
+              buttontext="Delete">
             </CardHeading>
           </CardLayout>
         </div>
@@ -134,6 +137,10 @@
       </div>
     </div>
   </div>
+  <ModalPopup
+    @primaryButtonClick="deleteAccount()"
+    :open="deleteModalOpen"
+    title="Deactivate account" />
 </template>
 
 <script>
@@ -142,27 +149,61 @@ import InputGroup from '../../components/InputGroup';
 import CardHeading from '../../components/CardHeading';
 import CardLayout from '../../components/CardLayout';
 import ButtonGroup from '../../components/ButtonGroup';
+import ImportService from '../../services/api/import.service';
+import ModalPopup from '../../components/ModalPopup';
 
 export default {
   name: 'AccountProfile',
-  components: { InputGroup, CardHeading, CardLayout, ButtonGroup },
+  components: { InputGroup, CardHeading, CardLayout, ButtonGroup, ModalPopup },
   data() {
     return {
       errors: {},
       updating: false,
+      bucketResponse: null,
+      uploadProgress: 0,
+      deleteModalOpen: false,
     };
   },
+  mounted() {
+    window.analytics.page('Manage Profile');
+  },
   methods: {
+    deleteAccount() {
+      console.log('deleteAccount');
+      this.$notify({
+        group: 'user',
+        type: 'success',
+        title: 'Deleting account',
+        text: 'This may take a few minutes.',
+      });
+      //add a function to cancel users current billing plan
+      //add a function to logout the user
+      //redirect user to the homepage
+      this.$router.push('/');
+    },
+    toggleDeleteModal() {
+      this.deleteModalOpen = !this.deleteModalOpen;
+    },
     fileChanged(e) {
+      this.bucketResponse = null;
+      this.uploadProgress = 0;
       const src = URL.createObjectURL(e.target.files[0]);
-      this.$refs.profile_pic_url_img.src = src;
+      Vapor.store(e.target.files[0], {
+        visibility: 'public-read',
+        progress: (progress) => {
+          this.uploadProgress = Math.round(progress * 100);
+        },
+      }).then((response) => {
+        this.bucketResponse = response;
+        this.$refs.profile_pic_url_img.src = src;
+      });
     },
     updateProfile() {
       let data = new FormData();
       data.append('first_name', this.$store.state.AuthState.user.first_name);
       data.append('last_name', this.$store.state.AuthState.user.last_name);
-      if (this.$refs.profile_pic_url.files.length) {
-        data.append('profile_pic_url', this.$refs.profile_pic_url.files[0]);
+      if (this.bucketResponse && this.bucketResponse.uuid) {
+        data.append('profile_pic_url', this.bucketResponse.uuid);
       }
       this.updating = true;
       UserService.updateProfile(data)

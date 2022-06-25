@@ -26,9 +26,93 @@ export const routes = [
     },
   },
   {
+    name: 'About Us',
+    path: '/about',
+    component: loadPage('AboutUs'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Support',
+    path: '/support',
+    component: loadPage('Support'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Careers',
+    path: '/careers',
+    component: loadPage('Careers'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Relationship Management',
+    path: '/relationship-management',
+    component: loadPage('RelationshipManagement'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Data',
+    path: '/data',
+    component: loadPage('OurData'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Enrichment',
+    path: '/enrichment',
+    component: loadPage('Enrichment'),
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Account',
     path: '/account',
     component: loadPage('Account'),
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
+  },
+  {
+    name: 'Billing',
+    path: '/billing',
+    component: loadPage('Account'),
+    props: { defaultTab: 2 },
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
+  },
+  {
+    name: 'password',
+    path: '/password',
+    component: loadPage('Account'),
+    props: { defaultTab: 1 },
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+    },
+  },
+  {
+    name: 'Team',
+    path: '/team',
+    component: loadPage('Account'),
+    props: { defaultTab: 3 },
     meta: {
       layout: 'App',
       requiresAuth: true,
@@ -50,7 +134,7 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-      requiresSubscribe: true,
+      requiresSubscribe: false,
     },
   },
   {
@@ -147,7 +231,6 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-      requiresSubscribe: true,
     },
   },
   {
@@ -166,22 +249,6 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-    },
-  },
-  {
-    name: 'Tim White Profile',
-    path: '/tim',
-    component: loadPage('Tim'),
-    meta: {
-      layout: 'Minimal',
-    },
-  },
-  {
-    name: 'Profile',
-    path: '/haruki',
-    component: loadPage('Haruki'),
-    meta: {
-      layout: 'Minimal',
     },
   },
   {
@@ -226,6 +293,7 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
+      requiresAdmin: true,
       requiresSubscribe: true,
     },
   },
@@ -240,6 +308,16 @@ export const routes = [
     },
   },
   {
+    name: 'Chrome Extension',
+    path: '/chrome-extension',
+    component: loadPage('ChromeExtension'),
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+      requiresSubscribe: false,
+    },
+  },
+  {
     name: 'Profile',
     path: '/:username',
     component: loadPage('Profile'),
@@ -247,6 +325,19 @@ export const routes = [
     props: true,
     meta: {
       layout: 'Minimal',
+    },
+  },
+  {
+    name: 'API',
+    path: '/api',
+    beforeEnter(to, from, next) {
+      window.open(
+        'https://u3yaoaf518v.typeform.com/to/pngWHiwK?typeform-source=admin.typeform.com',
+        '_blank'
+      );
+    },
+    meta: {
+      requiresAuth: false,
     },
   },
   {

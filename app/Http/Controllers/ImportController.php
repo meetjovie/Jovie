@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\FileSaveImport;
 use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
+use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
+use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\HeadingRowImport;
 use function collect;
 
@@ -20,10 +24,7 @@ class ImportController extends Controller
 
     public function getColumnsFromCsv(Request $request)
     {
-//        $request->validate([
-//            'import' => 'required|mimes:csv'
-//        ]);
-        $headings = (new HeadingRowImport)->toArray($request->import);
+        $headings = (new HeadingRowImport)->toArray($request->input('key'), 's3', \Maatwebsite\Excel\Excel::CSV);
         if (count($headings)) {
             return collect([
                 'status' => true,
@@ -38,6 +39,59 @@ class ImportController extends Controller
     }
 
     public function import(Request $request)
+    {
+        $request->validate([
+            'instagram' => 'required_without_all:key,youtube',
+            'key' => 'required_without_all:instagram,youtube|string'
+        ]);
+        if ($request->instagram) {
+            foreach (explode('\n', $request->instagram) as $instagram) {
+                if ($instagram[0] == '@') {
+                    $instagram = substr($instagram, 1);
+                }
+                Bus::chain([
+                    new InstagramImport($instagram, $request->tags, true, null, null, null, Auth::user()->id),
+                    new SendSlackNotification('imported instagram user '.$instagram)
+                ])->dispatch();
+            }
+        }
+        $file = null;
+        try {
+            if ($request->input('key')) {
+                $file = $this->saveImport($request);
+            }
+        } catch (\Exception $e) {
+            return collect([
+                'status' => false,
+//                'error' => 'Your file is not imported.'
+                'error' => $e->getMessage(). $e->getLine()
+            ]);
+        }
+        return collect([
+            'status' => true,
+            'message' => 'Successful. Your import will start soon.',
+            'file' => $file,
+            'queued_count' => Auth::user()->queued_count
+        ]);
+    }
+
+    public function saveImport($request)
+    {
+        $filePath = null;
+        $mappedColumns = json_decode($request->mappedColumns);
+        if ($request->input('key')) {
+            Storage::disk('s3')->copy(
+                ('tmp/'.$request->input('key')),
+               (Creator::CREATORS_CSV_PATH.$request->input('key'))
+            );
+            $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
+            $listName = $request->listName;
+            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
+        }
+        return $filePath;
+    }
+
+    public function importX(Request $request)
     {
         $request->validate([
             'instagram' => 'required_without_all:file,youtube',

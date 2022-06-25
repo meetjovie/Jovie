@@ -8,7 +8,7 @@
         <div class="px-4 sm:px-6 md:px-0">
           <div class="py-6">
             <!-- Tabs -->
-            <TabGroup as="div" class="mt-2">
+            <TabGroup :defaultIndex="defaultTab" as="div" class="mt-2">
               <div class="border-b border-gray-200">
                 <TabList class="-mb-px flex space-x-8 px-4">
                   <Tab
@@ -36,19 +36,14 @@
               </TabPanels>
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
-                  Password (Coming soon)
+                  <AccountPassword />
                 </TabPanel>
               </TabPanels>
-              <TabPanels as="template">
+              <!--  <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
                   Notifications
                 </TabPanel>
-              </TabPanels>
-              <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
-                  Plan (Coming soon)
-                </TabPanel>
-              </TabPanels>
+              </TabPanels> -->
 
               <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
@@ -65,7 +60,6 @@
               </TabPanels>
             </TabGroup>
           </div>
-
         </div>
       </div>
     </div>
@@ -125,8 +119,7 @@ const secondaryNavigation = [
 const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
-  { name: 'Notifications', href: '#', current: false },
-  { name: 'Plan', href: '#', current: false },
+
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
 ];
@@ -134,6 +127,7 @@ const tabs = [
 import AccountPlan from '../components/Account/AccountPlan.vue';
 import Subscribe from '../views/Subscribe';
 import Subscription from '../components/Subscription';
+import AccountPassword from '../components/Account/AccountPassword.vue';
 
 export default {
   components: {
@@ -163,8 +157,15 @@ export default {
     RadioGroupDescription,
     ButtonGroup,
     AccountProfile,
+    AccountPassword,
   },
 
+  props: {
+    defaultTab: {
+      type: Number,
+      default: 3,
+    },
+  },
   data() {
     return {
       navigation,

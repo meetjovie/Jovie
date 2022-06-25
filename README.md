@@ -16,7 +16,7 @@ Staging, & Master are for testing and deployment. You should never push to stagi
 
 **Databases**
 
-Master DB is creatorconnect Staging & Dev share db Jovie-staging
+Master DB is Jovie_Production Staging DB is jovise-staging-restore Dev db is Jove_Dev
 
 **Dev Ops**
 

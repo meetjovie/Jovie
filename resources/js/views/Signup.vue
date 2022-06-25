@@ -11,28 +11,29 @@
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
-            <JovieLogo height="28px" />
+            <JovieLogo tabindex="-1" height="28px" />
           </div>
         </div>
 
         <div class="mt-8">
-          <div class="mt-6">
+          <div class="min-h-96 mt-6">
             <form action="#" method="POST" class="space-y-6">
               <template v-if="step == 1">
                 <CreateAccount />
                 <div class="grid grid-cols-2 gap-6">
                   <div class="col-span-1">
-                    <label for="first_name" class="sr-only"> First Name </label>
-                    <div class="mt-1">
-                      <input
+                    <div class="relative mt-1">
+                      <InputGroup
                         v-model="user.first_name"
                         id="first_name"
                         name="first_name"
                         type="text"
+                        :valid="firstNameIsValid"
+                        @blur="validateFirstName"
                         autocomplete="first_name"
                         required=""
-                        placeholder="First Name"
-                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                        label="First Name"
+                        placeholder="First Name" />
                       <p
                         class="mt-2 text-sm text-red-900"
                         v-if="this.errors.first_name">
@@ -41,17 +42,18 @@
                     </div>
                   </div>
                   <div class="col-span-1">
-                    <label for="last_name" class="sr-only">Last Name</label>
-                    <div class="mt-1">
-                      <input
+                    <div class="relative mt-1">
+                      <InputGroup
                         v-model="user.last_name"
                         id="last_name"
+                        :valid="lastNameIsValid"
+                        @blur="validateLastName"
                         name="last_name"
                         placeholder="Last Name"
+                        label="Last Name"
                         type="text"
                         autocomplete="last_name"
-                        required=""
-                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                        required="" />
                       <p
                         class="mt-2 text-sm text-red-900"
                         v-if="this.errors.last_name">
@@ -61,17 +63,19 @@
                   </div>
                 </div>
                 <div>
-                  <label for="email" class="sr-only"> Email address </label>
-                  <div class="mt-1">
-                    <input
+                  <div class="relative mt-1">
+                    <InputGroup
                       v-model="user.email"
                       id="email"
+                      :valid="emailIsValid"
                       name="email"
+                      label="Email address"
+                      @blur="validateEmail"
                       placeholder="Email address"
                       type="email"
                       autocomplete="email"
-                      required=""
-                      class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                      v-on:keyup.enter="nextStep()"
+                      required="" />
                     <p
                       class="mt-2 text-sm text-red-900"
                       v-if="this.errors.email">
@@ -81,29 +85,37 @@
                 </div>
 
                 <div>
-                  <button
+                  <ButtonGroup
                     type="button"
                     @click="nextStep()"
+                    :loader="loading"
                     :disabled="submitting"
+                    text="Next"
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     Next
-                  </button>
+                  </ButtonGroup>
                 </div>
+
+                <h3 class="mx-auto text-center text-xs text-gray-400">
+                  Fast & easy. No credit card required.
+                </h3>
               </template>
               <template v-if="step == 2">
                 <CreateAccount text="Enter a password" />
                 <div class="space-y-1">
-                  <label for="password" class="sr-only"> Password </label>
-                  <div class="mt-1">
-                    <input
+                  <div class="relative mt-1">
+                    <InputGroup
                       v-model="user.password"
                       id="password"
                       name="password"
                       placeholder="Password"
+                      label="Password"
+                      :loader="passwordIsLoading"
                       type="password"
+                      :valid="passwordIsValid"
+                      @blur="validatePassword"
                       autocomplete="current-password"
-                      required=""
-                      class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                      required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
                       v-if="this.errors.password">
@@ -112,19 +124,17 @@
                   </div>
                 </div>
                 <div class="space-y-1">
-                  <label for="password_confirmation" class="sr-only">
-                    Confirm Password
-                  </label>
-                  <div class="mt-1">
-                    <input
+                  <div class="relative mt-1">
+                    <InputGroup
                       v-model="user.password_confirmation"
                       id="password_confirmation"
                       name="password_confirmation"
                       placeholder="Confirm Password"
+                      label="Confirm Password"
                       type="password"
-                      autocomplete="current-password"
-                      required=""
-                      class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
+                      v-on:keyup.enter="register()"
+                      autocomplete="confirm-password"
+                      required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
                       v-if="this.errors.password">
@@ -137,22 +147,35 @@
                     <button
                       type="button"
                       @click="back()"
-                      class="col-span-1 justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      tabindex="0"
+                      class="col-span-1 cursor-pointer justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Back
                     </button>
                   </div>
                   <div>
-                    <button
+                    <ButtonGroup
                       type="button"
+                      tabindex="0"
                       @click="register()"
+                      :loader="loading"
+                      :success="success"
                       :disabled="submitting"
-                      class="col-span-1 w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      text="Create Account">
                       Create account
-                    </button>
+                    </ButtonGroup>
                   </div>
                 </div>
+                <p class="text-2xs text-gray-400">
+                  By clicking “Sign up” you agree to our
+                  <router-link class="underline" to="privacy"
+                    >privacy policy</router-link
+                  >.and
+                  <router-link class="underline" to="terms">terms</router-link>
+                  of use. You’re also opting in to receive marketing emails. You
+                  can unsubscribe at anytime.
+                </p>
               </template>
-              <template v-if="step == 3">
+              <!--  <template v-if="step == 3">
                 <CreateAccount text="Choose a plan">
                   <p class="mt-1 text-sm text-gray-500">
                     Choose a plan that fits your needs.
@@ -161,7 +184,7 @@
                 <div class="space-y-1">
                   <Subscription />
                 </div>
-              </template>
+              </template> -->
             </form>
           </div>
         </div>
@@ -175,20 +198,27 @@ import CreateAccount from '../components/External/CreateAccount.vue';
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
-import Subscription from '../components/Subscription';
+import InputGroup from '../components/InputGroup.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 export default {
   components: {
-    Subscription,
     JovieLogo,
     AuthFooter,
     CreateAccount,
+    ButtonGroup,
+    InputGroup,
   },
   data() {
     return {
       errors: {},
       error: '',
       step: 1,
+      emailIsValid: false,
+      firstNameIsValid: false,
+      lastNameIsValid: false,
+      passwordIsValid: false,
+      passwordIsLoading: false,
       user: {
         first_name: '',
         last_name: '',
@@ -197,7 +227,13 @@ export default {
         password_confirmation: '',
       },
       submitting: false,
+      success: false,
+      loading: false,
     };
+  },
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
   },
   methods: {
     back() {
@@ -206,13 +242,54 @@ export default {
       this.step = 1;
     },
     nextStep() {
+      this.loading = true;
       if (this.user.first_name && this.user.last_name && this.user.email) {
         this.errors = {};
         this.error = '';
         this.validateStep1();
       } else {
+        this.loading = false;
         this.error = 'Please fill in your name & email to continue.';
       }
+    },
+    validateEmail() {
+      if (this.user.email) {
+        this.emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user.email);
+
+        this.errors.email = [];
+      } else {
+        this.emailIsValid = false;
+        this.errors.email = ['Please enter your email.'];
+      }
+    },
+    validateFirstName() {
+      if (this.user.first_name) {
+        this.firstNameIsValid = /^[a-zA-Z]+$/.test(this.user.first_name);
+        this.errors.first_name = [];
+      } else {
+        this.firstNameIsValid = false;
+        this.errors.first_name = ['First name is required.'];
+      }
+    },
+    validateLastName() {
+      if (this.user.last_name) {
+        this.lastNameIsValid = /^[a-zA-Z]+$/.test(this.user.last_name);
+        this.errors.last_name = [];
+      } else {
+        this.lastNameIsValid = false;
+        this.errors.last_name = ['Last name is required.'];
+      }
+    },
+    validatePassword() {
+      AuthService.validateStep1(this.user.password).then(
+        (response) => {
+          this.passwordIsValid = true;
+          this.errors.password = [];
+        },
+        (error) => {
+          this.error = error.response.data.message;
+        }
+      );
     },
     validateStep1() {
       this.submitting = true;
@@ -232,10 +309,17 @@ export default {
           alert('Something went wrong.');
         })
         .finally(() => {
+          //identify call to segment
+          window.analytics.identify(this.user.email, {
+            email: this.user.email,
+            name: this.user.first_name + ' ' + this.user.last_name,
+          });
           this.submitting = false;
+          this.loading = false;
         });
     },
     register() {
+      this.loading = true;
       this.errors = {};
       this.error = '';
       this.submitting = true;
@@ -243,11 +327,17 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-              this.$store.commit('setAuthStateUser', response.user);
-            this.step = 3
+            this.$store.commit('setAuthStateUser', response.user);
+            this.$router.push({ name: 'Home' });
           } else {
             this.error = response.error;
           }
+        })
+        .then(() => {
+          //track call to segment
+          window.analytics.track('Signed Up', {
+            first_name: this.user.first_name,
+          });
         })
         .catch((error) => {
           if (error.response.status == 422) {
@@ -259,6 +349,8 @@ export default {
         })
         .finally(() => {
           this.submitting = false;
+          this.success = true;
+          this.loading = false;
         });
     },
   },

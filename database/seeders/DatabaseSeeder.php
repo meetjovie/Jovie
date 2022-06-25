@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,11 +17,18 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        User::create([
+        $user = User::create([
             'first_name' => 'Aamish',
             'email' => 'aamishirfan2662@gmail.com',
             'is_admin' => 1,
-            'sub' => 'auth|asdaae'
+            'password' => Hash::make('password')
         ]);
+        $teamModel = config('teamwork.team_model');
+
+        $team = $teamModel::create([
+            'name' => $user->first_name,
+            'owner_id' => $user->id,
+        ]);
+        $user->attachTeam($team);
     }
 }

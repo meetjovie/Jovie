@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <!-- Pricing with four tiers and toggle -->
-    <div class="bg-gradient-to-b from-white to-neutral-50">
+    <div class="bg-gradient-to-b from-neutral-50 to-white">
       <div class="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
         <div class="sm:align-center sm:flex sm:flex-col">
           <h1 class="text-5xl font-extrabold text-neutral-900 sm:text-center">
@@ -140,9 +140,40 @@
         </div>
       </div>
     </div>
+    <!--Free Account-->
+    <div
+      class="relative mx-auto mt-8 max-w-5xl bg-white px-4 sm:px-6 lg:mt-5 lg:px-8">
+      <div class="mx-auto max-w-md lg:max-w-5xl">
+        <div
+          class="rounded-lg bg-gray-50 px-6 py-8 sm:p-10 lg:flex lg:items-center">
+          <div class="flex-1">
+            <div>
+              <h3
+                class="inline-flex rounded-md bg-neutral-100 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-gray-600">
+                Get started with a free account
+              </h3>
+            </div>
+            <div class="mt-4 text-xs text-gray-600">
+              Not ready to commit? Our basic plan is completely free.
+              <span class="font-semibold text-gray-900"
+                >No credit card required</span
+              >.
+            </div>
+          </div>
+          <div class="mt-6 rounded-md shadow lg:mt-0 lg:ml-10 lg:flex-shrink-0">
+            <router-link
+              to="signup"
+              class="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-gray-900 hover:bg-gray-50">
+              Get started free
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
   <!-- FAQ -->
-  <div class="bg-gradient-to-b from-neutral-50 to-white">
+  <div class="mt-4 bg-gradient-to-b from-neutral-50 to-white">
     <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:py-24 lg:px-8">
       <div class="mx-auto max-w-3xl divide-y-2 divide-gray-200">
         <h2
@@ -320,9 +351,9 @@ const faqs = [
       'Jovie allows you to enrich your contacts with data from your own database or customer lists.  When you upload contacts, we match them against our data to provide you an enriched profile with social metrics, content, & other details.  You are only charged for succcessful matches.',
   },
   {
-    question: 'Doy you offer trials?',
+    question: 'Do you offer trials?',
     answer:
-      'We do not offer free trials.  But we do think you will love Jovie.  If youre unsure which plan meets your needs you can start with our professional plan and upgrade later.  If you have questions or would like to schedule a demo, please contact us.',
+      'Our basic plan is completely free. You can upgrade at any time.  If you have questions or would like to schedule a demo of our advanced features, please contact us.',
   },
 ];
 
@@ -348,6 +379,10 @@ export default {
     ChatAlt2Icon,
     TableIcon,
     PhoneIcon,
+  },
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
   },
   setup() {
     return {

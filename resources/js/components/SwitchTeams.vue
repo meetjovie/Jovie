@@ -21,7 +21,7 @@
       leave-from-class="transform scale-100 opacity-100"
       leave-to-class="transform scale-95 opacity-0">
       <PopoverPanel
-        class="-middle-24 rbackdrop-blur-xl absolute mt-4 w-40 origin-bottom-left rounded-md bg-white/90 shadow-lg backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+        class="-middle-24 absolute mt-4 w-40 origin-bottom-left rounded-md bg-white/90 shadow-lg backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
         <div class="">
           <div class="px-2 py-1 text-xs font-medium text-neutral-400">
             Your teams:

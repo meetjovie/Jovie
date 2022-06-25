@@ -5,11 +5,13 @@ namespace App\Jobs;
 use App\Models\Creator;
 use App\Models\CreatorSocialLink;
 use App\Models\Crm;
+use App\Models\Import;
 use App\Models\SocialInfo;
 use App\Models\User;
 use App\Notifications\ImportNotification;
 use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -38,12 +40,13 @@ class InstagramImport implements ShouldQueue
     private $listId;
     private $userId;
     private $platformUser;
+    private $importId;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($username, $tags, $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null)
+    public function __construct($username, $tags, $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null, $importId = null)
     {
         $this->username = $username;
         $this->tags = $tags;
@@ -52,8 +55,8 @@ class InstagramImport implements ShouldQueue
         $this->meta = $meta;
         $this->listId = $listId;
         $this->userId = $userId;
+        $this->importId = $importId;
         $this->platformUser = User::where('id', $this->userId)->first();
-
     }
 
     /**
@@ -70,6 +73,9 @@ class InstagramImport implements ShouldQueue
             if ($this->username) {
                 $response = self::scrapInstagram($this->username);
                 $this->insertIntoDatabase($response);
+            }
+            if ($this->importId) {
+                Import::where('id', $this->importId)->delete();
             }
             if ($this->recursive) {
                 foreach ($this->brands as $username) {
@@ -137,11 +143,20 @@ class InstagramImport implements ShouldQueue
             $links = $this->scrapLinkTree($user->external_url);
             $creator = $this->getOrCreateCreator($links);
 
+//            // 30 days diff
+//            if (!is_null($creator->instagram_last_scrapped_at)) {
+//                $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
+//                if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+//                    return;
+//                }
+//            }
+
             if (isset($this->meta['socialHandlers'])) {
                 foreach ($this->meta['socialHandlers'] as $k => $handler) {
                     if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
                         $creator[$k] = $handler;
                     } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
+                        // donot do any thing
                         // donot do any thing
                     } elseif ($handler) {
                         $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
@@ -218,6 +233,7 @@ class InstagramImport implements ShouldQueue
             $meta['is_business_account'] = $user->is_business_account;
             $meta['has_ar_effects'] = $user->has_ar_effects;
             $creator->instagram_meta = ($meta);
+            $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->save();
             if ($this->listId) {
                 $creator->userLists()->syncWithoutDetaching($this->listId);
@@ -260,7 +276,7 @@ class InstagramImport implements ShouldQueue
     public function getEmails($user, $oldEmails)
     {
         $emails = [];
-        if (isset($this->meta['emails']) && count($this->meta['emails']) && $this->platformUser->is_admin) {
+        if (isset($this->meta['emails']) && count($this->meta['emails'] ?? []) && $this->platformUser->is_admin) {
             $emails = $this->meta['emails'];
         }
         if ($user->business_email) {

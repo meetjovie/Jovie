@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use MeiliSearch\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +14,119 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/search-mili', [\App\Http\Controllers\CrmController::class, 'discovery']);
+Route::get('/search-miali', function (Request $request) {
 
+    $creators = \App\Models\Creator::search($request->q);
+
+    if (!empty($request->gender)) {
+        $creators = $creators->where('gender', $request->gender);
+    }
+    if (!empty($request->instagram_category)) {
+        $creators = $creators->where('instagram_category', $request->instagram_category);
+    }
+    if (!empty($request->city)) {
+        $creators = $creators->where('city', $request->city);
+    }
+    if (!empty($request->country)) {
+        $creators = $creators->where('country', $request->country);
+    }
+    $creators = $creators->take(PHP_INT_MAX)->paginateRaw($request->page);
+
+    $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
+
+    $crms = \App\Models\Crm::search("")
+        ->where('user_id', 1)
+        ->where('selected', $request->selected)
+        ->where('rejected', $request->rejected)
+        ->take(PHP_INT_MAX)
+        ->raw();
+    $crms = collect($crms['hits']);
+    $crmCreatorIds = $crms->pluck('creator_id')->toArray();
+
+    $hits = [];
+    foreach ($creators['hits'] as &$creator) {
+        if (in_array($creator['id'], $crmCreatorIds)) {
+            $crm = $crms->where('creator_id', $creator['id'])->first();
+            $muted = $crm['muted'];
+            if ($muted) {
+                continue;
+            } else {
+                $creator['crm'] = $crm;
+            }
+        }
+
+        $matched = true;
+        if ($request->instagram_engagement_rate) {
+            if (!empty($request->instagram_engagement_rate[0])) {
+                $matched = $creator['instagram_engagement_rate'] >= $request->instagram_engagement_rate[0] / 100
+                    && $creator['instagram_engagement_rate'] <= $request->instagram_engagement_rate[1] / 100;
+            } else {
+                $matched = false;
+            }
+        }
+        if ($matched) {
+            $hits[] = $creator;
+        }
+    }
+
+    $creators['hits'] = $hits;
+    return $creators;
+});
+Route::get('config-mili', function () {
+    return config('scout.meilisearch');
+});
+    Route::get('config-queue', function () {
+    return config('queue');
+});
+Route::get('index-mili', function () {
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+    return $client->getAllIndexes();
+});
+Route::get('available-filters', function () {
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+    $response = $client->index('creators')->getFilterableAttributes();
+    dd($response);
+});
+Route::get('meili-tasks', function (Request $request) {
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+    try {
+        $index = $client->getIndex('creators');
+        if ($request->id) {
+            $response = $client->index('creators')->getTask($request->id);
+        } else {
+            $response = $client->index('creators')->getTasks();
+        }
+        return $response;
+    } catch (Exception $e) {
+        $response = $client->getTasks();
+        $data[0] = $e->getMessage().' Showing all tasks.';
+        $data[1] = $response;
+        return $data;
+    }
+});
+Route::get('/filters-scout', function () {
+    $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+    $response = $client->index('creators')->updateFilterableAttributes([
+        'id',
+        'instagram_followers',
+        'instagram_engagement_rate',
+        'engaged_follows',
+        'gender',
+        'city',
+        'country',
+        'instagram_category',
+        'emails',
+        'has_emails',
+        'tags',
+        'all_to',
+        'selected_to',
+        'rejected_to',
+        'unique'
+    ]);
+    $response = $client->index('creators')->getFilterableAttributes();
+    dd($response);
+});
 Route::get('creator', function () {
     $url = ('https://www.instagram.com/timwhite/?__a=1&hl=en');
     $client = new \GuzzleHttp\Client();
@@ -49,3 +163,4 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 Route::get('{any?}', function () {
     return view('welcome');
 });
+

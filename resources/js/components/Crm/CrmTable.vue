@@ -90,8 +90,8 @@
                 <th scope="col" class="sticky top-0 border-b border-gray-300 bg-gray-50 bg-opacity-75  backdrop-blur backdrop-filter z-10 px-6 py-3  text-right text-xs font-medium tracking-wider text-gray-500">
                     <span class="sr-only">Edit</span>
 
-                    <div class="hidden w-60 2xl:block">Showing {{creators.length}}  of 1,500 results</div>
-          <div class="hidden w-40 lg:block 2xl:hidden">{{creators.length}}  of 1,500</div>
+                    <div class="hidden w-60 2xl:block">{{creators.length}} results</div>
+          <div class="hidden w-40 lg:block 2xl:hidden">{{creators.length}}</div>
                 </th>
             </tr>
             </thead>
