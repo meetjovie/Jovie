@@ -131,20 +131,16 @@ export default {
             // check for insta
 
             // Regex for verifying an instagram URL
-            let regex = '/\(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_\.]+)/im'
+            let regex = '(?:(?:http|https)://)?(?:www.)?(?:instagram.com|instagr.am)/([A-Za-z0-9-_]+)?(?:/)?'
 
             // Verify valid Instagram URL
-            console.log('url.match(regex)');
-            console.log(url.match(regex));
-            if (url.match(regex) ) {
+            if (url.match(regex) && url.match(regex)[1]) {
                 return true
             }
 
             // Regex for verifying an twitch URL
-            regex = '/\(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv|twitch\.com)\/([A-Za-z0-9-_\.]+)/'
+            regex = '(?:(?:http|https)://)?(?:www.)?(?:twitch.tv|twitch.com)/([A-Za-z0-9-_.]+)?(?:/)?'
             // Verify valid Twitch URL
-            console.log('url.match(regex)');
-            console.log(url.match(regex));
             if (url.match(regex) ) {
                 return true
             }
