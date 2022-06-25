@@ -38,7 +38,7 @@
           <div class="lg:col-start-2">
             <h3
               class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-              Outreach on autopilot
+              Creator outreach on autopilot
             </h3>
             <p class="mt-3 text-lg text-gray-500">
               Jovie allows you to build complex outreach sequences that

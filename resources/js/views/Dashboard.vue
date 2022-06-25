@@ -1,12 +1,18 @@
 <template>
   <div>
+    <AlertBanner
+      design="danger"
+      mobiletitle="Your subscribtion is inactive"
+      title="Please update your billing information to continue using Jovie."
+      cta="Update billing information"
+      ctaLink="/billing" />
     <div class="bg-white shadow">
       <div class="px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
         <div
           class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
           <div class="min-w-0 flex-1">
             <!-- Profile -->
-            <div class="flex items-center">
+            <div @click="thatYou()" class="flex items-center">
               <img
                 class="hidden h-16 w-16 rounded-full sm:block"
                 :src="
@@ -24,7 +30,7 @@
                 </div>
                 <dl
                   class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
-                  <dt class="sr-only">Company</dt>
+                  <dt class="sr-only">Team</dt>
                   <dd
                     class="flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6">
                     <!-- Heroicon name: solid/office-building -->
@@ -39,7 +45,7 @@
                         d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z"
                         clip-rule="evenodd" />
                     </svg>
-                    A7X3
+                    {{ currentUser.current_team.name }}
                   </dd>
                   <dt class="sr-only">Account status</dt>
                   <dd
@@ -60,55 +66,146 @@
                     </svg>
                     Admin account
                   </dd>
+                  <dd
+                    v-else-if="currentUser.isCurrentTeamOwner"
+                    class="mt-3 flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
+                    <!-- Heroicon name: solid/check-circle -->
+
+                    <svg
+                      class="mr-1.5 h-5 w-5 flex-shrink-0 text-neutral-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true">
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    Team Owner
+                  </dd>
                 </dl>
               </div>
             </div>
           </div>
           <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-            <a href="/discovery">
+            <a href="/account">
               <button
                 type="button"
                 class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2">
-                Find creators
+                Account Settings
               </button></a
             >
           </div>
         </div>
       </div>
     </div>
-    <div>
-      <!-- This example requires Tailwind CSS v2.0+ -->
+    <div class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+      <div>
+        <h1 class="text-md font-bold">Add a creator.</h1>
+        <span class="text-sm font-medium text-neutral-500"
+          >Enter the url of a social profile to add a creator to your
+          contacts.</span
+        >
+      </div>
+      <SocialInput />
+
+      <div class="text-xs text-neutral-400">
+        Supports:
+        <div class="inline-flex">
+          <SocialIcons
+            height="10px"
+            width="10px"
+            class="text-neutral-400"
+            icon="twitch" />
+          <SocialIcons
+            height="10px"
+            width="10px"
+            class="text-neutral-400"
+            icon="instagram" />
+        </div>
+      </div>
+    </div>
+
+    <!--  <div>
+      
       <div
-        class="items-centeritems-middle mx-auto mt-8 max-w-5xl bg-white px-8 shadow sm:rounded-lg">
+        v-for="nav in featuredNav"
+        class="items-middle mx-auto mt-8 max-w-5xl items-center bg-white px-8 shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg font-medium leading-6 text-gray-900">Discovery</h3>
+          <div class="inline-flex">
+            <component
+              :is="nav.icon"
+              class="mr-2 mt-0.5 h-5 w-5 text-indigo-600"></component>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">
+              {{ nav.name }}
+            </h3>
+          </div>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
             <p>
-              Campaigns start with discovery. Find the creators that fit your
-              campaign by searching our database. You can filter down results
-              and favorite the best ones for later.
+              {{ nav.description }}
             </p>
           </div>
           <div class="mt-3 text-sm">
             <a
-              href="/discovery"
+              :href="nav.link"
               class="font-medium text-indigo-600 hover:text-indigo-500">
-              Create a search <span aria-hidden="true">&rarr;</span></a
+              {{ nav.cta }}
+              <span aria-hidden="true">&rarr;</span></a
             >
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import AlertBanner from '../components/AlertBanner.vue';
+import TeamService from '../services/api/team.service';
+import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
+import store from '../store/index';
+import SocialInput from '../components/SocialInput.vue';
+import SocialIcons from '../components/SocialIcons.vue';
+
+const featuredNav = [
+  {
+    name: 'Bulk Enrich your data',
+    description:
+      'Upload existing contacts & Jovie will automatically enrich those regards records with addiational details including social media profiles & metrics, social content, and more.',
+    link: 'contacts',
+    cta: 'Upload contacts',
+    icon: 'CloudUploadIcon',
+  },
+];
+
 export default {
   name: 'Dashboard',
+  components: {
+    SearchIcon,
+    CloudUploadIcon,
+    AlertBanner,
+    SocialInput,
+    SocialIcons,
+  },
   data() {
     return {
       user: this.$store.state.AuthState.user,
+      featuredNav,
     };
+  },
+  methods: {
+    thatYou() {
+      console.log(this.user);
+      // track event in segment
+
+      this.$notify({
+        group: 'user',
+        title: 'Who are you?',
+        text: `You are ${this.user.first_name}`,
+        type: 'success',
+      });
+    },
   },
   mounted() {},
 };

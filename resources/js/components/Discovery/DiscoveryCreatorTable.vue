@@ -1,4 +1,4 @@
-<template>
+<template v-slot:item="{ item }">
   <table
     class="min-w-full divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
     <thead
@@ -155,7 +155,7 @@
               </div>
               <div
                 class="wrap -mt-1 truncate text-2xs font-light text-gray-900">
-                {{ creator.bio }}
+                {{ item.full_name }}
               </div>
               <div class="pt-.05 pb-1 text-xs font-medium text-gray-900">
                 <CreatorTags size="xs" color="none" text="Category" />

@@ -8,14 +8,21 @@
         </h3>
         <p v-if="subtitle" class="mt-1 text-xs text-gray-500">{{ subtitle }}</p>
       </div>
-      <div class="ml-4 mt-4 flex-shrink-0">
-        <slot></slot>
+      <div v-if="buttontext" class="ml-4 mt-4 flex-shrink-0">
+        <a :href="buttonlink">
+          <ButtonGroup
+            @click="this.$emit('button-click')"
+            :design="buttonstyle"
+            :size="buttonsize"
+            :icon="buttonicon"
+            :text="buttontext" />
+        </a>
       </div>
     </div>
   </div>
 </template>
 <script>
-import ButtonGroup from './ButtonGroup.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 export default {
   name: 'CardHeading',
@@ -31,8 +38,28 @@ export default {
       type: String,
       default: null,
     },
+    buttonlink: {
+      type: String,
+      default: null,
+    },
     buttontext: {
       type: String,
+      default: null,
+    },
+    buttonstyle: {
+      type: String,
+      default: 'primary',
+    },
+    buttonsize: {
+      type: String,
+      default: 'md',
+    },
+    buttonicon: {
+      type: String,
+      default: null,
+    },
+    buttonClick: {
+      type: Function,
       default: null,
     },
   },

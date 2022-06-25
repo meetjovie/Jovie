@@ -4,7 +4,7 @@
       <Popover class="relative">
         <PopoverButton
           as="div"
-          class="relative inline-flex w-32 cursor-pointer items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:bg-indigo-700 active:text-white active:text-white"
+          class="relative inline-flex w-32 cursor-pointer items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:bg-indigo-700 active:text-white active:text-white"
           >Actions
           <ChevronDownIcon class="h-5 w-5"></ChevronDownIcon>
         </PopoverButton>
@@ -52,70 +52,54 @@
       </Popover>
     </div>
     <div>
-      <TabList>
-        <Tab
-          v-slot="{ selected }"
-          as="div"
-          :class="[
-            selected
-              ? 'bg-indigo-700 text-white'
-              : 'relative inline-flex cursor-pointer  items-center rounded-l-md border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:bg-indigo-700 active:text-white active:text-white',
-          ]"
-          >All Results</Tab
-        >
-        <Tab
-          v-slot="{ selected }"
-          as="div"
-          :class="[
-            selected
-              ? 'bg-indigo-700 text-white'
-              : 'relative inline-flex cursor-pointer  items-center border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white',
-          ]"
-          >Shortlist</Tab
-        >
-        <Tab
-          v-slot="{ selected }"
-          as="div"
-          :class="[
-            selected
-              ? 'bg-indigo-700 text-white'
-              : 'relative inline-flex cursor-pointer  items-center rounded-r-md border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white',
-          ]"
-          >Rejected</Tab
-        >
-      </TabList>
+      <TabGroup @change="$emit('changeTab', $event)">
+        <TabList>
+          <Tab v-slot="{ selected }" as="template"
+            ><span
+              :class="[
+                selected
+                  ? 'relative inline-flex cursor-pointer items-center rounded-l-md border bg-indigo-700 px-4 py-1 text-xs font-medium text-white  focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:bg-indigo-700 active:text-white active:text-white'
+                  : 'relative inline-flex cursor-pointer  items-center rounded-l-md border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700   hover:bg-neutral-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:bg-indigo-700 active:text-white active:text-white',
+              ]"
+              >All Results</span
+            ></Tab
+          >
+          <Tab v-slot="{ selected }" as="template"
+            ><span
+              :class="[
+                selected
+                  ? 'relative inline-flex cursor-pointer items-center border bg-indigo-700 px-4 py-1 text-xs font-medium text-white  focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white'
+                  : 'relative inline-flex cursor-pointer  items-center border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700   hover:bg-neutral-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white',
+              ]"
+              >Shortlist</span
+            ></Tab
+          >
+          <Tab v-slot="{ selected }" as="template"
+            ><span
+              :class="[
+                selected
+                  ? 'relative inline-flex cursor-pointer items-center rounded-r-md border bg-indigo-700 px-4 py-1 text-xs font-medium text-white  focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white'
+                  : 'relative inline-flex cursor-pointer items-center rounded-r-md border border-gray-300 bg-white px-4 py-1 text-xs font-medium text-gray-700   hover:bg-neutral-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white',
+              ]"
+              >Rejected</span
+            ></Tab
+          >
+        </TabList>
+      </TabGroup>
     </div>
     <div class="items-center">
-      <Popover v-slot="{ open }" class="relative z-20 inline">
-        <span class="inline-flex items-center">
-          <ButtonGroup
-            style="secondary"
-            size="sm"
-            rounded="left"
-            text="Export" />
-
-          <PopoverButton
-            size="sm"
-            rounded="right"
-            class="group relative inline-flex cursor-pointer items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-indigo-700 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 active:bg-indigo-700 active:text-white">
-            <ChevronRightIcon
-              class="h-3 w-3 group-hover:text-white"></ChevronRightIcon>
-          </PopoverButton>
-        </span>
-        <DiscoverySidebar></DiscoverySidebar>
-        <PopoverOverlay
-          class="bg-black"
-          :class="
-            open
-              ? 'fixed inset-0 z-20 h-full opacity-30 backdrop-blur-2xl backdrop-filter'
-              : 'opacity-0'
-          " />
-      </Popover>
+      <span class="inline-flex items-center">
+        <ButtonGroup
+          design="secondary"
+          size="sm"
+          rounded="left"
+          text="Export" />
+      </span>
     </div>
   </div>
 </template>
 <script>
-import { TabList, Tab } from '@headlessui/vue';
+import { TabList, Tab, TabGroup } from '@headlessui/vue';
 import {
   Popover,
   PopoverButton,
@@ -145,6 +129,7 @@ export default {
     ChevronDownIcon,
     TabList,
     Tab,
+    TabGroup,
     Popover,
     PopoverButton,
     PopoverPanel,

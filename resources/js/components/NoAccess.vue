@@ -1,11 +1,24 @@
 <template>
-    <main class="flex-grow h-screen items-center flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-    <div class=" items-center">
+  <main
+    class="mx-auto flex h-screen w-full max-w-7xl flex-grow flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="items-center">
       <div class="text-center">
-        <p class="text-sm font-semibold text-indigo-600 uppercase tracking-wide">You don't have access to this feature</p>
-        <h1 class="mt-2 text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">Please contact sales.</h1>
-        <p class="mt-2 text-base text-gray-500">Sorry, this feature is not included in your current plan.</p>
+        <p
+          class="text-sm font-semibold uppercase tracking-wide text-indigo-600">
+          You don't have access to this feature
+        </p>
+        <h1
+          class="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+          Please
+          <router-link class="text-indigo-700" to="account"
+            >upgrade</router-link
+          >
+          your account.
+        </h1>
+        <p class="mt-2 text-base text-gray-500">
+          Sorry, this feature is not included in your current plan.
+        </p>
       </div>
     </div>
-</main>
+  </main>
 </template>

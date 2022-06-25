@@ -1,155 +1,395 @@
 <template>
-  <div class="min-h-screen">
-    <div class="flex min-h-full">
-      <div class="relative hidden w-0 flex-1 lg:block">
-        <div
-          class="absolute inset-0 min-h-screen w-full items-center justify-center bg-indigo-700 px-8 py-12">
-          <div
-            class="shadown-sm flex items-center justify-center rounded-md px-8 py-2">
-            <div
-              class="mx-auto max-w-4xl px-4 py-16 pb-24 sm:px-6 sm:pt-20 lg:max-w-7xl lg:px-8 lg:pt-24">
-              <h2 class="text-3xl font-extrabold tracking-tight text-white">
-                Scale your
-                <span class="underline decoration-pink-500"
-                  >creator partnerships</span
-                >
-              </h2>
-              <p class="mt-4 max-w-3xl text-lg text-indigo-200">
-                Jovie gives you the tools to build, manage, & grow creator
-                communities at scale
-              </p>
+  <div class="">
+    <!-- Pricing with four tiers and toggle -->
+    <div class="bg-gradient-to-b from-neutral-50 to-white">
+      <div class="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
+        <div class="sm:align-center sm:flex sm:flex-col">
+          <h1 class="text-5xl font-extrabold text-neutral-900 sm:text-center">
+            Jovie Pricing
+          </h1>
+          <p class="mt-5 text-xl text-neutral-500 sm:text-center">
+            Everything you need to scale your creator partnerships.
+          </p>
 
-              <div>
-                <div class="mt-8 items-center">
-                  <div
-                    class="font-xs flex-inline px-6 py-4 text-indigo-100 xl:px-12">
-                    <CheckIcon class="h5 mr-4 inline w-5" />Discover creators
-                    with AI powered search tools
+          <div
+            class="relative mt-6 flex self-center rounded-lg bg-neutral-200 py-0.5 px-2 sm:mt-8">
+            <SwitchGroup as="div" class="flex items-center">
+              <div class="flex items-center">
+                <Switch
+                  v-model="annualBilling"
+                  :class="annualBilling ? 'bg-neutral-200' : 'bg-neutral-200'"
+                  class="relative inline-flex h-14 w-96 items-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  <span
+                    :class="annualBilling ? 'translate-x-0' : 'translate-x-48'"
+                    class="inline-block h-12 w-1/2 transform rounded-md bg-white shadow-sm transition-transform" />
+                  <div class="absolute mx-auto grid w-full grid-cols-2">
+                    <div
+                      :class="
+                        annualBilling ? 'text-indigo-700' : 'text-neutral-500'
+                      "
+                      class="text-sm font-medium focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
+                      Yearly Billing
+                    </div>
+                    <div
+                      :class="
+                        annualBilling ? 'text-neutral-500' : 'text-indigo-700'
+                      "
+                      class="text-sm font-medium text-neutral-700 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
+                      Monthly Billing
+                    </div>
                   </div>
-                  <div
-                    class="font-xs flex-inline px-6 py-4 text-indigo-100 xl:px-12">
-                    <CheckIcon class="h5 mr-4 inline w-5" />Manage your
-                    relationships with a CRM built for the creator economy
-                  </div>
-                  <div
-                    class="font-xs flex-inline px-6 py-4 text-indigo-100 xl:px-12">
-                    <CheckIcon class="h5 mr-4 inline w-5" />Automate & track
-                    your entire pipeline
-                  </div>
-                </div>
+                </Switch>
               </div>
-            </div>
+            </SwitchGroup>
           </div>
         </div>
-      </div>
-      <div
-        class="flex min-h-screen flex-1 flex-col items-center justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-        <div class="mx-auto w-full max-w-sm sm:pb-40 lg:w-96">
-          <div>
-            <JovieLogo :height="40" />
-            <div class="mt-8 text-center">
-              <h2
-                class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                Request pricing
+        <div
+          class="mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-3">
+          <div
+            v-for="tier in tiers"
+            :key="tier.name"
+            class="divide-y divide-neutral-200 rounded-lg shadow-sm"
+            :class="[
+              { 'border-2 border-indigo-400': tier.featured == true },
+              'border border-neutral-200',
+            ]">
+            <div class="p-6">
+              <h2 class="text-lg font-medium leading-6 text-neutral-900">
+                {{ tier.name }}
               </h2>
-              <p class="mt-4 text-sm leading-6 text-gray-500">
-                There are many factors that influence pricing. We just need a
-                few details about your use case and we can get you pricing
-                details that fit your exact needs.
+              <p class="mt-4 text-sm text-neutral-500">
+                {{ tier.description }}
               </p>
+              <p v-if="tier.name === 'Enterprise'" class="mt-4">
+                <span class="text-xs font-medium text-neutral-500"
+                  >Starts at</span
+                ><br />
+                <span class="-mt-2 text-4xl font-extrabold text-neutral-900"
+                  >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
+                >
+                {{ ' ' }}
+                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <br />
+                <span class="text-sm font-medium text-neutral-500"
+                  >Annual billing only</span
+                >
+              </p>
+              <p v-else-if="annualBilling" class="mt-4">
+                <span class="text-xs font-medium text-neutral-500"></span><br />
+                <span class="text-4xl font-extrabold text-neutral-900"
+                  >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
+                >
+                {{ ' ' }}
+                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <br />
+                <span class="text-sm font-medium text-neutral-500"
+                  >Billed as
+                  <span
+                    class="text-sm font-medium text-neutral-400 line-through">
+                    ${{ tier.priceMonthly.toFixed(0) * 12 }}</span
+                  >
+                  ${{ tier.priceAnnual.toFixed(0) }}/yr
+                </span>
+              </p>
+              <p v-else class="mt-4">
+                <span class="text-xs font-medium text-neutral-500"></span><br />
+                <span class="text-4xl font-extrabold text-neutral-900"
+                  >${{ tier.priceMonthly }}</span
+                >
+                {{ ' ' }}
+                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <br />
+                <span class="text-sm font-medium text-neutral-500"
+                  >Billed monthly</span
+                >
+              </p>
+              <router-link
+                v-if="tier.name == 'Enterprise'"
+                :to="tier.href"
+                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white py-2 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                >Contact Sales</router-link
+              >
+              <router-link
+                v-else
+                :to="tier.href"
+                class="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+                >Buy Now</router-link
+              >
             </div>
-          </div>
-
-          <div class="mt-8">
-            <div class="mt-6">
-              <form class="space-y-6">
-                <div>
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700">
-                    Email address
-                  </label>
-                  <div class="mt-1">
-                    <input
-                      v-if="!$store.state.addedToWaitList"
-                      v-model="waitListEmail"
-                      id="email"
-                      name="email"
-                      type="email"
-                      autocomplete="email"
-                      required=""
-                      class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                    <!-- <input  id="email-address"
-                                                    
-                                            <button  type="button"
-                                                    class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                                                Added to waitlist
-                                            </button>
-                                            <button v-else type="button" @click="requestDemo()"
-                                                    class="mt-3  hover:shadow-sm w-full flex items-center justify-center px-5 py-3 border border-transparent shadow-xl shadow-indigo-700/30 text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 focus-visible:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                                                Request Access
-                                            </button> -->
-                  </div>
-                </div>
-
-                <div>
-                  <button
-                    v-if="$store.state.addedToWaitList"
-                    type="submit"
-                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                    Request submitted
-                  </button>
-                  <button
-                    v-else
-                    type="submit"
-                    @click="requestDemo()"
-                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                    Request pricing
-                  </button>
-                </div>
-              </form>
+            <div class="px-6 pt-6 pb-8">
+              <h3
+                class="text-xs font-medium uppercase tracking-wide text-neutral-900">
+                What's included
+              </h3>
+              <ul role="list" class="mt-6 space-y-4">
+                <li
+                  v-for="feature in tier.features"
+                  :key="feature"
+                  class="flex space-x-3">
+                  <component
+                    :is="feature.icon"
+                    class="h-5 w-5 flex-shrink-0 text-indigo-400"
+                    aria-hidden="true" />
+                  <span class="text-sm text-neutral-500">{{
+                    feature.name
+                  }}</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!--Free Account-->
+    <div
+      class="relative mx-auto mt-8 max-w-5xl bg-white px-4 sm:px-6 lg:mt-5 lg:px-8">
+      <div class="mx-auto max-w-md lg:max-w-5xl">
+        <div
+          class="rounded-lg bg-gray-50 px-6 py-8 sm:p-10 lg:flex lg:items-center">
+          <div class="flex-1">
+            <div>
+              <h3
+                class="inline-flex rounded-md bg-neutral-100 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-gray-600">
+                Get started with a free account
+              </h3>
+            </div>
+            <div class="mt-4 text-xs text-gray-600">
+              Not ready to commit? Our basic plan is completely free.
+              <span class="font-semibold text-gray-900"
+                >No credit card required</span
+              >.
+            </div>
+          </div>
+          <div class="mt-6 rounded-md shadow lg:mt-0 lg:ml-10 lg:flex-shrink-0">
+            <router-link
+              to="signup"
+              class="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-gray-900 hover:bg-gray-50">
+              Get started free
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="mt-4 bg-gradient-to-b from-neutral-50 to-white">
+    <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:py-24 lg:px-8">
+      <div class="mx-auto max-w-3xl divide-y-2 divide-gray-200">
+        <h2
+          class="text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          Frequently asked questions
+        </h2>
+        <dl class="mt-6 space-y-6 divide-y divide-gray-200">
+          <Disclosure
+            as="div"
+            v-for="faq in faqs"
+            :key="faq.question"
+            class="pt-6"
+            v-slot="{ open }">
+            <dt class="text-lg">
+              <DisclosureButton
+                class="flex w-full items-start justify-between text-left text-gray-400">
+                <span class="font-medium text-gray-900">
+                  {{ faq.question }}
+                </span>
+                <span class="ml-6 flex h-7 items-center">
+                  <ChevronDownIcon
+                    :class="[
+                      open ? '-rotate-180' : 'rotate-0',
+                      'h-6 w-6 transform',
+                    ]"
+                    aria-hidden="true" />
+                </span>
+              </DisclosureButton>
+            </dt>
+            <DisclosurePanel as="dd" class="mt-2 pr-12">
+              <p class="text-base text-gray-500">
+                {{ faq.answer }}
+              </p>
+            </DisclosurePanel>
+          </Disclosure>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <!-- CTA -->
+
+  <div class="bg-white">
+    <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20">
+      <h2
+        class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+        <span class="block">Ready to dive in?</span>
+        <span class="block text-indigo-600">Get started right now.</span>
+      </h2>
+      <div class="mt-8 flex">
+        <div class="inline-flex rounded-md shadow">
+          <router-link
+            to="signup"
+            class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700">
+            Get started
+          </router-link>
+        </div>
+        <div class="ml-3 inline-flex">
+          <router-link
+            to="/"
+            class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-100 px-5 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200">
+            Learn more
+          </router-link>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
 <script>
-import JovieLogo from '../components/JovieLogo.vue';
-import { CheckIcon } from '@heroicons/vue/outline';
-import UserService from '../services/api/user.service';
+import { ref } from 'vue';
+import {
+  Switch,
+  SwitchGroup,
+  SwitchLabel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from '@headlessui/vue';
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  MailIcon,
+  LightningBoltIcon,
+  DatabaseIcon,
+  SupportIcon,
+  UserIcon,
+  UserGroupIcon,
+  UsersIcon,
+  UserAddIcon,
+  CloudDownloadIcon,
+  ChatAlt2Icon,
+  TableIcon,
+  PhoneIcon,
+} from '@heroicons/vue/outline';
+import store from '../store';
+const annualBilling = ref(true);
+
+const tiers = [
+  {
+    name: 'Professional',
+    href: 'signup',
+    featured: false,
+    priceMonthly: 199,
+    priceAnnual: 2148,
+    description: 'For freelancers',
+    features: [
+      {
+        name: `Database of ${store.state.creatorsDBCount}+ creators`,
+        icon: 'DatabaseIcon',
+      },
+      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
+      { name: '500 contact credits/month', icon: 'MailIcon' },
+      { name: '1 User included', icon: 'UserIcon' },
+      { name: '10 CSV exports', icon: 'CloudDownloadIcon' },
+    ],
+  },
+  {
+    name: 'Team',
+    href: 'signup',
+    featured: true,
+    priceMonthly: 499,
+    priceAnnual: 5388,
+    description: 'Built for startups and growing teams',
+    features: [
+      {
+        name: `Database of ${store.state.creatorsDBCount}+ creators`,
+        icon: 'DatabaseIcon',
+      },
+      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
+      { name: '2,500 contact credits/month', icon: 'MailIcon' },
+      { name: '2 Users included', icon: 'UsersIcon' },
+      { name: 'Unlimited CSV exports', icon: 'CloudDownloadIcon' },
+      { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
+      { name: 'Additional users $99/mo', icon: 'UserAddIcon' },
+      { name: '1,000 Data enrichment credits', icon: 'TableIcon' },
+    ],
+  },
+  {
+    name: 'Enterprise',
+    href: 'request-demo',
+    featured: false,
+    priceMonthly: 'Annual Only',
+    priceAnnual: 26388,
+    description: 'For large teams and enterprises',
+    features: [
+      {
+        name: `Database of ${store.state.creatorsDBCount}+ creators`,
+        icon: 'DatabaseIcon',
+      },
+      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
+      { name: '10,00 contact credits/month', icon: 'MailIcon' },
+      { name: '5 Users included', icon: 'UserGroupIcon' },
+      { name: 'Unlimited CSV exports', icon: 'CloudDownloadIcon' },
+      { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
+      { name: 'Additional users $99/mo', icon: 'UserAddIcon' },
+      { name: '5,0000 Data enrichment credits', icon: 'TableIcon' },
+      { name: 'Dedicated support', icon: 'PhoneIcon' },
+    ],
+  },
+];
+const faqs = [
+  {
+    question: 'Can I add additional users to my account?',
+    answer:
+      'Yes. Team & enterprise plans allow you to invite team members and collaborate.  The Team plan includes 2 seats and you can add more for $99/mo.',
+  },
+  {
+    question: 'What is a contact credit?',
+    answer:
+      'Jovie provides access to a database of millions of creators.  You can leverage this data for your outreach efforts.  A contact credit is deducted from your account when you send a message to a contact or export an email address.',
+  },
+  {
+    question: 'What is a data enrichment credit?',
+    answer:
+      'Jovie allows you to enrich your contacts with data from your own database or customer lists.  When you upload contacts, we match them against our data to provide you an enriched profile with social metrics, content, & other details.  You are only charged for succcessful matches.',
+  },
+  {
+    question: 'Do you offer trials?',
+    answer:
+      'Our basic plan is completely free. You can upgrade at any time.  If you have questions or would like to schedule a demo of our advanced features, please contact us.',
+  },
+];
 
 export default {
   components: {
-    JovieLogo,
+    Switch,
+    SwitchGroup,
+    SwitchLabel,
     CheckIcon,
+    UserAddIcon,
+    CloudDownloadIcon,
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
+    ChevronDownIcon,
+    MailIcon,
+    LightningBoltIcon,
+    DatabaseIcon,
+    SupportIcon,
+    UserIcon,
+    UserGroupIcon,
+    UsersIcon,
+    ChatAlt2Icon,
+    TableIcon,
+    PhoneIcon,
   },
-  data() {
+  mounted() {
+    //add segment analytics
+    window.analytics.page(this.$route.path);
+  },
+  setup() {
     return {
-      waitListEmail: '',
-      error: null,
+      tiers,
+      faqs,
+      annualBilling,
     };
-  },
-  methods: {
-    async requestDemo() {
-      await UserService.addToWaitList({ email: this.waitListEmail })
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.$store.commit('setAddedToWaitList');
-            this.waitListEmail = '';
-            this.error = null;
-            this.$router.push('demo');
-          }
-        })
-        .catch((error) => {
-          error = error.response;
-          if (error.status == 422) {
-            this.error = error.data.errors.email[0];
-          }
-        });
-    },
   },
 };
 </script>

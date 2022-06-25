@@ -1,24 +1,8 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div class="bg-white py-12">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="lg:text-center">
-        <h2
-          class="text-base font-semibold uppercase tracking-wide text-indigo-600">
-          Data
-        </h2>
-        <p
-          class="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-          A better way to find creators
-        </p>
-        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-          Jovie's database of
-          <span class="text-indigo-500">200,000+ creators</span> is a powerful
-          tool for finding new prospects and building partnerships.
-        </p>
-      </div>
-
-      <!--    <div class="mt-10">
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div class="mt-10">
         <dl
           class="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
           <div v-for="feature in features" :key="feature.name" class="relative">
@@ -30,7 +14,7 @@
                   class="h-6 w-6"
                   aria-hidden="true" />
               </div>
-              <p class="ml-16 text-lg font-medium leading-6 text-gray-900">
+              <p class="ml-16 text-sm font-medium leading-6 text-gray-900">
                 {{ feature.name }}
               </p>
             </dt>
@@ -39,7 +23,7 @@
             </dd>
           </div>
         </dl>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -54,9 +38,9 @@ import {
 
 const features = [
   {
-    name: 'Power search filters',
+    name: 'Data Enrichment',
     description:
-      'Within Jovie, you have the ability to search for creators not just by basic metrics like follower count & engagement, but also by more advanced properties like type contents of their photos, the sentiment of their captions, and more.',
+      'Upload your existing customer lists and instantly enrich your data.  Pay only for matched profiles.',
     icon: SearchIcon,
   },
   {
@@ -78,8 +62,11 @@ const features = [
     icon: AnnotationIcon,
   },
 ];
-
+import JovieLogo from '@/components/JovieLogo.vue';
 export default {
+  components: {
+    JovieLogo,
+  },
   setup() {
     return {
       features,

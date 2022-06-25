@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use MeiliSearch\Client;
 
 class CrmController extends Controller
 {
@@ -34,6 +35,20 @@ class CrmController extends Controller
         return collect([
             'status' => true,
             'data' => Creator::getCrmCreators(['id' => $id])->first(),
+        ]);
+    }
+
+    public function moveCreator(Request $request, $creatorId) {
+        $data = $request->validate([
+            'selected' => 'required|numeric',
+            'rejected' => 'required|numeric'
+        ]);
+        $crm = Crm::updateOrCreate(['creator_id' => $creatorId, 'user_id' => Auth::id()], $data);
+        Creator::where('id', $creatorId)->searchable();
+        return response([
+            'status' => true,
+            'data' => $crm,
+            'message' => 'Creator moved.'
         ]);
     }
 
@@ -149,5 +164,118 @@ class CrmController extends Controller
             'data' => null,
             'message' => 'No more creators.'
         ]);
+    }
+
+    public function addCreatorToCreator(Request $request)
+    {
+        $request->validate([
+            'creator_id' => 'required'
+        ]);
+
+        $crm = Crm::updateOrCreate(['user_id' => Auth::id(),'creator_id' => $request->creator_id],
+            ['user_id' => Auth::id(),'creator_id' => $request->creator_id]
+        );
+
+        return response([
+            'status' => true,
+            'message' => 'Added to contacts.',
+            'crm' => $crm
+        ]);
+    }
+
+    public function discovery(Request $request)
+    {
+        $data = $this->fetchCreators($request, [], $request->page);
+        return $data;
+    }
+
+    public function fetchCreators($request, $crms = null, $page = 1, $iteration = 1)
+    {
+        $creators = \App\Models\Creator::search($request->q);
+
+        $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+
+        $filtersString = '(mutedRecord!=user_'.Auth::id().' OR mutedRecordCount = 0)';
+
+        $filtersString .= ' AND (selectedRecord!=user_'.Auth::id().' OR selectedRecordCount=0)';
+        $filtersString .= ' AND (rejectedRecord!=user_'.Auth::id().' OR rejectedRecordCount=0)';
+//        dd($filtersString);
+        if (!empty($request->gender)) {
+            $filtersString = $filtersString.' AND gender='.$request->gender;
+        }
+        if (!empty($request->instagram_category)) {
+            $filtersString = $filtersString.' AND instagram_category='.$request->instagram_category;
+        }
+        if (!empty($request->city)) {
+            $filtersString = $filtersString.' AND city='.$request->city;
+        }
+        if (!empty($request->country)) {
+            $filtersString = $filtersString.' AND country='.$request->country;
+        }
+
+        $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
+        if ($request->instagram_engagement_rate) {
+            if (!empty($request->instagram_engagement_rate[0])) {
+                $filtersString = $filtersString.' AND instagram_engagement_rate>='.($request->instagram_engagement_rate[0]/100);
+            }
+            if (!empty($request->instagram_engagement_rate[1])) {
+                $filtersString = $filtersString.' AND instagram_engagement_rate<='.($request->instagram_engagement_rate[1]/100);
+            }
+        }
+        $request->instagram_followers = json_decode($request->instagram_followers);
+        if ($request->instagram_followers) {
+            if (!empty($request->instagram_followers[0])) {
+                $filtersString = $filtersString.' AND instagram_followers>='.$request->instagram_followers[0];
+            }
+            if (!empty($request->instagram_followers[1])) {
+                $filtersString = $filtersString.' AND instagram_followers<='.$request->instagram_followers[1];
+            }
+        }
+
+        if (!empty($request->emails)) {
+            $filtersString = $filtersString.' AND emails='.$request->emails;
+        }
+
+//dd($filtersString);
+        dd($client->index('creators')->getSearchableAttributes());
+        $data = $client->index('creators')->search($request->q, [
+            'filter' => $filtersString,
+            'offset' => $request->page,
+            'limit' => 30
+        ])->getRaw();
+        dd($data);
+
+        if (!$crms) {
+            $crms = $client->index('crms')->search('', [
+                'filter' => ('selected='.$request->selected.' AND rejected='.$request->rejected),
+                'offset' => $request->page,
+                'limit' => 30
+            ])->getRaw();
+            $crms = \App\Models\Crm::search("")
+                ->where('user_id', 1)
+                ->where('selected', $request->selected)
+                ->where('rejected', $request->rejected)
+                ->take(PHP_INT_MAX)
+                ->raw();
+        }
+        $crms = collect($crms['hits']);
+        $crmCreatorIds = $crms->pluck('creator_id')->toArray();
+
+        $hits = [];
+        foreach ($creators['hits'] as $creator) {
+            $tempCreator = $creator;
+            if (in_array($creator['id'], $crmCreatorIds)) {
+                $crm = $crms->where('creator_id', $creator['id'])->first();
+                $muted = $crm['muted'];
+                if ($muted) {
+                    continue;
+                } else {
+                    $tempCreator['crm'] = $crm;
+                }
+            }
+        }
+
+        $creators['hits'] = $hits;
+        return $creators;
     }
 }

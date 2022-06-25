@@ -117,11 +117,7 @@ export default {
     mappedColumns: {
       type: Object,
       required: true,
-    },
-    column: {
-      type: String,
-      required: true,
-    },
+    }
   },
   data() {
     return {
@@ -130,8 +126,7 @@ export default {
   },
   watch: {
     selected(mapColumn) {
-      const column = this.column;
-      this.$emit('setMappedColumns', { mapColumn, column });
+      this.$emit('setMappedColumns', { mapColumn });
     },
   },
 };

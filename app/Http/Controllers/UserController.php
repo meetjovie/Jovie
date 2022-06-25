@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function me(Request $request)
     {
-        return Auth::user();
+        return User::currentLoggedInUser();
     }
 
     public function publicProfile(Request $request)
@@ -139,16 +139,19 @@ class UserController extends Controller
         $data = $request->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'profile_pic_url' => 'nullable|image',
+            'profile_pic_url' => 'nullable|string',
         ]);
         $path = null;
-        if (Auth::user()->profile_pic_url) {
+        if (Auth::user()->getRawOriginal('profile_pic_url')) {
             $filename = explode(User::UPLOAD_PATH, Auth::user()->profile_pic_url)[1];
             $path = User::UPLOAD_PATH.$filename;
         }
         if ($request->profile_pic_url) {
-            $file = self::uploadFile($request->profile_pic_url, User::UPLOAD_PATH, $path);
-            $data['profile_pic_url'] = $file;
+            Storage::disk('s3')->copy(
+                ('tmp/'.$request->input('profile_pic_url')),
+                (User::UPLOAD_PATH.$request->input('profile_pic_url'))
+            );
+            $data['profile_pic_url'] = Storage::disk('s3')->url((User::UPLOAD_PATH.$request->input('profile_pic_url')));
         }
         $user = User::where('id', Auth::user()->id)->update($data);
         if ($user) {
@@ -191,7 +194,7 @@ class UserController extends Controller
     public function addToWaitList(Request $request)
     {
         $request->validate(['email' => 'required|email|max:255']);
-        $status = Waitlist::updateOrCreate(['email' => $request->email], ['email' => $request->email]);
+        $status = Waitlist::updateOrCreate(['email' => $request->email, 'page' => $request->page], ['email' => $request->email, 'page' => $request->page]);
         if ($status) {
             return collect([
                 'status' => true,

@@ -1,11 +1,5 @@
 <template>
   <div class="">
-    <label
-      v-if="label"
-      :for="name"
-      class="block text-sm font-medium text-gray-700"
-      >{{ label }}</label
-    >
     <div class="relative mt-1">
       <div
         v-if="socialicon"
@@ -25,30 +19,57 @@
           class="h-5 w-5 text-gray-400"
           :class="{ 'h-3 w-3': rounded == 'sm' }" />
       </div>
-      <input
-        :type="type"
-        :name="name"
-        :id="name"
-        :disabled="disabled"
-        :value="modelValue ?? value"
-        @blur="$emit('blur')"
-        @input="$emit('update:modelValue', $event.target.value)"
-        class="block w-full border-neutral-200 py-2 text-sm text-neutral-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
-        :class="[
-          icon ? 'pl-10' : '',
-          { 'rounded-r-md': rounded == 'right' },
-          { 'rounded-l-md': rounded == 'left' },
-          { 'rounded-t-md': rounded == 'top' },
-          { 'rounded-b-md': rounded == 'bottom' },
-          { 'rounded-md': rounded == 'all' },
-          { 'rounded-tl-md': rounded == 'top-left' },
-          { 'rounded-tr-md': rounded == 'top-right' },
-          { 'rounded-bl-md': rounded == 'bottom-left' },
-          { 'rounded-br-md': rounded == 'bottom-right' },
-          { 'py-0 text-xs': size == 'sm' },
-        ]"
-        :placeholder="placeholder" />
-      <p v-if="error" class="mt-2 text-sm text-red-600">{{ error }}</p>
+      <div class="relative">
+        <input
+          :autocomplete="autocomplete"
+          :type="type"
+          :name="name"
+          :id="id"
+          :v-focus="focused"
+          :disabled="disabled"
+          :value="modelValue ?? value"
+          @blur="$emit('blur')"
+          @input="$emit('update:modelValue', $event.target.value)"
+          class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 placeholder-opacity-0 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"
+          :class="[
+            icon ? 'pl-10' : '',
+            { 'rounded-r-md': rounded == 'right' },
+            { 'rounded-l-md': rounded == 'left' },
+            { 'rounded-t-md': rounded == 'top' },
+            { 'rounded-b-md': rounded == 'bottom' },
+            { 'rounded-md': rounded == 'all' },
+            { 'rounded-tl-md': rounded == 'top-left' },
+            { 'rounded-tr-md': rounded == 'top-right' },
+            { 'rounded-bl-md': rounded == 'bottom-left' },
+            { 'rounded-br-md': rounded == 'bottom-right' },
+            { 'py-0 text-xs': size == 'sm' },
+          ]"
+          :placeholder="placeholder" />
+        <div
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+          <div v-if="loader" class="transition-all"><JovieSpinner /></div>
+          <div v-else>
+            <div v-if="valid">
+              <CheckCircleIcon
+                class="h-5 w-5 text-indigo-500"
+                aria-hidden="true" />
+            </div>
+            <div v-if="isInvalid">
+              <ExclamationCircleIcon
+                class="h-5 w-5 text-red-500"
+                aria-hidden="true" />
+            </div>
+          </div>
+        </div>
+        <label
+          v-if="label"
+          :for="name"
+          :id="id"
+          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
+          >{{ label }}</label
+        >
+      </div>
+      <div v-if="error" class="mt-2 text-xs text-red-600">{{ error }}</div>
     </div>
   </div>
 </template>
@@ -61,12 +82,14 @@ import {
   LocationMarkerIcon,
   TrendingUpIcon,
   TrendingDownIcon,
+  ExclamationCircleIcon,
   TagIcon,
   UserIcon,
   UsersIcon,
   ArrowSmUpIcon,
   ArrowSmDownIcon,
   BriefcaseIcon,
+  CheckCircleIcon,
 } from '@heroicons/vue/solid';
 
 export default {
@@ -74,21 +97,42 @@ export default {
   props: {
     label: {
       type: String,
+      default: null,
     },
+    id: String,
     name: String,
     type: {
       type: String,
       default: 'text',
     },
-    placeholder: String,
+    placeholder: {
+      type: String,
+      default: null,
+    },
+    focused: { type: Boolean, default: false },
     disabled: Boolean,
     icon: String,
     value: String,
     modelValue: {},
-    error: String,
+    error: {
+      type: String,
+      default: null,
+    },
+    autocomplete: {
+      type: String,
+      default: 'off',
+    },
+    isInvalid: {
+      type: Boolean,
+      default: false,
+    },
     rounded: {
       type: String,
       default: 'all',
+    },
+    valid: {
+      type: Boolean,
+      default: false,
     },
     size: {
       type: String,
@@ -108,7 +152,9 @@ export default {
     TrendingDownIcon,
     TagIcon,
     UserIcon,
+    CheckCircleIcon,
     UsersIcon,
+    ExclamationCircleIcon,
     ArrowSmUpIcon,
     ArrowSmDownIcon,
     BriefcaseIcon,

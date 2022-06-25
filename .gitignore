@@ -15,6 +15,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/data.ms
 /.idea
 /.vscode
 composer.lock
@@ -31,4 +32,3 @@ package-lock.json
 public/dist
 public/dist/app.js
 resources/js/.env
-public/img/External
