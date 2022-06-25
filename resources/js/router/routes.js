@@ -155,8 +155,8 @@ export const routes = [
     },
   },
   {
-    name: 'Privacy',
-    path: '/privacy',
+    name: 'Legal',
+    path: '/legal',
     component: loadPage('Privacy'),
     meta: {
       layout: 'Default',
