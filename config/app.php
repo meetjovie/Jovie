@@ -234,5 +234,6 @@ return [
     ],
 
     'local' => env('MIX_IS_LOCAL', false),
+    'segment_write_key' => env('SEGMENT_WRITE_KEY', 'IO2AevGCArwqlMBurYcUIIn9QpuDkOUg'),
 
 ];
