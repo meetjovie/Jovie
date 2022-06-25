@@ -114,4 +114,9 @@ class User extends Authenticatable
     {
         return Import::where('user_id', $this->id)->where($network, '!=', null)->where($network.'_dispatched', '!=', 1)->where($network.'_scrapped', '!=', 1)->limit(1000)->get();
     }
+
+    public function sendNotification($message, $type, $meta = null)
+    {
+
+    }
 }
