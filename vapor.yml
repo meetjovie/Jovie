@@ -14,7 +14,7 @@ environments:
       - 'php artisan event:cache'
       - 'npm i && npm run prod && rm -rf node_modules'
     domain:
-
+      - jov.ie
     network: Jovie
     timeout: 900
 
@@ -27,7 +27,7 @@ environments:
     gateway-version: 2
     storage: 'jovie-staging-storage'
     domain:
-
+      - staging.jov.ie
     network: Jovie
     build:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
@@ -43,6 +43,7 @@ environments:
     gateway-version: 2
     timeout: 900
     domain:
+      - dev.jov.ie
     network: Jovie
     build:
       - 'composer install --no-dev'
