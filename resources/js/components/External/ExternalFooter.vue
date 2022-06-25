@@ -45,7 +45,7 @@
                   <div>
                     <span
                       class="float-left h-8 px-2 text-xs font-bold text-red-500"
-                      >{{ this.error }}</span
+                      >{{ error }}</span
                     >
                   </div>
                 </form>
