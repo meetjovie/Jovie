@@ -10,7 +10,7 @@
         <h1
           class="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
           Please
-          <router-link class="text-indigo-700" to="account"
+          <router-link class="text-indigo-700" to="billing"
             >upgrade</router-link
           >
           your account.
