@@ -161,26 +161,4 @@ class ImportController extends Controller
             FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }
     }
-
-    public function getImportBatches()
-    {
-        $userListIds = UserList::where('user_id', Auth::id())->pluck('id')->toArray();
-        $batches = DB::table('job_batches')
-            ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
-            ->select('job_batches.*', 'user_lists.name')
-            ->whereIn('user_list_id', $userListIds)
-            ->get();
-        $now = Carbon::now();
-        foreach ($batches as &$batch) {
-            $batch->error_message = Import::getBatchErrorMessage($batch);
-            $batch->progress = Import::getProgress($batch);
-            $batch->successful = Import::getSuccessfulCount($batch);
-            $batch->duration_formated = Carbon::createFromTimestamp($batch->created_at)->diffForHumans($now);
-            unset($batch->options);
-        }
-        return response()->json([
-            'status' => true,
-            'batches' => $batches
-        ], 200);
-    }
 }

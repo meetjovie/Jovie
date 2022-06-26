@@ -90,5 +90,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('accept/{token}', [App\Http\Controllers\Teamwork\AuthController::class, 'acceptInvite'])->name('teams.accept_invite');
     });
 
-    Route::get('/import-batches', [\App\Http\Controllers\ImportController::class, 'getImportBatches']);
+    Route::get('/notifications', [\App\Http\Controllers\UserController::class, 'notifications']);
+
 });

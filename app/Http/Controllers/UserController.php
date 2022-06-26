@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Creator;
+use App\Models\Import;
+use App\Models\Notification;
 use App\Models\User;
+use App\Models\UserList;
 use App\Models\Waitlist;
 use App\Traits\GeneralTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -205,5 +210,43 @@ class UserController extends Controller
             'status' => false,
             'message' => 'Something went wrong. Please try again later.'
         ]);
+    }
+
+    public function notifications()
+    {
+        $notifications = [];
+//        $notifications = Notification::where('user_id', Auth::id())->latest()->get()->toArray();
+//        $now = Carbon::now();
+//        foreach ($notifications as $notification) {
+//            $notification['created_at_formatted'] = Carbon::createFromTimestamp($notification['created_at'])->diffForHumans($now);
+//        }
+//        $inProgressBatches = $this->importBatches();
+//        $notifications = array_merge($notifications, $inProgressBatches);
+        return response()->json([
+            'status' => true,
+            'notifications' => $notifications,
+        ], 200);
+    }
+
+    public function importBatches()
+    {
+        $userListIds = UserList::where('user_id', Auth::id())->pluck('id')->toArray();
+        $batches = DB::table('job_batches')
+            ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
+            ->select('job_batches.*', 'user_lists.name')
+            ->where('finished_at', null)
+            ->whereIn('user_list_id', $userListIds)
+            ->latest('job_batches.created_at')
+            ->get();
+        $now = Carbon::now();
+        foreach ($batches as &$batch) {
+            $batch->is_batch = true;
+            $batch->error_message = Import::getBatchErrorMessage($batch);
+            $batch->progress = Import::getProgress($batch);
+            $batch->successful = Import::getSuccessfulCount($batch);
+            $batch->created_at_formatted = Carbon::createFromTimestamp($batch->created_at)->diffForHumans($now);
+            unset($batch->options);
+        }
+        return $batches->toArray();
     }
 }

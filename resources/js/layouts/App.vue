@@ -200,10 +200,10 @@
                                         id="notification-button"
                                         aria-expanded="false"
                                         aria-haspopup="true"
-                                        @click="getImportBatches()">
+                                        @click="getNotifications()">
                                         <span class="sr-only">Open import notification</span>
                                         <span
-                                            v-if="batches.length"
+                                            v-if="notifications.length"
                                             class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
                       <span
                           class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
@@ -236,80 +236,114 @@
                                                             Notifications
                                                         </p>
                                                     </div>
-                                                    <div class="" v-if="batches.length">
-                                                        <div
-                                                            as="div"
-                                                            class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
-                                                            role="menuitem"
-                                                            tabindex="-1"
-                                                            v-for="batch in batches"
-                                                            :key="batch.id">
-                                                            <router-link
-                                                                to="/imports"
-                                                                class="group 0 block flex-shrink-0">
-                                                                <div
-                                                                    class="flex w-full items-center justify-between">
-                                                                    <div class="px-2">
-                                                                        <component
-                                                                            class="mx-auto h-5 w-5 text-neutral-400"
-                                                                            :is="'CloudUploadIcon'">
-                                                                        </component>
-                                                                    </div>
-                                                                    <div class="ml-3 w-60">
-                                                                        <p
-                                                                            class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
-                                                                            Importing {{ batch.name }}
-                                                                            <span
-                                                                                class="text-2xs font-light text-neutral-500"
-                                                                            >- {{ batch.type }} Profiles</span
-                                                                            >
-                                                                        </p>
-                                                                        <div class="w-full" v-if="batch.error_code === null">
-                                      <span
-                                          class="text-2xs font-medium text-gray-500">
-                                        Total: {{ batch.initial_total_in_file }}
-                                      </span> |
-                                                                            <span
-                                                                                class="text-2xs font-medium text-gray-500">
-                                        Successful: {{ batch.successful  }}
-                                      </span>
-                                                                        </div>
-                                                                        <p
-                                                                            class="mx-auto text-2xs text-blue-500"
-                                                                            v-if="batch.error_code !== null">
-                                                                            {{
-                                                                                batch.error_message
-                                                                            }}
-                                                                        </p>
-                                                                        <p
-                                                                            class="mx-auto text-2xs text-red-400"
-                                                                            v-else-if="batch.completed_at">
-                                                                            Completed {{ batch.type }} import at
-                                                                            {{ batch.completed_at }}
-                                                                        </p>
-
-                                                                        <ProgressBar
-                                                                            v-else
-                                                                            :percentage="batch.progress"
-                                                                            class="mx-auto w-full" />
-                                                                    </div>
+                                                    <div class="" v-if="notifications.length">
+                                                        <template v-for="notification in notifications"
+                                                                  :key="notification.id">
+                                                            <div
+                                                                v-if="notification.is_batch"
+                                                                as="div"
+                                                                class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
+                                                                role="menuitem"
+                                                                tabindex="-1">
+                                                                <router-link
+                                                                    to="/imports"
+                                                                    class="group 0 block flex-shrink-0">
                                                                     <div
-                                                                        class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
-                                                                        {{ batch.duration_formated }}
+                                                                        class="flex w-full items-center justify-between">
+                                                                        <div class="px-2">
+                                                                            <component
+                                                                                class="mx-auto h-5 w-5 text-neutral-400"
+                                                                                :is="'CloudUploadIcon'">
+                                                                            </component>
+                                                                        </div>
+                                                                        <div class="ml-3 w-60">
+                                                                            <p
+                                                                                class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
+                                                                                Importing {{ notification.name }}
+                                                                                <span
+                                                                                    class="text-2xs font-light text-neutral-500"
+                                                                                >- {{ notification.type }} Profiles</span
+                                                                                >
+                                                                            </p>
+                                                                        <div class="w-full">
+                                                                          <span
+                                                                              class="text-2xs font-medium text-gray-500">
+                                                                            Total: {{ notification.initial_total_in_file }}
+                                                                          </span> |
+                                                                                <span
+                                                                                    class="text-2xs font-medium text-gray-500">
+                                                                                Successful: {{ notification.successful  }}
+                                                                              </span>
+                                                                            </div>
+                                                                            <ProgressBar
+                                                                                :percentage="notification.progress"
+                                                                                class="mx-auto w-full" />
+                                                                        </div>
+                                                                        <div
+                                                                            class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
+                                                                            {{ notification.created_at_formatted }}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </router-link>
-                                                        </div>
+                                                                </router-link>
+                                                            </div>
+                                                            <div
+                                                                v-else
+                                                                as="div"
+                                                                class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
+                                                                role="menuitem"
+                                                                tabindex="-1">
+                                                                <router-link
+                                                                    to="/imports"
+                                                                    class="group 0 block flex-shrink-0">
+                                                                    <div
+                                                                        class="flex w-full items-center justify-between">
+                                                                        <div class="px-2">
+                                                                            <component
+                                                                                class="mx-auto h-5 w-5 text-neutral-400"
+                                                                                :is="'CloudUploadIcon'">
+                                                                            </component>
+                                                                        </div>
+                                                                        <div class="ml-3 w-60">
+                                                                            <p
+                                                                                class="mx-auto text-2xs text-red-400"
+                                                                                v-if="notification.is_error && notification.meta == null && notification.meta.total_jobs">
+                                                                                Completed {{ notification.meta.type }} import at
+                                                                                {{ notification.meta.completed_at }}
+                                                                            </p>
+                                                                            <p
+                                                                                class="mx-auto text-2xs text-red-400"
+                                                                                v-else-if="notification.is_error">
+                                                                                {{
+                                                                                    notification.message
+                                                                                }}
+                                                                            </p>
+                                                                            <p
+                                                                                class="mx-auto text-2xs text-blue-500"
+                                                                                v-else>
+                                                                                {{
+                                                                                    notification.message
+                                                                                }}
+                                                                            </p>
+
+                                                                        </div>
+                                                                        <div
+                                                                            class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
+                                                                            {{ notification.created_at_formatted }}
+                                                                        </div>
+                                                                    </div>
+                                                                </router-link>
+                                                            </div>
+                                                        </template>
                                                     </div>
                                                     <div
                                                         class="mx-auto w-full items-center py-4 text-center"
                                                         v-else>
-                            <span
-                                class="mx-auto items-center text-sm font-bold text-neutral-400"
-                            ><EmojiHappyIcon
-                                class="mx-auto h-14 w-14 text-neutral-200" />No
-                              notifications</span
-                            >
+                                                        <span
+                                                            class="mx-auto items-center text-sm font-bold text-neutral-400"
+                                                        ><EmojiHappyIcon
+                                                            class="mx-auto h-14 w-14 text-neutral-200" />No
+                                                          notifications</span
+                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -523,7 +557,7 @@ export default {
             ],
             isShowing: false,
             isLoading: false,
-            batches: []
+            notifications: []
         };
 
     },
@@ -540,18 +574,18 @@ export default {
         this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
             this.toggleCommandPallette();
         });
-        this.getImportBatches();
+        this.getNotifications();
         setInterval(() => {
-            this.getImportBatches();
+            this.getNotifications();
         }, 5000);
     },
 
     methods: {
-        getImportBatches() {
-            ImportService.getImportBatches().then((response) => {
+        getNotifications() {
+            ImportService.getNotifications().then((response) => {
                 response = response.data;
                 if (response.status) {
-                    this.batches = response.batches;
+                    this.notifications = response.notifications;
                 }
             });
         },

@@ -67,7 +67,7 @@ class Import extends Model
 
     public static function getBatchErrorMessage($batch)
     {
-        if ($batch->error_code == self::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED) {
+        if ($batch->error_code === self::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED) {
             return ('Importing '. $batch->type .' profiles paused. We have been notified automatically and your import will soon begin again.');
         } elseif ($batch->error_code == self::ERROR_OUT_OF_CREDITS) {
             return ('Importing '. $batch->type .' profiles cancelled. You are out of credits. Please upgrade to continue.');
@@ -154,6 +154,7 @@ class Import extends Model
             })->onConnection($queue)->allowFailures()->dispatch();
 
             DB::table('job_batches')->where('id', $batch->id)->update([
+                'name' => UserList::where('id', $this->user_list_id)->first()->name ?? null,
                 'user_list_id' => $this->user_list_id,
                 'initial_total_in_file' => $queue != 'twitch' ? Import::where('user_list_id', $this->user_list_id)->whereNotNull($queue)->count() :
                     Import::where('user_list_id', $this->user_list_id)->where(function ($q) use($queue) {
@@ -356,6 +357,13 @@ class Import extends Model
         } else {
             $oldYoutube->channel_name = $value;
             $this->attributes['youtube'] = json_encode($oldYoutube);
+        }
+    }
+
+    public static function sendSingleNotification($isBatch, $user, $message, $type, $meta = null)
+    {
+        if (is_null($isBatch) && $user) {
+            $user->sendNotification($message, $type, $meta);
         }
     }
 }

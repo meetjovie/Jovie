@@ -14,8 +14,8 @@ export default {
             headers: await store.dispatch('headers', {'Content-Type': 'multipart/form-data'})
         })
     },
-    async getImportBatches() {
-        return axios.get(`${baseApiUrl}/import-batches`)
+    async getNotifications() {
+        return axios.get(`${baseApiUrl}/notifications`)
     },
     async importSingle(url) {
         return axios.post(`${baseApiUrl}/import-single`, {url: url})

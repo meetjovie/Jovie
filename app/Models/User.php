@@ -117,6 +117,11 @@ class User extends Authenticatable
 
     public function sendNotification($message, $type, $meta = null)
     {
-
+        Notification::create([
+            'message' => $message,
+            'type' => $type,
+            'meta' => $meta,
+            'user_id' => $this->id
+        ]);
     }
 }
