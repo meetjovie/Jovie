@@ -70,7 +70,7 @@ class TwitchImport implements ShouldQueue
                     $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
                         DB::table('job_batches')->where('id', $this->batch()->id)->first());
                 } elseif (!$this->batch()) {
-                    Import::sendSingleNotification($this->platformUser, $this->listId, ('importing twitch user '.$this->username.' failed'), Notification::OUT_OF_CREDITS);
+                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('importing twitch user '.$this->username.' failed'), Notification::OUT_OF_CREDITS);
                 }
                 return;
             }

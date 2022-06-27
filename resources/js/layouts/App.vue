@@ -306,9 +306,9 @@
                                                                         <div class="ml-3 w-60">
                                                                             <p
                                                                                 class="mx-auto text-2xs text-red-400"
-                                                                                v-if="notification.is_error && notification.meta == null && notification.meta.total_jobs">
+                                                                                v-if="!notification.is_error && notification.meta && notification.meta.total_jobs">
                                                                                 Completed {{ notification.meta.type }} import at
-                                                                                {{ notification.meta.completed_at }}
+                                                                                {{ notification.created_at }}
                                                                             </p>
                                                                             <p
                                                                                 class="mx-auto text-2xs text-red-400"
@@ -316,6 +316,7 @@
                                                                                 {{
                                                                                     notification.message
                                                                                 }}
+                                                                                <span v-if="notification.meta && notification.meta.name"> <b>({{ notification.meta.name }})</b></span>
                                                                             </p>
                                                                             <p
                                                                                 class="mx-auto text-2xs text-blue-500"
@@ -530,6 +531,7 @@ import AlertBanner from '../components/AlertBanner';
 import JovieLogo from '../components/JovieLogo';
 import CommandPallette from '../components/CommandPallette';
 import ImportService from "../services/api/import.service";
+import ProgressBar from '../components/ProgressBar.vue';
 
 export default {
     name: 'App',
@@ -635,7 +637,8 @@ export default {
         SupportIcon,
         AlertBanner,
         CommandPallette,
-        EmojiHappyIcon
+        EmojiHappyIcon,
+        ProgressBar
     },
 };
 </script>

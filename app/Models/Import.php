@@ -7,6 +7,7 @@ use Aws\S3\S3Client;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -149,6 +150,11 @@ class Import extends Model
 
             })->finally(function (Batch $batch) {
 
+//                $user = User::where('id', $this->user_id)->first();
+//                if ($user) {
+//                    $user->sendNotification(('Importing '.strtoupper($batch->type).' profiles for '.$batch->name.' completed successfully.'), Notification::BATCH_IMPORT,
+//                        $batch);
+//                }
                 Log::info('The batch has finished executing...');
 
             })->onConnection($queue)->allowFailures()->dispatch();

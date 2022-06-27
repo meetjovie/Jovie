@@ -214,14 +214,13 @@ class UserController extends Controller
 
     public function notifications()
     {
-        $notifications = [];
-//        $notifications = Notification::where('user_id', Auth::id())->latest()->get()->toArray();
-//        $now = Carbon::now();
-//        foreach ($notifications as $notification) {
-//            $notification['created_at_formatted'] = Carbon::createFromTimestamp($notification['created_at'])->diffForHumans($now);
-//        }
-//        $inProgressBatches = $this->importBatches();
-//        $notifications = array_merge($notifications, $inProgressBatches);
+        $notifications = Notification::where('user_id', Auth::id())->latest()->get()->toArray();
+        $now = Carbon::now();
+        foreach ($notifications as &$notification) {
+            $notification['created_at_formatted'] = Carbon::make($notification['created_at'])->diffForHumans($now);
+        }
+        $inProgressBatches = $this->importBatches();
+        $notifications = array_merge($notifications, $inProgressBatches);
         return response()->json([
             'status' => true,
             'notifications' => $notifications,
@@ -234,7 +233,7 @@ class UserController extends Controller
         $batches = DB::table('job_batches')
             ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
             ->select('job_batches.*', 'user_lists.name')
-            ->where('finished_at', null)
+            ->where('finished_at', '=', null)
             ->whereIn('user_list_id', $userListIds)
             ->latest('job_batches.created_at')
             ->get();
