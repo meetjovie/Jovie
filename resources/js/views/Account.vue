@@ -165,7 +165,7 @@ export default {
   props: {
     defaultTab: {
       type: Number,
-      default: 3,
+      default: 0,
     },
   },
   data() {

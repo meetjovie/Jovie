@@ -1,12 +1,14 @@
 <template>
   <svg
     role="status"
-    class="mr-2 animate-spin fill-indigo-600 text-gray-200 dark:text-gray-600"
+    class="mr-2 animate-spin"
     :class="[
       { 'h-5 w-5': spinnerSize == 'sm' },
       { 'h-8 w-8': spinnerSize == 'md' },
       { 'h-10 w-10': spinnerSize == 'lg' },
       { 'h-12 w-12': spinnerSize == 'xl' },
+      { 'fill-indigo-600 text-gray-200': spinnerColor == 'indigo' },
+      { 'fill-white text-gray-400': spinnerColor == 'white' },
     ]"
     viewBox="0 0 100 101"
     fill="none"
@@ -25,6 +27,10 @@ export default {
     spinnerSize: {
       type: String,
       default: 'sm',
+    },
+    spinnerColor: {
+      type: String,
+      default: 'indigo',
     },
   },
 };

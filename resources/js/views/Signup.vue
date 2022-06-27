@@ -16,7 +16,7 @@
         </div>
 
         <div class="mt-8">
-          <div class="mt-6">
+          <div class="min-h-96 mt-6">
             <form action="#" method="POST" class="space-y-6">
               <template v-if="step == 1">
                 <CreateAccount />
@@ -28,11 +28,12 @@
                         id="first_name"
                         name="first_name"
                         type="text"
+                        :valid="firstNameIsValid"
+                        @blur="validateFirstName"
                         autocomplete="first_name"
                         required=""
                         label="First Name"
                         placeholder="First Name" />
-
                       <p
                         class="mt-2 text-sm text-red-900"
                         v-if="this.errors.first_name">
@@ -45,6 +46,8 @@
                       <InputGroup
                         v-model="user.last_name"
                         id="last_name"
+                        :valid="lastNameIsValid"
+                        @blur="validateLastName"
                         name="last_name"
                         placeholder="Last Name"
                         label="Last Name"
@@ -64,8 +67,10 @@
                     <InputGroup
                       v-model="user.email"
                       id="email"
+                      :valid="emailIsValid"
                       name="email"
                       label="Email address"
+                      @blur="validateEmail"
                       placeholder="Email address"
                       type="email"
                       autocomplete="email"
@@ -105,7 +110,10 @@
                       name="password"
                       placeholder="Password"
                       label="Password"
+                      :loader="passwordIsLoading"
                       type="password"
+                      :valid="passwordIsValid"
+                      @blur="validatePassword"
                       autocomplete="current-password"
                       required="" />
                     <p
@@ -125,7 +133,7 @@
                       label="Confirm Password"
                       type="password"
                       v-on:keyup.enter="register()"
-                      autocomplete="current-password"
+                      autocomplete="confirm-password"
                       required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
@@ -190,7 +198,6 @@ import CreateAccount from '../components/External/CreateAccount.vue';
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
-import Subscription from '../components/Subscription';
 import InputGroup from '../components/InputGroup.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 
@@ -207,6 +214,11 @@ export default {
       errors: {},
       error: '',
       step: 1,
+      emailIsValid: false,
+      firstNameIsValid: false,
+      lastNameIsValid: false,
+      passwordIsValid: false,
+      passwordIsLoading: false,
       user: {
         first_name: '',
         last_name: '',
@@ -218,9 +230,6 @@ export default {
       success: false,
       loading: false,
     };
-  },
-  created() {
-    const email = this.$route.params.email;
   },
   mounted() {
     //add segment analytics
@@ -239,8 +248,48 @@ export default {
         this.error = '';
         this.validateStep1();
       } else {
+        this.loading = false;
         this.error = 'Please fill in your name & email to continue.';
       }
+    },
+    validateEmail() {
+      if (this.user.email) {
+        this.emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user.email);
+
+        this.errors.email = [];
+      } else {
+        this.emailIsValid = false;
+        this.errors.email = ['Please enter your email.'];
+      }
+    },
+    validateFirstName() {
+      if (this.user.first_name) {
+        this.firstNameIsValid = /^[a-zA-Z]+$/.test(this.user.first_name);
+        this.errors.first_name = [];
+      } else {
+        this.firstNameIsValid = false;
+        this.errors.first_name = ['First name is required.'];
+      }
+    },
+    validateLastName() {
+      if (this.user.last_name) {
+        this.lastNameIsValid = /^[a-zA-Z]+$/.test(this.user.last_name);
+        this.errors.last_name = [];
+      } else {
+        this.lastNameIsValid = false;
+        this.errors.last_name = ['Last name is required.'];
+      }
+    },
+    validatePassword() {
+      AuthService.validateStep1(this.user.password).then(
+        (response) => {
+          this.passwordIsValid = true;
+          this.errors.password = [];
+        },
+        (error) => {
+          this.error = error.response.data.message;
+        }
+      );
     },
     validateStep1() {
       this.submitting = true;

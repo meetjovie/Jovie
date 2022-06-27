@@ -160,8 +160,8 @@ export const routes = [
     },
   },
   {
-    name: 'Privacy',
-    path: '/privacy',
+    name: 'Legal',
+    path: '/legal',
     component: loadPage('Privacy'),
     meta: {
       layout: 'Default',
@@ -298,7 +298,7 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-      requiresAdmin: true,
+      requiresAdmin: false,
       requiresSubscribe: true,
     },
   },
