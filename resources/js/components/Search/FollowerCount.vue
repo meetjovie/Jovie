@@ -57,27 +57,33 @@
         </div>
         <div class="flex items-center justify-between">
           <span class="relative z-0 mx-auto inline-flex w-full text-center">
-            <ButtonGroup
+            <button
               @click="refine({ min: 10000, max: 100000 })"
               rounded="bl"
               size="xs"
               design="secondary"
-              class="w-full"
-              text="Micro"></ButtonGroup>
-            <ButtonGroup
+              class="w-full rounded-bl-md border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
+              text="Micro">
+              Micro
+            </button>
+            <button
               @click="refine({ min: 100000, max: 1000000 })"
               rounded="none"
               size="xs"
               design="secondary"
-              class="w-full"
-              text="Macro"></ButtonGroup>
-            <ButtonGroup
+              class="w-full border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
+              text="Macro">
+              Macro
+            </button>
+            <button
               @click="refine({ min: 1000000, max: 1000000000 })"
               rounded="br"
               size="xs"
-              class="w-full"
+              class="w-full rounded-br-md border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
               design="secondary"
-              text="1M+"></ButtonGroup>
+              text="1M+">
+              1M+
+            </button>
           </span>
         </div>
       </div>

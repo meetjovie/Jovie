@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-14 w-60 justify-center space-y-8 px-4 py-8 text-sm font-bold">
+    class="fixed top-4 w-60 justify-center space-y-8 px-4 py-8 text-sm font-bold">
     <div class="w-full space-y-8">
       <span class="text-center text-sm font-bold">Refine your search</span>
       <ais-range-input
@@ -61,7 +61,7 @@
         :max="100"
         attribute="instagram_engagement_rate" />
 
-      <CategoryFilter></CategoryFilter>
+      <!-- <CategoryFilter></CategoryFilter> -->
 
       <!--  <ais-menu-select attribute="city" />
       <ais-menu-select attribute="country" /> -->
@@ -69,14 +69,27 @@
       <!--  <ais-menu-select attribute="gender" /> -->
       <!--  <ais-menu-select attribute="tags" /> -->
 
-      <ais-toggle-refinement
+      <!--  <ais-toggle-refinement
         :class-names="{
-          'ais-RefinementList-checkbox': 'rounded-md',
+          'ais-RefinementList-checkbox': 'rounded-md fill-indigo-700',
 
           // ...
         }"
+        class="rounded-md fill-indigo-700"
         attribute="has_emails"
-        label="Email" />
+        label="Email" /> -->
+      <ais-toggle-refinement attribute="has_emails" label="Email">
+        <template v-slot="{ value, refine, createURL, sendEvent }">
+          <input
+            v-model="value.isRefined"
+            @click="refine(value.isRefined)"
+            type="checkbox"
+            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+          <span class="ml-1 text-2xs text-neutral-400"
+            >Must have contact info</span
+          >
+        </template>
+      </ais-toggle-refinement>
       <ais-clear-refinements>
         <template v-slot="{ canRefine, refine, createURL }">
           <a
