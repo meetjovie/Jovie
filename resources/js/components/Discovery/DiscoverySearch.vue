@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-14 w-60 justify-center space-y-8 px-4 py-8 text-sm font-bold">
+    class="fixed top-4 w-60 justify-center space-y-8 px-4 py-8 text-sm font-bold">
     <div class="w-full space-y-8">
       <span class="text-center text-sm font-bold">Refine your search</span>
       <ais-range-input
@@ -61,7 +61,7 @@
         :max="100"
         attribute="instagram_engagement_rate" />
 
-      <CategoryFilter></CategoryFilter>
+      <!-- <CategoryFilter></CategoryFilter> -->
 
       <!--  <ais-menu-select attribute="city" />
       <ais-menu-select attribute="country" /> -->
@@ -71,10 +71,11 @@
 
       <ais-toggle-refinement
         :class-names="{
-          'ais-RefinementList-checkbox': 'rounded-md',
+          'ais-RefinementList-checkbox': 'rounded-md fill-indigo-700',
 
           // ...
         }"
+        class="rounded-md fill-indigo-700"
         attribute="has_emails"
         label="Email" />
       <ais-clear-refinements>

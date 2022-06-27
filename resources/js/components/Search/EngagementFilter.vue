@@ -22,7 +22,7 @@
               <ArrowDownIcon class="h-5 w-5 text-gray-400" />
             </div>
             <input
-              class="block w-full rounded-tl-md border-neutral-200 py-2 pl-10 text-sm text-neutral-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+              class="block w-full rounded-tl-md border-neutral-200 py-2 pl-10 text-sm text-neutral-500 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
               type="number"
               :min="0"
               :max="100"
@@ -57,27 +57,33 @@
         </div>
         <div class="flex items-center justify-between">
           <span class="relative z-0 mx-auto inline-flex w-full text-center">
-            <ButtonGroup
+            <button
               @click="refine({ min: 1, max: 100 })"
               rounded="bl"
               size="xs"
+              class="w-full rounded-bl-md border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
               design="secondary"
-              class="w-full"
-              text="1%"></ButtonGroup>
-            <ButtonGroup
+              text="1%">
+              1%
+            </button>
+            <button
               @click="refine({ min: 2, max: 100 })"
               rounded="none"
               size="xs"
+              class="w-full border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
               design="secondary"
-              class="w-full"
-              text="2%"></ButtonGroup>
-            <ButtonGroup
+              text="2%">
+              2%
+            </button>
+            <button
               @click="refine({ min: 5, max: 100 })"
               rounded="br"
               size="xs"
-              class="w-full"
+              class="w-full rounded-br-md border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
               design="secondary"
-              text="5%"></ButtonGroup>
+              text="5%">
+              5%
+            </button>
           </span>
         </div>
       </div>
