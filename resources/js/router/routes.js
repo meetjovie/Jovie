@@ -318,6 +318,16 @@ export const routes = [
     },
   },
   {
+    name: 'Creator Search',
+    path: '/creator-search',
+    component: loadPage('CreatorSearch'),
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+      requiresSubscribe: false,
+    },
+  },
+  {
     name: 'Profile',
     path: '/:username',
     component: loadPage('Profile'),
