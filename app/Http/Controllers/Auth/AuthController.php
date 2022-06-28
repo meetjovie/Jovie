@@ -66,6 +66,8 @@ class AuthController extends Controller
             'name' => ($request->first_name."'s Team"),
             'owner_id' => $user->id,
         ]);
+        $team->credits = 10;
+        $team->save();
         $user->attachTeam($team);
 
         Auth::login($user);
