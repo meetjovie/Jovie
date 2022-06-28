@@ -121,7 +121,7 @@ export default {
         this.$notify({
           group: 'user',
           type: 'warning',
-          title: 'You must enter a url to continue.',
+          title: 'You must enter a valid social url to continue.',
           text: 'This may take a few minutes.',
         });
         return;
@@ -130,7 +130,7 @@ export default {
         this.$notify({
           group: 'user',
           type: 'error',
-          title: 'You must enter a valid url for supported networks.',
+          title: 'You must enter a valid social url for supported networks.',
           text: 'Try another url.',
         });
         return;
@@ -174,8 +174,8 @@ export default {
             this.$notify({
               group: 'user',
               type: 'success',
-              title: 'Dispatched',
-              text: 'You data is dispatched and it will soon be imported.',
+              title: 'Import initiated',
+              text: 'Your data is being imported.',
             });
           } else {
             this.$notify({
