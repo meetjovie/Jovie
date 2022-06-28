@@ -150,9 +150,9 @@ class Import extends Model
 
             })->finally(function (Batch $batch) {
 
-//                $user = User::where('id', $this->user_id)->first();
+                $user = User::where('id', $this->user_id)->first();
 //                if ($user) {
-//                    $user->sendNotification(('Importing '.strtoupper($batch->type).' profiles for '.$batch->name.' completed successfully.'), Notification::BATCH_IMPORT,
+//                    $user->sendNotification(('Import '.strtoupper($batch->type).' profiles for '.$batch->name.' completed successfully.'), Notification::BATCH_IMPORT,
 //                        $batch);
 //                }
                 Log::info('The batch has finished executing...');

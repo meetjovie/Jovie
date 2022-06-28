@@ -67,10 +67,10 @@ class TwitchImport implements ShouldQueue
                 if ($this->batch() && !$this->batch()->cancelled()) {
                     $this->batch()->cancel();
                     DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
-                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
-                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
+//                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
+//                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
                 } elseif (!$this->batch()) {
-                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('importing twitch user '.$this->username.' failed'), Notification::OUT_OF_CREDITS);
+//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('importing twitch user '.$this->username.' failed'), Notification::OUT_OF_CREDITS);
                 }
                 return;
             }
@@ -79,8 +79,8 @@ class TwitchImport implements ShouldQueue
                 Import::markImport($this->importId, ['twitch']);
                 if ($this->batch() && !$this->batch()->cancelled()) {
                     $this->batch()->cancel();
-                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
-                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
+//                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
+//                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
                 }
                 return;
             }
@@ -98,7 +98,7 @@ class TwitchImport implements ShouldQueue
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
                     Creator::addToListAndCrm($creator, $this->listId, $this->userId);
                     Import::markImport($this->importId, ['twitch']);
-                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitch user '.$this->username), Notification::SINGLE_IMPORT);
+//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitch user '.$this->username), Notification::SINGLE_IMPORT);
                     return;
                 }
             }
@@ -114,12 +114,12 @@ class TwitchImport implements ShouldQueue
                     if (count($response->data)) {
                         $this->insertInDatabase($response->data);
                         Import::markImport($this->importId, ['twitch']);
-                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitch user '.$this->username), Notification::SINGLE_IMPORT);
+//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitch user '.$this->username), Notification::SINGLE_IMPORT);
                         Log::channel('slack')->info('imported user.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     } else {
                         Import::markImport($this->importId, ['twitch']);
                         $this->fail(new \Exception(('No profile data or no such profile for username '.$this->username), 200));
-                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('No profile data or no such profile for twitch user '.$this->username), Notification::SINGLE_IMPORT_FAILED);
+//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('No profile data or no such profile for twitch user '.$this->username), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('No profile data or no such profile for username', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     }
                 } elseif ($response->getStatusCode() == 504) {
@@ -128,7 +128,7 @@ class TwitchImport implements ShouldQueue
                     } else {
                         Import::markImport($this->importId, ['twitch']);
                         $this->fail(new \Exception(('Timed out for username '.$this->username), $response->getStatusCode()));
-                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
+//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('Timed out.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
                     }
                 } elseif ($response->getStatusCode() == 401) {
@@ -143,7 +143,7 @@ class TwitchImport implements ShouldQueue
                     } else {
                         Import::markImport($this->importId, ['twitch']);
                         $this->fail(new \Exception($response->getBody()->getContents(), $response->getStatusCode()));
-                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
+//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents(), 'username' => $this->username, 'network' => 'twitch']);
                     }
                 }
@@ -156,7 +156,7 @@ class TwitchImport implements ShouldQueue
                 if ($this->batch()) {
                     Log::channel('slack_warning')->info('internal error from with in batch '.$this->batch()->id, ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'twitch']);
                 } else {
-                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
+//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                     Log::channel('slack_warning')->info('internal error, import cancelled.', ['id' => $this->id, 'username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'twitch']);
                 }
                 $this->fail($e);

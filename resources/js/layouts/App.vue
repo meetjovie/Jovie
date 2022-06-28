@@ -603,10 +603,10 @@ export default {
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();
     });
-    this.getNotifications();
-    setInterval(() => {
-      this.getNotifications();
-    }, 5000);
+    // this.getNotifications();
+    // setInterval(() => {
+    //   this.getNotifications();
+    // }, 5000);
   },
 
   methods: {

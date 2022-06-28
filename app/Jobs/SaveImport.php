@@ -70,7 +70,7 @@ class SaveImport implements ShouldQueue
                 // Spawn the command in the background.
                 Artisan::queue($command);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine()), [
                 'file' => $this->file,
                 'mappedColumns' => $this->mappedColumns,
