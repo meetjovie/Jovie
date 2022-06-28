@@ -90,7 +90,11 @@
                                 >
                                 <span aria-hidden="true"> &middot; </span>
                                 <span class="text-xs uppercase">
-                                  {{ plan.credits }}
+                                  {{
+                                    product.metadata.credits
+                                      ? product.metadata.credits
+                                      : 0
+                                  }}
                                   contact credits</span
                                 >
                               </span>
