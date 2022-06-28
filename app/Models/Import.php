@@ -157,7 +157,7 @@ class Import extends Model
 //                }
                 Log::info('The batch has finished executing...');
 
-            })->onConnection($queue)->allowFailures()->dispatch();
+            })->onQueue($queue)->allowFailures()->dispatch();
 
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'name' => UserList::where('id', $this->user_list_id)->first()->name ?? null,
