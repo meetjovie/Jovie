@@ -101,14 +101,6 @@
         class="mx-auto mt-4 flex justify-between border-t border-indigo-600 py-1 px-2 text-[8px]">
         <div class="divide-x-1 d justify-right flex gap-2">
           <div class="text-indigo-400 hover:text-neutral-200">
-            <router-link to="/privacy">Legal</router-link>
-          </div>
-        </div>
-      </div>
-      <div
-        class="mx-auto mt-4 flex justify-between border-t border-indigo-600 py-1 px-2 text-[8px]">
-        <div class="divide-x-1 d justify-right flex gap-2">
-          <div class="text-indigo-400 hover:text-neutral-200">
             <router-link to="/legal">Legal</router-link>
           </div>
         </div>
@@ -515,6 +507,13 @@
               :title="`Importing ${currentUser.queued_count}  items.`"
               :cta="`View`"
               ctaLink="/contacts" />
+            <AlertBanner
+              v-if="currentUser.current_team.credits < 1"
+              design="danger"
+              :mobiletitle="`You're out of credits`"
+              :title="`You're out of credits.`"
+              :cta="`Upgrade`"
+              ctaLink="/billing" />
             <router-view></router-view>
           </div>
         </div>

@@ -1,11 +1,5 @@
 <template>
   <div>
-    <AlertBanner
-      design="danger"
-      mobiletitle="Your subscribtion is inactive"
-      title="Please update your billing information to continue using Jovie."
-      cta="Update billing information"
-      ctaLink="/billing" />
     <div class="bg-white shadow">
       <div class="px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
         <div
