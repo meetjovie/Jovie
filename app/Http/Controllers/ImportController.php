@@ -7,15 +7,19 @@ use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
+use App\Jobs\TwitchImport;
 use App\Models\Creator;
+use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\HeadingRowImport;
+use League\Csv\Reader;
 use function collect;
 
 class ImportController extends Controller
@@ -24,16 +28,25 @@ class ImportController extends Controller
 
     public function getColumnsFromCsv(Request $request)
     {
-        $headings = (new HeadingRowImport)->toArray($request->input('key'), 's3', \Maatwebsite\Excel\Excel::CSV);
-        if (count($headings)) {
+        $stream = Import::getStream($request->input('key'));
+        $reader = Reader::createFromStream($stream);
+        $records = Import::records($reader, 0, 1);
+        $totalRecords = $reader->count() - 1;
+        $availableCredits = User::currentLoggedInUser()->currentTeam->credits ?? 0;
+        if (count($records)) {
             return collect([
                 'status' => true,
-                'columns' => $headings[0][0]
+                'columns' => $records->getRecords()->current(),
+                'fileCheck' => [
+                    'count' => $totalRecords,
+                    'limitExceeded' => $availableCredits < $totalRecords,
+                    'availableCredits' => $availableCredits
+                ]
             ]);
         }
         return collect([
             'status' => false,
-            'columns' => $headings[0][0],
+            'columns' => [],
             'message' => 'No heading found.'
         ]);
     }
@@ -41,19 +54,24 @@ class ImportController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:key,youtube',
-            'key' => 'required_without_all:instagram,youtube|string'
+            'instagram' => 'required_without_all:key,twitch',
+            'twitch' => 'required_without_all:instagram,key',
+            'key' => 'required_without_all:instagram,twitch|nullable|string'
         ]);
         if ($request->instagram) {
-            foreach (explode('\n', $request->instagram) as $instagram) {
-                if ($instagram[0] == '@') {
-                    $instagram = substr($instagram, 1);
-                }
-                Bus::chain([
-                    new InstagramImport($instagram, $request->tags, true, null, null, null, Auth::user()->id),
-                    new SendSlackNotification('imported instagram user '.$instagram)
-                ])->dispatch();
+            $import = new Import();
+            $import->instagram = $request->instagram;
+            $instagram = $import->instagram;
+            if ($instagram[0] == '@') {
+                $instagram = substr($instagram, 1);
             }
+            InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id)->onQueue('instagram');
+        }
+        if ($request->twitch) {
+            $import = new Import();
+            $import->twitch = $request->twitch;
+            $twitch = $import->twitch;
+            TwitchImport::dispatch(null, $twitch, $request->tags, null, null, Auth::user()->id, null)->onQueue('twitch');
         }
         $file = null;
         try {

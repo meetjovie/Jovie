@@ -1,12 +1,9 @@
 <template>
   <main class="flex-1">
-    <div class="relative mx-auto max-w-4xl md:px-8 xl:px-0">
-      <div class="pt-10 pb-16">
+    <div class="relative mx-auto max-w-7xl md:px-8 xl:px-0">
+      <div class="pb-16">
         <div class="px-4 sm:px-6 md:px-0">
-          <h1 class="text-3xl font-extrabold text-gray-900">Settings</h1>
-        </div>
-        <div class="px-4 sm:px-6 md:px-0">
-          <div class="py-6">
+          <div class="pt-2 pb-6">
             <!-- Tabs -->
             <TabGroup :defaultIndex="defaultTab" as="div" class="mt-2">
               <div class="border-b border-gray-200">
@@ -21,7 +18,7 @@
                         selected
                           ? 'border-indigo-600 text-indigo-600'
                           : 'border-transparent text-gray-900',
-                        'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-medium',
+                        'flex-1 whitespace-nowrap border-b-2 py-2 px-1 text-xs font-medium',
                       ]">
                       {{ tab.name }}
                     </button>
@@ -30,7 +27,7 @@
               </div>
 
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   <AccountProfile />
                 </TabPanel>
               </TabPanels>
@@ -46,7 +43,7 @@
               </TabPanels> -->
 
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   <Subscription
                     title="Payment details"
                     subtitle="Update your billing information. Please note that updating your
@@ -54,7 +51,7 @@
                 </TabPanel>
               </TabPanels>
               <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
+                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
                   <AccountTeam />
                 </TabPanel>
               </TabPanels>
@@ -129,6 +126,11 @@ import Subscribe from '../views/Subscribe';
 import Subscription from '../components/Subscription';
 import AccountPassword from '../components/Account/AccountPassword.vue';
 
+const selectedTab = ref(0);
+
+function changeTab(index) {
+  selectedTab.value = index;
+}
 export default {
   components: {
     Subscription,

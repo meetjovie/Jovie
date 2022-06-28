@@ -71,15 +71,15 @@
         </div>
       </div>
     </div>
-    <div v-show="showMapping">
-      <ImportColumnMatching
-        @finish="finishImport"
-        :columns="columns"
-        :importing="importing"
-        :fileName="importSet.listName"
-        :userLists="userLists"
-        @listNameUpdated="updateListName" />
-    </div>
+  </div>
+  <div v-show="showMapping">
+    <ImportColumnMatching
+      @finish="finishImport"
+      :fileCheck="fileCheck"
+      :columns="columns"
+      :fileName="importSet.listName"
+      :userLists="userLists"
+      @listNameUpdated="updateListName" />
   </div>
 </template>
 <script>
@@ -95,7 +95,6 @@ import UserService from '../services/api/user.service';
 import ProgressBar from '../components/ProgressBar.vue';
 import draggable from 'vuedraggable';
 import { CloudUploadIcon } from '@heroicons/vue/solid';
-import { ref } from 'vue';
 
 export default {
   name: 'Import',
@@ -129,6 +128,7 @@ export default {
       userLists: [],
       bucketResponse: null,
       uploadProgress: 0,
+      fileCheck: {}
     };
   },
   mounted() {
@@ -175,6 +175,7 @@ export default {
             response = response.data;
             if (response.status) {
               this.columns = response.columns;
+              this.fileCheck = response.fileCheck;
               this.showMapping = true;
               this.importSet.listName =
                 this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, '');
@@ -190,6 +191,7 @@ export default {
           })
           .finally((response) => {
             this.fetchingColumns = false;
+              this.$refs.file_upload.value = null
           });
       });
     },
@@ -224,7 +226,8 @@ export default {
         })
         .finally((response) => {
           this.importing = false;
-          window.location.reload();
+          Object.assign(this.$data, this.$options.data());
+          this.getUserLists();
         });
     },
   },

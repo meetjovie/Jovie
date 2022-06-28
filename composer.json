@@ -20,6 +20,7 @@
         "laravel/vapor-cli": "^1.36",
         "laravel/vapor-core": "^2.19",
         "laravel/vapor-ui": "^1.5",
+        "league/csv": "^9.8",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.23.1",
         "mpociot/teamwork": "^7.0",

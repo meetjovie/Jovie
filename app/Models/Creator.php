@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\GeneralTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use Laravel\Scout\Searchable;
 
 class Creator extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory, Searchable, GeneralTrait;
 
     const CREATORS_MEDIA_PATH = 'public/creators_media/timeline_media/';
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
@@ -121,6 +122,7 @@ class Creator extends Model
         // Verify valid Instagram URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['instagram_handler'] =  $matches[1];
+            return;
         }
         $this->attributes['instagram_handler'] = $value;
     }
@@ -133,6 +135,7 @@ class Creator extends Model
         // Verify valid tiktok URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['tiktok_handler'] = $matches[1];
+            return;
         }
         $this->attributes['tiktok_handler'] = $value;
     }
@@ -145,6 +148,7 @@ class Creator extends Model
         // Verify valid onlyFans URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['onlyFans_handler'] = $matches[1];
+            return;
         }
         $this->attributes['onlyFans_handler'] = $value;
     }
@@ -157,6 +161,7 @@ class Creator extends Model
         // Verify valid linkedin URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['linkedin_handler'] = $matches[1];
+            return;
         }
         $this->attributes['linkedin_handler'] = $value;
     }
@@ -169,6 +174,7 @@ class Creator extends Model
         // Verify valid twitter URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['twitter_handler'] = $matches[1];
+            return;
         }
         $this->attributes['twitter_handler'] = $value;
     }
@@ -181,6 +187,7 @@ class Creator extends Model
         // Verify valid snapchat URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['snapchat_handler'] = $matches[1];
+            return;
         }
         $this->attributes['snapchat_handler'] = $value;
     }
@@ -188,11 +195,12 @@ class Creator extends Model
     public function setTwitchHandlerAttribute($value)
     {
         // Regex for verifying a twitch URL
-        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv)\/([A-Za-z0-9-_\.]+)/';
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv|twitch\.com)\/([A-Za-z0-9-_\.]+)/';
 
         // Verify valid twitch URL
         if ( preg_match( $regex, $value, $matches ) ) {
             $this->attributes['twitch_handler'] = $matches[1];
+            return;
         }
         $this->attributes['twitch_handler'] = $value;
     }
@@ -200,6 +208,9 @@ class Creator extends Model
     public function setYoutubeHandlerAttribute($value)
     {
         $oldYoutube = $this->youtube_handler;
+        if (!count((array) $value)) {
+            return $oldYoutube;
+        }
         // Regex for verifying a youtube URL - channel id
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
         // Verify valid youtube URL
@@ -212,7 +223,10 @@ class Creator extends Model
             $oldYoutube->channel_name = $matches[1];
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
         }
-
+        elseif ( preg_match( '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:user)\/([A-Za-z0-9-_\.]+)/', $value, $matches ) ) {
+            $oldYoutube->channel_name = $matches[1];
+            $this->attributes['youtube'] = json_encode($oldYoutube);
+        }
         elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
             $oldYoutube->channel_id = $value;
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
@@ -252,13 +266,13 @@ class Creator extends Model
             'id')->withTimestamps();
     }
 
-//    public function getYoutubeHandlerAttribute($value)
-//    {
-//        if (is_null($value)) {
-//            return $value;
-//        }
-//        return json_decode($value ?? '{}');
-//    }
+    public function getYoutubeHandlerAttribute($value)
+    {
+        if (is_null($value)) {
+            return json_decode('{}');
+        }
+        return json_decode($value ?? '{}');
+    }
 
     public function getInstagramMediaAttribute($value)
     {
@@ -266,6 +280,11 @@ class Creator extends Model
     }
 
     public function getInstagramMetaAttribute($value)
+    {
+        return json_decode($value ?? '{}');
+    }
+
+    public function getTwitchMetaAttribute($value)
     {
         return json_decode($value ?? '{}');
     }
@@ -308,6 +327,11 @@ class Creator extends Model
     public function setSocialLinksAttribute($value)
     {
         $this->attributes['social_links'] = json_encode($value ?? []);
+    }
+
+    public function setTwitchMetaAttribute($value)
+    {
+        $this->attributes['twitch_meta'] = json_encode($value ?? []);
     }
 
     public static function getCrmCreators($params)
@@ -515,6 +539,50 @@ class Creator extends Model
         $array['crms'] = $this->crmRecords;
         $array['unique'] = 10000000000000000000; // it will fail only if user changes the tab this much times :p
         return $array;
+    }
+
+    public static function getTags($tags, $creator = null)
+    {
+        if ($creator) {
+            if (!$tags) return ($creator->tags);
+            $tags = explode(',', $tags);
+            return (array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
+        }
+        if (!$tags) return '[]';
+        $tags = explode(',', $tags);
+        return (array_unique(array_values(array_map('trim', $tags))));
+    }
+
+    public static function getEmails($user, $newEmails = [], $oldEmails = [])
+    {
+        $emails = [];
+        if (count($newEmails)) {
+            $emails = $newEmails;
+        }
+        if (!empty($user->business_email)) {
+            $emails[] = $user->business_email;
+        }
+        $emailString = $user->biography ?? $user->description;
+        if ($bioEmail = self::getEmailFromString($emailString)) {
+            $emails[] = $bioEmail;
+        }
+        return (array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
+    }
+
+    public static function addToListAndCrm($creator, $listId = null, $userId = null)
+    {
+        if ($listId) {
+            $creator->userLists()->syncWithoutDetaching($listId);
+        }
+        if ($userId) {
+            $changes = $creator->crms()->syncWithoutDetaching($userId);
+            if (count($changes['attached'])) {
+                $user = User::with('currentTeam')->where('id', $userId)->first();
+                if ($user && $user->currentTeam) {
+                    $user->currentTeam->decrement('credits');
+                }
+            }
+        }
     }
 
 }

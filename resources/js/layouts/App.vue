@@ -109,6 +109,8 @@
 
     <!-- Static sidebar for desktop -->
 
+    <!-- Static sidebar for desktop -->
+
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <div
         class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/75 backdrop-blur-md backdrop-filter">
@@ -175,35 +177,49 @@
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
               <div
+                v-if="!currentUser.current_team.credits"
                 as="router-link"
-                to="/account"
+                to="/billing"
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
                 Upgrade
               </div>
               <div>
                 <div
-                  class="text-center text-2xs font-semibold text-neutral-500">
-                  25
+                  class="text-center text-2xs font-semibold text-neutral-500"
+                  :class="{
+                    'text-red-500': currentUser.current_team.credits,
+                  }">
+                  {{ currentUser.current_team.credits || 0 }}
                 </div>
                 <div class="-mt-1 text-center text-[8px] text-neutral-400">
                   Credits
                 </div>
               </div>
               <SwitchTeams />
-              <!--  <PopoverGroup>
+
+              <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
                     as="div"
                     type="button"
-                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none"
-                    id="user-menu-button"
+                    class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700"
+                    id="notification-button"
                     aria-expanded="false"
                     aria-haspopup="true"
-                    @click="isShowing = !isShowing">
-                    <span class="sr-only">Open user menu</span>
-
-                    <SupportIcon
-                      class="h-5 w-5 rounded-full text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700" />
+                    @click="getNotifications()">
+                    <span class="sr-only">Open import notification</span>
+                    <span
+                      v-if="notifications.length"
+                      class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
+                      <span
+                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
+                      <span
+                        class="relative inline-flex h-1 w-1 rounded-full bg-indigo-500"></span>
+                    </span>
+                    <BellIcon
+                      class="h-5 w-5 flex-shrink-0 cursor-pointer"
+                      aria-hidden="true">
+                    </BellIcon>
                   </PopoverButton>
 
                   <transition
@@ -214,45 +230,149 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0">
                     <PopoverPanel
-                      as="div"
-                      active=""
-                      id="profileDropdown"
-                      class="absolute right-0 z-10 mt-4 w-40 origin-top-right rounded-md bg-white/60 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
-                      role="menu"
-                      aria-orientation="vertical"
-                      aria-labelledby="user-menu-button"
-                      tabindex="-1">
-                     
-
+                      class="absolute left-6 z-10 mt-2 w-screen max-w-md -translate-x-full transform px-2 sm:px-0">
+                      <!-- Active: "bg-neutral-100", Not Active: "" -->
                       <div
-                        v-for="helpmenuitem in helpmenuitems"
-                        :key="helpmenuitem"
-                        as="router-link"
-                        :to="helpmenuitem.route"
-                        class="inline-flex w-full px-4 py-2 text-xs text-neutral-700 first:pt-3 hover:bg-indigo-700 hover:text-white"
-                        role="menuitem"
-                        tabindex="-1">
-                        <component class="mr-4 h-4 w-4" :is="helpmenuitem.icon">
-                        </component>
-                        <router-link :to="helpmenuitem.route">
-                          {{ helpmenuitem.name }}
-                        </router-link>
-                      </div>
-                      <div
-                        onclick="Chattrigger"
-                        class="inline-flex w-full cursor-pointer px-4 pt-2 pb-3 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white">
-                        <ChatAltIcon class="mr-4 h-4 w-4" />
-                        Chat
+                        class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                        <div class="relative h-80 gap-6 bg-white px-1 sm:gap-8">
+                          <div
+                            class="mx-auto inline-flex w-full items-center border-b pb-1">
+                            <p
+                              class="px-2 pt-2 text-xs font-bold text-neutral-400">
+                              Notifications
+                            </p>
+                          </div>
+                          <div class="" v-if="notifications.length">
+                            <template
+                              v-for="notification in notifications"
+                              :key="notification.id">
+                              <div
+                                v-if="notification.is_batch"
+                                as="div"
+                                class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
+                                role="menuitem"
+                                tabindex="-1">
+                                <router-link
+                                  to="/imports"
+                                  class="group 0 block flex-shrink-0">
+                                  <div
+                                    class="flex w-full items-center justify-between">
+                                    <div class="px-2">
+                                      <component
+                                        class="mx-auto h-5 w-5 text-neutral-400"
+                                        :is="'CloudUploadIcon'">
+                                      </component>
+                                    </div>
+                                    <div class="ml-3 w-60">
+                                      <p
+                                        class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
+                                        Importing {{ notification.name }}
+                                        <span
+                                          class="text-2xs font-light text-neutral-500"
+                                          >-
+                                          {{ notification.type }} Profiles</span
+                                        >
+                                      </p>
+                                      <div class="w-full">
+                                        <span
+                                          class="text-2xs font-medium text-gray-500">
+                                          Total:
+                                          {{
+                                            notification.initial_total_in_file
+                                          }}
+                                        </span>
+                                        |
+                                        <span
+                                          class="text-2xs font-medium text-gray-500">
+                                          Successful:
+                                          {{ notification.successful }}
+                                        </span>
+                                      </div>
+                                      <ProgressBar
+                                        :percentage="notification.progress"
+                                        class="mx-auto w-full" />
+                                    </div>
+                                    <div
+                                      class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
+                                      {{ notification.created_at_formatted }}
+                                    </div>
+                                  </div>
+                                </router-link>
+                              </div>
+                              <div
+                                v-else
+                                as="div"
+                                class="inline-flex w-full border-b px-2 py-2 text-xs text-neutral-700 first:pt-3"
+                                role="menuitem"
+                                tabindex="-1">
+                                <router-link
+                                  to="/imports"
+                                  class="group 0 block flex-shrink-0">
+                                  <div
+                                    class="flex w-full items-center justify-between">
+                                    <div class="px-2">
+                                      <component
+                                        class="mx-auto h-5 w-5 text-neutral-400"
+                                        :is="'CloudUploadIcon'">
+                                      </component>
+                                    </div>
+                                    <div class="ml-3 w-60">
+                                      <p
+                                        class="mx-auto text-2xs text-red-400"
+                                        v-if="
+                                          !notification.is_error &&
+                                          notification.meta &&
+                                          notification.meta.total_jobs
+                                        ">
+                                        Completed
+                                        {{ notification.meta.type }} import at
+                                        {{ notification.created_at }}
+                                      </p>
+                                      <p
+                                        class="mx-auto text-2xs text-red-400"
+                                        v-else-if="notification.is_error">
+                                        {{ notification.message }}
+                                        <span
+                                          v-if="
+                                            notification.meta &&
+                                            notification.meta.name
+                                          ">
+                                          <b
+                                            >({{ notification.meta.name }})</b
+                                          ></span
+                                        >
+                                      </p>
+                                      <p
+                                        class="mx-auto text-2xs text-blue-500"
+                                        v-else>
+                                        {{ notification.message }}
+                                      </p>
+                                    </div>
+                                    <div
+                                      class="mx-auto px-2 font-bold text-neutral-300 line-clamp-2">
+                                      {{ notification.created_at_formatted }}
+                                    </div>
+                                  </div>
+                                </router-link>
+                              </div>
+                            </template>
+                          </div>
+                          <div
+                            class="mx-auto w-full items-center py-4 text-center"
+                            v-else>
+                            <span
+                              class="mx-auto items-center text-sm font-bold text-neutral-400"
+                              ><EmojiHappyIcon
+                                class="mx-auto h-14 w-14 text-neutral-200" />No
+                              notifications</span
+                            >
+                          </div>
+                        </div>
                       </div>
                     </PopoverPanel>
                   </transition>
                 </Popover>
-              </PopoverGroup> -->
-
-              <button
-                class="rounded-full p-1 text-neutral-400 transition duration-300 ease-in-out hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-neutral-100 active:text-neutral-700">
-                <BellIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-              </button>
+              </PopoverGroup>
             </div>
 
             <!-- Profile dropdown -->
@@ -344,7 +464,6 @@
                           class="mr-4 h-4 w-4 cursor-pointer"
                           :is="dropdownmenuitem.icon">
                         </component>
-
                         {{ dropdownmenuitem.name }}
                       </router-link>
                     </div>
@@ -353,7 +472,8 @@
                       @click="openWidget()"
                       class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem">
-                      <component class="mr-4 h-4 w-4" is="SupportIcon" />
+                      <component class="mr-4 h-4 w-4" is="SupportIcon">
+                      </component>
                       Chat with support
                     </div>
                     <div
@@ -362,7 +482,8 @@
                       class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component class="mr-4 h-4 w-4" is="LogoutIcon" />
+                      <component class="mr-4 h-4 w-4" is="LogoutIcon">
+                      </component>
                       Sign out
                     </div>
                   </PopoverPanel>
@@ -386,6 +507,13 @@
               :title="`Importing ${currentUser.queued_count}  items.`"
               :cta="`View`"
               ctaLink="/contacts" />
+            <AlertBanner
+              v-if="currentUser.current_team.credits < 1"
+              design="danger"
+              :mobiletitle="`You're out of credits`"
+              :title="`You're out of credits.`"
+              :cta="`Upgrade`"
+              ctaLink="/billing" />
             <router-view></router-view>
           </div>
         </div>
@@ -413,6 +541,7 @@ import {
   SwitchHorizontalIcon,
   SpeakerphoneIcon,
   SupportIcon,
+  EmojiHappyIcon,
 } from '@heroicons/vue/outline';
 import {
   Menu,
@@ -428,6 +557,8 @@ import SwitchTeams from '../components/SwitchTeams.vue';
 import AlertBanner from '../components/AlertBanner';
 import JovieLogo from '../components/JovieLogo';
 import CommandPallette from '../components/CommandPallette';
+import ImportService from '../services/api/import.service';
+import ProgressBar from '../components/ProgressBar.vue';
 
 export default {
   name: 'App',
@@ -454,6 +585,8 @@ export default {
         { name: 'Feedback', route: 'Account', icon: SpeakerphoneIcon },
       ],
       isShowing: false,
+      isLoading: false,
+      notifications: [],
     };
   },
 
@@ -469,9 +602,21 @@ export default {
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();
     });
+    // this.getNotifications();
+    // setInterval(() => {
+    //   this.getNotifications();
+    // }, 5000);
   },
 
   methods: {
+    getNotifications() {
+      ImportService.getNotifications().then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.notifications = response.notifications;
+        }
+      });
+    },
     openSupportChat() {
       this.$freshchat.open();
     },
@@ -518,6 +663,8 @@ export default {
     SupportIcon,
     AlertBanner,
     CommandPallette,
+    EmojiHappyIcon,
+    ProgressBar,
   },
 };
 </script>

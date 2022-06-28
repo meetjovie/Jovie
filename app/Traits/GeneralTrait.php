@@ -42,4 +42,11 @@ trait GeneralTrait {
             return $old_file_path;
         }
     }
+
+    public static function getEmailFromString($string)
+    {
+        $pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
+        preg_match_all($pattern, $string, $matches);
+        return $matches[0] ? ($matches[0][0] ?? null) : null;
+    }
 }
