@@ -191,8 +191,8 @@ class TwitchImport implements ShouldQueue
 
             $meta = [];
             $meta['broadcaster_type'] = $user->broadcaster_type;
-            $meta['profile_image_url'] = $user->profile_image_url;
-            $meta['offline_image_url'] = $user->offline_image_url;
+            $meta['profile_pic_url'] = $user->profile_image_url;
+            $meta['offline_pic_url'] = $user->offline_image_url;
             $meta['view_count'] = $user->view_count;
             $meta['created_at'] = $user->created_at;
 
