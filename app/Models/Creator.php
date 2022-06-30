@@ -244,6 +244,14 @@ class Creator extends Model
         return null;
     }
 
+    public function getTwitchHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://twitch.tv/' . $value;
+        }
+        return null;
+    }
+
     public function getInstagramHandlerAttribute($value)
     {
         if ($value) {
