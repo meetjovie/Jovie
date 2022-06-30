@@ -72,7 +72,7 @@
       <div class="mt-6 md:mt-0">
         <button
           @click="archiveCreator(creator.id)"
-          class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
+          class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
           Archive
         </button>
         <!-- <button
