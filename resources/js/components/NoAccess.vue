@@ -16,7 +16,7 @@
           your account.
         </h1>
         <p class="mt-2 text-base text-gray-500">
-          Sorry, this feature is not included in your current plan.
+          {{ message }}
         </p>
       </div>
     </div>
@@ -28,6 +28,14 @@ export default {
     title: {
       type: String,
       default: "You don't have access to this feature",
+    },
+    subtitle: {
+      type: String,
+      default: 'Please upgrade your account to access this feature.',
+    },
+    message: {
+      type: String,
+      default: 'Sorry, this feature is not included in your current plan.',
     },
   },
 };

@@ -1,6 +1,8 @@
 <template>
-  <div v-if="currentUser.current_team.credits">
-    <NoAccess title="You're out of credits." />
+  <div v-if="!currentUser.current_team.credits">
+    <NoAccess
+      title="You're out of credits."
+      message="You need to upgrade your account to continue using this feature." />
   </div>
   <div v-else>
     <div>
