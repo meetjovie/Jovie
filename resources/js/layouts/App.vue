@@ -187,7 +187,7 @@
                 <div
                   class="text-center text-2xs font-semibold text-neutral-500"
                   :class="{
-                    'text-red-500': currentUser.current_team.credits,
+                    'text-red-500': currentUser.current_team.credits < 4,
                   }">
                   {{ currentUser.current_team.credits || 0 }}
                 </div>
@@ -530,6 +530,7 @@ import {
   ChartBarIcon,
   ChevronLeftIcon,
   CheckCircleIcon,
+  CreditCardIcon,
   CloudUploadIcon,
   UserGroupIcon,
   FolderOpenIcon,
@@ -578,6 +579,7 @@ export default {
       ],
       dropdownmenuitems: [
         { name: 'Profile', route: '/', icon: UserGroupIcon },
+        { name: 'Billing', route: '/billing', icon: CreditCardIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
       helpmenuitems: [
@@ -651,6 +653,7 @@ export default {
     UserGroupIcon,
     FolderOpenIcon,
     CogIcon,
+    CreditCardIcon,
     ChevronLeftIcon,
     LogoutIcon,
     SwitchHorizontalIcon,

@@ -5,7 +5,7 @@
       <div class="text-center">
         <p
           class="text-sm font-semibold uppercase tracking-wide text-indigo-600">
-          You don't have access to this feature
+          {{ title }}
         </p>
         <h1
           class="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
@@ -22,3 +22,13 @@
     </div>
   </main>
 </template>
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      default: "You don't have access to this feature",
+    },
+  },
+};
+</script>
