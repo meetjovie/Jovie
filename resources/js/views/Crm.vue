@@ -238,7 +238,6 @@ export default {
   name: 'CRM',
   components: {
     DownloadIcon,
-
     TabGroup,
     TabList,
     Tab,
@@ -266,7 +265,6 @@ export default {
       stages: [],
       networks: [],
       userLists: [],
-
       loading: false,
       creators: [],
       creatorsMeta: {},

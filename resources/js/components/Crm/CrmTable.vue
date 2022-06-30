@@ -1,6 +1,5 @@
 <template>
     <div class="">
-        
         <table class="min-w-full divide-y divide-gray-200">
             <thead class=" bg-gray-50">
                 
@@ -155,7 +154,8 @@
                             <div class="flex items-center">
                                 <div class="mr-2 h-8 w-8 flex-shrink-0">
                                     <div class="p-0.5 rounded-full" :class="
-                                                                            {'bg-social-youtube/60':network == 'youtube'},
+                                                                            {'bg-social-youtube/60' : network == 'youtube'},
+                                                                            {'bg-social-twitch/90' : network == 'twitch'},
                                                                             {'bg-social-twitter/90' : network == 'twitter'},
                                                                             {'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90' : network == 'instagram'},
                                                                             {'bg-social-snapchat' : network == 'snapchat'},
@@ -163,7 +163,7 @@
                                         <div class="bg-white p-0 rounded-full">
                                             <img
                                                 class="rounded-full object-cover object-center"
-                                                :src="creator[`${network}_meta`].profile_pic_url ?? '/img/noprofile.webp'"
+                                                :src="creator[`${network}_meta`].profile_pic_url ?? asset('img/noimage.webp')"
                                                 alt="Profile Image"/>
                                         </div>
                                     </div>
@@ -224,7 +224,7 @@
                         <td
                             class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
                             <a :href="creator[`${network}_handler`]" target="_blank"
-                               class="text-nuetral-800 inline-flex items-center rounded-full  px-3 py-1 text-center justify-between text-xs font-bold">
+                               class="text-gray-800 inline-flex items-center rounded-full  px-3 py-1 text-center justify-between text-xs font-bold">
                                 <div
                                     class="mr-2 group-hover:opacity-100 opacity-30 items-center">
                                     <SocialIcons height="14px"

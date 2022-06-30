@@ -44,7 +44,7 @@ class Creator extends Model
 
     public function getNameAttribute()
     {
-        return $this->full_name ?? ($this->first_name.' '.$this->last_name) ?? $this->instagram_name ?? $this->twitter_name;
+        return $this->full_name ?? ($this->first_name.' '.$this->last_name) ?? $this->instagram_name ?? $this->twitch_name ?? $this->twitter_name;
     }
 
     public function getBiographyAttribute()
