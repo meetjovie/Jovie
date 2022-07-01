@@ -398,6 +398,7 @@ class Creator extends Model
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
 
             $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
+            $creator->twitch_meta = $creatorAccessor->getTwitchMetaAttribute($creator->twitch_meta);
 
             $creator->social_links = $creatorAccessor->getSocialLinksAttribute($creator->social_links);
             $creator->emails = $creatorAccessor->getEmailsAttribute($creator->emails);
