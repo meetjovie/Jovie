@@ -506,7 +506,7 @@
               :mobiletitle="`You're out of credits`"
               :title="`You're out of credits.`"
               :cta="`Upgrade`"
-              ctalink="billing" />
+              ctaLink="Billing" />
             <router-view></router-view>
           </div>
         </div>

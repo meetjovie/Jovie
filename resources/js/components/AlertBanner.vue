@@ -16,7 +16,7 @@
           </span>
           <span v-if="cta" class="block sm:ml-2 sm:inline-block">
             <router-link
-              :to="{ name: 'ctalink' }"
+              :to="{ name: ctaLink }"
               class="cursor-pointer font-bold text-white underline">
               {{ cta }}<span aria-hidden="true">&rarr;</span>
             </router-link>
