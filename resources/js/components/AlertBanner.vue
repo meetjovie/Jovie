@@ -15,11 +15,11 @@
             {{ title }}
           </span>
           <span v-if="cta" class="block sm:ml-2 sm:inline-block">
-            <a
-              :href="ctalink"
+            <router-link
+              :to="{ name: 'ctalink' }"
               class="cursor-pointer font-bold text-white underline">
-              {{ cta }}<span aria-hidden="true">&rarr;</span></a
-            >
+              {{ cta }}<span aria-hidden="true">&rarr;</span>
+            </router-link>
           </span>
         </p>
         <slot></slot>

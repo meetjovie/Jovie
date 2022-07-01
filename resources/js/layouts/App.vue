@@ -501,19 +501,12 @@
           <div class="h-full">
             <CommandPallette as="div" :open="showCommandPallette" />
             <AlertBanner
-              v-if="currentUser.queued_count"
-              design="primary"
-              :mobiletitle="`Importing ${currentUser.queued_count} items.`"
-              :title="`Importing ${currentUser.queued_count}  items.`"
-              :cta="`View`"
-              ctaLink="/contacts" />
-            <AlertBanner
               v-if="currentUser.current_team.credits < 1"
               design="danger"
               :mobiletitle="`You're out of credits`"
               :title="`You're out of credits.`"
               :cta="`Upgrade`"
-              ctaLink="/billing" />
+              ctalink="billing" />
             <router-view></router-view>
           </div>
         </div>

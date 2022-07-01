@@ -298,7 +298,7 @@ export const routes = [
     meta: {
       layout: 'App',
       requiresAuth: true,
-      requiresAdmin: false,
+      requiresAdmin: true,
       requiresSubscribe: true,
     },
   },
