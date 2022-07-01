@@ -491,7 +491,6 @@ class Creator extends Model
                     }
                 }
             } else {
-                $v = $k == 'emails' ? json_encode($v) : $v;
                 $dataToUpdateForCreator[$k] = $v;
             }
         }
