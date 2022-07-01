@@ -117,7 +117,7 @@
                             <div class="grid grid-cols-2 gap-2 items-center">
                                 <div class="group mr-2">
                                                                       <span class="group-hover:hidden">
-                                                                        {{ (indexN + 1) }}
+                                                                        {{ (index + 1) }}
                                                                       </span>
                                     <span class="hidden group-hover:block">
                                                                             <input

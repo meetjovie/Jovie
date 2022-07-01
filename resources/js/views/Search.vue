@@ -687,6 +687,7 @@
                         :imageUrl="
                           selectedCreator.instagram_meta.profile_pic_url ??
                           selectedCreator.twitter_meta.profile_image_url ??
+                          selectedCreator.twitch_meta.profile_image_url ??
                           currentUser.default_image
                         "
                         as="div"
@@ -700,7 +701,8 @@
                           <span class="-mt-0.5">{{
                             selectedCreator.full_name ??
                             selectedCreator.instagram_name ??
-                            selectedCreator.twitter_name
+                            selectedCreator.twitter_name ??
+                            selectedCreator.twitch_name
                           }}</span>
                         </div>
                         <div
@@ -716,20 +718,7 @@
                             size="sm"
                             :showX="false"
                             :text="selectedCreator.instagram_category" />
-                          <!-- <CreatorTags
-                                                                                size="sm"
-                                                                                color="pink"
-                                                                                text="Fashion" />
-                                                                              <CreatorTags
-                                                                                size="sm"
-                                                                                color="blue"
-                                                                                text="Music" />
-                                                                              <CreatorTags
-                                                                                size="sm"
-                                                                                color="green"
-                                                                                text="Sports" /> -->
                         </div>
-
                         <div class="mx-auto mt-2 flex justify-start space-x-6">
                           <div
                             class="mt-1 grid w-80 grid-cols-6 items-center justify-start text-center">

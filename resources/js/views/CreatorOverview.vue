@@ -206,6 +206,21 @@
                   <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">Email</dt>
                     <dd class="mt-1 text-sm text-gray-900">
+                      <div
+                          class="absolute inset-y-0 left-0 flex items-center pl-3">
+                          <DuplicateIcon
+                            tooltip="Copy to clipboard"
+                            @click="copyToClipboard(selectedCreator.emails[0])"
+                            class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700 active:mt-0.5 active:mr-0.5 active:text-neutral-500"
+                            aria-hidden="true" />
+                        </div>
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          :value="selectedCreator.emails[0]"
+                          class="z-10 mt-0.5 block w-full rounded-md border-gray-300 bg-transparent bg-white/0 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                      </div>
                       <InputGroup
                         v-model="creator.emails"
                         @blur="
@@ -218,6 +233,10 @@
                         icon="MailIcon"
                         :placeholder="creator.email" />
                     </dd>
+                  </div>
+                  <div
+                    class="mx-auto items-center justify-center py-5 text-center sm:p-6">
+                    
                   </div>
                   <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">Tags</dt>
