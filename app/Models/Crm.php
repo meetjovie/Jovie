@@ -15,6 +15,8 @@ class Crm extends Model
         'user_id',
         'selected',
         'rejected',
+        'rating',
+        'stage',
     ];
 
     public function toSearchableArray()
