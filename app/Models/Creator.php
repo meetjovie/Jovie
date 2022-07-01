@@ -405,6 +405,7 @@ class Creator extends Model
 
             $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
+            $creator->twitch_handler = $creatorAccessor->getTwitchHandlerAttribute($creator->twitch_handler);
 
             $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
 
