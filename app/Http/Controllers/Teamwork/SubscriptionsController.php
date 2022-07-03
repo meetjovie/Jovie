@@ -19,6 +19,7 @@ class SubscriptionsController extends Controller
         if ($user->currentTeam) {
             return response([
                 'intent' => $user->currentTeam->createSetupIntent(),
+                'stripeKey' => config('services.stripe.key'),
                 'status' => true,
             ]);
         }

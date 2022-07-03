@@ -20,12 +20,8 @@ const app = Vue.createApp({});
 app.mixin({
   computed: {
     currentUser() {
-        return store.state.AuthState.user;
+      return store.state.AuthState.user;
     },
-      stripeKey() {
-          console.log(process.env.MIX_STRIPE_KEY);
-          return process.env.MIX_STRIPE_KEY;
-      },
   },
   methods: {
     asset(path) {

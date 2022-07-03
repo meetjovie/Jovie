@@ -43,11 +43,8 @@ export default {
             stripe: null,
             stripeLoaded: false,
             paymentIntent: null,
-            elements: null
+            elements: null,
         }
-    },
-    computed: {
-
     },
     watch: {
         processingPayment(val) {
@@ -66,7 +63,7 @@ export default {
                 this.stripeLoaded = true;
                 this.paymentIntent = response.intent;
 
-                this.stripe = await loadStripe(this.stripeKey);
+                this.stripe = await loadStripe(response.stripeKey);
                 this.elements = this.stripe.elements({
                     clientSecret: this.paymentIntent.client_secret,
                 });
