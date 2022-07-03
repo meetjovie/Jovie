@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
 //        $schedule->command('test')->everyMinute();
          $schedule->command('trigger:import')->everyFiveMinutes()->withoutOverlapping();
+         $schedule->command('free-plan')->monthly();
     }
 
     /**
