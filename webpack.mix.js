@@ -40,12 +40,14 @@ mix.alias({
 if (mix.inProduction()) {
 
     const ASSET_URL = process.env.ASSET_URL + "/";
+    const MIX_STRIPE_KEY = process.env.MIX_STRIPE_KEY;
 
     mix.webpackConfig(webpack => {
         return {
             plugins: [
                 new webpack.DefinePlugin({
-                    "process.env.ASSET_PATH": JSON.stringify(ASSET_URL)
+                    "process.env.ASSET_PATH": JSON.stringify(ASSET_URL),
+                    "process.env.MIX_STRIPE_KEY": JSON.stringify(MIX_STRIPE_KEY)
                 })
             ],
             output: {

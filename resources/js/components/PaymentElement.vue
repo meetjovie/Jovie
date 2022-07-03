@@ -48,6 +48,8 @@ export default {
     },
     computed: {
         stripeKey() {
+            console.log('process.env.MIX_STRIPE_KEY');
+            console.log(process.env.MIX_STRIPE_KEY);
             return process.env.MIX_STRIPE_KEY;
         },
     },
