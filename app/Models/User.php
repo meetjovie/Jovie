@@ -99,4 +99,29 @@ class User extends Authenticatable
     {
         return $this->first_name.' '.$this->last_name;
     }
+
+    public function pendingImports()
+    {
+        return $this->hasMany(Import::class)->orderByDesc('created_at')
+            ->where('dispatched', '!=', 1)
+            ->orWhere(function ($q) {
+                $q->where('instagram_scrapped', '!=', 1)->orWhere('twitch_scrapped', '!=', 1);
+            })
+            ->limit(200000000000000000000000);
+    }
+
+    public function pendingImportsByNetwork($network)
+    {
+        return Import::where('user_id', $this->id)->where($network, '!=', null)->where($network.'_dispatched', '!=', 1)->where($network.'_scrapped', '!=', 1)->limit(1000)->get();
+    }
+
+    public function sendNotification($message, $type, $meta = null)
+    {
+        Notification::create([
+            'message' => $message,
+            'type' => $type,
+            'meta' => $meta,
+            'user_id' => $this->id
+        ]);
+    }
 }

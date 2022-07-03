@@ -5,7 +5,9 @@
     <div
       class="progressbar h-full"
       :class="[
-        `bg-${color}-500`,
+        { 'bg-green-500': percentage === 100 },
+        { 'bg-indigo-400': percentage < 100 && percentage > 0 },
+        { 'bg-neutral-500': percentage === 0 },
         { 'absolute top-0': indeterminate },
         { 'rounded-full': rounded },
       ]"
@@ -14,8 +16,16 @@
       :aria-valuenow="percentage"
       aria-valuemin="0"
       aria-valuemax="100">
-      <span class="flex h-full items-center">
-        <slot></slot>
+      <span class="mx-auto flex h-full items-center text-center">
+        <p
+          v-if="percentage"
+          class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
+          :class="[
+            { 'text-white': percentage > 50 },
+            { 'text-indigo-700': percentage <= 50 },
+          ]">
+          {{ percentage }}%
+        </p>
       </span>
     </div>
   </div>

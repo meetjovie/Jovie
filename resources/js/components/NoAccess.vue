@@ -5,20 +5,38 @@
       <div class="text-center">
         <p
           class="text-sm font-semibold uppercase tracking-wide text-indigo-600">
-          You don't have access to this feature
+          {{ title }}
         </p>
         <h1
           class="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
           Please
-          <router-link class="text-indigo-700" to="account"
+          <router-link class="text-indigo-700" to="billing"
             >upgrade</router-link
           >
           your account.
         </h1>
         <p class="mt-2 text-base text-gray-500">
-          Sorry, this feature is not included in your current plan.
+          {{ message }}
         </p>
       </div>
     </div>
   </main>
 </template>
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      default: "You don't have access to this feature",
+    },
+    subtitle: {
+      type: String,
+      default: 'Please upgrade your account to access this feature.',
+    },
+    message: {
+      type: String,
+      default: 'Sorry, this feature is not included in your current plan.',
+    },
+  },
+};
+</script>

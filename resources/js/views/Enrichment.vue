@@ -54,7 +54,7 @@
                   </div>
                   <span
                     class="float-left px-2 text-xs font-bold text-red-500"
-                    >{{ this.error }}</span
+                    >{{ error }}</span
                   >
                   <p class="mt-3 text-xs text-gray-300 sm:mt-4">
                     No credit card required.

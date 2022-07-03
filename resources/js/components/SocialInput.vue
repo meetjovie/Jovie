@@ -54,14 +54,39 @@
         tabindex="1"
         class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-neutral-400 focus:border-indigo-400 focus:outline-none focus:ring-indigo-500 active:border-indigo-500 sm:text-sm"
         placeholder="http://instagram.com/username" />
-      <div
-        class="group absolute inset-y-0 right-0 flex cursor-pointer py-2 pr-3">
+      <p v-if="network && errors[network]" class="mt-2 text-xs text-red-600">
+        {{ errors[network][0] }}
+      </p>
+      <button
+        :disabled="adding"
+        @click="add()"
+        v-on:keyup.enter="add()"
+        class="group absolute inset-y-0 right-0 flex cursor-pointer py-2 pr-3"
+        :class="{ 'disabled:opacity-25': adding }">
         <kbd
-          tabindex="2"
-          class="inline-flex select-none items-center rounded border border-indigo-200 px-2 font-sans text-sm font-medium text-indigo-400 focus:border-indigo-300 active:border-indigo-500 active:bg-indigo-500 active:text-white group-hover:border-indigo-400">
-          Add to <span class="pl-0.5 font-semibold">Jovie</span>
+          class="inline-flex select-none items-center rounded border border-indigo-200 px-2 py-1 font-sans text-sm font-medium text-indigo-400 focus:border-indigo-300 active:border-indigo-500 active:bg-indigo-500 active:text-white group-hover:border-indigo-400">
+          <JovieSpinner v-if="loader" />
+          <span v-if="adding">Adding...</span>
+          <span v-else
+            >Add to <span class="pl-0.5 font-semibold">Jovie</span></span
+          >
         </kbd>
-      </div>
+      </button>
+    </div>
+  </div>
+  <div class="text-xs text-neutral-400">
+    Supports:
+    <div class="inline-flex">
+      <SocialIcons
+        height="10px"
+        width="10px"
+        class="text-neutral-400"
+        icon="twitch" />
+      <SocialIcons
+        height="10px"
+        width="10px"
+        class="text-neutral-400"
+        icon="instagram" />
     </div>
   </div>
 </template>
@@ -69,18 +94,109 @@
 <script>
 import { UserIcon, ClipboardIcon } from '@heroicons/vue/solid';
 import SocialIcons from './SocialIcons';
+import ImportService from '../services/api/import.service';
+import JovieSpinner from './JovieSpinner.vue';
 
 export default {
   components: {
     UserIcon,
     SocialIcons,
     ClipboardIcon,
+    JovieSpinner,
   },
 
-  props: {
-    socialMediaProfileUrl: {
-      type: String,
-      default: '',
+  data() {
+    return {
+      socialMediaProfileUrl: '',
+      adding: false,
+      loader: false,
+      network: null,
+      errors: {},
+    };
+  },
+  methods: {
+    add() {
+      if (!this.socialMediaProfileUrl) {
+        // need to build warning notification
+        this.$notify({
+          group: 'user',
+          type: 'warning',
+          title: 'You must enter a valid social url to continue.',
+          text: 'This may take a few minutes.',
+        });
+        return;
+      }
+      if (!this.validateNetworkUrl(this.socialMediaProfileUrl)) {
+        this.$notify({
+          group: 'user',
+          type: 'error',
+          title: 'You must enter a valid social url for supported networks.',
+          text: 'Try another url.',
+        });
+        return;
+      }
+      this.finishImport();
+    },
+    validateNetworkUrl(url) {
+      // check for insta
+
+      // Regex for verifying an instagram URL
+      let regex =
+        '(?:(?:http|https)://)?(?:www.)?(?:instagram.com|instagr.am)/([A-Za-z0-9-_]+)?(?:/)?';
+
+      // Verify valid Instagram URL
+      if (url.match(regex) && url.match(regex)[1]) {
+        this.network = 'instagram';
+        return true;
+      }
+
+      // Regex for verifying an twitch URL
+      regex =
+        '(?:(?:http|https)://)?(?:www.)?(?:twitch.tv|twitch.com)/([A-Za-z0-9-_.]+)?(?:/)?';
+      // Verify valid Twitch URL
+      if (url.match(regex)) {
+        this.network = 'twitch';
+        return true;
+      }
+
+      return false;
+    },
+    finishImport(mappedColumns = {}) {
+      this.adding = true;
+      this.loader = true;
+      this.errors = [];
+      var form = new FormData();
+      form.append(this.network, this.socialMediaProfileUrl);
+      ImportService.import(form)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Import initiated',
+              text: 'Your data is being imported.',
+            });
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally((response) => {
+          this.adding = false;
+          this.loader = false;
+          Object.assign(this.$data, this.$options.data());
+        });
     },
   },
 };

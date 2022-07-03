@@ -14,12 +14,12 @@
         <div>
           <button
             @click="previousCreator(creator.crm_record_by_user.id)"
-            class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
+            class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
             <ChevronLeftIcon class="h-5 w-5" />
           </button>
           <button
             @click="nextCreator(creator.crm_record_by_user.id)"
-            class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
+            class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
             <ChevronRightIcon class="h-5 w-5" />
           </button>
           <!-- <ul
@@ -72,7 +72,7 @@
       <div class="mt-6 md:mt-0">
         <button
           @click="archiveCreator(creator.id)"
-          class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-indigo-600 dark:hover:bg-gray-600">
+          class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
           Archive
         </button>
         <!-- <button
@@ -206,17 +206,27 @@
                   <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">Email</dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                      <InputGroup
-                        v-model="creator.emails"
-                        @blur="
-                          updateCreator({
-                            id: creator.id,
-                            key: `emails`,
-                            value: creator.emails,
-                          })
-                        "
-                        icon="MailIcon"
-                        :placeholder="creator.email" />
+                      <div class="relative mt-1 rounded-md shadow-sm">
+                        <div
+                          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                          <DuplicateIcon
+                            tooltip="Copy to clipboard"
+                            @click="copyToClipboard(creator.emails[0])"
+                            class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700 active:mt-0.5 active:mr-0.5 active:text-neutral-500"
+                            aria-hidden="true" />
+                        </div>
+                        <InputGroup
+                          v-model="creator.emails"
+                          @blur="
+                            updateCreator({
+                              id: creator.id,
+                              key: `emails`,
+                              value: creator.emails,
+                            })
+                          "
+                          icon="DuplicateIcon"
+                          :placeholder="creator.email" />
+                      </div>
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
@@ -246,14 +256,14 @@
                   </div>
                   <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">Reports</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
+                    <!-- <dd class="mt-1 text-sm text-gray-900">
                       <ul
                         role="list"
                         class="divide-y divide-gray-200 rounded-md border border-gray-200">
                         <li
                           class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
                           <div class="flex w-0 flex-1 items-center">
-                            <!-- Heroicon name: solid/paper-clip -->
+                           
                             <svg
                               class="h-5 w-5 flex-shrink-0 text-gray-400"
                               xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +288,7 @@
                           </div>
                         </li>
                       </ul>
-                    </dd>
+                    </dd> -->
                   </div>
                 </dl>
               </div>
@@ -292,7 +302,7 @@
             </div>
           </section>
 
-          <section
+          <!--    <section
             aria-labelledby="timeline-title"
             class="lg:col-span-1 lg:col-start-3">
             <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
@@ -300,8 +310,8 @@
                 Social Info
               </h2>
 
-              <!-- Activity Feed -->
-              <!-- <div class="mt-6 flow-root">
+             
+             <div class="mt-6 flow-root">
                                 
                                 <div
                                     v-for="social in socials"
@@ -316,7 +326,7 @@
                                             class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-gray-700 dark:bg-indigo-600"></div>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div> 
               <div class="justify-stretch mt-6 flex flex-col">
                 <button
                   type="button"
@@ -326,7 +336,7 @@
                 </button>
               </div>
             </div>
-          </section>
+          </section> -->
         </div>
 
         <section
@@ -395,6 +405,8 @@ import InputGroup from '../components/InputGroup.vue';
 import {
   PlusIcon,
   ChevronRightIcon,
+  DuplicateIcon,
+  MailIcon,
   ChevronLeftIcon,
 } from '@heroicons/vue/solid';
 import CommentBox from '../components/CommentBox.vue';
@@ -431,10 +443,12 @@ export default {
     CreatorAvatar,
     SocialIcons,
     PlusIcon,
+    InputGroup,
     Tab,
     TabGroup,
     TabList,
     TabPanel,
+    DuplicateIcon,
     TabPanels,
     TransitionChild,
     TransitionRoot,
@@ -453,6 +467,7 @@ export default {
     ChevronRightIcon,
     ChevronLeftIcon,
     CreatorSocialLinks,
+    MailIcon,
   },
   props: ['profile', 'socialNetworks', 'creatorId'],
   data() {

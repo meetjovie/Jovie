@@ -14,6 +14,32 @@ use MeiliSearch\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('check', function () {
+    $value = 'http://twitch.com/redbull';
+    $twitch = null;
+    // Regex for verifying a twitch URL
+    $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv|twitch\.com)\/([A-Za-z0-9-_\.]+)/';
+
+    // Verify valid twitch URL
+    if ( preg_match( $regex, $value, $matches ) ) {
+        $twitch = $matches[1];
+        dump(1);
+        dd($twitch);
+        return;
+    }
+    $regexUrl = '/(?:(?:http|https):\/\/)/';
+    // Verify valid Instagram URL
+    if ( preg_match( $regexUrl, $value, $matches ) ) {
+        $twitch =  null;
+        dump(2);
+        dd($twitch);
+        return;
+    }
+    dump(3);
+    dd(empty($value) ? null : $value);
+    $this->attributes['twitch'] = empty($value) ? null : $value;
+});
 Route::get('/search-mili', [\App\Http\Controllers\CrmController::class, 'discovery']);
 Route::get('/search-miali', function (Request $request) {
 

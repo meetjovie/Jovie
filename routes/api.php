@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
 
 
-    Route::group(['middleware' => 'subscribed'], function () {
+//    Route::group(['middleware' => 'subscribed'], function () {
 
         //
         //IMPORT CREATORS
@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/resume-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'resumeSubscription']);
         Route::post('/change-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'changeSubscription']);
         Route::post('/buy-seats', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'buySeats']);
-    });
+//    });
 
     // SUBSCRIPTIONS
     Route::get('/payment-intent', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'paymentIntent']);
@@ -89,4 +89,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::get('accept/{token}', [App\Http\Controllers\Teamwork\AuthController::class, 'acceptInvite'])->name('teams.accept_invite');
     });
+
+    Route::get('/notifications', [\App\Http\Controllers\UserController::class, 'notifications']);
+
 });

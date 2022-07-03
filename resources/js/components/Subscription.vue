@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="items-center py-12">
     <template
       v-if="
         !currentUser ||
@@ -24,7 +24,7 @@
         </p>
       </div>
       <template v-if="!loadingProducts && !showPayment">
-        <div class="w-full py-4">
+        <div class="w-full items-center py-12">
           <div class="mx-auto w-full max-w-4xl">
             <RadioGroup v-model="selectedProduct">
               <RadioGroupLabel class="sr-only">Plan</RadioGroupLabel>
@@ -90,7 +90,11 @@
                                 >
                                 <span aria-hidden="true"> &middot; </span>
                                 <span class="text-xs uppercase">
-                                  {{ plan.credits }}
+                                  {{
+                                    product.metadata.credits
+                                      ? product.metadata.credits
+                                      : 0
+                                  }}
                                   contact credits</span
                                 >
                               </span>
@@ -167,7 +171,7 @@
       </div>
     </template>
 
-    <template v-else>
+    <template class="items-center py-12" v-else>
       <div>
         <h3 class="text-lg font-medium leading-6 text-gray-900">
           Manage your subscription:
@@ -227,10 +231,14 @@
             </dd>
           </div>
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">Email credits</dt>
+            <dt class="text-sm font-medium text-gray-500">
+              Date Enrichment credits
+            </dt>
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <span class="flex-grow"
-                ><span class="text-neutral-600">500</span>/{{
+                ><span class="text-neutral-600"
+                  >{{ currentUser.current_team.credits }}.</span
+                >/{{
                   currentUser.current_team.current_subscription.credits
                 }}
                 Remaining</span
@@ -356,13 +364,14 @@ export default {
       if (!val) return;
       try {
         const interval = this.annualBillingEnabled ? 'year' : 'month';
-        let selectedProduct = this.products.filter(
+        let selectedProduct = Object.values(this.products).filter(
           (product) => product.id == val
         )[0];
         this.selectedPlan = selectedProduct.plans.filter(
           (plan) => plan.interval == interval
         )[0].id;
       } catch (e) {
+        console.log(e);
         alert('Problem in selecting product');
       }
     },
@@ -370,7 +379,7 @@ export default {
       if (!this.selectedProduct) return;
       try {
         const interval = val ? 'year' : 'month';
-        let selectedProduct = this.products.filter(
+        let selectedProduct = Object.values(this.products).filter(
           (product) => product.id == this.selectedProduct
         )[0];
         this.selectedPlan = selectedProduct.plans.filter(

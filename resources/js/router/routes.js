@@ -87,6 +87,11 @@ export const routes = [
       layout: 'App',
       requiresAuth: true,
     },
+    children: [
+      {
+        path: 'team',
+      },
+    ],
   },
   {
     name: 'Billing',
@@ -155,8 +160,8 @@ export const routes = [
     },
   },
   {
-    name: 'Privacy',
-    path: '/privacy',
+    name: 'Legal',
+    path: '/legal',
     component: loadPage('Privacy'),
     meta: {
       layout: 'Default',
