@@ -51,7 +51,8 @@ if (mix.inProduction()) {
                 })
             ],
             output: {
-                publicPath: ASSET_URL
+                publicPath: ASSET_URL,
+                MIX_STRIPE_KEY: MIX_STRIPE_KEY,
             },
         };
     });
