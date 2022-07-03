@@ -40,7 +40,7 @@
                   <div
                     class="sticky top-0 min-w-full items-center divide-y divide-gray-200 overflow-y-scroll">
                     <div
-                      class="sticky top-0 z-10 flex grid grid-cols-3 items-center justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
+                      class="sticky top-0 z-10 grid grid-cols-3 items-center justify-between bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
                       <div
                         scope="col"
                         class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:inline-flex">
@@ -89,8 +89,7 @@
                           <ais-search-box
                             as="div"
                             class="mx-auto mt-1 w-full border-0 outline-0 ring-0 focus:outline-none"
-                            placeholder="Search for a creator,
-      hashtag, or keyword..."
+                            :placeholder="searchPlaceholder"
                             submit-title="Let's go!"
                             reset-title="Reset"
                             autofocus="true"
@@ -179,8 +178,9 @@
                             <div
                               :class="{
                                 'bg-indigo-200': item.id == selectedCreator.id,
+                                'hover:bg-indigo-50': !keyboardNav,
                               }"
-                              class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 hover:bg-indigo-50 active:bg-indigo-100">
+                              class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 active:bg-indigo-100">
                               <div
                                 class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
                                 <div class="mx-auto items-center">
@@ -687,6 +687,7 @@
                         :imageUrl="
                           selectedCreator.instagram_meta.profile_pic_url ??
                           selectedCreator.twitter_meta.profile_image_url ??
+                          selectedCreator.twitch_meta.profile_image_url ??
                           currentUser.default_image
                         "
                         as="div"
@@ -700,7 +701,8 @@
                           <span class="-mt-0.5">{{
                             selectedCreator.full_name ??
                             selectedCreator.instagram_name ??
-                            selectedCreator.twitter_name
+                            selectedCreator.twitter_name ??
+                            selectedCreator.twitch_name
                           }}</span>
                         </div>
                         <div
@@ -716,20 +718,7 @@
                             size="sm"
                             :showX="false"
                             :text="selectedCreator.instagram_category" />
-                          <!-- <CreatorTags
-                                                                                size="sm"
-                                                                                color="pink"
-                                                                                text="Fashion" />
-                                                                              <CreatorTags
-                                                                                size="sm"
-                                                                                color="blue"
-                                                                                text="Music" />
-                                                                              <CreatorTags
-                                                                                size="sm"
-                                                                                color="green"
-                                                                                text="Sports" /> -->
                         </div>
-
                         <div class="mx-auto mt-2 flex justify-start space-x-6">
                           <div
                             class="mt-1 grid w-80 grid-cols-6 items-center justify-start text-center">
@@ -1120,12 +1109,27 @@ export default {
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
+    //prevent arrow keys from scrolling
+    window.addEventListener(
+      'keydown',
+      function (e) {
+        if (
+          ['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(
+            e.code
+          ) > -1
+        ) {
+          e.preventDefault();
+        }
+      },
+      false
+    );
     this.$mousetrap.bind(['space'], this.toggleSidebar);
     this.$mousetrap.bind(['command+k', 'ctrl+k'], this.clearSearch);
-    this.$mousetrap.bind(['up'], this.logIt);
+    this.$mousetrap.bind(['up'], this.setPreviousCreator);
     this.$mousetrap.bind('down', this.setNextCreator);
     this.$mousetrap.bind('right', this.addToSelected);
     this.$mousetrap.bind('left', this.addToRejected);
+    this.$mousetrap.bind('q', this.toggleSidebar);
   },
   computed: {
     searchPlaceholder() {
@@ -1139,6 +1143,11 @@ export default {
     },
   },
   methods: {
+    visibilityChanged(isVisible) {
+      if (isVisible && !this.state.isLastPage) {
+        this.state.showMore();
+      }
+    },
     searchFunction(helper) {
       this.uniqueId++;
       if (helper) {
@@ -1303,15 +1312,36 @@ export default {
       this.selectedCreator = item;
       this.selectedCreatorIndex = index;
     },
-    setNextCreator(item) {
-      this.selectedCreator = [this.selectedCreator.index + 1];
+    //method to change the selectedCreator to the next creator in the list
+    setNextCreator() {
+      if (this.selectedCreatorIndex == this.$refs.hitResults.items.length - 1)
+        return;
+      this.selectedCreatorIndex++;
+      this.selectedCreator =
+        this.$refs.hitResults.items[this.selectedCreatorIndex];
+
+      this.keyboardNav = true;
+      //if item is the last item then load more items
+      if (this.selectedCreatorIndex == this.$refs.hitResults.items.length - 1) {
+        //load more results from vue instant search
+        this.$refs.hitResults.refineNext();
+        //set the the 19th to last item in the list as the selected creator
+        this.selectedCreator =
+          this.$refs.hitResults.items[this.$refs.hitResults.items.length - 20];
+      }
+    },
+    //method to change the selectedCreator to the previous creator in the list
+    setPreviousCreator() {
+      if (this.selectedCreatorIndex == 0) return;
+      this.selectedCreatorIndex--;
+      this.selectedCreator =
+        this.$refs.hitResults.items[this.selectedCreatorIndex];
+
+      this.keyboardNav = true;
     },
     clearSearch() {
       //move focus to the search box and clear the current search from instantsearch
-      this.$refs.search.focus();
-    },
-    visibilityChanged(isVisible, entry) {
-      this.isVisible = isVisible;
+      document.querySelector('div.ais-ClearRefinements a').click();
     },
     toggleSidebar() {
       if (this.sidebarOpen) {
@@ -1339,6 +1369,7 @@ export default {
       resetQuery: null,
       currentTab: 0,
       sidebarOpen: false,
+
       creatorMenu: [
         {
           name: 'Add to contacts',

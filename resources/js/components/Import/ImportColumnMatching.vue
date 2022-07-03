@@ -88,6 +88,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    fileCheck: {
+      type: Object,
+      default: {}
+    }
   },
   data() {
     return {

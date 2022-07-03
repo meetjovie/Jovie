@@ -6,16 +6,19 @@ use App\Imports\ImportFileImport;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
+use Aws\S3\S3Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use League\Csv\Reader;
 use Maatwebsite\Excel\Facades\Excel;
 use PharIo\Version\Exception;
 
@@ -28,7 +31,6 @@ class SaveImport implements ShouldQueue
     private $tags;
     private $listName;
     private $userId;
-
     /**
      * Create a new job instance.
      *
@@ -53,101 +55,27 @@ class SaveImport implements ShouldQueue
         User::where('id', $this->userId)->increment('queued_count');
 
         try {
-            $fileImport = new ImportFileImport();
-            Excel::import($fileImport, $this->file, 's3', \Maatwebsite\Excel\Excel::CSV); // file is now loaded in results, so don't need it
-            $results = $fileImport->data;
-            Storage::disk('s3')->delete($this->file);
-            if (count($results) > 1) {
-                $results = $results->toArray();
-                array_shift($results);
+            $stream = Import::getStream($this->file);
+            $reader = Reader::createFromStream($stream);
 
-                $list = UserList::firstOrCreate([
-                    'user_id' => $this->userId,
-                    'name' => $this->listName
-                ], [
-                    'user_id' => $this->userId,
-                    'name' => $this->listName
-                ]);
-                foreach ($results as $k => $row) {
-                    $socialHandlers = [
-                        'twitch_handler' => isset($this->mappedColumns->twitch) ? $row[$this->mappedColumns->twitch] : null,
-                        'onlyFans_handler' => isset($this->mappedColumns->onlyFans) ? $row[$this->mappedColumns->onlyFans] : null,
-                        'snapchat_handler' => isset($this->mappedColumns->snapchat) ? $row[$this->mappedColumns->snapchat] : null,
-                        'linkedin_handler' => isset($this->mappedColumns->linkedin) ? $row[$this->mappedColumns->linkedin] : null,
-                        'youtube_handler' => isset($this->mappedColumns->youtube) ? $row[$this->mappedColumns->youtube] : null,
-                        'twitter_handler' => isset($this->mappedColumns->twitter) ? $row[$this->mappedColumns->twitter] : null,
-                        'tiktok_handler' => isset($this->mappedColumns->tiktok) ? $row[$this->mappedColumns->tiktok] : null,
-                        'instagram_handler' => isset($this->mappedColumns->instagram) ? $row[$this->mappedColumns->instagram] : null,
-                    ];
-
-                    $emails = [];
-                    if (isset($this->mappedColumns->emails)) {
-                        foreach ($this->mappedColumns->emails as $emailKey) {
-                            if ($row[$emailKey]) {
-                                $emails[] = $row[$emailKey];
-                            }
-                        }
-                    }
-
-                    // instagram
-                    $user = User::where('id', $this->userId)->first();
-
-                    $country = isset($this->mappedColumns->country) ? $row[$this->mappedColumns->country] : null;
-                    $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
-                    if (isset($this->mappedColumns->country) && $country && in_array(strtolower(trim($row[$this->mappedColumns->country])), array_map('strtolower', $usStates))) {
-                        $country = 'United States';
-                    }
-
-                    $youtubeFollowersCountKey = $this->mappedColumns->youtubeFollowersCount ?? null;
-
-                    $import = new Import();
-                    $import->user_id = $this->userId;
-                    $import->user_list_id = $list->id;
-                    if ($this->tags) {
-                        $tags = explode(',', $this->tags);
-                        $import->tags = json_encode(array_values(array_map('trim', $tags)));
-                    }
-                    $import->first_name = isset($this->mappedColumns->firstName) ? $row[$this->mappedColumns->firstName] : null;
-                    $import->last_name = isset($this->mappedColumns->lastName) ? $row[$this->mappedColumns->lastName] : null;
-                    $import->city = isset($this->mappedColumns->lastName) ? $row[$this->mappedColumns->lastName] : null;
-                    $import->country = $country;
-
-                    $instaFollowersCount = isset($this->mappedColumns->instagramFollowersCount) ? $row[$this->mappedColumns->instagramFollowersCount] : 5001;
-                    // if no follower count then let go
-
-                    if (isset($this->mappedColumns->instagram) && ($user->is_admin || $instaFollowersCount > 5000)) {
-                        $import->instagram = $row[$this->mappedColumns->instagram];
-                        if ($import->instagram[0] == '@') {
-                            $import->instagram = substr($import->instagram, 1);
-                        }
-                    }
-
-                    $youtubeFollowersCount = isset($this->mappedColumns->youtubeFollowersCount) ? $row[$this->mappedColumns->youtubeFollowersCount] : 1001;
-                    if (isset($this->mappedColumns->youtube) && ($user->is_admin || $youtubeFollowersCount > 1000)) {
-                        $import->youtube = $row[$this->mappedColumns->youtube];
-                    }
-
-                    $import->twitter = isset($this->mappedColumns->twitter) ? $row[$this->mappedColumns->twitter] : null;
-                    $import->twitch = isset($this->mappedColumns->twitch) ? $row[$this->mappedColumns->twitch] : null;
-                    $import->onlyFans = isset($this->mappedColumns->onlyFans) ? $row[$this->mappedColumns->onlyFans] : null;
-                    $import->tiktok = isset($this->mappedColumns->tiktok) ? $row[$this->mappedColumns->tiktok] : null;
-                    $import->linkedin = isset($this->mappedColumns->linkedin) ? $row[$this->mappedColumns->linkedin] : null;
-                    $import->snapchat = isset($this->mappedColumns->snapchat) ? $row[$this->mappedColumns->snapchat] : null;
-                    $import->wikiId = isset($this->mappedColumns->wikiId) ? $row[$this->mappedColumns->wikiId] : null;
-                    $import->gender = isset($this->mappedColumns->gender) ? $row[$this->mappedColumns->gender] : null;
-                    $import->phone = isset($this->mappedColumns->phone) ? $row[$this->mappedColumns->phone] : null;
-                    $import->emails = json_encode($emails);
-                    $import->social_handlers = json_encode($socialHandlers);
-
-                    $import->save();
-                }
+            $totalRecords = $reader->count();
+            $payload = base64_encode(json_encode([
+                'mappedColumns' => $this->mappedColumns,
+                'tags' => $this->tags,
+                'listName' => $this->listName,
+                'userId' => $this->userId
+            ]));
+            for ($page=0; $page<ceil($totalRecords/Import::PER_PAGE); $page++) {
+                $command = "save:import-chunk $this->file $page $payload";
+                // Spawn the command in the background.
+                Artisan::queue($command);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine()), [
                 'file' => $this->file,
                 'mappedColumns' => $this->mappedColumns,
                 'tags' => $this->tags,
-                'fileName' => $this->fileName,
+                'listName' => $this->listName,
                 'userId' => $this->userId,
             ]);
         } finally {

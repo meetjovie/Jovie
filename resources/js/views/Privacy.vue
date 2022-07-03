@@ -3,7 +3,7 @@
     id="wbars_all"
     class="bg-neutral-200 py-12 leading-4 text-neutral-700 shadow-sm">
     <div
-      class="clearfix relative mx-auto rounded-xl rounded-sm bg-neutral-100 text-neutral-700"
+      class="clearfix relative mx-auto rounded-sm bg-neutral-100 text-neutral-700"
       style="max-width: 800px">
       <div id="wbars" class="relative h-auto" style="overflow: hidden auto">
         <div

@@ -47,11 +47,19 @@ app.mixin({
         window.open(link, newWindow ? '_blank' : '');
       }
     },
-    formatDate(value) {
+    formatDate(value, unix = false, humanize = false) {
       if (!value) {
         return moment().format('ddd MMM DD, YYYY [at] HH:mm a');
       }
-      return moment(value).format('ddd MMM DD, YYYY [at] HH:mm a');
+      let time = moment(value)
+        if (unix) {
+            time = moment.unix(value)
+        }
+        if (humanize) {
+            let duration = moment.duration(moment().diff(time))
+            return duration.humanize(true)
+        }
+      return time.format('ddd MMM DD, YYYY [at] HH:mm a');
     },
   },
 });

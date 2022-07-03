@@ -41,6 +41,7 @@ module.exports = {
         social: {
           facebook: '#3b5998',
           twitter: '#1da1f2',
+          twitch: '#6441a5',
           instagram: '#e1306c',
           youtube: '#c4302b',
           linkedin: '#0077b5',

@@ -1,65 +1,71 @@
 <template>
-  <div>
+  <div v-if="!currentUser.current_team.credits">
+    <NoAccess
+      title="You're out of credits."
+      message="You need to upgrade your account to continue using this feature." />
+  </div>
+  <div v-else>
     <div>
-      <div
-        v-show="!showMapping"
-        class="container mx-auto mt-6 max-w-3xl py-12 px-4 sm:px-6 lg:px-8">
-        <div>
-          <div class="space-y-6">
-            <div class="min-h-screen items-center py-12">
-              <div @drop.prevent="getColumnsFromCsv()">
-                <div
-                  @dragenter.prevent="toggleActive"
-                  @dragleave.prevent="toggleActive"
-                  @dragover.prevent
-                  @drop.prevent="toggleActive"
-                  :class="{ 'bg-indigo-100': ActiveDrag }"
-                  class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 py-12 hover:border-gray-400">
-                  <div class="space-y-1 text-center">
-                    <CloudUploadIcon
-                      :class="{ 'text-white': ActiveDrag }"
-                      class="mx-auto h-12 w-12 text-neutral-200" />
-                    <div class="flex text-sm text-gray-600">
-                      <label
-                        for="dropzoneFile"
-                        class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
-                        <span>Upload a file</span>
-                        <input
-                          id="dropzoneFile"
-                          name="dropzoneFile"
-                          ref="file_upload"
-                          type="file"
-                          @change="getColumnsFromCsv()"
-                          class="sr-only" />
-                      </label>
-                      <p class="pl-1">or drag and drop</p>
+      <div>
+        <div
+          v-show="!showMapping"
+          class="container mx-auto mt-6 max-w-3xl py-12 px-4 sm:px-6 lg:px-8">
+          <div>
+            <div class="space-y-6">
+              <div class="min-h-screen items-center py-12">
+                <div @drop.prevent="getColumnsFromCsv()">
+                  <div
+                    @dragenter.prevent="toggleActive"
+                    @dragleave.prevent="toggleActive"
+                    @dragover.prevent
+                    @drop.prevent="toggleActive"
+                    :class="{ 'bg-indigo-100': ActiveDrag }"
+                    class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 py-12 hover:border-gray-400">
+                    <div class="space-y-1 text-center">
+                      <CloudUploadIcon
+                        :class="{ 'text-white': ActiveDrag }"
+                        class="mx-auto h-12 w-12 text-neutral-200" />
+                      <div class="flex text-sm text-gray-600">
+                        <label
+                          for="dropzoneFile"
+                          class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
+                          <span>Upload a file</span>
+                          <input
+                            id="dropzoneFile"
+                            name="dropzoneFile"
+                            ref="file_upload"
+                            type="file"
+                            @change="getColumnsFromCsv()"
+                            class="sr-only" />
+                        </label>
+                        <p class="pl-1">or drag and drop</p>
+                      </div>
+                      <p class="text-xs text-gray-500">CSV</p>
                     </div>
-                    <p class="text-xs text-gray-500">CSV</p>
                   </div>
                 </div>
-              </div>
-              <span class="file-info py-2 text-xs font-bold text-neutral-400"
-                >Uploading file: {{ importSet.listName.name }}</span
-              >
-              <ProgressBar
-                class="mt-4"
-                v-if="uploadProgress"
-                :percentage="uploadProgress">
-                <p
+                <span class="file-info py-2 text-xs font-bold text-neutral-400"
+                  >Uploading file: {{ importSet.listName.name }}</span
+                >
+                <ProgressBar
+                  class="mt-4"
                   v-if="uploadProgress"
-                  class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
-                  :class="[
-                    { 'text-white': uploadProgress > 50 },
-                    { 'text-indigo-700': uploadProgress <= 50 },
-                  ]">
-                  {{ uploadProgress }}%
+                  :percentage="uploadProgress">
+                  <p
+                    v-if="uploadProgress"
+                    class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
+                    :class="[
+                      { 'text-white': uploadProgress > 50 },
+                      { 'text-indigo-700': uploadProgress <= 50 },
+                    ]">
+                    {{ uploadProgress }}%
+                  </p>
+                </ProgressBar>
+                <p v-if="errors.key" class="mt-2 text-sm text-red-600">
+                  {{ errors.key[0] }}
                 </p>
-              </ProgressBar>
-              <p v-if="errors.key" class="mt-2 text-sm text-red-600">
-                {{ errors.key[0] }}
-              </p>
-            </div>
-            <!--  <div class="flex justify-end">
+              </div>
+              <!--  <div class="flex justify-end">
             <button
               :disabled="importing"
               @click="finishImport({})"
@@ -67,6 +73,7 @@
               Import
             </button>
           </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -74,8 +81,8 @@
     <div v-show="showMapping">
       <ImportColumnMatching
         @finish="finishImport"
+        :fileCheck="fileCheck"
         :columns="columns"
-        :importing="importing"
         :fileName="importSet.listName"
         :userLists="userLists"
         @listNameUpdated="updateListName" />
@@ -95,7 +102,7 @@ import UserService from '../services/api/user.service';
 import ProgressBar from '../components/ProgressBar.vue';
 import draggable from 'vuedraggable';
 import { CloudUploadIcon } from '@heroicons/vue/solid';
-import { ref } from 'vue';
+import NoAccess from '../components/NoAccess.vue';
 
 export default {
   name: 'Import',
@@ -108,6 +115,7 @@ export default {
     ProgressBar,
     draggable,
     CloudUploadIcon,
+    NoAccess,
   },
 
   data() {
@@ -129,6 +137,7 @@ export default {
       userLists: [],
       bucketResponse: null,
       uploadProgress: 0,
+      fileCheck: {},
     };
   },
   mounted() {
@@ -175,6 +184,7 @@ export default {
             response = response.data;
             if (response.status) {
               this.columns = response.columns;
+              this.fileCheck = response.fileCheck;
               this.showMapping = true;
               this.importSet.listName =
                 this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, '');
@@ -190,6 +200,7 @@ export default {
           })
           .finally((response) => {
             this.fetchingColumns = false;
+            this.$refs.file_upload.value = null;
           });
       });
     },
@@ -224,7 +235,8 @@ export default {
         })
         .finally((response) => {
           this.importing = false;
-          window.location.reload();
+          Object.assign(this.$data, this.$options.data());
+          this.getUserLists();
         });
     },
   },

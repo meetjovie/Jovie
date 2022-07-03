@@ -19,6 +19,7 @@ class SubscriptionsController extends Controller
         if ($user->currentTeam) {
             return response([
                 'intent' => $user->currentTeam->createSetupIntent(),
+                'stripeKey' => config('services.stripe.key'),
                 'status' => true,
             ]);
         }
@@ -93,6 +94,7 @@ class SubscriptionsController extends Controller
                 $subscription->interval = $plan->interval;
                 $subscription->save();
 
+                $user->currentTeam->addCredits($subscription->credits);
                 $item = $subscription->items->first();
                 $item->type = $product->metadata->type == 1 ? Team::AD_ON_SEAT : null;
                 $item->save();

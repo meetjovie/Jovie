@@ -63,9 +63,11 @@ class AuthController extends Controller
         $teamModel = config('teamwork.team_model');
 
         $team = $teamModel::create([
-            'name' => $request->first_name,
+            'name' => ($request->first_name."'s Team"),
             'owner_id' => $user->id,
         ]);
+        $team->credits = 10;
+        $team->save();
         $user->attachTeam($team);
 
         Auth::login($user);
