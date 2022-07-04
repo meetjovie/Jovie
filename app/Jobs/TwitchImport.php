@@ -227,10 +227,13 @@ class TwitchImport implements ShouldQueue
             $summary = null;
             try {
                 $response = self::scrapTwitchSummary($user->login);
+                SendSlackNotification::dispatch($response->getBody()->getContents());
                 if ($response->getStatusCode() == 200) {
                     $summary = json_decode($response->getBody()->getContents());
                 }
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+                SendSlackNotification::dispatch($e->getMessage());
+            }
             if (!is_null($summary) && count((array) $summary)) {
                 try {
                     $creator->twitch_average_viewers = $summary->avg_viewers;
