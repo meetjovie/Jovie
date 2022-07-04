@@ -78,7 +78,11 @@ trait SocialScrapperTrait {
     {
         try {
             $client = new \GuzzleHttp\Client();
-            $response = $client->get(('https://twitchtracker.com/api/channels/summary/'.$username.'?js=true'));
+            $response = $client->get('https://twitchtracker.com/api/channels/summary/'.$username, array(
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ]
+            ));
             return $response;
         } catch (\Exception $e) {
             return $e->getResponse();
