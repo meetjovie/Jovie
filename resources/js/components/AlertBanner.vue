@@ -47,9 +47,7 @@ import { XIcon } from '@heroicons/vue/outline';
 
 export default {
   data() {
-    return {
-      dismissed: false,
-    };
+    return {};
   },
   props: {
     design: {
