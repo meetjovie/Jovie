@@ -79,27 +79,17 @@ trait SocialScrapperTrait {
     {
         try {
 
-            $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => ('https://twitchtracker.com/api/channels/summary/'.$username),
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
+            $client = new Client();
+            $headers = [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json'
+            ];
+            $response = $client->get('https://twitchtracker.com/api/channels/summary/'.$username, array(
+                'headers' => $headers
             ));
-
-            $response = curl_exec($curl);
-
-            curl_close($curl);
-            Log::channel('slack_warning')->info(json_encode($response));
-            return ($response);
-
+            return $response;
         } catch (\Exception $e) {
-            return null;
+            return $e->getResponse();
         }
     }
 

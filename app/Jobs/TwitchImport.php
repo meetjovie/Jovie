@@ -227,9 +227,9 @@ class TwitchImport implements ShouldQueue
             $summary = null;
             try {
                 $response = self::scrapTwitchSummary($user->login);
-                SendSlackNotification::dispatch(json_encode($response));
-                if ($response) {
-                    $summary = json_decode($response);
+                SendSlackNotification::dispatch($response->getBody()->getContents());
+                if ($response->getStatusCode() == 200) {
+                    $summary = json_decode($response->getBody()->getContents());
                 }
             } catch (\Exception $e) {
                 SendSlackNotification::dispatch($e->getMessage());
