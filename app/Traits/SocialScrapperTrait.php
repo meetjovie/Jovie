@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Jobs\SendSlackNotification;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -77,8 +78,15 @@ trait SocialScrapperTrait {
     public function scrapTwitchSummary($username)
     {
         try {
-            $client = new \GuzzleHttp\Client();
-            $response = $client->get('https://twitchtracker.com/api/channels/summary/'.$username);
+
+            $client = new Client();
+            $headers = [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json'
+            ];
+            $response = $client->get('https://twitchtracker.com/api/channels/summary/'.$username, array(
+                'headers' => $headers
+            ));
             return $response;
         } catch (\Exception $e) {
             return $e->getResponse();
