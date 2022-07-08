@@ -82,6 +82,8 @@
     <div v-show="showMapping">
       <ImportColumnMatching
         @finish="finishImport"
+        :importing="importing"
+        :importSuccessful="importSuccessful"
         :fileCheck="fileCheck"
         :columns="columns"
         :fileName="importSet.listName"
@@ -164,7 +166,12 @@ export default {
       });
     },
     getColumnsFromCsv(e) {
-      let file = e.dataTransfer.files[0];
+      let file = null;
+      if (this.$refs.file_upload.files.length) {
+          file = this.$refs.file_upload.files[0];
+      } else {
+          file = e.dataTransfer.files[0];
+      }
       this.uploadProgress = 0;
       this.fetchingColumns = true;
       this.errors = [];
