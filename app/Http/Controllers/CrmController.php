@@ -23,7 +23,7 @@ class CrmController extends Controller
             'status' => true,
             'creators' => $creators,
             'networks' => Creator::NETWORKS,
-            'stages' => Crm::stages()
+            'stages' => Crm::stages(),
         ]);
     }
 
@@ -38,17 +38,19 @@ class CrmController extends Controller
         ]);
     }
 
-    public function moveCreator(Request $request, $creatorId) {
+    public function moveCreator(Request $request, $creatorId)
+    {
         $data = $request->validate([
             'selected' => 'required|numeric',
-            'rejected' => 'required|numeric'
+            'rejected' => 'required|numeric',
         ]);
         $crm = Crm::updateOrCreate(['creator_id' => $creatorId, 'user_id' => Auth::id()], $data);
         Creator::where('id', $creatorId)->searchable();
+
         return response([
             'status' => true,
             'data' => $crm,
-            'message' => 'Creator moved.'
+            'message' => 'Creator moved.',
         ]);
     }
 
@@ -57,6 +59,7 @@ class CrmController extends Controller
         $params = $request->all();
         $params['export'] = true;
         $creators = Creator::getCrmCreators($params);
+
         return Excel::download(new CrmExport($creators), 'creators.csv');
     }
 
@@ -68,7 +71,7 @@ class CrmController extends Controller
             'status' => true,
             'creator' => $creator,
             'networks' => Creator::NETWORKS,
-            'stages' => Crm::stages()
+            'stages' => Crm::stages(),
         ]);
     }
 
@@ -87,24 +90,26 @@ class CrmController extends Controller
     {
         $request->validate([
             'comment' => 'required',
-            'creator_id' => 'required'
+            'creator_id' => 'required',
         ]);
         $creator = Creator::where('id', $request->creator_id)->count();
         if ($creator) {
             $comment = CreatorComment::create([
                 'user_id' => Auth::id(),
                 'creator_id' => $request->creator_id,
-                'comment' => $request->comment
+                'comment' => $request->comment,
             ]);
+
             return response([
                 'status' => true,
                 'message' => 'Comment added.',
-                'data' => $comment->load('user')
+                'data' => $comment->load('user'),
             ]);
         }
+
         return response([
             'status' => false,
-            'message' => 'Creator does not exist.'
+            'message' => 'Creator does not exist.',
         ]);
     }
 
@@ -118,9 +123,10 @@ class CrmController extends Controller
             $comments = $comments->limit($request->limit);
         }
         $comments = $comments->get();
+
         return response([
             'status' => true,
-            'comments' => $comments
+            'comments' => $comments,
         ]);
     }
 
@@ -134,14 +140,15 @@ class CrmController extends Controller
             if ($creator) {
                 return response([
                     'status' => true,
-                    'data' => $creator
+                    'data' => $creator,
                 ]);
             }
         }
+
         return response([
             'status' => false,
             'data' => null,
-            'message' => 'No more creators.'
+            'message' => 'No more creators.',
         ]);
     }
 
@@ -155,37 +162,39 @@ class CrmController extends Controller
             if ($creator) {
                 return response([
                     'status' => true,
-                    'data' => $creator
+                    'data' => $creator,
                 ]);
             }
         }
+
         return response([
             'status' => false,
             'data' => null,
-            'message' => 'No more creators.'
+            'message' => 'No more creators.',
         ]);
     }
 
     public function addCreatorToCreator(Request $request)
     {
         $request->validate([
-            'creator_id' => 'required'
+            'creator_id' => 'required',
         ]);
 
-        $crm = Crm::updateOrCreate(['user_id' => Auth::id(),'creator_id' => $request->creator_id],
-            ['user_id' => Auth::id(),'creator_id' => $request->creator_id]
+        $crm = Crm::updateOrCreate(['user_id' => Auth::id(), 'creator_id' => $request->creator_id],
+            ['user_id' => Auth::id(), 'creator_id' => $request->creator_id]
         );
 
         return response([
             'status' => true,
             'message' => 'Added to contacts.',
-            'crm' => $crm
+            'crm' => $crm,
         ]);
     }
 
     public function discovery(Request $request)
     {
         $data = $this->fetchCreators($request, [], $request->page);
+
         return $data;
     }
 
@@ -200,58 +209,58 @@ class CrmController extends Controller
         $filtersString .= ' AND (selectedRecord!=user_'.Auth::id().' OR selectedRecordCount=0)';
         $filtersString .= ' AND (rejectedRecord!=user_'.Auth::id().' OR rejectedRecordCount=0)';
 //        dd($filtersString);
-        if (!empty($request->gender)) {
+        if (! empty($request->gender)) {
             $filtersString = $filtersString.' AND gender='.$request->gender;
         }
-        if (!empty($request->instagram_category)) {
+        if (! empty($request->instagram_category)) {
             $filtersString = $filtersString.' AND instagram_category='.$request->instagram_category;
         }
-        if (!empty($request->city)) {
+        if (! empty($request->city)) {
             $filtersString = $filtersString.' AND city='.$request->city;
         }
-        if (!empty($request->country)) {
+        if (! empty($request->country)) {
             $filtersString = $filtersString.' AND country='.$request->country;
         }
 
         $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
         if ($request->instagram_engagement_rate) {
-            if (!empty($request->instagram_engagement_rate[0])) {
-                $filtersString = $filtersString.' AND instagram_engagement_rate>='.($request->instagram_engagement_rate[0]/100);
+            if (! empty($request->instagram_engagement_rate[0])) {
+                $filtersString = $filtersString.' AND instagram_engagement_rate>='.($request->instagram_engagement_rate[0] / 100);
             }
-            if (!empty($request->instagram_engagement_rate[1])) {
-                $filtersString = $filtersString.' AND instagram_engagement_rate<='.($request->instagram_engagement_rate[1]/100);
+            if (! empty($request->instagram_engagement_rate[1])) {
+                $filtersString = $filtersString.' AND instagram_engagement_rate<='.($request->instagram_engagement_rate[1] / 100);
             }
         }
         $request->instagram_followers = json_decode($request->instagram_followers);
         if ($request->instagram_followers) {
-            if (!empty($request->instagram_followers[0])) {
+            if (! empty($request->instagram_followers[0])) {
                 $filtersString = $filtersString.' AND instagram_followers>='.$request->instagram_followers[0];
             }
-            if (!empty($request->instagram_followers[1])) {
+            if (! empty($request->instagram_followers[1])) {
                 $filtersString = $filtersString.' AND instagram_followers<='.$request->instagram_followers[1];
             }
         }
 
-        if (!empty($request->emails)) {
+        if (! empty($request->emails)) {
             $filtersString = $filtersString.' AND emails='.$request->emails;
         }
 
-//dd($filtersString);
+        //dd($filtersString);
         dd($client->index('creators')->getSearchableAttributes());
         $data = $client->index('creators')->search($request->q, [
             'filter' => $filtersString,
             'offset' => $request->page,
-            'limit' => 30
+            'limit' => 30,
         ])->getRaw();
         dd($data);
 
-        if (!$crms) {
+        if (! $crms) {
             $crms = $client->index('crms')->search('', [
                 'filter' => ('selected='.$request->selected.' AND rejected='.$request->rejected),
                 'offset' => $request->page,
-                'limit' => 30
+                'limit' => 30,
             ])->getRaw();
-            $crms = \App\Models\Crm::search("")
+            $crms = \App\Models\Crm::search('')
                 ->where('user_id', 1)
                 ->where('selected', $request->selected)
                 ->where('rejected', $request->rejected)
@@ -276,6 +285,7 @@ class CrmController extends Controller
         }
 
         $creators['hits'] = $hits;
+
         return $creators;
     }
 }

@@ -14,7 +14,6 @@ class AddTwitterFieldsToCreatorsTable extends Migration
     public function up()
     {
         Schema::table('creators', function (Blueprint $table) {
-
             $table->unsignedInteger('gender_accuracy')->default(0)->nullable()->change();
             $table->string('type')->nullable()->change();
             $table->string('account_type')->nullable()->change();

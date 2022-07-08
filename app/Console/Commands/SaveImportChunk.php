@@ -54,10 +54,10 @@ class SaveImportChunk extends Command
 
             $list = UserList::firstOrCreate([
                 'user_id' => $payload->userId,
-                'name' => $payload->listName
+                'name' => $payload->listName,
             ], [
                 'user_id' => $payload->userId,
-                'name' => $payload->listName
+                'name' => $payload->listName,
             ]);
             $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
             $user = User::where('id', $payload->userId)->first();
@@ -77,7 +77,7 @@ class SaveImportChunk extends Command
 
                 if (count($row) < $maxColumn) {
                     $missColumnCount = $maxColumn - count($row);
-                    for ($i=0; $i<=$missColumnCount; $i++) {
+                    for ($i = 0; $i <= $missColumnCount; $i++) {
                         array_push($row, null);
                     }
                 }
@@ -94,7 +94,7 @@ class SaveImportChunk extends Command
                     'instagram_handler' => isset($payload->mappedColumns->instagram) ? $row[$payload->mappedColumns->instagram] : null,
                 ];
 
-                if (!count(array_filter($socialHandlers))) {
+                if (! count(array_filter($socialHandlers))) {
                     $bar->advance();
                     continue;
                 }
@@ -130,7 +130,7 @@ class SaveImportChunk extends Command
                 // if no follower count then let go
                 if (isset($payload->mappedColumns->instagram) && ($user->is_admin || $instaFollowersCount > 5000)) {
                     $import->instagram = $row[$payload->mappedColumns->instagram] ?? null;
-                    if (!empty($import->instagram) && $import->instagram[0] == '@') {
+                    if (! empty($import->instagram) && $import->instagram[0] == '@') {
                         $import->instagram = substr($import->instagram, 1);
                     }
                 }

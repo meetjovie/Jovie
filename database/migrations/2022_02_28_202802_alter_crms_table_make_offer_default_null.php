@@ -1,10 +1,10 @@
 <?php
 
 use Doctrine\DBAL\Types\FloatType;
+use Doctrine\DBAL\Types\Type;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Doctrine\DBAL\Types\Type;
 
 class AlterCrmsTableMakeOfferDefaultNull extends Migration
 {
@@ -16,7 +16,7 @@ class AlterCrmsTableMakeOfferDefaultNull extends Migration
     public function up()
     {
         Schema::table('crms', function (Blueprint $table) {
-            if (!Type::hasType('double')) {
+            if (! Type::hasType('double')) {
                 Type::addType('double', FloatType::class);
             }
             $table->double('instagram_offer', null, 2)->nullable()->change();

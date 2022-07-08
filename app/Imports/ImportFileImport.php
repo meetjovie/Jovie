@@ -10,8 +10,8 @@ class ImportFileImport implements ToCollection
     public $data;
 
     /**
-    * @param Collection $collection
-    */
+     * @param Collection $collection
+     */
     public function collection(Collection $collection)
     {
         $this->data = $collection;

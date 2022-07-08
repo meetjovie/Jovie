@@ -20,9 +20,13 @@ class FileImport implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $file;
+
     private $mappedColumns;
+
     private $tags;
+
     private $listId;
+
     private $userId;
 
     /**
@@ -131,7 +135,7 @@ class FileImport implements ShouldQueue
                     // instagram
                     $user = User::where('id', $this->userId)->first();
                     $instaFollowersCount = $row[$instagramFollowerCountKey] ?? 5001; // if no follower count then let go
-                    if (!is_null($instagramKey) && ($user->is_admin || $instaFollowersCount > 5000)) {
+                    if (! is_null($instagramKey) && ($user->is_admin || $instaFollowersCount > 5000)) {
                         $username = $row[$instagramKey];
                         if ($username && $username != '') {
                             if ($username[0] == '@') {
@@ -149,11 +153,11 @@ class FileImport implements ShouldQueue
                                 'city' => ($row[$cityKey] ?? null),
                                 'country' => $country,
                                 'wikiId' => ($row[$wikiKey] ?? null),
-                                'socialHandlers' => $socialHandlers
+                                'socialHandlers' => $socialHandlers,
                             ];
                             Bus::chain([
                                 new InstagramImport($username, $this->tags, true, null, $meta, $this->listId, $this->userId),
-                                new SendSlackNotification('imported instagram user '.$username)
+                                new SendSlackNotification('imported instagram user '.$username),
                             ])->dispatch();
                         }
                     }

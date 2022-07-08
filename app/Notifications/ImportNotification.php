@@ -11,9 +11,13 @@ use Illuminate\Notifications\Notification;
 class ImportNotification extends Notification
 {
     use Queueable;
+
     private $message;
+
     private $internalMessage;
+
     private $data;
+
     /**
      * Create a new notification instance.
      *
@@ -46,6 +50,7 @@ class ImportNotification extends Notification
     public function toSlack($notifiable)
     {
         $content = [$this->message, $this->internalMessage, $this->data];
+
         return (new SlackMessage)->content(json_encode($content));
     }
 

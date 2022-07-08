@@ -20,22 +20,24 @@ class AuthController extends Controller
         $invite = Teamwork::getInviteFromAcceptToken($token);
         if (! $invite) {
             return response([
-                'status' => false
+                'status' => false,
             ], 404);
         }
 
         if (auth()->check()) {
             Teamwork::acceptInvite($invite);
+
             return response([
                 'status' => true,
-                'message' => 'Accepted'
+                'message' => 'Accepted',
             ]);
         } else {
             session(['invite_token' => $token]);
+
             return response([
                 'status' => false,
                 'message' => 'Login',
-                'invite_token' => $token
+                'invite_token' => $token,
             ]);
         }
     }

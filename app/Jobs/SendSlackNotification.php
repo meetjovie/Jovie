@@ -18,7 +18,9 @@ class SendSlackNotification implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
 
     private $message = null;
+
     private $internalMessage = null;
+
     private $data = [];
 
     /**
@@ -44,7 +46,6 @@ class SendSlackNotification implements ShouldQueue
             $user = new User();
             $user->notify(new ImportNotification($this->message, $this->internalMessage, $this->data));
         } catch (\Exception $e) {
-
         }
     }
 }

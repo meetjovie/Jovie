@@ -43,6 +43,5 @@ class AddNewRelatedFieldsForSocialHandles extends Migration
      */
     public function down()
     {
-
     }
 }
