@@ -13,7 +13,9 @@
           <div>
             <div class="space-y-6">
               <div class="min-h-screen items-center py-12">
-                <label for="dropzoneFile" @drop.prevent="getColumnsFromCsv($event)">
+                <label
+                  for="dropzoneFile"
+                  @drop.prevent="getColumnsFromCsv($event)">
                   <div
                     @dragenter.prevent="toggleActive"
                     @dragleave.prevent="toggleActive"
@@ -126,13 +128,14 @@ export default {
       errors: [],
       dropzoneFile: [],
       drag: false,
+      importSuccessful: false,
+      importing: false,
       importSet: {
         instagram: null,
         youtube: null,
         tags: null,
         listName: '',
       },
-      importing: false,
       userLists: [],
       bucketResponse: null,
       uploadProgress: 0,
@@ -186,8 +189,7 @@ export default {
               this.columns = response.columns;
               this.fileCheck = response.fileCheck;
               this.showMapping = true;
-              this.importSet.listName =
-                file.name.replace(/\.[^/.]+$/, '');
+              this.importSet.listName = file.name.replace(/\.[^/.]+$/, '');
             } else {
               // show toast error here later
             }
@@ -222,7 +224,17 @@ export default {
           response = response.data;
           if (response.status) {
             this.currentUser.queued_count = response.queued_count;
-            alert(response.message);
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Import Successful',
+              text: 'Your import has been queued and will be processed shortly.',
+            });
+            this.importSuccessful = true;
+            //router push path /contacts
+            this.$router.push('/contacts');
+
+            /*  alert(response.message); */
           } else {
             // show toast error here later
           }

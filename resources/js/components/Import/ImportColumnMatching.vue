@@ -48,6 +48,7 @@
         <div>
           <ButtonGroup
             text="Finish"
+            :success="importSuccessful"
             :loader="importing"
             class="justify-right"
             :disabled="!Object.keys(mappedColumns).length"
@@ -88,10 +89,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    importSuccessful: {
+      type: Boolean,
+      default: false,
+    },
     fileCheck: {
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
   data() {
     return {
