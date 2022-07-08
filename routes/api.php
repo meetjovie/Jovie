@@ -22,7 +22,7 @@ Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'regi
 Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::middleware('auth:sanctum')->group(function () {
 
     //    PROFILE
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     /**
      * Teamwork routes
      */
-    Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function () {
+    Route::prefix('teams')->namespace('Teamwork')->group(function () {
         Route::get('/', [App\Http\Controllers\Teamwork\TeamController::class, 'index'])->name('teams.index');
         Route::post('teams', [App\Http\Controllers\Teamwork\TeamController::class, 'store'])->name('teams.store');
         Route::get('team/{id}', [App\Http\Controllers\Teamwork\TeamController::class, 'edit'])->name('teams.edit');
