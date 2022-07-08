@@ -41,6 +41,7 @@ return [
             'retry_after' => 90,
             'after_commit' => false,
         ],
+
         'instagram' => [
             'driver' => 'database',
             'table' => 'jobs',
