@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class TeamworkSetupTables extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -80,4 +80,4 @@ class TeamworkSetupTables extends Migration
         Schema::drop(\Config::get('teamwork.team_invites_table'));
         Schema::drop(\Config::get('teamwork.teams_table'));
     }
-}
+};
