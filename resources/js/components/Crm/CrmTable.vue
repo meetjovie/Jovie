@@ -545,6 +545,20 @@
                               Remove</a
                             >
                           </MenuItem>
+                          <MenuItem v-slot="{ active }" class="items-center">
+                            <a
+                              href="#"
+                              class="items-center text-neutral-400 hover:text-neutral-900"
+                              :class="[
+                                active
+                                  ? 'bg-gray-100 text-gray-900'
+                                  : 'text-gray-700',
+                                'block px-4 py-2 text-sm',
+                              ]">
+                              <RefreshIcon class="mr-2 inline h-4 w-4" />
+                              Refresh</a
+                            >
+                          </MenuItem>
                         </div>
                       </MenuItems>
                     </transition>
@@ -584,6 +598,7 @@ import {
   ArchiveIcon,
   BanIcon,
   TrashIcon,
+  RefreshIcon,
   ChevronDownIcon,
   ChevronUpIcon,
 } from '@heroicons/vue/solid';
@@ -598,6 +613,7 @@ export default {
     StarRating,
     Menu,
     MenuButton,
+    RefreshIcon,
     MenuItems,
     MenuItem,
     DotsVerticalIcon,
