@@ -13,7 +13,9 @@
           <div>
             <div class="space-y-6">
               <div class="min-h-screen items-center py-12">
-                <div @drop.prevent="getColumnsFromCsv()">
+                <label
+                  for="dropzoneFile"
+                  @drop.prevent="getColumnsFromCsv($event)">
                   <div
                     @dragenter.prevent="toggleActive"
                     @dragleave.prevent="toggleActive"
@@ -27,7 +29,6 @@
                         class="mx-auto h-12 w-12 text-neutral-200" />
                       <div class="flex text-sm text-gray-600">
                         <label
-                          for="dropzoneFile"
                           class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
                           <span>Upload a file</span>
                           <input
@@ -35,7 +36,7 @@
                             name="dropzoneFile"
                             ref="file_upload"
                             type="file"
-                            @change="getColumnsFromCsv()"
+                            @change="getColumnsFromCsv($event)"
                             class="sr-only" />
                         </label>
                         <p class="pl-1">or drag and drop</p>
@@ -43,7 +44,7 @@
                       <p class="text-xs text-gray-500">CSV</p>
                     </div>
                   </div>
-                </div>
+                </label>
                 <span class="file-info py-2 text-xs font-bold text-neutral-400"
                   >Uploading file: {{ importSet.listName.name }}</span
                 >
@@ -81,6 +82,8 @@
     <div v-show="showMapping">
       <ImportColumnMatching
         @finish="finishImport"
+        :importing="importing"
+        :importSuccessful="importSuccessful"
         :fileCheck="fileCheck"
         :columns="columns"
         :fileName="importSet.listName"
@@ -127,13 +130,14 @@ export default {
       errors: [],
       dropzoneFile: [],
       drag: false,
+      importSuccessful: false,
+      importing: false,
       importSet: {
         instagram: null,
         youtube: null,
         tags: null,
         listName: '',
       },
-      importing: false,
       userLists: [],
       bucketResponse: null,
       uploadProgress: 0,
@@ -161,12 +165,18 @@ export default {
         }
       });
     },
-    getColumnsFromCsv() {
+    getColumnsFromCsv(e) {
+      let file = null;
+      if (this.$refs.file_upload.files.length) {
+          file = this.$refs.file_upload.files[0];
+      } else {
+          file = e.dataTransfer.files[0];
+      }
       this.uploadProgress = 0;
       this.fetchingColumns = true;
       this.errors = [];
 
-      Vapor.store(this.$refs.file_upload.files[0], {
+      Vapor.store(file, {
         visibility: 'public-read',
         progress: (progress) => {
           this.uploadProgress = Math.round(progress * 100);
@@ -177,8 +187,8 @@ export default {
           uuid: response.uuid,
           key: response.key,
           bucket: response.bucket,
-          name: this.$refs.file_upload.files[0].name,
-          content_type: this.$refs.file_upload.files[0].type,
+          name: file.name,
+          content_type: file.type,
         })
           .then((response) => {
             response = response.data;
@@ -186,8 +196,7 @@ export default {
               this.columns = response.columns;
               this.fileCheck = response.fileCheck;
               this.showMapping = true;
-              this.importSet.listName =
-                this.$refs.file_upload.files[0].name.replace(/\.[^/.]+$/, '');
+              this.importSet.listName = file.name.replace(/\.[^/.]+$/, '');
             } else {
               // show toast error here later
             }
@@ -222,7 +231,17 @@ export default {
           response = response.data;
           if (response.status) {
             this.currentUser.queued_count = response.queued_count;
-            alert(response.message);
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Import Successful',
+              text: 'Your import has been queued and will be processed shortly.',
+            });
+            this.importSuccessful = true;
+            //router push path /contacts
+            this.$router.push('/contacts');
+
+            /*  alert(response.message); */
           } else {
             // show toast error here later
           }

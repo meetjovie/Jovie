@@ -587,7 +587,7 @@ class Creator extends Model
             $changes = $creator->crms()->syncWithoutDetaching($userId);
             if (count($changes['attached'])) {
                 $user = User::with('currentTeam')->where('id', $userId)->first();
-                if ($user && $user->currentTeam) {
+                if ($user && !$user->is_admin && $user->currentTeam) {
                     $user->currentTeam->decrement('credits');
                 }
             }

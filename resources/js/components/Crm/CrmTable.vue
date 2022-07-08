@@ -545,6 +545,20 @@
                               Remove</a
                             >
                           </MenuItem>
+                          <MenuItem v-slot="{ active }" class="items-center" @click="refresh(creator[`${network}_handler`], network)" :disabled="adding">
+                            <a
+                              href="#"
+                              class="items-center text-neutral-400 hover:text-neutral-900"
+                              :class="[
+                                active
+                                  ? 'bg-gray-100 text-gray-900'
+                                  : 'text-gray-700',
+                                'block px-4 py-2 text-sm',
+                              ]">
+                              <RefreshIcon class="mr-2 inline h-4 w-4" />
+                              Refresh</a
+                            >
+                          </MenuItem>
                         </div>
                       </MenuItems>
                     </transition>
@@ -584,12 +598,14 @@ import {
   ArchiveIcon,
   BanIcon,
   TrashIcon,
+  RefreshIcon,
   ChevronDownIcon,
   ChevronUpIcon,
 } from '@heroicons/vue/solid';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import JovieSpinner from '../../components/JovieSpinner.vue';
+import ImportService from "../../services/api/import.service";
 
 export default {
   name: 'CrmTable',
@@ -598,6 +614,7 @@ export default {
     StarRating,
     Menu,
     MenuButton,
+    RefreshIcon,
     MenuItems,
     MenuItem,
     DotsVerticalIcon,
@@ -618,6 +635,41 @@ export default {
     'loading',
     'arcvhied',
   ],
+    methods: {
+        refresh(url, network) {
+            this.adding = true;
+            var form = new FormData();
+            form.append(network, url);
+            ImportService.import(form)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        this.$notify({
+                            group: 'user',
+                            type: 'success',
+                            title: 'Import initiated',
+                            text: 'Your data is being updated.',
+                        });
+                    } else {
+                        this.$notify({
+                            group: 'user',
+                            type: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                        this.errors = error.data.errors;
+                    }
+                })
+                .finally((response) => {
+                    this.adding = false;
+                });
+        }
+    }
 };
 </script>
 
