@@ -5,14 +5,10 @@ const baseUrlWeb = ''
 
 export default {
     async getColumnsFromCsv(data) {
-        return axios.post(`${baseApiUrl}/get-columns-from-csv`, data, {
-            headers: await store.dispatch('headers', {'Content-Type': 'multipart/form-data'})
-        })
+        return axios.post(`${baseApiUrl}/get-columns-from-csv`, data)
     },
     async import(data) {
-        return axios.post(`${baseApiUrl}/import`, data, {
-            headers: await store.dispatch('headers', {'Content-Type': 'multipart/form-data'})
-        })
+        return axios.post(`${baseApiUrl}/import`, data)
     },
     async getNotifications() {
         return axios.get(`${baseApiUrl}/notifications`)
