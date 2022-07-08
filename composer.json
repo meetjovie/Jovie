@@ -27,7 +27,8 @@
         "meilisearch/meilisearch-php": "^0.23.1",
         "mpociot/teamwork": "^7.0",
         "simplesoftwareio/simple-sqs-extended-client": "~1",
-        "weidner/goutte": "^2.1"
+        "weidner/goutte": "^2.1",
+        "league/flysystem-aws-s3-v3": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
