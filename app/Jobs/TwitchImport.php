@@ -62,7 +62,7 @@ class TwitchImport implements ShouldQueue
     {
         try {
 
-            if ($this->userId && !is_null($this->platformUser) && $this->platformUser->currentTeam->credits <= 0) {
+            if ($this->userId && !is_null($this->platformUser) && !$this->platformUser->is_admin && $this->platformUser->currentTeam->credits <= 0) {
                 Import::markImport($this->importId, ['twitch']);
                 if ($this->batch() && !$this->batch()->cancelled()) {
                     $this->batch()->cancel();
@@ -93,7 +93,7 @@ class TwitchImport implements ShouldQueue
                 $creator = Creator::where('twitch_handler', $this->username)->first();
             }
             // 30 days diff
-            if ($creator && !is_null($creator->twitch_last_scrapped_at)) {
+            if ($creator && !is_null($creator->twitch_last_scrapped_at) && (is_null($this->platformUser) || !$this->platformUser->is_admin)) {
                 $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
                     Creator::addToListAndCrm($creator, $this->listId, $this->userId);
@@ -144,6 +144,7 @@ class TwitchImport implements ShouldQueue
                         Import::markImport($this->importId, ['twitch']);
                         $this->fail(new \Exception($response->getBody()->getContents(), $response->getStatusCode()));
 //                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
+//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents(), 'username' => $this->username, 'network' => 'twitch']);
                     }
                 }
@@ -172,13 +173,13 @@ class TwitchImport implements ShouldQueue
             $creator->setAppends([]);
             if (isset($this->meta['socialHandlers'])) {
                 foreach ($this->meta['socialHandlers'] as $k => $handler) {
-                    if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
+                    if ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && $handler) {
                         $creator->{$k} = $handler;
-                    } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
+                    } elseif ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && !$handler) {
                         // donot do any thing
                         // donot do any thing
                     } elseif ($handler) {
-                        $creator->{$k} = $this->platformUser->is_admin ? ($handler ?? $creator->{$k}) : $creator->{$k};
+                        $creator->{$k} = $this->platformUser && $this->platformUser->is_admin ? ($handler ?? $creator->{$k}) : $creator->{$k};
                     }
                 }
             }

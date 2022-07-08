@@ -97,7 +97,7 @@ class InstagramImport implements ShouldQueue
 
         $creator = Creator::where('instagram_handler', $this->username)->first();
         // 30 days diff
-        if ($creator && !is_null($creator->instagram_last_scrapped_at)) {
+        if ($creator && !is_null($creator->instagram_last_scrapped_at) && (is_null($this->platformUser) || !$this->platformUser->is_admin)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
                 Creator::addToListAndCrm($creator, $this->listId, $this->userId);
@@ -223,13 +223,13 @@ class InstagramImport implements ShouldQueue
 
         if (isset($this->meta['socialHandlers'])) {
             foreach ($this->meta['socialHandlers'] as $k => $handler) {
-                if ($k == 'youtube_handler' && $this->platformUser->is_admin && $handler) {
+                if ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && $handler) {
                     $creator[$k] = $handler;
-                } elseif ($k == 'youtube_handler' && $this->platformUser->is_admin && !$handler) {
+                } elseif ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && !$handler) {
                     // donot do any thing
                     // donot do any thing
                 } elseif ($handler) {
-                    $creator[$k] = $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
+                    $creator[$k] = $this->platformUser && $this->platformUser->is_admin ? ($handler ?? $creator[$k]) : $creator[$k];
                 }
             }
         }

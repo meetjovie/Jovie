@@ -545,7 +545,7 @@
                               Remove</a
                             >
                           </MenuItem>
-                          <MenuItem v-slot="{ active }" class="items-center">
+                          <MenuItem v-slot="{ active }" class="items-center" @click="refresh(creator[`${network}_handler`], network)" :disabled="adding">
                             <a
                               href="#"
                               class="items-center text-neutral-400 hover:text-neutral-900"
@@ -605,6 +605,7 @@ import {
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import JovieSpinner from '../../components/JovieSpinner.vue';
+import ImportService from "../../services/api/import.service";
 
 export default {
   name: 'CrmTable',
@@ -634,6 +635,41 @@ export default {
     'loading',
     'arcvhied',
   ],
+    methods: {
+        refresh(url, network) {
+            this.adding = true;
+            var form = new FormData();
+            form.append(network, url);
+            ImportService.import(form)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        this.$notify({
+                            group: 'user',
+                            type: 'success',
+                            title: 'Import initiated',
+                            text: 'Your data is being updated.',
+                        });
+                    } else {
+                        this.$notify({
+                            group: 'user',
+                            type: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                        this.errors = error.data.errors;
+                    }
+                })
+                .finally((response) => {
+                    this.adding = false;
+                });
+        }
+    }
 };
 </script>
 
