@@ -77,7 +77,7 @@ return [
 
         'slack_warning' => [
             'driver' => 'slack',
-            'url' => env('SLACK_NOTIFICATION_WEBHOOK'),
+            'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Import Log',
             'emoji' => ':boom:',
             'level' => env('LOG_LEVEL', 'critical'),
