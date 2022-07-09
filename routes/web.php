@@ -22,18 +22,20 @@ Route::get('check', function () {
     $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv|twitch\.com)\/([A-Za-z0-9-_\.]+)/';
 
     // Verify valid twitch URL
-    if ( preg_match( $regex, $value, $matches ) ) {
+    if (preg_match($regex, $value, $matches)) {
         $twitch = $matches[1];
         dump(1);
         dd($twitch);
+
         return;
     }
     $regexUrl = '/(?:(?:http|https):\/\/)/';
     // Verify valid Instagram URL
-    if ( preg_match( $regexUrl, $value, $matches ) ) {
-        $twitch =  null;
+    if (preg_match($regexUrl, $value, $matches)) {
+        $twitch = null;
         dump(2);
         dd($twitch);
+
         return;
     }
     dump(3);
@@ -42,26 +44,25 @@ Route::get('check', function () {
 });
 Route::get('/search-mili', [\App\Http\Controllers\CrmController::class, 'discovery']);
 Route::get('/search-miali', function (Request $request) {
-
     $creators = \App\Models\Creator::search($request->q);
 
-    if (!empty($request->gender)) {
+    if (! empty($request->gender)) {
         $creators = $creators->where('gender', $request->gender);
     }
-    if (!empty($request->instagram_category)) {
+    if (! empty($request->instagram_category)) {
         $creators = $creators->where('instagram_category', $request->instagram_category);
     }
-    if (!empty($request->city)) {
+    if (! empty($request->city)) {
         $creators = $creators->where('city', $request->city);
     }
-    if (!empty($request->country)) {
+    if (! empty($request->country)) {
         $creators = $creators->where('country', $request->country);
     }
     $creators = $creators->take(PHP_INT_MAX)->paginateRaw($request->page);
 
     $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
 
-    $crms = \App\Models\Crm::search("")
+    $crms = \App\Models\Crm::search('')
         ->where('user_id', 1)
         ->where('selected', $request->selected)
         ->where('rejected', $request->rejected)
@@ -84,7 +85,7 @@ Route::get('/search-miali', function (Request $request) {
 
         $matched = true;
         if ($request->instagram_engagement_rate) {
-            if (!empty($request->instagram_engagement_rate[0])) {
+            if (! empty($request->instagram_engagement_rate[0])) {
                 $matched = $creator['instagram_engagement_rate'] >= $request->instagram_engagement_rate[0] / 100
                     && $creator['instagram_engagement_rate'] <= $request->instagram_engagement_rate[1] / 100;
             } else {
@@ -97,16 +98,18 @@ Route::get('/search-miali', function (Request $request) {
     }
 
     $creators['hits'] = $hits;
+
     return $creators;
 });
 Route::get('config-mili', function () {
     return config('scout.meilisearch');
 });
     Route::get('config-queue', function () {
-    return config('queue');
-});
+        return config('queue');
+    });
 Route::get('index-mili', function () {
     $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
+
     return $client->getAllIndexes();
 });
 Route::get('available-filters', function () {
@@ -123,11 +126,13 @@ Route::get('meili-tasks', function (Request $request) {
         } else {
             $response = $client->index('creators')->getTasks();
         }
+
         return $response;
     } catch (Exception $e) {
         $response = $client->getTasks();
         $data[0] = $e->getMessage().' Showing all tasks.';
         $data[1] = $response;
+
         return $data;
     }
 });
@@ -148,7 +153,7 @@ Route::get('/filters-scout', function () {
         'all_to',
         'selected_to',
         'rejected_to',
-        'unique'
+        'unique',
     ]);
     $response = $client->index('creators')->getFilterableAttributes();
     dd($response);
@@ -156,15 +161,16 @@ Route::get('/filters-scout', function () {
 Route::get('creator', function () {
     $url = ('https://www.instagram.com/timwhite/?__a=1&hl=en');
     $client = new \GuzzleHttp\Client();
-    $response = $client->get('https://api.webscraping.ai/html', array(
+    $response = $client->get('https://api.webscraping.ai/html', [
         'query' => [
             'api_key' => config('import.scrapper_api_key'),
             'url' => $url,
             'proxy' => 'residential',
-            'timeout' => 30000
-        ]
-    ));
+            'timeout' => 30000,
+        ],
+    ]);
     dd(json_decode($response->getBody()->getContents()));
+
     return json_decode($response->getBody()->getContents());
     $creator = \App\Models\Creator::first();
     $creator->instagram_handler = 'https://wwadinstagram.com/timwhite';
@@ -189,4 +195,3 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 Route::get('{any?}', function () {
     return view('welcome');
 });
-

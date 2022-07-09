@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeTwitchColumnName extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -28,4 +27,4 @@ class ChangeTwitchColumnName extends Migration
         Schema::table('creators', function (Blueprint $table) {
         });
     }
-}
+};

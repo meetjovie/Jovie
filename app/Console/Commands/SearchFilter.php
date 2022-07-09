@@ -54,7 +54,7 @@ class SearchFilter extends Command
             'all_to',
             'selected_to',
             'rejected_to',
-            'unique'
+            'unique',
         ]);
         $this->info('The command was successful!'.json_encode($response));
     }

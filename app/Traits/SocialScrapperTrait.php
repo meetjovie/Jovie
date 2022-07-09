@@ -10,22 +10,24 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 
-trait SocialScrapperTrait {
+trait SocialScrapperTrait
+{
+    private $INSTAGRAM_SCRAPPER_URL = 'https://api.webscraping.ai/html';
 
-    private $INSTAGRAM_SCRAPPER_URL = "https://api.webscraping.ai/html";
     public function scrapInstagram($username)
     {
         try {
             $url = ('https://www.instagram.com/'.$username.'/?__a=1&hl=en&js=false');
             $client = new \GuzzleHttp\Client();
-            $response = $client->get($this->INSTAGRAM_SCRAPPER_URL, array(
+            $response = $client->get($this->INSTAGRAM_SCRAPPER_URL, [
                 'query' => [
                     'api_key' => config('import.scrapper_api_key'),
                     'url' => $url,
                     'proxy' => 'residential',
-                    'timeout' => 10000
-                ]
-            ));
+                    'timeout' => 10000,
+                ],
+            ]);
+
             return $response;
         } catch (\Exception $e) {
             return $e->getResponse();
@@ -36,13 +38,14 @@ trait SocialScrapperTrait {
     {
         try {
             $client = new \GuzzleHttp\Client();
-            $response = $client->post('https://id.twitch.tv/oauth2/token', array(
+            $response = $client->post('https://id.twitch.tv/oauth2/token', [
                 'query' => [
                     'client_id' => config('import.twitch_client_id'),
                     'client_secret' => config('import.twitch_client_secret'),
                     'grant_type' => 'client_credentials',
-                ]
-            ));
+                ],
+            ]);
+
             return json_decode($response->getBody()->getContents());
         } catch (\Exception $e) {
             return null;
@@ -62,13 +65,14 @@ trait SocialScrapperTrait {
         }
         try {
             $client = new \GuzzleHttp\Client();
-            $response = $client->get('https://api.twitch.tv/helix/users', array(
+            $response = $client->get('https://api.twitch.tv/helix/users', [
                 'query' => $query,
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
-                    'client-id' => config('import.twitch_client_id')
-                ]
-            ));
+                    'client-id' => config('import.twitch_client_id'),
+                ],
+            ]);
+
             return $response;
         } catch (\Exception $e) {
             return $e->getResponse();
@@ -78,15 +82,15 @@ trait SocialScrapperTrait {
     public function scrapTwitchSummary($username)
     {
         try {
-
             $client = new Client();
             $headers = [
                 'Accept' => 'application/json',
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
             ];
-            $response = $client->get('https://twitchtracker.com/api/channels/summary/'.$username, array(
-                'headers' => $headers
-            ));
+            $response = $client->get('https://twitchtracker.com/api/channels/summary/'.$username, [
+                'headers' => $headers,
+            ]);
+
             return $response;
         } catch (\Exception $e) {
             return $e->getResponse();
@@ -98,6 +102,7 @@ trait SocialScrapperTrait {
         try {
             $client = new Client();
             $response = $client->get('https://gender-api.com/get?name='.$name.'&key=cElJXXxpyXcZSBCUKqaDLChNqmAD9kSb2tDF');
+
             return json_decode($response->getBody()->getContents());
         } catch (Exception $exception) {
             return 'unknown';

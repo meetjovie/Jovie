@@ -16,6 +16,6 @@ return [
             'product_id' => env('PRODUCT_ID'),
             'monthly_id' => env('PRODUCT_1_MONTHLY_ID'),
             'yearly_id' => env('PRODUCT_1_YEARLY_ID'),
-        ]
-    ]
+        ],
+    ],
 ];

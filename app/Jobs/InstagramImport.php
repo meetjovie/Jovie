@@ -32,19 +32,31 @@ class InstagramImport implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, SocialScrapperTrait, GeneralTrait, Batchable;
 
     public $name = 'instagram_import';
+
     public $tries = 3;
 
     private $username;
+
     private $tags;
+
     private $recursive;
+
     private $creatorId;
+
     private $parentCreator;
+
     private $meta;
+
     private $brands = [];
+
     private $listId;
+
     private $userId;
+
     private $platformUser;
+
     private $importId;
+
     /**
      * Create a new job instance.
      *
@@ -79,29 +91,32 @@ class InstagramImport implements ShouldQueue
      */
     public function handle()
     {
-        if (($this->userId && !is_null($this->platformUser)) && $this->platformUser->currentTeam->credits <= 0) {
+        if (($this->userId && ! is_null($this->platformUser)) && $this->platformUser->currentTeam->credits <= 0) {
             if ($this->batch()) {
                 $this->batch()->cancel();
                 DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
             }
+
             return;
         }
 
         if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
             Import::markImport($this->importId, ['instagram']);
-            if ($this->batch() && !$this->batch()->cancelled()) {
+            if ($this->batch() && ! $this->batch()->cancelled()) {
                 $this->batch()->cancel();
             }
+
             return;
         }
 
         $creator = Creator::where('instagram_handler', $this->username)->first();
         // 30 days diff
-        if ($creator && !is_null($creator->instagram_last_scrapped_at) && (is_null($this->platformUser) || !$this->platformUser->is_admin)) {
+        if ($creator && ! is_null($creator->instagram_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
                 Creator::addToListAndCrm($creator, $this->listId, $this->userId);
                 Import::markImport($this->importId, ['instagram']);
+
                 return;
             }
         }
@@ -111,7 +126,7 @@ class InstagramImport implements ShouldQueue
                 $response = self::scrapInstagram($this->username);
                 if ($response->getStatusCode() == 200) {
                     $dataResponse = json_decode($response->getBody()->getContents());
-                    if (!is_null($dataResponse) && isset($dataResponse->graphql)) {
+                    if (! is_null($dataResponse) && isset($dataResponse->graphql)) {
                         $this->insertIntoDatabase($dataResponse);
                         Import::markImport($this->importId, ['instagram']);
                         Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'instagram']);
@@ -133,10 +148,10 @@ class InstagramImport implements ShouldQueue
                         DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED]);
                     }
                     $this->release(5);
-                    Cache::put('instagram_pause',  1);
+                    Cache::put('instagram_pause', 1);
                 } elseif ($response->getStatusCode() == 429) {
                     $this->release(5);
-                    Cache::put('instagram_lock',  1, now()->addMinutes(5));
+                    Cache::put('instagram_lock', 1, now()->addMinutes(5));
                 } else {
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
@@ -161,13 +176,14 @@ class InstagramImport implements ShouldQueue
             }
             if ($this->recursive) {
                 foreach ($this->brands as $username) {
-                    \App\Jobs\InstagramImport::dispatch($username, null, false, $this->creatorId)->onQueue('instagram');
+                    self::dispatch($username, null, false, $this->creatorId)->onQueue('instagram');
                 }
             }
         }
     }
 
-    public function remove_emoji($string) {
+    public function remove_emoji($string)
+    {
 
         // Match Enclosed Alphanumeric Supplement
         $regex_alphanumeric = '/[\x{1F100}-\x{1F1FF}]/u';
@@ -195,6 +211,7 @@ class InstagramImport implements ShouldQueue
 
         // Match Dingbats
         $regex_dingbats = '/[\x{2700}-\x{27BF}]/u';
+
         return preg_replace($regex_dingbats, '', $clear_string);
     }
 
@@ -204,7 +221,9 @@ class InstagramImport implements ShouldQueue
         if ($creator) {
             return $creator;
         }
-        if (!count($links)) return new Creator();
+        if (! count($links)) {
+            return new Creator();
+        }
 
         $links = array_map('strtolower', $links);
 
@@ -225,7 +244,7 @@ class InstagramImport implements ShouldQueue
             foreach ($this->meta['socialHandlers'] as $k => $handler) {
                 if ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && $handler) {
                     $creator[$k] = $handler;
-                } elseif ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && !$handler) {
+                } elseif ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && ! $handler) {
                     // donot do any thing
                     // donot do any thing
                 } elseif ($handler) {
@@ -244,7 +263,7 @@ class InstagramImport implements ShouldQueue
         $creator->type = $user->typename ?? 'CREATOR';
         $creator->tags = Creator::getTags($this->tags, $creator);
         $gender = strtolower($this->meta['gender'] ?? null);
-        if (!$creator->gender_updated && !in_array($gender, ['male', 'female'])) {
+        if (! $creator->gender_updated && ! in_array($gender, ['male', 'female'])) {
             // first check if instagram has pronouns check for gender in it
             // in case not found hit gender api
             $genderAccuracy = 0;
@@ -272,7 +291,7 @@ class InstagramImport implements ShouldQueue
 
         $creator->emails = Creator::getEmails($user, $this->meta['emails'] ?? [], $creator->emails);
 
-        if (!$creator->instagram_name_updated) {
+        if (! $creator->instagram_name_updated) {
             $creator->instagram_name = $this->remove_emoji($user->full_name);
         }
         $creator->instagram_handler = $user->username;
@@ -318,8 +337,10 @@ class InstagramImport implements ShouldQueue
 
     public function scrapLinkTree($url)
     {
-        if (!$url || (strpos($url, 'linktree.com') === false)) return [];
-        $client = new \Goutte\Client();// create a crawler object from this link
+        if (! $url || (strpos($url, 'linktree.com') === false)) {
+            return [];
+        }
+        $client = new \Goutte\Client(); // create a crawler object from this link
         $crawler = $client->request('GET', $url);
         $links = collect();
         $crawler->filter('a.sc-pFZIQ')->each(function ($node) use ($links) {
@@ -332,17 +353,18 @@ class InstagramImport implements ShouldQueue
                 $links->push($href);
             }
         });
+
         return $links->toArray();
     }
 
     public function addSocialLinksFromLinkTree($links, $oldLinks = [])
     {
-        return (array_values(array_map('trim', array_unique(array_merge($links, $oldLinks)))));
+        return array_values(array_map('trim', array_unique(array_merge($links, $oldLinks))));
     }
 
     public function getAccountType($business)
     {
-        return $business ? 'BRAND' : "CREATOR";
+        return $business ? 'BRAND' : 'CREATOR';
     }
 
     public function getProfilePicUrl($user, $creator)
@@ -360,6 +382,7 @@ class InstagramImport implements ShouldQueue
         if ($user->is_private) {
             return asset('images/thumbnailPrivateLogo.f3b513fc.png');
         }
+
         return self::uploadFile($file, Creator::CREATORS_PROFILE_PATH);
     }
 
@@ -371,7 +394,6 @@ class InstagramImport implements ShouldQueue
                 $path = Creator::CREATORS_MEDIA_PATH.$filename;
                 Storage::disk('s3')->delete($path);
             } catch (\Exception $e) {
-
             }
         }
         $timelineMedia = collect();
@@ -407,7 +429,7 @@ class InstagramImport implements ShouldQueue
                         'views' => $node->edge_media_preview_like->count,
                         'caption' => $caption,
                         'accessibility_caption' => $node->accessibility_caption,
-                        'datetime' => date('Y-m-d H:i:s', $node->taken_at_timestamp)
+                        'datetime' => date('Y-m-d H:i:s', $node->taken_at_timestamp),
                     ]);
                     foreach ($node->edge_media_to_caption->edges as $edge) {
                         if ($caption = $edge->node) {
@@ -415,19 +437,23 @@ class InstagramImport implements ShouldQueue
                         }
                     }
                     $mediaCount++;
-                    if ($mediaCount == 3) break;
+                    if ($mediaCount == 3) {
+                        break;
+                    }
                 }
             }
         }
-        return ($timelineMedia->toArray());
+
+        return $timelineMedia->toArray();
     }
 
     public function getBrandsFromTimelineMediaCaptions($caption)
     {
-        if (preg_match_all('!@(.+)(?:\s|$)!U', $caption, $matches))
+        if (preg_match_all('!@(.+)(?:\s|$)!U', $caption, $matches)) {
             $this->brands = array_unique(array_merge($matches[1], $this->brands));
-        else
+        } else {
             $this->brands = array_unique(array_merge($matches[1], $this->brands));
+        }
     }
 
     public function getEngagementRate($user)
@@ -436,6 +462,7 @@ class InstagramImport implements ShouldQueue
         $averageLikes = $averageLikesAndComments['averageLikes'];
         $averageComments = $averageLikesAndComments['averageComments'];
         $followers = $this->getFollowers($user);
+
         return round($followers ? ((($averageLikes + $averageComments) / $followers) * 100) : 0, 2);
     }
 
@@ -449,19 +476,22 @@ class InstagramImport implements ShouldQueue
             && count($user->edge_owner_to_timeline_media->edges)) {
             foreach ($user->edge_owner_to_timeline_media->edges as $edge) {
                 if ($node = $edge->node) {
-                    if (!$node->is_video) {
-                        if (!$isFirstImage) {
+                    if (! $node->is_video) {
+                        if (! $isFirstImage) {
                             $totalLikes += $edge->node->edge_liked_by->count;
                             $totalComments += $edge->node->edge_media_to_comment->count;
                             $mediaCount++;
                         } else {
                             $isFirstImage = false;
                         }
-                        if ($mediaCount == 3) break;
+                        if ($mediaCount == 3) {
+                            break;
+                        }
                     }
                 }
             }
         }
+
         return collect([
             'averageLikes' => round($mediaCount > 0 ? $totalLikes / $mediaCount : 0, 2),
             'averageComments' => round($mediaCount > 0 ? $totalComments / $mediaCount : 0, 2),
@@ -481,11 +511,14 @@ class InstagramImport implements ShouldQueue
                         $reelViews += $edge->node->video_view_count;
                         $igtvViews += $edge->node->video_view_count;
                         $mediaCount++;
-                        if ($mediaCount == 3) break;
+                        if ($mediaCount == 3) {
+                            break;
+                        }
                     }
                 }
             }
         }
+
         return round(($mediaCount > 0 ? $reelViews / $mediaCount : 0), 2);
     }
 

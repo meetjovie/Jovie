@@ -36,7 +36,7 @@ class CrmExport implements FromCollection, WithMapping, WithHeadings
     }
 
     /**
-     * @var Creator $creator
+     * @var Creator
      */
     public function map($creator): array
     {
@@ -58,8 +58,8 @@ class CrmExport implements FromCollection, WithMapping, WithHeadings
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return $this->creators;

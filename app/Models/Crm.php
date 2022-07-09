@@ -22,12 +22,14 @@ class Crm extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
+
         return $array;
     }
 
     public function getStageAttribute($value)
     {
         $value = $value ?? 0;
+
         return self::stages()[$value];
     }
 

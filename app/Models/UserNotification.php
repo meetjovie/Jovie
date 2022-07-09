@@ -10,5 +10,6 @@ class UserNotification extends Model
     use HasFactory;
 
     const NOTIFICATION = 1;
+
     const ERROR = 2;
 }

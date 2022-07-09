@@ -24,11 +24,17 @@ class YoutubeImport implements ShouldQueue
     use ApifyYoutubeTrait;
 
     private $youtube;
+
     private $tags;
+
     private $email;
+
     private $isVanityUrl;
+
     private $channelId = null;
+
     private $channelUsername = null;
+
     /**
      * Create a new job instance.
      *
@@ -106,7 +112,7 @@ class YoutubeImport implements ShouldQueue
 //        "buildNumber": "0.0.51",
 //        "containerUrl": "https://5ixvrvst6rjd.runs.apify.net"
 //    }
-//}';
+            //}';
             $response = json_decode($response);
             if (isset($response->data) && $response->data && $response->data->status == 'SUCCEEDED') {
                 $videos = $this->dataSet($response->data->defaultDatasetId);
@@ -116,7 +122,7 @@ class YoutubeImport implements ShouldQueue
                     ->orWhereRaw('lower(channel_url) = ?', [$this->channelId])->first();
 
                 // if there is no youtube data with that link and the video count is also 0 no need to save that channel
-                if (is_null($youtube) && !count($videos)) {
+                if (is_null($youtube) && ! count($videos)) {
                     return;
                 }
                 // if there is no youtube data with that link try with the channel id link from videos if there are any videos in scrap
@@ -150,7 +156,7 @@ class YoutubeImport implements ShouldQueue
                 }
 
                 $timelineMedia = collect();
-                if (!count($videos) && $youtube->timeline_media) {
+                if (! count($videos) && $youtube->timeline_media) {
                     $timelineMedia = $youtube->timeline_media;
                     foreach ($timelineMedia as $k => $video) {
                         $timelineMedia[$k]->is_deleted = true;
@@ -182,7 +188,7 @@ class YoutubeImport implements ShouldQueue
                             'duration' => $video->duration,
                             'date' => Carbon::parse($video->date)->toDateTimeString(),
                             'details' => strip_tags($video->details),
-                            'isReel' => $video->isReel
+                            'isReel' => $video->isReel,
                         ]);
                         if ($k <= 2) {
                             $averageLikes += $video->likes;
@@ -210,7 +216,7 @@ class YoutubeImport implements ShouldQueue
                 $youtube->save();
                 SendSlackNotification::dispatch('imported youtube channel '.$this->youtube);
             } else {
-                SendSlackNotification::dispatch(('Youtube import is timed out for channel '. $this->youtube.'\\n '.json_encode($response)));
+                SendSlackNotification::dispatch(('Youtube import is timed out for channel '.$this->youtube.'\\n '.json_encode($response)));
             }
         } catch (Exception $e) {
 //            SendSlackNotification::dispatch('Error on Youtube Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine());
@@ -220,12 +226,18 @@ class YoutubeImport implements ShouldQueue
     public function getTags($tags, $creator)
     {
         if ($creator) {
-            if (!$tags) return $creator->tags;
+            if (! $tags) {
+                return $creator->tags;
+            }
             $tags = explode(',', $tags);
+
             return array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])));
         }
-        if (!$tags) return null;
+        if (! $tags) {
+            return null;
+        }
         $tags = explode(',', $tags);
+
         return array_map('trim', $tags);
     }
 
@@ -236,7 +248,9 @@ class YoutubeImport implements ShouldQueue
 
     private function getOrCreateCreator($videos, $creatorId)
     {
-        if ($creatorId) return Creator::where('id', $creatorId)->first();
+        if ($creatorId) {
+            return Creator::where('id', $creatorId)->first();
+        }
 
         $youtubeLinks = [$this->youtube];
         if (count($videos)) {
@@ -250,6 +264,7 @@ class YoutubeImport implements ShouldQueue
         if ($socialLinkExists) {
             Creator::where('id', $socialLinkExists->creator_id)->first();
         }
+
         return Creator::create();
     }
 }

@@ -10,9 +10,13 @@ class Notification extends Model
     use HasFactory;
 
     const BATCH_IMPORT = 1;
+
     const SINGLE_IMPORT = 2;
+
     const OUT_OF_CREDITS = 3;
+
     const SINGLE_IMPORT_FAILED = 4;
+
     const BATCH_IMPORT_FAILED = 5;
 
     protected $appends = ['is_error'];
@@ -32,6 +36,7 @@ class Notification extends Model
         if (in_array($type, [self::BATCH_IMPORT_FAILED, self::SINGLE_IMPORT_FAILED, self::OUT_OF_CREDITS])) {
             return true;
         }
+
         return false;
     }
 

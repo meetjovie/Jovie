@@ -2,38 +2,41 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
-        "aws/aws-sdk-php": "^3.209",
+        "php": "^8.0",
+        "aws/aws-sdk-php": "^3.231",
         "doctrine/dbal": "^3.3",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.2",
-        "laravel/cashier": "^13.8",
-        "laravel/framework": "^8.75",
-        "laravel/sanctum": "^2.14",
+        "laravel/cashier": "^13.12",
+        "laravel/framework": "^9.19",
+        "laravel/sanctum": "^2.15",
         "laravel/scout": "^9.4",
         "laravel/slack-notification-channel": "^2.4",
-        "laravel/tinker": "^2.5",
-        "laravel/vapor-cli": "^1.36",
-        "laravel/vapor-core": "^2.19",
+        "laravel/tinker": "^2.7",
+        "laravel/vapor-cli": "^1.40",
+        "laravel/vapor-core": "^2.22",
         "laravel/vapor-ui": "^1.5",
         "league/csv": "^9.8",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.23.1",
         "mpociot/teamwork": "^7.0",
-        "simplesoftwareio/simple-sqs-extended-client": "~1",
-        "weidner/goutte": "^2.1"
+        "simplesoftwareio/simple-sqs-extended-client": "^2.0",
+        "weidner/goutte": "^2.2",
+        "league/flysystem-aws-s3-v3": "^3.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.13",
+        "laravel/sail": "^1.15",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.3"
     },
     "autoload": {
         "psr-4": {

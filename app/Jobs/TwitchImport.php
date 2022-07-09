@@ -25,15 +25,23 @@ class TwitchImport implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, SocialScrapperTrait, GeneralTrait, Batchable;
 
     public $name = 'twitch_import';
+
     public $tries = 3;
 
     private $id;
+
     private $username;
+
     private $tags;
+
     private $meta;
+
     private $listId;
+
     private $userId;
+
     private $platformUser;
+
     private $importId;
 
     /**
@@ -61,27 +69,28 @@ class TwitchImport implements ShouldQueue
     public function handle()
     {
         try {
-
-            if ($this->userId && !is_null($this->platformUser) && !$this->platformUser->is_admin && $this->platformUser->currentTeam->credits <= 0) {
+            if ($this->userId && ! is_null($this->platformUser) && ! $this->platformUser->is_admin && $this->platformUser->currentTeam->credits <= 0) {
                 Import::markImport($this->importId, ['twitch']);
-                if ($this->batch() && !$this->batch()->cancelled()) {
+                if ($this->batch() && ! $this->batch()->cancelled()) {
                     $this->batch()->cancel();
                     DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
 //                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
 //                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
-                } elseif (!$this->batch()) {
+                } elseif (! $this->batch()) {
 //                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('importing twitch user '.$this->username.' failed'), Notification::OUT_OF_CREDITS);
                 }
+
                 return;
             }
 
             if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
                 Import::markImport($this->importId, ['twitch']);
-                if ($this->batch() && !$this->batch()->cancelled()) {
+                if ($this->batch() && ! $this->batch()->cancelled()) {
                     $this->batch()->cancel();
 //                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
 //                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
                 }
+
                 return;
             }
 
@@ -93,7 +102,7 @@ class TwitchImport implements ShouldQueue
                 $creator = Creator::where('twitch_handler', $this->username)->first();
             }
             // 30 days diff
-            if ($creator && !is_null($creator->twitch_last_scrapped_at) && (is_null($this->platformUser) || !$this->platformUser->is_admin)) {
+            if ($creator && ! is_null($creator->twitch_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
                 $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
                     Creator::addToListAndCrm($creator, $this->listId, $this->userId);
@@ -136,7 +145,7 @@ class TwitchImport implements ShouldQueue
                     $this->release(5);
                 } elseif ($response->getStatusCode() == 429) {
                     $this->release(5);
-                    Cache::put('twitch_lock',  1, now()->addMinute());
+                    Cache::put('twitch_lock', 1, now()->addMinute());
                 } else {
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
@@ -175,7 +184,7 @@ class TwitchImport implements ShouldQueue
                 foreach ($this->meta['socialHandlers'] as $k => $handler) {
                     if ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && $handler) {
                         $creator->{$k} = $handler;
-                    } elseif ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && !$handler) {
+                    } elseif ($k == 'youtube_handler' && $this->platformUser && $this->platformUser->is_admin && ! $handler) {
                         // donot do any thing
                         // donot do any thing
                     } elseif ($handler) {
@@ -210,7 +219,7 @@ class TwitchImport implements ShouldQueue
             $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;
 
             $gender = strtolower($this->meta['gender'] ?? null);
-            if (!$creator->gender_updated && !in_array($gender, ['male', 'female'])) {
+            if (! $creator->gender_updated && ! in_array($gender, ['male', 'female'])) {
                 // in case not found hit gender api
                 $genderResponse = self::getUserGender($user->display_name);
                 $gender = $genderResponse->gender;
@@ -235,7 +244,7 @@ class TwitchImport implements ShouldQueue
             } catch (\Exception $e) {
                 SendSlackNotification::dispatch($e->getMessage());
             }
-            if (!is_null($summary) && count((array) $summary)) {
+            if (! is_null($summary) && count((array) $summary)) {
                 try {
                     $creator->twitch_average_viewers = $summary->avg_viewers;
                     $creator->twitch_followers = $summary->followers_total;
@@ -257,6 +266,7 @@ class TwitchImport implements ShouldQueue
             }
             $creatorIds[] = $creator->id;
         }
+
         return $creatorIds;
     }
 }
