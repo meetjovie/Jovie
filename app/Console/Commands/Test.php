@@ -9,6 +9,7 @@ use App\Models\Import;
 use App\Models\User;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
+use function Clue\StreamFilter\fun;
 use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Queue\Jobs\Job;
@@ -20,7 +21,6 @@ use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use League\Csv\Statement;
 use Throwable;
-use function Clue\StreamFilter\fun;
 
 class Test extends Command
 {
@@ -43,9 +43,10 @@ class Test extends Command
      *
      * @return void
      */
-
     const PER_PAGE = 500;
+
     protected $page = null;
+
     protected $path = null;
 
     public function __construct()
@@ -84,7 +85,6 @@ class Test extends Command
 
     public function triggerTwitterImport($import, $twitterBatch)
     {
-
     }
 
     public function triggerInstagramImport($import, $batch)
@@ -106,14 +106,14 @@ class Test extends Command
             'city' => $import->city,
             'country' => $import->country,
             'wikiId' => $import->wikiId,
-            'socialHandlers' => $socialHandlers
+            'socialHandlers' => $socialHandlers,
         ];
         $tags = null;
         if ($import->tags && json_decode($import->tags)) {
             $tags = implode(',', json_decode($import->tags));
         }
         $batch->add([
-            (new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
+            (new InstagramImport($import->instagram, $tags, true, null, $meta, $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1)),
         ]);
     }
 }

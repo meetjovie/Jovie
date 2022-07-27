@@ -40,10 +40,9 @@ class FreePlan extends Command
     {
         $teams = Team::get();
 
-
         foreach ($teams as $team) {
             $currentSubscription = $team->currentSubscription();
-            if (!($currentSubscription && $team->subscribed($currentSubscription->name))) {
+            if (! ($currentSubscription && $team->subscribed($currentSubscription->name))) {
                 $team->credits += 10;
                 $team->save();
             }

@@ -14,22 +14,22 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-                'email' => 'required|string|email',
-                'password' => 'required|string'
-            ]);
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
 
         if (Auth::guard()->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
 
             return response()->json([
                 'status' => true,
-                'user' => User::currentLoggedInUser()
+                'user' => User::currentLoggedInUser(),
             ], 200);
         }
 
         return response()->json([
             'status' => false,
-            'error' => 'Invalid credentials'
+            'error' => 'Invalid credentials',
         ]);
     }
 
@@ -74,7 +74,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => true,
-            'user' => User::currentLoggedInUser()
+            'user' => User::currentLoggedInUser(),
         ], 200);
     }
 
@@ -83,12 +83,12 @@ class AuthController extends Controller
         $data = $request->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users'
+            'email' => 'required|email|max:255|unique:users',
         ]);
 
         return response()->json([
             'status' => true,
-            'data' => $data
+            'data' => $data,
         ]);
     }
 }

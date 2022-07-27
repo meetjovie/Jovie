@@ -120,7 +120,7 @@ class TriggerImports extends Command
                     // trigger instagram import
                     $twitchBatch = $import->getImportBatch('twitch');
                     if (! $twitchBatch->cancelled()) {
-                        if (!Cache::has('twitch_token_'.$twitchBatch->user_list_id)) {
+                        if (! Cache::has('twitch_token_'.$twitchBatch->user_list_id)) {
                             Import::saveTwitchToken($twitchBatch->user_list_id);
                         }
                         $this->triggerTwitchImport($import, $twitchBatch, $commonData);
@@ -129,7 +129,7 @@ class TriggerImports extends Command
                         $dispatched = true;
                     }
                 }
-                if (!$dispatched) {
+                if (! $dispatched) {
                     Import::where('id', $import->id)->delete();
                 }
             }
@@ -139,7 +139,7 @@ class TriggerImports extends Command
     public function triggerTwitchImport($import, $batch, $commonData)
     {
         $batch->add([
-            (new TwitchImport($import->twitch_id, $import->twitch, $commonData['tags'], $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(2))
+            (new TwitchImport($import->twitch_id, $import->twitch, $commonData['tags'], $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(2)),
         ]);
     }
 
@@ -153,7 +153,7 @@ class TriggerImports extends Command
             'city' => $import->city,
             'country' => $import->country,
             'wikiId' => $import->wikiId,
-            'socialHandlers' => $import->social_handlers
+            'socialHandlers' => $import->social_handlers,
         ];
         $tags = null;
         if ($import->tags && json_decode($import->tags)) {
@@ -162,18 +162,18 @@ class TriggerImports extends Command
 
         return [
             'meta' => $meta,
-            'tags' => $tags
+            'tags' => $tags,
         ];
     }
 
     public function triggerInstagramImport($import, $batch, $commonData)
     {
         $instagram = $import->instagram;
-        if (!empty($instagram) && $instagram[0] == '@') {
+        if (! empty($instagram) && $instagram[0] == '@') {
             $instagram = substr($instagram, 1);
         }
         $batch->add([
-            (new InstagramImport($instagram, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1))
+            (new InstagramImport($instagram, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1)),
         ]);
     }
 }

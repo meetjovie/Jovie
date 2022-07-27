@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Admin
 {
-
     /**
      * Handle an incoming request.
      *
@@ -21,6 +20,7 @@ class Admin
         if (Auth::user()->is_admin) {
             return $next($request);
         }
-        return response()->json(["message" => "Unauthorized user"], 401);
+
+        return response()->json(['message' => 'Unauthorized user'], 401);
     }
 }

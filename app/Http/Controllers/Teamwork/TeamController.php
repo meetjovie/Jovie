@@ -22,7 +22,7 @@ class TeamController extends Controller
     {
         return response([
             'status' => true,
-            'teams' => auth()->user()->teams
+            'teams' => auth()->user()->teams,
         ]);
     }
 
@@ -58,7 +58,7 @@ class TeamController extends Controller
 
         return response([
             'status' => true,
-            'team' => $team
+            'team' => $team,
         ]);
     }
 
@@ -82,7 +82,7 @@ class TeamController extends Controller
 
         return response([
             'status' => true,
-            'team' => $team
+            'team' => $team,
         ]);
     }
 
@@ -102,9 +102,10 @@ class TeamController extends Controller
                 'status' => false,
             ], 403);
         }
+
         return response([
             'status' => true,
-            'team' => $team
+            'team' => $team,
         ]);
     }
 
@@ -129,7 +130,7 @@ class TeamController extends Controller
 
         return response([
             'status' => true,
-            'team' => $team
+            'team' => $team,
         ]);
     }
 
@@ -158,7 +159,7 @@ class TeamController extends Controller
 
         return response([
             'status' => true,
-            'team' => $team
+            'team' => $team,
         ]);
     }
 }

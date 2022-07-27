@@ -35,11 +35,11 @@ class ImportTiktok implements ShouldQueue
         ini_set('memory_limit', -1);
         ini_set('max_execution_time', -1);
 //        try {
-            $reader = new JsonReader();
-            $reader->open('https://a7x3storage.s3.amazonaws.com/data/tiktok.json');
-            $reader->read(); // First element, or end of array
+        $reader = new JsonReader();
+        $reader->open('https://a7x3storage.s3.amazonaws.com/data/tiktok.json');
+        $reader->read(); // First element, or end of array
             $reader->read(); // First object
-            while($reader->type() === JsonReader::OBJECT) {
+            while ($reader->type() === JsonReader::OBJECT) {
                 $object = $reader->value();
                 dd($object);
                 $creator = new Creator();

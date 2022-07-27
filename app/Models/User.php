@@ -28,7 +28,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'profile_pic_url'
+        'profile_pic_url',
     ];
 
     /**
@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public static function currentLoggedInUser()
     {
-        $user = User::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
+        $user = self::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
             ->where('id', Auth::id())->first();
         $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
         $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
@@ -62,6 +62,7 @@ class User extends Authenticatable
         if ($user->currentTeam->current_subscription) {
             $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
         }
+
         return $user;
     }
 
@@ -121,7 +122,7 @@ class User extends Authenticatable
             'message' => $message,
             'type' => $type,
             'meta' => $meta,
-            'user_id' => $this->id
+            'user_id' => $this->id,
         ]);
     }
 }
