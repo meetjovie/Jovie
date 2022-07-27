@@ -15,7 +15,9 @@ class Creator extends Model
     use HasFactory, Searchable, GeneralTrait;
 
     const CREATORS_MEDIA_PATH = 'public/creators_media/timeline_media/';
+
     const CREATORS_PROFILE_PATH = 'public/creators_media/profiles/';
+
     const CREATORS_CSV_PATH = 'public/creators_csv/';
 
     const NETWORKS = ['instagram', 'twitch', 'onlyFans', 'snapchat', 'linkedin', 'youtube', 'twitter', 'tiktok'];
@@ -34,11 +36,12 @@ class Creator extends Model
         if (is_null($creator)) {
             $creator = $this;
         }
-        foreach (Creator::NETWORKS as $network) {
-            if (!empty($creator->{$network.'_meta'}->profile_pic_url)) {
+        foreach (self::NETWORKS as $network) {
+            if (! empty($creator->{$network.'_meta'}->profile_pic_url)) {
                 return $creator->{$network.'_meta'}->profile_pic_url;
             }
         }
+
         return asset('img/noimage.webp');
     }
 
@@ -63,29 +66,32 @@ class Creator extends Model
         $networks = self::NETWORKS;
 
         foreach ($networks as $network) {
-            if (!is_null($this[$network.'_handler']) && isset($this[$network.'_handler'])) {
+            if (! is_null($this[$network.'_handler']) && isset($this[$network.'_handler'])) {
                 $socialLinks->push([
                     'url' => $this[$network.'_handler'],
                     'followers' => $this[$network.'_followers'],
-                    'network' => $network
+                    'network' => $network,
                 ]);
             }
         }
+
         return $socialLinks;
     }
 
     public function getOverviewMediaAttribute()
     {
         $media = [];
-        foreach (Creator::NETWORKS as $network) {
-            if (!empty($this->{$network.'_media'})) {
+        foreach (self::NETWORKS as $network) {
+            if (! empty($this->{$network.'_media'})) {
                 $nMedia = array_map(function ($value) use ($network) {
                     $value->network = $network;
+
                     return $value;
                 }, $this->{$network.'_media'});
                 $media = array_merge($media, $nMedia);
             }
         }
+
         return collect($media)->sortByDesc('datetime')->take(3);
     }
 
@@ -120,8 +126,9 @@ class Creator extends Model
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_\.]+)/im';
 
         // Verify valid Instagram URL
-        if ( preg_match( $regex, $value, $matches ) ) {
-            $this->attributes['instagram_handler'] =  $matches[1];
+        if (preg_match($regex, $value, $matches)) {
+            $this->attributes['instagram_handler'] = $matches[1];
+
             return;
         }
         $this->attributes['instagram_handler'] = $value;
@@ -133,8 +140,9 @@ class Creator extends Model
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:tiktok\.com)\/([\@|A-Za-z0-9-_\.]+)/';
 
         // Verify valid tiktok URL
-        if ( preg_match( $regex, $value, $matches ) ) {
+        if (preg_match($regex, $value, $matches)) {
             $this->attributes['tiktok_handler'] = $matches[1];
+
             return;
         }
         $this->attributes['tiktok_handler'] = $value;
@@ -146,8 +154,9 @@ class Creator extends Model
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:onlyfans\.com)\/([A-Za-z0-9-_\.]+)/';
 
         // Verify valid onlyFans URL
-        if ( preg_match( $regex, $value, $matches ) ) {
+        if (preg_match($regex, $value, $matches)) {
             $this->attributes['onlyFans_handler'] = $matches[1];
+
             return;
         }
         $this->attributes['onlyFans_handler'] = $value;
@@ -159,8 +168,9 @@ class Creator extends Model
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:linkedin\.com\/)?(?:in)\/([A-Za-z0-9-_\.]+)/';
 
         // Verify valid linkedin URL
-        if ( preg_match( $regex, $value, $matches ) ) {
+        if (preg_match($regex, $value, $matches)) {
             $this->attributes['linkedin_handler'] = $matches[1];
+
             return;
         }
         $this->attributes['linkedin_handler'] = $value;
@@ -172,8 +182,9 @@ class Creator extends Model
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitter\.com)\/([A-Za-z0-9-_\.]+)/';
 
         // Verify valid twitter URL
-        if ( preg_match( $regex, $value, $matches ) ) {
+        if (preg_match($regex, $value, $matches)) {
             $this->attributes['twitter_handler'] = $matches[1];
+
             return;
         }
         $this->attributes['twitter_handler'] = $value;
@@ -185,8 +196,9 @@ class Creator extends Model
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:snapchat\.com\/)?(?:add)\/([A-Za-z0-9-_\.]+)/';
 
         // Verify valid snapchat URL
-        if ( preg_match( $regex, $value, $matches ) ) {
+        if (preg_match($regex, $value, $matches)) {
             $this->attributes['snapchat_handler'] = $matches[1];
+
             return;
         }
         $this->attributes['snapchat_handler'] = $value;
@@ -198,8 +210,9 @@ class Creator extends Model
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv|twitch\.com)\/([A-Za-z0-9-_\.]+)/';
 
         // Verify valid twitch URL
-        if ( preg_match( $regex, $value, $matches ) ) {
+        if (preg_match($regex, $value, $matches)) {
             $this->attributes['twitch_handler'] = $matches[1];
+
             return;
         }
         $this->attributes['twitch_handler'] = $value;
@@ -208,26 +221,24 @@ class Creator extends Model
     public function setYoutubeHandlerAttribute($value)
     {
         $oldYoutube = $this->youtube_handler;
-        if (!count((array) $value)) {
+        if (! count((array) $value)) {
             return $oldYoutube;
         }
         // Regex for verifying a youtube URL - channel id
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
         // Verify valid youtube URL
-        if ( preg_match( $regex, $value, $matches ) ) {
+        if (preg_match($regex, $value, $matches)) {
             $oldYoutube->channel_id = $matches[1];
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
         }
         // Regex for verifying a youtube URL - channel name
-        elseif ( preg_match( '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/', $value, $matches ) ) {
+        elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
             $oldYoutube->channel_name = $matches[1];
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
-        }
-        elseif ( preg_match( '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:user)\/([A-Za-z0-9-_\.]+)/', $value, $matches ) ) {
+        } elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:user)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
             $oldYoutube->channel_name = $matches[1];
             $this->attributes['youtube'] = json_encode($oldYoutube);
-        }
-        elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
+        } elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
             $oldYoutube->channel_id = $value;
             $this->attributes['youtube_handler'] = json_encode($oldYoutube);
         } else {
@@ -239,24 +250,27 @@ class Creator extends Model
     public function getTwitterHandlerAttribute($value)
     {
         if ($value) {
-            return 'https://twitter.com/' . $value;
+            return 'https://twitter.com/'.$value;
         }
+
         return null;
     }
 
     public function getTwitchHandlerAttribute($value)
     {
         if ($value) {
-            return 'https://twitch.tv/' . $value;
+            return 'https://twitch.tv/'.$value;
         }
+
         return null;
     }
 
     public function getInstagramHandlerAttribute($value)
     {
         if ($value) {
-            return 'https://instagram.com/' . $value;
+            return 'https://instagram.com/'.$value;
         }
+
         return null;
     }
 
@@ -267,7 +281,7 @@ class Creator extends Model
 
     public function brands()
     {
-        return $this->belongsToMany(Creator::class, 'brand_creator',
+        return $this->belongsToMany(self::class, 'brand_creator',
             'creator_id',
             'brand_id',
             'id',
@@ -279,6 +293,7 @@ class Creator extends Model
         if (is_null($value)) {
             return json_decode('{}');
         }
+
         return json_decode($value ?? '{}');
     }
 
@@ -369,7 +384,7 @@ class Creator extends Model
             });
         }
 
-        if (!empty($params['list'])) {
+        if (! empty($params['list'])) {
             $creators = $creators->join('creator_user_list', function ($join) use ($params) {
                 $join->on('crms.creator_id', '=', 'creator_user_list.creator_id')
                 ->where('user_list_id', $params['list']);
@@ -385,15 +400,14 @@ class Creator extends Model
         }
 
         $creators = $creators->orderByDesc('crms.id');
-        if (!isset($params['export'])) {
+        if (! isset($params['export'])) {
             $creators = $creators->paginate(50);
         } else {
             $creators = $creators->get();
         }
 
-        $creatorAccessor = new Creator();
+        $creatorAccessor = new self();
         foreach ($creators as &$creator) {
-
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
 
@@ -444,12 +458,12 @@ class Creator extends Model
             unset($creator->muted);
 
             foreach ($creators as &$creator) {
-                foreach (Creator::NETWORKS as $network) {
-                    if (!empty($creator->crm_record_by_user->{$network.'_offer'}) && count((array) $creator->{$network.'_meta'})) {
+                foreach (self::NETWORKS as $network) {
+                    if (! empty($creator->crm_record_by_user->{$network.'_offer'}) && count((array) $creator->{$network.'_meta'})) {
                         $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
                     }
                 }
-                if (!empty($creator->crm_record_by_user->rating) && isset($avgRatings[$creator->id])) {
+                if (! empty($creator->crm_record_by_user->rating) && isset($avgRatings[$creator->id])) {
                     $creator->crm_record_by_user->average_rating = round($avgRatings[$creator->id]->average_rating);
                 }
             }
@@ -487,7 +501,7 @@ class Creator extends Model
         foreach ($request->except(['_method', '_token', 'id', 'network']) as $k => $v) {
             if ($k == 'crm_record_by_user') {
                 foreach ($v as $key => $value) {
-                    $isColExist = Schema::hasColumn('crms',$key);
+                    $isColExist = Schema::hasColumn('crms', $key);
                     if ($isColExist) {
                         $dataToUpdateForCrm[$key] = $value;
                     }
@@ -496,7 +510,7 @@ class Creator extends Model
                 $dataToUpdateForCreator[$k] = $v;
             }
         }
-        $creator = Creator::where('id', $id)->first();
+        $creator = self::where('id', $id)->first();
         foreach ($dataToUpdateForCreator as $k => $v) {
             $creator->{$k} = $v;
         }
@@ -515,20 +529,20 @@ class Creator extends Model
         $selectedRecord = [];
         $rejectedRecord = [];
         foreach ($this->crmRecords as $crm) {
-            if (!$crm->selected) {
+            if (! $crm->selected) {
                 $notSelectedRecord[] = $crm->user_id;
             } else {
                 $selectedRecord[] = $crm->user_id;
             }
-            if (!$crm->rejected) {
+            if (! $crm->rejected) {
                 $notRejectedRecord[] = $crm->user_id;
             } else {
                 $rejectedRecord[] = $crm->user_id;
             }
-            if (!$crm->muted) {
+            if (! $crm->muted) {
                 $notMutedRecord[] = $crm->user_id;
             } else {
-                $mutedRecord[] =  $crm->user_id;
+                $mutedRecord[] = $crm->user_id;
             }
         }
 
@@ -547,19 +561,26 @@ class Creator extends Model
         $array['rejected_to'] = $rejectedTo;
         $array['crms'] = $this->crmRecords;
         $array['unique'] = 10000000000000000000; // it will fail only if user changes the tab this much times :p
+
         return $array;
     }
 
     public static function getTags($tags, $creator = null)
     {
         if ($creator) {
-            if (!$tags) return ($creator->tags);
+            if (! $tags) {
+                return $creator->tags;
+            }
             $tags = explode(',', $tags);
-            return (array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? [])))));
+
+            return array_values(array_map('trim', array_unique(array_merge($tags, $creator->tags ?? []))));
         }
-        if (!$tags) return '[]';
+        if (! $tags) {
+            return '[]';
+        }
         $tags = explode(',', $tags);
-        return (array_unique(array_values(array_map('trim', $tags))));
+
+        return array_unique(array_values(array_map('trim', $tags)));
     }
 
     public static function getEmails($user, $newEmails = [], $oldEmails = [])
@@ -568,14 +589,15 @@ class Creator extends Model
         if (count($newEmails)) {
             $emails = $newEmails;
         }
-        if (!empty($user->business_email)) {
+        if (! empty($user->business_email)) {
             $emails[] = $user->business_email;
         }
         $emailString = $user->biography ?? $user->description;
         if ($bioEmail = self::getEmailFromString($emailString)) {
             $emails[] = $bioEmail;
         }
-        return (array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails)))));
+
+        return array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails))));
     }
 
     public static function addToListAndCrm($creator, $listId = null, $userId = null)
@@ -587,11 +609,10 @@ class Creator extends Model
             $changes = $creator->crms()->syncWithoutDetaching($userId);
             if (count($changes['attached'])) {
                 $user = User::with('currentTeam')->where('id', $userId)->first();
-                if ($user && !$user->is_admin && $user->currentTeam) {
+                if ($user && ! $user->is_admin && $user->currentTeam) {
                     $user->currentTeam->decrement('credits');
                 }
             }
         }
     }
-
 }

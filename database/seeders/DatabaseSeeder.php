@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Aamish',
             'email' => 'aamishirfan2662@gmail.com',
             'is_admin' => 1,
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
         ]);
         $teamModel = config('teamwork.team_model');
 

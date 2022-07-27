@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Teamwork;
 use App\Http\Controllers\Controller;
 use App\Models\Team;
 use App\Models\User;
+use function Clue\StreamFilter\fun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\SubscriptionItem;
 use Stripe\Exception\ApiErrorException;
-use function Clue\StreamFilter\fun;
 
 class SubscriptionsController extends Controller
 {
@@ -23,9 +23,10 @@ class SubscriptionsController extends Controller
                 'status' => true,
             ]);
         }
+
         return response([
             'status' => false,
-            'message' => 'Please select a team to continue.'
+            'message' => 'Please select a team to continue.',
         ]);
     }
 
@@ -41,9 +42,9 @@ class SubscriptionsController extends Controller
         $products = array_filter($products, function ($product) {
             return $product->metadata->is_featured == 1;
         });
-        foreach($products as &$product) {
+        foreach ($products as &$product) {
             $plansRaw = $stripe->plans->all([
-                'product' => $product->id
+                'product' => $product->id,
             ]);
 
             $plans = collect($plansRaw->data);
@@ -55,11 +56,13 @@ class SubscriptionsController extends Controller
             }
             $product->plans = $finalPlans;
         }
+
         return response([
             'status' => true,
-            'products' => $products
+            'products' => $products,
         ]);
     }
+
     public function subscribe(Request $request)
     {
         $user = $request->user()->load('currentTeam');
@@ -84,7 +87,7 @@ class SubscriptionsController extends Controller
                 $user->currentTeam->updateDefaultPaymentMethod($paymentMethod);
 
                 $subscription = $user->currentTeam->newSubscription($product->name, $plan->id)->create($customer->invoice_settings->default_payment_method, [
-                    'email' => $user->email
+                    'email' => $user->email,
                 ]);
                 $subscription->seats = $product->metadata->seats;
                 $subscription->credits = $product->metadata->credits;
@@ -99,6 +102,7 @@ class SubscriptionsController extends Controller
                 $item->type = $product->metadata->type == 1 ? Team::AD_ON_SEAT : null;
                 $item->save();
                 DB::commit();
+
                 return response([
                     'status' => true,
                     'message' => 'You are subscribed',
@@ -107,17 +111,19 @@ class SubscriptionsController extends Controller
             }
         } catch (ApiErrorException $e) {
             DB::rollBack();
+
             return response([
                 'status' => false,
                 'message' => 'Error creating subscription.',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response([
                 'status' => false,
                 'message' => 'Error creating subscription.',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
         }
     }
@@ -129,20 +135,23 @@ class SubscriptionsController extends Controller
             $currentSubscription = $user->currentTeam->currentSubscription();
             if ($currentSubscription) {
                 $user->currentTeam->subscription($currentSubscription->name)->cancel();
+
                 return response([
                     'message' => 'Subscription cancelled. You can resume it during the grace period.',
                     'status' => true,
-                    'subscription' => $user->currentTeam->currentSubscription()
+                    'subscription' => $user->currentTeam->currentSubscription(),
                 ]);
             }
+
             return response([
                 'status' => false,
-                'message' => 'You are not subscribed to any plan.'
+                'message' => 'You are not subscribed to any plan.',
             ]);
         }
+
         return response([
             'status' => false,
-            'message' => 'Please select a team to continue.'
+            'message' => 'Please select a team to continue.',
         ]);
     }
 
@@ -153,20 +162,23 @@ class SubscriptionsController extends Controller
             $currentSubscription = $user->currentTeam->currentSubscription();
             if ($currentSubscription) {
                 $user->currentTeam->subscription($currentSubscription->name)->resume();
+
                 return response([
                     'message' => 'Subscription resumed.',
                     'status' => true,
-                    'subscription' => $user->currentTeam->currentSubscription()
+                    'subscription' => $user->currentTeam->currentSubscription(),
                 ]);
             }
+
             return response([
                 'status' => false,
-                'message' => 'You are not subscribed to any plan.'
+                'message' => 'You are not subscribed to any plan.',
             ]);
         }
+
         return response([
             'status' => false,
-            'message' => 'Please select a team to continue.'
+            'message' => 'Please select a team to continue.',
         ]);
     }
 
@@ -180,11 +192,13 @@ class SubscriptionsController extends Controller
         $currentSubscription = $user->currentTeam->currentSubscription();
         if ($currentSubscription) {
             $user->currentTeam->subscription($currentSubscription->name)->cancelNow();
+
             return $this->subscribeTeam($product, $plan, $paymentMethod, $user);
         }
+
         return response([
             'status' => false,
-            'message' => 'You are not subscribed to any plan. Try subscribing to a new plan.'
+            'message' => 'You are not subscribed to any plan. Try subscribing to a new plan.',
         ]);
     }
 
@@ -193,7 +207,7 @@ class SubscriptionsController extends Controller
         if ($request->numberOfSeats < 1) {
             return response([
                 'status' => false,
-                'message' => 'Seats must be 1 or more.'
+                'message' => 'Seats must be 1 or more.',
             ]);
         }
         $user = $request->user()->load('currentTeam');
@@ -202,7 +216,7 @@ class SubscriptionsController extends Controller
         if ($currentSubscription->type != Team::PLAN_TYPE_TEAM) {
             return response([
                 'status' => false,
-                'message' => 'You need to subscribe to a team plan to buy additional seats.'
+                'message' => 'You need to subscribe to a team plan to buy additional seats.',
             ]);
         }
 
@@ -213,10 +227,10 @@ class SubscriptionsController extends Controller
             DB::beginTransaction();
             $plansraw = $stripe->plans->all([
                 'active' => true,
-                'product' => $currentSubscription->items->first()->stripe_product
+                'product' => $currentSubscription->items->first()->stripe_product,
             ]);
             $plans = $plansraw->data;
-            for ($i=0; $i <= count($plans); $i++) {
+            for ($i = 0; $i <= count($plans); $i++) {
                 if ($plans[$i]->metadata->type == Team::AD_ON_SEAT && $plans[$i]->interval == $currentSubscription->interval) {
                     $similarAdOn = SubscriptionItem::query()
                         ->where('subscription_id', $currentSubscription->id)
@@ -233,30 +247,34 @@ class SubscriptionsController extends Controller
                         DB::commit();
                         $currentSubscription->incrementQuantity($request->numberOfSeats, $plans[$i]->id);
                     }
+
                     return response([
                         'status' => true,
                         'subscription' => $user->currentTeam->currentSubscription(),
-                        'message' => 'Seats added to your plan.'
+                        'message' => 'Seats added to your plan.',
                     ]);
                 }
             }
+
             return response([
                 'status' => false,
                 'message' => 'There are no add ons for seats in your package.',
             ]);
         } catch (ApiErrorException $e) {
             DB::rollBack();
+
             return response([
                 'status' => false,
                 'message' => 'Error adding seats.',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response([
                 'status' => false,
                 'message' => 'Error adding seats.',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
         }
     }

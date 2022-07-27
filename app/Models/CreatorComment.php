@@ -13,7 +13,7 @@ class CreatorComment extends Model
         'creator_id',
         'user_id',
         'comment',
-        'deleted_by'
+        'deleted_by',
     ];
 
     public function user()

@@ -22,6 +22,7 @@ class Subscribed
         if ($user->is_admin || ($user->currentTeam->current_subscription && $user->currentTeam->subscribed($user->currentTeam->current_subscription->name))) {
             return $next($request);
         }
-        return response()->json(["message" => "You are not subscribed. Please upgrade your plan."], 401);
+
+        return response()->json(['message' => 'You are not subscribed. Please upgrade your plan.'], 401);
     }
 }

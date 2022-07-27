@@ -19,6 +19,7 @@ class TempAuth
     public function handle(Request $request, Closure $next)
     {
         Auth::login(User::first());
+
         return $next($request);
     }
 }

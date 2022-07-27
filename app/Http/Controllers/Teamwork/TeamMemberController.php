@@ -26,9 +26,10 @@ class TeamMemberController extends Controller
     {
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::with('users')->findOrFail($id);
+
         return response([
             'status' => true,
-            'team' => $team
+            'team' => $team,
         ]);
     }
 
@@ -46,7 +47,7 @@ class TeamMemberController extends Controller
         $team = $teamModel::findOrFail($team_id);
         if (! auth()->user()->isOwnerOfTeam($team)) {
             return response([
-                'status' => false
+                'status' => false,
             ], 403);
         }
 
@@ -54,7 +55,7 @@ class TeamMemberController extends Controller
         $user = $userModel::findOrFail($user_id);
         if ($user->getKey() === auth()->user()->getKey()) {
             return response([
-                'status' => false
+                'status' => false,
             ], 403);
         }
 
@@ -62,7 +63,7 @@ class TeamMemberController extends Controller
 
         return response([
             'status' => true,
-            'team' => $team
+            'team' => $team,
         ]);
     }
 
@@ -82,7 +83,7 @@ class TeamMemberController extends Controller
         if ($currentTeamMembersCount >= $user->currentTeam->current_subscription->seats) {
             return response([
                 'status' => false,
-                'message' => 'You have already consumed all your seats. Please upgrade your plan.'
+                'message' => 'You have already consumed all your seats. Please upgrade your plan.',
             ]);
         }
 
@@ -99,13 +100,14 @@ class TeamMemberController extends Controller
         } else {
             return response([
                 'status' => false,
-                'message' => 'The email address is already invited to the team.'
+                'message' => 'The email address is already invited to the team.',
             ]);
         }
+
         return response([
             'status' => true,
             'teams' => $team->load(['users', 'invites']),
-            'message' => 'Invite.'
+            'message' => 'Invite.',
         ]);
     }
 
@@ -124,7 +126,7 @@ class TeamMemberController extends Controller
 
         return response([
             'status' => true,
-            'team' => $invite->team
+            'team' => $invite->team,
         ]);
     }
 }

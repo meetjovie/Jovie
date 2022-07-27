@@ -14,13 +14,13 @@ use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
+use function collect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
-use function collect;
 
 class ImportController extends Controller
 {
@@ -40,14 +40,15 @@ class ImportController extends Controller
                 'fileCheck' => [
                     'count' => $totalRecords,
                     'limitExceeded' => $availableCredits < $totalRecords,
-                    'availableCredits' => $availableCredits
-                ]
+                    'availableCredits' => $availableCredits,
+                ],
             ]);
         }
+
         return collect([
             'status' => false,
             'columns' => [],
-            'message' => 'No heading found.'
+            'message' => 'No heading found.',
         ]);
     }
 
@@ -56,7 +57,7 @@ class ImportController extends Controller
         $request->validate([
             'instagram' => 'required_without_all:key,twitch',
             'twitch' => 'required_without_all:instagram,key',
-            'key' => 'required_without_all:instagram,twitch|nullable|string'
+            'key' => 'required_without_all:instagram,twitch|nullable|string',
         ]);
         if ($request->instagram) {
             $import = new Import();
@@ -81,15 +82,16 @@ class ImportController extends Controller
         } catch (\Exception $e) {
             return collect([
                 'status' => false,
-//                'error' => 'Your file is not imported.'
-                'error' => $e->getMessage(). $e->getLine()
+                //                'error' => 'Your file is not imported.'
+                'error' => $e->getMessage().$e->getLine(),
             ]);
         }
+
         return collect([
             'status' => true,
             'message' => 'Successful. Your import will start soon.',
             'file' => $file,
-            'queued_count' => Auth::user()->queued_count
+            'queued_count' => Auth::user()->queued_count,
         ]);
     }
 
@@ -106,6 +108,7 @@ class ImportController extends Controller
             $listName = $request->listName;
             SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
         }
+
         return $filePath;
     }
 
@@ -113,8 +116,8 @@ class ImportController extends Controller
     {
         $request->validate([
             'instagram' => 'required_without_all:file,youtube',
-//            'youtube' => 'required_without_all:file,instagram',
-//            'file' => 'required_without_all:instagram,youtube|mimes:csv'
+            //            'youtube' => 'required_without_all:file,instagram',
+            //            'file' => 'required_without_all:instagram,youtube|mimes:csv'
         ]);
         if ($request->instagram) {
             foreach (explode('\n', $request->instagram) as $instagram) {
@@ -123,7 +126,7 @@ class ImportController extends Controller
                 }
                 Bus::chain([
                     new InstagramImport($instagram, $request->tags, true, null, null, null, Auth::user()->id),
-                    new SendSlackNotification('imported instagram user '.$instagram)
+                    new SendSlackNotification('imported instagram user '.$instagram),
                 ])->dispatch();
             }
         }
@@ -134,13 +137,14 @@ class ImportController extends Controller
         } catch (\Exception $e) {
             return collect([
                 'status' => false,
-//                'error' => 'Your file is not imported.'
-                'error' => $e->getMessage()
+                //                'error' => 'Your file is not imported.'
+                'error' => $e->getMessage(),
             ]);
         }
+
         return collect([
             'status' => true,
-            'error' => 'success'
+            'error' => 'success',
         ]);
     }
 
@@ -153,10 +157,10 @@ class ImportController extends Controller
             $filePath = Creator::CREATORS_CSV_PATH.$filename;
             $list = UserList::firstOrCreate([
                 'user_id' => Auth::user()->id,
-                'name' => $request->listName
+                'name' => $request->listName,
             ], [
                 'user_id' => Auth::user()->id,
-                'name' => $request->listName
+                'name' => $request->listName,
             ]);
             FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }

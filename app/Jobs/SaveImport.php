@@ -27,10 +27,15 @@ class SaveImport implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $file;
+
     private $mappedColumns;
+
     private $tags;
+
     private $listName;
+
     private $userId;
+
     /**
      * Create a new job instance.
      *
@@ -63,15 +68,15 @@ class SaveImport implements ShouldQueue
                 'mappedColumns' => $this->mappedColumns,
                 'tags' => $this->tags,
                 'listName' => $this->listName,
-                'userId' => $this->userId
+                'userId' => $this->userId,
             ]));
-            for ($page=0; $page<ceil($totalRecords/Import::PER_PAGE); $page++) {
+            for ($page = 0; $page < ceil($totalRecords / Import::PER_PAGE); $page++) {
                 $command = "save:import-chunk $this->file $page $payload";
                 // Spawn the command in the background.
                 Artisan::queue($command);
             }
         } catch (\Exception $e) {
-            SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'. $e->getFile(). '-----'.$e->getLine()), [
+            SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'.$e->getFile().'-----'.$e->getLine()), [
                 'file' => $this->file,
                 'mappedColumns' => $this->mappedColumns,
                 'tags' => $this->tags,

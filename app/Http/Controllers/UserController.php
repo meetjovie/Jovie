@@ -48,6 +48,7 @@ class UserController extends Controller
         if ($user) {
             $user->profile_pic_url = $this->getProfilePic($user);
             $user->name = $user->first_name ? ($user->first_name.' '.$user->last_name) : $user->username;
+
             return response([
                 'status' => true,
                 'data' => $user,
@@ -96,46 +97,61 @@ class UserController extends Controller
 
         return response([
             'status' => false,
-            'message' => 'Creator not found.'
+            'message' => 'Creator not found.',
         ]);
     }
 
     public function getCta($user)
     {
-        if ($user->call_to_action) return $user->call_to_action;
+        if ($user->call_to_action) {
+            return $user->call_to_action;
+        }
 
         $cta = null;
         foreach (Creator::NETWORKS as $network) {
-            if ($cta = $user[$network.'_handler']) break;
+            if ($cta = $user[$network.'_handler']) {
+                break;
+            }
         }
+
         return $cta;
     }
 
     public function getProfilePic(&$user)
     {
         // hack to check if user is from creators
-        if (!$user->email) {
+        if (! $user->email) {
             foreach (Creator::NETWORKS as $network) {
-                if ($profile_pic = $user[$network.'_profile_pic']) break;
+                if ($profile_pic = $user[$network.'_profile_pic']) {
+                    break;
+                }
             }
             foreach (Creator::NETWORKS as $network) {
                 unset($user[$network.'_profile_pic']);
             }
+
             return $profile_pic;
         }
 
-        if ($user->profile_pic_url) return $user->profile_pic_url;
+        if ($user->profile_pic_url) {
+            return $user->profile_pic_url;
+        }
 
-        if (is_null($user->creatorProfile)) return $user->default_image;
+        if (is_null($user->creatorProfile)) {
+            return $user->default_image;
+        }
 
         $profile_pic = null;
         foreach (Creator::NETWORKS as $network) {
             $profile = $user->creatorProfile;
-            if ($profile_pic = $profile[$network.'_profile_pic']) break;
+            if ($profile_pic = $profile[$network.'_profile_pic']) {
+                break;
+            }
         }
         foreach (Creator::NETWORKS as $network) {
             unset($user->creatorProfile[$network.'_profile_pic']);
         }
+
         return $profile_pic ?? $user->default_image;
     }
 
@@ -163,12 +179,13 @@ class UserController extends Controller
             return collect([
                 'status' => true,
                 'message' => 'Profile Information Updated.',
-                'user' => User::where('id', Auth::user()->id)->first()
+                'user' => User::where('id', Auth::user()->id)->first(),
             ]);
         }
+
         return collect([
             'status' => false,
-            'message' => 'Something went wrong. Please try again later.'
+            'message' => 'Something went wrong. Please try again later.',
         ]);
     }
 
@@ -178,21 +195,23 @@ class UserController extends Controller
         if ($profile = $user->getRawOriginal('profile_pic_url')) {
             if (Storage::disk('s3')->delete($profile)) {
                 User::where('id', $user->id)->update(['profile_pic_url' => null]);
+
                 return collect([
                     'status' => true,
                     'message' => 'Profile photo removed.',
-                    'user' => Auth::user()
+                    'user' => Auth::user(),
                 ]);
             } else {
                 return collect([
                     'status' => false,
-                    'message' => 'Failed to remove profile photo.'
+                    'message' => 'Failed to remove profile photo.',
                 ]);
             }
         }
+
         return collect([
             'status' => false,
-            'message' => 'No profile photo to remove.'
+            'message' => 'No profile photo to remove.',
         ]);
     }
 
@@ -203,12 +222,13 @@ class UserController extends Controller
         if ($status) {
             return collect([
                 'status' => true,
-                'message' => 'Added to wait list'
+                'message' => 'Added to wait list',
             ]);
         }
+
         return collect([
             'status' => false,
-            'message' => 'Something went wrong. Please try again later.'
+            'message' => 'Something went wrong. Please try again later.',
         ]);
     }
 
@@ -221,6 +241,7 @@ class UserController extends Controller
         }
         $inProgressBatches = $this->importBatches();
         $notifications = array_merge($notifications, $inProgressBatches);
+
         return response()->json([
             'status' => true,
             'notifications' => $notifications,
@@ -246,6 +267,7 @@ class UserController extends Controller
             $batch->created_at_formatted = Carbon::createFromTimestamp($batch->created_at)->diffForHumans($now);
             unset($batch->options);
         }
+
         return $batches->toArray();
     }
 }
