@@ -15,22 +15,31 @@
           <div class="absolute flex flex-col items-center justify-center px-4">
             <h1
               class="text-center text-4xl font-extrabold tracking-tight text-gray-900 sm:text-3xl md:text-5xl xl:text-6xl">
-              <span class="inline">Scale your</span>
+              <span class="inline">Manage your</span>
               {{ ' ' }}
-              <span class="inline text-indigo-700">creator</span>
+              <span class="inline text-indigo-700">social</span>
 
               {{ ' ' }}
-              <span class="inline"> partnerships</span>
+              <span class="inline"> relationships</span>
             </h1>
             <p
               class="mx-auto mt-8 max-w-md text-center text-base text-gray-500 sm:mt-3 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-              <span class="font-bold">Easily </span>
+              <span class="font-bold">A </span>
               {{ ' ' }}
-              <span class="font-bold text-indigo-600">build</span>,
-              <span class="font-bold text-indigo-600">manage</span>, &
-              <span class="font-bold text-indigo-600">grow </span>
-              <span class="font-bold underline decoration-pink-500 decoration-4"
-                >creator communities</span
+              <span class="font-bold text-indigo-600">CRM</span>
+              {{ ' ' }}
+              <span class="font-bold">for</span>
+              {{ ' ' }}
+              <span
+                class="font-bold underline decoration-social-twitch decoration-4"
+                >Twitch</span
+              >
+              {{ ' ' }}
+              <span>&</span>
+              {{ ' ' }}
+              <span
+                class="decoration underline decoration-social-instagram decoration-4">
+                Instagram</span
               >.
             </p>
             <div class="mx-auto mt-8 flex max-w-md justify-center md:mt-5">
