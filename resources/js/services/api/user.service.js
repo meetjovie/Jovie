@@ -79,5 +79,8 @@ export default {
         delete data.id;
         return axios.post(
             `${baseApiUrl}/move-creator/${id}?_method=PUT`, data);
-    }
+    },
+    async updatePassword(data) {
+        return axios.post(`${baseApiUrl}/update-password?_method=PUT`, data);
+    },
 };
