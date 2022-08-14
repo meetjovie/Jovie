@@ -35,7 +35,7 @@
                   <InputGroup
                     id="email"
                     name="email"
-                    label="'Email'"
+                    label="Email"
                     type="email"
                     autocomplete="email"
                     required="" />
