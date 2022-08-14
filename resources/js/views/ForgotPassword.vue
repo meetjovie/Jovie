@@ -13,14 +13,16 @@
           <div class="block lg:hidden">
             <JovieLogo height="28px" />
           </div>
-          <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Sign in</h2>
+          <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+            Reset your password
+          </h2>
           <p class="mt-2 text-sm text-gray-600">
             Or
             {{ ' ' }}
             <router-link
-              to="/signup"
+              to="/signin"
               class="font-medium text-indigo-600 hover:text-indigo-500">
-              Create an account
+              Sign in
             </router-link>
           </p>
         </div>
@@ -35,53 +37,12 @@
                   Email address
                 </label>
                 <div class="mt-1">
-                  <input
+                  <InputGroup
                     id="email"
                     name="email"
                     type="email"
                     autocomplete="email"
-                    required=""
-                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                </div>
-              </div>
-
-              <div class="space-y-1">
-                <label
-                  for="password"
-                  class="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <div class="mt-1">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autocomplete="current-password"
-                    required=""
-                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm" />
-                </div>
-              </div>
-
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
-                  <label
-                    for="remember-me"
-                    class="ml-2 block text-sm text-gray-900">
-                    Remember me
-                  </label>
-                </div>
-
-                <div class="text-sm">
-                  <router-link
-                    to="/forgot-password"
-                    class="font-medium text-indigo-600 hover:text-indigo-500">
-                    Forgot your password?
-                  </router-link>
+                    required="" />
                 </div>
               </div>
 
@@ -89,7 +50,7 @@
                 <button
                   type="submit"
                   class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                  Sign in
+                  Reset password
                 </button>
               </div>
             </form>
@@ -103,6 +64,7 @@
 <script>
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
+import InputGroup from '../components/InputGroup.vue';
 
 export default {
   mounted() {
@@ -111,6 +73,7 @@ export default {
   },
   components: {
     JovieLogo,
+    InputGroup,
     AuthFooter,
   },
 };
