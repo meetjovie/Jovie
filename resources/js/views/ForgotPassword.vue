@@ -36,6 +36,7 @@
                     id="email"
                     name="email"
                     label="Email"
+                    placeholder="Email"
                     type="email"
                     autocomplete="email"
                     required="" />
