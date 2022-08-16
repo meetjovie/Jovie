@@ -20,7 +20,7 @@
             Or
             {{ ' ' }}
             <router-link
-              to="/signin"
+              to="/login"
               class="font-medium text-indigo-600 hover:text-indigo-500">
               Sign in
             </router-link>
@@ -33,7 +33,9 @@
               <div>
                 <div class="mt-1">
                   <InputGroup
+                    v-model="email"
                     id="email"
+                    :disabled="updating"
                     name="email"
                     label="Email"
                     placeholder="Email"
@@ -41,11 +43,18 @@
                     autocomplete="email"
                     required="" />
                 </div>
+                  <p
+                      class="mt-2 text-sm text-red-900"
+                      v-if="this.errors.email">
+                      {{ this.errors.email[0] }}
+                  </p>
               </div>
 
               <div>
                 <button
-                  type="submit"
+                  type="button"
+                  :disabled="updating"
+                  @click="sendResetEmail()"
                   class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   Reset password
                 </button>
@@ -62,16 +71,53 @@
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import InputGroup from '../components/InputGroup.vue';
+import UserService from "../services/api/user.service";
 
 export default {
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
+
   },
   components: {
     JovieLogo,
     InputGroup,
     AuthFooter,
   },
+    data() {
+      return {
+          updating: false,
+          errors: {},
+          email: null
+      }
+    },
+    methods: {
+        sendResetEmail() {
+            this.updating = true;
+            UserService.sendResetEmail({email: this.email})
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        this.errors = {};
+                        alert(response.message)
+                        this.$notify({
+                            group: 'user',
+                            title: 'Successful',
+                            text: response.message,
+                            type: 'success',
+                        });
+                    }
+                })
+                .catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                        this.errors = error.data.errors;
+                    }
+                })
+                .finally(() => {
+                    this.updating = false;
+                });
+        },
+    }
 };
 </script>
