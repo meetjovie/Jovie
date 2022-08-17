@@ -21,6 +21,8 @@ Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']
 Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
 Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
+Route::post('/forgot-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -28,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
     Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
+    Route::put('/update-password', [\App\Http\Controllers\UserController::class, 'updatePassword']);
 
 //    Route::group(['middleware' => 'subscribed'], function () {
 

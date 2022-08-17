@@ -79,5 +79,14 @@ export default {
         delete data.id;
         return axios.post(
             `${baseApiUrl}/move-creator/${id}?_method=PUT`, data);
-    }
+    },
+    async updatePassword(data) {
+        return axios.post(`${baseApiUrl}/update-password?_method=PUT`, data);
+    },
+    async sendResetEmail(data) {
+        return axios.post(`${baseApiUrl}/forgot-password`, data);
+    },
+    async resetPassword(data) {
+        return axios.post(`${baseApiUrl}/reset-password`, data);
+    },
 };

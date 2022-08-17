@@ -8,12 +8,15 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserList;
 use App\Models\Waitlist;
+use App\Rules\MatchOldPassword;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -269,5 +272,20 @@ class UserController extends Controller
         }
 
         return $batches->toArray();
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        User::where('id', Auth::id())->update(['password'=> Hash::make($request->password)]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Password updated successfully',
+        ], 200);
     }
 }

@@ -265,9 +265,17 @@ export const routes = [
     },
   },
   {
-    name: 'Forgot Password',
+    name: 'forget-password',
     path: '/forgot-password',
     component: loadPage('ForgotPassword'),
+    meta: {
+      layout: 'Minimal',
+    },
+  },
+    {
+    name: 'reset-password',
+    path: '/reset-password',
+    component: loadPage('ResetPassword'),
     meta: {
       layout: 'Minimal',
     },

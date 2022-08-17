@@ -24,37 +24,37 @@
                 <!-- Name -->
                 <div class="col-span-6 sm:col-span-4">
                   <InputGroup
-                    v-model="$store.state.AuthState.user.first_name"
-                    :error="errors?.first_name?.[0]"
+                    v-model="user.current_password"
+                    :error="errors?.current_password?.[0]"
                     :disabled="updating"
                     name="current_password"
                     label="Current Password"
                     placeholder="Current Password"
-                    type="text" />
+                    type="password" />
                 </div>
 
                 <!-- Password -->
                 <div class="col-span-6 sm:col-span-4">
                   <InputGroup
-                    v-model="$store.state.AuthState.user.password"
-                    :error="errors?.last_name?.[0]"
+                      v-model="user.password"
+                      :error="errors?.password?.[0]"
                     :disabled="updating"
                     name="new_password"
                     label="New Password"
                     placeholder="New Password"
-                    type="text" />
+                    type="password" />
                 </div>
 
                 <!-- Email -->
                 <div class="col-span-6 sm:col-span-4">
                   <InputGroup
-                    :value="$store.state.AuthState.user.password_confirmation"
-                    :error="errors?.email?.[0]"
+                      v-model="user.password_confirmation"
+                    :error="errors?.password?.[0]"
                     :disabled="updating"
                     name="confirm_password"
                     label="Confirm Password"
                     placeholder="Confirm Password"
-                    type="text" />
+                    type="password" />
                 </div>
               </div>
             </div>
@@ -106,8 +106,11 @@ export default {
     return {
       errors: {},
       updating: false,
-      bucketResponse: null,
-      uploadProgress: 0,
+      user: {
+          current_password: null,
+          password: null,
+          password_confirmation: null
+      }
     };
   },
   mounted() {
@@ -115,20 +118,18 @@ export default {
   },
   methods: {
     updatePassword() {
-      let data = new FormData();
-      data.append('first_name', this.$store.state.AuthState.user.first_name);
-      data.append('last_name', this.$store.state.AuthState.user.last_name);
-      if (this.bucketResponse && this.bucketResponse.uuid) {
-        data.append('profile_pic_url', this.bucketResponse.uuid);
-      }
       this.updating = true;
-      UserService.updatePassword(data)
+      UserService.updatePassword(this.user)
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.$store.commit('setAuthStateUser', response.user);
-            this.$refs.profile_pic_url.value = null;
             this.errors = {};
+              this.$notify({
+                  group: 'user',
+                  title: 'Successful',
+                  text: response.message,
+                  type: 'success',
+              });
           }
         })
         .catch((error) => {
@@ -137,7 +138,7 @@ export default {
             this.errors = error.data.errors;
           }
         })
-        .finally((response) => {
+        .finally(() => {
           this.updating = false;
         });
     },
