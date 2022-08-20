@@ -450,6 +450,7 @@
                       </router-link>
                     </div>
                     <router-link
+                      v-if="currentUser.username"
                       class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       :to="profileLink">
                       <component
@@ -457,6 +458,16 @@
                         is="UserIcon">
                       </component
                       >Your profile
+                    </router-link>
+                    <router-link
+                      v-else
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      to="edit-profile">
+                      <component
+                        class="mr-4 h-4 w-4 cursor-pointer"
+                        is="CogIcon">
+                      </component
+                      >Setup Your profile
                     </router-link>
                     <div
                       v-for="dropdownmenuitem in dropdownmenuitems"

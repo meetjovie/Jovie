@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto items-center py-24">
+  <div class="mx-auto h-screen max-w-5xl flex-col justify-between py-12">
     <div class="mx-12">
       <h4 class="sr-only">Status</h4>
       <p class="text-sm font-medium text-gray-900">
@@ -9,7 +9,7 @@
         <div class="overflow-hidden rounded-full bg-gray-200">
           <div
             class="h-2 rounded-full bg-indigo-600"
-            :style="{ width: status.percentage + '%' }" />
+            :style="{ width: status.percentage }" />
         </div>
         <div
           class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
@@ -21,15 +21,15 @@
       </div>
     </div>
 
-    <div>Nav here</div>
-    Your profile
+    <div class="rounded-md bg-neutral-400 py-6 px-4 text-center">
+      <div v-if="!step1Complete">Add a photo</div>
 
-    <div v-if="!user.profile_pic_url">Add a photo</div>
-    //v-if the user doesnt not have a profile picture
+      <div v-else-if="!step2Complete">What are your social handles?</div>
+      <div v-else-if="!step3Complete">Pick a username</div>
+      <div v-else>Here's your profile</div>
+    </div>
 
-    <div v-if="step2">What are your social handles?</div>
-    <div v-if="step3">Pick a username</div>
-    <div v-if="step4">Here's your profile</div>
+    <div class="text-2x font-bold">This will only take a moment</div>
   </div>
 </template>
 <script>
@@ -38,7 +38,9 @@ export default {
   components: {},
   data() {
     return {
-      step1: true,
+      step1Complete: false,
+      step2Complete: false,
+      step3Complete: false,
       status: [
         {
           percentage: 20,
