@@ -179,6 +179,8 @@ export default {
         text: `You are ${this.user.first_name}`,
         type: 'success',
       });
+      //push router to /edit-profile
+      this.$router.push('/edit-profile');
     },
   },
   mounted() {},

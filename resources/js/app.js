@@ -51,14 +51,14 @@ app.mixin({
       if (!value) {
         return moment().format('ddd MMM DD, YYYY [at] HH:mm a');
       }
-      let time = moment(value)
-        if (unix) {
-            time = moment.unix(value)
-        }
-        if (humanize) {
-            let duration = moment.duration(moment().diff(time))
-            return duration.humanize(true)
-        }
+      let time = moment(value);
+      if (unix) {
+        time = moment.unix(value);
+      }
+      if (humanize) {
+        let duration = moment.duration(moment().diff(time));
+        return duration.humanize(true);
+      }
       return time.format('ddd MMM DD, YYYY [at] HH:mm a');
     },
   },

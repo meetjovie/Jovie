@@ -449,6 +449,15 @@
                         </div>
                       </router-link>
                     </div>
+                    <router-link
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      :to="profileLink">
+                      <component
+                        class="mr-4 h-4 w-4 cursor-pointer"
+                        is="UserIcon">
+                      </component
+                      >Your profile
+                    </router-link>
                     <div
                       v-for="dropdownmenuitem in dropdownmenuitems"
                       :key="dropdownmenuitem"
@@ -528,6 +537,7 @@ import {
   UserGroupIcon,
   FolderOpenIcon,
   CogIcon,
+  UserIcon,
   BellIcon,
   CursorClickIcon,
   ChatAltIcon,
@@ -561,6 +571,8 @@ export default {
       errors: [],
       showCommandPallette: false,
       user: this.$store.state.AuthState.user,
+      profileLink: this.$store.state.AuthState.user.username,
+
       nav: [
         /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
@@ -571,7 +583,6 @@ export default {
         /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [
-        { name: 'Profile', route: '/', icon: UserGroupIcon },
         { name: 'Billing', route: '/billing', icon: CreditCardIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
@@ -661,6 +672,7 @@ export default {
     CommandPallette,
     EmojiHappyIcon,
     ProgressBar,
+    UserIcon,
   },
 };
 </script>
