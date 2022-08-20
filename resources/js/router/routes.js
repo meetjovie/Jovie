@@ -143,6 +143,26 @@ export const routes = [
     },
   },
   {
+    name: 'Contact Card',
+    path: '/:username/contact-card',
+    component: loadPage('ContactCard'),
+    meta: {
+      layout: 'Minimal',
+      requiresAuth: false,
+      requiresSubscribe: false,
+    },
+  },
+  {
+    name: 'Edit Profile',
+    path: '/edit-profile',
+    component: loadPage('ProfileSetup'),
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+      requiresSubscribe: false,
+    },
+  },
+  {
     about: 'About',
     path: '/about',
     component: loadPage('About'),
@@ -272,7 +292,7 @@ export const routes = [
       layout: 'Minimal',
     },
   },
-    {
+  {
     name: 'reset-password',
     path: '/reset-password',
     component: loadPage('ResetPassword'),
