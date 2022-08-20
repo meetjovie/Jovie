@@ -84,14 +84,14 @@
           </th>
           <th
             scope="col"
-            class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+            class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
             <span class="sr-only">Edit</span>
 
-            <div class="hidden w-60 2xl:block">
-              {{ creators.length }} results
+            <div class="hidden w-60 text-right 2xl:block">
+              {{ creators.length }} Contacts
             </div>
-            <div class="hidden w-40 lg:block 2xl:hidden">
-              {{ creators.length }}
+            <div class="hidden w-40 text-right lg:block 2xl:hidden">
+              {{ creators.length }} Contacts
             </div>
           </th>
         </tr>
@@ -545,7 +545,13 @@
                               Remove</a
                             >
                           </MenuItem>
-                          <MenuItem v-slot="{ active }" class="items-center" @click="refresh(creator[`${network}_handler`], network)" :disabled="adding">
+                          <MenuItem
+                            v-slot="{ active }"
+                            class="items-center"
+                            @click="
+                              refresh(creator[`${network}_handler`], network)
+                            "
+                            :disabled="adding">
                             <a
                               href="#"
                               class="items-center text-neutral-400 hover:text-neutral-900"
@@ -605,7 +611,7 @@ import {
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import JovieSpinner from '../../components/JovieSpinner.vue';
-import ImportService from "../../services/api/import.service";
+import ImportService from '../../services/api/import.service';
 
 export default {
   name: 'CrmTable',
@@ -635,41 +641,41 @@ export default {
     'loading',
     'arcvhied',
   ],
-    methods: {
-        refresh(url, network) {
-            this.adding = true;
-            var form = new FormData();
-            form.append(network, url);
-            ImportService.import(form)
-                .then((response) => {
-                    response = response.data;
-                    if (response.status) {
-                        this.$notify({
-                            group: 'user',
-                            type: 'success',
-                            title: 'Import initiated',
-                            text: 'Your data is being updated.',
-                        });
-                    } else {
-                        this.$notify({
-                            group: 'user',
-                            type: 'error',
-                            title: 'Error',
-                            text: response.message,
-                        });
-                    }
-                })
-                .catch((error) => {
-                    error = error.response;
-                    if (error.status == 422) {
-                        this.errors = error.data.errors;
-                    }
-                })
-                .finally((response) => {
-                    this.adding = false;
-                });
-        }
-    }
+  methods: {
+    refresh(url, network) {
+      this.adding = true;
+      var form = new FormData();
+      form.append(network, url);
+      ImportService.import(form)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Import initiated',
+              text: 'Your data is being updated.',
+            });
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally((response) => {
+          this.adding = false;
+        });
+    },
+  },
 };
 </script>
 

@@ -4,6 +4,17 @@
     class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <div>
+        <VueVCard
+          orgPost="00000"
+          orgStreet="Some Street"
+          orgRegion="Some Region"
+          orgCity="Some City"
+          orgCountry="LRK"
+          orgName="OrganizationName"
+          firstName="John"
+          lastName="Doe"
+          workPhone="5555555555"
+          homePhone="5555555555" />
         <img
           class="block-inline mx-auto mt-0 aspect-square w-48 rounded-full object-cover object-center sm:w-64 2xl:w-80"
           :src="user.profile_pic_url"
@@ -56,6 +67,7 @@
 
       <a :href="user.call_to_action">
         <button
+          @click="downloadContactCard()"
           type="submit"
           class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
           {{ user.call_to_action_text }}
@@ -97,6 +109,11 @@ export default {
       user: null,
       networks: [],
     };
+  },
+  methods: {
+    downloadContactCard() {
+      console.log('downloading Contact Card');
+    },
   },
   mounted() {
     //add segment analytics
