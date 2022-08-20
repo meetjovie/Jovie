@@ -13,7 +13,9 @@
         </div>
         <div
           class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
-          <div class="text-indigo-600">Upload picture</div>
+          <div @click="currentStep == 1" class="text-indigo-600">
+            Upload picture
+          </div>
           <div class="text-center text-indigo-600">Add social Links</div>
           <div class="text-center">Set a username</div>
           <div class="text-right">Done</div>
@@ -21,8 +23,8 @@
       </div>
     </div>
 
-    <div class="rounded-md bg-neutral-400 py-6 px-4 text-center">
-      <div v-if="!step1Complete">
+    <div class="rounded-md bg-neutral-50 py-6 px-4 text-center">
+      <div v-if="currentStep == 1">
         <form
           @submit.prevent="updateProfile()"
           method="post"
@@ -128,7 +130,7 @@
         </form>
       </div>
 
-      <div v-else-if="!step2Complete">
+      <div v-else-if="currentStep == 2">
         <InputGroup
           v-model="$store.state.AuthState.user.instagram_handler"
           :error="errors?.instagram_handler?.[0]"
@@ -138,7 +140,7 @@
           placeholder="Instagram Handler"
           type="text" />
       </div>
-      <div v-else-if="!step3Complete">
+      <div v-else-if="currentStep == 3">
         <InputGroup
           v-model="$store.state.AuthState.user.username"
           :error="errors?.username?.[0]"
@@ -165,12 +167,20 @@ import ProgressBar from './../components/ProgressBar';
 
 export default {
   name: 'ProfileSetup',
-  components: { InputGroup, CardHeading, CardLayout, ButtonGroup, ModalPopup },
+  components: {
+    InputGroup,
+    CardHeading,
+    CardLayout,
+    ProgressBar,
+    ButtonGroup,
+    ModalPopup,
+  },
   data() {
     return {
       step1Complete: false,
       step2Complete: false,
       step3Complete: false,
+      currentStep: [],
       status: [
         {
           percentage: 20,
@@ -198,6 +208,14 @@ export default {
     this.step3Complete = this.$store.state.AuthState.user.username
       ? true
       : false;
+    // if step1 i not complete set the current step to 1 else if step 2 is not complete set the current step to 2 else if step 3 is not complete set the current step to 3 else set the current step to 4
+    this.currentStep = this.step1Complete
+      ? this.step2Complete
+        ? this.step3Complete
+          ? 4
+          : 3
+        : 2
+      : 1;
   },
   methods: {
     fileChanged(e) {
