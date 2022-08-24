@@ -13,9 +13,7 @@
         </div>
         <div
           class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
-          <div @click="currentStep == 1" class="text-indigo-600">
-            Upload picture
-          </div>
+          <div class="text-indigo-600">Upload picture</div>
           <div class="text-center text-indigo-600">Add social Links</div>
           <div class="text-center">Set a username</div>
           <div class="text-right">Done</div>
@@ -24,7 +22,7 @@
     </div>
 
     <div class="rounded-md bg-neutral-50 py-6 px-4 text-center">
-      <div v-if="currentStep == 1">
+      <div @click="setCurrentStep(1)" v-if="currentStep == 1">
         <form
           @submit.prevent="updateProfile()"
           method="post"
@@ -130,7 +128,7 @@
         </form>
       </div>
 
-      <div v-else-if="currentStep == 2">
+      <div @click="setCurrentStep(2)" v-else-if="currentStep == 2">
         <InputGroup
           v-model="$store.state.AuthState.user.instagram_handler"
           :error="errors?.instagram_handler?.[0]"
@@ -140,7 +138,7 @@
           placeholder="Instagram Handler"
           type="text" />
       </div>
-      <div v-else-if="currentStep == 3">
+      <div @click="setCurrentStep(3)" v-else-if="currentStep == 3">
         <InputGroup
           v-model="$store.state.AuthState.user.username"
           :error="errors?.username?.[0]"
@@ -164,6 +162,7 @@ import ButtonGroup from './../components/ButtonGroup';
 import ModalPopup from './../components/ModalPopup';
 import UserService from './../services/api/user.service';
 import ProgressBar from './../components/ProgressBar';
+import JovieSpinner from './../components/JovieSpinner';
 
 export default {
   name: 'ProfileSetup',
@@ -174,6 +173,7 @@ export default {
     ProgressBar,
     ButtonGroup,
     ModalPopup,
+    JovieSpinner,
   },
   data() {
     return {
@@ -181,6 +181,7 @@ export default {
       step2Complete: false,
       step3Complete: false,
       currentStep: [],
+      loader: false,
       status: [
         {
           percentage: 20,
@@ -218,6 +219,9 @@ export default {
       : 1;
   },
   methods: {
+    setCurrentStep(step) {
+      this.currentStep = step;
+    },
     fileChanged(e) {
       this.bucketResponse = null;
       this.uploadProgress = 0;

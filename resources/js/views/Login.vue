@@ -94,11 +94,11 @@
                 </div>
 
                 <div class="text-sm">
-                    <router-link
-                        :to="{ name: 'forget-password' }"
-                        class="font-medium text-indigo-600 hover:text-indigo-500">
-                        Forgot your password?
-                    </router-link>
+                  <router-link
+                    :to="{ name: 'forget-password' }"
+                    class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Forgot your password?
+                  </router-link>
                 </div>
               </div>
             </form>

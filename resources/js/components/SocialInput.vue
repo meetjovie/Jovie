@@ -74,20 +74,23 @@
       </button>
     </div>
   </div>
-  <div class="text-xs text-neutral-400">
-    Supports:
-    <div class="inline-flex">
-      <SocialIcons
-        height="10px"
-        width="10px"
-        class="text-neutral-400"
-        icon="twitch" />
-      <SocialIcons
-        height="10px"
-        width="10px"
-        class="text-neutral-400"
-        icon="instagram" />
+  <div class="flex justify-between text-xs text-neutral-400">
+    <div>
+      Supports:
+      <div class="inline-flex">
+        <SocialIcons
+          height="10px"
+          width="10px"
+          class="text-neutral-400"
+          icon="twitch" />
+        <SocialIcons
+          height="10px"
+          width="10px"
+          class="text-neutral-400"
+          icon="instagram" />
+      </div>
     </div>
+    <div><router-link to="Import">Upload a CSV File</router-link></div>
   </div>
 </template>
 
