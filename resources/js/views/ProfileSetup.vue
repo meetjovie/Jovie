@@ -8,8 +8,13 @@
       <div class="mt-6" aria-hidden="true">
         <div class="overflow-hidden rounded-full bg-gray-200">
           <div
-            class="h-2 rounded-full bg-indigo-600"
-            :style="{ width: status.percentage }" />
+            class="h-2 w-1/4 rounded-full bg-indigo-600"
+            :class="[
+              { 'w-1/4': currentStep === 1 },
+              { 'w-1/2': currentStep === 2 },
+              { 'w-3/4': currentStep === 3 },
+              { 'w-full': currentStep === 4 },
+            ]" />
         </div>
         <div
           class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
@@ -151,7 +156,7 @@
       <div v-else>Here's your profile</div>
     </div>
 
-    <div class="text-2x font-bold">This will only take a moment</div>
+    <div class="text-2x py-6 px-4 font-bold">This will only take a moment</div>
   </div>
 </template>
 <script>
