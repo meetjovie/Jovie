@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('spotify_handler')->nullable();
             $table->string('apple_music_handler')->nullable();
             $table->string('soundcloud_handler')->nullable();
+            $table->string('linkedin_handler')->nullable();
+            $table->string('tiktok_handler')->nullable();
 
             //
         });
@@ -43,6 +45,8 @@ return new class extends Migration
             $table->dropColumn('spotify_handler');
             $table->dropColumn('apple_music_handler');
             $table->dropColumn('soundcloud_handler');
+            $table->dropColumn('linkedin_handler');
+            $table->dropColumn('tiktok_handler');
 
             //
         });

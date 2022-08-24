@@ -166,6 +166,7 @@
           <div class="grid grid-cols-2 gap-4">
             <div>
               <InputGroup
+                @blur="updateSocialHandlers()"
                 v-model="currentUser.instagram_handler"
                 :error="errors?.instagram_handler?.[0]"
                 :disabled="updating"
@@ -177,6 +178,7 @@
             </div>
             <div>
               <InputGroup
+                @blur="updateSocialHandlers()"
                 v-model="currentUser.tiktok_handler"
                 :error="errors?.tiktok_handler?.[0]"
                 :disabled="updating"
@@ -188,6 +190,7 @@
             </div>
             <div>
               <InputGroup
+                @blur="updateSocialHandlers()"
                 v-model="currentUser.twitter_handler"
                 :error="errors?.twitter_handler?.[0]"
                 :disabled="updating"
@@ -199,6 +202,7 @@
             </div>
             <div>
               <InputGroup
+                @blur="updateSocialHandlers()"
                 v-model="currentUser.youtube_handler"
                 :error="errors?.youtube_handler?.[0]"
                 :disabled="updating"
@@ -332,6 +336,33 @@ export default {
         this.bucketResponse = response;
         this.$refs.profile_pic_url_img.src = src;
       });
+    },
+    updateSocialHandlers() {
+      this.updating = true;
+      let data = new FormData();
+      data.append('instagram_handler', this.currentUser.instagram_handler);
+      data.append('tiktok_handler', this.currentUser.tiktok_handler);
+      data.append('twitter_handler', this.currentUser.twitter_handler);
+      data.append('youtube_handler', this.currentUser.youtube_handler);
+      data.append('twitch_handler', this.currentUser.twitch_handler);
+      UserService.updateProfile(data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$store.commit('setAuthStateUser', response.user);
+            this.$refs.profile_pic_url.value = null;
+            this.errors = {};
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally((response) => {
+          this.updating = false;
+        });
     },
     updateProfile() {
       let data = new FormData();
