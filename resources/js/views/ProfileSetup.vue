@@ -340,11 +340,11 @@ export default {
     updateSocialHandlers() {
       this.updating = true;
       let data = new FormData();
-      data.append('instagram_handler', this.currentUser.instagram_handler);
-      data.append('tiktok_handler', this.currentUser.tiktok_handler);
-      data.append('twitter_handler', this.currentUser.twitter_handler);
-      data.append('youtube_handler', this.currentUser.youtube_handler);
-      data.append('twitch_handler', this.currentUser.twitch_handler);
+      data.append('instagram_handler', this.currentUser.instagram_handler ?? '');
+      data.append('tiktok_handler', this.currentUser.tiktok_handler ?? '');
+      data.append('twitter_handler', this.currentUser.twitter_handler ?? '');
+      data.append('youtube_handler', this.currentUser.youtube_handler ?? '');
+      data.append('twitch_handler', this.currentUser.twitch_handler ?? '');
       UserService.updateProfile(data)
         .then((response) => {
           response = response.data;
