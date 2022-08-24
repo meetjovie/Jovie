@@ -90,12 +90,16 @@
           icon="instagram" />
       </div>
     </div>
-    <div><router-link to="Import">Upload a CSV File</router-link></div>
+    <div>
+      <router-link to="Import"
+        ><CloudUploadIcon></CloudUploadIcon>Upload a CSV File</router-link
+      >
+    </div>
   </div>
 </template>
 
 <script>
-import { UserIcon, ClipboardIcon } from '@heroicons/vue/solid';
+import { UserIcon, ClipboardIcon, CloudUploadIcon } from '@heroicons/vue/solid';
 import SocialIcons from './SocialIcons';
 import ImportService from '../services/api/import.service';
 import JovieSpinner from './JovieSpinner.vue';
@@ -106,6 +110,7 @@ export default {
     SocialIcons,
     ClipboardIcon,
     JovieSpinner,
+    CloudUploadIcon,
   },
 
   data() {
