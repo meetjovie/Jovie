@@ -15,9 +15,12 @@
           <div class="absolute flex flex-col items-center justify-center px-4">
             <h1
               class="text-center text-4xl font-extrabold tracking-tight text-gray-900 sm:text-3xl md:text-5xl xl:text-6xl">
-              <span class="inline">Manage your</span>
+              <span class="inline">Scale your</span>
               {{ ' ' }}
-              <span class="inline text-indigo-700">social</span>
+              <span class="inline text-indigo-700">creator</span>
+              <!--make a span that rotates through the words "creator", "founder", "Biz Dev", "Investor"-->
+
+              <span class="inline text-indigo-700">relationship</span>
 
               {{ ' ' }}
               <span class="inline"> relationships</span>

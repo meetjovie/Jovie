@@ -74,7 +74,7 @@
       </button>
     </div>
   </div>
-  <div class="flex justify-between text-xs text-neutral-400">
+  <div class="flex justify-between px-2 text-xs text-neutral-400">
     <div>
       Supports:
       <div class="inline-flex">
@@ -91,10 +91,12 @@
       </div>
     </div>
     <div class="flex">
-      <router-link class="items-center" to="Import"
+      <router-link class="group items-center" to="Import"
         ><CloudUploadIcon
-          class="mr-1 inline-flex h-3 w-3 items-center text-neutral-400"></CloudUploadIcon
-        >Upload a CSV File</router-link
+          class="mr-1 inline-flex h-3 w-3 items-center text-neutral-400 group-hover:text-neutral-500"></CloudUploadIcon
+        ><span class="group-hover:text-neutral-500"
+          >Upload a CSV File</span
+        ></router-link
       >
     </div>
   </div>

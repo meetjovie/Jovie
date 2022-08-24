@@ -66,7 +66,7 @@
                   {{ errors.key[0] }}
                 </p>
 
-                <div v-if="notification" class="mx-auto items-center py-6">
+                <div v-if="importStarted" class="mx-auto items-center py-6">
                   <span class="mx-auto text-center text-sm text-neutral-400">
                     Your contacts are importing and will be available in a few
                     moments.
@@ -138,6 +138,7 @@ export default {
       errors: [],
       dropzoneFile: [],
       drag: false,
+      importStarted: false,
       importSuccessful: false,
       importing: false,
       importSet: {
@@ -161,7 +162,6 @@ export default {
     toggleActive() {
       this.ActiveDrag = !this.ActiveDrag;
     },
-
     drop() {
       this.getColumnsFromCsv();
     },
@@ -226,6 +226,7 @@ export default {
     },
     finishImport(mappedColumns = {}) {
       this.importing = true;
+      this.importStarted = true;
       this.errors = [];
       var form = new FormData();
       form.append('instagram', this.importSet.instagram ?? '');

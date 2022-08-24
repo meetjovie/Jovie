@@ -587,10 +587,10 @@ export default {
       nav: [
         /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
-        { name: 'Search', route: '/discovery', icon: SearchIcon },
+        /*  { name: 'Search', route: '/discovery', icon: SearchIcon }, */
         { name: 'Contacts', route: '/contacts', icon: UserGroupIcon },
-        { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon },
-        { name: 'Import', route: '/import', icon: CloudUploadIcon },
+        /* { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon }, */
+        /*  { name: 'Import', route: '/import', icon: CloudUploadIcon }, */
         /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [

@@ -48,7 +48,7 @@
       :class="[{ 'text-2xs': size == 'xs' }, { 'text-xs': size == 'sm' }]">
       {{ text }}
     </p>
-    <div v-if="loader" class="transition-all">
+    <div v-if="loader" class="ml-2 transition-all">
       <JovieSpinner :spinnerColor="loaderColor" />
     </div>
     <div v-else-if="success">
