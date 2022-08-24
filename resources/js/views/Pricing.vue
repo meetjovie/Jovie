@@ -8,7 +8,7 @@
             Jovie Pricing
           </h1>
           <p class="mt-5 text-xl text-neutral-500 sm:text-center">
-            Everything you need to scale your creator partnerships.
+            Everything you need to scale your relationships.
           </p>
 
           <div
@@ -276,39 +276,33 @@ const tiers = [
     name: 'Professional',
     href: 'signup',
     featured: false,
-    priceMonthly: 199,
-    priceAnnual: 2148,
+    priceMonthly: 29,
+    priceAnnual: 199,
     description: 'For freelancers',
     features: [
       {
         name: `Database of ${store.state.creatorsDBCount}+ creators`,
         icon: 'DatabaseIcon',
       },
-      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
+      { name: 'Blazing fast CRM Search', icon: 'LightningBoltIcon' },
       { name: '500 contact credits/month', icon: 'MailIcon' },
       { name: '1 User included', icon: 'UserIcon' },
-      { name: '10 CSV exports', icon: 'CloudDownloadIcon' },
     ],
   },
   {
     name: 'Team',
     href: 'signup',
     featured: true,
-    priceMonthly: 499,
-    priceAnnual: 5388,
+    priceMonthly: 99,
+    priceAnnual: 999,
     description: 'Built for startups and growing teams',
     features: [
-      {
-        name: `Database of ${store.state.creatorsDBCount}+ creators`,
-        icon: 'DatabaseIcon',
-      },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
       { name: '2,500 contact credits/month', icon: 'MailIcon' },
       { name: '2 Users included', icon: 'UsersIcon' },
       { name: 'Unlimited CSV exports', icon: 'CloudDownloadIcon' },
       { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
-      { name: 'Additional users $99/mo', icon: 'UserAddIcon' },
-      { name: '1,000 Data enrichment credits', icon: 'TableIcon' },
+      { name: 'Additional users $49/mo', icon: 'UserAddIcon' },
     ],
   },
   {
@@ -320,7 +314,7 @@ const tiers = [
     description: 'For large teams and enterprises',
     features: [
       {
-        name: `Database of ${store.state.creatorsDBCount}+ creators`,
+        name: `Prospecting engine - Search ${store.state.creatorsDBCount}+ social media profiles`,
         icon: 'DatabaseIcon',
       },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
@@ -343,13 +337,9 @@ const faqs = [
   {
     question: 'What is a contact credit?',
     answer:
-      'Jovie provides access to a database of millions of creators.  You can leverage this data for your outreach efforts.  A contact credit is deducted from your account when you send a message to a contact or export an email address.',
+      'The number of contacts you can enrich & store within the Jovie CRM.',
   },
-  {
-    question: 'What is a data enrichment credit?',
-    answer:
-      'Jovie allows you to enrich your contacts with data from your own database or customer lists.  When you upload contacts, we match them against our data to provide you an enriched profile with social metrics, content, & other details.  You are only charged for succcessful matches.',
-  },
+
   {
     question: 'Do you offer trials?',
     answer:

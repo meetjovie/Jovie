@@ -73,7 +73,7 @@
                             </div>
                           </router-link>
                         </div>
-                        <div class="bg-gray-50 p-4">
+                        <!-- <div class="bg-gray-50 p-4">
                           <router-link
                             to="chrome-extension"
                             class="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50">
@@ -91,7 +91,7 @@
                               Gmail.
                             </span>
                           </router-link>
-                        </div>
+                        </div> -->
                       </div>
                     </PopoverPanel>
                   </transition>
@@ -222,12 +222,14 @@ import {
   InboxIcon,
   PencilAltIcon,
   TrashIcon,
+  UserIcon,
   UsersIcon,
   ChevronDownIcon,
   SearchIcon,
   UserGroupIcon,
   MailIcon,
   DatabaseIcon,
+  LightBulbIcon,
 } from '@heroicons/vue/outline';
 import UserService from '../services/api/user.service';
 import ExternalFooter from '../components/External/ExternalFooter';
@@ -243,9 +245,11 @@ export default {
   components: {
     InboxIcon,
     AlertBanner,
+    LightBulbIcon,
     PencilAltIcon,
     TrashIcon,
     UsersIcon,
+    UserIcon,
     ExternalFooter,
     ChevronDownIcon,
     SearchIcon,
@@ -262,11 +266,12 @@ export default {
     return {
       features: [
         {
-          name: 'Creator search',
-          description: `Search ${this.$store.state.creatorsDBCount}+ creators and find the best match for your business`,
-          href: '/',
+          name: 'Creator profiles',
+          description: `Simple, beatiful, universal profiles.`,
+          href: '/profiles',
           anchor: '#discovery',
-          icon: 'SearchIcon',
+          icon: 'UserIcon',
+          label: 'New',
         },
         {
           name: 'Social CRM',
@@ -276,12 +281,11 @@ export default {
           icon: 'UserGroupIcon',
         },
         {
-          name: 'Outreach',
-          description: 'Onboard new creators at scale',
-          label: 'Coming soon',
-          href: '/',
-          anchor: '#outreach',
-          icon: 'MailIcon',
+          name: 'Social Insights in Gmail',
+          description: `The Jovie Chrome Extension puts new & extsting contact\'s social data right inside your inbox`,
+          href: 'chrome-extension',
+          anchor: '',
+          icon: 'DatabaseIcon',
         },
         {
           name: 'Data Enrichment',
@@ -289,7 +293,7 @@ export default {
             'Enrich your existing customer lists with creator specific data',
           href: 'Enrichment',
           anchor: '',
-          icon: 'DatabaseIcon',
+          icon: 'LightBulbIcon',
         },
       ],
       waitListEmail: '',

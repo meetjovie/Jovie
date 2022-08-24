@@ -171,6 +171,15 @@ export const routes = [
     },
   },
   {
+    about: 'Jovie Profile',
+    path: '/profiles',
+    component: loadPage('JovieProfile'),
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Terms',
     path: '/terms',
     component: loadPage('Terms'),
@@ -292,7 +301,7 @@ export const routes = [
       layout: 'Minimal',
     },
   },
-    {
+  {
     name: 'reset-password',
     path: '/reset-password',
     component: loadPage('ResetPassword'),

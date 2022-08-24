@@ -19,30 +19,21 @@
               {{ ' ' }}
               <span class="inline text-indigo-700">creator</span>
               <!--make a span that rotates through the words "creator", "founder", "Biz Dev", "Investor"-->
-
-              <span class="inline text-indigo-700">relationship</span>
-
               {{ ' ' }}
+
               <span class="inline"> relationships</span>
             </h1>
             <p
               class="mx-auto mt-8 max-w-md text-center text-base text-gray-500 sm:mt-3 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-              <span class="font-bold">A </span>
+              <span class="font-bold">Jovie is the </span>
               {{ ' ' }}
               <span class="font-bold text-indigo-600">CRM</span>
               {{ ' ' }}
-              <span class="font-bold">for</span>
+              <span class="font-bold">you'll actually</span>
               {{ ' ' }}
               <span
-                class="font-bold underline decoration-social-twitch decoration-4"
-                >Twitch</span
-              >
-              {{ ' ' }}
-              <span>&</span>
-              {{ ' ' }}
-              <span
-                class="decoration underline decoration-social-instagram decoration-4">
-                Instagram</span
+                class="font-bold underline decoration-social-instagram decoration-4"
+                >want to use</span
               >.
             </p>
             <div class="mx-auto mt-8 flex max-w-md justify-center md:mt-5">
