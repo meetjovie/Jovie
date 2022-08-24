@@ -90,9 +90,11 @@
           icon="instagram" />
       </div>
     </div>
-    <div>
-      <router-link to="Import"
-        ><CloudUploadIcon></CloudUploadIcon>Upload a CSV File</router-link
+    <div class="flex">
+      <router-link class="items-center" to="Import"
+        ><CloudUploadIcon
+          class="mr-1 inline-flex h-3 w-3 items-center text-neutral-400"></CloudUploadIcon
+        >Upload a CSV File</router-link
       >
     </div>
   </div>

@@ -65,7 +65,15 @@
                 <p v-if="errors.key" class="mt-2 text-sm text-red-600">
                   {{ errors.key[0] }}
                 </p>
+
+                <div v-if="notification" class="mx-auto items-center py-6">
+                  <span class="mx-auto text-center text-sm text-neutral-400">
+                    Your contacts are importing and will be available in a few
+                    moments.
+                  </span>
+                </div>
               </div>
+
               <!--  <div class="flex justify-end">
             <button
               :disabled="importing"
@@ -168,9 +176,9 @@ export default {
     getColumnsFromCsv(e) {
       let file = null;
       if (this.$refs.file_upload.files.length) {
-          file = this.$refs.file_upload.files[0];
+        file = this.$refs.file_upload.files[0];
       } else {
-          file = e.dataTransfer.files[0];
+        file = e.dataTransfer.files[0];
       }
       this.uploadProgress = 0;
       this.fetchingColumns = true;
@@ -234,6 +242,7 @@ export default {
             this.$notify({
               group: 'user',
               type: 'success',
+              duration: 15000,
               title: 'Import Successful',
               text: 'Your import has been queued and will be processed shortly.',
             });
