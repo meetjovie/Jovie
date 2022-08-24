@@ -1,6 +1,6 @@
 <template>
-  <div class="mx-auto h-screen max-w-5xl flex-col justify-between py-12">
-    <div class="mx-12">
+  <div class="mx-auto flex h-screen max-w-5xl flex-col justify-between py-12">
+    <div class="mx-12 py-6">
       <h4 class="sr-only">Status</h4>
       <p class="text-sm font-medium text-gray-900">
         Creating your Jovie profile...
@@ -17,16 +17,41 @@
             ]" />
         </div>
         <div
-          class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
-          <div class="text-indigo-600">Upload picture</div>
-          <div class="text-center text-indigo-600">Add social Links</div>
-          <div class="text-center">Set a username</div>
-          <div class="text-right">Done</div>
+          class="mt-2 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
+          <div
+            @click="setCurrentStep(1)"
+            class="cursor-pointer"
+            :class="[{ 'text-indigo-600': step1Complete }, 'text-neutral-600']">
+            Upload picture
+          </div>
+          <div
+            @click="setCurrentStep(2)"
+            class="cursor-pointer"
+            :class="[{ 'text-indigo-600': step2Complete }, 'text-neutral-600']">
+            Add social Links
+          </div>
+          <div
+            @click="setCurrentStep(3)"
+            class="cursor-pointer"
+            :class="[{ 'text-indigo-600': step3Complete }, 'text-neutral-600']">
+            Set a username
+          </div>
+          <div
+            class="cursor-pointer"
+            :class="[
+              {
+                'text-indigo-600':
+                  step1Complete && step2Complete && step3Complete,
+              },
+              'text-neutral-600',
+            ]">
+            Done
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="rounded-md bg-neutral-50 py-6 px-4 text-center">
+    <div class="rounded-md bg-neutral-50 py-2 px-4 text-center">
       <div @click="setCurrentStep(1)" v-if="currentStep == 1">
         <form
           @submit.prevent="updateProfile()"
@@ -133,17 +158,63 @@
         </form>
       </div>
 
-      <div @click="setCurrentStep(2)" v-else-if="currentStep == 2">
-        <InputGroup
-          v-model="$store.state.AuthState.user.instagram_handler"
-          :error="errors?.instagram_handler?.[0]"
-          :disabled="updating"
-          name="instagram_handler"
-          label="Instagram Handler"
-          placeholder="Instagram Handler"
-          type="text" />
+      <div
+        class="mt-4 items-center px-2 py-4"
+        @click="setCurrentStep(2)"
+        v-else-if="currentStep == 2">
+        <div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <InputGroup
+                v-model="$store.state.AuthState.user.instagram_handler"
+                :error="errors?.instagram_handler?.[0]"
+                :disabled="updating"
+                name="instagram_handler"
+                socialicon="instagram"
+                label="Instagram"
+                placeholder="Instagram"
+                type="text" />
+            </div>
+            <div>
+              <InputGroup
+                v-model="$store.state.AuthState.user.tiktok_handler"
+                :error="errors?.tiktok_handler?.[0]"
+                :disabled="updating"
+                name="tiktok_handler"
+                socialicon="tiktok"
+                label="TikTok"
+                placeholder="TikTok"
+                type="text" />
+            </div>
+            <div>
+              <InputGroup
+                v-model="$store.state.AuthState.user.twitter_handler"
+                :error="errors?.twitter_handler?.[0]"
+                :disabled="updating"
+                name="twitter_handler"
+                socialicon="twitter"
+                label="Twitter"
+                placeholder="Twitter"
+                type="text" />
+            </div>
+            <div>
+              <InputGroup
+                v-model="$store.state.AuthState.user.youtube_handler"
+                :error="errors?.youtube_handler?.[0]"
+                :disabled="updating"
+                name="youtube_handler"
+                socialicon="youtube"
+                label="YouTube"
+                placeholder="YouTube"
+                type="text" />
+            </div>
+          </div>
+        </div>
       </div>
-      <div @click="setCurrentStep(3)" v-else-if="currentStep == 3">
+      <div
+        class="mt-4 items-center px-2 py-4"
+        @click="setCurrentStep(3)"
+        v-else-if="currentStep == 3">
         <InputGroup
           v-model="$store.state.AuthState.user.username"
           :error="errors?.username?.[0]"
@@ -156,7 +227,22 @@
       <div v-else>Here's your profile</div>
     </div>
 
-    <div class="text-2x py-6 px-4 font-bold">This will only take a moment</div>
+    <div
+      class="text-2x mx-auto flex items-center justify-between py-6 px-4 text-center font-semibold text-neutral-500">
+      <div>
+        <ChevronLeftIcon
+          @click="previousStep()"
+          v-if="currentStep > 1"
+          class="mr-2 h-8 w-8 cursor-pointer" />
+      </div>
+      <div>Step {{ currentStep }} of 4</div>
+      <div>
+        <ChevronRightIcon
+          @click="nextStep()"
+          v-if="currentStep < 3"
+          class="mr-2 h-8 w-8 cursor-pointer" />
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -168,11 +254,14 @@ import ModalPopup from './../components/ModalPopup';
 import UserService from './../services/api/user.service';
 import ProgressBar from './../components/ProgressBar';
 import JovieSpinner from './../components/JovieSpinner';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/outline';
 
 export default {
   name: 'ProfileSetup',
   components: {
     InputGroup,
+    ChevronLeftIcon,
+    ChevronRightIcon,
     CardHeading,
     CardLayout,
     ProgressBar,
@@ -185,7 +274,7 @@ export default {
       step1Complete: false,
       step2Complete: false,
       step3Complete: false,
-      currentStep: [],
+      currentStep: 1,
       loader: false,
       status: [
         {
@@ -201,9 +290,6 @@ export default {
   },
   mounted() {
     window.analytics.page('Edit Profile');
-    //make a function that sets step1 to true if the user has a profile photo
-    //make a function that sets step2 to true if the user has social handles
-    //make a function that sets step3 to true if the user has a username
 
     this.step1Complete = this.$store.state.AuthState.user.profile_pic_url
       ? true
@@ -226,6 +312,12 @@ export default {
   methods: {
     setCurrentStep(step) {
       this.currentStep = step;
+    },
+    previousStep() {
+      this.currentStep--;
+    },
+    nextStep() {
+      this.currentStep++;
     },
     fileChanged(e) {
       this.bucketResponse = null;
