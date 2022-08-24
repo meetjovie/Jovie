@@ -9,9 +9,9 @@
         </h1>
         <p
           class="mt-4 w-full pr-0 text-base leading-normal text-gray-500 lg:w-10/12 lg:pr-16 xl:w-96 xl:pr-0">
-          We believe every company can benefit from partnering with
-          <span class="font-bold">creators</span>. We're building the tools to
-          make those relationships effortless.
+          We believe everyone can benefit from building strong
+          <span class="font-bold">relationships</span>. We're building the tools
+          to make that process effortless.
         </p>
 
         <router-link to="careers"
