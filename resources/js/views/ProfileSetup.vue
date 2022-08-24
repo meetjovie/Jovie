@@ -166,7 +166,7 @@
           <div class="grid grid-cols-2 gap-4">
             <div>
               <InputGroup
-                v-model="$store.state.AuthState.user.instagram_handler"
+                v-model="currentUser.instagram_handler"
                 :error="errors?.instagram_handler?.[0]"
                 :disabled="updating"
                 name="instagram_handler"
@@ -177,7 +177,7 @@
             </div>
             <div>
               <InputGroup
-                v-model="$store.state.AuthState.user.tiktok_handler"
+                v-model="currentUser.tiktok_handler"
                 :error="errors?.tiktok_handler?.[0]"
                 :disabled="updating"
                 name="tiktok_handler"
@@ -188,7 +188,7 @@
             </div>
             <div>
               <InputGroup
-                v-model="$store.state.AuthState.user.twitter_handler"
+                v-model="currentUser.twitter_handler"
                 :error="errors?.twitter_handler?.[0]"
                 :disabled="updating"
                 name="twitter_handler"
@@ -199,7 +199,7 @@
             </div>
             <div>
               <InputGroup
-                v-model="$store.state.AuthState.user.youtube_handler"
+                v-model="currentUser.youtube_handler"
                 :error="errors?.youtube_handler?.[0]"
                 :disabled="updating"
                 name="youtube_handler"
