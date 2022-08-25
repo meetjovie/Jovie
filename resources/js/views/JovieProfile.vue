@@ -9,7 +9,7 @@
             <div class="mx-auto max-w-2xl pb-24 lg:max-w-none lg:py-64">
               <div class="visible ml-1 lg:invisible lg:h-0">
                 <img
-                  src="{{ asset('/images/a7x3me_profile_mobile.png') }}"
+                  :src="asset('img/External/jovie_profile_mobile.png')"
                   alt=""
                   class="object-fit mx-auto h-1/3 w-auto" />
               </div>
@@ -44,10 +44,14 @@
                 <img
                   class="hidden h-auto w-full object-contain md:block"
                   id="target"
-                  src="a.jpg" />
-                <!--<div class="mx-auto text-left w-2/3 bg-gray-50 border-gray-300 border-4 px-8 py-4 mt-8 text-gray-900 text-lg font-bold rounded-lg">
-                                https://A7X3.me/<span class="font-light text-gray-700 opacity-50">yournamehere</span>
-                            </div>-->
+                  :src="asset('img/External/jovie_profile.png')" />
+                <!-- <div
+                  class="mx-auto mt-8 w-2/3 rounded-lg border-4 border-gray-300 bg-gray-50 px-8 py-4 text-left text-lg font-bold text-gray-900">
+                  https://jov.ie/<span
+                    class="font-light text-gray-700 opacity-50"
+                    >yournamehere</span
+                  > 
+                </div>-->
               </div>
             </div>
           </div>
@@ -91,4 +95,3 @@
     </div>
   </div>
 </template>
->

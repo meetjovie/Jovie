@@ -80,7 +80,12 @@
                   >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
                 >
                 {{ ' ' }}
-                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <span class="text-base font-medium text-neutral-500">/mo</span
+                ><span
+                  v-if="tier.name == 'Team'"
+                  class="ml-0.5 text-sm font-medium text-neutral-400"
+                  >/seat</span
+                >
                 <br />
                 <span class="text-sm font-medium text-neutral-500"
                   >Billed as
@@ -97,7 +102,12 @@
                   >${{ tier.priceMonthly }}</span
                 >
                 {{ ' ' }}
-                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <span class="text-base font-medium text-neutral-500">/mo</span
+                ><span
+                  v-if="tier.name == 'Team'"
+                  class="ml-0.5 text-sm font-medium text-neutral-400"
+                  >/seat</span
+                >
                 <br />
                 <span class="text-sm font-medium text-neutral-500"
                   >Billed monthly</span
@@ -255,12 +265,11 @@ import {
 import {
   CheckIcon,
   ChevronDownIcon,
-  MailIcon,
+  UserGroupIcon,
   LightningBoltIcon,
   DatabaseIcon,
   SupportIcon,
   UserIcon,
-  UserGroupIcon,
   UsersIcon,
   UserAddIcon,
   CloudDownloadIcon,
@@ -280,12 +289,8 @@ const tiers = [
     priceAnnual: 199,
     description: 'For freelancers',
     features: [
-      {
-        name: `Database of ${store.state.creatorsDBCount}+ creators`,
-        icon: 'DatabaseIcon',
-      },
       { name: 'Blazing fast CRM Search', icon: 'LightningBoltIcon' },
-      { name: '500 contact credits/month', icon: 'MailIcon' },
+      { name: '500 contact credits/month', icon: 'UserGroupIcon' },
       { name: '1 User included', icon: 'UserIcon' },
     ],
   },
@@ -293,12 +298,12 @@ const tiers = [
     name: 'Team',
     href: 'signup',
     featured: true,
-    priceMonthly: 99,
-    priceAnnual: 999,
+    priceMonthly: 49,
+    priceAnnual: 499,
     description: 'Built for startups and growing teams',
     features: [
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
-      { name: '2,500 contact credits/month', icon: 'MailIcon' },
+      { name: '2,500 contact credits/month', icon: 'UserGroupIcon' },
       { name: '2 Users included', icon: 'UsersIcon' },
       { name: 'Unlimited CSV exports', icon: 'CloudDownloadIcon' },
       { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
@@ -310,15 +315,19 @@ const tiers = [
     href: 'request-demo',
     featured: false,
     priceMonthly: 'Annual Only',
-    priceAnnual: 26388,
+    priceAnnual: 4788,
     description: 'For large teams and enterprises',
     features: [
-      {
+      /*  {
         name: `Prospecting engine - Search ${store.state.creatorsDBCount}+ social media profiles`,
+        icon: 'DatabaseIcon',
+      }, */
+      {
+        name: `Prospecting engine - Search millions of social media profiles`,
         icon: 'DatabaseIcon',
       },
       { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
-      { name: '10,00 contact credits/month', icon: 'MailIcon' },
+      { name: '10,00 contact credits/month', icon: 'UserGroupIcon' },
       { name: '5 Users included', icon: 'UserGroupIcon' },
       { name: 'Unlimited CSV exports', icon: 'CloudDownloadIcon' },
       { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
@@ -359,7 +368,7 @@ export default {
     DisclosureButton,
     DisclosurePanel,
     ChevronDownIcon,
-    MailIcon,
+    UserGroupIcon,
     LightningBoltIcon,
     DatabaseIcon,
     SupportIcon,

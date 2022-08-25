@@ -267,7 +267,7 @@ export default {
       features: [
         {
           name: 'Creator profiles',
-          description: `Simple, beatiful, universal profiles.`,
+          description: `Simple, beautiful, universal profiles.`,
           href: '/profiles',
           anchor: '#discovery',
           icon: 'UserIcon',
