@@ -83,7 +83,7 @@
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 
       <!--  <HomeFeatureHero></HomeFeatureHero> -->
-      <Enrichment></Enrichment>
+      <Enrichment :dark="false"></Enrichment>
       <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
       <!--  <HomeCTA></HomeCTA>
       <JovieReplaces></JovieReplaces>
