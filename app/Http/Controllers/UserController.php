@@ -164,6 +164,7 @@ class UserController extends Controller
             'first_name' => 'sometimes|required|max:255',
             'last_name' => 'sometimes|required|max:255',
             'profile_pic_url' => 'sometimes|nullable|string',
+            'username' => 'sometimes|string',
             'facebook_handler' => 'sometimes|nullable|string',
             'twitter_handler' => 'sometimes|nullable|string',
             'instagram_handler' => 'sometimes|nullable|string',

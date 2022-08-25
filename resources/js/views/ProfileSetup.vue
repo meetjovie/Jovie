@@ -10,8 +10,8 @@
           <div
             class="h-2 w-1/4 rounded-full bg-indigo-600"
             :class="[
-              { 'w-1/4': currentStep === 1 },
-              { 'w-1/2': currentStep === 2 },
+              { 'w-10': currentStep === 1 },
+              { 'w-3/8': currentStep === 2 },
               { 'w-3/4': currentStep === 3 },
               { 'w-full': currentStep === 4 },
             ]" />
@@ -49,9 +49,7 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="rounded-md bg-neutral-50 py-2 px-4 text-center">
       <div @click="setCurrentStep(1)" v-if="currentStep == 1">
         <form
           @submit.prevent="updateProfile()"
@@ -159,59 +157,63 @@
       </div>
 
       <div
-        class="mt-4 items-center px-2 py-4"
+        class="mt-8 items-center px-2 py-12"
         @click="setCurrentStep(2)"
         v-else-if="currentStep == 2">
-        <div>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <InputGroup
-                @blur="updateSocialHandlers()"
-                v-model="currentUser.instagram_handler"
-                :error="errors?.instagram_handler?.[0]"
-                :disabled="updating"
-                name="instagram_handler"
-                socialicon="instagram"
-                label="Instagram"
-                placeholder="Instagram"
-                type="text" />
-            </div>
-            <div>
-              <InputGroup
-                @blur="updateSocialHandlers()"
-                v-model="currentUser.tiktok_handler"
-                :error="errors?.tiktok_handler?.[0]"
-                :disabled="updating"
-                name="tiktok_handler"
-                socialicon="tiktok"
-                label="TikTok"
-                placeholder="TikTok"
-                type="text" />
-            </div>
-            <div>
-              <InputGroup
-                @blur="updateSocialHandlers()"
-                v-model="currentUser.twitter_handler"
-                :error="errors?.twitter_handler?.[0]"
-                :disabled="updating"
-                name="twitter_handler"
-                socialicon="twitter"
-                label="Twitter"
-                placeholder="Twitter"
-                type="text" />
-            </div>
-            <div>
-              <InputGroup
-                @blur="updateSocialHandlers()"
-                v-model="currentUser.youtube_handler"
-                :error="errors?.youtube_handler?.[0]"
-                :disabled="updating"
-                name="youtube_handler"
-                socialicon="youtube"
-                label="YouTube"
-                placeholder="YouTube"
-                type="text" />
-            </div>
+        <div class="py- rounded-md bg-gray-50 px-4">
+          <h2 class="font-neutral-500 py-2 px-4">
+            Add at least one social link to your profile.
+          </h2>
+          <div class="mt-4 grid grid-cols-2 gap-4">
+            <InputGroup
+              @blur="updateSocialHandlers()"
+              v-model="currentUser.instagram_handler"
+              :error="errors?.instagram_handler?.[0]"
+              :disabled="updating"
+              name="instagram_handler"
+              socialicon="instagram"
+              label="Instagram"
+              placeholder="Instagram"
+              type="text" />
+
+            <InputGroup
+              @blur="updateSocialHandlers()"
+              v-model="currentUser.tiktok_handler"
+              :error="errors?.tiktok_handler?.[0]"
+              :disabled="updating"
+              name="tiktok_handler"
+              socialicon="tiktok"
+              label="TikTok"
+              placeholder="TikTok"
+              type="text" />
+
+            <InputGroup
+              @blur="updateSocialHandlers()"
+              v-model="currentUser.twitter_handler"
+              :error="errors?.twitter_handler?.[0]"
+              :disabled="updating"
+              name="twitter_handler"
+              socialicon="twitter"
+              label="Twitter"
+              placeholder="Twitter"
+              type="text" />
+
+            <InputGroup
+              @blur="updateSocialHandlers()"
+              v-model="currentUser.youtube_handler"
+              :error="errors?.youtube_handler?.[0]"
+              :disabled="updating"
+              name="youtube_handler"
+              socialicon="youtube"
+              label="YouTube"
+              placeholder="YouTube"
+              type="text" />
+          </div>
+          <div class="py-4">
+            <ButtonGroup
+              text="Next"
+              :loader="updating"
+              @click="setCurrentStep(3)" />
           </div>
         </div>
       </div>
@@ -220,13 +222,20 @@
         @click="setCurrentStep(3)"
         v-else-if="currentStep == 3">
         <InputGroup
-          v-model="$store.state.AuthState.user.username"
+          @blur="updateSocialHandlers()"
+          v-model="currentUser.username"
           :error="errors?.username?.[0]"
           :disabled="updating"
           name="username"
           label="Username"
           placeholder="Username"
           type="text" />
+        <ButtonGroup
+          v-if="step1Complete && step2Complete && step3Complete"
+          text="Save"
+          :loader="updating"
+          @click="completeProfileSetups()" />
+        text="Next" :loader="updating" @click="setCurrentStep(4)" />
       </div>
       <div v-else>Here's your profile</div>
     </div>
@@ -280,11 +289,6 @@ export default {
       step3Complete: false,
       currentStep: 1,
       loader: false,
-      status: [
-        {
-          percentage: 20,
-        },
-      ],
       errors: {},
       updating: false,
       bucketResponse: null,
@@ -314,6 +318,9 @@ export default {
       : 1;
   },
   methods: {
+    completeProfileSetup() {
+      this.$router.push('/edit-profile');
+    },
     setCurrentStep(step) {
       this.currentStep = step;
     },
@@ -340,11 +347,16 @@ export default {
     updateSocialHandlers() {
       this.updating = true;
       let data = new FormData();
-      data.append('instagram_handler', this.currentUser.instagram_handler ?? '');
+      data.append(
+        'instagram_handler',
+        this.currentUser.instagram_handler ?? ''
+      );
       data.append('tiktok_handler', this.currentUser.tiktok_handler ?? '');
       data.append('twitter_handler', this.currentUser.twitter_handler ?? '');
       data.append('youtube_handler', this.currentUser.youtube_handler ?? '');
       data.append('twitch_handler', this.currentUser.twitch_handler ?? '');
+      data.append('username', this.currentUser.username ?? '');
+      //add username
       UserService.updateProfile(data)
         .then((response) => {
           response = response.data;
