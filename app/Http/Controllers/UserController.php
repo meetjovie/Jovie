@@ -47,6 +47,8 @@ class UserController extends Controller
                 'call_to_action_text',
                 'call_to_action',
                 'show_instagram',
+                'instagram_handler',
+                
                 
 
             )->first();

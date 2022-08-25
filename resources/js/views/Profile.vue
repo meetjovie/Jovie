@@ -57,7 +57,7 @@
         </fieldset>
       </div>
 
-      <a :href="user.call_to_action">
+      <a v-if="user.call_to_action_text" :href="user.call_to_action">
         <button
           @click="downloadContactCard()"
           type="submit"

@@ -167,8 +167,8 @@
                                 contact to Jovie.</span
                               >
                             </div>
-                            <SocialInput />
-                            <InternalMarketingChromeExtension />
+                            <SocialInput class="py-12" />
+                            <InternalMarketingChromeExtension class="mt-6" />
                           </div>
                         </div>
                       </div>

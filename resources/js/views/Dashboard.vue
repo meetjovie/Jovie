@@ -141,7 +141,7 @@
 <script>
 import AlertBanner from '../components/AlertBanner.vue';
 import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
-import SocialInput from '../resources/js/components/SocialInput.vue';
+import SocialInput from '../components/SocialInput.vue';
 
 const featuredNav = [
   {

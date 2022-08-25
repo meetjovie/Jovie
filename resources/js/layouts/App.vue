@@ -585,10 +585,10 @@ export default {
       profileLink: this.$store.state.AuthState.user.username,
 
       nav: [
-        /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
-        { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
+        /* /*  /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
+        /*  { name: 'Dashboard', route: '/dashboard', icon: HomeIcon }, */
         /*  { name: 'Search', route: '/discovery', icon: SearchIcon }, */
-        { name: 'Contacts', route: '/contacts', icon: UserGroupIcon },
+        { name: 'Contacts', route: '/contacts', icon: HomeIcon },
         //add a link for profile
         { name: 'Profile', route: '/edit-profile', icon: UserIcon },
 

@@ -39,24 +39,24 @@
 </template>
 
 <script setup>
-import { DownloadIcon } from '@heroicons/vue/solid';
+import { DownloadIcon, ChevronRightIcon } from '@heroicons/vue/solid';
 import { UploadIcon } from '@heroicons/vue/outline';
 
 const items = [
   {
-    name: 'Chrome Extension',
-    description:
-      'Download the Jovie Chrome Extenntion & contacts without leaving Gmail or social media.',
-    href: '#',
-    iconColor: 'bg-pink-500',
-    icon: DownloadIcon,
-  },
-  {
-    name: 'Bulk upload contactst',
+    name: 'Bulk Upload Contacts',
     description: 'Upload a CSV File to Jovie.',
-    href: '#',
+    href: '/import',
     iconColor: 'bg-purple-500',
     icon: UploadIcon,
+  },
+  {
+    name: 'Download Jovie Chrome Extension',
+    description:
+      'Save contacts without leaving social media & see enriched contact details inside Gmail.',
+    href: '/chrome-extension',
+    iconColor: 'bg-pink-500',
+    icon: DownloadIcon,
   },
 ];
 </script>
