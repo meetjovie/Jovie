@@ -69,7 +69,7 @@
       <div class="border-t-2 border-gray-400 opacity-20"></div>
       <router-link
         class="group mt-1 py-4 text-center text-sm text-gray-500"
-        to="creators">
+        to="signup">
         <div class="mx-auto mt-4 flex items-center justify-center text-center">
           <JovieLogo
             iconColor="black"
