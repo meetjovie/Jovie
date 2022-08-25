@@ -48,6 +48,10 @@ class UserController extends Controller
                 'call_to_action',
                 'show_instagram',
                 'instagram_handler',
+                'tiktok_handler',
+                'show_tiktok',
+                'show_youtube',
+                'youtube_handler',
                 
                 
 
