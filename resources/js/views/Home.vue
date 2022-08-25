@@ -83,11 +83,11 @@
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 
       <!--  <HomeFeatureHero></HomeFeatureHero> -->
-
+      <Enrichment></Enrichment>
       <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
-      <HomeCTA></HomeCTA>
+      <!--  <HomeCTA></HomeCTA>
       <JovieReplaces></JovieReplaces>
-      <HomeTestimonials></HomeTestimonials>
+      <HomeTestimonials></HomeTestimonials> -->
       <HomeCTA2></HomeCTA2>
     </main>
   </div>
@@ -112,6 +112,7 @@ import HomeTestimonials from '../components/Home/HomeTestimonials';
 import HomeCTA2 from '../components/Home/HomeCTA2';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
+import Enrichment from '../components/Home/Enrichment';
 
 import CallToAction from '../components/CallToAction';
 
@@ -123,6 +124,7 @@ export default {
     HomeFeatureSequences,
     HomeCreatorSearch,
     HomeFeatureDiscovery,
+    Enrichment,
     HomeHeroSection,
     HomeCTA,
     ButtonGroup,
