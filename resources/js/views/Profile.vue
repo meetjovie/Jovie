@@ -4,17 +4,6 @@
     class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <div>
-        <VueVCard
-          orgPost="00000"
-          orgStreet="Some Street"
-          orgRegion="Some Region"
-          orgCity="Some City"
-          orgCountry="LRK"
-          orgName="OrganizationName"
-          firstName="John"
-          lastName="Doe"
-          workPhone="5555555555"
-          homePhone="5555555555" />
         <img
           class="block-inline mx-auto mt-0 aspect-square w-48 rounded-full object-cover object-center sm:w-64 2xl:w-80"
           :src="user.profile_pic_url"
@@ -54,7 +43,10 @@
                 v-if="user[`show_${network}`]"
                 class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
-                  :href="user.creator_profile[`${network}_handler`]"
+                  :href="
+                    currentUser[`${network}_handler`] ||
+                    user.creator_profile[`${network}_handler`]
+                  "
                   target="_blank">
                   <SocialIcons height="24px" :icon="network" />
                   <span class="sr-only">{{ network }}</span>

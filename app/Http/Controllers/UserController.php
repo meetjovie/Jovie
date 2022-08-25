@@ -161,9 +161,16 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $data = $request->validate([
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'profile_pic_url' => 'nullable|string',
+            'first_name' => 'sometimes|required|max:255',
+            'last_name' => 'sometimes|required|max:255',
+            'profile_pic_url' => 'sometimes|nullable|string',
+            'username' => 'sometimes|string',
+            'facebook_handler' => 'sometimes|nullable|string',
+            'twitter_handler' => 'sometimes|nullable|string',
+            'instagram_handler' => 'sometimes|nullable|string',
+            'youtube_handler' => 'sometimes|nullable|string',
+            'tiktok_handler' => 'sometimes|nullable|string',
+            'twitch_handler' => 'sometimes|nullable|string',
         ]);
         $path = null;
         if (Auth::user()->getRawOriginal('profile_pic_url')) {
@@ -192,6 +199,7 @@ class UserController extends Controller
         ]);
     }
 
+    
     public function removeProfilePhoto(Request $request)
     {
         $user = Auth::user();
