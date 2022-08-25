@@ -146,7 +146,7 @@ export default {
           response = response.data;
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
-            router.push({ name: 'Dashboard' });
+            router.push({ name: 'Contacts' });
           } else {
             this.error = response.error;
           }

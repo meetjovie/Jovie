@@ -22,7 +22,7 @@
                       ? 'text-indigo text-sm underline decoration-indigo-700 decoration-4 underline-offset-8'
                       : 'text-sm text-neutral-700',
                   ]">
-                  <span class="mb-3">Creators</span>
+                  <span class="mb-3">All Contacts</span>
                 </button>
               </Tab>
               <Tab v-slot="{ selected }" as="template">

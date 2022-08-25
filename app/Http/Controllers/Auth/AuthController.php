@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => false,
-            'error' => 'Invalid credentials',
+            'error' => 'Your email or password is incorrect.',
         ]);
     }
 

@@ -5,15 +5,16 @@
       <p class="text-sm font-medium text-gray-900">
         Creating your Jovie profile...
       </p>
-      <div class="mt-6" aria-hidden="true">
+      <div class="py-6" aria-hidden="true">
         <div class="overflow-hidden rounded-full bg-gray-200">
           <div
-            class="h-2 w-1/4 rounded-full bg-indigo-600"
+            class="h-2 rounded-full bg-indigo-600"
             :class="[
-              { 'w-10': currentStep === 1 },
-              { 'w-3/8': currentStep === 2 },
-              { 'w-3/4': currentStep === 3 },
+              { 'w-1/6': currentStep === 1 },
+              { 'w-2/5': currentStep === 2 },
+              { 'w-3/5': currentStep === 3 },
               { 'w-full': currentStep === 4 },
+              'w-0',
             ]" />
         </div>
         <div
@@ -45,12 +46,12 @@
               },
               'text-neutral-600',
             ]">
-            Done
+            Finish
           </div>
         </div>
       </div>
 
-      <div @click="setCurrentStep(1)" v-if="currentStep == 1">
+      <div v-if="currentStep == 1">
         <form
           @submit.prevent="updateProfile()"
           method="post"
@@ -150,16 +151,14 @@
               type="submit"
               design="primary"
               text="Save"
+              @click="currentStep = 2"
               :disabled="updating">
             </ButtonGroup>
           </div>
         </form>
       </div>
 
-      <div
-        class="mt-8 items-center px-2 py-12"
-        @click="setCurrentStep(2)"
-        v-else-if="currentStep == 2">
+      <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
         <div class="py- rounded-md bg-gray-50 px-4">
           <h2 class="font-neutral-500 py-2 px-4">
             Add at least one social link to your profile.
@@ -213,14 +212,11 @@
             <ButtonGroup
               text="Next"
               :loader="updating"
-              @click="setCurrentStep(3)" />
+              @click="currentStep = currentStep + 1" />
           </div>
         </div>
       </div>
-      <div
-        class="mt-4 items-center px-2 py-4"
-        @click="setCurrentStep(3)"
-        v-else-if="currentStep == 3">
+      <div class="mt-4 items-center px-2 py-4" v-else-if="currentStep == 3">
         <InputGroup
           @blur="updateSocialHandlers()"
           v-model="currentUser.username"
@@ -231,11 +227,10 @@
           placeholder="Username"
           type="text" />
         <ButtonGroup
-          v-if="step1Complete && step2Complete && step3Complete"
+          v-if="currentUser.username"
           text="Save"
           :loader="updating"
-          @click="completeProfileSetups()" />
-        text="Next" :loader="updating" @click="setCurrentStep(4)" />
+          @click="completeProfileSetup()" />
       </div>
       <div v-else>Here's your profile</div>
     </div>
@@ -287,7 +282,7 @@ export default {
       step1Complete: false,
       step2Complete: false,
       step3Complete: false,
-      currentStep: 1,
+      currentStep: '',
       loader: false,
       errors: {},
       updating: false,
@@ -299,15 +294,23 @@ export default {
   mounted() {
     window.analytics.page('Edit Profile');
 
-    this.step1Complete = this.$store.state.AuthState.user.profile_pic_url
-      ? true
-      : false;
-    this.step2Complete = this.$store.state.AuthState.user.social_handles
-      ? true
-      : false;
-    this.step3Complete = this.$store.state.AuthState.user.username
-      ? true
-      : false;
+    //if currentUser.profile_pic is not emptry, return true
+    if (this.$store.state.AuthState.user.profile_pic) {
+      this.step1Complete = true;
+    }
+    //if the currentUser instagram_handler or tiktok_handler or youtube_handler or twitter_handler is not empty, return true
+    if (
+      this.$store.state.AuthState.user.instagram_handler ||
+      this.$store.state.AuthState.user.tiktok_handler ||
+      this.$store.state.AuthState.user.youtube_handler ||
+      this.$store.state.AuthState.user.twitter_handler
+    ) {
+      this.step2Complete = true;
+    }
+    //if the current user username is not empty, return true
+    if (this.$store.state.AuthState.user.username) {
+      this.step3Complete = true;
+    }
     // if step1 i not complete set the current step to 1 else if step 2 is not complete set the current step to 2 else if step 3 is not complete set the current step to 3 else set the current step to 4
     this.currentStep = this.step1Complete
       ? this.step2Complete
@@ -319,7 +322,10 @@ export default {
   },
   methods: {
     completeProfileSetup() {
-      this.$router.push('/edit-profile');
+      this.updating = true;
+      this.step3Complete = true;
+
+      this.$router.push('Edit Profile');
     },
     setCurrentStep(step) {
       this.currentStep = step;
