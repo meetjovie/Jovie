@@ -260,7 +260,7 @@ const navigation = {
     { name: 'About', href: 'about-us' },
     { name: 'Careers', href: 'careers' },
 
-    { name: 'Our Data', href: 'data' },
+    /*  { name: 'Our Data', href: 'data' }, */
     { name: 'Legal', href: 'legal' },
   ],
   features: [

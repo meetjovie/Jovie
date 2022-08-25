@@ -72,7 +72,6 @@
         </div>
       </div>
     </div>
-    <HomeCTA2 />
   </div>
 </template>
 
