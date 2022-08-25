@@ -20,7 +20,7 @@
                 </h1>
                 <h1
                   class="text-center text-4xl font-extrabold tracking-tight text-indigo-700 sm:text-5xl lg:text-left xl:text-6xl">
-                  Creator profiles.
+                  Contact profiles.
                 </h1>
                 <p
                   class="mt-4 text-center text-xl text-gray-600 lg:text-left lg:text-lg">

@@ -266,7 +266,7 @@ export default {
     return {
       features: [
         {
-          name: 'Creator profiles',
+          name: 'Contact profiles',
           description: `Simple, beautiful, universal profiles.`,
           href: '/profiles',
           anchor: '#discovery',
