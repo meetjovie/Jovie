@@ -315,7 +315,7 @@ const tiers = [
     href: 'request-demo',
     featured: false,
     priceMonthly: 'Annual Only',
-    priceAnnual: 4788,
+    priceAnnual: 1188,
     description: 'For large teams and enterprises',
     features: [
       /*  {

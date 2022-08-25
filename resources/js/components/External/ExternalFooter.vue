@@ -254,10 +254,10 @@ const navigation = {
     { name: 'Pricing', href: 'pricing' },
     { name: 'Get Help', href: 'support' },
     { name: 'API', href: 'api' },
-    { name: 'Status', href: 'https://jovie.statuspage.io/' },
+    { name: 'Status', href: 'Status' },
   ],
   company: [
-    { name: 'About', href: 'about' },
+    { name: 'About', href: 'about-us' },
     { name: 'Careers', href: 'careers' },
 
     { name: 'Our Data', href: 'data' },

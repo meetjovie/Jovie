@@ -112,7 +112,7 @@ import HomeTestimonials from '../components/Home/HomeTestimonials';
 import HomeCTA2 from '../components/Home/HomeCTA2';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
-import Enrichment from '../components/Enrichment';
+import Enrichment from '../components/Enrichment.vue';
 
 import CallToAction from '../components/CallToAction';
 
