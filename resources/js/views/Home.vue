@@ -1,7 +1,7 @@
 <template>
   <div>
     <main>
-      <div class="min-h-screen">
+      <div class="">
         <div
           class="flex w-full flex-col-reverse items-center justify-center pt-12 sm:py-12 md:flex-col md:py-40">
           <img
@@ -79,15 +79,18 @@
         </div>
         <!--  <HomeLogoCloud></HomeLogoCloud> -->
       </div>
+      <Enrichment :dark="false"></Enrichment>
       <HomeFeatureCRM id="crm"></HomeFeatureCRM>
+      <JovieReplaces></JovieReplaces>
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 
       <!--  <HomeFeatureHero></HomeFeatureHero> -->
-      <Enrichment :dark="false"></Enrichment>
+
       <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
-      <!--  <HomeCTA></HomeCTA>
-      <JovieReplaces></JovieReplaces>
+      <!--  
+      
       <HomeTestimonials></HomeTestimonials> -->
+      <HomeCTA></HomeCTA>
       <HomeCTA2></HomeCTA2>
     </main>
   </div>

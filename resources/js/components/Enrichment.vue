@@ -62,9 +62,9 @@
               </div>
             </div>
           </div>
-          <div class="mt-12 -mb-16 sm:-mb-48 lg:relative lg:m-0">
+          <div class="mt-12 -mb-16 sm:-mb-48 lg:m-0">
             <img
-              class="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
+              class="w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
               :src="asset('img/External/jovie_social_data_enrichment.png')"
               alt="" />
           </div>
