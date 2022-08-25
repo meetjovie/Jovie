@@ -378,16 +378,6 @@ export const routes = [
     },
   },
   {
-    name: 'Status',
-    path: '/status',
-    beforeEnter(to, from, next) {
-      window.open('https://jovie.statuspage.io/about', '_blank');
-    },
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
     name: 'API',
     path: '/api',
     beforeEnter(to, from, next) {

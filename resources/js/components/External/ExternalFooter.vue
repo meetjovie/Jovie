@@ -257,8 +257,8 @@ const navigation = {
     { name: 'Status', href: 'Status' },
   ],
   company: [
-    { name: 'About', href: 'about-us' },
-    { name: 'Careers', href: 'careers' },
+    { name: 'About', href: 'about' },
+    { name: 'Careers', href: 'Careers' },
 
     /*  { name: 'Our Data', href: 'data' }, */
     { name: 'Legal', href: 'legal' },
