@@ -18,6 +18,10 @@
               <span class="inline">Scale your</span>
               {{ ' ' }}
               <span class="inline text-indigo-700">creator</span>
+              <vue-typed-js
+                :strings="['Creator', 'Biz Dev', 'Investor', 'Founder']">
+                <h1 class="typing"></h1>
+              </vue-typed-js>
               <!--make a span that rotates through the words "creator", "founder", "Biz Dev", "Investor"-->
               {{ ' ' }}
 
