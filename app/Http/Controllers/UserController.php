@@ -46,7 +46,9 @@ class UserController extends Controller
                 'employer_link',
                 'call_to_action_text',
                 'call_to_action',
-                'show_instagram'
+                'show_instagram',
+                
+
             )->first();
         if ($user) {
             $user->profile_pic_url = $this->getProfilePic($user);
@@ -72,7 +74,6 @@ class UserController extends Controller
                 'platform_title as title',
                 'platform_employer as employer',
                 'platform_employer_link as employer_link',
-                'instagram_handler',
                 'instagram_meta->profile_pic_url as instagram_profile_pic',
                 'instagram_meta->external_link as external_link as call_to_action'
             )->first();

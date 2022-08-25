@@ -589,6 +589,9 @@ export default {
         { name: 'Dashboard', route: '/dashboard', icon: HomeIcon },
         /*  { name: 'Search', route: '/discovery', icon: SearchIcon }, */
         { name: 'Contacts', route: '/contacts', icon: UserGroupIcon },
+        //add a link for profile
+        { name: 'Profile', route: '/edit-profile', icon: UserIcon },
+
         /* { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon }, */
         /*  { name: 'Import', route: '/import', icon: CloudUploadIcon }, */
         /* { name: 'Settings', route: '/account', icon: CogIcon }, */

@@ -151,12 +151,25 @@
               <div class="flex w-full flex-col">
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
-                    <div class="border-b border-gray-200 shadow">
+                    <div class="">
                       <div
                         v-if="!loading && creators.length < 1"
-                        class="mx-auto max-w-7xl items-center py-24 px-4 sm:px-6 lg:px-8">
+                        class="mx-auto h-full max-w-7xl items-center items-center px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
-                          <Import />
+                          <div
+                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                            <div>
+                              <h1 class="text-md font-bold">
+                                You don't have any contacts yet.
+                              </h1>
+                              <span class="text-sm font-medium text-neutral-500"
+                                >Enter the url of a social profile to add a
+                                contact to Jovie.</span
+                              >
+                            </div>
+                            <SocialInput />
+                            <InternalMarketingChromeExtension />
+                          </div>
                         </div>
                       </div>
 
@@ -233,7 +246,8 @@ import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
 import Import from './Import.vue';
 import ImportCreator from '../components/Crm/ImportCreator';
-
+import SocialInput from '../components/SocialInput';
+import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
 export default {
   name: 'CRM',
   components: {
@@ -242,6 +256,8 @@ export default {
     TabList,
     Tab,
     ImportCreator,
+    InternalMarketingChromeExtension,
+    SocialInput,
     TabPanels,
     TabPanel,
     StarRating,
