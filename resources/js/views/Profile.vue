@@ -40,7 +40,8 @@
           <div class="flex items-center justify-between gap-2 sm:grid-cols-6">
             <template v-for="network in networks" :key="network">
               <div
-                v-if="user[`show_${network}`]"
+                v-if="user[`show_${network}`] && (currentUser[`${network}_handler`] ||
+                    user.creator_profile[`${network}_handler`])"
                 class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
                   :href="

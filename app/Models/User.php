@@ -132,4 +132,50 @@ class User extends Authenticatable
         $url = (config('app.url').'/reset-password?token='.$token);
         $this->notify(new ResetPasswordNotification($url));
     }
+
+    public function getTwitterHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://twitter.com/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getTwitchHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://twitch.tv/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getInstagramHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://instagram.com/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getYoutubeHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://youtube.com/c/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getTiktokHandlerAttribute($value)
+    {
+        if ($value) {
+            $value = $value[0] == '@' ? $value : ('@'.$value);
+            return 'https://www.tiktok.com/'.$value;
+        }
+
+        return null;
+    }
 }

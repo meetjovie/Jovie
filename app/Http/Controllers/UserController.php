@@ -51,15 +51,17 @@ class UserController extends Controller
                 'tiktok_handler',
                 'show_tiktok',
                 'show_youtube',
-                'youtube_handler',
-                
-                
-
+                'youtube_handler'
             )->first();
         if ($user) {
             $user->profile_pic_url = $this->getProfilePic($user);
             $user->name = $user->first_name ? ($user->first_name.' '.$user->last_name) : $user->username;
-
+            $user = json_decode(json_encode($user));
+            $user->creator_profile = [
+                'instagram_handler' => $user->instagram_handler,
+                'tiktok_handler' => $user->tiktok_handler,
+                'youtube_handler' => $user->youtube_handler,
+            ];
             return response([
                 'status' => true,
                 'data' => $user,
@@ -85,13 +87,17 @@ class UserController extends Controller
             )->first();
 
         if ($user) {
-            $user['creator_profile'] = [
-                'instagram_handler' => $user->instagram_handler,
-            ];
             $user->name = $user->first_name ? ($user->first_name.' '.$user->last_name) : ($user->full_name ?? $user->username);
             $user->profile_pic_url = $this->getProfilePic($user);
             $user->call_to_action_text = 'Follow Instagram';
             $user->call_to_action = $this->getCta($user);
+
+            $user = json_decode(json_encode($user));
+            $user->creator_profile = [
+                'instagram_handler' => $user->instagram_handler,
+                'tiktok_handler' => $user->tiktok_handler,
+                'youtube_handler' => $user->youtube_handler,
+            ];
 
             // when user is from creator default each link to show
             foreach (Creator::NETWORKS as $network) {
@@ -206,7 +212,7 @@ class UserController extends Controller
         ]);
     }
 
-    
+
     public function removeProfilePhoto(Request $request)
     {
         $user = Auth::user();
