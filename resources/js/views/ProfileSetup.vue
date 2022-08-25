@@ -235,7 +235,6 @@
           text="Save"
           :loader="updating"
           @click="completeProfileSetups()" />
-        text="Next" :loader="updating" @click="setCurrentStep(4)" />
       </div>
       <div v-else>Here's your profile</div>
     </div>
