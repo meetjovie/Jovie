@@ -144,75 +144,90 @@
           </Menu>
         </div>
       </div>
-      <TabPanels>
-        <TabPanel>
-          <div class="mx-auto w-full min-w-full">
-            <div class="w-full">
-              <div class="flex w-full flex-col">
-                <div class="mx-auto w-full p-0">
-                  <div class="inline-block w-full align-middle">
-                    <div class="">
-                      <div
-                        v-if="!loading && creators.length < 1"
-                        class="mx-auto h-full max-w-7xl items-center items-center px-4 sm:px-6 lg:px-8">
-                        <div class="mx-auto max-w-xl">
+      <div class="flex h-screen">
+        <div
+          class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-4 py-12 shadow-xl">
+          <div>
+            <MenuList menuName="Lists" :menuItems="filters.list"></MenuList>
+          </div>
+          <div>
+            <MenuList menuName="Tags" :menuItems="Lists"></MenuList>
+          </div>
+        </div>
+        <div class="w-full">
+          <TabPanels>
+            <TabPanel>
+              <div class="mx-auto w-full min-w-full">
+                <div class="w-full">
+                  <div class="flex w-full flex-col">
+                    <div class="mx-auto w-full p-0">
+                      <div class="inline-block w-full align-middle">
+                        <div class="">
                           <div
-                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                            <div>
-                              <h1 class="text-md font-bold">
-                                You don't have any contacts yet.
-                              </h1>
-                              <span class="text-sm font-medium text-neutral-500"
-                                >Enter the url of a social profile to add a
-                                contact to Jovie.</span
-                              >
+                            v-if="!loading && creators.length < 1"
+                            class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                            <div class="mx-auto max-w-xl">
+                              <div
+                                class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                                <div>
+                                  <h1 class="text-md font-bold">
+                                    You don't have any contacts yet.
+                                  </h1>
+                                  <span
+                                    class="text-sm font-medium text-neutral-500"
+                                    >Enter the url of a social profile to add a
+                                    contact to Jovie.</span
+                                  >
+                                </div>
+                                <SocialInput class="py-12" />
+                                <InternalMarketingChromeExtension
+                                  class="mt-6" />
+                              </div>
                             </div>
-                            <SocialInput class="py-12" />
-                            <InternalMarketingChromeExtension class="mt-6" />
                           </div>
+
+                          <CrmTable
+                            v-else
+                            @updateCreator="updateCreator"
+                            @pageChanged="pageChanged"
+                            :creators="creators"
+                            :networks="networks"
+                            :stages="stages"
+                            :creatorsMeta="creatorsMeta"
+                            :loading="loading" />
                         </div>
                       </div>
-
-                      <CrmTable
-                        v-else
-                        @updateCreator="updateCreator"
-                        @pageChanged="pageChanged"
-                        :creators="creators"
-                        :networks="networks"
-                        :stages="stages"
-                        :creatorsMeta="creatorsMeta"
-                        :loading="loading" />
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div class="mx-auto w-full min-w-full">
-            <div class="w-full">
-              <div class="flex w-full flex-col">
-                <div class="mx-auto w-full p-0">
-                  <div class="inline-block w-full align-middle">
-                    <div class="border-b border-gray-200 shadow">
-                      <CrmTable
-                        @updateCreator="updateCreator"
-                        @pageChanged="pageChanged"
-                        :creators="creators"
-                        :networks="networks"
-                        :stages="stages"
-                        :creatorsMeta="creatorsMeta"
-                        :arcvhied="true"
-                        :loading="loading" />
+            </TabPanel>
+            <TabPanel>
+              <div class="mx-auto w-full min-w-full">
+                <div class="w-full">
+                  <div class="flex w-full flex-col">
+                    <div class="mx-auto w-full p-0">
+                      <div class="inline-block w-full align-middle">
+                        <div class="border-b border-gray-200 shadow">
+                          <CrmTable
+                            @updateCreator="updateCreator"
+                            @pageChanged="pageChanged"
+                            :creators="creators"
+                            :networks="networks"
+                            :stages="stages"
+                            :creatorsMeta="creatorsMeta"
+                            :arcvhied="true"
+                            :loading="loading" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </TabPanel>
-      </TabPanels>
+            </TabPanel>
+          </TabPanels>
+        </div>
+      </div>
     </TabGroup>
   </div>
 </template>
@@ -234,9 +249,7 @@ import {
   MenuItems,
   MenuItem,
 } from '@headlessui/vue';
-import StarRating from 'vue-star-rating';
 import {
-  DotsVerticalIcon,
   ChevronDownIcon,
   DownloadIcon,
   CheckIcon,
@@ -244,10 +257,10 @@ import {
 } from '@heroicons/vue/solid';
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
-import Import from './Import.vue';
-import ImportCreator from '../components/Crm/ImportCreator';
+
 import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
+import MenuList from '../components/MenuList';
 export default {
   name: 'CRM',
   components: {
@@ -255,12 +268,11 @@ export default {
     TabGroup,
     TabList,
     Tab,
-    ImportCreator,
     InternalMarketingChromeExtension,
     SocialInput,
     TabPanels,
     TabPanel,
-    StarRating,
+    MenuList,
     Combobox,
     ComboboxInput,
     ComboboxButton,
@@ -270,12 +282,10 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
-    DotsVerticalIcon,
     ChevronDownIcon,
     CheckIcon,
     CloudUploadIcon,
     CrmTable,
-    Import,
   },
   data() {
     return {
@@ -286,6 +296,18 @@ export default {
       loading: false,
       creators: [],
       creatorsMeta: {},
+      lists: [
+        {
+          'name:': 'Item 1',
+          'id:': 1,
+          'color:': 'Blue',
+        },
+        {
+          'name:': 'Item 2',
+          'id:': 2,
+          'color:': 'Blue',
+        },
+      ],
       filters: {
         list: null,
         archived: 0,
