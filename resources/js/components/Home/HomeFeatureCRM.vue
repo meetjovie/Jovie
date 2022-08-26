@@ -15,7 +15,8 @@
 
         <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
           Jovie creates & updates contacts automatically using data from social
-          media profiles
+          media profiles.
+          <br class="hidden sm:inline" />
           <span class="font-bold">Never </span>manually enter contact info
           again.
         </p>

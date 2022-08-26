@@ -245,7 +245,7 @@ import { defineComponent, h } from 'vue';
 import ButtonGroup from '../ButtonGroup.vue';
 const navigation = {
   solutions: [
-    { name: 'Creator Profiles', href: '/profiles' },
+    { name: 'Contact Profiles', href: '/profiles' },
     { name: 'Social CRM', href: '/' },
 
     { name: 'Chrome Extension', href: 'chrome-extension' },
