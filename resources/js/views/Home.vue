@@ -1,6 +1,9 @@
 <template>
   <div>
     <main>
+      <HomeFeatureCRM class="h-screen" id="crm"></HomeFeatureCRM>
+      <Enrichment :dark="false"></Enrichment>
+      <JovieReplaces></JovieReplaces>
       <div class="">
         <div
           class="flex w-full flex-col-reverse items-center justify-center pt-12 sm:py-12 md:flex-col md:py-40">
@@ -76,13 +79,10 @@
               </div>
             </div>
           </div>
+          <HomeLogoCloud></HomeLogoCloud>
         </div>
-        <!--  <HomeLogoCloud></HomeLogoCloud> -->
       </div>
-      <HomeFeatureCRM id="crm"></HomeFeatureCRM>
-      <Enrichment :dark="false"></Enrichment>
 
-      <JovieReplaces></JovieReplaces>
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 
       <!--  <HomeFeatureHero></HomeFeatureHero> -->
