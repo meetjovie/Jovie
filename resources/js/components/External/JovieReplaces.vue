@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div>
-      <div class="sm:align-center py-12 sm:mt-4 sm:flex sm:flex-col">
-        <div class="mx-auto max-w-lg">
+    <!--  <div class="bg-gray-50">
+    <div class="sm:align-center sm:mt-4 sm:flex sm:flex-col">
+         <div class="mx-auto max-w-lg">
           <h1 class="prose mx-auto py-2 text-center text-xl font-bold">
             Simplify your workflow
           </h1>
@@ -10,8 +10,8 @@
             Jovie is a simple, easy to use, and powerful tool for managing your
             relationships
           </p>
-        </div>
-        <div class="relative mt-4 flex self-center rounded-full bg-neutral-200">
+        </div> -->
+    <!-- <div class="relative mt-4 flex self-center rounded-full bg-neutral-200">
           <SwitchGroup as="div" class="flex items-center">
             <div class="flex items-center">
               <Switch
@@ -36,7 +36,7 @@
               </Switch>
             </div>
           </SwitchGroup>
-        </div>
+        </div> 
       </div>
     </div>
     <div class="mx-auto h-80 max-w-md items-center px-4 pb-6 text-center">
@@ -46,8 +46,8 @@
       <div v-else>
         <img class="rounded-full" :src="asset('img/External/2.png')" />
       </div>
-    </div>
-    <div class="mx-auto max-w-3xl py-6 text-center">
+    </div> -->
+    <div class="mx-auto max-w-3xl bg-gray-50 py-6 text-center">
       <h3 class="text-xs font-bold text-neutral-600">
         Jovie replaces complicated tools & manual workflows
       </h3>
@@ -148,7 +148,7 @@ export default {
 
   data() {
     return {
-      beforeAfter: false,
+      beforeAfter: true,
     };
   },
 };

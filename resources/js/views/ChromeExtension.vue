@@ -56,7 +56,7 @@
                 </h1>
 
                 <p class="mt-2 text-xs text-gray-500 sm:mt-6 sm:text-xl">
-                  See content & social metrics of creators right inside your
+                  See content & social metrics of contacts right inside your
                   inbox.
                 </p>
               </div>
