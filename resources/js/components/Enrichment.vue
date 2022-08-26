@@ -91,16 +91,20 @@
                   class="ml-2 h-5 w-5 text-gray-500"
                   aria-hidden="true" />
               </a> -->
+              <h2
+                class="bg-gradient-to-r from-fuchsia-500 via-blue-500 to-sky-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
+                No more typing.
+              </h2>
               <h1
-                class="mt-4 text-4xl font-extrabold tracking-tight text-neutral-900 sm:mt-5 sm:text-6xl lg:mt-6 xl:text-5xl">
-                <span class="block">Instant Enrich Contacts</span>
-                <span class="block text-indigo-600">With Social Data</span>
+                class="text-4xl font-extrabold tracking-tight text-neutral-900 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-5xl">
+                <span class="block text-indigo-600">One Click</span> Instant
+                Contacts
               </h1>
               <p
                 class="mt-3 text-base text-gray-700 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                Get instant insight into every relationship. Jovie aggregates
-                social data from across the web so you have context for every
-                contact.
+                Jovie is <span class="font-bold">powered by social media</span>.
+                You never need to enter a name, or edit a job title. If it's on
+                the gram, it's on Jovie.
               </p>
               <div class="mt-10 sm:mt-12">
                 <form action="#" class="sm:mx-auto sm:max-w-xl lg:mx-0">

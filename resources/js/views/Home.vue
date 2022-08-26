@@ -79,8 +79,9 @@
         </div>
         <!--  <HomeLogoCloud></HomeLogoCloud> -->
       </div>
-      <Enrichment :dark="false"></Enrichment>
       <HomeFeatureCRM id="crm"></HomeFeatureCRM>
+      <Enrichment :dark="false"></Enrichment>
+
       <JovieReplaces></JovieReplaces>
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 
