@@ -281,7 +281,7 @@
 <script>
 import ButtonGroup from '../components/ButtonGroup.vue';
 import JovieLogo from '../components/JovieLogo.vue';
-import AuthFooter from '../Auth/components/AuthFooter.vue';
+import AuthFooter from '../components/Auth/AuthFooter.vue';
 import InputGroup from '../components/InputGroup.vue';
 import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
