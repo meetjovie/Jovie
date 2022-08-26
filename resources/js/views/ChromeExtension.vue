@@ -48,7 +48,7 @@
               <div class="mt-6 sm:max-w-xl">
                 <h1
                   class="text-4xl font-extrabold tracking-tight text-indigo-600 sm:text-5xl">
-                  Creator insights
+                  Social insights
                 </h1>
                 <h1
                   class="-mt-4 text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl">
