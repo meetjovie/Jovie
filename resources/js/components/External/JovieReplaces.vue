@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-gray-50">
     <!--  <div class="bg-gray-50">
     <div class="sm:align-center sm:mt-4 sm:flex sm:flex-col">
          <div class="mx-auto max-w-lg">
@@ -47,7 +47,7 @@
         <img class="rounded-full" :src="asset('img/External/2.png')" />
       </div>
     </div> -->
-    <div class="mx-auto max-w-3xl bg-gray-50 py-6 text-center">
+    <div class="mx-auto max-w-3xl py-6 text-center">
       <h3 class="text-xs font-bold text-neutral-600">
         Jovie replaces complicated tools & manual workflows
       </h3>
