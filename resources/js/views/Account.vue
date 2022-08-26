@@ -55,6 +55,11 @@
                   <AccountTeam />
                 </TabPanel>
               </TabPanels>
+              <TabPanels as="template">
+                <TabPanel class="space-y-12 px-4 py-6">
+                  <AccountDelete />
+                </TabPanel>
+              </TabPanels>
             </TabGroup>
           </div>
         </div>
@@ -66,6 +71,7 @@
 <script>
 import AccountTeam from '../components/Account/AccountTeam.vue';
 import AccountProfile from '../components/Account/AccountProfile.vue';
+import AccountDelete from '../components/Account/AccountDelete.vue';
 
 import { ref } from 'vue';
 import {
@@ -116,9 +122,9 @@ const secondaryNavigation = [
 const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
-
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
+  { name: 'Delete Account', href: '#', current: false },
 ];
 
 import AccountPlan from '../components/Account/AccountPlan.vue';
@@ -137,6 +143,7 @@ export default {
     Subscribe,
     Dialog,
     DialogOverlay,
+    AccountDelete,
     Switch,
     SwitchGroup,
     SwitchLabel,

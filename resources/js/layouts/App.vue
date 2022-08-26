@@ -72,7 +72,8 @@
     </div>
     <!-- Narrow sidebar -->
     <div
-      class="border-r-1 z-30 mx-auto hidden h-screen w-14 flex-col justify-between overflow-hidden bg-indigo-700 pb-2 md:flex">
+      v-if="showAppMenu"
+      class="border-r-1 z-30 mx-auto hidden h-screen w-14 flex-col justify-between overflow-hidden bg-indigo-700 pb-2 transition-all md:flex">
       <div
         class="mx-auto flex w-full flex-col items-center justify-center py-4 text-center">
         <a href="/">
@@ -140,16 +141,23 @@
               <nav class="z-10 flex" aria-label="Breadcrumb">
                 <ol role="list" class="flex items-center space-x-4">
                   <li>
-                    <div>
-                      <router-link
-                        to="/dashboard"
-                        class="text-gray-400 hover:text-gray-500">
-                        <HomeIcon
-                          class="h-5 w-5 flex-shrink-0"
-                          aria-hidden="true" />
-                        <span class="sr-only">Home</span>
-                      </router-link>
-                    </div>
+                    <a
+                      @click="toggleShowAppMenu()"
+                      href="#"
+                      class="text-gray-400 hover:text-gray-500">
+                      <MenuIcon
+                        class="h-5 w-5 flex-shrink-0"
+                        aria-hidden="true" />
+                      <span class="sr-only">Menu</span>
+                    </a>
+                  </li>
+                  <li>
+                    <router-link to="/" class="text:bg-gray-500 text-gray-400">
+                      <HomeIcon
+                        class="h-5 w-5 flex-shrink-0"
+                        aria-hidden="true" />
+                      <span class="sr-only">Home</span>
+                    </router-link>
                   </li>
                   <li>
                     <div class="flex items-center">
@@ -538,6 +546,7 @@
 <script>
 import {
   HomeIcon,
+  MenuIcon,
   SearchIcon,
   MailIcon,
   ChartBarIcon,
@@ -580,6 +589,7 @@ export default {
   data() {
     return {
       errors: [],
+      showAppMenu: false,
       showCommandPallette: false,
       user: this.$store.state.AuthState.user,
       profileLink: this.$store.state.AuthState.user.username,
@@ -637,6 +647,10 @@ export default {
         }
       });
     },
+    toggleShowAppMenu() {
+      this.showAppMenu = !this.showAppMenu;
+      console.log(this.showAppMenu);
+    },
     openSupportChat() {
       this.$freshchat.open();
     },
@@ -657,6 +671,7 @@ export default {
     Menu,
     MenuButton,
     HomeIcon,
+    MenuIcon,
     MenuItem,
     MenuItems,
     ChatAltIcon,
