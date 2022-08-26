@@ -94,7 +94,7 @@
                 @click="showCreatorImportModal = true"
                 type="button"
                 class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-2 px-3 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
-                Add creator
+                Add contact
               </button>
               <MenuButton
                 as="div"

@@ -73,9 +73,13 @@
     <!-- Narrow sidebar -->
 
     <div
-      v-if="showAppMenu"
-      class="border-r-1 transform-x-20 z-30 mx-auto hidden h-screen w-14 flex-col justify-between overflow-hidden bg-indigo-700 pb-2 transition duration-300 ease-in-out md:flex"
-      :class="[{ 'translate-x-14': showAppMenu }]">
+      class="border-r-1 z-30 mx-auto hidden h-screen w-14 flex-col justify-between overflow-hidden bg-indigo-700 pb-2 transition duration-300 ease-in-out"
+      :class="[
+        { 'transform-x-40': previewAppMenu },
+        { 'transform-x-20': !previewAppMenu },
+        { 'md:hidden': !showAppMenu },
+        { 'md:flex': showAppMenu },
+      ]">
       <div
         class="mx-auto flex w-full flex-col items-center justify-center py-4 text-center">
         <a href="/">
@@ -144,6 +148,8 @@
                 <ol role="list" class="flex items-center space-x-4">
                   <li>
                     <a
+                      @mouseover="previewAppMenuTrue()"
+                      @mouseout="previewAppMenuFalse()"
                       @click="toggleShowAppMenu()"
                       href="#"
                       class="text-gray-400 hover:text-gray-500">
@@ -592,6 +598,7 @@ export default {
     return {
       errors: [],
       showAppMenu: false,
+      previewAppMenu: false,
       showCommandPallette: false,
       user: this.$store.state.AuthState.user,
       profileLink: this.$store.state.AuthState.user.username,
@@ -655,6 +662,16 @@ export default {
     },
     openSupportChat() {
       this.$freshchat.open();
+    },
+    previewAppMenuTrue() {
+      if (!this.showAppMenu) {
+        setTimeout(() => {
+          this.previewAppMenu = true;
+        }, 1000);
+      }
+    },
+    previewAppMenuFalse() {
+      this.previewAppMenu = false;
     },
     toggleCommandPallette() {
       this.showCommandPallette = !this.showCommandPallette;
