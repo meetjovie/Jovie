@@ -8,7 +8,7 @@
           </h1>
           <p class="prose mx-auto text-center text-base">
             Jovie is a simple, easy to use, and powerful tool for managing your
-            creator partnerships.
+            relationships
           </p>
         </div>
         <div class="relative mt-4 flex self-center rounded-full bg-neutral-200">
