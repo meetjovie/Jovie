@@ -4,7 +4,7 @@
       <HomeFeatureCRM class="h-screen" id="crm"></HomeFeatureCRM>
       <Enrichment :dark="false"></Enrichment>
       <JovieReplaces></JovieReplaces>
-      <div class="">
+      <!-- <div class="">
         <div
           class="flex w-full flex-col-reverse items-center justify-center pt-12 sm:py-12 md:flex-col md:py-40">
           <img
@@ -25,7 +25,7 @@
                 :strings="['Creator', 'Biz Dev', 'Investor', 'Founder']">
                 <h1 class="typing"></h1>
               </vue-typed-js>
-              <!--make a span that rotates through the words "creator", "founder", "Biz Dev", "Investor"-->
+              
               {{ ' ' }}
 
               <span class="inline"> relationships</span>
@@ -81,7 +81,7 @@
           </div>
           <HomeLogoCloud></HomeLogoCloud>
         </div>
-      </div>
+      </div> -->
 
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 

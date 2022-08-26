@@ -45,7 +45,7 @@ class ResetPasswordNotification extends Notification
                     ->greeting('Hello '.$notifiable->first_name.' !')
                     ->line('Forgot Password ?')
                     ->action('Click to reset', $this->url)
-                    ->line('Thank you for using our application!');
+                    ->line('Thanks for using Jovie!');
     }
 
     /**

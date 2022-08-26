@@ -124,6 +124,15 @@ export const routes = [
     },
   },
   {
+    name: 'Extension',
+    path: '/extension',
+    component: loadPage('AppExtension'),
+    meta: {
+      layout: 'Minimal',
+      requiresAuth: true,
+    },
+  },
+  {
     name: 'Dashboard',
     path: '/dashboard',
     component: loadPage('Dashboard'),
