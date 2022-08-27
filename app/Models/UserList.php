@@ -38,7 +38,7 @@ class UserList extends Model
         return new UserList();
     }
 
-    public function getLists($userId)
+    public static function getLists($userId)
     {
         $user = User::where('id', $userId)->first();
         $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
