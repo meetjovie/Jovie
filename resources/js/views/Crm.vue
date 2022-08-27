@@ -146,6 +146,7 @@
       </div>
       <div class="flex h-screen">
         <div
+          v-if="$store.state.CRMSidebarOpen"
           class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-4 py-12 shadow-xl">
           <div>
             <MenuList menuName="Lists" :menuItems="filters.list"></MenuList>
@@ -181,7 +182,7 @@
                                 </div>
                                 <SocialInput class="py-12" />
                                 <InternalMarketingChromeExtension
-                                  class="mt-6" />
+                                  class="mt-24" />
                               </div>
                             </div>
                           </div>

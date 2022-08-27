@@ -270,7 +270,7 @@
                                 tabindex="-1">
                                 <router-link
                                   to="/imports"
-                                  class="group 0 block flex-shrink-0">
+                                  class="0 group block flex-shrink-0">
                                   <div
                                     class="flex w-full items-center justify-between">
                                     <div class="px-2">
@@ -323,7 +323,7 @@
                                 tabindex="-1">
                                 <router-link
                                   to="/imports"
-                                  class="group 0 block flex-shrink-0">
+                                  class="0 group block flex-shrink-0">
                                   <div
                                     class="flex w-full items-center justify-between">
                                     <div class="px-2">
@@ -439,7 +439,7 @@
                       id="user-menu-item-0">
                       <router-link
                         to="/account"
-                        class="group 0 block flex-shrink-0">
+                        class="0 group block flex-shrink-0">
                         <div class="flex items-center">
                           <div>
                             <img
@@ -625,6 +625,7 @@ export default {
       ],
       isShowing: false,
       isLoading: false,
+      CRMSidebarOpen: false,
       notifications: [],
     };
   },
@@ -658,6 +659,7 @@ export default {
     },
     toggleShowAppMenu() {
       this.showAppMenu = !this.showAppMenu;
+      this.$store.commit('toggleCRMSidebar', this.CRMSidebarOpen);
       console.log(this.showAppMenu);
     },
     openSupportChat() {
