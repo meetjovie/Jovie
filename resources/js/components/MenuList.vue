@@ -22,7 +22,7 @@
     <ul v-if="showMenu" class="pl-2">
       <div v-for="item in menuItems" :key="item.id">
         <li
-          class="group flex cursor-pointer justify-between rounded-md px-2 line-clamp-1 hover:bg-neutral-200">
+          class="group flex cursor-pointer justify-between rounded-md px-2 hover:bg-neutral-200">
           <div>
             <span class="mr-4 text-xs">{{ item.emoji || '😆' }}</span>
             <span
