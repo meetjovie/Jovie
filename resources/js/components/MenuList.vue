@@ -50,7 +50,7 @@ import {
 export default {
   data() {
     return {
-      showMenu: false,
+      showMenu: true,
     };
   },
   methods: {
