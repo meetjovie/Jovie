@@ -152,7 +152,7 @@
             <MenuList menuName="Lists" :menuItems="filters.list"></MenuList>
           </div>
           <div>
-            <MenuList menuName="Tags" :menuItems="Lists"></MenuList>
+            <MenuList menuName="Tags" :menuItems="lists"></MenuList>
           </div>
         </div>
         <div class="w-full">
@@ -299,9 +299,25 @@ export default {
       creatorsMeta: {},
       lists: [
         {
-          'name:': 'Item 1',
+          name: 'Dancers',
           emojii: '👍',
           id: 1,
+          count: 34,
+          index: 2,
+        },
+        {
+          name: 'Singers',
+          emojii: '👍',
+          id: 2,
+          count: 23,
+          index: 3,
+        },
+        {
+          name: 'Actors',
+          emojii: '👍',
+          id: 3,
+          count: 54,
+          index: 1,
         },
       ],
       filters: {

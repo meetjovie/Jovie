@@ -5,5 +5,5 @@ export default {
   },
   addedToWaitList: false,
   creatorsDBCount: '3M',
-  CRMSidebarOpen: false,
+  CRMSidebarOpen: true,
 };
