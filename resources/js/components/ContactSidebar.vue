@@ -80,6 +80,7 @@
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
       </div>
       <div class="mt-4 space-y-4 px-2">
+        <h2 class="text-xs font-semibold text-neutral-400">Add Lists</h2>
         <InputLists />
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">
           Contact Details
