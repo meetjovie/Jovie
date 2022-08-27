@@ -149,7 +149,9 @@
           v-if="$store.state.CRMSidebarOpen"
           class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
           <div class="h-1/2">
-            <MenuList menuName="Lists" :menuItems="filteredUsersLists"></MenuList>
+            <MenuList
+              menuName="Lists"
+              :menuItems="filteredUsersLists"></MenuList>
           </div>
           <div>
             <MenuList menuName="Tags" :menuItems="lists"></MenuList>
@@ -299,7 +301,7 @@ export default {
       creatorsMeta: {},
       lists: [
         {
-          name: 'Dancers',
+          name: 'Dancers with really really really really long names',
           emoji: '💃',
           id: 1,
           count: 34,
