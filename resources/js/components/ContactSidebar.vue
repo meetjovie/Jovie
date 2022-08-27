@@ -28,7 +28,12 @@
           <input
             @blur="saveToJovie()"
             v-model="creator.instagram_name"
+            placeholder="Name"
             class="w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-lg font-bold text-gray-700 transition line-clamp-1 hover:border-opacity-100 hover:bg-gray-100" />
+          <input
+            @blur="saveToJovie()"
+            placeholder="Title"
+            class="w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-xs font-bold text-gray-700 transition line-clamp-1 hover:border-opacity-100 hover:bg-gray-100" />
 
           <div class="h-4 py-0.5">
             <span
@@ -94,6 +99,7 @@
           placeholder="Location"
           ><slot name="icon">HI</slot></DataInputGroup
         >
+
         <DataInputGroup
           @blur="saveToJovie()"
           :value="creator.instagram_email"
