@@ -11,8 +11,7 @@ class UserListsController extends Controller
 {
     public function getLists(Request $request)
     {
-        $lists = UserList::where('user_id', Auth::user()->id)->get();
-
+        $lists = UserList::getLists(Auth::id());
         return collect([
             'status' => true,
             'lists' => $lists,

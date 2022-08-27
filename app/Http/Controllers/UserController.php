@@ -274,7 +274,8 @@ class UserController extends Controller
 
     public function importBatches()
     {
-        $userListIds = UserList::where('user_id', Auth::id())->pluck('id')->toArray();
+        $lists = UserList::getLists(Auth::id());
+        $userListIds = $lists->pluck('id')->toArray();
         $batches = DB::table('job_batches')
             ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
             ->select('job_batches.*', 'user_lists.name')
