@@ -147,7 +147,7 @@
       <div class="flex h-screen">
         <div
           v-if="$store.state.CRMSidebarOpen"
-          class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-2 py-2 shadow-xl">
+          class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
           <div class="h-1/2">
             <MenuList menuName="Lists" :menuItems="filters.list"></MenuList>
           </div>
@@ -300,13 +300,8 @@ export default {
       lists: [
         {
           'name:': 'Item 1',
-          'id:': 1,
-          'color:': 'Blue',
-        },
-        {
-          'name:': 'Item 2',
-          'id:': 2,
-          'color:': 'Blue',
+          emojii: '👍',
+          id: 1,
         },
       ],
       filters: {

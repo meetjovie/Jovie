@@ -7,7 +7,7 @@
         class="flex cursor-pointer items-center text-sm font-bold text-neutral-400 group-hover:text-neutral-500">
         <ChevronDownIcon
           v-if="showMenu"
-          class="h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
+          class="mt-0.5 h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
         <ChevronRightIcon
           v-else
           class="h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
@@ -19,20 +19,26 @@
         </div>
       </div>
     </div>
-    <ul v-if="showMenu" class="ml-2">
+    <ul v-if="showMenu" class="">
       <div v-for="item in menuItems" :key="item.id">
-        <li
-          class="group flex cursor-pointer justify-between rounded-md hover:bg-neutral-200">
-          <div>
-            <span class="mr-4 text-xs">{{ item.emoji || '😆' }}</span>
-            <span
-              class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-              >{{ item.name }}</span
-            >
-          </div>
-          <div class="rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
+        <li class="flex items-center">
+          <div class="group cursor-grab items-center">
             <MenuIcon
-              class="h-4 w-4 text-gray-400 hover:text-gray-50"></MenuIcon>
+              class="h-4 w-4 text-gray-400/0 group-hover:text-gray-400"></MenuIcon>
+          </div>
+          <div
+            class="group flex w-full cursor-pointer items-center justify-between rounded-md hover:bg-neutral-200">
+            <div>
+              <span class="mr-4 text-xs">{{ item.emoji || '😆' }}</span>
+              <span
+                class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                >{{ item.name }}</span
+              >
+            </div>
+            <div class="rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
+              <DotsHorizontalIcon
+                class="h-4 w-4 text-gray-400 hover:text-gray-50"></DotsHorizontalIcon>
+            </div>
           </div>
         </li>
       </div>
@@ -45,6 +51,7 @@ import {
   ChevronDownIcon,
   PlusIcon,
   MenuIcon,
+  DotsHorizontalIcon,
 } from '@heroicons/vue/solid';
 
 export default {
@@ -61,6 +68,7 @@ export default {
   components: {
     ChevronRightIcon,
     ChevronDownIcon,
+    DotsHorizontalIcon,
     PlusIcon,
     MenuIcon,
   },
