@@ -30,11 +30,21 @@
           <div
             class="group flex w-full cursor-pointer items-center justify-between rounded-md">
             <div>
-              <span class="mr-4 text-xs">{{ item.emoji || '😆' }}</span>
+              <span class="mr-4 rounded-md p-1 text-xs hover:bg-gray-400">{{
+                item.emoji || '😆'
+              }}</span>
               <span
+                v-if="!editName"
+                @dblclick="enableEditName(item.id)"
                 class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
                 >{{ item.name }}</span
               >
+              <input
+                v-model="item.name"
+                @blur="disableEditName(item.id)"
+                @keyup.enter="disableEditName(item.id)"
+                v-else
+                class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
             </div>
             <div class="rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
               <span
@@ -63,11 +73,18 @@ export default {
   data() {
     return {
       showMenu: true,
+      editName: false,
     };
   },
   methods: {
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
+    },
+    enableEditName() {
+      this.editName = true;
+    },
+    disableEditName() {
+      this.editName = false;
     },
   },
   components: {
