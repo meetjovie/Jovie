@@ -34,15 +34,15 @@
                 item.emoji || '😆'
               }}</span>
               <span
-                v-if="!editName"
-                @dblclick="enableEditName(item.id)"
+                v-if="!item.editName"
+                @dblclick="enableEditName(item)"
                 class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
                 >{{ item.name }}</span
               >
               <input
                 v-model="item.name"
-                @blur="disableEditName(item.id)"
-                @keyup.enter="disableEditName(item.id)"
+                @blur="disableEditName(item)"
+                @keyup.enter="disableEditName(item)"
                 v-else
                 class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
             </div>
@@ -80,11 +80,11 @@ export default {
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
-    enableEditName() {
-      this.editName = true;
+    enableEditName(item) {
+      item.editName = true;
     },
-    disableEditName() {
-      this.editName = false;
+    disableEditName(item) {
+      item.editName = false;
     },
   },
   components: {
