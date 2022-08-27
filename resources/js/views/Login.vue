@@ -144,6 +144,7 @@ export default {
       AuthService.login(this.user)
         .then((response) => {
           response = response.data;
+          localStorage.setItem('jovie_extension', response.token)
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
             router.push({ name: 'Contacts' });
