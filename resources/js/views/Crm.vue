@@ -147,7 +147,7 @@
       <div class="flex h-screen">
         <div
           v-if="$store.state.CRMSidebarOpen"
-          class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-4 py-12 shadow-xl">
+          class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-2 py-2 shadow-xl">
           <div>
             <MenuList menuName="Lists" :menuItems="filters.list"></MenuList>
           </div>

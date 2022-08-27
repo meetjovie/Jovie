@@ -2,7 +2,7 @@
   <div>
     <div
       @click="toggleShowMenu()"
-      class="group flex cursor-pointer items-center justify-between rounded-md py-1 px-2 hover:bg-neutral-200">
+      class="group flex cursor-pointer items-center justify-between rounded-md py-1 hover:bg-neutral-200">
       <div
         class="flex cursor-pointer items-center text-sm font-bold text-neutral-400 group-hover:text-neutral-500">
         <ChevronDownIcon
@@ -14,15 +14,15 @@
         {{ menuName }}
       </div>
       <div class="flex items-center">
-        <div class="rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
-          <PlusIcon class="h-4 w-4 text-gray-400"></PlusIcon>
+        <div class="group rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
+          <PlusIcon class="h-4 w-4 text-gray-400 hover:text-gray-50"></PlusIcon>
         </div>
       </div>
     </div>
-    <ul v-if="showMenu" class="pl-2">
+    <ul v-if="showMenu" class="ml-2">
       <div v-for="item in menuItems" :key="item.id">
         <li
-          class="group flex cursor-pointer justify-between rounded-md px-2 hover:bg-neutral-200">
+          class="group flex cursor-pointer justify-between rounded-md hover:bg-neutral-200">
           <div>
             <span class="mr-4 text-xs">{{ item.emoji || '😆' }}</span>
             <span
@@ -31,7 +31,8 @@
             >
           </div>
           <div class="rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
-            <MenuIcon class="h-4 w-4 text-gray-400"></MenuIcon>
+            <MenuIcon
+              class="h-4 w-4 text-gray-400 hover:text-gray-50"></MenuIcon>
           </div>
         </li>
       </div>
