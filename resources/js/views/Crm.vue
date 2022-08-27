@@ -300,24 +300,31 @@ export default {
       lists: [
         {
           name: 'Dancers',
-          emojii: '👍',
+          emoji: '💃',
           id: 1,
           count: 34,
           index: 2,
         },
         {
           name: 'Singers',
-          emojii: '👍',
+          emoji: '🧑‍🎤 ',
           id: 2,
           count: 23,
           index: 3,
         },
         {
           name: 'Actors',
-          emojii: '👍',
+          emoji: '🎭',
           id: 3,
           count: 54,
           index: 1,
+        },
+        {
+          name: 'Musicians',
+          emoji: '🎸',
+          id: 4,
+          count: 34,
+          index: 0,
         },
       ],
       filters: {
