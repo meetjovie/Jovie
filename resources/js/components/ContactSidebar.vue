@@ -80,6 +80,7 @@
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
       </div>
       <div class="mt-4 space-y-4 px-2">
+        <InputLists />
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">
           Contact Details
         </h2>
@@ -287,6 +288,7 @@ import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import SocialNetwork from '../components/SocialNetwork.vue';
+import InputLists from '../components/InputLists.vue';
 
 export default {
   name: 'Contact Sidebar',
@@ -299,6 +301,7 @@ export default {
     DataInputGroup,
     TextAreaInput,
     SocialNetwork,
+    InputLists,
   },
   mounted() {
     console.log('Sidebar loaded');
