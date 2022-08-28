@@ -73,17 +73,17 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="absolute left-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none">
+                  class="left-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none">
                   <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                       <button
                         :class="[
-                          active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                          active ? 'bg-indigo-500 text-white' : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-2 text-xs',
                         ]">
                         <DuplicateIcon
                           :active="active"
-                          class="mr-2 h-5 w-5 text-violet-400"
+                          class="mr-2 h-4 w-4 text-indigo-400"
                           aria-hidden="true" />
                         Duplicate
                       </button>
@@ -92,12 +92,12 @@
                     <MenuItem v-slot="{ active }">
                       <button
                         :class="[
-                          active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                          active ? 'bg-indigo-500 text-white' : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-2 text-xs',
                         ]">
                         <ArchiveIcon
                           :active="active"
-                          class="mr-2 h-5 w-5 text-violet-400"
+                          class="mr-2 h-4 w-4 text-indigo-400"
                           aria-hidden="true" />
                         Archive
                       </button>
@@ -108,12 +108,12 @@
                     <MenuItem v-slot="{ active }">
                       <button
                         :class="[
-                          active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                          active ? 'bg-indigo-500 text-white' : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-2 text-xs',
                         ]">
                         <TrashIcon
                           :active="active"
-                          class="mr-2 h-5 w-5 text-violet-400"
+                          class="mr-2 h-4 w-4 text-indigo-400"
                           aria-hidden="true" />
                         Trash
                       </button>
