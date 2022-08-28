@@ -151,6 +151,8 @@
           <div class="h-1/2">
             <MenuList
               menuName="Lists"
+              :draggable="true"
+              @end="sortLists"
               :menuItems="filteredUsersLists"></MenuList>
           </div>
           <div>
@@ -365,6 +367,11 @@ export default {
     this.getCrmCreators();
   },
   methods: {
+      sortLists(e) {
+          console.log('e');
+          console.log(e);
+          console.log('e');
+      },
     getUserLists() {
       UserService.getUserLists().then((response) => {
         response = response.data;
