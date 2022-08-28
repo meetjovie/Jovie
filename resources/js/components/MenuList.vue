@@ -50,9 +50,9 @@
             </div>
           </div>
           <div
-            class="w-6 flex-none cursor-pointer rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+            class="group h-6 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
             <span
-              class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+              class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
               >{{ item.count }}</span
             >
             <DotsVerticalIcon
