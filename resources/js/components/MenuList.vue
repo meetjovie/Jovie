@@ -29,7 +29,7 @@
               class="h-4 w-4 text-gray-400/0 group-hover:text-gray-400"></MenuIcon>
           </div>
 
-          <div class="flex w-full">
+          <div class="flex w-full items-center">
             <div
               class="cursor-pointer rounded-md p-1 text-xs hover:bg-gray-400">
               {{ item.emoji || '😆' }}
@@ -38,7 +38,7 @@
               <span
                 v-if="!item.editName"
                 @dblclick="enableEditName(item)"
-                class="text-xs font-semibold text-neutral-400 line-clamp-1 group-hover:text-neutral-500"
+                class="cursor-pointer text-xs font-semibold text-neutral-400 line-clamp-1 group-hover:text-neutral-500"
                 >{{ item.name }}</span
               >
               <input
