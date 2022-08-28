@@ -111,11 +111,11 @@
                           active ? 'bg-violet-500 text-white' : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-2 text-xs',
                         ]">
-                        <DeleteIcon
+                        <TrashIcon
                           :active="active"
                           class="mr-2 h-5 w-5 text-violet-400"
                           aria-hidden="true" />
-                        Delete
+                        Trash
                       </button>
                     </MenuItem>
                   </div>
@@ -135,11 +135,9 @@ import {
   PlusIcon,
   MenuIcon,
   DotsVerticalIcon,
-  EditIcon,
   DuplicateIcon,
   ArchiveIcon,
-  MoveIcon,
-  DeleteIcon,
+  TrashIcon,
 } from '@heroicons/vue/solid';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 
@@ -169,9 +167,7 @@ export default {
     MenuIcon,
     ArchiveIcon,
     DuplicateIcon,
-    MoveIcon,
-    EditIcon,
-    DeleteIcon,
+    TrashIcon,
     Menu,
     MenuButton,
     MenuItems,
