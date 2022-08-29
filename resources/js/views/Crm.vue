@@ -117,18 +117,27 @@
               <div class="fle-col py-1">
                 <Tab v-slot="{ selected }" as="template">
                   <button
-                    class="w-full rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
                     :class="[
                       selected
                         ? 'text-sm font-bold text-neutral-500  '
                         : 'text-sm font-semibold text-neutral-400',
                     ]">
-                    <span class="flex items-center text-xs"
-                      ><UserGroupIcon
+                    <div class="flex items-center text-xs">
+                      <UserGroupIcon
                         class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
                         aria-hidden="true" />
-                      All Contacts</span
-                    >
+                      All Contacts
+                    </div>
+                    <div
+                      class="items-center rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
+                      <span
+                        class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                        >{{ creators.length }}</span
+                      >
+                      <DotsVerticalIcon
+                        class="hidden h-3 w-3 text-gray-400 hover:text-gray-50 group-hover:block"></DotsVerticalIcon>
+                    </div>
                   </button>
                 </Tab>
                 <Tab v-slot="{ selected }" as="template">
@@ -256,6 +265,7 @@ import {
   DownloadIcon,
   CheckIcon,
   UserGroupIcon,
+  DotsVerticalIcon,
   ArchiveIcon,
   CloudUploadIcon,
 } from '@heroicons/vue/solid';
@@ -278,6 +288,7 @@ export default {
     TabPanel,
     MenuList,
     Combobox,
+    DotsVerticalIcon,
     ComboboxInput,
     ComboboxButton,
     ComboboxOptions,
