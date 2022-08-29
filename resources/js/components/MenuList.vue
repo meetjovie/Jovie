@@ -96,6 +96,21 @@
                             Duplicate
                           </button>
                         </MenuItem>
+                        <MenuItem v-slot="{ active }">
+                          <button
+                            :class="[
+                              active
+                                ? 'bg-indigo-500 text-white'
+                                : 'text-gray-900',
+                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                            ]">
+                            <BookmarkIcon
+                              :active="active"
+                              class="mr-2 h-3 w-3 text-indigo-400 hover:text-white"
+                              aria-hidden="true" />
+                            Pin List
+                          </button>
+                        </MenuItem>
 
                         <MenuItem v-slot="{ active }">
                           <button
@@ -197,7 +212,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="left-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none">
+                  class="left-0 z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none">
                   <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                       <button
@@ -259,6 +274,7 @@ import {
   PlusIcon,
   MenuIcon,
   DotsVerticalIcon,
+  BookmarkIcon,
   DuplicateIcon,
   ArchiveIcon,
   TrashIcon,
@@ -286,6 +302,7 @@ export default {
   },
   components: {
     ChevronRightIcon,
+    BookmarkIcon,
     ChevronDownIcon,
     DotsVerticalIcon,
     PlusIcon,
