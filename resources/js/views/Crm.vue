@@ -11,8 +11,8 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full">
           <div
-            class="border-neutral-2 z-10 flex h-screen w-60 flex-col justify-between overflow-y-auto border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
-            <div>
+            class="border-neutral-2 z-10 flex h-full w-60 flex-col justify-between overflow-y-auto border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
+            <div class="flex-1">
               <div>
                 <TabList>
                   <div class="fle-col py-1">
@@ -90,7 +90,7 @@
                   </div>
                 </TabList>
               </div>
-              <div class="h-1/2">
+              <div class="flex-col space-y-4 py-4">
                 <MenuList
                   menuName="Pinned"
                   :draggable="false"
@@ -103,7 +103,7 @@
                   :menuItems="filteredUsersLists"></MenuList>
               </div>
             </div>
-            <div class="px-1">
+            <div class="flex-shrink-0 px-1">
               <SwitchTeams />
               <div
                 v-if="!currentUser.current_team.credits"

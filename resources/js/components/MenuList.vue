@@ -4,7 +4,7 @@
       @click="toggleShowMenu()"
       class="group flex cursor-pointer items-center justify-between rounded-md py-1 hover:bg-neutral-200">
       <div
-        class="flex cursor-pointer items-center text-sm font-bold text-neutral-400 group-hover:text-neutral-500">
+        class="flex cursor-pointer items-center text-sm font-semibold text-neutral-400 group-hover:text-neutral-500">
         <ChevronDownIcon
           v-if="showMenu"
           class="mt-0.5 mr-1 h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
@@ -15,7 +15,9 @@
       </div>
       <div class="flex items-center">
         <div class="group rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
-          <PlusIcon class="h-4 w-4 text-gray-400 hover:text-gray-50"></PlusIcon>
+          <PlusIcon
+            v-if="draggable"
+            class="h-4 w-4 text-gray-400 hover:text-gray-50"></PlusIcon>
         </div>
       </div>
     </div>
