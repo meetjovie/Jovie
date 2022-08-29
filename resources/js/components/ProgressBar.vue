@@ -24,7 +24,7 @@
             { 'text-white': percentage > 50 },
             { 'text-indigo-700': percentage <= 50 },
           ]">
-          {{ percentage }}%
+          {{ label || percentage + '%' }}
         </p>
       </span>
     </div>
@@ -41,6 +41,10 @@ export default {
     percentage: {
       type: Number,
       default: 0,
+    },
+    label: {
+      type: String,
+      default: '',
     },
     rounded: {
       type: Boolean,

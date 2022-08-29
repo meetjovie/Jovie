@@ -192,25 +192,6 @@
 
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
-              <div
-                v-if="!currentUser.current_team.credits"
-                as="router-link"
-                to="/billing"
-                class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
-                Upgrade
-              </div>
-              <div>
-                <div
-                  class="text-center text-2xs font-semibold text-neutral-500"
-                  :class="{
-                    'text-red-500': currentUser.current_team.credits < 4,
-                  }">
-                  {{ currentUser.current_team.credits || 0 }}
-                </div>
-                <div class="-mt-1 text-center text-[8px] text-neutral-400">
-                  Credits
-                </div>
-              </div>
               <SwitchTeams />
 
               <PopoverGroup>
