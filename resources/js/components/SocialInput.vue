@@ -51,6 +51,7 @@
         type="social-media-profile-url"
         name="social-media-profile-url"
         id="social-media-profile-url"
+        v-on:keyup.enter="add()"
         tabindex="1"
         class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-neutral-400 focus:border-indigo-400 focus:outline-none focus:ring-indigo-500 active:border-indigo-500 sm:text-sm"
         placeholder="http://instagram.com/username" />
@@ -60,7 +61,6 @@
       <button
         :disabled="adding"
         @click="add()"
-        v-on:keyup.enter="add()"
         class="group absolute inset-y-0 right-0 flex cursor-pointer py-2 pr-3"
         :class="{ 'disabled:opacity-25': adding }">
         <kbd
@@ -125,6 +125,12 @@ export default {
       network: null,
       errors: {},
     };
+  },
+  props: {
+    finishedImport: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     add() {
@@ -207,6 +213,8 @@ export default {
         .finally((response) => {
           this.adding = false;
           this.loader = false;
+          //emit event to refresh the table
+          this.$emit('finsihedImport', true);
           Object.assign(this.$data, this.$options.data());
         });
     },

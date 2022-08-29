@@ -1,7 +1,7 @@
 <template>
   <div id="crm" class="mx-auto w-full min-w-full">
     <TabGroup vertical :defaultIndex="0" as="div" @change="changeTab">
-      <div class="items-bottom flex w-full justify-between border-b bg-white">
+      <!-- <div class="items-bottom flex w-full justify-between border-b bg-white">
         <div class="w-60 items-center">
           <div>add search here</div>
         </div>
@@ -61,7 +61,7 @@
             </transition>
           </Menu>
         </div>
-      </div>
+      </div> -->
       <div class="flex h-screen">
         <div
           v-if="$store.state.CRMSidebarOpen"
@@ -84,11 +84,13 @@
                       All Contacts
                     </div>
                     <div
+                      @click="showCreatorModal = true"
                       class="items-center rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
                       <span
                         class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
                         >{{ creators.length }}</span
                       >
+
                       <PlusIcon
                         class="hidden h-3 w-3 text-gray-400 hover:text-gray-50 group-hover:block"></PlusIcon>
                     </div>
@@ -106,6 +108,27 @@
                       <ArchiveIcon
                         class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
                         aria-hidden="true" />Archived
+                    </div>
+                    <div class="items-center rounded-md p-1 hover:text-gray-50">
+                      <span
+                        class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                        >{{ creators.length }}</span
+                      >
+                    </div>
+                  </button>
+                </Tab>
+                <Tab v-slot="{ selected }" as="template">
+                  <button
+                    class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    :class="[
+                      selected
+                        ? 'text-sm font-bold text-neutral-500 '
+                        : 'text-sm font-semibold text-neutral-400',
+                    ]">
+                    <div class="flex items-center text-xs">
+                      <HeartIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                        aria-hidden="true" />Favorites
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
@@ -146,7 +169,7 @@
                                   </h1>
                                   <span
                                     class="text-sm font-medium text-neutral-500"
-                                    >Enter the url of a social profile to add a
+                                    >Enter the url of a linl profile to add a
                                     contact to Jovie.</span
                                   >
                                 </div>
@@ -187,7 +210,7 @@
                             :networks="networks"
                             :stages="stages"
                             :creatorsMeta="creatorsMeta"
-                            :arcvhied="true"
+                            :archived="true"
                             :loading="loading" />
                         </div>
                       </div>
@@ -200,6 +223,7 @@
         </div>
       </div>
     </TabGroup>
+    <ImportCreatorModal :open="showCreatorModal" />
   </div>
 </template>
 
@@ -227,12 +251,13 @@ import {
   UserGroupIcon,
   DotsVerticalIcon,
   PlusIcon,
+  HeartIcon,
   ArchiveIcon,
   CloudUploadIcon,
 } from '@heroicons/vue/solid';
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
-
+import ImportCreatorModal from '../components/ImportCreatorModal';
 import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
 import MenuList from '../components/MenuList';
@@ -242,9 +267,11 @@ export default {
     DownloadIcon,
     PlusIcon,
     TabGroup,
+    HeartIcon,
     TabList,
     Tab,
     InternalMarketingChromeExtension,
+    ImportCreatorModal,
     SocialInput,
     TabPanels,
     TabPanel,
