@@ -367,10 +367,35 @@ export default {
     this.getCrmCreators();
   },
   methods: {
-      sortLists(e) {
+      sortLists(e, listId) {
           console.log('e');
           console.log(e);
+          console.log(e.item.id);
           console.log('e');
+
+          UserService.sortLists({newIndex: e.newIndex, oldIndex: e.oldIndex}, e.item.id)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  } else {
+                      // show toast error here later
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                  }
+              })
+              .finally((response) => {
+              });
       },
     getUserLists() {
       UserService.getUserLists().then((response) => {

@@ -22,7 +22,7 @@
     <ul v-if="showMenu && draggable" class="">
         <draggable v-model="menuItems" group="lists" itemKey="id" @change="$emit('sort')">
             <template #item="{ element, index }">
-                <div :key="element.id">
+                <div :key="element.id" :id="element.id">
                     <div
                         class="inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
                         <div

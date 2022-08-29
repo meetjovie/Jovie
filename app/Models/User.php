@@ -178,4 +178,9 @@ class User extends Authenticatable
 
         return null;
     }
+
+    public function orderUserList()
+    {
+        return $this->belongsToMany(UserList::class, 'order_user_list')->withTimestamps();
+    }
 }

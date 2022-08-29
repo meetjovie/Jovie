@@ -92,4 +92,7 @@ export default {
   async resetPassword(data) {
     return axios.post(`${baseApiUrl}/reset-password`, data);
   },
+  async sortLists(data, id) {
+    return axios.post(`${baseApiUrl}/sort-user-lists/${id}`, data);
+  },
 };
