@@ -19,16 +19,6 @@ return new class extends Migration
                 ->references('id')
                 ->on(\Illuminate\Support\Facades\Config::get('teamwork.teams_table'));
         });
-
-        $lists = \App\Models\UserList::get();
-        foreach ($lists as $list) {
-            $user = \App\Models\User::with('currentTeam')->where('id', $list->user_id)->first();
-            if ($user) {
-                dump($user->currentTeam->id);
-                $list->team_id = $user->currentTeam->id;
-                $list->save();
-            }
-        }
     }
 
     /**

@@ -41,7 +41,7 @@ class UserList extends Model
             array_map(function ($value) use (&$syncData) {
                 return $syncData[$value] = ['order' => 0];
             }, $teamUsers);
-            $list->orderUserList()->sync($syncData);
+            $list->userListAttributes()->sync($syncData);
             foreach ($teamUsers as $userId) {
                 self::updateSortOrder($list->id, $userId);
             }
@@ -52,44 +52,35 @@ class UserList extends Model
 
     public static function updateSortOrder($listId, $userId, $newIndex = 0, $oldIndex = 0)
     {
-        $currentTeamLists = UserList::getLists($userId);
-        $currentTeamLists = $currentTeamLists->pluck('id')->toArray();
+        $user = User::with('currentTeam')->where('id', $userId)->first();
         DB::beginTransaction();
         if ($newIndex > $oldIndex) {
             // update user list set order = order-1 where order <= newIndex and id != listID
-            DB::table('order_user_list')
-                ->where('order', '<=', $newIndex)
-                ->where(function ($q) use ($listId, $currentTeamLists){
-                    $q->where('user_list_id', '!=', $listId)->whereIn('user_list_id', $currentTeamLists);
-                })
+            UserListAttribute::where('order', '<=', $newIndex)
+                ->where('user_list_id', '!=', $listId)
                 ->where('user_id', $userId)
+                ->where('team_id', $user->currentTeam->id)
                 ->update(['order' => (DB::raw('`order` - 1'))]);
             // update userlist set order = newOrder where id = listId
-            DB::table('order_user_list')
-                ->where('user_list_id', $listId)
+            UserListAttribute::where('user_list_id', $listId)
                 ->where('user_id', $userId)
                 ->update(['order' => $newIndex]);
         } else { // newIndex < $oldIndex
             // update user list set order = order+1 where order >= newIndex and id != listID
-            DB::table('order_user_list')
-                ->where('order', '>=', $newIndex)
-                ->where(function ($q) use ($listId, $currentTeamLists){
-                    $q->where('user_list_id', '!=', $listId)->whereIn('user_list_id', $currentTeamLists);
-                })
+            UserListAttribute::where('order', '>=', $newIndex)
+                ->where('user_list_id', '!=', $listId)
                 ->where('user_id', $userId)
+                ->where('team_id', $user->currentTeam->id)
                 ->update(['order' => (DB::raw('`order` + 1'))]);
             // update userlist set order = newOrder where id = listId
-            DB::table('order_user_list')
-                ->where('user_list_id', $listId)
+            UserListAttribute::where('user_list_id', $listId)
                 ->where('user_id', $userId)
                 ->update(['order' => $newIndex]);
         }
-        $listOrders = DB::table('order_user_list')->where('user_id', $userId)->whereIn('user_list_id', $currentTeamLists)->orderBy('order')->get();
+        $listOrders = UserListAttribute::where('user_id', $userId)->where('team_id', $user->currentTeam->id)->orderBy('order')->get();
         foreach ($listOrders as $k => $list) {
-            DB::table('order_user_list')
-                ->where('user_list_id', $list->user_list_id)
-                ->where('user_id', $list->user_id)
-                ->update(['order' => $k]);
+            $listOrders->order = $k;
+            $listOrders->save();
         }
         DB::commit();
         return true;
@@ -98,14 +89,11 @@ class UserList extends Model
     public static function getLists($userId)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
-        $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
-        return UserList::query()
-            ->join('order_user_list as oul', 'oul.user_list_id', '=', 'user_lists.id')
-            ->addSelect('oul.order as order', 'user_lists.*')->whereIn('user_lists.user_id', $teamUsers)->distinct('order_user_list.user_list_id')->get();
+        return UserList::query()->where('team_id', $user->currentTeam->id)->get();
     }
 
-    public function orderUserList()
+    public function userListAttributes()
     {
-        return $this->belongsToMany(User::class, 'order_user_list')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_list_attributes')->withTimestamps();
     }
 }
