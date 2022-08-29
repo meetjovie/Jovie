@@ -72,7 +72,7 @@
     </div>
     <!-- Narrow sidebar -->
 
-    <div
+    <!-- <div
       class="border-r-1 z-30 mx-auto hidden h-screen w-14 flex-col justify-between overflow-hidden bg-indigo-700 pb-2 transition duration-300 ease-in-out"
       :class="[
         { 'transform-x-40': previewAppMenu },
@@ -112,7 +112,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Static sidebar for desktop -->
 

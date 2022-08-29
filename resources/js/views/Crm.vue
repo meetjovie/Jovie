@@ -4,12 +4,12 @@
       <div class="flex h-full">
         <TransitionRoot
           :show="$store.state.CRMSidebarOpen"
-          enter="transition-opacity duration-75"
-          enter-from="opacity-0"
-          enter-to="opacity-100"
-          leave="transition-opacity duration-150"
-          leave-from="opacity-100"
-          leave-to="opacity-0">
+          enter="transition ease-in-out duration-300 transform"
+          enter-from="-translate-x-full"
+          enter-to="translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leave-from="translate-x-0"
+          leave-to="-translate-x-full">
           <div
             class="border-neutral-2 z-10 flex h-screen w-60 flex-col justify-between overflow-y-auto border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
             <div>
