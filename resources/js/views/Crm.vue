@@ -2,43 +2,6 @@
   <div id="crm" class="mx-auto w-full min-w-full">
     <TabGroup vertical :defaultIndex="0" as="div" @change="changeTab">
       <div class="items-bottom flex w-full justify-between border-b bg-white">
-        <!--   <div>
-          <div class="relative mx-auto w-full rounded sm:hidden">
-            <div class="absolute inset-0 z-0 m-auto mr-4 h-6 w-6">
-              <img
-                class="icon icon-tabler icon-tabler-selector"
-                src=""
-                alt="selector" />
-            </div>
-          </div>
-          <TabList
-            class="items-bottom hidden h-12 rounded bg-white sm:block xl:mx-0 xl:w-full">
-            <div class="flex h-12 px-5">
-              <Tab v-slot="{ selected }" as="template">
-                <button
-                  class="w-24"
-                  :class="[
-                    selected
-                      ? 'text-indigo text-sm underline decoration-indigo-700 decoration-4 underline-offset-8'
-                      : 'text-sm text-neutral-700',
-                  ]">
-                  <span class="mb-3">All Contacts</span>
-                </button>
-              </Tab>
-              <Tab v-slot="{ selected }" as="template">
-                <button
-                  class="w-24"
-                  :class="[
-                    selected
-                      ? 'text-indigo text-sm underline decoration-indigo-700 decoration-4 underline-offset-8'
-                      : 'text-sm text-neutral-700',
-                  ]">
-                  <span class="mb-3">Archived</span>
-                </button>
-              </Tab>
-            </div>
-          </TabList>
-        </div> -->
         <div class="w-60 items-center">
           <!-- <Combobox as="div" v-model="filters.list">
             <div class="relative mt-1">
@@ -151,27 +114,36 @@
           class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
           <div>
             <TabList>
-              <div class="fle-col px-1">
+              <div class="fle-col py-1">
                 <Tab v-slot="{ selected }" as="template">
                   <button
-                    class="w-full text-left"
+                    class="w-full rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                     :class="[
                       selected
-                        ? 'text-sm font-bold text-indigo-500  '
-                        : 'text-sm font-bold text-neutral-400',
+                        ? 'text-sm font-bold text-neutral-500  '
+                        : 'text-sm font-semibold text-neutral-400',
                     ]">
-                    <span class="bg">All Contacts</span>
+                    <span class="flex items-center text-xs"
+                      ><UserGroupIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
+                        aria-hidden="true" />
+                      All Contacts</span
+                    >
                   </button>
                 </Tab>
                 <Tab v-slot="{ selected }" as="template">
                   <button
-                    class="w-full text-left"
+                    class="w-full rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                     :class="[
                       selected
-                        ? 'text-sm font-bold text-indigo-500 '
-                        : 'text-sm font-bold text-neutral-400',
+                        ? 'text-sm font-bold text-neutral-500 '
+                        : 'text-sm font-semibold text-neutral-400',
                     ]">
-                    <span class="mb-3">Archived</span>
+                    <span class="flex items-center text-xs">
+                      <ArchiveIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                        aria-hidden="true" />Archived</span
+                    >
                   </button>
                 </Tab>
               </div>
@@ -283,6 +255,8 @@ import {
   ChevronDownIcon,
   DownloadIcon,
   CheckIcon,
+  UserGroupIcon,
+  ArchiveIcon,
   CloudUploadIcon,
 } from '@heroicons/vue/solid';
 import UserService from '../services/api/user.service';
@@ -314,6 +288,8 @@ export default {
     MenuItem,
     ChevronDownIcon,
     CheckIcon,
+    ArchiveIcon,
+    UserGroupIcon,
     CloudUploadIcon,
     CrmTable,
   },

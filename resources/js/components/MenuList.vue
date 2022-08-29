@@ -7,10 +7,10 @@
         class="flex cursor-pointer items-center text-sm font-bold text-neutral-400 group-hover:text-neutral-500">
         <ChevronDownIcon
           v-if="showMenu"
-          class="mt-0.5 h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
+          class="mt-0.5 mr-1 h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
         <ChevronRightIcon
           v-else
-          class="h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
+          class="mr-1 h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
         {{ menuName }}
       </div>
       <div class="flex items-center">
