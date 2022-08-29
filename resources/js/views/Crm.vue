@@ -1,8 +1,8 @@
 <template>
   <div id="crm" class="mx-auto w-full min-w-full">
-    <TabGroup :defaultIndex="0" as="div" @change="changeTab">
+    <TabGroup vertical :defaultIndex="0" as="div" @change="changeTab">
       <div class="items-bottom flex w-full justify-between border-b bg-white">
-        <div>
+        <!--   <div>
           <div class="relative mx-auto w-full rounded sm:hidden">
             <div class="absolute inset-0 z-0 m-auto mr-4 h-6 w-6">
               <img
@@ -38,9 +38,9 @@
               </Tab>
             </div>
           </TabList>
-        </div>
+        </div> -->
         <div class="w-60 items-center">
-          <Combobox as="div" v-model="filters.list">
+          <!-- <Combobox as="div" v-model="filters.list">
             <div class="relative mt-1">
               <ComboboxInput
                 placeholder="Filter by list"
@@ -83,9 +83,10 @@
                     </span>
                   </li>
                 </ComboboxOption>
-              </ComboboxOptions>
+              </ComboboxOptions> 
             </div>
-          </Combobox>
+          </Combobox>-->
+          <div>add search here</div>
         </div>
         <div class="items-center px-2">
           <Menu as="div" class="relative inline-block items-center text-left">
@@ -148,6 +149,34 @@
         <div
           v-if="$store.state.CRMSidebarOpen"
           class="border-neutral-2 z-10 h-full w-60 border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
+          <div>
+            <TabList>
+              <div class="fle-col px-1">
+                <Tab v-slot="{ selected }" as="template">
+                  <button
+                    class="w-full text-left"
+                    :class="[
+                      selected
+                        ? 'text-sm font-bold text-indigo-500  '
+                        : 'text-sm font-bold text-neutral-400',
+                    ]">
+                    <span class="bg">All Contacts</span>
+                  </button>
+                </Tab>
+                <Tab v-slot="{ selected }" as="template">
+                  <button
+                    class="w-full text-left"
+                    :class="[
+                      selected
+                        ? 'text-sm font-bold text-indigo-500 '
+                        : 'text-sm font-bold text-neutral-400',
+                    ]">
+                    <span class="mb-3">Archived</span>
+                  </button>
+                </Tab>
+              </div>
+            </TabList>
+          </div>
           <div class="h-1/2">
             <MenuList menuName="Lists" :menuItems="filters.list"></MenuList>
           </div>
