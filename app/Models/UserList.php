@@ -23,25 +23,34 @@ class UserList extends Model
 
     public static function firstOrCreateList($userId, $listName)
     {
-        $user = User::with('currentTeam.users')->where('user_id', $userId)->first();
+        $user = User::with('currentTeam.users')->where('id', $userId)->first();
         if ($user) {
             $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
             $exists = UserList::whereRaw('TRIM(LOWER(name)) = ?', [strtolower(trim($listName))])->whereIn('user_id', $teamUsers)->first();
             if ($exists) {
+                foreach ($teamUsers as $userId) {
+                    self::updateSortOrder($exists->id, $userId);
+                }
                 return $exists;
             }
             $list = UserList::create([
                 'user_id' => $userId,
                 'name' => $listName,
             ]);
-            $list->orderUserList()->sync([$userId => ['order' => 0]]);
-            self::updateSortOrder($list->id, $userId);
+            $syncData = [];
+            array_map(function ($value) use (&$syncData) {
+                return $syncData[$value] = ['order' => 0];
+            }, $teamUsers);
+            $list->orderUserList()->sync($syncData);
+            foreach ($teamUsers as $userId) {
+                self::updateSortOrder($list->id, $userId);
+            }
             return  $list;
         }
         return new UserList();
     }
 
-    public static function updateSortOrder($listId, $userId, $newIndex = 0, $oldIndex = -1)
+    public static function updateSortOrder($listId, $userId, $newIndex = 0, $oldIndex = 0)
     {
         $currentTeamLists = UserList::getLists($userId);
         $currentTeamLists = $currentTeamLists->pluck('id')->toArray();
@@ -75,10 +84,10 @@ class UserList extends Model
                 ->where('user_id', $userId)
                 ->update(['order' => $newIndex]);
         }
-        $listOrders = DB::table('order_user_list')->where('user_id', $userId)->where('user_list_id', $listId)->orderBy('order')->get();
+        $listOrders = DB::table('order_user_list')->where('user_id', $userId)->whereIn('user_list_id', $currentTeamLists)->orderBy('order')->get();
         foreach ($listOrders as $k => $list) {
             DB::table('order_user_list')
-                ->where('user_list_id', $list->id)
+                ->where('user_list_id', $list->user_list_id)
                 ->where('user_id', $list->user_id)
                 ->update(['order' => $k]);
         }
@@ -90,11 +99,9 @@ class UserList extends Model
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
-        return UserList::orderBy(
-            DB::table('order_user_list')
-            ->join('user_lists', 'user_lists.id', 'order_user_list.user_list_id')
-            ->whereIn('user_lists.user_id', $teamUsers)->select('order')->orderBy('order')->limit(1)
-        )->whereIn('user_id', $teamUsers)->get();
+        return UserList::query()
+            ->join('order_user_list as oul', 'oul.user_list_id', '=', 'user_lists.id')
+            ->addSelect('oul.order as order', 'user_lists.*')->whereIn('user_lists.user_id', $teamUsers)->distinct('order_user_list.user_list_id')->get();
     }
 
     public function orderUserList()

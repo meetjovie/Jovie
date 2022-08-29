@@ -7,6 +7,7 @@ use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
+use App\Models\UserList;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
 use function Clue\StreamFilter\fun;
@@ -61,26 +62,27 @@ class Test extends Command
      */
     public function handle()
     {
-        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
-        foreach ($users as $user) {
-            foreach ($user->pendingImports as $import) {
-                if ($import->instagram && $import->instagram_scrapped != 1) {
-                    // trigger instagram import
-                    $instagramBatch = $import->getImportBatch('instagram');
-                    if (! $instagramBatch->cancelled()) {
-                        $this->triggerInstagramImport($import, $instagramBatch);
-                    }
-                }
-//                do this for each network
-//                if ($import->twitter && $import->twitter_scrapped != 1) {
+        UserList::firstOrCreateList(1, 'test');
+//        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
+//        foreach ($users as $user) {
+//            foreach ($user->pendingImports as $import) {
+//                if ($import->instagram && $import->instagram_scrapped != 1) {
 //                    // trigger instagram import
-//                    $twitterBatch = $import->getImportBatch('twitter');
-//                    if (! $twitterBatch->cancelled()) {
-//                        $this->triggerTwitterImport($import, $twitterBatch);
+//                    $instagramBatch = $import->getImportBatch('instagram');
+//                    if (! $instagramBatch->cancelled()) {
+//                        $this->triggerInstagramImport($import, $instagramBatch);
 //                    }
 //                }
-            }
-        }
+////                do this for each network
+////                if ($import->twitter && $import->twitter_scrapped != 1) {
+////                    // trigger instagram import
+////                    $twitterBatch = $import->getImportBatch('twitter');
+////                    if (! $twitterBatch->cancelled()) {
+////                        $this->triggerTwitterImport($import, $twitterBatch);
+////                    }
+////                }
+//            }
+//        }
     }
 
     public function triggerTwitterImport($import, $twitterBatch)
