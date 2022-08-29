@@ -28,7 +28,19 @@
           <input
             @blur="saveToJovie()"
             v-model="creator.instagram_name"
-            class="w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-lg font-bold text-gray-700 transition line-clamp-1 hover:border-opacity-100 hover:bg-gray-100" />
+            placeholder="Name"
+            class="placeholder:text-gray-300/0hover:border-opacity-100 w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-lg font-bold text-gray-700 transition line-clamp-1 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+          <div class="">
+            <input
+              @blur="saveToJovie()"
+              placeholder="Title"
+              class="w-auto rounded-md border border-gray-300 border-opacity-0 px-1 text-xs font-bold text-gray-700 transition line-clamp-1 placeholder:text-gray-300/0 hover:border-opacity-100 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+
+            <input
+              @blur="saveToJovie()"
+              placeholder="Company"
+              class="w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-2xs font-semibold text-gray-400 transition line-clamp-1 placeholder:text-gray-300/0 hover:border-opacity-100 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+          </div>
 
           <div class="h-4 py-0.5">
             <span
@@ -79,9 +91,11 @@
           @click="saveToJovie()"
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
       </div>
-      <div class="mt-4 space-y-4 px-2">
+      <div class="px-2">
         <h2 class="text-xs font-semibold text-neutral-400">Add Lists</h2>
         <InputLists />
+      </div>
+      <div class="mt-4 space-y-4 px-2">
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">
           Contact Details
         </h2>
@@ -94,6 +108,7 @@
           placeholder="Location"
           ><slot name="icon">HI</slot></DataInputGroup
         >
+
         <DataInputGroup
           @blur="saveToJovie()"
           :value="creator.instagram_email"

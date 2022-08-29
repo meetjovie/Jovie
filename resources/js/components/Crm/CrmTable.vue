@@ -35,7 +35,7 @@
           <th
             scope="col"
             class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-            Creator
+            Contact
           </th>
           <th
             scope="col"
@@ -86,13 +86,7 @@
             scope="col"
             class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
             <span class="sr-only">Edit</span>
-
-            <div class="hidden w-60 text-right 2xl:block">
-              {{ creators.length }} Contacts
-            </div>
-            <div class="hidden w-40 text-right lg:block 2xl:hidden">
-              {{ creators.length }} Contacts
-            </div>
+            <input value="search" />
           </th>
         </tr>
       </thead>
@@ -115,11 +109,11 @@
                 creator[`${network}_meta`] &&
                 Object.keys(creator[`${network}_meta`]).length &&
                 !creator.crm_record_by_user[`${network}_removed`] &&
-                (arcvhied
+                (archived
                   ? creator.crm_record_by_user[`${network}_archived`]
                   : !creator.crm_record_by_user[`${network}_archived`])
               "
-              class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+              class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
               <td
                 class="w-18 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                 <div class="grid grid-cols-2 items-center gap-2">
@@ -313,19 +307,14 @@
                     type="creator-offer"
                     name="creator-offer"
                     id="creator-offer"
-                    class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                    class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                     :placeholder="
                       creator.crm_record_by_user[`${network}_suggested_offer`]
                     "
                     aria-describedby="email-description" />
                 </span>
               </td>
-              <!-- <td class="px-2 py-1 border border-collapse border-1 whitespace-nowrap">
-                                             <span
-                                                 class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-nuetral-800">
-                                                   {{creator.campaign}}
-                                             </span>
-                                </td> -->
+
               <td
                 class="border-1 hidden w-32 border-collapse items-center whitespace-nowrap border md:table-cell">
                 <Popover as="div" class="relative inline-block text-left">
@@ -639,7 +628,7 @@ export default {
     'stages',
     'creatorsMeta',
     'loading',
-    'arcvhied',
+    'archived',
   ],
   methods: {
     refresh(url, network) {
