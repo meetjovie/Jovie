@@ -85,13 +85,13 @@
                           <button
                             :class="[
                               active
-                                ? 'bg-indigo-500 text-white'
+                                ? 'bg-gray-300 text-gray-700'
                                 : 'text-gray-900',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">
                             <DuplicateIcon
                               :active="active"
-                              class="mr-2 h-3 w-3 text-indigo-400 hover:text-white hover:text-white"
+                              class="mr-2 h-3 w-3 text-teal-400 hover:text-gray-700"
                               aria-hidden="true" />
                             Duplicate
                           </button>
@@ -100,31 +100,15 @@
                           <button
                             :class="[
                               active
-                                ? 'bg-indigo-500 text-white'
+                                ? 'bg-gray-300 text-gray-700'
                                 : 'text-gray-900',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">
                             <BookmarkIcon
                               :active="active"
-                              class="mr-2 h-3 w-3 text-indigo-400 hover:text-white"
+                              class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
                               aria-hidden="true" />
                             Pin List
-                          </button>
-                        </MenuItem>
-
-                        <MenuItem v-slot="{ active }">
-                          <button
-                            :class="[
-                              active
-                                ? 'bg-indigo-500 text-white'
-                                : 'text-gray-900',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                            ]">
-                            <ArchiveIcon
-                              :active="active"
-                              class="mr-2 h-3 w-3 text-indigo-400 hover:text-white"
-                              aria-hidden="true" />
-                            Archive
                           </button>
                         </MenuItem>
                       </div>
@@ -134,13 +118,13 @@
                           <button
                             :class="[
                               active
-                                ? 'bg-indigo-500 text-white'
+                                ? 'bg-gray-300 text-gray-900'
                                 : 'text-gray-900',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">
                             <TrashIcon
                               :active="active"
-                              class="mr-2 h-3 w-3 text-indigo-400 hover:text-white"
+                              class="mr-2 h-3 w-3 text-gray-400 hover:text-white"
                               aria-hidden="true" />
                             Trash
                           </button>
@@ -219,28 +203,31 @@
                     <MenuItem v-slot="{ active }">
                       <button
                         :class="[
-                          active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                          active
+                            ? 'bg-gray-300 text-gray-700'
+                            : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                         ]">
                         <DuplicateIcon
                           :active="active"
-                          class="mr-2 h-4 w-4 text-indigo-400 hover:text-white"
+                          class="mr-2 h-4 w-4 text-teal-400 hover:text-gray-700"
                           aria-hidden="true" />
                         Duplicate
                       </button>
                     </MenuItem>
-
                     <MenuItem v-slot="{ active }">
                       <button
                         :class="[
-                          active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                          active
+                            ? 'bg-gray-300 text-gray-700'
+                            : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                         ]">
-                        <ArchiveIcon
+                        <BookmarkIcon
                           :active="active"
-                          class="mr-2 h-4 w-4 text-indigo-400 hover:text-white"
+                          class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
                           aria-hidden="true" />
-                        Archive
+                        Unpin List
                       </button>
                     </MenuItem>
                   </div>
@@ -249,12 +236,14 @@
                     <MenuItem v-slot="{ active }">
                       <button
                         :class="[
-                          active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                          active
+                            ? 'bg-gray-300 text-gray-700'
+                            : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                         ]">
                         <TrashIcon
                           :active="active"
-                          class="mr-2 h-4 w-4 text-indigo-400 hover:text-white"
+                          class="mr-2 h-4 w-4 text-gray-400 hover:text-gray-700"
                           aria-hidden="true" />
                         Trash
                       </button>
