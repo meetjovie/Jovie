@@ -30,7 +30,7 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <div
-              class="inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
+              class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
               <div
                 class="group w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
                 <MenuIcon
@@ -58,20 +58,18 @@
                 </div>
               </div>
               <div
-                class="group h-6 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                class="h-6 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                 <span
                   class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
                   >{{ element.count }}</span
                 >
 
                 <Menu as="div" class="relative inline-block text-left">
-                  <div>
-                    <MenuButton
-                      class="hidden h-4 w-4 text-gray-400 hover:text-gray-50 group-hover:block">
-                      <DotsVerticalIcon
-                        class="hidden h-4 w-4 text-gray-400 hover:text-gray-50 group-hover:block"></DotsVerticalIcon>
-                    </MenuButton>
-                  </div>
+                  <MenuButton
+                    class="hidden h-4 w-4 text-gray-400 hover:text-gray-50 group-hover:block">
+                    <DotsVerticalIcon
+                      class="hidden h-4 w-4 text-gray-400 hover:text-gray-50 group-hover:block"></DotsVerticalIcon>
+                  </MenuButton>
 
                   <transition
                     enter-active-class="transition duration-100 ease-out"
@@ -147,7 +145,7 @@
     <ul v-if="showMenu && !draggable" class="">
       <div v-for="item in menuItems" :key="item.id">
         <div
-          class="inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
+          class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
           <div
             class="group w-4 flex-none cursor-pointer items-center hover:bg-neutral-200">
             <BookmarkIcon
