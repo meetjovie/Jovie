@@ -336,6 +336,7 @@ export default {
           index: 0,
         },
       ],
+      query: '',
       filters: {
         list: null,
         archived: 0,
