@@ -2,120 +2,130 @@
   <div id="crm" class="mx-auto w-full min-w-full">
     <TabGroup vertical :defaultIndex="0" as="div" @change="changeTab">
       <div class="flex h-full">
-        <div
-          v-if="$store.state.CRMSidebarOpen"
-          class="border-neutral-2 z-10 flex h-screen w-60 flex-col justify-between overflow-y-auto border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
-          <div>
+        <TransitionRoot
+          :show="$store.state.CRMSidebarOpen"
+          enter="transition-opacity duration-75"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="transition-opacity duration-150"
+          leave-from="opacity-100"
+          leave-to="opacity-0">
+          <div
+            class="border-neutral-2 z-10 flex h-screen w-60 flex-col justify-between overflow-y-auto border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
             <div>
-              <TabList>
-                <div class="fle-col py-1">
-                  <Tab v-slot="{ selected }" as="template">
-                    <button
-                      class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
-                      :class="[
-                        selected
-                          ? 'text-sm font-bold text-neutral-500  '
-                          : 'text-sm font-semibold text-neutral-400',
-                      ]">
-                      <div class="flex items-center text-xs">
-                        <UserGroupIcon
-                          class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
-                          aria-hidden="true" />
-                        All Contacts
-                      </div>
-                      <div
-                        @click="showCreatorModal = true"
-                        class="items-center rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
-                        <span
-                          class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
-                          >{{ creators.length }}</span
-                        >
+              <div>
+                <TabList>
+                  <div class="fle-col py-1">
+                    <Tab v-slot="{ selected }" as="template">
+                      <button
+                        class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
+                        :class="[
+                          selected
+                            ? 'text-sm font-bold text-neutral-500  '
+                            : 'text-sm font-semibold text-neutral-400',
+                        ]">
+                        <div class="flex items-center text-xs">
+                          <UserGroupIcon
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
+                            aria-hidden="true" />
+                          All Contacts
+                        </div>
+                        <div
+                          @click="showCreatorModal = true"
+                          class="items-center rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
+                          <span
+                            class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                            >{{ creators.length }}</span
+                          >
 
-                        <PlusIcon
-                          class="hidden h-3 w-3 text-gray-400 hover:text-gray-50 group-hover:block"></PlusIcon>
-                      </div>
-                    </button>
-                  </Tab>
-                  <Tab v-slot="{ selected }" as="template">
-                    <button
-                      class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
-                      :class="[
-                        selected
-                          ? 'text-sm font-bold text-neutral-500 '
-                          : 'text-sm font-semibold text-neutral-400',
-                      ]">
-                      <div class="flex items-center text-xs">
-                        <ArchiveIcon
-                          class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-                          aria-hidden="true" />Archived
-                      </div>
-                      <div
-                        class="items-center rounded-md p-1 hover:text-gray-50">
-                        <span
-                          class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-                          >{{ creators.length }}</span
-                        >
-                      </div>
-                    </button>
-                  </Tab>
-                  <Tab v-slot="{ selected }" as="template">
-                    <button
-                      class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
-                      :class="[
-                        selected
-                          ? 'text-sm font-bold text-neutral-500 '
-                          : 'text-sm font-semibold text-neutral-400',
-                      ]">
-                      <div class="flex items-center text-xs">
-                        <HeartIcon
-                          class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
-                          aria-hidden="true" />Favorites
-                      </div>
-                      <div
-                        class="items-center rounded-md p-1 hover:text-gray-50">
-                        <span
-                          class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-                          >{{ creators.length }}</span
-                        >
-                      </div>
-                    </button>
-                  </Tab>
-                </div>
-              </TabList>
+                          <PlusIcon
+                            class="hidden h-3 w-3 text-gray-400 hover:text-gray-50 group-hover:block"></PlusIcon>
+                        </div>
+                      </button>
+                    </Tab>
+                    <Tab v-slot="{ selected }" as="template">
+                      <button
+                        class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                        :class="[
+                          selected
+                            ? 'text-sm font-bold text-neutral-500 '
+                            : 'text-sm font-semibold text-neutral-400',
+                        ]">
+                        <div class="flex items-center text-xs">
+                          <ArchiveIcon
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                            aria-hidden="true" />Archived
+                        </div>
+                        <div
+                          class="items-center rounded-md p-1 hover:text-gray-50">
+                          <span
+                            class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                            >{{ creators.length }}</span
+                          >
+                        </div>
+                      </button>
+                    </Tab>
+                    <Tab v-slot="{ selected }" as="template">
+                      <button
+                        class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                        :class="[
+                          selected
+                            ? 'text-sm font-bold text-neutral-500 '
+                            : 'text-sm font-semibold text-neutral-400',
+                        ]">
+                        <div class="flex items-center text-xs">
+                          <HeartIcon
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                            aria-hidden="true" />Favorites
+                        </div>
+                        <div
+                          class="items-center rounded-md p-1 hover:text-gray-50">
+                          <span
+                            class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                            >{{ creators.length }}</span
+                          >
+                        </div>
+                      </button>
+                    </Tab>
+                  </div>
+                </TabList>
+              </div>
+              <div class="h-1/2">
+                <MenuList
+                  menuName="Lists"
+                  :draggable="true"
+                  @end="sortLists"
+                  :menuItems="filteredUsersLists"></MenuList>
+              </div>
             </div>
-            <div class="h-1/2">
-              <MenuList
-                menuName="Lists"
-                :draggable="true"
-                @end="sortLists"
-                :menuItems="filteredUsersLists"></MenuList>
-            </div>
-          </div>
-          <div class="px-1">
-            <div
-              v-if="!currentUser.current_team.credits"
-              as="router-link"
-              to="/billing"
-              class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
-              Upgrade
-            </div>
-            <ProgressBar
-              :percentage="
-                100 -
-                (currentUser.current_team.credits /
+            <div class="px-1">
+              <div
+                v-if="!currentUser.current_team.credits"
+                as="router-link"
+                to="/billing"
+                class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+                Upgrade
+              </div>
+              <ProgressBar
+                :percentage="
+                  100 -
+                  (currentUser.current_team.credits /
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10)) *
+                    100
+                "
+                :label="
                   (currentUser.current_team.current_subscription?.credits ||
-                    10)) *
-                  100
-              "
-              :label="
-                (currentUser.current_team.current_subscription?.credits || 10) -
-                currentUser.current_team.credits +
-                ' of ' +
-                (currentUser.current_team.current_subscription?.credits || 10) +
-                ' contacts'
-              " />
+                    10) -
+                  currentUser.current_team.credits +
+                  ' of ' +
+                  (currentUser.current_team.current_subscription?.credits ||
+                    10) +
+                  ' contacts'
+                " />
+            </div>
           </div>
-        </div>
+        </TransitionRoot>
         <div class="w-full">
           <TabPanels>
             <TabPanel>
@@ -209,6 +219,7 @@ import {
   TabPanel,
   Menu,
   MenuButton,
+  TransitionRoot,
   MenuItems,
   MenuItem,
 } from '@headlessui/vue';
@@ -230,6 +241,7 @@ import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
 import MenuList from '../components/MenuList';
 import ProgressBar from '../components/ProgressBar';
+
 export default {
   name: 'CRM',
   components: {
@@ -243,6 +255,7 @@ export default {
     InternalMarketingChromeExtension,
     ImportCreatorModal,
     SocialInput,
+    TransitionRoot,
     TabPanels,
     TabPanel,
     MenuList,

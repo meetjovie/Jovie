@@ -86,7 +86,7 @@
             scope="col"
             class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
             <span class="sr-only">Edit</span>
-            <input placeholder="Search" value="search" v-model="query" />
+            <input placeholder="Search" v-model="query" />
           </th>
         </tr>
       </thead>
