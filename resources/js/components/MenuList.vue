@@ -79,7 +79,7 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0">
                     <MenuItems
-                      class="absolute left-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none">
+                      class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none">
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button
@@ -163,9 +163,11 @@
         <div
           class="inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
           <div
-            class="group w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
-            <MenuIcon
-              class="h-4 w-4 text-gray-400/0 group-hover:text-gray-400"></MenuIcon>
+            class="group w-4 flex-none cursor-pointer items-center hover:bg-neutral-200">
+            <BookmarkIcon
+              :active="active"
+              class="h-4 w-4 text-gray-400"
+              aria-hidden="true" />
           </div>
 
           <div class="flex w-full items-center">
@@ -212,7 +214,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="left-0 z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none">
+                  class="absolute right-0 z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none">
                   <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                       <button

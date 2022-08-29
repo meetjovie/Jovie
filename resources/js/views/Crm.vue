@@ -93,7 +93,7 @@
               <div class="h-1/2">
                 <MenuList
                   menuName="Pinned"
-                  :draggable="true"
+                  :draggable="false"
                   @end="sortLists"
                   :menuItems="filteredUsersLists"></MenuList>
                 <MenuList
