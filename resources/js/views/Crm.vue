@@ -104,6 +104,7 @@
               </div>
             </div>
             <div class="px-1">
+              <SwitchTeams />
               <div
                 v-if="!currentUser.current_team.credits"
                 as="router-link"
@@ -111,23 +112,25 @@
                 class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
                 Upgrade
               </div>
-              <ProgressBar
-                :percentage="
-                  100 -
-                  (currentUser.current_team.credits /
+              <div class="mt-1 py-1">
+                <ProgressBar
+                  :percentage="
+                    100 -
+                    (currentUser.current_team.credits /
+                      (currentUser.current_team.current_subscription?.credits ||
+                        10)) *
+                      100
+                  "
+                  :label="
                     (currentUser.current_team.current_subscription?.credits ||
-                      10)) *
-                    100
-                "
-                :label="
-                  (currentUser.current_team.current_subscription?.credits ||
-                    10) -
-                  currentUser.current_team.credits +
-                  ' of ' +
-                  (currentUser.current_team.current_subscription?.credits ||
-                    10) +
-                  ' contacts'
-                " />
+                      10) -
+                    currentUser.current_team.credits +
+                    ' of ' +
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) +
+                    ' contacts'
+                  " />
+              </div>
             </div>
           </div>
         </TransitionRoot>
@@ -246,12 +249,14 @@ import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
 import MenuList from '../components/MenuList';
 import ProgressBar from '../components/ProgressBar';
+import SwitchTeams from '../components/SwitchTeams';
 
 export default {
   name: 'CRM',
   components: {
     DownloadIcon,
     PlusIcon,
+    SwitchTeams,
     TabGroup,
     HeartIcon,
     ProgressBar,

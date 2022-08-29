@@ -192,8 +192,6 @@
 
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
-              <SwitchTeams />
-
               <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
@@ -566,7 +564,7 @@ import {
   PopoverPanel,
   PopoverGroup,
 } from '@headlessui/vue';
-import SwitchTeams from '../components/SwitchTeams.vue';
+
 import AlertBanner from '../components/AlertBanner';
 import JovieLogo from '../components/JovieLogo';
 import CommandPallette from '../components/CommandPallette';
@@ -693,7 +691,7 @@ export default {
     LogoutIcon,
     SwitchHorizontalIcon,
     JovieLogo,
-    SwitchTeams,
+
     Popover,
     PopoverButton,
     PopoverPanel,
