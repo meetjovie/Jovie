@@ -66,9 +66,9 @@
 
                 <Menu as="div" class="relative inline-block text-left">
                   <MenuButton
-                    class="hidden h-4 w-4 text-gray-400 hover:text-gray-50 group-hover:block">
+                    class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block">
                     <DotsVerticalIcon
-                      class="hidden h-4 w-4 text-gray-400 hover:text-gray-50 group-hover:block"></DotsVerticalIcon>
+                      class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></DotsVerticalIcon>
                   </MenuButton>
 
                   <transition
@@ -150,15 +150,17 @@
             class="group w-4 flex-none cursor-pointer items-center hover:bg-neutral-200">
             <BookmarkIcon
               :active="active"
-              class="h-4 w-4 text-gray-400"
+              class="h-4 w-4 text-gray-400 hover:text-gray-500 active:text-indigo-500"
               aria-hidden="true" />
           </div>
 
           <div class="flex w-full items-center">
-            <div
-              class="cursor-pointer rounded-md p-1 text-xs hover:bg-gray-400">
-              {{ item.emoji || '😆' }}
-            </div>
+            <EmojiPickerModal>
+              <div
+                class="cursor-pointer rounded-md p-1 text-xs hover:bg-gray-400">
+                {{ item.emoji || '😆' }}
+              </div>
+            </EmojiPickerModal>
             <div>
               <span
                 v-if="!item.editName"
@@ -184,9 +186,9 @@
             <Menu as="div" class="relative inline-block text-left">
               <div>
                 <MenuButton
-                  class="hidden h-4 w-4 text-gray-400 hover:text-gray-50 group-hover:block">
+                  class="hidden h-4 w-4 text-gray-400 group-hover:block">
                   <DotsVerticalIcon
-                    class="hidden h-4 w-4 text-gray-400 hover:text-gray-50 group-hover:block"></DotsVerticalIcon>
+                    class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></DotsVerticalIcon>
                 </MenuButton>
               </div>
 
@@ -272,15 +274,19 @@ import {
 } from '@heroicons/vue/solid';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import draggable from 'vuedraggable';
+import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 
 export default {
   data() {
     return {
       showMenu: true,
       editName: false,
+      openEmojiPicker: false,
     };
   },
   methods: {
+    // event callback
+
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
@@ -294,6 +300,7 @@ export default {
   components: {
     ChevronRightIcon,
     BookmarkIcon,
+    EmojiPickerModal,
     ChevronDownIcon,
     DotsVerticalIcon,
     PlusIcon,

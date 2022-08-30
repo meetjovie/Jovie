@@ -45,8 +45,11 @@
     "@meilisearch/instant-meilisearch": "^0.6.2",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
+    "emoji-picker-element": "^1.12.1",
+    "install": "^0.13.0",
     "moment": "^2.29.1",
     "notiwind": "^1.2.6",
+    "npm": "^8.18.0",
     "simple-icons": "^6.9.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "vcards-js": "^2.10.0",
@@ -61,6 +64,7 @@
     "vue-simple-icons": "^4.7.0",
     "vue-slider-component": "^4.0.0-beta.4",
     "vue-star-rating": "^2.1.0",
+    "vue3-emoji-picker": "^1.1.4",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.2"
   }

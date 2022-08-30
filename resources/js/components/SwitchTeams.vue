@@ -30,10 +30,10 @@
       leave-from-class="transform scale-100 opacity-100"
       leave-to-class="transform scale-95 opacity-0">
       <PopoverPanel
-        class="origin-bottom-middle absolute bottom-40 mt-2 w-60 rounded-md bg-white/90 shadow-lg backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+        class="origin-bottom-middle absolute bottom-40 w-52 rounded-md border border-neutral-200 bg-white/90 shadow-lg backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
         <div class="">
           <div
-            class="border-b px-4 pt-2 pb-1 text-xs font-bold text-neutral-400">
+            class="border-b bg-neutral-50 px-4 pt-2 pb-1 text-center text-xs font-semibold text-neutral-400">
             Your teams:
           </div>
           <div v-if="currentUser.teams" v-for="team in currentUser.teams">

@@ -1,5 +1,5 @@
 <template>
-  <div id="crm" class="mx-auto w-full min-w-full">
+  <div id="crm" class="mx-auto flex w-full min-w-full">
     <TabGroup vertical :defaultIndex="0" as="div" @change="changeTab">
       <div class="flex h-full">
         <TransitionRoot
@@ -11,7 +11,7 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full">
           <div
-            class="border-neutral-2 z-10 flex h-full w-60 flex-col justify-between overflow-y-auto border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
+            class="border-neutral-2 z-10 flex h-full w-60 flex-col justify-between overflow-y-auto border-r-2 bg-red-500 bg-neutral-50 px-1 py-2 shadow-xl">
             <div class="flex-1">
               <div>
                 <TabList>
@@ -32,14 +32,14 @@
                         </div>
                         <div
                           @click="showCreatorModal = true"
-                          class="items-center rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
+                          class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                           <span
                             class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
                             >{{ creators.length }}</span
                           >
 
                           <PlusIcon
-                            class="hidden h-3 w-3 text-gray-400 hover:text-gray-50 group-hover:block"></PlusIcon>
+                            class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
                         </div>
                       </button>
                     </Tab>
@@ -155,8 +155,8 @@
                                   </h1>
                                   <span
                                     class="text-sm font-medium text-neutral-500"
-                                    >Enter the url of a linl profile to add a
-                                    contact to Jovie.</span
+                                    >Enter a Twitch or Instagram url to add
+                                    someone to Jovie.</span
                                   >
                                 </div>
                                 <SocialInput class="py-12" />
@@ -260,6 +260,7 @@ export default {
     TabGroup,
     HeartIcon,
     ProgressBar,
+
     TabList,
     Tab,
     InternalMarketingChromeExtension,
