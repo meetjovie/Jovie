@@ -25,6 +25,20 @@ return new class extends Migration
                 ->references('id')
                 ->on(\Illuminate\Support\Facades\Config::get('teamwork.teams_table'));
         });
+        $lists = UserList::get();
+        foreach ($lists as $list) {
+            if ($list->id == 17) {
+
+                $list->team_id = 4;
+                $list->save();
+                continue;
+            }
+            $user = \App\Models\User::with('currentTeam')->where('id', $list->user_id)->first();
+            if ($user) {
+                $list->team_id = $user->currentTeam->id;
+                $list->save();
+            }
+        }
         try {
             Schema::table('order_user_list', function (Blueprint $table) {
                 $table->dropForeign(['user_list_id']);
@@ -32,29 +46,40 @@ return new class extends Migration
             });
         } catch (Exception $e) {}
         Schema::dropIfExists('order_user_list');
+        try {
+            Schema::table('user_list_attributes', function (Blueprint $table) {
+                $table->dropForeign(['user_list_id']);
+                $table->dropForeign(['user_id']);
+            });
+        } catch (Exception $e) {}
+        Schema::dropIfExists('user_list_attributes');
         Schema::create('user_list_attributes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->foreignId('team_id');
             $table->foreignId('user_list_id');
             $table->integer('order')->default(0);
             $table->boolean('pinned')->default(false);
             $table->timestamps();
         });
 
-        $users = \App\Models\User::get();
+        $users = \App\Models\User::with('teams')->get();
         foreach ($users as $user) {
-            $lists = UserList::getLists($user->id);
-            $listIds = $lists->pluck('id')->toArray();
-            foreach ($lists as $list) {
-                $order = \Illuminate\Support\Facades\DB::table('order_user_list')
-                    ->where('user_id', $user->id)
-                    ->whereIn('user_list_id', $listIds)->max('order');
-                $order = is_null($order) ? 0 : ($order + 1);
-                $user->orderUserList()->syncWithoutDetaching([
-                    $list->id => [
-                        'order' => $order
-                    ]
-                ]);
+            foreach ($user->teams as $team) {
+                $lists = UserList::getListsByTeam($team->id);
+                $listIds = $lists->pluck('id')->toArray();
+                foreach ($lists as $list) {
+                    $order = \Illuminate\Support\Facades\DB::table('user_list_attributes')
+                        ->where('user_id', $user->id)
+                        ->whereIn('user_list_id', $listIds)->max('order');
+                    $order = is_null($order) ? 0 : ($order + 1);
+                    $user->userListAttributes()->syncWithoutDetaching([
+                        $list->id => [
+                            'order' => $order,
+                            'team_id' => $team->id
+                        ]
+                    ]);
+                }
             }
         }
     }

@@ -13,7 +13,8 @@ class UserList extends Model
     protected $fillable = [
         'name',
         'user_id',
-        'emoji'
+        'emoji',
+        'team_id'
     ];
 
     public function creators()
@@ -36,10 +37,11 @@ class UserList extends Model
             $list = UserList::create([
                 'user_id' => $userId,
                 'name' => $listName,
+                'team_id' => $user->currentTeam->id
             ]);
             $syncData = [];
-            array_map(function ($value) use (&$syncData) {
-                return $syncData[$value] = ['order' => 0];
+            array_map(function ($value) use (&$syncData, $user) {
+                return $syncData[$value] = ['order' => 0, 'team_id' => $user->currentTeam->id];
             }, $teamUsers);
             $list->userListAttributes()->sync($syncData);
             foreach ($teamUsers as $userId) {
@@ -53,13 +55,14 @@ class UserList extends Model
     public static function updateSortOrder($listId, $userId, $newIndex = 0, $oldIndex = 0)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
+        $userListIds = UserList::where('team_id', $user->currentTeam->id)->pluck('id')->toArray();
+        $userListIdsToUpdate = array_diff($userListIds, [$listId]);
         DB::beginTransaction();
         if ($newIndex > $oldIndex) {
             // update user list set order = order-1 where order <= newIndex and id != listID
             UserListAttribute::where('order', '<=', $newIndex)
-                ->where('user_list_id', '!=', $listId)
+                ->whereIn('user_list_id', $userListIdsToUpdate)
                 ->where('user_id', $userId)
-                ->where('team_id', $user->currentTeam->id)
                 ->update(['order' => (DB::raw('`order` - 1'))]);
             // update userlist set order = newOrder where id = listId
             UserListAttribute::where('user_list_id', $listId)
@@ -68,19 +71,18 @@ class UserList extends Model
         } else { // newIndex < $oldIndex
             // update user list set order = order+1 where order >= newIndex and id != listID
             UserListAttribute::where('order', '>=', $newIndex)
-                ->where('user_list_id', '!=', $listId)
+                ->whereIn('user_list_id', $userListIdsToUpdate)
                 ->where('user_id', $userId)
-                ->where('team_id', $user->currentTeam->id)
                 ->update(['order' => (DB::raw('`order` + 1'))]);
             // update userlist set order = newOrder where id = listId
             UserListAttribute::where('user_list_id', $listId)
                 ->where('user_id', $userId)
                 ->update(['order' => $newIndex]);
         }
-        $listOrders = UserListAttribute::where('user_id', $userId)->where('team_id', $user->currentTeam->id)->orderBy('order')->get();
+        $listOrders = UserListAttribute::where('user_id', $userId)->whereIn('user_list_id', $userListIds)->orderBy('order')->get();
         foreach ($listOrders as $k => $list) {
-            $listOrders->order = $k;
-            $listOrders->save();
+            $list->order = $k;
+            $list->save();
         }
         DB::commit();
         return true;
@@ -89,7 +91,19 @@ class UserList extends Model
     public static function getLists($userId)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
-        return UserList::query()->where('team_id', $user->currentTeam->id)->get();
+        return DB::table('user_lists as ul')
+            ->join('user_list_attributes as ula', function ($join) use ($user) {
+                $join->on('ula.user_list_id', '=', 'ul.id')
+                    ->where('ula.user_id', $user->id)
+                    ->where('ula.team_id', $user->currentTeam->id);
+            })
+            ->where('ul.team_id', $user->currentTeam->id)
+            ->select('ul.*', 'ula.order')->orderBy('order')->get();
+    }
+
+    public static function getListsByTeam($teamId)
+    {
+        return UserList::query()->where('team_id', $teamId)->get();
     }
 
     public function userListAttributes()

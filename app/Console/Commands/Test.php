@@ -62,7 +62,10 @@ class Test extends Command
      */
     public function handle()
     {
-        UserList::firstOrCreateList(1, 'test');
+//        $user = User::with('currentTeam.users')->where('id', 1)->first();
+//        $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
+//dd($teamUsers);
+        UserList::firstOrCreateList(1, 'test test final');
 //        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
 //        foreach ($users as $user) {
 //            foreach ($user->pendingImports as $import) {
