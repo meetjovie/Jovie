@@ -62,7 +62,7 @@ class UserListsController extends Controller
         }
 
         $user = User::currentLoggedInUser();
-        $pinnedCount = UserListAttribute::where('user_id', $user->id)->where('user_list_id', $id)->where('pinned', 1)->count();
+        $pinnedCount = UserListAttribute::where('user_id', $user->id)->where('team_id', $user->currentTeam->id)->where('pinned', 1)->count();
         if ($pinnedCount >= 5) {
             return response()->json([
                 'status' => false,
