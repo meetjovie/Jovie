@@ -1,134 +1,174 @@
 <template>
-  <slot name="sidebar">
-    <div>
-      <div class="flex-col py-1">
-        <button
-          class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
-          :class="[
-            selected
-              ? 'text-sm font-bold text-neutral-500  '
-              : 'text-sm font-semibold text-neutral-400',
-          ]">
-          <div class="flex items-center text-xs">
-            <UserGroupIcon
-              class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
-              aria-hidden="true" />
-            All Contacts
-          </div>
+  <div class="h-full">
+    <div id="crm" class="mx-auto flex h-full w-full min-w-full">
+      <div class="flex h-full w-full">
+        <TransitionRoot
+          :show="$store.state.CRMSidebarOpen"
+          enter="transition ease-in-out duration-300 transform"
+          enter-from="-translate-x-full"
+          enter-to="translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leave-from="translate-x-0"
+          leave-to="-translate-x-full">
           <div
-            @click="showCreatorModal = true"
-            class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
-            <span
-              class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
-              >{{ creators.length }}</span
-            >
+            class="top-0 z-30 mx-auto -mt-10 flex h-screen w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 px-2 py-4 pb-2 shadow-xl">
+            <div>
+              <div class="mt-10 flex-col py-1">
+                <button
+                  class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
+                  :class="[
+                    selected
+                      ? 'text-sm font-bold text-neutral-500  '
+                      : 'text-sm font-semibold text-neutral-400',
+                  ]">
+                  <div class="flex items-center text-xs">
+                    <UserGroupIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
+                      aria-hidden="true" />
+                    All Contacts
+                  </div>
+                  <div
+                    @click="showCreatorModal = true"
+                    class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                    <span
+                      class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                      >{{ creators.length }}</span
+                    >
 
-            <PlusIcon
-              class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
-          </div>
-        </button>
+                    <PlusIcon
+                      class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
+                  </div>
+                </button>
 
-        <button
-          class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
-          :class="[
-            selected
-              ? 'text-sm font-bold text-neutral-500 '
-              : 'text-sm font-semibold text-neutral-400',
-          ]">
-          <div class="flex items-center text-xs">
-            <ArchiveIcon
-              class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-              aria-hidden="true" />Archived
-          </div>
-          <div class="items-center rounded-md p-1 hover:text-gray-50">
-            <span
-              class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-              >{{ creators.length }}</span
-            >
-          </div>
-        </button>
+                <button
+                  class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                  :class="[
+                    selected
+                      ? 'text-sm font-bold text-neutral-500 '
+                      : 'text-sm font-semibold text-neutral-400',
+                  ]">
+                  <div class="flex items-center text-xs">
+                    <ArchiveIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                      aria-hidden="true" />Archived
+                  </div>
+                  <div class="items-center rounded-md p-1 hover:text-gray-50">
+                    <span
+                      class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                      >{{ creators.length }}</span
+                    >
+                  </div>
+                </button>
 
-        <button
-          class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
-          :class="[
-            selected
-              ? 'text-sm font-bold text-neutral-500 '
-              : 'text-sm font-semibold text-neutral-400',
-          ]">
-          <div class="flex items-center text-xs">
-            <HeartIcon
-              class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
-              aria-hidden="true" />Favorites
+                <button
+                  class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                  :class="[
+                    selected
+                      ? 'text-sm font-bold text-neutral-500 '
+                      : 'text-sm font-semibold text-neutral-400',
+                  ]">
+                  <div class="flex items-center text-xs">
+                    <HeartIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                      aria-hidden="true" />Favorites
+                  </div>
+                  <div class="items-center rounded-md p-1 hover:text-gray-50">
+                    <span
+                      class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                      >{{ creators.length }}</span
+                    >
+                  </div>
+                </button>
+              </div>
+              <div class="flex-col space-y-4 py-4">
+                <MenuList
+                  menuName="Pinned"
+                  :draggable="false"
+                  @end="sortLists"
+                  :menuItems="filteredUsersLists"></MenuList>
+                <MenuList
+                  menuName="Lists"
+                  :draggable="true"
+                  @end="sortLists"
+                  :menuItems="filteredUsersLists"></MenuList>
+              </div>
+            </div>
+            <div class="flex-shrink-0">
+              <SwitchTeams />
+              <div
+                v-if="!currentUser.current_team.credits"
+                as="router-link"
+                to="/billing"
+                class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+                Upgrade
+              </div>
+              <div class="mt-1 py-1">
+                <ProgressBar
+                  :percentage="
+                    100 -
+                    (currentUser.current_team.credits /
+                      (currentUser.current_team.current_subscription?.credits ||
+                        10)) *
+                      100
+                  "
+                  :label="
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) -
+                    currentUser.current_team.credits +
+                    ' of ' +
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) +
+                    ' contacts'
+                  " />
+              </div>
+            </div>
           </div>
-          <div class="items-center rounded-md p-1 hover:text-gray-50">
-            <span
-              class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-              >{{ creators.length }}</span
-            >
-          </div>
-        </button>
-      </div>
-    </div>
-    <div class="flex-col space-y-4 py-4">
-      <MenuList
-        menuName="Pinned"
-        :draggable="false"
-        @end="sortLists"
-        :menuItems="filteredUsersLists"></MenuList>
-      <MenuList
-        menuName="Lists"
-        :draggable="true"
-        @end="sortLists"
-        :menuItems="filteredUsersLists"></MenuList>
-    </div>
-  </slot>
-  <div id="crm" class="mx-auto flex w-full min-w-full">
-    <div class="flex h-full">
-      <div class="w-full">
-        <div class="mx-auto w-full min-w-full">
-          <div class="w-full">
-            <div class="flex w-full flex-col">
-              <div class="mx-auto w-full p-0">
-                <div class="inline-block w-full align-middle">
-                  <div class="">
-                    <div
-                      v-if="!loading && creators.length < 1"
-                      class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                      <div class="mx-auto max-w-xl">
-                        <div
-                          class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                          <div>
-                            <h1 class="text-md font-bold">
-                              You don't have any contacts yet.
-                            </h1>
-                            <span class="text-sm font-medium text-neutral-500"
-                              >Enter a Twitch or Instagram url to add someone to
-                              Jovie.</span
-                            >
+        </TransitionRoot>
+        <div class="w-full">
+          <div class="mx-auto w-full min-w-full">
+            <div class="w-full">
+              <div class="flex w-full flex-col">
+                <div class="mx-auto w-full p-0">
+                  <div class="inline-block w-full align-middle">
+                    <div class="">
+                      <div
+                        v-if="!loading && creators.length < 1"
+                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                        <div class="mx-auto max-w-xl">
+                          <div
+                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                            <div>
+                              <h1 class="text-md font-bold">
+                                You don't have any contacts yet.
+                              </h1>
+                              <span class="text-sm font-medium text-neutral-500"
+                                >Enter a Twitch or Instagram url to add someone
+                                to Jovie.</span
+                              >
+                            </div>
+                            <SocialInput class="py-12" />
+                            <InternalMarketingChromeExtension class="mt-24" />
                           </div>
-                          <SocialInput class="py-12" />
-                          <InternalMarketingChromeExtension class="mt-24" />
                         </div>
                       </div>
-                    </div>
 
-                    <CrmTable
-                      v-else
-                      @updateCreator="updateCreator"
-                      @pageChanged="pageChanged"
-                      :creators="creators"
-                      :networks="networks"
-                      :stages="stages"
-                      :creatorsMeta="creatorsMeta"
-                      :loading="loading" />
+                      <CrmTable
+                        v-else
+                        @updateCreator="updateCreator"
+                        @pageChanged="pageChanged"
+                        :creators="creators"
+                        :networks="networks"
+                        :stages="stages"
+                        :creatorsMeta="creatorsMeta"
+                        :loading="loading" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!--  <TabPanel>
+          <!--  <TabPanel>
               <div class="mx-auto w-full min-w-full">
                 <div class="w-full">
                   <div class="flex w-full flex-col">
@@ -151,10 +191,11 @@
                 </div>
               </div>
             </TabPanel> -->
+        </div>
       </div>
-    </div>
 
-    <ImportCreatorModal :open="showCreatorModal" />
+      <ImportCreatorModal :open="showCreatorModal" />
+    </div>
   </div>
 </template>
 
@@ -205,7 +246,6 @@ export default {
     TabGroup,
     HeartIcon,
     ProgressBar,
-
     TabList,
     Tab,
     InternalMarketingChromeExtension,
@@ -222,6 +262,7 @@ export default {
     ComboboxOptions,
     ComboboxOption,
     Menu,
+
     MenuButton,
     MenuItems,
     MenuItem,
