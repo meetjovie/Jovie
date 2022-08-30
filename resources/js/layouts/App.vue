@@ -54,7 +54,6 @@
       <div
         class="fixed inset-0 bg-neutral-600 bg-opacity-75"
         aria-hidden="true"></div>
-
       <div
         id="sidebar"
         class="relative flex w-full flex-1 flex-col bg-neutral-500/50 pt-5 pb-4 backdrop-blur-md">
@@ -71,15 +70,47 @@
       </div>
     </div>
     <!-- Narrow sidebar -->
-
-    <!-- <div
-      class="border-r-1 z-30 mx-auto hidden h-screen w-14 flex-col justify-between overflow-hidden bg-indigo-700 pb-2 transition duration-300 ease-in-out"
-      :class="[
-        { 'transform-x-40': previewAppMenu },
-        { 'transform-x-20': !previewAppMenu },
-        { 'md:hidden': !showAppMenu },
-        { 'md:flex': showAppMenu },
-      ]">
+    <TransitionRoot
+      :show="$store.state.CRMSidebarOpen"
+      enter="transition ease-in-out duration-300 transform"
+      enter-from="-translate-x-full"
+      enter-to="translate-x-0"
+      leave="transition ease-in-out duration-300 transform"
+      leave-from="translate-x-0"
+      leave-to="-translate-x-full">
+      <div
+        class="z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 pb-2 shadow-xl">
+        <slot name="sidebar"></slot>
+        <div class="flex-shrink-0 px-1">
+          <SwitchTeams />
+          <div
+            v-if="!currentUser.current_team.credits"
+            as="router-link"
+            to="/billing"
+            class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+            Upgrade
+          </div>
+          <div class="mt-1 py-1">
+            <ProgressBar
+              :percentage="
+                100 -
+                (currentUser.current_team.credits /
+                  (currentUser.current_team.current_subscription?.credits ||
+                    10)) *
+                  100
+              "
+              :label="
+                (currentUser.current_team.current_subscription?.credits || 10) -
+                currentUser.current_team.credits +
+                ' of ' +
+                (currentUser.current_team.current_subscription?.credits || 10) +
+                ' contacts'
+              " />
+          </div>
+        </div>
+      </div>
+    </TransitionRoot>
+    <!--
       <div
         class="mx-auto flex w-full flex-col items-center justify-center py-4 text-center">
         <a href="/">
@@ -563,6 +594,7 @@ import {
   PopoverButton,
   PopoverPanel,
   PopoverGroup,
+  TransitionRoot,
 } from '@headlessui/vue';
 
 import AlertBanner from '../components/AlertBanner';
@@ -570,6 +602,7 @@ import JovieLogo from '../components/JovieLogo';
 import CommandPallette from '../components/CommandPallette';
 import ImportService from '../services/api/import.service';
 import ProgressBar from '../components/ProgressBar.vue';
+import SwitchTeams from '../components/SwitchTeams.vue';
 
 export default {
   name: 'App',
@@ -679,6 +712,7 @@ export default {
     BellIcon,
     SpeakerphoneIcon,
     MailIcon,
+    SwitchTeams,
     CursorClickIcon,
     ChartBarIcon,
     CheckCircleIcon,
@@ -691,7 +725,7 @@ export default {
     LogoutIcon,
     SwitchHorizontalIcon,
     JovieLogo,
-
+    TransitionRoot,
     Popover,
     PopoverButton,
     PopoverPanel,
