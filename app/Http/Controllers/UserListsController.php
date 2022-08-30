@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserList;
+use App\Models\UserListAttribute;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use function collect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,5 +50,46 @@ class UserListsController extends Controller
                 'error' => $e->getMessage()
             ], 200);
         }
+    }
+
+    public function pinList($id)
+    {
+        $list = UserList::where('id', $id)->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
+
+        $user = User::currentLoggedInUser();
+        $pinnedCount = UserListAttribute::where('user_id', $user->id)->where('user_list_id', $id)->where('pinned', 1)->count();
+        if ($pinnedCount >= 5) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You can not pin more than 5 lists.'
+            ], 200);
+        }
+
+        UserListAttribute::where('user_id', $user->id)->where('user_list_id', $id)->update(['pinned' => 1]);
+        return response()->json([
+            'status' => true,
+            'message' => 'List pinned.'
+        ], 200);
+    }
+
+    public function unpinList($id)
+    {
+        $list = UserList::where('id', $id)->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
+
+        UserListAttribute::where('user_id', Auth::id())->where('user_list_id', $id)->update(['pinned' => 0]);
+        return response()->json([
+            'status' => true,
+            'message' => 'List unpinned.'
+        ], 200);
     }
 }

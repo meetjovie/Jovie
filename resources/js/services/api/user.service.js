@@ -95,4 +95,10 @@ export default {
   async sortLists(data, id) {
     return axios.post(`${baseApiUrl}/sort-user-lists/${id}`, data);
   },
+  async pinList(id) {
+    return axios.post(`${baseApiUrl}/pin-user-lists/${id}`);
+  },
+  async unpinList(id) {
+    return axios.post(`${baseApiUrl}/unpin-user-lists/${id}`);
+  },
 };

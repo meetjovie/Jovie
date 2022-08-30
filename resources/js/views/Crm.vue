@@ -92,12 +92,12 @@
               </div>
               <div class="flex-col space-y-4 py-4">
                 <MenuList
+                    @getUserLists="getUserLists"
                   menuName="Pinned"
-                  :draggable="false"
-                  @end="sortLists"
-                  :menuItems="filteredUsersLists"></MenuList>
+                  :menuItems="pinnedUserLists"></MenuList>
                 <MenuList
-                  menuName="Lists"
+                    @getUserLists="getUserLists"
+                    menuName="Lists"
                   :draggable="true"
                   @end="sortLists"
                   :menuItems="filteredUsersLists"></MenuList>
@@ -358,6 +358,9 @@ export default {
         list.name.toLowerCase().match(this.searchList.toLowerCase())
       );
     },
+      pinnedUserLists() {
+        return this.userLists.filter(list => list.pinned)
+      }
   },
   mounted() {
     this.getUserLists();
@@ -365,11 +368,6 @@ export default {
   },
   methods: {
     sortLists(e, listId) {
-      console.log('e');
-      console.log(e);
-      console.log(e.item.id);
-      console.log('e');
-
       UserService.sortLists(
         { newIndex: e.newIndex, oldIndex: e.oldIndex },
         e.item.id

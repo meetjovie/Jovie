@@ -98,6 +98,7 @@
                         </MenuItem>
                         <MenuItem v-slot="{ active }">
                           <button
+                              @click="pinList(element.id)"
                             :class="[
                               active
                                 ? 'bg-gray-300 text-gray-700'
@@ -219,6 +220,7 @@
                     </MenuItem>
                     <MenuItem v-slot="{ active }">
                       <button
+                          @click="unpinList(item.id)"
                         :class="[
                           active
                             ? 'bg-gray-300 text-gray-700'
@@ -275,6 +277,7 @@ import {
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import draggable from 'vuedraggable';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
+import UserService from "../services/api/user.service";
 
 export default {
   data() {
@@ -296,6 +299,86 @@ export default {
     disableEditName(item) {
       item.editName = false;
     },
+      pinList(id) {
+          UserService.pinList(id)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  } else {
+                      // show toast error here later
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: this.errors.list[0],
+                      });
+                  }
+              })
+              .finally((response) => {
+                  this.$emit('getUserLists')
+              });
+      },
+      unpinList(id) {
+          UserService.unpinList(id)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  } else {
+                      // show toast error here later
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: this.errors.list[0],
+                      });
+                  }
+              })
+              .finally((response) => {
+                  this.$emit('getUserLists')
+              });
+      }
   },
   components: {
     ChevronRightIcon,

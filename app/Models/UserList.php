@@ -98,7 +98,7 @@ class UserList extends Model
                     ->where('ula.team_id', $user->currentTeam->id);
             })
             ->where('ul.team_id', $user->currentTeam->id)
-            ->select('ul.*', 'ula.order')->orderBy('order')->get();
+            ->select('ul.*', 'ula.order', 'ula.pinned')->orderBy('order')->get();
     }
 
     public static function getListsByTeam($teamId)

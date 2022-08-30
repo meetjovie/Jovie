@@ -42,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     //      USER LISTS
     Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
     Route::post('/sort-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'sortLists']);
+    Route::post('/pin-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'pinList']);
+    Route::post('/unpin-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'unpinList']);
 
     //      CRM
     Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
