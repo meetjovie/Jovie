@@ -27,7 +27,7 @@
                   v-if="notification.type === 'error'"
                   class="h-4 w-4 text-red-500" />
                 <ExclamationIcon
-                  v-if="notification.type === 'warning'"
+                  v-else-if="notification.type === 'warning'"
                   class="h-4 w-4 text-amber-500" />
                 <CheckCircleIcon
                   v-else
