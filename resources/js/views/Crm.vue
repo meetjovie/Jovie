@@ -82,12 +82,12 @@
               </div>
               <div class="flex-col space-y-4 py-4">
                 <MenuList
-                    @getUserLists="getUserLists"
+                  @getUserLists="getUserLists"
                   menuName="Pinned"
                   :menuItems="pinnedUserLists"></MenuList>
                 <MenuList
-                    @getUserLists="getUserLists"
-                    menuName="Lists"
+                  @getUserLists="getUserLists"
+                  menuName="Lists"
                   :draggable="true"
                   @end="sortLists"
                   :menuItems="filteredUsersLists"></MenuList>
@@ -369,6 +369,13 @@ export default {
               text: response.message,
             });
           } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
             // show toast error here later
           }
         })
@@ -377,13 +384,13 @@ export default {
           if (error.status == 422) {
             this.errors = error.data.errors;
             if (this.errors.list[0]) {
-                this.$notify({
-                    group: 'user',
-                    type: 'success',
-                    duration: 15000,
-                    title: 'Successful',
-                    text: this.errors.list[0],
-                });
+              this.$notify({
+                group: 'user',
+                type: 'success',
+                duration: 15000,
+                title: 'Successful',
+                text: this.errors.list[0],
+              });
             }
           }
         })

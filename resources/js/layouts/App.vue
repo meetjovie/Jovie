@@ -22,22 +22,29 @@
               class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-neutral-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150"
               v-for="notification in notifications"
               :key="notification.id">
-              <div class="flex w-12 items-center justify-center bg-indigo-500">
-                <svg
-                  class="h-6 w-6 fill-current text-white"
-                  viewBox="0 0 40 40"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z" />
-                </svg>
+              <div class="flex w-10 items-center justify-center bg-neutral-200">
+                <XIcon
+                  v-if="notification.type === 'error'"
+                  class="h-4 w-4 text-red-500" />
+                <ExclamationIcon
+                  v-if="notification.type === 'warning'"
+                  class="h-4 w-4 text-amber-500" />
+                <CheckCircleIcon
+                  v-else
+                  class="h-4 w-4"
+                  :class="[
+                    { 'text-red-500': notification.type === 'error' },
+                    { 'text-green-500': notification.type === 'success' },
+                    { 'text-amber-500': notification.type === 'warning' },
+                  ]" />
               </div>
 
               <div class="-mx-3 px-4 py-2">
                 <div class="mx-3">
-                  <span class="font-semibold text-indigo-500">{{
+                  <span class="text-xs font-semibold text-neutral-600">{{
                     notification.title
                   }}</span>
-                  <p class="text-sm text-gray-600">{{ notification.text }}</p>
+                  <p class="text-xs text-gray-400">{{ notification.text }}</p>
                 </div>
               </div>
             </div>
@@ -492,12 +499,14 @@ import {
   ChartBarIcon,
   ChevronLeftIcon,
   CheckCircleIcon,
+  ExclamationIcon,
   CreditCardIcon,
   CloudUploadIcon,
   UserGroupIcon,
   FolderOpenIcon,
   CogIcon,
   UserIcon,
+  XIcon,
   BellIcon,
   CursorClickIcon,
   ChatAltIcon,
@@ -525,6 +534,7 @@ import CommandPallette from '../components/CommandPallette';
 import ImportService from '../services/api/import.service';
 import ProgressBar from '../components/ProgressBar.vue';
 import SwitchTeams from '../components/SwitchTeams.vue';
+import XCircle from '../../../vendor/laravel/vapor-ui/resources/js/components/icons/XCircle.vue';
 
 export default {
   name: 'App',
@@ -647,17 +657,20 @@ export default {
     LogoutIcon,
     SwitchHorizontalIcon,
     JovieLogo,
+    XIcon,
     TransitionRoot,
     Popover,
     PopoverButton,
     PopoverPanel,
     PopoverGroup,
     SupportIcon,
+    ExclamationIcon,
     AlertBanner,
     CommandPallette,
     EmojiHappyIcon,
     ProgressBar,
     UserIcon,
+    XCircle,
   },
 };
 </script>
