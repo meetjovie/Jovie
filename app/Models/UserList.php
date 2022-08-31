@@ -110,4 +110,12 @@ class UserList extends Model
     {
         return $this->belongsToMany(User::class, 'user_list_attributes')->withTimestamps();
     }
+
+    public function duplicateList($userId)
+    {
+        $newListName = ($this->name.' - copy');
+        $newList = self::firstOrCreateList($userId, $newListName);
+        $creatorIds = DB::table('creator_user_list')->where('user_list_id', $this->id)->pluck('creator_id')->toArray();
+        $newList->creators()->sync($creatorIds);
+    }
 }

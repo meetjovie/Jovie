@@ -83,6 +83,7 @@
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button
+                              @click="duplicateList(element.id)"
                             :class="[
                               active
                                 ? 'bg-gray-300 text-gray-700'
@@ -205,7 +206,8 @@
                   <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                       <button
-                        :class="[
+                          @click="duplicateList(item.id)"
+                          :class="[
                           active
                             ? 'bg-gray-300 text-gray-700'
                             : 'text-gray-900',
@@ -299,6 +301,48 @@ export default {
     disableEditName(item) {
       item.editName = false;
     },
+      duplicateList(id) {
+          UserService.duplicateList(id)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  } else {
+                      // show toast error here later
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                      if (this.errors.list[0]) {
+                          this.$notify({
+                              group: 'user',
+                              type: 'success',
+                              duration: 15000,
+                              title: 'Successful',
+                              text: this.errors.list[0],
+                          });
+                      }
+                  }
+              })
+              .finally((response) => {
+                  this.$emit('getUserLists')
+              });
+      },
       pinList(id) {
           UserService.pinList(id)
               .then((response) => {
@@ -326,13 +370,15 @@ export default {
                   error = error.response;
                   if (error.status == 422) {
                       this.errors = error.data.errors;
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: this.errors.list[0],
-                      });
+                      if (this.errors.list[0]) {
+                          this.$notify({
+                              group: 'user',
+                              type: 'success',
+                              duration: 15000,
+                              title: 'Successful',
+                              text: this.errors.list[0],
+                          });
+                      }
                   }
               })
               .finally((response) => {
@@ -366,13 +412,15 @@ export default {
                   error = error.response;
                   if (error.status == 422) {
                       this.errors = error.data.errors;
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: this.errors.list[0],
-                      });
+                      if (this.errors.list[0]) {
+                          this.$notify({
+                              group: 'user',
+                              type: 'success',
+                              duration: 15000,
+                              title: 'Successful',
+                              text: this.errors.list[0],
+                          });
+                      }
                   }
               })
               .finally((response) => {

@@ -376,6 +376,15 @@ export default {
           error = error.response;
           if (error.status == 422) {
             this.errors = error.data.errors;
+            if (this.errors.list[0]) {
+                this.$notify({
+                    group: 'user',
+                    type: 'success',
+                    duration: 15000,
+                    title: 'Successful',
+                    text: this.errors.list[0],
+                });
+            }
           }
         })
         .finally((response) => {});

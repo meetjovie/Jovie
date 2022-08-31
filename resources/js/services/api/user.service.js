@@ -101,4 +101,7 @@ export default {
   async unpinList(id) {
     return axios.post(`${baseApiUrl}/unpin-user-lists/${id}`);
   },
+  async duplicateList(id) {
+    return axios.post(`${baseApiUrl}/duplicate-list/${id}`);
+  },
 };

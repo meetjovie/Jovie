@@ -24,6 +24,13 @@ class UserListsController extends Controller
 
     public function sortLists(Request $request, $id)
     {
+        $list = UserList::where('id', $id)->where('user_id', Auth::id())->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
+
         $request->validate([
             'newIndex' => 'required|integer',
             'oldIndex' => 'required|integer'
@@ -54,7 +61,7 @@ class UserListsController extends Controller
 
     public function pinList($id)
     {
-        $list = UserList::where('id', $id)->first();
+        $list = UserList::where('id', $id)->where('user_id', Auth::id())->first();
         if (!$list) {
             throw ValidationException::withMessages([
                 'list' => ['List does not exists']
@@ -79,7 +86,7 @@ class UserListsController extends Controller
 
     public function unpinList($id)
     {
-        $list = UserList::where('id', $id)->first();
+        $list = UserList::where('id', $id)->where('user_id', Auth::id())->first();
         if (!$list) {
             throw ValidationException::withMessages([
                 'list' => ['List does not exists']
@@ -90,6 +97,21 @@ class UserListsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'List unpinned.'
+        ], 200);
+    }
+
+    public function duplicateList($id)
+    {
+        $list = UserList::where('id', $id)->where('user_id', Auth::id())->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
+        $list->duplicateList(Auth::id());
+        return response()->json([
+            'status' => true,
+            'message' => 'List duplicated.'
         ], 200);
     }
 }
