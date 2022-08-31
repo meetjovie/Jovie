@@ -61,32 +61,34 @@ class UserList extends Model
         return new UserList();
     }
 
-    public static function updateSortOrder($listId, $userId, $newIndex = 0, $oldIndex = 0)
+    public static function updateSortOrder($listId = null, $userId, $newIndex = 0, $oldIndex = 0)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         $userListIds = UserList::where('team_id', $user->currentTeam->id)->pluck('id')->toArray();
         $userListIdsToUpdate = array_diff($userListIds, [$listId]);
         DB::beginTransaction();
-        if ($newIndex > $oldIndex) {
-            // update user list set order = order-1 where order <= newIndex and id != listID
-            UserListAttribute::where('order', '<=', $newIndex)
-                ->whereIn('user_list_id', $userListIdsToUpdate)
-                ->where('user_id', $userId)
-                ->update(['order' => (DB::raw('`order` - 1'))]);
-            // update userlist set order = newOrder where id = listId
-            UserListAttribute::where('user_list_id', $listId)
-                ->where('user_id', $userId)
-                ->update(['order' => $newIndex]);
-        } else { // newIndex < $oldIndex
-            // update user list set order = order+1 where order >= newIndex and id != listID
-            UserListAttribute::where('order', '>=', $newIndex)
-                ->whereIn('user_list_id', $userListIdsToUpdate)
-                ->where('user_id', $userId)
-                ->update(['order' => (DB::raw('`order` + 1'))]);
-            // update userlist set order = newOrder where id = listId
-            UserListAttribute::where('user_list_id', $listId)
-                ->where('user_id', $userId)
-                ->update(['order' => $newIndex]);
+        if (!is_null($listId)) {
+            if ($newIndex > $oldIndex) {
+                // update user list set order = order-1 where order <= newIndex and id != listID
+                UserListAttribute::where('order', '<=', $newIndex)
+                    ->whereIn('user_list_id', $userListIdsToUpdate)
+                    ->where('user_id', $userId)
+                    ->update(['order' => (DB::raw('`order` - 1'))]);
+                // update userlist set order = newOrder where id = listId
+                UserListAttribute::where('user_list_id', $listId)
+                    ->where('user_id', $userId)
+                    ->update(['order' => $newIndex]);
+            } elseif ($newIndex < $oldIndex) { // newIndex < $oldIndex
+                // update user list set order = order+1 where order >= newIndex and id != listID
+                UserListAttribute::where('order', '>=', $newIndex)
+                    ->whereIn('user_list_id', $userListIdsToUpdate)
+                    ->where('user_id', $userId)
+                    ->update(['order' => (DB::raw('`order` + 1'))]);
+                // update userlist set order = newOrder where id = listId
+                UserListAttribute::where('user_list_id', $listId)
+                    ->where('user_id', $userId)
+                    ->update(['order' => $newIndex]);
+            }
         }
         $listOrders = UserListAttribute::where('user_id', $userId)->whereIn('user_list_id', $userListIds)->orderBy('order')->get();
         foreach ($listOrders as $k => $list) {

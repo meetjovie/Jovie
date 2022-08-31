@@ -104,4 +104,7 @@ export default {
   async duplicateList(id) {
     return axios.post(`${baseApiUrl}/duplicate-list/${id}`);
   },
+  async deleteList(id) {
+    return axios.post(`${baseApiUrl}/delete-list/${id}?_method=DELETE`);
+  },
 };

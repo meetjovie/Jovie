@@ -65,7 +65,7 @@ class Test extends Command
 //        $user = User::with('currentTeam.users')->where('id', 1)->first();
 //        $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
 //dd($teamUsers);
-        UserList::firstOrCreateList(1, 'test test final asa');
+        UserList::firstOrCreateList(1, 'test test final asa 123123123');
 //        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
 //        foreach ($users as $user) {
 //            foreach ($user->pendingImports as $import) {

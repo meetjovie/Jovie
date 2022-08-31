@@ -53,20 +53,17 @@
               <div
                 class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
+                    :disabled="loading"
                   type="button"
                   class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                  @click="
-                    {
-                      open = false;
-                    }
-                    this.$emit('primaryButtonClick');
-                  ">
-                  {{ primarybuttontext }}
+                  @click="$emit('primaryButtonClick')">
+                  {{ primaryButtonText }}
                 </button>
                 <button
+                    :disabled="loading"
+                  @click="$emit('cancelButtonClick')"
                   type="button"
                   class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                  @click="open = false"
                   ref="cancelButtonRef">
                   Cancel
                 </button>
@@ -79,42 +76,51 @@
   </TransitionRoot>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script>
+
 import {
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot,
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+    TransitionChild,
+    TransitionRoot,
 } from '@headlessui/vue';
 import { ExclamationIcon } from '@heroicons/vue/outline';
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: 'Are you sure?',
-  },
-  description: {
-    type: String,
-    default:
-      'Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.',
-  },
-  primarybuttontext: {
-    type: String,
-    default: 'Deactivate',
-  },
-  modalType: {
-    type: String,
-    default: 'error',
-  },
-  open: {
-    type: Boolean,
-    default: false,
-  },
-  primaryButtonClick: {
-    type: Function,
-    default: null,
-  },
-});
+export default {
+    components: {
+        Dialog,
+        DialogTitle,
+        DialogPanel,
+        TransitionRoot,
+        TransitionChild,
+        ExclamationIcon
+    },
+    props: {
+        title: {
+            type: String,
+            default: 'Are you sure?',
+        },
+        description: {
+            type: String,
+            default: 'Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.',
+        },
+        primaryButtonText: {
+            type: String,
+            default: 'Deactivate',
+        },
+        modalType: {
+            type: String,
+            default: 'error',
+        },
+        open: {
+            type: Boolean,
+            default: false
+        },
+        loading: {
+            type: Boolean,
+            default: false
+        }
+    }
+}
 </script>

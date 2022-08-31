@@ -114,4 +114,26 @@ class UserListsController extends Controller
             'message' => 'List duplicated.'
         ], 200);
     }
+
+    public function deleteList($id)
+    {
+        $list = UserList::where('id', $id)->where('user_id', Auth::id())->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
+        $deleted = $list->delete();
+        if ($deleted) {
+            UserList::updateSortOrder(null, Auth::id());
+            return response()->json([
+                'status' => true,
+                'message' => 'List deleted.'
+            ], 200);
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'Try again.'
+        ], 200);
+    }
 }
