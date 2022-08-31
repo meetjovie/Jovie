@@ -106,7 +106,8 @@ class ImportController extends Controller
             );
             $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
             $listName = $request->listName;
-            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
+            $user = User::currentLoggedInUser();
+            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, $user->id, $user->currentTeam->id);
         }
 
         return $filePath;

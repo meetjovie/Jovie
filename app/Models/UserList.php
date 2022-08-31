@@ -22,9 +22,18 @@ class UserList extends Model
         return $this->belongsToMany(Creator::class)->withTimestamps();
     }
 
-    public static function firstOrCreateList($userId, $listName)
+    public static function firstOrCreateList($userId, $listName, $teamId = null)
     {
-        $user = User::with('currentTeam.users')->where('id', $userId)->first();
+        $team = null;
+        if ($teamId) {
+            $team = Team::with('users')->where('id', $teamId)->first();
+        }
+        if ($teamId) {
+            $user = User::where('id', $userId)->first();
+            $user->currentTeam = $team;
+        } else {
+            $user = User::with('currentTeam.users')->where('id', $userId)->first();
+        }
         if ($user) {
             $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
             $exists = UserList::whereRaw('TRIM(LOWER(name)) = ?', [strtolower(trim($listName))])->whereIn('user_id', $teamUsers)->first();
