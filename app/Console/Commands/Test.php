@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\UserList;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 use function Clue\StreamFilter\fun;
 use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
@@ -65,7 +66,24 @@ class Test extends Command
 //        $user = User::with('currentTeam.users')->where('id', 1)->first();
 //        $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
 //dd($teamUsers);
-        UserList::firstOrCreateList(1, 'test test final asa 123123123');
+        Schema::disableForeignKeyConstraints();
+        $list = UserList::firstOrCreateList(1, 'large file 22');
+        $creatorIds = [];
+        $listId = $list->id;
+        for ($i=1; $i<=1000000; $i++) {
+            $creatorIds[] = [
+                'user_list_id' => $listId,
+                'creator_id' => $i
+            ];
+        }
+        $creatorIds = collect($creatorIds);
+        $chunks = $creatorIds->chunk(1000);
+        foreach ($chunks as $k => $chunk) {
+            $list->creators()->syncWithoutDetaching($chunk->toArray());
+            dump($k);
+            sleep(2);
+        }
+//        $list->creators()->sync($creatorIds);
 //        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
 //        foreach ($users as $user) {
 //            foreach ($user->pendingImports as $import) {

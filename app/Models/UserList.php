@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\DuplicateList;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -126,7 +127,9 @@ class UserList extends Model
     {
         $newListName = ($this->name.' - copy');
         $newList = self::firstOrCreateList($userId, $newListName);
-        $creatorIds = DB::table('creator_user_list')->where('user_list_id', $this->id)->pluck('creator_id')->toArray();
-        $newList->creators()->sync($creatorIds);
+        $totalCreatorsCount = DB::table('creator_user_list')->where('user_list_id', $this->id)->count();
+        for ($i=0; $i<$totalCreatorsCount; $i+=500) {
+            DuplicateList::dispatch($i, 500, $newList->id, $this->id);
+        }
     }
 }
