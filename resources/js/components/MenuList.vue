@@ -14,10 +14,9 @@
         {{ menuName }}
       </div>
       <div class="flex items-center">
-        <div class="group rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
-          <PlusIcon
-            v-if="draggable"
-            class="h-4 w-4 text-gray-400 hover:text-gray-50"></PlusIcon>
+        <div
+          class="group rounded-md p-1 text-gray-400 hover:bg-gray-300 hover:text-gray-50">
+          <PlusIcon v-if="draggable" class="h-4 w-4"></PlusIcon>
         </div>
       </div>
     </div>
@@ -30,7 +29,7 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <div
-              class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
+              class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200 active:shadow-xl">
               <div
                 class="group w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
                 <MenuIcon
@@ -83,7 +82,7 @@
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button
-                              @click="duplicateList(element.id)"
+                            @click="duplicateList(element.id)"
                             :class="[
                               active
                                 ? 'bg-gray-300 text-gray-700'
@@ -99,7 +98,7 @@
                         </MenuItem>
                         <MenuItem v-slot="{ active }">
                           <button
-                              @click="pinList(element.id)"
+                            @click="pinList(element.id)"
                             :class="[
                               active
                                 ? 'bg-gray-300 text-gray-700'
@@ -118,7 +117,7 @@
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button
-                              @click="confirmListDeletion(element.id)"
+                            @click="confirmListDeletion(element.id)"
                             :class="[
                               active
                                 ? 'bg-gray-300 text-gray-900'
@@ -207,8 +206,8 @@
                   <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                       <button
-                          @click="duplicateList(item.id)"
-                          :class="[
+                        @click="duplicateList(item.id)"
+                        :class="[
                           active
                             ? 'bg-gray-300 text-gray-700'
                             : 'text-gray-900',
@@ -223,7 +222,7 @@
                     </MenuItem>
                     <MenuItem v-slot="{ active }">
                       <button
-                          @click="unpinList(item.id)"
+                        @click="unpinList(item.id)"
                         :class="[
                           active
                             ? 'bg-gray-300 text-gray-700'
@@ -242,8 +241,8 @@
                   <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
                       <button
-                          @click="confirmListDeletion(item.id)"
-                          :class="[
+                        @click="confirmListDeletion(item.id)"
+                        :class="[
                           active
                             ? 'bg-gray-300 text-gray-700'
                             : 'text-gray-900',
@@ -265,15 +264,14 @@
       </div>
     </ul>
 
-      <ModalPopup
-          :open="confirmationPopup.open"
-          :loading="confirmationPopup.loading"
-          :title="confirmationPopup.title"
-          :description="confirmationPopup.description"
-          :primaryButtonText="confirmationPopup.primaryButtonText"
-          @primaryButtonClick="confirmationPopup.confirmationMethod"
-          @cancelButtonClick="cancelDelete"
-      />
+    <ModalPopup
+      :open="confirmationPopup.open"
+      :loading="confirmationPopup.loading"
+      :title="confirmationPopup.title"
+      :description="confirmationPopup.description"
+      :primaryButtonText="confirmationPopup.primaryButtonText"
+      @primaryButtonClick="confirmationPopup.confirmationMethod"
+      @cancelButtonClick="cancelDelete" />
   </div>
 </template>
 <script>
@@ -291,8 +289,8 @@ import {
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import draggable from 'vuedraggable';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
-import UserService from "../services/api/user.service";
-import ModalPopup from "../components/ModalPopup"
+import UserService from '../services/api/user.service';
+import ModalPopup from '../components/ModalPopup';
 
 export default {
   data() {
@@ -300,14 +298,14 @@ export default {
       showMenu: true,
       editName: false,
       openEmojiPicker: false,
-        confirmationPopup: {
-            confirmationMethod: null,
-            title: null,
-            open: false,
-            primaryButtonText: null,
-            description: '',
-            loading: false
-        }
+      confirmationPopup: {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        primaryButtonText: null,
+        description: '',
+        loading: false,
+      },
     };
   },
   methods: {
@@ -322,201 +320,202 @@ export default {
     disableEditName(item) {
       item.editName = false;
     },
-      confirmListDeletion(id) {
-        this.confirmationPopup.confirmationMethod = () => {
-            this.deleteList(id)
-        }
-        this.confirmationPopup.cancelMethod = () => {
-            this.cancelDelete()
-        }
-        this.confirmationPopup.title = 'Confirm List Deletion'
-        this.confirmationPopup.primaryButtonText = 'Delete'
-        this.confirmationPopup.description = 'Are you sure you want to delete the list ?'
-        this.confirmationPopup.open = true
-      },
-      deleteList(id) {
-          this.confirmationPopup.loading = true
-          UserService.deleteList(id)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                  } else {
-                      // show toast error here later
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                      if (this.errors.list[0]) {
-                          this.$notify({
-                              group: 'user',
-                              type: 'error',
-                              duration: 15000,
-                              title: 'Error',
-                              text: this.errors.list[0],
-                          });
-                      }
-                  }
-              })
-              .finally((response) => {
-                  this.resetPopup()
-                  this.$emit('getUserLists')
-              });
-      },
-      cancelDelete() {
-          this.resetPopup()
-      },
-      resetPopup() {
-          this.confirmationPopup = {
-              confirmationMethod: null,
-              title: null,
-              open: false,
-              description: null,
-              primaryButtonText: null,
-              loading: false
+    confirmListDeletion(id) {
+      this.confirmationPopup.confirmationMethod = () => {
+        this.deleteList(id);
+      };
+      this.confirmationPopup.cancelMethod = () => {
+        this.cancelDelete();
+      };
+      this.confirmationPopup.title = 'Confirm List Deletion';
+      this.confirmationPopup.primaryButtonText = 'Delete';
+      this.confirmationPopup.description =
+        'Are you sure you want to delete the list ?';
+      this.confirmationPopup.open = true;
+    },
+    deleteList(id) {
+      this.confirmationPopup.loading = true;
+      UserService.deleteList(id)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
           }
-      },
-      duplicateList(id) {
-          UserService.duplicateList(id)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                  } else {
-                      // show toast error here later
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                      if (this.errors.list[0]) {
-                          this.$notify({
-                              group: 'user',
-                              type: 'error',
-                              duration: 15000,
-                              title: 'Error',
-                              text: this.errors.list[0],
-                          });
-                      }
-                  }
-              })
-              .finally((response) => {
-                  this.$emit('getUserLists')
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            if (this.errors.list[0]) {
+              this.$notify({
+                group: 'user',
+                type: 'error',
+                duration: 15000,
+                title: 'Error',
+                text: this.errors.list[0],
               });
-      },
-      pinList(id) {
-          UserService.pinList(id)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                  } else {
-                      // show toast error here later
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                      if (this.errors.list[0]) {
-                          this.$notify({
-                              group: 'user',
-                              type: 'error',
-                              duration: 15000,
-                              title: 'Error',
-                              text: this.errors.list[0],
-                          });
-                      }
-                  }
-              })
-              .finally((response) => {
-                  this.$emit('getUserLists')
+            }
+          }
+        })
+        .finally((response) => {
+          this.resetPopup();
+          this.$emit('getUserLists');
+        });
+    },
+    cancelDelete() {
+      this.resetPopup();
+    },
+    resetPopup() {
+      this.confirmationPopup = {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        description: null,
+        primaryButtonText: null,
+        loading: false,
+      };
+    },
+    duplicateList(id) {
+      UserService.duplicateList(id)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            if (this.errors.list[0]) {
+              this.$notify({
+                group: 'user',
+                type: 'error',
+                duration: 15000,
+                title: 'Error',
+                text: this.errors.list[0],
               });
-      },
-      unpinList(id) {
-          UserService.unpinList(id)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                  } else {
-                      // show toast error here later
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                      if (this.errors.list[0]) {
-                          this.$notify({
-                              group: 'user',
-                              type: 'error',
-                              duration: 15000,
-                              title: 'Error',
-                              text: this.errors.list[0],
-                          });
-                      }
-                  }
-              })
-              .finally((response) => {
-                  this.$emit('getUserLists')
+            }
+          }
+        })
+        .finally((response) => {
+          this.$emit('getUserLists');
+        });
+    },
+    pinList(id) {
+      UserService.pinList(id)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            if (this.errors.list[0]) {
+              this.$notify({
+                group: 'user',
+                type: 'error',
+                duration: 15000,
+                title: 'Error',
+                text: this.errors.list[0],
               });
-      }
+            }
+          }
+        })
+        .finally((response) => {
+          this.$emit('getUserLists');
+        });
+    },
+    unpinList(id) {
+      UserService.unpinList(id)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            if (this.errors.list[0]) {
+              this.$notify({
+                group: 'user',
+                type: 'error',
+                duration: 15000,
+                title: 'Error',
+                text: this.errors.list[0],
+              });
+            }
+          }
+        })
+        .finally((response) => {
+          this.$emit('getUserLists');
+        });
+    },
   },
   components: {
     ChevronRightIcon,
@@ -534,7 +533,7 @@ export default {
     MenuItems,
     MenuItem,
     draggable,
-      ModalPopup
+    ModalPopup,
   },
   props: {
     menuName: {

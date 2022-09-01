@@ -5,7 +5,8 @@
     <div
       class="progressbar h-full"
       :class="[
-        { 'bg-green-500': percentage === 100 },
+        { 'bg-red-500': percentage === 100 && invertedColor },
+        { 'bg-green-500': percentage === 100 && !invertedColor },
         { 'bg-indigo-400': percentage < 100 && percentage > 0 },
         { 'bg-neutral-500': percentage === 0 },
         { 'absolute top-0': indeterminate },
@@ -37,6 +38,10 @@ export default {
     color: {
       type: String,
       default: 'indigo',
+    },
+    invertedColor: {
+      type: Boolean,
+      default: false,
     },
     percentage: {
       type: Number,

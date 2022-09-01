@@ -40,6 +40,8 @@
     "vue-loader": "^17.0.0"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.0.1",
+    "@headlessui-float/vue": "^0.8.0",
     "@headlessui/vue": "^1.6.4",
     "@heroicons/vue": "^1.0.6",
     "@meilisearch/instant-meilisearch": "^0.6.2",
