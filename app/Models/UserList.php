@@ -60,7 +60,7 @@ class UserList extends Model
             }, $teamUsers);
             $list->userListAttributes()->sync($syncData);
             foreach ($teamUsers as $userId) {
-                self::updateSortOrder($list->id, $userId);
+                self::updateSortOrder($list->id, $userId, 0, 1);
             }
             return  $list;
         }
@@ -133,26 +133,23 @@ class UserList extends Model
         $newListName = ($this->name.' - copy');
         $newList = self::firstOrCreateList($userId, $newListName);
         $totalCreatorsCount = DB::table('creator_user_list')->where('user_list_id', $this->id)->count();
-        UserListDuplicated::dispatch($newList);
-        return $newList;
-
 
         if ($totalCreatorsCount) {
             $jobs = [];
-            for ($i=0; $i<$totalCreatorsCount; $i+=500) {
-                $jobs[] = (new DuplicateList($i, 500, $newList->id, $this->id));
+            for ($i=0; $i<$totalCreatorsCount; $i+=50) {
+                $jobs[] = (new DuplicateList($i, 50, $newList->id, $this->id));
             }
-
             $batch = Bus::batch($jobs)->then(function (Batch $batch) use ($newList) {
                 Log::info('All jobs completed successfully...');
-                UserListDuplicated::dispatch($newList->id);
-            })->catch(function (Batch $batch, Throwable $e = null) {
+                UserListDuplicated::dispatch($newList, true, ('Your list '.$newList->name.' is duplicated successfully'));
+            })->catch(function (Batch $batch, Throwable $e = null) use ($newList) {
                 Log::info('First batch duplicating job failure detected...');
+                UserListDuplicated::dispatch($newList, false, ('Your list '.$newList->name.' failed to duplicate. Support has been notified automatically'));
             })->finally(function (Batch $batch) {
                 Log::info('The batch duplication has finished executing...');
             })->dispatch();
         } else {
-            UserListDuplicated::dispatch($newList->id);
+            UserListDuplicated::dispatch($newList, true, ('Your list '.$newList->name.' is duplicated successfully'));
         }
 
         return $newList;
