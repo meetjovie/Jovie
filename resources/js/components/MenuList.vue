@@ -159,11 +159,16 @@
           </div>
 
           <div class="flex w-full items-center">
-            <EmojiPickerModal>
-              <div
+            <EmojiPickerModal @select="onSelectEmoji">
+              <input
+                id="item.emoji"
+                v-model="item.emoji"
+                placeholder="📄"
+                class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
+              <!--  <div
                 class="cursor-pointer rounded-md p-1 text-xs hover:bg-gray-400">
                 {{ item.emoji || '😆' }}
-              </div>
+              </div> -->
             </EmojiPickerModal>
             <div>
               <span
