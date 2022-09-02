@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use MeiliSearch\Client;
 
@@ -191,6 +192,8 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 //    $creator = \App\Models\Creator::first();
 //    dd($creator->instagram_media);
 //});
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::get('{any?}', function () {
     return view('welcome');

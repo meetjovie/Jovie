@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+use App\Events\UserListDuplicated;
 use App\Jobs\DuplicateList;
+use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class UserList extends Model
 {
@@ -128,8 +133,28 @@ class UserList extends Model
         $newListName = ($this->name.' - copy');
         $newList = self::firstOrCreateList($userId, $newListName);
         $totalCreatorsCount = DB::table('creator_user_list')->where('user_list_id', $this->id)->count();
-        for ($i=0; $i<$totalCreatorsCount; $i+=500) {
-            DuplicateList::dispatch($i, 500, $newList->id, $this->id);
+        UserListDuplicated::dispatch($newList);
+        return $newList;
+
+
+        if ($totalCreatorsCount) {
+            $jobs = [];
+            for ($i=0; $i<$totalCreatorsCount; $i+=500) {
+                $jobs[] = (new DuplicateList($i, 500, $newList->id, $this->id));
+            }
+
+            $batch = Bus::batch($jobs)->then(function (Batch $batch) use ($newList) {
+                Log::info('All jobs completed successfully...');
+                UserListDuplicated::dispatch($newList->id);
+            })->catch(function (Batch $batch, Throwable $e = null) {
+                Log::info('First batch duplicating job failure detected...');
+            })->finally(function (Batch $batch) {
+                Log::info('The batch duplication has finished executing...');
+            })->dispatch();
+        } else {
+            UserListDuplicated::dispatch($newList->id);
         }
+
+        return $newList;
     }
 }

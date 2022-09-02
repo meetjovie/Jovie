@@ -404,6 +404,10 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+              Echo.private(`duplicateList.${response.list.id}`)
+                  .listen('UserListDuplicated', (e) => {
+                      console.log(e);
+                  });
           } else {
             // show toast error here later
             this.$notify({
