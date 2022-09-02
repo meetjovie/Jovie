@@ -59,16 +59,16 @@
 
 <script>
 import {
-  MailIcon,
-  SearchIcon,
-  BanIcon,
+  EnvelopeIcon,
+  MagnifyingGlassIcon,
+  NoSymbolIcon,
   PlusCircleIcon,
   MinusCircleIcon,
   MinusIcon,
   PlusIcon,
   ChevronRightIcon,
-} from '@heroicons/vue/solid';
-import { CheckIcon } from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/solid';
+import { CheckIcon } from '@heroicons/vue/24/outline';
 
 import JovieSpinner from '../components/JovieSpinner';
 
@@ -132,9 +132,9 @@ export default {
     },
   },
   components: {
-    MailIcon,
-    SearchIcon,
-    BanIcon,
+    EnvelopeIcon,
+    MagnifyingGlassIcon,
+    NoSymbolIcon,
     PlusIcon,
     CheckIcon,
     MinusIcon,

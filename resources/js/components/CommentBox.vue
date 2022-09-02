@@ -134,9 +134,9 @@ import {
   FireIcon,
   HeartIcon,
   PaperClipIcon,
-  ThumbUpIcon,
-  XIcon,
-} from '@heroicons/vue/solid';
+  HandThumbUpIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/solid';
 import {
   Listbox,
   ListboxButton,
@@ -178,14 +178,14 @@ const moods = [
   {
     name: 'Thumbsy',
     value: 'thumbsy',
-    icon: ThumbUpIcon,
+    icon: HandThumbUpIcon,
     iconColor: 'text-white',
     bgColor: 'bg-blue-500',
   },
   {
     name: 'I feel nothing',
     value: null,
-    icon: XIcon,
+    icon: XMarkIcon,
     iconColor: 'text-gray-400',
     bgColor: 'bg-transparent',
   },

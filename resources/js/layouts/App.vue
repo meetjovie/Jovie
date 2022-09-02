@@ -23,10 +23,10 @@
               v-for="notification in notifications"
               :key="notification.id">
               <div class="flex w-10 items-center justify-center bg-neutral-200">
-                <XIcon
+                <XMarkIcon
                   v-if="notification.type === 'error'"
                   class="h-4 w-4 text-red-500" />
-                <ExclamationIcon
+                <ExclamationTriangleIcon
                   v-else-if="notification.type === 'warning'"
                   class="h-4 w-4 text-amber-500" />
                 <CheckCircleIcon
@@ -215,7 +215,7 @@
                                     <div class="px-2">
                                       <component
                                         class="mx-auto h-5 w-5 text-neutral-400"
-                                        :is="'CloudUploadIcon'">
+                                        :is="'CloudCloudArrowUpIcon'">
                                       </component>
                                     </div>
                                     <div class="ml-3 w-60">
@@ -268,7 +268,7 @@
                                     <div class="px-2">
                                       <component
                                         class="mx-auto h-5 w-5 text-neutral-400"
-                                        :is="'CloudUploadIcon'">
+                                        :is="'CloudCloudArrowUpIcon'">
                                       </component>
                                     </div>
                                     <div class="ml-3 w-60">
@@ -447,7 +447,7 @@
                       @click="openWidget()"
                       class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem">
-                      <component class="mr-4 h-4 w-4" is="SupportIcon">
+                      <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                       </component>
                       Chat with support
                     </div>
@@ -457,7 +457,9 @@
                       class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component class="mr-4 h-4 w-4" is="LogoutIcon">
+                      <component
+                        class="mr-4 h-4 w-4"
+                        is="ArrowLeftOnRectangleIcon">
                       </component>
                       Sign out
                     </div>
@@ -494,28 +496,28 @@
 import {
   HomeIcon,
   MenuIcon,
-  SearchIcon,
-  MailIcon,
+  MagnifyingGlassIcon,
+  EnvelopeIcon,
   ChartBarIcon,
   ChevronLeftIcon,
   CheckCircleIcon,
-  ExclamationIcon,
+  ExclamationTriangleIcon,
   CreditCardIcon,
-  CloudUploadIcon,
+  CloudCloudArrowUpIcon,
   UserGroupIcon,
   FolderOpenIcon,
   CogIcon,
   UserIcon,
-  XIcon,
+  XMarkIcon,
   BellIcon,
-  CursorClickIcon,
+  CursorArrowRippleIcon,
   ChatAltIcon,
-  LogoutIcon,
+  ArrowLeftOnRectangleIcon,
   SwitchHorizontalIcon,
-  SpeakerphoneIcon,
-  SupportIcon,
+  MegaphoneIcon,
+  LifebuoyIcon,
   EmojiHappyIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import {
   Menu,
   MenuButton,
@@ -550,13 +552,13 @@ export default {
       nav: [
         /* /*  /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
         /*  { name: 'Dashboard', route: '/dashboard', icon: HomeIcon }, */
-        /*  { name: 'Search', route: '/discovery', icon: SearchIcon }, */
+        /*  { name: 'Search', route: '/discovery', icon: MagnifyingGlassIcon }, */
         { name: 'Contacts', route: '/contacts', icon: HomeIcon },
         //add a link for profile
         { name: 'Profile', route: '/edit-profile', icon: UserIcon },
 
         /* { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon }, */
-        /*  { name: 'Import', route: '/import', icon: CloudUploadIcon }, */
+        /*  { name: 'Import', route: '/import', icon: CloudCloudArrowUpIcon }, */
         /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [
@@ -564,8 +566,8 @@ export default {
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
       helpmenuitems: [
-        { name: 'Shortcuts', route: 'Account', icon: CursorClickIcon },
-        { name: 'Feedback', route: 'Account', icon: SpeakerphoneIcon },
+        { name: 'Shortcuts', route: 'Account', icon: CursorArrowRippleIcon },
+        { name: 'Feedback', route: 'Account', icon: MegaphoneIcon },
       ],
       isShowing: false,
       isLoading: false,
@@ -640,31 +642,31 @@ export default {
     MenuItem,
     MenuItems,
     ChatAltIcon,
-    SearchIcon,
+    MagnifyingGlassIcon,
     BellIcon,
-    SpeakerphoneIcon,
-    MailIcon,
+    MegaphoneIcon,
+    EnvelopeIcon,
     SwitchTeams,
-    CursorClickIcon,
+    CursorArrowRippleIcon,
     ChartBarIcon,
     CheckCircleIcon,
-    CloudUploadIcon,
+    CloudCloudArrowUpIcon,
     UserGroupIcon,
     FolderOpenIcon,
     CogIcon,
     CreditCardIcon,
     ChevronLeftIcon,
-    LogoutIcon,
+    ArrowLeftOnRectangleIcon,
     SwitchHorizontalIcon,
     JovieLogo,
-    XIcon,
+    XMarkIcon,
     TransitionRoot,
     Popover,
     PopoverButton,
     PopoverPanel,
     PopoverGroup,
-    SupportIcon,
-    ExclamationIcon,
+    LifebuoyIcon,
+    ExclamationTriangleIcon,
     AlertBanner,
     CommandPallette,
     EmojiHappyIcon,

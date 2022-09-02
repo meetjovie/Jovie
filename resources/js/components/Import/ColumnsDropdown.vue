@@ -7,7 +7,7 @@
         <span class="block truncate">{{ selected ?? 'Select' }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-          <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <ArrowsUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
         </span>
       </ListboxButton>
 
@@ -78,7 +78,7 @@
                   active ? 'text-red-900' : 'text-red-900',
                   'absolute inset-y-0 right-0 flex items-center pr-4',
                 ]">
-                <BanIcon class="h-5 w-5" aria-hidden="true" />
+                <NoSymbolIcon class="h-5 w-5" aria-hidden="true" />
               </span>
             </li>
           </ListboxOption>
@@ -96,7 +96,11 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/vue';
-import { CheckIcon, SelectorIcon, BanIcon } from '@heroicons/vue/solid';
+import {
+  CheckIcon,
+  ArrowsUpDownIcon,
+  NoSymbolIcon,
+} from '@heroicons/vue/24/solid';
 
 export default {
   components: {
@@ -106,8 +110,8 @@ export default {
     ListboxOption,
     ListboxOptions,
     CheckIcon,
-    BanIcon,
-    SelectorIcon,
+    NoSymbolIcon,
+    ArrowsUpDownIcon,
   },
   props: {
     columnsToMap: {
@@ -117,7 +121,7 @@ export default {
     mappedColumns: {
       type: Object,
       required: true,
-    }
+    },
   },
   data() {
     return {

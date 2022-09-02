@@ -92,13 +92,13 @@
 
 <script setup>
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
-import { ChevronDownIcon } from '@heroicons/vue/solid';
+import { ChevronDownIcon } from '@heroicons/vue/24/solid';
 import {
-  BookmarkAltIcon,
+  BookmakeSquareIcon,
   CalendarIcon,
   ShieldCheckIcon,
-  SupportIcon,
-} from '@heroicons/vue/outline';
+  LifebuoyIcon,
+} from '@heroicons/vue/24/outline';
 
 
 
@@ -108,14 +108,14 @@ const resources = [
     description:
       'Get all of your questions answered in our forums or contact support.',
     href: '#',
-    icon: SupportIcon,
+    icon: LifebuoyIcon,
   },
   {
     name: 'Guides',
     description:
       'Learn how to maximize our platform to get the most out of it.',
     href: '#',
-    icon: BookmarkAltIcon,
+    icon: BookmakeSquareIcon,
   },
   {
     name: 'Events',

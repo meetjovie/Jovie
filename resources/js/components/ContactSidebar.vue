@@ -103,7 +103,7 @@
           @blur="saveToJovie()"
           :value="creator.city + ' ' + creator.country"
           id="location"
-          icon="LocationMarkerIcon"
+          icon="MapPinIcon"
           label="Location"
           placeholder="Location"
           ><slot name="icon">HI</slot></DataInputGroup
@@ -112,7 +112,7 @@
         <DataInputGroup
           @blur="saveToJovie()"
           :value="creator.instagram_email"
-          icon="MailIcon"
+          icon="EnvelopeIcon"
           id="email"
           label="Email"
           placeholder="email@email.com" />
@@ -146,7 +146,7 @@
           placeholder="TikTok" />
         <DataInputGroup
           @blur="saveToJovie()"
-          icon="ChatIcon"
+          icon="ChatBubbleLeftEllipsisIcon"
           :value="'https://twitter.com/' + creator.twitter_handler"
           id="twitter_handler"
           label="Twitter"

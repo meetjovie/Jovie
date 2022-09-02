@@ -171,11 +171,11 @@ import {
   DocumentReportIcon,
   HeartIcon,
   InboxIcon,
-  PencilAltIcon,
-  ReplyIcon,
+  PencilIcon,
+  ArrowUTurnLeftIcon,
   TrashIcon,
   UsersIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 
 export default {
   name: 'HomeFeatureDiscovery',
@@ -184,8 +184,8 @@ export default {
     DocumentReportIcon,
     HeartIcon,
     InboxIcon,
-    PencilAltIcon,
-    ReplyIcon,
+    PencilIcon,
+    ArrowUTurnLeftIcon,
     TrashIcon,
     UsersIcon,
   },
@@ -215,7 +215,7 @@ export default {
           name: 'Exclusion',
           description:
             'Jovie can check to make creators you partner with have never promoted a competing product.',
-          icon: PencilAltIcon,
+          icon: PencilIcon,
         },
       ],
     };

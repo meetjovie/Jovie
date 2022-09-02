@@ -49,7 +49,7 @@ import DiscoveryMain from '../components/Discovery/DiscoveryMain.vue';
 import DiscoveryStats from '../components/Discovery/DiscoveryStats.vue';
 import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue';
 import { TabGroup } from '@headlessui/vue';
-import { FilterIcon, ChevronLeftIcon } from '@heroicons/vue/outline';
+import { FilterIcon, ChevronLeftIcon } from '@heroicons/vue/24/outline';
 
 export default {
   name: 'Discovery',

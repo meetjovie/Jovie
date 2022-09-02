@@ -159,20 +159,20 @@ import {
   PopoverPanel,
 } from '@headlessui/vue';
 import {
-  BookmarkAltIcon,
+  BookmakeSquareIcon,
   CalendarIcon,
   ChartBarIcon,
-  CursorClickIcon,
+  CursorArrowRippleIcon,
   MenuIcon,
   PhoneIcon,
   PlayIcon,
   RefreshIcon,
   ShieldCheckIcon,
-  SupportIcon,
+  LifebuoyIcon,
   ViewGridIcon,
-  XIcon,
-} from '@heroicons/vue/outline';
-import { ChevronDownIcon } from '@heroicons/vue/solid';
+  XMarkIcon,
+} from '@heroicons/vue/24/outline';
+import { ChevronDownIcon } from '@heroicons/vue/24/solid';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import HomeCTA2 from '../components/Home/HomeCTA2.vue';
 
@@ -188,7 +188,7 @@ const features = [
     name: 'Engagement',
     href: '#',
     description: 'Speak directly to your customers in a more meaningful way.',
-    icon: CursorClickIcon,
+    icon: CursorArrowRippleIcon,
   },
   {
     name: 'Security',
@@ -220,14 +220,14 @@ const resources = [
     description:
       'Get all of your questions answered in our forums or contact support.',
     href: '#',
-    icon: SupportIcon,
+    icon: LifebuoyIcon,
   },
   {
     name: 'Guides',
     description:
       'Learn how to maximize our platform to get the most out of it.',
     href: '#',
-    icon: BookmarkAltIcon,
+    icon: BookmakeSquareIcon,
   },
   {
     name: 'Events',

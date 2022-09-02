@@ -19,7 +19,7 @@
       <InputGroup
         size="sm"
         rounded="top-right"
-        :icon="maxicon"
+        :icon="maXMarkIcon"
         :placeholder="maxtext" />
     </div>
     <div class="flex items-center justify-between">
@@ -65,7 +65,7 @@ export default {
       type: String,
       default: null,
     },
-    maxicon: {
+    maXMarkIcon: {
       type: String,
       default: null,
     },

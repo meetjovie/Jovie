@@ -485,7 +485,7 @@
                             <MenuButton
                               class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
                               <span class="sr-only">Open options</span>
-                              <DotsVerticalIcon
+                              <EllipsisVerticalIcon
                                 class="z-0 h-5 w-5"
                                 aria-hidden="true" />
                             </MenuButton>
@@ -521,7 +521,8 @@
                                           : 'text-gray-700',
                                         'block px-4 py-2 text-sm',
                                       ]">
-                                      <BanIcon class="mr-2 inline h-4 w-4" />
+                                      <NoSymbolIcon
+                                        class="mr-2 inline h-4 w-4" />
                                       Mute</a
                                     >
                                   </MenuItem>
@@ -549,7 +550,7 @@
                                           : 'text-gray-700',
                                         'block px-4 py-2 text-sm',
                                       ]">
-                                      <ArchiveIcon
+                                      <ArchiveBoxIcon
                                         class="mr-2 inline h-4 w-4" />
                                       {{
                                         creator.crm_record_by_user[
@@ -652,12 +653,12 @@ import {
 } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
 import {
-  DotsVerticalIcon,
-  ArchiveIcon,
-  BanIcon,
+  EllipsisVerticalIcon,
+  ArchiveBoxIcon,
+  NoSymbolIcon,
   TrashIcon,
   RefreshIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import JovieSpinner from '../../components/JovieSpinner.vue';
@@ -667,19 +668,19 @@ import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
 export default {
   name: 'CrmTable',
   components: {
-    ArchiveIcon,
+    ArchiveBoxIcon,
     StarRating,
     Menu,
     MenuButton,
     RefreshIcon,
     MenuItems,
     MenuItem,
-    DotsVerticalIcon,
+    EllipsisVerticalIcon,
     SocialIcons,
     Popover,
     PopoverButton,
     PopoverPanel,
-    BanIcon,
+    NoSymbolIcon,
     TrashIcon,
     Pagination,
     JovieSpinner,

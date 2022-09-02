@@ -31,17 +31,17 @@
 <script>
 import {
   AnnotationIcon,
-  SearchIcon,
-  LightningBoltIcon,
+  MagnifyingGlassIcon,
+  BoltIcon,
   ScaleIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 
 const features = [
   {
     name: 'Data Enrichment',
     description:
       'Upload your existing customer lists and instantly enrich your data.  Pay only for matched profiles.',
-    icon: SearchIcon,
+    icon: MagnifyingGlassIcon,
   },
   {
     name: 'No hidden fees',
@@ -53,7 +53,7 @@ const features = [
     name: 'Web3 Ready',
     description:
       'Jovie catalogues creators ENS domains & wallet addresses when available so you can easily airdrop your next NFT or token based project.',
-    icon: LightningBoltIcon,
+    icon: BoltIcon,
   },
   {
     name: 'Mobile notifications',

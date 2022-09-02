@@ -198,19 +198,19 @@ import JoinOurTeam from '../components/External/JoinOurTeam.vue';
 import OurTeam from '../components/External/OurTeam.vue';
 import {
   GlobeAltIcon,
-  LightningBoltIcon,
-  MailIcon,
-  ThumbUpIcon,
+  BoltIcon,
+  EnvelopeIcon,
+  HandThumbUpIcon,
   DocumentTextIcon,
   ScaleIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import NewsletterSignup from '../components/External/NewsletterSignup.vue';
 
 const features = [
   {
     name: "Be so good they can't ignore you",
     description: `We’re here to build products that are undeniably good.  We work hard everyday to be better at that. `,
-    icon: ThumbUpIcon,
+    icon: HandThumbUpIcon,
   },
   {
     name: 'Best idea wins',
@@ -222,7 +222,7 @@ const features = [
     name: 'Move fast & break often',
     description:
       'We move quickly with a bias for action.  We step back often to see how our work fits in to the bigger picture. Sprint, walk, repeat.',
-    icon: LightningBoltIcon,
+    icon: BoltIcon,
   },
   {
     name: 'Be concise',

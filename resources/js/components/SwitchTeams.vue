@@ -64,7 +64,7 @@ import {
   ChevronUpIcon,
   ChevronRightIcon,
   UserGroupIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 import {
   Popover,
   PopoverButton,

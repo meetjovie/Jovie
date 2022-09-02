@@ -51,7 +51,7 @@
                       : 'text-sm font-semibold text-neutral-400',
                   ]">
                   <div class="flex items-center text-xs">
-                    <ArchiveIcon
+                    <ArchiveBoxIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
                       aria-hidden="true" />Archived
                   </div>
@@ -257,15 +257,15 @@ import {
 import {
   ChevronDownIcon,
   ChevronRightIcon,
-  DownloadIcon,
+  CloudArrowDownIcon,
   CheckIcon,
   UserGroupIcon,
-  DotsVerticalIcon,
+  EllipsisVerticalIcon,
   PlusIcon,
   HeartIcon,
-  ArchiveIcon,
-  CloudUploadIcon,
-} from '@heroicons/vue/solid';
+  ArchiveBoxIcon,
+  CloudCloudArrowUpIcon,
+} from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
 import ImportCreatorModal from '../components/ImportCreatorModal';
@@ -279,7 +279,7 @@ import JovieTooltip from '../components/JovieTooltip.vue';
 export default {
   name: 'CRM',
   components: {
-    DownloadIcon,
+    CloudArrowDownIcon,
     PlusIcon,
     SwitchTeams,
     TabGroup,
@@ -296,7 +296,7 @@ export default {
     MenuList,
     ChevronRightIcon,
     Combobox,
-    DotsVerticalIcon,
+    EllipsisVerticalIcon,
     ComboboxInput,
     ComboboxButton,
     ComboboxOptions,
@@ -307,9 +307,9 @@ export default {
     MenuItem,
     ChevronDownIcon,
     CheckIcon,
-    ArchiveIcon,
+    ArchiveBoxIcon,
     UserGroupIcon,
-    CloudUploadIcon,
+    CloudCloudArrowUpIcon,
     CrmTable,
     JovieTooltip,
   },

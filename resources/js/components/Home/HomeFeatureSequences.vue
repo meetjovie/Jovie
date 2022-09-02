@@ -114,10 +114,10 @@
 import {
   ChartBarIcon,
   GlobeAltIcon,
-  LightningBoltIcon,
-  MailIcon,
+  BoltIcon,
+  EnvelopeIcon,
   ScaleIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 
 const transferFeatures = [
   {
@@ -139,7 +139,7 @@ const transferFeatures = [
     name: 'Transfers are instant',
     description:
       'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: LightningBoltIcon,
+    icon: BoltIcon,
   },
 ];
 const communicationFeatures = [
@@ -155,7 +155,7 @@ const communicationFeatures = [
     name: 'Automatic Follow Ups',
     description:
       'Automatically reach out to creators who havent responded to your message. This feature dramtically increases your response rate.',
-    icon: MailIcon,
+    icon: EnvelopeIcon,
   },
 ];
 

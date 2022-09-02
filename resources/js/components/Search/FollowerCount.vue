@@ -98,7 +98,7 @@ import {
   ArrowDownIcon,
   UserIcon,
   UserGroupIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 export default {
   components: {
     ButtonGroup,

@@ -95,23 +95,33 @@ import {
 import {
   BellIcon,
   BriefcaseIcon,
-  ChatIcon,
+  ChatBubbleLeftEllipsisIcon,
   CogIcon,
-  DocumentSearchIcon,
+  DocumentMagnifyingGlassIcon,
   HomeIcon,
   MenuAlt2Icon,
   QuestionMarkCircleIcon,
   UsersIcon,
-  XIcon,
-} from '@heroicons/vue/outline';
-import { SearchIcon } from '@heroicons/vue/solid';
+  XMarkIcon,
+} from '@heroicons/vue/24/outline';
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 import ButtonGroup from '../components/ButtonGroup.vue';
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
   { name: 'Jobs', href: '#', icon: BriefcaseIcon, current: false },
-  { name: 'Applications', href: '#', icon: DocumentSearchIcon, current: false },
-  { name: 'Messages', href: '#', icon: ChatIcon, current: false },
+  {
+    name: 'Applications',
+    href: '#',
+    icon: DocumentMagnifyingGlassIcon,
+    current: false,
+  },
+  {
+    name: 'Messages',
+    href: '#',
+    icon: ChatBubbleLeftEllipsisIcon,
+    current: false,
+  },
   { name: 'Team', href: '#', icon: UsersIcon, current: false },
   { name: 'Settings', href: '#', icon: CogIcon, current: true },
 ];
@@ -151,8 +161,8 @@ export default {
     TransitionRoot,
     BellIcon,
     MenuAlt2Icon,
-    SearchIcon,
-    XIcon,
+    MagnifyingGlassIcon,
+    XMarkIcon,
     AccountTeam,
     TabGroup,
     TabList,

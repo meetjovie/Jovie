@@ -140,7 +140,10 @@
 
 <script>
 import AlertBanner from '../components/AlertBanner.vue';
-import { SearchIcon, CloudUploadIcon } from '@heroicons/vue/solid';
+import {
+  MagnifyingGlassIcon,
+  CloudCloudArrowUpIcon,
+} from '@heroicons/vue/24/solid';
 import SocialInput from '../components/SocialInput.vue';
 
 const featuredNav = [
@@ -150,15 +153,15 @@ const featuredNav = [
       'Upload existing contacts & Jovie will automatically enrich those regards records with addiational details including social media profiles & metrics, social content, and more.',
     link: 'contacts',
     cta: 'Upload contacts',
-    icon: 'CloudUploadIcon',
+    icon: 'CloudCloudArrowUpIcon',
   },
 ];
 
 export default {
   name: 'Dashboard',
   components: {
-    SearchIcon,
-    CloudUploadIcon,
+    MagnifyingGlassIcon,
+    CloudCloudArrowUpIcon,
     AlertBanner,
     SocialInput,
   },

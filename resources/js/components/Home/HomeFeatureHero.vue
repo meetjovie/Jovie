@@ -431,7 +431,7 @@
             <div>
               <!-- <span
                 class="flex h-12 w-12 items-center justify-center rounded-md">
-                <LightningBoltIcon
+                <BoltIcon
                   class="text-windigo-500 h-6 w-6"
                   aria-hidden="true" />
               </span> -->
@@ -499,11 +499,11 @@
 </template>
 
 <script>
-import { LightningBoltIcon, SparklesIcon } from '@heroicons/vue/outline';
+import { BoltIcon, SparklesIcon } from '@heroicons/vue/24/outline';
 
 export default {
   components: {
-    LightningBoltIcon,
+    BoltIcon,
     SparklesIcon,
   },
 };

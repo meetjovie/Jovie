@@ -66,10 +66,10 @@
 <script setup>
 import {
   GlobeAltIcon,
-  LightningBoltIcon,
+  BoltIcon,
   RefreshIcon,
   UserGroupIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
 
 const features = [

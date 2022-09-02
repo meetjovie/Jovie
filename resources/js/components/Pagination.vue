@@ -46,7 +46,7 @@
 import {
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 
 export default {
   name: 'Pagination',

@@ -32,7 +32,7 @@
 </template>
 <script>
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
-import { StarIcon, ChevronRightIcon, ChevronDownIcon, ThumbUpIcon, ThumbDownIcon, HeartIcon, BanIcon, RefreshIcon, TagIcon, ClipboardListIcon } from '@heroicons/vue/solid'
+import { StarIcon, ChevronRightIcon, ChevronDownIcon, HandThumbUpIcon, HandThumbDownIcon, HeartIcon, NoSymbolIcon, RefreshIcon, TagIcon, ClipboardListIcon } from '@heroicons/vue/24/solid'
 
 export default {
   components: {
@@ -43,10 +43,10 @@ export default {
     StarIcon,
     ChevronRightIcon,
     ChevronDownIcon,
-    ThumbUpIcon,
-    ThumbDownIcon,
+    HandThumbUpIcon,
+    HandThumbDownIcon,
     HeartIcon,
-    BanIcon,
+    NoSymbolIcon,
     RefreshIcon,
     TagIcon,
     ClipboardListIcon,
@@ -56,12 +56,12 @@ export default {
             actions: [
                 {
                     name: 'Shortlist',
-                    icon: 'ThumbUpIcon',
+                    icon: 'HandThumbUpIcon',
 
                 },
                 {
                     name: 'Reject',
-                    icon: 'ThumbDownIcon',
+                    icon: 'HandThumbDownIcon',
 
                 },
                 {
@@ -71,7 +71,7 @@ export default {
                 },
                 {
                     name: 'Mute',
-                    icon: 'BanIcon',
+                    icon: 'NoSymbolIcon',
 
                 },
                 {

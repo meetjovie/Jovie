@@ -85,7 +85,7 @@
       <tr
         v-for="creator in creators"
         :key="creator"
-        class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+        class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
         <td
           class="hidden w-16 whitespace-nowrap py-1 pl-2 pr-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
           <div class="grid grid-cols-2 items-center">
@@ -216,7 +216,7 @@
                 <MenuButton
                   class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
                   <span class="sr-only">Open options</span>
-                  <DotsVerticalIcon class="h-5 w-5" aria-hidden="true" />
+                  <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
                 </MenuButton>
               </div>
               <transition
@@ -293,12 +293,12 @@ import {
 import StarRating from 'vue-star-rating';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import {
-  DotsVerticalIcon,
+  EllipsisVerticalIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   CheckIcon,
   SearchCircleIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 import CreatorTags from '../Creator/CreatorTags';
 import CreatorSocialLinks from '../Creator/CreatorSocialLinks';
 
@@ -332,7 +332,7 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
-    DotsVerticalIcon,
+    EllipsisVerticalIcon,
     ChevronDownIcon,
     CheckIcon,
     SearchCircleIcon,

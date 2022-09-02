@@ -101,10 +101,10 @@
 <script>
 import {
   InboxIcon,
-  PencilAltIcon,
+  PencilIcon,
   TrashIcon,
   UsersIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import JovieReplaces from '../components/External/JovieReplaces.vue';
 import UserService from '../services/api/user.service';
 import HomeLogoCloud from '../components/Home/HomeLogoCloud';
@@ -166,7 +166,7 @@ export default {
           name: 'Exclusion',
           description:
             'Jovie can check to make creators you partner with have never promoted a competing product.',
-          icon: PencilAltIcon,
+          icon: PencilIcon,
         },
       ],
     };

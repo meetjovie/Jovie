@@ -66,8 +66,8 @@
                 <Menu as="div" class="relative inline-block text-left">
                   <MenuButton
                     class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block">
-                    <DotsVerticalIcon
-                      class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></DotsVerticalIcon>
+                    <EllipsisVerticalIcon
+                      class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
                   </MenuButton>
 
                   <transition
@@ -89,7 +89,7 @@
                                 : 'text-gray-900',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">
-                            <DuplicateIcon
+                            <DocumentDuplicateIcon
                               :active="active"
                               class="mr-2 h-3 w-3 text-teal-400 hover:text-gray-700"
                               aria-hidden="true" />
@@ -189,8 +189,8 @@
               <div>
                 <MenuButton
                   class="hidden h-4 w-4 text-gray-400 group-hover:block">
-                  <DotsVerticalIcon
-                    class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></DotsVerticalIcon>
+                  <EllipsisVerticalIcon
+                    class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
                 </MenuButton>
               </div>
 
@@ -213,7 +213,7 @@
                             : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                         ]">
-                        <DuplicateIcon
+                        <DocumentDuplicateIcon
                           :active="active"
                           class="mr-2 h-4 w-4 text-teal-400 hover:text-gray-700"
                           aria-hidden="true" />
@@ -280,12 +280,12 @@ import {
   ChevronDownIcon,
   PlusIcon,
   MenuIcon,
-  DotsVerticalIcon,
+  EllipsisVerticalIcon,
   BookmarkIcon,
-  DuplicateIcon,
-  ArchiveIcon,
+  DocumentDuplicateIcon,
+  ArchiveBoxIcon,
   TrashIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import draggable from 'vuedraggable';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
@@ -522,11 +522,11 @@ export default {
     BookmarkIcon,
     EmojiPickerModal,
     ChevronDownIcon,
-    DotsVerticalIcon,
+    EllipsisVerticalIcon,
     PlusIcon,
     MenuIcon,
-    ArchiveIcon,
-    DuplicateIcon,
+    ArchiveBoxIcon,
+    DocumentDuplicateIcon,
     TrashIcon,
     Menu,
     MenuButton,

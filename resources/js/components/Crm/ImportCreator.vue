@@ -73,7 +73,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
-import { CheckIcon } from '@heroicons/vue/outline';
+import { CheckIcon } from '@heroicons/vue/24/outline';
 
 const open = ref(true);
 </script>

@@ -111,14 +111,14 @@ import {
   ChevronRightIcon,
   SwitchHorizontalIcon,
   ChevronDownIcon,
-  ThumbUpIcon,
-  ThumbDownIcon,
+  HandThumbUpIcon,
+  HandThumbDownIcon,
   HeartIcon,
-  BanIcon,
+  NoSymbolIcon,
   RefreshIcon,
   TagIcon,
   ClipboardListIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 import DiscoverySidebar from './DiscoverySidebar.vue';
 import ButtonGroup from '../ButtonGroup.vue';
 
@@ -134,10 +134,10 @@ export default {
     PopoverButton,
     PopoverPanel,
     PopoverOverlay,
-    ThumbUpIcon,
-    ThumbDownIcon,
+    HandThumbUpIcon,
+    HandThumbDownIcon,
     HeartIcon,
-    BanIcon,
+    NoSymbolIcon,
     RefreshIcon,
     TagIcon,
     ClipboardListIcon,
@@ -150,11 +150,11 @@ export default {
       actions: [
         {
           name: 'Shortlist',
-          icon: 'ThumbUpIcon',
+          icon: 'HandThumbUpIcon',
         },
         {
           name: 'Reject',
-          icon: 'ThumbDownIcon',
+          icon: 'HandThumbDownIcon',
         },
         {
           name: 'Favorite',
@@ -162,7 +162,7 @@ export default {
         },
         {
           name: 'Mute',
-          icon: 'BanIcon',
+          icon: 'NoSymbolIcon',
         },
         {
           name: 'Update',

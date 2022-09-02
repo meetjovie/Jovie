@@ -24,7 +24,7 @@
                     :class="{ 'bg-indigo-100': ActiveDrag }"
                     class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 py-12 hover:border-gray-400">
                     <div class="space-y-1 text-center">
-                      <CloudUploadIcon
+                      <CloudCloudArrowUpIcon
                         :class="{ 'text-white': ActiveDrag }"
                         class="mx-auto h-12 w-12 text-neutral-200" />
                       <div class="flex text-sm text-gray-600">
@@ -112,7 +112,7 @@ import ImportService from '../services/api/import.service';
 import UserService from '../services/api/user.service';
 import ProgressBar from '../components/ProgressBar.vue';
 import draggable from 'vuedraggable';
-import { CloudUploadIcon } from '@heroicons/vue/solid';
+import { CloudCloudArrowUpIcon } from '@heroicons/vue/24/solid';
 import NoAccess from '../components/NoAccess.vue';
 
 export default {
@@ -125,7 +125,7 @@ export default {
     ImportColumnMatching,
     ProgressBar,
     draggable,
-    CloudUploadIcon,
+    CloudCloudArrowUpIcon,
     NoAccess,
   },
 

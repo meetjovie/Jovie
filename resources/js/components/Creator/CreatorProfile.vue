@@ -107,7 +107,7 @@
 <script>
 import JovieLogo from '../JovieLogo.vue';
 import ButtonGroup from '../ButtonGroup.vue';
-import { MailOpenIcon } from '@heroicons/vue/solid';
+import { MailOpenIcon } from '@heroicons/vue/24/solid';
 
 export default {
   name: 'CreatorProfile',
