@@ -91,14 +91,14 @@
 <script>
 import JovieLogo from '../components/JovieLogo.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
-import { MailOpenIcon } from '@heroicons/vue/24/solid';
+import { EnvelopeOpenIcon } from '@heroicons/vue/24/solid';
 import store from '../store';
 import router from '../router';
 import SocialIcons from '../components/SocialIcons';
 
 export default {
   name: 'CreatorProfile',
-  components: { JovieLogo, ButtonGroup, MailOpenIcon, SocialIcons },
+  components: { JovieLogo, ButtonGroup, EnvelopeOpenIcon, SocialIcons },
   props: ['profile', 'socialNetworks'],
   data() {
     return {

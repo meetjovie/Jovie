@@ -51,9 +51,9 @@
                               class="ml-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"
                               :class="{ 'text-indigo-700': searchopen }"
                               aria-hidden="true"></ChevronLeftIcon>
-                            <FilterIcon
+                            <FunnelIcon
                               v-if="searchopen == false"
-                              class="mx-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"></FilterIcon>
+                              class="mx-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"></FunnelIcon>
                           </button>
                           <div class="h-5 items-center text-center">
                             <!--  <input
@@ -1030,7 +1030,7 @@ import {
   EllipsisVerticalIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  FilterIcon,
+  FunnelIcon,
   HeartIcon,
   ChevronRightIcon,
   PlayIcon,
@@ -1078,7 +1078,7 @@ export default {
     DiscoveryToolbar,
     HeartIcon,
     NoSymbolIcon,
-    FilterIcon,
+    FunnelIcon,
     ChevronLeftIcon,
     DiscoverySearch,
     StarRating,

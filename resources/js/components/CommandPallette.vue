@@ -133,9 +133,9 @@
 import { computed, ref } from 'vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 import {
-  DocumentAddIcon,
+  DocumentPlusIcon,
   FolderIcon,
-  FolderAddIcon,
+  FolderPlusIcon,
   HashtagIcon,
   TagIcon,
 } from '@heroicons/vue/24/outline';
@@ -165,8 +165,8 @@ const projects = [
 ];
 const recent = [projects[0]];
 const quickActions = [
-  { name: 'Add new file...', icon: DocumentAddIcon, shortcut: 'N', url: '#' },
-  { name: 'Add new folder...', icon: FolderAddIcon, shortcut: 'F', url: '#' },
+  { name: 'Add new file...', icon: DocumentPlusIcon, shortcut: 'N', url: '#' },
+  { name: 'Add new folder...', icon: FolderPlusIcon, shortcut: 'F', url: '#' },
   { name: 'Add hashtag...', icon: HashtagIcon, shortcut: 'H', url: '#' },
   { name: 'Add label...', icon: TagIcon, shortcut: 'L', url: '#' },
 ];

@@ -109,15 +109,15 @@ import {
 import {
   StarIcon,
   ChevronRightIcon,
-  SwitchHorizontalIcon,
+  AdjustmentsHorizontalIcon,
   ChevronDownIcon,
   HandThumbUpIcon,
   HandThumbDownIcon,
   HeartIcon,
   NoSymbolIcon,
-  RefreshIcon,
+  ArrowPathIcon,
   TagIcon,
-  ClipboardListIcon,
+  ClipboardDocumentListIcon,
 } from '@heroicons/vue/24/solid';
 import DiscoverySidebar from './DiscoverySidebar.vue';
 import ButtonGroup from '../ButtonGroup.vue';
@@ -138,10 +138,10 @@ export default {
     HandThumbDownIcon,
     HeartIcon,
     NoSymbolIcon,
-    RefreshIcon,
+    ArrowPathIcon,
     TagIcon,
-    ClipboardListIcon,
-    SwitchHorizontalIcon,
+    ClipboardDocumentListIcon,
+    AdjustmentsHorizontalIcon,
     DiscoverySidebar,
     ButtonGroup,
   },
@@ -166,11 +166,11 @@ export default {
         },
         {
           name: 'Update',
-          icon: 'RefreshIcon',
+          icon: 'ArrowPathIcon',
         },
         {
           name: 'Add to list',
-          icon: 'ClipboardListIcon',
+          icon: 'ClipboardDocumentListIcon',
           haschild: true,
         },
         {
@@ -190,7 +190,7 @@ export default {
         },
         {
           name: 'Switch type',
-          icon: 'SwitchHorizontalIcon',
+          icon: 'AdjustmentsHorizontalIcon',
           haschild: false,
         },
       ],

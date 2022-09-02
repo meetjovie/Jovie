@@ -113,7 +113,7 @@
                       @click="toggleShowAppMenu()"
                       href="#"
                       class="text-gray-400 hover:text-gray-500">
-                      <MenuIcon
+                      <Bars3Icon
                         class="h-5 w-5 flex-shrink-0"
                         aria-hidden="true" />
                       <span class="sr-only">Menu</span>
@@ -215,7 +215,7 @@
                                     <div class="px-2">
                                       <component
                                         class="mx-auto h-5 w-5 text-neutral-400"
-                                        :is="'CloudCloudArrowUpIcon'">
+                                        :is="'CloudArrowUpIcon'">
                                       </component>
                                     </div>
                                     <div class="ml-3 w-60">
@@ -268,7 +268,7 @@
                                     <div class="px-2">
                                       <component
                                         class="mx-auto h-5 w-5 text-neutral-400"
-                                        :is="'CloudCloudArrowUpIcon'">
+                                        :is="'CloudArrowUpIcon'">
                                       </component>
                                     </div>
                                     <div class="ml-3 w-60">
@@ -317,7 +317,7 @@
                             v-else>
                             <span
                               class="mx-auto items-center text-sm font-bold text-neutral-400"
-                              ><EmojiHappyIcon
+                              ><FaceSmileIcon
                                 class="mx-auto h-14 w-14 text-neutral-200" />No
                               notifications</span
                             >
@@ -495,7 +495,7 @@
 <script>
 import {
   HomeIcon,
-  MenuIcon,
+  Bars3Icon,
   MagnifyingGlassIcon,
   EnvelopeIcon,
   ChartBarIcon,
@@ -503,7 +503,7 @@ import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   CreditCardIcon,
-  CloudCloudArrowUpIcon,
+  CloudArrowUpIcon,
   UserGroupIcon,
   FolderOpenIcon,
   CogIcon,
@@ -511,12 +511,12 @@ import {
   XMarkIcon,
   BellIcon,
   CursorArrowRippleIcon,
-  ChatAltIcon,
+  ChatBubbleLeftEllipsisIcon,
   ArrowLeftOnRectangleIcon,
-  SwitchHorizontalIcon,
+  AdjustmentsHorizontalIcon,
   MegaphoneIcon,
   LifebuoyIcon,
-  EmojiHappyIcon,
+  FaceSmileIcon,
 } from '@heroicons/vue/24/outline';
 import {
   Menu,
@@ -557,8 +557,8 @@ export default {
         //add a link for profile
         { name: 'Profile', route: '/edit-profile', icon: UserIcon },
 
-        /* { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon }, */
-        /*  { name: 'Import', route: '/import', icon: CloudCloudArrowUpIcon }, */
+        /* { name: 'Pipeline', route: '/pipeline', icon: AdjustmentsHorizontalIcon }, */
+        /*  { name: 'Import', route: '/import', icon: CloudArrowUpIcon }, */
         /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [
@@ -638,10 +638,10 @@ export default {
     Menu,
     MenuButton,
     HomeIcon,
-    MenuIcon,
+    Bars3Icon,
     MenuItem,
     MenuItems,
-    ChatAltIcon,
+    ChatBubbleLeftEllipsisIcon,
     MagnifyingGlassIcon,
     BellIcon,
     MegaphoneIcon,
@@ -650,14 +650,14 @@ export default {
     CursorArrowRippleIcon,
     ChartBarIcon,
     CheckCircleIcon,
-    CloudCloudArrowUpIcon,
+    CloudArrowUpIcon,
     UserGroupIcon,
     FolderOpenIcon,
     CogIcon,
     CreditCardIcon,
     ChevronLeftIcon,
     ArrowLeftOnRectangleIcon,
-    SwitchHorizontalIcon,
+    AdjustmentsHorizontalIcon,
     JovieLogo,
     XMarkIcon,
     TransitionRoot,
@@ -669,7 +669,7 @@ export default {
     ExclamationTriangleIcon,
     AlertBanner,
     CommandPallette,
-    EmojiHappyIcon,
+    FaceSmileIcon,
     ProgressBar,
     UserIcon,
     XCircle,

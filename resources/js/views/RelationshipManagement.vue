@@ -67,7 +67,7 @@
 import {
   GlobeAltIcon,
   BoltIcon,
-  RefreshIcon,
+  ArrowPathIcon,
   UserGroupIcon,
 } from '@heroicons/vue/24/outline';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
@@ -85,7 +85,7 @@ const features = [
     color: 'indigo',
     description:
       "Simply click “request contact info” we will automatically start searching for contact info. When the results are added right they're automatically available in your CRM.",
-    icon: RefreshIcon,
+    icon: ArrowPathIcon,
   },
   {
     name: 'Team collaboration',

@@ -32,8 +32,8 @@
               class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200 active:shadow-xl">
               <div
                 class="group w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
-                <MenuIcon
-                  class="h-4 w-4 text-gray-400/0 group-hover:text-gray-400"></MenuIcon>
+                <Bars3Icon
+                  class="h-4 w-4 text-gray-400/0 group-hover:text-gray-400"></Bars3Icon>
               </div>
 
               <div class="flex w-full items-center">
@@ -279,7 +279,7 @@ import {
   ChevronRightIcon,
   ChevronDownIcon,
   PlusIcon,
-  MenuIcon,
+  Bars3Icon,
   EllipsisVerticalIcon,
   BookmarkIcon,
   DocumentDuplicateIcon,
@@ -524,7 +524,7 @@ export default {
     ChevronDownIcon,
     EllipsisVerticalIcon,
     PlusIcon,
-    MenuIcon,
+    Bars3Icon,
     ArchiveBoxIcon,
     DocumentDuplicateIcon,
     TrashIcon,

@@ -608,7 +608,7 @@
                                           : 'text-gray-700',
                                         'block px-4 py-2 text-sm',
                                       ]">
-                                      <RefreshIcon
+                                      <ArrowPathIcon
                                         class="mr-2 inline h-4 w-4" />
                                       Refresh</a
                                     >
@@ -657,7 +657,7 @@ import {
   ArchiveBoxIcon,
   NoSymbolIcon,
   TrashIcon,
-  RefreshIcon,
+  ArrowPathIcon,
 } from '@heroicons/vue/24/solid';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
@@ -672,7 +672,7 @@ export default {
     StarRating,
     Menu,
     MenuButton,
-    RefreshIcon,
+    ArrowPathIcon,
     MenuItems,
     MenuItem,
     EllipsisVerticalIcon,

@@ -92,8 +92,8 @@
     </div>
     <div class="flex">
       <router-link class="group items-center" to="Import"
-        ><CloudCloudArrowUpIcon
-          class="mr-1 inline-flex h-3 w-3 items-center text-neutral-400 group-hover:text-neutral-500"></CloudCloudArrowUpIcon
+        ><CloudArrowUpIcon
+          class="mr-1 inline-flex h-3 w-3 items-center text-neutral-400 group-hover:text-neutral-500"></CloudArrowUpIcon
         ><span class="group-hover:text-neutral-500"
           >Upload a CSV File</span
         ></router-link
@@ -106,7 +106,7 @@
 import {
   UserIcon,
   ClipboardIcon,
-  CloudCloudArrowUpIcon,
+  CloudArrowUpIcon,
 } from '@heroicons/vue/24/solid';
 import SocialIcons from './SocialIcons';
 import ImportService from '../services/api/import.service';
@@ -118,7 +118,7 @@ export default {
     SocialIcons,
     ClipboardIcon,
     JovieSpinner,
-    CloudCloudArrowUpIcon,
+    CloudArrowUpIcon,
   },
 
   data() {

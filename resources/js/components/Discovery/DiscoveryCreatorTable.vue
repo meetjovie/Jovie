@@ -297,7 +297,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   CheckIcon,
-  SearchCircleIcon,
+  MagnifyingGlassCircleIcon,
 } from '@heroicons/vue/24/solid';
 import CreatorTags from '../Creator/CreatorTags';
 import CreatorSocialLinks from '../Creator/CreatorSocialLinks';
@@ -335,7 +335,7 @@ export default {
     EllipsisVerticalIcon,
     ChevronDownIcon,
     CheckIcon,
-    SearchCircleIcon,
+    MagnifyingGlassCircleIcon,
     CreatorTags,
     CreatorSocialLinks,
     ChevronUpIcon,

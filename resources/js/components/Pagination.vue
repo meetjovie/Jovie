@@ -7,7 +7,7 @@
         @click="onClickPreviousPage"
         href="#"
         class="inline-flex items-center border-t-2 border-transparent pt-2 pr-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:text-red-500">
-        <ArrowNarrowLeftIcon
+        <ArrowLongLeftIcon
           class="mr-3 h-5 w-5 text-gray-400"
           aria-hidden="true" />
         Previous
@@ -35,7 +35,7 @@
         href="#"
         class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
         Next
-        <ArrowNarrowRightIcon
+        <ArrowLongRightIcon
           class="ml-3 h-5 w-5 text-gray-400"
           aria-hidden="true" />
       </a>
@@ -43,10 +43,7 @@
   </nav>
 </template>
 <script>
-import {
-  ArrowNarrowLeftIcon,
-  ArrowNarrowRightIcon,
-} from '@heroicons/vue/24/solid';
+import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/vue/24/solid';
 
 export default {
   name: 'Pagination',
@@ -70,8 +67,8 @@ export default {
     },
   },
   components: {
-    ArrowNarrowLeftIcon,
-    ArrowNarrowRightIcon,
+    ArrowLongLeftIcon,
+    ArrowLongRightIcon,
   },
   data() {
     return {};

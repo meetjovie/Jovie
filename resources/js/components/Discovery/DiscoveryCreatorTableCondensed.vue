@@ -477,7 +477,7 @@ import {
   EllipsisVerticalIcon,
   ChevronDownIcon,
   CheckIcon,
-  SearchCircleIcon,
+  MagnifyingGlassCircleIcon,
 } from '@heroicons/vue/24/solid';
 
 const people = [
@@ -513,7 +513,7 @@ export default {
     EllipsisVerticalIcon,
     ChevronDownIcon,
     CheckIcon,
-    SearchCircleIcon,
+    MagnifyingGlassCircleIcon,
   },
   data() {
     return {

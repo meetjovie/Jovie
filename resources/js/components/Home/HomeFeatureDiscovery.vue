@@ -167,12 +167,12 @@
 </template>
 <script>
 import {
-  ChatAltIcon,
-  DocumentReportIcon,
+  ChatBubbleLeftEllipsisIcon,
+  DocumentTextIcon,
   HeartIcon,
   InboxIcon,
   PencilIcon,
-  ArrowUTurnLeftIcon,
+  ArrowUturnLeftIcon,
   TrashIcon,
   UsersIcon,
 } from '@heroicons/vue/24/outline';
@@ -180,12 +180,12 @@ import {
 export default {
   name: 'HomeFeatureDiscovery',
   components: {
-    ChatAltIcon,
-    DocumentReportIcon,
+    ChatBubbleLeftEllipsisIcon,
+    DocumentTextIcon,
     HeartIcon,
     InboxIcon,
     PencilIcon,
-    ArrowUTurnLeftIcon,
+    ArrowUturnLeftIcon,
     TrashIcon,
     UsersIcon,
   },

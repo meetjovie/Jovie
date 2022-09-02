@@ -94,7 +94,7 @@
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import { ChevronDownIcon } from '@heroicons/vue/24/solid';
 import {
-  BookmakeSquareIcon,
+  BookmarkSquareIcon,
   CalendarIcon,
   ShieldCheckIcon,
   LifebuoyIcon,
@@ -115,7 +115,7 @@ const resources = [
     description:
       'Learn how to maximize our platform to get the most out of it.',
     href: '#',
-    icon: BookmakeSquareIcon,
+    icon: BookmarkSquareIcon,
   },
   {
     name: 'Events',

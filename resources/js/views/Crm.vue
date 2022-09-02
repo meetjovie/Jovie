@@ -264,7 +264,7 @@ import {
   PlusIcon,
   HeartIcon,
   ArchiveBoxIcon,
-  CloudCloudArrowUpIcon,
+  CloudArrowUpIcon,
 } from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
@@ -309,7 +309,7 @@ export default {
     CheckIcon,
     ArchiveBoxIcon,
     UserGroupIcon,
-    CloudCloudArrowUpIcon,
+    CloudArrowUpIcon,
     CrmTable,
     JovieTooltip,
   },

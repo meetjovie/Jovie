@@ -159,17 +159,17 @@ import {
   PopoverPanel,
 } from '@headlessui/vue';
 import {
-  BookmakeSquareIcon,
+  BookmarkSquareIcon,
   CalendarIcon,
   ChartBarIcon,
   CursorArrowRippleIcon,
-  MenuIcon,
+  Bars3Icon,
   PhoneIcon,
   PlayIcon,
-  RefreshIcon,
+  ArrowPathIcon,
   ShieldCheckIcon,
   LifebuoyIcon,
-  ViewGridIcon,
+  Squares2X2Icon,
   XMarkIcon,
 } from '@heroicons/vue/24/outline';
 import { ChevronDownIcon } from '@heroicons/vue/24/solid';
@@ -200,14 +200,14 @@ const features = [
     name: 'Integrations',
     href: '#',
     description: "Connect with third-party tools that you're already using.",
-    icon: ViewGridIcon,
+    icon: Squares2X2Icon,
   },
   {
     name: 'Automations',
     href: '#',
     description:
       'Build strategic funnels that will drive your customers to convert',
-    icon: RefreshIcon,
+    icon: ArrowPathIcon,
   },
 ];
 const callsToAction = [
@@ -227,7 +227,7 @@ const resources = [
     description:
       'Learn how to maximize our platform to get the most out of it.',
     href: '#',
-    icon: BookmakeSquareIcon,
+    icon: BookmarkSquareIcon,
   },
   {
     name: 'Events',

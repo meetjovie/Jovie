@@ -32,7 +32,7 @@
 </template>
 <script>
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
-import { StarIcon, ChevronRightIcon, ChevronDownIcon, HandThumbUpIcon, HandThumbDownIcon, HeartIcon, NoSymbolIcon, RefreshIcon, TagIcon, ClipboardListIcon } from '@heroicons/vue/24/solid'
+import { StarIcon, ChevronRightIcon, ChevronDownIcon, HandThumbUpIcon, HandThumbDownIcon, HeartIcon, NoSymbolIcon, ArrowPathIcon, TagIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/solid'
 
 export default {
   components: {
@@ -47,9 +47,9 @@ export default {
     HandThumbDownIcon,
     HeartIcon,
     NoSymbolIcon,
-    RefreshIcon,
+    ArrowPathIcon,
     TagIcon,
-    ClipboardListIcon,
+    ClipboardDocumentListIcon,
   },
   data() {
         return {
@@ -76,12 +76,12 @@ export default {
                 },
                 {
                     name: 'Update',
-                    icon: 'RefreshIcon',
+                    icon: 'ArrowPathIcon',
 
                 },
                 {
                     name: 'Add to list',
-                    icon: 'ClipboardListIcon',
+                    icon: 'ClipboardDocumentListIcon',
                 },
                 {
                     name: 'Add tag',

@@ -30,7 +30,7 @@
 
 <script>
 import {
-  AnnotationIcon,
+  ChatBubbleBottomCenterTextIcon,
   MagnifyingGlassIcon,
   BoltIcon,
   ScaleIcon,
@@ -59,7 +59,7 @@ const features = [
     name: 'Mobile notifications',
     description:
       'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: AnnotationIcon,
+    icon: ChatBubbleBottomCenterTextIcon,
   },
 ];
 import JovieLogo from '@/components/JovieLogo.vue';

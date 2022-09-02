@@ -228,7 +228,7 @@ import {
   MagnifyingGlassIcon,
   UserGroupIcon,
   EnvelopeIcon,
-  DatabaseIcon,
+  CircleStackIcon,
   LightBulbIcon,
 } from '@heroicons/vue/24/outline';
 import UserService from '../services/api/user.service';
@@ -255,7 +255,7 @@ export default {
     MagnifyingGlassIcon,
     UserGroupIcon,
     EnvelopeIcon,
-    DatabaseIcon,
+    CircleStackIcon,
     Popover,
     PopoverButton,
     PopoverPanel,
@@ -285,7 +285,7 @@ export default {
           description: `The Jovie Chrome Extension puts new & extsting contact\'s social data right inside your inbox`,
           href: 'chrome-extension',
           anchor: '',
-          icon: 'DatabaseIcon',
+          icon: 'CircleStackIcon',
         },
         {
           name: 'Data Enrichment',
