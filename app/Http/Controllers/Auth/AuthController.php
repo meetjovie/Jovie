@@ -20,9 +20,11 @@ class AuthController extends Controller
 
         if (Auth::guard()->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
+            $token = $request->user()->createToken('jovie_extension');
 
             return response()->json([
                 'status' => true,
+                'token' => $token->plainTextToken,
                 'user' => User::currentLoggedInUser(),
             ], 200);
         }
@@ -35,6 +37,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $request->user()->tokens()->delete();
         Auth::guard()->logout();
 
         $request->session()->invalidate();

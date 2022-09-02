@@ -320,24 +320,24 @@ export default {
     InputLists,
   },
   mounted() {
-    console.log('Sidebar loaded');
-    document.onreadystatechange = () => {
-      if (document.readyState == 'complete') {
-        console.log('Page completed with image and files!');
-        // fetch to next page or some code
-        /*  this.setCreatorData(); */
-      }
-    };
-
-    const queryParameters = location.href.split('?')[1];
-    let image = queryParameters.split('image=')[1];
-    const urlParameters = new URLSearchParams(queryParameters);
-
-    let creator = urlParameters.get('creator');
-    this.creator = JSON.parse(creator);
-    this.creator.instagram_profile_picture = image;
-    console.log('creator from iframe');
-    console.log(this.creator);
+    // console.log('Sidebar loaded');
+    // document.onreadystatechange = () => {
+    //   if (document.readyState == 'complete') {
+    //     console.log('Page completed with image and files!');
+    //     // fetch to next page or some code
+    //     /*  this.setCreatorData(); */
+    //   }
+    // };
+    //
+    // const queryParameters = location.href.split('?')[1];
+    // let image = queryParameters.split('image=')[1];
+    // const urlParameters = new URLSearchParams(queryParameters);
+    //
+    // let creator = urlParameters.get('creator');
+    // this.creator = JSON.parse(creator);
+    // this.creator.instagram_profile_picture = image;
+    // console.log('creator from iframe');
+    // console.log(this.creator);
   },
   methods: {
     setCreatorData() {
