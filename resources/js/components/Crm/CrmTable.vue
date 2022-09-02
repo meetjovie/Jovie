@@ -40,7 +40,7 @@
                   <th
                     scope="col"
                     class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    Contact
+                    Name
                   </th>
                   <th
                     scope="col"
@@ -60,7 +60,7 @@
                   <th
                     scope="col"
                     class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    Followers
+                    <CrmTableSortableHeader name="Followers" />
                   </th>
                   <th
                     scope="col"
@@ -127,7 +127,7 @@
                       "
                       class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                       <td
-                        class="grow-0 whitespace-nowrap bg-red-500 px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                        class="grow-0 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                         <div class="grid grid-cols-2 items-center gap-2">
                           <div class="group mx-auto mr-2">
                             <span class="group-hover:hidden">
@@ -345,7 +345,34 @@
                           as="div"
                           class="relative inline-block pl-1 text-left">
                           <PopoverButton
-                            class="w-18 group my-0 inline-flex items-center justify-between rounded-md bg-blue-100 px-1 py-0.5 text-2xs font-semibold leading-5 text-blue-800">
+                            class="w-18 group my-0 inline-flex items-center justify-between rounded-md px-1 py-0.5 text-2xs font-semibold leading-5"
+                            :class="[
+                              {
+                                'bg-indigo-50 text-indigo-600':
+                                  creator.crm_record_by_user.stage ===
+                                  'Onboarding',
+                              },
+                              {
+                                'bg-sky-50 text-sky-600':
+                                  creator.crm_record_by_user.stage ===
+                                  'Interested',
+                              },
+                              {
+                                'bg-pink-50 text-pink-600':
+                                  creator.crm_record_by_user.stage ===
+                                  'Negotiating',
+                              },
+                              {
+                                'bg-fuchsia-50 text-fuchsia-600':
+                                  creator.crm_record_by_user.stage ===
+                                  'In Progress',
+                              },
+                              {
+                                'bg-red-50 text-red-600':
+                                  creator.crm_record_by_user.stage ===
+                                  'Complete',
+                              },
+                            ]">
                             {{ creator.crm_record_by_user.stage }}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -368,7 +395,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                              class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                               <div class="">
                                 <div class="">
                                   <button
@@ -382,12 +409,7 @@
                                         value: key,
                                       })
                                     "
-                                    :class="[
-                                      creator.crm_record_by_user.stage == key
-                                        ? 'bg-indigo-500 text-neutral-700'
-                                        : 'text-gray-900',
-                                      'group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white',
-                                    ]">
+                                    class="hover:text-white' group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200">
                                     <div
                                       class="mr-2 text-xs font-bold opacity-50">
                                       {{ key + 1 }}
@@ -453,7 +475,7 @@
                                 name: 'Creator Overview',
                                 params: { id: creator.id },
                               }"
-                              class="text-indigo-600 hover:text-indigo-900">
+                              class="text-neutral-600 hover:text-indigo-900">
                               Manage
                             </router-link>
                           </div>
@@ -505,7 +527,6 @@
                                   </MenuItem>
                                   <MenuItem
                                     v-slot="{ active }"
-                                    class="items-center"
                                     @click="
                                       $emit('updateCreator', {
                                         id: creator.id,
@@ -517,7 +538,8 @@
                                             `${network}_archived`
                                           ],
                                       })
-                                    ">
+                                    "
+                                    class="items-center">
                                     <a
                                       href="#"
                                       class="items-center text-neutral-400 hover:text-neutral-900"
@@ -608,6 +630,7 @@
       </div>
     </div>
     <Pagination
+      class="w-full"
       v-if="creators.length"
       :totalPages="creatorsMeta.last_page"
       :perPage="creatorsMeta.per_page"
@@ -634,13 +657,12 @@ import {
   BanIcon,
   TrashIcon,
   RefreshIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
 } from '@heroicons/vue/solid';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import JovieSpinner from '../../components/JovieSpinner.vue';
 import ImportService from '../../services/api/import.service';
+import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
 
 export default {
   name: 'CrmTable',
@@ -661,6 +683,7 @@ export default {
     TrashIcon,
     Pagination,
     JovieSpinner,
+    CrmTableSortableHeader,
   },
   data() {
     return {

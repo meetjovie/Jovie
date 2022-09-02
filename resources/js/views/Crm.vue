@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full">
+  <div class="h-full w-full">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
         <TransitionRoot
@@ -98,13 +98,7 @@
             </div>
             <div class="flex-shrink-0 px-2">
               <SwitchTeams />
-              <div
-                v-if="!currentUser.current_team.credits"
-                as="router-link"
-                to="/billing"
-                class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
-                Upgrade
-              </div>
+
               <div class="mt-1 py-1">
                 <ProgressBar
                   invertedColor
@@ -125,6 +119,24 @@
                     ' contacts'
                   " />
               </div>
+              <div
+                v-if="!currentUser.current_team.credits"
+                class="flex items-center justify-between">
+                <div class="flex items-center px-2">
+                  <span class="text-2xs text-neutral-400"
+                    >Account quota exceeded
+                  </span>
+                  <ChevronRightIcon
+                    class="h-3 w-3 text-neutral-400"
+                    aria-hidden="true" />
+                </div>
+                <div
+                  as="router-link"
+                  to="/billing"
+                  class="underline-2 cursor-pointer text-center text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+                  Upgrade
+                </div>
+              </div>
             </div>
           </div>
         </TransitionRoot>
@@ -135,6 +147,7 @@
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
                     <div class="">
+                      <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && creators.length < 1"
                         class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
@@ -155,7 +168,27 @@
                           </div>
                         </div>
                       </div>
+                      <!-- Show loading screen if the users first ever import is loading -->
 
+                      <div
+                        v-else-if="initialImportLoading"
+                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                        <div class="mx-auto max-w-xl">
+                          <div
+                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                            <div>
+                              <h1 class="text-md font-bold">
+                                You've just initated an import.
+                              </h1>
+                              <span class="text-sm font-medium text-neutral-500"
+                                >You'll see creators populate this space
+                                soon.</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Show the crm if there are creators -->
                       <CrmTable
                         v-else
                         @updateCreator="updateCreator"
@@ -223,6 +256,7 @@ import {
 } from '@headlessui/vue';
 import {
   ChevronDownIcon,
+  ChevronRightIcon,
   DownloadIcon,
   CheckIcon,
   UserGroupIcon,
@@ -260,6 +294,7 @@ export default {
     TabPanels,
     TabPanel,
     MenuList,
+    ChevronRightIcon,
     Combobox,
     DotsVerticalIcon,
     ComboboxInput,
@@ -339,6 +374,15 @@ export default {
     },
   },
   computed: {
+    sortedCreators() {
+      return this.creators.sort((a, b) => {
+        let modifier = 1;
+        if (this.currentSortDir === 'desc') modifier = -1;
+        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      });
+    },
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
       let filterList = localStorage.getItem('filterListCrm');
