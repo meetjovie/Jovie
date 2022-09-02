@@ -16,7 +16,7 @@
       <div class="flex items-center">
         <div
           class="group rounded-md p-1 text-gray-400 hover:bg-gray-300 hover:text-gray-50">
-          <PlusIcon v-if="draggable" class="h-4 w-4"></PlusIcon>
+          <PlusIcon v-if="draggable" @click="createList()" class="h-4 w-4"></PlusIcon>
         </div>
       </div>
     </div>
@@ -41,17 +41,17 @@
                   class="cursor-pointer rounded-md p-1 text-xs hover:bg-gray-400">
                   {{ element.emoji || '😆' }}
                 </div>
-                <div>
+                <div @dblclick="enableEditName(element)">
                   <span
                     v-if="!element.editName"
-                    @dblclick="enableEditName(element)"
                     class="cursor-pointer text-xs font-semibold text-neutral-400 line-clamp-1 group-hover:text-neutral-500"
                     >{{ element.name }}</span
                   >
                   <input
                     v-model="element.name"
                     @blur="disableEditName(element)"
-                    @keyup.enter="disableEditName(element)"
+                    @keyup.esc="disableEditName(element)"
+                    @keyup.enter="updateList(element)"
                     v-else
                     class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
                 </div>
@@ -172,10 +172,9 @@
                 {{ item.emoji || '😆' }}
               </div> -->
             </EmojiPickerModal>
-            <div>
+            <div @dblclick="enableEditName(item)">
               <span
                 v-if="!item.editName"
-                @dblclick="enableEditName(item)"
                 class="cursor-pointer text-xs font-semibold text-neutral-400 line-clamp-1 group-hover:text-neutral-500"
                 >{{ item.name }}</span
               >
@@ -183,7 +182,8 @@
                 ref="input"
                 :input="ref"
                 @blur="disableEditName(item)"
-                @keyup.enter="disableEditName(item)"
+                @keyup.esc="disableEditName(item)"
+                @keyup.enter="updateList(item)"
                 v-else
                 class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
             </div>
@@ -317,6 +317,8 @@ export default {
         description: '',
         loading: false,
       },
+        creatingList: false,
+        currentEditingList: null
     };
   },
   methods: {
@@ -330,11 +332,82 @@ export default {
       this.showMenu = !this.showMenu;
     },
     enableEditName(item) {
+        this.currentEditingList = JSON.parse(JSON.stringify(item))
       item.editName = true;
     },
     disableEditName(item) {
       item.editName = false;
+      item.name = this.currentEditingList.name
+      this.currentEditingList = null
     },
+      updateList(item) {
+          this.creatingList = true
+          UserService.updateList({name: item.name}).then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              } else {
+                  // show toast error here later
+                  this.$notify({
+                      group: 'user',
+                      type: 'error',
+                      duration: 15000,
+                      title: 'Error',
+                      text: response.message,
+                  });
+              }
+          })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                  }
+              })
+              .finally((response) => {
+                  this.creatingList = false
+                  this.$emit('getUserLists');
+              });
+      },
+      createList() {
+        this.creatingList = true
+          UserService.createList().then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              } else {
+                  // show toast error here later
+                  this.$notify({
+                      group: 'user',
+                      type: 'error',
+                      duration: 15000,
+                      title: 'Error',
+                      text: response.message,
+                  });
+              }
+          })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                  }
+              })
+              .finally((response) => {
+                  this.creatingList = false
+                  this.$emit('getUserLists');
+              });
+      },
     confirmListDeletion(id) {
       this.confirmationPopup.confirmationMethod = () => {
         this.deleteList(id);

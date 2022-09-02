@@ -137,4 +137,14 @@ class UserListsController extends Controller
             'message' => 'Try again.'
         ], 200);
     }
+
+    public function createList(Request $request)
+    {
+        $list = UserList::firstOrCreateList(Auth::id(), 'New List');
+        return response()->json([
+            'status' => true,
+            'message' => 'List Created.',
+            'list' => $list
+        ], 200);
+    }
 }
