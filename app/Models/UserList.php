@@ -144,6 +144,7 @@ class UserList extends Model
                 UserListDuplicated::dispatch($newList, true, ('Your list '.$newList->name.' is duplicated successfully'));
             })->catch(function (Batch $batch, Throwable $e = null) use ($newList) {
                 Log::info('First batch duplicating job failure detected...');
+                Log::channel('slack_warning')->info('User list duplicate fail', ['batch' => $batch->id]);
                 UserListDuplicated::dispatch($newList, false, ('Your list '.$newList->name.' failed to duplicate. Support has been notified automatically'));
             })->finally(function (Batch $batch) {
                 Log::info('The batch duplication has finished executing...');
