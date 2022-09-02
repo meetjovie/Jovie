@@ -159,12 +159,14 @@
           </div>
 
           <div class="flex w-full items-center">
-            <EmojiPickerModal @select="onSelectEmoji">
+            <EmojiPickerModal
+              class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
               <input
                 id="item.emoji"
                 v-model="item.emoji"
                 placeholder="📄"
                 class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
+
               <!--  <div
                 class="cursor-pointer rounded-md p-1 text-xs hover:bg-gray-400">
                 {{ item.emoji || '😆' }}
@@ -178,13 +180,15 @@
                 >{{ item.name }}</span
               >
               <input
-                v-model="item.name"
+                ref="input"
+                :input="ref"
                 @blur="disableEditName(item)"
                 @keyup.enter="disableEditName(item)"
                 v-else
                 class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
             </div>
           </div>
+
           <div
             class="group h-6 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
             <span
@@ -318,6 +322,10 @@ export default {
   methods: {
     // event callback
 
+    emojiSelected() {
+      //listen for even from emoji picker
+    },
+
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
@@ -409,7 +417,16 @@ export default {
               title: 'Successful',
               text: response.message,
             });
-            this.listenEvents(`duplicateList.${response.list.id}`, 'UserListDuplicated', () => {this.$emit('getUserLists')}, () => {this.$emit('getUserLists')})
+            this.listenEvents(
+              `duplicateList.${response.list.id}`,
+              'UserListDuplicated',
+              () => {
+                this.$emit('getUserLists');
+              },
+              () => {
+                this.$emit('getUserLists');
+              }
+            );
           } else {
             // show toast error here later
             this.$notify({

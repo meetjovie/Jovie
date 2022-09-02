@@ -17,16 +17,7 @@
       leave-to-class="transform opacity-0 scale-95">
       <MenuItems
         class="right-18 absolute z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-        <div class="py-1">
-          <emoji-picker
-            style="
-              emoji-picker {
-                width: 100%;
-                height: 100%;
-              }
-            "
-            class="light"></emoji-picker>
-        </div>
+        <div class="py-1">emoji picker here</div>
       </MenuItems>
     </transition>
   </Menu>
@@ -35,7 +26,6 @@
 <script>
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { EllipsisVerticalIcon } from '@heroicons/vue/24/solid';
-import 'emoji-picker-element';
 
 export default {
   components: {
@@ -56,12 +46,6 @@ export default {
       default: false,
     },
   },
-  methods: {
-    emoji() {
-      document
-        .querySelector('emoji-picker')
-        .addEventListener('emoji-click', (event) => console.log(event.detail));
-    },
-  },
+  methods: {},
 };
 </script>

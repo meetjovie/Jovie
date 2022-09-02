@@ -104,6 +104,7 @@
                   class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
                   aria-hidden="true" />Import Contacts
               </div>
+
               <SwitchTeams />
 
               <div class="mt-1 py-1">

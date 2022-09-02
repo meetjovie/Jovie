@@ -49,7 +49,6 @@
     "@meilisearch/instant-meilisearch": "^0.8.2",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
-    "emoji-picker-element": "^1.12.1",
     "install": "^0.13.0",
     "moment": "^2.29.4",
     "notiwind": "^1.2.6",
