@@ -31,7 +31,7 @@
             <div
               class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200 active:shadow-xl">
               <div
-                class="group w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
+                class="group mx-auto w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
                 <Bars3Icon
                   class="h-4 w-4 text-gray-400/0 group-hover:text-gray-400"></Bars3Icon>
               </div>
@@ -63,9 +63,11 @@
                   >{{ element.count }}</span
                 >
 
-                <Menu as="div" class="relative inline-block text-left">
+                <Menu
+                  as="div"
+                  class="relative inline-block items-center text-center">
                   <MenuButton
-                    class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block">
+                    class="hidden h-4 w-4 items-center text-gray-400 active:text-gray-500 group-hover:block">
                     <EllipsisVerticalIcon
                       class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
                   </MenuButton>
@@ -285,7 +287,7 @@ import {
   DocumentDuplicateIcon,
   ArchiveBoxIcon,
   TrashIcon,
-} from '@heroicons/vue/24/solid';
+} from '@heroicons/vue/20/solid';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import draggable from 'vuedraggable';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';

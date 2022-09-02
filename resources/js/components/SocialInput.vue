@@ -144,7 +144,7 @@ export default {
           group: 'user',
           type: 'warning',
           title: 'You must enter a valid social url to continue.',
-          text: 'This may take a few minutes.',
+          text: 'Add the full URL of a social profile and try again.',
         });
         return;
       }

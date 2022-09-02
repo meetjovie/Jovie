@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid';
 export default {
   components: {
     ChevronDownIcon,
