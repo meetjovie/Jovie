@@ -374,6 +374,7 @@ export default {
         console.log(e);
         /*  alert('Problem in selecting product'); */
         this.$notify({
+          group: 'user',
           title: 'Error',
           message: 'Problem in selecting product',
           type: 'error',
@@ -393,6 +394,7 @@ export default {
       } catch (e) {
         /* alert('Problem in selecting plan'); */
         this.$notify({
+          group: 'user',
           title: 'Error',
           message: 'Problem in selecting plan',
           type: 'error',
@@ -413,6 +415,7 @@ export default {
       if (!this.selectedProduct || !this.selectedPlan) {
         /*  alert('Please select a plan to continue.'); */
         this.$notify({
+          group: 'user',
           title: 'Error',
           message: 'Please select a plan to continue.',
           type: 'error',
@@ -432,6 +435,7 @@ export default {
           } else {
             /*  alert(response.message); */
             this.$notify({
+              group: 'user',
               title: 'Error',
               message: response.message,
               type: 'error',
@@ -464,7 +468,10 @@ export default {
           response = response.data;
           if (response.status) {
             this.$notify({
+              group: 'user',
+
               title: 'Success',
+
               message: response.message,
               type: 'success',
             });
@@ -474,6 +481,7 @@ export default {
           } else {
             /*  alert(response.message); */
             this.$notify({
+              group: 'user',
               title: 'Error',
               message: response.message,
               type: 'error',
@@ -492,6 +500,7 @@ export default {
           if (response.status) {
             /* alert(response.message); */
             this.$notify({
+              group: 'user',
               title: 'Success',
               message: response.message,
               type: 'success',
@@ -500,6 +509,7 @@ export default {
               response.subscription;
           } else {
             this.$notify({
+              group: 'user',
               title: 'Error',
               message: response.message,
               type: 'error',
@@ -516,6 +526,7 @@ export default {
       if (!this.selectedProduct || !this.selectedPlan) {
         /*  alert('You must select a product and pricing to continue.'); */
         this.$notify({
+          group: 'user',
           title: 'Error',
           message: 'You must select a product and pricing to continue.',
           type: 'error',
@@ -538,6 +549,7 @@ export default {
           if (result.error) {
             /* alert(result.error.message); */
             this.$notify({
+              group: 'user',
               title: 'Error',
               message: result.error.message,
               type: 'error',
@@ -562,6 +574,7 @@ export default {
           if (response.status) {
             /* alert(response.message); */
             this.$notify({
+              group: 'user',
               title: 'Success',
               message: response.message,
               type: 'success',
@@ -573,6 +586,7 @@ export default {
           } else {
             /*  alert(response.message); */
             this.$notify({
+              group: 'user',
               title: 'Error',
               message: response.message,
               type: 'error',
@@ -601,6 +615,7 @@ export default {
           if (response.status) {
             /*  alert(response.message); */
             this.$notify({
+              group: 'user',
               title: 'Success',
               message: response.message,
               type: 'success',
@@ -613,6 +628,7 @@ export default {
           } else {
             /*  alert(response.message); */
             this.$notify({
+              group: 'user',
               title: 'Error',
               message: response.message,
               type: 'error',
