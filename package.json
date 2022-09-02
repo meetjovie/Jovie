@@ -45,7 +45,7 @@
     "@floating-ui/dom": "^1.0.1",
     "@headlessui-float/vue": "^0.8.0",
     "@headlessui/vue": "^1.6.7",
-    "@heroicons/vue": "^1.0.6",
+    "@heroicons/vue": "^2.0.10",
     "@meilisearch/instant-meilisearch": "^0.8.2",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",

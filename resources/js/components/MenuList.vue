@@ -406,7 +406,13 @@ export default {
             });
               Echo.private(`duplicateList.${response.list.id}`)
                   .listen('UserListDuplicated', (e) => {
-                      console.log(e);
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: e.message,
+                      });
                   });
           } else {
             // show toast error here later

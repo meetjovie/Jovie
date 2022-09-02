@@ -42,6 +42,6 @@ class UserListDuplicated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['list' => $this->list];
+        return ['list' => $this->list, 'message' => ('Your list '.$this->list->name.' is duplicated successfully')];
     }
 }

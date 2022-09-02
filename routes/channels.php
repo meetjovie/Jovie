@@ -18,7 +18,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('duplicateList.{listId}', function ($user, $listId) {
-    return true;
     $list = \App\Models\UserList::where('id', $listId)->first();
     $user = \App\Models\User::with('currentTeam')->where('id', $user->id)->first();
     if ($list && ($list->user_id == $user->id) && ($list->team_id == $user->currentTeam->id)) {
@@ -27,4 +26,4 @@ Broadcast::channel('duplicateList.{listId}', function ($user, $listId) {
         // notification trail
     }
     return false;
-}, ['middleware' => ['auth:sanctum']]);
+});

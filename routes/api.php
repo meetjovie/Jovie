@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,8 @@ Route::post('/forgot-password', [\App\Http\Controllers\Teamwork\AuthController::
 Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Broadcast::routes();
 
     //    PROFILE
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
