@@ -53,7 +53,7 @@
         id="social-media-profile-url"
         v-on:keyup.enter="add()"
         tabindex="1"
-        class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-neutral-400 focus:border-indigo-400 focus:outline-none focus:ring-indigo-500 active:border-indigo-500 sm:text-sm"
+        class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-neutral-400 focus-visible:border-indigo-400 focus-visible:outline-none focus-visible:ring-indigo-500 active:border-indigo-500 sm:text-sm"
         placeholder="http://instagram.com/username" />
       <p v-if="network && errors[network]" class="mt-2 text-xs text-red-600">
         {{ errors[network][0] }}
@@ -64,7 +64,7 @@
         class="group absolute inset-y-0 right-0 flex cursor-pointer py-2 pr-3"
         :class="{ 'disabled:opacity-25': adding }">
         <kbd
-          class="inline-flex select-none items-center rounded border border-indigo-200 px-2 py-1 font-sans text-sm font-medium text-indigo-400 focus:border-indigo-300 active:border-indigo-500 active:bg-indigo-500 active:text-white group-hover:border-indigo-400">
+          class="inline-flex select-none items-center rounded border border-indigo-200 px-2 py-1 font-sans text-sm font-medium text-indigo-400 focus-visible:border-indigo-300 active:border-indigo-500 active:bg-indigo-500 active:text-white group-hover:border-indigo-400">
           <JovieSpinner v-if="loader" />
           <span v-if="adding">Adding...</span>
           <span v-else
