@@ -18,6 +18,7 @@
       <MenuItems
         class="right-18 absolute z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
         <div class="py-1">emoji picker here</div>
+        <EmojiPicker :native="true" @select="onSelectEmoji" />
       </MenuItems>
     </transition>
   </Menu>
@@ -26,9 +27,12 @@
 <script>
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { EllipsisVerticalIcon } from '@heroicons/vue/24/solid';
+// import picker compopnent
+import EmojiPicker from 'vue3-emoji-picker';
 
 export default {
   components: {
+    EmojiPicker,
     Menu,
     MenuButton,
     MenuItem,
@@ -49,3 +53,4 @@ export default {
   methods: {},
 };
 </script>
+<style src="../node_modules/vue3-emoji-picker/dist/style.css"></style>
