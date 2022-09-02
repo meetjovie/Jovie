@@ -10,6 +10,11 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+let token = localStorage.getItem('jovie_extension')
+if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
+
 axios.defaults.withCredentials = true;
 
 /**

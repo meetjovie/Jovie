@@ -34,7 +34,8 @@ export default {
       axios
         .post(`${baseApiUrl}/logout`)
         .then((response) => {
-          resolve(response);
+            localStorage.removeItem('jovie_extension')
+            resolve(response);
         })
         .catch((error) => {
           reject(error);
