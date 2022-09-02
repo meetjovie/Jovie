@@ -171,7 +171,6 @@
                 placeholder="📄"
                 class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
             </EmojiPickerModal>
-
             <div @dblclick="enableEditName(item)">
               <span
                 v-if="!item.editName"
