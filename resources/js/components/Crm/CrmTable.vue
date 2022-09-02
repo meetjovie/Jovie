@@ -117,6 +117,7 @@
                     v-for="(network, indexN) in networks"
                     :key="network">
                     <tr
+                      @click="setCurrentRow(creator, network)"
                       v-if="
                         creator[`${network}_meta`] &&
                         Object.keys(creator[`${network}_meta`]).length &&
@@ -689,6 +690,7 @@ export default {
   data() {
     return {
       query: '',
+      currentRow: [],
     };
   },
   props: [
@@ -700,6 +702,10 @@ export default {
     'archived',
   ],
   methods: {
+    setCurrentRow(row) {
+      this.currentRow = row;
+      console.log(this.currentRow);
+    },
     refresh(url, network) {
       this.adding = true;
       var form = new FormData();

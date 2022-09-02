@@ -404,16 +404,18 @@ export default {
               title: 'Successful',
               text: response.message,
             });
-              Echo.private(`duplicateList.${response.list.id}`)
-                  .listen('UserListDuplicated', (e) => {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: e.message,
-                      });
-                  });
+            Echo.private(`duplicateList.${response.list.id}`).listen(
+              'UserListDuplicated',
+              (e) => {
+                this.$notify({
+                  group: 'user',
+                  type: 'success',
+                  duration: 15000,
+                  title: 'Successful',
+                  text: e.message,
+                });
+              }
+            );
           } else {
             // show toast error here later
             this.$notify({
