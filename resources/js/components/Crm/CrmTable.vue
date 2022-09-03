@@ -5,7 +5,7 @@
         <div class="inline-block min-w-full align-middle">
           <div
             class="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
-            <table class="min-w-full divide-y divide-gray-200">
+            <table class="min-w-full table-fixed divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
                   <th
@@ -21,7 +21,7 @@
                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
                       </div>
                       <div
-                        class="group sr-only items-center text-center text-gray-300 hover:text-red-500">
+                        class="group sr-only w-8 items-center text-center text-gray-300 hover:text-red-500">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           class="h-6 w-6 group-hover:fill-red-500"
@@ -119,7 +119,7 @@
                     <tr
                       @click="setCurrentRow(creator, network)"
                       v-if="
-                        creator.first_name.includes(query) &&
+                        creator.first_name.includes(searchQuery) &&
                         creator[`${network}_meta`] &&
                         Object.keys(creator[`${network}_meta`]).length &&
                         !creator.crm_record_by_user[`${network}_removed`] &&
@@ -129,7 +129,7 @@
                       "
                       class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                       <td
-                        class="grow-0 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                        class="w-20 flex-none overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                         <div class="grid grid-cols-2 items-center gap-2">
                           <div class="group mx-auto mr-2">
                             <span class="group-hover:hidden">
@@ -148,7 +148,7 @@
                           </div>
                           <!--                                                                    favourite-->
                           <div
-                            class="cursor-pointer"
+                            class="hidden cursor-pointer lg:block"
                             @click="
                               $emit('updateCreator', {
                                 id: creator.id,
@@ -177,7 +177,7 @@
                           </div>
                         </div>
                       </td>
-                      <td class="grow-1 whitespace-nowrap border px-2">
+                      <td class="max-w-14 whitespace-nowrap border px-2">
                         <div class="flex items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
                             <div
@@ -690,7 +690,7 @@ export default {
   },
   data() {
     return {
-      query: '',
+      searchQuery: [],
       currentRow: [],
     };
   },
