@@ -15,10 +15,6 @@ return new class extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::table('crms', function (Blueprint $table) {
-            $table->dropForeign(['team_id']);
-            $table->dropColumn('team_id');
-        });
-        Schema::table('crms', function (Blueprint $table) {
             $table->integer('team_id')->unsigned()->after('user_id');
             $table->foreign('team_id')
                 ->references('id')
