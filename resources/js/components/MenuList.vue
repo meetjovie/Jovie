@@ -40,10 +40,15 @@
               </div>
 
               <div class="flex w-full items-center">
-                <div
-                  class="cursor-pointer rounded-md p-1 text-xs hover:bg-gray-400">
-                  {{ element.emoji || '😆' }}
-                </div>
+                  <EmojiPickerModal
+                      @emojiSelected="emojiSelected($event, element)"
+                      class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+                      <input
+                          id="item.emoji"
+                          v-model="element.emoji"
+                          placeholder="📄"
+                          class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
+                  </EmojiPickerModal>
                 <div @dblclick="enableEditName(element)">
                   <span
                     v-if="!element.editName"
@@ -163,11 +168,11 @@
 
           <div class="flex w-full items-center">
             <EmojiPickerModal
-              @emoji-selected="selectedEmoji"
+              @emojiSelected="emojiSelected($event, item)"
               class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
               <input
                 id="item.emoji"
-                v-model="selectedEmoji"
+                v-model="item.emoji"
                 placeholder="📄"
                 class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
             </EmojiPickerModal>
@@ -325,12 +330,11 @@ export default {
   methods: {
     // event callback
 
-    emojiSelected(selectedEmoji) {
+    emojiSelected(emoji, item) {
       //take the value of the selected emoji and set it to the emoji variable
-      this.item.emoji = selectedEmoji;
-      console.log(this.emoji + 'selected');
+        item.emoji = emoji.i
+        this.updateList(item)
     },
-
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
@@ -346,7 +350,7 @@ export default {
     },
     updateList(item) {
       item.updating = true;
-      UserService.updateList({ name: item.name }, item.id)
+      UserService.updateList({ name: item.name, emoji: item.emoji }, item.id)
         .then((response) => {
           response = response.data;
           if (response.status) {

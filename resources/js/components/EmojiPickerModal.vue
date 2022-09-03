@@ -19,7 +19,7 @@
         <MenuItems
           static
           class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-          <div class=""><EmojiPicker @select="showEmoji" /></div>
+          <div class=""><EmojiPicker @select="emojiSelected" /></div>
         </MenuItems>
       </div>
     </transition>
@@ -44,19 +44,13 @@ export default {
   },
   data() {
     return {
-      open: '',
+      open: false,
     };
   },
-  props: {
-    open: {
-      type: Boolean,
-      default: false,
-    },
-  },
   methods: {
-    showEmoji(selectedEmoji) {
-      console.log(selectedEmoji);
-      this.$emit('emoji-selected', selectedEmoji);
+    emojiSelected(selectedEmoji) {
+      this.$emit('emojiSelected', selectedEmoji);
+      this.open = false
     },
   },
 };

@@ -158,7 +158,7 @@ class UserListsController extends Controller
         }
         $data = $request->validate([
             'name' => 'sometimes|string|unique:user_lists,name,'.$list->id.',id,team_id,'.$list->team_id,
-            'emoji' => 'sometimes|string'
+            'emoji' => 'sometimes|nullable|string'
         ]);
         $list->update($data);
         UserList::updateSortOrder(null, Auth::id());
