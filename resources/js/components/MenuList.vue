@@ -16,7 +16,10 @@
       <div class="flex items-center">
         <div
           class="group rounded-md p-1 text-gray-400 hover:bg-gray-300 hover:text-gray-50">
-          <PlusIcon v-if="draggable" @click="createList()" class="h-4 w-4"></PlusIcon>
+          <PlusIcon
+            v-if="draggable"
+            @click="createList()"
+            class="h-4 w-4"></PlusIcon>
         </div>
       </div>
     </div>
@@ -160,18 +163,15 @@
 
           <div class="flex w-full items-center">
             <EmojiPickerModal
+              @emoji-selected="selectedEmoji"
               class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
               <input
                 id="item.emoji"
-                v-model="item.emoji"
+                v-model="selectedEmoji"
                 placeholder="📄"
                 class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
-
-              <!--  <div
-                class="cursor-pointer rounded-md p-1 text-xs hover:bg-gray-400">
-                {{ item.emoji || '😆' }}
-              </div> -->
             </EmojiPickerModal>
+
             <div @dblclick="enableEditName(item)">
               <span
                 v-if="!item.editName"
@@ -302,6 +302,7 @@ import draggable from 'vuedraggable';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
+import EmojiPicker from 'vue3-emoji-picker';
 
 export default {
   data() {
@@ -309,6 +310,7 @@ export default {
       showMenu: true,
       editName: false,
       openEmojiPicker: false,
+      emoji: '',
       confirmationPopup: {
         confirmationMethod: null,
         title: null,
@@ -317,97 +319,101 @@ export default {
         description: '',
         loading: false,
       },
-        creatingList: false,
-        currentEditingList: null
+      creatingList: false,
+      currentEditingList: null,
     };
   },
   methods: {
     // event callback
 
-    emojiSelected() {
-      //listen for even from emoji picker
+    emojiSelected(selectedEmoji) {
+      //take the value of the selected emoji and set it to the emoji variable
+      this.item.emoji = selectedEmoji;
+      console.log(this.emoji + 'selected');
     },
 
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
     enableEditName(item) {
-        this.currentEditingList = JSON.parse(JSON.stringify(item))
+      this.currentEditingList = JSON.parse(JSON.stringify(item));
       item.editName = true;
     },
     disableEditName(item) {
       item.editName = false;
-      item.name = this.currentEditingList.name
-      this.currentEditingList = null
+      item.name = this.currentEditingList.name;
+      this.currentEditingList = null;
     },
-      updateList(item) {
-          this.creatingList = true
-          UserService.updateList({name: item.name}).then((response) => {
-              response = response.data;
-              if (response.status) {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-              } else {
-                  // show toast error here later
-                  this.$notify({
-                      group: 'user',
-                      type: 'error',
-                      duration: 15000,
-                      title: 'Error',
-                      text: response.message,
-                  });
-              }
-          })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                  }
-              })
-              .finally((response) => {
-                  this.creatingList = false
-                  this.$emit('getUserLists');
-              });
-      },
-      createList() {
-        this.creatingList = true
-          UserService.createList().then((response) => {
-              response = response.data;
-              if (response.status) {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-              } else {
-                  // show toast error here later
-                  this.$notify({
-                      group: 'user',
-                      type: 'error',
-                      duration: 15000,
-                      title: 'Error',
-                      text: response.message,
-                  });
-              }
-          })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                  }
-              })
-              .finally((response) => {
-                  this.creatingList = false
-                  this.$emit('getUserLists');
-              });
-      },
+    updateList(item) {
+      this.creatingList = true;
+      UserService.updateList({ name: item.name })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally((response) => {
+          this.creatingList = false;
+          this.$emit('getUserLists');
+        });
+    },
+    createList() {
+      this.creatingList = true;
+      UserService.createList()
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally((response) => {
+          this.creatingList = false;
+          this.$emit('getUserLists');
+        });
+    },
     confirmListDeletion(id) {
       this.confirmationPopup.confirmationMethod = () => {
         this.deleteList(id);
@@ -631,6 +637,7 @@ export default {
     MenuItems,
     MenuItem,
     draggable,
+    EmojiPicker,
     ModalPopup,
   },
   props: {
