@@ -17,7 +17,7 @@
               <div class="mt-10 flex-col py-1 px-2">
                 <!--   <JovieTooltip> -->
                 <button
-                    @click="setFiltersType('all')"
+                  @click="setFiltersType('all')"
                   class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
                   :class="[
                     filters.type == 'all'
@@ -45,8 +45,8 @@
                 <!--   </JovieTooltip>
  -->
                 <button
-                    @click="setFiltersType('archived')"
-                    class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                  @click="setFiltersType('archived')"
+                  class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                   :class="[
                     filters.type == 'archived'
                       ? 'text-sm font-bold text-neutral-500 '
@@ -66,8 +66,8 @@
                 </button>
 
                 <button
-                    @click="setFiltersType('favourites')"
-                    class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                  @click="setFiltersType('favourites')"
+                  class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                   :class="[
                     filters.type == 'favourites'
                       ? 'text-sm font-bold text-neutral-500 '
@@ -86,16 +86,26 @@
                   </div>
                 </button>
               </div>
-              <div class="flex-col space-y-4 px-2 py-4">
+              <div class="flex-col justify-evenly space-y-4 px-2 py-4">
                 <MenuList
                   @getUserLists="getUserLists"
                   menuName="Pinned"
                   :selectedList="filters.list"
                   @setFilterList="setFilterList"
                   :menuItems="pinnedUserLists"></MenuList>
+                <!--    Team Specific Lists -->
                 <MenuList
                   @getUserLists="getUserLists"
-                  menuName="Lists"
+                  menuName="Teamspace"
+                  @setFilterList="setFilterList"
+                  :selectedList="filters.list"
+                  :draggable="true"
+                  @end="sortLists"
+                  :menuItems="filteredUsersLists"></MenuList>
+                <!--   User Specific Lists -->
+                <MenuList
+                  @getUserLists="getUserLists"
+                  menuName="Private"
                   @setFilterList="setFilterList"
                   :selectedList="filters.list"
                   :draggable="true"
@@ -352,14 +362,14 @@ export default {
         page: 1,
       },
       searchList: '',
-        abortController: null
+      abortController: null,
     };
   },
   watch: {
     filters: {
       deep: true,
       handler: function (val) {
-          localStorage.setItem('filters', JSON.stringify(val));
+        localStorage.setItem('filters', JSON.stringify(val));
       },
     },
   },
@@ -392,16 +402,16 @@ export default {
     this.getCrmCreators();
   },
   methods: {
-      setFiltersType(type) {
-          this.filters.type = this.filters.type == type ? 'all' : type
-          this.filters.list = null
-          this.getCrmCreators();
-      },
-      setFilterList(list) {
-          this.filters.type = 'list'
-          this.filters.list = this.filters.list == list ? null : list
-          this.getCrmCreators();
-      },
+    setFiltersType(type) {
+      this.filters.type = this.filters.type == type ? 'all' : type;
+      this.filters.list = null;
+      this.getCrmCreators();
+    },
+    setFilterList(list) {
+      this.filters.type = 'list';
+      this.filters.list = this.filters.list == list ? null : list;
+      this.getCrmCreators();
+    },
     sortLists(e, listId) {
       UserService.sortLists(
         { newIndex: e.newIndex, oldIndex: e.oldIndex },
@@ -468,10 +478,10 @@ export default {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.filters));
       if (this.abortController) {
-          this.abortController.abort()
+        this.abortController.abort();
       }
-        this.abortController = new AbortController();
-        const signal = this.abortController.signal
+      this.abortController = new AbortController();
+      const signal = this.abortController.signal;
       UserService.getCrmCreators(data, signal).then((response) => {
         this.loading = false;
         response = response.data;

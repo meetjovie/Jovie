@@ -294,7 +294,7 @@
                         </div>
                       </td>
                       <td
-                        class="border-1 w-14 border-collapse items-center whitespace-nowrap border">
+                        class="border-1 w-4 border-collapse items-center whitespace-nowrap border">
                         <a
                           :href="creator[`${network}_handler`]"
                           target="_blank"

@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      @click="toggleShowMenu()"
-      class="group flex cursor-pointer items-center justify-between rounded-md py-1 hover:bg-neutral-200">
+      class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
-        class="flex cursor-pointer items-center text-sm font-semibold text-neutral-400 group-hover:text-neutral-500">
+        @click="toggleShowMenu()"
+        class="flex cursor-pointer items-center rounded-md pr-2 text-sm font-semibold text-neutral-400 hover:bg-neutral-200 group-hover:text-neutral-500">
         <ChevronDownIcon
           v-if="showMenu"
           class="mt-0.5 mr-1 h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
@@ -40,23 +40,25 @@
               </div>
 
               <div class="flex w-full items-center">
-                  <EmojiPickerModal
-                      @emojiSelected="emojiSelected($event, element)"
-                      class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
-                      <input
-                          id="item.emoji"
-                          v-model="element.emoji"
-                          placeholder="📄"
-                          class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
-                  </EmojiPickerModal>
-                <div @dblclick="enableEditName(element)" @click="$emit('setFilterList', element.id)">
+                <EmojiPickerModal
+                  @emojiSelected="emojiSelected($event, element)"
+                  class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+                  <input
+                    id="item.emoji"
+                    v-model="element.emoji"
+                    placeholder="📄"
+                    class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
+                </EmojiPickerModal>
+                <div
+                  @dblclick="enableEditName(element)"
+                  @click="$emit('setFilterList', element.id)">
                   <span
                     v-if="!element.editName"
                     :class="[
-                    selectedList == element.id
-                      ? 'font-bold text-neutral-500 '
-                      : 'font-semibold text-neutral-400',
-                  ]"
+                      selectedList == element.id
+                        ? 'font-bold text-neutral-500 '
+                        : 'font-semibold text-neutral-400',
+                    ]"
                     class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-500"
                     >{{ element.name }}</span
                   >
@@ -181,16 +183,18 @@
                 placeholder="📄"
                 class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
             </EmojiPickerModal>
-            <div @dblclick="enableEditName(item)" @click="$emit('setFilterList', item.id)">
+            <div
+              @dblclick="enableEditName(item)"
+              @click="$emit('setFilterList', item.id)">
               <span
-                  v-if="!item.editName"
-                  :class="[
-                    selectedList == item.id
-                      ? 'font-bold text-neutral-500 '
-                      : 'font-semibold text-neutral-400',
-                  ]"
-                  class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-500"
-              >{{ item.name }}</span
+                v-if="!item.editName"
+                :class="[
+                  selectedList == item.id
+                    ? 'font-bold text-neutral-500 '
+                    : 'font-semibold text-neutral-400',
+                ]"
+                class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-500"
+                >{{ item.name }}</span
               >
               <input
                 ref="input"
@@ -342,15 +346,15 @@ export default {
 
     emojiSelected(emoji, item) {
       //take the value of the selected emoji and set it to the emoji variable
-        item.emoji = emoji.i
-        this.updateList(item)
+      item.emoji = emoji.i;
+      this.updateList(item);
     },
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
     enableEditName(item, fallBackFocus = false) {
       if (!fallBackFocus) {
-          this.currentEditingList = JSON.parse(JSON.stringify(item));
+        this.currentEditingList = JSON.parse(JSON.stringify(item));
       }
       item.editName = true;
     },
@@ -381,20 +385,20 @@ export default {
               title: 'Error',
               text: response.message,
             });
-            this.enableEditName(item, true)
+            this.enableEditName(item, true);
           }
         })
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-              this.$notify({
-                  group: 'user',
-                  type: 'error',
-                  duration: 15000,
-                  title: 'Error',
-                  text: Object.values(error.data.errors)[0][0],
-              });
-              this.enableEditName(item, true)
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
+            this.enableEditName(item, true);
           }
         })
         .finally((response) => {
@@ -428,13 +432,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-              this.$notify({
-                  group: 'user',
-                  type: 'error',
-                  duration: 15000,
-                  title: 'Error',
-                  text: Object.values(error.data.errors)[0][0],
-              });
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
           }
         })
         .finally((response) => {
@@ -482,13 +486,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-              this.$notify({
-                  group: 'user',
-                  type: 'error',
-                  duration: 15000,
-                  title: 'Error',
-                  text: Object.values(error.data.errors)[0][0],
-              });
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
           }
         })
         .finally((response) => {
@@ -545,13 +549,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-              this.$notify({
-                  group: 'user',
-                  type: 'error',
-                  duration: 15000,
-                  title: 'Error',
-                  text: Object.values(error.data.errors)[0][0],
-              });
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
           }
         })
         .finally((response) => {
@@ -584,13 +588,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-              this.$notify({
-                  group: 'user',
-                  type: 'error',
-                  duration: 15000,
-                  title: 'Error',
-                  text: Object.values(error.data.errors)[0][0],
-              });
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
           }
         })
         .finally((response) => {
@@ -623,13 +627,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-              this.$notify({
-                  group: 'user',
-                  type: 'error',
-                  duration: 15000,
-                  title: 'Error',
-                  text: Object.values(error.data.errors)[0][0],
-              });
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
           }
         })
         .finally((response) => {
@@ -673,7 +677,7 @@ export default {
       type: Boolean,
       default: false,
     },
-   selectedList: {
+    selectedList: {
       type: String,
       default: null,
     },

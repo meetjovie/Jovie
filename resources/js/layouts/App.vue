@@ -53,7 +53,7 @@
       </div>
     </NotificationGroup>
 
-    <div
+    <!-- <div
       id="overlay"
       class="fixed inset-0 z-30 flex md:hidden"
       role="dialog"
@@ -75,7 +75,7 @@
           </a>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Narrow sidebar -->
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
@@ -372,7 +372,7 @@
                     <!-- Active: "bg-neutral-100", Not Active: "" -->
                     <div
                       as="div"
-                      class="block border-b-2 border-opacity-30 px-4 py-2 text-left text-xs font-bold text-neutral-400"
+                      class="block border-b-2 border-opacity-30 px-4 pt-2 text-left text-xs font-bold text-neutral-400"
                       role="menuitem"
                       tabindex="-1"
                       id="user-menu-item-0">
@@ -517,6 +517,7 @@ import {
   MegaphoneIcon,
   LifebuoyIcon,
   FaceSmileIcon,
+  CloudArrowDownIcon,
 } from '@heroicons/vue/24/outline';
 import {
   Menu,
@@ -562,6 +563,11 @@ export default {
         /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [
+        {
+          name: 'Download Chrome Extension',
+          route: '/chrome-extension',
+          icon: CloudArrowDownIcon,
+        },
         { name: 'Billing', route: '/billing', icon: CreditCardIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
@@ -640,6 +646,7 @@ export default {
     HomeIcon,
     Bars3Icon,
     MenuItem,
+    CloudArrowDownIcon,
     MenuItems,
     ChatBubbleLeftEllipsisIcon,
     MagnifyingGlassIcon,
