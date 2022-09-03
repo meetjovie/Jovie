@@ -17,10 +17,10 @@ export default {
   async removeProfilePhoto() {
     return axios.post(`${baseApiUrl}/remove-profile-photo?_method=DELETE`);
   },
-  async getUserLists() {
+  getUserLists() {
     return axios.get(`${baseApiUrl}/user-lists`);
   },
-  async getCrmCreators(data) {
+  getCrmCreators(data) {
     return axios.get(`${baseApiUrl}/crm-creators`, {
       params: data,
     });
