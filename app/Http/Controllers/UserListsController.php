@@ -147,4 +147,25 @@ class UserListsController extends Controller
             'list' => $list
         ], 200);
     }
+
+    public function updateList(Request $request, $id)
+    {
+        dd(123);
+        $list = UserList::where('id', $id)->where('user_id', Auth::id())->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
+        $data = $request->validate([
+            'name' => 'sometimes|string|unique:user_lists,id,'.$list->id,'team_id,'.$list->team_id,
+            'emoji' => 'sometimes|string'
+        ]);
+        $list->update($data);
+        UserList::updateSortOrder(null, Auth::id());
+        return response()->json([
+            'status' => true,
+            'message' => 'List updated.'
+        ], 200);
+    }
 }

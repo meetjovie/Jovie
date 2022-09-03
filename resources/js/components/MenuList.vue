@@ -344,7 +344,7 @@ export default {
       this.currentEditingList = null;
     },
     updateList(item) {
-      this.creatingList = true;
+      item.updating = true;
       UserService.updateList({ name: item.name })
         .then((response) => {
           response = response.data;
@@ -374,7 +374,7 @@ export default {
           }
         })
         .finally((response) => {
-          this.creatingList = false;
+          item.updating = false;
           this.$emit('getUserLists');
         });
     },
