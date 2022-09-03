@@ -359,12 +359,14 @@ class Creator extends Model
 
     public static function getCrmCreators($params)
     {
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $creators = DB::table('creators')
             ->addSelect('crms.*')->addSelect('crms.id as crm_id')
             ->addSelect('creators.*')->addSelect('creators.id as id')
-            ->join('crms', function ($join) use ($params) {
+            ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
-                    ->where('crms.user_id', Auth::id())
+                    ->where('crms.user_id', $user->id)
+                    ->where('crms.team_id', $user->currentTeam->id)
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
@@ -437,7 +439,8 @@ class Creator extends Model
 
             // crm
             $creator->crm_record_by_user = (object) [];
-            $creator->crm_record_by_user->user_id = Auth::id();
+            $creator->crm_record_by_user->user_id = $user->id;
+            $creator->crm_record_by_user->team_id = $user->currentTeam->id;
             $creator->crm_record_by_user->creator_id = $creator->id;
             $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
             $creator->crm_record_by_user->instagram_offer = $creator->instagram_offer;

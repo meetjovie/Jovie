@@ -18,13 +18,12 @@ class CrmController extends Controller
     public function crmCreators(Request $request)
     {
         $creators = Creator::getCrmCreators($request->all());
-
-        return collect([
+        return response()->json([
             'status' => true,
             'creators' => $creators,
             'networks' => Creator::NETWORKS,
             'stages' => Crm::stages(),
-        ]);
+        ], 200);
     }
 
     public function updateCrmCreator(Request $request, $id)

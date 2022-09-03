@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dropColumn('team_id');
         });
         Schema::table('user_lists', function (Blueprint $table) {
-            $table->integer('team_id')->unsigned()->after('user_id')->nullable();
+            $table->integer('team_id')->unsigned()->after('user_id');
             $table->foreign('team_id')
                 ->references('id')
                 ->on(\Illuminate\Support\Facades\Config::get('teamwork.teams_table'))->cascadeOnDelete()->cascadeOnUpdate();
