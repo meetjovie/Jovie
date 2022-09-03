@@ -110,7 +110,7 @@ export default {
   async createList() {
     return axios.post(`${baseApiUrl}/create-list`);
   },
-  async updateList(data) {
-    return axios.post(`${baseApiUrl}/update-list?_method=PUT`, data);
+  async updateList(data, id) {
+    return axios.post(`${baseApiUrl}/update-list/${id}?_method=PUT`, data);
   },
 };

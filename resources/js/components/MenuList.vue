@@ -334,18 +334,19 @@ export default {
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
-    enableEditName(item) {
-      this.currentEditingList = JSON.parse(JSON.stringify(item));
+    enableEditName(item, fallBackFocus = false) {
+      if (!fallBackFocus) {
+          this.currentEditingList = JSON.parse(JSON.stringify(item));
+      }
       item.editName = true;
     },
     disableEditName(item) {
       item.editName = false;
       item.name = this.currentEditingList.name;
-      this.currentEditingList = null;
     },
     updateList(item) {
       item.updating = true;
-      UserService.updateList({ name: item.name })
+      UserService.updateList({ name: item.name }, item.id)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -356,6 +357,7 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.$emit('getUserLists');
           } else {
             // show toast error here later
             this.$notify({
@@ -365,17 +367,24 @@ export default {
               title: 'Error',
               text: response.message,
             });
+            this.enableEditName(item, true)
           }
         })
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-            this.errors = error.data.errors;
+              this.$notify({
+                  group: 'user',
+                  type: 'error',
+                  duration: 15000,
+                  title: 'Error',
+                  text: Object.values(error.data.errors)[0][0],
+              });
+              this.enableEditName(item, true)
           }
         })
         .finally((response) => {
           item.updating = false;
-          this.$emit('getUserLists');
         });
     },
     createList() {
