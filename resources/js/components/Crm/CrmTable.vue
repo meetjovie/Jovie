@@ -116,12 +116,10 @@
                   <template
                     v-for="(network, indexN) in networks"
                     :key="network">
-                    //string containts the value of query
-
                     <tr
                       @click="setCurrentRow(creator, network)"
                       v-if="
-                        creator.crm_record_by_user.first_name.includes(query) &&
+                        creator.first_name.includes(query) &&
                         creator[`${network}_meta`] &&
                         Object.keys(creator[`${network}_meta`]).length &&
                         !creator.crm_record_by_user[`${network}_removed`] &&
