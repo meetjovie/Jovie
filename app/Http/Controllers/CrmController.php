@@ -6,6 +6,7 @@ use App\Exports\CrmExport;
 use App\Models\Creator;
 use App\Models\CreatorComment;
 use App\Models\Crm;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,9 @@ class CrmController extends Controller
             'selected' => 'required|numeric',
             'rejected' => 'required|numeric',
         ]);
-        $crm = Crm::updateOrCreate(['creator_id' => $creatorId, 'user_id' => Auth::id()], $data);
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $data['team_id'] = $user->currentTeam->id;
+        $crm = Crm::updateOrCreate(['creator_id' => $creatorId, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data);
         Creator::where('id', $creatorId)->searchable();
 
         return response([
@@ -181,8 +184,9 @@ class CrmController extends Controller
             'creator_id' => 'required',
         ]);
 
-        $crm = Crm::updateOrCreate(['user_id' => Auth::id(), 'creator_id' => $request->creator_id],
-            ['user_id' => Auth::id(), 'creator_id' => $request->creator_id]
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $crm = Crm::updateOrCreate(['user_id' => $user->id, 'team_id' => $user->currentTeam->id, 'creator_id' => $request->creator_id],
+            ['user_id' => $user->id, 'team_id' => $user->currentTeam->id, 'creator_id' => $request->creator_id]
         );
 
         return response([

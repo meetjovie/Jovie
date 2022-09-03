@@ -510,7 +510,8 @@ class Creator extends Model
             $creator->{$k} = $v;
         }
         // update interactions for crm
-        Crm::updateOrCreate(['creator_id' => $id, 'user_id' => Auth::id()], array_merge(['creator_id' => $id, 'user_id' => Auth::id()], $dataToUpdateForCrm));
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        Crm::updateOrCreate(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $dataToUpdateForCrm));
         $creator->save();
     }
 
