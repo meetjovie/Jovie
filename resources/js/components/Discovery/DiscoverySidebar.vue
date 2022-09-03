@@ -1,6 +1,4 @@
-<template>
- 
-</template>
+<template></template>
 <script>
 import {
   Popover,
@@ -16,22 +14,22 @@ import CreatorAvatar from '../Creator/CreatorAvatar.vue';
 import CreatorContentBar from '../Creator/CreatorContentBar.vue';
 import CreatorSocialLinks from '../Creator/CreatorSocialLinks.vue';
 import {
-  XIcon,
+  XMarkIcon,
   HeartIcon,
-  BanIcon,
+  NoSymbolIcon,
   ChartBarIcon,
   ChevronRightIcon,
-  DotsVerticalIcon,
+  EllipsisVerticalIcon,
   ChevronDownIcon,
-  ArchiveIcon,
-  DuplicateIcon,
+  ArchiveBoxIcon,
+  DocumentDuplicateIcon,
   PlusIcon,
   UserIcon,
-  ThumbUpIcon,
+  HandThumbUpIcon,
   PlayIcon,
-  ChatAlt2Icon,
-  LocationMarkerIcon,
-} from '@heroicons/vue/solid';
+  ChatBubbleBottomCenterIcon,
+  MapPinIcon,
+} from '@heroicons/vue/24/solid';
 import CreatorTags from '../Creator/CreatorTags.vue';
 
 export default {
@@ -42,12 +40,12 @@ export default {
     PopoverOverlay,
     CreatorAvatar,
     CreatorSocialLinks,
-    XIcon,
+    XMarkIcon,
     CreatorTags,
     HeartIcon,
-    BanIcon,
+    NoSymbolIcon,
 
-    DotsVerticalIcon,
+    EllipsisVerticalIcon,
     Menu,
     MenuButton,
     MenuItems,
@@ -55,10 +53,10 @@ export default {
 
     PlusIcon,
     UserIcon,
-    ThumbUpIcon,
+    HandThumbUpIcon,
     PlayIcon,
-    ChatAlt2Icon,
-    LocationMarkerIcon,
+    ChatBubbleBottomCenterIcon,
+    MapPinIcon,
     CreatorContentBar,
   },
   data() {

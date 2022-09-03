@@ -13,6 +13,7 @@ class Crm extends Model
     protected $fillable = [
         'creator_id',
         'user_id',
+        'team_id',
         'selected',
         'rejected',
         'rating',

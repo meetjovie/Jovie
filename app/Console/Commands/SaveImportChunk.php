@@ -51,14 +51,7 @@ class SaveImportChunk extends Command
             $stream = Import::getStream($path);
             $reader = Reader::createFromStream($stream);
             $records = Import::records($reader, $page);
-
-            $list = UserList::firstOrCreate([
-                'user_id' => $payload->userId,
-                'name' => $payload->listName,
-            ], [
-                'user_id' => $payload->userId,
-                'name' => $payload->listName,
-            ]);
+            $list = UserList::firstOrCreateList($payload->userId, $payload->listName, $payload->teamId);
             $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
             $user = User::where('id', $payload->userId)->first();
 

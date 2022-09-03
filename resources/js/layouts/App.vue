@@ -22,22 +22,29 @@
               class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-neutral-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150"
               v-for="notification in notifications"
               :key="notification.id">
-              <div class="flex w-12 items-center justify-center bg-indigo-500">
-                <svg
-                  class="h-6 w-6 fill-current text-white"
-                  viewBox="0 0 40 40"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z" />
-                </svg>
+              <div class="flex w-10 items-center justify-center bg-neutral-200">
+                <XMarkIcon
+                  v-if="notification.type === 'error'"
+                  class="h-4 w-4 text-red-500" />
+                <ExclamationTriangleIcon
+                  v-else-if="notification.type === 'warning'"
+                  class="h-4 w-4 text-amber-500" />
+                <CheckCircleIcon
+                  v-else
+                  class="h-4 w-4"
+                  :class="[
+                    { 'text-red-500': notification.type === 'error' },
+                    { 'text-green-500': notification.type === 'success' },
+                    { 'text-amber-500': notification.type === 'warning' },
+                  ]" />
               </div>
 
               <div class="-mx-3 px-4 py-2">
                 <div class="mx-3">
-                  <span class="font-semibold text-indigo-500">{{
+                  <span class="text-xs font-semibold text-neutral-600">{{
                     notification.title
                   }}</span>
-                  <p class="text-sm text-gray-600">{{ notification.text }}</p>
+                  <p class="text-xs text-gray-400">{{ notification.text }}</p>
                 </div>
               </div>
             </div>
@@ -54,7 +61,6 @@
       <div
         class="fixed inset-0 bg-neutral-600 bg-opacity-75"
         aria-hidden="true"></div>
-
       <div
         id="sidebar"
         class="relative flex w-full flex-1 flex-col bg-neutral-500/50 pt-5 pb-4 backdrop-blur-md">
@@ -71,52 +77,6 @@
       </div>
     </div>
     <!-- Narrow sidebar -->
-
-    <div
-      class="border-r-1 z-30 mx-auto hidden h-screen w-14 flex-col justify-between overflow-hidden bg-indigo-700 pb-2 transition duration-300 ease-in-out"
-      :class="[
-        { 'transform-x-40': previewAppMenu },
-        { 'transform-x-20': !previewAppMenu },
-        { 'md:hidden': !showAppMenu },
-        { 'md:flex': showAppMenu },
-      ]">
-      <div
-        class="mx-auto flex w-full flex-col items-center justify-center py-4 text-center">
-        <a href="/">
-          <div
-            class="mx-auto mt-2 flex-shrink-0 items-center justify-center text-center">
-            <JovieLogo color="#ffffff" height="10px" />
-          </div>
-        </a>
-        <div
-          v-for="navitem in nav"
-          :key="navitem"
-          class="z-50 mt-4 w-full flex-1">
-          <router-link
-            :to="navitem.route"
-            class="group group flex cursor-pointer flex-col items-center rounded-l-lg py-3 text-2xs font-medium text-neutral-50 hover:bg-indigo-600 hover:text-white active:bg-indigo-700">
-            <component :is="navitem.icon" class="h-5 w-5"></component>
-
-            <div
-              class="text-md middle-8 px-.5 absolute left-14 -mt-3 hidden w-24 rounded-r-lg border border-indigo-200/20 bg-white/40 py-3.5 font-bold text-indigo-700 shadow-2xl shadow-indigo-900/70 backdrop-blur-xl backdrop-saturate-150 backdrop-filter group-hover:block">
-              {{ navitem.name }}
-            </div>
-          </router-link>
-        </div>
-      </div>
-      <div
-        class="mx-auto mt-4 flex justify-between border-t border-indigo-600 py-1 px-2 text-[8px]">
-        <div class="divide-x-1 d justify-right flex gap-2">
-          <div class="text-indigo-400 hover:text-neutral-200">
-            <router-link to="/legal">Legal</router-link>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Static sidebar for desktop -->
-
-    <!-- Static sidebar for desktop -->
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <div
@@ -153,7 +113,7 @@
                       @click="toggleShowAppMenu()"
                       href="#"
                       class="text-gray-400 hover:text-gray-500">
-                      <MenuIcon
+                      <Bars3Icon
                         class="h-5 w-5 flex-shrink-0"
                         aria-hidden="true" />
                       <span class="sr-only">Menu</span>
@@ -192,27 +152,6 @@
 
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
-              <div
-                v-if="!currentUser.current_team.credits"
-                as="router-link"
-                to="/billing"
-                class="underline-2 cursor-pointer text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
-                Upgrade
-              </div>
-              <div>
-                <div
-                  class="text-center text-2xs font-semibold text-neutral-500"
-                  :class="{
-                    'text-red-500': currentUser.current_team.credits < 4,
-                  }">
-                  {{ currentUser.current_team.credits || 0 }}
-                </div>
-                <div class="-mt-1 text-center text-[8px] text-neutral-400">
-                  Credits
-                </div>
-              </div>
-              <SwitchTeams />
-
               <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
@@ -276,7 +215,7 @@
                                     <div class="px-2">
                                       <component
                                         class="mx-auto h-5 w-5 text-neutral-400"
-                                        :is="'CloudUploadIcon'">
+                                        :is="'CloudArrowUpIcon'">
                                       </component>
                                     </div>
                                     <div class="ml-3 w-60">
@@ -329,7 +268,7 @@
                                     <div class="px-2">
                                       <component
                                         class="mx-auto h-5 w-5 text-neutral-400"
-                                        :is="'CloudUploadIcon'">
+                                        :is="'CloudArrowUpIcon'">
                                       </component>
                                     </div>
                                     <div class="ml-3 w-60">
@@ -378,7 +317,7 @@
                             v-else>
                             <span
                               class="mx-auto items-center text-sm font-bold text-neutral-400"
-                              ><EmojiHappyIcon
+                              ><FaceSmileIcon
                                 class="mx-auto h-14 w-14 text-neutral-200" />No
                               notifications</span
                             >
@@ -508,7 +447,7 @@
                       @click="openWidget()"
                       class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem">
-                      <component class="mr-4 h-4 w-4" is="SupportIcon">
+                      <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                       </component>
                       Chat with support
                     </div>
@@ -518,7 +457,9 @@
                       class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem"
                       tabindex="-1">
-                      <component class="mr-4 h-4 w-4" is="LogoutIcon">
+                      <component
+                        class="mr-4 h-4 w-4"
+                        is="ArrowLeftOnRectangleIcon">
                       </component>
                       Sign out
                     </div>
@@ -554,27 +495,29 @@
 <script>
 import {
   HomeIcon,
-  MenuIcon,
-  SearchIcon,
-  MailIcon,
+  Bars3Icon,
+  MagnifyingGlassIcon,
+  EnvelopeIcon,
   ChartBarIcon,
   ChevronLeftIcon,
   CheckCircleIcon,
+  ExclamationTriangleIcon,
   CreditCardIcon,
-  CloudUploadIcon,
+  CloudArrowUpIcon,
   UserGroupIcon,
   FolderOpenIcon,
   CogIcon,
   UserIcon,
+  XMarkIcon,
   BellIcon,
-  CursorClickIcon,
-  ChatAltIcon,
-  LogoutIcon,
-  SwitchHorizontalIcon,
-  SpeakerphoneIcon,
-  SupportIcon,
-  EmojiHappyIcon,
-} from '@heroicons/vue/outline';
+  CursorArrowRippleIcon,
+  ChatBubbleLeftEllipsisIcon,
+  ArrowLeftOnRectangleIcon,
+  AdjustmentsHorizontalIcon,
+  MegaphoneIcon,
+  LifebuoyIcon,
+  FaceSmileIcon,
+} from '@heroicons/vue/24/outline';
 import {
   Menu,
   MenuButton,
@@ -584,13 +527,16 @@ import {
   PopoverButton,
   PopoverPanel,
   PopoverGroup,
+  TransitionRoot,
 } from '@headlessui/vue';
-import SwitchTeams from '../components/SwitchTeams.vue';
+
 import AlertBanner from '../components/AlertBanner';
 import JovieLogo from '../components/JovieLogo';
 import CommandPallette from '../components/CommandPallette';
 import ImportService from '../services/api/import.service';
 import ProgressBar from '../components/ProgressBar.vue';
+import SwitchTeams from '../components/SwitchTeams.vue';
+import XCircle from '../../../vendor/laravel/vapor-ui/resources/js/components/icons/XCircle.vue';
 
 export default {
   name: 'App',
@@ -606,13 +552,13 @@ export default {
       nav: [
         /* /*  /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */
         /*  { name: 'Dashboard', route: '/dashboard', icon: HomeIcon }, */
-        /*  { name: 'Search', route: '/discovery', icon: SearchIcon }, */
+        /*  { name: 'Search', route: '/discovery', icon: MagnifyingGlassIcon }, */
         { name: 'Contacts', route: '/contacts', icon: HomeIcon },
         //add a link for profile
         { name: 'Profile', route: '/edit-profile', icon: UserIcon },
 
-        /* { name: 'Pipeline', route: '/pipeline', icon: SwitchHorizontalIcon }, */
-        /*  { name: 'Import', route: '/import', icon: CloudUploadIcon }, */
+        /* { name: 'Pipeline', route: '/pipeline', icon: AdjustmentsHorizontalIcon }, */
+        /*  { name: 'Import', route: '/import', icon: CloudArrowUpIcon }, */
         /* { name: 'Settings', route: '/account', icon: CogIcon }, */
       ],
       dropdownmenuitems: [
@@ -620,8 +566,8 @@ export default {
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
       helpmenuitems: [
-        { name: 'Shortcuts', route: 'Account', icon: CursorClickIcon },
-        { name: 'Feedback', route: 'Account', icon: SpeakerphoneIcon },
+        { name: 'Shortcuts', route: 'Account', icon: CursorArrowRippleIcon },
+        { name: 'Feedback', route: 'Account', icon: MegaphoneIcon },
       ],
       isShowing: false,
       isLoading: false,
@@ -692,37 +638,41 @@ export default {
     Menu,
     MenuButton,
     HomeIcon,
-    MenuIcon,
+    Bars3Icon,
     MenuItem,
     MenuItems,
-    ChatAltIcon,
-    SearchIcon,
+    ChatBubbleLeftEllipsisIcon,
+    MagnifyingGlassIcon,
     BellIcon,
-    SpeakerphoneIcon,
-    MailIcon,
-    CursorClickIcon,
+    MegaphoneIcon,
+    EnvelopeIcon,
+    SwitchTeams,
+    CursorArrowRippleIcon,
     ChartBarIcon,
     CheckCircleIcon,
-    CloudUploadIcon,
+    CloudArrowUpIcon,
     UserGroupIcon,
     FolderOpenIcon,
     CogIcon,
     CreditCardIcon,
     ChevronLeftIcon,
-    LogoutIcon,
-    SwitchHorizontalIcon,
+    ArrowLeftOnRectangleIcon,
+    AdjustmentsHorizontalIcon,
     JovieLogo,
-    SwitchTeams,
+    XMarkIcon,
+    TransitionRoot,
     Popover,
     PopoverButton,
     PopoverPanel,
     PopoverGroup,
-    SupportIcon,
+    LifebuoyIcon,
+    ExclamationTriangleIcon,
     AlertBanner,
     CommandPallette,
-    EmojiHappyIcon,
+    FaceSmileIcon,
     ProgressBar,
     UserIcon,
+    XCircle,
   },
 };
 </script>

@@ -183,7 +183,7 @@
 
 <script>
 import { defineComponent, h } from 'vue';
-import { ChevronRightIcon, StarIcon } from '@heroicons/vue/solid';
+import { ChevronRightIcon, StarIcon } from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
 import ButtonGroup from '../components/ButtonGroup';
 

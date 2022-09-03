@@ -33,7 +33,7 @@
                   class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
                   @click="open = false">
                   <span class="sr-only">Close</span>
-                  <XIcon class="h-6 w-6" aria-hidden="true" />
+                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                 </button>
               </div>
               <div class="sm:flex sm:items-start">
@@ -65,7 +65,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
-import { XIcon } from '@heroicons/vue/outline';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 import SocialInput from '../components/SocialInput.vue';
 
 export default {
@@ -75,7 +75,7 @@ export default {
     DialogTitle,
     TransitionChild,
     TransitionRoot,
-    XIcon,
+    XMarkIcon,
     SocialInput,
   },
   props: {

@@ -51,9 +51,9 @@
                               class="ml-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"
                               :class="{ 'text-indigo-700': searchopen }"
                               aria-hidden="true"></ChevronLeftIcon>
-                            <FilterIcon
+                            <FunnelIcon
                               v-if="searchopen == false"
-                              class="mx-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"></FilterIcon>
+                              class="mx-2 mt-0.5 h-5 w-5 text-gray-400 hover:text-indigo-700"></FunnelIcon>
                           </button>
                           <div class="h-5 items-center text-center">
                             <!--  <input
@@ -83,9 +83,9 @@
                       <div
                         class="sticky top-0 mx-auto w-full items-center text-center">
                         <div class="mx-auto inline-flex w-full items-center">
-                          <SearchIcon
+                          <MagnifyingGlassIcon
                             class="mr-1 mt-0.5 inline-flex h-7 w-7 text-gray-400"
-                            aria-hidden="true"></SearchIcon>
+                            aria-hidden="true"></MagnifyingGlassIcon>
                           <ais-search-box
                             as="div"
                             class="mx-auto mt-1 w-full border-0 outline-0 ring-0 focus:outline-none"
@@ -145,8 +145,8 @@
                                     <div class="group">
                                       <JovieTooltip text="Search speed" />
 
-                                      <LightningBoltIcon
-                                        class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></LightningBoltIcon>
+                                      <BoltIcon
+                                        class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></BoltIcon>
                                     </div>
                                     <span>
                                       {{ (processingTimeMS / 1000).toFixed(1) }}
@@ -180,7 +180,7 @@
                                 'bg-indigo-200': item.id == selectedCreator.id,
                                 'hover:bg-indigo-50': !keyboardNav,
                               }"
-                              class="group border-1 flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 active:bg-indigo-100">
+                              class="border-1 group flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 active:bg-indigo-100">
                               <div
                                 class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
                                 <div class="mx-auto items-center">
@@ -489,7 +489,7 @@
                                           <span class="sr-only"
                                             >Open options</span
                                           >
-                                          <DotsVerticalIcon
+                                          <EllipsisVerticalIcon
                                             class="h-5 w-5"
                                             aria-hidden="true" />
                                         </MenuButton>
@@ -611,13 +611,13 @@
                     class="absolute top-0 right-0 z-50 mb-12 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
                     <div class="mt-4 flex justify-between px-4">
                       <div class="group" @click="sidebarOpen = false">
-                        <XIcon
+                        <XMarkIcon
                           class="h-5 w-5 cursor-pointer text-neutral-700 hover:text-neutral-900 active:text-neutral-400 group-active:text-indigo-700" />
                       </div>
                       <div class="mr-4 flex space-x-2 text-xs text-neutral-400">
                         <HeartIcon
                           class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
-                        <BanIcon
+                        <NoSymbolIcon
                           class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
                         <div class="fixed top-4 text-right">
                           <Menu
@@ -626,7 +626,7 @@
                             <div>
                               <MenuButton
                                 class="inline-flex w-full justify-center rounded-md text-sm font-medium text-neutral-700 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                                <DotsVerticalIcon
+                                <EllipsisVerticalIcon
                                   class="-mr-24 h-5 w-5 text-neutral-400 hover:text-neutral-700"
                                   aria-hidden="true" />
                               </MenuButton>
@@ -858,7 +858,7 @@
                       <div class="col-span-1">
                         <div
                           class="mx-auto mt-6 inline-flex w-full items-center justify-center text-center text-neutral-400">
-                          <LocationMarkerIcon
+                          <MapPinIcon
                             v-if="
                               selectedCreator.instagram_meta.country ||
                               selectedCreator.instagram_meta.city
@@ -945,7 +945,7 @@
                           class="relative mt-1 w-full rounded-md shadow-sm sm:max-w-sm">
                           <div
                             class="absolute inset-y-0 left-0 flex items-center pl-3">
-                            <DuplicateIcon
+                            <DocumentDuplicateIcon
                               tooltip="Copy to clipboard"
                               @click="
                                 copyToClipboard(selectedCreator.emails[0])
@@ -978,7 +978,7 @@
                         <div
                           class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                           <div class="inline-flex text-xs">
-                            <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" />
+                            <HandThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" />
                             {{ formatCount(media.likes) }}
                           </div>
                           <div class="inline-flex text-xs">
@@ -986,7 +986,8 @@
                             {{ formatCount(media.views) }}
                           </div>
                           <div class="inline-flex text-xs">
-                            <ChatAlt2Icon class="mt-0.5 mr-0.5 h-3 w-3" />
+                            <ChatBubbleBottomCenterIcon
+                              class="mt-0.5 mr-0.5 h-3 w-3" />
                             {{ formatCount(media.comments) }}
                           </div>
                         </div>
@@ -1026,24 +1027,24 @@ import {
   TransitionRoot,
 } from '@headlessui/vue';
 import {
-  DotsVerticalIcon,
+  EllipsisVerticalIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  FilterIcon,
+  FunnelIcon,
   HeartIcon,
   ChevronRightIcon,
   PlayIcon,
-  ThumbUpIcon,
-  LocationMarkerIcon,
-  ChatAlt2Icon,
-  BanIcon,
+  HandThumbUpIcon,
+  MapPinIcon,
+  ChatBubbleBottomCenterIcon,
+  NoSymbolIcon,
   ChevronLeftIcon,
-  SearchIcon,
+  MagnifyingGlassIcon,
   PlusIcon,
-  DuplicateIcon,
-  XIcon,
-} from '@heroicons/vue/solid';
-import { LightningBoltIcon } from '@heroicons/vue/outline';
+  DocumentDuplicateIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/solid';
+import { BoltIcon } from '@heroicons/vue/24/outline';
 import CreatorTags from '../components/Creator/CreatorTags';
 import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks';
 import DiscoveryStats from '../components/Discovery/DiscoveryStats.vue';
@@ -1068,36 +1069,36 @@ export default {
     CreatorAvatar,
     CreatorSocialLinks,
     JovieSpinner,
-    XIcon,
+    XMarkIcon,
     TabGroup,
     SocialIcons,
     DiscoveryStats,
     NoAccess,
-    DuplicateIcon,
+    DocumentDuplicateIcon,
     DiscoveryToolbar,
     HeartIcon,
-    BanIcon,
-    FilterIcon,
+    NoSymbolIcon,
+    FunnelIcon,
     ChevronLeftIcon,
     DiscoverySearch,
     StarRating,
     PlayIcon,
-    ThumbUpIcon,
-    LocationMarkerIcon,
+    HandThumbUpIcon,
+    MapPinIcon,
     ChevronRightIcon,
-    ChatAlt2Icon,
+    ChatBubbleBottomCenterIcon,
     Menu,
     MenuButton,
     MenuItems,
     MenuItem,
     CreatorMediaItem,
-    DotsVerticalIcon,
+    EllipsisVerticalIcon,
     ChevronDownIcon,
-    SearchIcon,
+    MagnifyingGlassIcon,
     CreatorTags,
     CreatorSocialLinks,
     ChevronUpIcon,
-    LightningBoltIcon,
+    BoltIcon,
     Popover,
     PopoverButton,
     ButtonGroup,

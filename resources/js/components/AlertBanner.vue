@@ -33,7 +33,7 @@
           type="button"
           class="group flex rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
           <span class="sr-only">Dismiss</span>
-          <XIcon
+          <XMarkIcon
             class="active:text-neutal-100 h-6 w-6 rounded-full p-1 font-medium text-neutral-50 transition duration-300 ease-in-out active:bg-neutral-100/30 active:text-neutral-400 group-hover:font-bold group-hover:text-white"
             aria-hidden="true" />
         </button>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { XIcon } from '@heroicons/vue/outline';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 export default {
   data() {
@@ -80,7 +80,7 @@ export default {
     },
   },
   components: {
-    XIcon,
+    XMarkIcon,
   },
 };
 </script>

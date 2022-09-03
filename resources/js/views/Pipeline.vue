@@ -141,7 +141,7 @@
 import draggable from 'vuedraggable';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
 import SocialIcons from '../components/SocialIcons.vue';
-import { MailIcon, PhoneIcon } from '@heroicons/vue/solid';
+import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/24/solid';
 import NoAccess from '../components/NoAccess.vue';
 export default {
   name: 'two-lists',
@@ -149,7 +149,7 @@ export default {
   order: 1,
   components: {
     draggable,
-    MailIcon,
+    EnvelopeIcon,
     PhoneIcon,
     SocialIcons,
     NoAccess,

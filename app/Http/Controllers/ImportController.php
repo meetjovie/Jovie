@@ -106,7 +106,8 @@ class ImportController extends Controller
             );
             $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
             $listName = $request->listName;
-            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
+            $user = User::currentLoggedInUser();
+            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, $user->id, $user->currentTeam->id);
         }
 
         return $filePath;
@@ -155,13 +156,7 @@ class ImportController extends Controller
             $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
             $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
             $filePath = Creator::CREATORS_CSV_PATH.$filename;
-            $list = UserList::firstOrCreate([
-                'user_id' => Auth::user()->id,
-                'name' => $request->listName,
-            ], [
-                'user_id' => Auth::user()->id,
-                'name' => $request->listName,
-            ]);
+            $list = UserList::firstOrCreateList(Auth::user()->id, $request->listName);
             FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }
     }

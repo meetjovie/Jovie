@@ -120,7 +120,7 @@
                       <a class="max-auto justify-center px-2">
                         <router-link
                           to="signup"
-                          class="group border-1 relative inline-flex items-center rounded-md border border-neutral-300 bg-neutral-800 px-2 py-1 text-xs font-medium text-neutral-200 hover:border-white hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
+                          class="border-1 group relative inline-flex items-center rounded-md border border-neutral-300 bg-neutral-800 px-2 py-1 text-xs font-medium text-neutral-200 hover:border-white hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
                           <span>Get started free</span>
                           <span>
                             <svg
@@ -220,17 +220,17 @@
 import AlertBanner from '../components/AlertBanner.vue';
 import {
   InboxIcon,
-  PencilAltIcon,
+  PencilIcon,
   TrashIcon,
   UserIcon,
   UsersIcon,
   ChevronDownIcon,
-  SearchIcon,
+  MagnifyingGlassIcon,
   UserGroupIcon,
-  MailIcon,
-  DatabaseIcon,
+  EnvelopeIcon,
+  CircleStackIcon,
   LightBulbIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import UserService from '../services/api/user.service';
 import ExternalFooter from '../components/External/ExternalFooter';
 import {
@@ -246,16 +246,16 @@ export default {
     InboxIcon,
     AlertBanner,
     LightBulbIcon,
-    PencilAltIcon,
+    PencilIcon,
     TrashIcon,
     UsersIcon,
     UserIcon,
     ExternalFooter,
     ChevronDownIcon,
-    SearchIcon,
+    MagnifyingGlassIcon,
     UserGroupIcon,
-    MailIcon,
-    DatabaseIcon,
+    EnvelopeIcon,
+    CircleStackIcon,
     Popover,
     PopoverButton,
     PopoverPanel,
@@ -285,7 +285,7 @@ export default {
           description: `The Jovie Chrome Extension puts new & extsting contact\'s social data right inside your inbox`,
           href: 'chrome-extension',
           anchor: '',
-          icon: 'DatabaseIcon',
+          icon: 'CircleStackIcon',
         },
         {
           name: 'Data Enrichment',

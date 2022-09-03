@@ -262,7 +262,7 @@ import ModalPopup from './../components/ModalPopup';
 import UserService from './../services/api/user.service';
 import ProgressBar from './../components/ProgressBar';
 import JovieSpinner from './../components/JovieSpinner';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/outline';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 
 export default {
   name: 'ProfileSetup',

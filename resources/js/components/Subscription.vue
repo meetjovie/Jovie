@@ -372,7 +372,13 @@ export default {
         )[0].id;
       } catch (e) {
         console.log(e);
-        alert('Problem in selecting product');
+        /*  alert('Problem in selecting product'); */
+        this.$notify({
+          group: 'user',
+          title: 'Error',
+          message: 'Problem in selecting product',
+          type: 'error',
+        });
       }
     },
     annualBillingEnabled(val) {
@@ -386,7 +392,13 @@ export default {
           (plan) => plan.interval == interval
         )[0].id;
       } catch (e) {
-        alert('Problem in selecting plan');
+        /* alert('Problem in selecting plan'); */
+        this.$notify({
+          group: 'user',
+          title: 'Error',
+          message: 'Problem in selecting plan',
+          type: 'error',
+        });
       }
     },
   },
@@ -401,7 +413,13 @@ export default {
   methods: {
     next() {
       if (!this.selectedProduct || !this.selectedPlan) {
-        alert('Please select a plan to continue.');
+        /*  alert('Please select a plan to continue.'); */
+        this.$notify({
+          group: 'user',
+          title: 'Error',
+          message: 'Please select a plan to continue.',
+          type: 'error',
+        });
         return;
       }
       this.showPayment = true;
@@ -415,7 +433,13 @@ export default {
           if (response.status) {
             this.products = response.products;
           } else {
-            alert(response.message);
+            /*  alert(response.message); */
+            this.$notify({
+              group: 'user',
+              title: 'Error',
+              message: response.message,
+              type: 'error',
+            });
           }
         })
         .catch(() => {})
@@ -443,11 +467,25 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            alert(response.message);
+            this.$notify({
+              group: 'user',
+
+              title: 'Success',
+
+              message: response.message,
+              type: 'success',
+            });
+            /*  alert(response.message); */
             this.currentUser.current_team.current_subscription =
               response.subscription;
           } else {
-            alert(response.message);
+            /*  alert(response.message); */
+            this.$notify({
+              group: 'user',
+              title: 'Error',
+              message: response.message,
+              type: 'error',
+            });
           }
         })
         .finally(() => {
@@ -460,11 +498,23 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            alert(response.message);
+            /* alert(response.message); */
+            this.$notify({
+              group: 'user',
+              title: 'Success',
+              message: response.message,
+              type: 'success',
+            });
             this.currentUser.current_team.current_subscription =
               response.subscription;
           } else {
-            alert(response.message);
+            this.$notify({
+              group: 'user',
+              title: 'Error',
+              message: response.message,
+              type: 'error',
+            });
+            /*  alert(response.message); */
           }
         })
         .finally(() => {
@@ -474,7 +524,13 @@ export default {
     async pay({ stripe, elements }) {
       if (this.processingPayment) return;
       if (!this.selectedProduct || !this.selectedPlan) {
-        alert('You must select a product and pricing to continue.');
+        /*  alert('You must select a product and pricing to continue.'); */
+        this.$notify({
+          group: 'user',
+          title: 'Error',
+          message: 'You must select a product and pricing to continue.',
+          type: 'error',
+        });
         return;
       }
       this.processingPayment = true;
@@ -491,7 +547,13 @@ export default {
           console.log('result');
           console.log(result);
           if (result.error) {
-            alert(result.error.message);
+            /* alert(result.error.message); */
+            this.$notify({
+              group: 'user',
+              title: 'Error',
+              message: result.error.message,
+              type: 'error',
+            });
             this.processingPayment = false;
           } else {
             if (this.showSubscriptionPlans) {
@@ -510,13 +572,25 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            alert(response.message);
+            /* alert(response.message); */
+            this.$notify({
+              group: 'user',
+              title: 'Success',
+              message: response.message,
+              type: 'success',
+            });
             this.resetSelections();
             this.currentUser.current_team.current_subscription =
               response.subscription;
             this.$router.push({ name: 'Account' });
           } else {
-            alert(response.message);
+            /*  alert(response.message); */
+            this.$notify({
+              group: 'user',
+              title: 'Error',
+              message: response.message,
+              type: 'error',
+            });
           }
         })
         .catch((error) => {
@@ -539,14 +613,26 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            alert(response.message);
+            /*  alert(response.message); */
+            this.$notify({
+              group: 'user',
+              title: 'Success',
+              message: response.message,
+              type: 'success',
+            });
             this.resetSelections();
             this.currentUser.current_team.current_subscription =
               response.subscription;
             this.toggleChangeSubscription(false);
             this.$router.push({ name: 'Account' });
           } else {
-            alert(response.message);
+            /*  alert(response.message); */
+            this.$notify({
+              group: 'user',
+              title: 'Error',
+              message: response.message,
+              type: 'error',
+            });
           }
         })
         .catch((error) => {

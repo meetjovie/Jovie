@@ -23,13 +23,34 @@ axios.defaults.withCredentials = true;
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-// window.Pusher = require('pusher-js');
+window.Pusher = Pusher;
+console.log('process.env.MIX_PUSHER_APP_KEY');
+console.log(process.env.MIX_PUSHER_APP_KEY);
+console.log(process.env.MIX_PUSHER_APP_CLUSTER);
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    authorizer: (channel, options) => {
+        return {
+            authorize: (socketId, callback) => {
+                axios.post('/api/broadcasting/auth', {
+                    socket_id: socketId,
+                    channel_name: channel.name
+                })
+                    .then(response => {
+                        callback(false, response.data);
+                    })
+                    .catch(error => {
+                        callback(true, error);
+                    });
+            }
+        };
+    },
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+

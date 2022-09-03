@@ -359,20 +359,30 @@ class Creator extends Model
 
     public static function getCrmCreators($params)
     {
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $creators = DB::table('creators')
             ->addSelect('crms.*')->addSelect('crms.id as crm_id')
             ->addSelect('creators.*')->addSelect('creators.id as id')
-            ->join('crms', function ($join) use ($params) {
+            ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
-                    ->where('crms.user_id', Auth::id())
+                    ->where('crms.team_id', $user->currentTeam->id)
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
             });
 
-        if (isset($params['archived']) && $params['archived'] == 1) {
+        if (isset($params['type']) && $params['type'] == 'archived') {
             $creators = $creators->where(function ($q) {
-                $q->where('instagram_archived', true)->orWhere('twitter_archived', true);
+                $q->where('instagram_archived', true)->orWhere('twitter_archived', true)->orWhere('twitch_archived', true);
+            });
+        } elseif (isset($params['type']) && $params['type'] == 'favourites') {
+            $creators = $creators->where(function ($q) {
+                $q->where('favourite', true);
+            });
+        } elseif (isset($params['type']) && $params['type'] == 'list' && !empty($params['list'])) {
+            $creators = $creators->join('creator_user_list', function ($join) use ($params) {
+                $join->on('crms.creator_id', '=', 'creator_user_list.creator_id')
+                    ->where('user_list_id', $params['list']);
             });
         } else {
             $creators = $creators->where(function ($q) {
@@ -380,14 +390,9 @@ class Creator extends Model
                     $qq->where('instagram_archived', 0)->orWhere('instagram_archived', null);
                 })->orWhere(function ($qq) {
                     $qq->where('twitter_archived', 0)->orWhere('twitter_archived', null);
+                })->orWhere(function ($qq) {
+                    $qq->where('twitch_archived', 0)->orWhere('twitch_archived', null);
                 });
-            });
-        }
-
-        if (! empty($params['list'])) {
-            $creators = $creators->join('creator_user_list', function ($join) use ($params) {
-                $join->on('crms.creator_id', '=', 'creator_user_list.creator_id')
-                ->where('user_list_id', $params['list']);
             });
         }
 
@@ -407,6 +412,13 @@ class Creator extends Model
         }
 
         $creatorAccessor = new self();
+        $ids = $creators->pluck('id')->toArray();
+//         fetch all rating for available creators once, so we don't do multiple queries
+        $avgRatings = Crm::selectRaw('AVG(rating) average_rating, creator_id')
+            ->whereIn('creator_id', $ids)
+            ->groupBy('creator_id')
+            ->get()->keyBy('creator_id');
+
         foreach ($creators as &$creator) {
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
@@ -426,7 +438,8 @@ class Creator extends Model
 
             // crm
             $creator->crm_record_by_user = (object) [];
-            $creator->crm_record_by_user->user_id = Auth::id();
+            $creator->crm_record_by_user->user_id = $user->id;
+            $creator->crm_record_by_user->team_id = $user->currentTeam->id;
             $creator->crm_record_by_user->creator_id = $creator->id;
             $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
             $creator->crm_record_by_user->instagram_offer = $creator->instagram_offer;
@@ -457,39 +470,21 @@ class Creator extends Model
             unset($creator->favourite);
             unset($creator->muted);
 
-            foreach ($creators as &$creator) {
-                foreach (self::NETWORKS as $network) {
-                    if (! empty($creator->crm_record_by_user->{$network.'_offer'}) && count((array) $creator->{$network.'_meta'})) {
-                        $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
-                    }
-                }
-                if (! empty($creator->crm_record_by_user->rating) && isset($avgRatings[$creator->id])) {
-                    $creator->crm_record_by_user->average_rating = round($avgRatings[$creator->id]->average_rating);
+            // have suggested offer and make instagram offer == suggester offer in case instagram
+            // offer is null or 0, so we can use same model on frontend
+            // same goes for ratings
+            // on frontend one can check if instagram_suggested_offer or instagram_average_rating is present then style different
+            // these properties would only show up if user specific values are not set
+
+            foreach (self::NETWORKS as $network) {
+                if (! empty($creator->crm_record_by_user->{$network.'_offer'}) && count((array) $creator->{$network.'_meta'})) {
+                    $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
                 }
             }
+            if (empty($creator->crm_record_by_user->rating) && isset($avgRatings[$creator->id])) {
+                $creator->crm_record_by_user->rating = round($avgRatings[$creator->id]->average_rating);
+            }
         }
-
-        // have suggested offer and make instagram offer == suggester offer in case instagram
-        // offer is null or 0, so we can use same model on frontend
-        // same goes for ratings
-        // on frontend one can check if instagram_suggested_offer or instagram_average_rating is present then style different
-        // these properties would only show up if user specific values are not set
-
-//        $ids = $creators->pluck('id')->toArray();
-        // fetch all rating for available creators once, so we don't do multiple queries
-//        $avgRatings = Crm::selectRaw('AVG(rating) average_rating, creator_id')
-//            ->whereIn('id', $ids)
-//            ->groupBy('creator_id')
-//            ->get()->keyBy('creator_id');
-//
-//        foreach ($creators as &$creator) {
-//            if (!$creator->crmRecordByUser->instagram_offer) {
-//                $creator->crmRecordByUser->instagram_suggested_offer = round($creator->instagram_meta->engaged_follows * 0.5, 0);
-//            }
-//            if (!$creator->crmRecordByUser->rating && isset($avgRatings[$creator->id])) {
-//                $creator->crmRecordByUser->average_rating = round($avgRatings[$creator->id]->average_rating);
-//            }
-//        }
 
         return $creators;
     }
@@ -515,7 +510,8 @@ class Creator extends Model
             $creator->{$k} = $v;
         }
         // update interactions for crm
-        Crm::updateOrCreate(['creator_id' => $id, 'user_id' => Auth::id()], array_merge(['creator_id' => $id, 'user_id' => Auth::id()], $dataToUpdateForCrm));
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        Crm::updateOrCreate(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $dataToUpdateForCrm));
         $creator->save();
     }
 
@@ -614,5 +610,17 @@ class Creator extends Model
                 }
             }
         }
+    }
+
+    public static function getCrmCounts()
+    {
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $counts = DB::table('crms')->selectRaw('team_id, count(*) AS total,
+        sum(case when favourite = true then 1 else 0 end) AS favourites,
+        sum(case when instagram_archived = true OR twitter_archived = true OR twitch_archived = true then 1 else 0 end) AS archived')
+            ->where('team_id', $user->currentTeam->id)
+            ->groupBy('team_id')->first();
+        unset($counts->team_id);
+        return (array) $counts;
     }
 }

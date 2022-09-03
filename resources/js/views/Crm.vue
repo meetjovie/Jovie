@@ -1,229 +1,229 @@
 <template>
-  <div id="crm" class="mx-auto w-full min-w-full">
-    <TabGroup vertical :defaultIndex="0" as="div" @change="changeTab">
-      <!-- <div class="items-bottom flex w-full justify-between border-b bg-white">
-        <div class="w-60 items-center">
-          <div>add search here</div>
-        </div>
-        <div class="items-center px-2">
-          <Menu as="div" class="relative inline-block items-center text-left">
-            <span class="relative z-0 inline-flex rounded-md py-1">
-              <button
-                @click="showCreatorImportModal = true"
-                type="button"
-                class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-2 px-3 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
-                Add contact
-              </button>
-              <MenuButton
-                as="div"
-                class="relative -ml-px inline-flex cursor-pointer items-center rounded-r-md border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-                <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
-              </MenuButton>
-            </span>
-            <transition
-              enter-active-class="transition ease-out duration-100"
-              enter-from-class="transform opacity-0 scale-95"
-              enter-to-class="transform opacity-100 scale-100"
-              leave-active-class="transition ease-in duration-75"
-              leave-from-class="transform opacity-100 scale-100"
-              leave-to-class="transform opacity-0 scale-95">
-              <MenuItems
-                class="absolute right-0 z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                <div class="">
-                  <MenuItem v-slot="{ active }">
-                    <router-link
-                      to="/import"
-                      :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'group flex items-center px-4 py-2 text-sm first:pt-3 last:pt-3',
-                      ]">
-                      <CloudUploadIcon
-                        class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                        aria-hidden="true" />
-                      Import a csv
-                    </router-link>
-                  </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <a
-                      @click="exportCrmCreators()"
-                      :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'group flex items-center px-4 py-2 text-sm first:pt-3 last:pt-3',
-                      ]">
-                      <DownloadIcon
-                        class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                        aria-hidden="true" />
-                      Export a csv
-                    </a>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
-        </div>
-      </div> -->
-      <div class="flex h-screen">
-        <div
-          v-if="$store.state.CRMSidebarOpen"
-          class="border-neutral-2 overflow-y-noscroll z-10 h-full w-60 border-r-2 bg-neutral-50 px-1 py-2 shadow-xl">
-          <div>
-            <TabList>
-              <div class="fle-col py-1">
-                <Tab v-slot="{ selected }" as="template">
-                  <button
-                    class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
-                    :class="[
-                      selected
-                        ? 'text-sm font-bold text-neutral-500  '
-                        : 'text-sm font-semibold text-neutral-400',
-                    ]">
-                    <div class="flex items-center text-xs">
-                      <UserGroupIcon
-                        class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
-                        aria-hidden="true" />
-                      All Contacts
-                    </div>
-                    <div
-                      @click="showCreatorModal = true"
-                      class="items-center rounded-md p-1 hover:bg-gray-500 hover:text-gray-50">
-                      <span
-                        class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
-                        >{{ creators.length }}</span
-                      >
+  <div class="h-full w-full">
+    <div id="crm" class="mx-auto flex h-full w-full min-w-full">
+      <div class="flex h-full w-full">
+        <TransitionRoot
+          :show="$store.state.CRMSidebarOpen"
+          enter="transition ease-in-out duration-300 transform"
+          enter-from="-translate-x-full"
+          enter-to="translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leave-from="translate-x-0"
+          leave-to="-translate-x-full">
+          <div
+            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 py-4 pb-2 shadow-xl"
+            :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
+            <div>
+              <div class="mt-10 flex-col py-1 px-2">
+                <!--   <JovieTooltip> -->
+                <button
+                    @click="setFiltersType('all')"
+                  class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
+                  :class="[
+                    filters.type == 'all'
+                      ? 'text-sm font-bold text-neutral-500  '
+                      : 'text-sm font-semibold text-neutral-400',
+                  ]">
+                  <div class="flex items-center text-xs">
+                    <UserGroupIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
+                      aria-hidden="true" />
+                    All Contacts
+                  </div>
+                  <div
+                    @click="showCreatorModal = true"
+                    class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                    <span
+                      class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                      >{{ counts.total }}</span
+                    >
 
-                      <PlusIcon
-                        class="hidden h-3 w-3 text-gray-400 hover:text-gray-50 group-hover:block"></PlusIcon>
-                    </div>
-                  </button>
-                </Tab>
-                <Tab v-slot="{ selected }" as="template">
-                  <button
+                    <PlusIcon
+                      class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
+                  </div>
+                </button>
+                <!--   </JovieTooltip>
+ -->
+                <button
+                    @click="setFiltersType('archived')"
                     class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
-                    :class="[
-                      selected
-                        ? 'text-sm font-bold text-neutral-500 '
-                        : 'text-sm font-semibold text-neutral-400',
-                    ]">
-                    <div class="flex items-center text-xs">
-                      <ArchiveIcon
-                        class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-                        aria-hidden="true" />Archived
-                    </div>
-                    <div class="items-center rounded-md p-1 hover:text-gray-50">
-                      <span
-                        class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-                        >{{ creators.length }}</span
-                      >
-                    </div>
-                  </button>
-                </Tab>
-                <Tab v-slot="{ selected }" as="template">
-                  <button
+                  :class="[
+                    filters.type == 'archived'
+                      ? 'text-sm font-bold text-neutral-500 '
+                      : 'text-sm font-semibold text-neutral-400',
+                  ]">
+                  <div class="flex items-center text-xs">
+                    <ArchiveBoxIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                      aria-hidden="true" />Archived
+                  </div>
+                  <div class="items-center rounded-md p-1 hover:text-gray-50">
+                    <span
+                      class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                      >{{ counts.archived }}</span
+                    >
+                  </div>
+                </button>
+
+                <button
+                    @click="setFiltersType('favourites')"
                     class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
-                    :class="[
-                      selected
-                        ? 'text-sm font-bold text-neutral-500 '
-                        : 'text-sm font-semibold text-neutral-400',
-                    ]">
-                    <div class="flex items-center text-xs">
-                      <HeartIcon
-                        class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
-                        aria-hidden="true" />Favorites
-                    </div>
-                    <div class="items-center rounded-md p-1 hover:text-gray-50">
-                      <span
-                        class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-                        >{{ creators.length }}</span
-                      >
-                    </div>
-                  </button>
-                </Tab>
+                  :class="[
+                    filters.type == 'favourites'
+                      ? 'text-sm font-bold text-neutral-500 '
+                      : 'text-sm font-semibold text-neutral-400',
+                  ]">
+                  <div class="flex items-center text-xs">
+                    <HeartIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                      aria-hidden="true" />Favorites
+                  </div>
+                  <div class="items-center rounded-md p-1 hover:text-gray-50">
+                    <span
+                      class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                      >{{ counts.favourites }}</span
+                    >
+                  </div>
+                </button>
               </div>
-            </TabList>
+              <div class="flex-col space-y-4 px-2 py-4">
+                <MenuList
+                  @getUserLists="getUserLists"
+                  menuName="Pinned"
+                  :selectedList="filters.list"
+                  @setFilterList="setFilterList"
+                  :menuItems="pinnedUserLists"></MenuList>
+                <MenuList
+                  @getUserLists="getUserLists"
+                  menuName="Lists"
+                  @setFilterList="setFilterList"
+                  :selectedList="filters.list"
+                  :draggable="true"
+                  @end="sortLists"
+                  :menuItems="filteredUsersLists"></MenuList>
+              </div>
+            </div>
+            <div class="flex-shrink-0 border-t border-neutral-200 py-2 px-2">
+              <div
+                @click="showCreatorModal = true"
+                class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
+                <CloudArrowUpIcon
+                  class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                  aria-hidden="true" />Import Contacts
+              </div>
+
+              <SwitchTeams />
+
+              <div class="mt-1 py-1">
+                <ProgressBar
+                  invertedColor
+                  :percentage="
+                    100 -
+                    (currentUser.current_team.credits /
+                      (currentUser.current_team.current_subscription?.credits ||
+                        10)) *
+                      100
+                  "
+                  :label="
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) -
+                    currentUser.current_team.credits +
+                    ' of ' +
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) +
+                    ' contacts'
+                  " />
+              </div>
+              <div
+                v-if="!currentUser.current_team.credits"
+                class="flex items-center justify-between">
+                <div class="flex items-center px-2">
+                  <span class="text-2xs text-neutral-400"
+                    >Account quota exceeded
+                  </span>
+                  <ChevronRightIcon
+                    class="h-3 w-3 text-neutral-400"
+                    aria-hidden="true" />
+                </div>
+                <div
+                  as="router-link"
+                  to="/billing"
+                  class="underline-2 cursor-pointer text-center text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+                  Upgrade
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="h-1/2">
-            <MenuList menuName="Lists" :menuItems="filters.list"></MenuList>
-          </div>
-          <div>
-            <MenuList menuName="Tags" :menuItems="lists"></MenuList>
-          </div>
-        </div>
+        </TransitionRoot>
         <div class="w-full">
-          <TabPanels>
-            <TabPanel>
-              <div class="mx-auto w-full min-w-full">
-                <div class="w-full">
-                  <div class="flex w-full flex-col">
-                    <div class="mx-auto w-full p-0">
-                      <div class="inline-block w-full align-middle">
-                        <div class="">
+          <div class="mx-auto w-full min-w-full">
+            <div class="w-full">
+              <div class="flex w-full flex-col">
+                <div class="mx-auto w-full p-0">
+                  <div class="inline-block w-full align-middle">
+                    <div class="">
+                      <!--  Show import screen if no creators -->
+                      <div
+                        v-if="!loading && creators.length < 1"
+                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                        <div class="mx-auto max-w-xl">
                           <div
-                            v-if="!loading && creators.length < 1"
-                            class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                            <div class="mx-auto max-w-xl">
-                              <div
-                                class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                                <div>
-                                  <h1 class="text-md font-bold">
-                                    You don't have any contacts yet.
-                                  </h1>
-                                  <span
-                                    class="text-sm font-medium text-neutral-500"
-                                    >Enter the url of a linl profile to add a
-                                    contact to Jovie.</span
-                                  >
-                                </div>
-                                <SocialInput class="py-12" />
-                                <InternalMarketingChromeExtension
-                                  class="mt-24" />
-                              </div>
+                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                            <div>
+                              <h1 class="text-md font-bold">
+                                You don't have any contacts yet.
+                              </h1>
+                              <span class="text-sm font-medium text-neutral-500"
+                                >Enter a Twitch or Instagram url to add someone
+                                to Jovie.</span
+                              >
+                            </div>
+                            <SocialInput class="py-12" />
+                            <InternalMarketingChromeExtension class="mt-24" />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Show loading screen if the users first ever import is loading -->
+
+                      <div
+                        v-else-if="initialImportLoading"
+                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                        <div class="mx-auto max-w-xl">
+                          <div
+                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                            <div>
+                              <h1 class="text-md font-bold">
+                                You've just initated an import.
+                              </h1>
+                              <span class="text-sm font-medium text-neutral-500"
+                                >You'll see creators populate this space
+                                soon.</span
+                              >
                             </div>
                           </div>
-
-                          <CrmTable
-                            v-else
-                            @updateCreator="updateCreator"
-                            @pageChanged="pageChanged"
-                            :creators="creators"
-                            :networks="networks"
-                            :stages="stages"
-                            :creatorsMeta="creatorsMeta"
-                            :loading="loading" />
                         </div>
                       </div>
+                      <!-- Show the crm if there are creators -->
+                      <CrmTable
+                        v-else
+                        @updateCreator="updateCreator"
+                        @pageChanged="pageChanged"
+                        :creators="creators"
+                        :networks="networks"
+                        :stages="stages"
+                        :creatorsMeta="creatorsMeta"
+                        :loading="loading" />
                     </div>
                   </div>
                 </div>
               </div>
-            </TabPanel>
-            <TabPanel>
-              <div class="mx-auto w-full min-w-full">
-                <div class="w-full">
-                  <div class="flex w-full flex-col">
-                    <div class="mx-auto w-full p-0">
-                      <div class="inline-block w-full align-middle">
-                        <div class="border-b border-gray-200 shadow">
-                          <CrmTable
-                            @updateCreator="updateCreator"
-                            @pageChanged="pageChanged"
-                            :creators="creators"
-                            :networks="networks"
-                            :stages="stages"
-                            :creatorsMeta="creatorsMeta"
-                            :archived="true"
-                            :loading="loading" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </TabPanel>
-          </TabPanels>
+            </div>
+          </div>
         </div>
       </div>
-    </TabGroup>
-    <ImportCreatorModal :open="showCreatorModal" />
+
+      <ImportCreatorModal :open="showCreatorModal" />
+    </div>
   </div>
 </template>
 
@@ -241,43 +241,53 @@ import {
   TabPanel,
   Menu,
   MenuButton,
+  TransitionRoot,
   MenuItems,
   MenuItem,
 } from '@headlessui/vue';
 import {
   ChevronDownIcon,
-  DownloadIcon,
+  ChevronRightIcon,
+  CloudArrowDownIcon,
   CheckIcon,
   UserGroupIcon,
-  DotsVerticalIcon,
+  EllipsisVerticalIcon,
   PlusIcon,
   HeartIcon,
-  ArchiveIcon,
-  CloudUploadIcon,
-} from '@heroicons/vue/solid';
+  ArchiveBoxIcon,
+  CloudArrowUpIcon,
+} from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
 import ImportCreatorModal from '../components/ImportCreatorModal';
 import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
 import MenuList from '../components/MenuList';
+import ProgressBar from '../components/ProgressBar';
+import SwitchTeams from '../components/SwitchTeams';
+import JovieTooltip from '../components/JovieTooltip.vue';
+
 export default {
   name: 'CRM',
   components: {
-    DownloadIcon,
+    CloudArrowDownIcon,
     PlusIcon,
+    SwitchTeams,
     TabGroup,
     HeartIcon,
+    ProgressBar,
     TabList,
     Tab,
     InternalMarketingChromeExtension,
     ImportCreatorModal,
     SocialInput,
+    TransitionRoot,
     TabPanels,
     TabPanel,
     MenuList,
+    ChevronRightIcon,
     Combobox,
-    DotsVerticalIcon,
+    EllipsisVerticalIcon,
     ComboboxInput,
     ComboboxButton,
     ComboboxOptions,
@@ -288,13 +298,15 @@ export default {
     MenuItem,
     ChevronDownIcon,
     CheckIcon,
-    ArchiveIcon,
+    ArchiveBoxIcon,
     UserGroupIcon,
-    CloudUploadIcon,
+    CloudArrowUpIcon,
     CrmTable,
+    JovieTooltip,
   },
   data() {
     return {
+      counts: {},
       stages: [],
       networks: [],
       userLists: [],
@@ -304,7 +316,7 @@ export default {
       creatorsMeta: {},
       lists: [
         {
-          name: 'Dancers',
+          name: 'Dancers with really really really really long names',
           emoji: '💃',
           id: 1,
           count: 34,
@@ -332,43 +344,107 @@ export default {
           index: 0,
         },
       ],
+
       query: '',
       filters: {
         list: null,
-        archived: 0,
+        type: 'all',
         page: 1,
       },
       searchList: '',
+        abortController: null
     };
   },
   watch: {
     filters: {
       deep: true,
       handler: function (val) {
-        this.getCrmCreators();
-        if (val.list) {
-          localStorage.setItem('filterListCrm', JSON.stringify(val.list));
-        }
+          localStorage.setItem('filters', JSON.stringify(val));
       },
     },
   },
   computed: {
+    sortedCreators() {
+      return this.creators.sort((a, b) => {
+        let modifier = 1;
+        if (this.currentSortDir === 'desc') modifier = -1;
+        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      });
+    },
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
-      let filterList = localStorage.getItem('filterListCrm');
-      if (filterList) {
-        this.filters.list = JSON.parse(filterList);
+      let filters = localStorage.getItem('filters');
+      if (filters) {
+        this.filters = JSON.parse(filters);
       }
       return this.userLists.filter((list) =>
         list.name.toLowerCase().match(this.searchList.toLowerCase())
       );
     },
+    pinnedUserLists() {
+      return this.userLists.filter((list) => list.pinned);
+    },
   },
-  mounted() {
-    this.getUserLists();
+  async mounted() {
+    await this.getUserLists();
     this.getCrmCreators();
   },
   methods: {
+      setFiltersType(type) {
+          this.filters.type = this.filters.type == type ? 'all' : type
+          this.filters.list = null
+          this.getCrmCreators();
+      },
+      setFilterList(list) {
+          this.filters.type = 'list'
+          this.filters.list = this.filters.list == list ? null : list
+          this.getCrmCreators();
+      },
+    sortLists(e, listId) {
+      UserService.sortLists(
+        { newIndex: e.newIndex, oldIndex: e.oldIndex },
+        e.item.id
+      )
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+            // show toast error here later
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            if (this.errors.list[0]) {
+              this.$notify({
+                group: 'user',
+                type: 'success',
+                duration: 15000,
+                title: 'Successful',
+                text: this.errors.list[0],
+              });
+            }
+          }
+        })
+        .finally((response) => {});
+    },
     getUserLists() {
       UserService.getUserLists().then((response) => {
         response = response.data;
@@ -391,12 +467,17 @@ export default {
     getCrmCreators(filters = {}) {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.filters));
-      data.list = data.list?.id;
-      UserService.getCrmCreators(data).then((response) => {
+      if (this.abortController) {
+          this.abortController.abort()
+      }
+        this.abortController = new AbortController();
+        const signal = this.abortController.signal
+      UserService.getCrmCreators(data, signal).then((response) => {
         this.loading = false;
         response = response.data;
         if (response.status) {
           this.networks = response.networks;
+          this.counts = response.counts;
           this.stages = response.stages;
           this.creators = response.creators.data;
           this.creatorsMeta = response.creators;

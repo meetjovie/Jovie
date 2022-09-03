@@ -8,17 +8,17 @@
           <span class="mr-1 text-2xs">{{ item.emoji }}</span>
           <span class="text-2xs line-clamp-1">{{ item.name }}</span>
         </div>
-        <XIcon
-          class="h-3 w-3 cursor-pointer text-gray-400 hover:text-gray-500"></XIcon>
+        <XMarkIcon
+          class="h-3 w-3 cursor-pointer text-gray-400 hover:text-gray-500"></XMarkIcon>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { XIcon } from '@heroicons/vue/solid';
+import { XMarkIcon } from '@heroicons/vue/24/solid';
 export default {
   components: {
-    XIcon,
+    XMarkIcon,
   },
   data() {
     return {

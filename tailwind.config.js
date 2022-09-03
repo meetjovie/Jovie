@@ -2,6 +2,7 @@
 const colors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
+const { tailwindcssOriginSafelist } = require('@headlessui-float/vue');
 
 module.exports = {
   content: [
@@ -10,6 +11,7 @@ module.exports = {
     './resources/**/*.js',
     './resources/**/*.vue',
   ],
+  safelist: [...tailwindcssOriginSafelist],
   theme: {
     extend: {
       aspectRatio: {

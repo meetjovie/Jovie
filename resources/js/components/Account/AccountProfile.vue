@@ -133,7 +133,7 @@
 
         <div class="mt-5 md:col-span-2 md:mt-0">
           <form
-            @submit.prevent="updateProfile()"
+            @submit.prevent="updateSocialHandlers()"
             method="post"
             enctype="multipart/form-data">
             <div

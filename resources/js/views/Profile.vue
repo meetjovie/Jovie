@@ -40,8 +40,11 @@
           <div class="flex items-center justify-between gap-2 sm:grid-cols-6">
             <template v-for="network in networks" :key="network">
               <div
-                v-if="user[`show_${network}`] && (currentUser[`${network}_handler`] ||
-                    user.creator_profile[`${network}_handler`])"
+                v-if="
+                  user[`show_${network}`] &&
+                  (currentUser[`${network}_handler`] ||
+                    user.creator_profile[`${network}_handler`])
+                "
                 class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
                   :href="
@@ -88,14 +91,14 @@
 <script>
 import JovieLogo from '../components/JovieLogo.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
-import { MailOpenIcon } from '@heroicons/vue/solid';
+import { EnvelopeOpenIcon } from '@heroicons/vue/24/solid';
 import store from '../store';
 import router from '../router';
 import SocialIcons from '../components/SocialIcons';
 
 export default {
   name: 'CreatorProfile',
-  components: { JovieLogo, ButtonGroup, MailOpenIcon, SocialIcons },
+  components: { JovieLogo, ButtonGroup, EnvelopeOpenIcon, SocialIcons },
   props: ['profile', 'socialNetworks'],
   data() {
     return {

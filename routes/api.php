@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,8 @@ Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::c
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Broadcast::routes();
+
     //    PROFILE
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
     Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
@@ -41,6 +44,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //      USER LISTS
     Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
+    Route::post('/sort-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'sortLists']);
+    Route::post('/pin-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'pinList']);
+    Route::post('/unpin-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'unpinList']);
+    Route::post('/duplicate-list/{id}', [\App\Http\Controllers\UserListsController::class, 'duplicateList']);
+    Route::delete('/delete-list/{id}', [\App\Http\Controllers\UserListsController::class, 'deleteList']);
+    Route::post('/create-list', [\App\Http\Controllers\UserListsController::class, 'createList']);
+    Route::put('/update-list/{id}', [\App\Http\Controllers\UserListsController::class, 'updateList']);
 
     //      CRM
     Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);

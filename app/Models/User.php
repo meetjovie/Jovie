@@ -178,4 +178,9 @@ class User extends Authenticatable
 
         return null;
     }
+
+    public function userListAttributes()
+    {
+        return $this->belongsToMany(UserList::class, 'user_list_attributes')->withTimestamps();
+    }
 }

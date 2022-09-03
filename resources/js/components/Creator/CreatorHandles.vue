@@ -18,12 +18,12 @@
 </template>
 
 <script>
-import { MailIcon, ChevronDownIcon } from '@heroicons/vue/solid';
+import { EnvelopeIcon, ChevronDownIcon } from '@heroicons/vue/24/solid';
 import { FacebookIcon, TwitterIcon } from 'vue-simple-icons';
 
 export default {
   components: {
-    MailIcon,
+    EnvelopeIcon,
     TwitterIcon,
     FacebookIcon,
     ChevronDownIcon,
@@ -31,7 +31,7 @@ export default {
   props: {
     icon: {
       type: String,
-      default: 'MailIcon',
+      default: 'EnvelopeIcon',
     },
     placeholder: {
       type: String,
