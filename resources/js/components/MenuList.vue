@@ -428,7 +428,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-            this.errors = error.data.errors;
+              this.$notify({
+                  group: 'user',
+                  type: 'error',
+                  duration: 15000,
+                  title: 'Error',
+                  text: Object.values(error.data.errors)[0][0],
+              });
           }
         })
         .finally((response) => {
@@ -476,16 +482,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-            this.errors = error.data.errors;
-            if (this.errors.list[0]) {
               this.$notify({
-                group: 'user',
-                type: 'error',
-                duration: 15000,
-                title: 'Error',
-                text: this.errors.list[0],
+                  group: 'user',
+                  type: 'error',
+                  duration: 15000,
+                  title: 'Error',
+                  text: Object.values(error.data.errors)[0][0],
               });
-            }
           }
         })
         .finally((response) => {
@@ -542,16 +545,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-            this.errors = error.data.errors;
-            if (this.errors.list[0]) {
               this.$notify({
-                group: 'user',
-                type: 'error',
-                duration: 15000,
-                title: 'Error',
-                text: this.errors.list[0],
+                  group: 'user',
+                  type: 'error',
+                  duration: 15000,
+                  title: 'Error',
+                  text: Object.values(error.data.errors)[0][0],
               });
-            }
           }
         })
         .finally((response) => {
@@ -584,16 +584,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-            this.errors = error.data.errors;
-            if (this.errors.list[0]) {
               this.$notify({
-                group: 'user',
-                type: 'error',
-                duration: 15000,
-                title: 'Error',
-                text: this.errors.list[0],
+                  group: 'user',
+                  type: 'error',
+                  duration: 15000,
+                  title: 'Error',
+                  text: Object.values(error.data.errors)[0][0],
               });
-            }
           }
         })
         .finally((response) => {
@@ -626,16 +623,13 @@ export default {
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-            this.errors = error.data.errors;
-            if (this.errors.list[0]) {
               this.$notify({
-                group: 'user',
-                type: 'error',
-                duration: 15000,
-                title: 'Error',
-                text: this.errors.list[0],
+                  group: 'user',
+                  type: 'error',
+                  duration: 15000,
+                  title: 'Error',
+                  text: Object.values(error.data.errors)[0][0],
               });
-            }
           }
         })
         .finally((response) => {

@@ -365,7 +365,6 @@ class Creator extends Model
             ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
-                    ->where('crms.user_id', $user->id)
                     ->where('crms.team_id', $user->currentTeam->id)
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);

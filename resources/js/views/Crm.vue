@@ -35,7 +35,7 @@
                     class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                     <span
                       class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
-                      >{{ creators.length }}</span
+                      >{{ counts.total }}</span
                     >
 
                     <PlusIcon
@@ -60,7 +60,7 @@
                   <div class="items-center rounded-md p-1 hover:text-gray-50">
                     <span
                       class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-                      >{{ creators.length }}</span
+                      >{{ counts.archived }}</span
                     >
                   </div>
                 </button>
@@ -81,7 +81,7 @@
                   <div class="items-center rounded-md p-1 hover:text-gray-50">
                     <span
                       class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
-                      >{{ creators.length }}</span
+                      >{{ counts.favourites }}</span
                     >
                   </div>
                 </button>
@@ -219,30 +219,6 @@
               </div>
             </div>
           </div>
-
-          <!--  <TabPanel>
-              <div class="mx-auto w-full min-w-full">
-                <div class="w-full">
-                  <div class="flex w-full flex-col">
-                    <div class="mx-auto w-full p-0">
-                      <div class="inline-block w-full align-middle">
-                        <div class="border-b border-gray-200 shadow">
-                          <CrmTable
-                            @updateCreator="updateCreator"
-                            @pageChanged="pageChanged"
-                            :creators="creators"
-                            :networks="networks"
-                            :stages="stages"
-                            :creatorsMeta="creatorsMeta"
-                            :archived="true"
-                            :loading="loading" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </TabPanel> -->
         </div>
       </div>
 
@@ -330,6 +306,7 @@ export default {
   },
   data() {
     return {
+      counts: {},
       stages: [],
       networks: [],
       userLists: [],
@@ -382,10 +359,7 @@ export default {
     filters: {
       deep: true,
       handler: function (val) {
-        this.getCrmCreators();
-        if (val.list) {
-          localStorage.setItem('filterListCrm', JSON.stringify(val));
-        }
+          localStorage.setItem('filters', JSON.stringify(val));
       },
     },
   },
@@ -401,9 +375,9 @@ export default {
     },
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
-      let filterList = localStorage.getItem('filterListCrm');
-      if (filterList) {
-        this.filters = JSON.parse(filterList);
+      let filters = localStorage.getItem('filters');
+      if (filters) {
+        this.filters = JSON.parse(filters);
       }
       return this.userLists.filter((list) =>
         list.name.toLowerCase().match(this.searchList.toLowerCase())
@@ -413,18 +387,20 @@ export default {
       return this.userLists.filter((list) => list.pinned);
     },
   },
-  mounted() {
-    this.getUserLists();
+  async mounted() {
+    await this.getUserLists();
     this.getCrmCreators();
   },
   methods: {
       setFiltersType(type) {
           this.filters.type = this.filters.type == type ? 'all' : type
           this.filters.list = null
+          this.getCrmCreators();
       },
       setFilterList(list) {
           this.filters.type = 'list'
           this.filters.list = this.filters.list == list ? null : list
+          this.getCrmCreators();
       },
     sortLists(e, listId) {
       UserService.sortLists(
@@ -501,6 +477,7 @@ export default {
         response = response.data;
         if (response.status) {
           this.networks = response.networks;
+          this.counts = response.counts;
           this.stages = response.stages;
           this.creators = response.creators.data;
           this.creatorsMeta = response.creators;
