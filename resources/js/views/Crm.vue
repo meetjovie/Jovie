@@ -17,9 +17,10 @@
               <div class="mt-10 flex-col py-1 px-2">
                 <!--   <JovieTooltip> -->
                 <button
+                    @click="setFiltersType('all')"
                   class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
                   :class="[
-                    selected
+                    filters.type == 'all'
                       ? 'text-sm font-bold text-neutral-500  '
                       : 'text-sm font-semibold text-neutral-400',
                   ]">
@@ -44,9 +45,10 @@
                 <!--   </JovieTooltip>
  -->
                 <button
-                  class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    @click="setFiltersType('archived')"
+                    class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                   :class="[
-                    selected
+                    filters.type == 'archived'
                       ? 'text-sm font-bold text-neutral-500 '
                       : 'text-sm font-semibold text-neutral-400',
                   ]">
@@ -64,9 +66,10 @@
                 </button>
 
                 <button
-                  class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    @click="setFiltersType('favourites')"
+                    class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                   :class="[
-                    selected
+                    filters.type == 'favourites'
                       ? 'text-sm font-bold text-neutral-500 '
                       : 'text-sm font-semibold text-neutral-400',
                   ]">
@@ -87,10 +90,14 @@
                 <MenuList
                   @getUserLists="getUserLists"
                   menuName="Pinned"
+                  :selectedList="filters.list"
+                  @setFilterList="setFilterList"
                   :menuItems="pinnedUserLists"></MenuList>
                 <MenuList
                   @getUserLists="getUserLists"
                   menuName="Lists"
+                  @setFilterList="setFilterList"
+                  :selectedList="filters.list"
                   :draggable="true"
                   @end="sortLists"
                   :menuItems="filteredUsersLists"></MenuList>
@@ -364,10 +371,11 @@ export default {
       query: '',
       filters: {
         list: null,
-        archived: 0,
+        type: 'all',
         page: 1,
       },
       searchList: '',
+        abortController: null
     };
   },
   watch: {
@@ -376,7 +384,7 @@ export default {
       handler: function (val) {
         this.getCrmCreators();
         if (val.list) {
-          localStorage.setItem('filterListCrm', JSON.stringify(val.list));
+          localStorage.setItem('filterListCrm', JSON.stringify(val));
         }
       },
     },
@@ -395,7 +403,7 @@ export default {
       if (!this.searchList) this.filters.list = null;
       let filterList = localStorage.getItem('filterListCrm');
       if (filterList) {
-        this.filters.list = JSON.parse(filterList);
+        this.filters = JSON.parse(filterList);
       }
       return this.userLists.filter((list) =>
         list.name.toLowerCase().match(this.searchList.toLowerCase())
@@ -410,6 +418,14 @@ export default {
     this.getCrmCreators();
   },
   methods: {
+      setFiltersType(type) {
+          this.filters.type = this.filters.type == type ? 'all' : type
+          this.filters.list = null
+      },
+      setFilterList(list) {
+          this.filters.type = 'list'
+          this.filters.list = this.filters.list == list ? null : list
+      },
     sortLists(e, listId) {
       UserService.sortLists(
         { newIndex: e.newIndex, oldIndex: e.oldIndex },
@@ -475,8 +491,12 @@ export default {
     getCrmCreators(filters = {}) {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.filters));
-      data.list = data.list?.id;
-      UserService.getCrmCreators(data).then((response) => {
+      if (this.abortController) {
+          this.abortController.abort()
+      }
+        this.abortController = new AbortController();
+        const signal = this.abortController.signal
+      UserService.getCrmCreators(data, signal).then((response) => {
         this.loading = false;
         response = response.data;
         if (response.status) {

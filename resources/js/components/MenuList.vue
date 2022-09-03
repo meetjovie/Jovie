@@ -49,10 +49,15 @@
                           placeholder="📄"
                           class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
                   </EmojiPickerModal>
-                <div @dblclick="enableEditName(element)">
+                <div @dblclick="enableEditName(element)" @click="$emit('setFilterList', element.id)">
                   <span
                     v-if="!element.editName"
-                    class="cursor-pointer text-xs font-semibold text-neutral-400 line-clamp-1 group-hover:text-neutral-500"
+                    :class="[
+                    selectedList == element.id
+                      ? 'font-bold text-neutral-500 '
+                      : 'font-semibold text-neutral-400',
+                  ]"
+                    class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-500"
                     >{{ element.name }}</span
                   >
                   <input
@@ -176,11 +181,16 @@
                 placeholder="📄"
                 class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
             </EmojiPickerModal>
-            <div @dblclick="enableEditName(item)">
+            <div @dblclick="enableEditName(item)" @click="$emit('setFilterList', item.id)">
               <span
-                v-if="!item.editName"
-                class="cursor-pointer text-xs font-semibold text-neutral-400 line-clamp-1 group-hover:text-neutral-500"
-                >{{ item.name }}</span
+                  v-if="!item.editName"
+                  :class="[
+                    selectedList == item.id
+                      ? 'font-bold text-neutral-500 '
+                      : 'font-semibold text-neutral-400',
+                  ]"
+                  class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-500"
+              >{{ item.name }}</span
               >
               <input
                 ref="input"
@@ -668,6 +678,10 @@ export default {
     draggable: {
       type: Boolean,
       default: false,
+    },
+   selectedList: {
+      type: String,
+      default: null,
     },
   },
 };

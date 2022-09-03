@@ -370,9 +370,18 @@ class Creator extends Model
                     });
             });
 
-        if (isset($params['archived']) && $params['archived'] == 1) {
+        if (isset($params['type']) && $params['type'] == 'archived') {
             $creators = $creators->where(function ($q) {
-                $q->where('instagram_archived', true)->orWhere('twitter_archived', true);
+                $q->where('instagram_archived', true)->orWhere('twitter_archived', true)->orWhere('twitch_archived', true);
+            });
+        } elseif (isset($params['type']) && $params['type'] == 'favourites') {
+            $creators = $creators->where(function ($q) {
+                $q->where('favourite', true);
+            });
+        } elseif (isset($params['type']) && $params['type'] == 'list' && !empty($params['list'])) {
+            $creators = $creators->join('creator_user_list', function ($join) use ($params) {
+                $join->on('crms.creator_id', '=', 'creator_user_list.creator_id')
+                    ->where('user_list_id', $params['list']);
             });
         } else {
             $creators = $creators->where(function ($q) {
@@ -380,14 +389,9 @@ class Creator extends Model
                     $qq->where('instagram_archived', 0)->orWhere('instagram_archived', null);
                 })->orWhere(function ($qq) {
                     $qq->where('twitter_archived', 0)->orWhere('twitter_archived', null);
+                })->orWhere(function ($qq) {
+                    $qq->where('twitch_archived', 0)->orWhere('twitch_archived', null);
                 });
-            });
-        }
-
-        if (! empty($params['list'])) {
-            $creators = $creators->join('creator_user_list', function ($join) use ($params) {
-                $join->on('crms.creator_id', '=', 'creator_user_list.creator_id')
-                ->where('user_list_id', $params['list']);
             });
         }
 
