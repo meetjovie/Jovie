@@ -108,24 +108,24 @@ export default {
         'instagram',
         'youtube',
         'twitter',
-        'onlyFans',
+        /*   'onlyFans', */
         'twitch',
-        'twitchId',
+        /*    'twitchId', */
         'tiktok',
-        'linkedin',
-        'snapchat',
-        'instagramFollowersCount',
+        /*  'linkedin',
+        'snapchat', */
+        /*       'instagramFollowersCount',
         'youtubeFollowersCount',
         'youtubeFollowersCount',
         'twitterFollowersCount',
         'onlyFansFollowersCount',
         'twitchFollowersCount',
-        'tiktokFollowersCount',
+        'tiktokFollowersCount', */
         'email1',
         'email2',
-        'wikiId',
+        /*    'wikiId', */
         'phone',
-        'gender',
+        /* 'gender', */
       ],
       mappedColumns: {},
       csvFileName: '',
