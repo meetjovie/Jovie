@@ -611,4 +611,16 @@ class Creator extends Model
             }
         }
     }
+
+    public static function getCrmCounts()
+    {
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $counts = DB::table('crms')->selectRaw('team_id, count(*) AS total,
+        sum(case when favourite = true then 1 else 0 end) AS favourites,
+        sum(case when instagram_archived = true OR twitter_archived = true OR twitch_archived = true then 1 else 0 end) AS archived')
+            ->where('team_id', $user->currentTeam->id)
+            ->groupBy('team_id')->first();
+        unset($counts->team_id);
+        return (array) $counts;
+    }
 }
