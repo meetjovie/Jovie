@@ -602,9 +602,13 @@ class Creator extends Model
             $creator->userLists()->syncWithoutDetaching($listId);
         }
         if ($userId) {
-            $changes = $creator->crms()->syncWithoutDetaching($userId);
+            $user = User::with('currentTeam')->where('id', $userId)->first();
+            $changes = $creator->crms()->syncWithoutDetaching([
+                $userId => [
+                    'team_id' => $user->currentTeam->id
+                ]
+            ]);
             if (count($changes['attached'])) {
-                $user = User::with('currentTeam')->where('id', $userId)->first();
                 if ($user && ! $user->is_admin && $user->currentTeam) {
                     $user->currentTeam->decrement('credits');
                 }
