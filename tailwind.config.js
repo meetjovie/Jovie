@@ -14,6 +14,9 @@ module.exports = {
   safelist: [...tailwindcssOriginSafelist],
   theme: {
     extend: {
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
       aspectRatio: {
         auto: 'auto',
         square: '1 / 1',

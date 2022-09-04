@@ -50,6 +50,7 @@
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
     "install": "^0.13.0",
+    "mix-env-file": "^0.1.1",
     "moment": "^2.29.4",
     "notiwind": "^1.2.6",
     "npm": "^8.19.1",

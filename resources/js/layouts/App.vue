@@ -152,6 +152,19 @@
 
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
+              <!-- The top tooltip -->
+
+              <div
+                v-if="notifications.length > 0"
+                class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
+                <ArrowPathIcon
+                  class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-neutral-600" />
+                <span
+                  class="w-18 absolute left-4 top-10 hidden -translate-y-full rounded-lg bg-gray-700 px-2 py-1 text-center text-2xs text-white group-hover:flex"
+                  >Import in progress</span
+                >
+              </div>
+
               <PopoverGroup>
                 <Popover as="div" class="relative">
                   <PopoverButton
@@ -519,6 +532,9 @@ import {
   FaceSmileIcon,
   CloudArrowDownIcon,
 } from '@heroicons/vue/24/outline';
+
+import { ArrowPathIcon } from '@heroicons/vue/24/solid';
+
 import {
   Menu,
   MenuButton,
@@ -680,6 +696,7 @@ export default {
     ProgressBar,
     UserIcon,
     XCircle,
+    ArrowPathIcon,
   },
 };
 </script>

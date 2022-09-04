@@ -1381,12 +1381,12 @@ export default {
       selectedCreator: {},
       selectedCreatorIndex: [],
       searchClient: instantMeiliSearch(
-        'https://search2.jov.ie/',
-        '9ZQ4XlF5a1deb6f2afa4e8a643ffcf6ad22e4c33bbdc691f4b668e96aacc5e3566731267',
+        // 'https://devsearch.jov.ie/',
+        // '9ZQ4XlF5a1deb6f2afa4e8a643ffcf6ad22e4c33bbdc691f4b668e96aacc5e3566731267',
         // 'https://devsearch.jov.ie/',
         // 'geDQZEly7c4a5062c9da2683eebb23ae1b1219cd233191bceb73f1084385eb75dd76b340',
-        // process.env.MIX_MEILISEARCH_HOST,
-        // process.env.MIX_MEILISEARCH_FRONT_KEY,
+        process.env.MIX_MEILISEARCH_HOST,
+        process.env.MIX_MEILISEARCH_FRONT_KEY,
         {
           placeholderSearch: true, // default: true.
           primaryKey: 'id', // default: undefined
