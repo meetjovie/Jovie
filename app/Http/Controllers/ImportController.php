@@ -59,6 +59,7 @@ class ImportController extends Controller
             'twitch' => 'required_without_all:instagram,key',
             'key' => 'required_without_all:instagram,twitch|nullable|string',
         ]);
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
         if ($request->instagram) {
             $import = new Import();
             $import->instagram = $request->instagram;
@@ -66,13 +67,14 @@ class ImportController extends Controller
             if ($instagram[0] == '@') {
                 $instagram = substr($instagram, 1);
             }
-            InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id)->onQueue('instagram');
+            InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id, null,
+                $user->currentTeam->id)->onQueue('instagram');
         }
         if ($request->twitch) {
             $import = new Import();
             $import->twitch = $request->twitch;
             $twitch = $import->twitch;
-            TwitchImport::dispatch(null, $twitch, $request->tags, null, null, Auth::user()->id, null)->onQueue('twitch');
+            TwitchImport::dispatch(null, $twitch, $request->tags, null, null, Auth::user()->id, null, $user->currentTeam->id)->onQueue('twitch');
         }
         $file = null;
         try {

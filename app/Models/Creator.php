@@ -596,21 +596,23 @@ class Creator extends Model
         return array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails))));
     }
 
-    public static function addToListAndCrm($creator, $listId = null, $userId = null)
+    public static function addToListAndCrm($creator, $listId = null, $userId = null, $teamId = null)
     {
         if ($listId) {
             $creator->userLists()->syncWithoutDetaching($listId);
         }
-        if ($userId) {
-            $user = User::with('currentTeam')->where('id', $userId)->first();
+        $team = Team::where('id', $teamId)->first();
+        $user = User::where('id', $userId)->first();
+        if ($team && $user) {
             $changes = $creator->crms()->syncWithoutDetaching([
                 $userId => [
-                    'team_id' => $user->currentTeam->id
+                    'team_id' => $team->id
                 ]
             ]);
             if (count($changes['attached'])) {
-                if ($user && ! $user->is_admin && $user->currentTeam) {
-                    $user->currentTeam->decrement('credits');
+                if (! $user->is_admin) {
+                    $team->credits = ($team->credits - 1);
+                    $team->save();
                 }
             }
         }

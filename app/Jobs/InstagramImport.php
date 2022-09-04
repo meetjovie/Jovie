@@ -6,6 +6,7 @@ use App\Models\Creator;
 use App\Models\Crm;
 use App\Models\Import;
 use App\Models\User;
+use App\Models\UserList;
 use App\Notifications\ImportNotification;
 use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
@@ -57,12 +58,14 @@ class InstagramImport implements ShouldQueue
 
     private $importId;
 
+    private $teamId;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($username, $tags = '', $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null, $importId = null)
+    public function __construct($username, $tags = '', $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null, $importId = null, $teamId)
     {
         $this->username = $username;
         $this->tags = $tags;
@@ -72,6 +75,14 @@ class InstagramImport implements ShouldQueue
         $this->listId = $listId;
         $this->userId = $userId;
         $this->importId = $importId;
+        if (is_null($teamId) && $listId) {
+            $list = UserList::where('id', $listId)->first();
+            if ($list) {
+                $this->teamId = $list->team_id;
+            }
+        } elseif ($teamId) {
+            $this->teamId = $teamId;
+        }
         $this->platformUser = User::with('currentTeam')->where('id', $this->userId)->first();
     }
 
@@ -114,7 +125,7 @@ class InstagramImport implements ShouldQueue
         if ($creator && ! is_null($creator->instagram_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                Creator::addToListAndCrm($creator, $this->listId, $this->userId);
+                Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId);
                 Import::markImport($this->importId, ['instagram']);
 
                 return;
@@ -327,7 +338,7 @@ class InstagramImport implements ShouldQueue
         $creator->instagram_meta = ($meta);
         $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
         $creator->save();
-        Creator::addToListAndCrm($creator, $this->listId, $this->userId);
+        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId);
         if ($this->parentCreator && $creator->account_type == 'BRAND') {
             $parentCreator = Creator::where('id', $this->parentCreator)->first();
             $parentCreator->brands()->syncWithoutDetaching($creator->id);
