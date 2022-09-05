@@ -49,6 +49,7 @@
     "@meilisearch/instant-meilisearch": "^0.8.2",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
+    "@vuepic/vue-datepicker": "^3.4.7",
     "install": "^0.13.0",
     "mix-env-file": "^0.1.1",
     "moment": "^2.29.4",

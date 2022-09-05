@@ -345,12 +345,12 @@
                             <PopoverButton
                               class="0 flex w-full justify-between">
                               <div
-                                class="group my-0 inline-flex items-center justify-between rounded-full px-1 py-0 text-2xs font-semibold leading-5 line-clamp-1"
+                                class="group my-0 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-semibold leading-5 line-clamp-1"
                                 :class="[
                                   {
                                     'bg-indigo-50 text-indigo-600':
                                       creator.crm_record_by_user.stage ===
-                                      'Onboarding',
+                                      'Lead',
                                   },
                                   {
                                     'bg-sky-50 text-sky-600':
@@ -375,9 +375,9 @@
                                 ]">
                                 {{ creator.crm_record_by_user.stage }}
                               </div>
-                              <div>
+                              <div class="items-center">
                                 <ChevronDownIcon
-                                  class="h-4 w-4 text-neutral-600" />
+                                  class="mt-1 h-4 w-4 text-neutral-600" />
                               </div>
                             </PopoverButton>
                             <transition
@@ -419,8 +419,8 @@
                         </Popover>
                       </td>
                       <td
-                        class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
-                        <input
+                        class="border-1 hidden w-32 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
+                        <Datepicker
                           v-model="creator.crm_record_by_user.last_contacted"
                           @click="
                             $emit('updateCreator', {
@@ -439,8 +439,29 @@
                           type="datetime-local"
                           :id="creator.id + '_datepicker'"
                           class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 px-2 py-1 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
-                          placeholder="--/--/----"
+                          placeholder="--/--/--"
                           aria-describedby="email-description" />
+                        <!-- <input
+                          v-model="creator.crm_record_by_user.last_contacted"
+                          @click="
+                            $emit('updateCreator', {
+                              id: creator.id,
+                              index: index,
+                              network: network,
+                              key: `crm_record_by_user.last_contacted`,
+                              value: !creator.crm_record_by_user.last_contacted,
+                            })
+                          "
+                          autocomplete="off"
+                          enableTimePicker="false"
+                          monthNameFormat="short"
+                          data-format="yyyy-MM-dd"
+                          autoApply="true"
+                          type="datetime-local"
+                          :id="creator.id + '_datepicker'"
+                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 px-2 py-1 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                          placeholder="--/--/--"
+                          aria-describedby="email-description" /> -->
                       </td>
                       <td
                         class="W-28 hidden whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
@@ -598,6 +619,7 @@
                                       >
                                     </MenuItem>
                                     <MenuItem
+                                      v-if="currentUser.is_admin"
                                       v-slot="{ active }"
                                       class="items-center"
                                       @click="
@@ -652,7 +674,9 @@
 
 <script>
 import { Float } from '@headlessui-float/vue';
-
+import { ref } from 'vue';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 import {
   Menu,
   MenuButton,
@@ -677,12 +701,15 @@ import JovieSpinner from '../../components/JovieSpinner.vue';
 import ImportService from '../../services/api/import.service';
 import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
 
+const date = ref();
+
 export default {
   name: 'CrmTable',
   components: {
     ArchiveBoxIcon,
     StarRating,
     Menu,
+    Datepicker,
     MenuButton,
     ArrowPathIcon,
     MenuItems,
@@ -703,6 +730,7 @@ export default {
     return {
       searchQuery: [],
       currentRow: [],
+      date: null,
     };
   },
   props: [
