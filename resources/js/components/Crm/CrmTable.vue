@@ -119,7 +119,11 @@
                     <tr
                       @click="setCurrentRow(creator, network)"
                       v-if="
+<<<<<<< HEAD
                         /** creator.first_name.includes(searchQuery) && **/
+=======
+                        /* creator.first_name.includes(searchQuery) && */
+>>>>>>> 00e8aa3 (Adds vapor config)
                         creator[`${network}_meta`] &&
                         Object.keys(creator[`${network}_meta`]).length &&
                         !creator.crm_record_by_user[`${network}_removed`] &&
