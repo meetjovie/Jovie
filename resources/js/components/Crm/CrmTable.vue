@@ -377,12 +377,12 @@
                         class="border-1 hidden w-28 border-collapse items-center whitespace-nowrap border md:table-cell">
                         <Popover
                           as="div"
-                          class="relative inline-block w-full items-center px-2 text-left">
-                          <Float portal shift placement="bottom-start">
+                          class="relative inline-block w-full items-center text-left">
+                          <Float portal :offset="2" shift placement="bottom">
                             <PopoverButton
-                              class="0 flex w-full justify-between">
+                              class="flex w-full justify-between px-2">
                               <div
-                                class="group my-0 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-semibold leading-5 line-clamp-1"
+                                class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-semibold leading-5 line-clamp-1"
                                 :class="[
                                   {
                                     'bg-indigo-50 text-indigo-600':
