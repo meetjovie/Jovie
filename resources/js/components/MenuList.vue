@@ -40,15 +40,15 @@
               </div>
 
               <div class="flex w-full items-center">
-                <EmojiPickerModal
-                  @emojiSelected="emojiSelected($event, element)"
-                  class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
-                  <input
-                    id="item.emoji"
-                    v-model="element.emoji"
-                    placeholder="📄"
-                    class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
-                </EmojiPickerModal>
+<!--                <EmojiPickerModal-->
+<!--                  @emojiSelected="emojiSelected($event, element)"-->
+<!--                  class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">-->
+<!--                  <input-->
+<!--                    id="item.emoji"-->
+<!--                    v-model="element.emoji"-->
+<!--                    placeholder="📄"-->
+<!--                    class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />-->
+<!--                </EmojiPickerModal>-->
                 <div
                   @dblclick="enableEditName(element)"
                   @click="$emit('setFilterList', element.id)">
@@ -174,15 +174,15 @@
           </div>
 
           <div class="flex w-full items-center">
-            <EmojiPickerModal
-              @emojiSelected="emojiSelected($event, item)"
-              class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
-              <input
-                id="item.emoji"
-                v-model="item.emoji"
-                placeholder="📄"
-                class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
-            </EmojiPickerModal>
+<!--            <EmojiPickerModal-->
+<!--              @emojiSelected="emojiSelected($event, item)"-->
+<!--              class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">-->
+<!--              <input-->
+<!--                id="item.emoji"-->
+<!--                v-model="item.emoji"-->
+<!--                placeholder="📄"-->
+<!--                class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />-->
+<!--            </EmojiPickerModal>-->
             <div
               @dblclick="enableEditName(item)"
               @click="$emit('setFilterList', item.id)">
@@ -318,7 +318,7 @@ import {
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import draggable from 'vuedraggable';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
-import UserService from '../services/api/user.service';
+// import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
 import EmojiPicker from 'vue3-emoji-picker';
 
@@ -644,7 +644,7 @@ export default {
   components: {
     ChevronRightIcon,
     BookmarkIcon,
-    EmojiPickerModal,
+    // EmojiPickerModal,
     ChevronDownIcon,
     EllipsisVerticalIcon,
     PlusIcon,
@@ -657,7 +657,7 @@ export default {
     MenuItems,
     MenuItem,
     draggable,
-    EmojiPicker,
+    // EmojiPicker,
     ModalPopup,
   },
   props: {
