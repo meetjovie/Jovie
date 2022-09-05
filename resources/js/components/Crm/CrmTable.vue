@@ -113,20 +113,8 @@
                   v-else
                   v-for="(creator, index) in creators"
                   :key="creator">
-                  <template
-                    v-for="(network, indexN) in networks"
-                    :key="network">
                     <tr
-                      @click="setCurrentRow(creator, network)"
-                      v-if="
-                        creator.first_name.includes(searchQuery) &&
-                        creator[`${network}_meta`] &&
-                        Object.keys(creator[`${network}_meta`]).length &&
-                        !creator.crm_record_by_user[`${network}_removed`] &&
-                        (archived
-                          ? creator.crm_record_by_user[`${network}_archived`]
-                          : !creator.crm_record_by_user[`${network}_archived`])
-                      "
+                      @click="setCurrentRow(creator)"
                       class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
                       <td
                         class="w-20 flex-none overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
@@ -153,7 +141,6 @@
                               $emit('updateCreator', {
                                 id: creator.id,
                                 index: index,
-                                network: network,
                                 key: `crm_record_by_user.favourite`,
                                 value: !creator.crm_record_by_user.favourite,
                               })
@@ -181,33 +168,11 @@
                         <div class="flex items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
                             <div
-                              class="rounded-full p-0.5"
-                              :class="[
-                                {
-                                  'bg-social-youtube/60': network == 'youtube',
-                                },
-                                { 'bg-social-twitch/90': network == 'twitch' },
-                                {
-                                  'bg-social-twitter/90': network == 'twitter',
-                                },
-                                {
-                                  'bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90':
-                                    network == 'instagram',
-                                },
-                                { 'bg-social-snapchat': network == 'snapchat' },
-                                {
-                                  'bg-gradient-to-l from-pink-700 to-sky-700':
-                                    network == 'tiktok',
-                                },
-                              ]">
+                              class="rounded-full p-0.5 bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90">
                               <div class="rounded-full bg-white p-0">
                                 <img
                                   class="rounded-full object-cover object-center"
-                                  :src="
-                                    creator[`${network}_meta`]
-                                      .profile_pic_url ??
-                                    asset('img/noimage.webp')
-                                  "
+                                  :src="creator.profile_pic_url ?? asset('img/noimage.webp')"
                                   alt="Profile Image" />
                               </div>
                             </div>
@@ -219,7 +184,7 @@
                                 params: { id: creator.id },
                               }"
                               class="text-xs font-medium text-gray-900">
-                              {{ creator[`${network}_name`] }}
+                              {{ creator.name }}
                             </router-link>
                           </div>
                         </div>
@@ -233,7 +198,6 @@
                               $emit('updateCreator', {
                                 id: creator.id,
                                 index: index,
-                                network: network,
                                 key: `first_name`,
                                 value: creator.first_name,
                               })
@@ -256,7 +220,6 @@
                               $emit('updateCreator', {
                                 id: creator.id,
                                 index: index,
-                                network: network,
                                 key: `last_name`,
                                 value: creator.last_name,
                               })
@@ -279,7 +242,6 @@
                               $emit('updateCreator', {
                                 id: creator.id,
                                 index: index,
-                                network: network,
                                 key: `emails`,
                                 value: creator.emails,
                               })
@@ -296,6 +258,7 @@
                       <td
                         class="border-1 w-4 border-collapse items-center whitespace-nowrap border">
                         <a
+                            v-for="network in networks"
                           :href="creator[`${network}_handler`]"
                           target="_blank"
                           class="inline-flex items-center justify-between rounded-full px-3 py-1 text-center text-xs font-bold text-gray-800">
@@ -313,18 +276,15 @@
                           $
                           <input
                             v-model="
-                              creator.crm_record_by_user[`${network}_offer`]
+                              creator.crm_record_by_user.offer
                             "
                             @blur="
                               $emit('updateCreator', {
                                 id: creator.id,
                                 index: index,
-                                network: network,
-                                key: `crm_record_by_user.${network}_offer`,
+                                key: `crm_record_by_user.offer`,
                                 value:
-                                  creator.crm_record_by_user[
-                                    `${network}_offer`
-                                  ],
+                                  creator.crm_record_by_user.offer,
                               })
                             "
                             autocomplete="off"
@@ -333,9 +293,7 @@
                             id="creator-offer"
                             class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                             :placeholder="
-                              creator.crm_record_by_user[
-                                `${network}_suggested_offer`
-                              ]
+                              creator.crm_record_by_user.suggested_offer
                             "
                             aria-describedby="email-description" />
                         </span>
@@ -406,7 +364,6 @@
                                       $emit('updateCreator', {
                                         id: creator.id,
                                         index: index,
-                                        network: network,
                                         key: `crm_record_by_user.stage`,
                                         value: key,
                                       })
@@ -434,7 +391,6 @@
                             $emit('updateCreator', {
                               id: creator.id,
                               index: index,
-                              network: network,
                               key: `crm_record_by_user.last_contacted`,
                               value: !creator.crm_record_by_user.last_contacted,
                             })
@@ -461,7 +417,6 @@
                             $emit('updateCreator', {
                               id: creator.id,
                               index: index,
-                              network: network,
                               key: `crm_record_by_user.rating`,
                               value: $event,
                             })
@@ -508,7 +463,6 @@
                                       $emit('updateCreator', {
                                         id: creator.id,
                                         index: index,
-                                        network: network,
                                         key: `crm_record_by_user.muted`,
                                         value:
                                           !creator.crm_record_by_user.muted,
@@ -530,76 +484,7 @@
                                   </MenuItem>
                                   <MenuItem
                                     v-slot="{ active }"
-                                    @click="
-                                      $emit('updateCreator', {
-                                        id: creator.id,
-                                        index: index,
-                                        network: network,
-                                        key: `crm_record_by_user.${network}_archived`,
-                                        value:
-                                          !creator.crm_record_by_user[
-                                            `${network}_archived`
-                                          ],
-                                      })
-                                    "
-                                    class="items-center">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-sm',
-                                      ]">
-                                      <ArchiveBoxIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      {{
-                                        creator.crm_record_by_user[
-                                          `${network}_archived`
-                                        ]
-                                          ? 'Unarchived'
-                                          : 'Archive'
-                                      }}
-                                    </a>
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-slot="{ active }"
                                     class="items-center"
-                                    @click="
-                                      $emit('updateCreator', {
-                                        id: creator.id,
-                                        index: index,
-                                        network: network,
-                                        key: `crm_record_by_user.${network}_removed`,
-                                        value:
-                                          !creator.crm_record_by_user[
-                                            `${network}_removed`
-                                          ],
-                                      })
-                                    ">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-sm',
-                                      ]">
-                                      <TrashIcon class="mr-2 inline h-4 w-4" />
-                                      Remove</a
-                                    >
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    class="items-center"
-                                    @click="
-                                      refresh(
-                                        creator[`${network}_handler`],
-                                        network
-                                      )
-                                    "
                                     :disabled="adding">
                                     <a
                                       href="#"
@@ -624,7 +509,6 @@
                         </div>
                       </td>
                     </tr>
-                  </template>
                 </template>
               </tbody>
             </table>
