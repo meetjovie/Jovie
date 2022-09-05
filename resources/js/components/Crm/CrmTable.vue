@@ -5,7 +5,8 @@
         <div class="inline-block min-w-full align-middle">
           <div
             class="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
-            <table class="min-w-full table-fixed divide-y divide-gray-200">
+            <table
+              class="min-w-full table-fixed divide-y divide-gray-200 overflow-x-scroll">
               <thead class="bg-gray-50">
                 <tr>
                   <th
@@ -49,7 +50,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter xl:table-cell">
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
                     Last
                   </th>
                   <th
@@ -79,12 +80,12 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter xl:table-cell">
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
                     Last Contacted
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
                     Rating
                   </th>
                   <th
@@ -178,7 +179,7 @@
                           </div>
                         </div>
                       </td>
-                      <td class="max-w-14 whitespace-nowrap border px-2">
+                      <td class="max-w-14 sticky whitespace-nowrap border px-2">
                         <div class="flex items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
                             <div
@@ -213,15 +214,8 @@
                               </div>
                             </div>
                           </div>
-                          <div class="">
-                            <router-link
-                              :to="{
-                                name: 'Creator Overview',
-                                params: { id: creator.id },
-                              }"
-                              class="text-xs font-medium text-gray-900">
-                              {{ creator[`${network}_name`] }}
-                            </router-link>
+                          <div class="text-xs font-medium text-gray-900">
+                            {{ creator[`${network}_name`] }}
                           </div>
                         </div>
                       </td>
@@ -249,7 +243,7 @@
                         </div>
                       </td>
                       <td
-                        class="border-1 hidden w-24 border-collapse whitespace-nowrap border xl:table-cell">
+                        class="border-1 hidden w-24 border-collapse whitespace-nowrap border 2xl:table-cell">
                         <div class="text-xs text-gray-900 line-clamp-1">
                           <input
                             v-model="creator.last_name"
@@ -272,7 +266,7 @@
                         </div>
                       </td>
                       <td
-                        class="border-1 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
+                        class="border-1 min-w-20 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
                         <div class="text-xs text-gray-700 line-clamp-1">
                           <input
                             v-model="creator.emails"
@@ -346,9 +340,9 @@
                         class="border-1 hidden w-32 border-collapse items-center whitespace-nowrap border md:table-cell">
                         <Popover
                           as="div"
-                          class="relative inline-block pl-1 text-left">
+                          class="relative inline-block items-center pl-2 text-left">
                           <PopoverButton
-                            class="w-18 group my-0 inline-flex items-center justify-between rounded-md px-1 py-0.5 text-2xs font-semibold leading-5"
+                            class="w-18 group my-0 inline-flex items-center justify-between rounded-full px-1 py-0 text-2xs font-semibold leading-5"
                             :class="[
                               {
                                 'bg-indigo-50 text-indigo-600':
@@ -428,7 +422,7 @@
                         </Popover>
                       </td>
                       <td
-                        class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 xl:table-cell">
+                        class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
                         <input
                           v-model="creator.crm_record_by_user.last_contacted"
                           @click="
@@ -452,7 +446,7 @@
                           aria-describedby="email-description" />
                       </td>
                       <td
-                        class="W-28 whitespace-nowrap px-6 py-1 text-sm text-gray-500">
+                        class="W-28 hidden whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
                         <star-rating
                           class="w-20"
                           :star-size="12"
@@ -681,6 +675,7 @@ export default {
     EllipsisVerticalIcon,
     SocialIcons,
     Popover,
+
     PopoverButton,
     PopoverPanel,
     NoSymbolIcon,

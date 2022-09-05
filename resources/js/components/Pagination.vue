@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="transiion-all fixed bottom-0 flex w-full items-center justify-between border-t border-gray-200 bg-white px-4 pb-2 sm:px-2">
+    class="transiion-all fixed bottom-0 flex w-full flex-auto items-center justify-between border-t border-gray-200 bg-white px-4 pb-2 sm:px-2">
     <div class="group flex">
       <a
         :disabled="isInFirstPage"
@@ -28,7 +28,7 @@
       <!--            <a href="#" class="border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium" aria-current="page"> 2 </a>-->
       <!--            <a href="#" class="border-transparent text-neutral-400 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium"> 3 </a>-->
     </div>
-    <div class="group flex flex">
+    <div class="group flex">
       <a
         :disabled="isInLastPage"
         @click="onClickNextPage()"

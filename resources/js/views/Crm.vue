@@ -102,15 +102,6 @@
                   :draggable="true"
                   @end="sortLists"
                   :menuItems="filteredUsersLists"></MenuList>
-                <!--   User Specific Lists -->
-                <MenuList
-                  @getUserLists="getUserLists"
-                  menuName="Private"
-                  @setFilterList="setFilterList"
-                  :selectedList="filters.list"
-                  :draggable="true"
-                  @end="sortLists"
-                  :menuItems="filteredUsersLists"></MenuList>
               </div>
             </div>
             <div class="flex-shrink-0 border-t border-neutral-200 py-2 px-2">
