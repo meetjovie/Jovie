@@ -1,6 +1,7 @@
 <template>
-  <Popover class="relative w-full">
+  <Popover class="w-full">
     <Float
+      :show="show"
       enter="transition duration-200 ease-out"
       enter-from="scale-95 opacity-0"
       enter-to="scale-100 opacity-100"
@@ -8,17 +9,19 @@
       leave-from="scale-100 opacity-100"
       leave-to="scale-95 opacity-0"
       tailwindcss-origin-class
-      auto-placement
-      fixed
-      placement="right-end"
-      :offset="4">
+      flip
+      :offset="10"
+      placement="right"
+      shift
+      portal
+      arrow>
       <PopoverButton class="w-full">
         <slot>Trigger Goes Here</slot>
       </PopoverButton>
 
       <PopoverPanel @mouseleave="close()" static class="right-0 z-50">
         <div
-          class="backfdrop-filter shadown-xl w-40 rounded-md border border-neutral-200 bg-neutral-200/60 px-2 py-1 text-xs text-indigo-700 backdrop-blur-2xl backdrop-saturate-150">
+          class="backfdrop-filter w-40 rounded-sm border border-neutral-200 bg-neutral-900 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150">
           {{ text }}
         </div>
       </PopoverPanel>
@@ -37,10 +40,30 @@ export default {
     PopoverPanel,
     Float,
   },
+  data() {
+    return {
+      show: false,
+    };
+  },
+  methods: {
+    setShowTooltip() {
+      //wait .2 seconds then show the tooltip
+      setTimeout(() => {
+        this.showTooltip = true;
+      }, 200);
+    },
+    setHideTooltip() {
+      this.showTooltip = false;
+    },
+  },
   props: {
     text: {
       type: String,
       default: 'Helpful tooltip text',
+    },
+    show: {
+      type: Boolean,
+      default: false,
     },
     keyboardShortcut: {
       type: String,

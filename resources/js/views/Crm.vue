@@ -14,36 +14,39 @@
             class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 py-4 pb-2 shadow-xl"
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
-              <div class="mt-10 flex-col py-1 px-2">
-                <!--   <JovieTooltip> -->
-                <button
-                  @click="setFiltersType('all')"
-                  class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
-                  :class="[
-                    filters.type == 'all'
-                      ? 'text-sm font-bold text-neutral-500  '
-                      : 'text-sm font-semibold text-neutral-400',
-                  ]">
-                  <div class="flex items-center text-xs">
-                    <UserGroupIcon
-                      class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
-                      aria-hidden="true" />
-                    All Contacts
-                  </div>
-                  <div
-                    @click="showCreatorModal = true"
-                    class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
-                    <span
-                      class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
-                      >{{ counts.total }}</span
-                    >
+              <div
+                @mouseenter="setShowTooltip()"
+                @mouseleave="setHideTooltip()"
+                class="mt-10 flex-col py-1 px-2">
+                <JovieTooltip text="Show All Contacts" :show="showTooltip">
+                  <button
+                    @click="setFiltersType('all')"
+                    class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    :class="[
+                      filters.type == 'all'
+                        ? 'text-sm font-bold text-neutral-500  '
+                        : 'text-sm font-semibold text-neutral-400',
+                    ]">
+                    <div class="flex items-center text-xs">
+                      <UserGroupIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
+                        aria-hidden="true" />
+                      All Contacts
+                    </div>
+                    <div
+                      @click="showCreatorModal = true"
+                      class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                      <span
+                        class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                        >{{ counts.total }}</span
+                      >
 
-                    <PlusIcon
-                      class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
-                  </div>
-                </button>
-                <!--   </JovieTooltip>
- -->
+                      <PlusIcon
+                        class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
+                    </div>
+                  </button>
+                </JovieTooltip>
+
                 <button
                   @click="setFiltersType('archived')"
                   class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
@@ -314,6 +317,7 @@ export default {
       showCreatorModal: false,
       loading: false,
       creators: [],
+      showTooltip: false,
       creatorsMeta: {},
       lists: [
         {
@@ -516,6 +520,15 @@ export default {
           }
         }
       });
+    },
+    setShowTooltip() {
+      //wait .2 seconds then show the tooltip
+      setTimeout(() => {
+        this.showTooltip = true;
+      }, 200);
+    },
+    setHideTooltip() {
+      this.showTooltip = false;
     },
   },
 };
