@@ -129,7 +129,7 @@
                           ? creator.crm_record_by_user[`${network}_archived`]
                           : !creator.crm_record_by_user[`${network}_archived`])
                       "
-                      class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+                      class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-neutral-50 focus-visible:ring-indigo-700">
                       <td
                         class="w-20 flex-none overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                         <div class="grid grid-cols-2 items-center gap-2">
@@ -337,88 +337,85 @@
                       </td>
 
                       <td
-                        class="border-1 hidden w-32 border-collapse items-center whitespace-nowrap border md:table-cell">
+                        class="border-1 hidden w-28 border-collapse items-center whitespace-nowrap border md:table-cell">
                         <Popover
                           as="div"
-                          class="relative inline-block items-center pl-2 text-left">
-                          <PopoverButton
-                            class="w-18 group my-0 inline-flex items-center justify-between rounded-full px-1 py-0 text-2xs font-semibold leading-5"
-                            :class="[
-                              {
-                                'bg-indigo-50 text-indigo-600':
-                                  creator.crm_record_by_user.stage ===
-                                  'Onboarding',
-                              },
-                              {
-                                'bg-sky-50 text-sky-600':
-                                  creator.crm_record_by_user.stage ===
-                                  'Interested',
-                              },
-                              {
-                                'bg-pink-50 text-pink-600':
-                                  creator.crm_record_by_user.stage ===
-                                  'Negotiating',
-                              },
-                              {
-                                'bg-fuchsia-50 text-fuchsia-600':
-                                  creator.crm_record_by_user.stage ===
-                                  'In Progress',
-                              },
-                              {
-                                'bg-red-50 text-red-600':
-                                  creator.crm_record_by_user.stage ===
-                                  'Complete',
-                              },
-                            ]">
-                            {{ creator.crm_record_by_user.stage }}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="ml-2 h-3 w-3 hover:text-blue-700 group-hover:text-blue-900"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor">
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
-                            </svg>
-                          </PopoverButton>
-                          <transition
-                            enter-active-class="transition duration-100 ease-out"
-                            enter-from-class="transform scale-95 opacity-0"
-                            enter-to-class="transform scale-100 opacity-100"
-                            leave-active-class="transition duration-75 ease-in"
-                            leave-from-class="transform scale-100 opacity-100"
-                            leave-to-class="transform scale-95 opacity-0">
-                            <PopoverPanel
-                              class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
-                              <div class="">
-                                <div class="">
-                                  <button
-                                    v-for="(stage, key) in stages"
-                                    @click="
-                                      $emit('updateCreator', {
-                                        id: creator.id,
-                                        index: index,
-                                        network: network,
-                                        key: `crm_record_by_user.stage`,
-                                        value: key,
-                                      })
-                                    "
-                                    class="hover:text-white' group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200">
-                                    <div
-                                      class="mr-2 text-xs font-bold opacity-50">
-                                      {{ key + 1 }}
-                                    </div>
-                                    <div class="text-xs font-bold">
-                                      {{ stage }}
-                                    </div>
-                                  </button>
-                                </div>
+                          class="relative inline-block w-full items-center px-2 text-left">
+                          <Float portal shift placement="bottom-start">
+                            <PopoverButton
+                              class="0 flex w-full justify-between">
+                              <div
+                                class="group my-0 inline-flex items-center justify-between rounded-full px-1 py-0 text-2xs font-semibold leading-5 line-clamp-1"
+                                :class="[
+                                  {
+                                    'bg-indigo-50 text-indigo-600':
+                                      creator.crm_record_by_user.stage ===
+                                      'Onboarding',
+                                  },
+                                  {
+                                    'bg-sky-50 text-sky-600':
+                                      creator.crm_record_by_user.stage ===
+                                      'Interested',
+                                  },
+                                  {
+                                    'bg-pink-50 text-pink-600':
+                                      creator.crm_record_by_user.stage ===
+                                      'Negotiating',
+                                  },
+                                  {
+                                    'bg-fuchsia-50 text-fuchsia-600':
+                                      creator.crm_record_by_user.stage ===
+                                      'In Progress',
+                                  },
+                                  {
+                                    'bg-red-50 text-red-600':
+                                      creator.crm_record_by_user.stage ===
+                                      'Complete',
+                                  },
+                                ]">
+                                {{ creator.crm_record_by_user.stage }}
                               </div>
-                            </PopoverPanel>
-                          </transition>
+                              <div>
+                                <ChevronDownIcon
+                                  class="h-4 w-4 text-neutral-600" />
+                              </div>
+                            </PopoverButton>
+                            <transition
+                              enter-active-class="transition duration-100 ease-out"
+                              enter-from-class="transform scale-95 opacity-0"
+                              enter-to-class="transform scale-100 opacity-100"
+                              leave-active-class="transition duration-75 ease-in"
+                              leave-from-class="transform scale-100 opacity-100"
+                              leave-to-class="transform scale-95 opacity-0">
+                              <PopoverPanel
+                                class="z-30 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                                <div class="">
+                                  <div class="">
+                                    <button
+                                      v-for="(stage, key) in stages"
+                                      @click="
+                                        $emit('updateCreator', {
+                                          id: creator.id,
+                                          index: index,
+                                          network: network,
+                                          key: `crm_record_by_user.stage`,
+                                          value: key,
+                                        })
+                                      "
+                                      class="hover:text-white' group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200">
+                                      <div
+                                        class="mr-2 text-xs font-bold opacity-50">
+                                        {{ key + 1 }}
+                                      </div>
+                                      <div class="text-xs font-bold">
+                                        {{ stage }}
+                                      </div>
+                                    </button>
+                                  </div>
+                                </div>
+                              </PopoverPanel>
+                            </transition>
+                          </Float>
                         </Popover>
                       </td>
                       <td
@@ -463,9 +460,8 @@
                           "></star-rating>
                       </td>
                       <td
-                        class="justify-right whitespace-nowrap py-1 text-right text-xs font-medium">
-                        <div
-                          class="justify-right grid grid-cols-2 items-center gap-4">
+                        class="flex w-12 whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
+                        <div class="justify-right flex items-center text-right">
                           <div>
                             <router-link
                               :to="{
@@ -670,6 +666,7 @@ import StarRating from 'vue-star-rating';
 import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
+  ChevronDownIcon,
   NoSymbolIcon,
   TrashIcon,
   ArrowPathIcon,
@@ -693,7 +690,7 @@ export default {
     EllipsisVerticalIcon,
     SocialIcons,
     Popover,
-
+    ChevronDownIcon,
     PopoverButton,
     PopoverPanel,
     NoSymbolIcon,

@@ -40,7 +40,7 @@
               </div>
 
               <div class="flex w-full items-center">
-                <EmojiPickerModal
+                <!-- <EmojiPickerModal
                   @emojiSelected="emojiSelected($event, element)"
                   class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
                   <input
@@ -48,7 +48,7 @@
                     v-model="element.emoji"
                     placeholder="📄"
                     class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
-                </EmojiPickerModal>
+                </EmojiPickerModal> -->
                 <div
                   @dblclick="enableEditName(element)"
                   @click="$emit('setFilterList', element.id)">
@@ -174,7 +174,7 @@
           </div>
 
           <div class="flex w-full items-center">
-            <EmojiPickerModal
+            <!-- <EmojiPickerModal
               @emojiSelected="emojiSelected($event, item)"
               class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
               <input
@@ -182,7 +182,7 @@
                 v-model="item.emoji"
                 placeholder="📄"
                 class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
-            </EmojiPickerModal>
+            </EmojiPickerModal> -->
             <div
               @dblclick="enableEditName(item)"
               @click="$emit('setFilterList', item.id)">
