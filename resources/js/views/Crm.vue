@@ -14,12 +14,11 @@
             class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 py-4 pb-2 shadow-xl"
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
-              <div
-                @mouseenter="setShowTooltip()"
-                @mouseleave="setHideTooltip()"
-                class="mt-10 flex-col py-1 px-2">
+              <div class="mt-10 flex-col py-1 px-2">
                 <JovieTooltip text="Show All Contacts" :show="showTooltip">
                   <button
+                    @mouseenter="setShowTooltip()"
+                    @mouseleave="setHideTooltip()"
                     @click="setFiltersType('all')"
                     class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
                     :class="[
