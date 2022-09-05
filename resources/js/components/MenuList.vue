@@ -169,7 +169,7 @@
             class="group w-4 flex-none cursor-pointer items-center hover:bg-neutral-200">
             <PinnedIcon
               :active="active"
-              class="h-4 w-4 text-gray-400 hover:text-gray-500 active:text-indigo-500"
+              class="h-4 w-4 text-indigo-400 hover:text-gray-500 active:text-indigo-500"
               aria-hidden="true" />
           </div>
 

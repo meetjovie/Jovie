@@ -223,6 +223,18 @@
             </div>
           </div>
         </div>
+        <TransitionRoot
+          :show="$store.state.ContactSidebarOpen"
+          enter="transition ease-in-out duration-300 transform"
+          enter-from="translate-x-full"
+          enter-to="-translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leave-from="-translate-x-0"
+          leave-to="translate-x-full">
+          <aside class="hidden -mt-2 h-full xl:block">
+            <ContactSidebar :creator="activeCreator" />
+          </aside>
+        </TransitionRoot>
       </div>
 
       <ImportCreatorModal :open="showCreatorModal" />
@@ -269,7 +281,7 @@ import MenuList from '../components/MenuList';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams';
 import JovieTooltip from '../components/JovieTooltip.vue';
-
+import ContactSidebar from '../components/ContactSidebar.vue';
 export default {
   name: 'CRM',
   components: {
@@ -278,6 +290,7 @@ export default {
     SwitchTeams,
     TabGroup,
     HeartIcon,
+    ContactSidebar,
     ProgressBar,
     TabList,
     Tab,
@@ -318,6 +331,8 @@ export default {
       creators: [],
       showTooltip: false,
       creatorsMeta: {},
+      activeCreator: {},
+
       lists: [
         {
           name: 'Dancers with really really really really long names',

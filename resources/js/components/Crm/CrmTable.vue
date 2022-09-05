@@ -145,6 +145,7 @@
                     v-for="(network, indexN) in networks"
                     :key="network">
                     <tr
+                      @mouseover="setActiveCreator(creator.id)"
                       @click="setCurrentRow(creator, network)"
                       v-if="
                         /** creator.first_name.includes(searchQuery) && **/
@@ -161,16 +162,8 @@
                         class="w-20 flex-none overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                         <div class="grid grid-cols-2 items-center gap-2">
                           <div class="group mx-auto mr-2">
-                            <span class="group-hover:hidden">
-                              {{ index + 1 }}
-                            </span>
-                            <span class="hidden group-hover:block">
+                            <span v-if="activeCreator == creator">
                               <div
-                                v-if="
-                                  selectedCreator.includes(
-                                    creator.id
-                                  )
-                                "
                                 class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
                               <input
                                 type="checkbox"
@@ -185,6 +178,9 @@
                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
                               <div
                                 class="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16"></div>
+                            </span>
+                            <span v-else>
+                              {{ index + 1 }}
                             </span>
                           </div>
                           <!--                                                                    favourite-->
@@ -218,7 +214,9 @@
                           </div>
                         </div>
                       </td>
-                      <td class="max-w-14 sticky whitespace-nowrap border px-2">
+                      <td
+                        @click="toggleContactSidebar()"
+                        class="max-w-14 sticky cursor-pointer whitespace-nowrap border px-2">
                         <div class="flex items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
                             <div
@@ -789,6 +787,7 @@ export default {
       currentRow: [],
       date: null,
       selectedCreators: [],
+      activeCreator: {},
     };
   },
   props: [
@@ -800,6 +799,18 @@ export default {
     'archived',
   ],
   methods: {
+    toggleContactSidebar() {
+      //toggle this.$store.state.ContactSidebarOpen
+      this.$store.state.ContactSidebarOpen =
+        !this.$store.state.ContactSidebarOpen;
+    },
+    setActiveCreator(creator) {
+      this.activeCreator = creator;
+      //emit the active creator to the parent component
+      this.$emit('activeCreator', creator);
+      //log the id of the active creator in the console
+      console.log('The active creator is ' + this.activeCreator);
+    },
     setCurrentRow(row) {
       this.currentRow = row;
       console.log(this.currentRow);
