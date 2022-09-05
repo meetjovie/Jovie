@@ -122,7 +122,7 @@
                                 : 'text-gray-900',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">
-                            <BookmarkIcon
+                            <PinIcon
                               :active="active"
                               class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
                               aria-hidden="true" />
@@ -167,7 +167,7 @@
           class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
           <div
             class="group w-4 flex-none cursor-pointer items-center hover:bg-neutral-200">
-            <BookmarkIcon
+            <PinnedIcon
               :active="active"
               class="h-4 w-4 text-gray-400 hover:text-gray-500 active:text-indigo-500"
               aria-hidden="true" />
@@ -258,7 +258,7 @@
                             : 'text-gray-900',
                           'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                         ]">
-                        <BookmarkIcon
+                        <PinnedIcon
                           :active="active"
                           class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
                           aria-hidden="true" />
@@ -304,6 +304,7 @@
   </div>
 </template>
 <script>
+import { PinIcon, PinnedIcon } from 'vue-tabler-icons';
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -644,6 +645,7 @@ export default {
   components: {
     ChevronRightIcon,
     BookmarkIcon,
+    PinnedIcon,
     EmojiPickerModal,
     ChevronDownIcon,
     EllipsisVerticalIcon,
@@ -656,6 +658,7 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
+    PinIcon,
     draggable,
     EmojiPicker,
     ModalPopup,

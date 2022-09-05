@@ -15,11 +15,24 @@
                     <div class="grid grid-cols-2 items-center">
                       <div class="h-5 items-center text-center">
                         <input
+                          type="checkbox"
+                          class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+                          :checked="
+                            indeterminate ||
+                            selectedCreator.length === creators.length
+                          "
+                          :indeterminate="indeterminate"
+                          @change="
+                            selectedCreator = $event.target.checked
+                              ? Creator.map((p) => p.email)
+                              : []
+                          " />
+                        <!--  <input
                           id="comments"
                           aria-describedby="comments-description"
                           name="comments"
                           type="checkbox"
-                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
                       </div>
                       <div
                         class="group sr-only w-8 items-center text-center text-gray-300 hover:text-red-500">
@@ -41,7 +54,21 @@
                   <th
                     scope="col"
                     class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    Name
+                    <div
+                      v-if="selectedCreators.length > 0"
+                      class="flex items-center space-x-3 bg-gray-50">
+                      <button
+                        type="button"
+                        class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                        Bulk edit
+                      </button>
+                      <button
+                        type="button"
+                        class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                        Archive all
+                      </button>
+                    </div>
+                    <div v-else>Name</div>
                   </th>
                   <th
                     scope="col"
@@ -138,12 +165,24 @@
                               {{ index + 1 }}
                             </span>
                             <span class="hidden group-hover:block">
+                              <div
+                                v-if="
+                                  selectedCreator.includes(
+                                    creator.id
+                                  )
+                                "
+                                class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
                               <input
+                                type="checkbox"
+                                class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+                                :value="creator.id"
+                                v-model="selectedCreator" />
+                              <!--      <input
                                 id="comments-description"
                                 aria-describedby="comments-description"
                                 name="comments"
                                 type="checkbox"
-                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
                               <div
                                 class="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16"></div>
                             </span>
@@ -591,6 +630,22 @@
                                     </MenuItem>
                                     <MenuItem
                                       v-slot="{ active }"
+                                      class="items-center">
+                                      <a
+                                        href="#"
+                                        class="items-center text-neutral-400 hover:text-neutral-900"
+                                        :class="[
+                                          active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700',
+                                          'block px-4 py-2 text-sm',
+                                        ]">
+                                        <PlusIcon class="mr-2 inline h-4 w-4" />
+                                        Add To List</a
+                                      >
+                                    </MenuItem>
+                                    <MenuItem
+                                      v-slot="{ active }"
                                       class="items-center"
                                       @click="
                                         $emit('updateCreator', {
@@ -691,6 +746,7 @@ import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
   ChevronDownIcon,
+  PlusIcon,
   NoSymbolIcon,
   TrashIcon,
   ArrowPathIcon,
@@ -723,6 +779,7 @@ export default {
     NoSymbolIcon,
     TrashIcon,
     Pagination,
+    PlusIcon,
     JovieSpinner,
     CrmTableSortableHeader,
   },
@@ -731,6 +788,7 @@ export default {
       searchQuery: [],
       currentRow: [],
       date: null,
+      selectedCreators: [],
     };
   },
   props: [
@@ -783,4 +841,17 @@ export default {
 };
 </script>
 
+/*
+<script setup>
+import { computed } from 'vue';
+
+const selectedCreator = ref([]);
+const checked = ref(false);
+const indeterminate = computed(
+  () =>
+    selectedCreator.value.length > 0 &&
+    selectedCreator.value.length < creators.length
+);
+</script>
+*/
 <style scoped></style>
