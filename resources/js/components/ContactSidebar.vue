@@ -2,9 +2,16 @@
   <div class="min-h-full w-80 bg-white">
     <div v-if="user.loggedIn">
       <div
+        v-if="!jovie"
         class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-neutral-400 hover:text-neutral-500">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div>
+      <div v-else class="right-61 absolute top-1">
+        <XMarkIcon
+          @click="closeSidebar()"
+          class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600" />
+      </div>
+
       <div class="mt-2 grid grid-cols-3">
         <div class="px-1">
           <svg
@@ -86,6 +93,7 @@
 
       <div class="px-4 py-2">
         <ButtonGroup
+          v-if="!jovie"
           :text="buttonText"
           :success="savedToJovie"
           @click="saveToJovie()"
@@ -195,7 +203,9 @@
           class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div class="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              <div class="block lg:hidden"><JovieLogo height="28px" /></div>
+              <div class="block lg:hidden">
+                <JovieLogo height="28px" />
+              </div>
               <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
                 Sign in
               </h2>
@@ -305,7 +315,7 @@ import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import SocialNetwork from '../components/SocialNetwork.vue';
 import InputLists from '../components/InputLists.vue';
-
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 export default {
   name: 'Contact Sidebar',
   components: {
@@ -313,6 +323,7 @@ export default {
     AuthFooter,
     InputGroup,
     JovieSpinner,
+    XMarkIcon,
     ButtonGroup,
     DataInputGroup,
     TextAreaInput,
@@ -339,7 +350,21 @@ export default {
     // console.log('creator from iframe');
     // console.log(this.creator);
   },
+  props: {
+    creator: {
+      type: Object,
+      default: null,
+    },
+    jovie: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: {
+    closeSidebar() {
+      //turn off the sidebar
+      this.$store.ContactSidebarOpen = false;
+    },
     setCreatorData() {
       ///listen for an object from the content script
       chrome.storage.local.get(['creator'], function (result) {
@@ -385,6 +410,7 @@ export default {
       expandBio: false,
       savedToJovie: false,
       buttonText: 'Save to Jovie',
+      closeSidebar: '',
       user: {
         loggedIn: true,
         name: '',

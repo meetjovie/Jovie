@@ -231,8 +231,8 @@
           leave="transition ease-in-out duration-300 transform"
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
-          <aside class="hidden -mt-2 h-full xl:block">
-            <ContactSidebar :creator="activeCreator" />
+          <aside class="-mt-2 hidden h-full xl:block">
+            <ContactSidebar :jovie="true" :creator="activeCreator" />
           </aside>
         </TransitionRoot>
       </div>
