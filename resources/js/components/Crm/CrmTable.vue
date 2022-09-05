@@ -119,7 +119,7 @@
                     <tr
                       @click="setCurrentRow(creator, network)"
                       v-if="
-                        creator.first_name.includes(searchQuery) &&
+                        /** creator.first_name.includes(searchQuery) && **/
                         creator[`${network}_meta`] &&
                         Object.keys(creator[`${network}_meta`]).length &&
                         !creator.crm_record_by_user[`${network}_removed`] &&
