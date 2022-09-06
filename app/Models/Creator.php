@@ -45,9 +45,13 @@ class Creator extends Model
         return asset('img/noimage.webp');
     }
 
-    public function getNameAttribute()
+    public function getNameAttribute($creator = null)
     {
-        return $this->full_name ?? ($this->first_name.' '.$this->last_name) ?? $this->instagram_name ?? $this->twitch_name ?? $this->twitter_name;
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+
+        return $creator->full_name ?? ($creator->first_name.' '.$creator->last_name) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name;
     }
 
     public function getBiographyAttribute()
@@ -420,6 +424,8 @@ class Creator extends Model
             ->get()->keyBy('creator_id');
 
         foreach ($creators as &$creator) {
+            $creator->name = $creatorAccessor->getNameAttribute($creator);
+
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
 

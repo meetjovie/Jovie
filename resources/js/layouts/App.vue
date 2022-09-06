@@ -127,7 +127,7 @@
                       <span class="sr-only">Home</span>
                     </router-link>
                   </li>
-                  <li>
+                  <!--  <li>
                     <div class="flex items-center">
                       <svg
                         class="h-5 w-5 flex-shrink-0 text-gray-300"
@@ -144,7 +144,7 @@
                         >{{ currentRouteName }}</a
                       >
                     </div>
-                  </li>
+                  </li> -->
                 </ol>
               </nav>
             </div>
@@ -609,6 +609,10 @@ export default {
     });
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();
+    });
+    //toggle the sidebar when hitting cmd + q or ctrl + q
+    this.$mousetrap.bind(['esc'], () => {
+      this.toggleShowAppMenu();
     });
     // this.getNotifications();
     // setInterval(() => {

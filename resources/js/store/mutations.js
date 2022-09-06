@@ -18,4 +18,9 @@ export default {
     //log to console
     console.log('CRMSidebarOpen: ', state.CRMSidebarOpen);
   },
+  toggleContactSidebar(state) {
+    state.ContactSidebarOpen = !state.ContactSidebarOpen;
+    //log to console
+    console.log('ContactSidebarOpen: ', state.ContactSidebarOpen);
+  },
 };

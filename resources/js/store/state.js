@@ -6,4 +6,5 @@ export default {
   addedToWaitList: false,
   creatorsDBCount: '3M',
   CRMSidebarOpen: true,
+  ContactSidebarOpen: true,
 };

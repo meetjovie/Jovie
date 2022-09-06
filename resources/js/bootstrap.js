@@ -48,8 +48,8 @@ window.Echo = new Echo({
             }
         };
     },
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    key: 'ed9f45b62d22913a42a7',
+    cluster: 'mt1',
     forceTLS: true
 });
 

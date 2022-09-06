@@ -15,35 +15,37 @@
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
               <div class="mt-10 flex-col py-1 px-2">
-                <!--   <JovieTooltip> -->
-                <button
-                  @click="setFiltersType('all')"
-                  class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
-                  :class="[
-                    filters.type == 'all'
-                      ? 'text-sm font-bold text-neutral-500  '
-                      : 'text-sm font-semibold text-neutral-400',
-                  ]">
-                  <div class="flex items-center text-xs">
-                    <UserGroupIcon
-                      class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
-                      aria-hidden="true" />
-                    All Contacts
-                  </div>
-                  <div
-                    @click="showCreatorModal = true"
-                    class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
-                    <span
-                      class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
-                      >{{ counts.total }}</span
-                    >
+                <JovieTooltip text="Show All Contacts" :show="showTooltip">
+                  <button
+                    @mouseenter="setShowTooltip()"
+                    @mouseleave="setHideTooltip()"
+                    @click="setFiltersType('all')"
+                    class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    :class="[
+                      filters.type == 'all'
+                        ? 'text-sm font-bold text-neutral-500  '
+                        : 'text-sm font-semibold text-neutral-400',
+                    ]">
+                    <div class="flex items-center text-xs">
+                      <UserGroupIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
+                        aria-hidden="true" />
+                      All Contacts
+                    </div>
+                    <div
+                      @click="showCreatorModal = true"
+                      class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                      <span
+                        class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                        >{{ counts.total }}</span
+                      >
 
-                    <PlusIcon
-                      class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
-                  </div>
-                </button>
-                <!--   </JovieTooltip>
- -->
+                      <PlusIcon
+                        class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
+                    </div>
+                  </button>
+                </JovieTooltip>
+
                 <button
                   @click="setFiltersType('archived')"
                   class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
@@ -102,25 +104,23 @@
                   :draggable="true"
                   @end="sortLists"
                   :menuItems="filteredUsersLists"></MenuList>
-                <!--   User Specific Lists -->
-                <MenuList
-                  @getUserLists="getUserLists"
-                  menuName="Private"
-                  @setFilterList="setFilterList"
-                  :selectedList="filters.list"
-                  :draggable="true"
-                  @end="sortLists"
-                  :menuItems="filteredUsersLists"></MenuList>
               </div>
             </div>
             <div class="flex-shrink-0 border-t border-neutral-200 py-2 px-2">
               <div
                 @click="showCreatorModal = true"
                 class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
+                <PlusIcon
+                  class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-400"
+                  aria-hidden="true" />New Contact
+              </div>
+              <router-link
+                to="import"
+                class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
                 <CloudArrowUpIcon
                   class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
                   aria-hidden="true" />Import Contacts
-              </div>
+              </router-link>
 
               <SwitchTeams />
 
@@ -171,7 +171,7 @@
               <div class="flex w-full flex-col">
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
-                    <div class="">
+                    <div class="w-full">
                       <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && creators.length < 1"
@@ -230,6 +230,22 @@
             </div>
           </div>
         </div>
+        <TransitionRoot
+          :show="$store.state.ContactSidebarOpen"
+          enter="transition ease-in-out duration-300 transform"
+          enter-from="translate-x-full"
+          enter-to="-translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leave-from="-translate-x-0"
+          leave-to="translate-x-full">
+          <aside
+            class="-mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
+            <ContactSidebar
+              @currentContact="setCurrentContact($event)"
+              :jovie="true"
+              :creator="currentContact" />
+          </aside>
+        </TransitionRoot>
       </div>
 
       <ImportCreatorModal :open="showCreatorModal" />
@@ -276,7 +292,7 @@ import MenuList from '../components/MenuList';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams';
 import JovieTooltip from '../components/JovieTooltip.vue';
-
+import ContactSidebar from '../components/ContactSidebar.vue';
 export default {
   name: 'CRM',
   components: {
@@ -285,6 +301,7 @@ export default {
     SwitchTeams,
     TabGroup,
     HeartIcon,
+    ContactSidebar,
     ProgressBar,
     TabList,
     Tab,
@@ -323,7 +340,11 @@ export default {
       showCreatorModal: false,
       loading: false,
       creators: [],
+      showTooltip: false,
       creatorsMeta: {},
+      activeCreator: [],
+      currentContact: [],
+
       lists: [
         {
           name: 'Dancers with really really really really long names',
@@ -402,6 +423,10 @@ export default {
     this.getCrmCreators();
   },
   methods: {
+    setCurrentContact(contact) {
+      console.log('The emmited even contact is ' + contact);
+      this.currentContact = contact;
+    },
     setFiltersType(type) {
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
@@ -525,6 +550,15 @@ export default {
           }
         }
       });
+    },
+    setShowTooltip() {
+      //wait .2 seconds then show the tooltip
+      setTimeout(() => {
+        this.showTooltip = true;
+      }, 200);
+    },
+    setHideTooltip() {
+      this.showTooltip = false;
     },
   },
 };

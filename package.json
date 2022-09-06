@@ -49,6 +49,7 @@
     "@meilisearch/instant-meilisearch": "^0.8.2",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
+    "@vuepic/vue-datepicker": "^3.4.7",
     "install": "^0.13.0",
     "mix-env-file": "^0.1.1",
     "moment": "^2.29.4",
@@ -68,6 +69,7 @@
     "vue-simple-icons": "^7.5.0",
     "vue-slider-component": "^4.0.0-beta.4",
     "vue-star-rating": "^2.1.0",
+    "vue-tabler-icons": "^2.9.0",
     "vue3-emoji-picker": "^1.1.4",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.2"
