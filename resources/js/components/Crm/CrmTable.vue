@@ -814,6 +814,9 @@ export default {
     this.$mousetrap.bind('down', () => {
       this.nextContact();
     });
+    this.$mousetrap.bind('space', () => {
+      this.toggleContactSidebar();
+    });
   },
   methods: {
     toggleContactSidebar() {

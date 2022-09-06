@@ -610,6 +610,10 @@ export default {
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();
     });
+    //toggle the sidebar when hitting cmd + q or ctrl + q
+    this.$mousetrap.bind(['esc'], () => {
+      this.toggleShowAppMenu();
+    });
     // this.getNotifications();
     // setInterval(() => {
     //   this.getNotifications();
