@@ -79,5 +79,9 @@ export default {
 
     async moveCreator(context, payload) {
         return await userService.moveCreator(payload)
+    },
+
+    async removeCreatorFromList(context, payload) {
+        return await userService.removeCreatorFromList(payload.creatorId, payload.list)
     }
 }

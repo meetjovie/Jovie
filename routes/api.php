@@ -59,6 +59,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 
+    Route::post('/remove-creator-from-list/{id}', [\App\Http\Controllers\CrmController::class, 'removeCreatorFromList']);
+
     //      OVERVIEW
     Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
     Route::post('/add-comment', [\App\Http\Controllers\CrmController::class, 'addComment']);

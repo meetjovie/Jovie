@@ -376,9 +376,7 @@ class Creator extends Model
             });
 
         if (isset($params['type']) && $params['type'] == 'archived') {
-            $creators = $creators->where(function ($q) {
-                $q->where('instagram_archived', true)->orWhere('twitter_archived', true)->orWhere('twitch_archived', true);
-            });
+            $creators = $creators->where('archived_list', true);
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
             $creators = $creators->where(function ($q) {
                 $q->where('favourite', true);
@@ -389,15 +387,7 @@ class Creator extends Model
                     ->where('user_list_id', $params['list']);
             });
         } else {
-            $creators = $creators->where(function ($q) {
-                $q->where(function ($qq) {
-                    $qq->where('instagram_archived', 0)->orWhere('instagram_archived', null);
-                })->orWhere(function ($qq) {
-                    $qq->where('twitter_archived', 0)->orWhere('twitter_archived', null);
-                })->orWhere(function ($qq) {
-                    $qq->where('twitch_archived', 0)->orWhere('twitch_archived', null);
-                });
-            });
+            $creators = $creators->where('archived_list', null);
         }
 
         if (isset($params['id'])) {
@@ -448,12 +438,8 @@ class Creator extends Model
             $creator->crm_record_by_user->team_id = $user->currentTeam->id;
             $creator->crm_record_by_user->creator_id = $creator->id;
             $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
-            $creator->crm_record_by_user->instagram_offer = $creator->instagram_offer;
-            $creator->crm_record_by_user->instagram_archived = $creator->instagram_archived;
-            $creator->crm_record_by_user->instagram_removed = $creator->instagram_removed;
-            $creator->crm_record_by_user->twitter_offer = $creator->twitter_offer;
-            $creator->crm_record_by_user->twitter_archived = $creator->twitter_archived;
-            $creator->crm_record_by_user->twitter_removed = $creator->twitter_removed;
+            $creator->crm_record_by_user->offer = $creator->offer;
+            $creator->crm_record_by_user->archived_list = $creator->archived_list;
             $creator->crm_record_by_user->rating = $creator->rating;
             $crm = new Crm();
             $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
@@ -465,12 +451,9 @@ class Creator extends Model
             $creator->crm_record_by_user->updated_at = $creator->updated_at;
             unset($creator->creator_id);
             unset($creator->last_contacted);
-            unset($creator->instagram_offer);
-            unset($creator->instagram_archived);
+            unset($creator->offer);
+            unset($creator->archived_list);
             unset($creator->instagram_removed);
-            unset($creator->twitter_offer);
-            unset($creator->twitter_archived);
-            unset($creator->twitter_removed);
             unset($creator->rating);
             unset($creator->stage);
             unset($creator->favourite);
@@ -483,7 +466,7 @@ class Creator extends Model
             // these properties would only show up if user specific values are not set
 
             foreach (self::NETWORKS as $network) {
-                if (! empty($creator->crm_record_by_user->{$network.'_offer'}) && count((array) $creator->{$network.'_meta'})) {
+                if (! empty($creator->crm_record_by_user->offer) && count((array) $creator->{$network.'_meta'})) {
                     $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
                 }
             }
@@ -629,7 +612,7 @@ class Creator extends Model
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $counts = DB::table('crms')->selectRaw('team_id, count(*) AS total,
         sum(case when favourite = true then 1 else 0 end) AS favourites,
-        sum(case when instagram_archived = true OR twitter_archived = true OR twitch_archived = true then 1 else 0 end) AS archived')
+        sum(case when archived_list = true then 1 else 0 end) AS archived')
             ->where('team_id', $user->currentTeam->id)
             ->groupBy('team_id')->first();
         unset($counts->team_id);

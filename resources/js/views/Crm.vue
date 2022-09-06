@@ -218,6 +218,7 @@
                         v-else
                         @updateCreator="updateCreator"
                         @pageChanged="pageChanged"
+                        :filters="filters"
                         :creators="creators"
                         :networks="networks"
                         :stages="stages"

@@ -7,10 +7,12 @@ use App\Models\Creator;
 use App\Models\CreatorComment;
 use App\Models\Crm;
 use App\Models\User;
+use App\Models\UserList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use MeiliSearch\Client;
 
@@ -292,5 +294,18 @@ class CrmController extends Controller
         $creators['hits'] = $hits;
 
         return $creators;
+    }
+
+    public function removeCreatorFromList(Request $request, $id)
+    {
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $request->validate([
+            'list' => 'required|exists:user_lists,id,team_id,'.$user->currentTeam->id
+        ]);
+        DB::table('creator_user_list')->where('creator_id', $id)->where('user_list_id', $request->list)->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Creator removed from the list.'
+        ], 200);
     }
 }

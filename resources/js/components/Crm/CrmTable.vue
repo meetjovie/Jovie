@@ -566,177 +566,175 @@
                           class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 px-2 py-1 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                           placeholder="--/--/--"
                           aria-describedby="email-description" /> -->
-                    </td>
-                    <td
-                      class="W-28 hidden whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
-                      <star-rating
-                        class="w-20"
-                        :star-size="12"
-                        :increment="0.5"
-                        v-model:rating="creator.crm_record_by_user.rating"
-                        @update:rating="
-                          $emit('updateCreator', {
-                            id: creator.id,
-                            index: index,
-                            key: `crm_record_by_user.rating`,
-                            value: $event,
-                          })
-                        "></star-rating>
-                    </td>
-                    <td
-                      class="flex w-12 whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
-                      <div class="justify-right flex items-center text-right">
-                        <div>
-                          <router-link
-                            :to="{
-                              name: 'Creator Overview',
-                              params: { id: creator.id },
-                            }"
-                            class="text-neutral-600 hover:text-indigo-900">
-                            Manage
-                          </router-link>
+                      </td>
+                      <td
+                        class="W-28 hidden whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
+                        <star-rating
+                          class="w-20"
+                          :star-size="12"
+                          :increment="0.5"
+                          v-model:rating="creator.crm_record_by_user.rating"
+                          @update:rating="
+                            $emit('updateCreator', {
+                              id: creator.id,
+                              index: index,
+                              key: `crm_record_by_user.rating`,
+                              value: $event,
+                            })
+                          "></star-rating>
+                      </td>
+                      <td
+                        class="flex w-12 whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
+                        <div class="justify-right flex items-center text-right">
+                          <div>
+                            <router-link
+                              :to="{
+                                name: 'Creator Overview',
+                                params: { id: creator.id },
+                              }"
+                              class="text-neutral-600 hover:text-indigo-900">
+                              Manage
+                            </router-link>
+                          </div>
+                          <Menu
+                            as="div"
+                            class="relative inline-block text-left">
+                            <Float
+                              enter="transition duration-200 ease-out"
+                              enter-from="scale-95 opacity-0"
+                              enter-to="scale-100 opacity-100"
+                              leave="transition duration-150 ease-in"
+                              leave-from="scale-100 opacity-100"
+                              leave-to="scale-95 opacity-0"
+                              tailwindcss-origin-class
+                              flip
+                              :offset="10"
+                              shift
+                              portal
+                              arrow
+                              placement="bottom-end">
+                              <MenuButton
+                                class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
+                                <span class="sr-only">Open options</span>
+                                <EllipsisVerticalIcon
+                                  class="z-0 h-5 w-5"
+                                  aria-hidden="true" />
+                              </MenuButton>
+                              <transition
+                                enter-active-class="transition ease-out duration-100"
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-75"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95">
+                                <MenuItems
+                                  class="w-30 backdrop-fitler z-10 mt-2 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
+                                  <div class="py-1">
+<!--                                    <MenuItem-->
+<!--                                      v-slot="{ active }"-->
+<!--                                      @click="-->
+<!--                                        $emit('updateCreator', {-->
+<!--                                          id: creator.id,-->
+<!--                                          index: index,-->
+<!--                                          network: network,-->
+<!--                                          key: `crm_record_by_user.${network}_archived`,-->
+<!--                                          value:-->
+<!--                                            !creator.crm_record_by_user[-->
+<!--                                              `${network}_archived`-->
+<!--                                            ],-->
+<!--                                        })-->
+<!--                                      "-->
+<!--                                      class="items-center">-->
+<!--                                      <a-->
+<!--                                        href="#"-->
+<!--                                        class="items-center text-neutral-400 hover:text-neutral-900"-->
+<!--                                        :class="[-->
+<!--                                          active-->
+<!--                                            ? 'bg-gray-100 text-gray-900'-->
+<!--                                            : 'text-gray-700',-->
+<!--                                          'block px-4 py-2 text-sm',-->
+<!--                                        ]">-->
+<!--                                        <ArchiveBoxIcon-->
+<!--                                          class="mr-2 inline h-4 w-4" />-->
+<!--                                        {{-->
+<!--                                          creator.crm_record_by_user[-->
+<!--                                            `${network}_archived`-->
+<!--                                          ]-->
+<!--                                            ? 'Unarchived'-->
+<!--                                            : 'Archive'-->
+<!--                                        }}-->
+<!--                                      </a>-->
+<!--                                    </MenuItem>-->
+                                    <MenuItem
+                                      v-slot="{ active }"
+                                      class="items-center">
+                                      <a
+                                        href="#"
+                                        class="items-center text-neutral-400 hover:text-neutral-900"
+                                        :class="[
+                                          active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700',
+                                          'block px-4 py-2 text-sm',
+                                        ]">
+                                        <PlusIcon class="mr-2 inline h-4 w-4" />
+                                        Add To List</a
+                                      >
+                                    </MenuItem>
+                                    <MenuItem
+                                        v-if="filters.list"
+                                      v-slot="{ active }"
+                                      class="items-center"
+                                      @click="removeCreatorFromList(creator.id, index)">
+                                      <a
+                                        href="#"
+                                        class="items-center text-neutral-400 hover:text-neutral-900"
+                                        :class="[
+                                          active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700',
+                                          'block px-4 py-2 text-sm',
+                                        ]">
+                                        <TrashIcon
+                                          class="mr-2 inline h-4 w-4" />
+                                        Remove from list</a
+                                      >
+                                    </MenuItem>
+                                    <MenuItem
+                                      v-if="currentUser.is_admin && 0"
+                                      v-slot="{ active }"
+                                      class="items-center"
+                                      @click="
+                                        refresh(
+                                          creator[`${network}_handler`],
+                                          network
+                                        )
+                                      "
+                                      :disabled="adding">
+                                      <a
+                                        href="#"
+                                        class="items-center text-neutral-400 hover:text-neutral-900"
+                                        :class="[
+                                          active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700',
+                                          'block px-4 py-2 text-sm',
+                                        ]">
+                                        <ArrowPathIcon
+                                          class="mr-2 inline h-4 w-4" />
+                                        Refresh</a
+                                      >
+                                    </MenuItem>
+                                  </div>
+                                </MenuItems>
+                              </transition>
+                            </Float>
+                          </Menu>
+
+                          <!-- This example requires Tailwind CSS v2.0+ -->
                         </div>
-                        <Menu as="div" class="relative inline-block text-left">
-                          <Float
-                            enter="transition duration-200 ease-out"
-                            enter-from="scale-95 opacity-0"
-                            enter-to="scale-100 opacity-100"
-                            leave="transition duration-150 ease-in"
-                            leave-from="scale-100 opacity-100"
-                            leave-to="scale-95 opacity-0"
-                            tailwindcss-origin-class
-                            flip
-                            :offset="10"
-                            shift
-                            portal
-                            arrow
-                            placement="bottom-end">
-                            <MenuButton
-                              class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-                              <span class="sr-only">Open options</span>
-                              <EllipsisVerticalIcon
-                                class="z-0 h-5 w-5"
-                                aria-hidden="true" />
-                            </MenuButton>
-                            <transition
-                              enter-active-class="transition ease-out duration-100"
-                              enter-from-class="transform opacity-0 scale-95"
-                              enter-to-class="transform opacity-100 scale-100"
-                              leave-active-class="transition ease-in duration-75"
-                              leave-from-class="transform opacity-100 scale-100"
-                              leave-to-class="transform opacity-0 scale-95">
-                              <MenuItems
-                                class="w-30 backdrop-fitler z-10 mt-2 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
-                                <div class="py-1">
-                                  <!--                                    <MenuItem-->
-                                  <!--                                      v-slot="{ active }"-->
-                                  <!--                                      @click="-->
-                                  <!--                                        $emit('updateCreator', {-->
-                                  <!--                                          id: creator.id,-->
-                                  <!--                                          index: index,-->
-                                  <!--                                          network: network,-->
-                                  <!--                                          key: `crm_record_by_user.${network}_archived`,-->
-                                  <!--                                          value:-->
-                                  <!--                                            !creator.crm_record_by_user[-->
-                                  <!--                                              `${network}_archived`-->
-                                  <!--                                            ],-->
-                                  <!--                                        })-->
-                                  <!--                                      "-->
-                                  <!--                                      class="items-center">-->
-                                  <!--                                      <a-->
-                                  <!--                                        href="#"-->
-                                  <!--                                        class="items-center text-neutral-400 hover:text-neutral-900"-->
-                                  <!--                                        :class="[-->
-                                  <!--                                          active-->
-                                  <!--                                            ? 'bg-gray-100 text-gray-900'-->
-                                  <!--                                            : 'text-gray-700',-->
-                                  <!--                                          'block px-4 py-2 text-sm',-->
-                                  <!--                                        ]">-->
-                                  <!--                                        <ArchiveBoxIcon-->
-                                  <!--                                          class="mr-2 inline h-4 w-4" />-->
-                                  <!--                                        {{-->
-                                  <!--                                          creator.crm_record_by_user[-->
-                                  <!--                                            `${network}_archived`-->
-                                  <!--                                          ]-->
-                                  <!--                                            ? 'Unarchived'-->
-                                  <!--                                            : 'Archive'-->
-                                  <!--                                        }}-->
-                                  <!--                                      </a>-->
-                                  <!--                                    </MenuItem>-->
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    class="items-center">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-sm',
-                                      ]">
-                                      <PlusIcon class="mr-2 inline h-4 w-4" />
-                                      Add To List</a
-                                    >
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    class="items-center"
-                                    @click="
-                                      $emit('updateCreator', {
-                                        id: creator.id,
-                                        index: index,
-                                        key: `crm_record_by_user.removed`,
-                                        value:
-                                          !creator.crm_record_by_user.removed,
-                                      })
-                                    ">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-sm',
-                                      ]">
-                                      <TrashIcon class="mr-2 inline h-4 w-4" />
-                                      Remove</a
-                                    >
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-if="currentUser.is_admin && 0"
-                                    v-slot="{ active }"
-                                    class="items-center"
-                                    @click="
-                                      refresh(
-                                        creator[`${network}_handler`],
-                                        network
-                                      )
-                                    "
-                                    :disabled="adding">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-sm',
-                                      ]">
-                                      <ArrowPathIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Refresh</a
-                                    >
-                                  </MenuItem>
-                                </div>
-                              </MenuItems>
-                            </transition>
-                          </Float>
-                        </Menu>
 
                         <!-- This example requires Tailwind CSS v2.0+ -->
-                      </div>
                     </td>
                   </tr>
                 </template>
@@ -817,7 +815,7 @@ export default {
   data() {
     return {
       searchQuery: [],
-      currentRow: [],
+      currentRow: null,
       date: null,
       selectedCreators: [],
       activeCreator: {},
@@ -826,6 +824,7 @@ export default {
     };
   },
   props: [
+    'filters',
     'creators',
     'networks',
     'stages',
@@ -845,6 +844,45 @@ export default {
     });
   },
   methods: {
+      setCurrentRow(row) {
+          this.currentRow = row;
+          console.log(this.currentRow);
+      },
+      removeCreatorFromList(id, index) {
+          this.$store.dispatch('removeCreatorFromList', {creatorId: id, list: this.filters.list}).then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.creators.splice(index, 1);
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              }
+          }).catch((error) => {
+              error = error.response;
+              if (error.status == 422) {
+                  this.errors = error.data.errors;
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: Object.values(error.data.errors)[0][0],
+                  });
+              }
+          }).finally((response) => {});;
+      },
     toggleContactSidebar() {
       //toggle this.$store.state.ContactSidebarOpen
       this.$store.state.ContactSidebarOpen =

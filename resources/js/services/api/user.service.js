@@ -119,4 +119,7 @@ export default {
   async updateList(data, id) {
     return axios.post(`${baseApiUrl}/update-list/${id}?_method=PUT`, data);
   },
+  async removeCreatorFromList(creatorId, listId) {
+    return axios.post(`${baseApiUrl}/remove-creator-from-list/${creatorId}`, {'list': listId});
+  },
 };
