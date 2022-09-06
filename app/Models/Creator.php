@@ -51,7 +51,7 @@ class Creator extends Model
             $creator = $this;
         }
 
-        return $creator->full_name ?? ($creator->first_name.' '.$creator->last_name) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name;
+        return $creator->full_name ?? ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name;
     }
 
     public function getBiographyAttribute()
