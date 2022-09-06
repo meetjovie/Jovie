@@ -146,7 +146,7 @@
                     :key="network">
                     <tr
                       @click="
-                        setCurrentRow(creator, network) &&
+                        setCurrentContact(creator) &&
                           this.$store.ContactSidebarOpen
                       "
                       v-if="
@@ -162,8 +162,8 @@
                       class="border-1 group border-collapse overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                       :class="[
                         {
-                          'bg-neutral-200 hover:bg-neutral-200':
-                            currentRow == creator,
+                          'bg-neutral-100 hover:bg-neutral-100':
+                            currentContact.id == creator.id,
                         },
                         'bg-white hover:bg-neutral-50',
                       ]">
@@ -796,6 +796,7 @@ export default {
       date: null,
       selectedCreators: [],
       activeCreator: {},
+      currentContact: [],
     };
   },
   props: [
@@ -808,10 +809,10 @@ export default {
   ],
   mounted() {
     this.$mousetrap.bind('up', () => {
-      this.previousRow();
+      this.previousContact();
     });
     this.$mousetrap.bind('down', () => {
-      this.nextRow();
+      this.nextContact();
     });
   },
   methods: {
@@ -827,19 +828,36 @@ export default {
       //log the id of the active creator in the console
       console.log('The active creator is ' + this.activeCreator);
     },
-
-    setCurrentRow(row) {
-      this.currentRow = row;
-      console.log(this.currentRow);
+    setCurrentContact(creator) {
+      this.currentContact = creator;
+      console.log('The current contact is ' + this.currentContact.id);
     },
-    nextRow() {
-      //inrement the current row
-      this.currentRow++;
-      console.log(this.currentRow);
+    //method to change the currentContact to the next creator in the list
+    nextContact() {
+      //get the index of the current contact
+      const index = this.creators.indexOf(this.currentContact);
+      //if the index is less than the length of the creators array
+      if (index < this.creators.length - 1) {
+        //set the current contact to the next creator in the array
+        this.currentContact = this.creators[index + 1];
+        //emit the current contact to the parent component
+        this.$emit('currentContact', this.currentContact);
+        //log the id of the current contact in the console
+        console.log('The current contact is ' + this.currentContact.id);
+      }
     },
-    previousRow() {
-      this.currentRow--;
-      console.log(this.currentRow);
+    previousContact() {
+      //get the index of the current contact
+      const index = this.creators.indexOf(this.currentContact);
+      //if the index is greater than 0
+      if (index > 0) {
+        //set the current contact to the previous creator in the array
+        this.currentContact = this.creators[index - 1];
+        //emit the current contact to the parent component
+        this.$emit('currentContact', this.currentContact);
+        //log the id of the current contact in the console
+        console.log('The current contact is ' + this.currentContact.id);
+      }
     },
     refresh(url, network) {
       this.adding = true;
