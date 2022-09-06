@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="h-full flex-col justify-between">
     <div class="flex flex-col">
       <div class="overflow-x-auto">
         <div class="inline-block min-w-full align-middle">
@@ -145,8 +145,10 @@
                     v-for="(network, indexN) in networks"
                     :key="network">
                     <tr
-                      @mouseover="setActiveCreator(creator.id)"
-                      @click="setCurrentRow(creator, network)"
+                      @click="
+                        setCurrentRow(creator, network) &&
+                          this.$store.ContactSidebarOpen
+                      "
                       v-if="
                         /** creator.first_name.includes(searchQuery) && **/
 
@@ -157,7 +159,14 @@
                           ? creator.crm_record_by_user[`${network}_archived`]
                           : !creator.crm_record_by_user[`${network}_archived`])
                       "
-                      class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-neutral-50 focus-visible:ring-indigo-700">
+                      class="border-1 group border-collapse overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
+                      :class="[
+                        {
+                          'bg-neutral-200 hover:bg-neutral-200':
+                            currentRow == creator,
+                        },
+                        'bg-white hover:bg-neutral-50',
+                      ]">
                       <td
                         class="w-20 flex-none overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                         <div class="grid grid-cols-2 items-center gap-2">
@@ -215,7 +224,6 @@
                         </div>
                       </td>
                       <td
-                        @click="toggleContactSidebar()"
                         class="max-w-14 sticky cursor-pointer whitespace-nowrap border px-2">
                         <div class="flex items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
@@ -715,7 +723,7 @@
       </div>
     </div>
     <Pagination
-      class="w-full"
+      class="fixed bottom-0 w-full"
       v-if="creators.length"
       :totalPages="creatorsMeta.last_page"
       :perPage="creatorsMeta.per_page"
@@ -798,6 +806,14 @@ export default {
     'loading',
     'archived',
   ],
+  mounted() {
+    this.$mousetrap.bind('up', () => {
+      this.previousRow();
+    });
+    this.$mousetrap.bind('down', () => {
+      this.nextRow();
+    });
+  },
   methods: {
     toggleContactSidebar() {
       //toggle this.$store.state.ContactSidebarOpen
@@ -811,8 +827,18 @@ export default {
       //log the id of the active creator in the console
       console.log('The active creator is ' + this.activeCreator);
     },
+
     setCurrentRow(row) {
       this.currentRow = row;
+      console.log(this.currentRow);
+    },
+    nextRow() {
+      //inrement the current row
+      this.currentRow++;
+      console.log(this.currentRow);
+    },
+    previousRow() {
+      this.currentRow--;
       console.log(this.currentRow);
     },
     refresh(url, network) {

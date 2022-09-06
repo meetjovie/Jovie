@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cursor-pointer">
     <svg
       v-if="icon == 'twitter'"
       role="img"

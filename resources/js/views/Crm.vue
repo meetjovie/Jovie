@@ -110,10 +110,17 @@
               <div
                 @click="showCreatorModal = true"
                 class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
+                <PlusIcon
+                  class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-400"
+                  aria-hidden="true" />New Contact
+              </div>
+              <router-link
+                to="import"
+                class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
                 <CloudArrowUpIcon
                   class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
                   aria-hidden="true" />Import Contacts
-              </div>
+              </router-link>
 
               <SwitchTeams />
 
@@ -164,7 +171,7 @@
               <div class="flex w-full flex-col">
                 <div class="mx-auto w-full p-0">
                   <div class="inline-block w-full align-middle">
-                    <div class="">
+                    <div class="w-full">
                       <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && creators.length < 1"
@@ -231,7 +238,8 @@
           leave="transition ease-in-out duration-300 transform"
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
-          <aside class="-mt-2 hidden h-full xl:block">
+          <aside
+            class="-mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
             <ContactSidebar :jovie="true" :creator="activeCreator" />
           </aside>
         </TransitionRoot>
