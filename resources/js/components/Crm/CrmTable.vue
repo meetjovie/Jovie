@@ -143,7 +143,8 @@
                   :key="creator">
                   <tr
                     @click="
-                      setCurrentRow(creator) && this.$store.ContactSidebarOpen
+                      setCurrentContact(creator) &&
+                        this.$store.ContactSidebarOpen
                     "
                     class="border-1 group border-collapse overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
@@ -305,16 +306,48 @@
                         class="inline-flex items-center justify-between rounded-full px-3 py-1 text-center text-xs font-bold text-gray-800">
                         <div class="mx-auto flex-col items-center">
                           <div
+                            v-if="creator[`${network}_handler`]"
                             class="mx-auto items-center group-hover:opacity-100"
                             :class="[
-                              { 'opacity-100': creator[`${network}_handler`] },
+                              {
+                                'opacity-100': creator[`${network}_handler`],
+                              },
                               'opacity-30',
                             ]">
-                            <SocialIcons height="14px" :icon="network" />
+                            <Popover class="relative">
+                              <Float portal placement="bottom-end">
+                                <PopoverButton>
+                                  <SocialIcons
+                                    class="mx-auto"
+                                    height="14px"
+                                    :icon="network" />
+                                </PopoverButton>
+                                <PopoverPanel
+                                  class="z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+                                  <div
+                                    class="w-40 rounded-md bg-gray-800 shadow-md">
+                                    Hi
+                                  </div>
+                                </PopoverPanel>
+                              </Float>
+                            </Popover>
                           </div>
                           <div
-                            class="mx-auto items-center text-2xs font-bold text-neutral-400">
-                            {{ formatCount(creator[`${network}_followers`]) }}
+                            class="mx-auto items-center opacity-30 group-hover:opacity-100"
+                            v-else>
+                            <SocialIcons
+                              class="mx-auto"
+                              height="14px"
+                              :icon="network" />
+                          </div>
+                          <div class="">
+                            <span
+                              v-if="creator[`${network}_handler`]"
+                              class="mx-auto items-center text-2xs font-bold text-neutral-400">
+                              {{
+                                formatCount(creator[`${network}_followers`])
+                              }}</span
+                            >
                           </div>
                         </div>
                       </a>
@@ -700,6 +733,7 @@ export default {
     Menu,
     Datepicker,
     MenuButton,
+    Float,
     ArrowPathIcon,
     MenuItems,
     MenuItem,
@@ -724,6 +758,7 @@ export default {
       selectedCreators: [],
       activeCreator: {},
       currentContact: [],
+      editingSocialHandle: true,
     };
   },
   props: [
