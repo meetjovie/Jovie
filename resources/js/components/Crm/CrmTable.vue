@@ -16,7 +16,7 @@
                       <div class="h-5 items-center text-center">
                         <input
                           type="checkbox"
-                          class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+                          class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                           :checked="
                             indeterminate ||
                             selectedCreator.length === creators.length
@@ -55,18 +55,82 @@
                     scope="col"
                     class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
-                      v-if="selectedCreators.length > 0"
+                      v-if="!selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-50">
                       <button
                         type="button"
-                        class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                        class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                         Bulk edit
                       </button>
                       <button
                         type="button"
-                        class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                        class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                         Archive all
                       </button>
+                      <Menu>
+                        <Float portal placement="bottom-end">
+                          <MenuButton
+                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+                            >Actions</MenuButton
+                          >
+                          <transition
+                            enter-active-class="transition duration-100 ease-out"
+                            enter-from-class="transform scale-95 opacity-0"
+                            enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-in"
+                            leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0">
+                            <MenuItems
+                              class="flex-col rounded-md border border-neutral-200 bg-neutral-50 px-2 shadow-xl">
+                              <MenuItem v-slot="{ active }">
+                                <button
+                                  :class="[
+                                    active
+                                      ? 'bg-violet-500 text-white'
+                                      : 'text-gray-900',
+                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                  ]">
+                                  <EditIcon
+                                    :active="active"
+                                    class="mr-2 h-5 w-5 text-violet-400"
+                                    aria-hidden="true" />
+                                  Add to list
+                                </button>
+                              </MenuItem>
+                              <MenuItem v-slot="{ active }">
+                                <button
+                                  :class="[
+                                    active
+                                      ? 'bg-violet-500 text-white'
+                                      : 'text-gray-900',
+                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                  ]">
+                                  <EditIcon
+                                    :active="active"
+                                    class="mr-2 h-5 w-5 text-violet-400"
+                                    aria-hidden="true" />
+                                  Archive
+                                </button>
+                              </MenuItem>
+                              <MenuItem disabled>
+                                <button
+                                  :class="[
+                                    active
+                                      ? 'bg-violet-500 text-white'
+                                      : 'text-gray-900',
+                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                  ]">
+                                  <EditIcon
+                                    :active="active"
+                                    class="mr-2 h-5 w-5 text-violet-400"
+                                    aria-hidden="true" />
+                                  Remove From List
+                                </button>
+                              </MenuItem>
+                            </MenuItems>
+                          </transition>
+                        </Float>
+                      </Menu>
                     </div>
                     <div v-else>Name</div>
                   </th>
@@ -158,12 +222,12 @@
                       class="w-20 flex-none overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div class="grid grid-cols-2 items-center gap-2">
                         <div class="group mx-auto mr-2">
-                          <span v-if="activeCreator == creator">
+                          <span v-if="currentCreator == creator">
                             <div
                               class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
                             <input
                               type="checkbox"
-                              class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+                              class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                               :value="creator.id"
                               v-model="selectedCreator" />
                             <!--      <input
@@ -292,7 +356,7 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus:border-indigo-700 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
