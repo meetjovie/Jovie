@@ -240,7 +240,10 @@
           leave-to="translate-x-full">
           <aside
             class="-mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
-            <ContactSidebar :jovie="true" :creator="activeCreator" />
+            <ContactSidebar
+              @currentContact="setCurrentContact($event)"
+              :jovie="true"
+              :creator="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
@@ -339,7 +342,8 @@ export default {
       creators: [],
       showTooltip: false,
       creatorsMeta: {},
-      activeCreator: {},
+      activeCreator: [],
+      currentContact: [],
 
       lists: [
         {
@@ -419,6 +423,10 @@ export default {
     this.getCrmCreators();
   },
   methods: {
+    setCurrentContact(contact) {
+      console.log('The emmited even contact is ' + contact);
+      this.currentContact = contact;
+    },
     setFiltersType(type) {
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;

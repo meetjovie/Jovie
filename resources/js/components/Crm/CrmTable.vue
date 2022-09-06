@@ -834,6 +834,8 @@ export default {
     setCurrentContact(creator) {
       this.currentContact = creator;
       console.log('The current contact is ' + this.currentContact.id);
+      //emit the current contact to the parent component
+      this.$emit('currentContact', creator);
     },
     //method to change the currentContact to the next creator in the list
     nextContact() {
