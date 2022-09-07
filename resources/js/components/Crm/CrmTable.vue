@@ -17,16 +17,9 @@
                         <input
                           type="checkbox"
                           class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
-                          :checked="
-                            indeterminate ||
-                            selectedCreators.length === creators.length
-                          "
-                          :indeterminate="indeterminate"
-                          @change="
-                            selectedCreators = $event.target.checked
-                              ? creator.map((p) => p.email)
-                              : []
-                          " />
+                          :checked="intermediate || selectedCreators.length === creators.length"
+                          :intermediate="intermediate"
+                          @change="selectedCreators = $event.target.checked ? creators.map((c) => c.id) : []" />
                         <!--  <input
                           id="comments"bulk edis
                           aria-describedby="comments-description"
@@ -225,7 +218,8 @@
                           <span class="">
                             <input
                               type="checkbox"
-                              :name="creator.id"
+                              :id="`creator_${creator.id}`"
+                              :value="creator.id"
                               class="-mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                               v-model="selectedCreators" />
                           </span>
@@ -764,7 +758,7 @@
 
 <script>
 import { Float } from '@headlessui-float/vue';
-import { ref } from 'vue';
+import {computed, ref} from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import {
@@ -850,6 +844,12 @@ export default {
       this.toggleContactSidebar();
     });
   },
+    computed: {
+        intermediate() {
+            return this.selectedCreators.length > 0 &&
+                this.selectedCreators.length < this.creators.length
+        }
+    },
   methods: {
       setCurrentRow(row) {
           this.currentRow = row;
@@ -1011,18 +1011,3 @@ export default {
   },
 };
 </script>
-
-/*
-<script setup>
-import { computed } from 'vue';
-
-const selectedCreators = ref([]);
-const checked = ref(false);
-const indeterminate = computed(
-  () =>
-    selectedCreators.value.length > 0 &&
-    selectedCreators.value.length < creators.length
-);
-</script>
-*/
-<style scoped></style>
