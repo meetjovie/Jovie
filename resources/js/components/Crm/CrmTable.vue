@@ -713,15 +713,10 @@
                                           </a>
                                       </MenuItem>
                                     <MenuItem
-                                      v-if="currentUser.is_admin && 0"
+                                      v-if="currentUser.is_admin"
                                       v-slot="{ active }"
                                       class="items-center"
-                                      @click="
-                                        refresh(
-                                          creator[`${network}_handler`],
-                                          network
-                                        )
-                                      "
+                                      @click="refresh(creator)"
                                       :disabled="adding">
                                       <a
                                         href="#"
@@ -977,11 +972,14 @@ export default {
         console.log('The current contact is ' + this.currentContact.id);
       }
     },
-    refresh(url, network) {
+    refresh(creator) {
+      let imports = {};
+      this.networks.forEach(network => {
+          imports[network] = creator[`${network}_handler`]
+      });
+      if (!Object.keys(imports).length) return;
       this.adding = true;
-      var form = new FormData();
-      form.append(network, url);
-      ImportService.import(form)
+      ImportService.import(imports)
         .then((response) => {
           response = response.data;
           if (response.status) {
