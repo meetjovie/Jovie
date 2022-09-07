@@ -556,7 +556,7 @@ export default {
         if (response.status) {
           if (response.data == null) {
             this.creators.splice(params.index, 1);
-            this.$emit('crmCounts')
+            this.crmCounts()
           } else {
             this.creators[params.index] = response.data;
           }
