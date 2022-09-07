@@ -83,5 +83,9 @@ export default {
 
     async removeCreatorFromList(context, payload) {
         return await userService.removeCreatorFromList(payload.creatorId, payload.list)
+    },
+
+    async toggleArchiveCreator(context, payload) {
+        return await userService.toggleArchiveCreator(payload.creatorId, payload.archived)
     }
 }

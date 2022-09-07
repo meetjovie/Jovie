@@ -122,4 +122,10 @@ export default {
   async removeCreatorFromList(creatorId, listId) {
     return axios.post(`${baseApiUrl}/remove-creator-from-list/${creatorId}`, {'list': listId});
   },
+  async toggleArchiveCreator(creatorId, archived) {
+    return axios.post(`${baseApiUrl}/toggle-archive-creator/${creatorId}`, {archived: archived});
+  },
+  crmCounts() {
+    return axios.get(`${baseApiUrl}/crm-counts`);
+  },
 };

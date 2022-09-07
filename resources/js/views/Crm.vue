@@ -217,6 +217,7 @@
                       <CrmTable
                         v-else
                         @updateCreator="updateCreator"
+                        @crmCounts="crmCounts"
                         @pageChanged="pageChanged"
                         :filters="filters"
                         :creators="creators"
@@ -422,6 +423,7 @@ export default {
   async mounted() {
     await this.getUserLists();
     this.getCrmCreators();
+    this.crmCounts();
   },
   methods: {
     setCurrentContact(contact) {
@@ -513,14 +515,22 @@ export default {
         response = response.data;
         if (response.status) {
           this.networks = response.networks;
-          this.counts = response.counts;
           this.stages = response.stages;
+          this.counts = response.counts;
           this.creators = response.creators.data;
           this.creatorsMeta = response.creators;
           this.filters.page = response.creators.current_page;
         }
       });
     },
+      crmCounts() {
+          UserService.crmCounts().then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.counts = response.counts;
+              }
+          });
+      },
     exportCrmCreators() {
       let obj = JSON.parse(JSON.stringify(this.filters));
       if (obj.list) {
@@ -546,6 +556,7 @@ export default {
         if (response.status) {
           if (response.data == null) {
             this.creators.splice(params.index, 1);
+            this.$emit('crmCounts')
           } else {
             this.creators[params.index] = response.data;
           }

@@ -31,6 +31,15 @@ class CrmController extends Controller
         ], 200);
     }
 
+    public function crmCounts()
+    {
+        $counts = Creator::getCrmCounts();
+        return response()->json([
+            'status' => true,
+            'counts' => $counts
+        ], 200);
+    }
+
     public function updateCrmCreator(Request $request, $id)
     {
         // update creator
@@ -306,6 +315,27 @@ class CrmController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Creator removed from the list.'
+        ], 200);
+    }
+
+    public function toggleArchiveCreator(Request $request, $id)
+    {
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $crm = Crm::where('creator_id', $id)->where('team_id', $user->currentTeam->id)->first();
+        if (!$crm) {
+            throw ValidationException::withMessages([
+                'creator' => ['Creator does not belong to your CRM.']
+            ]);
+        }
+        if (intval($request->archived)) {
+            $crm->archived = 1;
+        } else {
+            $crm->archived = 0;
+        }
+        $crm->save();
+        return response()->json([
+            'status' => true,
+            'message' => 'Creator archived.'
         ], 200);
     }
 }

@@ -376,7 +376,7 @@ class Creator extends Model
             });
 
         if (isset($params['type']) && $params['type'] == 'archived') {
-            $creators = $creators->where('archived_list', true);
+            $creators = $creators->where('archived', 1);
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
             $creators = $creators->where(function ($q) {
                 $q->where('favourite', true);
@@ -387,7 +387,7 @@ class Creator extends Model
                     ->where('user_list_id', $params['list']);
             });
         } else {
-            $creators = $creators->where('archived_list', null);
+            $creators = $creators->where('archived', 0);
         }
 
         if (isset($params['id'])) {
@@ -439,20 +439,20 @@ class Creator extends Model
             $creator->crm_record_by_user->creator_id = $creator->id;
             $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
             $creator->crm_record_by_user->offer = $creator->offer;
-            $creator->crm_record_by_user->archived_list = $creator->archived_list;
+            $creator->crm_record_by_user->archived = $creator->archived;
             $creator->crm_record_by_user->rating = $creator->rating;
-            $crm = new Crm();
-            $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
             $creator->crm_record_by_user->favourite = $creator->favourite;
             $creator->crm_record_by_user->muted = $creator->muted;
             $creator->crm_record_by_user->selected = $creator->selected;
             $creator->crm_record_by_user->rejected = $creator->rejected;
             $creator->crm_record_by_user->created_at = $creator->created_at;
             $creator->crm_record_by_user->updated_at = $creator->updated_at;
+            $crm = new Crm();
+            $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
             unset($creator->creator_id);
             unset($creator->last_contacted);
             unset($creator->offer);
-            unset($creator->archived_list);
+            unset($creator->archived);
             unset($creator->instagram_removed);
             unset($creator->rating);
             unset($creator->stage);
@@ -612,7 +612,7 @@ class Creator extends Model
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $counts = DB::table('crms')->selectRaw('team_id, count(*) AS total,
         sum(case when favourite = true then 1 else 0 end) AS favourites,
-        sum(case when archived_list = true then 1 else 0 end) AS archived')
+        sum(case when archived = true then 1 else 0 end) AS archived')
             ->where('team_id', $user->currentTeam->id)
             ->groupBy('team_id')->first();
         unset($counts->team_id);

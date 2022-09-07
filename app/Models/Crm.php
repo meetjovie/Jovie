@@ -18,7 +18,8 @@ class Crm extends Model
         'rejected',
         'rating',
         'stage',
-        'favourite'
+        'favourite',
+        'archived'
     ];
 
     public function toSearchableArray()

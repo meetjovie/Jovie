@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('crms', function (Blueprint $table) {
             $table->dropColumn(['instagram_offer', 'instagram_archived', 'instagram_removed', 'twitter_offer', 'twitter_archived', 'twitter_removed', 'twitch_offer', 'twitch_archived', 'twitch_removed']);
             $table->double('offer', null, 2)->nullable()->after('last_contacted');
-            $table->unsignedBigInteger('archived_list')->nullable()->after('offer');
+            $table->boolean('archived')->nullable()->after('offer')->default(false);
         });
     }
 
