@@ -15,7 +15,7 @@
                     <div class="h-5 items-center text-center">
                       <input
                         type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"
                         :checked="
                           intermediate ||
                           selectedCreators.length === creators.length
@@ -44,7 +44,7 @@
                     class="sticky top-0 z-10 h-8 border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
-                      class="flex items-center space-x-3 bg-gray-50">
+                      class="flex items-center space-x-3 bg-gray-100">
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
@@ -120,18 +120,18 @@
                   <th
                     scope="col"
                     class="sticky top-0 z-10 flex h-8 w-full items-center justify-end text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <div class="flex w-48 items-center justify-end">
-                      <!--  <div
+                    <div class="flex w-48 items-center justify-end px-2">
+                      <div
                         @click="toggleSearchVisible()"
-                        class="group flex h-full w-48 cursor-pointer items-center hover:bg-neutral-50">
+                        class="group flex h-full cursor-pointer items-center justify-end hover:bg-neutral-50">
                         <MagnifyingGlassIcon
                           class="h-4 w-4 text-gray-400 group-hover:text-neutral-600" /><input
                           v-if="searchVisible"
                           placeholder="Search"
                           v-model="query" />
-                      </div> -->
+                      </div>
                       <div
-                        class="group h-full w-40 cursor-pointer items-center">
+                        class="group mr-2 h-full w-40 cursor-pointer items-center">
                         <Menu>
                           <Float
                             portal
