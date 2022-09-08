@@ -7,11 +7,11 @@
             class="overflow-x-scroll shadow-sm ring-1 ring-black ring-opacity-5">
             <table
               class="min-w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
-              <thead class="bg-gray-100">
+              <thead class="bg-neutral-100">
                 <tr class="h-8">
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-full items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div class="h-5 items-center text-center">
                       <input
                         type="checkbox"
@@ -36,12 +36,12 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-full items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 h-8 border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-50">
@@ -109,37 +109,107 @@
                     v-for="header in headers"
                     :key="header.id"
                     scope="col"
-                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
+                    class="sticky top-0 z-10 hidden h-8 border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
                     <CrmTableSortableHeader
+                      v-if="header.visible"
+                      :sortable="header.sortable"
                       :icon="header.icon"
                       :name="header.name" />
                   </th>
 
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-full border-b border-gray-300 bg-gray-100 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <div class="grid h-full grid-cols-3">
-                      <div class="hover:bg-neutral-50"></div>
-                      <div
+                    class="sticky top-0 z-10 flex h-8 w-full items-center justify-end text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <div class="flex w-48 items-center justify-end">
+                      <!--  <div
                         @click="toggleSearchVisible()"
-                        class="group mx-auto flex h-full cursor-pointer hover:bg-neutral-50">
+                        class="group flex h-full w-48 cursor-pointer items-center hover:bg-neutral-50">
                         <MagnifyingGlassIcon
                           class="h-4 w-4 text-gray-400 group-hover:text-neutral-600" /><input
                           v-if="searchVisible"
                           placeholder="Search"
                           v-model="query" />
-                      </div>
+                      </div> -->
                       <div
-                        class="group mx-auto h-full w-12 cursor-pointer hover:bg-neutral-50">
-                        <PlusIcon
-                          class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
-                          aria-hidden="true" />
+                        class="group h-full w-40 cursor-pointer items-center">
+                        <Menu>
+                          <Float
+                            portal
+                            class="pr-2"
+                            :offset="10"
+                            placement="bottom-end">
+                            <MenuButton
+                              class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                              <AdjustmentsHorizontalIcon
+                                class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
+                                aria-hidden="true" />
+                            </MenuButton>
+                            <transition
+                              enter-active-class="transition duration-100 ease-out"
+                              enter-from-class="transform scale-95 opacity-0"
+                              enter-to-class="transform scale-100 opacity-100"
+                              leave-active-class="transition duration-75 ease-in"
+                              leave-from-class="transform scale-100 opacity-100"
+                              leave-to-class="transform scale-95 opacity-0">
+                              <MenuItems
+                                class="w-40 flex-col rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
+                                <MenuItem
+                                  as="div"
+                                  v-for="header in headers"
+                                  v-slot="{ active }">
+                                  <button
+                                    :class="[
+                                      active
+                                        ? 'bg-gray-100 text-gray-600'
+                                        : 'text-gray-400',
+                                      'group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-bold',
+                                    ]">
+                                    <div class="flex items-center">
+                                      <component
+                                        :is="header.icon"
+                                        :active="active"
+                                        class="mr-2 h-3 w-3 text-neutral-400"
+                                        aria-hidden="true" />
+                                      <span class="line-clamp-1">{{
+                                        header.name
+                                      }}</span>
+                                    </div>
+                                    <Switch
+                                      name="columns-visible"
+                                      v-model="header.visible"
+                                      as="template"
+                                      v-slot="{ checked }">
+                                      <button
+                                        :class="
+                                          checked
+                                            ? 'bg-indigo-600'
+                                            : 'bg-gray-200'
+                                        "
+                                        class="relative inline-flex h-4 w-6 items-center rounded-full">
+                                        <span class="sr-only"
+                                          >Show/hide column</span
+                                        >
+                                        <span
+                                          :class="
+                                            checked
+                                              ? 'translate-x-3'
+                                              : 'translate-x-0'
+                                          "
+                                          class="inline-block h-3 w-3 transform rounded-full bg-white transition" />
+                                      </button>
+                                    </Switch>
+                                  </button>
+                                </MenuItem>
+                              </MenuItems>
+                            </transition>
+                          </Float>
+                        </Menu>
                       </div>
                     </div>
                   </th>
                 </tr>
               </thead>
-              <tbody class="h-full divide-y divide-gray-200 bg-white">
+              <tbody class="h-full w-full divide-y divide-gray-200 bg-white">
                 <template v-if="loading">
                   <tr>
                     <td colspan="11">
@@ -162,7 +232,7 @@
                       setCurrentContact(creator) &&
                         this.$store.ContactSidebarOpen
                     "
-                    class="border-1 group border-collapse flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
+                    class="border-1 group w-full border-collapse flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
                         'bg-neutral-100 hover:bg-neutral-100':
@@ -186,7 +256,7 @@
                             :name="creator.id"
                             :id="`creator_${creator.id}`"
                             :value="creator.id"
-                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                            class="h-4 w-4 rounded border-gray-300 px-2 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                             v-model="selectedCreators" />
                         </span>
                         <span
@@ -533,7 +603,7 @@
                           aria-describedby="email-description" /> -->
                     </td>
                     <td
-                      class="hidden whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
+                      class="hidden w-32 whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -549,8 +619,8 @@
                         "></star-rating>
                     </td>
                     <td
-                      class="justify-right flex w-12 whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
-                      <div class="justify-right flex items-center text-right">
+                      class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
+                      <div class="flex items-center justify-end text-right">
                         <div>
                           <router-link
                             :to="{
@@ -732,13 +802,23 @@ import {
   TrashIcon,
   ArrowPathIcon,
   MagnifyingGlassIcon,
+  ChevronUpIcon,
+  Bars3BottomLeftIcon,
+  AtSymbolIcon,
+  CurrencyDollarIcon,
+  StarIcon,
+  LinkIcon,
+  CalendarDaysIcon,
+  ArrowDownCircleIcon,
+  AdjustmentsHorizontalIcon,
 } from '@heroicons/vue/24/solid';
+
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import JovieSpinner from '../../components/JovieSpinner.vue';
 import ImportService from '../../services/api/import.service';
 import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
-import { Bars3BottomLeftIcon } from '@heroicons/vue/24/outline';
+import { Switch } from '@headlessui/vue';
 
 const date = ref();
 
@@ -749,6 +829,7 @@ export default {
     StarRating,
     MagnifyingGlassIcon,
     Menu,
+    Switch,
     Datepicker,
     MenuButton,
     Float,
@@ -767,6 +848,15 @@ export default {
     PlusIcon,
     JovieSpinner,
     CrmTableSortableHeader,
+    Bars3BottomLeftIcon,
+    AtSymbolIcon,
+    CurrencyDollarIcon,
+    StarIcon,
+    ChevronUpIcon,
+    LinkIcon,
+    CalendarDaysIcon,
+    ArrowDownCircleIcon,
+    AdjustmentsHorizontalIcon,
   },
   data() {
     return {
@@ -780,14 +870,44 @@ export default {
       searchVisible: false,
       visibleColumns: [],
       headers: [
-        { id: 2, name: 'First', icon: 'Bars3BottomLeftIcon', sortable: true },
-        { id: 3, name: 'Last', icon: 'Bars3BottomLeftIcon' },
-        { id: 4, name: 'Email', icon: 'AtSymbolIcon' },
-        { id: 5, name: 'Social Links', icon: 'LinkIcon' },
-        { id: 6, name: 'Offer', icon: 'CurrencyDollarIcon', sortable: true },
-        { id: 7, name: 'Stage', sortable: true },
-        { id: 8, name: 'Last Contacted', icon: 'CalendarDaysIcon' },
-        { id: 9, name: 'Rating', icon: 'StarIcon', sortable: true },
+        {
+          id: 2,
+          name: 'First',
+          icon: 'Bars3BottomLeftIcon',
+          sortable: true,
+          visible: true,
+        },
+        { id: 3, name: 'Last', icon: 'Bars3BottomLeftIcon', visible: true },
+        { id: 4, name: 'Email', icon: 'AtSymbolIcon', visible: true },
+        { id: 5, name: 'Social Links', icon: 'LinkIcon', visible: true },
+        {
+          id: 6,
+          name: 'Offer',
+          icon: 'CurrencyDollarIcon',
+          sortable: true,
+          visible: true,
+        },
+        {
+          id: 7,
+          name: 'Stage',
+          sortable: true,
+          visible: true,
+          icon: 'ArrowDownCircleIcon',
+        },
+        {
+          id: 8,
+          name: 'Last Contacted',
+          icon: 'CalendarDaysIcon',
+          sortable: false,
+          visible: true,
+        },
+        {
+          id: 9,
+          name: 'Rating',
+          icon: 'StarIcon',
+          sortable: true,
+          visible: true,
+        },
       ],
     };
   },
