@@ -780,14 +780,14 @@ export default {
       searchVisible: false,
       visibleColumns: [],
       headers: [
-        { id: 2, name: 'First', icon: 'Bars3BottomLeftIcon' },
+        { id: 2, name: 'First', icon: 'Bars3BottomLeftIcon', sortable: true },
         { id: 3, name: 'Last', icon: 'Bars3BottomLeftIcon' },
         { id: 4, name: 'Email', icon: 'AtSymbolIcon' },
         { id: 5, name: 'Social Links', icon: 'LinkIcon' },
-        { id: 6, name: 'Offer', icon: 'CurrencyDollarIcon' },
-        { id: 7, name: 'Stage' },
+        { id: 6, name: 'Offer', icon: 'CurrencyDollarIcon', sortable: true },
+        { id: 7, name: 'Stage', sortable: true },
         { id: 8, name: 'Last Contacted', icon: 'CalendarDaysIcon' },
-        { id: 9, name: 'Rating', icon: 'StarIcon' },
+        { id: 9, name: 'Rating', icon: 'StarIcon', sortable: true },
       ],
     };
   },
