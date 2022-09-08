@@ -300,9 +300,9 @@
                         </svg>
                       </div>
                     </td>
-                    <td v-if="">
-                      class="sticky w-60 cursor-pointer whitespace-nowrap border
-                      px-2">
+                    <td
+                      v-if=""
+                      class="sticky w-60 cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div
