@@ -22,20 +22,19 @@
           <br />
         </h1>
         <h2 class="inline py-2 text-center text-lg font-bold text-neutral-600">
-          One place for you & your teams to track everyone you know<br />
-          <span class="text-sm font-medium"
+          One place for you & your team to track everyone you know<br />
+          <span class="text-sm font-medium text-neutral-400"
             >(and everyone you wish you did).</span
           >
         </h2>
         <ButtonGroup
           :loader="loading"
           as="router-link"
-          to="/signup"
-          @click="identifyUser()"
+          to="signup"
           class="mt-4 w-full sm:w-64"
           text="Get Started Free" />
-        <span class="mt-2 text-xs text-gray-500">
-          <span class="font-bold">No credit card required. </span> Fast & easy.
+        <span class="mt-1 text-2xs text-gray-400">
+          <span class="font-bold">Fast & easy. </span> No credit card required.
         </span>
         <home-logo-cloud />
         <div class="mt-12 max-w-7xl sm:-mb-14 lg:-mb-24 2xl:-mb-96">

@@ -2,7 +2,7 @@
   <div>
     <main>
       <HomeHeroSection />
-      <HomeFeatureCRM class="" id="crm"></HomeFeatureCRM>
+      <!--  <HomeFeatureCRM class="" id="crm"></HomeFeatureCRM> -->
       <Enrichment :dark="false"></Enrichment>
       <JovieReplaces></JovieReplaces>
       <!-- <div class="">

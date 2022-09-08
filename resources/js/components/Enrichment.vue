@@ -93,18 +93,20 @@
               </a> -->
               <h2
                 class="bg-gradient-to-r from-fuchsia-500 via-blue-500 to-sky-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
-                No more typing.
+                The Social CRM
               </h2>
               <h1
-                class="text-4xl font-extrabold tracking-tight text-neutral-900 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-5xl">
-                <span class="block text-indigo-600">One Click</span> Instant
-                Contacts
+                class="text-4xl font-extrabold tracking-tight text-neutral-600 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-2xl">
+                From Instagram to Jovie
+                <span class="block text-4xl text-indigo-600">In 1 Click</span>
               </h1>
               <p
-                class="mt-3 text-base text-gray-700 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                class="mt-3 text-base text-gray-600 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                 Jovie is <span class="font-bold">powered by social media</span>.
-                You never need to enter a name, or edit a job title. If it's on
-                the gram, it's on Jovie.
+                <span class="block">
+                  You never need to enter a name, or edit a job title. If it's
+                  on the gram, it's on Jovie.</span
+                >
               </p>
               <div class="mt-10 sm:mt-12">
                 <form action="#" class="sm:mx-auto sm:max-w-xl lg:mx-0">

@@ -965,8 +965,13 @@ export default {
           visible: true,
           breakpoint: 'lg',
         },
-        { id: 3, name: 'Last', icon: 'Bars3BottomLeftIcon', visible: true },
-        { breakpoint: 'lg' },
+        {
+          id: 3,
+          name: 'Last',
+          icon: 'Bars3BottomLeftIcon',
+          visible: true,
+          breakpoint: 'lg',
+        },
         { id: 4, name: 'Email', icon: 'AtSymbolIcon', visible: true },
         { id: 5, name: 'Social Links', icon: 'LinkIcon', visible: true },
         {
