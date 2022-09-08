@@ -106,61 +106,15 @@
                     </div>
                   </th>
                   <th
+                    v-for="header in headers"
+                    :key="header.id"
                     scope="col"
                     class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
                     <CrmTableSortableHeader
-                      icon="Bars3BottomLeftIcon"
-                      name="First" />
-                  </th>
-                  <th
-                    scope="col"
-                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
-                    <CrmTableSortableHeader
-                      icon="Bars3BottomLeftIcon"
-                      name="Last" />
-                  </th>
-                  <th
-                    scope="col"
-                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
-                    <CrmTableSortableHeader name="Email" icon="AtSymbolIcon" />
-                  </th>
-                  <th
-                    scope="col"
-                    class="sticky top-0 z-10 table-cell h-full items-center border-b border-gray-300 bg-neutral-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <CrmTableSortableHeader
-                      name="Social Links"
-                      icon="LinkIcon" />
-                  </th>
-                  <th
-                    scope="col"
-                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
-                    <CrmTableSortableHeader
-                      name="Offer"
-                      sortable
-                      icon="CurrencyDollarIcon" />
+                      :icon="header.icon"
+                      :name="header.name" />
                   </th>
 
-                  <!-- <th scope="col"
-                            class="px-2  text-left text-xs font-medium text-gray-500  tracking-wider">
-                            Campaign
-                        </th> -->
-                  <th
-                    scope="col"
-                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter md:table-cell">
-                    <CrmTableSortableHeader name="Stage" />
-                  </th>
-                  <th
-                    scope="col"
-                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
-                    <CrmTableSortableHeader
-                      name="Last Contacted"
-                      icon="CalendarDaysIcon" />
-                  </th>
-                  <th
-                    scope="col"
-                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
-                    <CrmTableSortableHeader name="Rating" icon="StarIcon" />
-                  </th>
                   <th
                     scope="col"
                     class="sticky top-0 z-10 h-full border-b border-gray-300 bg-gray-100 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
@@ -784,6 +738,7 @@ import SocialIcons from '../../components/SocialIcons.vue';
 import JovieSpinner from '../../components/JovieSpinner.vue';
 import ImportService from '../../services/api/import.service';
 import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
+import { Bars3BottomLeftIcon } from '@heroicons/vue/24/outline';
 
 const date = ref();
 
@@ -824,6 +779,16 @@ export default {
       editingSocialHandle: true,
       searchVisible: false,
       visibleColumns: [],
+      headers: [
+        { id: 2, name: 'First', icon: 'Bars3BottomLeftIcon' },
+        { id: 3, name: 'Last', icon: 'Bars3BottomLeftIcon' },
+        { id: 4, name: 'Email', icon: 'AtSymbolIcon' },
+        { id: 5, name: 'Social Links', icon: 'LinkIcon' },
+        { id: 6, name: 'Offer', icon: 'CurrencyDollarIcon' },
+        { id: 7, name: 'Stage' },
+        { id: 8, name: 'Last Contacted', icon: 'CalendarDaysIcon' },
+        { id: 9, name: 'Rating', icon: 'StarIcon' },
+      ],
     };
   },
   props: [
