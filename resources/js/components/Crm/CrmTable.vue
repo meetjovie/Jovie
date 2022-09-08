@@ -78,6 +78,7 @@
                                   Add to list
                                 </button>
                               </MenuItem>
+
                               <MenuItem v-slot="{ active }">
                                 <button
                                   :class="[
@@ -91,6 +92,43 @@
                                     class="mr-2 h-3 w-3 text-sky-400"
                                     aria-hidden="true" />
                                   Archive
+                                </button>
+                              </MenuItem>
+                            </MenuItems>
+                          </transition>
+                        </Float>
+                      </Menu>
+                      <Menu>
+                        <Float portal :offset="2" placement="bottom-start">
+                          <MenuButton
+                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                            <span>Add to list </span>
+                            <ChevronDownIcon
+                              class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
+                              aria-hidden="true" />
+                          </MenuButton>
+                          <transition
+                            enter-active-class="transition duration-100 ease-out"
+                            enter-from-class="transform scale-95 opacity-0"
+                            enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-in"
+                            leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0">
+                            <MenuItems
+                              class="w-40 flex-col rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
+                              <MenuItem v-slot="{ active }">
+                                <button
+                                  :class="[
+                                    active
+                                      ? 'bg-gray-200 text-gray-600'
+                                      : 'text-gray-400',
+                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
+                                  ]">
+                                  <PlusIcon
+                                    :active="active"
+                                    class="mr-2 h-3 w-3 text-neutral-400"
+                                    aria-hidden="true" />
+                                  Loop list items
                                 </button>
                               </MenuItem>
                             </MenuItems>
