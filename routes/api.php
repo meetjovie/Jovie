@@ -60,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 
-    Route::post('/remove-creator-from-list/{id}', [\App\Http\Controllers\CrmController::class, 'removeCreatorFromList']);
+    Route::post('/remove-creators-from-list', [\App\Http\Controllers\CrmController::class, 'removeCreatorsFromList']);
     Route::post('/toggle-archive-creators', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreators']);
 
     //      OVERVIEW

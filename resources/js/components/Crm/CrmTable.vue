@@ -78,10 +78,24 @@
                                   Add to list
                                 </button>
                               </MenuItem>
-
-                              <MenuItem v-slot="{ active }">
+                                <MenuItem
+                                    v-if="filters.list"
+                                    v-slot="{ active }"
+                                    class="items-center"
+                                    @click="removeCreatorsFromList(selectedCreators, filters.list)">
+                                    <button
+                                        class="items-center text-neutral-400 hover:text-neutral-900"
+                                        :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-700',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                    <TrashIcon class="mr-2 inline h-4 w-4" />
+                                    Remove from list</button>
+                                </MenuItem>
+                              <MenuItem v-slot="{ active }" @click="toggleArchiveCreators(this.selectedCreators, this.filters.type == 'archived' ? false : true)">
                                 <button
-                                    @click="toggleArchiveCreators(this.selectedCreators, this.filters.type == 'archived' ? false : true)"
                                   :class="[
                                     active
                                       ? 'bg-gray-200 text-gray-600'
@@ -340,7 +354,6 @@
                       </div>
                     </td>
                     <td
-                      v-if=""
                       class="sticky w-60 cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
@@ -724,7 +737,7 @@
                                     v-slot="{ active }"
                                     class="items-center"
                                     @click="
-                                      removeCreatorFromList(creator.id, index)
+                                      removeCreatorsFromList(creator.id, filters.list)
                                     ">
                                     <a
                                       href="#"
@@ -1042,17 +1055,18 @@ export default {
               }
           }).finally((response) => {});
       },
-    removeCreatorFromList(id, index) {
+    removeCreatorsFromList(ids, list) {
       this.$store
-        .dispatch('removeCreatorFromList', {
-          creatorId: id,
-          list: this.filters.list,
+        .dispatch('removeCreatorsFromList', {
+          creatorIds: ids,
+          list: list,
         })
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.creatorRecords.splice(index, 1);
-            this.$notify({
+              let creatorIds = Array.isArray(ids) ? ids : [ids];
+              this.creatorRecords = this.creatorRecords.filter(creator => !creatorIds.includes(creator.id))
+              this.$notify({
               group: 'user',
               type: 'success',
               duration: 15000,

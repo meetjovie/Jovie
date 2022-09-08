@@ -305,16 +305,18 @@ class CrmController extends Controller
         return $creators;
     }
 
-    public function removeCreatorFromList(Request $request, $id)
+    public function removeCreatorsFromList(Request $request)
     {
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $request->validate([
-            'list' => 'required|exists:user_lists,id,team_id,'.$user->currentTeam->id
+            'list' => 'required|exists:user_lists,id,team_id,'.$user->currentTeam->id,
+            'creator_ids' => 'required'
         ]);
-        DB::table('creator_user_list')->where('creator_id', $id)->where('user_list_id', $request->list)->delete();
+        $creatorIds = is_array($request->creator_ids) ? $request->creator_ids : [$request->creator_ids];
+        DB::table('creator_user_list')->whereIn('creator_id', $creatorIds)->where('user_list_id', $request->list)->delete();
         return response()->json([
             'status' => true,
-            'message' => 'Creator removed from the list.'
+            'message' => 'Creators removed from the list.'
         ], 200);
     }
 
@@ -328,7 +330,7 @@ class CrmController extends Controller
         Crm::whereIn('creator_id', $creatorIds)->where('team_id', $user->currentTeam->id)->update(['archived' => boolval($request->archived)]);
         return response()->json([
             'status' => true,
-            'message' => 'Creators archived.'
+            'message' => ('Creators '.boolval($request->archived) ? 'archived.' : 'unarchived.')
         ], 200);
     }
 }
