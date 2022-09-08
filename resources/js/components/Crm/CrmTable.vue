@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full flex-col bg-red-500">
+  <div class="h-full w-full flex-col">
     <div class="flex h-full w-full flex-col">
       <div class="h-full overflow-x-scroll">
         <div class="inline-block min-w-full align-middle">
