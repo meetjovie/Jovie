@@ -2,9 +2,16 @@
   <div class="min-h-full w-80 bg-white">
     <div v-if="user.loggedIn">
       <div
+        v-if="!jovie"
         class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-neutral-400 hover:text-neutral-500">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div>
+      <div v-else class="right-61 absolute top-1">
+        <XMarkIcon
+          @click="closeContactSidebar()"
+          class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600" />
+      </div>
+
       <div class="mt-2 grid grid-cols-3">
         <div class="px-1">
           <svg
@@ -74,18 +81,48 @@
         </div>
       </div>
       <div class="grid grid-cols-6 py-2 px-4">
-        <SocialNetwork network="Instagram" :creator="creator" />
-        <SocialNetwork network="TikTok" :creator="creator" />
-        <SocialNetwork network="Twitch" :creator="creator" />
+        <SocialNetwork
+          @click="editSocialNetworkURL('Instagram', creator)"
+          network="Instagram"
+          :creator="creator" />
+        <SocialNetwork
+          @click="editSocialNetworkURL('TikTok', creator.id)"
+          network="TikTok"
+          :creator="creator" />
+        <SocialNetwork
+          @click="editSocialNetworkURL()"
+          network="Twitch"
+          :creator="creator" />
         <SocialNetwork network="YouTube" :creator="creator" />
         <SocialNetwork network="Twitter" :creator="creator" />
         <SocialNetwork network="Snapchat" :creator="creator" />
+      </div>
+      <div>
+        <div class="relative rounded-md py-1 px-2 shadow-sm">
+          <div
+            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <SocialIcons
+              :network="activeSocialNetworkURLEdit.network"
+              height="14"
+              width="14"
+              class="h-4 w-4 text-gray-400"
+              aria-hidden="true" />
+          </div>
+          <input
+            v-if="activeSocialNetworkURLEdit"
+            type="email"
+            name="email"
+            id="email"
+            class="block w-full rounded-md border-gray-300 pl-10 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+            placeholder="sdfsdfsfd" />
+        </div>
       </div>
 
       <hr />
 
       <div class="px-4 py-2">
         <ButtonGroup
+          v-if="!jovie"
           :text="buttonText"
           :success="savedToJovie"
           @click="saveToJovie()"
@@ -195,7 +232,9 @@
           class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div class="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              <div class="block lg:hidden"><JovieLogo height="28px" /></div>
+              <div class="block lg:hidden">
+                <JovieLogo height="28px" />
+              </div>
               <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
                 Sign in
               </h2>
@@ -267,7 +306,7 @@
                         id="remember-me"
                         name="remember-me"
                         type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
                       <label
                         for="remember-me"
                         class="ml-2 block text-sm text-gray-900">
@@ -305,7 +344,8 @@ import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import SocialNetwork from '../components/SocialNetwork.vue';
 import InputLists from '../components/InputLists.vue';
-
+import { XMarkIcon } from '@heroicons/vue/24/outline';
+import SocialIcons from './SocialIcons.vue';
 export default {
   name: 'Contact Sidebar',
   components: {
@@ -313,11 +353,13 @@ export default {
     AuthFooter,
     InputGroup,
     JovieSpinner,
+    XMarkIcon,
     ButtonGroup,
     DataInputGroup,
     TextAreaInput,
     SocialNetwork,
     InputLists,
+    SocialIcons,
   },
   mounted() {
     // console.log('Sidebar loaded');
@@ -339,7 +381,32 @@ export default {
     // console.log('creator from iframe');
     // console.log(this.creator);
   },
+  props: {
+    creator: {
+      type: Object,
+      default: null,
+    },
+    jovie: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: {
+    editSocialNetworkURL(network, creator) {
+      console.log('editSocialNetworkURL');
+      console.log(network);
+      console.log(creator);
+
+      this.activeSocialNetworkURLEdit = {
+        network: network,
+        creator: creator,
+      };
+      this.$emit('editSocialNetworkURL', network, creator);
+    },
+    closeContactSidebar() {
+      //turn off the sidebar
+      this.$store.state.ContactSidebarOpen = false;
+    },
     setCreatorData() {
       ///listen for an object from the content script
       chrome.storage.local.get(['creator'], function (result) {
@@ -385,6 +452,8 @@ export default {
       expandBio: false,
       savedToJovie: false,
       buttonText: 'Save to Jovie',
+      closeSidebar: '',
+      activeSocialNetworkURLEdit: [],
       user: {
         loggedIn: true,
         name: '',
