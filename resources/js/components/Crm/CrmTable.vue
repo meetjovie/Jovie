@@ -78,23 +78,38 @@
                                   Add to list
                                 </button>
                               </MenuItem>
-                                <MenuItem
-                                    v-if="filters.list"
-                                    v-slot="{ active }"
-                                    class="items-center"
-                                    @click="removeCreatorsFromList(selectedCreators, filters.list)">
-                                    <button
-                                        class="items-center text-neutral-400 hover:text-neutral-900"
-                                        :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                    <TrashIcon class="mr-2 inline h-4 w-4" />
-                                    Remove from list</button>
-                                </MenuItem>
-                              <MenuItem v-slot="{ active }" @click="toggleArchiveCreators(this.selectedCreators, this.filters.type == 'archived' ? false : true)">
+                              <MenuItem
+                                v-if="filters.list"
+                                v-slot="{ active }"
+                                class="items-center"
+                                @click="
+                                  removeCreatorsFromList(
+                                    selectedCreators,
+                                    filters.list
+                                  )
+                                ">
+                                <button
+                                  class="items-center text-neutral-400 hover:text-neutral-900"
+                                  :class="[
+                                    active
+                                      ? 'bg-gray-100 text-gray-900'
+                                      : 'text-gray-700',
+                                    'block px-4 py-2 text-xs',
+                                  ]">
+                                  <TrashIcon class="mr-2 inline h-4 w-4" />
+                                  Remove from list
+                                </button>
+                              </MenuItem>
+                              <MenuItem
+                                v-slot="{ active }"
+                                @click="
+                                  toggleArchiveCreators(
+                                    this.selectedCreators,
+                                    this.filters.type == 'archived'
+                                      ? false
+                                      : true
+                                  )
+                                ">
                                 <button
                                   :class="[
                                     active
@@ -106,7 +121,11 @@
                                     :active="active"
                                     class="mr-2 h-3 w-3 text-sky-400"
                                     aria-hidden="true" />
-                                  {{ this.filters.type == 'archived' ? 'Unarchive' : 'Archive' }}
+                                  {{
+                                    this.filters.type == 'archived'
+                                      ? 'Unarchive'
+                                      : 'Archive'
+                                  }}
                                 </button>
                               </MenuItem>
                             </MenuItems>
@@ -164,6 +183,14 @@
                     scope="col"
                     class="sticky top-0 z-10 hidden h-8 border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
                     <CrmTableSortableHeader
+                      :class="[
+                        { 'hidden sm:block': breakpoint == 'sm' },
+                        { 'hidden md:block': breakpoint == 'md' },
+                        { 'hidden lg:block': breakpoint == 'lg' },
+                        { 'hidden xl:block': breakpoint == 'xl' },
+                        { 'hidden 2xl:block': breakpoint == '2xl' },
+                        'block',
+                      ]"
                       v-if="header.visible"
                       :sortable="header.sortable"
                       :icon="header.icon"
@@ -282,8 +309,7 @@
                   :key="creator">
                   <tr
                     @click="
-                      setCurrentContact(creator) &&
-                        $store.ContactSidebarOpen
+                      setCurrentContact(creator) && $store.ContactSidebarOpen
                     "
                     class="border-1 group w-full border-collapse flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
@@ -737,7 +763,10 @@
                                     v-slot="{ active }"
                                     class="items-center"
                                     @click="
-                                      removeCreatorsFromList(creator.id, filters.list)
+                                      removeCreatorsFromList(
+                                        creator.id,
+                                        filters.list
+                                      )
                                     ">
                                     <a
                                       href="#"
@@ -917,7 +946,7 @@ export default {
   },
   data() {
     return {
-        creatorRecords: [],
+      creatorRecords: [],
       searchQuery: [],
       currentRow: null,
       date: null,
@@ -934,8 +963,10 @@ export default {
           icon: 'Bars3BottomLeftIcon',
           sortable: true,
           visible: true,
+          breakpoint: 'lg',
         },
         { id: 3, name: 'Last', icon: 'Bars3BottomLeftIcon', visible: true },
+        { breakpoint: 'lg' },
         { id: 4, name: 'Email', icon: 'AtSymbolIcon', visible: true },
         { id: 5, name: 'Social Links', icon: 'LinkIcon', visible: true },
         {
@@ -944,6 +975,7 @@ export default {
           icon: 'CurrencyDollarIcon',
           sortable: true,
           visible: true,
+          breakpoint: '2xl',
         },
         {
           id: 7,
@@ -951,6 +983,7 @@ export default {
           sortable: true,
           visible: true,
           icon: 'ArrowDownCircleIcon',
+          breakpoint: '2xl',
         },
         {
           id: 8,
@@ -958,6 +991,7 @@ export default {
           icon: 'CalendarDaysIcon',
           sortable: false,
           visible: true,
+          breakpoint: '2xl',
         },
         {
           id: 9,
@@ -965,6 +999,7 @@ export default {
           icon: 'StarIcon',
           sortable: true,
           visible: true,
+          breakpoint: '2xl',
         },
       ],
     };
@@ -978,17 +1013,17 @@ export default {
     'loading',
     'archived',
   ],
-    watch: {
-      creators: function (val) {
-          this.creatorRecords = val
-      },
-        filters: function() {
-          this.selectedCreators = []
-        },
-        creatorRecords: function () {
-          this.selectedCreators = []
-        }
+  watch: {
+    creators: function (val) {
+      this.creatorRecords = val;
     },
+    filters: function () {
+      this.selectedCreators = [];
+    },
+    creatorRecords: function () {
+      this.selectedCreators = [];
+    },
+  },
   mounted() {
     this.$mousetrap.bind('up', () => {
       this.previousContact();
@@ -1016,45 +1051,54 @@ export default {
       this.currentRow = row;
       console.log(this.currentRow);
     },
-      toggleArchiveCreators(ids, archived) {
-          this.$store.dispatch('toggleArchiveCreators', { creatorIds: ids, archived: archived}).then((response) => {
-              response = response.data;
-              if (response.status) {
-                  let creatorIds = Array.isArray(ids) ? ids : [ids];
-                  this.creatorRecords = this.creatorRecords.filter(creator => !creatorIds.includes(creator.id))
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-                  this.$emit('crmCounts');
-              } else {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-              }
-          }).catch((error) => {
-              error = error.response;
-              if (error.status == 422) {
-                  if (this.errors) {
-                      this.errors = error.data.errors;
-                  }
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: Object.values(error.data.errors)[0][0],
-                  });
-              }
-          }).finally((response) => {});
-      },
+    toggleArchiveCreators(ids, archived) {
+      this.$store
+        .dispatch('toggleArchiveCreators', {
+          creatorIds: ids,
+          archived: archived,
+        })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            let creatorIds = Array.isArray(ids) ? ids : [ids];
+            this.creatorRecords = this.creatorRecords.filter(
+              (creator) => !creatorIds.includes(creator.id)
+            );
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+            this.$emit('crmCounts');
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            if (this.errors) {
+              this.errors = error.data.errors;
+            }
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((response) => {});
+    },
     removeCreatorsFromList(ids, list) {
       this.$store
         .dispatch('removeCreatorsFromList', {
@@ -1064,9 +1108,11 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-              let creatorIds = Array.isArray(ids) ? ids : [ids];
-              this.creatorRecords = this.creatorRecords.filter(creator => !creatorIds.includes(creator.id))
-              this.$notify({
+            let creatorIds = Array.isArray(ids) ? ids : [ids];
+            this.creatorRecords = this.creatorRecords.filter(
+              (creator) => !creatorIds.includes(creator.id)
+            );
+            this.$notify({
               group: 'user',
               type: 'success',
               duration: 15000,
