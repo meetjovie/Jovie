@@ -1,7 +1,7 @@
 <template>
-  <div class="h-full flex-col justify-between">
-    <div class="flex flex-col">
-      <div class="overflow-x-auto">
+  <div class="h-full w-full flex-col bg-red-500">
+    <div class="flex h-full w-full flex-col">
+      <div class="h-full overflow-x-scroll">
         <div class="inline-block min-w-full align-middle">
           <div
             class="overflow-x-scroll shadow-sm ring-1 ring-black ring-opacity-5">
@@ -181,14 +181,14 @@
                     v-for="header in headers"
                     :key="header.id"
                     scope="col"
-                    class="sticky top-0 z-10 hidden h-8 border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
+                    class="sticky top-0 z-10 table-cell h-8 border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <CrmTableSortableHeader
                       :class="[
-                        { 'hidden sm:block': breakpoint == 'sm' },
-                        { 'hidden md:block': breakpoint == 'md' },
-                        { 'hidden lg:block': breakpoint == 'lg' },
-                        { 'hidden xl:block': breakpoint == 'xl' },
-                        { 'hidden 2xl:block': breakpoint == '2xl' },
+                        { 'hidden sm:block': header.breakpoint == 'sm' },
+                        { 'hidden md:block': header.breakpoint == 'md' },
+                        { 'hidden lg:block': header.breakpoint == 'lg' },
+                        { 'hidden xl:block': header.breakpoint == 'xl' },
+                        { 'hidden 2xl:block': header.breakpoint == '2xl' },
                         'block',
                       ]"
                       v-if="header.visible"
@@ -849,7 +849,7 @@
       </div>
     </div>
     <Pagination
-      class="fixed bottom-0 w-full"
+      class="w-full justify-end"
       v-if="creatorRecords.length"
       :totalPages="creatorsMeta.last_page"
       :perPage="creatorsMeta.per_page"
@@ -970,9 +970,15 @@ export default {
           name: 'Last',
           icon: 'Bars3BottomLeftIcon',
           visible: true,
+          breakpoint: '2xl',
+        },
+        {
+          id: 4,
+          name: 'Email',
+          icon: 'AtSymbolIcon',
+          visible: true,
           breakpoint: 'lg',
         },
-        { id: 4, name: 'Email', icon: 'AtSymbolIcon', visible: true },
         { id: 5, name: 'Social Links', icon: 'LinkIcon', visible: true },
         {
           id: 6,
@@ -980,7 +986,7 @@ export default {
           icon: 'CurrencyDollarIcon',
           sortable: true,
           visible: true,
-          breakpoint: '2xl',
+          breakpoint: 'lg',
         },
         {
           id: 7,
@@ -988,7 +994,7 @@ export default {
           sortable: true,
           visible: true,
           icon: 'ArrowDownCircleIcon',
-          breakpoint: '2xl',
+          breakpoint: 'md',
         },
         {
           id: 8,

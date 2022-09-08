@@ -165,13 +165,14 @@
             </div>
           </div>
         </TransitionRoot>
-        <div class="w-full transition-all duration-200 ease-in-out">
-          <div class="mx-auto w-full min-w-full">
-            <div class="w-full">
-              <div class="flex w-full flex-col">
-                <div class="mx-auto w-full p-0">
-                  <div class="inline-block w-full align-middle">
-                    <div class="w-full">
+        <div
+          class="h-full w-full overflow-x-scroll transition-all duration-200 ease-in-out">
+          <div class="mx-auto h-full w-full">
+            <div class="h-full w-full">
+              <div class="flex h-full w-full flex-col">
+                <div class="mx-auto h-full w-full p-0">
+                  <div class="inline-block h-full w-full align-middle">
+                    <div class="h-full w-full">
                       <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && creators.length < 1"
