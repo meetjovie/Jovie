@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 
     Route::post('/remove-creator-from-list/{id}', [\App\Http\Controllers\CrmController::class, 'removeCreatorFromList']);
-    Route::post('/toggle-archive-creator/{id}', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreator']);
+    Route::post('/toggle-archive-creators', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreators']);
 
     //      OVERVIEW
     Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);

@@ -318,24 +318,17 @@ class CrmController extends Controller
         ], 200);
     }
 
-    public function toggleArchiveCreator(Request $request, $id)
+    public function toggleArchiveCreators(Request $request)
     {
+        $request->validate([
+            'creator_ids' => 'required'
+        ]);
+        $creatorIds = is_array($request->creator_ids) ? $request->creator_ids : [$request->creator_ids];
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        $crm = Crm::where('creator_id', $id)->where('team_id', $user->currentTeam->id)->first();
-        if (!$crm) {
-            throw ValidationException::withMessages([
-                'creator' => ['Creator does not belong to your CRM.']
-            ]);
-        }
-        if (intval($request->archived)) {
-            $crm->archived = 1;
-        } else {
-            $crm->archived = 0;
-        }
-        $crm->save();
+        Crm::whereIn('creator_id', $creatorIds)->where('team_id', $user->currentTeam->id)->update(['archived' => boolval($request->archived)]);
         return response()->json([
             'status' => true,
-            'message' => 'Creator archived.'
+            'message' => 'Creators archived.'
         ], 200);
     }
 }

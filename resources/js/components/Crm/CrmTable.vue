@@ -18,12 +18,12 @@
                         class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"
                         :checked="
                           intermediate ||
-                          selectedCreators.length === creators.length
+                          selectedCreators.length === creatorRecords.length
                         "
                         :intermediate="intermediate"
                         @change="
                           selectedCreators = $event.target.checked
-                            ? creators.map((c) => c.id)
+                            ? creatorRecords.map((c) => c.id)
                             : []
                         " />
                       <!--  <input
@@ -81,6 +81,7 @@
 
                               <MenuItem v-slot="{ active }">
                                 <button
+                                    @click="toggleArchiveCreators(this.selectedCreators, this.filters.type == 'archived' ? false : true)"
                                   :class="[
                                     active
                                       ? 'bg-gray-200 text-gray-600'
@@ -91,7 +92,7 @@
                                     :active="active"
                                     class="mr-2 h-3 w-3 text-sky-400"
                                     aria-hidden="true" />
-                                  Archive
+                                  {{ this.filters.type == 'archived' ? 'Unarchive' : 'Archive' }}
                                 </button>
                               </MenuItem>
                             </MenuItems>
@@ -263,12 +264,12 @@
                 </template>
                 <template
                   v-else
-                  v-for="(creator, index) in creators"
+                  v-for="(creator, index) in creatorRecords"
                   :key="creator">
                   <tr
                     @click="
                       setCurrentContact(creator) &&
-                        this.$store.ContactSidebarOpen
+                        $store.ContactSidebarOpen
                     "
                     class="border-1 group w-full border-collapse flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
@@ -741,10 +742,9 @@
                                   <MenuItem
                                     v-slot="{ active }"
                                     @click="
-                                      toggleArchiveCreator(
+                                      toggleArchiveCreators(
                                         creator.id,
-                                        !creator.crm_record_by_user.archived,
-                                        index
+                                        !creator.crm_record_by_user.archived
                                       )
                                     "
                                     class="items-center">
@@ -808,7 +808,7 @@
     </div>
     <Pagination
       class="fixed bottom-0 w-full"
-      v-if="creators.length"
+      v-if="creatorRecords.length"
       :totalPages="creatorsMeta.last_page"
       :perPage="creatorsMeta.per_page"
       :currentPage="creatorsMeta.current_page"
@@ -904,6 +904,7 @@ export default {
   },
   data() {
     return {
+        creatorRecords: [],
       searchQuery: [],
       currentRow: null,
       date: null,
@@ -964,6 +965,17 @@ export default {
     'loading',
     'archived',
   ],
+    watch: {
+      creators: function (val) {
+          this.creatorRecords = val
+      },
+        filters: function() {
+          this.selectedCreators = []
+        },
+        creatorRecords: function () {
+          this.selectedCreators = []
+        }
+    },
   mounted() {
     this.$mousetrap.bind('up', () => {
       this.previousContact();
@@ -979,7 +991,7 @@ export default {
     intermediate() {
       return (
         this.selectedCreators.length > 0 &&
-        this.selectedCreators.length < this.creators.length
+        this.selectedCreators.length < this.creatorRecords.length
       );
     },
   },
@@ -991,46 +1003,45 @@ export default {
       this.currentRow = row;
       console.log(this.currentRow);
     },
-    toggleArchiveCreator(id, archived, index) {
-      this.$store
-        .dispatch('toggleArchiveCreator', { creatorId: id, archived: archived })
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.creators.splice(index, 1);
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: response.message,
-            });
-            this.$emit('crmCounts');
-          } else {
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: response.message,
-            });
-          }
-        })
-        .catch((error) => {
-          error = error.response;
-          if (error.status == 422) {
-            this.errors = error.data.errors;
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: Object.values(error.data.errors)[0][0],
-            });
-          }
-        })
-        .finally((response) => {});
-    },
+      toggleArchiveCreators(ids, archived) {
+          this.$store.dispatch('toggleArchiveCreators', { creatorIds: ids, archived: archived}).then((response) => {
+              response = response.data;
+              if (response.status) {
+                  let creatorIds = Array.isArray(ids) ? ids : [ids];
+                  this.creatorRecords = this.creatorRecords.filter(creator => !creatorIds.includes(creator.id))
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+                  this.$emit('crmCounts');
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              }
+          }).catch((error) => {
+              error = error.response;
+              if (error.status == 422) {
+                  if (this.errors) {
+                      this.errors = error.data.errors;
+                  }
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: Object.values(error.data.errors)[0][0],
+                  });
+              }
+          }).finally((response) => {});
+      },
     removeCreatorFromList(id, index) {
       this.$store
         .dispatch('removeCreatorFromList', {
@@ -1040,7 +1051,7 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.creators.splice(index, 1);
+            this.creatorRecords.splice(index, 1);
             this.$notify({
               group: 'user',
               type: 'success',
@@ -1095,11 +1106,11 @@ export default {
     //method to change the currentContact to the next creator in the list
     nextContact() {
       //get the index of the current contact
-      const index = this.creators.indexOf(this.currentContact);
+      const index = this.creatorRecords.indexOf(this.currentContact);
       //if the index is less than the length of the creators array
-      if (index < this.creators.length - 1) {
+      if (index < this.creatorRecords.length - 1) {
         //set the current contact to the next creator in the array
-        this.currentContact = this.creators[index + 1];
+        this.currentContact = this.creatorRecords[index + 1];
         //emit the current contact to the parent component
         this.$emit('currentContact', this.currentContact);
         //log the id of the current contact in the console
@@ -1108,11 +1119,11 @@ export default {
     },
     previousContact() {
       //get the index of the current contact
-      const index = this.creators.indexOf(this.currentContact);
+      const index = this.creatorRecords.indexOf(this.currentContact);
       //if the index is greater than 0
       if (index > 0) {
         //set the current contact to the previous creator in the array
-        this.currentContact = this.creators[index - 1];
+        this.currentContact = this.creatorRecords[index - 1];
         //emit the current contact to the parent component
         this.$emit('currentContact', this.currentContact);
         //log the id of the current contact in the console
