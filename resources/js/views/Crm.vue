@@ -90,14 +90,18 @@
               </div>
               <div class="flex-col justify-evenly space-y-4 px-2 py-4">
                 <MenuList
+                    ref="menuListPinned"
                   @getUserLists="getUserLists"
+                  @openEmojiPicker="openEmojiPicker"
                   menuName="Pinned"
                   :selectedList="filters.list"
                   @setFilterList="setFilterList"
                   :menuItems="pinnedUserLists"></MenuList>
                 <!--    Team Specific Lists -->
                 <MenuList
+                    ref="menuListAll"
                   @getUserLists="getUserLists"
+                  @openEmojiPicker="openEmojiPicker"
                   menuName="Teamspace"
                   @setFilterList="setFilterList"
                   :selectedList="filters.list"
@@ -253,6 +257,14 @@
       </div>
 
       <ImportCreatorModal :open="showCreatorModal" />
+
+
+
+    <EmojiPickerModal
+        v-show="openEmojis"
+        @emojiSelected="emojiSelected($event)"
+        class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+    </EmojiPickerModal>
     </div>
   </div>
 </template>
@@ -296,10 +308,12 @@ import MenuList from '../components/MenuList';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams';
 import JovieTooltip from '../components/JovieTooltip.vue';
+import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import ContactSidebar from '../components/ContactSidebar.vue';
 export default {
   name: 'CRM',
   components: {
+      EmojiPickerModal,
     CloudArrowDownIcon,
     PlusIcon,
     SwitchTeams,
@@ -388,6 +402,8 @@ export default {
       },
       searchList: '',
       abortController: null,
+        openEmojis: false,
+        selectedList: null
     };
   },
   watch: {
@@ -428,6 +444,17 @@ export default {
     this.crmCounts();
   },
   methods: {
+      openEmojiPicker(item) {
+          this.selectedList = item
+          this.openEmojis = true
+      },
+      emojiSelected(emoji) {
+          //take the value of the selected emoji and set it to the emoji variable
+          this.selectedList.emoji = emoji.i;
+          this.$refs.menuListAll.updateList(JSON.parse(JSON.stringify(this.selectedList)))
+          this.selectedList = null
+          this.openEmojis = false
+      },
     setCurrentContact(contact) {
       console.log('The emmited even contact is ' + contact);
       this.currentContact = contact;
