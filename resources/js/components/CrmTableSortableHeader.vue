@@ -1,5 +1,6 @@
 <template>
   <div class="group flex cursor-default items-center">
+    <component class="mr-1 h-4 w-4 text-neutral-300" :is="icon"></component>
     {{ name }}
     <div
       @click="toggleSortingOrder()"
@@ -23,11 +24,26 @@
   </div>
 </template>
 <script>
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid';
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  Bars3BottomLeftIcon,
+  AtSymbolIcon,
+  CurrencyDollarIcon,
+  StarIcon,
+  CalendarDaysIcon,
+  ArrowDownCircleIcon,
+} from '@heroicons/vue/20/solid';
 export default {
   components: {
     ChevronDownIcon,
     ChevronUpIcon,
+    Bars3BottomLeftIcon,
+    AtSymbolIcon,
+    CurrencyDollarIcon,
+    StarIcon,
+    CalendarDaysIcon,
+    ArrowDownCircleIcon,
   },
   data() {
     return {
@@ -50,6 +66,10 @@ export default {
     name: {
       type: String,
       default: 'Column Name',
+    },
+    icon: {
+      type: String,
+      default: 'ArrowDownCircleIcon',
     },
   },
 };

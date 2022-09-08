@@ -8,52 +8,40 @@
             <table
               class="min-w-full table-fixed divide-y divide-gray-200 overflow-x-scroll">
               <thead class="bg-gray-50">
-                <tr>
+                <tr class="h-12">
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 grow-0 items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 py-1 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <div class="grid grid-cols-2 items-center">
-                      <div class="h-5 items-center text-center">
-                        <input
-                          type="checkbox"
-                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
-                          :checked="
-                            intermediate ||
-                            selectedCreators.length === creators.length
-                          "
-                          :intermediate="intermediate"
-                          @change="
-                            selectedCreators = $event.target.checked
-                              ? creators.map((c) => c.id)
-                              : []
-                          " />
-                        <!--  <input
+                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 py-1 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <div class="h-5 items-center text-center">
+                      <input
+                        type="checkbox"
+                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                        :checked="
+                          intermediate ||
+                          selectedCreators.length === creators.length
+                        "
+                        :intermediate="intermediate"
+                        @change="
+                          selectedCreators = $event.target.checked
+                            ? creators.map((c) => c.id)
+                            : []
+                        " />
+                      <!--  <input
                           id="comments"bulk edis
                           aria-describedby="comments-description"
                           name="comments"
                           type="checkbox"
                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
-                      </div>
-                      <div
-                        class="group sr-only w-8 items-center text-center text-gray-300 hover:text-red-500">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6 group-hover:fill-red-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                      </div>
                     </div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 py-1 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <span class="sr-only">Favorite</span>
+                  </th>
+                  <th
+                    scope="col"
+                    class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-50">
@@ -111,33 +99,41 @@
                       </Menu>
                     </div>
                     <div v-else>
-                      <CrmTableSortableHeader name="Name" />
+                      <CrmTableSortableHeader
+                        icon="Bars3BottomLeftIcon"
+                        name="Name" />
                     </div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
-                    First
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
+                    <CrmTableSortableHeader
+                      icon="Bars3BottomLeftIcon"
+                      name="First" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
-                    Last
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
+                    <CrmTableSortableHeader
+                      icon="Bars3BottomLeftIcon"
+                      name="Last" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
-                    Email
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
+                    <CrmTableSortableHeader name="Email" icon="AtSymbolIcon" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    Followers
+                    class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <CrmTableSortableHeader name="Followers" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
-                    Offer
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
+                    <CrmTableSortableHeader
+                      name="Offer"
+                      icon="CurrencyDollarIcon" />
                   </th>
 
                   <!-- <th scope="col"
@@ -146,18 +142,20 @@
                         </th> -->
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter md:table-cell">
-                    Stage
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter md:table-cell">
+                    <CrmTableSortableHeader name="Stage" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
-                    Last Contacted
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
+                    <CrmTableSortableHeader
+                      name="Last Contacted"
+                      icon="CalendarDaysIcon" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
-                    Rating
+                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
+                    <CrmTableSortableHeader name="Rating" icon="StarIcon" />
                   </th>
                   <th
                     scope="col"
@@ -190,7 +188,7 @@
                       setCurrentContact(creator) &&
                         this.$store.ContactSidebarOpen
                     "
-                    class="border-1 group border-collapse overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
+                    class="border-1 group border-collapse flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
                         'bg-neutral-100 hover:bg-neutral-100':
@@ -199,66 +197,67 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="w-20 flex-none overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
-                      <div class="grid grid-cols-2 items-center gap-2">
-                        <div class="group mx-auto mr-2">
-                          <span
-                            class="group-hover:block"
-                            :class="[
-                              {
-                                hidden: !selectedCreators.includes(creator.id),
-                              },
-                              'block',
-                            ]">
-                            <input
-                              type="checkbox"
-                              :name="creator.id"
-                              :id="`creator_${creator.id}`"
-                              :value="creator.id"
-                              class="-mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
-                              v-model="selectedCreators" />
-                          </span>
-                          <span
-                            class="group-hover:hidden"
-                            :class="[
-                              { hidden: selectedCreators.includes(creator.id) },
-                              'block',
-                            ]">
-                            {{ index + 1 }}
-                          </span>
-                        </div>
-                        <!--                                                                    favourite-->
-                        <div
-                          class="hidden cursor-pointer lg:block"
-                          @click="
-                            $emit('updateCreator', {
-                              id: creator.id,
-                              index: index,
-                              key: `crm_record_by_user.favourite`,
-                              value: !creator.crm_record_by_user.favourite,
-                            })
-                          ">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="{
-                              'fill-red-500 text-red-500':
-                                creator.crm_record_by_user.favourite,
-                            }"
-                            class="h-6 w-6 hover:fill-red-500 hover:text-red-500"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                          </svg>
-                        </div>
+                      class="w-10 overflow-auto whitespace-nowrap py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      <div class="group mx-auto mr-2">
+                        <span
+                          class="group-hover:block"
+                          :class="[
+                            {
+                              hidden: !selectedCreators.includes(creator.id),
+                            },
+                            'block',
+                          ]">
+                          <input
+                            type="checkbox"
+                            :name="creator.id"
+                            :id="`creator_${creator.id}`"
+                            :value="creator.id"
+                            class="-mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                            v-model="selectedCreators" />
+                        </span>
+                        <span
+                          class="text-xs group-hover:hidden"
+                          :class="[
+                            { hidden: selectedCreators.includes(creator.id) },
+                            'block',
+                          ]">
+                          {{ index + 1 }}
+                        </span>
+                      </div>
+                      <!--                                                                    favourite-->
+                    </td>
+                    <td
+                      class="overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      <div
+                        class="hidden cursor-pointer items-center lg:block"
+                        @click="
+                          $emit('updateCreator', {
+                            id: creator.id,
+                            index: index,
+                            key: `crm_record_by_user.favourite`,
+                            value: !creator.crm_record_by_user.favourite,
+                          })
+                        ">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          :class="{
+                            'fill-red-500 text-red-500':
+                              creator.crm_record_by_user.favourite,
+                          }"
+                          class="-mt-.5 h-4 w-4 hover:fill-red-500 hover:text-red-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
                       </div>
                     </td>
                     <td
-                      class="max-w-14 sticky cursor-pointer whitespace-nowrap border px-2">
+                      class="sticky cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div
@@ -274,13 +273,21 @@
                             </div>
                           </div>
                         </div>
-                        <div class="text-xs font-medium text-gray-900">
-                          {{ creator.name }}
+                        <div class="text-cs text-gray-900 line-clamp-1">
+                          <input
+                            v-model="creator.name"
+                            autocomplete="off"
+                            type="creator-name"
+                            name="creator-name"
+                            id="creator-name"
+                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                            placeholder="Name"
+                            aria-describedby="name-description" />
                         </div>
                       </div>
                     </td>
                     <td
-                      class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
+                      class="border-1 hidden border-collapse whitespace-nowrap border lg:table-cell">
                       <div class="text-sm text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.first_name"
@@ -302,7 +309,7 @@
                       </div>
                     </td>
                     <td
-                      class="border-1 hidden w-24 border-collapse whitespace-nowrap border 2xl:table-cell">
+                      class="border-1 hidden border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.last_name"
@@ -324,7 +331,7 @@
                       </div>
                     </td>
                     <td
-                      class="border-1 min-w-20 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
+                      class="border-1 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
                           v-model="creator.emails"
@@ -346,7 +353,7 @@
                       </div>
                     </td>
                     <td
-                      class="border-1 w-4 border-collapse items-center whitespace-nowrap border">
+                      class="border-1 border-collapse items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -401,7 +408,7 @@
                       </a>
                     </td>
                     <td
-                      class="border-1 hidden w-20 border-collapse whitespace-nowrap border lg:table-cell">
+                      class="border-1 hidden border-collapse whitespace-nowrap border lg:table-cell">
                       <span
                         class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
                         $
@@ -428,7 +435,7 @@
                     </td>
 
                     <td
-                      class="border-1 hidden w-28 border-collapse items-center whitespace-nowrap border md:table-cell">
+                      class="border-1 hidden border-collapse items-center whitespace-nowrap border md:table-cell">
                       <Popover
                         as="div"
                         class="relative inline-block w-full items-center text-left">
@@ -508,7 +515,7 @@
                       </Popover>
                     </td>
                     <td
-                      class="border-1 hidden w-32 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
+                      class="border-1 hidden border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @click="
@@ -552,7 +559,7 @@
                           aria-describedby="email-description" /> -->
                     </td>
                     <td
-                      class="W-28 hidden whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
+                      class="hidden whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -568,7 +575,7 @@
                         "></star-rating>
                     </td>
                     <td
-                      class="flex w-12 whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
+                      class="justify-right flex w-12 whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
                       <div class="justify-right flex items-center text-right">
                         <div>
                           <router-link

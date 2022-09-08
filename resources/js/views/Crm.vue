@@ -165,7 +165,7 @@
             </div>
           </div>
         </TransitionRoot>
-        <div class="w-full">
+        <div class="w-full transition-all duration-200 ease-in-out">
           <div class="mx-auto w-full min-w-full">
             <div class="w-full">
               <div class="flex w-full flex-col">
@@ -523,14 +523,14 @@ export default {
         }
       });
     },
-      crmCounts() {
-          UserService.crmCounts().then((response) => {
-              response = response.data;
-              if (response.status) {
-                  this.counts = response.counts;
-              }
-          });
-      },
+    crmCounts() {
+      UserService.crmCounts().then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.counts = response.counts;
+        }
+      });
+    },
     exportCrmCreators() {
       let obj = JSON.parse(JSON.stringify(this.filters));
       if (obj.list) {
@@ -559,7 +559,7 @@ export default {
           } else {
             this.creators[params.index] = response.data;
           }
-          this.crmCounts()
+          this.crmCounts();
         }
       });
     },
