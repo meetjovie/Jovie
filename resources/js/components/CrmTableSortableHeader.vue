@@ -1,9 +1,15 @@
 <template>
-  <div class="group flex cursor-default items-center">
-    <component class="mr-1 h-4 w-4 text-neutral-300" :is="icon"></component>
-    {{ name }}
+  <div
+    @click="toggleSortingOrder()"
+    class="group flex h-full select-none items-center justify-between pr-2"
+    :class="[{ ' cursor-pointer active:bg-neutral-200': sortable }, '']">
+    <div class="flex">
+      <component class="mr-1 h-4 w-4 text-neutral-300" :is="icon"></component>
+      {{ name }}
+    </div>
+
     <div
-      @click="toggleSortingOrder()"
+      v-if="sortable"
       class="cursor-pointer group-hover:text-neutral-400"
       :class="[{ 'text-neutral-200': sortingOrder }, 'text-neutral-200/0']">
       <svg
@@ -31,6 +37,7 @@ import {
   AtSymbolIcon,
   CurrencyDollarIcon,
   StarIcon,
+  LinkIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
 } from '@heroicons/vue/20/solid';
@@ -44,6 +51,7 @@ export default {
     StarIcon,
     CalendarDaysIcon,
     ArrowDownCircleIcon,
+    LinkIcon,
   },
   data() {
     return {
@@ -70,6 +78,10 @@ export default {
     icon: {
       type: String,
       default: 'ArrowDownCircleIcon',
+    },
+    sortable: {
+      type: Boolean,
+      default: false,
     },
   },
 };

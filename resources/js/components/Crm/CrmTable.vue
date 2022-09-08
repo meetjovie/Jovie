@@ -4,14 +4,14 @@
       <div class="overflow-x-auto">
         <div class="inline-block min-w-full align-middle">
           <div
-            class="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
+            class="overflow-x-scroll shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="min-w-full table-fixed divide-y divide-gray-200 overflow-x-scroll">
-              <thead class="bg-gray-50">
-                <tr class="h-12">
+              class="min-w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
+              <thead class="bg-gray-100">
+                <tr class="h-8">
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 py-1 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 h-full items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div class="h-5 items-center text-center">
                       <input
                         type="checkbox"
@@ -36,12 +36,12 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 py-1 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 h-full items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-50">
@@ -101,67 +101,87 @@
                     <div v-else>
                       <CrmTableSortableHeader
                         icon="Bars3BottomLeftIcon"
-                        name="Name" />
+                        name="Name"
+                        sortable />
                     </div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
+                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
                     <CrmTableSortableHeader
                       icon="Bars3BottomLeftIcon"
                       name="First" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
+                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
                     <CrmTableSortableHeader
                       icon="Bars3BottomLeftIcon"
                       name="Last" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
+                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
                     <CrmTableSortableHeader name="Email" icon="AtSymbolIcon" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <CrmTableSortableHeader name="Followers" />
+                    class="sticky top-0 z-10 table-cell h-full items-center border-b border-gray-300 bg-neutral-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <CrmTableSortableHeader
+                      name="Social Links"
+                      icon="LinkIcon" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
+                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter lg:table-cell">
                     <CrmTableSortableHeader
                       name="Offer"
+                      sortable
                       icon="CurrencyDollarIcon" />
                   </th>
 
                   <!-- <th scope="col"
-                            class="px-2 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
+                            class="px-2  text-left text-xs font-medium text-gray-500  tracking-wider">
                             Campaign
                         </th> -->
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter md:table-cell">
+                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter md:table-cell">
                     <CrmTableSortableHeader name="Stage" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
+                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
                     <CrmTableSortableHeader
                       name="Last Contacted"
                       icon="CalendarDaysIcon" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
+                    class="sticky top-0 z-10 hidden h-full border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter 2xl:table-cell">
                     <CrmTableSortableHeader name="Rating" icon="StarIcon" />
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-2 py-3 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <span class="sr-only">Edit</span>
-                    <input placeholder="Search" v-model="query" />
+                    class="sticky top-0 z-10 h-full border-b border-gray-300 bg-gray-100 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <div class="grid h-full grid-cols-3">
+                      <div class="hover:bg-neutral-50"></div>
+                      <div
+                        @click="toggleSearchVisible()"
+                        class="group mx-auto flex h-full cursor-pointer hover:bg-neutral-50">
+                        <MagnifyingGlassIcon
+                          class="h-4 w-4 text-gray-400 group-hover:text-neutral-600" /><input
+                          v-if="searchVisible"
+                          placeholder="Search"
+                          v-model="query" />
+                      </div>
+                      <div
+                        class="group mx-auto h-full w-12 cursor-pointer hover:bg-neutral-50">
+                        <PlusIcon
+                          class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
+                          aria-hidden="true" />
+                      </div>
+                    </div>
                   </th>
                 </tr>
               </thead>
@@ -197,7 +217,7 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="w-10 overflow-auto whitespace-nowrap py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="w-12 overflow-auto whitespace-nowrap py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div class="group mx-auto mr-2">
                         <span
                           class="group-hover:block"
@@ -212,7 +232,7 @@
                             :name="creator.id"
                             :id="`creator_${creator.id}`"
                             :value="creator.id"
-                            class="-mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                             v-model="selectedCreators" />
                         </span>
                         <span
@@ -227,7 +247,7 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
-                      class="overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="w-12 overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -257,7 +277,7 @@
                       </div>
                     </td>
                     <td
-                      class="sticky cursor-pointer whitespace-nowrap border px-2">
+                      class="sticky w-60 cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div
@@ -287,7 +307,7 @@
                       </div>
                     </td>
                     <td
-                      class="border-1 hidden border-collapse whitespace-nowrap border lg:table-cell">
+                      class="border-1 hidden w-28 border-collapse whitespace-nowrap border lg:table-cell">
                       <div class="text-sm text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.first_name"
@@ -309,7 +329,7 @@
                       </div>
                     </td>
                     <td
-                      class="border-1 hidden border-collapse whitespace-nowrap border 2xl:table-cell">
+                      class="border-1 hidden w-28 border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.last_name"
@@ -331,7 +351,7 @@
                       </div>
                     </td>
                     <td
-                      class="border-1 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
+                      class="border-1 hidden w-40 border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
                           v-model="creator.emails"
@@ -353,7 +373,7 @@
                       </div>
                     </td>
                     <td
-                      class="border-1 border-collapse items-center whitespace-nowrap border">
+                      class="border-1 w-24 border-collapse items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -395,7 +415,7 @@
                               height="14px"
                               :icon="network" />
                           </div>
-                          <div class="">
+                          <!--  <div class="">
                             <span
                               v-if="creator[`${network}_handler`]"
                               class="mx-auto items-center text-2xs font-bold text-neutral-400">
@@ -403,12 +423,12 @@
                                 formatCount(creator[`${network}_followers`])
                               }}</span
                             >
-                          </div>
+                          </div> -->
                         </div>
                       </a>
                     </td>
                     <td
-                      class="border-1 hidden border-collapse whitespace-nowrap border lg:table-cell">
+                      class="border-1 hidden w-24 border-collapse whitespace-nowrap border lg:table-cell">
                       <span
                         class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
                         $
@@ -435,7 +455,7 @@
                     </td>
 
                     <td
-                      class="border-1 hidden border-collapse items-center whitespace-nowrap border md:table-cell">
+                      class="border-1 hidden w-28 border-collapse items-center whitespace-nowrap border md:table-cell">
                       <Popover
                         as="div"
                         class="relative inline-block w-full items-center text-left">
@@ -515,7 +535,7 @@
                       </Popover>
                     </td>
                     <td
-                      class="border-1 hidden border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
+                      class="border-1 hidden w-36 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @click="
@@ -533,7 +553,7 @@
                         autoApply="true"
                         type="datetime-local"
                         :id="creator.id + '_datepicker'"
-                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 px-2 py-1 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                         placeholder="--/--/--"
                         aria-describedby="email-description" />
                       <!-- <input
@@ -617,7 +637,7 @@
                               leave-from-class="transform opacity-100 scale-100"
                               leave-to-class="transform opacity-0 scale-95">
                               <MenuItems
-                                class="w-30 backdrop-fitler z-10 mt-2 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
+                                class="backdrop-fitler z-10 mt-2 w-28 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
                                     v-slot="{ active }"
@@ -757,6 +777,7 @@ import {
   NoSymbolIcon,
   TrashIcon,
   ArrowPathIcon,
+  MagnifyingGlassIcon,
 } from '@heroicons/vue/24/solid';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
@@ -771,6 +792,7 @@ export default {
   components: {
     ArchiveBoxIcon,
     StarRating,
+    MagnifyingGlassIcon,
     Menu,
     Datepicker,
     MenuButton,
@@ -800,6 +822,8 @@ export default {
       activeCreator: {},
       currentContact: [],
       editingSocialHandle: true,
+      searchVisible: false,
+      visibleColumns: [],
     };
   },
   props: [
@@ -831,6 +855,9 @@ export default {
     },
   },
   methods: {
+    toggleSearchVisible() {
+      this.searchVisible = !this.searchVisible;
+    },
     setCurrentRow(row) {
       this.currentRow = row;
       console.log(this.currentRow);

@@ -1,6 +1,6 @@
 <template>
   <Popover>
-    <Float portal :offset="2" placement="right">
+    <Float portal :offset="8" placement="right-end">
       <PopoverButton
         class="group mx-auto flex w-full cursor-pointer items-center justify-between rounded-md border border-neutral-200 px-2 py-0.5 text-center hover:bg-gray-50">
         <div class="flex w-full items-center justify-between">
@@ -31,7 +31,7 @@
         leave-from-class="transform scale-100 opacity-100"
         leave-to-class="transform scale-95 opacity-0">
         <PopoverPanel
-          class="origin-bottom-middle absolute bottom-20 w-52 rounded-md border border-neutral-200 bg-white/90 shadow-lg backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+          class="w-52 origin-left rounded-md border border-neutral-200 bg-white/90 shadow-lg backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
           <div class="">
             <div
               class="border-b bg-neutral-50 px-4 pt-2 pb-1 text-center text-xs font-semibold text-neutral-400">
