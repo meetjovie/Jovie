@@ -221,6 +221,7 @@
                         @crmCounts="crmCounts"
                         @pageChanged="pageChanged"
                         :filters="filters"
+                        :userLists="userLists"
                         :creators="creators"
                         :networks="networks"
                         :stages="stages"

@@ -61,55 +61,24 @@
                             leave-active-class="transition duration-75 ease-in"
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
-                            <MenuItems
-                              class="w-40 flex-col rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
-                              <MenuItem v-slot="{ active }">
-                                <button
-                                  :class="[
-                                    active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
-                                  ]">
-                                  <PlusIcon
-                                    :active="active"
-                                    class="mr-2 h-3 w-3 text-neutral-400"
-                                    aria-hidden="true" />
-                                  Add to list
-                                </button>
-                              </MenuItem>
-                              <MenuItem
-                                v-if="filters.list"
-                                v-slot="{ active }"
-                                class="items-center"
-                                @click="
-                                  removeCreatorsFromList(
-                                    selectedCreators,
-                                    filters.list
-                                  )
-                                ">
-                                <button
-                                  class="items-center text-neutral-400 hover:text-neutral-900"
-                                  :class="[
-                                    active
-                                      ? 'bg-gray-100 text-gray-900'
-                                      : 'text-gray-700',
-                                    'block px-4 py-2 text-xs',
-                                  ]">
-                                  <TrashIcon class="mr-2 inline h-4 w-4" />
-                                  Remove from list
-                                </button>
-                              </MenuItem>
-                              <MenuItem
-                                v-slot="{ active }"
-                                @click="
-                                  toggleArchiveCreators(
-                                    this.selectedCreators,
-                                    this.filters.type == 'archived'
-                                      ? false
-                                      : true
-                                  )
-                                ">
+                              <MenuItems>
+                                <MenuItem
+                                    v-if="filters.list"
+                                    v-slot="{ active }"
+                                    class="items-center"
+                                    @click="toggleCreatorsFromList(selectedCreators, filters.list, true)">
+                                    <button
+                                        class="items-center text-neutral-400 hover:text-neutral-900"
+                                        :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-700',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                    <TrashIcon class="mr-2 inline h-4 w-4" />
+                                    Remove from list</button>
+                                </MenuItem>
+                              <MenuItem v-slot="{ active }" @click="toggleArchiveCreators(this.selectedCreators, this.filters.type == 'archived' ? false : true)">
                                 <button
                                   :class="[
                                     active
@@ -150,7 +119,7 @@
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
                               class="w-40 flex-col rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
-                              <MenuItem v-slot="{ active }">
+                              <MenuItem v-slot="{ active }" v-for="list in userLists" @click="toggleCreatorsFromList(selectedCreators, list.id, false)">
                                 <button
                                   :class="[
                                     active
@@ -158,11 +127,7 @@
                                       : 'text-gray-400',
                                     'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
                                   ]">
-                                  <PlusIcon
-                                    :active="active"
-                                    class="mr-2 h-3 w-3 text-neutral-400"
-                                    aria-hidden="true" />
-                                  Loop list items
+                                  {{ list.emoji ? list.emoji : '📄' }} {{ list.name }}
                                 </button>
                               </MenuItem>
                             </MenuItems>
@@ -743,30 +708,11 @@
                                 class="backdrop-fitler z-10 mt-2 w-28 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
-                                    v-slot="{ active }"
-                                    class="items-center">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <PlusIcon class="mr-2 inline h-4 w-4" />
-                                      Add To List</a
-                                    >
-                                  </MenuItem>
-                                  <MenuItem
                                     v-if="filters.list"
                                     v-slot="{ active }"
                                     class="items-center"
                                     @click="
-                                      removeCreatorsFromList(
-                                        creator.id,
-                                        filters.list
-                                      )
+                                      toggleCreatorsFromList(creator.id, filters.list, true)
                                     ">
                                     <a
                                       href="#"
@@ -1016,6 +962,7 @@ export default {
     };
   },
   props: [
+      'userLists',
     'filters',
     'creators',
     'networks',
@@ -1063,67 +1010,59 @@ export default {
       console.log(this.currentRow);
     },
     toggleArchiveCreators(ids, archived) {
+          this.$store.dispatch('toggleArchiveCreators', { creator_ids: ids, archived: archived}).then((response) => {
+              response = response.data;
+              if (response.status) {
+                  let creatorIds = Array.isArray(ids) ? ids : [ids];
+                  this.creatorRecords = this.creatorRecords.filter(creator => !creatorIds.includes(creator.id))
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+                  this.$emit('crmCounts');
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              }
+          }).catch((error) => {
+              error = error.response;
+              if (error.status == 422) {
+                  if (this.errors) {
+                      this.errors = error.data.errors;
+                  }
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: Object.values(error.data.errors)[0][0],
+                  });
+              }
+          }).finally((response) => {});
+      },
+    toggleCreatorsFromList(ids, list, remove) {
       this.$store
-        .dispatch('toggleArchiveCreators', {
-          creatorIds: ids,
-          archived: archived,
-        })
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            let creatorIds = Array.isArray(ids) ? ids : [ids];
-            this.creatorRecords = this.creatorRecords.filter(
-              (creator) => !creatorIds.includes(creator.id)
-            );
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: response.message,
-            });
-            this.$emit('crmCounts');
-          } else {
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: response.message,
-            });
-          }
-        })
-        .catch((error) => {
-          error = error.response;
-          if (error.status == 422) {
-            if (this.errors) {
-              this.errors = error.data.errors;
-            }
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: Object.values(error.data.errors)[0][0],
-            });
-          }
-        })
-        .finally((response) => {});
-    },
-    removeCreatorsFromList(ids, list) {
-      this.$store
-        .dispatch('removeCreatorsFromList', {
-          creatorIds: ids,
+        .dispatch('toggleCreatorsFromList', {
+          creator_ids: ids,
           list: list,
+            remove: remove
         })
         .then((response) => {
           response = response.data;
           if (response.status) {
-            let creatorIds = Array.isArray(ids) ? ids : [ids];
-            this.creatorRecords = this.creatorRecords.filter(
-              (creator) => !creatorIds.includes(creator.id)
-            );
-            this.$notify({
+              let creatorIds = Array.isArray(ids) ? ids : [ids];
+              if (remove && this.filters.list == list) {
+                  this.creatorRecords = this.creatorRecords.filter(creator => !creatorIds.includes(creator.id))
+              }
+              this.$notify({
               group: 'user',
               type: 'success',
               duration: 15000,

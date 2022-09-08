@@ -305,15 +305,24 @@ class CrmController extends Controller
         return $creators;
     }
 
-    public function removeCreatorsFromList(Request $request)
+    public function toggleCreatorsFromList(Request $request)
     {
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $list = UserList::where('id', $request->list)->where('team_id', $user->currentTeam->id)->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
         $request->validate([
-            'list' => 'required|exists:user_lists,id,team_id,'.$user->currentTeam->id,
             'creator_ids' => 'required'
         ]);
         $creatorIds = is_array($request->creator_ids) ? $request->creator_ids : [$request->creator_ids];
-        DB::table('creator_user_list')->whereIn('creator_id', $creatorIds)->where('user_list_id', $request->list)->delete();
+        if ($request->remove) {
+            DB::table('creator_user_list')->whereIn('creator_id', $creatorIds)->where('user_list_id', $list->id)->delete();
+        } else {
+            $list->creators()->syncWithoutDetaching($creatorIds);
+        }
         return response()->json([
             'status' => true,
             'message' => 'Creators removed from the list.'
