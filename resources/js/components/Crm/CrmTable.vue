@@ -936,25 +936,11 @@ export default {
     ArrowDownCircleIcon,
     AdjustmentsHorizontalIcon,
   },
-  computed: {
-    filteredCreators() {
-      if (this.searchQuery === '') {
-        return this.creatorRecords;
-      } else {
-        return this.creatorRecords.filter((creator) => {
-          return (
-            creator.name.toLowerCase().match(this.searchQuery.toLowerCase()) ||
-            creator.email.toLowerCase().match(this.searchQuery.toLowerCase())
-          );
-        });
-      }
-    },
-  },
   data() {
     return {
       creatorRecords: [],
 
-      searchQuery: [],
+      searchQuery: '',
       currentRow: null,
       date: null,
       selectedCreators: [],
@@ -1064,6 +1050,12 @@ export default {
     visibleFields() {
       return this.headers.filter((header) => header.visible);
     },
+      filteredCreators() {
+          return this.creatorRecords.filter(creator => {
+              return creator.name.toLowerCase().match(this.searchQuery.toLowerCase()) ||
+                  creator.emails.some(email => email.toString().toLowerCase().match(this.searchQuery.toLowerCase()));
+          });
+      },
   },
   methods: {
     toggleSearchVisible() {
