@@ -134,7 +134,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="w-40 flex-col rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
                               <MenuItem
                                 v-slot="{ active }"
                                 v-for="list in userLists"
@@ -150,10 +150,25 @@
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
+                                    'group flex w-full items-center rounded-md px-2 py-1 text-left text-xs font-bold line-clamp-1',
                                   ]">
                                   {{ list.emoji ? list.emoji : '📄' }}
                                   {{ list.name }}
+                                </button>
+                              </MenuItem>
+                              <MenuItem v-slot="{ active }">
+                                <button
+                                  :class="[
+                                    active
+                                      ? 'bg-gray-200 text-gray-600'
+                                      : 'text-gray-400',
+                                    'boder group flex w-full items-center rounded-md border-t border-neutral-400 px-2 py-1 text-left text-xs font-bold line-clamp-1',
+                                  ]">
+                                  <PlusIcon
+                                    :active="active"
+                                    class="mr-2 h-3 w-3 text-neutral-400"
+                                    aria-hidden="true" />
+                                  Create New List
                                 </button>
                               </MenuItem>
                             </MenuItems>
@@ -731,7 +746,7 @@
                               leave-from-class="transform opacity-100 scale-100"
                               leave-to-class="transform opacity-0 scale-95">
                               <MenuItems
-                                class="backdrop-fitler z-10 mt-2 w-28 origin-top-right rounded-md bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
+                                class="backdrop-fitler z-10 mt-2 w-28 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
                                     v-if="filters.list"
