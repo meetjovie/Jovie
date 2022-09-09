@@ -61,24 +61,40 @@
                             leave-active-class="transition duration-75 ease-in"
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
-                              <MenuItems>
-                                <MenuItem
-                                    v-if="filters.list"
-                                    v-slot="{ active }"
-                                    class="items-center"
-                                    @click="toggleCreatorsFromList(selectedCreators, filters.list, true)">
-                                    <button
-                                        class="items-center text-neutral-400 hover:text-neutral-900"
-                                        :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                    <TrashIcon class="mr-2 inline h-4 w-4" />
-                                    Remove from list</button>
-                                </MenuItem>
-                              <MenuItem v-slot="{ active }" @click="toggleArchiveCreators(this.selectedCreators, this.filters.type == 'archived' ? false : true)">
+                            <MenuItems>
+                              <MenuItem
+                                v-if="filters.list"
+                                v-slot="{ active }"
+                                class="items-center"
+                                @click="
+                                  toggleCreatorsFromList(
+                                    selectedCreators,
+                                    filters.list,
+                                    true
+                                  )
+                                ">
+                                <button
+                                  class="items-center text-neutral-400 hover:text-neutral-900"
+                                  :class="[
+                                    active
+                                      ? 'bg-gray-100 text-gray-900'
+                                      : 'text-gray-700',
+                                    'block px-4 py-2 text-xs',
+                                  ]">
+                                  <TrashIcon class="mr-2 inline h-4 w-4" />
+                                  Remove from list
+                                </button>
+                              </MenuItem>
+                              <MenuItem
+                                v-slot="{ active }"
+                                @click="
+                                  toggleArchiveCreators(
+                                    this.selectedCreators,
+                                    this.filters.type == 'archived'
+                                      ? false
+                                      : true
+                                  )
+                                ">
                                 <button
                                   :class="[
                                     active
@@ -119,7 +135,16 @@
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
                               class="w-40 flex-col rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
-                              <MenuItem v-slot="{ active }" v-for="list in userLists" @click="toggleCreatorsFromList(selectedCreators, list.id, false)">
+                              <MenuItem
+                                v-slot="{ active }"
+                                v-for="list in userLists"
+                                @click="
+                                  toggleCreatorsFromList(
+                                    selectedCreators,
+                                    list.id,
+                                    false
+                                  )
+                                ">
                                 <button
                                   :class="[
                                     active
@@ -127,7 +152,8 @@
                                       : 'text-gray-400',
                                     'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
                                   ]">
-                                  {{ list.emoji ? list.emoji : '📄' }} {{ list.name }}
+                                  {{ list.emoji ? list.emoji : '📄' }}
+                                  {{ list.name }}
                                 </button>
                               </MenuItem>
                             </MenuItems>
@@ -712,7 +738,11 @@
                                     v-slot="{ active }"
                                     class="items-center"
                                     @click="
-                                      toggleCreatorsFromList(creator.id, filters.list, true)
+                                      toggleCreatorsFromList(
+                                        creator.id,
+                                        filters.list,
+                                        true
+                                      )
                                     ">
                                     <a
                                       href="#"
@@ -954,7 +984,7 @@ export default {
     };
   },
   props: [
-      'userLists',
+    'userLists',
     'filters',
     'creators',
     'networks',
@@ -992,9 +1022,9 @@ export default {
         this.selectedCreators.length < this.creatorRecords.length
       );
     },
-      visibleFields() {
-          return this.headers.filter((header) => header.visible);
-      },
+    visibleFields() {
+      return this.headers.filter((header) => header.visible);
+    },
   },
   methods: {
     toggleSearchVisible() {
@@ -1005,59 +1035,70 @@ export default {
       console.log(this.currentRow);
     },
     toggleArchiveCreators(ids, archived) {
-          this.$store.dispatch('toggleArchiveCreators', { creator_ids: ids, archived: archived}).then((response) => {
-              response = response.data;
-              if (response.status) {
-                  let creatorIds = Array.isArray(ids) ? ids : [ids];
-                  this.creatorRecords = this.creatorRecords.filter(creator => !creatorIds.includes(creator.id))
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-                  this.$emit('crmCounts');
-              } else {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-              }
-          }).catch((error) => {
-              error = error.response;
-              if (error.status == 422) {
-                  if (this.errors) {
-                      this.errors = error.data.errors;
-                  }
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: Object.values(error.data.errors)[0][0],
-                  });
-              }
-          }).finally((response) => {});
-      },
+      this.$store
+        .dispatch('toggleArchiveCreators', {
+          creator_ids: ids,
+          archived: archived,
+        })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            let creatorIds = Array.isArray(ids) ? ids : [ids];
+            this.creatorRecords = this.creatorRecords.filter(
+              (creator) => !creatorIds.includes(creator.id)
+            );
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+            this.$emit('crmCounts');
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            if (this.errors) {
+              this.errors = error.data.errors;
+            }
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((response) => {});
+    },
     toggleCreatorsFromList(ids, list, remove) {
       this.$store
         .dispatch('toggleCreatorsFromList', {
           creator_ids: ids,
           list: list,
-            remove: remove
+          remove: remove,
         })
         .then((response) => {
           response = response.data;
           if (response.status) {
-              let creatorIds = Array.isArray(ids) ? ids : [ids];
-              if (remove && this.filters.list == list) {
-                  this.creatorRecords = this.creatorRecords.filter(creator => !creatorIds.includes(creator.id))
-              }
-              this.$notify({
+            let creatorIds = Array.isArray(ids) ? ids : [ids];
+            if (remove && this.filters.list == list) {
+              this.creatorRecords = this.creatorRecords.filter(
+                (creator) => !creatorIds.includes(creator.id)
+              );
+            }
+            this.$notify({
               group: 'user',
               type: 'success',
               duration: 15000,
