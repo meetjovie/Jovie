@@ -807,7 +807,6 @@
 
 <script>
 import { Float } from '@headlessui-float/vue';
-import { computed, ref } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import {
@@ -847,8 +846,6 @@ import ImportService from '../../services/api/import.service';
 import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
 import { Switch } from '@headlessui/vue';
 
-const date = ref();
-
 export default {
   name: 'CrmTable',
   components: {
@@ -884,11 +881,6 @@ export default {
     CalendarDaysIcon,
     ArrowDownCircleIcon,
     AdjustmentsHorizontalIcon,
-  },
-  computed: {
-    visibleFields() {
-      return this.headers.filter((header) => header.visible);
-    },
   },
   data() {
     return {
@@ -1000,6 +992,9 @@ export default {
         this.selectedCreators.length < this.creatorRecords.length
       );
     },
+      visibleFields() {
+          return this.headers.filter((header) => header.visible);
+      },
   },
   methods: {
     toggleSearchVisible() {
