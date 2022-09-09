@@ -677,7 +677,7 @@
                       </Popover>
                     </td>
                     <td
-                        v-if="visibleColumns.includes('crm_record_by_user.contacted')"
+                        v-if="visibleColumns.includes('crm_record_by_user.last_contacted')"
                       class="border-1 hidden w-36 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
@@ -870,7 +870,6 @@
                 </template>
               </tbody>
             </table>
-              {{ visibleColumns }}
           </div>
         </div>
       </div>
