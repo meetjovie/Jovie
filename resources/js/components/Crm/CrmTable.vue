@@ -1017,6 +1017,10 @@ export default {
     this.$mousetrap.bind('space', () => {
       this.toggleContactSidebar();
     });
+    let columns = JSON.parse(localStorage.getItem('columns'));
+    if (columns) {
+        this.columns = columns
+    }
   },
   computed: {
     intermediate() {
@@ -1035,7 +1039,7 @@ export default {
           });
       },
       visibleColumns() {
-          console.log('456');
+          localStorage.setItem('columns', JSON.stringify(this.columns))
           return this.columns.map(column => {
             if (column.visible) {
                 return column.key
