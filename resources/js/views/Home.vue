@@ -1,7 +1,8 @@
 <template>
   <div>
     <main>
-      <HomeFeatureCRM class="h-screen" id="crm"></HomeFeatureCRM>
+      <HomeHeroSection />
+      <!--  <HomeFeatureCRM class="" id="crm"></HomeFeatureCRM> -->
       <Enrichment :dark="false"></Enrichment>
       <JovieReplaces></JovieReplaces>
       <!-- <div class="">

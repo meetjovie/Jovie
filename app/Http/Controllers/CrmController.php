@@ -7,10 +7,12 @@ use App\Models\Creator;
 use App\Models\CreatorComment;
 use App\Models\Crm;
 use App\Models\User;
+use App\Models\UserList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use MeiliSearch\Client;
 
@@ -25,6 +27,15 @@ class CrmController extends Controller
             'creators' => $creators,
             'networks' => Creator::NETWORKS,
             'stages' => Crm::stages(),
+            'counts' => $counts
+        ], 200);
+    }
+
+    public function crmCounts()
+    {
+        $counts = Creator::getCrmCounts();
+        return response()->json([
+            'status' => true,
             'counts' => $counts
         ], 200);
     }
@@ -292,5 +303,43 @@ class CrmController extends Controller
         $creators['hits'] = $hits;
 
         return $creators;
+    }
+
+    public function toggleCreatorsFromList(Request $request)
+    {
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $list = UserList::where('id', $request->list)->where('team_id', $user->currentTeam->id)->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
+        $request->validate([
+            'creator_ids' => 'required'
+        ]);
+        $creatorIds = is_array($request->creator_ids) ? $request->creator_ids : [$request->creator_ids];
+        if ($request->remove) {
+            DB::table('creator_user_list')->whereIn('creator_id', $creatorIds)->where('user_list_id', $list->id)->delete();
+        } else {
+            $list->creators()->syncWithoutDetaching($creatorIds);
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Creators removed from the list.'
+        ], 200);
+    }
+
+    public function toggleArchiveCreators(Request $request)
+    {
+        $request->validate([
+            'creator_ids' => 'required'
+        ]);
+        $creatorIds = is_array($request->creator_ids) ? $request->creator_ids : [$request->creator_ids];
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        Crm::whereIn('creator_id', $creatorIds)->where('team_id', $user->currentTeam->id)->update(['archived' => boolval($request->archived)]);
+        return response()->json([
+            'status' => true,
+            'message' => ('Creators '.boolval($request->archived) ? 'archived.' : 'unarchived.')
+        ], 200);
     }
 }

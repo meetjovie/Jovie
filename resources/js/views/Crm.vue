@@ -90,14 +90,18 @@
               </div>
               <div class="flex-col justify-evenly space-y-4 px-2 py-4">
                 <MenuList
+                  ref="menuListPinned"
                   @getUserLists="getUserLists"
+                  @openEmojiPicker="openEmojiPicker"
                   menuName="Pinned"
                   :selectedList="filters.list"
                   @setFilterList="setFilterList"
                   :menuItems="pinnedUserLists"></MenuList>
                 <!--    Team Specific Lists -->
                 <MenuList
+                  ref="menuListAll"
                   @getUserLists="getUserLists"
+                  @openEmojiPicker="openEmojiPicker"
                   menuName="Teamspace"
                   @setFilterList="setFilterList"
                   :selectedList="filters.list"
@@ -165,13 +169,14 @@
             </div>
           </div>
         </TransitionRoot>
-        <div class="w-full">
-          <div class="mx-auto w-full min-w-full">
-            <div class="w-full">
-              <div class="flex w-full flex-col">
-                <div class="mx-auto w-full p-0">
-                  <div class="inline-block w-full align-middle">
-                    <div class="w-full">
+        <div
+          class="h-full w-full overflow-x-scroll transition-all duration-200 ease-in-out">
+          <div class="mx-auto h-full w-full">
+            <div class="h-full w-full">
+              <div class="flex h-full w-full flex-col">
+                <div class="mx-auto h-full w-full p-0">
+                  <div class="inline-block h-full w-full align-middle">
+                    <div class="h-full w-full">
                       <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && creators.length < 1"
@@ -217,7 +222,10 @@
                       <CrmTable
                         v-else
                         @updateCreator="updateCreator"
+                        @crmCounts="crmCounts"
                         @pageChanged="pageChanged"
+                        :filters="filters"
+                        :userLists="userLists"
                         :creators="creators"
                         :networks="networks"
                         :stages="stages"
@@ -249,6 +257,12 @@
       </div>
 
       <ImportCreatorModal :open="showCreatorModal" />
+
+      <EmojiPickerModal
+        v-show="openEmojis"
+        @emojiSelected="emojiSelected($event)"
+        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-gray-50 text-center text-xs">
+      </EmojiPickerModal>
     </div>
   </div>
 </template>
@@ -292,10 +306,12 @@ import MenuList from '../components/MenuList';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams';
 import JovieTooltip from '../components/JovieTooltip.vue';
+import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import ContactSidebar from '../components/ContactSidebar.vue';
 export default {
   name: 'CRM',
   components: {
+    EmojiPickerModal,
     CloudArrowDownIcon,
     PlusIcon,
     SwitchTeams,
@@ -384,6 +400,8 @@ export default {
       },
       searchList: '',
       abortController: null,
+      openEmojis: false,
+      selectedList: null,
     };
   },
   watch: {
@@ -421,8 +439,22 @@ export default {
   async mounted() {
     await this.getUserLists();
     this.getCrmCreators();
+    this.crmCounts();
   },
   methods: {
+    openEmojiPicker(item) {
+      this.selectedList = item;
+      this.openEmojis = true;
+    },
+    emojiSelected(emoji) {
+      //take the value of the selected emoji and set it to the emoji variable
+      this.selectedList.emoji = emoji.i;
+      this.$refs.menuListAll.updateList(
+        JSON.parse(JSON.stringify(this.selectedList))
+      );
+      this.selectedList = null;
+      this.openEmojis = false;
+    },
     setCurrentContact(contact) {
       console.log('The emmited even contact is ' + contact);
       this.currentContact = contact;
@@ -512,11 +544,19 @@ export default {
         response = response.data;
         if (response.status) {
           this.networks = response.networks;
-          this.counts = response.counts;
           this.stages = response.stages;
+          this.counts = response.counts;
           this.creators = response.creators.data;
           this.creatorsMeta = response.creators;
           this.filters.page = response.creators.current_page;
+        }
+      });
+    },
+    crmCounts() {
+      UserService.crmCounts().then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.counts = response.counts;
         }
       });
     },
@@ -548,6 +588,7 @@ export default {
           } else {
             this.creators[params.index] = response.data;
           }
+          this.crmCounts();
         }
       });
     },

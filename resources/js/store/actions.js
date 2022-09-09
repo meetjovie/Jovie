@@ -79,5 +79,13 @@ export default {
 
     async moveCreator(context, payload) {
         return await userService.moveCreator(payload)
+    },
+
+    async toggleCreatorsFromList(context, payload) {
+        return await userService.toggleCreatorsFromList(payload)
+    },
+
+    async toggleArchiveCreators(context, payload) {
+        return await userService.toggleArchiveCreators(payload)
     }
 }

@@ -40,15 +40,11 @@
               </div>
 
               <div class="flex w-full items-center">
-                <!-- <EmojiPickerModal
-                  @emojiSelected="emojiSelected($event, element)"
-                  class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
-                  <input
-                    id="item.emoji"
-                    v-model="element.emoji"
-                    placeholder="📄"
-                    class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
-                </EmojiPickerModal> -->
+                <div
+                  @click="openEmojiPicker(element)"
+                  class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+                  {{ element.emoji ?? '📄' }}
+                </div>
                 <div
                   @dblclick="enableEditName(element)"
                   @click="$emit('setFilterList', element.id)">
@@ -174,15 +170,11 @@
           </div>
 
           <div class="flex w-full items-center">
-            <!-- <EmojiPickerModal
-              @emojiSelected="emojiSelected($event, item)"
-              class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
-              <input
-                id="item.emoji"
-                v-model="item.emoji"
-                placeholder="📄"
-                class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200" />
-            </EmojiPickerModal> -->
+            <div
+              @click="openEmojiPicker(item)"
+              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+              {{ item.emoji ?? '📄' }}
+            </div>
             <div
               @dblclick="enableEditName(item)"
               @click="$emit('setFilterList', item.id)">
@@ -318,17 +310,14 @@ import {
 } from '@heroicons/vue/20/solid';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import draggable from 'vuedraggable';
-import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
-import EmojiPicker from 'vue3-emoji-picker';
 
 export default {
   data() {
     return {
       showMenu: true,
       editName: false,
-      openEmojiPicker: false,
       emoji: '',
       confirmationPopup: {
         confirmationMethod: null,
@@ -345,10 +334,8 @@ export default {
   methods: {
     // event callback
 
-    emojiSelected(emoji, item) {
-      //take the value of the selected emoji and set it to the emoji variable
-      item.emoji = emoji.i;
-      this.updateList(item);
+    openEmojiPicker(item) {
+      this.$emit('openEmojiPicker', item);
     },
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
@@ -646,7 +633,6 @@ export default {
     ChevronRightIcon,
     BookmarkIcon,
     PinnedIcon,
-    EmojiPickerModal,
     ChevronDownIcon,
     EllipsisVerticalIcon,
     PlusIcon,
@@ -660,7 +646,6 @@ export default {
     MenuItem,
     PinIcon,
     draggable,
-    EmojiPicker,
     ModalPopup,
   },
   props: {

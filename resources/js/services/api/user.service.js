@@ -119,4 +119,13 @@ export default {
   async updateList(data, id) {
     return axios.post(`${baseApiUrl}/update-list/${id}?_method=PUT`, data);
   },
+  async toggleCreatorsFromList(data) {
+    return axios.post(`${baseApiUrl}/toggle-creators-from-list`, data);
+  },
+  async toggleArchiveCreators(data) {
+    return axios.post(`${baseApiUrl}/toggle-archive-creators`, data);
+  },
+  crmCounts() {
+    return axios.get(`${baseApiUrl}/crm-counts`);
+  },
 };

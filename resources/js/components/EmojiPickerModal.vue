@@ -1,13 +1,4 @@
 <template>
-  <Menu v-slot="{ open }" as="div" class="relative inline-block text-left">
-    <div>
-      <MenuButton
-        class="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-        <span class="sr-only">Open options</span>
-        <slot><EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" /></slot>
-      </MenuButton>
-    </div>
-
     <transition
       enter-active-class="transition ease-out duration-100"
       enter-from-class="transform opacity-0 scale-95"
@@ -15,15 +6,10 @@
       leave-active-class="transition ease-in duration-75"
       leave-from-class="transform opacity-100 scale-100"
       leave-to-class="transform opacity-0 scale-95">
-      <div v-show="open">
-        <MenuItems
-          static
-          class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-          <div class=""><EmojiPicker @select="emojiSelected" /></div>
-        </MenuItems>
+      <div class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+          <EmojiPicker @select="emojiSelected" />
       </div>
     </transition>
-  </Menu>
 </template>
 
 <script>
@@ -42,15 +28,9 @@ export default {
     MenuItems,
     EllipsisVerticalIcon,
   },
-  data() {
-    return {
-      open: false,
-    };
-  },
   methods: {
     emojiSelected(selectedEmoji) {
       this.$emit('emojiSelected', selectedEmoji);
-      this.open = false
     },
   },
 };

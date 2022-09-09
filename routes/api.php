@@ -54,10 +54,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //      CRM
     Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
+    Route::get('/crm-counts', [\App\Http\Controllers\CrmController::class, 'crmCounts']);
     Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
 
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
+
+    Route::post('/toggle-creators-from-list', [\App\Http\Controllers\CrmController::class, 'toggleCreatorsFromList']);
+    Route::post('/toggle-archive-creators', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreators']);
 
     //      OVERVIEW
     Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
