@@ -61,7 +61,8 @@
                             leave-active-class="transition duration-75 ease-in"
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
-                            <MenuItems>
+                            <MenuItems
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -134,7 +135,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
                               <MenuItem
                                 v-slot="{ active }"
                                 v-for="list in userLists"
@@ -150,7 +151,7 @@
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-left text-xs font-bold line-clamp-1',
+                                    'group flex w-full items-center rounded-md px-4 py-2 text-left text-xs font-bold line-clamp-1',
                                   ]">
                                   {{ list.emoji ? list.emoji : '📄' }}
                                   {{ list.name }}
@@ -162,13 +163,13 @@
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
-                                    'boder group flex w-full items-center rounded-md border-t border-neutral-400 px-2 py-1 text-left text-xs font-bold line-clamp-1',
+                                    'group inline w-full items-center rounded-b-md border-t border-neutral-400 px-2 py-1 text-left text-xs font-bold ',
                                   ]">
                                   <PlusIcon
                                     :active="active"
                                     class="mr-2 h-3 w-3 text-neutral-400"
                                     aria-hidden="true" />
-                                  Create New List
+                                  <span>Create New List</span>
                                 </button>
                               </MenuItem>
                             </MenuItems>
