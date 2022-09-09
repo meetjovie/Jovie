@@ -42,7 +42,7 @@
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="w-4 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+                  class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
@@ -172,7 +172,7 @@
           <div class="flex w-full items-center">
             <div
               @click="openEmojiPicker(item)"
-              class="w-4 cursor-pointer items-center rounded-md bg-gray-50 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
               {{ item.emoji ?? '📄' }}
             </div>
             <div

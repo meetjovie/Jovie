@@ -7,7 +7,7 @@
             class="overflow-x-scroll shadow-sm ring-1 ring-black ring-opacity-5">
             <table
               class="min-w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
-              <thead class="bg-neutral-100">
+              <thead class="items-center bg-neutral-100">
                 <tr class="h-8 items-center">
                   <th
                     scope="col"
@@ -151,9 +151,11 @@
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-4 py-2 text-left text-xs font-bold line-clamp-1',
+                                    'group flex w-full items-center px-4 py-2 text-left text-xs font-bold line-clamp-1 first:rounded-t-md',
                                   ]">
-                                  {{ list.emoji ? list.emoji : '📄' }}
+                                  <span class="px-1">{{
+                                    list.emoji ? list.emoji : '📄'
+                                  }}</span>
                                   {{ list.name }}
                                 </button>
                               </MenuItem>
@@ -163,13 +165,16 @@
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
-                                    'group inline w-full items-center rounded-b-md border-t border-neutral-400 px-2 py-1 text-left text-xs font-bold ',
+                                    'group inline w-full items-center rounded-b-md border border-t border-neutral-200 px-2 py-1 text-left text-xs font-bold ',
                                   ]">
-                                  <PlusIcon
-                                    :active="active"
-                                    class="mr-2 h-3 w-3 text-neutral-400"
-                                    aria-hidden="true" />
-                                  <span>Create New List</span>
+                                  <div
+                                    class="mx-auto flex content-center items-center text-center">
+                                    <span>Create New List</span>
+                                    <PlusIcon
+                                      :active="active"
+                                      class="mr-2 h-3 w-3 text-neutral-400"
+                                      aria-hidden="true" />
+                                  </div>
                                 </button>
                               </MenuItem>
                             </MenuItems>
@@ -188,7 +193,7 @@
                     v-for="header in headers"
                     :key="header.id"
                     scope="col"
-                    class="sticky top-0 z-10 table-cell h-8 border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 table-cell h-8 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <CrmTableSortableHeader
                       :class="[
                         { 'hidden sm:block': header.breakpoint == 'sm' },
@@ -212,10 +217,12 @@
                         @click="toggleSearchVisible()"
                         class="group flex h-full cursor-pointer items-center justify-end hover:bg-neutral-50">
                         <MagnifyingGlassIcon
-                          class="h-4 w-4 text-gray-400 group-hover:text-neutral-600" /><input
+                          class="h-4 w-4 text-gray-400 group-hover:text-neutral-600" />
+                        <input
+                          class="h-full px-2 py-1 text-xs text-neutral-400"
                           v-if="searchVisible"
                           placeholder="Search"
-                          v-model="query" />
+                          v-model="searchQuery" />
                       </div>
                       <div
                         class="group mr-2 h-full w-40 cursor-pointer items-center">
@@ -312,9 +319,10 @@
                 </template>
                 <template
                   v-else
-                  v-for="(creator, index) in creatorRecords"
+                  v-for="(creator, index) in filteredCreators"
                   :key="creator">
                   <tr
+                    v-if="creator"
                     @click="
                       setCurrentContact(creator) && $store.ContactSidebarOpen
                     "
@@ -928,9 +936,24 @@ export default {
     ArrowDownCircleIcon,
     AdjustmentsHorizontalIcon,
   },
+  computed: {
+    filteredCreators() {
+      if (this.searchQuery === '') {
+        return this.creatorRecords;
+      } else {
+        return this.creatorRecords.filter((creator) => {
+          return (
+            creator.name.toLowerCase().match(this.searchQuery.toLowerCase()) ||
+            creator.email.toLowerCase().match(this.searchQuery.toLowerCase())
+          );
+        });
+      }
+    },
+  },
   data() {
     return {
       creatorRecords: [],
+
       searchQuery: [],
       currentRow: null,
       date: null,
@@ -938,7 +961,7 @@ export default {
       activeCreator: {},
       currentContact: [],
       editingSocialHandle: true,
-      searchVisible: false,
+      searchVisible: true,
       visibleColumns: [],
       headers: [
         {
