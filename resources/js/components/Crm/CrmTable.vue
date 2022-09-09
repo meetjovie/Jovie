@@ -8,7 +8,7 @@
             <table
               class="min-w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
               <thead class="bg-neutral-100">
-                <tr class="h-8">
+                <tr class="h-8 items-center">
                   <th
                     scope="col"
                     class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
@@ -41,7 +41,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-8 border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
