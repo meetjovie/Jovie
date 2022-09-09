@@ -8,7 +8,7 @@
             <table
               class="min-w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
               <thead class="items-center bg-neutral-100">
-                <tr class="h-8 items-center">
+                <tr class="h-10 items-center py-2">
                   <th
                     scope="col"
                     class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
@@ -211,21 +211,39 @@
 
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 flex h-8 w-full items-center justify-end text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <div class="flex w-48 items-center justify-end px-2">
+                    class="sticky top-0 z-10 flex h-8 w-full items-center justify-end py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <div class="flex h-full w-60 content-end items-center px-2">
                       <div
-                        @click="toggleSearchVisible()"
-                        class="group flex h-full cursor-pointer items-center justify-end hover:bg-neutral-50">
-                        <MagnifyingGlassIcon
-                          class="h-4 w-4 text-gray-400 group-hover:text-neutral-600" />
-                        <input
-                          class="h-full px-2 py-1 text-xs text-neutral-400"
-                          v-if="searchVisible"
-                          placeholder="Search"
-                          v-model="searchQuery" />
+                        class="group flex h-full w-full cursor-pointer items-center justify-end transition-all">
+                        <div
+                          class="flex items-center justify-end"
+                          v-if="searchVisible">
+                          <div class="mt-1 flex w-40 rounded-md shadow-sm">
+                            <div
+                              class="relative flex flex-grow items-stretch focus-within:z-10">
+                              <div
+                                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                <MagnifyingGlassIcon
+                                  class="h-3 w-3 text-gray-400"
+                                  aria-hidden="true" />
+                              </div>
+                              <input
+                                placeholder="Search"
+                                v-model="searchQuery"
+                                class="block w-full rounded-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="flex cursor-pointer items-center hover:bg-neutral-50"
+                          v-else>
+                          <MagnifyingGlassIcon
+                            @click="toggleSearchVisible()"
+                            class="mr-1 -mt-1 h-4 w-4 text-gray-400 group-hover:text-neutral-600" />
+                        </div>
                       </div>
                       <div
-                        class="group mr-2 h-full w-40 cursor-pointer items-center">
+                        class="w-18 group mr-2 h-full cursor-pointer items-center">
                         <Menu>
                           <Float
                             portal
@@ -233,7 +251,7 @@
                             :offset="10"
                             placement="bottom-end">
                             <MenuButton
-                              class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                              class="inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                               <AdjustmentsHorizontalIcon
                                 class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
                                 aria-hidden="true" />
