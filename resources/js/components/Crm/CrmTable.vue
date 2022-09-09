@@ -189,13 +189,14 @@
                     class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
-                  <th
-                    v-for="column in columns"
-                    :key="column.key"
-                    scope="col"
-                    class="sticky top-0 z-10 table-cell h-8 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <CrmTableSortableHeader
-                      :class="[
+                    <template v-for="column in columns">
+                        <th
+                            :key="column.key"
+                            v-if="column.visible"
+                            scope="col"
+                            class="sticky top-0 z-10 table-cell h-8 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                            <CrmTableSortableHeader
+                                :class="[
                         { 'hidden sm:block': column.breakpoint == 'sm' },
                         { 'hidden md:block': column.breakpoint == 'md' },
                         { 'hidden lg:block': column.breakpoint == 'lg' },
@@ -203,12 +204,11 @@
                         { 'hidden 2xl:block': column.breakpoint == '2xl' },
                         'block',
                       ]"
-                      v-show="column.visible"
-                      :sortable="column.sortable"
-                      :icon="column.icon"
-                      :name="column.name" />
-                  </th>
-
+                                :sortable="column.sortable"
+                                :icon="column.icon"
+                                :name="column.name" />
+                        </th>
+                    </template>
                   <th
                     scope="col"
                     class="sticky top-0 z-10 flex h-8 w-full items-center justify-end py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
