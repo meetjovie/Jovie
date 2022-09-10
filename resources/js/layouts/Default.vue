@@ -317,9 +317,7 @@ export default {
   data() {
     return {
       navigation: [
-        {}
         { name: 'Pricing', href: '/pricing', current: true },
-
         { name: 'Get strarted free', href: '/signup', current: false },
       ],
       features: [
