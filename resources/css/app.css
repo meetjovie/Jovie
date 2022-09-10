@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .ghost-card {
+    @apply border-b border-neutral-900 bg-gray-200 opacity-50;
+  }
+}

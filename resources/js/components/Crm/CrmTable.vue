@@ -11,7 +11,7 @@
                 <tr class="h-10 items-center py-2">
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div class="h-5 items-center text-center">
                       <input
                         type="checkbox"
@@ -36,12 +36,12 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -49,7 +49,7 @@
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
                             class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                            <span>Bulk Actions</span>
+                            <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
                               class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
                               aria-hidden="true" />
@@ -122,7 +122,7 @@
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
                             class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                            <span>Add to list </span>
+                            <span class="line-clamp-1">Add to list </span>
                             <ChevronDownIcon
                               class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
                               aria-hidden="true" />
@@ -195,7 +195,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-10 table-cell h-8 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                      class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         :class="[
                           { 'hidden sm:block': column.breakpoint == 'sm' },
@@ -212,20 +212,20 @@
                   </template>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 flex h-8 w-full items-center justify-end py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 flex w-full items-center justify-end border-b border-gray-300 py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div class="flex h-full w-60 content-end items-center px-2">
                       <div
-                        class="group flex h-full w-full cursor-pointer items-center justify-end transition-all">
+                        class="group flex h-full w-full cursor-pointer items-center justify-end py-2 px-4 transition-all">
                         <div
                           class="flex items-center justify-end"
                           v-if="searchVisible">
-                          <div class="mt-1 flex w-40 rounded-md shadow-sm">
+                          <div class="flex w-40 rounded-md shadow-sm">
                             <div
                               class="relative flex flex-grow items-stretch focus-within:z-10">
                               <div
                                 class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                 <MagnifyingGlassIcon
-                                  class="h-3 w-3 text-gray-400"
+                                  class="h-4 w-4 text-gray-400"
                                   aria-hidden="true" />
                               </div>
                               <input
@@ -240,7 +240,7 @@
                           v-else>
                           <MagnifyingGlassIcon
                             @click="toggleSearchVisible()"
-                            class="mr-1 -mt-1 h-4 w-4 text-gray-400 group-hover:text-neutral-600" />
+                            class="mr-1 -mt-1 h-5 w-5 text-gray-400 group-hover:text-neutral-600" />
                         </div>
                       </div>
                       <div
@@ -986,14 +986,14 @@ export default {
           name: 'First',
           key: 'first_name',
           icon: 'Bars3BottomLeftIcon',
-          visible: true,
+          visible: false,
           breakpoint: '2xl',
         },
         {
           name: 'Last',
           key: 'last_name',
-          icon: 'AtSymbolIcon',
-          visible: true,
+          icon: 'Bars3BottomLeftIcon',
+          visible: false,
           breakpoint: 'lg',
         },
         {

@@ -20,7 +20,7 @@
                     @mouseenter="setShowTooltip()"
                     @mouseleave="setHideTooltip()"
                     @click="setFiltersType('all')"
-                    class="group flex h-6 w-full items-center justify-between rounded-md text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                     :class="[
                       filters.type == 'all'
                         ? 'text-sm font-bold text-neutral-500  '
@@ -48,7 +48,7 @@
 
                 <button
                   @click="setFiltersType('archived')"
-                  class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                  class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                   :class="[
                     filters.type == 'archived'
                       ? 'text-sm font-bold text-neutral-500 '
@@ -69,7 +69,7 @@
 
                 <button
                   @click="setFiltersType('favourites')"
-                  class="group flex h-6 w-full items-center justify-between rounded-md py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                  class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
                   :class="[
                     filters.type == 'favourites'
                       ? 'text-sm font-bold text-neutral-500 '
