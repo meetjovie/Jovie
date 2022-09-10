@@ -249,7 +249,7 @@
                           <Float
                             portal
                             class="pr-2"
-                            :offset="10"
+                            :offset="14"
                             placement="bottom-end">
                             <MenuButton
                               class="inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
@@ -265,7 +265,16 @@
                               leave-from-class="transform scale-100 opacity-100"
                               leave-to-class="transform scale-95 opacity-0">
                               <MenuItems
-                                class="w-40 flex-col rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
+                                class="w-60 flex-col rounded-md border border-neutral-200 bg-neutral-50 py-1 pl-2 pr-1 shadow-xl">
+                                <MenuItem as="div" v-slot="{ active }">
+                                  <div
+                                    class="flex items-center border-b border-neutral-200 py-1">
+                                    <span
+                                      class="text-xs font-bold text-neutral-500 line-clamp-1">
+                                      Display Columns
+                                    </span>
+                                  </div>
+                                </MenuItem>
                                 <MenuItem
                                   as="div"
                                   v-for="(column, index) in columns"
@@ -317,6 +326,11 @@
                             </transition>
                           </Float>
                         </Menu>
+                      </div>
+                      <div
+                        @click="exportToCSV()"
+                        class="w-18 group mr-2 h-full cursor-pointer items-center">
+                        <CloudArrowDownIcon class="h-5 w-5 text-neutral-400" />
                       </div>
                     </div>
                   </th>
@@ -665,7 +679,7 @@
                           'crm_record_by_user.last_contacted'
                         )
                       "
-                      class="border-1 hidden w-36 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
+                      class="border-1 hidden w-40 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @click="
@@ -712,7 +726,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="hidden w-32 whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
+                      class="hidden w-3 whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -904,12 +918,14 @@ import {
   PopoverButton,
   PopoverPanel,
 } from '@headlessui/vue';
-import StarRating from 'vue-star-rating';
+import StarIcon from 'vue-star-rating';
 import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
   ChevronDownIcon,
+  StarIcon as StarSolidIcon,
   PlusIcon,
+  ChartBarIcon,
   NoSymbolIcon,
   TrashIcon,
   ArrowPathIcon,
@@ -918,11 +934,11 @@ import {
   Bars3BottomLeftIcon,
   AtSymbolIcon,
   CurrencyDollarIcon,
-  StarIcon,
   EnvelopeIcon,
   LinkIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
+  CloudArrowDownIcon,
   AdjustmentsHorizontalIcon,
 } from '@heroicons/vue/24/solid';
 
@@ -937,7 +953,9 @@ export default {
   name: 'CrmTable',
   components: {
     ArchiveBoxIcon,
-    StarRating,
+    StarSolidIcon,
+    StarIcon,
+    ChartBarIcon,
     MagnifyingGlassIcon,
     Menu,
     EnvelopeIcon,
@@ -963,12 +981,12 @@ export default {
     Bars3BottomLeftIcon,
     AtSymbolIcon,
     CurrencyDollarIcon,
-    StarIcon,
     ChevronUpIcon,
     LinkIcon,
     CalendarDaysIcon,
     ArrowDownCircleIcon,
     AdjustmentsHorizontalIcon,
+    CloudArrowDownIcon,
   },
   data() {
     return {
@@ -1037,6 +1055,7 @@ export default {
         {
           name: 'Rating',
           key: 'crm_record_by_user.rating',
+          icon: 'StarSolidIcon',
           sortable: true,
           visible: true,
           breakpoint: '2xl',
