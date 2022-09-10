@@ -519,42 +519,24 @@
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
                         target="_blank"
-                        class="inline-flex items-center justify-between rounded-full px-3 py-1 text-center text-xs font-bold text-gray-800">
+                        class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
                         <div class="mx-auto flex-col items-center">
                           <div
                             v-if="creator[`${network}_handler`]"
-                            class="mx-auto items-center group-hover:opacity-100"
-                            :class="[
-                              {
-                                'opacity-100': creator[`${network}_handler`],
-                              },
-                              'opacity-30',
-                            ]">
-                            <Popover class="relative">
-                              <Float portal placement="bottom-end">
-                                <PopoverButton>
-                                  <SocialIcons
-                                    class="mx-auto"
-                                    height="14px"
-                                    :icon="network" />
-                                </PopoverButton>
-                                <PopoverPanel
-                                  class="z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
-                                  <div
-                                    class="w-40 rounded-md bg-gray-800 shadow-md">
-                                    Hi
-                                  </div>
-                                </PopoverPanel>
-                              </Float>
-                            </Popover>
-                          </div>
-                          <div
-                            class="mx-auto items-center opacity-30 group-hover:opacity-100"
-                            v-else>
+                            class="mx-auto items-center opacity-100 group-hover:opacity-100">
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
                               :icon="network" />
+                          </div>
+                          <div class="mx-auto items-center" v-else>
+                            <div class="opacity-10 hover:opacity-100">
+                              <SocialIcons height="14px" :icon="network" />
+                            </div>
+                            <div class="absolute left-0">
+                              <PlusIcon
+                                class="h-2 w-2 text-neutral-400/10 hover:text-neutral-600" />
+                            </div>
                           </div>
                           <!--  <div class="">
                             <span
@@ -791,6 +773,23 @@
                                 class="backdrop-fitler z-10 mt-2 w-28 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
+                                    v-slot="{ active }"
+                                    class="items-center">
+                                    <a
+                                      href="mailto: $creator.email"
+                                      class="items-center text-neutral-400 hover:text-neutral-900"
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-700',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                      <EnvelopeIcon
+                                        class="mr-2 inline h-4 w-4" />
+                                      Email</a
+                                    >
+                                  </MenuItem>
+                                  <MenuItem
                                     v-if="filters.list"
                                     v-slot="{ active }"
                                     class="items-center"
@@ -920,6 +919,7 @@ import {
   AtSymbolIcon,
   CurrencyDollarIcon,
   StarIcon,
+  EnvelopeIcon,
   LinkIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
@@ -940,6 +940,7 @@ export default {
     StarRating,
     MagnifyingGlassIcon,
     Menu,
+    EnvelopeIcon,
     Switch,
     Datepicker,
     MenuButton,
