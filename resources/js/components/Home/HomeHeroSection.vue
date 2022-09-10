@@ -28,9 +28,8 @@
           >
         </h2>
         <ButtonGroup
-          :loader="loading"
-          as="router-link"
-          to="signup"
+          @click="signup()"
+          :loading="loading"
           class="mt-4 w-full sm:w-64"
           text="Get Started Free" />
         <span class="mt-1 text-2xs text-gray-400">
@@ -58,9 +57,15 @@ export default {
     return {
       waitListEmail: '',
       error: null,
+      loading: false,
     };
   },
   methods: {
+    signup() {
+      this.loading = true;
+      this.$router.push('/signup');
+      this.loading = false;
+    },
     async requestDemo() {
       await UserService.addToWaitList({ email: this.waitListEmail })
         .then((response) => {
