@@ -22,7 +22,7 @@
           <br />
         </h1>
         <h2 class="inline py-2 text-center text-lg font-bold text-neutral-600">
-          One place for you & your team to track everyone you know<br />
+          One space for you & your team to track everyone you know<br />
           <span class="text-sm font-medium text-neutral-400"
             >(and everyone you wish you did).</span
           >
