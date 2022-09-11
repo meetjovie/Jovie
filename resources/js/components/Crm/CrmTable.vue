@@ -159,7 +159,7 @@
                                   {{ list.name }}
                                 </button>
                               </MenuItem>
-                              <MenuItem v-slot="{ active }">
+                              <MenuItem v-slot="{ active }" class="mx-auto">
                                 <button
                                   :class="[
                                     active
@@ -169,7 +169,9 @@
                                   ]">
                                   <div
                                     class="mx-auto flex content-center items-center text-center">
-                                    <span>Create New List</span>
+                                    <span class="text-center"
+                                      >Create New List</span
+                                    >
                                     <PlusIcon
                                       :active="active"
                                       class="mr-2 h-3 w-3 text-neutral-400"
@@ -459,7 +461,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('first_name')"
-                      class="border-1 hidden w-28 border-collapse whitespace-nowrap border lg:table-cell">
+                      class="border-1 hidden w-28 border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-sm text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.first_name"
@@ -521,7 +523,7 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
@@ -546,10 +548,6 @@
                           <div class="mx-auto items-center" v-else>
                             <div class="opacity-10 hover:opacity-100">
                               <SocialIcons height="14px" :icon="network" />
-                            </div>
-                            <div class="absolute left-0">
-                              <PlusIcon
-                                class="h-2 w-2 text-neutral-400/10 hover:text-neutral-600" />
                             </div>
                           </div>
                           <!--  <div class="">
@@ -657,7 +655,7 @@
                                         value: key,
                                       })
                                     "
-                                    class="hover:text-white' group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200">
+                                    class="group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200 hover:text-white">
                                     <div
                                       class="mr-2 text-xs font-bold opacity-50">
                                       {{ key + 1 }}
@@ -726,7 +724,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="hidden w-3 whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
+                      class="hidden w-32 whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -790,7 +788,7 @@
                                     v-slot="{ active }"
                                     class="items-center">
                                     <a
-                                      href="mailto: $creator.email"
+                                      :href="`mailto:` + creator.email"
                                       class="items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
@@ -923,7 +921,6 @@ import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
   ChevronDownIcon,
-  StarIcon as StarSolidIcon,
   PlusIcon,
   ChartBarIcon,
   NoSymbolIcon,
@@ -953,7 +950,6 @@ export default {
   name: 'CrmTable',
   components: {
     ArchiveBoxIcon,
-    StarSolidIcon,
     StarIcon,
     ChartBarIcon,
     MagnifyingGlassIcon,
@@ -991,7 +987,6 @@ export default {
   data() {
     return {
       creatorRecords: [],
-
       searchQuery: '',
       currentRow: null,
       date: null,
@@ -1013,7 +1008,7 @@ export default {
           key: 'last_name',
           icon: 'Bars3BottomLeftIcon',
           visible: false,
-          breakpoint: 'lg',
+          breakpoint: '2xl',
         },
         {
           name: 'Email',
@@ -1040,6 +1035,7 @@ export default {
           name: 'Stage',
           key: 'crm_record_by_user.stage',
           icon: 'ArrowDownCircleIcon',
+          width: 'w-24',
           sortable: true,
           visible: true,
           breakpoint: 'md',
@@ -1055,7 +1051,7 @@ export default {
         {
           name: 'Rating',
           key: 'crm_record_by_user.rating',
-          icon: 'StarSolidIcon',
+          icon: 'ChartBarIcon',
           sortable: true,
           visible: true,
           breakpoint: '2xl',

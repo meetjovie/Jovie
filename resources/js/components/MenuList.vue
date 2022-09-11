@@ -49,6 +49,7 @@
                 </div>
                 <div
                   @dblclick="enableEditName(element)"
+                  class="w-full cursor-pointer"
                   @click="$emit('setFilterList', element.id)">
                   <span
                     v-if="!element.editName"
@@ -181,6 +182,7 @@
             </div>
             <div
               @dblclick="enableEditName(item)"
+              class="w-full cursor-pointer"
               @click="$emit('setFilterList', item.id)">
               <span
                 v-if="!item.editName"

@@ -62,6 +62,16 @@ export const routes = [
     },
   },
   {
+    name: 'YC Demo Video',
+    path: '/yc-demo-video',
+    beforeEnter(to, from, next) {
+      window.open('https://loom.com', '_self');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Data',
     path: '/data',
     component: loadPage('OurData'),
