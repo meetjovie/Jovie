@@ -64,7 +64,7 @@ class UserController extends Controller
             ];
             return response([
                 'status' => true,
-                'data' => $user,
+                'data' => User::currentLoggedInUser(),
                 'networks' => Creator::NETWORKS,
             ], 200);
         }
@@ -106,7 +106,7 @@ class UserController extends Controller
 
             return response([
                 'status' => true,
-                'data' => $user,
+                'data' => User::currentLoggedInUser(),
                 'networks' => Creator::NETWORKS,
             ], 200);
         }
@@ -202,7 +202,7 @@ class UserController extends Controller
             return collect([
                 'status' => true,
                 'message' => 'Profile Information Updated.',
-                'user' => User::where('id', Auth::user()->id)->first(),
+                'user' => User::currentLoggedInUser()
             ]);
         }
 
@@ -223,7 +223,7 @@ class UserController extends Controller
                 return collect([
                     'status' => true,
                     'message' => 'Profile photo removed.',
-                    'user' => Auth::user(),
+                    'user' => User::currentLoggedInUser()
                 ]);
             } else {
                 return collect([
