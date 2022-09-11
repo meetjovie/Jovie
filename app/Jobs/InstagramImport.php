@@ -65,7 +65,7 @@ class InstagramImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($username, $tags = '', $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null, $importId = null, $teamId)
+    public function __construct($username, $tags = '', $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null)
     {
         $this->username = $username;
         $this->tags = $tags;
