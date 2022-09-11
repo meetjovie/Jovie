@@ -66,6 +66,14 @@ export default {
       setTimeout(() => {
         this.show = true;
       }, 200);
+      /* //after 10 seconds, hide the tooltip
+      setTimeout(() => {
+        this.show = false;
+      }, 10000); */
+      //also hide the tooltip if another tooltip is opened
+      this.$root.$on('showTooltip', () => {
+        this.show = false;
+      });
     },
     setHideTooltip() {
       console.log('hiding tooltip');
