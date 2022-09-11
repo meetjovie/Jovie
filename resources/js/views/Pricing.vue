@@ -347,7 +347,7 @@ const faqs = [
   {
     question: 'Can I add additional users to my account?',
     answer:
-      'Yes. Team & enterprise plans allow you to invite team members and collaborate.  The Team plan includes 2 seats and you can add more for $99/mo.',
+      'Yes. Team & enterprise plans allow you to invite team members and collaborate.  The Team plan includes 2 seats and you can add more for $49/mo.',
   },
   {
     question: 'What is a contact credit?',

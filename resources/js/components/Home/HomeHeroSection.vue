@@ -22,15 +22,14 @@
           <br />
         </h1>
         <h2 class="inline py-2 text-center text-lg font-bold text-neutral-600">
-          One place for you & your team to track everyone you know<br />
+          One space for you & your team to track everyone you know<br />
           <span class="text-sm font-medium text-neutral-400"
             >(and everyone you wish you did).</span
           >
         </h2>
         <ButtonGroup
-          :loader="loading"
-          as="router-link"
-          to="signup"
+          @click="signup()"
+          :loading="loading"
           class="mt-4 w-full sm:w-64"
           text="Get Started Free" />
         <span class="mt-1 text-2xs text-gray-400">
@@ -58,9 +57,15 @@ export default {
     return {
       waitListEmail: '',
       error: null,
+      loading: false,
     };
   },
   methods: {
+    signup() {
+      this.loading = true;
+      this.$router.push('/signup');
+      this.loading = false;
+    },
     async requestDemo() {
       await UserService.addToWaitList({ email: this.waitListEmail })
         .then((response) => {

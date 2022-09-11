@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="group flex cursor-pointer items-center justify-between rounded-md py-1">
+      class="group flex cursor-pointer items-center justify-between rounded-md py-2">
       <div
         @click="toggleShowMenu()"
         class="flex cursor-pointer items-center rounded-md pr-2 text-sm font-semibold text-neutral-400 hover:bg-neutral-200 group-hover:text-neutral-500">
@@ -27,26 +27,29 @@
       <draggable
         v-model="menuItems"
         group="lists"
+        class="select-none"
+        ghost-class="ghost-card"
         itemKey="id"
         @change="$emit('sort')">
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <div
-              class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200 active:shadow-xl">
+              class="group inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200 active:shadow-xl">
               <div
                 class="group mx-auto w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
                 <Bars3Icon
-                  class="h-4 w-4 text-gray-400/0 group-hover:text-gray-400"></Bars3Icon>
+                  class="h-4 w-4 text-gray-400/0 hover:text-neutral-900 active:text-neutral-900 group-hover:text-gray-400"></Bars3Icon>
               </div>
 
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+                  class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-400 active:bg-neutral-800 group-hover:bg-neutral-200">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
                   @dblclick="enableEditName(element)"
+                  class="w-full cursor-pointer"
                   @click="$emit('setFilterList', element.id)">
                   <span
                     v-if="!element.editName"
@@ -60,7 +63,7 @@
                   >
                   <input
                     v-model="element.name"
-                    @blur="disableEditName(element)"
+                    @blur="updateList(element)"
                     @keyup.esc="disableEditName(element)"
                     @keyup.enter="updateList(element)"
                     v-else
@@ -68,7 +71,7 @@
                 </div>
               </div>
               <div
-                class="h-6 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                 <span
                   class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
                   >{{ element.count }}</span
@@ -77,76 +80,78 @@
                 <Menu
                   as="div"
                   class="relative inline-block items-center text-center">
-                  <MenuButton
-                    class="hidden h-4 w-4 items-center text-gray-400 active:text-gray-500 group-hover:block">
-                    <EllipsisVerticalIcon
-                      class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
-                  </MenuButton>
+                  <Float portal shift placement="bottom-end">
+                    <MenuButton
+                      class="hidden h-4 w-4 items-center text-gray-400 active:text-gray-500 group-hover:block">
+                      <EllipsisVerticalIcon
+                        class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
+                    </MenuButton>
 
-                  <transition
-                    enter-active-class="transition duration-100 ease-out"
-                    enter-from-class="transform scale-95 opacity-0"
-                    enter-to-class="transform scale-100 opacity-100"
-                    leave-active-class="transition duration-75 ease-in"
-                    leave-from-class="transform scale-100 opacity-100"
-                    leave-to-class="transform scale-95 opacity-0">
-                    <MenuItems
-                      class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none">
-                      <div class="px-1 py-1">
-                        <MenuItem v-slot="{ active }">
-                          <button
-                            @click="duplicateList(element.id)"
-                            :class="[
-                              active
-                                ? 'bg-gray-300 text-gray-700'
-                                : 'text-gray-900',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                            ]">
-                            <DocumentDuplicateIcon
-                              :active="active"
-                              class="mr-2 h-3 w-3 text-teal-400 hover:text-gray-700"
-                              aria-hidden="true" />
-                            Duplicate
-                          </button>
-                        </MenuItem>
-                        <MenuItem v-slot="{ active }">
-                          <button
-                            @click="pinList(element.id)"
-                            :class="[
-                              active
-                                ? 'bg-gray-300 text-gray-700'
-                                : 'text-gray-900',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                            ]">
-                            <PinIcon
-                              :active="active"
-                              class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
-                              aria-hidden="true" />
-                            Pin List
-                          </button>
-                        </MenuItem>
-                      </div>
+                    <transition
+                      enter-active-class="transition duration-100 ease-out"
+                      enter-from-class="transform scale-95 opacity-0"
+                      enter-to-class="transform scale-100 opacity-100"
+                      leave-active-class="transition duration-75 ease-in"
+                      leave-from-class="transform scale-100 opacity-100"
+                      leave-to-class="transform scale-95 opacity-0">
+                      <MenuItems
+                        class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none">
+                        <div class="px-1 py-1">
+                          <MenuItem v-slot="{ active }">
+                            <button
+                              @click="duplicateList(element.id)"
+                              :class="[
+                                active
+                                  ? 'bg-gray-300 text-gray-700'
+                                  : 'text-gray-900',
+                                'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              ]">
+                              <DocumentDuplicateIcon
+                                :active="active"
+                                class="mr-2 h-3 w-3 text-teal-400 hover:text-gray-700"
+                                aria-hidden="true" />
+                              Duplicate
+                            </button>
+                          </MenuItem>
+                          <MenuItem v-slot="{ active }">
+                            <button
+                              @click="pinList(element.id)"
+                              :class="[
+                                active
+                                  ? 'bg-gray-300 text-gray-700'
+                                  : 'text-gray-900',
+                                'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              ]">
+                              <PinIcon
+                                :active="active"
+                                class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
+                                aria-hidden="true" />
+                              Pin List
+                            </button>
+                          </MenuItem>
+                        </div>
 
-                      <div class="px-1 py-1">
-                        <MenuItem v-slot="{ active }">
-                          <button
-                            @click="confirmListDeletion(element.id)"
-                            :class="[
-                              active
-                                ? 'bg-gray-300 text-gray-900'
-                                : 'text-gray-900',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                            ]">
-                            <TrashIcon
-                              :active="active"
-                              class="mr-2 h-3 w-3 text-gray-400 hover:text-white"
-                              aria-hidden="true" />
-                            Trash
-                          </button>
-                        </MenuItem>
-                      </div>
-                    </MenuItems>
-                  </transition>
+                        <div class="px-1 py-1">
+                          <MenuItem v-slot="{ active }">
+                            <button
+                              @click="confirmListDeletion(element.id)"
+                              :class="[
+                                active
+                                  ? 'bg-gray-300 text-gray-900'
+                                  : 'text-gray-900',
+                                'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              ]">
+                              <TrashIcon
+                                :active="active"
+                                class="mr-2 h-3 w-3 text-gray-400 hover:text-white"
+                                aria-hidden="true" />
+                              Trash
+                            </button>
+                          </MenuItem>
+                        </div>
+                      </MenuItems>
+                    </transition>
+                  </Float>
                 </Menu>
               </div>
             </div>
@@ -160,7 +165,7 @@
     <ul v-if="showMenu && !draggable" class="">
       <div v-for="item in menuItems" :key="item.id">
         <div
-          class="group inline-flex w-full items-center justify-between rounded-md transition-all hover:bg-neutral-200">
+          class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200">
           <div
             class="group w-4 flex-none cursor-pointer items-center hover:bg-neutral-200">
             <PinnedIcon
@@ -172,11 +177,12 @@
           <div class="flex w-full items-center">
             <div
               @click="openEmojiPicker(item)"
-              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-400 group-hover:bg-neutral-200">
+              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-700 group-hover:bg-neutral-200">
               {{ item.emoji ?? '📄' }}
             </div>
             <div
               @dblclick="enableEditName(item)"
+              class="w-full cursor-pointer"
               @click="$emit('setFilterList', item.id)">
               <span
                 v-if="!item.editName"
@@ -200,85 +206,87 @@
           </div>
 
           <div
-            class="group h-6 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+            class="group mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
             <span
               class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
               >{{ item.count }}</span
             >
 
             <Menu as="div" class="relative inline-block text-left">
-              <div>
-                <MenuButton
-                  class="hidden h-4 w-4 text-gray-400 group-hover:block">
-                  <EllipsisVerticalIcon
-                    class="hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
-                </MenuButton>
-              </div>
+              <Float portal shift placement="bottom-end">
+                <div>
+                  <MenuButton
+                    class="hidden h-4 w-4 text-gray-400 group-hover:block">
+                    <EllipsisVerticalIcon
+                      class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
+                  </MenuButton>
+                </div>
 
-              <transition
-                enter-active-class="transition duration-100 ease-out"
-                enter-from-class="transform scale-95 opacity-0"
-                enter-to-class="transform scale-100 opacity-100"
-                leave-active-class="transition duration-75 ease-in"
-                leave-from-class="transform scale-100 opacity-100"
-                leave-to-class="transform scale-95 opacity-0">
-                <MenuItems
-                  class="absolute right-0 z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none">
-                  <div class="px-1 py-1">
-                    <MenuItem v-slot="{ active }">
-                      <button
-                        @click="duplicateList(item.id)"
-                        :class="[
-                          active
-                            ? 'bg-gray-300 text-gray-700'
-                            : 'text-gray-900',
-                          'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                        ]">
-                        <DocumentDuplicateIcon
-                          :active="active"
-                          class="mr-2 h-4 w-4 text-teal-400 hover:text-gray-700"
-                          aria-hidden="true" />
-                        Duplicate
-                      </button>
-                    </MenuItem>
-                    <MenuItem v-slot="{ active }">
-                      <button
-                        @click="unpinList(item.id)"
-                        :class="[
-                          active
-                            ? 'bg-gray-300 text-gray-700'
-                            : 'text-gray-900',
-                          'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                        ]">
-                        <PinnedIcon
-                          :active="active"
-                          class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
-                          aria-hidden="true" />
-                        Unpin List
-                      </button>
-                    </MenuItem>
-                  </div>
+                <transition
+                  enter-active-class="transition duration-100 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-75 ease-in"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0">
+                  <MenuItems
+                    class="z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none">
+                    <div class="px-1 py-1">
+                      <MenuItem v-slot="{ active }">
+                        <button
+                          @click="duplicateList(item.id)"
+                          :class="[
+                            active
+                              ? 'bg-gray-300 text-gray-700'
+                              : 'text-gray-900',
+                            'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                          ]">
+                          <DocumentDuplicateIcon
+                            :active="active"
+                            class="mr-2 h-4 w-4 text-teal-400 hover:text-gray-700"
+                            aria-hidden="true" />
+                          Duplicate
+                        </button>
+                      </MenuItem>
+                      <MenuItem v-slot="{ active }">
+                        <button
+                          @click="unpinList(item.id)"
+                          :class="[
+                            active
+                              ? 'bg-gray-300 text-gray-700'
+                              : 'text-gray-900',
+                            'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                          ]">
+                          <PinnedIcon
+                            :active="active"
+                            class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
+                            aria-hidden="true" />
+                          Unpin List
+                        </button>
+                      </MenuItem>
+                    </div>
 
-                  <div class="px-1 py-1">
-                    <MenuItem v-slot="{ active }">
-                      <button
-                        @click="confirmListDeletion(item.id)"
-                        :class="[
-                          active
-                            ? 'bg-gray-300 text-gray-700'
-                            : 'text-gray-900',
-                          'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                        ]">
-                        <TrashIcon
-                          :active="active"
-                          class="mr-2 h-4 w-4 text-gray-400 hover:text-gray-700"
-                          aria-hidden="true" />
-                        Trash
-                      </button>
-                    </MenuItem>
-                  </div>
-                </MenuItems>
-              </transition>
+                    <div class="px-1 py-1">
+                      <MenuItem v-slot="{ active }">
+                        <button
+                          @click="confirmListDeletion(item.id)"
+                          :class="[
+                            active
+                              ? 'bg-gray-300 text-gray-700'
+                              : 'text-gray-900',
+                            'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                          ]">
+                          <TrashIcon
+                            :active="active"
+                            class="mr-2 h-4 w-4 text-gray-400 hover:text-gray-700"
+                            aria-hidden="true" />
+                          Trash
+                        </button>
+                      </MenuItem>
+                    </div>
+                  </MenuItems>
+                </transition>
+              </Float>
             </Menu>
           </div>
         </div>
@@ -312,6 +320,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
+import { Float } from '@headlessui-float/vue';
 
 export default {
   data() {
@@ -647,6 +656,7 @@ export default {
     PinIcon,
     draggable,
     ModalPopup,
+    Float,
   },
   props: {
     menuName: {

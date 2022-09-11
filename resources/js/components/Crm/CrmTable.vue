@@ -11,7 +11,7 @@
                 <tr class="h-10 items-center py-2">
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div class="h-5 items-center text-center">
                       <input
                         type="checkbox"
@@ -35,55 +35,60 @@
                     </div>
                   </th>
                   <th
-                        scope="col"
-                        class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                        <div
-                            v-if="selectedCreators.length > 0"
-                            class="flex items-center space-x-3 bg-gray-100">
-                            <Menu>
-                                <Float portal :offset="2" placement="bottom-start">
-                                    <MenuButton
-                                        class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                                        <span>Bulk Actions</span>
-                                        <ChevronDownIcon
-                                            class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
-                                            aria-hidden="true" />
-                                    </MenuButton>
-                                    <transition
-                                        enter-active-class="transition duration-100 ease-out"
-                                        enter-from-class="transform scale-95 opacity-0"
-                                        enter-to-class="transform scale-100 opacity-100"
-                                        leave-active-class="transition duration-75 ease-in"
-                                        leave-from-class="transform scale-100 opacity-100"
-                                        leave-to-class="transform scale-95 opacity-0">
-                                        <MenuItems
-                                            class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
-                                            <MenuItem
-                                                v-if="filters.list"
-                                                v-slot="{ active }"
-                                                class="items-center"
-                                                @click="
+                    scope="col"
+                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <span class="sr-only">Favorite</span>
+                  </th>
+                  <th
+                    scope="col"
+                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <div
+                      v-if="selectedCreators.length > 0"
+                      class="flex items-center space-x-3 bg-gray-100">
+                      <Menu>
+                        <Float portal :offset="2" placement="bottom-start">
+                          <MenuButton
+                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                            <span class="line-clamp-1">Bulk Actions</span>
+                            <ChevronDownIcon
+                              class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
+                              aria-hidden="true" />
+                          </MenuButton>
+                          <transition
+                            enter-active-class="transition duration-100 ease-out"
+                            enter-from-class="transform scale-95 opacity-0"
+                            enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-in"
+                            leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0">
+                            <MenuItems
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                              <MenuItem
+                                v-if="filters.list"
+                                v-slot="{ active }"
+                                class="items-center"
+                                @click="
                                   toggleCreatorsFromList(
                                     selectedCreators,
                                     filters.list,
                                     true
                                   )
                                 ">
-                                                <button
-                                                    class="items-center text-neutral-400 hover:text-neutral-900"
-                                                    :class="[
+                                <button
+                                  class="items-center text-neutral-400 hover:text-neutral-900"
+                                  :class="[
                                     active
                                       ? 'bg-gray-100 text-gray-900'
                                       : 'text-gray-700',
                                     'block px-4 py-2 text-xs',
                                   ]">
-                                                    <TrashIcon class="mr-2 inline h-4 w-4" />
-                                                    Remove from list
-                                                </button>
-                                            </MenuItem>
-                                            <MenuItem
-                                                v-slot="{ active }"
-                                                @click="
+                                  <TrashIcon class="mr-2 inline h-4 w-4" />
+                                  Remove from list
+                                </button>
+                              </MenuItem>
+                              <MenuItem
+                                v-slot="{ active }"
+                                @click="
                                   toggleArchiveCreators(
                                     this.selectedCreators,
                                     this.filters.type == 'archived'
@@ -91,140 +96,138 @@
                                       : true
                                   )
                                 ">
-                                                <button
-                                                    :class="[
+                                <button
+                                  :class="[
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
                                     'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
                                   ]">
-                                                    <ArchiveBoxIcon
-                                                        :active="active"
-                                                        class="mr-2 h-3 w-3 text-sky-400"
-                                                        aria-hidden="true" />
-                                                    {{
-                                                        this.filters.type == 'archived'
-                                                            ? 'Unarchive'
-                                                            : 'Archive'
-                                                    }}
-                                                </button>
-                                            </MenuItem>
-                                        </MenuItems>
-                                    </transition>
-                                </Float>
-                            </Menu>
-                            <Menu>
-                                <Float portal :offset="2" placement="bottom-start">
-                                    <MenuButton
-                                        class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                                        <span>Add to list </span>
-                                        <ChevronDownIcon
-                                            class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
-                                            aria-hidden="true" />
-                                    </MenuButton>
-                                    <transition
-                                        enter-active-class="transition duration-100 ease-out"
-                                        enter-from-class="transform scale-95 opacity-0"
-                                        enter-to-class="transform scale-100 opacity-100"
-                                        leave-active-class="transition duration-75 ease-in"
-                                        leave-from-class="transform scale-100 opacity-100"
-                                        leave-to-class="transform scale-95 opacity-0">
-                                        <MenuItems
-                                            class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
-                                            <MenuItem
-                                                v-slot="{ active }"
-                                                v-for="list in userLists"
-                                                @click="
+                                  <ArchiveBoxIcon
+                                    :active="active"
+                                    class="mr-2 h-3 w-3 text-sky-400"
+                                    aria-hidden="true" />
+                                  {{
+                                    this.filters.type == 'archived'
+                                      ? 'Unarchive'
+                                      : 'Archive'
+                                  }}
+                                </button>
+                              </MenuItem>
+                            </MenuItems>
+                          </transition>
+                        </Float>
+                      </Menu>
+                      <Menu>
+                        <Float portal :offset="2" placement="bottom-start">
+                          <MenuButton
+                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                            <span class="line-clamp-1">Add to list </span>
+                            <ChevronDownIcon
+                              class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
+                              aria-hidden="true" />
+                          </MenuButton>
+                          <transition
+                            enter-active-class="transition duration-100 ease-out"
+                            enter-from-class="transform scale-95 opacity-0"
+                            enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-in"
+                            leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0">
+                            <MenuItems
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                              <MenuItem
+                                v-slot="{ active }"
+                                v-for="list in userLists"
+                                @click="
                                   toggleCreatorsFromList(
                                     selectedCreators,
                                     list.id,
                                     false
                                   )
                                 ">
-                                                <button
-                                                    :class="[
+                                <button
+                                  :class="[
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
                                     'group flex w-full items-center px-4 py-2 text-left text-xs font-bold line-clamp-1 first:rounded-t-md',
                                   ]">
                                   <span class="px-1">{{
-                                          list.emoji ? list.emoji : '📄'
-                                      }}</span>
-                                                    {{ list.name }}
-                                                </button>
-                                            </MenuItem>
-                                            <MenuItem v-slot="{ active }">
-                                                <button
-                                                    :class="[
+                                    list.emoji ? list.emoji : '📄'
+                                  }}</span>
+                                  {{ list.name }}
+                                </button>
+                              </MenuItem>
+                              <MenuItem v-slot="{ active }" class="mx-auto">
+                                <button
+                                  :class="[
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
                                     'group inline w-full items-center rounded-b-md border border-t border-neutral-200 px-2 py-1 text-left text-xs font-bold ',
                                   ]">
-                                                    <div
-                                                        class="mx-auto flex content-center items-center text-center">
-                                                        <span>Create New List</span>
-                                                        <PlusIcon
-                                                            :active="active"
-                                                            class="mr-2 h-3 w-3 text-neutral-400"
-                                                            aria-hidden="true" />
-                                                    </div>
-                                                </button>
-                                            </MenuItem>
-                                        </MenuItems>
-                                    </transition>
-                                </Float>
-                            </Menu>
-                        </div>
-                        <div v-else>
-                            <CrmTableSortableHeader
-                                icon="Bars3BottomLeftIcon"
-                                name="Name"
-                                sortable />
-                        </div>
-                    </th>
-                  <th
-                    scope="col"
-                    class="sticky top-0 z-10 h-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <span class="sr-only">Favorite</span>
+                                  <div
+                                    class="mx-auto flex content-center items-center text-center">
+                                    <span class="text-center"
+                                      >Create New List</span
+                                    >
+                                    <PlusIcon
+                                      :active="active"
+                                      class="mr-2 h-3 w-3 text-neutral-400"
+                                      aria-hidden="true" />
+                                  </div>
+                                </button>
+                              </MenuItem>
+                            </MenuItems>
+                          </transition>
+                        </Float>
+                      </Menu>
+                    </div>
+                    <div v-else>
+                      <CrmTableSortableHeader
+                        icon="Bars3BottomLeftIcon"
+                        name="Name"
+                        sortable />
+                    </div>
                   </th>
-                    <template v-for="column in columns">
-                        <th
-                            :key="column.key"
-                            v-if="column.visible"
-                            scope="col"
-                            class="sticky top-0 z-10 table-cell h-8 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                            <CrmTableSortableHeader
-                                :class="[
-                        { 'hidden sm:block': column.breakpoint == 'sm' },
-                        { 'hidden md:block': column.breakpoint == 'md' },
-                        { 'hidden lg:block': column.breakpoint == 'lg' },
-                        { 'hidden xl:block': column.breakpoint == 'xl' },
-                        { 'hidden 2xl:block': column.breakpoint == '2xl' },
-                        'block',
-                      ]"
-                                :sortable="column.sortable"
-                                :icon="column.icon"
-                                :name="column.name" />
-                        </th>
-                    </template>
+
+                  <template v-for="column in columns">
+                    <th
+                      :key="column.key"
+                      v-if="column.visible"
+                      scope="col"
+                      class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                      <CrmTableSortableHeader
+                        :class="[
+                          { 'hidden sm:block': column.breakpoint == 'sm' },
+                          { 'hidden md:block': column.breakpoint == 'md' },
+                          { 'hidden lg:block': column.breakpoint == 'lg' },
+                          { 'hidden xl:block': column.breakpoint == 'xl' },
+                          { 'hidden 2xl:block': column.breakpoint == '2xl' },
+                          'block',
+                        ]"
+                        :sortable="column.sortable"
+                        :icon="column.icon"
+                        :name="column.name" />
+                    </th>
+                  </template>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 flex h-8 w-full items-center justify-end py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 flex w-full items-center justify-end border-b border-gray-300 py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div class="flex h-full w-60 content-end items-center px-2">
                       <div
-                        class="group flex h-full w-full cursor-pointer items-center justify-end transition-all">
+                        class="group flex h-full w-full cursor-pointer items-center justify-end py-2 px-4 transition-all">
                         <div
                           class="flex items-center justify-end"
                           v-if="searchVisible">
-                          <div class="mt-1 flex w-40 rounded-md shadow-sm">
+                          <div class="flex w-40 rounded-md shadow-sm">
                             <div
                               class="relative flex flex-grow items-stretch focus-within:z-10">
                               <div
                                 class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                 <MagnifyingGlassIcon
-                                  class="h-3 w-3 text-gray-400"
+                                  class="h-4 w-4 text-gray-400"
                                   aria-hidden="true" />
                               </div>
                               <input
@@ -239,7 +242,7 @@
                           v-else>
                           <MagnifyingGlassIcon
                             @click="toggleSearchVisible()"
-                            class="mr-1 -mt-1 h-4 w-4 text-gray-400 group-hover:text-neutral-600" />
+                            class="mr-1 -mt-1 h-5 w-5 text-gray-400 group-hover:text-neutral-600" />
                         </div>
                       </div>
                       <div
@@ -248,7 +251,7 @@
                           <Float
                             portal
                             class="pr-2"
-                            :offset="10"
+                            :offset="14"
                             placement="bottom-end">
                             <MenuButton
                               class="inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
@@ -264,7 +267,16 @@
                               leave-from-class="transform scale-100 opacity-100"
                               leave-to-class="transform scale-95 opacity-0">
                               <MenuItems
-                                class="w-40 flex-col rounded-md border border-neutral-200 bg-neutral-50 shadow-xl">
+                                class="w-60 flex-col rounded-md border border-neutral-200 bg-neutral-50 py-1 pl-2 pr-1 shadow-xl">
+                                <MenuItem as="div" v-slot="{ active }">
+                                  <div
+                                    class="flex items-center border-b border-neutral-200 py-1">
+                                    <span
+                                      class="text-xs font-bold text-neutral-500 line-clamp-1">
+                                      Display Columns
+                                    </span>
+                                  </div>
+                                </MenuItem>
                                 <MenuItem
                                   as="div"
                                   v-for="(column, index) in columns"
@@ -316,6 +328,11 @@
                             </transition>
                           </Float>
                         </Menu>
+                      </div>
+                      <div
+                        @click="exportToCSV()"
+                        class="w-18 group mr-2 h-full cursor-pointer items-center">
+                        <CloudArrowDownIcon class="h-5 w-5 text-neutral-400" />
                       </div>
                     </div>
                   </th>
@@ -443,8 +460,8 @@
                       </div>
                     </td>
                     <td
-                        v-if="visibleColumns.includes('first_name')"
-                      class="border-1 hidden w-28 border-collapse whitespace-nowrap border lg:table-cell">
+                      v-if="visibleColumns.includes('first_name')"
+                      class="border-1 hidden w-28 border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-sm text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.first_name"
@@ -466,7 +483,7 @@
                       </div>
                     </td>
                     <td
-                        v-if="visibleColumns.includes('last_name')"
+                      v-if="visibleColumns.includes('last_name')"
                       class="border-1 hidden w-28 border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
@@ -489,7 +506,7 @@
                       </div>
                     </td>
                     <td
-                        v-if="visibleColumns.includes('emails')"
+                      v-if="visibleColumns.includes('emails')"
                       class="border-1 hidden w-40 border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
@@ -506,54 +523,32 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
                     </td>
                     <td
-                        v-if="visibleColumns.includes('networks')"
+                      v-if="visibleColumns.includes('networks')"
                       class="border-1 w-24 border-collapse items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
                         target="_blank"
-                        class="inline-flex items-center justify-between rounded-full px-3 py-1 text-center text-xs font-bold text-gray-800">
+                        class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
                         <div class="mx-auto flex-col items-center">
                           <div
                             v-if="creator[`${network}_handler`]"
-                            class="mx-auto items-center group-hover:opacity-100"
-                            :class="[
-                              {
-                                'opacity-100': creator[`${network}_handler`],
-                              },
-                              'opacity-30',
-                            ]">
-                            <Popover class="relative">
-                              <Float portal placement="bottom-end">
-                                <PopoverButton>
-                                  <SocialIcons
-                                    class="mx-auto"
-                                    height="14px"
-                                    :icon="network" />
-                                </PopoverButton>
-                                <PopoverPanel
-                                  class="z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
-                                  <div
-                                    class="w-40 rounded-md bg-gray-800 shadow-md">
-                                    Hi
-                                  </div>
-                                </PopoverPanel>
-                              </Float>
-                            </Popover>
-                          </div>
-                          <div
-                            class="mx-auto items-center opacity-30 group-hover:opacity-100"
-                            v-else>
+                            class="mx-auto items-center opacity-100 group-hover:opacity-100">
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
                               :icon="network" />
+                          </div>
+                          <div class="mx-auto items-center" v-else>
+                            <div class="opacity-10 hover:opacity-100">
+                              <SocialIcons height="14px" :icon="network" />
+                            </div>
                           </div>
                           <!--  <div class="">
                             <span
@@ -568,7 +563,7 @@
                       </a>
                     </td>
                     <td
-                        v-if="visibleColumns.includes('crm_record_by_user.offer')"
+                      v-if="visibleColumns.includes('crm_record_by_user.offer')"
                       class="border-1 hidden w-24 border-collapse whitespace-nowrap border lg:table-cell">
                       <span
                         class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
@@ -596,7 +591,7 @@
                     </td>
 
                     <td
-                        v-if="visibleColumns.includes('crm_record_by_user.stage')"
+                      v-if="visibleColumns.includes('crm_record_by_user.stage')"
                       class="border-1 hidden w-28 border-collapse items-center whitespace-nowrap border md:table-cell">
                       <Popover
                         as="div"
@@ -660,7 +655,7 @@
                                         value: key,
                                       })
                                     "
-                                    class="hover:text-white' group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200">
+                                    class="group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200 hover:text-white">
                                     <div
                                       class="mr-2 text-xs font-bold opacity-50">
                                       {{ key + 1 }}
@@ -677,8 +672,12 @@
                       </Popover>
                     </td>
                     <td
-                        v-if="visibleColumns.includes('crm_record_by_user.last_contacted')"
-                      class="border-1 hidden w-36 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
+                      v-if="
+                        visibleColumns.includes(
+                          'crm_record_by_user.last_contacted'
+                        )
+                      "
+                      class="border-1 hidden w-40 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @click="
@@ -722,7 +721,9 @@
                           aria-describedby="email-description" /> -->
                     </td>
                     <td
-                        v-if="visibleColumns.includes('crm_record_by_user.rating')"
+                      v-if="
+                        visibleColumns.includes('crm_record_by_user.rating')
+                      "
                       class="hidden w-32 whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
                       <star-rating
                         class="w-20"
@@ -783,6 +784,23 @@
                               <MenuItems
                                 class="backdrop-fitler z-10 mt-2 w-28 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
                                 <div class="py-1">
+                                  <MenuItem
+                                    v-slot="{ active }"
+                                    class="items-center">
+                                    <a
+                                      :href="`mailto:` + creator.email"
+                                      class="items-center text-neutral-400 hover:text-neutral-900"
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-700',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                      <EnvelopeIcon
+                                        class="mr-2 inline h-4 w-4" />
+                                      Email</a
+                                    >
+                                  </MenuItem>
                                   <MenuItem
                                     v-if="filters.list"
                                     v-slot="{ active }"
@@ -898,12 +916,13 @@ import {
   PopoverButton,
   PopoverPanel,
 } from '@headlessui/vue';
-import StarRating from 'vue-star-rating';
+import StarIcon from 'vue-star-rating';
 import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
   ChevronDownIcon,
   PlusIcon,
+  ChartBarIcon,
   NoSymbolIcon,
   TrashIcon,
   ArrowPathIcon,
@@ -912,10 +931,11 @@ import {
   Bars3BottomLeftIcon,
   AtSymbolIcon,
   CurrencyDollarIcon,
-  StarIcon,
+  EnvelopeIcon,
   LinkIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
+  CloudArrowDownIcon,
   AdjustmentsHorizontalIcon,
 } from '@heroicons/vue/24/solid';
 
@@ -930,9 +950,11 @@ export default {
   name: 'CrmTable',
   components: {
     ArchiveBoxIcon,
-    StarRating,
+    StarIcon,
+    ChartBarIcon,
     MagnifyingGlassIcon,
     Menu,
+    EnvelopeIcon,
     Switch,
     Datepicker,
     MenuButton,
@@ -955,17 +977,16 @@ export default {
     Bars3BottomLeftIcon,
     AtSymbolIcon,
     CurrencyDollarIcon,
-    StarIcon,
     ChevronUpIcon,
     LinkIcon,
     CalendarDaysIcon,
     ArrowDownCircleIcon,
     AdjustmentsHorizontalIcon,
+    CloudArrowDownIcon,
   },
   data() {
     return {
       creatorRecords: [],
-
       searchQuery: '',
       currentRow: null,
       date: null,
@@ -974,16 +995,68 @@ export default {
       currentContact: [],
       editingSocialHandle: true,
       searchVisible: true,
-        columns: [
-            {name: 'First', key: 'first_name', icon: 'Bars3BottomLeftIcon', visible: true, breakpoint: '2xl' },
-            {name: 'Last', key: 'last_name', icon: 'AtSymbolIcon', visible: true, breakpoint: 'lg' },
-            {name: 'Email', key: 'emails', icon: 'AtSymbolIcon', visible: true, breakpoint: 'lg' },
-            {name: 'Social Link', key: 'networks', icon: 'LinkIcon', visible: true },
-            {name: 'Offer', key: 'crm_record_by_user.offer', icon: 'CurrencyDollarIcon', sortable: true, visible: true, breakpoint: 'lg' },
-            {name: 'Stage', key: 'crm_record_by_user.stage', icon: 'ArrowDownCircleIcon', sortable: true, visible: true, breakpoint: 'md' },
-            {name: 'Last Contacted', key: 'crm_record_by_user.last_contacted', icon: 'CalendarDaysIcon', sortable: false, visible: true, breakpoint: '2xl' },
-            {name: 'Rating', key: 'crm_record_by_user.rating', sortable: true, visible: true, breakpoint: '2xl' },
-        ]
+      columns: [
+        {
+          name: 'First',
+          key: 'first_name',
+          icon: 'Bars3BottomLeftIcon',
+          visible: false,
+          breakpoint: '2xl',
+        },
+        {
+          name: 'Last',
+          key: 'last_name',
+          icon: 'Bars3BottomLeftIcon',
+          visible: false,
+          breakpoint: '2xl',
+        },
+        {
+          name: 'Email',
+          key: 'emails',
+          icon: 'AtSymbolIcon',
+          visible: true,
+          breakpoint: 'lg',
+        },
+        {
+          name: 'Social Link',
+          key: 'networks',
+          icon: 'LinkIcon',
+          visible: true,
+        },
+        {
+          name: 'Offer',
+          key: 'crm_record_by_user.offer',
+          icon: 'CurrencyDollarIcon',
+          sortable: true,
+          visible: true,
+          breakpoint: 'lg',
+        },
+        {
+          name: 'Stage',
+          key: 'crm_record_by_user.stage',
+          icon: 'ArrowDownCircleIcon',
+          width: 'w-24',
+          sortable: true,
+          visible: true,
+          breakpoint: 'md',
+        },
+        {
+          name: 'Last Contacted',
+          key: 'crm_record_by_user.last_contacted',
+          icon: 'CalendarDaysIcon',
+          sortable: false,
+          visible: true,
+          breakpoint: '2xl',
+        },
+        {
+          name: 'Rating',
+          key: 'crm_record_by_user.rating',
+          icon: 'ChartBarIcon',
+          sortable: true,
+          visible: true,
+          breakpoint: '2xl',
+        },
+      ],
     };
   },
   props: [
@@ -1019,7 +1092,7 @@ export default {
     });
     let columns = JSON.parse(localStorage.getItem('columns'));
     if (columns) {
-        this.columns = columns
+      this.columns = columns;
     }
   },
   computed: {
@@ -1032,20 +1105,24 @@ export default {
     visibleFields() {
       return this.headers.filter((header) => header.visible);
     },
-      filteredCreators() {
-          return this.creatorRecords.filter(creator => {
-              return creator.name.toLowerCase().match(this.searchQuery.toLowerCase()) ||
-                  creator.emails.some(email => email.toString().toLowerCase().match(this.searchQuery.toLowerCase()));
-          });
-      },
-      visibleColumns() {
-          localStorage.setItem('columns', JSON.stringify(this.columns))
-          return this.columns.map(column => {
-            if (column.visible) {
-                return column.key
-            }
-        })
-      }
+    filteredCreators() {
+      return this.creatorRecords.filter((creator) => {
+        return (
+          creator.name.toLowerCase().match(this.searchQuery.toLowerCase()) ||
+          creator.emails.some((email) =>
+            email.toString().toLowerCase().match(this.searchQuery.toLowerCase())
+          )
+        );
+      });
+    },
+    visibleColumns() {
+      localStorage.setItem('columns', JSON.stringify(this.columns));
+      return this.columns.map((column) => {
+        if (column.visible) {
+          return column.key;
+        }
+      });
+    },
   },
   methods: {
     toggleSearchVisible() {
