@@ -139,7 +139,7 @@
       </div>
       <div class="px-2">
         <h2 class="text-xs font-semibold text-neutral-400">Add Lists</h2>
-        <InputLists />
+        <InputLists :lists="creator.lists" :current-list="creator.current_list" />
       </div>
       <div class="mt-4 space-y-4 px-2">
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">

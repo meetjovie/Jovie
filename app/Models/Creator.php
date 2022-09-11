@@ -442,7 +442,25 @@ class Creator extends Model
             ->groupBy('creator_id')
             ->get()->keyBy('creator_id');
 
+        $lists = UserList::getLists(Auth::id())->pluck('id')->toArray();
+        $creatorListIds = DB::table('creator_user_list as cul')
+            ->select('ul.id', 'ul.name', 'ul.emoji', 'cul.creator_id')
+            ->whereIn('creator_id', $ids)
+            ->whereIn('user_list_id', $lists)
+            ->join('user_lists as ul', 'ul.id', '=', 'cul.user_list_id')->get();
+        $creatorUserLists = [];
+        foreach ($creatorListIds as $creatorUserList) {
+            $creatorUserLists[$creatorUserList->creator_id][] = [
+                'id' => $creatorUserList->id,
+                'name' => $creatorUserList->name,
+                'creator_id' => $creatorUserList->creator_id
+            ];
+        }
+
         foreach ($creators as &$creator) {
+            $creator->lists = $creatorUserLists[$creator->id];
+            $creator->current_list = $params['list'];
+
             $creator->verified = $creatorAccessor->getVerifiedAttribute($creator);
             $creator->category = $creatorAccessor->getCategoryAttribute($creator);
             $creator->name = $creatorAccessor->getNameAttribute($creator);

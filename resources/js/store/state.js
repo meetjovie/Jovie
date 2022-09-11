@@ -7,4 +7,5 @@ export default {
   creatorsDBCount: '3M',
   CRMSidebarOpen: true,
   ContactSidebarOpen: true,
+    crmRecords: []
 };

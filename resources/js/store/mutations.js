@@ -23,4 +23,7 @@ export default {
     //log to console
     console.log('ContactSidebarOpen: ', state.ContactSidebarOpen);
   },
+    setCrmRecords(state, payload) {
+    state.crmRecords = payload;
+  },
 };

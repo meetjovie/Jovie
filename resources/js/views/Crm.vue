@@ -221,6 +221,7 @@
                       <!-- Show the crm if there are creators -->
                       <CrmTable
                         v-else
+                        ref="crmTable"
                         @updateCreator="updateCreator"
                         @crmCounts="crmCounts"
                         @pageChanged="pageChanged"
@@ -411,6 +412,12 @@ export default {
         localStorage.setItem('filters', JSON.stringify(val));
       },
     },
+      creators: {
+        deep: true,
+          handler: function () {
+            this.crmCounts()
+          }
+      }
   },
   computed: {
     sortedCreators() {
@@ -435,6 +442,9 @@ export default {
     pinnedUserLists() {
       return this.userLists.filter((list) => list.pinned);
     },
+      creators() {
+        return this.$store.state.crmRecords
+      }
   },
   async mounted() {
     await this.getUserLists();
@@ -545,10 +555,10 @@ export default {
         this.loading = false;
         response = response.data;
         if (response.status) {
+          this.$store.commit('setCrmRecords', response.creators.data)
           this.networks = response.networks;
           this.stages = response.stages;
           this.counts = response.counts;
-          this.creators = response.creators.data;
           this.creatorsMeta = response.creators;
           this.filters.page = response.creators.current_page;
         }

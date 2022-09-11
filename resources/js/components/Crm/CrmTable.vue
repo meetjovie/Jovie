@@ -1195,6 +1195,7 @@ export default {
               this.creatorRecords = this.creatorRecords.filter(
                 (creator) => !creatorIds.includes(creator.id)
               );
+              this.$store.state.ContactSidebarOpen = false
             }
             this.$notify({
               group: 'user',
