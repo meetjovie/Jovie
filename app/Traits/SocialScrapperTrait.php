@@ -17,11 +17,12 @@ trait SocialScrapperTrait
     public function scrapInstagram($username)
     {
         try {
-            $url = ('https://www.instagram.com/'.$username.'/?__a=1&hl=en&js=false');
+            $url = ('https://www.instagram.com/'.$username.'/?__a=1&hl=en');
             $client = new \GuzzleHttp\Client();
             $response = $client->get($this->INSTAGRAM_SCRAPPER_URL, [
                 'query' => [
                     'api_key' => config('import.scrapper_api_key'),
+                    'js' => false,
                     'url' => $url,
                     'proxy' => 'residential',
                     'timeout' => 10000,

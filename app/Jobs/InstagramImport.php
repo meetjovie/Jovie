@@ -159,7 +159,7 @@ class InstagramImport implements ShouldQueue
                         DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_INTERNAL_MONTHLY_CREDITS_REACHED]);
                     }
                     $this->release(5);
-                    Cache::put('instagram_pause', 1);
+                    Cache::put('instagram_paused', 1);
                 } elseif ($response->getStatusCode() == 429) {
                     $this->release(5);
                     Cache::put('instagram_lock', 1, now()->addMinutes(5));
