@@ -45,6 +45,32 @@ class Creator extends Model
         return asset('img/noimage.webp');
     }
 
+    public function getVerifiedAttribute($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+        foreach (self::NETWORKS as $network) {
+            if (! empty($creator->{$network.'_is_verified'})) {
+                return $creator->{$network.'_is_verified'};
+            }
+        }
+        return false;
+    }
+
+    public function getCategoryAttribute($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+        foreach (self::NETWORKS as $network) {
+            if (! empty($creator->{$network.'_category'})) {
+                return $creator->{$network.'_category'};
+            }
+        }
+        return null;
+    }
+
     public function getNameAttribute($creator = null)
     {
         if (is_null($creator)) {
@@ -54,14 +80,17 @@ class Creator extends Model
         return $creator->full_name ?? ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name;
     }
 
-    public function getBiographyAttribute()
+    public function getBiographyAttribute($creator)
     {
-        return $this->instagram_biography ?? $this->twitter_biography;
-    }
-
-    public function getCategoryAttribute()
-    {
-        return $this->instagram_category ?? $this->twitter_category;
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+        foreach (self::NETWORKS as $network) {
+            if (! empty($creator->{$network.'_biography'})) {
+                return $creator->{$network.'_biography'};
+            }
+        }
+        return null;
     }
 
     public function getSocialLinksWithFollowersAttribute()
@@ -414,6 +443,8 @@ class Creator extends Model
             ->get()->keyBy('creator_id');
 
         foreach ($creators as &$creator) {
+            $creator->verified = $creatorAccessor->getVerifiedAttribute($creator);
+            $creator->category = $creatorAccessor->getCategoryAttribute($creator);
             $creator->name = $creatorAccessor->getNameAttribute($creator);
 
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);

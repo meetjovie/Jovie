@@ -29,12 +29,12 @@
             crossorigin="anonymous"
             id="profile-img-jovie"
             class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
-            :src="creator.instagram_profile_picture" />
+            :src="creator.profile_pic_url" />
         </div>
         <div class="col-span-2 mt-4 px-1">
           <input
             @blur="saveToJovie()"
-            v-model="creator.instagram_name"
+            v-model="creator.name"
             placeholder="Name"
             class="placeholder:text-gray-300/0hover:border-opacity-100 w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-lg font-bold text-gray-700 transition line-clamp-1 hover:bg-gray-100 hover:placeholder:text-gray-500" />
           <div class="">
@@ -51,7 +51,7 @@
 
           <div class="h-4 py-0.5">
             <span
-              v-if="creator.instagram_category"
+              v-if="creator.category"
               class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@
                   stroke-linejoin="round"
                   d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
               </svg>
-              {{ creator.instagram_category }}
+              {{ creator.category }}
             </span>
           </div>
 
@@ -76,26 +76,35 @@
               'h-12 line-clamp-5': expandBio,
               'h-4 line-clamp-2': !expandBio,
             }">
-            {{ creator.instagram_biography }}
+            {{ creator.biography }}
           </div>
         </div>
       </div>
       <div class="grid grid-cols-6 py-2 px-4">
-        <SocialNetwork
-          @click="editSocialNetworkURL('Instagram', creator)"
-          network="Instagram"
-          :creator="creator" />
-        <SocialNetwork
-          @click="editSocialNetworkURL('TikTok', creator.id)"
-          network="TikTok"
-          :creator="creator" />
-        <SocialNetwork
-          @click="editSocialNetworkURL()"
-          network="Twitch"
-          :creator="creator" />
-        <SocialNetwork network="YouTube" :creator="creator" />
-        <SocialNetwork network="Twitter" :creator="creator" />
-        <SocialNetwork network="Snapchat" :creator="creator" />
+          <SocialIcons
+              icon="instagram"
+              :link="creator.instagram_handler"
+              :followers="formatCount(creator.instagram_followers)"
+              height="14"
+              width="14"
+              class="h-4 w-4 text-gray-400"
+              aria-hidden="true" />
+          <SocialIcons
+              icon="twitter"
+              :link="creator.twitter_handler"
+              :followers="formatCount(creator.twitter_followers)"
+              height="14"
+              width="14"
+              class="h-4 w-4 text-gray-400"
+              aria-hidden="true" />
+          <SocialIcons
+              icon="twitch"
+              :link="creator.twitch_handler"
+              :followers="formatCount(creator.twitch_followers)"
+              height="14"
+              width="14"
+              class="h-4 w-4 text-gray-400"
+              aria-hidden="true" />
       </div>
       <div>
         <div class="relative rounded-md py-1 px-2 shadow-sm">
@@ -170,21 +179,21 @@
         <DataInputGroup
           @blur="saveToJovie()"
           icon="CameraIcon"
-          :value="'https://instagram.com/' + creator.instagram_handler"
+          :value="creator.instagram_handler"
           id="instagram_handler"
           label="Instagram"
           placeholder="Instagram" />
         <DataInputGroup
           @blur="saveToJovie()"
           icon="VideoCameraIcon"
-          :value="'https://tiktok.com/' + creator.tiktok_handler"
-          id="tiktok_handler"
-          label="TikTok"
-          placeholder="TikTok" />
+          :value="creator.twitch_handler"
+          id="twitch_handler"
+          label="Twitch"
+          placeholder="Twitch" />
         <DataInputGroup
           @blur="saveToJovie()"
           icon="ChatBubbleLeftEllipsisIcon"
-          :value="'https://twitter.com/' + creator.twitter_handler"
+          :value="creator.twitter_handler"
           id="twitter_handler"
           label="Twitter"
           placeholder="Twitter" />
@@ -342,7 +351,6 @@ import InputGroup from '../components/InputGroup.vue';
 import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
-import SocialNetwork from '../components/SocialNetwork.vue';
 import InputLists from '../components/InputLists.vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import SocialIcons from './SocialIcons.vue';
@@ -357,10 +365,15 @@ export default {
     ButtonGroup,
     DataInputGroup,
     TextAreaInput,
-    SocialNetwork,
     InputLists,
     SocialIcons,
   },
+    watch: {
+        creator: function (val) {
+            console.log('this.creator');
+            console.log(val);
+        }
+    },
   mounted() {
     // console.log('Sidebar loaded');
     // document.onreadystatechange = () => {
@@ -384,7 +397,7 @@ export default {
   props: {
     creator: {
       type: Object,
-      default: null,
+      default: {},
     },
     jovie: {
       type: Boolean,
@@ -428,25 +441,6 @@ export default {
   },
   data() {
     return {
-      creator: {
-        instagram_handler: '',
-        instagram_name: '',
-        verified: '',
-        instagram_profile_picture: '',
-        instagram_website: '',
-        instagram_biography: '',
-        instagram_category: '',
-        instagram_followers: '',
-        location: '',
-        tiktok_handler: '',
-        twitter_handler: '',
-
-        instagram_media: '',
-        instagram_email: '',
-        instagram_phone: '',
-        city: '',
-        country: '',
-      },
       instagram_handler: '',
       loader: false,
       expandBio: false,

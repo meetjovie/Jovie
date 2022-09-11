@@ -224,6 +224,7 @@
                         @updateCreator="updateCreator"
                         @crmCounts="crmCounts"
                         @pageChanged="pageChanged"
+                        @setCurrentContact="setCurrentContact"
                         :filters="filters"
                         :userLists="userLists"
                         :creators="creators"
@@ -249,7 +250,6 @@
           <aside
             class="-mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
             <ContactSidebar
-              @currentContact="setCurrentContact($event)"
               :jovie="true"
               :creator="currentContact" />
           </aside>
@@ -456,8 +456,10 @@ export default {
       this.openEmojis = false;
     },
     setCurrentContact(contact) {
-      console.log('The emmited even contact is ' + contact);
+        alert(123123);
       this.currentContact = contact;
+        console.log('this.currentContactthis.currentContact');
+        console.log(this.currentContact);
     },
     setFiltersType(type) {
       this.filters.type = this.filters.type == type ? 'all' : type;
