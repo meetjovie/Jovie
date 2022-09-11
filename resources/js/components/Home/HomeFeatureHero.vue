@@ -280,7 +280,7 @@
                       clip-rule="evenodd" />
                   </svg>
                 </div>
-                <h2 class="text-[8px] text-gray-500">New York, NY</h2>
+                <h2 class="text-[8px] text-gray-500">Los Angeles, CA</h2>
                 <div class="py-0.5">
                   <span
                     class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-[8px] font-medium text-indigo-800">

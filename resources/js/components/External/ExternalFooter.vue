@@ -245,9 +245,8 @@ import { defineComponent, h } from 'vue';
 import ButtonGroup from '../ButtonGroup.vue';
 const navigation = {
   solutions: [
-    { name: 'Contact Profiles', href: '/profiles' },
     { name: 'Social CRM', href: '/' },
-
+    { name: 'Contact Profiles', href: '/profiles' },
     { name: 'Chrome Extension', href: 'chrome-extension' },
   ],
   support: [
@@ -257,7 +256,7 @@ const navigation = {
     { name: 'Status', href: 'Status' },
   ],
   company: [
-    { name: 'About', href: 'about' },
+    /*  { name: 'About', href: 'about' }, */
     { name: 'Careers', href: 'Careers' },
 
     /*  { name: 'Our Data', href: 'data' }, */
