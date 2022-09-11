@@ -15,7 +15,10 @@
       shift
       portal
       arrow>
-      <PopoverButton class="w-full">
+      <PopoverButton
+        @mouseenter="setShowTooltip()"
+        @mouseleave="setHideTooltip()"
+        class="w-full">
         <slot>Trigger Goes Here</slot>
       </PopoverButton>
 
@@ -59,12 +62,14 @@ export default {
   methods: {
     setShowTooltip() {
       //wait .2 seconds then show the tooltip
+      console.log('showing tooltip');
       setTimeout(() => {
-        this.showTooltip = true;
+        this.show = true;
       }, 200);
     },
     setHideTooltip() {
-      this.showTooltip = false;
+      console.log('hiding tooltip');
+      this.show = false;
     },
   },
   props: {
@@ -72,10 +77,7 @@ export default {
       type: String,
       default: 'Helpful tooltip text',
     },
-    show: {
-      type: Boolean,
-      default: false,
-    },
+
     keyboardShortcut: {
       type: String,
       default: 'Ctrl + Shift + I',
