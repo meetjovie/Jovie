@@ -197,7 +197,7 @@
           id="twitter_handler"
           label="Twitter"
           placeholder="Twitter" />
-        <TextAreaInput />
+        <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
         <div class="mx-auto">
@@ -354,6 +354,7 @@ import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import SocialIcons from './SocialIcons.vue';
+import UserService from "../services/api/user.service";
 export default {
   name: 'Contact Sidebar',
   components: {
@@ -405,6 +406,42 @@ export default {
     },
   },
   methods: {
+      updateCreatorNote() {
+          UserService.updateCreatorNote(this.creator.id, this.creator.note).then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              }
+          })
+          .catch((error) => {
+              error = error.response;
+              if (error.status == 422) {
+                  this.errors = error.data.errors;
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: Object.values(error.data.errors)[0][0],
+                  });
+              }
+          })
+          .finally((response) => {});
+      },
     editSocialNetworkURL(network, creator) {
       console.log('editSocialNetworkURL');
       console.log(network);

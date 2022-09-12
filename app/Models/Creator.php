@@ -394,7 +394,7 @@ class Creator extends Model
     {
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $creators = DB::table('creators')
-            ->addSelect('crms.*')->addSelect('crms.id as crm_id')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
             ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
@@ -402,6 +402,9 @@ class Creator extends Model
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
+            })->leftJoin('creator_notes as cn', function ($join) {
+                $join->on('cn.creator_id', '=', 'crms.creator_id')
+                    ->where('cn.user_id', Auth::id());
             });
 
         if (isset($params['type']) && $params['type'] == 'archived') {

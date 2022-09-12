@@ -128,4 +128,7 @@ export default {
   crmCounts() {
     return axios.get(`${baseApiUrl}/crm-counts`);
   },
+  updateCreatorNote(creatorId, note) {
+    return axios.post(`${baseApiUrl}/update-creator-note/${creatorId}`, {note: note});
+  },
 };
