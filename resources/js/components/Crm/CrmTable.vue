@@ -187,8 +187,7 @@
                     <div v-else>
                       <CrmTableSortableHeader
                         icon="Bars3BottomLeftIcon"
-                        name="Name"
-                        sortable />
+                        name="Name" />
                     </div>
                   </th>
 
@@ -688,7 +687,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                               <div class="">
                                 <div class="">
                                   <button
@@ -770,7 +769,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="hidden w-32 whitespace-nowrap px-2 py-1 text-sm text-gray-500 2xl:table-cell">
+                      class="hidden w-40 whitespace-nowrap px-2 py-1 text-sm text-gray-500 2xl:table-cell">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -970,7 +969,6 @@ import {
   PlusIcon,
   BriefcaseIcon,
   UserIcon,
-  ChartBarIcon,
   NoSymbolIcon,
   StarIcon,
   TrashIcon,
@@ -1000,7 +998,6 @@ export default {
   components: {
     ArchiveBoxIcon,
     StarRating,
-    ChartBarIcon,
     MagnifyingGlassIcon,
     Menu,
     EnvelopeIcon,
@@ -1008,6 +1005,7 @@ export default {
     Datepicker,
     MenuButton,
     Float,
+    StarIcon,
     ArrowPathIcon,
     MenuItems,
     MenuItem,
@@ -1023,7 +1021,6 @@ export default {
     TrashIcon,
     Pagination,
     PlusIcon,
-
     JovieSpinner,
     CrmTableSortableHeader,
     Bars3BottomLeftIcon,
@@ -1094,7 +1091,7 @@ export default {
           name: 'Offer',
           key: 'crm_record_by_user.offer',
           icon: 'CurrencyDollarIcon',
-          sortable: true,
+          sortable: false,
           visible: false,
           breakpoint: 'lg',
         },
@@ -1103,7 +1100,7 @@ export default {
           key: 'crm_record_by_user.stage',
           icon: 'ArrowDownCircleIcon',
           width: 'w-24',
-          sortable: true,
+          sortable: false,
           visible: true,
           breakpoint: 'md',
         },
@@ -1118,8 +1115,8 @@ export default {
         {
           name: 'Rating',
           key: 'crm_record_by_user.rating',
-          icon: 'ChartBarIcon',
-          sortable: true,
+          icon: 'StarIcon',
+          sortable: false,
           visible: true,
           breakpoint: '2xl',
         },
