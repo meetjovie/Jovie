@@ -15,7 +15,14 @@
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
               <div class="mt-10 flex-col py-1 px-2">
-                <JovieTooltip text="Show All Contacts">
+                <JovieTooltip
+                  :shortcut.key="{
+                    key1: 'G',
+                    key2: 'C',
+
+                    delimiter: 'then',
+                  }"
+                  text="Show All Contacts">
                   <button
                     @click="setFiltersType('all')"
                     class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
@@ -43,7 +50,13 @@
                     </div>
                   </button>
                 </JovieTooltip>
-                <JovieTooltip text="Show Archived Contacts">
+                <JovieTooltip
+                  :shortcut.key="{
+                    key1: 'G',
+                    key2: 'A',
+                    delimiter: 'then',
+                  }"
+                  text="Show Archived Contacts">
                   <button
                     @click="setFiltersType('archived')"
                     class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
@@ -65,7 +78,7 @@
                     </div>
                   </button>
                 </JovieTooltip>
-                <JovieTooltip text="Show Favorites">
+                <JovieTooltip :shortcut="'G then F'" text="Show Favorites">
                   <button
                     @click="setFiltersType('favourites')"
                     class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
@@ -313,6 +326,7 @@ import SwitchTeams from '../components/SwitchTeams';
 import JovieTooltip from '../components/JovieTooltip.vue';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import ContactSidebar from '../components/ContactSidebar.vue';
+import VueMousetrapPlugin from 'vue-mousetrap';
 export default {
   name: 'CRM',
   components: {
@@ -351,6 +365,7 @@ export default {
     CloudArrowUpIcon,
     CrmTable,
     JovieTooltip,
+    vueMousetrapPlugin: VueMousetrapPlugin,
   },
   data() {
     return {
@@ -361,7 +376,7 @@ export default {
       showCreatorModal: false,
       loading: false,
       creators: [],
-      showTooltip: false,
+
       creatorsMeta: {},
       activeCreator: [],
       currentContact: [],
@@ -409,6 +424,12 @@ export default {
       selectedList: null,
     };
   },
+  mounted() {
+    //when a user git g followed by c set the filter to all
+    //use $mousetrap.bind
+    this.$mousetrap.bind(['e'], console.log('working'));
+  },
+
   watch: {
     filters: {
       deep: true,
@@ -596,15 +617,6 @@ export default {
           this.crmCounts();
         }
       });
-    },
-    setShowTooltip() {
-      //wait .2 seconds then show the tooltip
-      setTimeout(() => {
-        this.showTooltip = true;
-      }, 200);
-    },
-    setHideTooltip() {
-      this.showTooltip = false;
     },
   },
 };

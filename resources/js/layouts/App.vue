@@ -614,6 +614,7 @@ export default {
     this.$mousetrap.bind(['esc'], () => {
       this.toggleShowAppMenu();
     });
+
     // this.getNotifications();
     // setInterval(() => {
     //   this.getNotifications();

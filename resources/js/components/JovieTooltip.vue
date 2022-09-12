@@ -16,8 +16,8 @@
       portal
       arrow>
       <PopoverButton
-        @mouseenter="setShowTooltip()"
-        @mouseleave="setHideTooltip()"
+        @mouseover="setShowTooltip()"
+        @mouseout="setHideTooltip()"
         class="w-full">
         <slot>Trigger Goes Here</slot>
       </PopoverButton>
@@ -26,15 +26,16 @@
         <div
           class="backfdrop-filter flex w-auto items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150">
           <div>{{ text }}</div>
-          <div class="px-2 text-2xs text-white" v-if="shortcut.key">
+          <div class="px-2 text-2xs text-white" v-if="shortcut.key1">
             <kbd
               class="py-.5 rounded-lg border border-gray-200 bg-gray-100 px-1 text-2xs font-semibold text-gray-800 dark:border-gray-500 dark:bg-gray-600 dark:text-gray-100">
-              {{ shortcut.modifier }}</kbd
+              {{ shortcut.key1 }}</kbd
             >
-            +
+            <span v-if="shortcut.delimiter"> {{ shortcut.delimiter }} </span>
             <kbd
+              v-if="shortcut.key2"
               class="py-.5 rounded-lg border border-gray-200 bg-gray-100 px-1 text-2xs font-semibold text-gray-800 dark:border-gray-500 dark:bg-gray-600 dark:text-gray-100">
-              {{ shortcut.key }}</kbd
+              {{ shortcut.key2 }}</kbd
             >
           </div>
         </div>
@@ -92,7 +93,9 @@ export default {
       default: () => {
         return {
           modifier: null,
-          key: null,
+          key1: null,
+          key2: null,
+          delimiter: null,
         };
       },
     },
