@@ -110,15 +110,67 @@ export default {
     generateVCF(Creator) {
       let vCard = 'BEGIN:VCARD\n';
       vCard += 'VERSION:3.0\n';
-      vCard += `N:${Creator.last_name};${Creator.first_name};;;\n`;
-      vCard += `FN:${Creator.first_name} ${Creator.last_name}\n`;
-      vCard += `ORG:${Creator.employer}\n`;
-      vCard += `TITLE:${Creator.title}\n`;
-      vCard += `TEL;TYPE=WORK,VOICE:${Creator.phone}\n`;
-      vCard += `EMAIL;TYPE=PREF,INTERNET:${Creator.emails[0]}\n`;
+      //if creator has a first name
+      if (Creator.first_name) {
+        vCard += 'N:' + Creator.first_name + ' ' + Creator.last_name + '\n';
+        vCard += 'FN:' + Creator.first_name + ' ' + Creator.last_name + '\n';
+      } else {
+        vCard += 'N:' + Creator.name + '\n';
+        vCard += 'FN:' + Creator.name + '\n';
+      }
+      //if creator has a phone number
+      if (Creator.phone) {
+        vCard += 'TEL;TYPE=WORK,VOICE:' + Creator.phone + '\n';
+      }
+      //if creator has an email
+      if (Creator.emails[0]) {
+        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + Creator.emails[0] + '\n';
+      }
+      if (Creator.company) {
+        vCard += 'ORG:' + Creator.company + '\n';
+      }
+      if (Creator.title) {
+        vCard += 'TITLE:' + Creator.title + '\n';
+      }
+      if (Creator.location) {
+        vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
+      }
+      if (Creator.website) {
+        vCard += 'URL:' + Creator.website + '\n';
+      }
+      if (Creator.twitter_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=twitter:' + Creator.twitter_handler + '\n';
+      }
+      if (Creator.instagram_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=instagram:' + Creator.instagram_handler + '\n';
+      }
+      if (Creator.facebook_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=facebook:' + Creator.facebook_handler + '\n';
+      }
+      if (Creator.linkedin_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=linkedin:' + Creator.linkedin_handler + '\n';
+      }
+      if (Creator.youtube_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=youtube:' + Creator.youtube_handler + '\n';
+      }
+      if (Creator.tiktok_handler) {
+        vCard += 'X-SOCIALPROFILE;TYPE=tiktok:' + Creator.tiktok_handler + '\n';
+      }
+      if (Creator.twitch_handler) {
+        vCard += 'X-SOCIALPROFILE;TYPE=twitch:' + Creator.twitch_handler + '\n';
+      }
+      if (Creator.bio) {
+        vCard += 'NOTE:' + Creator.bio + 'NOTE:Saved from Jovie\n';
+      } else {
+        vCard += 'NOTE:Saved from Jovie\n';
+      }
       vCard += 'END:VCARD';
       return vCard;
-      console.log(vCard);
     },
     downloadVCF(Creator) {
       let vCard = this.generateVCF(Creator);
@@ -128,7 +180,7 @@ export default {
       link.setAttribute('href', url);
       link.setAttribute(
         'download',
-        `${Creator.first_name} ${Creator.last_name}.vcf`
+        `Jovie Contact ${Creator.first_name} ${Creator.last_name}.vcf`
       );
       link.click();
     },
