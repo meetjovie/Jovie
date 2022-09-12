@@ -342,7 +342,7 @@
                   <tr>
                     <td colspan="11">
                       <div
-                        class="flex min-h-screen items-center justify-center bg-gray-50 pb-80">
+                        class="flex min-h-screen w-full items-center justify-center bg-gray-50 pb-80">
                         <JovieSpinner />
                         <span class="visually-hidden sr-only">
                           Loading...

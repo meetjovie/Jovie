@@ -282,15 +282,17 @@ const annualBilling = ref(true);
 
 const tiers = [
   {
-    name: 'Professional',
+    name: 'Pro',
     href: 'signup',
     featured: false,
-    priceMonthly: 29,
-    priceAnnual: 199,
+    priceMonthly: 5,
+    priceAnnual: 48,
     description: 'For freelancers',
     features: [
-      { name: 'Blazing fast CRM Search', icon: 'BoltIcon' },
       { name: '500 contact credits/month', icon: 'UserGroupIcon' },
+
+      { name: 'Blazing fast CRM Search', icon: 'BoltIcon' },
+
       { name: '1 User included', icon: 'UserIcon' },
     ],
   },
@@ -298,19 +300,19 @@ const tiers = [
     name: 'Team',
     href: 'signup',
     featured: true,
-    priceMonthly: 49,
-    priceAnnual: 499,
+    priceMonthly: 10,
+    priceAnnual: 96,
     description: 'Built for startups and growing teams',
     features: [
-      { name: 'Blazing fast search', icon: 'BoltIcon' },
       { name: '2,500 contact credits/month', icon: 'UserGroupIcon' },
+      { name: 'Blazing fast search', icon: 'BoltIcon' },
       { name: '2 Users included', icon: 'UsersIcon' },
+
       { name: 'Unlimited CSV exports', icon: 'CloudArrowDownIcon' },
       {
         name: 'Collaboration & team managment',
         icon: 'ChatBubbleBottomCenterIcon',
       },
-      { name: 'Additional users $49/mo', icon: 'UserPlusIcon' },
     ],
   },
   {
@@ -318,27 +320,27 @@ const tiers = [
     href: 'request-demo',
     featured: false,
     priceMonthly: 'Annual Only',
-    priceAnnual: 1188,
+    priceAnnual: 240,
     description: 'For large teams and enterprises',
     features: [
       /*  {
         name: `Prospecting engine - Search ${store.state.creatorsDBCount}+ social media profiles`,
         icon: 'CircleStackIcon',
       }, */
-      {
-        name: `Prospecting engine - Search millions of social media profiles`,
-        icon: 'CircleStackIcon',
-      },
+
+      { name: '10,000 contact credits/month', icon: 'UserGroupIcon' },
       { name: 'Blazing fast search', icon: 'BoltIcon' },
-      { name: '10,00 contact credits/month', icon: 'UserGroupIcon' },
-      { name: '5 Users included', icon: 'UserGroupIcon' },
+
       { name: 'Unlimited CSV exports', icon: 'CloudArrowDownIcon' },
       {
         name: 'Collaboration & team managment',
         icon: 'ChatBubbleBottomCenterIcon',
       },
-      { name: 'Additional users $99/mo', icon: 'UserPlusIcon' },
-      { name: '5,0000 Data enrichment credits', icon: 'TableCellsIcon' },
+
+      {
+        name: `Prospecting engine - Search millions of social media profiles`,
+        icon: 'CircleStackIcon',
+      },
       { name: 'Dedicated support', icon: 'PhoneIcon' },
     ],
   },
