@@ -464,6 +464,7 @@ class Creator extends Model
             $creator->verified = $creatorAccessor->getVerifiedAttribute($creator);
             $creator->category = $creatorAccessor->getCategoryAttribute($creator);
             $creator->name = $creatorAccessor->getNameAttribute($creator);
+            $creator->biography = $creatorAccessor->getBiographyAttribute($creator);
 
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
