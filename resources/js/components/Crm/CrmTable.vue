@@ -827,14 +827,16 @@
                               leave-from-class="transform opacity-100 scale-100"
                               leave-to-class="transform opacity-0 scale-95">
                               <MenuItems
-                                class="backdrop-fitler z-10 mt-2 w-28 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
+                                class="backdrop-fitler z-10 mt-2 w-40 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
+                                    :disabled="!creator.emails[0]"
                                     v-slot="{ active }"
                                     class="items-center">
                                     <a
-                                      :href="`mailto:` + creator.email"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
+                                      @click="emailCreator(creator.emails[0])"
+                                      href="#"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900 disabled:text-neutral-800"
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
@@ -847,9 +849,27 @@
                                     >
                                   </MenuItem>
                                   <MenuItem
+                                    v-slot="{ active }"
+                                    class="cursor-pointer items-center">
+                                    <a
+                                      href="#"
+                                      @click="downloadVCF(creator)"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-700',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                      <CloudArrowDownIcon
+                                        class="mr-2 inline h-4 w-4" />
+                                      Download VCard
+                                    </a>
+                                  </MenuItem>
+                                  <MenuItem
                                     v-if="filters.list"
                                     v-slot="{ active }"
-                                    class="items-center"
+                                    class="cursor-pointer items-center"
                                     @click="
                                       toggleCreatorsFromList(
                                         creator.id,
@@ -1189,6 +1209,48 @@ export default {
     },
   },
   methods: {
+    emailCreator(email) {
+      //go to the url mailto:creator.emails[0]
+      //if email is not null
+      if (email) {
+        window.open('mailto:' + email);
+        //else log no email found
+      } else {
+        console.log('No email found');
+        this.$notify({
+          title: 'No email found',
+          message: 'This contact does not have an email address',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    generateVCF(Creator) {
+      let vCard = 'BEGIN:VCARD\n';
+      vCard += 'VERSION:3.0\n';
+      vCard += `N:${Creator.last_name};${Creator.first_name};;;\n`;
+      vCard += `FN:${Creator.first_name} ${Creator.last_name}\n`;
+      vCard += `ORG:${Creator.employer}\n`;
+      vCard += `TITLE:${Creator.title}\n`;
+      vCard += `TEL;TYPE=WORK,VOICE:${Creator.phone}\n`;
+      vCard += `EMAIL;TYPE=PREF,INTERNET:${Creator.emails[0]}\n`;
+      vCard += 'END:VCARD';
+      return vCard;
+      console.log(vCard);
+    },
+    downloadVCF(Creator) {
+      let vCard = this.generateVCF(Creator);
+      let blob = new Blob([vCard], { type: 'text/vcard' });
+      let url = URL.createObjectURL(blob);
+      let link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute(
+        'download',
+        `(${Creator.first_name} ${Creator.last_name} || ${Creator.instagram_name} || ${Creator.twitch_name}).vcf`
+      );
+      link.click();
+    },
+
     toggleSearchVisible() {
       this.searchVisible = !this.searchVisible;
     },

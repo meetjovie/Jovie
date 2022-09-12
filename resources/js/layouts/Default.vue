@@ -123,7 +123,7 @@
                           <router-link
                             to="signup"
                             class="border-1 group relative inline-flex items-center rounded-md border border-neutral-300 bg-neutral-800 px-2 py-1 text-xs font-medium text-neutral-200 hover:border-white hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
-                            <span>Get started free</span>
+                            <span>Try Jovie free</span>
                             <span>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"

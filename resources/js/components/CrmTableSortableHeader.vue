@@ -55,7 +55,6 @@ export default {
     CalendarDaysIcon,
     ArrowDownCircleIcon,
     LinkIcon,
-
     BriefcaseIcon,
     UserIcon,
     ChartBarIcon,

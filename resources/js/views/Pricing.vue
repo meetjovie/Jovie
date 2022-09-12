@@ -174,7 +174,7 @@
             <router-link
               to="signup"
               class="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-gray-900 hover:bg-gray-50">
-              Get started free
+              Try Jovie free
             </router-link>
           </div>
         </div>

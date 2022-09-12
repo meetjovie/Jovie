@@ -48,7 +48,7 @@
                         @click="requestDemo() && identifyUser()"
                         size="base"
                         design="primary"
-                        text="Get started free" />
+                        text="Try Jovie free" />
                     </div>
                   </div>
                   <span
@@ -136,7 +136,7 @@
                         @click="requestDemo() && identifyUser()"
                         size="base"
                         design="primary"
-                        text="Get started free" />
+                        text="Try Jovie free" />
                     </div>
                   </div>
                   <span

@@ -67,9 +67,9 @@
                       :loader="loading"
                       as="router-link"
                       @click="requestDemo() && identifyUser()"
-                      text="Get started free"
+                      text="Try Jovie free"
                       design="hero">
-                      Get started free
+                      Try Jovie free
                     </ButtonGroup>
                   </div>
                   <span

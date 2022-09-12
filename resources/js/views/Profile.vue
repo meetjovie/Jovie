@@ -63,7 +63,7 @@
 
       <a v-if="user.call_to_action_text" :href="user.call_to_action">
         <button
-          @click="downloadContactCard()"
+          @click="downloadVCF(user)"
           type="submit"
           class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
           {{ user.call_to_action_text }}
@@ -107,8 +107,30 @@ export default {
     };
   },
   methods: {
-    downloadContactCard() {
-      console.log('downloading Contact Card');
+    generateVCF(Creator) {
+      let vCard = 'BEGIN:VCARD\n';
+      vCard += 'VERSION:3.0\n';
+      vCard += `N:${Creator.last_name};${Creator.first_name};;;\n`;
+      vCard += `FN:${Creator.first_name} ${Creator.last_name}\n`;
+      vCard += `ORG:${Creator.employer}\n`;
+      vCard += `TITLE:${Creator.title}\n`;
+      vCard += `TEL;TYPE=WORK,VOICE:${Creator.phone}\n`;
+      vCard += `EMAIL;TYPE=PREF,INTERNET:${Creator.emails[0]}\n`;
+      vCard += 'END:VCARD';
+      return vCard;
+      console.log(vCard);
+    },
+    downloadVCF(Creator) {
+      let vCard = this.generateVCF(Creator);
+      let blob = new Blob([vCard], { type: 'text/vcard' });
+      let url = URL.createObjectURL(blob);
+      let link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute(
+        'download',
+        `${Creator.first_name} ${Creator.last_name}.vcf`
+      );
+      link.click();
     },
   },
   mounted() {
