@@ -1384,6 +1384,7 @@ export default {
               this.creatorRecords = this.creatorRecords.filter(
                 (creator) => !creatorIds.includes(creator.id)
               );
+              this.$store.state.ContactSidebarOpen = false
             }
             this.$notify({
               group: 'user',
@@ -1432,35 +1433,18 @@ export default {
     },
     setCurrentContact(creator) {
       this.currentContact = creator;
-      console.log('The current contact is ' + this.currentContact.id);
-      //emit the current contact to the parent component
-      this.$emit('currentContact', creator);
+      this.$emit('setCurrentContact', creator);
     },
-    //method to change the currentContact to the next creator in the list
     nextContact() {
-      //get the index of the current contact
       const index = this.creatorRecords.indexOf(this.currentContact);
-      //if the index is less than the length of the creators array
       if (index < this.creatorRecords.length - 1) {
-        //set the current contact to the next creator in the array
-        this.currentContact = this.creatorRecords[index + 1];
-        //emit the current contact to the parent component
-        this.$emit('currentContact', this.currentContact);
-        //log the id of the current contact in the console
-        console.log('The current contact is ' + this.currentContact.id);
+          this.setCurrentContact(this.creatorRecords[index + 1])
       }
     },
     previousContact() {
-      //get the index of the current contact
       const index = this.creatorRecords.indexOf(this.currentContact);
-      //if the index is greater than 0
       if (index > 0) {
-        //set the current contact to the previous creator in the array
-        this.currentContact = this.creatorRecords[index - 1];
-        //emit the current contact to the parent component
-        this.$emit('currentContact', this.currentContact);
-        //log the id of the current contact in the console
-        console.log('The current contact is ' + this.currentContact.id);
+          this.setCurrentContact(this.creatorRecords[index - 1])
       }
     },
     refresh(creator) {

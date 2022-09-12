@@ -117,7 +117,6 @@ import {
   BriefcaseIcon,
   CheckCircleIcon,
 } from '@heroicons/vue/24/solid';
-import SocialIcon from '../components/SocialIcon.vue';
 export default {
   name: 'InputGroup',
   props: {
@@ -193,7 +192,6 @@ export default {
     BriefcaseIcon,
     JovieSpinner,
     PhoneIcon,
-    SocialIcon,
   },
 };
 </script>

@@ -45,6 +45,32 @@ class Creator extends Model
         return asset('img/noimage.webp');
     }
 
+    public function getVerifiedAttribute($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+        foreach (self::NETWORKS as $network) {
+            if (! empty($creator->{$network.'_is_verified'})) {
+                return $creator->{$network.'_is_verified'};
+            }
+        }
+        return false;
+    }
+
+    public function getCategoryAttribute($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+        foreach (self::NETWORKS as $network) {
+            if (! empty($creator->{$network.'_category'})) {
+                return $creator->{$network.'_category'};
+            }
+        }
+        return null;
+    }
+
     public function getNameAttribute($creator = null)
     {
         if (is_null($creator)) {
@@ -54,14 +80,17 @@ class Creator extends Model
         return $creator->full_name ?? ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name;
     }
 
-    public function getBiographyAttribute()
+    public function getBiographyAttribute($creator)
     {
-        return $this->instagram_biography ?? $this->twitter_biography;
-    }
-
-    public function getCategoryAttribute()
-    {
-        return $this->instagram_category ?? $this->twitter_category;
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+        foreach (self::NETWORKS as $network) {
+            if (! empty($creator->{$network.'_biography'})) {
+                return $creator->{$network.'_biography'};
+            }
+        }
+        return null;
     }
 
     public function getSocialLinksWithFollowersAttribute()
@@ -365,7 +394,7 @@ class Creator extends Model
     {
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $creators = DB::table('creators')
-            ->addSelect('crms.*')->addSelect('crms.id as crm_id')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
             ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
@@ -373,6 +402,9 @@ class Creator extends Model
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
+            })->leftJoin('creator_notes as cn', function ($join) {
+                $join->on('cn.creator_id', '=', 'crms.creator_id')
+                    ->where('cn.user_id', Auth::id());
             });
 
         if (isset($params['type']) && $params['type'] == 'archived') {
@@ -413,8 +445,29 @@ class Creator extends Model
             ->groupBy('creator_id')
             ->get()->keyBy('creator_id');
 
+        $lists = UserList::getLists(Auth::id())->pluck('id')->toArray();
+        $creatorListIds = DB::table('creator_user_list as cul')
+            ->select('ul.id', 'ul.name', 'ul.emoji', 'cul.creator_id')
+            ->whereIn('creator_id', $ids)
+            ->whereIn('user_list_id', $lists)
+            ->join('user_lists as ul', 'ul.id', '=', 'cul.user_list_id')->get();
+        $creatorUserLists = [];
+        foreach ($creatorListIds as $creatorUserList) {
+            $creatorUserLists[$creatorUserList->creator_id][] = [
+                'id' => $creatorUserList->id,
+                'name' => $creatorUserList->name,
+                'creator_id' => $creatorUserList->creator_id
+            ];
+        }
+
         foreach ($creators as &$creator) {
+            $creator->lists = $creatorUserLists[$creator->id];
+            $creator->current_list = $params['list'];
+
+            $creator->verified = $creatorAccessor->getVerifiedAttribute($creator);
+            $creator->category = $creatorAccessor->getCategoryAttribute($creator);
             $creator->name = $creatorAccessor->getNameAttribute($creator);
+            $creator->biography = $creatorAccessor->getBiographyAttribute($creator);
 
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
             $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
