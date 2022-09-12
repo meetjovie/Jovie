@@ -16,12 +16,7 @@
             <div>
               <div class="mt-10 flex-col py-1 px-2">
                 <JovieTooltip
-                  :shortcut.key="{
-                    key1: 'G',
-                    key2: 'C',
-
-                    delimiter: 'then',
-                  }"
+                  shortcuts="{ key: 's', key: 'c', key: 't' }"
                   text="Show All Contacts">
                   <button
                     @click="setFiltersType('all')"
@@ -268,9 +263,7 @@
           leave-to="translate-x-full">
           <aside
             class="-mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
-            <ContactSidebar
-              :jovie="true"
-              :creator="currentContact" />
+            <ContactSidebar :jovie="true" :creator="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
@@ -438,12 +431,12 @@ export default {
         localStorage.setItem('filters', JSON.stringify(val));
       },
     },
-      creators: {
-        deep: true,
-          handler: function () {
-            this.crmCounts()
-          }
-      }
+    creators: {
+      deep: true,
+      handler: function () {
+        this.crmCounts();
+      },
+    },
   },
   computed: {
     sortedCreators() {
@@ -468,9 +461,9 @@ export default {
     pinnedUserLists() {
       return this.userLists.filter((list) => list.pinned);
     },
-      creators() {
-        return this.$store.state.crmRecords
-      }
+    creators() {
+      return this.$store.state.crmRecords;
+    },
   },
   async mounted() {
     await this.getUserLists();
@@ -492,10 +485,10 @@ export default {
       this.openEmojis = false;
     },
     setCurrentContact(contact) {
-        alert(123123);
+      alert(123123);
       this.currentContact = contact;
-        console.log('this.currentContactthis.currentContact');
-        console.log(this.currentContact);
+      console.log('this.currentContactthis.currentContact');
+      console.log(this.currentContact);
     },
     setFiltersType(type) {
       this.filters.type = this.filters.type == type ? 'all' : type;
@@ -581,7 +574,7 @@ export default {
         this.loading = false;
         response = response.data;
         if (response.status) {
-          this.$store.commit('setCrmRecords', response.creators.data)
+          this.$store.commit('setCrmRecords', response.creators.data);
           this.networks = response.networks;
           this.stages = response.stages;
           this.counts = response.counts;

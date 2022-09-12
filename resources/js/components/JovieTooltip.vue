@@ -23,20 +23,17 @@
       </PopoverButton>
 
       <PopoverPanel @mouseleave="close()" static class="right-0 z-50">
-        <div
-          class="backfdrop-filter flex w-auto items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150">
+        <div v-for="shortcut in shortcuts" :key="shortcut.key">
+          class="backfdrop-filter w-auto flex-col items-center justify-between
+          rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs
+          text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150">
           <div>{{ text }}</div>
-          <div class="px-2 text-2xs text-white" v-if="shortcut.key1">
+          <div class="px-2 text-2xs text-white" v-if="shortcut.key">
             <kbd
               class="py-.5 rounded-lg border border-gray-200 bg-gray-100 px-1 text-2xs font-semibold text-gray-800 dark:border-gray-500 dark:bg-gray-600 dark:text-gray-100">
-              {{ shortcut.key1 }}</kbd
+              {{ shortcut.key }}</kbd
             >
-            <span v-if="shortcut.delimiter"> {{ shortcut.delimiter }} </span>
-            <kbd
-              v-if="shortcut.key2"
-              class="py-.5 rounded-lg border border-gray-200 bg-gray-100 px-1 text-2xs font-semibold text-gray-800 dark:border-gray-500 dark:bg-gray-600 dark:text-gray-100">
-              {{ shortcut.key2 }}</kbd
-            >
+            +
           </div>
         </div>
       </PopoverPanel>
@@ -88,16 +85,9 @@ export default {
       type: String,
       default: 'Ctrl + Shift + I',
     },
-    shortcut: {
-      type: Object,
-      default: () => {
-        return {
-          modifier: null,
-          key1: null,
-          key2: null,
-          delimiter: null,
-        };
-      },
+    shortcutKeys: {
+      type: Array,
+      default: () => ['Ctrl', 'Shift', 'I'],
     },
   },
 };
