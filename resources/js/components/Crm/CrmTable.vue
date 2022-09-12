@@ -7,8 +7,8 @@
             class="overflow-x-scroll shadow-sm ring-1 ring-black ring-opacity-5">
             <table
               class="min-w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
-              <thead class="items-center bg-neutral-100">
-                <tr class="h-10 items-center py-2">
+              <thead class="items-center overflow-y-scroll bg-neutral-100">
+                <tr class="sticky h-10 items-center py-2">
                   <th
                     scope="col"
                     class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
@@ -269,11 +269,17 @@
                                 class="w-60 flex-col rounded-md border border-neutral-200 bg-neutral-50 py-1 pl-2 pr-1 shadow-xl">
                                 <MenuItem as="div" v-slot="{ active }">
                                   <div
-                                    class="flex items-center border-b border-neutral-200 py-1">
-                                    <span
+                                    class="flex items-center justify-between border-b border-neutral-200 py-1">
+                                    <div
                                       class="text-xs font-bold text-neutral-500 line-clamp-1">
                                       Display Columns
-                                    </span>
+                                    </div>
+                                    <div
+                                      @click="exportToCSV()"
+                                      class="inline-flex cursor-pointer items-center text-xs font-bold text-neutral-400 hover:text-neutral-600">
+                                      <CloudArrowDownIcon class="h-3 w-3" />
+                                      <span class="line-clamp-1">Export</span>
+                                    </div>
                                   </div>
                                 </MenuItem>
                                 <MenuItem
@@ -327,11 +333,6 @@
                             </transition>
                           </Float>
                         </Menu>
-                      </div>
-                      <div
-                        @click="exportToCSV()"
-                        class="w-18 group mr-2 h-full cursor-pointer items-center">
-                        <CloudArrowDownIcon class="h-5 w-5 text-neutral-400" />
                       </div>
                     </div>
                   </th>

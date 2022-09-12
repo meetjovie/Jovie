@@ -11,7 +11,7 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full">
           <div
-            class="top-0 z-30 mx-auto flex h-full w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 py-4 pb-2 shadow-xl"
+            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 py-4 pb-2 shadow-xl"
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
               <div class="mt-10 flex-col py-1 px-2">
@@ -175,7 +175,7 @@
           </div>
         </TransitionRoot>
         <div
-          class="h-screen w-full overflow-x-scroll transition-all duration-200 ease-in-out">
+          class="h-full w-full overflow-x-scroll transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
             <div class="h-full w-full">
               <div class="flex h-full w-full flex-col">
