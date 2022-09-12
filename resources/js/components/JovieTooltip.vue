@@ -71,9 +71,6 @@ export default {
         this.show = false;
       }, 10000); */
       //also hide the tooltip if another tooltip is opened
-      this.$root.$on('showTooltip', () => {
-        this.show = false;
-      });
     },
     setHideTooltip() {
       console.log('hiding tooltip');

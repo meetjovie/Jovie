@@ -36,10 +36,13 @@ import {
   Bars3BottomLeftIcon,
   AtSymbolIcon,
   CurrencyDollarIcon,
-  StarIcon,
   LinkIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
+  StarIcon,
+  BriefcaseIcon,
+  UserIcon,
+  ChartBarIcon,
 } from '@heroicons/vue/20/solid';
 export default {
   components: {
@@ -52,6 +55,10 @@ export default {
     CalendarDaysIcon,
     ArrowDownCircleIcon,
     LinkIcon,
+
+    BriefcaseIcon,
+    UserIcon,
+    ChartBarIcon,
   },
   data() {
     return {

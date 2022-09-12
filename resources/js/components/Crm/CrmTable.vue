@@ -506,6 +506,52 @@
                       </div>
                     </td>
                     <td
+                      v-if="visibleColumns.includes('title')"
+                      class="border-1 hidden w-40 border-collapse whitespace-nowrap border 2xl:table-cell">
+                      <div class="text-xs text-gray-900 line-clamp-1">
+                        <input
+                          v-model="creator.platform_title"
+                          @blur="
+                            $emit('updateCreator', {
+                              id: creator.id,
+                              index: index,
+                              key: `title`,
+                              value: creator.platform_title,
+                            })
+                          "
+                          autocomplete="off"
+                          type="platform-title"
+                          name="platform-title"
+                          id="platform-title"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          placeholder="Title"
+                          aria-describedby="title" />
+                      </div>
+                    </td>
+                    <td
+                      v-if="visibleColumns.includes('employer')"
+                      class="border-1 hidden w-40 border-collapse whitespace-nowrap border 2xl:table-cell">
+                      <div class="text-xs text-gray-900 line-clamp-1">
+                        <input
+                          v-model="creator.platform_employer"
+                          @blur="
+                            $emit('updateCreator', {
+                              id: creator.id,
+                              index: index,
+                              key: `employer`,
+                              value: creator.platform_employer,
+                            })
+                          "
+                          autocomplete="off"
+                          type="platform-employer"
+                          name="platform-employer"
+                          id="platform-employer"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          placeholder="Company"
+                          aria-describedby="Company" />
+                      </div>
+                    </td>
+                    <td
                       v-if="visibleColumns.includes('emails')"
                       class="border-1 hidden w-40 border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
                       <div class="text-xs text-gray-700 line-clamp-1">
@@ -642,7 +688,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                              class="z-30 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                               <div class="">
                                 <div class="">
                                   <button
@@ -724,7 +770,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="hidden w-32 whitespace-nowrap px-6 py-1 text-sm text-gray-500 2xl:table-cell">
+                      class="hidden w-32 whitespace-nowrap px-2 py-1 text-sm text-gray-500 2xl:table-cell">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -916,14 +962,17 @@ import {
   PopoverButton,
   PopoverPanel,
 } from '@headlessui/vue';
-import StarIcon from 'vue-star-rating';
+import StarRating from 'vue-star-rating';
 import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
   ChevronDownIcon,
   PlusIcon,
+  BriefcaseIcon,
+  UserIcon,
   ChartBarIcon,
   NoSymbolIcon,
+  StarIcon,
   TrashIcon,
   ArrowPathIcon,
   MagnifyingGlassIcon,
@@ -950,7 +999,7 @@ export default {
   name: 'CrmTable',
   components: {
     ArchiveBoxIcon,
-    StarIcon,
+    StarRating,
     ChartBarIcon,
     MagnifyingGlassIcon,
     Menu,
@@ -965,6 +1014,8 @@ export default {
     EllipsisVerticalIcon,
     SocialIcons,
     Popover,
+    BriefcaseIcon,
+    UserIcon,
     ChevronDownIcon,
     PopoverButton,
     PopoverPanel,
@@ -972,6 +1023,7 @@ export default {
     TrashIcon,
     Pagination,
     PlusIcon,
+
     JovieSpinner,
     CrmTableSortableHeader,
     Bars3BottomLeftIcon,
@@ -1011,12 +1063,27 @@ export default {
           breakpoint: '2xl',
         },
         {
+          name: 'Title',
+          key: 'title',
+          icon: 'UserIcon',
+          visible: true,
+          breakpoint: '2xl',
+        },
+        {
+          name: 'Company',
+          key: 'employer',
+          icon: 'BriefcaseIcon',
+          visible: true,
+          breakpoint: '2xl',
+        },
+        {
           name: 'Email',
           key: 'emails',
           icon: 'AtSymbolIcon',
           visible: true,
           breakpoint: 'lg',
         },
+
         {
           name: 'Social Link',
           key: 'networks',
@@ -1028,7 +1095,7 @@ export default {
           key: 'crm_record_by_user.offer',
           icon: 'CurrencyDollarIcon',
           sortable: true,
-          visible: true,
+          visible: false,
           breakpoint: 'lg',
         },
         {
