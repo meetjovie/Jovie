@@ -275,7 +275,7 @@
                                       Display Columns
                                     </div>
                                     <div
-                                      @click="exportToCSV()"
+                                      @click="exportCrmCreators()"
                                       class="inline-flex cursor-pointer items-center text-xs font-bold text-neutral-400 hover:text-neutral-600">
                                       <CloudArrowDownIcon class="h-3 w-3" />
                                       <span class="line-clamp-1">Export</span>
@@ -1210,6 +1210,16 @@ export default {
     },
   },
   methods: {
+    exportCrmCreators() {
+      //export filteredCreators to a csv file
+     console.log('exporting')
+     //write a function to export all contacts in the current table while accounting for filters and lists
+     
+    
+     
+      
+
+    },
     emailCreator(email) {
       //go to the url mailto:creator.emails[0]
       //if email is not null
