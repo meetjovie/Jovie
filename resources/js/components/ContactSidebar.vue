@@ -44,7 +44,7 @@
             v-model="creator.name"
             placeholder="Name"
             class="placeholder:text-gray-300/0hover:border-opacity-100 w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-lg font-bold text-gray-700 transition line-clamp-1 hover:bg-gray-100 hover:placeholder:text-gray-500" />
-          <div class="">
+          <!-- <div class="">
             <input
               @blur="saveToJovie()"
               placeholder="Title"
@@ -54,11 +54,10 @@
               @blur="saveToJovie()"
               placeholder="Company"
               class="w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-2xs font-semibold text-gray-400 transition line-clamp-1 placeholder:text-gray-300/0 hover:border-opacity-100 hover:bg-gray-100 hover:placeholder:text-gray-500" />
-          </div>
+          </div> -->
 
-          <div class="h-4 py-0.5">
+          <div v-if="creator.category" class="h-4 py-0.5">
             <span
-              v-if="creator.category"
               class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +77,7 @@
 
           <div
             @click="toggleExpandBio()"
-            class="mt-1 w-full cursor-pointer whitespace-pre-wrap py-1 text-2xs transition-all"
+            class="w-full cursor-pointer whitespace-pre-wrap py-1 text-2xs transition-all"
             :class="{
               'h-12 line-clamp-5': expandBio,
               'h-4 line-clamp-2': !expandBio,
@@ -143,7 +142,7 @@
           aria-hidden="true"
           :countsVisible="false" />
       </div>
-      <div v-if="activeSocialNetworkURLEdit">
+      <!--  <div v-if="activeSocialNetworkURLEdit">
         <div class="relative rounded-md py-1 px-2 shadow-sm">
           <div
             class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -161,7 +160,7 @@
             class="block w-full rounded-md border-gray-300 pl-10 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
             placeholder="sdfsdfsfd" />
         </div>
-      </div>
+      </div> -->
 
       <hr />
 

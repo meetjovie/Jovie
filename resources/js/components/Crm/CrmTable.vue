@@ -437,12 +437,11 @@
                             class="rounded-full bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90 p-0.5">
                             <div class="rounded-full bg-white p-0">
                               <img
-                               
                                 class="rounded-full object-cover object-center"
                                 :src="creator.profile_pic_url"
                                 @error="imageLoadingError()"
                                 alt="Profile Image" />
-                                <!--WIP Fixing image loading errors-->
+                              <!--WIP Fixing image loading errors-->
                               <!-- <img
                                 v-else
                                 class="rounded-full object-cover object-center"
@@ -590,14 +589,14 @@
                         <div class="mx-auto flex-col items-center">
                           <div
                             v-if="creator[`${network}_handler`]"
-                            class="mx-auto items-center opacity-100 group-hover:opacity-100">
+                            class="mx-auto items-center">
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
                               :icon="network" />
                           </div>
                           <div class="mx-auto items-center" v-else>
-                            <div class="opacity-10 hover:opacity-100">
+                            <div class="">
                               <SocialIcons height="14px" :icon="network" />
                             </div>
                           </div>

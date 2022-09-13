@@ -1,5 +1,7 @@
 <template>
-  <div class="cursor-pointer" :class="[{ 'opacity-10': !link }, 'opacity-100']">
+  <div
+    class="cursor-pointer "
+    :class="[{ 'opacity-100': link }, 'opacity-10 hover:opacity-50"']">
     <a :disabled="!link" :href="link" target="blank">
       <svg
         v-if="icon == 'linkedin'"
@@ -7,9 +9,7 @@
         viewBox="0 0 24 24"
         :height="height"
         :weight="width"
-        :class="
-          iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'
-        "
+        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
         xmlns="http://www.w3.org/2000/svg">
         <title>LinkedIn</title>
         <path
@@ -21,9 +21,7 @@
         viewBox="0 0 24 24"
         :height="height"
         :weight="width"
-        :class="
-          iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'
-        "
+        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
         xmlns="http://www.w3.org/2000/svg">
         <title>Twitter</title>
         <path
@@ -35,9 +33,7 @@
         viewBox="0 0 24 24"
         :height="height"
         :weight="width"
-        :class="
-          iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'
-        "
+        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
         xmlns="http://www.w3.org/2000/svg">
         <title>Instagram</title>
         <path
@@ -49,9 +45,7 @@
         viewBox="0 0 24 24"
         :height="height"
         :weight="width"
-        :class="
-          iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'
-        "
+        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
         xmlns="http://www.w3.org/2000/svg">
         <title>YouTube</title>
         <path
@@ -62,9 +56,7 @@
         viewBox="0 0 24 24"
         :height="height"
         :weight="width"
-        :class="
-          iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'
-        "
+        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
         v-if="icon == 'snapchat'"
         xmlns="http://www.w3.org/2000/svg">
         <title>Snapchat</title>
@@ -76,9 +68,7 @@
         viewBox="0 0 24 24"
         :height="height"
         :weight="width"
-        :class="
-          iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'
-        "
+        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
         v-if="icon == 'tiktok'"
         xmlns="http://www.w3.org/2000/svg">
         <title>TikTok</title>
@@ -91,9 +81,7 @@
         xmlns="http://www.w3.org/2000/svg"
         :height="height"
         :weight="width"
-        :class="
-          iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 opacity-50' : 'mx-auto'
-        "
+        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
         v-if="icon == 'twitch'">
         <title>Twitch</title>
 
