@@ -486,8 +486,7 @@ export default {
     },
     setCurrentContact(contact) {
       this.currentContact = contact;
-      console.log('this.currentContactthis.currentContact');
-      console.log(this.currentContact);
+      this.$store.state.ContactSidebarOpen = true;
     },
     setFiltersType(type) {
       this.filters.type = this.filters.type == type ? 'all' : type;
