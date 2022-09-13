@@ -8,7 +8,7 @@
     <div
       class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
       <div class="inline-flex text-xs">
-        <ThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" />
+        <HandThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" />
         {{ formatCount(media.likes) }}
       </div>
       <div class="inline-flex text-xs">
@@ -16,7 +16,7 @@
         {{ formatCount(media.views) }}
       </div>
       <div class="inline-flex text-xs">
-        <ChatAlt2Icon class="mt-0.5 mr-0.5 h-3 w-3" />
+        <ChatBubbleBottomCenterIcon class="mt-0.5 mr-0.5 h-3 w-3" />
         {{ formatCount(media.comments) }}
       </div>
     </div>
@@ -24,14 +24,18 @@
 </template>
 
 <script>
-import { ThumbUpIcon, PlayIcon, ChatAlt2Icon } from '@heroicons/vue/solid';
+import {
+  HandThumbUpIcon,
+  PlayIcon,
+  ChatBubbleBottomCenterIcon,
+} from '@heroicons/vue/24/solid';
 
 export default {
   name: 'CreatorMediaItem',
   components: {
-    ThumbUpIcon,
+    HandThumbUpIcon,
     PlayIcon,
-    ChatAlt2Icon,
+    ChatBubbleBottomCenterIcon,
   },
   props: {
     media: {

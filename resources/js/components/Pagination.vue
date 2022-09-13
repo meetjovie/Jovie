@@ -1,52 +1,53 @@
 <template>
-  <nav
-    class="fixed bottom-0 mx-2 flex w-full items-center border-t border-gray-200 bg-white px-4 pb-2 sm:px-0">
-    <div class="-mt-px flex w-0 flex-1 justify-start">
-      <a
-        :disabled="isInFirstPage"
-        @click="onClickPreviousPage"
-        href="#"
-        class="inline-flex items-center border-t-2 border-transparent pt-2 pr-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:text-red-500">
-        <ArrowNarrowLeftIcon
-          class="mr-3 h-5 w-5 text-gray-400"
-          aria-hidden="true" />
-        Previous
-      </a>
-    </div>
-    <div class="hidden md:-mt-px md:flex">
-      <template v-for="page in pages">
+  <div class="w-full">
+    <nav
+      class="transiion-all flex w-full flex-auto items-center justify-between border-t border-gray-200 bg-white px-4 pb-2 sm:px-2">
+      <div class="group flex">
         <a
+          :disabled="isInFirstPage"
+          @click="onClickPreviousPage"
           href="#"
-          @click="onClickPage(page.name)"
-          :disabled="page.isDisabled"
-          :class="{ 'text-indigo border-indigo-500': currentPage == page.name }"
-          class="pt- inline-flex items-center border-t-2 border-transparent px-4 pt-2 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-          {{ page.name }}
+          class="inline-flex items-center border-t-2 border-transparent pt-2 pr-1 text-xs font-medium text-gray-400 disabled:text-neutral-200 group-hover:border-gray-300 group-hover:text-gray-700">
+          <ArrowLongLeftIcon
+            class="mr-3 h-3 w-3 text-gray-400 group-hover:border-gray-300 group-hover:text-gray-700"
+            aria-hidden="true" />
+          Previous
         </a>
-      </template>
-      <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
-      <!--            <a href="#" class="border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium" aria-current="page"> 2 </a>-->
-      <!--            <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"> 3 </a>-->
-    </div>
-    <div class="-mt-px flex w-0 flex-1 justify-end md:mr-12">
-      <a
-        :disabled="isInLastPage"
-        @click="onClickNextPage()"
-        href="#"
-        class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-        Next
-        <ArrowNarrowRightIcon
-          class="ml-3 h-5 w-5 text-gray-400"
-          aria-hidden="true" />
-      </a>
-    </div>
-  </nav>
+      </div>
+      <div class="group hidden md:flex">
+        <template v-for="page in pages">
+          <a
+            href="#"
+            @click="onClickPage(page.name)"
+            :disabled="page.isDisabled"
+            :class="{
+              'text-indigo border-indigo-500': currentPage == page.name,
+            }"
+            class="inline-flex items-center border-t-2 border-transparent px-4 pt-2 text-xs font-medium text-gray-400 group-hover:border-gray-300 group-hover:text-gray-700">
+            {{ page.name }}
+          </a>
+        </template>
+        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-neutral-400 hover:text-gray-700 hover:border-gray-300" -->
+        <!--            <a href="#" class="border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium" aria-current="page"> 2 </a>-->
+        <!--            <a href="#" class="border-transparent text-neutral-400 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium"> 3 </a>-->
+      </div>
+      <div class="group flex">
+        <a
+          :disabled="isInLastPage"
+          @click="onClickNextPage()"
+          href="#"
+          class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-xs font-medium text-neutral-400 hover:border-gray-300 hover:text-gray-700">
+          Next
+          <ArrowLongRightIcon
+            class="ml-3 h-5 w-5 text-gray-400 group-hover:border-gray-300 group-hover:text-gray-700"
+            aria-hidden="true" />
+        </a>
+      </div>
+    </nav>
+  </div>
 </template>
 <script>
-import {
-  ArrowNarrowLeftIcon,
-  ArrowNarrowRightIcon,
-} from '@heroicons/vue/solid';
+import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/vue/20/solid';
 
 export default {
   name: 'Pagination',
@@ -70,8 +71,8 @@ export default {
     },
   },
   components: {
-    ArrowNarrowLeftIcon,
-    ArrowNarrowRightIcon,
+    ArrowLongLeftIcon,
+    ArrowLongRightIcon,
   },
   data() {
     return {};

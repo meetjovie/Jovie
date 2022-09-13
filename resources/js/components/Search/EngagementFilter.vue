@@ -93,7 +93,7 @@
 
 <script>
 import ButtonGroup from '../ButtonGroup.vue';
-import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/vue/solid';
+import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/vue/24/solid';
 export default {
   components: {
     ButtonGroup,

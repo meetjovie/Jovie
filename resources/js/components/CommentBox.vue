@@ -47,7 +47,7 @@
                     class="relative -m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
                     <span class="flex items-center justify-center">
                       <span v-if="selected.value === null">
-                        <EmojiHappyIcon
+                        <FaceSmileIcon
                           class="h-5 w-5 flex-shrink-0"
                           aria-hidden="true" />
                         <span class="sr-only"> Add your mood </span>
@@ -129,14 +129,14 @@
 <script>
 import { ref } from 'vue';
 import {
-  EmojiHappyIcon,
-  EmojiSadIcon,
+  FaceSmileIcon,
+  FaceFrownIcon,
   FireIcon,
   HeartIcon,
   PaperClipIcon,
-  ThumbUpIcon,
-  XIcon,
-} from '@heroicons/vue/solid';
+  HandThumbUpIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/solid';
 import {
   Listbox,
   ListboxButton,
@@ -164,28 +164,28 @@ const moods = [
   {
     name: 'Happy',
     value: 'happy',
-    icon: EmojiHappyIcon,
+    icon: FaceSmileIcon,
     iconColor: 'text-white',
     bgColor: 'bg-green-400',
   },
   {
     name: 'Sad',
     value: 'sad',
-    icon: EmojiSadIcon,
+    icon: FaceFrownIcon,
     iconColor: 'text-white',
     bgColor: 'bg-yellow-400',
   },
   {
     name: 'Thumbsy',
     value: 'thumbsy',
-    icon: ThumbUpIcon,
+    icon: HandThumbUpIcon,
     iconColor: 'text-white',
     bgColor: 'bg-blue-500',
   },
   {
     name: 'I feel nothing',
     value: null,
-    icon: XIcon,
+    icon: XMarkIcon,
     iconColor: 'text-gray-400',
     bgColor: 'bg-transparent',
   },
@@ -198,7 +198,7 @@ export default {
     ListboxLabel,
     ListboxOption,
     ListboxOptions,
-    EmojiHappyIcon,
+    FaceSmileIcon,
     PaperClipIcon,
     CreatorAvatar,
   },

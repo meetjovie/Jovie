@@ -59,6 +59,7 @@ class ImportController extends Controller
             'twitch' => 'required_without_all:instagram,key',
             'key' => 'required_without_all:instagram,twitch|nullable|string',
         ]);
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
         if ($request->instagram) {
             $import = new Import();
             $import->instagram = $request->instagram;
@@ -66,13 +67,14 @@ class ImportController extends Controller
             if ($instagram[0] == '@') {
                 $instagram = substr($instagram, 1);
             }
-            InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id)->onQueue('instagram');
+            InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id, null,
+                $user->currentTeam->id)->onQueue('instagram');
         }
         if ($request->twitch) {
             $import = new Import();
             $import->twitch = $request->twitch;
             $twitch = $import->twitch;
-            TwitchImport::dispatch(null, $twitch, $request->tags, null, null, Auth::user()->id, null)->onQueue('twitch');
+            TwitchImport::dispatch(null, $twitch, $request->tags, null, null, Auth::user()->id, null, $user->currentTeam->id)->onQueue('twitch');
         }
         $file = null;
         try {
@@ -106,7 +108,8 @@ class ImportController extends Controller
             );
             $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
             $listName = $request->listName;
-            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, Auth::user()->id);
+            $user = User::currentLoggedInUser();
+            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, $user->id, $user->currentTeam->id);
         }
 
         return $filePath;
@@ -155,13 +158,7 @@ class ImportController extends Controller
             $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
             $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
             $filePath = Creator::CREATORS_CSV_PATH.$filename;
-            $list = UserList::firstOrCreate([
-                'user_id' => Auth::user()->id,
-                'name' => $request->listName,
-            ], [
-                'user_id' => Auth::user()->id,
-                'name' => $request->listName,
-            ]);
+            $list = UserList::firstOrCreateList(Auth::user()->id, $request->listName);
             FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }
     }

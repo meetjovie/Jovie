@@ -7,8 +7,10 @@ use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
+use App\Models\UserList;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 use function Clue\StreamFilter\fun;
 use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
@@ -61,26 +63,47 @@ class Test extends Command
      */
     public function handle()
     {
-        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
-        foreach ($users as $user) {
-            foreach ($user->pendingImports as $import) {
-                if ($import->instagram && $import->instagram_scrapped != 1) {
-                    // trigger instagram import
-                    $instagramBatch = $import->getImportBatch('instagram');
-                    if (! $instagramBatch->cancelled()) {
-                        $this->triggerInstagramImport($import, $instagramBatch);
-                    }
-                }
-//                do this for each network
-//                if ($import->twitter && $import->twitter_scrapped != 1) {
+//        $user = User::with('currentTeam.users')->where('id', 1)->first();
+//        $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
+//dd($teamUsers);
+        Schema::disableForeignKeyConstraints();
+        $list = UserList::firstOrCreateList(1, 'large file 22');
+        $creatorIds = [];
+        $listId = $list->id;
+        for ($i=1; $i<=1000000; $i++) {
+            $creatorIds[] = [
+                'user_list_id' => $listId,
+                'creator_id' => $i
+            ];
+        }
+        $creatorIds = collect($creatorIds);
+        $chunks = $creatorIds->chunk(1000);
+        foreach ($chunks as $k => $chunk) {
+            $list->creators()->syncWithoutDetaching($chunk->toArray());
+            dump($k);
+            sleep(2);
+        }
+//        $list->creators()->sync($creatorIds);
+//        $users = User::whereHas('pendingImports')->with('pendingImports')->get();
+//        foreach ($users as $user) {
+//            foreach ($user->pendingImports as $import) {
+//                if ($import->instagram && $import->instagram_scrapped != 1) {
 //                    // trigger instagram import
-//                    $twitterBatch = $import->getImportBatch('twitter');
-//                    if (! $twitterBatch->cancelled()) {
-//                        $this->triggerTwitterImport($import, $twitterBatch);
+//                    $instagramBatch = $import->getImportBatch('instagram');
+//                    if (! $instagramBatch->cancelled()) {
+//                        $this->triggerInstagramImport($import, $instagramBatch);
 //                    }
 //                }
-            }
-        }
+////                do this for each network
+////                if ($import->twitter && $import->twitter_scrapped != 1) {
+////                    // trigger instagram import
+////                    $twitterBatch = $import->getImportBatch('twitter');
+////                    if (! $twitterBatch->cancelled()) {
+////                        $this->triggerTwitterImport($import, $twitterBatch);
+////                    }
+////                }
+//            }
+//        }
     }
 
     public function triggerTwitterImport($import, $twitterBatch)

@@ -40,10 +40,17 @@
           <div class="flex items-center justify-between gap-2 sm:grid-cols-6">
             <template v-for="network in networks" :key="network">
               <div
-                v-if="user[`show_${network}`]"
+                v-if="
+                  user[`show_${network}`] &&
+                  (currentUser[`${network}_handler`] ||
+                    user.creator_profile[`${network}_handler`])
+                "
                 class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
-                  :href="user.creator_profile[`${network}_handler`]"
+                  :href="
+                    currentUser[`${network}_handler`] ||
+                    user.creator_profile[`${network}_handler`]
+                  "
                   target="_blank">
                   <SocialIcons height="24px" :icon="network" />
                   <span class="sr-only">{{ network }}</span>
@@ -54,8 +61,9 @@
         </fieldset>
       </div>
 
-      <a :href="user.call_to_action">
+      <a v-if="user.call_to_action_text" :href="user.call_to_action">
         <button
+          @click="downloadVCF(user)"
           type="submit"
           class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
           {{ user.call_to_action_text }}
@@ -65,7 +73,7 @@
       <div class="border-t-2 border-gray-400 opacity-20"></div>
       <router-link
         class="group mt-1 py-4 text-center text-sm text-gray-500"
-        to="creators">
+        to="signup">
         <div class="mx-auto mt-4 flex items-center justify-center text-center">
           <JovieLogo
             iconColor="black"
@@ -83,20 +91,99 @@
 <script>
 import JovieLogo from '../components/JovieLogo.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
-import { MailOpenIcon } from '@heroicons/vue/solid';
+import { EnvelopeOpenIcon } from '@heroicons/vue/24/solid';
 import store from '../store';
 import router from '../router';
 import SocialIcons from '../components/SocialIcons';
 
 export default {
   name: 'CreatorProfile',
-  components: { JovieLogo, ButtonGroup, MailOpenIcon, SocialIcons },
+  components: { JovieLogo, ButtonGroup, EnvelopeOpenIcon, SocialIcons },
   props: ['profile', 'socialNetworks'],
   data() {
     return {
       user: null,
       networks: [],
     };
+  },
+  methods: {
+    generateVCF(Creator) {
+      let vCard = 'BEGIN:VCARD\n';
+      vCard += 'VERSION:3.0\n';
+      //if creator has a first name
+      if (Creator.first_name) {
+        vCard += 'N:' + Creator.first_name + ' ' + Creator.last_name + '\n';
+        vCard += 'FN:' + Creator.first_name + ' ' + Creator.last_name + '\n';
+      } else {
+        vCard += 'N:' + Creator.name + '\n';
+        vCard += 'FN:' + Creator.name + '\n';
+      }
+      //if creator has a phone number
+      if (Creator.phone) {
+        vCard += 'TEL;TYPE=WORK,VOICE:' + Creator.phone + '\n';
+      }
+      //if creator has an email
+      if (Creator.emails[0]) {
+        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + Creator.emails[0] + '\n';
+      }
+      if (Creator.company) {
+        vCard += 'ORG:' + Creator.company + '\n';
+      }
+      if (Creator.title) {
+        vCard += 'TITLE:' + Creator.title + '\n';
+      }
+      if (Creator.location) {
+        vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
+      }
+      if (Creator.website) {
+        vCard += 'URL:' + Creator.website + '\n';
+      }
+      if (Creator.twitter_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=twitter:' + Creator.twitter_handler + '\n';
+      }
+      if (Creator.instagram_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=instagram:' + Creator.instagram_handler + '\n';
+      }
+      if (Creator.facebook_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=facebook:' + Creator.facebook_handler + '\n';
+      }
+      if (Creator.linkedin_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=linkedin:' + Creator.linkedin_handler + '\n';
+      }
+      if (Creator.youtube_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=youtube:' + Creator.youtube_handler + '\n';
+      }
+      if (Creator.tiktok_handler) {
+        vCard += 'X-SOCIALPROFILE;TYPE=tiktok:' + Creator.tiktok_handler + '\n';
+      }
+      if (Creator.twitch_handler) {
+        vCard += 'X-SOCIALPROFILE;TYPE=twitch:' + Creator.twitch_handler + '\n';
+      }
+      if (Creator.bio) {
+        vCard += 'NOTE:' + Creator.bio + 'NOTE:Saved from Jovie\n';
+      } else {
+        vCard += 'NOTE:Saved from Jovie\n';
+      }
+      vCard += 'END:VCARD';
+      return vCard;
+    },
+    downloadVCF(Creator) {
+      let vCard = this.generateVCF(Creator);
+      let blob = new Blob([vCard], { type: 'text/vcard' });
+      let url = URL.createObjectURL(blob);
+      let link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute(
+        'download',
+        `Jovie Contact ${Creator.first_name} ${Creator.last_name}.vcf`
+      );
+      link.click();
+    },
   },
   mounted() {
     //add segment analytics

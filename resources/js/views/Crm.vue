@@ -1,170 +1,246 @@
 <template>
-  <div id="crm" class="mx-auto w-full min-w-full">
-    <TabGroup :defaultIndex="0" as="div" @change="changeTab">
-      <div class="items-bottom flex w-full justify-between border-b bg-white">
-        <div>
-          <div class="relative mx-auto w-full rounded sm:hidden">
-            <div class="absolute inset-0 z-0 m-auto mr-4 h-6 w-6">
-              <img
-                class="icon icon-tabler icon-tabler-selector"
-                src=""
-                alt="selector" />
+  <div class="h-full w-full">
+    <div id="crm" class="mx-auto flex h-full w-full min-w-full">
+      <div class="flex h-full w-full">
+        <TransitionRoot
+          :show="$store.state.CRMSidebarOpen"
+          enter="transition ease-in-out duration-300 transform"
+          enter-from="-translate-x-full"
+          enter-to="translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leave-from="translate-x-0"
+          leave-to="-translate-x-full">
+          <div
+            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 py-4 pb-2 shadow-xl"
+            :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
+            <div>
+              <div class="mt-10 flex-col py-1 px-2">
+                <JovieTooltip
+                  shortcuts="{ key: 's', key: 'c', key: 't' }"
+                  text="Show All Contacts">
+                  <button
+                    @click="setFiltersType('all')"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    :class="[
+                      filters.type == 'all'
+                        ? 'text-sm font-bold text-neutral-500  '
+                        : 'text-sm font-semibold text-neutral-400',
+                    ]">
+                    <div class="flex items-center text-xs">
+                      <UserGroupIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
+                        aria-hidden="true" />
+                      All Contacts
+                    </div>
+                    <div
+                      @click="showCreatorModal = true"
+                      class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                      <span
+                        class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                        >{{ counts.total }}</span
+                      >
+
+                      <PlusIcon
+                        class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
+                    </div>
+                  </button>
+                </JovieTooltip>
+                <JovieTooltip
+                  :shortcut.key="{
+                    key1: 'G',
+                    key2: 'A',
+                    delimiter: 'then',
+                  }"
+                  text="Show Archived Contacts">
+                  <button
+                    @click="setFiltersType('archived')"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    :class="[
+                      filters.type == 'archived'
+                        ? 'text-sm font-bold text-neutral-500 '
+                        : 'text-sm font-semibold text-neutral-400',
+                    ]">
+                    <div class="flex items-center text-xs">
+                      <ArchiveBoxIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                        aria-hidden="true" />Archived
+                    </div>
+                    <div class="items-center rounded-md p-1 hover:text-gray-50">
+                      <span
+                        class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                        >{{ counts.archived }}</span
+                      >
+                    </div>
+                  </button>
+                </JovieTooltip>
+                <JovieTooltip :shortcut="'G then F'" text="Show Favorites">
+                  <button
+                    @click="setFiltersType('favourites')"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    :class="[
+                      filters.type == 'favourites'
+                        ? 'text-sm font-bold text-neutral-500 '
+                        : 'text-sm font-semibold text-neutral-400',
+                    ]">
+                    <div class="flex items-center text-xs">
+                      <HeartIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                        aria-hidden="true" />Favorites
+                    </div>
+                    <div class="items-center rounded-md p-1 hover:text-gray-50">
+                      <span
+                        class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                        >{{ counts.favourites }}</span
+                      >
+                    </div>
+                  </button>
+                </JovieTooltip>
+              </div>
+              <div class="flex-col justify-evenly space-y-4 px-2 py-4">
+                <MenuList
+                  ref="menuListPinned"
+                  @getUserLists="getUserLists"
+                  @openEmojiPicker="openEmojiPicker"
+                  menuName="Pinned"
+                  :selectedList="filters.list"
+                  @setFilterList="setFilterList"
+                  :menuItems="pinnedUserLists"></MenuList>
+                <!--    Team Specific Lists -->
+                <MenuList
+                  ref="menuListAll"
+                  @getUserLists="getUserLists"
+                  @openEmojiPicker="openEmojiPicker"
+                  menuName="Teamspace"
+                  @setFilterList="setFilterList"
+                  :selectedList="filters.list"
+                  :draggable="true"
+                  @end="sortLists"
+                  :menuItems="filteredUsersLists"></MenuList>
+              </div>
+            </div>
+            <div class="flex-shrink-0 border-t border-neutral-200 py-2 px-2">
+              <JovieTooltip text="Import a new contact to Jovie">
+                <div
+                  @click="showCreatorModal = true"
+                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
+                  <PlusIcon
+                    class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-400"
+                    aria-hidden="true" />New Contact
+                </div>
+              </JovieTooltip>
+              <JovieTooltip text="Upload a csv file to import contacts">
+                <router-link
+                  to="import"
+                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
+                  <CloudArrowUpIcon
+                    class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                    aria-hidden="true" />Import Contacts
+                </router-link>
+              </JovieTooltip>
+              <JovieTooltip text="Choose which teamspace you want to work in.">
+                <SwitchTeams />
+              </JovieTooltip>
+
+              <div class="mt-1 py-1">
+                <ProgressBar
+                  invertedColor
+                  :percentage="
+                    100 -
+                    (currentUser.current_team.credits /
+                      (currentUser.current_team.current_subscription?.credits ||
+                        10)) *
+                      100
+                  "
+                  :label="
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) -
+                    currentUser.current_team.credits +
+                    ' of ' +
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) +
+                    ' contacts'
+                  " />
+              </div>
+              <div
+                v-if="!currentUser.current_team.credits"
+                class="flex items-center justify-between">
+                <div class="flex items-center px-2">
+                  <span class="text-2xs text-neutral-400"
+                    >Account quota exceeded
+                  </span>
+                  <ChevronRightIcon
+                    class="h-3 w-3 text-neutral-400"
+                    aria-hidden="true" />
+                </div>
+                <div
+                  as="router-link"
+                  to="/billing"
+                  class="underline-2 cursor-pointer text-center text-xs font-bold text-indigo-500 decoration-indigo-700 hover:underline">
+                  Upgrade
+                </div>
+              </div>
             </div>
           </div>
-          <TabList
-            class="items-bottom hidden h-12 rounded bg-white sm:block xl:mx-0 xl:w-full">
-            <div class="flex h-12 px-5">
-              <Tab v-slot="{ selected }" as="template">
-                <button
-                  class="w-24"
-                  :class="[
-                    selected
-                      ? 'text-indigo text-sm underline decoration-indigo-700 decoration-4 underline-offset-8'
-                      : 'text-sm text-neutral-700',
-                  ]">
-                  <span class="mb-3">Creators</span>
-                </button>
-              </Tab>
-              <Tab v-slot="{ selected }" as="template">
-                <button
-                  class="w-24"
-                  :class="[
-                    selected
-                      ? 'text-indigo text-sm underline decoration-indigo-700 decoration-4 underline-offset-8'
-                      : 'text-sm text-neutral-700',
-                  ]">
-                  <span class="mb-3">Archived</span>
-                </button>
-              </Tab>
-            </div>
-          </TabList>
-        </div>
-        <div class="w-60 items-center">
-          <Combobox as="div" v-model="filters.list">
-            <div class="relative mt-1">
-              <ComboboxInput
-                placeholder="Filter by list"
-                class="w-full rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                :displayValue="(list) => (list ? list.name : '')"
-                @change="searchList = $event.target.value" />
-              <ComboboxButton
-                class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                <ChevronDownIcon
-                  class="h-5 w-5 text-gray-400"
-                  aria-hidden="true" />
-              </ComboboxButton>
-
-              <ComboboxOptions
-                v-if="filteredUsersLists.length > 0"
-                class="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                <ComboboxOption
-                  v-for="list in filteredUsersLists"
-                  :key="list.id"
-                  :value="list"
-                  as="template"
-                  v-slot="{ active, selected }">
-                  <li
-                    :class="[
-                      'relative cursor-default select-none py-2 pl-3 pr-9',
-                      active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                    ]">
-                    <span
-                      :class="['block truncate', selected && 'font-semibold']">
-                      {{ list.name }}
-                    </span>
-
-                    <span
-                      v-if="selected"
-                      :class="[
-                        'absolute inset-y-0 right-0 flex items-center pr-4',
-                        active ? 'text-white' : 'text-indigo-600',
-                      ]">
-                      <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                    </span>
-                  </li>
-                </ComboboxOption>
-              </ComboboxOptions>
-            </div>
-          </Combobox>
-        </div>
-        <div class="items-center px-2">
-          <Menu as="div" class="relative inline-block items-center text-left">
-            <span class="relative z-0 inline-flex rounded-md py-1">
-              <button
-                as="router-link"
-                to="/import"
-                type="button"
-                class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white py-2 px-3 text-xs font-medium text-gray-700 hover:bg-indigo-600 hover:text-white focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
-                Add creator
-              </button>
-              <MenuButton
-                as="div"
-                class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-                <ChevronDownIcon class="h-4 w-4" aria-hidden="true" />
-              </MenuButton>
-            </span>
-            <transition
-              enter-active-class="transition ease-out duration-100"
-              enter-from-class="transform opacity-0 scale-95"
-              enter-to-class="transform opacity-100 scale-100"
-              leave-active-class="transition ease-in duration-75"
-              leave-from-class="transform opacity-100 scale-100"
-              leave-to-class="transform opacity-0 scale-95">
-              <MenuItems
-                class="absolute right-0 z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                <div class="">
-                  <MenuItem v-slot="{ active }">
-                    <router-link
-                      to="/import"
-                      :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'group flex items-center px-4 py-2 text-sm first:pt-3 last:pt-3',
-                      ]">
-                      <CloudUploadIcon
-                        class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                        aria-hidden="true" />
-                      Import a csv
-                    </router-link>
-                  </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <a
-                      @click="exportCrmCreators()"
-                      :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'group flex items-center px-4 py-2 text-sm first:pt-3 last:pt-3',
-                      ]">
-                      <DownloadIcon
-                        class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                        aria-hidden="true" />
-                      Export a csv
-                    </a>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
-        </div>
-      </div>
-      <TabPanels>
-        <TabPanel>
-          <div class="mx-auto w-full min-w-full">
-            <div class="w-full">
-              <div class="flex w-full flex-col">
-                <div class="mx-auto w-full p-0">
-                  <div class="inline-block w-full align-middle">
-                    <div class="border-b border-gray-200 shadow">
+        </TransitionRoot>
+        <div
+          class="h-full w-full overflow-x-scroll transition-all duration-200 ease-in-out">
+          <div class="mx-auto h-full w-full">
+            <div class="h-full w-full">
+              <div class="flex h-full w-full flex-col">
+                <div class="mx-auto h-full w-full p-0">
+                  <div class="inline-block h-full w-full align-middle">
+                    <div class="h-full w-full">
+                      <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && creators.length < 1"
-                        class="mx-auto max-w-7xl items-center py-24 px-4 sm:px-6 lg:px-8">
+                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
-                          <Import />
+                          <div
+                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                            <div>
+                              <h1 class="text-md font-bold">
+                                You don't have any contacts yet.
+                              </h1>
+                              <span class="text-sm font-medium text-neutral-500"
+                                >Enter a Twitch or Instagram url to add someone
+                                to Jovie.</span
+                              >
+                            </div>
+                            <SocialInput class="py-12" />
+                            <InternalMarketingChromeExtension class="mt-24" />
+                          </div>
                         </div>
                       </div>
+                      <!-- Show loading screen if the users first ever import is loading -->
 
+                      <div
+                        v-else-if="initialImportLoading"
+                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                        <div class="mx-auto max-w-xl">
+                          <div
+                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                            <div>
+                              <h1 class="text-md font-bold">
+                                You've just initated an import.
+                              </h1>
+                              <span class="text-sm font-medium text-neutral-500"
+                                >You'll see creators populate this space
+                                soon.</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Show the crm if there are creators -->
                       <CrmTable
                         v-else
+                        ref="crmTable"
                         @updateCreator="updateCreator"
+                        @crmCounts="crmCounts"
                         @pageChanged="pageChanged"
+                        @setCurrentContact="setCurrentContact"
+                        :filters="filters"
+                        :userLists="userLists"
                         :creators="creators"
                         :networks="networks"
                         :stages="stages"
@@ -176,32 +252,30 @@
               </div>
             </div>
           </div>
-        </TabPanel>
-        <TabPanel>
-          <div class="mx-auto w-full min-w-full">
-            <div class="w-full">
-              <div class="flex w-full flex-col">
-                <div class="mx-auto w-full p-0">
-                  <div class="inline-block w-full align-middle">
-                    <div class="border-b border-gray-200 shadow">
-                      <CrmTable
-                        @updateCreator="updateCreator"
-                        @pageChanged="pageChanged"
-                        :creators="creators"
-                        :networks="networks"
-                        :stages="stages"
-                        :creatorsMeta="creatorsMeta"
-                        :arcvhied="true"
-                        :loading="loading" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </TabPanel>
-      </TabPanels>
-    </TabGroup>
+        </div>
+        <TransitionRoot
+          :show="$store.state.ContactSidebarOpen"
+          enter="transition ease-in-out duration-300 transform"
+          enter-from="translate-x-full"
+          enter-to="-translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leave-from="-translate-x-0"
+          leave-to="translate-x-full">
+          <aside
+            class="z-30 -mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
+            <ContactSidebar :jovie="true" :creator="currentContact" />
+          </aside>
+        </TransitionRoot>
+      </div>
+
+      <ImportCreatorModal :open="showCreatorModal" />
+
+      <EmojiPickerModal
+        v-show="openEmojis"
+        @emojiSelected="emojiSelected($event)"
+        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-gray-50 text-center text-xs">
+      </EmojiPickerModal>
+    </div>
   </div>
 </template>
 
@@ -219,32 +293,57 @@ import {
   TabPanel,
   Menu,
   MenuButton,
+  TransitionRoot,
   MenuItems,
   MenuItem,
 } from '@headlessui/vue';
-import StarRating from 'vue-star-rating';
 import {
-  DotsVerticalIcon,
   ChevronDownIcon,
-  DownloadIcon,
+  ChevronRightIcon,
+  CloudArrowDownIcon,
   CheckIcon,
-  CloudUploadIcon,
-} from '@heroicons/vue/solid';
+  UserGroupIcon,
+  EllipsisVerticalIcon,
+  PlusIcon,
+  HeartIcon,
+  ArchiveBoxIcon,
+  CloudArrowUpIcon,
+} from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
-import Import from './Import.vue';
-
+import ImportCreatorModal from '../components/ImportCreatorModal';
+import SocialInput from '../components/SocialInput';
+import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
+import MenuList from '../components/MenuList';
+import ProgressBar from '../components/ProgressBar';
+import SwitchTeams from '../components/SwitchTeams';
+import JovieTooltip from '../components/JovieTooltip.vue';
+import EmojiPickerModal from '../components/EmojiPickerModal.vue';
+import ContactSidebar from '../components/ContactSidebar.vue';
+import VueMousetrapPlugin from 'vue-mousetrap';
 export default {
   name: 'CRM',
   components: {
-    DownloadIcon,
+    EmojiPickerModal,
+    CloudArrowDownIcon,
+    PlusIcon,
+    SwitchTeams,
     TabGroup,
+    HeartIcon,
+    ContactSidebar,
+    ProgressBar,
     TabList,
     Tab,
+    InternalMarketingChromeExtension,
+    ImportCreatorModal,
+    SocialInput,
+    TransitionRoot,
     TabPanels,
     TabPanel,
-    StarRating,
+    MenuList,
+    ChevronRightIcon,
     Combobox,
+    EllipsisVerticalIcon,
     ComboboxInput,
     ComboboxButton,
     ComboboxOptions,
@@ -253,57 +352,196 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
-    DotsVerticalIcon,
     ChevronDownIcon,
     CheckIcon,
-    CloudUploadIcon,
+    ArchiveBoxIcon,
+    UserGroupIcon,
+    CloudArrowUpIcon,
     CrmTable,
-    Import,
+    JovieTooltip,
+    vueMousetrapPlugin: VueMousetrapPlugin,
   },
   data() {
     return {
+      counts: {},
       stages: [],
       networks: [],
       userLists: [],
+      showCreatorModal: false,
       loading: false,
       creators: [],
+
       creatorsMeta: {},
+      activeCreator: [],
+      currentContact: [],
+
+      lists: [
+        {
+          name: 'Dancers with really really really really long names',
+          emoji: '💃',
+          id: 1,
+          count: 34,
+          index: 2,
+        },
+        {
+          name: 'Singers',
+          emoji: '🧑‍🎤 ',
+          id: 2,
+          count: 23,
+          index: 3,
+        },
+        {
+          name: 'Actors',
+          emoji: '🎭',
+          id: 3,
+          count: 54,
+          index: 1,
+        },
+        {
+          name: 'Musicians',
+          emoji: '🎸',
+          id: 4,
+          count: 34,
+          index: 0,
+        },
+      ],
+
+      query: '',
       filters: {
         list: null,
-        archived: 0,
+        type: 'all',
         page: 1,
       },
       searchList: '',
+      abortController: null,
+      openEmojis: false,
+      selectedList: null,
     };
   },
+  mounted() {
+    //when a user git g followed by c set the filter to all
+    //use $mousetrap.bind
+    this.$mousetrap.bind(['e'], console.log('working'));
+  },
+
   watch: {
     filters: {
       deep: true,
       handler: function (val) {
-        this.getCrmCreators();
-        if (val.list) {
-          localStorage.setItem('filterListCrm', JSON.stringify(val.list));
-        }
+        localStorage.setItem('filters', JSON.stringify(val));
+      },
+    },
+    creators: {
+      deep: true,
+      handler: function () {
+        this.crmCounts();
       },
     },
   },
   computed: {
+    sortedCreators() {
+      return this.creators.sort((a, b) => {
+        let modifier = 1;
+        if (this.currentSortDir === 'desc') modifier = -1;
+        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      });
+    },
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
-      let filterList = localStorage.getItem('filterListCrm');
-      if (filterList) {
-        this.filters.list = JSON.parse(filterList);
+      let filters = localStorage.getItem('filters');
+      if (filters) {
+        this.filters = JSON.parse(filters);
       }
       return this.userLists.filter((list) =>
         list.name.toLowerCase().match(this.searchList.toLowerCase())
       );
     },
+    pinnedUserLists() {
+      return this.userLists.filter((list) => list.pinned);
+    },
+    creators() {
+      return this.$store.state.crmRecords;
+    },
   },
-  mounted() {
-    this.getUserLists();
+  async mounted() {
+    await this.getUserLists();
     this.getCrmCreators();
+    this.crmCounts();
   },
   methods: {
+    openEmojiPicker(item) {
+      this.selectedList = item;
+      this.openEmojis = true;
+    },
+    emojiSelected(emoji) {
+      //take the value of the selected emoji and set it to the emoji variable
+      this.selectedList.emoji = emoji.i;
+      this.$refs.menuListAll.updateList(
+        JSON.parse(JSON.stringify(this.selectedList))
+      );
+      this.selectedList = null;
+      this.openEmojis = false;
+    },
+    setCurrentContact(contact) {
+      this.currentContact = contact;
+      console.log('this.currentContactthis.currentContact');
+      console.log(this.currentContact);
+    },
+    setFiltersType(type) {
+      this.filters.type = this.filters.type == type ? 'all' : type;
+      this.filters.list = null;
+      this.getCrmCreators();
+    },
+    setFilterList(list) {
+      this.filters.type = 'list';
+      this.filters.list = this.filters.list == list ? null : list;
+      this.getCrmCreators();
+    },
+    sortLists(e, listId) {
+      UserService.sortLists(
+        { newIndex: e.newIndex, oldIndex: e.oldIndex },
+        e.item.id
+      )
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+            // show toast error here later
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            if (this.errors.list[0]) {
+              this.$notify({
+                group: 'user',
+                type: 'success',
+                duration: 15000,
+                title: 'Successful',
+                text: this.errors.list[0],
+              });
+            }
+          }
+        })
+        .finally((response) => {});
+    },
     getUserLists() {
       UserService.getUserLists().then((response) => {
         response = response.data;
@@ -326,16 +564,29 @@ export default {
     getCrmCreators(filters = {}) {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.filters));
-      data.list = data.list?.id;
-      UserService.getCrmCreators(data).then((response) => {
+      if (this.abortController) {
+        this.abortController.abort();
+      }
+      this.abortController = new AbortController();
+      const signal = this.abortController.signal;
+      UserService.getCrmCreators(data, signal).then((response) => {
         this.loading = false;
         response = response.data;
         if (response.status) {
+          this.$store.commit('setCrmRecords', response.creators.data);
           this.networks = response.networks;
           this.stages = response.stages;
-          this.creators = response.creators.data;
+          this.counts = response.counts;
           this.creatorsMeta = response.creators;
           this.filters.page = response.creators.current_page;
+        }
+      });
+    },
+    crmCounts() {
+      UserService.crmCounts().then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.counts = response.counts;
         }
       });
     },
@@ -367,6 +618,7 @@ export default {
           } else {
             this.creators[params.index] = response.data;
           }
+          this.crmCounts();
         }
       });
     },

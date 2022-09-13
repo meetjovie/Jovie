@@ -32,7 +32,7 @@
 </template>
 <script>
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
-import { StarIcon, ChevronRightIcon, ChevronDownIcon, ThumbUpIcon, ThumbDownIcon, HeartIcon, BanIcon, RefreshIcon, TagIcon, ClipboardListIcon } from '@heroicons/vue/solid'
+import { StarIcon, ChevronRightIcon, ChevronDownIcon, HandThumbUpIcon, HandThumbDownIcon, HeartIcon, NoSymbolIcon, ArrowPathIcon, TagIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/solid'
 
 export default {
   components: {
@@ -43,25 +43,25 @@ export default {
     StarIcon,
     ChevronRightIcon,
     ChevronDownIcon,
-    ThumbUpIcon,
-    ThumbDownIcon,
+    HandThumbUpIcon,
+    HandThumbDownIcon,
     HeartIcon,
-    BanIcon,
-    RefreshIcon,
+    NoSymbolIcon,
+    ArrowPathIcon,
     TagIcon,
-    ClipboardListIcon,
+    ClipboardDocumentListIcon,
   },
   data() {
         return {
             actions: [
                 {
                     name: 'Shortlist',
-                    icon: 'ThumbUpIcon',
+                    icon: 'HandThumbUpIcon',
 
                 },
                 {
                     name: 'Reject',
-                    icon: 'ThumbDownIcon',
+                    icon: 'HandThumbDownIcon',
 
                 },
                 {
@@ -71,17 +71,17 @@ export default {
                 },
                 {
                     name: 'Mute',
-                    icon: 'BanIcon',
+                    icon: 'NoSymbolIcon',
 
                 },
                 {
                     name: 'Update',
-                    icon: 'RefreshIcon',
+                    icon: 'ArrowPathIcon',
 
                 },
                 {
                     name: 'Add to list',
-                    icon: 'ClipboardListIcon',
+                    icon: 'ClipboardDocumentListIcon',
                 },
                 {
                     name: 'Add tag',

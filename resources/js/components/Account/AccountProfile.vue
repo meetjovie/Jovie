@@ -70,7 +70,7 @@
                 </div>
 
                 <!-- Name -->
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-3 sm:col-span-4">
                   <InputGroup
                     v-model="$store.state.AuthState.user.first_name"
                     :error="errors?.first_name?.[0]"
@@ -82,7 +82,7 @@
                 </div>
 
                 <!-- Name -->
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-3 sm:col-span-4">
                   <InputGroup
                     v-model="$store.state.AuthState.user.last_name"
                     :error="errors?.last_name?.[0]"
@@ -117,16 +117,92 @@
               </ButtonGroup>
             </div>
           </form>
+        </div>
 
-          <CardLayout>
-            <CardHeading
-              title="Delete Account"
-              subtitle="This is permanent and cannot be undone."
-              buttonstyle="danger"
-              @buttonClick="toggleDeleteModal()"
-              buttontext="Delete">
-            </CardHeading>
-          </CardLayout>
+        <div class="flex justify-between md:col-span-1">
+          <div class="px-4 sm:px-0">
+            <h3 class="text-lg font-medium text-neutral-900">Social Handles</h3>
+
+            <p class="mt-1 text-sm text-neutral-600">
+              Add your social network handles.
+            </p>
+          </div>
+
+          <div class="px-4 sm:px-0"></div>
+        </div>
+
+        <div class="mt-5 md:col-span-2 md:mt-0">
+          <form
+            @submit.prevent="updateSocialHandlers()"
+            method="post"
+            enctype="multipart/form-data">
+            <div
+              x-data="{photoName: null, photoPreview: null}"
+              class="bg-white px-4 py-5 shadow sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
+              <div class="grid grid-cols-6 gap-6">
+                <!-- Social -->
+                <div class="grid-col-2 col-span-6 grid sm:col-span-4">
+                  <InputGroup
+                    @blur="updateSocialHandlers()"
+                    v-model="currentUser.instagram_handler"
+                    :error="errors?.instagram_handler?.[0]"
+                    :disabled="updating"
+                    name="instagram_handler"
+                    socialicon="instagram"
+                    label="Instagram"
+                    placeholder="Instagram
+                    Username"
+                    type="text" />
+                </div>
+                <div class="col-span-6 sm:col-span-4">
+                  <InputGroup
+                    @blur="updateSocialHandlers()"
+                    v-model="currentUser.tiktok_handler"
+                    :error="errors?.tiktok_handler?.[0]"
+                    :disabled="updating"
+                    name="tiktok_handler"
+                    socialicon="tiktok"
+                    label="TikTok"
+                    placeholder="TikTok"
+                    type="text" />
+                </div>
+                <div class="col-span-6 sm:col-span-4">
+                  <InputGroup
+                    @blur="updateSocialHandlers()"
+                    v-model="currentUser.twitter_handler"
+                    :error="errors?.twitter_handler?.[0]"
+                    :disabled="updating"
+                    name="twitter_handler"
+                    socialicon="twitter"
+                    label="Twitter"
+                    placeholder="Twitter"
+                    type="text" />
+                </div>
+                <div class="col-span-6 sm:col-span-4">
+                  <InputGroup
+                    @blur="updateSocialHandlers()"
+                    v-model="currentUser.youtube_handler"
+                    :error="errors?.youtube_handler?.[0]"
+                    :disabled="updating"
+                    name="youtube_handler"
+                    socialicon="youtube"
+                    label="YouTube"
+                    placeholder="YouTube"
+                    type="text" />
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="flex items-center justify-end bg-neutral-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              <ButtonGroup
+                type="submit"
+                design="primary"
+                text="Save"
+                :disabled="updating">
+              </ButtonGroup>
+            </div>
+          </form>
         </div>
       </div>
 
@@ -183,6 +259,38 @@ export default {
     },
     toggleDeleteModal() {
       this.deleteModalOpen = !this.deleteModalOpen;
+    },
+    updateSocialHandlers() {
+      this.updating = true;
+      let data = new FormData();
+      data.append(
+        'instagram_handler',
+        this.currentUser.instagram_handler ?? ''
+      );
+      data.append('tiktok_handler', this.currentUser.tiktok_handler ?? '');
+      data.append('twitter_handler', this.currentUser.twitter_handler ?? '');
+      data.append('youtube_handler', this.currentUser.youtube_handler ?? '');
+      data.append('twitch_handler', this.currentUser.twitch_handler ?? '');
+      data.append('username', this.currentUser.username ?? '');
+      //add username
+      UserService.updateProfile(data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$store.commit('setAuthStateUser', response.user);
+            this.$refs.profile_pic_url.value = null;
+            this.errors = {};
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally((response) => {
+          this.updating = false;
+        });
     },
     fileChanged(e) {
       this.bucketResponse = null;

@@ -1,0 +1,94 @@
+<template>
+  <div
+    @click="toggleSortingOrder()"
+    class="group flex h-full select-none items-center justify-between pr-2"
+    :class="[{ ' cursor-pointer active:bg-neutral-200': sortable }, '']">
+    <div class="flex items-center">
+      <component class="mr-1 h-4 w-4 text-neutral-300" :is="icon"></component>
+      {{ name }}
+    </div>
+
+    <div
+      v-if="sortable"
+      class="cursor-pointer group-hover:text-neutral-400"
+      :class="[{ 'text-neutral-200': sortingOrder }, 'text-neutral-200/0']">
+      <svg
+        v-if="!sortingOrder"
+        xmlns="http://www.w3.org/2000/svg"
+        class="ml-1 h-3 w-3"
+        aria-hidden="true"
+        fill="currentColor"
+        viewBox="0 0 320 512">
+        <path
+          d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z" />
+      </svg>
+      <ChevronDownIcon
+        v-else-if="sortingOrder === 'desc'"
+        class="ml-1 h-3 w-3" />
+      <ChevronUpIcon v-else class="ml-1 h-3 w-3" />
+    </div>
+  </div>
+</template>
+<script>
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  Bars3BottomLeftIcon,
+  AtSymbolIcon,
+  CurrencyDollarIcon,
+  LinkIcon,
+  CalendarDaysIcon,
+  ArrowDownCircleIcon,
+  StarIcon,
+  BriefcaseIcon,
+  UserIcon,
+  ChartBarIcon,
+} from '@heroicons/vue/20/solid';
+export default {
+  components: {
+    ChevronDownIcon,
+    ChevronUpIcon,
+    Bars3BottomLeftIcon,
+    AtSymbolIcon,
+    CurrencyDollarIcon,
+    StarIcon,
+    CalendarDaysIcon,
+    ArrowDownCircleIcon,
+    LinkIcon,
+    BriefcaseIcon,
+    UserIcon,
+    ChartBarIcon,
+  },
+  data() {
+    return {
+      sortingOrder: '',
+    };
+  },
+  methods: {
+    toggleSortingOrder() {
+      //toggle sorting order between asc, desc, and null
+      if (this.sortingOrder === 'asc') {
+        this.sortingOrder = 'desc';
+      } else if (this.sortingOrder === 'desc') {
+        this.sortingOrder = null;
+      } else {
+        this.sortingOrder = 'asc';
+      }
+    },
+  },
+  props: {
+    name: {
+      type: String,
+      default: 'Column Name',
+    },
+    icon: {
+      type: String,
+      default: 'ArrowDownCircleIcon',
+    },
+    sortable: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+</script>

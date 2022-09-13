@@ -26,7 +26,7 @@
             class="mx-auto max-w-2xl transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
             <Combobox @update:modelValue="onSelect">
               <div class="relative">
-                <SearchIcon
+                <MagnifyingGlassIcon
                   class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-900 text-opacity-40"
                   aria-hidden="true" />
                 <ComboboxInput
@@ -131,14 +131,14 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { SearchIcon } from '@heroicons/vue/solid';
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 import {
-  DocumentAddIcon,
+  DocumentPlusIcon,
   FolderIcon,
-  FolderAddIcon,
+  FolderPlusIcon,
   HashtagIcon,
   TagIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import {
   Combobox,
   ComboboxInput,
@@ -165,8 +165,8 @@ const projects = [
 ];
 const recent = [projects[0]];
 const quickActions = [
-  { name: 'Add new file...', icon: DocumentAddIcon, shortcut: 'N', url: '#' },
-  { name: 'Add new folder...', icon: FolderAddIcon, shortcut: 'F', url: '#' },
+  { name: 'Add new file...', icon: DocumentPlusIcon, shortcut: 'N', url: '#' },
+  { name: 'Add new folder...', icon: FolderPlusIcon, shortcut: 'F', url: '#' },
   { name: 'Add hashtag...', icon: HashtagIcon, shortcut: 'H', url: '#' },
   { name: 'Add label...', icon: TagIcon, shortcut: 'L', url: '#' },
 ];

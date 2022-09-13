@@ -9,9 +9,9 @@
         </h1>
         <p
           class="mt-4 w-full pr-0 text-base leading-normal text-gray-500 lg:w-10/12 lg:pr-16 xl:w-96 xl:pr-0">
-          We believe every company can benefit from partnering with
-          <span class="font-bold">creators</span>. We're building the tools to
-          make those relationships effortless.
+          We believe everyone can benefit from building strong
+          <span class="font-bold">relationships</span>. We're building the tools
+          to make that process effortless.
         </p>
 
         <router-link to="careers"
@@ -198,19 +198,19 @@ import JoinOurTeam from '../components/External/JoinOurTeam.vue';
 import OurTeam from '../components/External/OurTeam.vue';
 import {
   GlobeAltIcon,
-  LightningBoltIcon,
-  MailIcon,
-  ThumbUpIcon,
+  BoltIcon,
+  EnvelopeIcon,
+  HandThumbUpIcon,
   DocumentTextIcon,
   ScaleIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import NewsletterSignup from '../components/External/NewsletterSignup.vue';
 
 const features = [
   {
     name: "Be so good they can't ignore you",
     description: `We’re here to build products that are undeniably good.  We work hard everyday to be better at that. `,
-    icon: ThumbUpIcon,
+    icon: HandThumbUpIcon,
   },
   {
     name: 'Best idea wins',
@@ -222,7 +222,7 @@ const features = [
     name: 'Move fast & break often',
     description:
       'We move quickly with a bias for action.  We step back often to see how our work fits in to the bigger picture. Sprint, walk, repeat.',
-    icon: LightningBoltIcon,
+    icon: BoltIcon,
   },
   {
     name: 'Be concise',

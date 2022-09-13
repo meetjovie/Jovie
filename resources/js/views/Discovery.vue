@@ -26,9 +26,9 @@
               class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"
               :class="{ 'text-indigo-700': searchopen }"
               aria-hidden="true"></ChevronLeftIcon>
-            <FilterIcon
+            <FunnelIcon
               v-if="searchopen == false"
-              class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"></FilterIcon>
+              class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"></FunnelIcon>
           </button>
 
           <DiscoveryStats></DiscoveryStats>
@@ -49,7 +49,7 @@ import DiscoveryMain from '../components/Discovery/DiscoveryMain.vue';
 import DiscoveryStats from '../components/Discovery/DiscoveryStats.vue';
 import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue';
 import { TabGroup } from '@headlessui/vue';
-import { FilterIcon, ChevronLeftIcon } from '@heroicons/vue/outline';
+import { FunnelIcon, ChevronLeftIcon } from '@heroicons/vue/24/outline';
 
 export default {
   name: 'Discovery',
@@ -60,7 +60,7 @@ export default {
     DiscoveryStats,
     DiscoveryToolbar,
     TabGroup,
-    FilterIcon,
+    FunnelIcon,
     ChevronLeftIcon,
   },
 };

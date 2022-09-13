@@ -24,7 +24,7 @@
                     :class="{ 'bg-indigo-100': ActiveDrag }"
                     class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 py-12 hover:border-gray-400">
                     <div class="space-y-1 text-center">
-                      <CloudUploadIcon
+                      <CloudArrowUpIcon
                         :class="{ 'text-white': ActiveDrag }"
                         class="mx-auto h-12 w-12 text-neutral-200" />
                       <div class="flex text-sm text-gray-600">
@@ -65,7 +65,15 @@
                 <p v-if="errors.key" class="mt-2 text-sm text-red-600">
                   {{ errors.key[0] }}
                 </p>
+
+                <div v-if="importStarted" class="mx-auto items-center py-6">
+                  <span class="mx-auto text-center text-sm text-neutral-400">
+                    Your contacts are importing and will be available in a few
+                    moments.
+                  </span>
+                </div>
               </div>
+
               <!--  <div class="flex justify-end">
             <button
               :disabled="importing"
@@ -104,7 +112,7 @@ import ImportService from '../services/api/import.service';
 import UserService from '../services/api/user.service';
 import ProgressBar from '../components/ProgressBar.vue';
 import draggable from 'vuedraggable';
-import { CloudUploadIcon } from '@heroicons/vue/solid';
+import { CloudArrowUpIcon } from '@heroicons/vue/24/solid';
 import NoAccess from '../components/NoAccess.vue';
 
 export default {
@@ -117,7 +125,7 @@ export default {
     ImportColumnMatching,
     ProgressBar,
     draggable,
-    CloudUploadIcon,
+    CloudArrowUpIcon,
     NoAccess,
   },
 
@@ -130,6 +138,7 @@ export default {
       errors: [],
       dropzoneFile: [],
       drag: false,
+      importStarted: false,
       importSuccessful: false,
       importing: false,
       importSet: {
@@ -153,7 +162,6 @@ export default {
     toggleActive() {
       this.ActiveDrag = !this.ActiveDrag;
     },
-
     drop() {
       this.getColumnsFromCsv();
     },
@@ -168,9 +176,9 @@ export default {
     getColumnsFromCsv(e) {
       let file = null;
       if (this.$refs.file_upload.files.length) {
-          file = this.$refs.file_upload.files[0];
+        file = this.$refs.file_upload.files[0];
       } else {
-          file = e.dataTransfer.files[0];
+        file = e.dataTransfer.files[0];
       }
       this.uploadProgress = 0;
       this.fetchingColumns = true;
@@ -218,6 +226,7 @@ export default {
     },
     finishImport(mappedColumns = {}) {
       this.importing = true;
+      this.importStarted = true;
       this.errors = [];
       var form = new FormData();
       form.append('instagram', this.importSet.instagram ?? '');
@@ -234,6 +243,7 @@ export default {
             this.$notify({
               group: 'user',
               type: 'success',
+              duration: 15000,
               title: 'Import Successful',
               text: 'Your import has been queued and will be processed shortly.',
             });

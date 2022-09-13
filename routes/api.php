@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,13 +22,18 @@ Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']
 Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
 Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
+Route::post('/forgot-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Broadcast::routes();
 
     //    PROFILE
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
     Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
+    Route::put('/update-password', [\App\Http\Controllers\UserController::class, 'updatePassword']);
 
 //    Route::group(['middleware' => 'subscribed'], function () {
 
@@ -38,13 +44,25 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //      USER LISTS
     Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
+    Route::post('/sort-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'sortLists']);
+    Route::post('/pin-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'pinList']);
+    Route::post('/unpin-user-lists/{id}', [\App\Http\Controllers\UserListsController::class, 'unpinList']);
+    Route::post('/duplicate-list/{id}', [\App\Http\Controllers\UserListsController::class, 'duplicateList']);
+    Route::delete('/delete-list/{id}', [\App\Http\Controllers\UserListsController::class, 'deleteList']);
+    Route::post('/create-list', [\App\Http\Controllers\UserListsController::class, 'createList']);
+    Route::put('/update-list/{id}', [\App\Http\Controllers\UserListsController::class, 'updateList']);
 
     //      CRM
     Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
+    Route::get('/crm-counts', [\App\Http\Controllers\CrmController::class, 'crmCounts']);
     Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
+    Route::post('/update-creator-note/{id}', [\App\Http\Controllers\CrmController::class, 'updateCreatorNote']);
 
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
+
+    Route::post('/toggle-creators-from-list', [\App\Http\Controllers\CrmController::class, 'toggleCreatorsFromList']);
+    Route::post('/toggle-archive-creators', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreators']);
 
     //      OVERVIEW
     Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);

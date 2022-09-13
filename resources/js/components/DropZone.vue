@@ -7,7 +7,7 @@
     :class="{ 'bg-indigo-100': active }"
     class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 py-12 hover:border-gray-400">
     <div class="space-y-1 text-center">
-      <CloudUploadIcon
+      <CloudArrowUpIcon
         class="mx-auto h-12 w-12 text-neutral-200 group-hover:text-gray-400" />
       <div class="flex text-sm text-gray-600">
         <label

@@ -5,18 +5,20 @@
       <div>
         <h2
           class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
-          Manage your creator relationships
+          Fast. Simple. Automated.
         </h2>
         <p
           class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          The operating system for the
-          <span class="text-indigo-700">creator economy</span>.
+          Next Generation
+          <span class="text-indigo-700">CRM</span>.
         </p>
 
         <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-          Empower your creator partnerships team with the only sales engagement
-          platform built from the ground up for
-          <span class="font-bold">creator economy </span>companies.
+          Jovie creates & updates contacts automatically using data from social
+          media profiles.
+          <br class="hidden sm:inline" />
+          <span class="font-bold">Never </span>manually enter contact info
+          again.
         </p>
       </div>
       <div class="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">

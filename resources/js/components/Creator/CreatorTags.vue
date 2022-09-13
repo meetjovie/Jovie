@@ -60,15 +60,15 @@
         { 'bg-pink-100 text-pink-700 hover:text-pink-900': color == 'pink' },
       ]">
       <span v-if="showX" class="sr-only">Remove {{ text }}</span>
-      <XIcon v-if="showX" class="h-3 w-3" />
+      <XMarkIcon v-if="showX" class="h-3 w-3" />
     </button>
   </span>
 </template>
 <script>
-import { XIcon } from '@heroicons/vue/outline';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 export default {
   components: {
-    XIcon,
+    XMarkIcon,
   },
   props: {
     text: {

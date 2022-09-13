@@ -48,7 +48,7 @@
               <div class="mt-6 sm:max-w-xl">
                 <h1
                   class="text-4xl font-extrabold tracking-tight text-indigo-600 sm:text-5xl">
-                  Creator insights
+                  Social insights
                 </h1>
                 <h1
                   class="-mt-4 text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl">
@@ -56,7 +56,7 @@
                 </h1>
 
                 <p class="mt-2 text-xs text-gray-500 sm:mt-6 sm:text-xl">
-                  See content & social metrics of creators right inside your
+                  See content & social metrics of contacts right inside your
                   inbox.
                 </p>
               </div>
@@ -183,7 +183,7 @@
 
 <script>
 import { defineComponent, h } from 'vue';
-import { ChevronRightIcon, StarIcon } from '@heroicons/vue/solid';
+import { ChevronRightIcon, StarIcon } from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
 import ButtonGroup from '../components/ButtonGroup';
 

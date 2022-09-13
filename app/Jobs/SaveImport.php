@@ -36,18 +36,21 @@ class SaveImport implements ShouldQueue
 
     private $userId;
 
+    private $teamId;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($file, $mappedColumns, $tags, $listName, $userId)
+    public function __construct($file, $mappedColumns, $tags, $listName, $userId, $teamId)
     {
         $this->file = $file;
         $this->mappedColumns = $mappedColumns;
         $this->tags = $tags;
         $this->listName = $listName;
         $this->userId = $userId;
+        $this->teamId = $teamId;
     }
 
     /**
@@ -69,6 +72,7 @@ class SaveImport implements ShouldQueue
                 'tags' => $this->tags,
                 'listName' => $this->listName,
                 'userId' => $this->userId,
+                'teamId' => $this->teamId,
             ]));
             for ($page = 0; $page < ceil($totalRecords / Import::PER_PAGE); $page++) {
                 $command = "save:import-chunk $this->file $page $payload";
@@ -76,12 +80,13 @@ class SaveImport implements ShouldQueue
                 Artisan::queue($command);
             }
         } catch (\Exception $e) {
-            SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'.$e->getFile().'-----'.$e->getLine()), [
+            SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' - team '.$this->teamId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'.$e->getFile().'-----'.$e->getLine()), [
                 'file' => $this->file,
                 'mappedColumns' => $this->mappedColumns,
                 'tags' => $this->tags,
                 'listName' => $this->listName,
                 'userId' => $this->userId,
+                'teamId' => $this->teamId,
             ]);
         } finally {
             User::where('id', $this->userId)->decrement('queued_count');

@@ -39,7 +39,7 @@ export default {
     },
     cta: {
       type: String,
-      default: 'Get started free',
+      default: 'Try Jovie free',
     },
   },
   methods: {},

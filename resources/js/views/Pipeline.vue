@@ -141,7 +141,7 @@
 import draggable from 'vuedraggable';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
 import SocialIcons from '../components/SocialIcons.vue';
-import { MailIcon, PhoneIcon } from '@heroicons/vue/solid';
+import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/24/solid';
 import NoAccess from '../components/NoAccess.vue';
 export default {
   name: 'two-lists',
@@ -149,7 +149,7 @@ export default {
   order: 1,
   components: {
     draggable,
-    MailIcon,
+    EnvelopeIcon,
     PhoneIcon,
     SocialIcons,
     NoAccess,
@@ -206,7 +206,7 @@ export default {
           followers: '1.5M',
           daysinstage: '2',
           offer: '240K',
-          stage: 'Onboarding',
+          stage: 'Lead',
           contacted: '1/12/2020',
           campaign: 'Zelf Beta',
           category: 'Model',
@@ -225,7 +225,7 @@ export default {
           rating: '3',
           followers: '1.2M',
           offer: '12K',
-          stage: 'Onboarding',
+          stage: 'Lead',
           daysinstage: '3',
           contacted: '4/9/2020',
           campaign: 'Zelf Beta',
@@ -246,7 +246,7 @@ export default {
           rating: '2',
           followers: '1.2K',
           offer: '104K',
-          stage: 'Onboarding',
+          stage: 'Lead',
           contacted: '1/4/2020',
           campaign: 'Zelf Beta',
           category: 'Athelete',
@@ -266,7 +266,7 @@ export default {
           rating: '2',
           followers: '47.2K',
           offer: '900K',
-          stage: 'Onboarding',
+          stage: 'Lead',
           contacted: '1/9/2020',
           category: 'Singer',
           campaign: 'Zelf Beta',

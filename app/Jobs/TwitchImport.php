@@ -6,6 +6,7 @@ use App\Models\Creator;
 use App\Models\Import;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\UserList;
 use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
 use Carbon\Carbon;
@@ -44,12 +45,14 @@ class TwitchImport implements ShouldQueue
 
     private $importId;
 
+    private $teamId = null;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id, $username, $tags, $meta = null, $listId = null, $userId = null, $importId = null)
+    public function __construct($id, $username, $tags, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null)
     {
         $this->id = $id;
         $this->username = $username;
@@ -58,6 +61,14 @@ class TwitchImport implements ShouldQueue
         $this->listId = $listId;
         $this->userId = $userId;
         $this->importId = $importId;
+        if (is_null($teamId) && $listId) {
+            $list = UserList::where('id', $listId)->first();
+            if ($list) {
+                $this->teamId = $list->team_id;
+            }
+        } elseif ($teamId) {
+            $this->teamId = $teamId;
+        }
         $this->platformUser = User::with('currentTeam')->where('id', $this->userId)->first();
     }
 
@@ -105,7 +116,7 @@ class TwitchImport implements ShouldQueue
             if ($creator && ! is_null($creator->twitch_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
                 $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                    Creator::addToListAndCrm($creator, $this->listId, $this->userId);
+                    Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId);
                     Import::markImport($this->importId, ['twitch']);
 //                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitch user '.$this->username), Notification::SINGLE_IMPORT);
                     return;
@@ -233,7 +244,7 @@ class TwitchImport implements ShouldQueue
             $creator->twitch_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->twitch_summary_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->save();
-            Creator::addToListAndCrm($creator, $this->listId, $this->userId);
+            Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId);
             $summary = null;
             try {
                 $response = self::scrapTwitchSummary($user->login);

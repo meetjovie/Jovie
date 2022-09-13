@@ -94,7 +94,7 @@
       <tr
         v-for="creator in creators"
         :key="creator"
-        class="group border-1 border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+        class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
         <td
           class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
           <div class="grid grid-cols-2 items-center">
@@ -286,7 +286,7 @@
                         active ? 'bg-indigo-500 text-white' : 'text-gray-900',
                         'group flex w-full items-center text-xs',
                       ]">
-                      <DuplicateIcon
+                      <DocumentDuplicateIcon
                         :active="active"
                         class="mr-2 h-5 w-5 text-indigo-400"
                         aria-hidden="true" />
@@ -299,7 +299,7 @@
                         active ? 'bg-indigo-500 text-white' : 'text-gray-900',
                         'group flex w-full items-center text-xs',
                       ]">
-                      <ArchiveIcon
+                      <ArchiveBoxIcon
                         :active="active"
                         class="mr-2 h-5 w-5 text-indigo-400"
                         aria-hidden="true" />
@@ -397,7 +397,7 @@
                 <MenuButton
                   class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
                   <span class="sr-only">Open options</span>
-                  <DotsVerticalIcon class="h-5 w-5" aria-hidden="true" />
+                  <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
                 </MenuButton>
               </div>
               <transition
@@ -474,11 +474,11 @@ import {
 import StarRating from 'vue-star-rating';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import {
-  DotsVerticalIcon,
+  EllipsisVerticalIcon,
   ChevronDownIcon,
   CheckIcon,
-  SearchCircleIcon,
-} from '@heroicons/vue/solid';
+  MagnifyingGlassCircleIcon,
+} from '@heroicons/vue/24/solid';
 
 const people = [
   { id: 1, name: 'Wade Cooper' },
@@ -510,10 +510,10 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
-    DotsVerticalIcon,
+    EllipsisVerticalIcon,
     ChevronDownIcon,
     CheckIcon,
-    SearchCircleIcon,
+    MagnifyingGlassCircleIcon,
   },
   data() {
     return {
@@ -529,7 +529,7 @@ export default {
           rating: '4.3',
           followers: '1.5M',
           offer: '240K',
-          stage: 'Onboarding',
+          stage: 'Lead',
           contacted: '1/12/2020',
           campaign: 'Zelf Beta',
           avatar: 'https://i.pravatar.cc/150?img=1',
@@ -545,7 +545,7 @@ export default {
           rating: '3',
           followers: '1.2M',
           offer: '12K',
-          stage: 'Onboarding',
+          stage: 'Lead',
           contacted: '1/1e/2020',
           campaign: 'Zelf Beta',
           avatar: 'https://i.pravatar.cc/150?img=2',
@@ -561,7 +561,7 @@ export default {
           rating: '2',
           followers: '1.2K',
           offer: '104K',
-          stage: 'Onboarding',
+          stage: 'Lead',
           contacted: '1/1e/2020',
           campaign: 'Zelf Beta',
           avatar: 'https://i.pravatar.cc/150?img=3',
@@ -577,7 +577,7 @@ export default {
           rating: '5',
           followers: '1.2M',
           offer: '104K',
-          stage: 'Onboarding',
+          stage: 'Lead',
           contacted: '9/1/2020',
           campaign: 'Zelf Beta',
           avatar: 'https://i.pravatar.cc/150?img=4',
