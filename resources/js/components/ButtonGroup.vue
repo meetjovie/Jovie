@@ -48,7 +48,7 @@
       :class="[{ 'text-2xs': size == 'xs' }, { 'text-xs': size == 'sm' }]">
       {{ text }}
     </p>
-    <div v-if="loader" class="transition-all">
+    <div v-if="loader" class="ml-2 transition-all">
       <JovieSpinner :spinnerColor="loaderColor" />
     </div>
     <div v-else-if="success">
@@ -59,16 +59,16 @@
 
 <script>
 import {
-  MailIcon,
-  SearchIcon,
-  BanIcon,
+  EnvelopeIcon,
+  MagnifyingGlassIcon,
+  NoSymbolIcon,
   PlusCircleIcon,
   MinusCircleIcon,
   MinusIcon,
   PlusIcon,
   ChevronRightIcon,
-} from '@heroicons/vue/solid';
-import { CheckIcon } from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/solid';
+import { CheckIcon } from '@heroicons/vue/24/outline';
 
 import JovieSpinner from '../components/JovieSpinner';
 
@@ -132,9 +132,9 @@ export default {
     },
   },
   components: {
-    MailIcon,
-    SearchIcon,
-    BanIcon,
+    EnvelopeIcon,
+    MagnifyingGlassIcon,
+    NoSymbolIcon,
     PlusIcon,
     CheckIcon,
     MinusIcon,

@@ -8,12 +8,15 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserList;
 use App\Models\Waitlist;
+use App\Rules\MatchOldPassword;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -43,15 +46,25 @@ class UserController extends Controller
                 'employer_link',
                 'call_to_action_text',
                 'call_to_action',
-                'show_instagram'
+                'show_instagram',
+                'instagram_handler',
+                'tiktok_handler',
+                'show_tiktok',
+                'show_youtube',
+                'youtube_handler'
             )->first();
         if ($user) {
             $user->profile_pic_url = $this->getProfilePic($user);
             $user->name = $user->first_name ? ($user->first_name.' '.$user->last_name) : $user->username;
-
+            $user = json_decode(json_encode($user));
+            $user->creator_profile = [
+                'instagram_handler' => $user->instagram_handler,
+                'tiktok_handler' => $user->tiktok_handler,
+                'youtube_handler' => $user->youtube_handler,
+            ];
             return response([
                 'status' => true,
-                'data' => $user,
+                'data' => User::currentLoggedInUser(),
                 'networks' => Creator::NETWORKS,
             ], 200);
         }
@@ -69,19 +82,22 @@ class UserController extends Controller
                 'platform_title as title',
                 'platform_employer as employer',
                 'platform_employer_link as employer_link',
-                'instagram_handler',
                 'instagram_meta->profile_pic_url as instagram_profile_pic',
                 'instagram_meta->external_link as external_link as call_to_action'
             )->first();
 
         if ($user) {
-            $user['creator_profile'] = [
-                'instagram_handler' => $user->instagram_handler,
-            ];
             $user->name = $user->first_name ? ($user->first_name.' '.$user->last_name) : ($user->full_name ?? $user->username);
             $user->profile_pic_url = $this->getProfilePic($user);
             $user->call_to_action_text = 'Follow Instagram';
             $user->call_to_action = $this->getCta($user);
+
+            $user = json_decode(json_encode($user));
+            $user->creator_profile = [
+                'instagram_handler' => $user->instagram_handler,
+                'tiktok_handler' => $user->tiktok_handler,
+                'youtube_handler' => $user->youtube_handler,
+            ];
 
             // when user is from creator default each link to show
             foreach (Creator::NETWORKS as $network) {
@@ -90,7 +106,7 @@ class UserController extends Controller
 
             return response([
                 'status' => true,
-                'data' => $user,
+                'data' => User::currentLoggedInUser(),
                 'networks' => Creator::NETWORKS,
             ], 200);
         }
@@ -158,9 +174,16 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $data = $request->validate([
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'profile_pic_url' => 'nullable|string',
+            'first_name' => 'sometimes|required|max:255',
+            'last_name' => 'sometimes|required|max:255',
+            'profile_pic_url' => 'sometimes|nullable|string',
+            'username' => 'sometimes|nullable|string',
+            'facebook_handler' => 'sometimes|nullable|string',
+            'twitter_handler' => 'sometimes|nullable|string',
+            'instagram_handler' => 'sometimes|nullable|string',
+            'youtube_handler' => 'sometimes|nullable|string',
+            'tiktok_handler' => 'sometimes|nullable|string',
+            'twitch_handler' => 'sometimes|nullable|string',
         ]);
         $path = null;
         if (Auth::user()->getRawOriginal('profile_pic_url')) {
@@ -179,7 +202,7 @@ class UserController extends Controller
             return collect([
                 'status' => true,
                 'message' => 'Profile Information Updated.',
-                'user' => User::where('id', Auth::user()->id)->first(),
+                'user' => User::currentLoggedInUser()
             ]);
         }
 
@@ -188,6 +211,7 @@ class UserController extends Controller
             'message' => 'Something went wrong. Please try again later.',
         ]);
     }
+
 
     public function removeProfilePhoto(Request $request)
     {
@@ -199,7 +223,7 @@ class UserController extends Controller
                 return collect([
                     'status' => true,
                     'message' => 'Profile photo removed.',
-                    'user' => Auth::user(),
+                    'user' => User::currentLoggedInUser()
                 ]);
             } else {
                 return collect([
@@ -250,7 +274,8 @@ class UserController extends Controller
 
     public function importBatches()
     {
-        $userListIds = UserList::where('user_id', Auth::id())->pluck('id')->toArray();
+        $lists = UserList::getLists(Auth::id());
+        $userListIds = $lists->pluck('id')->toArray();
         $batches = DB::table('job_batches')
             ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
             ->select('job_batches.*', 'user_lists.name')
@@ -269,5 +294,20 @@ class UserController extends Controller
         }
 
         return $batches->toArray();
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        User::where('id', Auth::id())->update(['password'=> Hash::make($request->password)]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Password updated successfully',
+        ], 200);
     }
 }

@@ -183,7 +183,7 @@
                           </p>
                           <p
                             class="mt-2 flex items-center text-sm text-gray-500">
-                            <MailIcon
+                            <EnvelopeIcon
                               class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                               aria-hidden="true" />
                             <span class="truncate">{{ user.email }}</span>
@@ -249,7 +249,7 @@
                           </p>
                           <p
                             class="mt-2 flex items-center text-sm text-gray-500">
-                            <MailIcon
+                            <EnvelopeIcon
                               class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                               aria-hidden="true" />
                             <span class="truncate">{{ user.email }}</span>
@@ -320,8 +320,8 @@ import {
   ChevronRightIcon,
   PlusCircleIcon,
   MinusCircleIcon,
-  MailIcon,
-} from '@heroicons/vue/solid';
+  EnvelopeIcon,
+} from '@heroicons/vue/24/solid';
 import InputGroup from '../../components/InputGroup.vue';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import TeamService from '../../services/api/team.service';
@@ -334,7 +334,7 @@ export default {
     InputGroup,
     CheckCircleIcon,
     ChevronRightIcon,
-    MailIcon,
+    EnvelopeIcon,
     PlusCircleIcon,
     MinusCircleIcon,
     ButtonGroup,

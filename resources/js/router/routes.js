@@ -62,6 +62,19 @@ export const routes = [
     },
   },
   {
+    name: 'YC Demo Video',
+    path: '/yc-demo-video',
+    beforeEnter(to, from, next) {
+      window.open(
+        'https://www.loom.com/share/aeeaf6beba554cb6898e454ababae321',
+        '_self'
+      );
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
     name: 'Data',
     path: '/data',
     component: loadPage('OurData'),
@@ -124,6 +137,15 @@ export const routes = [
     },
   },
   {
+    name: 'Extension',
+    path: '/extension',
+    component: loadPage('AppExtension'),
+    meta: {
+      layout: 'Minimal',
+      requiresAuth: true,
+    },
+  },
+  {
     name: 'Dashboard',
     path: '/dashboard',
     component: loadPage('Dashboard'),
@@ -143,10 +165,39 @@ export const routes = [
     },
   },
   {
+    name: 'Contact Card',
+    path: '/:username/contact-card',
+    component: loadPage('ContactCard'),
+    meta: {
+      layout: 'Minimal',
+      requiresAuth: false,
+      requiresSubscribe: false,
+    },
+  },
+  {
+    name: 'Edit Profile',
+    path: '/edit-profile',
+    component: loadPage('ProfileSetup'),
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+      requiresSubscribe: false,
+    },
+  },
+  {
     about: 'About',
     path: '/about',
     component: loadPage('About'),
     meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    about: 'Jovie Profile',
+    path: '/profiles',
+    component: loadPage('JovieProfile'),
+    meta: {
+      layout: 'Default',
       requiresAuth: false,
     },
   },
@@ -265,9 +316,25 @@ export const routes = [
     },
   },
   {
-    name: 'Forgot Password',
+    name: 'forget-password',
     path: '/forgot-password',
     component: loadPage('ForgotPassword'),
+    meta: {
+      layout: 'Minimal',
+    },
+  },
+  {
+    name: 'reset-password',
+    path: '/reset-password',
+    component: loadPage('ResetPassword'),
+    meta: {
+      layout: 'Minimal',
+    },
+  },
+  {
+    name: 'reset-password',
+    path: '/reset-password',
+    component: loadPage('ResetPassword'),
     meta: {
       layout: 'Minimal',
     },

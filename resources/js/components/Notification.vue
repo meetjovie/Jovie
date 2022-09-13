@@ -36,7 +36,7 @@
                   @click="show = false"
                   class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   <span class="sr-only">Close</span>
-                  <XIcon class="h-5 w-5" aria-hidden="true" />
+                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -49,13 +49,13 @@
 
 <script>
 import { ref } from 'vue';
-import { CheckCircleIcon } from '@heroicons/vue/outline';
-import { XIcon } from '@heroicons/vue/solid';
+import { CheckCircleIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon } from '@heroicons/vue/24/solid';
 
 export default {
   components: {
     CheckCircleIcon,
-    XIcon,
+    XMarkIcon,
   },
   setup() {
     const show = ref(true);

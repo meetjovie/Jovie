@@ -13,10 +13,14 @@ class Crm extends Model
     protected $fillable = [
         'creator_id',
         'user_id',
+        'team_id',
         'selected',
         'rejected',
         'rating',
         'stage',
+        'favourite',
+        'archived',
+        'meta'
     ];
 
     public function toSearchableArray()
@@ -36,7 +40,7 @@ class Crm extends Model
     public static function stages()
     {
         return [
-            0 => 'Onboarding',
+            0 => 'Lead',
             1 => 'Interested',
             2 => 'Negotiating',
             3 => 'In Progress',

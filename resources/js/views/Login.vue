@@ -78,6 +78,29 @@
                   Sign in
                 </button>
               </div>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                  <label
+                    for="remember-me"
+                    class="ml-2 block text-sm text-gray-900">
+                    Remember me
+                  </label>
+                </div>
+
+                <div class="text-sm">
+                  <router-link
+                    :to="{ name: 'forget-password' }"
+                    class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Forgot your password?
+                  </router-link>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -121,9 +144,10 @@ export default {
       AuthService.login(this.user)
         .then((response) => {
           response = response.data;
+          localStorage.setItem('jovie_extension', response.token)
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
-            router.push({ name: 'Dashboard' });
+            router.push({ name: 'Contacts' });
           } else {
             this.error = response.error;
           }

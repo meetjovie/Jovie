@@ -209,7 +209,7 @@
                       <div class="relative mt-1 rounded-md shadow-sm">
                         <div
                           class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <DuplicateIcon
+                          <DocumentDuplicateIcon
                             tooltip="Copy to clipboard"
                             @click="copyToClipboard(creator.emails[0])"
                             class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700 active:mt-0.5 active:mr-0.5 active:text-neutral-500"
@@ -224,7 +224,7 @@
                               value: creator.emails,
                             })
                           "
-                          icon="DuplicateIcon"
+                          icon="DocumentDuplicateIcon"
                           :placeholder="creator.email" />
                       </div>
                     </dd>
@@ -405,10 +405,10 @@ import InputGroup from '../components/InputGroup.vue';
 import {
   PlusIcon,
   ChevronRightIcon,
-  DuplicateIcon,
-  MailIcon,
+  DocumentDuplicateIcon,
+  EnvelopeIcon,
   ChevronLeftIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 import CommentBox from '../components/CommentBox.vue';
 import ActivityFeed from '../components/ActivityFeed.vue';
 import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks.vue';
@@ -448,7 +448,7 @@ export default {
     TabGroup,
     TabList,
     TabPanel,
-    DuplicateIcon,
+    DocumentDuplicateIcon,
     TabPanels,
     TransitionChild,
     TransitionRoot,
@@ -467,7 +467,7 @@ export default {
     ChevronRightIcon,
     ChevronLeftIcon,
     CreatorSocialLinks,
-    MailIcon,
+    EnvelopeIcon,
   },
   props: ['profile', 'socialNetworks', 'creatorId'],
   data() {

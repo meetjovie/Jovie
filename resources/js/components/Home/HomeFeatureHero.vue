@@ -19,7 +19,7 @@
                 <router-link
                   to="signup"
                   class="inline-flex rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-                  Get started free
+                  Try Jovie free
                 </router-link>
               </div>
             </div>
@@ -280,7 +280,7 @@
                       clip-rule="evenodd" />
                   </svg>
                 </div>
-                <h2 class="text-[8px] text-gray-500">New York, NY</h2>
+                <h2 class="text-[8px] text-gray-500">Los Angeles, CA</h2>
                 <div class="py-0.5">
                   <span
                     class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-[8px] font-medium text-indigo-800">
@@ -431,7 +431,7 @@
             <div>
               <!-- <span
                 class="flex h-12 w-12 items-center justify-center rounded-md">
-                <LightningBoltIcon
+                <BoltIcon
                   class="text-windigo-500 h-6 w-6"
                   aria-hidden="true" />
               </span> -->
@@ -454,7 +454,7 @@
                 <router-link
                   to="signup"
                   class="inline-flex rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-                  Get started free
+                  Try Jovie free
                 </router-link>
               </div>
             </div>
@@ -499,11 +499,11 @@
 </template>
 
 <script>
-import { LightningBoltIcon, SparklesIcon } from '@heroicons/vue/outline';
+import { BoltIcon, SparklesIcon } from '@heroicons/vue/24/outline';
 
 export default {
   components: {
-    LightningBoltIcon,
+    BoltIcon,
     SparklesIcon,
   },
 };

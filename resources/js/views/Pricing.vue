@@ -8,7 +8,7 @@
             Jovie Pricing
           </h1>
           <p class="mt-5 text-xl text-neutral-500 sm:text-center">
-            Everything you need to scale your creator partnerships.
+            Everything you need to scale your relationships.
           </p>
 
           <div
@@ -80,7 +80,12 @@
                   >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
                 >
                 {{ ' ' }}
-                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <span class="text-base font-medium text-neutral-500">/mo</span
+                ><span
+                  v-if="tier.name == 'Team'"
+                  class="ml-0.5 text-sm font-medium text-neutral-400"
+                  >/seat</span
+                >
                 <br />
                 <span class="text-sm font-medium text-neutral-500"
                   >Billed as
@@ -97,7 +102,12 @@
                   >${{ tier.priceMonthly }}</span
                 >
                 {{ ' ' }}
-                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <span class="text-base font-medium text-neutral-500">/mo</span
+                ><span
+                  v-if="tier.name == 'Team'"
+                  class="ml-0.5 text-sm font-medium text-neutral-400"
+                  >/seat</span
+                >
                 <br />
                 <span class="text-sm font-medium text-neutral-500"
                   >Billed monthly</span
@@ -164,7 +174,7 @@
             <router-link
               to="signup"
               class="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-gray-900 hover:bg-gray-50">
-              Get started free
+              Try Jovie free
             </router-link>
           </div>
         </div>
@@ -255,60 +265,54 @@ import {
 import {
   CheckIcon,
   ChevronDownIcon,
-  MailIcon,
-  LightningBoltIcon,
-  DatabaseIcon,
-  SupportIcon,
-  UserIcon,
   UserGroupIcon,
+  BoltIcon,
+  CircleStackIcon,
+  LifebuoyIcon,
+  UserIcon,
   UsersIcon,
-  UserAddIcon,
-  CloudDownloadIcon,
-  ChatAlt2Icon,
-  TableIcon,
+  UserPlusIcon,
+  CloudArrowDownIcon,
+  ChatBubbleBottomCenterIcon,
+  TableCellsIcon,
   PhoneIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import store from '../store';
 const annualBilling = ref(true);
 
 const tiers = [
   {
-    name: 'Professional',
+    name: 'Pro',
     href: 'signup',
     featured: false,
-    priceMonthly: 199,
-    priceAnnual: 2148,
+    priceMonthly: 5,
+    priceAnnual: 48,
     description: 'For freelancers',
     features: [
-      {
-        name: `Database of ${store.state.creatorsDBCount}+ creators`,
-        icon: 'DatabaseIcon',
-      },
-      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
-      { name: '500 contact credits/month', icon: 'MailIcon' },
+      { name: '500 contact credits/month', icon: 'UserGroupIcon' },
+
+      { name: 'Blazing fast CRM Search', icon: 'BoltIcon' },
+
       { name: '1 User included', icon: 'UserIcon' },
-      { name: '10 CSV exports', icon: 'CloudDownloadIcon' },
     ],
   },
   {
     name: 'Team',
     href: 'signup',
     featured: true,
-    priceMonthly: 499,
-    priceAnnual: 5388,
+    priceMonthly: 10,
+    priceAnnual: 96,
     description: 'Built for startups and growing teams',
     features: [
-      {
-        name: `Database of ${store.state.creatorsDBCount}+ creators`,
-        icon: 'DatabaseIcon',
-      },
-      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
-      { name: '2,500 contact credits/month', icon: 'MailIcon' },
+      { name: '2,500 contact credits/month', icon: 'UserGroupIcon' },
+      { name: 'Blazing fast search', icon: 'BoltIcon' },
       { name: '2 Users included', icon: 'UsersIcon' },
-      { name: 'Unlimited CSV exports', icon: 'CloudDownloadIcon' },
-      { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
-      { name: 'Additional users $99/mo', icon: 'UserAddIcon' },
-      { name: '1,000 Data enrichment credits', icon: 'TableIcon' },
+
+      { name: 'Unlimited CSV exports', icon: 'CloudArrowDownIcon' },
+      {
+        name: 'Collaboration & team managment',
+        icon: 'ChatBubbleBottomCenterIcon',
+      },
     ],
   },
   {
@@ -316,20 +320,27 @@ const tiers = [
     href: 'request-demo',
     featured: false,
     priceMonthly: 'Annual Only',
-    priceAnnual: 26388,
+    priceAnnual: 240,
     description: 'For large teams and enterprises',
     features: [
+      /*  {
+        name: `Prospecting engine - Search ${store.state.creatorsDBCount}+ social media profiles`,
+        icon: 'CircleStackIcon',
+      }, */
+
+      { name: '10,000 contact credits/month', icon: 'UserGroupIcon' },
+      { name: 'Blazing fast search', icon: 'BoltIcon' },
+
+      { name: 'Unlimited CSV exports', icon: 'CloudArrowDownIcon' },
       {
-        name: `Database of ${store.state.creatorsDBCount}+ creators`,
-        icon: 'DatabaseIcon',
+        name: 'Collaboration & team managment',
+        icon: 'ChatBubbleBottomCenterIcon',
       },
-      { name: 'Blazing fast search', icon: 'LightningBoltIcon' },
-      { name: '10,00 contact credits/month', icon: 'MailIcon' },
-      { name: '5 Users included', icon: 'UserGroupIcon' },
-      { name: 'Unlimited CSV exports', icon: 'CloudDownloadIcon' },
-      { name: 'Collaboration & team managment', icon: 'ChatAlt2Icon' },
-      { name: 'Additional users $99/mo', icon: 'UserAddIcon' },
-      { name: '5,0000 Data enrichment credits', icon: 'TableIcon' },
+
+      {
+        name: `Prospecting engine - Search millions of social media profiles`,
+        icon: 'CircleStackIcon',
+      },
       { name: 'Dedicated support', icon: 'PhoneIcon' },
     ],
   },
@@ -338,18 +349,14 @@ const faqs = [
   {
     question: 'Can I add additional users to my account?',
     answer:
-      'Yes. Team & enterprise plans allow you to invite team members and collaborate.  The Team plan includes 2 seats and you can add more for $99/mo.',
+      'Yes. Team & enterprise plans allow you to invite team members and collaborate.  The Team plan includes 2 seats and you can add more for $49/mo.',
   },
   {
     question: 'What is a contact credit?',
     answer:
-      'Jovie provides access to a database of millions of creators.  You can leverage this data for your outreach efforts.  A contact credit is deducted from your account when you send a message to a contact or export an email address.',
+      'The number of contacts you can enrich & store within the Jovie CRM.',
   },
-  {
-    question: 'What is a data enrichment credit?',
-    answer:
-      'Jovie allows you to enrich your contacts with data from your own database or customer lists.  When you upload contacts, we match them against our data to provide you an enriched profile with social metrics, content, & other details.  You are only charged for succcessful matches.',
-  },
+
   {
     question: 'Do you offer trials?',
     answer:
@@ -363,21 +370,21 @@ export default {
     SwitchGroup,
     SwitchLabel,
     CheckIcon,
-    UserAddIcon,
-    CloudDownloadIcon,
+    UserPlusIcon,
+    CloudArrowDownIcon,
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
     ChevronDownIcon,
-    MailIcon,
-    LightningBoltIcon,
-    DatabaseIcon,
-    SupportIcon,
+    UserGroupIcon,
+    BoltIcon,
+    CircleStackIcon,
+    LifebuoyIcon,
     UserIcon,
     UserGroupIcon,
     UsersIcon,
-    ChatAlt2Icon,
-    TableIcon,
+    ChatBubbleBottomCenterIcon,
+    TableCellsIcon,
     PhoneIcon,
   },
   mounted() {

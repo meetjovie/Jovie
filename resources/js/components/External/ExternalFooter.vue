@@ -245,22 +245,21 @@ import { defineComponent, h } from 'vue';
 import ButtonGroup from '../ButtonGroup.vue';
 const navigation = {
   solutions: [
-    { name: 'Creator Search', href: '/' },
     { name: 'Social CRM', href: '/' },
-
+    { name: 'Contact Profiles', href: '/profiles' },
     { name: 'Chrome Extension', href: 'chrome-extension' },
   ],
   support: [
     { name: 'Pricing', href: 'pricing' },
     { name: 'Get Help', href: 'support' },
     { name: 'API', href: 'api' },
-    { name: 'Status', href: 'https://jovie.statuspage.io/' },
+    { name: 'Status', href: 'Status' },
   ],
   company: [
-    { name: 'About', href: 'about' },
-    { name: 'Careers', href: 'careers' },
+    /*  { name: 'About', href: 'about' }, */
+    { name: 'Careers', href: 'Careers' },
 
-    { name: 'Our Data', href: 'data' },
+    /*  { name: 'Our Data', href: 'data' }, */
     { name: 'Legal', href: 'legal' },
   ],
   features: [

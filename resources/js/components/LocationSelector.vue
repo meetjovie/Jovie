@@ -86,7 +86,7 @@ import {
   ComboboxOption,
   TransitionRoot,
 } from '@headlessui/vue';
-import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid';
 
 const Countries = [
   { name: 'Afghanistan', code: 'AF' },

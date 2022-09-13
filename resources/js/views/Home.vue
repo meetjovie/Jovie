@@ -1,7 +1,11 @@
 <template>
   <div>
     <main>
-      <div class="min-h-screen">
+      <HomeHeroSection />
+      <!--  <HomeFeatureCRM class="" id="crm"></HomeFeatureCRM> -->
+      <Enrichment :dark="false"></Enrichment>
+      <JovieReplaces></JovieReplaces>
+      <!-- <div class="">
         <div
           class="flex w-full flex-col-reverse items-center justify-center pt-12 sm:py-12 md:flex-col md:py-40">
           <img
@@ -18,19 +22,26 @@
               <span class="inline">Scale your</span>
               {{ ' ' }}
               <span class="inline text-indigo-700">creator</span>
-
+              <vue-typed-js
+                :strings="['Creator', 'Biz Dev', 'Investor', 'Founder']">
+                <h1 class="typing"></h1>
+              </vue-typed-js>
+              
               {{ ' ' }}
-              <span class="inline"> partnerships</span>
+
+              <span class="inline"> relationships</span>
             </h1>
             <p
               class="mx-auto mt-8 max-w-md text-center text-base text-gray-500 sm:mt-3 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-              <span class="font-bold">Easily </span>
+              <span class="font-bold">Jovie is the </span>
               {{ ' ' }}
-              <span class="font-bold text-indigo-600">build</span>,
-              <span class="font-bold text-indigo-600">manage</span>, &
-              <span class="font-bold text-indigo-600">grow </span>
-              <span class="font-bold underline decoration-pink-500 decoration-4"
-                >creator communities</span
+              <span class="font-bold text-indigo-600">CRM</span>
+              {{ ' ' }}
+              <span class="font-bold">you'll actually</span>
+              {{ ' ' }}
+              <span
+                class="font-bold underline decoration-social-instagram decoration-4"
+                >want to use</span
               >.
             </p>
             <div class="mx-auto mt-8 flex max-w-md justify-center md:mt-5">
@@ -56,9 +67,9 @@
                       :loader="loading"
                       as="router-link"
                       @click="requestDemo() && identifyUser()"
-                      text="Get started free"
+                      text="Try Jovie free"
                       design="hero">
-                      Get started free
+                      Try Jovie free
                     </ButtonGroup>
                   </div>
                   <span
@@ -69,18 +80,19 @@
               </div>
             </div>
           </div>
+          <HomeLogoCloud></HomeLogoCloud>
         </div>
-        <!--  <HomeLogoCloud></HomeLogoCloud> -->
-      </div>
-      <HomeFeatureCRM id="crm"></HomeFeatureCRM>
+      </div> -->
+
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 
       <!--  <HomeFeatureHero></HomeFeatureHero> -->
 
       <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
+      <!--  
+      
+      <HomeTestimonials></HomeTestimonials> -->
       <HomeCTA></HomeCTA>
-      <JovieReplaces></JovieReplaces>
-      <HomeTestimonials></HomeTestimonials>
       <HomeCTA2></HomeCTA2>
     </main>
   </div>
@@ -90,10 +102,10 @@
 <script>
 import {
   InboxIcon,
-  PencilAltIcon,
+  PencilIcon,
   TrashIcon,
   UsersIcon,
-} from '@heroicons/vue/outline';
+} from '@heroicons/vue/24/outline';
 import JovieReplaces from '../components/External/JovieReplaces.vue';
 import UserService from '../services/api/user.service';
 import HomeLogoCloud from '../components/Home/HomeLogoCloud';
@@ -105,6 +117,7 @@ import HomeTestimonials from '../components/Home/HomeTestimonials';
 import HomeCTA2 from '../components/Home/HomeCTA2';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
+import Enrichment from '../components/Enrichment.vue';
 
 import CallToAction from '../components/CallToAction';
 
@@ -116,6 +129,7 @@ export default {
     HomeFeatureSequences,
     HomeCreatorSearch,
     HomeFeatureDiscovery,
+    Enrichment,
     HomeHeroSection,
     HomeCTA,
     ButtonGroup,
@@ -153,7 +167,7 @@ export default {
           name: 'Exclusion',
           description:
             'Jovie can check to make creators you partner with have never promoted a competing product.',
-          icon: PencilAltIcon,
+          icon: PencilIcon,
         },
       ],
     };

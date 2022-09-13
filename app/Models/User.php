@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -124,5 +125,62 @@ class User extends Authenticatable
             'meta' => $meta,
             'user_id' => $this->id,
         ]);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = (config('app.url').'/reset-password?token='.$token);
+        $this->notify(new ResetPasswordNotification($url));
+    }
+
+    public function getTwitterHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://twitter.com/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getTwitchHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://twitch.tv/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getInstagramHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://instagram.com/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getYoutubeHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://youtube.com/c/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getTiktokHandlerAttribute($value)
+    {
+        if ($value) {
+            $value = $value[0] == '@' ? $value : ('@'.$value);
+            return 'https://www.tiktok.com/'.$value;
+        }
+
+        return null;
+    }
+
+    public function userListAttributes()
+    {
+        return $this->belongsToMany(UserList::class, 'user_list_attributes')->withTimestamps();
     }
 }

@@ -45,8 +45,8 @@
             <p
               class="m-0 border-0 px-0 pt-1 pb-0 text-xs not-italic leading-5"
               style="font-weight: normal">
-              Jovie Inc <br class="" />124 West 60th St <br class="" />43G
-              <br class="" />New York NY 10023
+              Jovie Inc <br class="" />1600 Vine St
+              <br class="" />Los Angeles, CA 90028
             </p>
             <p
               class="m-0 border-0 px-0 pt-3 pb-0 text-xs not-italic leading-5"
@@ -56,7 +56,7 @@
                 style="font-weight: bold; font-size: 128%"
                 >Owner contact email:</strong
               >
-              support@Jovie.ai
+              support@jov.ie
             </p>
           </div>
 
@@ -904,4 +904,5 @@ export default {
     //add segment analytics
     window.analytics.page(this.$route.path);
   },
-};</script>
+};
+</script>

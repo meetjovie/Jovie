@@ -24,6 +24,30 @@ app.mixin({
     },
   },
   methods: {
+      listenEvents(channel, event, successCallback = () => {}, errorCallback = () => {}) {
+          Echo.private(channel)
+              .listen(event, (e) => {
+                  if (e.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 40000,
+                          title: 'Successful',
+                          text: e.message,
+                      });
+                      successCallback();
+                  } else {
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 40000,
+                          title: 'Error',
+                          text: e.message,
+                      });
+                      errorCallback();
+                  }
+              });
+      },
     asset(path) {
       return Vapor.asset(path);
     },
@@ -51,14 +75,14 @@ app.mixin({
       if (!value) {
         return moment().format('ddd MMM DD, YYYY [at] HH:mm a');
       }
-      let time = moment(value)
-        if (unix) {
-            time = moment.unix(value)
-        }
-        if (humanize) {
-            let duration = moment.duration(moment().diff(time))
-            return duration.humanize(true)
-        }
+      let time = moment(value);
+      if (unix) {
+        time = moment.unix(value);
+      }
+      if (humanize) {
+        let duration = moment.duration(moment().diff(time));
+        return duration.humanize(true);
+      }
       return time.format('ddd MMM DD, YYYY [at] HH:mm a');
     },
   },

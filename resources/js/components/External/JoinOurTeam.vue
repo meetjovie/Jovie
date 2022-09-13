@@ -94,10 +94,10 @@
             <p class="text-lg text-white">
               We're always looking for great people to join our team.
             </p>
-            <a
+            <router-link
               class="block w-full rounded-md border border-transparent bg-white py-3 px-5 text-center text-base font-medium text-indigo-700 shadow-md hover:bg-gray-50 sm:inline-block sm:w-auto"
-              href="#"
-              >Explore open positions</a
+              to="Careers">
+              Explore open positions</router-link
             >
           </div>
         </div>

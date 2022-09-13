@@ -76,21 +76,21 @@
 
 <script>
 import {
-  SearchIcon,
-  MailIcon,
-  PhotographIcon,
-  LocationMarkerIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
+  MagnifyingGlassIcon,
+  EnvelopeIcon,
+  PhotoIcon,
+  MapPinIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
   ExclamationCircleIcon,
   TagIcon,
   UserIcon,
   UsersIcon,
-  ArrowSmUpIcon,
-  ArrowSmDownIcon,
+  ArrowSmallUpIcon,
+  ArrowSmallDownIcon,
   BriefcaseIcon,
   CheckCircleIcon,
-} from '@heroicons/vue/solid';
+} from '@heroicons/vue/24/solid';
 
 export default {
   name: 'InputGroup',
@@ -144,19 +144,19 @@ export default {
     },
   },
   components: {
-    MailIcon,
-    SearchIcon,
-    PhotographIcon,
-    LocationMarkerIcon,
-    TrendingUpIcon,
-    TrendingDownIcon,
+    EnvelopeIcon,
+    MagnifyingGlassIcon,
+    PhotoIcon,
+    MapPinIcon,
+    ArrowTrendingUpIcon,
+    ArrowTrendingDownIcon,
     TagIcon,
     UserIcon,
     CheckCircleIcon,
     UsersIcon,
     ExclamationCircleIcon,
-    ArrowSmUpIcon,
-    ArrowSmDownIcon,
+    ArrowSmallUpIcon,
+    ArrowSmallDownIcon,
     BriefcaseIcon,
   },
 };

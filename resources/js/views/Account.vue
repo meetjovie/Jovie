@@ -55,6 +55,11 @@
                   <AccountTeam />
                 </TabPanel>
               </TabPanels>
+              <TabPanels as="template">
+                <TabPanel class="space-y-12 px-4 py-6">
+                  <AccountDelete />
+                </TabPanel>
+              </TabPanels>
             </TabGroup>
           </div>
         </div>
@@ -66,6 +71,7 @@
 <script>
 import AccountTeam from '../components/Account/AccountTeam.vue';
 import AccountProfile from '../components/Account/AccountProfile.vue';
+import AccountDelete from '../components/Account/AccountDelete.vue';
 
 import { ref } from 'vue';
 import {
@@ -89,23 +95,33 @@ import {
 import {
   BellIcon,
   BriefcaseIcon,
-  ChatIcon,
+  ChatBubbleLeftEllipsisIcon,
   CogIcon,
-  DocumentSearchIcon,
+  DocumentMagnifyingGlassIcon,
   HomeIcon,
-  MenuAlt2Icon,
+  Bars3BottomLeftIcon,
   QuestionMarkCircleIcon,
   UsersIcon,
-  XIcon,
-} from '@heroicons/vue/outline';
-import { SearchIcon } from '@heroicons/vue/solid';
+  XMarkIcon,
+} from '@heroicons/vue/24/outline';
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 import ButtonGroup from '../components/ButtonGroup.vue';
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: false },
   { name: 'Jobs', href: '#', icon: BriefcaseIcon, current: false },
-  { name: 'Applications', href: '#', icon: DocumentSearchIcon, current: false },
-  { name: 'Messages', href: '#', icon: ChatIcon, current: false },
+  {
+    name: 'Applications',
+    href: '#',
+    icon: DocumentMagnifyingGlassIcon,
+    current: false,
+  },
+  {
+    name: 'Messages',
+    href: '#',
+    icon: ChatBubbleLeftEllipsisIcon,
+    current: false,
+  },
   { name: 'Team', href: '#', icon: UsersIcon, current: false },
   { name: 'Settings', href: '#', icon: CogIcon, current: true },
 ];
@@ -116,9 +132,9 @@ const secondaryNavigation = [
 const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
-
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
+  { name: 'Delete Account', href: '#', current: false },
 ];
 
 import AccountPlan from '../components/Account/AccountPlan.vue';
@@ -137,15 +153,16 @@ export default {
     Subscribe,
     Dialog,
     DialogOverlay,
+    AccountDelete,
     Switch,
     SwitchGroup,
     SwitchLabel,
     TransitionChild,
     TransitionRoot,
     BellIcon,
-    MenuAlt2Icon,
-    SearchIcon,
-    XIcon,
+    Bars3BottomLeftIcon,
+    MagnifyingGlassIcon,
+    XMarkIcon,
     AccountTeam,
     TabGroup,
     TabList,
