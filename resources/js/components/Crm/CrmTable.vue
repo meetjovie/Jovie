@@ -437,12 +437,17 @@
                             class="rounded-full bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90 p-0.5">
                             <div class="rounded-full bg-white p-0">
                               <img
+                               
                                 class="rounded-full object-cover object-center"
-                                :src="
-                                  creator.profile_pic_url ??
-                                  asset('img/noimage.webp')
-                                "
+                                :src="creator.profile_pic_url"
+                                @error="imageLoadingError()"
                                 alt="Profile Image" />
+                                <!--WIP Fixing image loading errors-->
+                              <!-- <img
+                                v-else
+                                class="rounded-full object-cover object-center"
+                                :src="asset('img/noimage.webp')"
+                                alt="Profile Image" /> -->
                             </div>
                           </div>
                         </div>
@@ -1065,6 +1070,7 @@ export default {
       currentContact: [],
       editingSocialHandle: true,
       searchVisible: true,
+      imageLoaded: true,
       columns: [
         {
           name: 'First',
@@ -1212,13 +1218,11 @@ export default {
   methods: {
     exportCrmCreators() {
       //export filteredCreators to a csv file
-     console.log('exporting')
-     //write a function to export all contacts in the current table while accounting for filters and lists
-     
-    
-     
-      
-
+      console.log('exporting');
+      //write a function to export all contacts in the current table while accounting for filters and lists
+    },
+    imageLoadingError() {
+      this.imageLoaded = false;
     },
     emailCreator(email) {
       //go to the url mailto:creator.emails[0]
@@ -1384,7 +1388,7 @@ export default {
               this.creatorRecords = this.creatorRecords.filter(
                 (creator) => !creatorIds.includes(creator.id)
               );
-              this.$store.state.ContactSidebarOpen = false
+              this.$store.state.ContactSidebarOpen = false;
             }
             this.$notify({
               group: 'user',
@@ -1438,13 +1442,13 @@ export default {
     nextContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index < this.creatorRecords.length - 1) {
-          this.setCurrentContact(this.creatorRecords[index + 1])
+        this.setCurrentContact(this.creatorRecords[index + 1]);
       }
     },
     previousContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index > 0) {
-          this.setCurrentContact(this.creatorRecords[index - 1])
+        this.setCurrentContact(this.creatorRecords[index - 1]);
       }
     },
     refresh(creator) {

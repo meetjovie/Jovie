@@ -30,6 +30,13 @@
             id="profile-img-jovie"
             class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
             :src="creator.profile_pic_url" />
+          <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
+          <!--  <img
+            v-else
+            crossorigin="anonymous"
+            id="profile-img-jovie"
+            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
+            :src="asset('img/noimage.webp')" /> -->
         </div>
         <div class="col-span-2 mt-4 px-1">
           <input
@@ -81,32 +88,62 @@
         </div>
       </div>
       <div class="grid grid-cols-6 py-2 px-4">
-          <SocialIcons
-              icon="instagram"
-              :link="creator.instagram_handler"
-              :followers="formatCount(creator.instagram_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 text-gray-400"
-              aria-hidden="true" />
-          <SocialIcons
-              icon="twitter"
-              :link="creator.twitter_handler"
-              :followers="formatCount(creator.twitter_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 text-gray-400"
-              aria-hidden="true" />
-          <SocialIcons
-              icon="twitch"
-              :link="creator.twitch_handler"
-              :followers="formatCount(creator.twitch_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 text-gray-400"
-              aria-hidden="true" />
+        <SocialIcons
+          icon="instagram"
+          :link="creator.instagram_handler"
+          :followers="formatCount(creator.instagram_followers)"
+          height="14"
+          width="14"
+          class="h-4 w-4 text-gray-400"
+          aria-hidden="true"
+          :countsVisible="false" />
+        <SocialIcons
+          icon="twitter"
+          :link="creator.twitter_handler"
+          :followers="formatCount(creator.twitter_followers)"
+          height="14"
+          width="14"
+          class="h-4 w-4 text-gray-400"
+          aria-hidden="true"
+          :countsVisible="false" />
+        <SocialIcons
+          icon="twitch"
+          :link="creator.twitch_handler"
+          :followers="formatCount(creator.twitch_followers)"
+          height="14"
+          width="14"
+          class="h-4 w-4 text-gray-400"
+          aria-hidden="true"
+          :countsVisible="false" />
+        <SocialIcons
+          icon="tiktok"
+          :link="creator.tiktok_handler"
+          :followers="formatCount(creator.tiktok_followers)"
+          height="14"
+          width="14"
+          class="h-4 w-4 text-gray-400"
+          aria-hidden="true"
+          :countsVisible="false" />
+        <SocialIcons
+          icon="youtube"
+          :link="creator.youtubeh_handler"
+          :followers="formatCount(creator.youtube_followers)"
+          height="14"
+          width="14"
+          class="h-4 w-4 text-gray-400"
+          aria-hidden="true"
+          :countsVisible="false" />
+        <SocialIcons
+          icon="linkedin"
+          :link="creator.linkedin_handler"
+          :followers="formatCount(creator.linkedin_followers)"
+          height="14"
+          width="14"
+          class="h-4 w-4 text-gray-400"
+          aria-hidden="true"
+          :countsVisible="false" />
       </div>
-      <div>
+      <div v-if="activeSocialNetworkURLEdit">
         <div class="relative rounded-md py-1 px-2 shadow-sm">
           <div
             class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -118,7 +155,6 @@
               aria-hidden="true" />
           </div>
           <input
-            v-if="activeSocialNetworkURLEdit"
             type="email"
             name="email"
             id="email"
@@ -138,8 +174,10 @@
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
       </div>
       <div class="px-2">
-        <h2 class="text-xs font-semibold text-neutral-400">Add Lists</h2>
-        <InputLists :lists="creator.lists" :current-list="creator.current_list" />
+        <h2 class="text-xs font-semibold text-neutral-400">Lists</h2>
+        <InputLists
+          :lists="creator.lists"
+          :current-list="creator.current_list" />
       </div>
       <div class="mt-4 space-y-4 px-2">
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">
@@ -354,7 +392,7 @@ import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import SocialIcons from './SocialIcons.vue';
-import UserService from "../services/api/user.service";
+import UserService from '../services/api/user.service';
 export default {
   name: 'Contact Sidebar',
   components: {
@@ -369,12 +407,12 @@ export default {
     InputLists,
     SocialIcons,
   },
-    watch: {
-        creator: function (val) {
-            console.log('this.creator');
-            console.log(val);
-        }
+  watch: {
+    creator: function (val) {
+      console.log('this.creator');
+      console.log(val);
     },
+  },
   mounted() {
     // console.log('Sidebar loaded');
     // document.onreadystatechange = () => {
@@ -406,42 +444,43 @@ export default {
     },
   },
   methods: {
-      updateCreatorNote() {
-          UserService.updateCreatorNote(this.creator.id, this.creator.note).then((response) => {
-              response = response.data;
-              if (response.status) {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-              } else {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-              }
-          })
-          .catch((error) => {
-              error = error.response;
-              if (error.status == 422) {
-                  this.errors = error.data.errors;
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: Object.values(error.data.errors)[0][0],
-                  });
-              }
-          })
-          .finally((response) => {});
-      },
+    updateCreatorNote() {
+      UserService.updateCreatorNote(this.creator.id, this.creator.note)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((response) => {});
+    },
     editSocialNetworkURL(network, creator) {
       console.log('editSocialNetworkURL');
       console.log(network);
@@ -475,6 +514,9 @@ export default {
     toggleExpandBio() {
       this.expandBio = !this.expandBio;
     },
+    imageLoadingError() {
+      this.imageLoaded = false;
+    },
   },
   data() {
     return {
@@ -484,6 +526,8 @@ export default {
       savedToJovie: false,
       buttonText: 'Save to Jovie',
       closeSidebar: '',
+      imageLoaded: true,
+
       activeSocialNetworkURLEdit: [],
       user: {
         loggedIn: true,

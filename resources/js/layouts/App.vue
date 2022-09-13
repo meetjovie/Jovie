@@ -593,7 +593,7 @@ export default {
       ],
       isShowing: false,
       isLoading: false,
-      CRMSidebarOpen: false,
+      CRMSidebarOpen: true,
       notifications: [],
     };
   },
