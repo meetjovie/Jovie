@@ -462,7 +462,7 @@ class Creator extends Model
 
         foreach ($creators as &$creator) {
             $creator->lists = $creatorUserLists[$creator->id];
-            $creator->current_list = $params['list'];
+            $creator->current_list = $params['list'] ?? null;
 
             $creator->verified = $creatorAccessor->getVerifiedAttribute($creator);
             $creator->category = $creatorAccessor->getCategoryAttribute($creator);

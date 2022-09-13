@@ -485,7 +485,6 @@ export default {
       this.openEmojis = false;
     },
     setCurrentContact(contact) {
-      alert(123123);
       this.currentContact = contact;
       console.log('this.currentContactthis.currentContact');
       console.log(this.currentContact);
