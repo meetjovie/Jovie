@@ -14,6 +14,14 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+        try {
+            Schema::table('order_user_list', function (Blueprint $table) {
+                $table->dropForeign(['user_list_id']);
+                $table->dropForeign(['user_id']);
+            });
+        } catch (Exception $e) {}
+        Schema::dropIfExists('order_user_list');
         Schema::create('order_user_list', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
