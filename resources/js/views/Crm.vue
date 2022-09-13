@@ -263,7 +263,7 @@
           leave-to="translate-x-full">
           <aside
             class="z-30 -mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
-            <ContactSidebar :jovie="true" :creator="currentContact" />
+            <ContactSidebar @updateCrmMeta="updateCrmMeta" :jovie="true" :creator="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
@@ -369,7 +369,6 @@ export default {
       userLists: [],
       showCreatorModal: false,
       loading: false,
-      creators: [],
 
       creatorsMeta: {},
       activeCreator: [],
@@ -418,12 +417,6 @@ export default {
       selectedList: null,
     };
   },
-  mounted() {
-    //when a user git g followed by c set the filter to all
-    //use $mousetrap.bind
-    this.$mousetrap.bind(['e'], console.log('working'));
-  },
-
   watch: {
     filters: {
       deep: true,
@@ -469,6 +462,7 @@ export default {
     await this.getUserLists();
     this.getCrmCreators();
     this.crmCounts();
+    this.$mousetrap.bind(['e'], console.log('working'));
   },
   methods: {
     openEmojiPicker(item) {
@@ -609,7 +603,7 @@ export default {
       });
     },
     updateCreator(params) {
-      this.$store.dispatch('updateCreator', params).then((response) => {
+        this.$store.dispatch('updateCreator', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {
@@ -617,6 +611,15 @@ export default {
           } else {
             this.creators[params.index] = response.data;
           }
+          this.crmCounts();
+        }
+      });
+    },
+    updateCrmMeta() {
+        this.$store.dispatch('updateCrmMeta', {id: this.currentContact.crm_id, meta: this.currentContact.meta}).then((response) => {
+        response = response.data;
+        if (response.status) {
+            this.currentContact = response.data;
           this.crmCounts();
         }
       });

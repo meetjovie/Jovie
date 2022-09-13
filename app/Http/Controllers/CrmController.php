@@ -326,7 +326,7 @@ class CrmController extends Controller
         }
         return response()->json([
             'status' => true,
-            'message' => 'Creators removed from the list.'
+            'message' => ('Creators '. $request->remove ? 'removed' : 'added' . ' from the list.')
         ], 200);
     }
 
@@ -353,6 +353,20 @@ class CrmController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Note added'
+        ], 200);
+    }
+
+    public function updateCrmMeta(Request $request, $id)
+    {
+        $data = $request->validate([
+            'meta' => 'required'
+        ]);
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        Crm::updateOrCreate(['id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
+        return response()->json([
+            'status' => true,
+            'message' => 'Data updated.',
+            'data' => Creator::getCrmCreators(['crm_id' => $id])->first()
         ], 200);
     }
 }

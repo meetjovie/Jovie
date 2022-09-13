@@ -40,8 +40,8 @@
         </div>
         <div class="col-span-2 mt-4 px-1">
           <input
-            @blur="saveToJovie()"
-            v-model="creator.name"
+            @blur="$emit('updateCrmMeta')"
+            v-model="creator.meta.name"
             placeholder="Name"
             class="placeholder:text-gray-300/0hover:border-opacity-100 w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-lg font-bold text-gray-700 transition line-clamp-1 hover:bg-gray-100 hover:placeholder:text-gray-500" />
           <!-- <div class="">
@@ -183,7 +183,8 @@
           Contact Details
         </h2>
         <DataInputGroup
-          @blur="saveToJovie()"
+          @blur="$emit('updateCrmMeta')"
+          v-model="creator.meta.location"
           :value="creator.city + ' ' + creator.country"
           id="location"
           icon="MapPinIcon"
@@ -193,48 +194,48 @@
         >
 
         <DataInputGroup
-          @blur="saveToJovie()"
-          :value="creator.instagram_email"
+          @blur="$emit('updateCrmMeta')"
+          v-model="creator.meta.emails"
           icon="EnvelopeIcon"
           id="email"
           label="Email"
           placeholder="email@email.com" />
         <DataInputGroup
-          @blur="saveToJovie()"
-          :value="creator.instagram_website"
+          @blur="$emit('updateCrmMeta')"
+          v-model="creator.meta.website"
           icon="LinkIcon"
           id="website"
           label="Website"
           placeholder="Website" />
         <DataInputGroup
-          @blur="saveToJovie()"
-          :value="creator.instagram_phone"
+          @blur="$emit('updateCrmMeta')"
+          v-model="creator.meta.phone"
           id="phone"
           icon="PhoneIcon"
           label="Phone"
           placeholder="Phone" />
         <DataInputGroup
-          @blur="saveToJovie()"
+          @blur="$emit('updateCrmMeta')"
           icon="CameraIcon"
-          :value="creator.instagram_handler"
+          v-model="creator.meta.instagram_handler"
           id="instagram_handler"
           label="Instagram"
           placeholder="Instagram" />
         <DataInputGroup
-          @blur="saveToJovie()"
+          @blur="$emit('updateCrmMeta')"
           icon="VideoCameraIcon"
-          :value="creator.twitch_handler"
+          v-model="creator.meta.twitch_handler"
           id="twitch_handler"
           label="Twitch"
           placeholder="Twitch" />
         <DataInputGroup
-          @blur="saveToJovie()"
+          @blur="$emit('updateCrmMeta')"
           icon="ChatBubbleLeftEllipsisIcon"
-          :value="creator.twitter_handler"
+          v-model="creator.meta.twitter_handler"
           id="twitter_handler"
           label="Twitter"
           placeholder="Twitter" />
-        <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />
+        <TextAreaInput v-model="creator.note" @blur="updateCreatorMetaNote" />
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
         <div class="mx-auto">
@@ -443,8 +444,8 @@ export default {
     },
   },
   methods: {
-    updateCreatorNote() {
-      UserService.updateCreatorNote(this.creator.id, this.creator.note)
+    updateCreatorMetaNote() {
+      UserService.updateCreatorMetaNote(this.creator.id, this.creator.note)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -503,12 +504,6 @@ export default {
           this.creator = result.creator;
         }
       });
-    },
-    saveToJovie() {
-      console.log('saveToJovie');
-      //toggle savedToJovie
-      this.savedToJovie = true;
-      this.buttonText = 'Saved';
     },
     toggleExpandBio() {
       this.expandBio = !this.expandBio;

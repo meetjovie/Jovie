@@ -452,7 +452,7 @@
                         </div>
                         <div class="text-cs text-gray-900 line-clamp-1">
                           <input
-                            v-model="creator.name"
+                            v-model="creator.meta.name"
                             autocomplete="off"
                             type="creator-name"
                             name="creator-name"
@@ -468,7 +468,7 @@
                       class="border-1 hidden w-28 border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-sm text-gray-900 line-clamp-1">
                         <input
-                          v-model="creator.first_name"
+                          v-model="creator.meta.first_name"
                           @blur="
                             $emit('updateCreator', {
                               id: creator.id,
@@ -491,7 +491,7 @@
                       class="border-1 hidden w-28 border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
-                          v-model="creator.last_name"
+                          v-model="creator.meta.last_name"
                           @blur="
                             $emit('updateCreator', {
                               id: creator.id,
@@ -560,7 +560,7 @@
                       class="border-1 hidden w-40 border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
-                          v-model="creator.emails"
+                          v-model="creator.meta.emails"
                           @blur="
                             $emit('updateCreator', {
                               id: creator.id,
