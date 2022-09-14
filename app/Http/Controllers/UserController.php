@@ -49,9 +49,13 @@ class UserController extends Controller
                 'show_instagram',
                 'instagram_handler',
                 'tiktok_handler',
+                'twitter_handler',
+                'twitch_handler',
+                'youtube_handler',
                 'show_tiktok',
                 'show_youtube',
-                'youtube_handler'
+                'show_twitter',
+                'show_twitch',
             )->first();
         if ($user) {
             $user->profile_pic_url = $this->getProfilePic($user);
