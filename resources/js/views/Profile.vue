@@ -42,10 +42,11 @@
               <div
                 v-if="
                   user[`show_${network}`] &&
-                    user.creator_profile[`${network}_handler`]
+                  user.creator_profile[`${network}_handler`]
                 "
-                class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
+                class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
+                  class
                   :href="user.creator_profile[`${network}_handler`]"
                   target="_blank">
                   <SocialIcons height="24px" :icon="network" />
@@ -205,10 +206,7 @@ export default {
       let url = URL.createObjectURL(blob);
       let link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute(
-        'download',
-        `Jovie Contact ${user.first_name} ${user.last_name}.vcf`
-      );
+      link.setAttribute('download', `${user.first_name} ${user.last_name}.vcf`);
       link.click();
       console.log('done');
     },

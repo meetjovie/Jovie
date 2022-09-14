@@ -1,7 +1,10 @@
 <template>
   <div
     class="cursor-pointer"
-    :class="[{ 'opacity-100': link }, 'opacity-10 hover:opacity-50']">
+    :class="[
+      { 'opacity-100': link },
+      'opacity-10 hover:opacity-50 group-hover:opacity-100',
+    ]">
     <a :disabled="!link" :href="link" target="blank">
       <svg
         v-if="icon == 'linkedin'"
