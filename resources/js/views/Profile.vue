@@ -10,7 +10,7 @@
           alt="" />
         <div class="mx-auto mt-6 flex 2xl:mt-12">
           <h2 class="mx-auto flex text-3xl font-extrabold text-gray-900">
-            {{ user.first_name }}
+            {{ user.first_name }} {{ user.last_name }}
             <svg
               v-if="user.is_verified"
               xmlns="http://www.w3.org/2000/svg"
