@@ -42,13 +42,14 @@
               <div
                 v-if="
                   user[`show_${network}`] &&
-                    user.creator_profile[`${network}_handler`]
+                  user.creator_profile[`${network}_handler`]
                 "
-                class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
+                class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
+                  class
                   :href="user.creator_profile[`${network}_handler`]"
                   target="_blank">
-                  <SocialIcons height="24px" :icon="network" />
+                  <SocialIcons groupHover height="24px" :icon="network" />
                   <span class="sr-only">{{ network }}</span>
                 </a>
               </div>
@@ -60,7 +61,7 @@
       <!--  v-if="user.call_to_action_text" -->
       <a href="#">
         <button
-          @click="downloadVCF(user)"
+          @click="generateVCF(user)"
           class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
           Save contact
         </button>
@@ -197,20 +198,17 @@ export default {
       }
       console.log(vCard);
       vCard += 'END:VCARD';
-    },
-    downloadVCF(user) {
-      console.log('download');
-      let vCard = this.generateVCF(user);
-      let blob = new Blob([vCard], { type: 'text/vcard' });
-      let url = URL.createObjectURL(blob);
-      let link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute(
-        'download',
-        `Jovie Contact ${user.first_name} ${user.last_name}.vcf`
+      //download the vcard
+      const element = document.createElement('a');
+      element.setAttribute(
+        'href',
+        'data:text/plain;charset=utf-8,' + encodeURIComponent(vCard)
       );
-      link.click();
-      console.log('done');
+      element.setAttribute('download', user.name + '.vcf');
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
     },
   },
   mounted() {
