@@ -42,13 +42,11 @@
               <div
                 v-if="
                   user[`show_${network}`] &&
-                    user.creator_profile[`${network}_handler`])
+                  user.creator_profile[`${network}_handler`]
                 "
                 class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
-                  :href="
-                    user.creator_profile[`${network}_handler`]
-                  "
+                  :href="user.creator_profile[`${network}_handler`]"
                   target="_blank">
                   <SocialIcons height="24px" :icon="network" />
                   <span class="sr-only">{{ network }}</span>
