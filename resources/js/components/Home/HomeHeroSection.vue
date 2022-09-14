@@ -30,6 +30,7 @@
         <ButtonGroup
           @click="signup()"
           :loading="loading"
+          :loader="loading"
           class="mt-4 w-full sm:w-64"
           text="Try Jovie free" />
         <span class="mt-1 text-2xs text-gray-400">
