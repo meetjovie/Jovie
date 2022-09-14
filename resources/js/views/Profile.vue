@@ -59,11 +59,12 @@
         </fieldset>
       </div>
       <!--    user.call_to_action -->
-      <a v-if="user.call_to_action_text" href="#">
+      <!--  v-if="user.call_to_action_text" -->
+      <a href="#">
         <button
           @click="downloadVCF(user)"
           class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-          {{ user.call_to_action_text }}
+          Save contact
         </button>
       </a>
 
@@ -104,82 +105,114 @@ export default {
     };
   },
   methods: {
-    generateVCF(Creator) {
+    generateVCF(user) {
+      console.log(user);
       let vCard = 'BEGIN:VCARD\n';
       vCard += 'VERSION:3.0\n';
       //if creator has a first name
-      if (Creator.first_name) {
-        vCard += 'N:' + Creator.first_name + ' ' + Creator.last_name + '\n';
-        vCard += 'FN:' + Creator.first_name + ' ' + Creator.last_name + '\n';
+      if (user.first_name) {
+        vCard += 'N:' + user.first_name + ' ' + user.last_name + '\n';
+        vCard += 'FN:' + user.first_name + ' ' + user.last_name + '\n';
       } else {
-        vCard += 'N:' + Creator.name + '\n';
-        vCard += 'FN:' + Creator.name + '\n';
+        vCard += 'N:' + user.name + '\n';
+        vCard += 'FN:' + user.name + '\n';
+      }
+      //if creator has a title
+      if (user.title) {
+        vCard += 'TITLE:' + user.title + '\n';
+      }
+      //if creator has a company
+      if (user.employer) {
+        vCard += 'ORG:' + user.employer + '\n';
       }
       //if creator has a phone number
-      if (Creator.phone) {
-        vCard += 'TEL;TYPE=WORK,VOICE:' + Creator.phone + '\n';
+      if (user.phone_number) {
+        vCard += 'TEL;TYPE=WORK,VOICE:' + user.phone_number + '\n';
       }
-      //if creator has an email
-      if (Creator.emails[0]) {
-        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + Creator.emails[0] + '\n';
+      //if creator has a email
+      if (user.email) {
+        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + user.email + '\n';
       }
-      if (Creator.company) {
-        vCard += 'ORG:' + Creator.company + '\n';
+      //if creator has a website
+      if (user.website) {
+        vCard += 'URL:' + user.website + '\n';
       }
-      if (Creator.title) {
-        vCard += 'TITLE:' + Creator.title + '\n';
+      //if creator has a address
+      if (user.address) {
+        vCard += 'ADR;TYPE=WORK:;;' + user.address + ';;;\n';
       }
-      if (Creator.location) {
-        vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
-      }
-      if (Creator.website) {
-        vCard += 'URL:' + Creator.website + '\n';
-      }
-      if (Creator.twitter_handler) {
+      //if creator has a twitter
+      if (user.creator_profile.twitter_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=twitter:' + Creator.twitter_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=twitter:' +
+          user.creator_profile.twitter_handler +
+          '\n';
       }
-      if (Creator.instagram_handler) {
+      //if creator has a instagram
+      if (user.creator_profile.instagram_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=instagram:' + Creator.instagram_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=instagram:' +
+          user.creator_profile.instagram_handler +
+          '\n';
       }
-      if (Creator.facebook_handler) {
+      //if creator has a facebook
+      if (user.creator_profile.facebook_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=facebook:' + Creator.facebook_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=facebook:' +
+          user.creator_profile.facebook_handler +
+          '\n';
       }
-      if (Creator.linkedin_handler) {
+      //if creator has a linkedin
+      if (user.creator_profile.linkedin_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=linkedin:' + Creator.linkedin_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=linkedin:' +
+          user.creator_profile.linkedin_handler +
+          '\n';
       }
-      if (Creator.youtube_handler) {
+      //if creator has a youtube
+      if (user.creator_profile.youtube_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=youtube:' + Creator.youtube_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=youtube:' +
+          user.creator_profile.youtube_handler +
+          '\n';
       }
-      if (Creator.tiktok_handler) {
-        vCard += 'X-SOCIALPROFILE;TYPE=tiktok:' + Creator.tiktok_handler + '\n';
+      //if creator has a tiktok
+      if (user.creator_profile.tiktok_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=tiktok:' +
+          user.creator_profile.tiktok_handler +
+          '\n';
       }
-      if (Creator.twitch_handler) {
-        vCard += 'X-SOCIALPROFILE;TYPE=twitch:' + Creator.twitch_handler + '\n';
+      //if creator has a twitch
+      if (user.creator_profile.twitch_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=twitch:' +
+          user.creator_profile.twitch_handler +
+          '\n';
       }
-      if (Creator.bio) {
-        vCard += 'NOTE:' + Creator.bio + 'NOTE:Saved from Jovie\n';
-      } else {
-        vCard += 'NOTE:Saved from Jovie\n';
+      //if creator has a snapchat
+      if (user.creator_profile.snapchat_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=snapchat:' +
+          user.creator_profile.snapchat_handler +
+          '\n';
       }
+      console.log(vCard);
       vCard += 'END:VCARD';
-      return vCard;
     },
-    downloadVCF(Creator) {
-      let vCard = this.generateVCF(Creator);
+    downloadVCF(user) {
+      console.log('download');
+      let vCard = this.generateVCF(user);
       let blob = new Blob([vCard], { type: 'text/vcard' });
       let url = URL.createObjectURL(blob);
       let link = document.createElement('a');
       link.setAttribute('href', url);
       link.setAttribute(
         'download',
-        `Jovie Contact ${Creator.first_name} ${Creator.last_name}.vcf`
+        `Jovie Contact ${user.first_name} ${user.last_name}.vcf`
       );
       link.click();
+      console.log('done');
     },
   },
   mounted() {
