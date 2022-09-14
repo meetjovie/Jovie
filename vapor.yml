@@ -17,6 +17,10 @@ environments:
       - jov.ie
     network: Jovie
     timeout: 900
+    queues:
+      - default
+      - instagram
+      - twitch
 
   staging:
     queue-concurrency: 10
@@ -29,6 +33,10 @@ environments:
     domain:
       - staging.jov.ie
     network: Jovie
+    queues:
+      - default
+      - instagram
+      - twitch
     build:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
