@@ -10,7 +10,7 @@
           alt="" />
         <div class="mx-auto mt-6 flex 2xl:mt-12">
           <h2 class="mx-auto flex text-3xl font-extrabold text-gray-900">
-            {{ user.name }}
+            {{ user.first_name }}
             <svg
               v-if="user.is_verified"
               xmlns="http://www.w3.org/2000/svg"
@@ -60,11 +60,10 @@
           </div>
         </fieldset>
       </div>
-
-      <a v-if="user.call_to_action_text" :href="user.call_to_action">
+      <!--    user.call_to_action -->
+      <a v-if="user.call_to_action_text" href="#">
         <button
           @click="downloadVCF(user)"
-          type="submit"
           class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
           {{ user.call_to_action_text }}
         </button>
