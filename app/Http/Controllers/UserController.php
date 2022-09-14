@@ -59,7 +59,8 @@ class UserController extends Controller
             $user = json_decode(json_encode($user));
             $user->creator_profile = [
                 'instagram_handler' => $user->instagram_handler,
-                'tiktok_handler' => $user->tiktok_handler,
+                'twitch_handler' => $user->twitch_handler,
+                'twitter_handler' => $user->twitter_handler,
                 'youtube_handler' => $user->youtube_handler,
             ];
             return response([
@@ -82,6 +83,10 @@ class UserController extends Controller
                 'platform_title as title',
                 'platform_employer as employer',
                 'platform_employer_link as employer_link',
+                'instagram_handler',
+                'twitch_handler',
+                'twitter_handler',
+                'youtube_handler',
                 'instagram_meta->profile_pic_url as instagram_profile_pic',
                 'instagram_meta->external_link as external_link as call_to_action'
             )->first();
@@ -95,13 +100,14 @@ class UserController extends Controller
             $user = json_decode(json_encode($user));
             $user->creator_profile = [
                 'instagram_handler' => $user->instagram_handler,
-                'tiktok_handler' => $user->tiktok_handler,
+                'twitch_handler' => $user->twitch_handler,
+                'twitter_handler' => $user->twitter_handler,
                 'youtube_handler' => $user->youtube_handler,
             ];
 
             // when user is from creator default each link to show
             foreach (Creator::NETWORKS as $network) {
-                $user['show_'.$network] = true;
+                $user->{'show_'.$network} = true;
             }
 
             return response([
