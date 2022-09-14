@@ -3,7 +3,8 @@
     class="cursor-pointer"
     :class="[
       { 'opacity-100': link },
-      'opacity-10 hover:opacity-50 group-hover:opacity-100',
+      { 'group-hover:opacity-100': groupHover },
+      'opacity-10 hover:opacity-50 ',
     ]">
     <a :disabled="!link" :href="link" target="blank">
       <svg
@@ -127,6 +128,10 @@ export default {
     },
     followers: {
       type: String,
+    },
+    groupHover: {
+      type: Boolean,
+      default: false,
     },
   },
 };

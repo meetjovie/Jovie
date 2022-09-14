@@ -49,7 +49,7 @@
                   class
                   :href="user.creator_profile[`${network}_handler`]"
                   target="_blank">
-                  <SocialIcons height="24px" :icon="network" />
+                  <SocialIcons groupHover height="24px" :icon="network" />
                   <span class="sr-only">{{ network }}</span>
                 </a>
               </div>
