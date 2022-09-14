@@ -64,7 +64,7 @@ class UserController extends Controller
             ];
             return response([
                 'status' => true,
-                'data' => User::currentLoggedInUser(),
+                'data' => $user,
                 'networks' => Creator::NETWORKS,
             ], 200);
         }
@@ -106,7 +106,7 @@ class UserController extends Controller
 
             return response([
                 'status' => true,
-                'data' => User::currentLoggedInUser(),
+                'data' => $user,
                 'networks' => Creator::NETWORKS,
             ], 200);
         }
