@@ -615,8 +615,12 @@ export default {
         }
       });
     },
-    updateCrmMeta() {
-        this.$store.dispatch('updateCrmMeta', {id: this.currentContact.crm_id, meta: this.currentContact.meta}).then((response) => {
+    updateCrmMeta(creator = null) {
+        if (creator == null) {
+            creator = this.currentContact
+        }
+        if (!creator) return
+        this.$store.dispatch('updateCrmMeta', {id: creator.crm_id, meta: creator.meta}).then((response) => {
         response = response.data;
         if (response.status) {
             this.currentContact = response.data;
