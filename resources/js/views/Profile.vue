@@ -43,7 +43,8 @@
       <div class="mt-2 2xl:mt-8" v-if="user.creator_profile">
         <fieldset class="mt-0 2xl:mt-2">
           <legend class="sr-only">Social links</legend>
-          <div class="flex items-center justify-between gap-2 sm:grid-cols-6">
+          <div
+            class="flex grid-cols-3 items-center justify-between gap-2 sm:grid-cols-6">
             <template v-for="network in networks" :key="network">
               <div
                 v-if="
