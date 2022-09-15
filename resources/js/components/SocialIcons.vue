@@ -2,7 +2,7 @@
   <div
     class="cursor-pointer hover:opacity-50"
     :class="[
-      { 'opacity-100': link },{ 'opacity-50': !link },
+      { 'opacity-100': link },{ 'opacity-10': !link },
       { 'group-hover:opacity-100': groupHover }]">
     <a :disabled="!link" :href="link" target="blank">
       <svg
