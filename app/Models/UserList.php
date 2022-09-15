@@ -108,14 +108,15 @@ class UserList extends Model
     public static function getLists($userId)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
-        return DB::table('user_lists as ul')
+        return UserList::query()->withCount('creators')
             ->join('user_list_attributes as ula', function ($join) use ($user) {
-                $join->on('ula.user_list_id', '=', 'ul.id')
+                $join->on('ula.user_list_id', '=', 'user_lists.id')
                     ->where('ula.user_id', $user->id)
                     ->where('ula.team_id', $user->currentTeam->id);
             })
-            ->where('ul.team_id', $user->currentTeam->id)
-            ->select('ul.*', 'ula.order', 'ula.pinned')->orderBy('order')->get();
+            ->where('user_lists.team_id', $user->currentTeam->id)
+            ->addSelect('user_lists.*', 'ula.order', 'ula.pinned')
+            ->orderBy('order')->get();
     }
 
     public static function getListsByTeam($teamId)
