@@ -593,11 +593,12 @@
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
+                              :link="creator[`${network}_handler`]"
                               :icon="network" />
                           </div>
                           <div class="mx-auto items-center" v-else>
                             <div class="">
-                              <SocialIcons height="14px" :icon="network" />
+                              <SocialIcons height="14px" :link="creator[`${network}_handler`]" :icon="network" />
                             </div>
                           </div>
                           <!--  <div class="">

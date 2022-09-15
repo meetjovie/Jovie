@@ -1,8 +1,8 @@
 <template>
   <div
-    class="cursor-pointer"
-    :class="[{ 'opacity-100': link }, 'opacity-10 hover:opacity-50']">
-    <a :disabled="!link" :href="link" target="blank">
+    class="cursor-pointer hover:opacity-50"
+    :class="[{ 'opacity-100': link }, { 'opacity-10': !link }]">
+    <a :disabled="!link" :href="link" target="_blank">
       <svg
         v-if="icon == 'linkedin'"
         role="img"
