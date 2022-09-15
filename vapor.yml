@@ -2,6 +2,10 @@ id: 31817
 name: Jovie-Production
 environments:
   production:
+   queues:
+      - default
+      - instagram
+      - twitch
     queue-concurrency: 50
     database: jovie-production-db
     storage: 'jovie-production-storage'
@@ -17,11 +21,11 @@ environments:
       - jov.ie
     network: Jovie
     timeout: 900
+  staging:
     queues:
       - default
       - instagram
       - twitch
-  staging:
     queue-concurrency: 10
     database: jovie-staging-db
     memory: 1024
@@ -36,11 +40,11 @@ environments:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
       - 'npm i && npm run prod && rm -rf node_modules'
-      queues:
+  dev:
+    queues:
       - default
       - instagram
       - twitch
-  dev:
     database: jovie-dev-db
     memory: 1024
     queue-concurrency: 10
@@ -58,7 +62,4 @@ environments:
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
       - 'npm i && npm run prod && rm -rf node_modules'
-    queues:
-      - default
-      - instagram
-      - twitch
+    
