@@ -147,6 +147,8 @@ export default {
       if (user.address) {
         vCard += 'ADR;TYPE=WORK:;;' + user.address + ';;;\n';
       }
+      //add a note Saved from Jovie
+      vCard += 'NOTE:Saved from Jovie\n';
       //if creator has a twitter
       if (user.creator_profile.twitter_handler) {
         vCard +=
