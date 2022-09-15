@@ -1,8 +1,10 @@
 <template>
   <div
     class="cursor-pointer hover:opacity-50"
-    :class="[{ 'opacity-100': link }, { 'opacity-10': !link }]">
-    <a :disabled="!link" :href="link" target="_blank">
+    :class="[
+      { 'opacity-100': link },{ 'opacity-50': !link },
+      { 'group-hover:opacity-100': groupHover }]">
+    <a :disabled="!link" :href="link" target="blank">
       <svg
         v-if="icon == 'linkedin'"
         role="img"
@@ -124,6 +126,10 @@ export default {
     },
     followers: {
       type: String,
+    },
+    groupHover: {
+      type: Boolean,
+      default: false,
     },
   },
 };
