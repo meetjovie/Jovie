@@ -74,7 +74,7 @@
                 class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                 <span
                   class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
-                  >{{ element.count }}</span
+                  >{{ element.creators_count }}</span
                 >
 
                 <Menu
@@ -209,7 +209,7 @@
             class="group mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
             <span
               class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
-              >{{ item.count }}</span
+              >{{ item.creators_count }}</span
             >
 
             <Menu as="div" class="relative inline-block text-left">
