@@ -1,10 +1,10 @@
 <template>
   <div
-    class="cursor-pointer"
+    class="cursor-pointer hover:opacity-100"
     :class="[
       { 'opacity-100': link },
+      { 'opacity-10': !link },
       { 'group-hover:opacity-100': groupHover },
-      'opacity-10 hover:opacity-50 ',
     ]">
     <a :disabled="!link" :href="link" target="blank">
       <svg

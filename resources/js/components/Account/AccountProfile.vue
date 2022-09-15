@@ -70,7 +70,7 @@
                 </div>
 
                 <!-- Name -->
-                <div class="col-span-3 sm:col-span-4">
+                <div class="col-span-3">
                   <InputGroup
                     v-model="$store.state.AuthState.user.first_name"
                     :error="errors?.first_name?.[0]"
@@ -82,7 +82,7 @@
                 </div>
 
                 <!-- Name -->
-                <div class="col-span-3 sm:col-span-4">
+                <div class="col-span-3">
                   <InputGroup
                     v-model="$store.state.AuthState.user.last_name"
                     :error="errors?.last_name?.[0]"
@@ -141,7 +141,7 @@
               class="bg-white px-4 py-5 shadow sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <!-- Social -->
-                <div class="grid-col-2 col-span-6 grid sm:col-span-4">
+                <div class="grid-col-2 col-span-6 grid sm:col-span-3">
                   <InputGroup
                     @blur="updateSocialHandlers()"
                     v-model="currentUser.instagram_handler"
@@ -154,7 +154,7 @@
                     Username"
                     type="text" />
                 </div>
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-3">
                   <InputGroup
                     @blur="updateSocialHandlers()"
                     v-model="currentUser.tiktok_handler"
@@ -166,7 +166,7 @@
                     placeholder="TikTok"
                     type="text" />
                 </div>
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-3">
                   <InputGroup
                     @blur="updateSocialHandlers()"
                     v-model="currentUser.twitter_handler"
@@ -178,7 +178,7 @@
                     placeholder="Twitter"
                     type="text" />
                 </div>
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-3">
                   <InputGroup
                     @blur="updateSocialHandlers()"
                     v-model="currentUser.youtube_handler"
@@ -227,10 +227,18 @@ import CardLayout from '../../components/CardLayout';
 import ButtonGroup from '../../components/ButtonGroup';
 import ImportService from '../../services/api/import.service';
 import ModalPopup from '../../components/ModalPopup';
+import SocialIcons from '../../components/SocialIcons';
 
 export default {
   name: 'AccountProfile',
-  components: { InputGroup, CardHeading, CardLayout, ButtonGroup, ModalPopup },
+  components: {
+    InputGroup,
+    CardHeading,
+    CardLayout,
+    ButtonGroup,
+    ModalPopup,
+    SocialIcons,
+  },
   data() {
     return {
       errors: {},
