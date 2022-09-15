@@ -30,12 +30,13 @@
         <ButtonGroup
           @click="signup()"
           :loading="loading"
+          :loader="loading"
           class="mt-4 w-full sm:w-64"
           text="Try Jovie free" />
         <span class="mt-1 text-2xs text-gray-400">
           <span class="font-bold">Fast & easy. </span> No credit card required.
         </span>
-        <home-logo-cloud />
+        <!--  <home-logo-cloud /> -->
         <div class="mt-12 max-w-7xl sm:-mb-14 lg:-mb-24 2xl:-mb-96">
           <img
             class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"

@@ -3,6 +3,12 @@
     v-if="user"
     class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
+      <router-link
+        v-if="user.username == currentUser.username"
+        to="/Account"
+        class="absolute top-0 right-0 cursor-pointer py-2 px-4 text-xs font-bold text-indigo-400 hover:text-indigo-600">
+        Edit profile
+      </router-link>
       <div>
         <img
           class="block-inline mx-auto mt-0 aspect-square w-48 rounded-full object-cover object-center sm:w-64 2xl:w-80"
@@ -10,7 +16,7 @@
           alt="" />
         <div class="mx-auto mt-6 flex 2xl:mt-12">
           <h2 class="mx-auto flex text-3xl font-extrabold text-gray-900">
-            {{ user.name }}
+            {{ user.first_name }} {{ user.last_name }}
             <svg
               v-if="user.is_verified"
               xmlns="http://www.w3.org/2000/svg"
@@ -37,22 +43,20 @@
       <div class="mt-2 2xl:mt-8" v-if="user.creator_profile">
         <fieldset class="mt-0 2xl:mt-2">
           <legend class="sr-only">Social links</legend>
-          <div class="flex items-center justify-between gap-2 sm:grid-cols-6">
+          <div
+            class="flex grid-cols-3 items-center justify-between gap-2 sm:grid-cols-6">
             <template v-for="network in networks" :key="network">
               <div
                 v-if="
                   user[`show_${network}`] &&
-                  (currentUser[`${network}_handler`] ||
-                    user.creator_profile[`${network}_handler`])
+                  user.creator_profile[`${network}_handler`]
                 "
-                class="flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
+                class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
-                  :href="
-                    currentUser[`${network}_handler`] ||
-                    user.creator_profile[`${network}_handler`]
-                  "
+                  class
+                  :href="user.creator_profile[`${network}_handler`]"
                   target="_blank">
-                  <SocialIcons height="24px" :icon="network" />
+                  <SocialIcons groupHover height="24px" :icon="network" />
                   <span class="sr-only">{{ network }}</span>
                 </a>
               </div>
@@ -60,13 +64,13 @@
           </div>
         </fieldset>
       </div>
-
-      <a v-if="user.call_to_action_text" :href="user.call_to_action">
+      <!--    user.call_to_action -->
+      <!--  v-if="user.call_to_action_text" -->
+      <a href="#">
         <button
-          @click="downloadVCF(user)"
-          type="submit"
+          @click="generateVCF(user)"
           class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-          {{ user.call_to_action_text }}
+          Save contact
         </button>
       </a>
 
@@ -107,82 +111,113 @@ export default {
     };
   },
   methods: {
-    generateVCF(Creator) {
+    generateVCF(user) {
+      console.log(user);
       let vCard = 'BEGIN:VCARD\n';
       vCard += 'VERSION:3.0\n';
       //if creator has a first name
-      if (Creator.first_name) {
-        vCard += 'N:' + Creator.first_name + ' ' + Creator.last_name + '\n';
-        vCard += 'FN:' + Creator.first_name + ' ' + Creator.last_name + '\n';
+      if (user.first_name) {
+        vCard += 'N:' + user.first_name + ' ' + user.last_name + '\n';
+        vCard += 'FN:' + user.first_name + ' ' + user.last_name + '\n';
       } else {
-        vCard += 'N:' + Creator.name + '\n';
-        vCard += 'FN:' + Creator.name + '\n';
+        vCard += 'N:' + user.name + '\n';
+        vCard += 'FN:' + user.name + '\n';
+      }
+      //if creator has a title
+      if (user.title) {
+        vCard += 'TITLE:' + user.title + '\n';
+      }
+      //if creator has a company
+      if (user.employer) {
+        vCard += 'ORG:' + user.employer + '\n';
       }
       //if creator has a phone number
-      if (Creator.phone) {
-        vCard += 'TEL;TYPE=WORK,VOICE:' + Creator.phone + '\n';
+      if (user.phone_number) {
+        vCard += 'TEL;TYPE=WORK,VOICE:' + user.phone_number + '\n';
       }
-      //if creator has an email
-      if (Creator.emails[0]) {
-        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + Creator.emails[0] + '\n';
+      //if creator has a email
+      if (user.email) {
+        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + user.email + '\n';
       }
-      if (Creator.company) {
-        vCard += 'ORG:' + Creator.company + '\n';
+      //if creator has a website
+      if (user.website) {
+        vCard += 'URL:' + user.website + '\n';
       }
-      if (Creator.title) {
-        vCard += 'TITLE:' + Creator.title + '\n';
+      //if creator has a address
+      if (user.address) {
+        vCard += 'ADR;TYPE=WORK:;;' + user.address + ';;;\n';
       }
-      if (Creator.location) {
-        vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
-      }
-      if (Creator.website) {
-        vCard += 'URL:' + Creator.website + '\n';
-      }
-      if (Creator.twitter_handler) {
+      //add a note Saved from Jovie
+      vCard += 'NOTE:Saved from Jovie\n';
+      //if creator has a twitter
+      if (user.creator_profile.twitter_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=twitter:' + Creator.twitter_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=twitter:' +
+          user.creator_profile.twitter_handler +
+          '\n';
       }
-      if (Creator.instagram_handler) {
+      //if creator has a instagram
+      if (user.creator_profile.instagram_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=instagram:' + Creator.instagram_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=instagram:' +
+          user.creator_profile.instagram_handler +
+          '\n';
       }
-      if (Creator.facebook_handler) {
+      //if creator has a facebook
+      if (user.creator_profile.facebook_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=facebook:' + Creator.facebook_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=facebook:' +
+          user.creator_profile.facebook_handler +
+          '\n';
       }
-      if (Creator.linkedin_handler) {
+      //if creator has a linkedin
+      if (user.creator_profile.linkedin_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=linkedin:' + Creator.linkedin_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=linkedin:' +
+          user.creator_profile.linkedin_handler +
+          '\n';
       }
-      if (Creator.youtube_handler) {
+      //if creator has a youtube
+      if (user.creator_profile.youtube_handler) {
         vCard +=
-          'X-SOCIALPROFILE;TYPE=youtube:' + Creator.youtube_handler + '\n';
+          'X-SOCIALPROFILE;TYPE=youtube:' +
+          user.creator_profile.youtube_handler +
+          '\n';
       }
-      if (Creator.tiktok_handler) {
-        vCard += 'X-SOCIALPROFILE;TYPE=tiktok:' + Creator.tiktok_handler + '\n';
+      //if creator has a tiktok
+      if (user.creator_profile.tiktok_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=tiktok:' +
+          user.creator_profile.tiktok_handler +
+          '\n';
       }
-      if (Creator.twitch_handler) {
-        vCard += 'X-SOCIALPROFILE;TYPE=twitch:' + Creator.twitch_handler + '\n';
+      //if creator has a twitch
+      if (user.creator_profile.twitch_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=twitch:' +
+          user.creator_profile.twitch_handler +
+          '\n';
       }
-      if (Creator.bio) {
-        vCard += 'NOTE:' + Creator.bio + 'NOTE:Saved from Jovie\n';
-      } else {
-        vCard += 'NOTE:Saved from Jovie\n';
+      //if creator has a snapchat
+      if (user.creator_profile.snapchat_handler) {
+        vCard +=
+          'X-SOCIALPROFILE;TYPE=snapchat:' +
+          user.creator_profile.snapchat_handler +
+          '\n';
       }
+      console.log(vCard);
       vCard += 'END:VCARD';
-      return vCard;
-    },
-    downloadVCF(Creator) {
-      let vCard = this.generateVCF(Creator);
-      let blob = new Blob([vCard], { type: 'text/vcard' });
-      let url = URL.createObjectURL(blob);
-      let link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute(
-        'download',
-        `Jovie Contact ${Creator.first_name} ${Creator.last_name}.vcf`
+      //download the vcard
+      const element = document.createElement('a');
+      element.setAttribute(
+        'href',
+        'data:text/plain;charset=utf-8,' + encodeURIComponent(vCard)
       );
-      link.click();
+      element.setAttribute('download', user.name + '.vcf');
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
     },
   },
   mounted() {

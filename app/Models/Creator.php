@@ -87,7 +87,12 @@ class Creator extends Model
         return null;
     }
 
-    public function getNameAttribute($creator = null)
+    public function getNameAttribute()
+    {
+        return $this->full_name ?? ($this->first_name ? ($this->first_name.' '.$this->last_name) : null) ?? $this->instagram_name ?? $this->twitch_name ?? $this->twitter_name;
+    }
+
+    public function getName($creator = null)
     {
         if (is_null($creator)) {
             $creator = $this;
@@ -485,7 +490,7 @@ class Creator extends Model
 
             $creator->verified = $creatorAccessor->getVerifiedAttribute($creator);
             $creator->category = $creatorAccessor->getCategoryAttribute($creator);
-            $creator->name = $creatorAccessor->getNameAttribute($creator);
+            $creator->name = $creatorAccessor->getName($creator);
             $creator->biography = $creatorAccessor->getBiographyAttribute($creator);
 
             $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);

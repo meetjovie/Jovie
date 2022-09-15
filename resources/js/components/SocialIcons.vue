@@ -1,7 +1,11 @@
 <template>
   <div
-    class="cursor-pointer "
-    :class="[{ 'opacity-100': link }, 'opacity-10 hover:opacity-50']">
+    class="cursor-pointer text-neutral-400 hover:opacity-100"
+    :class="[
+      { 'opacity-100': link },
+      { 'opacity-10': !link },
+      { 'group-hover:opacity-100': groupHover },
+    ]">
     <a :disabled="!link" :href="link" target="blank">
       <svg
         v-if="icon == 'linkedin'"
@@ -9,7 +13,11 @@
         viewBox="0 0 24 24"
         :height="height"
         :weight="width"
-        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
+        :class="
+          iconstyle == 'horizontal'
+            ? 'z-0 mx-auto mr-1 '
+            : 'mx-auto  text-neutral-400'
+        "
         xmlns="http://www.w3.org/2000/svg">
         <title>LinkedIn</title>
         <path
@@ -81,7 +89,11 @@
         xmlns="http://www.w3.org/2000/svg"
         :height="height"
         :weight="width"
-        :class="iconstyle == 'horizontal' ? 'z-0 mx-auto mr-1 ' : 'mx-auto'"
+        :class="
+          iconstyle == 'horizontal'
+            ? 'z-0 mx-auto mr-1 '
+            : 'mx-auto  text-neutral-400'
+        "
         v-if="icon == 'twitch'">
         <title>Twitch</title>
 
@@ -124,6 +136,10 @@ export default {
     },
     followers: {
       type: String,
+    },
+    groupHover: {
+      type: Boolean,
+      default: false,
     },
   },
 };

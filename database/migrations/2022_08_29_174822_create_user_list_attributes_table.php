@@ -27,12 +27,6 @@ return new class extends Migration
         });
         $lists = UserList::get();
         foreach ($lists as $list) {
-            if ($list->id == 17) {
-
-                $list->team_id = 4;
-                $list->save();
-                continue;
-            }
             $user = \App\Models\User::with('currentTeam')->where('id', $list->user_id)->first();
             if ($user) {
                 $list->team_id = $user->currentTeam->id;
