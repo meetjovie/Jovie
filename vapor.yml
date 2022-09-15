@@ -2,7 +2,7 @@ id: 31817
 name: Jovie-Production
 environments:
   production:
-   queues:
+    queues:
       - default
       - instagram
       - twitch
@@ -62,4 +62,3 @@ environments:
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
       - 'npm i && npm run prod && rm -rf node_modules'
-    
