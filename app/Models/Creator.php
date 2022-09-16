@@ -45,6 +45,28 @@ class Creator extends Model
         return asset('img/noimage.webp');
     }
 
+    public function getMeta($creator)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+
+        $meta['instagram_handler'] = $creator->crm_record_by_user->meta->instagram_handler ?? $creator->instagram_handler;
+        $meta['twitter_handler'] = $creator->crm_record_by_user->meta->twitter_handler ?? $creator->twitter_handler;
+        $meta['twitch_handler'] = $creator->crm_record_by_user->meta->twitch_handler ?? $creator->twitch_handler;
+        $meta['emails'] = $creator->crm_record_by_user->meta->emails ?? $creator->emails ?? [];
+        $meta['phone'] = $creator->crm_record_by_user->meta->phone ?? $creator->phone;
+        $meta['website'] = $creator->crm_record_by_user->meta->website ?? $creator->website;
+        $meta['location'] = $creator->crm_record_by_user->meta->location ?? $creator->location;
+        $meta['first_name'] = $creator->crm_record_by_user->meta->first_name ?? $creator->first_name;
+        $meta['last_name'] = $creator->crm_record_by_user->meta->last_name ?? $creator->last_name;
+        $meta['platform_title'] = $creator->crm_record_by_user->meta->platform_title ?? $creator->platform_title;
+        $meta['platform_employer'] = $creator->crm_record_by_user->meta->platform_employer ?? $creator->platform_employer;
+        $creatorAccessor = new self();
+        $meta['name'] = $creator->crm_record_by_user->meta->name ?? $creatorAccessor->getName($creator);
+        return $meta;
+    }
+
     public function getVerifiedAttribute($creator = null)
     {
         if (is_null($creator)) {
@@ -505,8 +527,12 @@ class Creator extends Model
             $creator->crm_record_by_user->rejected = $creator->rejected;
             $creator->crm_record_by_user->created_at = $creator->created_at;
             $creator->crm_record_by_user->updated_at = $creator->updated_at;
+
             $crm = new Crm();
             $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
+            $creator->crm_record_by_user->meta = $crm->getMetaAttribute($creator->meta);
+            $creator->meta = $creatorAccessor->getMeta($creator);
+            unset($creator->crm_record_by_user->meta);
             unset($creator->creator_id);
             unset($creator->last_contacted);
             unset($creator->offer);
@@ -524,7 +550,7 @@ class Creator extends Model
             // these properties would only show up if user specific values are not set
 
             foreach (self::NETWORKS as $network) {
-                if (! empty($creator->crm_record_by_user->offer) && count((array) $creator->{$network.'_meta'})) {
+                if (! empty($creator->crm_record_by_user->offer) && empty($creator->{$network.'_meta'})) {
                     $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
                 }
             }

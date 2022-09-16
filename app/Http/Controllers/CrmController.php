@@ -326,7 +326,7 @@ class CrmController extends Controller
         }
         return response()->json([
             'status' => true,
-            'message' => 'Creators removed from the list.'
+            'message' => ('Creators '. $request->remove ? 'removed' : 'added' . ' from the list.')
         ], 200);
     }
 
@@ -353,6 +353,55 @@ class CrmController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Note added'
+        ], 200);
+    }
+
+    public function updateCrmMeta(Request $request, $id)
+    {
+        $data = $request->validate([
+            'meta' => 'required'
+        ]);
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $crm = Crm::where('id', $id)->first();
+        if (!$crm) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Crm not found.',
+                'data' => null
+            ], 200);
+        }
+        $meta = $crm->meta;
+        foreach ($data['meta'] as $k => $v) {
+            if (is_array($meta)) {
+                $meta[$k] = $v;
+            } else {
+                $meta->{$k} = $v;
+            }
+        }
+        $data['meta'] = $meta;
+        if (isset($data['meta']->emails)) {
+            $emails = $data['meta']->emails;
+            $data['meta']->emails = is_array($emails) ? $emails : explode(',', $emails);
+        }
+
+        if (isset($data['meta']->name)) {
+            $nameSplits = explode(' ', $data['meta']->name);
+            foreach ($nameSplits as $k => $split) {
+                if ($k == 0) {
+                    $data['meta']->first_name = $split;
+                } else {
+                    if ($k == 1) $data['meta']->last_name = null;
+                    $data['meta']->last_name .= ' '.$split;
+                }
+            }
+        }
+        $crm->meta = $data['meta'];
+        $crm->save();
+//        $crm = Crm::updateOrCreate(['creator_id' => $crm->creator_id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $crm->creator_id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
+        return response()->json([
+            'status' => true,
+            'message' => 'Data updated.',
+            'data' => Creator::getCrmCreators(['id' => $crm->creator_id])->first()
         ], 200);
     }
 }

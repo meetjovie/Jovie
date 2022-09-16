@@ -20,7 +20,8 @@ class Crm extends Model
         'stage',
         'favourite',
         'archived',
-        'meta'
+        'meta',
+        'offer',
     ];
 
     public function toSearchableArray()
@@ -46,5 +47,15 @@ class Crm extends Model
             3 => 'In Progress',
             4 => 'Complete',
         ];
+    }
+
+    public function setMetaAttribute($value)
+    {
+        $this->attributes['meta'] = json_encode($value);
+    }
+
+    public function getMetaAttribute($value)
+    {
+        return json_decode($value ?? '[]');
     }
 }

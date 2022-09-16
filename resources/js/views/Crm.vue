@@ -236,6 +236,7 @@
                         v-else
                         ref="crmTable"
                         @updateCreator="updateCreator"
+                        @updateCrmMeta="updateCrmMeta"
                         @crmCounts="crmCounts"
                         @pageChanged="pageChanged"
                         @setCurrentContact="setCurrentContact"
@@ -263,7 +264,7 @@
           leave-to="translate-x-full">
           <aside
             class="z-30 -mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
-            <ContactSidebar :jovie="true" :creator="currentContact" />
+            <ContactSidebar @updateCrmMeta="updateCrmMeta" :jovie="true" :creator="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
@@ -369,7 +370,6 @@ export default {
       userLists: [],
       showCreatorModal: false,
       loading: false,
-      creators: [],
 
       creatorsMeta: {},
       activeCreator: [],
@@ -418,12 +418,6 @@ export default {
       selectedList: null,
     };
   },
-  mounted() {
-    //when a user git g followed by c set the filter to all
-    //use $mousetrap.bind
-    this.$mousetrap.bind(['e'], console.log('working'));
-  },
-
   watch: {
     filters: {
       deep: true,
@@ -469,6 +463,7 @@ export default {
     await this.getUserLists();
     this.getCrmCreators();
     this.crmCounts();
+    this.$mousetrap.bind(['e'], console.log('working'));
   },
   methods: {
     openEmojiPicker(item) {
@@ -486,8 +481,7 @@ export default {
     },
     setCurrentContact(contact) {
       this.currentContact = contact;
-      console.log('this.currentContactthis.currentContact');
-      console.log(this.currentContact);
+      this.$store.state.ContactSidebarOpen = true;
     },
     setFiltersType(type) {
       this.filters.type = this.filters.type == type ? 'all' : type;
@@ -610,7 +604,7 @@ export default {
       });
     },
     updateCreator(params) {
-      this.$store.dispatch('updateCreator', params).then((response) => {
+        this.$store.dispatch('updateCreator', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {
@@ -618,6 +612,21 @@ export default {
           } else {
             this.creators[params.index] = response.data;
           }
+          this.crmCounts();
+        }
+      });
+    },
+    updateCrmMeta(creator = null) {
+        console.log('creator');
+        console.log(creator);
+        if (creator == null) {
+            creator = this.currentContact
+        }
+        if (!creator) return
+        this.$store.dispatch('updateCrmMeta', {id: creator.crm_id, meta: creator.meta}).then((response) => {
+        response = response.data;
+        if (response.status) {
+            this.currentContact = response.data;
           this.crmCounts();
         }
       });
