@@ -87,5 +87,9 @@ export default {
 
     async toggleArchiveCreators(context, payload) {
         return await userService.toggleArchiveCreators(payload)
+    },
+
+    async updateCrmMeta(context, payload) {
+        return await userService.updateCrmMeta(payload.id, payload.meta)
     }
 }
