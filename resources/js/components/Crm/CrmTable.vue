@@ -590,7 +590,12 @@
                         <input
                           v-model="creator.crm_record_by_user.offer"
                           @blur="
-                           $emit('updateCrmMeta', creator)  })
+                            $emit('updateCreator', {
+                              id: creator.id,
+                              index: index,
+                              key: `crm_record_by_user.offer`,
+                              value: creator.crm_record_by_user.offer,
+                            })
                           "
                           autocomplete="off"
                           type="creator-offer"
@@ -661,7 +666,14 @@
                                 <div class="">
                                   <button
                                     v-for="(stage, key) in stages"
-                                    @click="$emit('updateCrmMeta', creator)"
+                                    @click="
+                                        $emit('updateCreator', {
+                                          id: creator.id,
+                                          index: index,
+                                          key: `crm_record_by_user.stage`,
+                                          value: creator.crm_record_by_user.stage,
+                                        })
+                                      "
                                     class="group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200 hover:text-white">
                                     <div
                                       class="mr-2 text-xs font-bold opacity-50">
@@ -688,8 +700,13 @@
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @click="
-                         last_contacted$emit('updateCrmMeta', creator)  })
-                        "
+                            $emit('updateCreator', {
+                              id: creator.id,
+                              index: index,
+                              key: `crm_record_by_user.last_contacted`,
+                              value: creator.crm_record_by_user.last_contacted,
+                            })
+                          "
                         autocomplete="off"
                         enableTimePicker="false"
                         monthNameFormat="short"
@@ -726,7 +743,12 @@
                         :star-size="12"
                         :increment="0.5"
                         v-model:rating="creator.crm_record_by_user.rating"
-                        @update:rating="$emit('updateCrmMeta', creator)"></star-rating>
+                        @update:rating="$emit('updateCreator', {
+                              id: creator.id,
+                              index: index,
+                              key: `crm_record_by_user.rating`,
+                              value: creator.crm_record_by_user.rating,
+                            })"></star-rating>
                     </td>
                     <td
                       class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">

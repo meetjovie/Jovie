@@ -362,6 +362,22 @@ class CrmController extends Controller
             'meta' => 'required'
         ]);
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $crm = Crm::where('id', $id)->first();
+        if ($crm) {
+            $meta = $crm->meta;
+            foreach ($data['meta'] as $k => $v) {
+                if (is_array($meta)) {
+                    $meta[$k] = $v;
+                } else {
+                    $meta->{$k} = $v;
+                }
+            }
+            $data['meta'] = $meta;
+            if (isset($data['meta']->emails)) {
+                $emails = $data['meta']->emails;
+                $data['meta']->emails = is_array($emails) ? $emails : explode(',', $emails);
+            }
+        }
         Crm::updateOrCreate(['id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
         return response()->json([
             'status' => true,

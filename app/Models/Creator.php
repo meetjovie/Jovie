@@ -54,10 +54,12 @@ class Creator extends Model
         $meta['instagram_handler'] = $creator->crm_record_by_user->meta->instagram_handler ?? $creator->instagram_handler;
         $meta['twitter_handler'] = $creator->crm_record_by_user->meta->twitter_handler ?? $creator->twitter_handler;
         $meta['twitch_handler'] = $creator->crm_record_by_user->meta->twitch_handler ?? $creator->twitch_handler;
-        $meta['emails'] = $creator->crm_record_by_user->meta->emails ?? $creator->emails;
+        $meta['emails'] = $creator->crm_record_by_user->meta->emails ?? $creator->emails ?? [];
         $meta['phone'] = $creator->crm_record_by_user->meta->phone ?? $creator->phone;
         $meta['website'] = $creator->crm_record_by_user->meta->website ?? $creator->website;
         $meta['location'] = $creator->crm_record_by_user->meta->location ?? $creator->location;
+        $meta['first_name'] = $creator->crm_record_by_user->meta->first_name ?? $creator->first_name;
+        $meta['last_name'] = $creator->crm_record_by_user->meta->last_name ?? $creator->last_name;
         return $meta;
     }
 

@@ -236,6 +236,7 @@
                         v-else
                         ref="crmTable"
                         @updateCreator="updateCreator"
+                        @updateCrmMeta="updateCrmMeta"
                         @crmCounts="crmCounts"
                         @pageChanged="pageChanged"
                         @setCurrentContact="setCurrentContact"
@@ -616,6 +617,8 @@ export default {
       });
     },
     updateCrmMeta(creator = null) {
+        console.log('creator');
+        console.log(creator);
         if (creator == null) {
             creator = this.currentContact
         }
