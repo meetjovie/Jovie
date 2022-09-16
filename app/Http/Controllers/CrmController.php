@@ -395,8 +395,9 @@ class CrmController extends Controller
                 }
             }
         }
-
-        $crm = Crm::updateOrCreate(['id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $crm->creator_id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
+        $crm->meta = $data['meta'];
+        $crm->save();
+//        $crm = Crm::updateOrCreate(['creator_id' => $crm->creator_id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $crm->creator_id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
         return response()->json([
             'status' => true,
             'message' => 'Data updated.',
