@@ -453,6 +453,7 @@
                         <div class="text-cs text-gray-900 line-clamp-1">
                           <input
                             v-model="creator.meta.name"
+                            @blur="$emit('updateCrmMeta', creator)"
                             autocomplete="off"
                             type="creator-name"
                             name="creator-name"

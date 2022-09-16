@@ -60,6 +60,8 @@ class Creator extends Model
         $meta['location'] = $creator->crm_record_by_user->meta->location ?? $creator->location;
         $meta['first_name'] = $creator->crm_record_by_user->meta->first_name ?? $creator->first_name;
         $meta['last_name'] = $creator->crm_record_by_user->meta->last_name ?? $creator->last_name;
+        $creatorAccessor = new self();
+        $meta['name'] = $creator->crm_record_by_user->meta->name ?? $creatorAccessor->getName($creator);
         return $meta;
     }
 
