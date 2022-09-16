@@ -501,7 +501,7 @@
                       class="border-1 hidden w-40 border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
-                          v-model="creator.platform_title"
+                          v-model="creator.meta.platform_title"
                           @blur="$emit('updateCrmMeta', creator)"
                           autocomplete="off"
                           type="platform-title"
@@ -517,7 +517,7 @@
                       class="border-1 hidden w-40 border-collapse whitespace-nowrap border 2xl:table-cell">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
-                          v-model="creator.platform_employer"
+                          v-model="creator.meta.platform_employer"
                           @blur="$emit('updateCrmMeta', creator)"
                           autocomplete="off"
                           type="platform-employer"
