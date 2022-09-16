@@ -424,14 +424,11 @@ class Creator extends Model
             ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
             ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params, $user) {
-                $join = $join->on('crms.creator_id', '=', 'creators.id')
+                $join->on('crms.creator_id', '=', 'creators.id')
                     ->where('crms.team_id', $user->currentTeam->id)
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
-                if (isset($params['crm_id'])) {
-                    $join->where('crms.id', $params['crm_id'])->limit(1);
-                }
             })->leftJoin('creator_notes as cn', function ($join) {
                 $join->on('cn.creator_id', '=', 'crms.creator_id')
                     ->where('cn.user_id', Auth::id());

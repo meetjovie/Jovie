@@ -363,20 +363,25 @@ class CrmController extends Controller
         ]);
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $crm = Crm::where('id', $id)->first();
-        if ($crm) {
-            $meta = $crm->meta;
-            foreach ($data['meta'] as $k => $v) {
-                if (is_array($meta)) {
-                    $meta[$k] = $v;
-                } else {
-                    $meta->{$k} = $v;
-                }
+        if (!$crm) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Crm not found.',
+                'data' => null
+            ], 200);
+        }
+        $meta = $crm->meta;
+        foreach ($data['meta'] as $k => $v) {
+            if (is_array($meta)) {
+                $meta[$k] = $v;
+            } else {
+                $meta->{$k} = $v;
             }
-            $data['meta'] = $meta;
-            if (isset($data['meta']->emails)) {
-                $emails = $data['meta']->emails;
-                $data['meta']->emails = is_array($emails) ? $emails : explode(',', $emails);
-            }
+        }
+        $data['meta'] = $meta;
+        if (isset($data['meta']->emails)) {
+            $emails = $data['meta']->emails;
+            $data['meta']->emails = is_array($emails) ? $emails : explode(',', $emails);
         }
 
         if (isset($data['meta']->name)) {
@@ -391,11 +396,11 @@ class CrmController extends Controller
             }
         }
 
-        Crm::updateOrCreate(['id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
+        $crm = Crm::updateOrCreate(['id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $crm->creator_id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
         return response()->json([
             'status' => true,
             'message' => 'Data updated.',
-            'data' => Creator::getCrmCreators(['crm_id' => $id])->first()
+            'data' => Creator::getCrmCreators(['id' => $crm->creator_id])->first()
         ], 200);
     }
 }
