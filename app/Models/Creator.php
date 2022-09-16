@@ -551,7 +551,7 @@ class Creator extends Model
             // these properties would only show up if user specific values are not set
 
             foreach (self::NETWORKS as $network) {
-                if (! empty($creator->crm_record_by_user->offer) && count((array) $creator->{$network.'_meta'})) {
+                if (! empty($creator->crm_record_by_user->offer) && empty($creator->{$network.'_meta'})) {
                     $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
                 }
             }

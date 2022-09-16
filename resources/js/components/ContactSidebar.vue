@@ -235,7 +235,7 @@
           id="twitter_handler"
           label="Twitter"
           placeholder="Twitter" />
-        <TextAreaInput v-model="creator.note" @blur="updateCreatorMetaNote" />
+        <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
         <div class="mx-auto">
@@ -444,8 +444,8 @@ export default {
     },
   },
   methods: {
-    updateCreatorMetaNote() {
-      UserService.updateCreatorMetaNote(this.creator.id, this.creator.note)
+    updateCreatorNote() {
+      UserService.updateCreatorNote(this.creator.id, this.creator.note)
         .then((response) => {
           response = response.data;
           if (response.status) {

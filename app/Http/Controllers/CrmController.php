@@ -378,6 +378,19 @@ class CrmController extends Controller
                 $data['meta']->emails = is_array($emails) ? $emails : explode(',', $emails);
             }
         }
+
+        if (isset($data['meta']->name)) {
+            $nameSplits = explode(' ', $data['meta']->name);
+            foreach ($nameSplits as $k => $split) {
+                if ($k == 0) {
+                    $data['meta']->first_name = $split;
+                } else {
+                    if ($k == 1) $data['meta']->last_name = null;
+                    $data['meta']->last_name .= ' '.$split;
+                }
+            }
+        }
+
         Crm::updateOrCreate(['id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
         return response()->json([
             'status' => true,
