@@ -107,7 +107,7 @@ class TriggerImports extends Command
 
                 if ($import->instagram && $import->instagram_scrapped != 1) {
                     // trigger instagram import
-                    $instagramBatch = $import->getImportBatch('instagram');
+                    $instagramBatch = $import->getImportBatch(config('import.instagram_queue'));
                     if (! $instagramBatch->cancelled()) {
                         $this->triggerInstagramImport($import, $instagramBatch, $commonData);
                         $import->instagram_dispatched = 1;
@@ -118,7 +118,7 @@ class TriggerImports extends Command
 //                do this for each network
                 if (($import->twitch || $import->twitch_id) && $import->twitch_scrapped != 1) {
                     // trigger instagram import
-                    $twitchBatch = $import->getImportBatch('twitch');
+                    $twitchBatch = $import->getImportBatch(config('import.twitch_queue'));
                     if (! $twitchBatch->cancelled()) {
                         if (! Cache::has('twitch_token_'.$twitchBatch->user_list_id)) {
                             Import::saveTwitchToken($twitchBatch->user_list_id);
