@@ -187,7 +187,7 @@ class InstagramImport implements ShouldQueue
             }
             if ($this->recursive) {
                 foreach ($this->brands as $username) {
-                    self::dispatch($username, null, false, $this->creatorId)->onQueue('instagram');
+                    self::dispatch($username, null, false, $this->creatorId)->onQueue(config('import.instagram_queue'));
                 }
             }
         }
