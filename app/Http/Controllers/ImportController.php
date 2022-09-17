@@ -68,13 +68,13 @@ class ImportController extends Controller
                 $instagram = substr($instagram, 1);
             }
             InstagramImport::dispatch($instagram, $request->tags, true, null, null, null, Auth::user()->id, null,
-                $user->currentTeam->id)->onQueue('instagram');
+                $user->currentTeam->id)->onQueue(config('import.instagram_queue'));
         }
         if ($request->twitch) {
             $import = new Import();
             $import->twitch = $request->twitch;
             $twitch = $import->twitch;
-            TwitchImport::dispatch(null, $twitch, $request->tags, null, null, Auth::user()->id, null, $user->currentTeam->id)->onQueue('twitch');
+            TwitchImport::dispatch(null, $twitch, $request->tags, null, null, Auth::user()->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
         }
         $file = null;
         try {
