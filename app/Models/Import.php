@@ -138,7 +138,7 @@ class Import extends Model
         }
     }
 
-    public function getImportBatch($queue = 'instagram')
+    public function getImportBatch($queue = 'dev_instagram')
     {
         $batch = DB::table('job_batches')
             ->where('cancelled_at', null)
