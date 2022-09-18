@@ -23,10 +23,10 @@
       </PopoverButton>
 
       <PopoverPanel @mouseleave="close()" static class="right-0 z-50">
-        <div v-for="shortcut in shortcuts" :key="shortcut.key">
-          class="backfdrop-filter w-auto flex-col items-center justify-between
-          rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs
-          text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150">
+        <div
+          v-for="shortcut in shortcuts"
+          :key="shortcut.key"
+          class="backfdrop-filter w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150">
           <div>{{ text }}</div>
           <div class="px-2 text-2xs text-white" v-if="shortcut.key">
             <kbd

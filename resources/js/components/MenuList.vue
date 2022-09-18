@@ -80,7 +80,7 @@
                 <Menu
                   as="div"
                   class="relative inline-block items-center text-center">
-                  <Float portal shift placement="bottom-end">
+                  <Float portal :offset="12" placement="right-start">
                     <MenuButton
                       class="hidden h-4 w-4 items-center text-gray-400 active:text-gray-500 group-hover:block">
                       <EllipsisVerticalIcon
@@ -213,7 +213,7 @@
             >
 
             <Menu as="div" class="relative inline-block text-left">
-              <Float portal shift placement="bottom-end">
+              <Float portal :offset="12" placement="right-start">
                 <div>
                   <MenuButton
                     class="hidden h-4 w-4 text-gray-400 group-hover:block">
@@ -243,7 +243,7 @@
                           ]">
                           <DocumentDuplicateIcon
                             :active="active"
-                            class="mr-2 h-4 w-4 text-teal-400 hover:text-gray-700"
+                            class="mr-2 h-4 w-4 text-teal-400"
                             aria-hidden="true" />
                           Duplicate
                         </button>
@@ -259,7 +259,7 @@
                           ]">
                           <PinnedIcon
                             :active="active"
-                            class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
+                            class="mr-2 h-3 w-3 text-indigo-400"
                             aria-hidden="true" />
                           Unpin List
                         </button>
@@ -278,7 +278,7 @@
                           ]">
                           <TrashIcon
                             :active="active"
-                            class="mr-2 h-4 w-4 text-gray-400 hover:text-gray-700"
+                            class="mr-2 h-4 w-4 text-gray-400"
                             aria-hidden="true" />
                           Trash
                         </button>
