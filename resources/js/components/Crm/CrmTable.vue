@@ -672,7 +672,7 @@
                                           id: creator.id,
                                           index: index,
                                           key: `crm_record_by_user.stage`,
-                                          value: creator.crm_record_by_user.stage,
+                                          value: key,
                                         })
                                       "
                                     class="group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200 hover:text-white">
