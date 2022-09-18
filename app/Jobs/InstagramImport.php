@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Events\CreatorImported;
 use App\Models\Creator;
 use App\Models\Crm;
 use App\Models\Import;
@@ -141,7 +140,6 @@ class InstagramImport implements ShouldQueue
                     if (! is_null($dataResponse) && isset($dataResponse->graphql)) {
                         $creator = $this->insertIntoDatabase($dataResponse);
                         Import::markImport($this->importId, ['instagram']);
-                        CreatorImported::dispatch($creator->id, $this->userId, $this->teamId);
                         Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'instagram']);
                     } else {
                         Import::markImport($this->importId, ['instagram']);

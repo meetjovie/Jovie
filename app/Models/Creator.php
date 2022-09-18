@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CreatorImported;
 use App\Traits\GeneralTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -690,6 +691,7 @@ class Creator extends Model
                 }
             }
         }
+        CreatorImported::dispatch($creator->id, $userId, $teamId);
     }
 
     public static function getCrmCounts()
