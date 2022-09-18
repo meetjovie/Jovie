@@ -1196,11 +1196,12 @@ export default {
   },
   methods: {
     openSidebarAndSetContact() {
-      this.$store.state.sidebarOpen = true;
-      //set the current contact to the first contact in the list
-      this.currentContact = this.creatorRecords[0];
+      this.$store.contactSidebarOpen = true;
+      //if there is currently no contact selected, select the first one
+      if (!this.currentContact) {
+        this.currentContact = this.creatorRecords[0];
+      }
     },
-
     exportCrmCreators() {
       //export filteredCreators to a csv file
       console.log('exporting');
