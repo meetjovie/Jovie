@@ -214,7 +214,7 @@
                   <th
                     scope="col"
                     class="sticky top-0 z-10 flex w-full items-center justify-end border-b border-gray-300 py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <div class="flex h-full w-60 content-end items-center px-2">
+                    <div class="flex h-full w-80 content-end items-center px-2">
                       <div
                         class="group flex h-full w-full cursor-pointer items-center justify-end py-2 px-4 transition-all">
                         <div
@@ -244,95 +244,106 @@
                             class="mr-1 -mt-1 h-5 w-5 text-gray-400 group-hover:text-neutral-600" />
                         </div>
                       </div>
-                      <div
-                        class="w-18 group mr-2 h-full cursor-pointer items-center">
-                        <Menu>
-                          <Float
-                            portal
-                            class="pr-2"
-                            :offset="14"
-                            placement="bottom-end">
-                            <MenuButton
-                              class="inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                              <AdjustmentsHorizontalIcon
-                                class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
-                                aria-hidden="true" />
-                            </MenuButton>
-                            <transition
-                              enter-active-class="transition duration-100 ease-out"
-                              enter-from-class="transform scale-95 opacity-0"
-                              enter-to-class="transform scale-100 opacity-100"
-                              leave-active-class="transition duration-75 ease-in"
-                              leave-from-class="transform scale-100 opacity-100"
-                              leave-to-class="transform scale-95 opacity-0">
-                              <MenuItems
-                                class="w-60 flex-col rounded-md border border-neutral-200 bg-neutral-50 py-1 pl-2 pr-1 shadow-xl">
-                                <MenuItem as="div" v-slot="{ active }">
-                                  <div
-                                    class="flex items-center justify-between border-b border-neutral-200 py-1">
+                      <div class="flex">
+                        <div
+                          class="w-18 group mr-2 h-full cursor-pointer items-center">
+                          <Menu>
+                            <Float
+                              portal
+                              class="pr-2"
+                              :offset="14"
+                              placement="bottom-end">
+                              <MenuButton
+                                class="inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                                <AdjustmentsHorizontalIcon
+                                  class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
+                                  aria-hidden="true" />
+                              </MenuButton>
+                              <transition
+                                enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems
+                                  class="w-60 flex-col rounded-md border border-neutral-200 bg-neutral-50 py-1 pl-2 pr-1 shadow-xl">
+                                  <MenuItem as="div" v-slot="{ active }">
                                     <div
-                                      class="text-xs font-bold text-neutral-500 line-clamp-1">
-                                      Display Columns
+                                      class="flex items-center justify-between border-b border-neutral-200 py-1">
+                                      <div
+                                        class="text-xs font-bold text-neutral-500 line-clamp-1">
+                                        Display Columns
+                                      </div>
+                                      <div
+                                        @click="exportCrmCreators()"
+                                        class="inline-flex cursor-pointer items-center text-xs font-bold text-neutral-400 hover:text-neutral-600">
+                                        <CloudArrowDownIcon class="h-3 w-3" />
+                                        <span class="line-clamp-1">Export</span>
+                                      </div>
                                     </div>
-                                    <div
-                                      @click="exportCrmCreators()"
-                                      class="inline-flex cursor-pointer items-center text-xs font-bold text-neutral-400 hover:text-neutral-600">
-                                      <CloudArrowDownIcon class="h-3 w-3" />
-                                      <span class="line-clamp-1">Export</span>
-                                    </div>
-                                  </div>
-                                </MenuItem>
-                                <MenuItem
-                                  as="div"
-                                  v-for="(column, index) in columns"
-                                  v-slot="{ active }">
-                                  <button
-                                    :class="[
-                                      active
-                                        ? 'bg-gray-100 text-gray-600'
-                                        : 'text-gray-400',
-                                      'group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-bold',
-                                    ]">
-                                    <div class="flex items-center">
-                                      <component
-                                        :is="column.icon"
-                                        :active="active"
-                                        class="mr-2 h-3 w-3 text-neutral-400"
-                                        aria-hidden="true" />
-                                      <span class="line-clamp-1">{{
-                                        column.name
-                                      }}</span>
-                                    </div>
-                                    <Switch
-                                      name="columns-visible"
-                                      v-model="column.visible"
-                                      as="template"
-                                      v-slot="{ checked }">
-                                      <button
-                                        :class="
-                                          checked
-                                            ? 'bg-indigo-600'
-                                            : 'bg-gray-200'
-                                        "
-                                        class="relative inline-flex h-4 w-6 items-center rounded-full">
-                                        <span class="sr-only"
-                                          >Show/hide column</span
-                                        >
-                                        <span
+                                  </MenuItem>
+                                  <MenuItem
+                                    as="div"
+                                    v-for="(column, index) in columns"
+                                    v-slot="{ active }">
+                                    <button
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-600'
+                                          : 'text-gray-400',
+                                        'group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-bold',
+                                      ]">
+                                      <div class="flex items-center">
+                                        <component
+                                          :is="column.icon"
+                                          :active="active"
+                                          class="mr-2 h-3 w-3 text-neutral-400"
+                                          aria-hidden="true" />
+                                        <span class="line-clamp-1">{{
+                                          column.name
+                                        }}</span>
+                                      </div>
+                                      <Switch
+                                        name="columns-visible"
+                                        v-model="column.visible"
+                                        as="template"
+                                        v-slot="{ checked }">
+                                        <button
                                           :class="
                                             checked
-                                              ? 'translate-x-3'
-                                              : 'translate-x-0'
+                                              ? 'bg-indigo-600'
+                                              : 'bg-gray-200'
                                           "
-                                          class="inline-block h-3 w-3 transform rounded-full bg-white transition" />
-                                      </button>
-                                    </Switch>
-                                  </button>
-                                </MenuItem>
-                              </MenuItems>
-                            </transition>
-                          </Float>
-                        </Menu>
+                                          class="relative inline-flex h-4 w-6 items-center rounded-full">
+                                          <span class="sr-only"
+                                            >Show/hide column</span
+                                          >
+                                          <span
+                                            :class="
+                                              checked
+                                                ? 'translate-x-3'
+                                                : 'translate-x-0'
+                                            "
+                                            class="inline-block h-3 w-3 transform rounded-full bg-white transition" />
+                                        </button>
+                                      </Switch>
+                                    </button>
+                                  </MenuItem>
+                                </MenuItems>
+                              </transition>
+                            </Float>
+                          </Menu>
+                        </div>
+                        <div>
+                          <button
+                            v-if="!$store.state.ContactSidebarOpen"
+                            class="group inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                            <ChevronRightIcon
+                              @click="openSidebarAndSetContact()"
+                              class="h-5 w-5 font-bold text-gray-400 transition-all group-hover:text-neutral-600" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </th>
@@ -971,6 +982,7 @@ import {
   LinkIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
+  ChevronRightIcon,
   CloudArrowDownIcon,
   AdjustmentsHorizontalIcon,
 } from '@heroicons/vue/24/solid';
@@ -986,6 +998,7 @@ export default {
   name: 'CrmTable',
   components: {
     ArchiveBoxIcon,
+    ChevronRightIcon,
     StarRating,
     MagnifyingGlassIcon,
     Menu,
@@ -1150,6 +1163,9 @@ export default {
     }
   },
   computed: {
+    sidebarOpen() {
+      return this.$store.state.sidebarOpen;
+    },
     intermediate() {
       return (
         this.selectedCreators.length > 0 &&
@@ -1179,6 +1195,12 @@ export default {
     },
   },
   methods: {
+    openSidebarAndSetContact() {
+      this.$store.state.sidebarOpen = true;
+      //set the current contact to the first contact in the list
+      this.currentContact = this.creatorRecords[0];
+    },
+
     exportCrmCreators() {
       //export filteredCreators to a csv file
       console.log('exporting');
