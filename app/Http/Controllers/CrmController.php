@@ -21,15 +21,22 @@ class CrmController extends Controller
 {
     public function crmCreators(Request $request)
     {
-        $creators = Creator::getCrmCreators($request->all());
-        $counts = Creator::getCrmCounts();
-        return response()->json([
-            'status' => true,
-            'creators' => $creators,
-            'networks' => Creator::NETWORKS,
-            'stages' => Crm::stages(),
-            'counts' => $counts
-        ], 200);
+        try {
+            $creators = Creator::getCrmCreators($request->all());
+            $counts = Creator::getCrmCounts();
+            return response()->json([
+                'status' => true,
+                'creators' => $creators,
+                'networks' => Creator::NETWORKS,
+                'stages' => Crm::stages(),
+                'counts' => $counts
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 200);
+        }
     }
 
     public function crmCounts()
