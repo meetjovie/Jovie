@@ -35,7 +35,7 @@ app.mixin({
                           title: 'Successful',
                           text: e.message,
                       });
-                      successCallback();
+                      successCallback(e.data);
                   } else {
                       this.$notify({
                           group: 'user',

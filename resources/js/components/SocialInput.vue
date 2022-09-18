@@ -218,7 +218,7 @@ export default {
           this.adding = false;
           this.loader = false;
           //emit event to refresh the table
-          this.$emit('finsihedImport', true);
+          this.$emit('finishImport', true);
           Object.assign(this.$data, this.$options.data());
         });
     },

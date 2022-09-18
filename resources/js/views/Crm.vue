@@ -269,7 +269,7 @@
         </TransitionRoot>
       </div>
 
-      <ImportCreatorModal :open="showCreatorModal" />
+      <ImportCreatorModal :open="showCreatorModal" @closeModal="closeImportCreatorModal" />
 
       <EmojiPickerModal
         v-show="openEmojis"
@@ -466,6 +466,23 @@ export default {
     this.$mousetrap.bind(['e'], console.log('working'));
   },
   methods: {
+      closeImportCreatorModal(listenEvent = false) {
+          this.showCreatorModal = false
+          if (listenEvent) {
+              this.listenEvents(
+                  `creatorImported.${this.currentUser.current_team.id}`,
+                  'CreatorImported',
+                  (data) => {
+                      if (this.filters.type == 'all') {
+                          if (this.creators.length > 50) {
+                              this.creators.pop()
+                          }
+                          this.creators.unshift(data);
+                      }
+                  }
+              );
+          }
+      },
     openEmojiPicker(item) {
       this.selectedList = item;
       this.openEmojis = true;
