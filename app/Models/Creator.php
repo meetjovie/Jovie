@@ -691,7 +691,7 @@ class Creator extends Model
                 }
             }
         }
-        CreatorImported::dispatch($creator->id, $userId, $teamId);
+        CreatorImported::dispatch($creator->id, $userId, $teamId, $listId);
     }
 
     public static function getCrmCounts()

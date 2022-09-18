@@ -1146,6 +1146,7 @@ export default {
     if (columns) {
       this.columns = columns;
     }
+    this.creatorRecords = this.creatorRecords.length ? this.creatorRecords : this.creators
   },
   computed: {
     intermediate() {

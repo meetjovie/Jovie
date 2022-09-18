@@ -18,16 +18,18 @@ class CreatorImported implements ShouldBroadcast
     private $creatorId;
     private $userId;
     private $teamId;
+    private $listId;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($creatorId, $userId, $teamId)
+    public function __construct($creatorId, $userId, $teamId, $listId)
     {
         $this->creatorId = $creatorId;
         $this->userId = $userId;
         $this->teamId = $teamId;
+        $this->listId = $listId;
     }
 
     /**
@@ -48,6 +50,9 @@ class CreatorImported implements ShouldBroadcast
     public function broadcastWith()
     {
         $creator = Creator::getCrmCreators(['id' => $this->creatorId], $this->userId)->first();
-        return ['status' => true, 'data' => $creator, 'message' => 'Creator Imported'];
+        return ['status' => true, 'data' => [
+            'creator' => $creator,
+            'list' => $this->listId
+        ], 'message' => 'Creator Imported'];
     }
 }
