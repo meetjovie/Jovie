@@ -1197,10 +1197,15 @@ export default {
   methods: {
     openSidebarAndSetContact() {
       //set the contactSidebarOpen to true
-      this.$store.state.ContactSidebarOpen = true;
+
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
         this.currentContact = this.creatorRecords[0];
+        this.$store.state.ContactSidebarOpen = true;
+      }
+      //esle just open the sidebar
+      else {
+        this.$store.state.ContactSidebarOpen = true;
       }
     },
     exportCrmCreators() {
