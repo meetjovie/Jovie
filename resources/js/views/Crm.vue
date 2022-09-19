@@ -206,7 +206,12 @@
                                 to Jovie.</span
                               >
                             </div>
-                            <SocialInput class="py-12" />
+                            <SocialInput
+                              @finishedImport="
+                                !showCreatorModal &&
+                                  console.log('finished import')
+                              "
+                              class="py-12" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
                         </div>
@@ -264,7 +269,10 @@
           leave-to="translate-x-full">
           <aside
             class="z-30 -mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
-            <ContactSidebar @updateCrmMeta="updateCrmMeta" :jovie="true" :creator="currentContact" />
+            <ContactSidebar
+              @updateCrmMeta="updateCrmMeta"
+              :jovie="true"
+              :creator="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
@@ -604,7 +612,7 @@ export default {
       });
     },
     updateCreator(params) {
-        this.$store.dispatch('updateCreator', params).then((response) => {
+      this.$store.dispatch('updateCreator', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {
@@ -617,19 +625,21 @@ export default {
       });
     },
     updateCrmMeta(creator = null) {
-        console.log('creator');
-        console.log(creator);
-        if (creator == null) {
-            creator = this.currentContact
-        }
-        if (!creator) return
-        this.$store.dispatch('updateCrmMeta', {id: creator.crm_id, meta: creator.meta}).then((response) => {
-        response = response.data;
-        if (response.status) {
+      console.log('creator');
+      console.log(creator);
+      if (creator == null) {
+        creator = this.currentContact;
+      }
+      if (!creator) return;
+      this.$store
+        .dispatch('updateCrmMeta', { id: creator.crm_id, meta: creator.meta })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
             this.currentContact = response.data;
-          this.crmCounts();
-        }
-      });
+            this.crmCounts();
+          }
+        });
     },
   },
 };
