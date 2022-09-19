@@ -444,8 +444,7 @@
                       class="sticky w-60 cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
-                          <div
-                            class="rounded-full bg-gradient-to-tr from-yellow-500/90 via-fuchsia-500/90 to-purple-500/90 p-0.5">
+                          <div class="rounded-full bg-neutral-600 p-0.5">
                             <div class="rounded-full bg-white p-0">
                               <img
                                 class="rounded-full object-cover object-center"

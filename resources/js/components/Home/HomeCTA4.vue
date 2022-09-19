@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="bg-indigo-700">
+  <div class="bg-indigo-700 py-6 md:py-12">
     <div
       class="mx-auto max-w-2xl py-16 px-4 text-center sm:py-20 sm:px-6 lg:px-8">
       <!-- <JovieLogo class="py-4" height="20" color="white" /> -->
@@ -16,7 +16,7 @@
         class="mt-8 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-indigo-600 hover:bg-indigo-50 sm:w-auto"
         >Try Jovie free</router-link
       >
-      <p class="text-2xs text-neutral-200">
+      <p class="py-1 text-2xs text-neutral-100">
         On a big team?
         <router-link class="font-bold underline" to="demo"
           >Contact sales</router-link

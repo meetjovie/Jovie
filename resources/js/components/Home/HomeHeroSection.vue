@@ -12,17 +12,19 @@
         alt="background image" />
       <div
         class="absolute mt-96 flex flex-col items-center justify-center py-48 px-4 2xl:py-24">
-        <h2
+        <!-- <h2
           class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
           The easiest way to
-        </h2>
+        </h2> -->
         <h1
           class="text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl xl:text-6xl">
           Organize <span class="text-indigo-700">Everyone</span> You Follow.
           <br />
         </h1>
         <h2 class="inline py-2 text-center text-lg font-bold text-neutral-600">
-          One space for you & your team to track everyone you know<br />
+          One space for <span class="text-sky-600">you</span> &
+          <span class="text-pink-600">your team</span> to track everyone you
+          know<br />
           <span class="text-sm font-medium text-neutral-400"
             >(and everyone you wish you did).</span
           >
