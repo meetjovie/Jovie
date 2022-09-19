@@ -223,7 +223,7 @@ export const routes = [
     name: 'Demo',
     path: '/demo',
     beforeEnter(to, from, next) {
-      window.open('https://u3yaoaf518v.typeform.com/to/MSzEeSrT', '_blank');
+      window.open('mailto:sales@jov.ie', '_blank');
     },
     meta: {
       requiresAuth: false,
