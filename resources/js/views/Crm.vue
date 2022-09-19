@@ -110,7 +110,7 @@
                   ref="menuListAll"
                   @getUserLists="getUserLists"
                   @openEmojiPicker="openEmojiPicker"
-                  menuName="Teamspace"
+                  menuName="Lists"
                   @setFilterList="setFilterList"
                   :selectedList="filters.list"
                   :draggable="true"

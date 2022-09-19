@@ -1196,8 +1196,6 @@ export default {
   },
   methods: {
     openSidebarAndSetContact() {
-      //set the contactSidebarOpen to true
-
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
         this.currentContact = this.creatorRecords[0];

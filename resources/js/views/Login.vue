@@ -70,13 +70,16 @@
               </div>
 
               <div>
-                <button
+                <ButtonGroup
                   :disabled="loggingIn"
                   @click="login()"
+                  :text="loggingIn ? 'Logging in...' : 'Sign in'"
+                  :loader="loggingIn"
+                  :success="successfulLogin"
                   type="button"
                   class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   Sign in
-                </button>
+                </ButtonGroup>
               </div>
 
               <div class="flex items-center justify-between">
@@ -115,11 +118,13 @@ import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
 import router from '../router';
 import InputGroup from '../components/InputGroup.vue';
+import ButtonGroup from '../components/ButtonGroup.vue';
 export default {
   components: {
     JovieLogo,
     AuthFooter,
     InputGroup,
+    ButtonGroup,
   },
   mounted() {
     //add segment analytics
@@ -134,6 +139,7 @@ export default {
         password: '',
       },
       loggingIn: false,
+      successfulLogin: false,
     };
   },
   methods: {
@@ -144,7 +150,7 @@ export default {
       AuthService.login(this.user)
         .then((response) => {
           response = response.data;
-          localStorage.setItem('jovie_extension', response.token)
+          localStorage.setItem('jovie_extension', response.token);
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
             router.push({ name: 'Contacts' });
@@ -161,6 +167,7 @@ export default {
         })
         .finally(() => {
           this.loggingIn = false;
+          this.successfulLogin = true;
         });
     },
   },
