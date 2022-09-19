@@ -464,6 +464,15 @@ export default {
     this.getCrmCreators();
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
+
+      this.listenEvents(
+          `importListCreated.${this.currentUser.current_team.id}`,
+          'ImportListCreated',
+          (data) => {
+              console.log(data);
+              this.getUserLists()
+          }
+      );
   },
   methods: {
       closeImportCreatorModal(listenEvent = false) {

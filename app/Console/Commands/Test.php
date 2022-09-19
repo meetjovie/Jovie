@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ImportListCreated;
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Models\Creator;
@@ -63,6 +64,11 @@ class Test extends Command
      */
     public function handle()
     {
+        $list = UserList::firstOrCreateList(1, 'Twitch Leads - 10 Sample Profiles.csv', 1);
+        if ($list->wasRecentlyCreated) {
+            $dis = ImportListCreated::dispatch(1, $list);
+        }
+        dd(1);
 //        $user = User::with('currentTeam.users')->where('id', 1)->first();
 //        $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
 //dd($teamUsers);
