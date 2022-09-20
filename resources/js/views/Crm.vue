@@ -206,7 +206,7 @@
                                 to Jovie.</span
                               >
                             </div>
-                            <SocialInput class="py-12" @finishImport="closeImportCreatorModal(true)" />
+                            <SocialInput class="py-12" @finishImport="closeImportCreatorModal" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
                         </div>
@@ -476,29 +476,27 @@ export default {
               this.getUserLists()
           }
       );
+      this.listenEvents(
+          `creatorImported.${this.currentUser.current_team.id}`,
+          'CreatorImported',
+          (data) => {
+              if (data.list && this.filters.type != 'list' || (this.filters.type != 'all')) {
+                  return
+              }
+              if (this.filters.page === 1) {
+                  this.creators.pop()
+              }
+              if (this.creators.length) {
+                  this.creators.unshift(data.creator);
+              } else {
+                  this.creators.push(data.creator)
+              }
+          }
+      );
   },
   methods: {
-      closeImportCreatorModal(listenEvent = false) {
+      closeImportCreatorModal() {
           this.showCreatorModal = false
-          if (listenEvent) {
-              this.listenEvents(
-                  `creatorImported.${this.currentUser.current_team.id}`,
-                  'CreatorImported',
-                  (data) => {
-                      if (data.list && this.filters.type != 'list' || (this.filters.type != 'all')) {
-                          return
-                      }
-                      if (this.creators.length >= 50) {
-                          this.creators.pop()
-                      }
-                      if (this.creators.length) {
-                          this.creators.unshift(data.creator);
-                      } else {
-                          this.creators.push(data.creator)
-                      }
-                  }
-              );
-          }
       },
     openEmojiPicker(item) {
       this.selectedList = item;

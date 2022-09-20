@@ -46,13 +46,15 @@ app.mixin({
           Echo.private(channel)
               .listen(event, (e) => {
                   if (e.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 40000,
-                          title: 'Successful',
-                          text: e.message,
-                      });
+                      if (event == 'CreatorImported' && ! e.data.list) {
+                          this.$notify({
+                              group: 'user',
+                              type: 'success',
+                              duration: 40000,
+                              title: 'Successful',
+                              text: e.message,
+                          });
+                      }
                       successCallback(e.data);
                   } else {
                       this.$notify({

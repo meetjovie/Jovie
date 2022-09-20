@@ -45,7 +45,7 @@
                     Import a contact
                   </DialogTitle>
                   <div class="mt-2">
-                    <SocialInput @finishImport="$emit('closeModal', true)" />
+                    <SocialInput @finishImport="$emit('closeModal')" />
                   </div>
                 </div>
               </div>
