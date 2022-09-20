@@ -15,15 +15,16 @@
       </div>
       <div class="flex items-center">
         <div
+          v-if="draggable"
           class="group mx-auto rounded-md p-1 text-gray-400 transition-all hover:bg-gray-300 hover:text-gray-50">
           <PlusIcon
-            v-if="draggable && !creatingList"
+            v-if="!creatingList"
             @click="createList()"
             class="h-4 w-4"></PlusIcon>
           <JovieSpinner
             spinnerSize="xs"
             spinnerColor="neutral"
-            v-if="draggable && creatingList" />
+            v-if="creatingList" />
         </div>
       </div>
     </div>
@@ -112,7 +113,7 @@
                               ]">
                               <PencilSquareIcon
                                 :active="active"
-                                class="mr-2 h-4 w-4 text-teal-400"
+                                class="mr-2 h-4 w-4 text-sky-400"
                                 aria-hidden="true" />
                               Edit List
                             </button>
@@ -263,7 +264,7 @@
                           ]">
                           <PencilSquareIcon
                             :active="active"
-                            class="mr-2 h-4 w-4 text-teal-400"
+                            class="mr-2 h-4 w-4 text-sky-400"
                             aria-hidden="true" />
                           Edit List
                         </button>
@@ -344,13 +345,10 @@
       :description="editListPopup.description"
       :primaryButtonText="editListPopup.primaryButtonText"
       @primaryButtonClick="editListPopup.confirmationMethod"
-      @cancelButtonClick="cancelEditList">
+      @cancelButtonClick="!editListPopup.open">
       <div class="space-y-8 py-4">
         <InputGroup
           autocomplete="off"
-          @blur="disableEditName(item)"
-          @keyup.esc="disableEditName(item)"
-          @keyup.enter="updateList(item)"
           label="List Name"
           placeholder="List Name"
           v-model="editListPopup.name"
@@ -401,12 +399,12 @@ export default {
         open: false,
         loading: false,
         title: 'Edit List',
-        pinned: true,
+        pinned: null,
         name: '',
         description:
           'This is where you would change the settings for the list.',
         primaryButtonText: 'Save',
-        confirmationMethod: '',
+        confirmationMethod: null,
       },
       confirmationPopup: {
         confirmationMethod: null,
@@ -446,14 +444,19 @@ export default {
       item.name = this.currentEditingList.name;
     },
     editList(item) {
+      this.currentEditingList = JSON.parse(JSON.stringify(item));
+      this.confirmationPopup.confirmationMethod = () => {
+        this.updateList(id);
+      };
       this.editListPopup.open = true;
       //log the item in console
-      console.log(item);
-      this.editListPopup.title = `Edit ${item.name}`;
-      console.log(item.name);
-      this.editListPopup.pinned = item.pinned;
-      console.log(item.pinned);
-      this.editListPopup.name = item.name;
+
+      console.log(currentEdtingList);
+      this.editListPopup.title = `Edit ${currentEditingList.name}`;
+      console.log(this.currentEditingList);
+      this.editListPopup.pinned = currentEditingList.pinned;
+      console.log(currentEditingList.pinned);
+      this.editListPopup.name = currentEditingList.name;
       this.editListPopup.confirmationMethod = this.updateListFromModal;
     },
     updateList(item) {
@@ -497,6 +500,7 @@ export default {
         })
         .finally((response) => {
           item.updating = false;
+          editListPopup.open = false;
         });
     },
     createList() {

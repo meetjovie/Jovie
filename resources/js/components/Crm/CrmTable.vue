@@ -349,7 +349,8 @@
                   </th>
                 </tr>
               </thead>
-              <tbody class="h-full w-full divide-y divide-gray-200 bg-white">
+              <tbody
+                class="h-full w-full divide-y divide-gray-200 bg-red-500 bg-white">
                 <template v-if="loading">
                   <tr>
                     <td colspan="11">
