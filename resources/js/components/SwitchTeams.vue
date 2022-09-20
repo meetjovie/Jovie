@@ -45,7 +45,7 @@
                   active
                     ? 'bg-white px-1 py-2 font-bold text-indigo-700'
                     : 'text-sm text-gray-500',
-                  'group flex w-full items-center px-2 py-2 text-xs  last:rounded-b-md',
+                  'group flex w-full items-center px-2 py-2 text-xs ',
                 ]">
                 <ChevronRightIcon
                   :active="active"
@@ -53,6 +53,23 @@
                   aria-hidden="true" />
                 {{ team.name }}
               </button>
+            </div>
+            <div>
+              <router-link
+                to="/accounts"
+                class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
+                :class="[
+                  active
+                    ? 'bg-white px-1 py-2 font-bold text-indigo-700'
+                    : 'text-sm text-gray-500',
+                  'group flex w-full items-center px-2 py-2 text-xs  last:rounded-b-md',
+                ]">
+                <PlusCircleIcon
+                  :active="active"
+                  class="mr-1 h-5 w-5 text-indigo-400 group-hover:text-white"
+                  aria-hidden="true" />
+                Join or create workspace
+              </router-link>
             </div>
           </div>
         </PopoverPanel>
@@ -67,6 +84,7 @@ import {
   ChevronUpIcon,
   ChevronRightIcon,
   UserGroupIcon,
+  PlusCircleIcon,
 } from '@heroicons/vue/24/solid';
 import {
   Popover,
@@ -86,6 +104,7 @@ export default {
     PopoverPanel,
     UserGroupIcon,
     PopoverGroup,
+    PlusCircleIcon,
     ChevronRightIcon,
     ChevronUpIcon,
   },

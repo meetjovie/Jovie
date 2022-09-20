@@ -110,7 +110,7 @@
                   ref="menuListAll"
                   @getUserLists="getUserLists"
                   @openEmojiPicker="openEmojiPicker"
-                  menuName="Teamspace"
+                  menuName="Lists"
                   @setFilterList="setFilterList"
                   :selectedList="filters.list"
                   :draggable="true"
@@ -264,7 +264,10 @@
           leave-to="translate-x-full">
           <aside
             class="z-30 -mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
-            <ContactSidebar @updateCrmMeta="updateCrmMeta" :jovie="true" :creator="currentContact" />
+            <ContactSidebar
+              @updateCrmMeta="updateCrmMeta"
+              :jovie="true"
+              :creator="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
@@ -635,7 +638,7 @@ export default {
       });
     },
     updateCreator(params) {
-        this.$store.dispatch('updateCreator', params).then((response) => {
+      this.$store.dispatch('updateCreator', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {
@@ -648,19 +651,21 @@ export default {
       });
     },
     updateCrmMeta(creator = null) {
-        console.log('creator');
-        console.log(creator);
-        if (creator == null) {
-            creator = this.currentContact
-        }
-        if (!creator) return
-        this.$store.dispatch('updateCrmMeta', {id: creator.crm_id, meta: creator.meta}).then((response) => {
-        response = response.data;
-        if (response.status) {
+      console.log('creator');
+      console.log(creator);
+      if (creator == null) {
+        creator = this.currentContact;
+      }
+      if (!creator) return;
+      this.$store
+        .dispatch('updateCrmMeta', { id: creator.crm_id, meta: creator.meta })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
             this.currentContact = response.data;
-          this.crmCounts();
-        }
-      });
+            this.crmCounts();
+          }
+        });
     },
   },
 };

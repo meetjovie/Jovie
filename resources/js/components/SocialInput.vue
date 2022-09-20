@@ -81,11 +81,13 @@
         <SocialIcons
           height="10px"
           width="10px"
+          link="#"
           class="text-neutral-400"
           icon="twitch" />
         <SocialIcons
           height="10px"
           width="10px"
+          link="#"
           class="text-neutral-400"
           icon="instagram" />
       </div>

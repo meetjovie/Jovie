@@ -326,6 +326,24 @@ class Creator extends Model
         return null;
     }
 
+    public function getLinkedinHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://www.linkedin.com/in/'.$value;
+        }
+
+        return null;
+    }
+
+    public function getTiktokHandlerAttribute($value)
+    {
+        if ($value) {
+            return 'https://www.tiktok.com/'.$value;
+        }
+
+        return null;
+    }
+
     public function getInstagramHandlerAttribute($value)
     {
         if ($value) {
