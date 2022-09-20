@@ -77,10 +77,10 @@
 
           <div
             @click="toggleExpandBio()"
-            class="w-full cursor-pointer whitespace-pre-wrap py-1 text-2xs transition-all"
+            class="w-full cursor-pointer whitespace-pre-wrap text-2xs transition-all"
             :class="{
               'h-12 line-clamp-5': expandBio,
-              'h-4 line-clamp-2': !expandBio,
+              'h-6 line-clamp-2': !expandBio,
             }">
             {{ creator.biography }}
           </div>
@@ -216,7 +216,7 @@
           placeholder="Phone" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
-          icon="CameraIcon"
+          socialicon="instagram"
           v-model="creator.meta.instagram_handler"
           id="instagram_handler"
           label="Instagram"

@@ -345,7 +345,7 @@
       :description="editListPopup.description"
       :primaryButtonText="editListPopup.primaryButtonText"
       @primaryButtonClick="editListPopup.confirmationMethod"
-      @cancelButtonClick="!editListPopup.open">
+      @cancelButtonClick="editListPopup.cancelEditMethod">
       <div class="space-y-8 py-4">
         <InputGroup
           autocomplete="off"
@@ -447,6 +447,9 @@ export default {
       this.currentEditingList = JSON.parse(JSON.stringify(item));
       this.editListPopup.confirmationMethod = () => {
         this.updateList(this.currentEditingList);
+      };
+      this.confirmationPopup.cancelEditMethod = () => {
+        this.cancelEditMethod(id);
       };
       this.editListPopup.open = true;
       this.editListPopup.title = `Edit ${this.currentEditingList.name}`;
@@ -604,6 +607,22 @@ export default {
         primaryButtonText: null,
         loading: false,
       };
+    },
+    resetEditPopup() {
+      this.editListPopup = {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        description: null,
+        primaryButtonText: null,
+        loading: false,
+        name: null,
+        emoji: null,
+        pinned: false,
+      };
+    },
+    cancelEditMethod(id) {
+      this.resetEditPopup();
     },
     duplicateList(id) {
       UserService.duplicateList(id)

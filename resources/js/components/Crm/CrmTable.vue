@@ -349,8 +349,7 @@
                   </th>
                 </tr>
               </thead>
-              <tbody
-                class="h-full w-full divide-y divide-gray-200 bg-red-500 bg-white">
+              <tbody class="h-full w-full divide-y divide-gray-200 bg-red-500">
                 <template v-if="loading">
                   <tr>
                     <td colspan="11">
@@ -445,7 +444,7 @@
                       class="sticky w-60 cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
-                          <div class="rounded-full bg-neutral-600 p-0.5">
+                          <div class="rounded-full bg-neutral-400 p-0.5">
                             <div class="rounded-full bg-white p-0">
                               <img
                                 class="rounded-full object-cover object-center"
@@ -610,7 +609,7 @@
                             })
                           "
                           autocomplete="off"
-                          type="creator-offer"
+                          type="number"
                           name="creator-offer"
                           id="creator-offer"
                           class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"

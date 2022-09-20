@@ -2,14 +2,14 @@
   <body class="overflow-y-hidden">
     <div
       class="flex h-full w-full flex-col-reverse items-center justify-center py-48 md:flex-col">
-      <img
+      <!-- <img
         :src="asset('img/External/bgImg.webp')"
         class="mt-6 hidden w-full object-fill object-center md:mt-0 xl:block"
         alt="background image" />
       <img
         :src="asset('img/External/tabley.webp')"
         class="mt-6 w-full object-fill object-center md:mt-0 xl:hidden"
-        alt="background image" />
+        alt="background image" /> -->
       <div
         class="absolute mt-96 flex flex-col items-center justify-center py-48 px-4 2xl:py-24">
         <!-- <h2
@@ -23,8 +23,8 @@
         </h1>
         <h2 class="inline py-2 text-center text-lg font-bold text-neutral-600">
           One space for <span class="text-sky-600">you</span> &
-          <span class="text-pink-600">your team</span> to track everyone you
-          know<br />
+          <span class="text-pink-600">your team</span> to keep track of everyone
+          you know<br />
           <span class="text-sm font-medium text-neutral-400"
             >(and everyone you wish you did).</span
           >
