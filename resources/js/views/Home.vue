@@ -3,8 +3,8 @@
     <main>
       <HomeHeroSection />
       <!--  <HomeFeatureCRM class="" id="crm"></HomeFeatureCRM> -->
-      <Enrichment :dark="false"></Enrichment>
-      <JovieReplaces></JovieReplaces>
+      <!--  <Enrichment :dark="false"></Enrichment> -->
+      <!-- <JovieReplaces></JovieReplaces> -->
       <!-- <div class="">
         <div
           class="flex w-full flex-col-reverse items-center justify-center pt-12 sm:py-12 md:flex-col md:py-40">
