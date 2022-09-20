@@ -122,9 +122,23 @@
                         <a class="max-auto justify-center px-2">
                           <router-link
                             to="signup"
-                            class="border-1 group relative inline-flex items-center rounded-md border border-neutral-300 bg-neutral-800 px-2 py-1 text-xs font-medium text-neutral-200 hover:border-white hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
+                            class="border-1 group relative inline-flex items-center rounded-md border border-neutral-300 bg-neutral-800 px-4 py-1 text-xs font-medium text-neutral-200 hover:border-white hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
                             <span>Try Jovie free</span>
-                            <span>
+                            <svg
+                              class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+                              fill="none"
+                              width="10"
+                              height="10"
+                              viewBox="0 0 10 10"
+                              aria-hidden="true">
+                              <path
+                                class="opacity-0 transition group-hover:opacity-100"
+                                d="M0 5h7"></path>
+                              <path
+                                class="transition group-hover:translate-x-[3px]"
+                                d="M1 1l4 4-4 4"></path>
+                            </svg>
+                            <!-- <span>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="ml-1 block h-4 w-4 group-hover:hidden"
@@ -149,7 +163,7 @@
                                   stroke-width="2"
                                   d="M13 7l5 5m0 0l-5 5m5-5H6" />
                               </svg>
-                            </span>
+                            </span> -->
                           </router-link>
                         </a>
                       </div>
