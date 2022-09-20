@@ -104,7 +104,7 @@
                         <div class="px-1 py-1">
                           <MenuItem v-slot="{ active }">
                             <button
-                              @click="editList(element.id)"
+                              @click="editList(element)"
                               :class="[
                                 active
                                   ? 'bg-gray-300 text-gray-700'
@@ -445,19 +445,13 @@ export default {
     },
     editList(item) {
       this.currentEditingList = JSON.parse(JSON.stringify(item));
-      this.confirmationPopup.confirmationMethod = () => {
-        this.updateList(id);
+      this.editListPopup.confirmationMethod = () => {
+        this.updateList(this.currentEditingList);
       };
       this.editListPopup.open = true;
-      //log the item in console
-
-      console.log(currentEdtingList);
-      this.editListPopup.title = `Edit ${currentEditingList.name}`;
-      console.log(this.currentEditingList);
-      this.editListPopup.pinned = currentEditingList.pinned;
-      console.log(currentEditingList.pinned);
-      this.editListPopup.name = currentEditingList.name;
-      this.editListPopup.confirmationMethod = this.updateListFromModal;
+      this.editListPopup.title = `Edit ${this.currentEditingList.name}`;
+      this.editListPopup.pinned = this.currentEditingList.pinned;
+      this.editListPopup.name = this.currentEditingList.name;
     },
     updateList(item) {
       item.updating = true;
