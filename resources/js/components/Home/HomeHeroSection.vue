@@ -34,10 +34,11 @@
         @click="signup()"
         :loading="loading"
         :loader="loading"
-        class="mt-4 w-full sm:w-64"
+        class="mt-4 w-full sm:w-48"
         text="Try Jovie free" />
       <span class="mt-1 text-2xs text-gray-400">
-        <span class="font-bold">Fast & easy. </span> No credit card required.
+        <!--  <span class="font-bold">Fast & easy. </span> -->
+        No credit card required.
       </span>
 
       <!-- <home-logo-cloud /> -->
