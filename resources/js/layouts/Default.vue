@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="bg-neutral-50">
+    <header class="sticky top-0 bg-neutral-50">
       <nav>
         <Disclosure as="nav" class="border-b border-gray-200" v-slot="{ open }">
           <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -239,7 +239,7 @@
         dismissable="false"
         v-if="!acceptCookies">
         <span
-          class="text-2xs font-light tracking-widest text-neutral-700 md:text-sm"
+          class="text-2xs font-light tracking-widest text-neutral-100 md:text-sm"
           >We use
           <router-link class="cursor-pointer underline" to="privacy"
             >cookies</router-link
