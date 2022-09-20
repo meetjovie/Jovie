@@ -183,7 +183,7 @@
   </div>
 
   <!-- FAQ -->
-  <div class="mt-4 bg-gradient-to-b from-neutral-50 to-white">
+  <div class="mt-4 bg-gradient-to-b from-white to-neutral-50">
     <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:py-24 lg:px-8">
       <div class="mx-auto max-w-3xl divide-y-2 divide-gray-200">
         <h2
@@ -225,31 +225,7 @@
   </div>
   <!-- CTA -->
 
-  <div class="bg-white">
-    <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20">
-      <h2
-        class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-        <span class="block">Ready to dive in?</span>
-        <span class="block text-indigo-600">Get started right now.</span>
-      </h2>
-      <div class="mt-8 flex">
-        <div class="inline-flex rounded-md shadow">
-          <router-link
-            to="signup"
-            class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700">
-            Get started
-          </router-link>
-        </div>
-        <div class="ml-3 inline-flex">
-          <router-link
-            to="/"
-            class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-100 px-5 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200">
-            Learn more
-          </router-link>
-        </div>
-      </div>
-    </div>
-  </div>
+  <HomeCTA4 />
 </template>
 
 <script>
@@ -278,6 +254,7 @@ import {
   PhoneIcon,
 } from '@heroicons/vue/24/outline';
 import store from '../store';
+import HomeCTA4Vue from '../components/Home/HomeCTA4.vue';
 const annualBilling = ref(true);
 
 const tiers = [
@@ -386,6 +363,7 @@ export default {
     ChatBubbleBottomCenterIcon,
     TableCellsIcon,
     PhoneIcon,
+    HomeCTA4: HomeCTA4Vue,
   },
   mounted() {
     //add segment analytics
