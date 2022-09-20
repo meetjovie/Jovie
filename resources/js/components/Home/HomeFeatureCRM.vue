@@ -1,5 +1,6 @@
 <template>
-  <div class="relative overflow-hidden bg-gray-50 pt-16 sm:pt-24 lg:pt-32">
+  <div
+    class="relative overflow-hidden bg-gray-50 pt-16 pb-48 sm:pt-24 lg:pt-32">
     <div
       class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
       <div>
@@ -21,7 +22,7 @@
           again.
         </p>
       </div>
-      <div class="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
+      <div class="mt-24 -mb-10 sm:-mb-24 lg:-mb-96">
         <img
           class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
           :src="asset('img/External/HomeFeatureCRM.webp')" />
