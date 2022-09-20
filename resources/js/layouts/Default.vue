@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="sticky top-0 bg-neutral-50">
+    <header class="sticky top-0 z-20 bg-neutral-50">
       <nav>
         <Disclosure as="nav" class="border-b border-gray-200" v-slot="{ open }">
           <div class="mx-auto px-4 sm:px-6 lg:px-8">
