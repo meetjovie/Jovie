@@ -92,8 +92,8 @@
       <!--  
       
       <HomeTestimonials></HomeTestimonials> -->
-      <HomeCTA></HomeCTA>
-      <HomeCTA2></HomeCTA2>
+      <!--  <HomeCTA></HomeCTA> -->
+      <HomeCTA4></HomeCTA4>
     </main>
   </div>
 </template>
@@ -114,7 +114,7 @@ import HomeFeatureDiscovery from '../components/Home/HomeFeatureDiscovery';
 import HomeHeroSection from '../components/Home/HomeHeroSection';
 import HomeCTA from '../components/Home/HomeCTA';
 import HomeTestimonials from '../components/Home/HomeTestimonials';
-import HomeCTA2 from '../components/Home/HomeCTA2';
+import HomeCTA4 from '../components/Home/HomeCTA4';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
 import Enrichment from '../components/Enrichment.vue';
@@ -135,7 +135,7 @@ export default {
     ButtonGroup,
     HomeTestimonials,
     CallToAction,
-    HomeCTA2,
+    HomeCTA4,
     HomeFeatureCRM,
     JovieReplaces,
   },

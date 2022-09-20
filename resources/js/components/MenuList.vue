@@ -15,11 +15,16 @@
       </div>
       <div class="flex items-center">
         <div
-          class="group rounded-md p-1 text-gray-400 hover:bg-gray-300 hover:text-gray-50">
+          v-if="draggable"
+          class="group mx-auto rounded-md p-1 text-gray-400 transition-all hover:bg-gray-300 hover:text-gray-50">
           <PlusIcon
-            v-if="draggable"
+            v-if="!creatingList"
             @click="createList()"
             class="h-4 w-4"></PlusIcon>
+          <JovieSpinner
+            spinnerSize="xs"
+            spinnerColor="neutral"
+            v-if="creatingList" />
         </div>
       </div>
     </div>
@@ -80,7 +85,7 @@
                 <Menu
                   as="div"
                   class="relative inline-block items-center text-center">
-                  <Float portal shift placement="bottom-end">
+                  <Float portal :offset="12" placement="right-start">
                     <MenuButton
                       class="hidden h-4 w-4 items-center text-gray-400 active:text-gray-500 group-hover:block">
                       <EllipsisVerticalIcon
@@ -97,6 +102,22 @@
                       <MenuItems
                         class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none">
                         <div class="px-1 py-1">
+                          <MenuItem v-slot="{ active }">
+                            <button
+                              @click="editList(element)"
+                              :class="[
+                                active
+                                  ? 'bg-gray-300 text-gray-700'
+                                  : 'text-gray-900',
+                                'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              ]">
+                              <PencilSquareIcon
+                                :active="active"
+                                class="mr-2 h-4 w-4 text-sky-400"
+                                aria-hidden="true" />
+                              Edit List
+                            </button>
+                          </MenuItem>
                           <MenuItem v-slot="{ active }">
                             <button
                               @click="duplicateList(element.id)"
@@ -213,7 +234,7 @@
             >
 
             <Menu as="div" class="relative inline-block text-left">
-              <Float portal shift placement="bottom-end">
+              <Float portal :offset="12" placement="right-start">
                 <div>
                   <MenuButton
                     class="hidden h-4 w-4 text-gray-400 group-hover:block">
@@ -234,6 +255,22 @@
                     <div class="px-1 py-1">
                       <MenuItem v-slot="{ active }">
                         <button
+                          @click="editList(item.id)"
+                          :class="[
+                            active
+                              ? 'bg-gray-300 text-gray-700'
+                              : 'text-gray-900',
+                            'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                          ]">
+                          <PencilSquareIcon
+                            :active="active"
+                            class="mr-2 h-4 w-4 text-sky-400"
+                            aria-hidden="true" />
+                          Edit List
+                        </button>
+                      </MenuItem>
+                      <MenuItem v-slot="{ active }">
+                        <button
                           @click="duplicateList(item.id)"
                           :class="[
                             active
@@ -243,7 +280,7 @@
                           ]">
                           <DocumentDuplicateIcon
                             :active="active"
-                            class="mr-2 h-4 w-4 text-teal-400 hover:text-gray-700"
+                            class="mr-2 h-4 w-4 text-teal-400"
                             aria-hidden="true" />
                           Duplicate
                         </button>
@@ -259,7 +296,7 @@
                           ]">
                           <PinnedIcon
                             :active="active"
-                            class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
+                            class="mr-2 h-3 w-3 text-indigo-400"
                             aria-hidden="true" />
                           Unpin List
                         </button>
@@ -278,9 +315,9 @@
                           ]">
                           <TrashIcon
                             :active="active"
-                            class="mr-2 h-4 w-4 text-gray-400 hover:text-gray-700"
+                            class="mr-2 h-4 w-4 text-gray-400"
                             aria-hidden="true" />
-                          Trash
+                          Delete List
                         </button>
                       </MenuItem>
                     </div>
@@ -301,10 +338,30 @@
       :primaryButtonText="confirmationPopup.primaryButtonText"
       @primaryButtonClick="confirmationPopup.confirmationMethod"
       @cancelButtonClick="cancelDelete" />
+    <ModalPopup
+      :open="editListPopup.open"
+      :loading="editListPopup.loading"
+      :title="editListPopup.title"
+      :description="editListPopup.description"
+      :primaryButtonText="editListPopup.primaryButtonText"
+      @primaryButtonClick="editListPopup.confirmationMethod"
+      @cancelButtonClick="editListPopup.cancelEditMethod">
+      <div class="space-y-8 py-4">
+        <InputGroup
+          autocomplete="off"
+          label="List Name"
+          placeholder="List Name"
+          v-model="editListPopup.name"
+          class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
+        <ToggleGroup :enabled="editListPopup.pinned" />
+      </div>
+    </ModalPopup>
   </div>
 </template>
 <script>
+import InputGroup from './../components/InputGroup.vue';
 import { PinIcon, PinnedIcon } from 'vue-tabler-icons';
+import JovieSpinner from './../components/JovieSpinner.vue';
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -314,9 +371,19 @@ import {
   BookmarkIcon,
   DocumentDuplicateIcon,
   ArchiveBoxIcon,
+  PencilSquareIcon,
   TrashIcon,
 } from '@heroicons/vue/20/solid';
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+import ToggleGroup from './../components/ToggleGroup.vue';
+import {
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  Switch,
+  SwitchGroup,
+  SwitchLabel,
+} from '@headlessui/vue';
 import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
@@ -328,6 +395,16 @@ export default {
       showMenu: true,
       editName: false,
       emoji: '',
+      editListPopup: {
+        open: false,
+        loading: false,
+        title: 'Edit List',
+        pinned: null,
+        name: '',
+        description: '',
+        primaryButtonText: 'Save',
+        confirmationMethod: null,
+      },
       confirmationPopup: {
         confirmationMethod: null,
         title: null,
@@ -342,6 +419,12 @@ export default {
   },
   methods: {
     // event callback
+    editListFromModal() {
+      this.editListPopup.loading = true;
+      this.updateList(this.currentEditingList);
+      this.editListPopup.loading = false;
+      this.editListPopup.open = false;
+    },
 
     openEmojiPicker(item) {
       this.$emit('openEmojiPicker', item);
@@ -358,6 +441,19 @@ export default {
     disableEditName(item) {
       item.editName = false;
       item.name = this.currentEditingList.name;
+    },
+    editList(item) {
+      this.currentEditingList = JSON.parse(JSON.stringify(item));
+      this.editListPopup.confirmationMethod = () => {
+        this.updateList(this.currentEditingList);
+      };
+      this.confirmationPopup.cancelEditMethod = () => {
+        this.cancelEditMethod(item);
+      };
+      this.editListPopup.open = true;
+      this.editListPopup.title = `Edit ${this.currentEditingList.name}`;
+      this.editListPopup.pinned = this.currentEditingList.pinned;
+      this.editListPopup.name = this.currentEditingList.name;
     },
     updateList(item) {
       item.updating = true;
@@ -400,6 +496,7 @@ export default {
         })
         .finally((response) => {
           item.updating = false;
+          editListPopup.open = false;
         });
     },
     createList() {
@@ -509,6 +606,24 @@ export default {
         primaryButtonText: null,
         loading: false,
       };
+    },
+    resetEditPopup() {
+      this.editListPopup = {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        description: null,
+        primaryButtonText: null,
+        loading: false,
+        name: null,
+        emoji: null,
+        pinned: false,
+      };
+    },
+    cancelEditMethod(item) {
+      this.resetEditPopup();
+      this.editListPopup.open = false;
+      console.log(item);
     },
     duplicateList(id) {
       UserService.duplicateList(id)
@@ -641,6 +756,10 @@ export default {
   components: {
     ChevronRightIcon,
     BookmarkIcon,
+    Switch,
+    SwitchGroup,
+    SwitchLabel,
+    JovieSpinner,
     PinnedIcon,
     ChevronDownIcon,
     EllipsisVerticalIcon,
@@ -654,9 +773,12 @@ export default {
     MenuItems,
     MenuItem,
     PinIcon,
+    PencilSquareIcon,
     draggable,
     ModalPopup,
+    InputGroup,
     Float,
+    ToggleGroup,
   },
   props: {
     menuName: {
