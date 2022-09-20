@@ -114,7 +114,7 @@
                         <a class="max-auto justify-center px-2">
                           <router-link
                             to="signup"
-                            class="border-1 group relative inline-flex items-center rounded-md border border-neutral-300 bg-indigo-600 px-4 py-1 text-xs font-medium text-neutral-200 hover:border-white hover:bg-indigo-700 hover:text-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
+                            class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-neutral-200 hover:bg-indigo-600 hover:text-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
                             <span>Try Jovie free</span>
                             <svg
                               class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
