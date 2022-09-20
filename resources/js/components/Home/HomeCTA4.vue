@@ -8,13 +8,15 @@
         <span class="block">Try Jovie today</span>
       </h2>
       <p class="mt-4 text-lg leading-6 text-indigo-200">
-        <span class="block">Get started for free.</span>
-        Add your whole team as your needs grow.
+        Get started for free. Add your whole team as your needs grow.
       </p>
-      <router-link
-        to="/signup"
-        class="mt-8 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-indigo-600 hover:bg-indigo-50 sm:w-auto"
-        >Try Jovie free</router-link
+      <ButtonGroup
+        design="secondary"
+        text="Try Jovie free"
+        class="mt-8 w-60"
+        @click="signup()"
+        :loading="loading"
+        >Try Jovie free</ButtonGroup
       >
       <p class="py-1 text-2xs text-neutral-100">
         On a big team?
@@ -27,9 +29,23 @@
 </template>
 <script>
 import JovieLogo from '../../components/JovieLogo';
+import ButtonGroup from '../../components/ButtonGroup';
 export default {
   components: {
     JovieLogo,
+    ButtonGroup,
+  },
+  data() {
+    return {
+      loading: false,
+    };
+  },
+  methods: {
+    signup() {
+      this.loading = true;
+      this.$router.push('/signup');
+      this.loading = false;
+    },
   },
 };
 </script>

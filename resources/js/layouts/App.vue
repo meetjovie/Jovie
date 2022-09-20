@@ -455,15 +455,14 @@
                         {{ dropdownmenuitem.name }}
                       </router-link>
                     </div>
-                    <div
-                      as="router-link"
-                      to="/slack-community"
+                    <router-link
+                      to="slack-community"
                       class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem">
                       <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                       </component>
                       Join the Slack community
-                    </div>
+                    </router-link>
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"

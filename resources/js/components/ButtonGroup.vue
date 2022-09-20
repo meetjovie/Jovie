@@ -3,7 +3,7 @@
     type="button"
     :disabled="disabled"
     @click="trackClick()"
-    class="inline-flex items-center font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    class="group inline-flex items-center font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
     :class="[
       { 'py-0 px-2 text-xs': size == 'xs' },
       { 'py-1 px-2 text-sm': size == 'sm' },
@@ -44,7 +44,7 @@
       aria-hidden="true" />
     <p
       v-if="text"
-      class="mx-auto text-center text-sm hover:text-white"
+      class="mx-auto text-center text-sm"
       :class="[{ 'text-2xs': size == 'xs' }, { 'text-xs': size == 'sm' }]">
       {{ text }}
     </p>
