@@ -85,7 +85,7 @@
                       <div
                         class="flex items-center text-sm font-bold text-neutral-400">
                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                        <Toggle v-model="sequence.enabled"></Toggle>
+                        <ToggleGroup v-model="sequence.enabled"></ToggleGroup>
                       </div>
                     </td>
                     <td class="whitespace w-80 px-2 py-1">
@@ -338,11 +338,11 @@
   </div>
 </template>
 <script>
-import Toggle from '../../components/Toggle.vue';
+import ToggleGroup from '../../components/ToggleGroup.vue';
 
 export default {
   components: {
-    Toggle,
+    ToggleGroup,
   },
   data() {
     return {

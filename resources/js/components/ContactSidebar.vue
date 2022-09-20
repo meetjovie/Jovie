@@ -56,7 +56,7 @@
               class="w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-2xs font-semibold text-gray-400 transition line-clamp-1 placeholder:text-gray-300/0 hover:border-opacity-100 hover:bg-gray-100 hover:placeholder:text-gray-500" />
           </div> -->
 
-          <div v-if="creator.category" class="h-3">
+          <div v-if="creator.category" class="">
             <span
               class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800">
               <svg
@@ -77,7 +77,7 @@
 
           <div
             @click="toggleExpandBio()"
-            class="w-full cursor-pointer whitespace-pre-wrap py-1 text-2xs transition-all"
+            class="mt-1 w-full cursor-pointer whitespace-pre-wrap py-1 text-2xs transition-all"
             :class="{
               'h-12 line-clamp-5': expandBio,
               'h-4 line-clamp-2': !expandBio,
