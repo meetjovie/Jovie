@@ -77,7 +77,7 @@
 
           <div
             @click="toggleExpandBio()"
-            class="mt-1 w-full cursor-pointer whitespace-pre-wrap py-1 text-2xs transition-all"
+            class="w-full cursor-pointer whitespace-pre-wrap py-1 text-2xs transition-all"
             :class="{
               'h-12 line-clamp-5': expandBio,
               'h-4 line-clamp-2': !expandBio,
