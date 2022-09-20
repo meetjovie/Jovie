@@ -401,8 +401,7 @@ export default {
         title: 'Edit List',
         pinned: null,
         name: '',
-        description:
-          'This is where you would change the settings for the list.',
+        description: '',
         primaryButtonText: 'Save',
         confirmationMethod: null,
       },
