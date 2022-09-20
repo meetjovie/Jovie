@@ -6,8 +6,9 @@
           <div
             class="overflow-x-scroll shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="min-w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
-              <thead class="items-center overflow-y-scroll bg-neutral-100">
+              class="w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
+              <thead
+                class="w-full items-center overflow-y-scroll bg-neutral-100">
                 <tr class="sticky h-10 items-center py-2">
                   <th
                     scope="col"
@@ -349,10 +350,10 @@
                   </th>
                 </tr>
               </thead>
-              <tbody class="h-full w-full divide-y divide-gray-200 bg-red-500">
-                <template v-if="loading">
-                  <tr>
-                    <td colspan="11">
+              <tbody class="h-full w-full divide-y divide-gray-200">
+                <template class="w-full" v-if="loading">
+                  <tr class="w-full">
+                    <td class="w-full" colspan="11">
                       <div
                         class="flex min-h-screen w-full items-center justify-center bg-gray-50 pb-80">
                         <JovieSpinner />

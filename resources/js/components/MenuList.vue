@@ -449,7 +449,7 @@ export default {
         this.updateList(this.currentEditingList);
       };
       this.confirmationPopup.cancelEditMethod = () => {
-        this.cancelEditMethod(id);
+        this.cancelEditMethod(item);
       };
       this.editListPopup.open = true;
       this.editListPopup.title = `Edit ${this.currentEditingList.name}`;
@@ -621,8 +621,10 @@ export default {
         pinned: false,
       };
     },
-    cancelEditMethod(id) {
+    cancelEditMethod(item) {
       this.resetEditPopup();
+      this.editListPopup.open = false;
+      console.log(item);
     },
     duplicateList(id) {
       UserService.duplicateList(id)
