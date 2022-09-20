@@ -104,7 +104,7 @@
                         <div class="px-1 py-1">
                           <MenuItem v-slot="{ active }">
                             <button
-                              @click="editList(element.id)"
+                              @click="editList(element)"
                               :class="[
                                 active
                                   ? 'bg-gray-300 text-gray-700'
@@ -345,7 +345,7 @@
       :description="editListPopup.description"
       :primaryButtonText="editListPopup.primaryButtonText"
       @primaryButtonClick="editListPopup.confirmationMethod"
-      @cancelButtonClick="!editListPopup.open">
+      @cancelButtonClick="editListPopup.cancelEditMethod">
       <div class="space-y-8 py-4">
         <InputGroup
           autocomplete="off"
@@ -401,8 +401,7 @@ export default {
         title: 'Edit List',
         pinned: null,
         name: '',
-        description:
-          'This is where you would change the settings for the list.',
+        description: '',
         primaryButtonText: 'Save',
         confirmationMethod: null,
       },
@@ -445,19 +444,16 @@ export default {
     },
     editList(item) {
       this.currentEditingList = JSON.parse(JSON.stringify(item));
-      this.confirmationPopup.confirmationMethod = () => {
-        this.updateList(id);
+      this.editListPopup.confirmationMethod = () => {
+        this.updateList(this.currentEditingList);
+      };
+      this.confirmationPopup.cancelEditMethod = () => {
+        this.cancelEditMethod(item);
       };
       this.editListPopup.open = true;
-      //log the item in console
-
-      console.log(currentEdtingList);
-      this.editListPopup.title = `Edit ${currentEditingList.name}`;
-      console.log(this.currentEditingList);
-      this.editListPopup.pinned = currentEditingList.pinned;
-      console.log(currentEditingList.pinned);
-      this.editListPopup.name = currentEditingList.name;
-      this.editListPopup.confirmationMethod = this.updateListFromModal;
+      this.editListPopup.title = `Edit ${this.currentEditingList.name}`;
+      this.editListPopup.pinned = this.currentEditingList.pinned;
+      this.editListPopup.name = this.currentEditingList.name;
     },
     updateList(item) {
       item.updating = true;
@@ -610,6 +606,24 @@ export default {
         primaryButtonText: null,
         loading: false,
       };
+    },
+    resetEditPopup() {
+      this.editListPopup = {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        description: null,
+        primaryButtonText: null,
+        loading: false,
+        name: null,
+        emoji: null,
+        pinned: false,
+      };
+    },
+    cancelEditMethod(item) {
+      this.resetEditPopup();
+      this.editListPopup.open = false;
+      console.log(item);
     },
     duplicateList(id) {
       UserService.duplicateList(id)
