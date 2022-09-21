@@ -268,7 +268,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 -mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
+            class="z-30 -mt-2 hidden h-full border-l-2 border-neutral-200 shadow-xl xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"

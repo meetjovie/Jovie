@@ -12,7 +12,7 @@
                   <th
                     scope="col"
                     class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <div class="h-5 items-center text-center">
+                    <div class="w-4 items-center text-center">
                       <input
                         type="checkbox"
                         class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"
@@ -373,7 +373,7 @@
                     ]">
                     <td
                       class="w-12 overflow-auto whitespace-nowrap py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
-                      <div class="group mx-auto mr-2">
+                      <div class="group mx-auto mr-2 w-4">
                         <span
                           class="group-hover:block"
                           :class="[

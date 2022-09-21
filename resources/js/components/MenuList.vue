@@ -166,7 +166,7 @@
                                 :active="active"
                                 class="mr-2 h-3 w-3 text-gray-400 hover:text-white"
                                 aria-hidden="true" />
-                              Trash
+                              Delete List
                             </button>
                           </MenuItem>
                         </div>
