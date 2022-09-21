@@ -351,9 +351,9 @@
           autocomplete="off"
           label="List Name"
           placeholder="List Name"
-          v-model="editListPopup.name"
+          v-model="currentEditingList.name"
           class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
-        <ToggleGroup :enabled="editListPopup.pinned" />
+        <ToggleGroup :enabled="currentEditingList.pinned" />
       </div>
     </ModalPopup>
   </div>
@@ -468,6 +468,7 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.editListPopup.open = false;
             this.$emit('getUserLists');
           } else {
             // show toast error here later
@@ -496,7 +497,6 @@ export default {
         })
         .finally((response) => {
           item.updating = false;
-          editListPopup.open = false;
         });
     },
     createList() {
