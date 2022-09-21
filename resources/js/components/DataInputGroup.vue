@@ -46,6 +46,7 @@
             { 'rounded-bl-md': rounded == 'bottom-left' },
             { 'rounded-br-md': rounded == 'bottom-right' },
             { 'py-0 text-xs': size == 'md' },
+            { 'pl-3': socialicon },
           ]"
           :placeholder="label" />
         <div

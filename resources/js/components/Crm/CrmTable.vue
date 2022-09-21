@@ -197,16 +197,16 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                      :class="[
+                        { 'hidden sm:table-cell': column.breakpoint == 'sm' },
+                        { 'hidden md:table-cell': column.breakpoint == 'md' },
+                        { 'hidden lg:table-cell': column.breakpoint == 'lg' },
+                        { 'hidden xl:table-cell': column.breakpoint == 'xl' },
+                        { 'hidden 2xl:table-cell': column.breakpoint == '2xl' },
+                        'table-cell',
+                      ]"
+                      class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
-                        :class="[
-                          { 'hidden sm:block': column.breakpoint == 'sm' },
-                          { 'hidden md:block': column.breakpoint == 'md' },
-                          { 'hidden lg:block': column.breakpoint == 'lg' },
-                          { 'hidden xl:block': column.breakpoint == 'xl' },
-                          { 'hidden 2xl:block': column.breakpoint == '2xl' },
-                          'block',
-                        ]"
                         :sortable="column.sortable"
                         :icon="column.icon"
                         :name="column.name" />
