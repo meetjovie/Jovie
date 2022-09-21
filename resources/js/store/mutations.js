@@ -15,15 +15,20 @@ export default {
   },
   toggleCRMSidebar(state) {
     state.CRMSidebarOpen = !state.CRMSidebarOpen;
+    //save to local storage using vue
+    localStorage.setItem('CRMSidebarOpen', state.CRMSidebarOpen);
+
     //log to console
     console.log('CRMSidebarOpen: ', state.CRMSidebarOpen);
   },
   toggleContactSidebar(state) {
     state.ContactSidebarOpen = !state.ContactSidebarOpen;
+    //save to local storage
+    window.localStorage.setItem('ContactSidebarOpen', state.ContactSidebarOpen);
     //log to console
     console.log('ContactSidebarOpen: ', state.ContactSidebarOpen);
   },
-    setCrmRecords(state, payload) {
+  setCrmRecords(state, payload) {
     state.crmRecords = payload;
   },
 };

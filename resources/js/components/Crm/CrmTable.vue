@@ -7,12 +7,12 @@
             <table
               class="w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
               <thead
-                class="w-full items-center overflow-y-scroll bg-neutral-100">
-                <tr class="sticky h-10 items-center py-2">
+                class="relative isolate z-20 w-full items-center overflow-y-scroll bg-neutral-100">
+                <tr class="sticky h-10 items-center py-0.5">
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
-                    <div class="w-4 items-center text-center">
+                    class="sticky top-0 z-50 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    <div class="ml-2 w-4 items-center text-center">
                       <input
                         type="checkbox"
                         class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"
@@ -36,12 +36,12 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-50 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 resize-y items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 isolate z-50 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -195,7 +195,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                      class="sticky top-0 z-50 table-cell items-center border-b border-gray-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         :sortable="column.sortable"
                         :icon="column.icon"
@@ -204,7 +204,8 @@
                   </template>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 flex w-full items-center justify-end border-b border-gray-300 py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
+                    class="sticky top-0 isolate z-50 table-cell w-full content-end items-center border-gray-900 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-500 backdrop-blur-2xl backdrop-filter">
                     <div class="flex h-full w-80 content-end items-center px-2">
                       <div
                         class="group flex h-full w-full cursor-pointer items-center justify-end py-2 px-4 transition-all">
@@ -340,7 +341,8 @@
                   </th>
                 </tr>
               </thead>
-              <tbody class="h-full w-full divide-y divide-gray-200">
+              <tbody
+                class="relative isolate z-0 h-full w-full divide-y divide-gray-200">
                 <template class="w-full" v-if="loading">
                   <tr class="w-full">
                     <td class="w-full" colspan="11">
@@ -387,7 +389,7 @@
                             :name="creator.id"
                             :id="`creator_${creator.id}`"
                             :value="creator.id"
-                            class="h-4 w-4 rounded border-gray-300 px-2 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                            class="ml-2 h-4 w-4 rounded border-gray-300 px-2 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                             v-model="selectedCreators" />
                         </span>
                         <span
@@ -432,22 +434,23 @@
                       </div>
                     </td>
                     <td
-                      class="sticky w-60 cursor-pointer whitespace-nowrap border px-2">
+                      class="w-60 cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div class="rounded-full bg-neutral-400 p-0.5">
                             <div class="rounded-full bg-white p-0">
                               <img
+                                v-if="imageLoaded"
                                 class="rounded-full object-cover object-center"
                                 :src="creator.profile_pic_url"
                                 @error="imageLoadingError()"
                                 alt="Profile Image" />
                               <!--WIP Fixing image loading errors-->
-                              <!-- <img
+                              <img
                                 v-else
                                 class="rounded-full object-cover object-center"
                                 :src="asset('img/noimage.webp')"
-                                alt="Profile Image" /> -->
+                                alt="Profile Image" />
                             </div>
                           </div>
                         </div>
@@ -613,10 +616,10 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 table-cell w-28 border-collapse items-center whitespace-nowrap border">
+                      class="border-1 relative isolate z-10 table-cell w-28 border-collapse items-center whitespace-nowrap border">
                       <Popover
                         as="div"
-                        class="relative inline-block w-full items-center text-left">
+                        class="relative z-10 inline-block w-full items-center text-left">
                         <Float portal :offset="2" shift placement="bottom">
                           <PopoverButton
                             class="flex w-full justify-between px-2">
@@ -1027,6 +1030,9 @@ export default {
   },
   data() {
     return {
+      view: {
+        atTopOfPage: true,
+      },
       creatorRecords: [],
       searchQuery: '',
       currentRow: null,
@@ -1184,7 +1190,21 @@ export default {
       });
     },
   },
+  // a beforeMount call to add a listener to the window
+  beforeMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
   methods: {
+    handleScroll() {
+      // when the user scrolls, check the pageYOffset
+      if (window.pageYOffset > 0) {
+        // user is scrolled
+        if (this.view.atTopOfPage) this.view.atTopOfPage = false;
+      } else {
+        // user is at top of page
+        if (!this.view.atTopOfPage) this.view.atTopOfPage = true;
+      }
+    },
     resetChecked() {
       this.selectedCreators = [];
     },
