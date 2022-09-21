@@ -25,14 +25,14 @@
                   <div class="absolute mx-auto grid w-full grid-cols-2">
                     <div
                       :class="
-                        annualBilling ? 'text-indigo-700' : 'text-neutral-500'
+                        annualBilling ? 'text-neutral-700' : 'text-neutral-500'
                       "
                       class="text-sm font-medium focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
                       Yearly Billing
                     </div>
                     <div
                       :class="
-                        annualBilling ? 'text-neutral-500' : 'text-indigo-700'
+                        annualBilling ? 'text-neutral-500' : 'text-neutral-700'
                       "
                       class="text-sm font-medium text-neutral-700 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
                       Monthly Billing
@@ -44,17 +44,26 @@
           </div>
         </div>
         <div
-          class="mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-3">
+          class="mx-auto mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-auto xl:max-w-5xl xl:grid-cols-3">
           <div
             v-for="tier in tiers"
             :key="tier.name"
             class="divide-y divide-neutral-200 rounded-lg shadow-sm"
             :class="[
-              { 'border-2 border-indigo-400': tier.featured == true },
+              { 'border-2 border-neutral-400': tier.featured == true },
               'border border-neutral-200',
             ]">
             <div class="p-6">
-              <h2 class="text-lg font-medium leading-6 text-neutral-900">
+              <h2
+                :class="[
+                  { 'text-sky-600': tier.color == 'sky' },
+                  { 'text-indigo-600': tier.color == 'indigo' },
+                  { 'text-pink-600': tier.color == 'pink' },
+                  { 'text-violet-600': tier.color == 'violet' },
+                  { 'text-red-600': tier.color == 'red' },
+                  'text-lg font-medium leading-6 text-neutral-900',
+                ]"
+                class="text-lg font-medium leading-6">
                 {{ tier.name }}
               </h2>
               <p class="mt-4 text-sm text-neutral-500">
@@ -120,10 +129,15 @@
                 >Contact Sales</router-link
               >
               <router-link
-                v-else
+                v-else-if="tier.featured"
                 :to="tier.href"
                 class="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-700"
-                >Buy Now</router-link
+                >Get started</router-link
+              ><router-link
+                v-else
+                :to="tier.href"
+                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white py-2 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                >Get started</router-link
               >
             </div>
             <div class="px-6 pt-6 pb-8">
@@ -138,7 +152,7 @@
                   class="flex space-x-3">
                   <component
                     :is="feature.icon"
-                    class="h-5 w-5 flex-shrink-0 text-indigo-400"
+                    class="h-5 w-5 flex-shrink-0 text-neutral-400"
                     aria-hidden="true" />
                   <span class="text-sm text-neutral-500">{{
                     feature.name
@@ -244,6 +258,7 @@ import {
   UserGroupIcon,
   BoltIcon,
   CircleStackIcon,
+  ListBulletIcon,
   LifebuoyIcon,
   UserIcon,
   UsersIcon,
@@ -261,20 +276,22 @@ const tiers = [
   {
     name: 'Pro',
     href: 'signup',
+    color: 'pink',
     featured: false,
     priceMonthly: 5,
     priceAnnual: 48,
     description: 'For freelancers',
     features: [
       { name: '500 contact credits/month', icon: 'UserGroupIcon' },
+      { name: 'Unlimited lists', icon: 'ListBulletIcon' },
+      { name: '1 User', icon: 'UserIcon' },
 
       { name: 'Blazing fast CRM Search', icon: 'BoltIcon' },
-
-      { name: '1 User included', icon: 'UserIcon' },
     ],
   },
   {
     name: 'Team',
+    color: 'sky',
     href: 'signup',
     featured: true,
     priceMonthly: 10,
@@ -282,9 +299,10 @@ const tiers = [
     description: 'Built for startups and growing teams',
     features: [
       { name: '2,500 contact credits/month', icon: 'UserGroupIcon' },
-      { name: 'Blazing fast search', icon: 'BoltIcon' },
-      { name: '2 Users included', icon: 'UsersIcon' },
+      { name: 'Unlimited lists', icon: 'ListBulletIcon' },
+      { name: 'Up to 50 users', icon: 'UsersIcon' },
 
+      { name: 'Blazing fast search', icon: 'BoltIcon' },
       { name: 'Unlimited CSV exports', icon: 'CloudArrowDownIcon' },
       {
         name: 'Collaboration & team managment',
@@ -295,6 +313,7 @@ const tiers = [
   {
     name: 'Enterprise',
     href: 'request-demo',
+    color: 'violet',
     featured: false,
     priceMonthly: 'Annual Only',
     priceAnnual: 240,
@@ -306,6 +325,9 @@ const tiers = [
       }, */
 
       { name: '10,000 contact credits/month', icon: 'UserGroupIcon' },
+      { name: 'Unlimited lists', icon: 'ListBulletIcon' },
+      { name: 'Unlimited users', icon: 'UsersIcon' },
+
       { name: 'Blazing fast search', icon: 'BoltIcon' },
 
       { name: 'Unlimited CSV exports', icon: 'CloudArrowDownIcon' },
@@ -326,7 +348,7 @@ const faqs = [
   {
     question: 'Can I add additional users to my account?',
     answer:
-      'Yes. Team & enterprise plans allow you to invite team members and collaborate.  The Team plan includes 2 seats and you can add more for $49/mo.',
+      'Yes. Team & enterprise plans allow you to invite team members and collaborate. Plans are billed per seat per month.',
   },
   {
     question: 'What is a contact credit?',
@@ -349,6 +371,7 @@ export default {
     CheckIcon,
     UserPlusIcon,
     CloudArrowDownIcon,
+    ListBulletIcon,
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
