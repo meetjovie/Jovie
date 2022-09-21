@@ -46,7 +46,7 @@ app.mixin({
           Echo.private(channel)
               .listen(event, (e) => {
                   if (e.status) {
-                      if (event == 'CreatorImported' && ! e.data.list) {
+                      if (! (event == 'CreatorImported' && e.data.list)) {
                           this.$notify({
                               group: 'user',
                               type: 'success',

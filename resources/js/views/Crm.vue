@@ -472,7 +472,6 @@ export default {
           `importListCreated.${this.currentUser.current_team.id}`,
           'ImportListCreated',
           (data) => {
-              console.log(data);
               this.getUserLists()
           }
       );
@@ -480,14 +479,14 @@ export default {
           `creatorImported.${this.currentUser.current_team.id}`,
           'CreatorImported',
           (data) => {
-              if (data.list && this.filters.type != 'list' || (this.filters.type != 'all')) {
+              if (data.list && this.filters.type != 'list' || (!data.list && this.filters.type != 'all')) {
                   return
               }
-              if (this.filters.page === 1) {
+              if (this.filters.page === 1 && this.creators.length == 50) {
                   this.creators.pop()
               }
               if (this.creators.length) {
-                  this.creators.unshift(data.creator);
+                  this.creators.splice(0, 0, data.creator)
               } else {
                   this.creators.push(data.creator)
               }

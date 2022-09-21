@@ -140,10 +140,11 @@ class Import extends Model
 
     public function getImportBatch($queue = 'dev_instagram')
     {
+        $network = explode('_', $queue)[1];
         $batch = DB::table('job_batches')
             ->where('cancelled_at', null)
             ->where('finished_at', null)
-            ->where('user_list_id', $this->user_list_id)->where('type', $queue)->first();
+            ->where('user_list_id', $this->user_list_id)->where('type', $network)->first();
         if (is_null($batch)) {
             $batch = Bus::batch([
             ])->then(function (Batch $batch) {
@@ -162,11 +163,11 @@ class Import extends Model
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'name' => UserList::where('id', $this->user_list_id)->first()->name ?? null,
                 'user_list_id' => $this->user_list_id,
-                'initial_total_in_file' => $queue != 'twitch' ? self::where('user_list_id', $this->user_list_id)->whereNotNull($queue)->count() :
-                    self::where('user_list_id', $this->user_list_id)->where(function ($q) use ($queue) {
-                        $q->whereNotNull($queue)->orWhereNotNull($queue.'_id');
+                'initial_total_in_file' => $network != 'twitch' ? self::where('user_list_id', $this->user_list_id)->whereNotNull($network)->count() :
+                    self::where('user_list_id', $this->user_list_id)->where(function ($q) use ($network) {
+                        $q->whereNotNull($network)->orWhereNotNull($network.'_id');
                     })->count(),
-                'type' => $queue,
+                'type' => $network,
             ]);
         } else {
             $batch = Bus::findBatch($batch->id);
