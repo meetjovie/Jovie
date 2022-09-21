@@ -1,10 +1,10 @@
 <template>
   <div
     class="flex w-full overflow-x-scroll rounded-md border-2 border-neutral-200 bg-gray-50 px-2 py-1">
-    <div v-if="lists.length > 0">
-      <div v-for="item in lists" class="flex">
+    <div class="flex overflow-x-scroll" v-if="lists.length > 0">
+      <div v-for="item in lists" class="mr-2 flex">
         <div
-          class="mr-1 flex items-center justify-between rounded bg-gray-100 px-1 text-xs font-medium text-gray-800 shadow-md hover:bg-gray-200">
+          class="mr-1 flex items-center justify-between rounded bg-gray-200 px-1 text-xs font-medium text-gray-800 shadow-md hover:bg-gray-200">
           <div class="flex">
             <span class="mr-1 select-none text-2xs">{{ item.emoji }}</span>
             <span class="select-none text-2xs line-clamp-1">{{

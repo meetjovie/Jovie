@@ -80,7 +80,7 @@
             class="w-full cursor-pointer whitespace-pre-wrap text-2xs transition-all"
             :class="{
               'h-12 line-clamp-5': expandBio,
-              'h-6 line-clamp-2': !expandBio,
+              'h-8 line-clamp-2': !expandBio,
             }">
             {{ creator.biography }}
           </div>
@@ -223,14 +223,14 @@
           placeholder="Instagram" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
-          icon="VideoCameraIcon"
+          socialicon="twitch"
           v-model="creator.meta.twitch_handler"
           id="twitch_handler"
           label="Twitch"
           placeholder="Twitch" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
-          icon="ChatBubbleLeftEllipsisIcon"
+          socialicon="twitter"
           v-model="creator.meta.twitter_handler"
           id="twitter_handler"
           label="Twitter"
@@ -390,7 +390,7 @@ import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon } from '@heroicons/vue/24/solid';
 import SocialIcons from './SocialIcons.vue';
 import UserService from '../services/api/user.service';
 export default {
