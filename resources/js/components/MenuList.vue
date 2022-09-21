@@ -345,7 +345,7 @@
       :description="editListPopup.description"
       :primaryButtonText="editListPopup.primaryButtonText"
       @primaryButtonClick="editListPopup.confirmationMethod"
-      @cancelButtonClick="editListPopup.cancelEditMethod">
+      @cancelButtonClick="cancelEditMethod">
       <div class="space-y-8 py-4">
         <InputGroup
           autocomplete="off"
@@ -623,7 +623,6 @@ export default {
     cancelEditMethod(item) {
       this.resetEditPopup();
       this.editListPopup.open = false;
-      console.log(item);
     },
     duplicateList(id) {
       UserService.duplicateList(id)

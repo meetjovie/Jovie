@@ -1,10 +1,9 @@
 <template>
   <div class="h-full w-full flex-col">
     <div class="flex h-full w-full flex-col">
-      <div class="h-full overflow-x-scroll">
+      <div class="h-full">
         <div class="inline-block min-w-full align-middle">
-          <div
-            class="overflow-x-scroll shadow-sm ring-1 ring-black ring-opacity-5">
+          <div class="shadow-sm ring-1 ring-black ring-opacity-5">
             <table
               class="w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
               <thead
@@ -42,7 +41,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-10 resize-y items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -67,7 +66,6 @@
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
-                                class="items-center"
                                 @click="
                                   toggleCreatorsFromList(
                                     selectedCreators,
@@ -76,17 +74,17 @@
                                   )
                                 ">
                                 <button
-                                  class="items-center text-neutral-400 hover:text-neutral-900"
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
-                                      : 'text-gray-700',
-                                    'block px-4 py-2 text-xs',
+                                      ? 'bg-gray-200 text-gray-600'
+                                      : 'text-gray-400',
+                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
                                   ]">
                                   <TrashIcon class="mr-2 inline h-4 w-4" />
                                   Remove from list
                                 </button>
                               </MenuItem>
+
                               <MenuItem
                                 v-slot="{ active }"
                                 @click="
@@ -197,15 +195,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      :class="[
-                        { 'hidden sm:table-cell': column.breakpoint == 'sm' },
-                        { 'hidden md:table-cell': column.breakpoint == 'md' },
-                        { 'hidden lg:table-cell': column.breakpoint == 'lg' },
-                        { 'hidden xl:table-cell': column.breakpoint == 'xl' },
-                        { 'hidden 2xl:table-cell': column.breakpoint == '2xl' },
-                        'table-cell',
-                      ]"
-                      class="sticky top-0 z-10 items-center border-b border-gray-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
+                      class="sticky top-0 z-10 table-cell items-center border-b border-gray-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-500 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         :sortable="column.sortable"
                         :icon="column.icon"
@@ -477,7 +467,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('first_name')"
-                      class="border-1 hidden w-28 border-collapse whitespace-nowrap border 2xl:table-cell">
+                      class="border-1 table-cell w-28 border-collapse whitespace-nowrap border">
                       <div class="text-sm text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.meta.first_name"
@@ -493,7 +483,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('last_name')"
-                      class="border-1 hidden w-28 border-collapse whitespace-nowrap border 2xl:table-cell">
+                      class="border-1 table-cell w-28 border-collapse whitespace-nowrap border">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.meta.last_name"
@@ -509,7 +499,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('title')"
-                      class="border-1 hidden w-40 border-collapse whitespace-nowrap border 2xl:table-cell">
+                      class="border-1 table-cell w-40 border-collapse resize-x whitespace-nowrap border">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_title"
@@ -525,7 +515,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('employer')"
-                      class="border-1 hidden w-40 border-collapse whitespace-nowrap border 2xl:table-cell">
+                      class="border-1 table-cell w-40 border-collapse whitespace-nowrap border">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_employer"
@@ -541,7 +531,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 hidden w-40 border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
+                      class="border-1 table-cell w-40 border-collapse whitespace-nowrap border focus-visible:border-indigo-500">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
                           v-model="creator.meta.emails"
@@ -595,7 +585,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.offer')"
-                      class="border-1 hidden w-24 border-collapse whitespace-nowrap border lg:table-cell">
+                      class="border-1 table-cell w-24 border-collapse whitespace-nowrap border">
                       <span
                         class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
                         $
@@ -623,7 +613,7 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 hidden w-28 border-collapse items-center whitespace-nowrap border md:table-cell">
+                      class="border-1 table-cell w-28 border-collapse items-center whitespace-nowrap border">
                       <Popover
                         as="div"
                         class="relative inline-block w-full items-center text-left">
@@ -708,7 +698,7 @@
                           'crm_record_by_user.last_contacted'
                         )
                       "
-                      class="border-1 hidden w-40 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 2xl:table-cell">
+                      class="border-1 table-cell w-40 border-collapse items-center whitespace-nowrap border text-xs text-gray-500">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @click="
@@ -749,7 +739,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="hidden w-40 whitespace-nowrap px-2 py-1 text-sm text-gray-500 2xl:table-cell">
+                      class="table-cell w-40 whitespace-nowrap px-2 py-1 text-sm text-gray-500">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -1112,7 +1102,7 @@ export default {
           key: 'crm_record_by_user.last_contacted',
           icon: 'CalendarDaysIcon',
           sortable: false,
-          visible: true,
+          visible: false,
           breakpoint: '2xl',
         },
         {
@@ -1195,6 +1185,9 @@ export default {
     },
   },
   methods: {
+    resetChecked() {
+      this.selectedCreators = [];
+    },
     openSidebarAndSetContact() {
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
@@ -1394,7 +1387,7 @@ export default {
               type: 'success',
               duration: 15000,
               title: 'Successful',
-              text: response.message,
+              text: 'Contact has been' + response.message + 'from list',
             });
           }
         })
@@ -1412,6 +1405,7 @@ export default {
           }
         })
         .finally((response) => {});
+      this.resetChecked();
     },
     toggleContactSidebar() {
       //toggle this.$store.state.ContactSidebarOpen
