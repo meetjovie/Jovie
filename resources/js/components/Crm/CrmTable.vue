@@ -1172,23 +1172,14 @@ export default {
     this.$mousetrap.bind('up', () => {
       this.previousContact();
     });
-    //use moustrap to focus the serch when the user presses the '/' key
     this.$mousetrap.bind('/', () => {
-      //first set the search visible, then focus on the input. Do this asynchronosly so that the input is focused after the search is visible
-
-      //if search is not visible, make it visible
       if (!this.searchVisible) {
-       
         this.searchVisible = true;
         return this.$nextTick(() => {
-         
           event.preventDefault();
           this.$refs.searchInput.focus();
         });
-        
       } else {
-        console.log('search  is visable');
-       
         event.preventDefault();
         this.$refs.searchInput.focus();
       }
