@@ -3,8 +3,8 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full">
         <div
-          class="flex w-full items-center justify-end gap-4 border-b border-neutral-200 bg-white py-2">
-          <div class="flex h-full w-60 content-end items-center px-2">
+          class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
+          <div class="flex h-11 w-60 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer items-center justify-end py-2 px-4 transition-all">
               <div
@@ -21,9 +21,11 @@
                         aria-hidden="true" />
                     </div>
                     <input
-                      placeholder="Search"
+                      placeholder="Search (/ to focus)"
+                      ref="searchInput"
                       v-model="searchQuery"
-                      class="block w-full rounded-md border-gray-300 pl-10 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
+                      class="block w-full rounded-md border-gray-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
+
                     <div
                       @click="toggleSearchVisible()"
                       class="group absolute inset-y-0 right-0 flex items-center pr-3">
@@ -34,13 +36,20 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100"
+              <ButtonGroup
+                :design="'toolbar'"
+                :text="'Search'"
+                icon="MagnifyingGlassIcon"
+                hideText
+                v-else
+                @click="toggleSearchVisible()" />
+              <!--  <div
+                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
-                  class="mr-1 -mt-1 h-5 w-5 text-gray-400 group-hover:text-neutral-600" />
-              </div>
+                  class="h-5 w-5 text-gray-400 group-hover:text-neutral-600" /> 
+              </div> -->
             </div>
             <div class="flex items-center">
               <div class="group h-full cursor-pointer items-center">
@@ -50,11 +59,15 @@
                     class="pr-2"
                     :offset="16"
                     placement="bottom-end">
-                    <PopoverButton
-                      class="inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                      <AdjustmentsHorizontalIcon
+                    <PopoverButton class="inline-flex items-center">
+                      <!--  <AdjustmentsHorizontalIcon
                         class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
-                        aria-hidden="true" />
+                        aria-hidden="true" /> -->
+                      <ButtonGroup
+                        :design="'toolbar'"
+                        :text="'Hide Columns'"
+                        icon="AdjustmentsHorizontalIcon"
+                        hideText />
                     </PopoverButton>
                     <transition
                       enter-active-class="transition duration-100 ease-out"
@@ -82,15 +95,11 @@
                         </div>
                         <div as="div" v-for="(column, index) in columns">
                           <SwitchGroup>
-                            <SwitchLabel class="flex items-center">
+                            <SwitchLabel
+                              class="flex items-center hover:bg-neutral-100 hover:text-white">
                               <button
-                                :class="[
-                                  active
-                                    ? 'bg-gray-100 text-gray-600'
-                                    : 'text-gray-400',
-                                  'group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-bold',
-                                ]">
-                                <div class="flex">
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
+                                <div class="flex items-center">
                                   <component
                                     :is="column.icon"
                                     :active="active"
@@ -306,7 +315,7 @@
                                     active
                                       ? 'bg-gray-200 text-gray-600'
                                       : 'text-gray-400',
-                                    'group inline w-full items-center rounded-b-md border border-t border-neutral-200 px-2 py-1 text-left text-xs font-bold ',
+                                    'group inline w-full items-center rounded-b-md border border-t border-neutral-200 px-2 py-2 text-left text-xs font-bold ',
                                   ]">
                                   <div
                                     class="mx-auto flex content-center items-center text-center">
@@ -996,6 +1005,7 @@ import JovieSpinner from '../../components/JovieSpinner.vue';
 import ImportService from '../../services/api/import.service';
 import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
+import ButtonGroup from '../../components/ButtonGroup.vue';
 
 export default {
   name: 'CrmTable',
@@ -1004,6 +1014,7 @@ export default {
     ChevronRightIcon,
     StarRating,
     MagnifyingGlassIcon,
+    ButtonGroup,
     Menu,
     EnvelopeIcon,
     Switch,
@@ -1160,6 +1171,27 @@ export default {
   mounted() {
     this.$mousetrap.bind('up', () => {
       this.previousContact();
+    });
+    //use moustrap to focus the serch when the user presses the '/' key
+    this.$mousetrap.bind('/', () => {
+      //first set the search visible, then focus on the input. Do this asynchronosly so that the input is focused after the search is visible
+
+      //if search is not visible, make it visible
+      if (!this.searchVisible) {
+       
+        this.searchVisible = true;
+        return this.$nextTick(() => {
+         
+          event.preventDefault();
+          this.$refs.searchInput.focus();
+        });
+        
+      } else {
+        console.log('search  is visable');
+       
+        event.preventDefault();
+        this.$refs.searchInput.focus();
+      }
     });
     this.$mousetrap.bind('down', () => {
       this.nextContact();

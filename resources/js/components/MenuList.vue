@@ -353,7 +353,10 @@
           placeholder="List Name"
           v-model="currentEditingList.name"
           class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
-        <ToggleGroup :enabled="currentEditingList.pinned" />
+        <ToggleGroup :enabled="currentEditingList.pinned" /><span
+          class="ml-2 items-center text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+          >Pinned</span
+        >
       </div>
     </ModalPopup>
   </div>
