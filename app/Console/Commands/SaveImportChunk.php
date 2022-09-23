@@ -107,6 +107,7 @@ class SaveImportChunk extends Command
                     $country = 'United States';
                 }
 
+                $import->team_id = $payload->teamId;
                 $import->user_id = $payload->list->user_id;
                 $import->user_list_id = $payload->list->id;
                 if ($payload->tags) {

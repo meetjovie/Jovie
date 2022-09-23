@@ -36,3 +36,8 @@ Broadcast::channel('importListCreated.{teamId}', function ($user, $teamId) {
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });
+
+Broadcast::channel('notification.{teamId}', function ($user, $teamId) {
+    $user = $user->load('currentTeam');
+    return $user->currentTeam->id == $teamId;
+});

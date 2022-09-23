@@ -177,7 +177,7 @@
                     @click="getNotifications()">
                     <span class="sr-only">Open import notification</span>
                     <span
-                      v-if="notifications.length"
+                      v-if="newNotification"
                       class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
                       <span
                         class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
@@ -594,6 +594,7 @@ export default {
       isLoading: false,
       CRMSidebarOpen: true,
       notifications: [],
+        newNotification: false
     };
   },
 
@@ -623,6 +624,13 @@ export default {
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
+      this.listenEvents(
+          `notification.${this.currentUser.current_team.id}`,
+          'Notification',
+          (data) => {
+              this.newNotification = true
+          }
+      );
   },
 
   methods: {
@@ -631,6 +639,7 @@ export default {
         response = response.data;
         if (response.status) {
           this.notifications = response.notifications;
+          this.newNotification = false
             this.$store.state.showImportProgress = this.notifications.filter((notification) => {
                 return notification.is_batch && notification.progress < 100
             }).length

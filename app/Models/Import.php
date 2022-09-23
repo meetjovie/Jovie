@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\Notification;
 use App\Traits\SocialScrapperTrait;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
@@ -22,6 +23,7 @@ class Import extends Model
 
     protected $fillable = [
         'user_id',
+        'team_id',
         'user_list_id',
         'tags',
         'first_name',
@@ -170,6 +172,7 @@ class Import extends Model
                     })->count(),
                 'type' => $network,
             ]);
+            Notification::dispatch($this->team_id);
         } else {
             $batch = Bus::findBatch($batch->id);
         }
