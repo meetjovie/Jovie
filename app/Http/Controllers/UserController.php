@@ -273,37 +273,13 @@ class UserController extends Controller
         foreach ($notifications as &$notification) {
             $notification['created_at_formatted'] = Carbon::make($notification['created_at'])->diffForHumans($now);
         }
-        $inProgressBatches = $this->importBatches();
+        $inProgressBatches = Import::importBatches();
         $notifications = array_merge($notifications, $inProgressBatches);
 
         return response()->json([
             'status' => true,
             'notifications' => $notifications,
         ], 200);
-    }
-
-    public function importBatches()
-    {
-        $lists = UserList::getLists(Auth::id());
-        $userListIds = $lists->pluck('id')->toArray();
-        $batches = DB::table('job_batches')
-            ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
-            ->select('job_batches.*', 'user_lists.name')
-            ->where('finished_at', '=', null)
-            ->whereIn('user_list_id', $userListIds)
-            ->latest('job_batches.created_at')
-            ->get();
-        $now = Carbon::now();
-        foreach ($batches as &$batch) {
-            $batch->is_batch = true;
-            $batch->error_message = Import::getBatchErrorMessage($batch);
-            $batch->progress = Import::getProgress($batch);
-            $batch->successful = Import::getSuccessfulCount($batch);
-            $batch->created_at_formatted = Carbon::createFromTimestamp($batch->created_at)->diffForHumans($now);
-            unset($batch->options);
-        }
-
-        return $batches->toArray();
     }
 
     public function updatePassword(Request $request)

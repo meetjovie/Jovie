@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Creator;
+use App\Models\Import;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -52,7 +53,8 @@ class CreatorImported implements ShouldBroadcast
         $creator = Creator::getCrmCreators(['id' => $this->creatorId], $this->userId)->first();
         return ['status' => true, 'data' => [
             'creator' => $creator,
-            'list' => $this->listId
+            'list' => $this->listId,
+            'batches' => Import::importBatches($this->userId),
         ], 'message' => 'Creator Imported'];
     }
 }

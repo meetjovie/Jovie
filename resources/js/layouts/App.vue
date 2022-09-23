@@ -155,7 +155,7 @@
               <!-- The top tooltip -->
 
               <div
-                v-if="showImportProgress"
+                v-if="$store.state.showImportProgress"
                 class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
                 <ArrowPathIcon
                   class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-neutral-600" />
@@ -631,6 +631,9 @@ export default {
         response = response.data;
         if (response.status) {
           this.notifications = response.notifications;
+            this.$store.state.showImportProgress = this.notifications.filter((notification) => {
+                return notification.is_batch && notification.progress < 100
+            }).length
         }
       });
     },
@@ -667,11 +670,6 @@ export default {
     currentRoutePath() {
       return this.$route.path;
     },
-      showImportProgress() {
-        return this.notifications.filter((notification) => {
-            return notification.is_batch && notification.progress < 100
-        }).length
-      }
   },
   components: {
     Menu,

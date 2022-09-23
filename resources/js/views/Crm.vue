@@ -458,9 +458,6 @@ export default {
     pinnedUserLists() {
       return this.userLists.filter((list) => list.pinned);
     },
-    creators() {
-      return this.$store.state.crmRecords;
-    },
   },
   async mounted() {
     await this.getUserLists();
@@ -479,9 +476,9 @@ export default {
           `creatorImported.${this.currentUser.current_team.id}`,
           'CreatorImported',
           (data) => {
-              if (data.list && this.filters.type != 'list' || (!data.list && this.filters.type != 'all')) {
-                  return
-              }
+              // if (data.list && this.filters.type != 'list' || (!data.list && this.filters.type != 'all')) {
+              //     return
+              // }
               if (this.filters.page === 1 && this.creators.length == 50) {
                   this.creators.pop()
               }
@@ -490,6 +487,15 @@ export default {
               } else {
                   this.creators.push(data.creator)
               }
+              if (data.batches && data.batches.length) {
+                  this.$store.state.showImportProgress = data.batches.filter((notification) => {
+                      return notification.is_batch && notification.progress < 100
+                  }).length
+              } else {
+                  this.$store.state.showImportProgress = false
+              }
+              console.log('this.$store.showImportProgress');
+              console.log(this.$store.state.showImportProgress);
           }
       );
   },

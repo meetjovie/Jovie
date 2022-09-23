@@ -43,6 +43,9 @@ app.mixin({
     currentUser() {
       return store.state.AuthState.user;
     },
+      creators() {
+          return this.$store.state.crmRecords;
+      },
   },
   methods: {
       listenEvents(channel, event, successCallback = () => {}, errorCallback = () => {}) {

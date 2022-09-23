@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\SocialScrapperTrait;
 use Aws\S3\S3Client;
+use Carbon\Carbon;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -386,5 +387,30 @@ class Import extends Model
         if (is_null($isBatch) && $user) {
             $user->sendNotification($message, $type, $meta);
         }
+    }
+
+    public static function importBatches($userId = null)
+    {
+        $userId = $userId ?? Auth::id();
+        $lists = UserList::getLists($userId);
+        $userListIds = $lists->pluck('id')->toArray();
+        $batches = DB::table('job_batches')
+            ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
+            ->select('job_batches.*', 'user_lists.name')
+            ->where('finished_at', '=', null)
+            ->whereIn('user_list_id', $userListIds)
+            ->latest('job_batches.created_at')
+            ->get();
+        $now = Carbon::now();
+        foreach ($batches as &$batch) {
+            $batch->is_batch = true;
+            $batch->error_message = Import::getBatchErrorMessage($batch);
+            $batch->progress = Import::getProgress($batch);
+            $batch->successful = Import::getSuccessfulCount($batch);
+            $batch->created_at_formatted = Carbon::createFromTimestamp($batch->created_at)->diffForHumans($now);
+            unset($batch->options);
+        }
+
+        return $batches->toArray();
     }
 }
