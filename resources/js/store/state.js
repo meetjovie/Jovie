@@ -8,4 +8,5 @@ export default {
   CRMSidebarOpen: true,
   ContactSidebarOpen: false,
   crmRecords: [],
+  tooltipsEnabled: false,
 };

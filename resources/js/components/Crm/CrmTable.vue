@@ -11,7 +11,7 @@
                 class="flex h-8 items-center justify-end"
                 v-if="searchVisible">
                 <div
-                  class="flex w-60 items-center rounded-md border border-neutral-200">
+                  class="flex items-center rounded-md border border-neutral-200">
                   <div
                     class="relative flex flex-grow items-center focus-within:z-10">
                     <div
@@ -36,13 +36,17 @@
                   </div>
                 </div>
               </div>
-              <ButtonGroup
-                :design="'toolbar'"
-                :text="'Search'"
-                icon="MagnifyingGlassIcon"
-                hideText
-                v-else
-                @click="toggleSearchVisible()" />
+              <JovieTooltip text="Search" arrow placement="bottom-end" v-else
+                ><template #content
+                  ><KeyboardShortcut text="/" /> to focus</template
+                >
+                <ButtonGroup
+                  :design="'toolbar'"
+                  :text="'Search'"
+                  icon="MagnifyingGlassIcon"
+                  hideText
+                  @click="toggleSearchVisible()" />
+              </JovieTooltip>
               <!--  <div
                 class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
                 v-else>
@@ -85,12 +89,6 @@
                               class="text-xs font-bold text-neutral-500 line-clamp-1">
                               Display Columns
                             </div>
-                            <div
-                              @click="exportCrmCreators()"
-                              class="inline-flex cursor-pointer items-center text-xs font-bold text-neutral-400 hover:text-neutral-600">
-                              <CloudArrowDownIcon class="h-3 w-3" />
-                              <span class="line-clamp-1">Export</span>
-                            </div>
                           </div>
                         </div>
                         <div as="div" v-for="(column, index) in columns">
@@ -123,6 +121,46 @@
                                     <span class="sr-only"
                                       >Show/hide column</span
                                     >
+                                    <span
+                                      :class="
+                                        checked
+                                          ? 'translate-x-3'
+                                          : 'translate-x-0'
+                                      "
+                                      class="inline-block h-3 w-3 transform rounded-full bg-white transition" />
+                                  </button>
+                                </Switch>
+                              </button>
+                            </SwitchLabel>
+                          </SwitchGroup>
+                        </div>
+                        <div class="text-medium border-t border-neutral-200">
+                          <SwitchGroup v-for="setting in settings">
+                            <SwitchLabel
+                              class="flex items-center hover:bg-neutral-100 hover:text-white">
+                              <button
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
+                                <div class="flex items-center">
+                                  <component
+                                    :is="setting.icon"
+                                    class="mr-2 h-3 w-3 text-neutral-400"
+                                    aria-hidden="true" />
+                                  <span class="line-clamp-1">{{
+                                    setting.name
+                                  }}</span>
+                                </div>
+
+                                <Switch
+                                  v-if="setting.type === 'toggle'"
+                                  name="columns-visible"
+                                  v-model="setting.isVisable"
+                                  as="template"
+                                  v-slot="{ checked }">
+                                  <button
+                                    :class="
+                                      checked ? 'bg-indigo-600' : 'bg-gray-200'
+                                    "
+                                    class="relative inline-flex h-4 w-6 items-center rounded-full">
                                     <span
                                       :class="
                                         checked
@@ -581,6 +619,7 @@
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
+                              countsVisible
                               :link="creator[`${network}_handler`]"
                               :icon="network" />
                           </div>
@@ -993,12 +1032,14 @@ import {
   LinkIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
+  ArrowUpCircleIcon,
   ChevronRightIcon,
   CloudArrowDownIcon,
   AdjustmentsHorizontalIcon,
   XMarkIcon,
+  UserGroupIcon,
 } from '@heroicons/vue/24/solid';
-
+import KeyboardShortcut from '../../components/KeyboardShortcut';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import JovieSpinner from '../../components/JovieSpinner.vue';
@@ -1006,13 +1047,14 @@ import ImportService from '../../services/api/import.service';
 import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
 import ButtonGroup from '../../components/ButtonGroup.vue';
-
+import JovieTooltip from '../../components/JovieTooltip.vue';
 export default {
   name: 'CrmTable',
   components: {
     ArchiveBoxIcon,
     ChevronRightIcon,
     StarRating,
+    KeyboardShortcut,
     MagnifyingGlassIcon,
     ButtonGroup,
     Menu,
@@ -1030,12 +1072,14 @@ export default {
     Popover,
     BriefcaseIcon,
     UserIcon,
+    UserGroupIcon,
     ChevronDownIcon,
     PopoverButton,
     PopoverPanel,
     NoSymbolIcon,
     TrashIcon,
     Pagination,
+    JovieTooltip,
     PlusIcon,
     JovieSpinner,
     CrmTableSortableHeader,
@@ -1051,6 +1095,7 @@ export default {
     XMarkIcon,
     SwitchGroup,
     SwitchLabel,
+    ArrowUpCircleIcon,
   },
   data() {
     return {
@@ -1067,6 +1112,25 @@ export default {
       editingSocialHandle: true,
       searchVisible: false,
       imageLoaded: true,
+      settings: [
+        {
+          name: 'Show Follower Counts',
+          icon: 'UserGroupIcon',
+          isVisible: false,
+          type: 'toggle',
+        },
+        {
+          name: 'Import a CSV',
+          icon: 'ArrowUpCircleIcon',
+          isVisible: false,
+          link: '/import',
+        },
+        {
+          name: 'Export a CSV',
+          icon: 'ArrowDownCircleIcon',
+          isVisible: false,
+        },
+      ],
       columns: [
         {
           name: 'First',
