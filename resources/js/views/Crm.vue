@@ -381,6 +381,7 @@ export default {
       creatorsMeta: {},
       activeCreator: [],
       currentContact: [],
+      innerWidth: window.innerWidth,
 
       lists: [
         {
@@ -439,6 +440,15 @@ export default {
       },
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    });
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize);
+  },
   computed: {
     sortedCreators() {
       return this.creators.sort((a, b) => {
@@ -473,6 +483,9 @@ export default {
     this.$mousetrap.bind(['e'], console.log('working'));
   },
   methods: {
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
     openEmojiPicker(item) {
       this.selectedList = item;
       this.openEmojis = true;
