@@ -986,15 +986,15 @@
           </div>
         </div>
       </div>
+      <Pagination
+        class="w-full justify-end"
+        v-if="creatorRecords.length"
+        :totalPages="creatorsMeta.last_page"
+        :perPage="creatorsMeta.per_page"
+        :currentPage="creatorsMeta.current_page"
+        :disabled="loading"
+        @pagechanged="$emit('pageChanged', $event)" />
     </div>
-    <Pagination
-      class="w-full justify-end"
-      v-if="creatorRecords.length"
-      :totalPages="creatorsMeta.last_page"
-      :perPage="creatorsMeta.per_page"
-      :currentPage="creatorsMeta.current_page"
-      :disabled="loading"
-      @pagechanged="$emit('pageChanged', $event)" />
   </div>
 </template>
 
