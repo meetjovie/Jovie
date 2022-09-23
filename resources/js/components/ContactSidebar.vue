@@ -6,7 +6,7 @@
         class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-neutral-400 hover:text-neutral-500">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div>
-      <div v-else class="right-61 absolute top-1">
+      <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
           class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600" />
@@ -26,17 +26,18 @@
               clip-rule="evenodd" />
           </svg>
           <img
+            v-if="imageLoaded"
             crossorigin="anonymous"
             id="profile-img-jovie"
             class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
-          <!--  <img
+          <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
             class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
-            :src="asset('img/noimage.webp')" /> -->
+            :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
           <input
@@ -77,10 +78,10 @@
 
           <div
             @click="toggleExpandBio()"
-            class="w-full cursor-pointer whitespace-pre-wrap py-1 text-2xs transition-all"
+            class="w-full cursor-pointer whitespace-pre-wrap text-2xs transition-all"
             :class="{
               'h-12 line-clamp-5': expandBio,
-              'h-4 line-clamp-2': !expandBio,
+              'h-8 line-clamp-2': !expandBio,
             }">
             {{ creator.biography }}
           </div>
@@ -216,21 +217,21 @@
           placeholder="Phone" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
-          icon="CameraIcon"
+          socialicon="instagram"
           v-model="creator.meta.instagram_handler"
           id="instagram_handler"
           label="Instagram"
           placeholder="Instagram" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
-          icon="VideoCameraIcon"
+          socialicon="twitch"
           v-model="creator.meta.twitch_handler"
           id="twitch_handler"
           label="Twitch"
           placeholder="Twitch" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
-          icon="ChatBubbleLeftEllipsisIcon"
+          socialicon="twitter"
           v-model="creator.meta.twitter_handler"
           id="twitter_handler"
           label="Twitter"
@@ -390,7 +391,7 @@ import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon } from '@heroicons/vue/24/solid';
 import SocialIcons from './SocialIcons.vue';
 import UserService from '../services/api/user.service';
 export default {
@@ -410,6 +411,7 @@ export default {
   watch: {
     creator: function (val) {
       console.log('this.creator');
+      resetImage();
       console.log(val);
     },
   },
@@ -444,6 +446,9 @@ export default {
     },
   },
   methods: {
+    resetImage() {
+      this.imageLoaded = true;
+    },
     updateCreatorNote() {
       UserService.updateCreatorNote(this.creator.id, this.creator.note)
         .then((response) => {

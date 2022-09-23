@@ -80,7 +80,7 @@
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <div
-        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/75 backdrop-blur-md backdrop-filter">
+        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b-2 border-neutral-200 bg-white/75 backdrop-blur-md backdrop-filter">
         <button
           id="showSidebar"
           class="border-r border-neutral-200 px-4 text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden">
@@ -455,15 +455,14 @@
                         {{ dropdownmenuitem.name }}
                       </router-link>
                     </div>
-                    <div
-                      as="div"
-                      @click="openWidget()"
+                    <router-link
+                      to="slack-community"
                       class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
                       role="menuitem">
                       <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                       </component>
-                      Chat with support
-                    </div>
+                      Join the Slack community
+                    </router-link>
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
@@ -599,6 +598,11 @@ export default {
   },
 
   mounted() {
+    //check local storage for the value of CRM sidebar
+    if (localStorage.getItem('CRMSidebarOpen') === 'false') {
+      this.$store.CRMSidebarOpen = false;
+    }
+
     //identify call to segment
     window.analytics.identify(this.user.email, {
       email: this.user.email,
@@ -632,7 +636,10 @@ export default {
     },
     toggleShowAppMenu() {
       this.showAppMenu = !this.showAppMenu;
+      //add the value for CRMSidebarOpen to local storage
+
       this.$store.commit('toggleCRMSidebar', this.CRMSidebarOpen);
+
       console.log(this.showAppMenu);
     },
     openSupportChat() {
@@ -710,5 +717,5 @@ export default {
   },
 };
 </script>
-<!-- End Freshdesk -->
+
 <style scoped></style>

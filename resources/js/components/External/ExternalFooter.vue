@@ -259,6 +259,8 @@ const navigation = {
     /*  { name: 'About', href: 'about' }, */
     { name: 'Careers', href: 'Careers' },
 
+    { name: 'Community', href: 'slack-community' },
+
     /*  { name: 'Our Data', href: 'data' }, */
     { name: 'Legal', href: 'legal' },
   ],

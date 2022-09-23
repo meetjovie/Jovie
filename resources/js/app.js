@@ -18,24 +18,27 @@ const myMixin = {};
 
 const app = Vue.createApp({});
 app.mixin({
-    mounted() {
-        // Add a request interceptor
-        axios.interceptors.request.use(function (config) {
-            // Do something before request is sent
-            if (router.currentRoute.value.name != 'Extension') {
-                delete config.headers.common['Authorization']
-            } else {
-                let token = localStorage.getItem('jovie_extension')
-                if (token) {
-                    config.headers.common['Authorization'] = `Bearer ${token}`;
-                }
-            }
-            return config;
-        }, function (error) {
-            // Do something with request error
-            return Promise.reject(error);
-        });
-    },
+  mounted() {
+    // Add a request interceptor
+    axios.interceptors.request.use(
+      function (config) {
+        // Do something before request is sent
+        if (router.currentRoute.value.name != 'Extension') {
+          delete config.headers.common['Authorization'];
+        } else {
+          let token = localStorage.getItem('jovie_extension');
+          if (token) {
+            config.headers.common['Authorization'] = `Bearer ${token}`;
+          }
+        }
+        return config;
+      },
+      function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+      }
+    );
+  },
   computed: {
     currentUser() {
       return store.state.AuthState.user;
@@ -115,5 +118,6 @@ app.use(VueCookies);
 app.use(VueObserveVisibility);
 app.use(VueMousetrapPlugin);
 app.use(Notifications);
+
 app.component('App', App);
 app.mount('#app');

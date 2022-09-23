@@ -413,6 +413,19 @@ export const routes = [
     },
   },
   {
+    name: 'Slack Community',
+    path: '/slack-community',
+    beforeEnter(to, from, next) {
+      window.open(
+        'https://join.slack.com/t/joviecommunity/shared_invite/zt-1gdffx9bp-gjhCk1ihRUOnv54Pc5sm5Q',
+        '_blank'
+      );
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
     name: '404',
     path: '/notfound',
     component: loadPage('404Page'),

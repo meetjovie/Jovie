@@ -104,7 +104,7 @@
                         <div class="px-1 py-1">
                           <MenuItem v-slot="{ active }">
                             <button
-                              @click="editList(element.id)"
+                              @click="editList(element)"
                               :class="[
                                 active
                                   ? 'bg-gray-300 text-gray-700'
@@ -166,7 +166,7 @@
                                 :active="active"
                                 class="mr-2 h-3 w-3 text-gray-400 hover:text-white"
                                 aria-hidden="true" />
-                              Trash
+                              Delete List
                             </button>
                           </MenuItem>
                         </div>
@@ -345,15 +345,18 @@
       :description="editListPopup.description"
       :primaryButtonText="editListPopup.primaryButtonText"
       @primaryButtonClick="editListPopup.confirmationMethod"
-      @cancelButtonClick="!editListPopup.open">
+      @cancelButtonClick="cancelEditMethod">
       <div class="space-y-8 py-4">
         <InputGroup
           autocomplete="off"
           label="List Name"
           placeholder="List Name"
-          v-model="editListPopup.name"
+          v-model="currentEditingList.name"
           class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
-        <ToggleGroup :enabled="editListPopup.pinned" />
+        <ToggleGroup :enabled="currentEditingList.pinned" /><span
+          class="ml-2 items-center text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+          >Pinned</span
+        >
       </div>
     </ModalPopup>
   </div>
@@ -401,8 +404,7 @@ export default {
         title: 'Edit List',
         pinned: null,
         name: '',
-        description:
-          'This is where you would change the settings for the list.',
+        description: '',
         primaryButtonText: 'Save',
         confirmationMethod: null,
       },
@@ -445,19 +447,16 @@ export default {
     },
     editList(item) {
       this.currentEditingList = JSON.parse(JSON.stringify(item));
-      this.confirmationPopup.confirmationMethod = () => {
-        this.updateList(id);
+      this.editListPopup.confirmationMethod = () => {
+        this.updateList(this.currentEditingList);
+      };
+      this.confirmationPopup.cancelEditMethod = () => {
+        this.cancelEditMethod(item);
       };
       this.editListPopup.open = true;
-      //log the item in console
-
-      console.log(currentEdtingList);
-      this.editListPopup.title = `Edit ${currentEditingList.name}`;
-      console.log(this.currentEditingList);
-      this.editListPopup.pinned = currentEditingList.pinned;
-      console.log(currentEditingList.pinned);
-      this.editListPopup.name = currentEditingList.name;
-      this.editListPopup.confirmationMethod = this.updateListFromModal;
+      this.editListPopup.title = `Edit ${this.currentEditingList.name}`;
+      this.editListPopup.pinned = this.currentEditingList.pinned;
+      this.editListPopup.name = this.currentEditingList.name;
     },
     updateList(item) {
       item.updating = true;
@@ -472,6 +471,7 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.editListPopup.open = false;
             this.$emit('getUserLists');
           } else {
             // show toast error here later
@@ -500,7 +500,6 @@ export default {
         })
         .finally((response) => {
           item.updating = false;
-          editListPopup.open = false;
         });
     },
     createList() {
@@ -610,6 +609,23 @@ export default {
         primaryButtonText: null,
         loading: false,
       };
+    },
+    resetEditPopup() {
+      this.editListPopup = {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        description: null,
+        primaryButtonText: null,
+        loading: false,
+        name: null,
+        emoji: null,
+        pinned: false,
+      };
+    },
+    cancelEditMethod(item) {
+      this.resetEditPopup();
+      this.editListPopup.open = false;
     },
     duplicateList(id) {
       UserService.duplicateList(id)

@@ -4,7 +4,7 @@
     class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <router-link
-        v-if="user.username == currentUser.username"
+        v-if="user.username == currentUser?.username"
         to="/Account"
         class="absolute top-0 right-0 cursor-pointer py-2 px-4 text-xs font-bold text-indigo-400 hover:text-indigo-600">
         Edit profile
