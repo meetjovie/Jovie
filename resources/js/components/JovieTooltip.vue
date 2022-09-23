@@ -21,11 +21,7 @@
         <slot>Trigger Goes Here</slot>
       </PopoverButton>
 
-      <PopoverPanel
-        v-if="$store.tooltipsEnabled"
-        @mouseleave="close()"
-        static
-        class="right-0 z-50">
+      <PopoverPanel @mouseleave="close()" static class="right-0 z-50">
         <div
           class="backfdrop-filter w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150">
           <div class="font-bold">{{ text }}</div>

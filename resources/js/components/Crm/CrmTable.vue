@@ -4,7 +4,7 @@
       <div class="h-full">
         <div
           class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
-          <div class="flex h-11 w-60 content-end items-center">
+          <div class="flex h-11 w-80 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer items-center justify-end py-2 px-4 transition-all">
               <div
@@ -13,7 +13,7 @@
                 <div
                   class="flex items-center rounded-md border border-neutral-200">
                   <div
-                    class="relative flex flex-grow items-center focus-within:z-10">
+                    class="content-right relative flex flex-grow items-center focus-within:z-10">
                     <div
                       class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <MagnifyingGlassIcon
