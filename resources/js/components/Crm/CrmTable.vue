@@ -6,7 +6,7 @@
           class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
           <div class="flex h-11 w-80 content-end items-center">
             <div
-              class="group flex h-full w-full cursor-pointer items-center justify-end py-2 px-4 transition-all">
+              class="group flex h-full w-full cursor-pointer content-end items-center justify-end bg-red-500 py-2 px-4 text-right transition-all">
               <div
                 class="flex h-8 items-center justify-end"
                 v-if="searchVisible">
@@ -21,7 +21,7 @@
                         aria-hidden="true" />
                     </div>
                     <input
-                      placeholder="Search (/ to focus)"
+                      placeholder="/  to search"
                       ref="searchInput"
                       v-model="searchQuery"
                       class="block w-full rounded-md border-gray-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
@@ -38,7 +38,7 @@
               </div>
               <JovieTooltip text="Search" arrow placement="bottom-end" v-else
                 ><template #content
-                  ><KeyboardShortcut text="/" /> to focus</template
+                  ><KeyboardShortcut text="/" /> to search</template
                 >
                 <ButtonGroup
                   :design="'toolbar'"
