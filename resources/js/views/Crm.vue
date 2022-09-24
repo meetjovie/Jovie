@@ -483,17 +483,11 @@ export default {
                   this.creators.pop()
               }
               if (this.creators.length) {
-                  this.creators.splice(0, 0, data.creator)
+                  this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)))
               } else {
-                  this.creators.push(data.creator)
+                  this.creators.push(JSON.parse(window.atob(data.creator)))
               }
-              if (data.batches && data.batches.length) {
-                  this.$store.state.showImportProgress = data.batches.filter((notification) => {
-                      return notification.is_batch && notification.progress < 100
-                  }).length
-              } else {
-                  this.$store.state.showImportProgress = false
-              }
+              this.$store.state.showImportProgress = !! data.batches
           }
       );
   },

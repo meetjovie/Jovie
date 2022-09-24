@@ -47,7 +47,7 @@ class UserListDuplicated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $data = ['status' => $this->status, 'list' => $this->list, 'message' => $this->message];
+        $data = ['status' => $this->status, 'list' => $this->list->id, 'message' => $this->message];
         if ($this->status === false) {
             UserList::where('id', $this->list->id)->delete();
         }

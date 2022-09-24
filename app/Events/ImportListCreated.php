@@ -44,6 +44,6 @@ class ImportListCreated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['status' => true, 'data' => $this->list, 'message' => 'Import list created. Your import will be triggered soon.'];
+        return ['status' => true, 'data' => [], 'message' => 'Import list created. Your import will be triggered soon.'];
     }
 }
