@@ -6,7 +6,7 @@
           class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
           <div class="flex h-11 w-80 content-end items-center">
             <div
-              class="group flex h-full w-full cursor-pointer content-end items-center justify-end py-2 text-right transition-all duration-150 ease-out">
+              class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
               <div
                 class="flex h-8 w-full items-center justify-end"
                 v-if="searchVisible">

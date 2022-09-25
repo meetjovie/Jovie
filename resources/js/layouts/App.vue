@@ -377,7 +377,7 @@
                     as="div"
                     active=""
                     id="profileDropdown"
-                    class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                    class="absolute right-0 z-30 mt-2 w-80 origin-top-right rounded-md bg-white pt-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
@@ -419,7 +419,7 @@
                     </div>
                     <router-link
                       v-if="currentUser.username"
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       :to="profileLink">
                       <component
                         class="mr-4 h-4 w-4 cursor-pointer"
@@ -429,7 +429,7 @@
                     </router-link>
                     <router-link
                       v-else
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       to="edit-profile">
                       <component
                         class="mr-4 h-4 w-4 cursor-pointer"
@@ -442,31 +442,40 @@
                       :key="dropdownmenuitem"
                       as="router-link"
                       :to="dropdownmenuitem.route"
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       role="menuitem"
                       tabindex="-1">
                       <router-link
-                        class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                        class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                         :to="dropdownmenuitem.route">
-                        <component
-                          class="mr-4 h-4 w-4 cursor-pointer"
-                          :is="dropdownmenuitem.icon">
-                        </component>
-                        {{ dropdownmenuitem.name }}
+                        <div class="flex">
+                          <component
+                            class="mr-4 h-4 w-4 cursor-pointer"
+                            :is="dropdownmenuitem.icon">
+                          </component>
+                          {{ dropdownmenuitem.name }}
+                        </div>
+                        <div>
+                          <span
+                            v-if="dropdownmenuitem.badge"
+                            class="ml-2 inline-flex items-center rounded bg-pink-100 px-1 text-2xs font-medium text-pink-800"
+                            >Download</span
+                          >
+                        </div>
                       </router-link>
                     </div>
                     <router-link
                       to="slack-community"
-                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       role="menuitem">
                       <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                       </component>
-                      Join the Slack community
+                      Slack community
                     </router-link>
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
-                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       role="menuitem"
                       tabindex="-1">
                       <component
@@ -579,8 +588,10 @@ export default {
       ],
       dropdownmenuitems: [
         {
-          name: 'Download Chrome Extension',
+          name: 'Chrome Extension',
           route: '/chrome-extension',
+          badge: 'Download',
+          badgeColor: 'pink',
           icon: CloudArrowDownIcon,
         },
         { name: 'Billing', route: '/billing', icon: CreditCardIcon },
