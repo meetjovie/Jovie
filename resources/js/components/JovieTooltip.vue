@@ -1,5 +1,5 @@
 <template>
-  <Popover class="w-full">
+  <!-- <Popover class="w-full">
     <Float
       :show="show"
       enter="transition duration-200 ease-out"
@@ -16,7 +16,7 @@
       :arrow="arrow">
       <PopoverButton
         @mouseover="setShowTooltip()"
-        @mouseout="setHideTooltip()"
+        @mouseleave="setHideTooltip()"
         class="w-full">
         <slot>Trigger Goes Here</slot>
       </PopoverButton>
@@ -31,7 +31,17 @@
         </div>
       </PopoverPanel>
     </Float>
-  </Popover>
+  </Popover> -->
+
+  <slot class="group">Trigger Goes Here</slot>
+
+  <div
+    class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex">
+    <div class="font-bold">{{ text }}</div>
+    <div>
+      <slot name="content"></slot>
+    </div>
+  </div>
 </template>
 
 <script>

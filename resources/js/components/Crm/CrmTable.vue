@@ -7,14 +7,14 @@
           <div class="flex h-10 w-80 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-              <!--  <div>
+              <div class="group">
                 trigger
                 <span
                   data-tooltip="test"
-                  class="backfdrop-filter w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150"
+                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
                   >test content</span
                 >
-              </div> -->
+              </div>
               <div
                 class="flex h-8 w-full items-center justify-end"
                 v-if="searchVisible">
@@ -29,7 +29,7 @@
                         aria-hidden="true" />
                     </div>
                     <input
-                      placeholder="/  to search"
+                      placeholder="Press /  to search"
                       ref="searchInput"
                       v-model="searchQuery"
                       class="block w-full rounded-md border-gray-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
