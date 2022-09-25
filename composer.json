@@ -27,6 +27,7 @@
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.23.1",
         "mpociot/teamwork": "^7.0",
+        "psr/simple-cache": "^2.0",
         "pusher/pusher-php-server": "^7.0",
         "simplesoftwareio/simple-sqs-extended-client": "^2.0",
         "weidner/goutte": "^2.2"

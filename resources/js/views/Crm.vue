@@ -182,8 +182,7 @@
             </div>
           </div>
         </TransitionRoot>
-        <div
-          class="h-full w-full overflow-x-scroll transition-all duration-200 ease-in-out">
+        <div class="h-full w-full transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
             <div class="h-full w-full">
               <div class="flex h-full w-full flex-col">
@@ -377,6 +376,7 @@ export default {
       creatorsMeta: {},
       activeCreator: [],
       currentContact: [],
+      innerWidth: window.innerWidth,
 
       lists: [
         {
@@ -434,6 +434,15 @@ export default {
         this.crmCounts();
       },
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    });
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize);
   },
   computed: {
     sortedCreators() {
@@ -495,6 +504,9 @@ export default {
       closeImportCreatorModal() {
           this.showCreatorModal = false
       },
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
     openEmojiPicker(item) {
       this.selectedList = item;
       this.openEmojis = true;
