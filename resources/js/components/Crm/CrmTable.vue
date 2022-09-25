@@ -4,9 +4,17 @@
       <div class="h-full">
         <div
           class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
-          <div class="flex h-11 w-80 content-end items-center">
+          <div class="flex h-10 w-80 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
+              <!--  <div>
+                trigger
+                <span
+                  data-tooltip="test"
+                  class="backfdrop-filter w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150"
+                  >test content</span
+                >
+              </div> -->
               <div
                 class="flex h-8 w-full items-center justify-end"
                 v-if="searchVisible">
