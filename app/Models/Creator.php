@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CreatorImported;
 use App\Traits\GeneralTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -435,9 +436,10 @@ class Creator extends Model
         $this->attributes['twitch_meta'] = json_encode($value ?? []);
     }
 
-    public static function getCrmCreators($params)
+    public static function getCrmCreators($params, $userId = null)
     {
-        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $userId = $userId ?? Auth::id();
+        $user = User::with('currentTeam')->where('id', $userId)->first();
         $creators = DB::table('creators')
             ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
             ->addSelect('creators.*')->addSelect('creators.id as id')
@@ -447,9 +449,9 @@ class Creator extends Model
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
-            })->leftJoin('creator_notes as cn', function ($join) {
+            })->leftJoin('creator_notes as cn', function ($join) use ($userId) {
                 $join->on('cn.creator_id', '=', 'crms.creator_id')
-                    ->where('cn.user_id', Auth::id());
+                    ->where('cn.user_id', $userId);
             });
 
         if (isset($params['type']) && $params['type'] == 'archived') {
@@ -490,7 +492,7 @@ class Creator extends Model
             ->groupBy('creator_id')
             ->get()->keyBy('creator_id');
 
-        $lists = UserList::getLists(Auth::id())->pluck('id')->toArray();
+        $lists = UserList::getLists($userId)->pluck('id')->toArray();
         $creatorListIds = DB::table('creator_user_list as cul')
             ->select('ul.id', 'ul.name', 'ul.emoji', 'cul.creator_id')
             ->whereIn('creator_id', $ids)
@@ -707,6 +709,7 @@ class Creator extends Model
                 }
             }
         }
+        CreatorImported::dispatch($creator->id, $userId, $teamId, $listId);
     }
 
     public static function getCrmCounts()

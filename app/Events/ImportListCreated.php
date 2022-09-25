@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\UserList;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,23 +10,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserListDuplicated implements ShouldBroadcast
+class ImportListCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    private $teamId;
     private $list;
-    private $status;
-    private $message;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($list, $status = true, $message)
+    public function __construct($teamId, $list)
     {
+        $this->teamId = $teamId;
         $this->list = $list;
-        $this->status = $status;
-        $this->message = $message;
     }
 
     /**
@@ -37,7 +34,7 @@ class UserListDuplicated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('duplicateList.'.$this->list->id);
+        return new PrivateChannel('importListCreated.'.$this->teamId);
     }
 
     /**
@@ -47,10 +44,6 @@ class UserListDuplicated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $data = ['status' => $this->status, 'list' => $this->list->id, 'message' => $this->message];
-        if ($this->status === false) {
-            UserList::where('id', $this->list->id)->delete();
-        }
-        return $data;
+        return ['status' => true, 'data' => [], 'message' => 'Import list created. Your import will be triggered soon.'];
     }
 }

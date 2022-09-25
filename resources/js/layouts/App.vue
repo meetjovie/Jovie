@@ -155,7 +155,7 @@
               <!-- The top tooltip -->
 
               <div
-                v-if="notifications.length > 0"
+                v-if="$store.state.showImportProgress"
                 class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
                 <ArrowPathIcon
                   class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-neutral-600" />
@@ -177,7 +177,7 @@
                     @click="getNotifications()">
                     <span class="sr-only">Open import notification</span>
                     <span
-                      v-if="notifications.length"
+                      v-if="newNotification"
                       class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
                       <span
                         class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
@@ -604,6 +604,7 @@ export default {
       isShowing: false,
       isLoading: false,
       notifications: [],
+        newNotification: false
     };
   },
 
@@ -635,6 +636,13 @@ export default {
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
+      this.listenEvents(
+          `notification.${this.currentUser.current_team.id}`,
+          'Notification',
+          (data) => {
+              this.newNotification = true
+          }
+      );
   },
 
   methods: {
@@ -643,6 +651,10 @@ export default {
         response = response.data;
         if (response.status) {
           this.notifications = response.notifications;
+          this.newNotification = false
+            this.$store.state.showImportProgress = this.notifications.filter((notification) => {
+                return notification.is_batch && notification.progress < 100
+            }).length
         }
       });
     },

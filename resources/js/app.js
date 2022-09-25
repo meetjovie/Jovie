@@ -43,36 +43,37 @@ app.mixin({
     currentUser() {
       return store.state.AuthState.user;
     },
+      creators() {
+          return this.$store.state.crmRecords;
+      },
   },
   methods: {
-    listenEvents(
-      channel,
-      event,
-      successCallback = () => {},
-      errorCallback = () => {}
-    ) {
-      Echo.private(channel).listen(event, (e) => {
-        if (e.status) {
-          this.$notify({
-            group: 'user',
-            type: 'success',
-            duration: 40000,
-            title: 'Successful',
-            text: e.message,
-          });
-          successCallback();
-        } else {
-          this.$notify({
-            group: 'user',
-            type: 'error',
-            duration: 40000,
-            title: 'Error',
-            text: e.message,
-          });
-          errorCallback();
-        }
-      });
-    },
+      listenEvents(channel, event, successCallback = () => {}, errorCallback = () => {}) {
+          Echo.private(channel)
+              .listen(event, (e) => {
+                  if (e.status) {
+                      if (! (event == 'CreatorImported' && e.data.list)) {
+                          this.$notify({
+                              group: 'user',
+                              type: 'success',
+                              duration: 40000,
+                              title: 'Successful',
+                              text: e.message,
+                          });
+                      }
+                      successCallback(e.data);
+                  } else {
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 40000,
+                          title: 'Error',
+                          text: e.message,
+                      });
+                      errorCallback();
+                  }
+              });
+      },
     asset(path) {
       return Vapor.asset(path);
     },

@@ -205,12 +205,7 @@
                                 to Jovie.</span
                               >
                             </div>
-                            <SocialInput
-                              @finishedImport="
-                                !showCreatorModal &&
-                                  console.log('finished import')
-                              "
-                              class="py-12" />
+                            <SocialInput class="py-12" @finishImport="closeImportCreatorModal" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
                         </div>
@@ -276,7 +271,7 @@
         </TransitionRoot>
       </div>
 
-      <ImportCreatorModal :open="showCreatorModal" />
+      <ImportCreatorModal :open="showCreatorModal" @closeModal="closeImportCreatorModal" />
 
       <EmojiPickerModal
         v-show="openEmojis"
@@ -472,17 +467,43 @@ export default {
     pinnedUserLists() {
       return this.userLists.filter((list) => list.pinned);
     },
-    creators() {
-      return this.$store.state.crmRecords;
-    },
   },
   async mounted() {
     await this.getUserLists();
     this.getCrmCreators();
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
+
+      this.listenEvents(
+          `importListCreated.${this.currentUser.current_team.id}`,
+          'ImportListCreated',
+          (data) => {
+              this.getUserLists()
+          }
+      );
+      this.listenEvents(
+          `creatorImported.${this.currentUser.current_team.id}`,
+          'CreatorImported',
+          (data) => {
+              if (data.list && this.filters.type != 'list' || (!data.list && this.filters.type != 'all')) {
+                  return
+              }
+              if (this.filters.page === 1 && this.creators.length == 50) {
+                  this.creators.pop()
+              }
+              if (this.creators.length) {
+                  this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)))
+              } else {
+                  this.creators.push(JSON.parse(window.atob(data.creator)))
+              }
+              this.$store.state.showImportProgress = !! data.batches
+          }
+      );
   },
   methods: {
+      closeImportCreatorModal() {
+          this.showCreatorModal = false
+      },
     onResize() {
       this.windowWidth = window.innerWidth;
     },
