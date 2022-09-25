@@ -64,6 +64,11 @@ class Test extends Command
      */
     public function handle()
     {
+        $batches = Import::importBatches(1);
+        $batches = !! count(array_filter($batches, function ($batch) {
+            return $batch->is_batch && $batch->progress < 100;
+        }));
+        dd($batches);
         $list = UserList::firstOrCreateList(1, 'Twitch Leads - 10 Sample Profiles.csv', 1);
         if ($list->wasRecentlyCreated) {
             $dis = ImportListCreated::dispatch(1, $list);

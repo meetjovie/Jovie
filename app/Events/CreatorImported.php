@@ -52,7 +52,7 @@ class CreatorImported implements ShouldBroadcast
     {
         $batches = Import::importBatches($this->userId);
         $batches = !! count(array_filter($batches, function ($batch) {
-            return $batch['is_batch'] && $batch['progress'] < 100;
+            return $batch->is_batch && $batch->progress < 100;
         }));
         $creator = Creator::getCrmCreators(['id' => $this->creatorId], $this->userId)->first();
         $creator = base64_encode(json_encode($creator));
