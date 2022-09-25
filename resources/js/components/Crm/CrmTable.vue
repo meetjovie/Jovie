@@ -6,9 +6,9 @@
           class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
           <div class="flex h-11 w-80 content-end items-center">
             <div
-              class="group flex h-full w-full cursor-pointer content-end items-center justify-end bg-red-500 py-2 px-4 text-right transition-all">
+              class="group flex h-full w-full cursor-pointer content-end items-center justify-end py-2 text-right transition-all duration-150 ease-out">
               <div
-                class="flex h-8 items-center justify-end"
+                class="flex h-8 w-full items-center justify-end"
                 v-if="searchVisible">
                 <div
                   class="flex items-center rounded-md border border-neutral-200">
@@ -36,17 +36,23 @@
                   </div>
                 </div>
               </div>
-              <JovieTooltip text="Search" arrow placement="bottom-end" v-else
-                ><template #content
-                  ><KeyboardShortcut text="/" /> to search</template
-                >
-                <ButtonGroup
-                  :design="'toolbar'"
-                  :text="'Search'"
-                  icon="MagnifyingGlassIcon"
-                  hideText
-                  @click="toggleSearchVisible()" />
-              </JovieTooltip>
+              <div v-else>
+                <JovieTooltip
+                  text="Search"
+                  class="w-full justify-end"
+                  arrow
+                  placement="bottom-end"
+                  ><template #content
+                    ><KeyboardShortcut text="/" /> to search</template
+                  >
+                  <ButtonGroup
+                    :design="'toolbar'"
+                    :text="'Search'"
+                    icon="MagnifyingGlassIcon"
+                    hideText
+                    @click="toggleSearchVisible()" />
+                </JovieTooltip>
+              </div>
               <!--  <div
                 class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
                 v-else>
