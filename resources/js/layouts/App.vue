@@ -603,16 +603,17 @@ export default {
       ],
       isShowing: false,
       isLoading: false,
-      CRMSidebarOpen: true,
       notifications: [],
     };
   },
 
   mounted() {
     //check local storage for the value of CRM sidebar
-    if (localStorage.getItem('CRMSidebarOpen') === 'false') {
-      this.$store.CRMSidebarOpen = false;
-    }
+      console.log('CRMSidebarOpen', localStorage.getItem('CRMSidebarOpen'));
+      console.log('CRMSidebarOpen', typeof localStorage.getItem('CRMSidebarOpen'));
+      if (localStorage.getItem('CRMSidebarOpen') === 'false') {
+          this.$store.state.CRMSidebarOpen = false;
+        }
 
     //identify call to segment
     window.analytics.identify(this.user.email, {
@@ -649,7 +650,7 @@ export default {
       this.showAppMenu = !this.showAppMenu;
       //add the value for CRMSidebarOpen to local storage
 
-      this.$store.commit('toggleCRMSidebar', this.CRMSidebarOpen);
+      this.$store.commit('toggleCRMSidebar');
 
       console.log(this.showAppMenu);
     },
