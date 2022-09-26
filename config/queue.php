@@ -42,18 +42,18 @@ return [
             'after_commit' => false,
         ],
 
-        'instagram' => [
+        'dev_instagram' => [
             'driver' => 'database',
             'table' => 'jobs',
-            'queue' => 'instagram',
+            'queue' => 'dev_instagram',
             'retry_after' => 90,
             'after_commit' => false,
         ],
 
-        'twitch' => [
+        'dev_twitch' => [
             'driver' => 'database',
             'table' => 'jobs',
-            'queue' => 'twitch',
+            'queue' => 'dev_twitch',
             'retry_after' => 90,
             'after_commit' => false,
         ],

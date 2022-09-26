@@ -1,44 +1,14 @@
 <template>
-  <Popover class="w-full">
-    <Float
-      :show="show"
-      enter="transition duration-200 ease-out"
-      enter-from="scale-95 opacity-0"
-      enter-to="scale-100 opacity-100"
-      leave="transition duration-150 ease-in"
-      leave-from="scale-100 opacity-100"
-      leave-to="scale-95 opacity-0"
-      tailwindcss-origin-class
-      flip
-      :offset="10"
-      placement="right"
-      shift
-      portal
-      arrow>
-      <PopoverButton
-        @mouseover="setShowTooltip()"
-        @mouseout="setHideTooltip()"
-        class="w-full">
-        <slot>Trigger Goes Here</slot>
-      </PopoverButton>
-
-      <PopoverPanel @mouseleave="close()" static class="right-0 z-50">
-        <div
-          v-for="shortcut in shortcuts"
-          :key="shortcut.key"
-          class="backfdrop-filter w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150">
-          <div>{{ text }}</div>
-          <div class="px-2 text-2xs text-white" v-if="shortcut.key">
-            <kbd
-              class="py-.5 rounded-lg border border-gray-200 bg-gray-100 px-1 text-2xs font-semibold text-gray-800 dark:border-gray-500 dark:bg-gray-600 dark:text-gray-100">
-              {{ shortcut.key }}</kbd
-            >
-            +
-          </div>
-        </div>
-      </PopoverPanel>
-    </Float>
-  </Popover>
+  <div class="group">
+    <slot>Trigger Goes Here</slot>
+  </div>
+  <div
+    class="absolute -top-2 -right-3 z-50 hidden w-auto translate-x-full flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg group-hover:flex group-hover:flex">
+    <div class="font-bold">{{ text }}</div>
+    <div>
+      <slot name="content"></slot>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -60,7 +30,7 @@ export default {
   methods: {
     setShowTooltip() {
       //wait .2 seconds then show the tooltip
-      console.log('showing tooltip');
+
       setTimeout(() => {
         this.show = true;
       }, 200);
@@ -71,7 +41,6 @@ export default {
       //also hide the tooltip if another tooltip is opened
     },
     setHideTooltip() {
-      console.log('hiding tooltip');
       this.show = false;
     },
   },
@@ -80,11 +49,15 @@ export default {
       type: String,
       default: 'Helpful tooltip text',
     },
-
-    keyboardShortcut: {
+    placement: {
       type: String,
-      default: 'Ctrl + Shift + I',
+      default: 'right',
     },
+    arrow: {
+      type: Boolean,
+      default: false,
+    },
+
     shortcutKeys: {
       type: Array,
       default: () => ['Ctrl', 'Shift', 'I'],

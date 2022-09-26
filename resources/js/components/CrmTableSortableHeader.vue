@@ -1,11 +1,11 @@
 <template>
   <div
     @click="toggleSortingOrder()"
-    class="group flex h-full select-none items-center justify-between pr-2"
+    class="group flex h-full select-none items-center justify-between pl-1 pr-2"
     :class="[{ ' cursor-pointer active:bg-neutral-200': sortable }, '']">
     <div class="flex items-center">
       <component class="mr-1 h-4 w-4 text-neutral-300" :is="icon"></component>
-      {{ name }}
+      <span class="line-clamp-1">{{ name }}</span>
     </div>
 
     <div

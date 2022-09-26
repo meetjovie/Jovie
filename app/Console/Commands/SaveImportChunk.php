@@ -51,7 +51,7 @@ class SaveImportChunk extends Command
             $stream = Import::getStream($path);
             $reader = Reader::createFromStream($stream);
             $records = Import::records($reader, $page);
-            $list = UserList::firstOrCreateList($payload->userId, $payload->listName, $payload->teamId);
+
             $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
             $user = User::where('id', $payload->userId)->first();
 
@@ -107,8 +107,9 @@ class SaveImportChunk extends Command
                     $country = 'United States';
                 }
 
-                $import->user_id = $list->user_id;
-                $import->user_list_id = $list->id;
+                $import->team_id = $payload->teamId;
+                $import->user_id = $payload->list->user_id;
+                $import->user_list_id = $payload->list->id;
                 if ($payload->tags) {
                     $tags = explode(',', $payload->tags);
                     $import->tags = json_encode(array_values(array_map('trim', $tags)));

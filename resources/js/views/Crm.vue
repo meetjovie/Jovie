@@ -182,8 +182,7 @@
             </div>
           </div>
         </TransitionRoot>
-        <div
-          class="h-full w-full overflow-x-scroll transition-all duration-200 ease-in-out">
+        <div class="h-full w-full transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
             <div class="h-full w-full">
               <div class="flex h-full w-full flex-col">
@@ -207,11 +206,8 @@
                               >
                             </div>
                             <SocialInput
-                              @finishedImport="
-                                !showCreatorModal &&
-                                  console.log('finished import')
-                              "
-                              class="py-12" />
+                              class="py-12"
+                              @finishImport="closeImportCreatorModal" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
                         </div>
@@ -238,6 +234,7 @@
                       </div>
                       <!-- Show the crm if there are creators -->
                       <CrmTable
+                        class="overflow-hidden"
                         v-else
                         ref="crmTable"
                         @updateCreator="updateCreator"
@@ -268,7 +265,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 -mt-2 hidden h-full border-l border-neutral-200 shadow-xl xl:block">
+            class="z-30 -mt-2 hidden h-full border-l-2 border-neutral-200 shadow-xl xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -277,7 +274,9 @@
         </TransitionRoot>
       </div>
 
-      <ImportCreatorModal :open="showCreatorModal" />
+      <ImportCreatorModal
+        :open="showCreatorModal"
+        @closeModal="closeImportCreatorModal" />
 
       <EmojiPickerModal
         v-show="openEmojis"
@@ -382,6 +381,7 @@ export default {
       creatorsMeta: {},
       activeCreator: [],
       currentContact: [],
+      innerWidth: window.innerWidth,
 
       lists: [
         {
@@ -440,6 +440,15 @@ export default {
       },
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    });
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize);
+  },
   computed: {
     sortedCreators() {
       return this.creators.sort((a, b) => {
@@ -463,17 +472,49 @@ export default {
     pinnedUserLists() {
       return this.userLists.filter((list) => list.pinned);
     },
-    creators() {
-      return this.$store.state.crmRecords;
-    },
   },
   async mounted() {
     await this.getUserLists();
     this.getCrmCreators();
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
+
+    this.listenEvents(
+      `importListCreated.${this.currentUser.current_team.id}`,
+      'ImportListCreated',
+      (data) => {
+        this.getUserLists();
+      }
+    );
+    this.listenEvents(
+      `creatorImported.${this.currentUser.current_team.id}`,
+      'CreatorImported',
+      (data) => {
+        if (
+          (data.list && this.filters.type != 'list') ||
+          (!data.list && this.filters.type != 'all')
+        ) {
+          return;
+        }
+        if (this.filters.page === 1 && this.creators.length == 50) {
+          this.creators.pop();
+        }
+        if (this.creators.length) {
+          this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)));
+        } else {
+          this.creators.push(JSON.parse(window.atob(data.creator)));
+        }
+        this.$store.state.showImportProgress = !!data.batches;
+      }
+    );
   },
   methods: {
+    closeImportCreatorModal() {
+      this.showCreatorModal = false;
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
     openEmojiPicker(item) {
       this.selectedList = item;
       this.openEmojis = true;

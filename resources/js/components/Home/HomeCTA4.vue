@@ -40,8 +40,13 @@ export default {
       loading: false,
     };
   },
+
   methods: {
     signup() {
+      //send the event to segment
+      window.analytics.track('Clicked Sign Up', {
+        location: 'HomeCTA4',
+      });
       this.loading = true;
       this.$router.push('/signup');
       this.loading = false;

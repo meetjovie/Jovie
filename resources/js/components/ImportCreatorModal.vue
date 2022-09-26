@@ -31,7 +31,7 @@
                 <button
                   type="button"
                   class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-                  @click="open = false">
+                  @click="$emit('closeModal')">
                   <span class="sr-only">Close</span>
                   <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                 </button>
@@ -45,7 +45,7 @@
                     Import a contact
                   </DialogTitle>
                   <div class="mt-2">
-                    <SocialInput @finishedImport="showCreatorModal = false" />
+                    <SocialInput @finishImport="$emit('closeModal')" />
                   </div>
                 </div>
               </div>

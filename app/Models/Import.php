@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Events\Notification;
 use App\Traits\SocialScrapperTrait;
 use Aws\S3\S3Client;
+use Carbon\Carbon;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +23,7 @@ class Import extends Model
 
     protected $fillable = [
         'user_id',
+        'team_id',
         'user_list_id',
         'tags',
         'first_name',
@@ -140,10 +143,11 @@ class Import extends Model
 
     public function getImportBatch($queue = 'dev_instagram')
     {
+        $network = explode('_', $queue)[1];
         $batch = DB::table('job_batches')
             ->where('cancelled_at', null)
             ->where('finished_at', null)
-            ->where('user_list_id', $this->user_list_id)->where('type', $queue)->first();
+            ->where('user_list_id', $this->user_list_id)->where('type', $network)->first();
         if (is_null($batch)) {
             $batch = Bus::batch([
             ])->then(function (Batch $batch) {
@@ -162,12 +166,13 @@ class Import extends Model
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'name' => UserList::where('id', $this->user_list_id)->first()->name ?? null,
                 'user_list_id' => $this->user_list_id,
-                'initial_total_in_file' => $queue != 'twitch' ? self::where('user_list_id', $this->user_list_id)->whereNotNull($queue)->count() :
-                    self::where('user_list_id', $this->user_list_id)->where(function ($q) use ($queue) {
-                        $q->whereNotNull($queue)->orWhereNotNull($queue.'_id');
+                'initial_total_in_file' => $network != 'twitch' ? self::where('user_list_id', $this->user_list_id)->whereNotNull($network)->count() :
+                    self::where('user_list_id', $this->user_list_id)->where(function ($q) use ($network) {
+                        $q->whereNotNull($network)->orWhereNotNull($network.'_id');
                     })->count(),
-                'type' => $queue,
+                'type' => $network,
             ]);
+            Notification::dispatch($this->team_id);
         } else {
             $batch = Bus::findBatch($batch->id);
         }
@@ -385,5 +390,30 @@ class Import extends Model
         if (is_null($isBatch) && $user) {
             $user->sendNotification($message, $type, $meta);
         }
+    }
+
+    public static function importBatches($userId = null)
+    {
+        $userId = $userId ?? Auth::id();
+        $lists = UserList::getLists($userId);
+        $userListIds = $lists->pluck('id')->toArray();
+        $batches = DB::table('job_batches')
+            ->join('user_lists', 'user_lists.id', '=', 'job_batches.user_list_id')
+            ->select('job_batches.*', 'user_lists.name')
+            ->where('finished_at', '=', null)
+            ->whereIn('user_list_id', $userListIds)
+            ->latest('job_batches.created_at')
+            ->get();
+        $now = Carbon::now();
+        foreach ($batches as &$batch) {
+            $batch->is_batch = true;
+            $batch->error_message = Import::getBatchErrorMessage($batch);
+            $batch->progress = Import::getProgress($batch);
+            $batch->successful = Import::getSuccessfulCount($batch);
+            $batch->created_at_formatted = Carbon::createFromTimestamp($batch->created_at)->diffForHumans($now);
+            unset($batch->options);
+        }
+
+        return $batches->toArray();
     }
 }

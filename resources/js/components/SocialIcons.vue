@@ -1,6 +1,6 @@
 <template>
   <div
-    class="cursor-pointer text-neutral-400 hover:opacity-100"
+    class="relative isolate z-0 cursor-pointer text-neutral-400 hover:opacity-100"
     :class="[
       { 'opacity-100': link },
       { 'opacity-10': !link },

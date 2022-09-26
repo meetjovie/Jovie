@@ -167,6 +167,9 @@ export default {
         })
         .finally(() => {
           this.loggingIn = false;
+          window.analytics.track('User Logged In', {
+            email: this.user.email,
+          });
           this.successfulLogin = true;
         });
     },

@@ -17,7 +17,7 @@
                   <Popover v-slot="{ open }" class="relative">
                     <PopoverButton
                       :class="open ? '' : 'text-opacity-90'"
-                      class="group z-20 -mt-1 inline-flex items-center rounded-md px-3 text-xs font-medium text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                      class="group z-20 -mt-1 inline-flex items-center rounded-md px-3 text-xs font-medium text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-200 focus-visible:ring-opacity-75">
                       <span class="mt-0.5">Product</span>
                       <ChevronDownIcon
                         :class="open ? '' : 'text-opacity-70'"
@@ -293,6 +293,7 @@ import {
 
 export default {
   name: 'Default',
+
   components: {
     InboxIcon,
     AlertBanner,
