@@ -219,7 +219,7 @@
             <table
               class="w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
               <thead
-                class="relative isolate z-20 w-full items-center overflow-y-scroll bg-neutral-100">
+                class="relative isolate z-20 w-full items-center bg-neutral-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
@@ -441,9 +441,7 @@
                   :key="creator">
                   <tr
                     v-if="creator"
-                    @click="
-                      setCurrentContact(creator) && $store.ContactSidebarOpen
-                    "
+                    @click="setCurrentContact(creator)"
                     class="border-1 group w-full border-collapse flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {

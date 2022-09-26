@@ -205,7 +205,9 @@
                                 to Jovie.</span
                               >
                             </div>
-                            <SocialInput class="py-12" @finishImport="closeImportCreatorModal" />
+                            <SocialInput
+                              class="py-12"
+                              @finishImport="closeImportCreatorModal" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
                         </div>
@@ -232,6 +234,7 @@
                       </div>
                       <!-- Show the crm if there are creators -->
                       <CrmTable
+                        class="overflow-hidden"
                         v-else
                         ref="crmTable"
                         @updateCreator="updateCreator"
@@ -271,7 +274,9 @@
         </TransitionRoot>
       </div>
 
-      <ImportCreatorModal :open="showCreatorModal" @closeModal="closeImportCreatorModal" />
+      <ImportCreatorModal
+        :open="showCreatorModal"
+        @closeModal="closeImportCreatorModal" />
 
       <EmojiPickerModal
         v-show="openEmojis"
@@ -474,36 +479,39 @@ export default {
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
 
-      this.listenEvents(
-          `importListCreated.${this.currentUser.current_team.id}`,
-          'ImportListCreated',
-          (data) => {
-              this.getUserLists()
-          }
-      );
-      this.listenEvents(
-          `creatorImported.${this.currentUser.current_team.id}`,
-          'CreatorImported',
-          (data) => {
-              if (data.list && this.filters.type != 'list' || (!data.list && this.filters.type != 'all')) {
-                  return
-              }
-              if (this.filters.page === 1 && this.creators.length == 50) {
-                  this.creators.pop()
-              }
-              if (this.creators.length) {
-                  this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)))
-              } else {
-                  this.creators.push(JSON.parse(window.atob(data.creator)))
-              }
-              this.$store.state.showImportProgress = !! data.batches
-          }
-      );
+    this.listenEvents(
+      `importListCreated.${this.currentUser.current_team.id}`,
+      'ImportListCreated',
+      (data) => {
+        this.getUserLists();
+      }
+    );
+    this.listenEvents(
+      `creatorImported.${this.currentUser.current_team.id}`,
+      'CreatorImported',
+      (data) => {
+        if (
+          (data.list && this.filters.type != 'list') ||
+          (!data.list && this.filters.type != 'all')
+        ) {
+          return;
+        }
+        if (this.filters.page === 1 && this.creators.length == 50) {
+          this.creators.pop();
+        }
+        if (this.creators.length) {
+          this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)));
+        } else {
+          this.creators.push(JSON.parse(window.atob(data.creator)));
+        }
+        this.$store.state.showImportProgress = !!data.batches;
+      }
+    );
   },
   methods: {
-      closeImportCreatorModal() {
-          this.showCreatorModal = false
-      },
+    closeImportCreatorModal() {
+      this.showCreatorModal = false;
+    },
     onResize() {
       this.windowWidth = window.innerWidth;
     },
