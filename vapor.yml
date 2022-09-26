@@ -3,7 +3,7 @@ name: Jovie-Production
 environments:
   production:
     queues:
-      - default
+      - prod_default
       - prod_instagram
       - prod_twitch
     queue-concurrency: 50
@@ -23,7 +23,7 @@ environments:
     timeout: 900
   staging:
     queues:
-      - default
+      - stag_default
       - stag_instagram
       - stag_twitch
     queue-concurrency: 10
@@ -42,7 +42,7 @@ environments:
       - 'npm i && npm run prod && rm -rf node_modules'
   dev:
     queues:
-      - default
+      - dev_default
       - dev_instagram
       - dev_twitch
     database: jovie-dev-db

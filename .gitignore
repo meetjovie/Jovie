@@ -18,7 +18,6 @@ yarn-error.log
 /data.ms
 /.idea
 /.vscode
-composer.lock
 .vapor/
 .env.production
 .env.staging
@@ -28,7 +27,6 @@ public/imports
 /public/build
 /public/mix-manifest.json
 /public/css/app.css
-package-lock.json
 public/dist
 public/dist/app.js
 resources/js/.env

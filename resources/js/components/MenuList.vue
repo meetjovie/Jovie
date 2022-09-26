@@ -87,8 +87,12 @@
                   class="relative inline-block items-center text-center">
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
-                      class="hidden h-4 w-4 items-center text-gray-400 active:text-gray-500 group-hover:block">
+                      class="hidden h-4 w-6 items-center text-gray-400 active:text-gray-500 group-hover:block">
+                      <ArrowPathIcon
+                        v-if="listImporting"
+                        class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                       <EllipsisVerticalIcon
+                        v-else
                         class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
                     </MenuButton>
 
@@ -166,7 +170,7 @@
                                 :active="active"
                                 class="mr-2 h-3 w-3 text-gray-400 hover:text-white"
                                 aria-hidden="true" />
-                              Trash
+                              Delete List
                             </button>
                           </MenuItem>
                         </div>
@@ -345,15 +349,18 @@
       :description="editListPopup.description"
       :primaryButtonText="editListPopup.primaryButtonText"
       @primaryButtonClick="editListPopup.confirmationMethod"
-      @cancelButtonClick="editListPopup.cancelEditMethod">
+      @cancelButtonClick="cancelEditMethod">
       <div class="space-y-8 py-4">
         <InputGroup
           autocomplete="off"
           label="List Name"
           placeholder="List Name"
-          v-model="editListPopup.name"
+          v-model="currentEditingList.name"
           class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
-        <ToggleGroup :enabled="editListPopup.pinned" />
+        <ToggleGroup :enabled="currentEditingList.pinned" /><span
+          class="ml-2 items-center text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+          >Pinned</span
+        >
       </div>
     </ModalPopup>
   </div>
@@ -373,6 +380,7 @@ import {
   ArchiveBoxIcon,
   PencilSquareIcon,
   TrashIcon,
+  ArrowPathIcon,
 } from '@heroicons/vue/20/solid';
 import ToggleGroup from './../components/ToggleGroup.vue';
 import {
@@ -468,6 +476,7 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.editListPopup.open = false;
             this.$emit('getUserLists');
           } else {
             // show toast error here later
@@ -496,7 +505,6 @@ export default {
         })
         .finally((response) => {
           item.updating = false;
-          editListPopup.open = false;
         });
     },
     createList() {
@@ -623,7 +631,6 @@ export default {
     cancelEditMethod(item) {
       this.resetEditPopup();
       this.editListPopup.open = false;
-      console.log(item);
     },
     duplicateList(id) {
       UserService.duplicateList(id)
@@ -779,6 +786,7 @@ export default {
     InputGroup,
     Float,
     ToggleGroup,
+    ArrowPathIcon,
   },
   props: {
     menuName: {

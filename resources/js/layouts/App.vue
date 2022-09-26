@@ -80,7 +80,7 @@
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <div
-        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b bg-white/75 backdrop-blur-md backdrop-filter">
+        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b-2 border-neutral-200 bg-white/75 backdrop-blur-md backdrop-filter">
         <button
           id="showSidebar"
           class="border-r border-neutral-200 px-4 text-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden">
@@ -155,7 +155,7 @@
               <!-- The top tooltip -->
 
               <div
-                v-if="notifications.length > 0"
+                v-if="$store.state.showImportProgress"
                 class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
                 <ArrowPathIcon
                   class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-neutral-600" />
@@ -177,7 +177,7 @@
                     @click="getNotifications()">
                     <span class="sr-only">Open import notification</span>
                     <span
-                      v-if="notifications.length"
+                      v-if="newNotification"
                       class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
                       <span
                         class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
@@ -377,7 +377,7 @@
                     as="div"
                     active=""
                     id="profileDropdown"
-                    class="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                    class="absolute right-0 z-30 mt-2 w-80 origin-top-right rounded-md bg-white pt-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
@@ -419,7 +419,7 @@
                     </div>
                     <router-link
                       v-if="currentUser.username"
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       :to="profileLink">
                       <component
                         class="mr-4 h-4 w-4 cursor-pointer"
@@ -429,7 +429,7 @@
                     </router-link>
                     <router-link
                       v-else
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       to="edit-profile">
                       <component
                         class="mr-4 h-4 w-4 cursor-pointer"
@@ -442,32 +442,40 @@
                       :key="dropdownmenuitem"
                       as="router-link"
                       :to="dropdownmenuitem.route"
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       role="menuitem"
                       tabindex="-1">
                       <router-link
-                        class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                        class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                         :to="dropdownmenuitem.route">
-                        <component
-                          class="mr-4 h-4 w-4 cursor-pointer"
-                          :is="dropdownmenuitem.icon">
-                        </component>
-                        {{ dropdownmenuitem.name }}
+                        <div class="flex">
+                          <component
+                            class="mr-4 h-4 w-4 cursor-pointer"
+                            :is="dropdownmenuitem.icon">
+                          </component>
+                          {{ dropdownmenuitem.name }}
+                        </div>
+                        <div>
+                          <span
+                            v-if="dropdownmenuitem.badge"
+                            class="ml-2 inline-flex items-center rounded bg-pink-100 px-1 text-2xs font-medium text-pink-800"
+                            >Download</span
+                          >
+                        </div>
                       </router-link>
                     </div>
-                    <div
-                      as="router-link"
-                      to="/slack-community"
-                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                    <router-link
+                      to="slack-community"
+                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       role="menuitem">
                       <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                       </component>
-                      Join the Slack community
-                    </div>
+                      Slack community
+                    </router-link>
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
-                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-indigo-700 hover:text-white"
+                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
                       role="menuitem"
                       tabindex="-1">
                       <component
@@ -580,8 +588,10 @@ export default {
       ],
       dropdownmenuitems: [
         {
-          name: 'Download Chrome Extension',
+          name: 'Chrome Extension',
           route: '/chrome-extension',
+          badge: 'Download',
+          badgeColor: 'pink',
           icon: CloudArrowDownIcon,
         },
         { name: 'Billing', route: '/billing', icon: CreditCardIcon },
@@ -593,12 +603,19 @@ export default {
       ],
       isShowing: false,
       isLoading: false,
-      CRMSidebarOpen: true,
       notifications: [],
+        newNotification: false
     };
   },
 
   mounted() {
+    //check local storage for the value of CRM sidebar
+      console.log('CRMSidebarOpen', localStorage.getItem('CRMSidebarOpen'));
+      console.log('CRMSidebarOpen', typeof localStorage.getItem('CRMSidebarOpen'));
+      if (localStorage.getItem('CRMSidebarOpen') === 'false') {
+          this.$store.state.CRMSidebarOpen = false;
+        }
+
     //identify call to segment
     window.analytics.identify(this.user.email, {
       email: this.user.email,
@@ -619,6 +636,13 @@ export default {
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
+      this.listenEvents(
+          `notification.${this.currentUser.current_team.id}`,
+          'Notification',
+          (data) => {
+              this.newNotification = true
+          }
+      );
   },
 
   methods: {
@@ -627,12 +651,19 @@ export default {
         response = response.data;
         if (response.status) {
           this.notifications = response.notifications;
+          this.newNotification = false
+            this.$store.state.showImportProgress = this.notifications.filter((notification) => {
+                return notification.is_batch && notification.progress < 100
+            }).length
         }
       });
     },
     toggleShowAppMenu() {
       this.showAppMenu = !this.showAppMenu;
-      this.$store.commit('toggleCRMSidebar', this.CRMSidebarOpen);
+      //add the value for CRMSidebarOpen to local storage
+
+      this.$store.commit('toggleCRMSidebar');
+
       console.log(this.showAppMenu);
     },
     openSupportChat() {
@@ -705,5 +736,5 @@ export default {
   },
 };
 </script>
-<!-- End Freshdesk -->
+
 <style scoped></style>

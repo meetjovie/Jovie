@@ -6,7 +6,7 @@
         class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-neutral-400 hover:text-neutral-500">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div>
-      <div v-else class="right-61 absolute top-1">
+      <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
           class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600" />
@@ -14,29 +14,30 @@
 
       <div class="mt-2 grid grid-cols-3">
         <div class="px-1">
-          <svg
+          <!--  <svg
             v-if="creator.verified"
             xmlns="http://www.w3.org/2000/svg"
-            class="absolute bottom-0 right-0 -mr-5 h-5 w-5 text-indigo-600"
+            class="relative top-8 left-20 h-4 w-4 text-neutral-600"
             viewBox="0 0 20 20"
             fill="currentColor">
             <path
               fill-rule="evenodd"
               d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
               clip-rule="evenodd" />
-          </svg>
+          </svg> -->
           <img
+            v-if="imageLoaded"
             crossorigin="anonymous"
             id="profile-img-jovie"
             class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
-          <!--  <img
+          <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
             class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
-            :src="asset('img/noimage.webp')" /> -->
+            :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
           <input
@@ -80,7 +81,7 @@
             class="w-full cursor-pointer whitespace-pre-wrap text-2xs transition-all"
             :class="{
               'h-12 line-clamp-5': expandBio,
-              'h-6 line-clamp-2': !expandBio,
+              'h-8 line-clamp-2': !expandBio,
             }">
             {{ creator.biography }}
           </div>
@@ -223,14 +224,14 @@
           placeholder="Instagram" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
-          icon="VideoCameraIcon"
+          socialicon="twitch"
           v-model="creator.meta.twitch_handler"
           id="twitch_handler"
           label="Twitch"
           placeholder="Twitch" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
-          icon="ChatBubbleLeftEllipsisIcon"
+          socialicon="twitter"
           v-model="creator.meta.twitter_handler"
           id="twitter_handler"
           label="Twitter"
@@ -390,7 +391,7 @@ import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon } from '@heroicons/vue/24/solid';
 import SocialIcons from './SocialIcons.vue';
 import UserService from '../services/api/user.service';
 export default {
@@ -410,6 +411,7 @@ export default {
   watch: {
     creator: function (val) {
       console.log('this.creator');
+      resetImage();
       console.log(val);
     },
   },
@@ -444,6 +446,9 @@ export default {
     },
   },
   methods: {
+    resetImage() {
+      this.imageLoaded = true;
+    },
     updateCreatorNote() {
       UserService.updateCreatorNote(this.creator.id, this.creator.note)
         .then((response) => {

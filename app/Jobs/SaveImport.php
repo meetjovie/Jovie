@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\ImportListCreated;
 use App\Imports\ImportFileImport;
 use App\Models\Import;
 use App\Models\User;
@@ -67,10 +68,14 @@ class SaveImport implements ShouldQueue
             $reader = Reader::createFromStream($stream);
 
             $totalRecords = $reader->count();
+            $list = UserList::firstOrCreateList($this->userId, $this->listName, $this->teamId);
+            if ($list->wasRecentlyCreated) {
+                ImportListCreated::dispatch($this->teamId, $list);
+            }
             $payload = base64_encode(json_encode([
                 'mappedColumns' => $this->mappedColumns,
                 'tags' => $this->tags,
-                'listName' => $this->listName,
+                'list' => $list,
                 'userId' => $this->userId,
                 'teamId' => $this->teamId,
             ]));
@@ -84,7 +89,7 @@ class SaveImport implements ShouldQueue
                 'file' => $this->file,
                 'mappedColumns' => $this->mappedColumns,
                 'tags' => $this->tags,
-                'listName' => $this->listName,
+                'list' => $this->listName,
                 'userId' => $this->userId,
                 'teamId' => $this->teamId,
             ]);

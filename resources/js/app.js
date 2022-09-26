@@ -18,42 +18,50 @@ const myMixin = {};
 
 const app = Vue.createApp({});
 app.mixin({
-    mounted() {
-        // Add a request interceptor
-        axios.interceptors.request.use(function (config) {
-            // Do something before request is sent
-            if (router.currentRoute.value.name != 'Extension') {
-                delete config.headers.common['Authorization']
-            } else {
-                let token = localStorage.getItem('jovie_extension')
-                if (token) {
-                    config.headers.common['Authorization'] = `Bearer ${token}`;
-                }
-            }
-            return config;
-        }, function (error) {
-            // Do something with request error
-            return Promise.reject(error);
-        });
-    },
+  mounted() {
+    // Add a request interceptor
+    axios.interceptors.request.use(
+      function (config) {
+        // Do something before request is sent
+        if (router.currentRoute.value.name != 'Extension') {
+          delete config.headers.common['Authorization'];
+        } else {
+          let token = localStorage.getItem('jovie_extension');
+          if (token) {
+            config.headers.common['Authorization'] = `Bearer ${token}`;
+          }
+        }
+        return config;
+      },
+      function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+      }
+    );
+  },
   computed: {
     currentUser() {
       return store.state.AuthState.user;
     },
+      creators() {
+          return this.$store.state.crmRecords;
+      },
   },
   methods: {
       listenEvents(channel, event, successCallback = () => {}, errorCallback = () => {}) {
           Echo.private(channel)
               .listen(event, (e) => {
                   if (e.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 40000,
-                          title: 'Successful',
-                          text: e.message,
-                      });
-                      successCallback();
+                      if (! (event == 'CreatorImported' && e.data.list)) {
+                          this.$notify({
+                              group: 'user',
+                              type: 'success',
+                              duration: 40000,
+                              title: 'Successful',
+                              text: e.message,
+                          });
+                      }
+                      successCallback(e.data);
                   } else {
                       this.$notify({
                           group: 'user',
@@ -113,5 +121,6 @@ app.use(VueCookies);
 app.use(VueObserveVisibility);
 app.use(VueMousetrapPlugin);
 app.use(Notifications);
+
 app.component('App', App);
 app.mount('#app');

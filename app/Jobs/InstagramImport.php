@@ -138,7 +138,7 @@ class InstagramImport implements ShouldQueue
                 if ($response->getStatusCode() == 200) {
                     $dataResponse = json_decode($response->getBody()->getContents());
                     if (! is_null($dataResponse) && isset($dataResponse->graphql)) {
-                        $this->insertIntoDatabase($dataResponse);
+                        $creator = $this->insertIntoDatabase($dataResponse);
                         Import::markImport($this->importId, ['instagram']);
                         Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'instagram']);
                     } else {
@@ -344,6 +344,7 @@ class InstagramImport implements ShouldQueue
             $parentCreator->brands()->syncWithoutDetaching($creator->id);
         }
         $this->creatorId = $creator->id;
+        return $creator;
     }
 
     public function scrapLinkTree($url)

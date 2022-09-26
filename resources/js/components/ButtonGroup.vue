@@ -3,7 +3,7 @@
     type="button"
     :disabled="disabled"
     @click="trackClick()"
-    class="inline-flex items-center font-medium shadow-sm first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    class="group inline-flex items-center overflow-hidden font-medium first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
     :class="[
       { 'py-0 px-2 text-xs': size == 'xs' },
       { 'py-1 px-2 text-sm': size == 'sm' },
@@ -11,11 +11,15 @@
       { 'py-2 px-4 text-lg': size == 'md' },
       { 'py-3 px-6 text-xl': size == 'hero' },
       {
-        'bg-white   hover:bg-indigo-500 hover:text-white  ':
+        'bg-white shadow-sm   hover:bg-indigo-500 hover:text-white  ':
           design == 'secondary',
       },
       {
-        'hover:bg-indig-600 w-full bg-indigo-500 font-medium text-white shadow hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900':
+        'group flex cursor-pointer items-center rounded-md p-4 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-30':
+          design == 'toolbar',
+      },
+      {
+        'hover:bg-indig-600 w-full bg-indigo-500 font-medium text-white  shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900':
           design == 'primary',
       },
       {
@@ -40,12 +44,22 @@
     <component
       v-if="icon"
       :is="icon"
-      class="absolute -ml-1 mr-3 h-5 w-5"
+      :class="[
+        {
+          'h-5 w-5 text-gray-400 group-hover:text-neutral-600':
+            design == 'toolbar',
+        },
+        { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },
+      ]"
       aria-hidden="true" />
     <p
       v-if="text"
-      class="mx-auto text-center text-sm hover:text-white"
-      :class="[{ 'text-2xs': size == 'xs' }, { 'text-xs': size == 'sm' }]">
+      class="mx-auto text-center text-sm"
+      :class="[
+        { 'text-2xs': size == 'xs' },
+        { 'text-xs': size == 'sm' },
+        { 'sr-only': hideText },
+      ]">
       {{ text }}
     </p>
     <div v-if="loader" class="ml-2 transition-all">
@@ -55,6 +69,37 @@
       <CheckIcon class="h-5 w-5 text-white transition-all" />
     </div>
   </button>
+  <!-- <a
+    href="#_"
+    class="group relative inline-block overflow-hidden rounded bg-indigo-600 px-5 py-2.5 font-medium text-white">
+    <span
+      :class="[{ 'w-full': success }, { 'w-0': !success }]"
+      class="absolute top-0 left-0 mb-0 flex h-full w-0 translate-y-0 transform border border-green-500 bg-green-500 opacity-100 transition-all duration-200 ease-out"></span>
+    <span class="relative">
+      <component
+        v-if="icon"
+        :is="icon"
+        class="relative"
+        :class="[
+          {
+            'h-5 w-5 text-gray-400 group-hover:text-neutral-600':
+              design == 'toolbar',
+          },
+          { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },
+        ]"
+        aria-hidden="true" />
+      <p
+        v-if="text"
+        class="mx-auto text-center text-sm"
+        :class="[
+          { 'text-2xs': size == 'xs' },
+          { 'text-xs': size == 'sm' },
+          { 'sr-only': hideText },
+        ]">
+        {{ text }}
+      </p>
+    </span>
+  </a> -->
 </template>
 
 <script>
@@ -65,6 +110,7 @@ import {
   PlusCircleIcon,
   MinusCircleIcon,
   MinusIcon,
+  AdjustmentsHorizontalIcon,
   PlusIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/24/solid';
@@ -122,6 +168,10 @@ export default {
       type: String,
       default: 'primary',
     },
+    hideText: {
+      type: Boolean,
+      default: false,
+    },
     rounded: {
       type: String,
       default: 'all',
@@ -137,6 +187,7 @@ export default {
     NoSymbolIcon,
     PlusIcon,
     CheckIcon,
+    AdjustmentsHorizontalIcon,
     MinusIcon,
     PlusCircleIcon,
     MinusCircleIcon,

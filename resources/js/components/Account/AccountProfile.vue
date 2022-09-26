@@ -104,6 +104,29 @@
                     placeholder="Email"
                     type="text" />
                 </div>
+                <!-- Title -->
+                <div class="col-span-3">
+                  <InputGroup
+                    v-model="currentUser.title"
+                    :error="errors?.title?.[0]"
+                    :disabled="updating"
+                    name="title"
+                    label="Title"
+                    placeholder="Title"
+                    type="text" />
+                </div>
+
+                <!-- Employee -->
+                <div class="col-span-3">
+                  <InputGroup
+                    v-model="currentUser.employer"
+                    :error="errors?.employer?.[0]"
+                    :disabled="updating"
+                    name="Employer"
+                    label="Company"
+                    placeholder="Company"
+                    type="text" />
+                </div>
               </div>
             </div>
 
