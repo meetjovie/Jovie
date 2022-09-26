@@ -7,14 +7,14 @@
           <div class="flex h-10 w-80 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-              <div class="group">
+              <!-- <div class="group">
                 trigger
                 <span
                   data-tooltip="test"
                   class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
                   >test content</span
                 >
-              </div>
+              </div> -->
               <div
                 class="flex h-8 w-full items-center justify-end"
                 v-if="searchVisible">
@@ -81,11 +81,20 @@
                       <!--  <AdjustmentsHorizontalIcon
                         class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
                         aria-hidden="true" /> -->
-                      <ButtonGroup
-                        :design="'toolbar'"
-                        :text="'Hide Columns'"
-                        icon="AdjustmentsHorizontalIcon"
-                        hideText />
+                      <JovieTooltip
+                        text="Adjustments"
+                        class="w-full justify-end"
+                        arrow
+                        placement="bottom-end"
+                        ><template #content
+                          ><KeyboardShortcut text="/" /> to search</template
+                        >
+                        <ButtonGroup
+                          :design="'toolbar'"
+                          :text="'Hide Columns'"
+                          icon="AdjustmentsHorizontalIcon"
+                          hideText />
+                      </JovieTooltip>
                     </PopoverButton>
                     <transition
                       enter-active-class="transition duration-100 ease-out"
@@ -1272,7 +1281,9 @@ export default {
     if (columns) {
       this.columns = columns;
     }
-    this.creatorRecords = this.creatorRecords.length ? this.creatorRecords : this.creators
+    this.creatorRecords = this.creatorRecords.length
+      ? this.creatorRecords
+      : this.creators;
   },
   computed: {
     sidebarOpen() {

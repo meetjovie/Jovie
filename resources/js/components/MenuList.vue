@@ -87,8 +87,12 @@
                   class="relative inline-block items-center text-center">
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
-                      class="hidden h-4 w-4 items-center text-gray-400 active:text-gray-500 group-hover:block">
+                      class="hidden h-4 w-6 items-center text-gray-400 active:text-gray-500 group-hover:block">
+                      <ArrowPathIcon
+                        v-if="listImporting"
+                        class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                       <EllipsisVerticalIcon
+                        v-else
                         class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
                     </MenuButton>
 
@@ -376,6 +380,7 @@ import {
   ArchiveBoxIcon,
   PencilSquareIcon,
   TrashIcon,
+  ArrowPathIcon,
 } from '@heroicons/vue/20/solid';
 import ToggleGroup from './../components/ToggleGroup.vue';
 import {
@@ -781,6 +786,7 @@ export default {
     InputGroup,
     Float,
     ToggleGroup,
+    ArrowPathIcon,
   },
   props: {
     menuName: {
