@@ -398,7 +398,8 @@
                     <div v-else>
                       <CrmTableSortableHeader
                         icon="Bars3BottomLeftIcon"
-                        name="Name" />
+                        name="Name"
+                        menu="false" />
                     </div>
                   </th>
 
@@ -407,8 +408,9 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 py-1 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                      class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
+                        @hide-column="column.visible = false"
                         :sortable="column.sortable"
                         :icon="column.icon"
                         :name="column.name" />
@@ -442,7 +444,7 @@
                   <tr
                     v-if="creator"
                     @click="setCurrentContact(creator)"
-                    class="border-1 group w-full border-collapse flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
+                    class="border-1 group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
                         'bg-neutral-100 hover:bg-neutral-100':
@@ -547,7 +549,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('first_name')"
-                      class="border-1 table-cell w-28 border-collapse whitespace-nowrap border">
+                      class="border-1 table-cell w-28 whitespace-nowrap border">
                       <div class="text-sm text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.meta.first_name"
@@ -563,7 +565,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('last_name')"
-                      class="border-1 table-cell w-28 border-collapse whitespace-nowrap border">
+                      class="border-1 table-cell w-28 whitespace-nowrap border">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.meta.last_name"
@@ -579,7 +581,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('title')"
-                      class="border-1 table-cell w-40 border-collapse resize-x whitespace-nowrap border">
+                      class="border-1 table-cell w-40 resize-x whitespace-nowrap border">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_title"
@@ -595,7 +597,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('employer')"
-                      class="border-1 table-cell w-40 border-collapse whitespace-nowrap border">
+                      class="border-1 table-cell w-40 whitespace-nowrap border">
                       <div class="text-xs text-gray-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_employer"
@@ -611,7 +613,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 table-cell w-40 border-collapse whitespace-nowrap border focus-visible:border-indigo-500">
+                      class="border-1 table-cell w-40 whitespace-nowrap border focus-visible:border-indigo-500">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
                           v-model="creator.meta.emails"
@@ -627,7 +629,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-24 border-collapse items-center whitespace-nowrap border">
+                      class="border-1 w-24 items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -666,7 +668,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.offer')"
-                      class="border-1 table-cell w-24 border-collapse whitespace-nowrap border">
+                      class="border-1 table-cell w-24 whitespace-nowrap border">
                       <span
                         class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
                         $
@@ -694,7 +696,7 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 relative isolate z-10 table-cell w-28 border-collapse items-center whitespace-nowrap border">
+                      class="border-1 relative isolate z-10 table-cell w-28 items-center whitespace-nowrap border">
                       <Popover
                         as="div"
                         class="relative z-10 inline-block w-full items-center text-left">
@@ -779,7 +781,7 @@
                           'crm_record_by_user.last_contacted'
                         )
                       "
-                      class="border-1 table-cell w-40 border-collapse items-center whitespace-nowrap border text-xs text-gray-500">
+                      class="border-1 table-cell w-40 items-center whitespace-nowrap border text-xs text-gray-500">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @click="
@@ -1179,7 +1181,7 @@ export default {
           key: 'employer',
           icon: 'BriefcaseIcon',
           visible: true,
-          sortable: true,
+          sortable: false,
           breakpoint: '2xl',
         },
         {
