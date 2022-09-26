@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full flex-col">
+  <div class="h-full w-full flex-col overflow-y-scroll">
     <div class="flex h-full w-full flex-col">
       <div class="h-full">
         <div
@@ -421,7 +421,7 @@
                 </tr>
               </thead>
               <tbody
-                class="relative isolate z-0 h-full w-full divide-y divide-gray-200">
+                class="relative isolate z-0 h-full w-full divide-y divide-gray-200 overflow-y-scroll">
                 <template class="w-full" v-if="loading">
                   <tr class="w-full">
                     <td class="w-full" colspan="11">
