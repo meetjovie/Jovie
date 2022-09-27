@@ -12,7 +12,6 @@
                 :is="icon"></component>
               <span class="line-clamp-1">{{ name }}</span>
             </div>
-
             <div
               v-if="sortable"
               class="cursor-pointer group-hover:text-neutral-400"

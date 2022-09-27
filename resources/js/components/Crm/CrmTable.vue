@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full flex-col overflow-y-scroll">
     <div class="flex h-full w-full flex-col">
-      <div class="h-full">
+      <div class="h-full pb-10">
         <div
           class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
           <div class="flex h-10 w-80 content-end items-center">
@@ -217,13 +217,13 @@
         <div class="inline-block min-w-full align-middle">
           <div class="shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
+              class="w-auto table-fixed divide-y divide-gray-200 overflow-x-scroll">
               <thead
-                class="relative isolate z-20 w-full items-center bg-neutral-100">
+                class="relative isolate z-20 w-full items-center overflow-x-scroll bg-neutral-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky top-0 z-50 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -248,7 +248,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-50 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-50 w-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
@@ -697,7 +697,7 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 relative isolate z-10 table-cell w-28 items-center whitespace-nowrap border">
+                      class="border-1 relative isolate z-10 table-cell items-center whitespace-nowrap border">
                       <Popover
                         as="div"
                         class="relative z-10 inline-block w-full items-center text-left">
@@ -1011,17 +1011,19 @@
                 </template>
               </tbody>
             </table>
+            <div class="w-full">
+              <Pagination
+                class="z-50 w-full"
+                v-if="creatorRecords.length"
+                :totalPages="creatorsMeta.last_page"
+                :perPage="creatorsMeta.per_page"
+                :currentPage="creatorsMeta.current_page"
+                :disabled="loading"
+                @pagechanged="$emit('pageChanged', $event)" />
+            </div>
           </div>
         </div>
       </div>
-      <Pagination
-        class="w-full justify-end"
-        v-if="creatorRecords.length"
-        :totalPages="creatorsMeta.last_page"
-        :perPage="creatorsMeta.per_page"
-        :currentPage="creatorsMeta.current_page"
-        :disabled="loading"
-        @pagechanged="$emit('pageChanged', $event)" />
     </div>
   </div>
 </template>
