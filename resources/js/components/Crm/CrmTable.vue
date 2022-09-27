@@ -410,6 +410,7 @@
                       scope="col"
                       class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
+                        class="w-full"
                         @hide-column="column.visible = false"
                         :sortable="column.sortable"
                         :icon="column.icon"
@@ -453,7 +454,7 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="w-12 overflow-auto whitespace-nowrap py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="w-6 overflow-auto whitespace-nowrap py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -483,7 +484,7 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
-                      class="w-8 overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="w-4 overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -700,11 +701,15 @@
                       <Popover
                         as="div"
                         class="relative z-10 inline-block w-full items-center text-left">
-                        <Float portal :offset="2" shift placement="bottom">
+                        <Float
+                          portal
+                          :offset="0"
+                          shift
+                          placement="bottom-start">
                           <PopoverButton
                             class="flex w-full justify-between px-2">
                             <div
-                              class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-semibold leading-5 line-clamp-1"
+                              class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1"
                               :class="[
                                 {
                                   'bg-indigo-50 text-indigo-600':
@@ -746,7 +751,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                              class="z-30 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                               <div class="">
                                 <div class="">
                                   <button
@@ -759,12 +764,12 @@
                                         value: key,
                                       })
                                     "
-                                    class="group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200 hover:text-white">
+                                    class="group flex w-full items-center bg-white px-2 py-1 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-100 hover:text-neutral-600">
                                     <div
                                       class="mr-2 text-xs font-bold opacity-50">
                                       {{ key + 1 }}
                                     </div>
-                                    <div class="text-xs font-bold">
+                                    <div class="text-xs font-medium">
                                       {{ stage }}
                                     </div>
                                   </button>
