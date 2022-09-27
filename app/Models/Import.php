@@ -52,7 +52,9 @@ class Import extends Model
 
     public static function getProgress($batch)
     {
-        $batch = DB::table('job_batches')->where('id', $batch->id)->first();
+        if (empty($batch->user_list_id)) {
+            $batch = DB::table('job_batches')->where('id', $batch->id)->first();
+        }
         if ($batch) {
             return $batch->initial_total_in_file > 0 ? round((self::processedImports($batch, $batch->user_list_id) / $batch->initial_total_in_file) * 100) : 0;
         }
