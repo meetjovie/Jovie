@@ -77,7 +77,11 @@
               </div>
               <div
                 class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                <ArrowPathIcon
+                  v-if="listImporting"
+                  class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                 <span
+                  v-else
                   class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
                   >{{ element.creators_count }}</span
                 >
@@ -88,11 +92,7 @@
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
                       class="hidden h-4 w-6 items-center text-gray-400 active:text-gray-500 group-hover:block">
-                      <ArrowPathIcon
-                        v-if="listImporting"
-                        class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                       <EllipsisVerticalIcon
-                        v-else
                         class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
                     </MenuButton>
 
