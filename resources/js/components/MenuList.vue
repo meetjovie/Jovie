@@ -574,6 +574,7 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.$emit('setFiltersType', 'all')
           } else {
             // show toast error here later
             this.$notify({

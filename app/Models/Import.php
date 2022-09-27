@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Events\Notification;
+use App\Events\UserListImported;
+use App\Events\UserListImportTriggered;
 use App\Traits\SocialScrapperTrait;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
@@ -162,6 +164,7 @@ class Import extends Model
 //                    $user->sendNotification(('Import '.strtoupper($batch->type).' profiles for '.$batch->name.' completed successfully.'), Notification::BATCH_IMPORT,
 //                        $batch);
 //                }
+                UserListImported::dispatch($this->user_list_id, $this->user_id, $this->team_id);
                 Log::info('The batch has finished executing...');
             })->onQueue($queue)->allowFailures()->dispatch();
 
@@ -174,6 +177,7 @@ class Import extends Model
                     })->count(),
                 'type' => $network,
             ]);
+            UserListImportTriggered::dispatch($this->user_list_id, $this->user_id, $this->team_id);
             Notification::dispatch($this->team_id);
         } else {
             $batch = Bus::findBatch($batch->id);

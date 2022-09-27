@@ -643,6 +643,7 @@ export default {
               this.newNotification = true
           }
       );
+      this.getNotifications()
   },
 
   methods: {

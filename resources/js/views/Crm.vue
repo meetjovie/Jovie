@@ -100,6 +100,7 @@
                 <MenuList
                   ref="menuListPinned"
                   @getUserLists="getUserLists"
+                  @setFiltersType="setFiltersType"
                   @openEmojiPicker="openEmojiPicker"
                   menuName="Pinned"
                   :selectedList="filters.list"
@@ -109,6 +110,7 @@
                 <MenuList
                   ref="menuListAll"
                   @getUserLists="getUserLists"
+                  @setFiltersType="setFiltersType"
                   @openEmojiPicker="openEmojiPicker"
                   menuName="Lists"
                   @setFilterList="setFilterList"
@@ -440,14 +442,8 @@ export default {
       },
     },
   },
-  mounted() {
-    this.$nextTick(() => {
-      window.addEventListener('resize', this.onResize);
-    });
-  },
-
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize());
   },
   computed: {
     sortedCreators() {
@@ -479,6 +475,10 @@ export default {
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
 
+      this.$nextTick(() => {
+          window.addEventListener('resize', this.onResize());
+      });
+
     this.listenEvents(
       `importListCreated.${this.currentUser.current_team.id}`,
       'ImportListCreated',
@@ -486,6 +486,29 @@ export default {
         this.getUserLists();
       }
     );
+
+    this.listenEvents(
+      `userListImported.${this.currentUser.current_team.id}`,
+      'UserListImported',
+      (data) => {
+        let index = this.userLists.findIndex(list => list.id == data.list);
+        if (index >= 0) {
+            this.userLists[index].import_batch_in_progress = null
+        }
+      }
+    );
+
+    this.listenEvents(
+      `userListImportTriggered.${this.currentUser.current_team.id}`,
+      'UserListImportTriggered',
+      (data) => {
+        let index = this.userLists.findIndex(list => list.id == data.list);
+        if (index >= 0) {
+            this.userLists[index].import_batch_in_progress = true
+        }
+      }
+    );
+
     this.listenEvents(
       `creatorImported.${this.currentUser.current_team.id}`,
       'CreatorImported',
@@ -505,6 +528,9 @@ export default {
           this.creators.push(JSON.parse(window.atob(data.creator)));
         }
         this.$store.state.showImportProgress = !!data.batches;
+        if (! data.batches) {
+            this.getUserLists()
+        }
       }
     );
   },

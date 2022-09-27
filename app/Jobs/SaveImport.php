@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\ImportListCreated;
 use App\Imports\ImportFileImport;
 use App\Models\Import;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserList;
 use Aws\S3\S3Client;
@@ -71,6 +72,7 @@ class SaveImport implements ShouldQueue
             $list = UserList::firstOrCreateList($this->userId, $this->listName, $this->teamId);
             if ($list->wasRecentlyCreated) {
                 ImportListCreated::dispatch($this->teamId, $list);
+                Notification::createNotification("$list->name import queued. It will begin shortly.", Notification::IMPORT_QUEUED, $this->userId, $this->teamId);
             }
             $payload = base64_encode(json_encode([
                 'mappedColumns' => $this->mappedColumns,
