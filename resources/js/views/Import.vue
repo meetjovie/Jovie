@@ -1,9 +1,4 @@
 <template>
-  <div v-else>
-    <NoAccess
-      title="You're out of credits."
-      message="You need to upgrade your account to continue using this feature." />
-  </div>
   <div
     v-if="
       currentUser.current_team.credits &&
@@ -103,6 +98,11 @@
         @listNameUpdated="updateListName" />
     </div>
   </div>
+    <div v-else>
+        <NoAccess
+            title="You're out of credits."
+            message="You need to upgrade your account to continue using this feature." />
+    </div>
 </template>
 <script>
 import {

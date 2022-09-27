@@ -531,15 +531,21 @@ export default {
         ) {
           return;
         }
-        if (this.filters.page === 1 && this.creators.length == 50) {
-          this.creators.pop();
+
+        if (data.list && data.list == this.filters.list) {
+            if (this.filters.page === 1 && this.creators.length == 50) {
+                this.creators.pop();
+            }
+            if (this.creators.length) {
+                this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)));
+            } else {
+                this.creators.push(JSON.parse(window.atob(data.creator)));
+            }
         }
-        if (this.creators.length) {
-          this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)));
-        } else {
-          this.creators.push(JSON.parse(window.atob(data.creator)));
-        }
-        this.$store.state.showImportProgress = !!data.batches;
+
+          console.log('data.batches');
+          console.log(data);
+          this.$store.state.showImportProgress = !!data.batches;
         if (! data.batches) {
             this.getUserLists()
         }
