@@ -377,7 +377,7 @@
                     as="div"
                     active=""
                     id="profileDropdown"
-                    class="absolute right-0 z-30 mt-2 w-80 origin-top-right rounded-md bg-white pt-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter"
+                    class="absolute right-0 z-30 mt-2 w-80 origin-top-right rounded-md border border-neutral-200 bg-white pt-1 shadow-xl"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
@@ -385,7 +385,7 @@
                     <!-- Active: "bg-neutral-100", Not Active: "" -->
                     <div
                       as="div"
-                      class="block border-b-2 border-opacity-30 px-4 pt-2 text-left text-xs font-bold text-neutral-400"
+                      class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-neutral-400"
                       role="menuitem"
                       tabindex="-1"
                       id="user-menu-item-0">
@@ -419,7 +419,7 @@
                     </div>
                     <router-link
                       v-if="currentUser.username"
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
                       :to="profileLink">
                       <component
                         class="mr-4 h-4 w-4 cursor-pointer"
@@ -429,7 +429,7 @@
                     </router-link>
                     <router-link
                       v-else
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
                       to="edit-profile">
                       <component
                         class="mr-4 h-4 w-4 cursor-pointer"
@@ -442,11 +442,11 @@
                       :key="dropdownmenuitem"
                       as="router-link"
                       :to="dropdownmenuitem.route"
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
                       role="menuitem"
                       tabindex="-1">
                       <router-link
-                        class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
+                        class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
                         :to="dropdownmenuitem.route">
                         <div class="flex">
                           <component
@@ -466,7 +466,7 @@
                     </div>
                     <router-link
                       to="slack-community"
-                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
+                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
                       role="menuitem">
                       <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                       </component>
@@ -475,7 +475,7 @@
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
-                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-300 hover:text-neutral-700"
+                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
                       role="menuitem"
                       tabindex="-1">
                       <component
@@ -604,17 +604,20 @@ export default {
       isShowing: false,
       isLoading: false,
       notifications: [],
-        newNotification: false
+      newNotification: false,
     };
   },
 
   mounted() {
     //check local storage for the value of CRM sidebar
-      console.log('CRMSidebarOpen', localStorage.getItem('CRMSidebarOpen'));
-      console.log('CRMSidebarOpen', typeof localStorage.getItem('CRMSidebarOpen'));
-      if (localStorage.getItem('CRMSidebarOpen') === 'false') {
-          this.$store.state.CRMSidebarOpen = false;
-        }
+    console.log('CRMSidebarOpen', localStorage.getItem('CRMSidebarOpen'));
+    console.log(
+      'CRMSidebarOpen',
+      typeof localStorage.getItem('CRMSidebarOpen')
+    );
+    if (localStorage.getItem('CRMSidebarOpen') === 'false') {
+      this.$store.state.CRMSidebarOpen = false;
+    }
 
     //identify call to segment
     window.analytics.identify(this.user.email, {
@@ -652,10 +655,12 @@ export default {
         response = response.data;
         if (response.status) {
           this.notifications = response.notifications;
-          this.newNotification = false
-            this.$store.state.showImportProgress = this.notifications.filter((notification) => {
-                return notification.is_batch && notification.progress < 100
-            }).length
+          this.newNotification = false;
+          this.$store.state.showImportProgress = this.notifications.filter(
+            (notification) => {
+              return notification.is_batch && notification.progress < 100;
+            }
+          ).length;
         }
       });
     },

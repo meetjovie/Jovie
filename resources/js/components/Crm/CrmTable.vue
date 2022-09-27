@@ -4,7 +4,7 @@
       <div class="h-full pb-10">
         <div
           class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
-          <div class="flex h-10 w-80 content-end items-center">
+          <div class="flex h-6 w-80 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
               <!-- <div class="group">
@@ -15,36 +15,45 @@
                   >test content</span
                 >
               </div> -->
-              <div
-                class="flex h-8 w-full items-center justify-end"
-                v-if="searchVisible">
-                <div
-                  class="flex items-center rounded-md border border-neutral-200">
-                  <div
-                    class="content-right relative flex flex-grow items-center focus-within:z-10">
-                    <div
-                      class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <MagnifyingGlassIcon
-                        class="h-4 w-4 text-gray-400"
-                        aria-hidden="true" />
-                    </div>
-                    <input
-                      placeholder="Press /  to search"
-                      ref="searchInput"
-                      v-model="searchQuery"
-                      class="block w-full rounded-md border-gray-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
 
+              <TransitionRoot
+                :show="searchVisible"
+                enter="transition-opacity duration-75"
+                enter-from="opacity-0"
+                enter-to="opacity-100"
+                leave="transition-opacity duration-0"
+                leave-from="opacity-100"
+                leave-to="opacity-0">
+                <div
+                  class="flex h-6 w-full items-center justify-end transition-all">
+                  <div
+                    class="flex items-center rounded-md border border-neutral-200">
                     <div
-                      @click="toggleSearchVisible()"
-                      class="group absolute inset-y-0 right-0 flex items-center pr-3">
-                      <XMarkIcon
-                        class="h-4 w-4 cursor-pointer rounded-md text-gray-400 group-hover:bg-gray-100 group-hover:text-gray-600"
-                        aria-hidden="true" />
+                      class="content-right relative flex flex-grow items-center focus-within:z-10">
+                      <div
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <MagnifyingGlassIcon
+                          class="h-4 w-4 text-gray-400"
+                          aria-hidden="true" />
+                      </div>
+                      <input
+                        placeholder="Press /  to search"
+                        ref="searchInput"
+                        v-model="searchQuery"
+                        class="block w-full rounded-md border-gray-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
+
+                      <div
+                        @click="toggleSearchVisible()"
+                        class="group absolute inset-y-0 right-0 flex items-center pr-3">
+                        <XMarkIcon
+                          class="h-4 w-4 cursor-pointer rounded-md text-gray-400 group-hover:bg-gray-100 group-hover:text-gray-600"
+                          aria-hidden="true" />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div v-else>
+              </TransitionRoot>
+              <div v-if="!searchVisible">
                 <JovieTooltip
                   text="Search"
                   class="w-full justify-end"
@@ -72,11 +81,7 @@
             <div class="flex items-center">
               <div class="group h-full cursor-pointer items-center">
                 <Popover class="items-center">
-                  <Float
-                    portal
-                    class="pr-2"
-                    :offset="16"
-                    placement="bottom-end">
+                  <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <PopoverButton class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
                         class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
@@ -614,7 +619,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border focus-visible:border-indigo-500">
+                      class="border-1 table-cell w-60 whitespace-nowrap border focus-visible:border-indigo-500">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
                           v-model="creator.meta.emails"
@@ -1011,7 +1016,7 @@
                 </template>
               </tbody>
             </table>
-            <div class="w-full">
+            <div class="w-full justify-end">
               <Pagination
                 class="z-50 w-full"
                 v-if="creatorRecords.length"
@@ -1040,6 +1045,7 @@ import {
   Popover,
   PopoverButton,
   PopoverPanel,
+  TransitionRoot,
 } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
 import {
@@ -1126,6 +1132,7 @@ export default {
     SwitchGroup,
     SwitchLabel,
     ArrowUpCircleIcon,
+    TransitionRoot,
   },
   data() {
     return {

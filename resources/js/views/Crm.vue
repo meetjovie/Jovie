@@ -133,10 +133,19 @@
               <JovieTooltip text="Upload a csv file to import contacts">
                 <router-link
                   to="import"
-                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
-                  <CloudArrowUpIcon
-                    class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-                    aria-hidden="true" />Import Contacts
+                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
+                  <div class="flex items-center">
+                    <CloudArrowUpIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                      aria-hidden="true" />Import Contacts
+                  </div>
+                  <div class="items-center">
+                    <CreatorTags
+                      v-if="!currentUser.current_team.current_subscription"
+                      :showX="false"
+                      text="Pro"
+                      color="blue" />
+                  </div>
                 </router-link>
               </JovieTooltip>
               <JovieTooltip text="Choose which teamspace you want to work in.">
@@ -319,6 +328,7 @@ import {
   ArchiveBoxIcon,
   CloudArrowUpIcon,
 } from '@heroicons/vue/24/solid';
+
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
 import ImportCreatorModal from '../components/ImportCreatorModal';
@@ -331,6 +341,7 @@ import JovieTooltip from '../components/JovieTooltip.vue';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
+import CreatorTags from '../components/Creator/CreatorTags.vue';
 export default {
   name: 'CRM',
   components: {
@@ -370,6 +381,7 @@ export default {
     CrmTable,
     JovieTooltip,
     vueMousetrapPlugin: VueMousetrapPlugin,
+    CreatorTags,
   },
   data() {
     return {
