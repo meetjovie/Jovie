@@ -4,7 +4,7 @@
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-500 hover:bg-neutral-200 hover:text-neutral-600">
+        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-600">
         <ChevronDownIcon
           v-if="showMenu"
           class="mt-0.5 mr-1 h-4 w-4 text-gray-500 group-hover:text-neutral-600" />
@@ -39,9 +39,8 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <div
-              class="group inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200 active:shadow-xl">
-              <div
-                class="group mx-auto w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
+              class="group inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200/50 active:shadow-xl">
+              <div class="group mx-auto w-4 flex-none cursor-grab items-center">
                 <Bars3Icon
                   class="h-4 w-4 text-gray-500/0 hover:text-neutral-900 active:text-neutral-900 group-hover:text-gray-500"></Bars3Icon>
               </div>
@@ -49,7 +48,7 @@
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-600 active:bg-neutral-800 group-hover:bg-neutral-200">
+                  class="group-/50 w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-600 hover:shadow-xl active:bg-neutral-800">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
@@ -190,19 +189,18 @@
     <ul v-if="showMenu && !draggable" class="">
       <div v-for="item in menuItems" :key="item.id">
         <div
-          class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200">
-          <div
-            class="group w-4 flex-none cursor-pointer items-center hover:bg-neutral-200">
+          class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200/50">
+          <div class="group w-4 flex-none cursor-pointer items-center">
             <PinnedIcon
               :active="active"
-              class="h-4 w-4 text-indigo-400 hover:text-gray-500 active:text-indigo-500"
+              class="h-4 w-4 text-indigo-400 hover:bg-neutral-200 hover:text-gray-500 active:text-indigo-500"
               aria-hidden="true" />
           </div>
 
           <div class="flex w-full items-center">
             <div
               @click="openEmojiPicker(item)"
-              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-700 group-hover:bg-neutral-200">
+              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-500 hover:shadow-xl group-hover:bg-neutral-200/50">
               {{ item.emoji ?? '📄' }}
             </div>
             <div

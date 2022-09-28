@@ -20,7 +20,7 @@
                   text="Show All Contacts">
                   <button
                     @click="setFiltersType('all')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
                     :class="[
                       filters.type == 'all'
                         ? 'text-sm font-bold text-neutral-600  '
@@ -54,7 +54,7 @@
                   text="Show Archived Contacts">
                   <button
                     @click="setFiltersType('archived')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
                     :class="[
                       filters.type == 'archived'
                         ? 'text-sm font-bold text-neutral-600 '
@@ -76,7 +76,7 @@
                 <JovieTooltip :shortcut="'G then F'" text="Show Favorites">
                   <button
                     @click="setFiltersType('favourites')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
                     :class="[
                       filters.type == 'favourites'
                         ? 'text-sm font-bold text-neutral-600 '
@@ -122,7 +122,7 @@
               <JovieTooltip text="Import a new contact to Jovie">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200 hover:text-neutral-600">
+                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-600">
                   <PlusIcon
                     class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-500"
                     aria-hidden="true" />New Contact
@@ -131,7 +131,7 @@
               <JovieTooltip text="Upload a csv file to import contacts">
                 <router-link
                   to="import"
-                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200 hover:text-neutral-600">
+                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-600">
                   <div class="flex items-center">
                     <CloudArrowUpIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
