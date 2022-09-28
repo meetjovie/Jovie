@@ -466,8 +466,6 @@
                           <form>
                             <input
                               type="checkbox"
-                              :name="creator.id"
-                              :id="`creator_${creator.id}`"
                               :value="creator.id"
                               class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                               v-model="selectedCreators" />
