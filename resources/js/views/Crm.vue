@@ -135,7 +135,7 @@
                   <div class="flex items-center">
                     <CloudArrowUpIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-                      aria-hidden="true" />Import Contacts
+                      aria-hidden="true" />Upload A CSV
                   </div>
                   <div class="items-center">
                     <CreatorTags
