@@ -1,16 +1,16 @@
 <template>
   <div>
     <div
-      class="group flex cursor-pointer items-center justify-between rounded-md py-2">
+      class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md pr-2 text-sm font-semibold text-neutral-400 hover:bg-neutral-200 group-hover:text-neutral-500">
+        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-500 hover:bg-neutral-200 hover:text-neutral-600">
         <ChevronDownIcon
           v-if="showMenu"
-          class="mt-0.5 mr-1 h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
+          class="mt-0.5 mr-1 h-4 w-4 text-gray-500 group-hover:text-neutral-600" />
         <ChevronRightIcon
           v-else
-          class="mr-1 h-4 w-4 text-gray-400 group-hover:text-neutral-500" />
+          class="text-thin mr-1 h-4 w-4 text-xs text-gray-500 group-hover:text-neutral-600" />
         {{ menuName }}
       </div>
       <div class="flex items-center">
@@ -43,13 +43,13 @@
               <div
                 class="group mx-auto w-4 flex-none cursor-grab items-center hover:bg-neutral-200">
                 <Bars3Icon
-                  class="h-4 w-4 text-gray-400/0 hover:text-neutral-900 active:text-neutral-900 group-hover:text-gray-400"></Bars3Icon>
+                  class="h-4 w-4 text-gray-500/0 hover:text-neutral-900 active:text-neutral-900 group-hover:text-gray-500"></Bars3Icon>
               </div>
 
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-400 active:bg-neutral-800 group-hover:bg-neutral-200">
+                  class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-600 active:bg-neutral-800 group-hover:bg-neutral-200">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
@@ -60,10 +60,10 @@
                     v-if="!element.editName"
                     :class="[
                       selectedList == element.id
-                        ? 'font-bold text-neutral-500 '
-                        : 'font-semibold text-neutral-400',
+                        ? 'font-bold text-neutral-600 '
+                        : 'font-medium text-neutral-500',
                     ]"
-                    class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-500"
+                    class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-600"
                     >{{ element.name }}</span
                   >
                   <input
@@ -72,7 +72,7 @@
                     @keyup.esc="disableEditName(element)"
                     @keyup.enter="updateList(element)"
                     v-else
-                    class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
+                    class="text-xs font-medium text-neutral-500 group-hover:text-neutral-600" />
                 </div>
               </div>
               <div
@@ -82,7 +82,7 @@
                   class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                 <span
                   v-else
-                  class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                  class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-600"
                   >{{ element.creators_count }}</span
                 >
 
@@ -104,14 +104,14 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none">
+                        class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="px-1 py-1">
                           <MenuItem v-slot="{ active }">
                             <button
                               @click="editList(element)"
                               :class="[
                                 active
-                                  ? 'bg-gray-300 text-gray-700'
+                                  ? 'bg-neutral-100 text-gray-700'
                                   : 'text-gray-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
@@ -127,7 +127,7 @@
                               @click="duplicateList(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-gray-300 text-gray-700'
+                                  ? 'bg-neutral-100 text-gray-700'
                                   : 'text-gray-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
@@ -143,7 +143,7 @@
                               @click="pinList(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-gray-300 text-gray-700'
+                                  ? 'bg-neutral-100 text-gray-700'
                                   : 'text-gray-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
@@ -162,7 +162,7 @@
                               @click="confirmListDeletion(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-gray-300 text-gray-900'
+                                  ? 'bg-neutral-100 text-gray-900'
                                   : 'text-gray-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
@@ -213,10 +213,10 @@
                 v-if="!item.editName"
                 :class="[
                   selectedList == item.id
-                    ? 'font-bold text-neutral-500 '
-                    : 'font-semibold text-neutral-400',
+                    ? 'font-bold text-neutral-600 '
+                    : 'font-semibold text-neutral-500',
                 ]"
-                class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-500"
+                class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-600"
                 >{{ item.name }}</span
               >
               <input
@@ -226,7 +226,7 @@
                 @keyup.esc="disableEditName(item)"
                 @keyup.enter="updateList(item)"
                 v-else
-                class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
+                class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-600" />
             </div>
           </div>
 
@@ -237,7 +237,7 @@
               >{{ item.creators_count }}</span
             >
 
-            <Menu as="div" class="relative inline-block text-left">
+            <Menu as="div" class="relative inline-block text-center">
               <Float portal :offset="12" placement="right-start">
                 <div>
                   <MenuButton
@@ -255,14 +255,14 @@
                   leave-from-class="transform scale-100 opacity-100"
                   leave-to-class="transform scale-95 opacity-0">
                   <MenuItems
-                    class="z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none">
+                    class="z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="px-1 py-1">
                       <MenuItem v-slot="{ active }">
                         <button
                           @click="editList(item.id)"
                           :class="[
                             active
-                              ? 'bg-gray-300 text-gray-700'
+                              ? 'bg-neutral-100 text-gray-700'
                               : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
@@ -278,7 +278,7 @@
                           @click="duplicateList(item.id)"
                           :class="[
                             active
-                              ? 'bg-gray-300 text-gray-700'
+                              ? 'bg-neutral-100 text-gray-700'
                               : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
@@ -294,7 +294,7 @@
                           @click="unpinList(item.id)"
                           :class="[
                             active
-                              ? 'bg-gray-300 text-gray-700'
+                              ? 'bg-neutral-100 text-gray-700'
                               : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
@@ -313,7 +313,7 @@
                           @click="confirmListDeletion(item.id)"
                           :class="[
                             active
-                              ? 'bg-gray-300 text-gray-700'
+                              ? 'bg-neutral-100 text-gray-700'
                               : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">

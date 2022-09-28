@@ -237,7 +237,7 @@
                           intermediate ||
                           selectedCreators.length === creatorRecords.length
                         "
-                        :intermediate="intermediate"
+                        :intermediate="true"
                         @change="
                           selectedCreators = $event.target.checked
                             ? creatorRecords.map((c) => c.id)
