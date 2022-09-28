@@ -43,7 +43,7 @@
                     placeholder="Email"
                     label="Email"
                     required="" />
-                  <p class="mt-2 text-sm text-red-900" v-if="this.errors.email">
+                  <p class="mt-1 text-xs text-red-700" v-if="this.errors.email">
                     {{ this.errors.email[0] }}
                   </p>
                 </div>
@@ -62,7 +62,7 @@
                     autocomplete="current-password"
                     required="" />
                   <p
-                    class="mt-2 text-sm text-red-900"
+                    class="mt-1 text-xs text-red-700"
                     v-if="this.errors.password">
                     {{ this.errors.password[0] }}
                   </p>
@@ -72,6 +72,7 @@
               <div>
                 <ButtonGroup
                   :disabled="loggingIn"
+                  :error="buttonError"
                   @click="login()"
                   :text="loggingIn ? 'Logging in...' : 'Sign in'"
                   :loader="loggingIn"
@@ -133,7 +134,9 @@ export default {
   data() {
     return {
       errors: {},
+      buttonError: false,
       error: '',
+
       user: {
         email: '',
         password: '',
@@ -146,6 +149,7 @@ export default {
     login() {
       this.errors = {};
       this.error = '';
+      this.buttonError = false;
       this.loggingIn = true;
       AuthService.login(this.user)
         .then((response) => {
@@ -153,6 +157,13 @@ export default {
           localStorage.setItem('jovie_extension', response.token);
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
+            this.buttonError = false;
+            this.successfulLogin = true;
+            window.analytics.track('User Logged In', {
+              email: this.user.email,
+              first_name: this.user.first_name,
+              last_name: this.user.last_name,
+            });
             router.push({ name: 'Contacts' });
           } else {
             this.error = response.error;
@@ -161,16 +172,13 @@ export default {
         .catch((error) => {
           if (error.response.status == 422) {
             this.errors = error.response.data.errors;
+            this.buttonError = true;
             return;
           }
           alert('Something went wrong.');
         })
         .finally(() => {
           this.loggingIn = false;
-          window.analytics.track('User Logged In', {
-            email: this.user.email,
-          });
-          this.successfulLogin = true;
         });
     },
   },

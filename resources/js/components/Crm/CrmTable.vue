@@ -1,10 +1,10 @@
 <template>
   <div class="h-full w-full flex-col overflow-y-scroll">
     <div class="flex h-full w-full flex-col">
-      <div class="h-full">
+      <div class="h-full pb-10">
         <div
           class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
-          <div class="flex h-10 w-80 content-end items-center">
+          <div class="flex h-6 w-80 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
               <!-- <div class="group">
@@ -15,36 +15,45 @@
                   >test content</span
                 >
               </div> -->
-              <div
-                class="flex h-8 w-full items-center justify-end"
-                v-if="searchVisible">
-                <div
-                  class="flex items-center rounded-md border border-neutral-200">
-                  <div
-                    class="content-right relative flex flex-grow items-center focus-within:z-10">
-                    <div
-                      class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <MagnifyingGlassIcon
-                        class="h-4 w-4 text-gray-400"
-                        aria-hidden="true" />
-                    </div>
-                    <input
-                      placeholder="Press /  to search"
-                      ref="searchInput"
-                      v-model="searchQuery"
-                      class="block w-full rounded-md border-gray-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
 
+              <TransitionRoot
+                :show="searchVisible"
+                enter="transition-opacity duration-75"
+                enter-from="opacity-0"
+                enter-to="opacity-100"
+                leave="transition-opacity duration-0"
+                leave-from="opacity-100"
+                leave-to="opacity-0">
+                <div
+                  class="flex h-6 w-full items-center justify-end transition-all">
+                  <div
+                    class="flex items-center rounded-md border border-neutral-200">
                     <div
-                      @click="toggleSearchVisible()"
-                      class="group absolute inset-y-0 right-0 flex items-center pr-3">
-                      <XMarkIcon
-                        class="h-4 w-4 cursor-pointer rounded-md text-gray-400 group-hover:bg-gray-100 group-hover:text-gray-600"
-                        aria-hidden="true" />
+                      class="content-right relative flex flex-grow items-center focus-within:z-10">
+                      <div
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <MagnifyingGlassIcon
+                          class="h-4 w-4 text-gray-400"
+                          aria-hidden="true" />
+                      </div>
+                      <input
+                        placeholder="Press /  to search"
+                        ref="searchInput"
+                        v-model="searchQuery"
+                        class="block w-full rounded-md border-gray-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
+
+                      <div
+                        @click="toggleSearchVisible()"
+                        class="group absolute inset-y-0 right-0 flex items-center pr-3">
+                        <XMarkIcon
+                          class="h-4 w-4 cursor-pointer rounded-md text-gray-400 group-hover:bg-gray-100 group-hover:text-gray-600"
+                          aria-hidden="true" />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div v-else>
+              </TransitionRoot>
+              <div v-if="!searchVisible">
                 <JovieTooltip
                   text="Search"
                   class="w-full justify-end"
@@ -72,11 +81,7 @@
             <div class="flex items-center">
               <div class="group h-full cursor-pointer items-center">
                 <Popover class="items-center">
-                  <Float
-                    portal
-                    class="pr-2"
-                    :offset="16"
-                    placement="bottom-end">
+                  <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <PopoverButton class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
                         class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
@@ -217,13 +222,13 @@
         <div class="inline-block min-w-full align-middle">
           <div class="shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="w-full table-auto divide-y divide-gray-200 overflow-x-scroll">
+              class="w-auto table-fixed divide-y divide-gray-200 overflow-x-scroll">
               <thead
-                class="relative isolate z-20 w-full items-center bg-neutral-100">
+                class="relative isolate z-20 w-full items-center overflow-x-scroll bg-neutral-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky top-0 z-50 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -238,17 +243,11 @@
                             ? creatorRecords.map((c) => c.id)
                             : []
                         " />
-                      <!--  <input
-                          id="comments"bulk edis
-                          aria-describedby="comments-description"
-                          name="comments"
-                          type="checkbox"
-                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
                     </div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-50 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky top-0 z-50 w-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
@@ -410,6 +409,7 @@
                       scope="col"
                       class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
+                        class="w-full"
                         @hide-column="column.visible = false"
                         :sortable="column.sortable"
                         :icon="column.icon"
@@ -453,7 +453,7 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="w-12 overflow-auto whitespace-nowrap py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="w-6 overflow-auto whitespace-nowrap py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -463,13 +463,13 @@
                             },
                             'block',
                           ]">
-                          <input
-                            type="checkbox"
-                            :name="creator.id"
-                            :id="`creator_${creator.id}`"
-                            :value="creator.id"
-                            class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
-                            v-model="selectedCreators" />
+                          <form>
+                            <input
+                              type="checkbox"
+                              :value="creator.id"
+                              class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                              v-model="selectedCreators" />
+                          </form>
                         </span>
                         <span
                           class="text-xs group-hover:hidden"
@@ -483,7 +483,7 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
-                      class="w-8 overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="w-4 overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -613,7 +613,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border focus-visible:border-indigo-500">
+                      class="border-1 table-cell w-60 whitespace-nowrap border focus-visible:border-indigo-500">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
                           v-model="creator.meta.emails"
@@ -642,7 +642,7 @@
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
-                              countsVisible
+                              setting.isVisable
                               :link="creator[`${network}_handler`]"
                               :icon="network" />
                           </div>
@@ -696,15 +696,19 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 relative isolate z-10 table-cell w-28 items-center whitespace-nowrap border">
+                      class="border-1 relative isolate z-10 table-cell items-center whitespace-nowrap border">
                       <Popover
                         as="div"
                         class="relative z-10 inline-block w-full items-center text-left">
-                        <Float portal :offset="2" shift placement="bottom">
+                        <Float
+                          portal
+                          :offset="0"
+                          shift
+                          placement="bottom-start">
                           <PopoverButton
                             class="flex w-full justify-between px-2">
                             <div
-                              class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-semibold leading-5 line-clamp-1"
+                              class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1"
                               :class="[
                                 {
                                   'bg-indigo-50 text-indigo-600':
@@ -746,7 +750,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                              class="z-30 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                               <div class="">
                                 <div class="">
                                   <button
@@ -759,12 +763,12 @@
                                         value: key,
                                       })
                                     "
-                                    class="group flex w-full items-center bg-neutral-50 px-2 py-2 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-200 hover:text-white">
+                                    class="group flex w-full items-center bg-white px-2 py-1 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-100 hover:text-neutral-600">
                                     <div
                                       class="mr-2 text-xs font-bold opacity-50">
                                       {{ key + 1 }}
                                     </div>
-                                    <div class="text-xs font-bold">
+                                    <div class="text-xs font-medium">
                                       {{ stage }}
                                     </div>
                                   </button>
@@ -880,7 +884,7 @@
                               leave-from-class="transform opacity-100 scale-100"
                               leave-to-class="transform opacity-0 scale-95">
                               <MenuItems
-                                class="backdrop-fitler z-10 mt-2 w-40 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
+                                class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
                                     :disabled="!creator.emails[0]"
@@ -1006,17 +1010,19 @@
                 </template>
               </tbody>
             </table>
+            <div class="w-full justify-end">
+              <Pagination
+                class="z-50 w-full"
+                v-if="creatorRecords.length"
+                :totalPages="creatorsMeta.last_page"
+                :perPage="creatorsMeta.per_page"
+                :currentPage="creatorsMeta.current_page"
+                :disabled="loading"
+                @pagechanged="$emit('pageChanged', $event)" />
+            </div>
           </div>
         </div>
       </div>
-      <Pagination
-        class="w-full justify-end"
-        v-if="creatorRecords.length"
-        :totalPages="creatorsMeta.last_page"
-        :perPage="creatorsMeta.per_page"
-        :currentPage="creatorsMeta.current_page"
-        :disabled="loading"
-        @pagechanged="$emit('pageChanged', $event)" />
     </div>
   </div>
 </template>
@@ -1033,6 +1039,7 @@ import {
   Popover,
   PopoverButton,
   PopoverPanel,
+  TransitionRoot,
 } from '@headlessui/vue';
 import StarRating from 'vue-star-rating';
 import {
@@ -1119,6 +1126,7 @@ export default {
     SwitchGroup,
     SwitchLabel,
     ArrowUpCircleIcon,
+    TransitionRoot,
   },
   data() {
     return {

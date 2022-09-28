@@ -7,8 +7,8 @@
         <!--- OpenGraph -->
         <meta property="og:image:height" content="333">
         <meta property="og:image:width" content="636">
-        <meta property="og:description" content="Easily build, manage, &amp; grow creator communities.">
-        <meta property="og:title" content="Jovie | Scale your creator partnerships">
+        <meta property="og:description" content="Organize everyone you follow">
+        <meta property="og:title" content="Jovie | Social CRM">
         <meta property="og:url" content="http://jov.ie">
         <meta property="og:image" content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg">
         <!-- End OpenGraph -->

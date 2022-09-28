@@ -14,7 +14,7 @@
                 </div>
                 <div
                   class="hidden items-center py-1 md:ml-6 md:flex md:space-x-4">
-                  <Popover v-slot="{ open }" class="relative">
+                  <!-- <Popover v-slot="{ open }" class="relative">
                     <PopoverButton
                       :class="open ? '' : 'text-opacity-90'"
                       class="group z-20 -mt-1 inline-flex items-center rounded-md px-3 text-xs font-medium text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-200 focus-visible:ring-opacity-75">
@@ -66,7 +66,7 @@
                               </div>
                             </router-link>
                           </div>
-                          <!-- <div class="bg-gray-50 p-4">
+                           <div class="bg-gray-50 p-4">
                           <router-link
                             to="chrome-extension"
                             class="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50">
@@ -84,11 +84,11 @@
                               Gmail.
                             </span>
                           </router-link>
-                        </div> -->
+                        </div> 
                         </div>
                       </PopoverPanel>
                     </transition>
-                  </Popover>
+                  </Popover> -->
 
                   <router-link
                     to="pricing"

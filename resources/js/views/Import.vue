@@ -1,10 +1,9 @@
 <template>
-  <div v-if="!currentUser.current_team.credits">
-    <NoAccess
-      title="You're out of credits."
-      message="You need to upgrade your account to continue using this feature." />
-  </div>
-  <div v-else>
+  <div
+    v-if="
+      currentUser.current_team.credits &&
+      currentUser.current_team.current_subscription
+    ">
     <div>
       <div>
         <div
@@ -98,6 +97,11 @@
         :userLists="userLists"
         @listNameUpdated="updateListName" />
     </div>
+  </div>
+  <div v-else>
+    <NoAccess
+      title="You're out of credits."
+      message="You need to upgrade your account to continue using this feature." />
   </div>
 </template>
 <script>

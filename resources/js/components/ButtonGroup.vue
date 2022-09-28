@@ -5,6 +5,18 @@
     @click="trackClick()"
     class="group inline-flex items-center overflow-hidden font-medium first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
     :class="[
+      success
+        ? 'bg-green-500'
+        : error
+        ? 'bg-red-500'
+        : disabled
+        ? 'bg-gray-500'
+        : '',
+      //design seconday then bg color white
+      design === 'secondary' ? 'bg-white' : '',
+      //if toolbar then bg color white
+      toolbar ? 'bg-white' : '',
+
       { 'py-0 px-2 text-xs': size == 'xs' },
       { 'py-1 px-2 text-sm': size == 'sm' },
       { 'py-3  px-4 text-base': size == 'base' },
@@ -19,7 +31,7 @@
           design == 'toolbar',
       },
       {
-        'hover:bg-indig-600 w-full bg-indigo-500 font-medium text-white  shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900':
+        'hover:bg-indig-600 w-full  font-medium text-white  shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900':
           design == 'primary',
       },
       {
@@ -68,6 +80,11 @@
     <div v-else-if="success">
       <CheckIcon class="h-5 w-5 text-white transition-all" />
     </div>
+
+    <div v-else-if="error">
+      <XMarkCircleIcon class="h-5 w-5 text-white transition-all" />
+    </div>
+    <div v-else></div>
   </button>
   <!-- <a
     href="#_"
@@ -113,8 +130,9 @@ import {
   AdjustmentsHorizontalIcon,
   PlusIcon,
   ChevronRightIcon,
+  XMarkCircleIcon,
 } from '@heroicons/vue/24/solid';
-import { CheckIcon } from '@heroicons/vue/24/outline';
+import { CheckIcon } from '@heroicons/vue/24/solid';
 
 import JovieSpinner from '../components/JovieSpinner';
 
@@ -131,6 +149,11 @@ export default {
     text: {
       type: String,
       default: null,
+      required: false,
+    },
+    error: {
+      type: String,
+      default: '',
       required: false,
     },
     icon: {
@@ -177,8 +200,8 @@ export default {
       default: 'all',
     },
     success: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: null,
     },
   },
   components: {
@@ -193,6 +216,7 @@ export default {
     MinusCircleIcon,
     ChevronRightIcon,
     JovieSpinner,
+    XMarkCircleIcon,
   },
 };
 </script>
