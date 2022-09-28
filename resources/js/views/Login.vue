@@ -161,7 +161,8 @@ export default {
             this.successfulLogin = true;
             window.analytics.track('User Logged In', {
               email: this.user.email,
-              name: this.user.first_name + ' ' + this.user.last_name,
+              first_name: this.user.first_name,
+              last_name: this.user.last_name,
             });
             router.push({ name: 'Contacts' });
           } else {
