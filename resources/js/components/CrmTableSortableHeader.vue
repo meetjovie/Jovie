@@ -5,12 +5,14 @@
       <Float placement="bottom-start" portal shift>
         <PopoverButton class="w-full">
           <div
-            class="group flex h-full w-full cursor-pointer select-none items-center justify-between py-2 pl-1 pr-2 hover:bg-neutral-200 active:bg-neutral-300">
-            <div class="flex w-full items-center">
+            class="text-medium group flex h-full w-full cursor-pointer select-none items-center justify-between py-2 pl-1 pr-2 tracking-wider hover:bg-neutral-200 active:bg-neutral-300">
+            <div class="text-medium flex w-full items-center tracking-wider">
               <component
                 class="mr-1 h-4 w-4 text-neutral-300 group-hover:text-neutral-400"
                 :is="icon"></component>
-              <span class="line-clamp-1">{{ name }}</span>
+              <span class="text-medium tracking-wider line-clamp-1">
+                {{ name }}
+              </span>
             </div>
             <div
               v-if="sortable"
