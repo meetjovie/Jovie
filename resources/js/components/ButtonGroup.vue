@@ -82,7 +82,7 @@
     </div>
 
     <div v-else-if="error">
-      <XMarkIcon class="h-5 w-5 text-white transition-all" />
+      <XMarkCircleIcon class="h-5 w-5 text-white transition-all" />
     </div>
     <div v-else></div>
   </button>
@@ -130,7 +130,7 @@ import {
   AdjustmentsHorizontalIcon,
   PlusIcon,
   ChevronRightIcon,
-  XMarkIcon,
+  XMarkCircleIcon,
 } from '@heroicons/vue/24/solid';
 import { CheckIcon } from '@heroicons/vue/24/solid';
 
@@ -216,7 +216,7 @@ export default {
     MinusCircleIcon,
     ChevronRightIcon,
     JovieSpinner,
-    XMarkIcon,
+    XMarkCircleIcon,
   },
 };
 </script>

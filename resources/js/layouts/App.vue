@@ -210,7 +210,9 @@
                               Notifications
                             </p>
                           </div>
-                          <div class="" v-if="notifications.length">
+                          <div
+                            class="overflow-y-scroll"
+                            v-if="notifications.length">
                             <template
                               v-for="notification in notifications"
                               :key="notification.id">

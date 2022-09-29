@@ -243,12 +243,6 @@
                             ? creatorRecords.map((c) => c.id)
                             : []
                         " />
-                      <!--  <input
-                          id="comments"bulk edis
-                          aria-describedby="comments-description"
-                          name="comments"
-                          type="checkbox"
-                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
                     </div>
                   </th>
                   <th
@@ -469,13 +463,13 @@
                             },
                             'block',
                           ]">
-                          <input
-                            type="checkbox"
-                            :name="creator.id"
-                            :id="`creator_${creator.id}`"
-                            :value="creator.id"
-                            class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
-                            v-model="selectedCreators" />
+                          <form>
+                            <input
+                              type="checkbox"
+                              :value="creator.id"
+                              class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                              v-model="selectedCreators" />
+                          </form>
                         </span>
                         <span
                           class="text-xs group-hover:hidden"
@@ -648,7 +642,7 @@
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
-                              countsVisible
+                              setting.isVisable
                               :link="creator[`${network}_handler`]"
                               :icon="network" />
                           </div>
@@ -890,7 +884,7 @@
                               leave-from-class="transform opacity-100 scale-100"
                               leave-to-class="transform opacity-0 scale-95">
                               <MenuItems
-                                class="backdrop-fitler z-10 mt-2 w-40 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl focus-visible:outline-none">
+                                class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
                                     :disabled="!creator.emails[0]"

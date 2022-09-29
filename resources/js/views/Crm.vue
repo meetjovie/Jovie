@@ -11,20 +11,20 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full">
           <div
-            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r-2 border-neutral-200 bg-gray-50 py-4 pb-2 shadow-xl"
+            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-neutral-100 bg-neutral-50 py-4 pb-2 shadow-xl"
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
-              <div class="mt-10 flex-col py-1 px-2">
+              <div class="mt-10 flex-col py-0.5 px-2">
                 <JovieTooltip
                   shortcuts="{ key: 's', key: 'c', key: 't' }"
                   text="Show All Contacts">
                   <button
                     @click="setFiltersType('all')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
                     :class="[
                       filters.type == 'all'
-                        ? 'text-sm font-bold text-neutral-500  '
-                        : 'text-sm font-semibold text-neutral-400',
+                        ? 'text-sm font-bold text-neutral-600  '
+                        : 'text-sm font-semibold text-neutral-500',
                     ]">
                     <div class="flex items-center text-xs">
                       <UserGroupIcon
@@ -36,7 +36,7 @@
                       @click="showCreatorModal = true"
                       class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+                        class="text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
                         >{{ counts.total }}</span
                       >
 
@@ -54,11 +54,11 @@
                   text="Show Archived Contacts">
                   <button
                     @click="setFiltersType('archived')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
                     :class="[
                       filters.type == 'archived'
-                        ? 'text-sm font-bold text-neutral-500 '
-                        : 'text-sm font-semibold text-neutral-400',
+                        ? 'text-sm font-bold text-neutral-600 '
+                        : 'text-sm font-semibold text-neutral-500',
                     ]">
                     <div class="flex items-center text-xs">
                       <ArchiveBoxIcon
@@ -67,7 +67,7 @@
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                        class="text-xs font-semibold text-neutral-500 group-hover:text-neutral-600"
                         >{{ counts.archived }}</span
                       >
                     </div>
@@ -76,11 +76,11 @@
                 <JovieTooltip :shortcut="'G then F'" text="Show Favorites">
                   <button
                     @click="setFiltersType('favourites')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left hover:bg-neutral-200 hover:text-neutral-500"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
                     :class="[
                       filters.type == 'favourites'
-                        ? 'text-sm font-bold text-neutral-500 '
-                        : 'text-sm font-semibold text-neutral-400',
+                        ? 'text-sm font-bold text-neutral-600 '
+                        : 'text-sm font-semibold text-neutral-500',
                     ]">
                     <div class="flex items-center text-xs">
                       <HeartIcon
@@ -89,7 +89,7 @@
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+                        class="text-xs font-semibold text-neutral-500 group-hover:text-neutral-600"
                         >{{ counts.favourites }}</span
                       >
                     </div>
@@ -124,20 +124,20 @@
               <JovieTooltip text="Import a new contact to Jovie">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
+                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-600">
                   <PlusIcon
-                    class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-400"
+                    class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-500"
                     aria-hidden="true" />New Contact
                 </div>
               </JovieTooltip>
               <JovieTooltip text="Upload a csv file to import contacts">
                 <router-link
                   to="import"
-                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-400 hover:bg-neutral-200 hover:text-neutral-600">
+                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-600">
                   <div class="flex items-center">
                     <CloudArrowUpIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-                      aria-hidden="true" />Import Contacts
+                      aria-hidden="true" />Upload A CSV
                   </div>
                   <div class="items-center">
                     <CreatorTags
@@ -193,6 +193,7 @@
             </div>
           </div>
         </TransitionRoot>
+
         <div class="h-full w-full transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
             <div class="h-full w-full">
@@ -267,6 +268,7 @@
             </div>
           </div>
         </div>
+
         <TransitionRoot
           :show="$store.state.ContactSidebarOpen"
           enter="transition ease-in-out duration-300 transform"
@@ -313,6 +315,7 @@ import {
   Menu,
   MenuButton,
   TransitionRoot,
+  TransitionChild,
   MenuItems,
   MenuItem,
 } from '@headlessui/vue';
@@ -382,6 +385,7 @@ export default {
     JovieTooltip,
     vueMousetrapPlugin: VueMousetrapPlugin,
     CreatorTags,
+    TransitionChild,
   },
   data() {
     return {
