@@ -159,6 +159,7 @@ class Import extends Model
             })->catch(function (Batch $batch, Throwable $e = null) {
                 Log::info('First batch job failure detected...');
             })->finally(function (Batch $batch) {
+
                 $user = User::where('id', $this->user_id)->first();
 //                if ($user) {
 //                    $user->sendNotification(('Import '.strtoupper($batch->type).' profiles for '.$batch->name.' completed successfully.'), Notification::BATCH_IMPORT,

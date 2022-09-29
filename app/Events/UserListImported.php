@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Import;
 use App\Models\UserList;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -48,9 +49,14 @@ class UserListImported implements ShouldBroadcast
     public function broadcastWith()
     {
         $list = UserList::where('id', $this->listId)->first();
+        $batches = Import::importBatches($this->userId);
+        $batches = !! count(array_filter($batches, function ($batch) {
+            return $batch->is_batch && $batch->progress < 100;
+        }));
         if ($list) {
             return ['status' => true, 'data' => [
-                'list' => $this->listId
+                'list' => $this->listId,
+                'remaining' => $batches
             ], 'message' => "$list->name imported"];
         }
     }

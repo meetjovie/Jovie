@@ -495,66 +495,73 @@ export default {
           window.addEventListener('resize', this.onResize());
       });
 
-    this.listenEvents(
-      `importListCreated.${this.currentUser.current_team.id}`,
-      'ImportListCreated',
-      (data) => {
-        this.getUserLists();
-      }
-    );
+      await this.reconnectPusher().then(() => {
+          this.listenEvents(
+              `importListCreated.${this.currentUser.current_team.id}`,
+              'ImportListCreated',
+              (data) => {
+                  this.getUserLists();
+              }
+          );
 
-    this.listenEvents(
-      `userListImported.${this.currentUser.current_team.id}`,
-      'UserListImported',
-      (data) => {
-        let index = this.userLists.findIndex(list => list.id == data.list);
-        if (index >= 0) {
-            this.userLists[index].import_batch_in_progress = null
-        }
-      }
-    );
+          this.listenEvents(
+              `userListImported.${this.currentUser.current_team.id}`,
+              'UserListImported',
+              (data) => {
+                  let index = this.userLists.findIndex(list => list.id == data.list);
+                  if (index >= 0) {
+                      this.userLists[index].import_batch_in_progress = null
+                  }
+                  this.$store.state.showImportProgress = data.remaining;
+                  if (!data.remaining) {
+                      this.getUserLists()
+                  }
+              }
+          );
 
-    this.listenEvents(
-      `userListImportTriggered.${this.currentUser.current_team.id}`,
-      'UserListImportTriggered',
-      (data) => {
-        let index = this.userLists.findIndex(list => list.id == data.list);
-        if (index >= 0) {
-            this.userLists[index].import_batch_in_progress = true
-        }
-      }
-    );
+          this.listenEvents(
+              `userListImportTriggered.${this.currentUser.current_team.id}`,
+              'UserListImportTriggered',
+              (data) => {
+                  let index = this.userLists.findIndex(list => list.id == data.list);
+                  if (index >= 0) {
+                      this.userLists[index].import_batch_in_progress = true
+                      this.$store.state.showImportProgress = data.remaining
+                  }
+              }
+          );
 
-    this.listenEvents(
-      `creatorImported.${this.currentUser.current_team.id}`,
-      'CreatorImported',
-      (data) => {
-        if (
-          (data.list && this.filters.type != 'list') ||
-          (!data.list && this.filters.type != 'all')
-        ) {
-          return;
-        }
+          this.listenEvents(
+              `creatorImported.${this.currentUser.current_team.id}`,
+              'CreatorImported',
+              (data) => {
+                  if (
+                      (data.list && this.filters.type != 'list') ||
+                      (!data.list && this.filters.type != 'all')
+                  ) {
+                      return;
+                  }
 
-        if (data.list && data.list == this.filters.list) {
-            if (this.filters.page === 1 && this.creators.length == 50) {
-                this.creators.pop();
-            }
-            if (this.creators.length) {
-                this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)));
-            } else {
-                this.creators.push(JSON.parse(window.atob(data.creator)));
-            }
-        }
+                  if ((data.list && data.list == this.filters.list) || this.filters.type == 'all') {
+                      let newCreator = JSON.parse(window.atob(data.creator))
+                      let index = this.creators.findIndex(creator => creator.id == newCreator.id);
 
-          console.log('data.batches');
-          console.log(data);
-          this.$store.state.showImportProgress = !!data.batches;
-        if (! data.batches) {
-            this.getUserLists()
-        }
-      }
-    );
+                      if (index >= 0) {
+                          this.creators[index] = newCreator
+                      } else {
+                          if (this.filters.page === 1 && this.creators.length == 50) {
+                              this.creators.pop();
+                          }
+                          if (this.creators.length) {
+                              this.creators.splice(0, 0, newCreator);
+                          } else {
+                              this.creators.push(newCreator);
+                          }
+                      }
+                  }
+              }
+          );
+      })
   },
   methods: {
     closeImportCreatorModal() {

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Import;
 use App\Models\UserList;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -51,7 +52,8 @@ class UserListImportTriggered implements ShouldBroadcast
         $list = UserList::where('id', $this->listId)->first();
         if ($list) {
             return ['status' => true, 'data' => [
-                'list' => $this->listId
+                'list' => $this->listId,
+                'remaining' => true
             ], 'message' => "$list->name import started."];
         }
     }

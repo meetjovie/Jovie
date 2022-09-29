@@ -50,16 +50,11 @@ class CreatorImported implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $batches = Import::importBatches($this->userId);
-        $batches = !! count(array_filter($batches, function ($batch) {
-            return $batch->is_batch && $batch->progress < 100;
-        }));
         $creator = Creator::getCrmCreators(['id' => $this->creatorId], $this->userId)->first();
         $creator = base64_encode(json_encode($creator));
         return ['status' => true, 'data' => [
             'creator' => $creator,
             'list' => $this->listId,
-            'batches' => $batches,
-        ], 'message' => 'Creator Imported'];
+        ], 'message' => $this->listId ? null : 'Creator Imported'];
     }
 }
