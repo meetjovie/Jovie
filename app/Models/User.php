@@ -142,6 +142,20 @@ class User extends Authenticatable
         return null;
     }
 
+    public function setTwitterHandlerAttribute($value)
+    {
+        // Regex for verifying a twitter URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitter\.com)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid twitter URL
+        if (preg_match($regex, $value, $matches)) {
+            $this->attributes['twitter_handler'] = $matches[1];
+
+            return;
+        }
+        $this->attributes['twitter_handler'] = $value;
+    }
+
     public function getTwitchHandlerAttribute($value)
     {
         if ($value) {
@@ -160,6 +174,20 @@ class User extends Authenticatable
         return null;
     }
 
+    public function setInstagramHandlerAttribute($value)
+    {
+        // Regex for verifying an instagram URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_\.]+)/im';
+
+        // Verify valid Instagram URL
+        if (preg_match($regex, $value, $matches)) {
+            $this->attributes['instagram_handler'] = $matches[1];
+
+            return;
+        }
+        $this->attributes['instagram_handler'] = $value;
+    }
+
     public function getYoutubeHandlerAttribute($value)
     {
         if ($value) {
@@ -167,6 +195,35 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    public function setYoutubeHandlerAttribute($value)
+    {
+        $oldYoutube = $this->youtube_handler;
+        if (! count((array) $value)) {
+            return $oldYoutube;
+        }
+        // Regex for verifying a youtube URL - channel id
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
+        // Verify valid youtube URL
+        if (preg_match($regex, $value, $matches)) {
+            $oldYoutube->channel_id = $matches[1];
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        }
+        // Regex for verifying a youtube URL - channel name
+        elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
+            $oldYoutube->channel_name = $matches[1];
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        } elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:user)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
+            $oldYoutube->channel_name = $matches[1];
+            $this->attributes['youtube'] = json_encode($oldYoutube);
+        } elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
+            $oldYoutube->channel_id = $value;
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        } else {
+            $oldYoutube->channel_name = $value;
+            $this->attributes['youtube_handler'] = json_encode($oldYoutube);
+        }
     }
 
     public function getTiktokHandlerAttribute($value)
@@ -177,6 +234,20 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    public function setTiktokHandlerAttribute($value)
+    {
+        // Regex for verifying an tiktok URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:tiktok\.com)\/([\@|A-Za-z0-9-_\.]+)/';
+
+        // Verify valid tiktok URL
+        if (preg_match($regex, $value, $matches)) {
+            $this->attributes['tiktok_handler'] = $matches[1];
+
+            return;
+        }
+        $this->attributes['tiktok_handler'] = $value;
     }
 
     public function userListAttributes()
