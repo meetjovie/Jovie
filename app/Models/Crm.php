@@ -49,6 +49,7 @@ class Crm extends Model
             2 => 'Negotiating',
             3 => 'In Progress',
             4 => 'Complete',
+            5 => 'Not Interested',
         ];
     }
 
