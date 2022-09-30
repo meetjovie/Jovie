@@ -788,7 +788,7 @@
                       class="border-1 table-cell w-40 items-center whitespace-nowrap border text-xs text-gray-500">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
-                        @click="
+                        @update:modelValue="
                           $emit('updateCreator', {
                             id: creator.id,
                             index: index,
