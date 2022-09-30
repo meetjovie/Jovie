@@ -612,22 +612,7 @@
                           aria-describedby="Company" />
                       </div>
                     </td>
-                    <td
-                      v-if="visibleColumns.includes('employer')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border">
-                      <div class="text-xs text-gray-900 line-clamp-1">
-                        <input
-                          v-model="creator.meta.platform_employer"
-                          @blur="$emit('updateCrmMeta', creator)"
-                          autocomplete="off"
-                          type="platform-employer"
-                          name="platform-employer"
-                          id="platform-employer"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
-                          placeholder="Company"
-                          aria-describedby="Company" />
-                      </div>
-                    </td>
+
                     <td
                       v-if="visibleColumns.includes('emails')"
                       class="border-1 table-cell w-60 whitespace-nowrap border focus-visible:border-indigo-500">
@@ -1208,14 +1193,7 @@ export default {
           sortable: false,
           breakpoint: '2xl',
         },
-        {
-          name: 'Company',
-          key: 'employer',
-          icon: 'BriefcaseIcon',
-          visible: true,
-          sortable: false,
-          breakpoint: '2xl',
-        },
+
         {
           name: 'Email',
           key: 'emails',
