@@ -203,7 +203,7 @@
                     <div class="h-full w-full">
                       <!--  Show import screen if no creators -->
                       <div
-                        v-if="!loading && creators.length < 1"
+                        v-if="!loading && !creators.length && !showImporting"
                         class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
@@ -227,7 +227,7 @@
                       <!-- Show loading screen if the users first ever import is loading -->
 
                       <div
-                        v-else-if="initialImportLoading"
+                        v-else-if="showImporting && !creators.length"
                         class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
@@ -463,6 +463,12 @@ export default {
     window.removeEventListener('resize', this.onResize());
   },
   computed: {
+      showImporting() {
+          if (this.filters.type == 'list') {
+              return this.userLists.find(list => list.id == this.filters.list).pending_import
+          }
+          return false
+      },
     sortedCreators() {
       return this.creators.sort((a, b) => {
         let modifier = 1;
