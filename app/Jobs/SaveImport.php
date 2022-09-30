@@ -70,22 +70,30 @@ class SaveImport implements ShouldQueue
 
             $totalRecords = $reader->count();
             $list = UserList::firstOrCreateList($this->userId, $this->listName, $this->teamId);
-            if ($list->wasRecentlyCreated) {
-                ImportListCreated::dispatch($this->teamId, $list);
+            if ($totalRecords > 1) {
+                $payload = base64_encode(json_encode([
+                    'mappedColumns' => $this->mappedColumns,
+                    'tags' => $this->tags,
+                    'list' => $list,
+                    'userId' => $this->userId,
+                    'teamId' => $this->teamId,
+                ]));
+                for ($page = 0; $page < ceil($totalRecords / Import::PER_PAGE); $page++) {
+                    $command = "save:import-chunk $this->file $page $payload";
+                    // Spawn the command in the background.
+                    Artisan::queue($command);
+                    if ($page == 0) {
+                        if ($list->wasRecentlyCreated) {
+                            ImportListCreated::dispatch($this->teamId, $list);
+                        }
+                    }
+                }
+                Notification::createNotification("$list->name import queued. It will begin shortly.", Notification::IMPORT_QUEUED, $this->userId, $this->teamId);
+            } else {
+                if ($list->wasRecentlyCreated) {
+                    ImportListCreated::dispatch($this->teamId, $list);
+                }
             }
-            $payload = base64_encode(json_encode([
-                'mappedColumns' => $this->mappedColumns,
-                'tags' => $this->tags,
-                'list' => $list,
-                'userId' => $this->userId,
-                'teamId' => $this->teamId,
-            ]));
-            for ($page = 0; $page < ceil($totalRecords / Import::PER_PAGE); $page++) {
-                $command = "save:import-chunk $this->file $page $payload";
-                // Spawn the command in the background.
-                Artisan::queue($command);
-            }
-            Notification::createNotification("$list->name import queued. It will begin shortly.", Notification::IMPORT_QUEUED, $this->userId, $this->teamId);
         } catch (\Exception $e) {
             SendSlackNotification::dispatch(('Error saving file for user '.$this->userId.' - team '.$this->teamId.' for file '.$this->file), ('Error on Save Import '.$e->getMessage().'----'.$e->getFile().'-----'.$e->getLine()), [
                 'file' => $this->file,

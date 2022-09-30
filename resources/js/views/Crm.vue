@@ -519,7 +519,7 @@ export default {
               (data) => {
                   let index = this.userLists.findIndex(list => list.id == data.list);
                   if (index >= 0) {
-                      this.userLists[index].import_batch_in_progress = null
+                      this.userLists[index].pending_import = null
                   }
                   this.$store.state.showImportProgress = data.remaining;
                   if (!data.remaining) {
@@ -534,7 +534,7 @@ export default {
               (data) => {
                   let index = this.userLists.findIndex(list => list.id == data.list);
                   if (index >= 0) {
-                      this.userLists[index].import_batch_in_progress = true
+                      this.userLists[index].pending_import = true
                       this.$store.state.showImportProgress = data.remaining
                   }
               }

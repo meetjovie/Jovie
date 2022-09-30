@@ -108,7 +108,9 @@ class UserList extends Model
     public static function getLists($userId)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
-        return UserList::query()->with('importBatchInProgress')->withCount('creators')
+        return UserList::query()->with('importBatchInProgress')
+            ->with('pendingImport')
+            ->withCount('creators')
             ->join('user_list_attributes as ula', function ($join) use ($user) {
                 $join->on('ula.user_list_id', '=', 'user_lists.id')
                     ->where('ula.user_id', $user->id)
@@ -160,5 +162,15 @@ class UserList extends Model
     public function importBatchInProgress()
     {
         return $this->hasOne(JobBatch::class)->where('finished_at', null)->where('cancelled_at', null);
+    }
+
+    public function pendingImport()
+    {
+        return $this->hasOne(Import::class)->orderByDesc('created_at')
+            ->where('dispatched', '!=', 1)
+            ->orWhere(function ($q) {
+                $q->where('instagram_scrapped', '!=', 1)->orWhere('twitch_scrapped', '!=', 1);
+            })
+            ->limit(200000000000000000000000);
     }
 }

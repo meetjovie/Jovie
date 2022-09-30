@@ -77,7 +77,7 @@
               <div
                 class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                 <ArrowPathIcon
-                  v-if="element.import_batch_in_progress"
+                  v-if="element.pending_import"
                   class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                 <span
                   v-else
