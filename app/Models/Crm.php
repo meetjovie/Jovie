@@ -34,7 +34,7 @@ class Crm extends Model
         return $array;
     }
 
-    public function getStageAttribute($value)
+    p ublic function getStageAttribute($value)
     {
         $value = $value ?? 0;
 
@@ -64,7 +64,7 @@ class Crm extends Model
     }
 
     /**
-     * Interact the user's first name.
+     * Interact the user's last contacted.
      *
      * @return Attribute
      */
