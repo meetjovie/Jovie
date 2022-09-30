@@ -34,7 +34,7 @@ class Crm extends Model
         return $array;
     }
 
-    p ublic function getStageAttribute($value)
+    public function getStageAttribute($value)
     {
         $value = $value ?? 0;
 
