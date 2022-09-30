@@ -78,7 +78,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-indigo-400 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
+          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-neutral-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
           >{{ label }}</label
         >
       </div>

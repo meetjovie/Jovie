@@ -219,10 +219,11 @@
             </div>
           </div>
         </div>
-        <div class="inline-block min-w-full align-middle">
-          <div class="shadow-sm ring-1 ring-black ring-opacity-5">
+        <div class="inline-block h-full min-w-full align-middle">
+          <div
+            class="flex h-full w-full flex-col justify-between shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="w-auto table-fixed divide-y divide-gray-200 overflow-x-scroll">
+              class="w-full table-fixed divide-y divide-gray-200 overflow-x-scroll">
               <thead
                 class="relative isolate z-20 w-full items-center overflow-x-scroll bg-neutral-100">
                 <tr class="sticky h-8 items-center">
@@ -513,7 +514,7 @@
                       </div>
                     </td>
                     <td
-                      class="w-60 cursor-pointer whitespace-nowrap border px-2">
+                      class="w-80 cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div class="rounded-full bg-neutral-400 p-0.5">
@@ -533,7 +534,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="text-cs text-gray-900 line-clamp-1">
+                        <div class="text-sm text-gray-900 line-clamp-1">
                           <input
                             v-model="creator.meta.name"
                             @blur="$emit('updateCrmMeta', creator)"
@@ -612,6 +613,22 @@
                       </div>
                     </td>
                     <td
+                      v-if="visibleColumns.includes('employer')"
+                      class="border-1 table-cell w-40 whitespace-nowrap border">
+                      <div class="text-xs text-gray-900 line-clamp-1">
+                        <input
+                          v-model="creator.meta.platform_employer"
+                          @blur="$emit('updateCrmMeta', creator)"
+                          autocomplete="off"
+                          type="platform-employer"
+                          name="platform-employer"
+                          id="platform-employer"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          placeholder="Company"
+                          aria-describedby="Company" />
+                      </div>
+                    </td>
+                    <td
                       v-if="visibleColumns.includes('emails')"
                       class="border-1 table-cell w-60 whitespace-nowrap border focus-visible:border-indigo-500">
                       <div class="text-xs text-gray-700 line-clamp-1">
@@ -629,7 +646,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-24 items-center whitespace-nowrap border">
+                      class="border-1 w-30 items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -750,7 +767,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                               <div class="">
                                 <div class="">
                                   <button
@@ -1010,16 +1027,15 @@
                 </template>
               </tbody>
             </table>
-            <div class="w-full justify-end">
-              <Pagination
-                class="z-50 w-full"
-                v-if="creatorRecords.length"
-                :totalPages="creatorsMeta.last_page"
-                :perPage="creatorsMeta.per_page"
-                :currentPage="creatorsMeta.current_page"
-                :disabled="loading"
-                @pagechanged="$emit('pageChanged', $event)" />
-            </div>
+
+            <Pagination
+              class="z-50 w-full bg-blue-500"
+              v-if="creatorRecords.length"
+              :totalPages="creatorsMeta.last_page"
+              :perPage="creatorsMeta.per_page"
+              :currentPage="creatorsMeta.current_page"
+              :disabled="loading"
+              @pagechanged="$emit('pageChanged', $event)" />
           </div>
         </div>
       </div>
@@ -1182,6 +1198,14 @@ export default {
           key: 'title',
           icon: 'UserIcon',
           visible: true,
+          breakpoint: '2xl',
+        },
+        {
+          name: 'Company',
+          key: 'employer',
+          icon: 'BriefcaseIcon',
+          visible: true,
+          sortable: false,
           breakpoint: '2xl',
         },
         {
@@ -1536,7 +1560,11 @@ export default {
               text: response.message,
             });
             this.$emit('crmCounts');
-            this.$emit('updateListCount', {count: creatorIds.length, list_id: list, remove: remove});
+            this.$emit('updateListCount', {
+              count: creatorIds.length,
+              list_id: list,
+              remove: remove,
+            });
           } else {
             this.$notify({
               group: 'user',
