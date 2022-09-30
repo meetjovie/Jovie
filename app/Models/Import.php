@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Events\Notification;
+use App\Events\UserListImported;
+use App\Events\UserListImportTriggered;
 use App\Traits\SocialScrapperTrait;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
@@ -52,7 +54,9 @@ class Import extends Model
 
     public static function getProgress($batch)
     {
-        $batch = DB::table('job_batches')->where('id', $batch->id)->first();
+        if (empty($batch->user_list_id)) {
+            $batch = DB::table('job_batches')->where('id', $batch->id)->first();
+        }
         if ($batch) {
             return $batch->initial_total_in_file > 0 ? round((self::processedImports($batch, $batch->user_list_id) / $batch->initial_total_in_file) * 100) : 0;
         }
@@ -155,11 +159,13 @@ class Import extends Model
             })->catch(function (Batch $batch, Throwable $e = null) {
                 Log::info('First batch job failure detected...');
             })->finally(function (Batch $batch) {
+
                 $user = User::where('id', $this->user_id)->first();
 //                if ($user) {
 //                    $user->sendNotification(('Import '.strtoupper($batch->type).' profiles for '.$batch->name.' completed successfully.'), Notification::BATCH_IMPORT,
 //                        $batch);
 //                }
+                UserListImported::dispatch($this->user_list_id, $this->user_id, $this->team_id);
                 Log::info('The batch has finished executing...');
             })->onQueue($queue)->allowFailures()->dispatch();
 
@@ -172,6 +178,7 @@ class Import extends Model
                     })->count(),
                 'type' => $network,
             ]);
+            UserListImportTriggered::dispatch($this->user_list_id, $this->user_id, $this->team_id);
             Notification::dispatch($this->team_id);
         } else {
             $batch = Bus::findBatch($batch->id);

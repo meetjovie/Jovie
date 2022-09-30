@@ -41,3 +41,13 @@ Broadcast::channel('notification.{teamId}', function ($user, $teamId) {
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });
+
+Broadcast::channel('userListImported.{teamId}', function ($user, $teamId) {
+    $user = $user->load('currentTeam');
+    return $user->currentTeam->id == $teamId;
+});
+
+Broadcast::channel('userListImportTriggered.{teamId}', function ($user, $teamId) {
+    $user = $user->load('currentTeam');
+    return $user->currentTeam->id == $teamId;
+});

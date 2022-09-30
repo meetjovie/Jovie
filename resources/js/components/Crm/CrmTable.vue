@@ -75,7 +75,7 @@
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
-                  class="h-5 w-5 text-gray-400 group-hover:text-neutral-600" /> 
+                  class="h-5 w-5 text-gray-400 group-hover:text-neutral-600" />
               </div> -->
             </div>
             <div class="flex items-center">
@@ -788,7 +788,7 @@
                       class="border-1 table-cell w-40 items-center whitespace-nowrap border text-xs text-gray-500">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
-                        @click="
+                        @update:modelValue="
                           $emit('updateCreator', {
                             id: creator.id,
                             index: index,
@@ -1536,6 +1536,7 @@ export default {
               text: response.message,
             });
             this.$emit('crmCounts');
+            this.$emit('updateListCount', {count: creatorIds.length, list_id: list, remove: remove});
           } else {
             this.$notify({
               group: 'user',
