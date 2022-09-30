@@ -499,8 +499,17 @@ export default {
           this.listenEvents(
               `importListCreated.${this.currentUser.current_team.id}`,
               'ImportListCreated',
-              (data) => {
-                  this.getUserLists();
+              async (data) => {
+                  await this.getUserLists()
+                  setTimeout(() => {
+                      let list = this.userLists.find(list => {
+                          console.log(list.id, data.list)
+                          return list.id == data.list
+                      })
+                      if (list) {
+                          this.setFilterList(list.id)
+                      }
+                  }, 200)
               }
           );
 
