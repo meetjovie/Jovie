@@ -1,20 +1,22 @@
 <template>
-    <transition
-      enter-active-class="transition ease-out duration-100"
-      enter-from-class="transform opacity-0 scale-95"
-      enter-to-class="transform opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-75"
-      leave-from-class="transform opacity-100 scale-100"
-      leave-to-class="transform opacity-0 scale-95">
-      <div class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-          <EmojiPicker @select="emojiSelected" />
-      </div>
-    </transition>
+  <transition
+    enter-active-class="transition ease-out duration-100"
+    enter-from-class="transform opacity-0 scale-95"
+    enter-to-class="transform opacity-100 scale-100"
+    leave-active-class="transition ease-in duration-75"
+    leave-from-class="transform opacity-100 scale-100"
+    leave-to-class="transform opacity-0 scale-95">
+    <div
+      class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+      <!-- <XMarkIcon class="h-3 w-3 text-neutral-400 hover:text-neutral-500" /> -->
+      <EmojiPicker @select="emojiSelected" />
+    </div>
+  </transition>
 </template>
 
 <script>
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-import { EllipsisVerticalIcon } from '@heroicons/vue/24/solid';
+import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/vue/24/solid';
 // import picker compopnent
 import EmojiPicker from 'vue3-emoji-picker';
 import { ref } from 'vue';
@@ -22,6 +24,7 @@ import { ref } from 'vue';
 export default {
   components: {
     EmojiPicker,
+    XMarkIcon,
     Menu,
     MenuButton,
     MenuItem,
