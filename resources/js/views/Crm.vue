@@ -464,8 +464,11 @@ export default {
   },
   computed: {
       showImporting() {
-          if (this.filters.type == 'list') {
-              return this.userLists.find(list => list.id == this.filters.list).pending_import
+          if (this.userLists.length && this.filters.type == 'list') {
+              let list = this.userLists.find(list => list.id == this.filters.list)
+              if (list) {
+                  return list.pending_import
+              }
           }
           return false
       },
@@ -703,10 +706,12 @@ export default {
     },
       updateListCount(params) {
           let list = this.userLists.find(list => list.id == params.list_id)
-          if (params.remove) {
-              list.creators_count -= params.count
-          } else {
-              list.creators_count += params.count
+          if (list) {
+              if (params.remove) {
+                  list.creators_count -= params.count
+              } else {
+                  list.creators_count += params.count
+              }
           }
       },
     exportCrmCreators() {
