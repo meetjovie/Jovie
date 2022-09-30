@@ -252,6 +252,7 @@
                         @updateCreator="updateCreator"
                         @updateCrmMeta="updateCrmMeta"
                         @crmCounts="crmCounts"
+                        @updateListCount="updateListCount"
                         @pageChanged="pageChanged"
                         @setCurrentContact="setCurrentContact"
                         :filters="filters"
@@ -502,10 +503,7 @@ export default {
               async (data) => {
                   await this.getUserLists()
                   setTimeout(() => {
-                      let list = this.userLists.find(list => {
-                          console.log(list.id, data.list)
-                          return list.id == data.list
-                      })
+                      let list = this.userLists.find(list => list.id == data.list)
                       if (list) {
                           this.setFilterList(list.id)
                       }
@@ -697,6 +695,14 @@ export default {
         }
       });
     },
+      updateListCount(params) {
+          let list = this.userLists.find(list => list.id == params.list_id)
+          if (params.remove) {
+              list.creators_count -= params.count
+          } else {
+              list.creators_count += params.count
+          }
+      },
     exportCrmCreators() {
       let obj = JSON.parse(JSON.stringify(this.filters));
       if (obj.list) {

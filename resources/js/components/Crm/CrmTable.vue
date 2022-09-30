@@ -75,7 +75,7 @@
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
-                  class="h-5 w-5 text-gray-400 group-hover:text-neutral-600" /> 
+                  class="h-5 w-5 text-gray-400 group-hover:text-neutral-600" />
               </div> -->
             </div>
             <div class="flex items-center">
@@ -1536,6 +1536,7 @@ export default {
               text: response.message,
             });
             this.$emit('crmCounts');
+            this.$emit('updateListCount', {count: creatorIds.length, list_id: list, remove: remove});
           } else {
             this.$notify({
               group: 'user',
