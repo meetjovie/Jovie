@@ -100,33 +100,33 @@ export default {
   },
   data() {
     return {
-      columnsToMap: [
-        'firstName',
-        'lastName',
-        'city',
-        'country',
-        'instagram',
-        'youtube',
-        'twitter',
-        /*   'onlyFans', */
-        'twitch',
-        /*    'twitchId', */
-        'tiktok',
-        /*  'linkedin',
+      columnsToMap: {
+          'firstName': 'First Name',
+          'lastName': 'Last Name',
+          'city': 'City',
+          'country': 'Country',
+          'instagram': 'Instagram',
+          'youtube': 'Youtube',
+          'twitter': 'Twitter',
+          /*   'onlyFans', */
+          'twitch': 'Twitch',
+          /*    'twitchId', */
+          'tiktok': 'Tiktok',
+          /*  'linkedin',
         'snapchat', */
-        /*       'instagramFollowersCount',
+          /*       'instagramFollowersCount',
         'youtubeFollowersCount',
         'youtubeFollowersCount',
         'twitterFollowersCount',
         'onlyFansFollowersCount',
         'twitchFollowersCount',
         'tiktokFollowersCount', */
-        'email1',
-        'email2',
-        /*    'wikiId', */
-        'phone',
-        /* 'gender', */
-      ],
+          'email1': 'Email 1',
+          'email2': 'Email 2',
+          /*    'wikiId', */
+          'phone': 'Phone',
+          /* 'gender', */
+      },
       mappedColumns: {},
       csvFileName: '',
     };
@@ -156,7 +156,7 @@ export default {
       }
     },
     setMappedColumns(index, { mapColumn }) {
-      if (this.mappedColumns.hasOwnProperty(mapColumn)) {
+      if (this.mappedColumns[mapColumn]) {
         this.$refs[`columnDropdown_${index}`][0].selected = null;
         return;
       }
