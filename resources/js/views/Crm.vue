@@ -505,7 +505,7 @@ export default {
           window.addEventListener('resize', this.onResize());
       });
 
-      await this.reconnectPusher().then(() => {
+      if (! this.$store.state.crmEventsRegistered) {
           this.listenEvents(
               `userListDuplicated.${this.currentUser.current_team.id}`,
               'UserListDuplicated',
@@ -592,7 +592,8 @@ export default {
                   }
               }
           );
-      })
+          this.$store.state.crmEventsRegistered = true
+      }
   },
   methods: {
     closeImportCreatorModal() {
