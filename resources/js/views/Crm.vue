@@ -467,7 +467,7 @@ export default {
           if (this.userLists.length && this.filters.type == 'list') {
               let list = this.userLists.find(list => list.id == this.filters.list)
               if (list) {
-                  return list.pending_import
+                  return list.updating_list
               }
           }
           return false
@@ -507,6 +507,21 @@ export default {
 
       await this.reconnectPusher().then(() => {
           this.listenEvents(
+              `userListDuplicated.${this.currentUser.current_team.id}`,
+              'UserListDuplicated',
+              async (data) => {
+                  await this.getUserLists()
+                  setTimeout(() => {
+                      let list = this.userLists.find(list => list.id == data.list)
+                      if (list) {
+                          list.updating_list = null
+                          this.setFilterList(list.id)
+                      }
+                  }, 200)
+              }
+          );
+
+          this.listenEvents(
               `importListCreated.${this.currentUser.current_team.id}`,
               'ImportListCreated',
               async (data) => {
@@ -526,7 +541,7 @@ export default {
               (data) => {
                   let index = this.userLists.findIndex(list => list.id == data.list);
                   if (index >= 0) {
-                      this.userLists[index].pending_import = null
+                      this.userLists[index].updating_list = null
                   }
                   this.$store.state.showImportProgress = data.remaining;
                   if (!data.remaining) {
@@ -541,7 +556,7 @@ export default {
               (data) => {
                   let index = this.userLists.findIndex(list => list.id == data.list);
                   if (index >= 0) {
-                      this.userLists[index].pending_import = true
+                      this.userLists[index].updating_list = true
                       this.$store.state.showImportProgress = data.remaining
                   }
               }

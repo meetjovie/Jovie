@@ -18,14 +18,19 @@ class UserListDuplicated implements ShouldBroadcast
     private $list;
     private $status;
     private $message;
+    protected $userId;
+    private $teamId;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($list, $status = true, $message)
+    public function __construct($list, $userId, $teamId, $status = true, $message)
     {
         $this->list = $list;
+        $this->userId = $userId;
+        $this->teamId = $teamId;
         $this->status = $status;
         $this->message = $message;
     }
@@ -37,7 +42,7 @@ class UserListDuplicated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('duplicateList.'.$this->list->id);
+        return new PrivateChannel('userListDuplicated.'.$this->teamId);
     }
 
     /**
@@ -47,7 +52,9 @@ class UserListDuplicated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $data = ['status' => $this->status, 'list' => $this->list->id, 'message' => $this->message];
+        $data = ['status' => $this->status, 'data' => [
+            'list' => $this->list->id
+        ], 'message' => $this->message];
         if ($this->status === false) {
             UserList::where('id', $this->list->id)->delete();
         }

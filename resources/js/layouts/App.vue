@@ -236,11 +236,11 @@
                                     <div class="ml-3 w-60">
                                       <p
                                         class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
-                                        Importing {{ notification.name }}
+                                        {{ notification.message }}
                                         <span
                                           class="text-2xs font-light text-neutral-500"
                                           >-
-                                          {{ notification.type }} Profiles</span
+                                          {{ notification.typeMessage }}</span
                                         >
                                       </p>
                                       <div class="w-full">
