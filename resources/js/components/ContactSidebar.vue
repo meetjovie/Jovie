@@ -186,7 +186,7 @@
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.location"
-          :value="creator.city + ' ' + creator.country"
+          :value="`${creator.city ?? ''} ${creator.country ?? ''}`"
           id="location"
           icon="MapPinIcon"
           label="Location"
@@ -411,7 +411,7 @@ export default {
   watch: {
     creator: function (val) {
       console.log('this.creator');
-      resetImage();
+      this.resetImage();
       console.log(val);
     },
   },

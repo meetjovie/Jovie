@@ -27,9 +27,6 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
-console.log('process.env.MIX_PUSHER_APP_KEY');
-console.log(process.env.MIX_PUSHER_APP_KEY);
-console.log(process.env.MIX_PUSHER_APP_CLUSTER);
 window.Echo = new Echo({
     broadcaster: 'pusher',
     authorizer: (channel, options) => {

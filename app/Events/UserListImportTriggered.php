@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Models\Creator;
 use App\Models\Import;
+use App\Models\UserList;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -12,25 +12,24 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CreatorImported implements ShouldBroadcast
+class UserListImportTriggered implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $creatorId;
+    private $listId;
     private $userId;
     private $teamId;
-    private $listId;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($creatorId, $userId, $teamId, $listId)
+    public function __construct($listId, $userId, $teamId)
     {
-        $this->creatorId = $creatorId;
+        $this->listId = $listId;
         $this->userId = $userId;
         $this->teamId = $teamId;
-        $this->listId = $listId;
     }
 
     /**
@@ -40,7 +39,7 @@ class CreatorImported implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('creatorImported.'.$this->teamId);
+        return new PrivateChannel('userListImportTriggered.'.$this->teamId);
     }
 
     /**
@@ -50,11 +49,12 @@ class CreatorImported implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $creator = Creator::getCrmCreators(['id' => $this->creatorId], $this->userId)->first();
-        $creator = base64_encode(json_encode($creator));
-        return ['status' => true, 'data' => [
-            'creator' => $creator,
-            'list' => $this->listId,
-        ], 'message' => $this->listId ? null : 'Creator Imported'];
+        $list = UserList::where('id', $this->listId)->first();
+        if ($list) {
+            return ['status' => true, 'data' => [
+                'list' => $this->listId,
+                'remaining' => true
+            ], 'message' => "$list->name import started."];
+        }
     }
 }

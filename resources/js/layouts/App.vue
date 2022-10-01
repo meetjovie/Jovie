@@ -641,13 +641,14 @@ export default {
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
-    this.listenEvents(
-      `notification.${this.currentUser.current_team.id}`,
-      'Notification',
-      (data) => {
-        this.newNotification = true;
-      }
-    );
+      this.listenEvents(
+          `notification.${this.currentUser.current_team.id}`,
+          'Notification',
+          (data) => {
+              this.newNotification = true
+          }
+      );
+      this.getNotifications()
   },
 
   methods: {

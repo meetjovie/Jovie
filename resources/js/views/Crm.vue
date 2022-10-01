@@ -100,6 +100,7 @@
                 <MenuList
                   ref="menuListPinned"
                   @getUserLists="getUserLists"
+                  @setFiltersType="setFiltersType"
                   @openEmojiPicker="openEmojiPicker"
                   menuName="Pinned"
                   :selectedList="filters.list"
@@ -109,6 +110,7 @@
                 <MenuList
                   ref="menuListAll"
                   @getUserLists="getUserLists"
+                  @setFiltersType="setFiltersType"
                   @openEmojiPicker="openEmojiPicker"
                   menuName="Lists"
                   @setFilterList="setFilterList"
@@ -201,7 +203,7 @@
                     <div class="h-full w-full">
                       <!--  Show import screen if no creators -->
                       <div
-                        v-if="!loading && creators.length < 1"
+                        v-if="!loading && !creators.length && !showImporting"
                         class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
@@ -225,12 +227,14 @@
                       <!-- Show loading screen if the users first ever import is loading -->
 
                       <div
-                        v-else-if="initialImportLoading"
+                        v-else-if="showImporting && !creators.length"
                         class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
                             class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
                             <div>
+                              <ArrowPathIcon
+                                class="mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                               <h1 class="text-md font-bold">
                                 You've just initated an import.
                               </h1>
@@ -250,6 +254,7 @@
                         @updateCreator="updateCreator"
                         @updateCrmMeta="updateCrmMeta"
                         @crmCounts="crmCounts"
+                        @updateListCount="updateListCount"
                         @pageChanged="pageChanged"
                         @setCurrentContact="setCurrentContact"
                         :filters="filters"
@@ -456,16 +461,19 @@ export default {
       },
     },
   },
-  mounted() {
-    this.$nextTick(() => {
-      window.addEventListener('resize', this.onResize);
-    });
-  },
-
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize());
   },
   computed: {
+    showImporting() {
+      if (this.userLists.length && this.filters.type == 'list') {
+        let list = this.userLists.find((list) => list.id == this.filters.list);
+        if (list) {
+          return list.pending_import;
+        }
+      }
+      return false;
+    },
     sortedCreators() {
       return this.creators.sort((a, b) => {
         let modifier = 1;
@@ -495,34 +503,88 @@ export default {
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
 
-    this.listenEvents(
-      `importListCreated.${this.currentUser.current_team.id}`,
-      'ImportListCreated',
-      (data) => {
-        this.getUserLists();
-      }
-    );
-    this.listenEvents(
-      `creatorImported.${this.currentUser.current_team.id}`,
-      'CreatorImported',
-      (data) => {
-        if (
-          (data.list && this.filters.type != 'list') ||
-          (!data.list && this.filters.type != 'all')
-        ) {
-          return;
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize());
+    });
+
+    await this.reconnectPusher().then(() => {
+      this.listenEvents(
+        `importListCreated.${this.currentUser.current_team.id}`,
+        'ImportListCreated',
+        async (data) => {
+          await this.getUserLists();
+          setTimeout(() => {
+            let list = this.userLists.find((list) => list.id == data.list);
+            if (list) {
+              this.setFilterList(list.id);
+            }
+          }, 200);
         }
-        if (this.filters.page === 1 && this.creators.length == 50) {
-          this.creators.pop();
+      );
+
+      this.listenEvents(
+        `userListImported.${this.currentUser.current_team.id}`,
+        'UserListImported',
+        (data) => {
+          let index = this.userLists.findIndex((list) => list.id == data.list);
+          if (index >= 0) {
+            this.userLists[index].pending_import = null;
+          }
+          this.$store.state.showImportProgress = data.remaining;
+          if (!data.remaining) {
+            this.getUserLists();
+          }
         }
-        if (this.creators.length) {
-          this.creators.splice(0, 0, JSON.parse(window.atob(data.creator)));
-        } else {
-          this.creators.push(JSON.parse(window.atob(data.creator)));
+      );
+
+      this.listenEvents(
+        `userListImportTriggered.${this.currentUser.current_team.id}`,
+        'UserListImportTriggered',
+        (data) => {
+          let index = this.userLists.findIndex((list) => list.id == data.list);
+          if (index >= 0) {
+            this.userLists[index].pending_import = true;
+            this.$store.state.showImportProgress = data.remaining;
+          }
         }
-        this.$store.state.showImportProgress = !!data.batches;
-      }
-    );
+      );
+
+      this.listenEvents(
+        `creatorImported.${this.currentUser.current_team.id}`,
+        'CreatorImported',
+        (data) => {
+          if (
+            (data.list && this.filters.type != 'list') ||
+            (!data.list && this.filters.type != 'all')
+          ) {
+            return;
+          }
+
+          if (
+            (data.list && data.list == this.filters.list) ||
+            this.filters.type == 'all'
+          ) {
+            let newCreator = JSON.parse(window.atob(data.creator));
+            let index = this.creators.findIndex(
+              (creator) => creator.id == newCreator.id
+            );
+
+            if (index >= 0) {
+              this.creators[index] = newCreator;
+            } else {
+              if (this.filters.page === 1 && this.creators.length == 50) {
+                this.creators.pop();
+              }
+              if (this.creators.length) {
+                this.creators.splice(0, 0, newCreator);
+              } else {
+                this.creators.push(newCreator);
+              }
+            }
+          }
+        }
+      );
+    });
   },
   methods: {
     closeImportCreatorModal() {
@@ -648,6 +710,16 @@ export default {
           this.counts = response.counts;
         }
       });
+    },
+    updateListCount(params) {
+      let list = this.userLists.find((list) => list.id == params.list_id);
+      if (list) {
+        if (params.remove) {
+          list.creators_count -= params.count;
+        } else {
+          list.creators_count += params.count;
+        }
+      }
     },
     exportCrmCreators() {
       let obj = JSON.parse(JSON.stringify(this.filters));

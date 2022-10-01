@@ -339,10 +339,10 @@ export default {
     },
     updateProfile() {
       let data = new FormData();
-      data.append('first_name', this.$store.state.AuthState.user.first_name);
-      data.append('last_name', this.$store.state.AuthState.user.last_name);
+      data.append('first_name', this.$store.state.AuthState.user.first_name ?? '');
+      data.append('last_name', this.$store.state.AuthState.user.last_name ?? '');
       if (this.bucketResponse && this.bucketResponse.uuid) {
-        data.append('profile_pic_url', this.bucketResponse.uuid);
+        data.append('profile_pic_url', this.bucketResponse.uuid ?? '');
       }
       this.updating = true;
       UserService.updateProfile(data)
