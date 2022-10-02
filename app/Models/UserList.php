@@ -185,9 +185,13 @@ class UserList extends Model
                             $qq->where('instagram_dispatched', '!=', 1)
                                 ->orWhere(function ($qqq) {
                                     $qqq->where('instagram', '!=', null)->where('instagram_scrapped', '!=', 1);
-                                })
+                                });
+                        })->orwhere(function ($qq) {
+                            $qq->where('twitch_dispatched', '!=', 1)
                                 ->orWhere(function ($qqq) {
-                                    $qqq->where('twitch', '!=', null)->where('twitch_scrapped', '!=', 1);
+                                    $qqq->where(function ($qqqq) {
+                                        $qqqq->where('twitch', '!=', null)->orWwhere('twitch_id', '!=', null);
+                                    })->where('twitch_scrapped', '!=', 1);
                                 });
                         });
                     })->count())
