@@ -201,6 +201,7 @@ export default {
               title: 'Import initiated',
               text: 'Your data is being imported.',
             });
+            this.$store.state.importProgressSingleCount++
           } else {
             this.$notify({
               group: 'user',

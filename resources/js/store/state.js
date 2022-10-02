@@ -9,6 +9,7 @@ export default {
     ContactSidebarOpen: false,
     crmRecords: [],
     showImportProgress: false,
+    importProgressSingleCount: 0,
     tooltipsEnabled: false,
     crmEventsRegistered: false,
 };

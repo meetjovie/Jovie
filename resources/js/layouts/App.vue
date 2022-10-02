@@ -155,8 +155,9 @@
               <!-- The top tooltip -->
 
               <div
-                v-if="$store.state.showImportProgress"
+                v-if="$store.state.showImportProgress || $store.state.importProgressSingleCount"
                 class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
+                  {{ $store.state.importProgressSingleCount }}
                 <ArrowPathIcon
                   class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-neutral-600" />
                 <span

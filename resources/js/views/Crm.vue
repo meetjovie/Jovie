@@ -568,6 +568,9 @@ export default {
               `creatorImported.${this.currentUser.current_team.id}`,
               'CreatorImported',
               (data) => {
+                  if (!data.list) {
+                      this.$store.state.importProgressSingleCount--
+                  }
                   if (
                       (data.list && this.filters.type != 'list') ||
                       (!data.list && this.filters.type != 'all')

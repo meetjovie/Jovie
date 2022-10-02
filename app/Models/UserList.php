@@ -186,11 +186,11 @@ class UserList extends Model
                                 ->orWhere(function ($qqq) {
                                     $qqq->where('instagram', '!=', null)->where('instagram_scrapped', '!=', 1);
                                 });
-                        })->orwhere(function ($qq) {
+                        })->orWhere(function ($qq) {
                             $qq->where('twitch_dispatched', '!=', 1)
                                 ->orWhere(function ($qqq) {
                                     $qqq->where(function ($qqqq) {
-                                        $qqqq->where('twitch', '!=', null)->orWwhere('twitch_id', '!=', null);
+                                        $qqqq->where('twitch', '!=', null)->orWhere('twitch_id', '!=', null);
                                     })->where('twitch_scrapped', '!=', 1);
                                 });
                         });
