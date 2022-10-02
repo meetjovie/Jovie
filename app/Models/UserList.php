@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\Notification;
 use App\Events\UserListDuplicated;
 use App\Jobs\DuplicateList;
 use Illuminate\Bus\Batch;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Bus;
@@ -22,6 +24,8 @@ class UserList extends Model
         'emoji',
         'team_id'
     ];
+
+    protected $appends = ['updating_list'];
 
     public function creators()
     {
@@ -108,8 +112,7 @@ class UserList extends Model
     public static function getLists($userId)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
-        return UserList::query()->with('importBatchInProgress')
-            ->with('pendingImport')
+        return UserList::query()
             ->withCount('creators')
             ->join('user_list_attributes as ula', function ($join) use ($user) {
                 $join->on('ula.user_list_id', '=', 'user_lists.id')
@@ -131,10 +134,10 @@ class UserList extends Model
         return $this->belongsToMany(User::class, 'user_list_attributes')->withTimestamps();
     }
 
-    public function duplicateList($userId)
+    public function duplicateList()
     {
         $newListName = ($this->name.' - copy');
-        $newList = self::firstOrCreateList($userId, $newListName);
+        $newList = self::firstOrCreateList($this->user_id, $newListName);
         $totalCreatorsCount = DB::table('creator_user_list')->where('user_list_id', $this->id)->count();
 
         if ($totalCreatorsCount) {
@@ -144,33 +147,54 @@ class UserList extends Model
             }
             $batch = Bus::batch($jobs)->then(function (Batch $batch) use ($newList) {
                 Log::info('All jobs completed successfully...');
-                UserListDuplicated::dispatch($newList, true, ('Your list '.$newList->name.' is duplicated successfully'));
+                UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, true, ('Your list '.$newList->name.' is duplicated successfully'));
             })->catch(function (Batch $batch, Throwable $e = null) use ($newList) {
                 Log::info('First batch duplicating job failure detected...');
                 Log::channel('slack_warning')->info('User list duplicate fail', ['batch' => $batch->id]);
-                UserListDuplicated::dispatch($newList, false, ('Your list '.$newList->name.' failed to duplicate. Support has been notified automatically'));
+                UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, false, ('Your list '.$newList->name.' failed to duplicate. Support has been notified automatically'));
             })->finally(function (Batch $batch) {
                 Log::info('The batch duplication has finished executing...');
             })->dispatch();
+            DB::table('job_batches')->where('id', $batch->id)->update([
+                'name' => $newListName,
+                'user_list_id' => $newList->id,
+                'initial_total_in_file' => $totalCreatorsCount,
+                'type' => 'duplicating',
+            ]);
+            Notification::dispatch($this->team_id);
         } else {
-            UserListDuplicated::dispatch($newList, true, ('Your list '.$newList->name.' is duplicated successfully'));
+            UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, true, ('Your list '.$newList->name.' is duplicated successfully'));
         }
 
         return $newList;
     }
 
-    public function importBatchInProgress()
+    /**
+     * Interact the updating
+     *
+     * @return Attribute
+     */
+    protected function updatingList(): Attribute
     {
-        return $this->hasOne(JobBatch::class)->where('finished_at', null)->where('cancelled_at', null);
-    }
-
-    public function pendingImport()
-    {
-        return $this->hasOne(Import::class)->orderByDesc('created_at')
-            ->where('dispatched', '!=', 1)
-            ->orWhere(function ($q) {
-                $q->where('instagram_scrapped', '!=', 1)->orWhere('twitch_scrapped', '!=', 1);
-            })
-            ->limit(200000000000000000000000);
+        return Attribute::make(
+            get: fn () => (JobBatch::where('type', 'duplicating')->where('finished_at', null)->where('cancelled_at', null)->where('user_list_id', $this->id)->count() ||
+                Import::orderByDesc('created_at')
+                    ->where('user_list_id', $this->id)
+                    ->where(function ($q) {
+                        $q->where(function ($qq) {
+                            $qq->where('instagram_dispatched', '!=', 1)
+                                ->orWhere(function ($qqq) {
+                                    $qqq->where('instagram', '!=', null)->where('instagram_scrapped', '!=', 1);
+                                });
+                        })->orwhere(function ($qq) {
+                            $qq->where('twitch_dispatched', '!=', 1)
+                                ->orWhere(function ($qqq) {
+                                    $qqq->where(function ($qqqq) {
+                                        $qqqq->where('twitch', '!=', null)->orWwhere('twitch_id', '!=', null);
+                                    })->where('twitch_scrapped', '!=', 1);
+                                });
+                        });
+                    })->count())
+        );
     }
 }

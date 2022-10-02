@@ -77,7 +77,7 @@
               <div
                 class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                 <ArrowPathIcon
-                  v-if="element.pending_import"
+                  v-if="element.updating_list"
                   class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover:hidden group-hover:text-neutral-600" />
                 <span
                   v-else
@@ -643,16 +643,6 @@ export default {
               title: 'Successful',
               text: response.message,
             });
-            this.listenEvents(
-              `duplicateList.${response.list.id}`,
-              'UserListDuplicated',
-              () => {
-                this.$emit('getUserLists');
-              },
-              () => {
-                this.$emit('getUserLists');
-              }
-            );
           } else {
             // show toast error here later
             this.$notify({

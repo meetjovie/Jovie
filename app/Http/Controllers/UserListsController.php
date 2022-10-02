@@ -108,7 +108,7 @@ class UserListsController extends Controller
                 'list' => ['List does not exists']
             ]);
         }
-        $newList = $list->duplicateList(Auth::id());
+        $newList = $list->duplicateList();
         return response()->json([
             'status' => true,
             'message' => 'List duplicated.',

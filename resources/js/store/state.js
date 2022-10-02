@@ -10,4 +10,5 @@ export default {
     crmRecords: [],
     showImportProgress: false,
     tooltipsEnabled: false,
+    crmEventsRegistered: false,
 };

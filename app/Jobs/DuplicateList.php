@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\CreatorImported;
 use App\Models\UserList;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
@@ -49,5 +50,9 @@ class DuplicateList implements ShouldQueue
 
         $list = UserList::where('id', $this->newListId)->first();
         $list->creators()->syncWithoutDetaching($creatorIds);
+        Schema::enableForeignKeyConstraints();
+        foreach ($creatorIds as $creatorId) {
+            CreatorImported::dispatch($creatorId, $list->user_id, $list->team_id, $list->id);
+        }
     }
 }

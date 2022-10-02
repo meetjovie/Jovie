@@ -105,11 +105,22 @@ class User extends Authenticatable
     public function pendingImports()
     {
         return $this->hasMany(Import::class)->orderByDesc('created_at')
-            ->where('dispatched', '!=', 1)
-            ->orWhere(function ($q) {
-                $q->where('instagram_scrapped', '!=', 1)->orWhere('twitch_scrapped', '!=', 1);
+            ->where(function ($q) {
+                $q->where(function ($qq) {
+                    $qq->where('instagram_dispatched', '!=', 1)
+                        ->orWhere(function ($qqq) {
+                            $qqq->where('instagram', '!=', null)->where('instagram_scrapped', '!=', 1);
+                        });
+                })->orwhere(function ($qq) {
+                    $qq->where('twitch_dispatched', '!=', 1)
+                        ->orWhere(function ($qqq) {
+                            $qqq->where(function ($qqqq) {
+                                $qqqq->where('twitch', '!=', null)->orWwhere('twitch_id', '!=', null);
+                            })->where('twitch_scrapped', '!=', 1);
+                        });
+                });
             })
-            ->limit(200000000000000000000000);
+        ->limit(200000000000000000000000);
     }
 
     public function pendingImportsByNetwork($network)
