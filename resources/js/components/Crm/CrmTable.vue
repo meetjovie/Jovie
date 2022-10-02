@@ -514,7 +514,7 @@
                       </div>
                     </td>
                     <td
-                      class="w-80 cursor-pointer whitespace-nowrap border px-2">
+                      class="w-60 cursor-pointer whitespace-nowrap border px-2">
                       <div class="flex items-center">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div class="rounded-full bg-neutral-400 p-0.5">
@@ -631,7 +631,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-30 items-center whitespace-nowrap border">
+                      class="border-1 w-38 items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"

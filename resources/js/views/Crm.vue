@@ -233,6 +233,8 @@
                           <div
                             class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
                             <div>
+                              <ArrowPathIcon
+                                class="mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                               <h1 class="text-md font-bold">
                                 You've just initated an import.
                               </h1>
@@ -501,9 +503,9 @@ export default {
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
 
-      this.$nextTick(() => {
-          window.addEventListener('resize', this.onResize());
-      });
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize());
+    });
 
       if (! this.$store.state.crmEventsRegistered) {
           this.listenEvents(
@@ -720,16 +722,16 @@ export default {
         }
       });
     },
-      updateListCount(params) {
-          let list = this.userLists.find(list => list.id == params.list_id)
-          if (list) {
-              if (params.remove) {
-                  list.creators_count -= params.count
-              } else {
-                  list.creators_count += params.count
-              }
-          }
-      },
+    updateListCount(params) {
+      let list = this.userLists.find((list) => list.id == params.list_id);
+      if (list) {
+        if (params.remove) {
+          list.creators_count -= params.count;
+        } else {
+          list.creators_count += params.count;
+        }
+      }
+    },
     exportCrmCreators() {
       let obj = JSON.parse(JSON.stringify(this.filters));
       if (obj.list) {
