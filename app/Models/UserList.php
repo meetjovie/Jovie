@@ -180,9 +180,16 @@ class UserList extends Model
             get: fn () => (JobBatch::where('type', 'duplicating')->where('finished_at', null)->where('cancelled_at', null)->where('user_list_id', $this->id)->count() ||
                 Import::orderByDesc('created_at')
                     ->where('user_list_id', $this->id)
-                    ->where('dispatched', '!=', 1)
-                    ->orWhere(function ($q) {
-                        $q->where('instagram_scrapped', '!=', 1)->orWhere('twitch_scrapped', '!=', 1);
+                    ->where(function ($q) {
+                        $q->where(function ($qq) {
+                            $qq->where('instagram_dispatched', '!=', 1)
+                                ->orWhere(function ($qqq) {
+                                    $qqq->where('instagram', '!=', null)->where('instagram_scrapped', '!=', 1);
+                                })
+                                ->orWhere(function ($qqq) {
+                                    $qqq->where('twitch', '!=', null)->where('twitch_scrapped', '!=', 1);
+                                });
+                        });
                     })->count())
         );
     }
