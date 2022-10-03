@@ -31,6 +31,11 @@
             placeholder="Enter your coupon"
             type="text"
             required="" />
+        <p
+            class="mt-1 text-sm text-red-900"
+            v-if="errors.coupon">
+            {{ errors.coupon[0] }}
+        </p>
     </div>
     <div class="mt-2 w-full">
         <div class="flex justify-between">
@@ -61,6 +66,10 @@ export default {
         buttonText: {
             type: String,
             default: 'Pay'
+        },
+        errors: {
+            type: Object,
+            default: {}
         }
     },
     data() {
@@ -81,26 +90,29 @@ export default {
     methods: {
         clear() {
             this.paymentElement.clear();
+        },
+        initPaymentIntent() {
+            UserService.paymentIntent().then(async (response) => {
+                response = response.data;
+                if (response.status) {
+                    this.stripeLoaded = true;
+                    this.paymentIntent = response.intent;
+
+                    this.stripe = await loadStripe(response.stripeKey);
+                    this.elements = this.stripe.elements({
+                        clientSecret: this.paymentIntent.client_secret,
+                    });
+                    this.paymentElement = this.elements.create('payment');
+                    this.paymentElement.mount('#card');
+                    this.$emit('setPaymentElement', this.paymentElement)
+                } else {
+                    alert(response.message);
+                }
+            });
         }
     },
     async mounted() {
-        UserService.paymentIntent().then(async (response) => {
-            response = response.data;
-            if (response.status) {
-                this.stripeLoaded = true;
-                this.paymentIntent = response.intent;
-
-                this.stripe = await loadStripe(response.stripeKey);
-                this.elements = this.stripe.elements({
-                    clientSecret: this.paymentIntent.client_secret,
-                });
-                this.paymentElement = this.elements.create('payment');
-                this.paymentElement.mount('#card');
-                this.$emit('setPaymentElement', this.paymentElement)
-            } else {
-                alert(response.message);
-            }
-        });
+        this.initPaymentIntent()
     }
 }
 </script>
