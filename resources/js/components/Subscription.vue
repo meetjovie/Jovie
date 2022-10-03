@@ -521,7 +521,7 @@ export default {
           this.updatingSubscription = false;
         });
     },
-    async pay({ stripe, elements }) {
+    async pay({ stripe, elements, coupon }) {
       if (this.processingPayment) return;
       if (!this.selectedProduct || !this.selectedPlan) {
         /*  alert('You must select a product and pricing to continue.'); */
@@ -557,9 +557,9 @@ export default {
             this.processingPayment = false;
           } else {
             if (this.showSubscriptionPlans) {
-              this.changeSubscription(result.setupIntent.payment_method);
+              this.changeSubscription(result.setupIntent.payment_method, coupon);
             } else {
-              this.newSubscription(result.setupIntent.payment_method);
+              this.newSubscription(result.setupIntent.payment_method, coupon);
             }
           }
         });
@@ -567,8 +567,8 @@ export default {
     setPaymentElement(paymentElement) {
       this.paymentElement = paymentElement;
     },
-    newSubscription(paymentId) {
-      UserService.subscribe(paymentId, this.selectedPlan, this.selectedProduct)
+    newSubscription(paymentId, coupon) {
+      UserService.subscribe(paymentId, this.selectedPlan, this.selectedProduct, coupon)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -604,11 +604,13 @@ export default {
           this.processingPayment = false;
         });
     },
-    changeSubscription(paymentId) {
+    changeSubscription(paymentId, coupon) {
+        alert(coupon)
       UserService.changeSubscription(
         paymentId,
         this.selectedPlan,
-        this.selectedProduct
+        this.selectedProduct,
+        coupon
       )
         .then((response) => {
           response = response.data;

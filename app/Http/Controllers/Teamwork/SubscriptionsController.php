@@ -66,11 +66,24 @@ class SubscriptionsController extends Controller
     public function subscribe(Request $request)
     {
         $user = $request->user()->load('currentTeam');
+        $coupon = $user->currentTeam->findPromotionCode($request->coupon);
+        dd($coupon);
         $paymentMethod = $request->paymentMethod;
         $plan = $request->selectedPlan;
         $product = $request->selectedProduct;
+        $coupon = $request->coupon;
+
+        if ($coupon) {
+            $this->validateCoupon($coupon, $user);
+        }
 
         return $this->subscribeTeam($product, $plan, $paymentMethod, $user);
+    }
+
+    public function validateCoupon($coupon, $user)
+    {
+        $coupon = $user->currentTeam->findPromotionCode($coupon);
+        dd($coupon);
     }
 
     public function subscribeTeam($product, $plan, $paymentMethod, $user)
@@ -185,6 +198,10 @@ class SubscriptionsController extends Controller
     public function changeSubscription(Request $request)
     {
         $user = $request->user()->load('currentTeam');
+        $user = $request->user()->load('currentTeam');
+        $coupon = $user->currentTeam->findPromotionCode('1231', ['expand' => ['data.coupon.applies_to']]);
+//        dd($coupon);
+        dd(json_decode(json_encode($coupon)));
         $paymentMethod = $request->paymentMethod;
         $plan = $request->selectedPlan;
         $product = $request->selectedProduct;

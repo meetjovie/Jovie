@@ -8,6 +8,30 @@
             </div>
         </div>
     </div>
+    <div class="mt-2 w-full mx-auto max-w-4xl ">
+        <div class="flex items-center">
+            <input
+                id="add_coupon"
+                v-model="addCoupon"
+                name="add_coupon"
+                type="checkbox"
+                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+            <label
+                for="remember-me"
+                class="ml-2 block text-sm text-gray-900">
+                Add Coupon
+            </label>
+        </div>
+        <InputGroup
+            v-if="addCoupon"
+            v-model="coupon"
+            id="coupon"
+            :disabled="processingPayment"
+            name="coupon"
+            placeholder="Enter your coupon"
+            type="text"
+            required="" />
+    </div>
     <div class="mt-2 w-full">
         <div class="flex justify-between">
             <ButtonGroup
@@ -15,7 +39,7 @@
                 :text="processingPayment ? 'Processing' : buttonText"
                 :loader="processingPayment"
                 type="button"
-                @click="$emit('pay', {stripe: stripe, elements: elements})" />
+                @click="$emit('pay', {stripe: stripe, elements: elements, coupon: coupon})" />
         </div>
     </div>
 </template>
@@ -24,10 +48,11 @@
 import {loadStripe} from "@stripe/stripe-js";
 import UserService from "../services/api/user.service";
 import ButtonGroup from './ButtonGroup';
+import InputGroup from './InputGroup';
 
 export default {
     name: "PaymentElement",
-    components: {ButtonGroup},
+    components: {ButtonGroup, InputGroup},
     props: {
         processingPayment: {
             type: Boolean,
@@ -44,6 +69,8 @@ export default {
             stripeLoaded: false,
             paymentIntent: null,
             elements: null,
+            coupon: null,
+            addCoupon: false
         }
     },
     watch: {
