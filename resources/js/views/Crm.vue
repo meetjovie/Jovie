@@ -85,7 +85,7 @@
                     <div class="flex items-center text-xs">
                       <HeartIcon
                         class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
-                        aria-hidden="true" />Favorites
+                        aria-hidden="true" />Favorite
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
@@ -254,16 +254,22 @@
                         @updateCreator="updateCreator"
                         @updateCrmMeta="updateCrmMeta"
                         @crmCounts="crmCounts"
+                        :counts="counts"
                         @updateListCount="updateListCount"
                         @pageChanged="pageChanged"
                         @setCurrentContact="setCurrentContact"
+                        @openSidebar="openSidebarContact"
+                        :header="filters.type"
+                        subheader="All your contacts in one place."
                         :filters="filters"
                         :userLists="userLists"
                         :creators="creators"
                         :networks="networks"
                         :stages="stages"
                         :creatorsMeta="creatorsMeta"
-                        :loading="loading" />
+                        :loading="loading">
+                        <slot header="header"></slot>
+                      </CrmTable>
                     </div>
                   </div>
                 </div>
@@ -465,15 +471,15 @@ export default {
     window.removeEventListener('resize', this.onResize());
   },
   computed: {
-      showImporting() {
-          if (this.userLists.length && this.filters.type == 'list') {
-              let list = this.userLists.find(list => list.id == this.filters.list)
-              if (list) {
-                  return list.updating_list
-              }
-          }
-          return false
-      },
+    showImporting() {
+      if (this.userLists.length && this.filters.type == 'list') {
+        let list = this.userLists.find((list) => list.id == this.filters.list);
+        if (list) {
+          return list.updating_list;
+        }
+      }
+      return false;
+    },
     sortedCreators() {
       return this.creators.sort((a, b) => {
         let modifier = 1;
@@ -507,98 +513,103 @@ export default {
       window.addEventListener('resize', this.onResize());
     });
 
-      if (! this.$store.state.crmEventsRegistered) {
-          this.listenEvents(
-              `userListDuplicated.${this.currentUser.current_team.id}`,
-              'UserListDuplicated',
-              async (data) => {
-                  await this.getUserLists()
-                  setTimeout(() => {
-                      let list = this.userLists.find(list => list.id == data.list)
-                      if (list) {
-                          list.updating_list = null
-                          this.setFilterList(list.id)
-                      }
-                  }, 200)
+    if (!this.$store.state.crmEventsRegistered) {
+      this.listenEvents(
+        `userListDuplicated.${this.currentUser.current_team.id}`,
+        'UserListDuplicated',
+        async (data) => {
+          await this.getUserLists();
+          setTimeout(() => {
+            let list = this.userLists.find((list) => list.id == data.list);
+            if (list) {
+              list.updating_list = null;
+              this.setFilterList(list.id);
+            }
+          }, 200);
+        }
+      );
+
+      this.listenEvents(
+        `importListCreated.${this.currentUser.current_team.id}`,
+        'ImportListCreated',
+        async (data) => {
+          await this.getUserLists();
+          setTimeout(() => {
+            let list = this.userLists.find((list) => list.id == data.list);
+            if (list) {
+              this.setFilterList(list.id);
+            }
+          }, 200);
+        }
+      );
+
+      this.listenEvents(
+        `userListImported.${this.currentUser.current_team.id}`,
+        'UserListImported',
+        (data) => {
+          let index = this.userLists.findIndex((list) => list.id == data.list);
+          if (index >= 0) {
+            this.userLists[index].updating_list = null;
+          }
+          this.$store.state.showImportProgress = data.remaining;
+          if (!data.remaining) {
+            this.getUserLists();
+          }
+        }
+      );
+
+      this.listenEvents(
+        `userListImportTriggered.${this.currentUser.current_team.id}`,
+        'UserListImportTriggered',
+        (data) => {
+          let index = this.userLists.findIndex((list) => list.id == data.list);
+          if (index >= 0) {
+            this.userLists[index].updating_list = true;
+            this.$store.state.showImportProgress = data.remaining;
+          }
+        }
+      );
+
+      this.listenEvents(
+        `creatorImported.${this.currentUser.current_team.id}`,
+        'CreatorImported',
+        (data) => {
+          if (!data.list) {
+            this.$store.state.importProgressSingleCount--;
+          }
+          if (
+            (data.list && this.filters.type != 'list') ||
+            (!data.list && this.filters.type != 'all')
+          ) {
+            return;
+          }
+
+          if (
+            (data.list && data.list == this.filters.list) ||
+            this.filters.type == 'all'
+          ) {
+            let newCreator = JSON.parse(window.atob(data.creator));
+            let index = this.creators.findIndex(
+              (creator) => creator.id == newCreator.id
+            );
+
+            if (index >= 0) {
+              this.creators[index] = newCreator;
+            } else {
+              if (this.filters.page === 1 && this.creators.length == 50) {
+                this.creators.pop();
               }
-          );
-
-          this.listenEvents(
-              `importListCreated.${this.currentUser.current_team.id}`,
-              'ImportListCreated',
-              async (data) => {
-                  await this.getUserLists()
-                  setTimeout(() => {
-                      let list = this.userLists.find(list => list.id == data.list)
-                      if (list) {
-                          this.setFilterList(list.id)
-                      }
-                  }, 200)
+              if (this.creators.length) {
+                this.creators.splice(0, 0, newCreator);
+              } else {
+                this.creators.push(newCreator);
               }
-          );
-
-          this.listenEvents(
-              `userListImported.${this.currentUser.current_team.id}`,
-              'UserListImported',
-              (data) => {
-                  let index = this.userLists.findIndex(list => list.id == data.list);
-                  if (index >= 0) {
-                      this.userLists[index].updating_list = null
-                  }
-                  this.$store.state.showImportProgress = data.remaining;
-                  if (!data.remaining) {
-                      this.getUserLists()
-                  }
-              }
-          );
-
-          this.listenEvents(
-              `userListImportTriggered.${this.currentUser.current_team.id}`,
-              'UserListImportTriggered',
-              (data) => {
-                  let index = this.userLists.findIndex(list => list.id == data.list);
-                  if (index >= 0) {
-                      this.userLists[index].updating_list = true
-                      this.$store.state.showImportProgress = data.remaining
-                  }
-              }
-          );
-
-          this.listenEvents(
-              `creatorImported.${this.currentUser.current_team.id}`,
-              'CreatorImported',
-              (data) => {
-                  if (!data.list) {
-                      this.$store.state.importProgressSingleCount--
-                  }
-                  if (
-                      (data.list && this.filters.type != 'list') ||
-                      (!data.list && this.filters.type != 'all')
-                  ) {
-                      return;
-                  }
-
-                  if ((data.list && data.list == this.filters.list) || this.filters.type == 'all') {
-                      let newCreator = JSON.parse(window.atob(data.creator))
-                      let index = this.creators.findIndex(creator => creator.id == newCreator.id);
-
-                      if (index >= 0) {
-                          this.creators[index] = newCreator
-                      } else {
-                          if (this.filters.page === 1 && this.creators.length == 50) {
-                              this.creators.pop();
-                          }
-                          if (this.creators.length) {
-                              this.creators.splice(0, 0, newCreator);
-                          } else {
-                              this.creators.push(newCreator);
-                          }
-                      }
-                  }
-              }
-          );
-          this.$store.state.crmEventsRegistered = true
-      }
+            }
+          }
+        }
+      );
+      this.$store.state.crmEventsRegistered = true;
+    }
   },
   methods: {
     closeImportCreatorModal() {
@@ -620,9 +631,13 @@ export default {
       this.selectedList = null;
       this.openEmojis = false;
     },
-    setCurrentContact(contact) {
+    openSidebarContact(contact) {
       this.currentContact = contact;
       this.$store.state.ContactSidebarOpen = true;
+    },
+
+    setCurrentContact(contact) {
+      this.currentContact = contact;
     },
     setFiltersType(type) {
       this.filters.type = this.filters.type == type ? 'all' : type;

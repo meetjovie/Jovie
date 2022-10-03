@@ -65,7 +65,7 @@
         :class="{ 'disabled:opacity-25': adding }">
         <kbd
           class="inline-flex select-none items-center rounded border border-indigo-200 px-2 py-1 font-sans text-sm font-medium text-indigo-400 focus-visible:border-indigo-300 active:border-indigo-500 active:bg-indigo-500 active:text-white group-hover:border-indigo-400">
-          <JovieSpinner v-if="loader" />
+          <JovieSpinner class="mr-2" v-if="loader" />
           <span v-if="adding">Adding...</span>
           <span v-else
             >Add to <span class="pl-0.5 font-semibold">Jovie</span></span
@@ -201,7 +201,7 @@ export default {
               title: 'Import initiated',
               text: 'Your data is being imported.',
             });
-            this.$store.state.importProgressSingleCount++
+            this.$store.state.importProgressSingleCount++;
           } else {
             this.$notify({
               group: 'user',

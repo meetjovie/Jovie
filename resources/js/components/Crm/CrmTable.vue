@@ -3,7 +3,22 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <div
-          class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
+          class="flex w-full items-center justify-between border-b border-neutral-200 bg-white px-2 py-2">
+          <div>
+            <H1
+              v-if="!filters.type == 'list'"
+              class="text-sm font-bold capitalize text-neutral-600">
+              {{ filters.type + 'Contacts' }}
+            </H1>
+            <H1 v-else class="text-sm font-bold capitalize text-neutral-600">
+              {{ filters.list }}
+            </H1>
+            <p
+              v-if="header.includes('all')"
+              class="text-2xs font-medium text-neutral-400">
+              {{ counts.total }} Total
+            </p>
+          </div>
           <div class="flex h-6 w-80 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
@@ -408,6 +423,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
+                      :class="column.width ? 'w-' + column.width : ''"
                       class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         class="w-full"
@@ -514,8 +530,9 @@
                       </div>
                     </td>
                     <td
-                      class="w-60 cursor-pointer whitespace-nowrap border px-2">
-                      <div class="flex items-center">
+                      v-on:dblclick="cellActive"
+                      class="w-32 cursor-pointer whitespace-nowrap border pl-2 pr-0.5">
+                      <div class="flex items-center justify-between">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div class="rounded-full bg-neutral-400 p-0.5">
                             <div class="rounded-full bg-white p-0">
@@ -534,7 +551,10 @@
                             </div>
                           </div>
                         </div>
-                        <div class="text-sm text-gray-900 line-clamp-1">
+
+                        <div
+                          v-if="cellActive"
+                          class="text-sm text-gray-900 line-clamp-1">
                           <input
                             v-model="creator.meta.name"
                             @blur="$emit('updateCrmMeta', creator)"
@@ -545,6 +565,15 @@
                             class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                             placeholder="Name"
                             aria-describedby="name-description" />
+                        </div>
+                        <div v-else class="text-sm text-gray-900 line-clamp-1">
+                          {{ creator.meta.name }}
+                        </div>
+                        <div
+                          @click="$emit('openSidebar', creator)"
+                          class="mx-auto items-center rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
+                          <ArrowsPointingOutIcon
+                            class="hidden h-3 w-3 group-hover:block" />
                         </div>
                       </div>
                     </td>
@@ -615,7 +644,7 @@
 
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 table-cell w-60 whitespace-nowrap border focus-visible:border-indigo-500">
+                      class="border-1 table-cell w-40 whitespace-nowrap border focus:border-indigo-500">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
                           v-model="creator.meta.emails"
@@ -631,7 +660,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-38 items-center whitespace-nowrap border">
+                      class="border-1 w-18 items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -670,7 +699,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.offer')"
-                      class="border-1 table-cell w-24 whitespace-nowrap border">
+                      class="border-1 table-cell w-12 whitespace-nowrap border">
                       <span
                         class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
                         $
@@ -698,7 +727,7 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 relative isolate z-10 table-cell items-center whitespace-nowrap border">
+                      class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border">
                       <Popover
                         as="div"
                         class="relative z-10 inline-block w-full items-center text-left">
@@ -828,7 +857,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="table-cell w-28 whitespace-nowrap px-2 py-1 text-sm text-gray-500">
+                      class="w-18 table-cell whitespace-nowrap px-2 py-1 text-sm text-gray-500">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -1069,6 +1098,7 @@ import {
   AdjustmentsHorizontalIcon,
   XMarkIcon,
   UserGroupIcon,
+  ArrowsPointingOutIcon,
 } from '@heroicons/vue/24/solid';
 import KeyboardShortcut from '../../components/KeyboardShortcut';
 import Pagination from '../../components/Pagination';
@@ -1128,6 +1158,7 @@ export default {
     SwitchLabel,
     ArrowUpCircleIcon,
     TransitionRoot,
+    ArrowsPointingOutIcon,
   },
   data() {
     return {
@@ -1144,6 +1175,7 @@ export default {
       editingSocialHandle: true,
       searchVisible: false,
       imageLoaded: true,
+      cellActive: false,
       settings: [
         {
           name: 'Show Follower Counts',
@@ -1170,6 +1202,7 @@ export default {
           icon: 'Bars3BottomLeftIcon',
           visible: false,
           breakpoint: '2xl',
+          width: '18',
         },
         {
           name: 'Last',
@@ -1177,6 +1210,7 @@ export default {
           icon: 'Bars3BottomLeftIcon',
           visible: false,
           breakpoint: '2xl',
+          width: '18',
         },
         {
           name: 'Title',
@@ -1192,6 +1226,7 @@ export default {
           visible: true,
           sortable: false,
           breakpoint: '2xl',
+          width: '24',
         },
 
         {
@@ -1200,6 +1235,7 @@ export default {
           icon: 'AtSymbolIcon',
           visible: true,
           breakpoint: 'lg',
+          width: '40',
         },
 
         {
@@ -1207,6 +1243,7 @@ export default {
           key: 'networks',
           icon: 'LinkIcon',
           visible: true,
+          width: '18',
         },
         {
           name: 'Offer',
@@ -1215,12 +1252,13 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: 'lg',
+          width: '12',
         },
         {
           name: 'Stage',
           key: 'crm_record_by_user.stage',
           icon: 'ArrowDownCircleIcon',
-          width: 'w-24',
+          width: '24',
           sortable: false,
           visible: true,
           breakpoint: 'md',
@@ -1232,6 +1270,7 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: '2xl',
+          width: '24',
         },
         {
           name: 'Rating',
@@ -1240,6 +1279,7 @@ export default {
           sortable: false,
           visible: true,
           breakpoint: '2xl',
+          width: '24',
         },
       ],
     };
@@ -1253,6 +1293,9 @@ export default {
     'creatorsMeta',
     'loading',
     'archived',
+    'subheader',
+    'header',
+    'counts',
   ],
   watch: {
     creators: function (val) {
