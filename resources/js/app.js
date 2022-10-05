@@ -23,14 +23,12 @@ app.mixin({
     axios.interceptors.request.use(
       function (config) {
         // Do something before request is sent
-          console.log('router.currentRoute.value.name');
-          console.log(router.currentRoute.value.name);
           if (router.currentRoute.value.name != 'Extension') {
           delete config.headers.common['Authorization'];
         } else {
+              let token = localStorage.getItem('jovie_extension');
               console.log('token');
               console.log(token);
-              let token = localStorage.getItem('jovie_extension');
           if (token) {
             config.headers.common['Authorization'] = `Bearer ${token}`;
           }
