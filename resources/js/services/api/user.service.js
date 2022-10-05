@@ -50,11 +50,12 @@ export default {
   async getCreatorOverview(id) {
     return axios.get(`${baseApiUrl}/creators-overview/${id}`);
   },
-  async subscribe(token, selectedPlan, selectedProduct) {
+  async subscribe(token, selectedPlan, selectedProduct, coupon) {
     return axios.post(`${baseApiUrl}/subscription`, {
       paymentMethod: token,
       selectedPlan: selectedPlan,
       selectedProduct: selectedProduct,
+        coupon: coupon,
     });
   },
   async paymentIntent() {
@@ -69,11 +70,12 @@ export default {
   async resumeSubscription() {
     return axios.post(`${baseApiUrl}/resume-subscription`);
   },
-  async changeSubscription(token, selectedPlan, selectedProduct) {
+  async changeSubscription(token, selectedPlan, selectedProduct, coupon) {
     return axios.post(`${baseApiUrl}/change-subscription`, {
       paymentMethod: token,
       selectedPlan: selectedPlan,
       selectedProduct: selectedProduct,
+        coupon: coupon,
     });
   },
   buySeats(numberOfSeats) {
