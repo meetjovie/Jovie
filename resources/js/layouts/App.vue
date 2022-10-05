@@ -153,8 +153,8 @@
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
               <!-- The top tooltip -->
-
-              <div
+                <p @click="createCustomerPortalSession()">Billing</p>
+                <div
                 v-if="$store.state.showImportProgress || $store.state.importProgressSingleCount"
                 class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
                 <ArrowPathIcon
@@ -564,6 +564,7 @@ import ImportService from '../services/api/import.service';
 import ProgressBar from '../components/ProgressBar.vue';
 import SwitchTeams from '../components/SwitchTeams.vue';
 import XCircle from '../../../vendor/laravel/vapor-ui/resources/js/components/icons/XCircle.vue';
+import UserService from "../services/api/user.service";
 
 export default {
   name: 'App',
@@ -652,6 +653,14 @@ export default {
   },
 
   methods: {
+      createCustomerPortalSession() {
+          UserService.createCustomerPortalSession().then(response => {
+              response = response.data
+              if (response.status) {
+                  window.location.href = response.url
+              }
+          })
+      },
     getNotifications() {
       ImportService.getNotifications().then((response) => {
         response = response.data;

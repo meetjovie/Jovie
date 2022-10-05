@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Teamwork;
 use App\Http\Controllers\Controller;
 use App\Models\Team;
 use App\Models\User;
+use Stripe\BillingPortal\Session;
+use Stripe\Stripe;
 use function Clue\StreamFilter\fun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -277,5 +279,22 @@ class SubscriptionsController extends Controller
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function createCustomerPortalSession(Request $request)
+    {
+        $key = \config('services.stripe.secret');
+        Stripe::setApiKey($key);
+        $user = $request->user()->load('currentTeam');
+        $customer = $user->currentTeam->createOrGetStripeCustomer();
+        $session = Session::create([
+            'customer' => $customer->id,
+            'return_url' => config('app.url')
+        ]);
+
+        return response([
+            'status' => true,
+            'url' => $session->url
+        ]);
     }
 }

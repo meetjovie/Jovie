@@ -134,4 +134,7 @@ export default {
   updateCrmMeta(crmId, meta) {
     return axios.post(`${baseApiUrl}/update-crm-meta/${crmId}`, {meta: meta});
   },
+    createCustomerPortalSession() {
+        return axios.post(`${baseApiUrl}/create-customer-portal-session`);
+    }
 };
