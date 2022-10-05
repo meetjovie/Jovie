@@ -48,6 +48,13 @@ app.mixin({
     },
   },
   methods: {
+      async reconnectPusher() {
+          return new Promise(async (resolve, reject) => {
+              await Echo.disconnect()
+              await Echo.connect()
+              resolve()
+          });
+      },
     listenEvents(
       channel,
       event,
@@ -56,7 +63,7 @@ app.mixin({
     ) {
       Echo.private(channel).listen(event, (e) => {
         if (e.status) {
-          if (!(event == 'CreatorImported' && e.data.list)) {
+          if (e.message) {
             this.$notify({
               group: 'user',
               type: 'success',

@@ -66,6 +66,8 @@ class Test extends Command
     {
         $batches = Import::importBatches(1);
         $batches = !! count(array_filter($batches, function ($batch) {
+            dump($batch->is_batch);
+            dump($batch->progress);
             return $batch->is_batch && $batch->progress < 100;
         }));
         dd($batches);

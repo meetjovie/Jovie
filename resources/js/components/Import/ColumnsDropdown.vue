@@ -4,7 +4,7 @@
     <div class="relative">
       <ListboxButton
         class="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 sm:text-sm">
-        <span class="block truncate">{{ selected ?? 'Select' }}</span>
+        <span class="block truncate">{{ columnsToMap[selected] ?? 'Select' }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
           <ArrowsUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -47,8 +47,8 @@
           </ListboxOption>
           <ListboxOption
             as="template"
-            v-for="column in columnsToMap"
-            :key="column"
+            v-for="(columnFriendly, column) in columnsToMap"
+            :key="columnFriendly"
             :value="column"
             v-slot="{ active, selected }">
             <li
@@ -61,7 +61,7 @@
                   selected ? 'font-semibold' : 'font-normal',
                   'block truncate',
                 ]">
-                {{ column }}
+                {{ columnFriendly }}
               </span>
 
               <span

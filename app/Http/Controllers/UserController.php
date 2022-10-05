@@ -207,7 +207,11 @@ class UserController extends Controller
             );
             $data['profile_pic_url'] = Storage::disk('s3')->url((User::UPLOAD_PATH.$request->input('profile_pic_url')));
         }
-        $user = User::where('id', Auth::user()->id)->update($data);
+        $user = User::where('id', Auth::user()->id)->first();
+        foreach ($data as $k => $v) {
+            $user->{$k} = $v;
+        }
+        $user->save();
         if ($user) {
             return collect([
                 'status' => true,

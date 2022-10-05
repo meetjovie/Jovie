@@ -75,7 +75,7 @@
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
-                  class="h-5 w-5 text-gray-400 group-hover:text-neutral-600" /> 
+                  class="h-5 w-5 text-gray-400 group-hover:text-neutral-600" />
               </div> -->
             </div>
             <div class="flex items-center">
@@ -219,10 +219,11 @@
             </div>
           </div>
         </div>
-        <div class="inline-block min-w-full align-middle">
-          <div class="shadow-sm ring-1 ring-black ring-opacity-5">
+        <div class="inline-block h-full min-w-full align-middle">
+          <div
+            class="flex h-full w-full flex-col justify-between shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="w-auto table-fixed divide-y divide-gray-200 overflow-x-scroll">
+              class="w-full table-fixed divide-y divide-gray-200 overflow-x-scroll">
               <thead
                 class="relative isolate z-20 w-full items-center overflow-x-scroll bg-neutral-100">
                 <tr class="sticky h-8 items-center">
@@ -533,7 +534,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="text-cs text-gray-900 line-clamp-1">
+                        <div class="text-sm text-gray-900 line-clamp-1">
                           <input
                             v-model="creator.meta.name"
                             @blur="$emit('updateCrmMeta', creator)"
@@ -611,6 +612,7 @@
                           aria-describedby="Company" />
                       </div>
                     </td>
+
                     <td
                       v-if="visibleColumns.includes('emails')"
                       class="border-1 table-cell w-60 whitespace-nowrap border focus-visible:border-indigo-500">
@@ -629,7 +631,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-24 items-center whitespace-nowrap border">
+                      class="border-1 w-38 items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -750,7 +752,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                               <div class="">
                                 <div class="">
                                   <button
@@ -788,7 +790,7 @@
                       class="border-1 table-cell w-40 items-center whitespace-nowrap border text-xs text-gray-500">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
-                        @click="
+                        @update:modelValue="
                           $emit('updateCreator', {
                             id: creator.id,
                             index: index,
@@ -1010,16 +1012,15 @@
                 </template>
               </tbody>
             </table>
-            <div class="w-full justify-end">
-              <Pagination
-                class="z-50 w-full"
-                v-if="creatorRecords.length"
-                :totalPages="creatorsMeta.last_page"
-                :perPage="creatorsMeta.per_page"
-                :currentPage="creatorsMeta.current_page"
-                :disabled="loading"
-                @pagechanged="$emit('pageChanged', $event)" />
-            </div>
+
+            <Pagination
+              class="z-50 w-full bg-blue-500"
+              v-if="creatorRecords.length"
+              :totalPages="creatorsMeta.last_page"
+              :perPage="creatorsMeta.per_page"
+              :currentPage="creatorsMeta.current_page"
+              :disabled="loading"
+              @pagechanged="$emit('pageChanged', $event)" />
           </div>
         </div>
       </div>
@@ -1192,6 +1193,7 @@ export default {
           sortable: false,
           breakpoint: '2xl',
         },
+
         {
           name: 'Email',
           key: 'emails',
@@ -1536,6 +1538,11 @@ export default {
               text: response.message,
             });
             this.$emit('crmCounts');
+            this.$emit('updateListCount', {
+              count: creatorIds.length,
+              list_id: list,
+              remove: remove,
+            });
           } else {
             this.$notify({
               group: 'user',
