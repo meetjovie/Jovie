@@ -9,6 +9,9 @@ const router = VueRouter.createRouter({
 });
 router.beforeEach(async (to, from) => {
   if (to.meta) {
+      if (to.name != 'Extension') {
+          delete axios.defaults.headers.common["Authorization"];
+      }
     await store
       .dispatch('me')
       .then((response) => {

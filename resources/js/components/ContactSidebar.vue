@@ -438,7 +438,9 @@ export default {
   props: {
     creator: {
       type: Object,
-      default: {},
+      default: {
+          meta: {}
+      },
     },
     jovie: {
       type: Boolean,

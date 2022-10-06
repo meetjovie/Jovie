@@ -18,29 +18,6 @@ const myMixin = {};
 
 const app = Vue.createApp({});
 app.mixin({
-  mounted() {
-    // Add a request interceptor
-    axios.interceptors.request.use(
-      function (config) {
-        // Do something before request is sent
-          if (router.currentRoute.value.name != 'Extension') {
-          delete config.headers.common['Authorization'];
-        } else {
-              let token = localStorage.getItem('jovie_extension');
-              console.log('token');
-              console.log(token);
-          if (token) {
-            config.headers.common['Authorization'] = `Bearer ${token}`;
-          }
-        }
-        return config;
-      },
-      function (error) {
-        // Do something with request error
-        return Promise.reject(error);
-      }
-    );
-  },
   computed: {
     currentUser() {
       return store.state.AuthState.user;
@@ -126,6 +103,28 @@ app.mixin({
     },
   },
 });
+
+axios.interceptors.request.use(
+    function (config) {
+        // Do something before request is sent.
+        if (router.currentRoute.value.name == undefined) {
+            delete config.headers.common['Authorization'];
+        }
+        if (router.currentRoute.value.name != undefined && router.currentRoute.value.name != 'Extension') {
+            delete config.headers.common['Authorization'];
+        } else {
+            let token = localStorage.getItem('jovie_extension');
+            if (token) {
+                config.headers.common['Authorization'] = `Bearer ${token}`;
+            }
+        }
+        return config;
+    },
+    function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    }
+);
 
 app.use(router);
 app.use(store);
