@@ -298,6 +298,7 @@
 
       <ImportCreatorModal
         :open="showCreatorModal"
+        :list="filters.list"
         @closeModal="closeImportCreatorModal" />
 
       <EmojiPickerModal

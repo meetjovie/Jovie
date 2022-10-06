@@ -137,6 +137,9 @@ export default {
       type: Boolean,
       default: false,
     },
+      list: {
+        type: Number,
+      }
   },
   methods: {
     add() {
@@ -191,6 +194,7 @@ export default {
       this.errors = [];
       var form = new FormData();
       form.append(this.network, this.socialMediaProfileUrl);
+      form.append('list', this.list);
       ImportService.import(form)
         .then((response) => {
           response = response.data;
