@@ -5,8 +5,8 @@ const baseApiUrl = '/api';
 const baseUrlWeb = '';
 
 export default {
-  async me() {
-    return axios.get(`${baseApiUrl}/me`);
+  async me(config) {
+    return axios.get(`${baseApiUrl}/me`, config);
   },
   async addToWaitList(data) {
     return axios.post(`${baseUrlWeb}/waitlist`, data);
