@@ -417,14 +417,14 @@ export default {
   },
   mounted() {
     // console.log('Sidebar loaded');
-    // document.onreadystatechange = () => {
-    //   if (document.readyState == 'complete') {
-    //     console.log('Page completed with image and files!');
-    //     // fetch to next page or some code
-    //     /*  this.setCreatorData(); */
-    //   }
-    // };
-    //
+    document.onreadystatechange = () => {
+      if (document.readyState == 'complete') {
+        console.log('Page completed with image and files!');
+        // fetch to next page or some code
+        this.setCreatorData();
+      }
+    };
+
     // const queryParameters = location.href.split('?')[1];
     // let image = queryParameters.split('image=')[1];
     // const urlParameters = new URLSearchParams(queryParameters);
