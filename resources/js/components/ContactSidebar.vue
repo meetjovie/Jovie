@@ -421,22 +421,30 @@ export default {
       if (document.readyState == 'complete') {
         console.log('Page completed with image and files!');
         // fetch to next page or some code
-        this.setCreatorData();
+        // this.setCreatorData();
       }
     };
 
-    // const queryParameters = location.href.split('?')[1];
-    // let image = queryParameters.split('image=')[1];
-    // const urlParameters = new URLSearchParams(queryParameters);
-    //
-    // let creator = urlParameters.get('creator');
-    // this.creator = JSON.parse(creator);
-    // this.creator.instagram_profile_picture = image;
-    // console.log('creator from iframe');
-    // console.log(this.creator);
+    if (this.creatorsData.id) {
+        this.creator = this.creatorsData
+    } else {
+        const queryParameters = location.href.split('?')[1];
+        let image = queryParameters.split('image=')[1];
+        const urlParameters = new URLSearchParams(queryParameters);
+
+        let creator = urlParameters.get('creator');
+        creator = JSON.parse(creator)
+        if (creator.meta == undefined) {
+            creator.meta = {}
+        }
+        this.creator = creator;
+        this.creator.instagram_profile_picture = image;
+        console.log('creator from iframe');
+        console.log(this.creator);
+    }
   },
   props: {
-    creator: {
+    creatorsData: {
       type: Object,
       default: {
           meta: {}
@@ -538,6 +546,9 @@ export default {
         passwordConfirm: '',
         errors: [],
       },
+        creator: {
+          meta: {}
+        }
     };
   },
 };

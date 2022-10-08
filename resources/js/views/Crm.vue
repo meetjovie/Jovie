@@ -291,7 +291,7 @@
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
-              :creator="currentContact" />
+              :creatorsData="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
