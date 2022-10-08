@@ -460,7 +460,7 @@
                   :key="creator">
                   <tr
                     v-if="creator"
-                    @click="setCurrentContact(creator)"
+                    @click="setCurrentContact($event, creator)"
                     class="border-1 group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
@@ -483,6 +483,7 @@
                           <form>
                             <input
                               type="checkbox"
+                              name="selectCreatorCheckbox"
                               :value="creator.id"
                               class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                               v-model="selectedCreators" />
@@ -1624,8 +1625,15 @@ export default {
       //log the id of the active creator in the console
       console.log('The active creator is ' + this.activeCreator);
     },
-    setCurrentContact(creator) {
+    setCurrentContact(e, creator) {
       this.currentContact = creator;
+      if (e.target.name == 'selectCreatorCheckbox') {
+          if (this.selectedCreators.includes(creator.id)) {
+              this.selectedCreators.splice(this.selectedCreators.indexOf(creator.id), 1)
+          } else {
+              this.selectedCreators.push(creator.id)
+          }
+      }
       this.$emit('setCurrentContact', creator);
     },
     nextContact() {
