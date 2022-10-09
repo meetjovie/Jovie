@@ -24,11 +24,12 @@ Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
 Route::post('/forgot-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'resetPassword']);
-Route::post('/upload-temp-image', [\App\Http\Controllers\UserController::class, 'uploadTempImage']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
     Broadcast::routes();
+
+    Route::get('/upload-temp-file', [\App\Http\Controllers\UserController::class, 'uploadTempFile']);
 
     //    PROFILE
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);

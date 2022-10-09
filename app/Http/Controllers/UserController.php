@@ -301,7 +301,7 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function uploadTempImage(Request $request)
+    public function uploadTempFile(Request $request)
     {
         $url = null;
         if ($request->image_url) {

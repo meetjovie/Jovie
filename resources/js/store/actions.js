@@ -91,5 +91,15 @@ export default {
 
     async updateCrmMeta(context, payload) {
         return await userService.updateCrmMeta(payload.id, payload.meta)
+    },
+
+    async uploadTempFileFromUrl(context, payload) {
+        return new Promise((resolve, reject) => {
+            userService.uploadTempFileFromUrl(payload).then(response => {
+                resolve(response.data)
+            }).catch(error => {
+                return reject(error)
+            })
+        })
     }
 }

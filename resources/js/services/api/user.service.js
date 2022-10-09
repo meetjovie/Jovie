@@ -1,5 +1,6 @@
 import store from '../../store';
 import axios from 'axios';
+import router from "../../router";
 
 const baseApiUrl = '/api';
 const baseUrlWeb = '';
@@ -135,5 +136,8 @@ export default {
   },
   updateCrmMeta(crmId, meta) {
     return axios.post(`${baseApiUrl}/update-crm-meta/${crmId}`, {meta: meta});
+  },
+  uploadTempFileFromUrl(image) {
+      return axios.get(`${baseApiUrl}/upload-temp-file?image_url=${image}`);
   },
 };
