@@ -438,7 +438,7 @@ export default {
             creator.meta = {}
         }
         this.creator = creator;
-        this.creator.instagram_profile_picture = image;
+        this.creator.profile_pic_url = image;
         console.log('creator from iframe');
         console.log(this.creator);
     }
