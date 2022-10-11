@@ -549,7 +549,8 @@ class Creator extends Model
             $creator->crm_record_by_user->updated_at = $creator->updated_at;
 
             $crm = new Crm();
-            $creator->crm_record_by_user->stage = $crm->getStageAttribute($creator->stage);
+            $creator->crm_record_by_user->stage = $creator->stage;
+            $creator->crm_record_by_user->stage_name = $crm->stageName($creator->stage);
             $creator->crm_record_by_user->meta = $crm->getMetaAttribute($creator->meta);
             $creator->meta = $creatorAccessor->getMeta($creator);
             unset($creator->crm_record_by_user->meta);

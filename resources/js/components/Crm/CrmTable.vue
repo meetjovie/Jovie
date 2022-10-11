@@ -427,10 +427,10 @@
                       class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         class="w-full"
+                        @sortData="sortData"
                         @hide-column="column.visible = false"
-                        :sortable="column.sortable"
-                        :icon="column.icon"
-                        :name="column.name" />
+                        :column="column"
+                      />
                     </th>
                   </template>
                   <th
@@ -744,30 +744,30 @@
                               :class="[
                                 {
                                   'bg-indigo-50 text-indigo-600':
-                                    creator.crm_record_by_user.stage === 'Lead',
+                                    creator.crm_record_by_user.stage_name === 'Lead',
                                 },
                                 {
                                   'bg-sky-50 text-sky-600':
-                                    creator.crm_record_by_user.stage ===
+                                    creator.crm_record_by_user.stage_name ===
                                     'Interested',
                                 },
                                 {
                                   'bg-pink-50 text-pink-600':
-                                    creator.crm_record_by_user.stage ===
+                                    creator.crm_record_by_user.stage_name ===
                                     'Negotiating',
                                 },
                                 {
                                   'bg-fuchsia-50 text-fuchsia-600':
-                                    creator.crm_record_by_user.stage ===
+                                    creator.crm_record_by_user.stage_name ===
                                     'In Progress',
                                 },
                                 {
                                   'bg-red-50 text-red-600':
-                                    creator.crm_record_by_user.stage ===
+                                    creator.crm_record_by_user.stage_name ===
                                     'Complete',
                                 },
                               ]">
-                              {{ creator.crm_record_by_user.stage }}
+                              {{ creator.crm_record_by_user.stage_name }}
                             </div>
                             <div class="items-center">
                               <ChevronDownIcon
@@ -1201,6 +1201,7 @@ export default {
           name: 'First',
           key: 'first_name',
           icon: 'Bars3BottomLeftIcon',
+          sortable: true,
           visible: false,
           breakpoint: '2xl',
           width: '18',
@@ -1210,6 +1211,7 @@ export default {
           key: 'last_name',
           icon: 'Bars3BottomLeftIcon',
           visible: false,
+          sortable: true,
           breakpoint: '2xl',
           width: '18',
         },
@@ -1250,7 +1252,7 @@ export default {
           name: 'Offer',
           key: 'crm_record_by_user.offer',
           icon: 'CurrencyDollarIcon',
-          sortable: false,
+          sortable: true,
           visible: false,
           breakpoint: 'lg',
           width: '12',
@@ -1260,7 +1262,7 @@ export default {
           key: 'crm_record_by_user.stage',
           icon: 'ArrowDownCircleIcon',
           width: '24',
-          sortable: false,
+          sortable: true,
           visible: true,
           breakpoint: 'md',
         },
@@ -1277,7 +1279,7 @@ export default {
           name: 'Rating',
           key: 'crm_record_by_user.rating',
           icon: 'StarIcon',
-          sortable: false,
+          sortable: true,
           visible: true,
           breakpoint: '2xl',
           width: '24',
@@ -1376,6 +1378,37 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      sortData({sortBy, sortOrder}) {
+          this.columns = this.columns.map(column => {
+              if (column.key == sortBy) {
+                  column.sortOrder = sortOrder == 'asc' ? 'desc' : 'asc'
+              } else {
+                  delete column.sortOrder
+              }
+              return column
+          })
+          if (sortBy.split('.')[1]) {
+              sortBy = sortBy.split('.')[1]
+          }
+          this.creatorRecords = this.creatorRecords.sort((a, b) => {
+              let modifier = 1;
+              if (sortOrder === 'desc') {
+                  modifier = -1
+              }
+              if (['first_name', 'last_name'].includes(sortBy)) {
+                  return a.meta[sortBy].localeCompare(b.meta[sortBy]) * modifier
+              } else {
+                  if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
+                      return -1 * modifier;
+                  }
+                  if (a.crm_record_by_user[sortBy] > b.crm_record_by_user[sortBy]) {
+                      console.log('2');
+                      return modifier;
+                  }
+              }
+              return 0;
+          });
+      },
     handleScroll() {
       // when the user scrolls, check the pageYOffset
       if (window.pageYOffset > 0) {
