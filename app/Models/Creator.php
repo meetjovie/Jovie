@@ -59,8 +59,8 @@ class Creator extends Model
         $meta['phone'] = $creator->crm_record_by_user->meta->phone ?? $creator->phone;
         $meta['website'] = $creator->crm_record_by_user->meta->website ?? $creator->website;
         $meta['location'] = $creator->crm_record_by_user->meta->location ?? $creator->location;
-        $meta['first_name'] = $creator->crm_record_by_user->meta->first_name ?? $creator->first_name;
-        $meta['last_name'] = $creator->crm_record_by_user->meta->last_name ?? $creator->last_name;
+        $meta['first_name'] = $creator->crm_record_by_user->meta->first_name ?? null;
+        $meta['last_name'] = $creator->crm_record_by_user->meta->last_name ?? null;
         $meta['platform_title'] = $creator->crm_record_by_user->meta->platform_title ?? $creator->platform_title;
         $meta['platform_employer'] = $creator->crm_record_by_user->meta->platform_employer ?? $creator->platform_employer;
         $creatorAccessor = new self();
@@ -477,7 +477,26 @@ class Creator extends Model
             $creators = $creators->where('creators.username', $params['username'])->limit(1);
         }
 
-        $creators = $creators->orderByDesc('crms.id');
+        $order = 'DESC';
+        $orderBy = null;
+        if (!empty($params['order'])) {
+            $order = $params['order'];
+        }
+        if (!empty($params['sort'])) {
+            $orderBy = $params['sort'];
+        }
+
+        if (!empty($orderBy)) {
+            if (in_array($orderBy, ['first_name', 'last_name'])) {
+                $creators->addSelect(DB::raw(("lower(JSON_UNQUOTE(JSON_EXTRACT(meta, '$[*].".$orderBy."'))) as order_".$orderBy)));
+                $creators = $creators->orderByRaw("lower($orderBy) $order");
+            } else {
+                $creators = $creators->orderByRaw("lower($orderBy) $order");
+            }
+        } else {
+            $creators = $creators->orderByDesc('crms.id');
+        }
+
         if (! isset($params['export'])) {
             $creators = $creators->paginate(50);
         } else {

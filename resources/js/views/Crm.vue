@@ -259,6 +259,7 @@
                         @pageChanged="pageChanged"
                         @setCurrentContact="setCurrentContact"
                         @openSidebar="openSidebarContact"
+                        @setOrder="setOrder"
                         :header="filters.type"
                         subheader="All your contacts in one place."
                         :filters="filters"
@@ -447,11 +448,15 @@ export default {
         list: null,
         type: 'all',
         page: 1,
+          sort: '',
+          order: ''
       },
       searchList: '',
       abortController: null,
       openEmojis: false,
       selectedList: null,
+        currentSortBy: 'id',
+        currentSortOrder: 'desc'
     };
   },
   watch: {
@@ -712,6 +717,10 @@ export default {
         this.filters.archived = 0;
       }
     },
+      setOrder({sortBy, sortOrder}) {
+        this.filters.sort = sortBy;
+        this.filters.order = sortOrder;
+      },
     getCrmCreators(filters = {}) {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.filters));

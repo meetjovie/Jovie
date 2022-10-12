@@ -134,7 +134,7 @@
                             </div>
                           </div>
                         </div>
-                        <div as="div" v-for="(column, index) in columns">
+                        <div as="div" v-for="(column, index) in otherColumns">
                           <SwitchGroup>
                             <SwitchLabel
                               class="flex items-center hover:bg-neutral-100 hover:text-white">
@@ -413,12 +413,13 @@
                     <div v-else>
                       <CrmTableSortableHeader
                         icon="Bars3BottomLeftIcon"
-                        name="Name"
+                        :column="fullNameColumn"
+                        @sortData="sortData({sortBy: fullNameColumn.key, sortOrder: fullNameColumn.sortOrder})"
                         menu="false" />
                     </div>
                   </th>
 
-                  <template v-for="column in columns">
+                  <template v-for="column in otherColumns">
                     <th
                       :key="column.key"
                       v-if="column.visible"
@@ -1198,10 +1199,17 @@ export default {
       ],
       columns: [
         {
+          name: 'Name',
+          key: 'full_name',
+          icon: 'Bars3BottomLeftIcon',
+          sortable: true,
+          visible: true
+        },
+        {
           name: 'First',
           key: 'first_name',
           icon: 'Bars3BottomLeftIcon',
-          sortable: true,
+          sortable: false,
           visible: false,
           breakpoint: '2xl',
           width: '18',
@@ -1211,7 +1219,7 @@ export default {
           key: 'last_name',
           icon: 'Bars3BottomLeftIcon',
           visible: false,
-          sortable: true,
+          sortable: false,
           breakpoint: '2xl',
           width: '18',
         },
@@ -1285,6 +1293,8 @@ export default {
           width: '24',
         },
       ],
+        currentSort: 'asc',
+        currentSortBy: ''
     };
   },
   props: [
@@ -1372,6 +1382,12 @@ export default {
         }
       });
     },
+      fullNameColumn() {
+        return this.columns.find(column => column.key == 'full_name')
+      },
+      otherColumns() {
+        return this.columns.filter(column => column.key != 'full_name')
+      },
   },
   // a beforeMount call to add a listener to the window
   beforeMount() {
@@ -1390,19 +1406,20 @@ export default {
           if (sortBy.split('.')[1]) {
               sortBy = sortBy.split('.')[1]
           }
+          this.$emit('setOrder', {sortBy, sortOrder})
           this.creatorRecords = this.creatorRecords.sort((a, b) => {
               let modifier = 1;
               if (sortOrder === 'desc') {
                   modifier = -1
               }
-              if (['first_name', 'last_name'].includes(sortBy)) {
-                  return a.meta[sortBy].localeCompare(b.meta[sortBy]) * modifier
+              if (['first_name', 'last_name', 'full_name'].includes(sortBy)) {
+                  let sortByC = sortBy == 'full_name' ? 'name' : sortOrder
+                  return a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier
               } else {
                   if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
                       return -1 * modifier;
                   }
                   if (a.crm_record_by_user[sortBy] > b.crm_record_by_user[sortBy]) {
-                      console.log('2');
                       return modifier;
                   }
               }
