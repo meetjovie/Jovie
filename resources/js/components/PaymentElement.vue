@@ -20,17 +20,19 @@
         Add Coupon
       </label>
     </div>
-    <InputGroup
-      v-if="addCoupon"
-      v-model="coupon"
-      id="coupon"
-      :disabled="processingPayment"
-      name="coupon"
-      class=""
-      label="Coupon"
-      placeholder="Enter your coupon"
-      type="text"
-      required="" />
+    <div class="w-1/2">
+      <InputGroup
+        v-if="addCoupon"
+        v-model="coupon"
+        id="coupon"
+        :disabled="processingPayment"
+        name="coupon"
+        class="w-full"
+        label="Coupon"
+        placeholder="Enter your coupon"
+        type="text"
+        required="" />
+    </div>
   </div>
   <p class="mt-1 text-sm text-red-900" v-if="errors.coupon">
     {{ errors.coupon[0] }}
