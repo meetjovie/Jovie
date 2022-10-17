@@ -10,15 +10,16 @@
   </div>
   <div class="mx-auto mt-2 flex w-full max-w-4xl justify-between py-4">
     <div class="flex items-center">
-      <input
+      <!-- <input
         id="add_coupon"
         v-model="addCoupon"
         name="add_coupon"
         type="checkbox"
-        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
-      <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-        Add Coupon
-      </label>
+        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
+
+      <p class="mt-1 text-sm text-red-900" v-if="errors.coupon">
+        {{ errors.coupon[0] }}
+      </p>
     </div>
     <div class="w-1/2">
       <InputGroup
@@ -34,9 +35,7 @@
         required="" />
     </div>
   </div>
-  <p class="mt-1 text-sm text-red-900" v-if="errors.coupon">
-    {{ errors.coupon[0] }}
-  </p>
+
   <div class="mt-6 w-full">
     <div class="flex justify-between">
       <ButtonGroup
@@ -81,7 +80,7 @@ export default {
       paymentIntent: null,
       elements: null,
       coupon: null,
-      addCoupon: false,
+      addCoupon: true,
     };
   },
   watch: {
