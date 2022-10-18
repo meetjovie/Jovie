@@ -200,6 +200,8 @@
           icon="EnvelopeIcon"
           id="email"
           label="Email"
+          isCopyable
+          @copyToClipboard="copyToClipboard(creator.meta.emails)"
           placeholder="email@email.com" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -214,6 +216,7 @@
           id="phone"
           icon="PhoneIcon"
           label="Phone"
+          @copyToClipboard="copyToClipboard(creator.meta.phone)"
           placeholder="Phone" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -221,6 +224,7 @@
           v-model="creator.meta.instagram_handler"
           id="instagram_handler"
           label="Instagram"
+          @copyToClipboard="copyToClipboard(creator.meta.instagram_handler)"
           placeholder="Instagram" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -228,6 +232,7 @@
           v-model="creator.meta.twitch_handler"
           id="twitch_handler"
           label="Twitch"
+          @copyToClipboard="copyToClipboard(creator.meta.twitch_handler)"
           placeholder="Twitch" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -235,6 +240,7 @@
           v-model="creator.meta.twitter_handler"
           id="twitter_handler"
           label="Twitter"
+          @copyToClipboard="copyToClipboard(creator.meta.twitter_handler)"
           placeholder="Twitter" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -242,6 +248,7 @@
           v-model="creator.meta.tiktok_handler"
           id="tiktok_handler"
           label="TikTok"
+          @copyToClipboard="copyToClipboard(creator.meta.tiktok_handler)"
           placeholder="TikTok" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -249,6 +256,7 @@
           v-model="creator.meta.tiktok_handler"
           id="youtube_handler"
           label="Youtube"
+          @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
           placeholder="Youtube" />
         <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />
       </div>
@@ -546,6 +554,22 @@ export default {
     },
     imageLoadingError() {
       this.imageLoaded = false;
+    },
+    copyToClipboard(value) {
+      const el = document.createElement('textarea');
+      el.value = value;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      this.$notify({
+        group: 'user',
+        type: 'success',
+        duration: 15000,
+        title: 'Successful',
+        text: 'Copied to clipboard',
+      });
     },
   },
   data() {
