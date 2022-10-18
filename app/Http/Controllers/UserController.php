@@ -300,4 +300,15 @@ class UserController extends Controller
             'message' => 'Password updated successfully',
         ], 200);
     }
+
+    public function uploadTempFile(Request $request)
+    {
+        $url = null;
+        if ($request->image_url) {
+            $url = self::uploadFile($request->image_url, 'tmp/');
+        }
+        return response()->json([
+            'url' => $url,
+        ], 200);
+    }
 }

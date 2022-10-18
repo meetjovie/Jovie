@@ -85,7 +85,7 @@
                     <div class="flex items-center text-xs">
                       <HeartIcon
                         class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
-                        aria-hidden="true" />Favorites
+                        aria-hidden="true" />Favorite
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
@@ -254,16 +254,23 @@
                         @updateCreator="updateCreator"
                         @updateCrmMeta="updateCrmMeta"
                         @crmCounts="crmCounts"
+                        :counts="counts"
                         @updateListCount="updateListCount"
                         @pageChanged="pageChanged"
                         @setCurrentContact="setCurrentContact"
+                        @openSidebar="openSidebarContact"
+                        @setOrder="setOrder"
+                        :header="filters.type"
+                        subheader="All your contacts in one place."
                         :filters="filters"
                         :userLists="userLists"
                         :creators="creators"
                         :networks="networks"
                         :stages="stages"
                         :creatorsMeta="creatorsMeta"
-                        :loading="loading" />
+                        :loading="loading">
+                        <slot header="header"></slot>
+                      </CrmTable>
                     </div>
                   </div>
                 </div>
@@ -285,13 +292,14 @@
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
-              :creator="currentContact" />
+              :creatorsData="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
 
       <ImportCreatorModal
         :open="showCreatorModal"
+        :list="filters.list"
         @closeModal="closeImportCreatorModal" />
 
       <EmojiPickerModal
@@ -440,11 +448,15 @@ export default {
         list: null,
         type: 'all',
         page: 1,
+          sort: '',
+          order: ''
       },
       searchList: '',
       abortController: null,
       openEmojis: false,
       selectedList: null,
+        currentSortBy: 'id',
+        currentSortOrder: 'desc'
     };
   },
   watch: {
@@ -469,7 +481,7 @@ export default {
       if (this.userLists.length && this.filters.type == 'list') {
         let list = this.userLists.find((list) => list.id == this.filters.list);
         if (list) {
-          return list.pending_import;
+          return list.updating_list;
         }
       }
       return false;
@@ -507,7 +519,22 @@ export default {
       window.addEventListener('resize', this.onResize());
     });
 
-    await this.reconnectPusher().then(() => {
+    if (!this.$store.state.crmEventsRegistered) {
+      this.listenEvents(
+        `userListDuplicated.${this.currentUser.current_team.id}`,
+        'UserListDuplicated',
+        async (data) => {
+          await this.getUserLists();
+          setTimeout(() => {
+            let list = this.userLists.find((list) => list.id == data.list);
+            if (list) {
+              list.updating_list = null;
+              this.setFilterList(list.id);
+            }
+          }, 200);
+        }
+      );
+
       this.listenEvents(
         `importListCreated.${this.currentUser.current_team.id}`,
         'ImportListCreated',
@@ -528,7 +555,7 @@ export default {
         (data) => {
           let index = this.userLists.findIndex((list) => list.id == data.list);
           if (index >= 0) {
-            this.userLists[index].pending_import = null;
+            this.userLists[index].updating_list = null;
           }
           this.$store.state.showImportProgress = data.remaining;
           if (!data.remaining) {
@@ -543,7 +570,7 @@ export default {
         (data) => {
           let index = this.userLists.findIndex((list) => list.id == data.list);
           if (index >= 0) {
-            this.userLists[index].pending_import = true;
+            this.userLists[index].updating_list = true;
             this.$store.state.showImportProgress = data.remaining;
           }
         }
@@ -553,6 +580,9 @@ export default {
         `creatorImported.${this.currentUser.current_team.id}`,
         'CreatorImported',
         (data) => {
+          if (!data.list) {
+            this.$store.state.importProgressSingleCount--;
+          }
           if (
             (data.list && this.filters.type != 'list') ||
             (!data.list && this.filters.type != 'all')
@@ -584,7 +614,8 @@ export default {
           }
         }
       );
-    });
+      this.$store.state.crmEventsRegistered = true;
+    }
   },
   methods: {
     closeImportCreatorModal() {
@@ -606,9 +637,13 @@ export default {
       this.selectedList = null;
       this.openEmojis = false;
     },
-    setCurrentContact(contact) {
+    openSidebarContact(contact) {
       this.currentContact = contact;
       this.$store.state.ContactSidebarOpen = true;
+    },
+
+    setCurrentContact(contact) {
+      this.currentContact = contact;
     },
     setFiltersType(type) {
       this.filters.type = this.filters.type == type ? 'all' : type;
@@ -682,6 +717,10 @@ export default {
         this.filters.archived = 0;
       }
     },
+      setOrder({sortBy, sortOrder}) {
+        this.filters.sort = sortBy;
+        this.filters.order = sortOrder;
+      },
     getCrmCreators(filters = {}) {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.filters));

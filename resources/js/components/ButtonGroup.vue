@@ -78,7 +78,7 @@
       <JovieSpinner class="mr-2" :spinnerColor="loaderColor" />
     </div>
     <div v-else-if="success">
-      <CheckIcon class="h-5 w-5 text-white transition-all" />
+      <CheckCircleIcon class="h-5 w-5 text-white transition-all" />
     </div>
 
     <div v-else-if="error">
@@ -130,9 +130,8 @@ import {
   AdjustmentsHorizontalIcon,
   PlusIcon,
   ChevronRightIcon,
-  XCircleIcon,
 } from '@heroicons/vue/24/solid';
-import { CheckIcon } from '@heroicons/vue/24/solid';
+import { XCircleIcon, CheckCircleIcon } from '@heroicons/vue/24/solid';
 
 import JovieSpinner from '../components/JovieSpinner';
 
@@ -209,7 +208,7 @@ export default {
     MagnifyingGlassIcon,
     NoSymbolIcon,
     PlusIcon,
-    CheckIcon,
+    CheckCircleIcon,
     AdjustmentsHorizontalIcon,
     MinusIcon,
     PlusCircleIcon,

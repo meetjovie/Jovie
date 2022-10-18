@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teamwork;
 use App\Http\Controllers\Controller;
 use App\Models\Team;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 use function Clue\StreamFilter\fun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -69,11 +70,23 @@ class SubscriptionsController extends Controller
         $paymentMethod = $request->paymentMethod;
         $plan = $request->selectedPlan;
         $product = $request->selectedProduct;
+        $coupon = $request->coupon;
 
-        return $this->subscribeTeam($product, $plan, $paymentMethod, $user);
+        $coupon = $this->validateCoupon($coupon, $user);
+        if (!$coupon) {
+            throw ValidationException::withMessages([
+                'coupon' => ['Invalid coupon code.']
+            ]);
+        }
+        return $this->subscribeTeam($product, $plan, $paymentMethod, $coupon, $user);
     }
 
-    public function subscribeTeam($product, $plan, $paymentMethod, $user)
+    public function validateCoupon($coupon, $user)
+    {
+        return $user->currentTeam->findPromotionCode($coupon);
+    }
+
+    public function subscribeTeam($product, $plan, $paymentMethod, $coupon, $user)
     {
         $key = \config('services.stripe.secret');
         $stripe = new \Stripe\StripeClient($key);
@@ -86,7 +99,11 @@ class SubscriptionsController extends Controller
                 $user->currentTeam->addPaymentMethod($paymentMethod);
                 $user->currentTeam->updateDefaultPaymentMethod($paymentMethod);
 
-                $subscription = $user->currentTeam->newSubscription($product->name, $plan->id)->create($customer->invoice_settings->default_payment_method, [
+                $subscription = $user->currentTeam->newSubscription($product->name, $plan->id);
+                if ($coupon) {
+                    $subscription->withPromotionCode($coupon->id);
+                }
+                $subscription = $subscription->create($customer->invoice_settings->default_payment_method, [
                     'email' => $user->email,
                 ]);
                 $subscription->seats = $product->metadata->seats;
@@ -188,12 +205,20 @@ class SubscriptionsController extends Controller
         $paymentMethod = $request->paymentMethod;
         $plan = $request->selectedPlan;
         $product = $request->selectedProduct;
+        $coupon = $request->coupon;
+
+        $coupon = $this->validateCoupon($coupon, $user);
+        if (!$coupon) {
+            throw ValidationException::withMessages([
+                'coupon' => ['Invalid coupon code.']
+            ]);
+        }
 
         $currentSubscription = $user->currentTeam->currentSubscription();
         if ($currentSubscription) {
             $user->currentTeam->subscription($currentSubscription->name)->cancelNow();
 
-            return $this->subscribeTeam($product, $plan, $paymentMethod, $user);
+            return $this->subscribeTeam($product, $plan, $paymentMethod, $coupon, $user);
         }
 
         return response([

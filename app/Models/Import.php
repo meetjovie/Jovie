@@ -54,6 +54,10 @@ class Import extends Model
 
     public static function getProgress($batch)
     {
+        if ($batch->type == 'duplicating') {
+            $batch = Bus::findBatch($batch->id);
+            return $batch->progress();
+        }
         if (empty($batch->user_list_id)) {
             $batch = DB::table('job_batches')->where('id', $batch->id)->first();
         }
@@ -414,6 +418,8 @@ class Import extends Model
         $now = Carbon::now();
         foreach ($batches as &$batch) {
             $batch->is_batch = true;
+            $batch->message = ( ($batch->type == 'duplicating' ? 'Duplicating ' : 'Importing ') . $batch->name);
+            $batch->typeMessage = ($batch->type != 'duplicating' ? $batch->type.' Profile' : '');
             $batch->error_message = Import::getBatchErrorMessage($batch);
             $batch->progress = Import::getProgress($batch);
             $batch->successful = Import::getSuccessfulCount($batch);

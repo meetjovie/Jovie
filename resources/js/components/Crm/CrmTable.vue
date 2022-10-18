@@ -3,7 +3,22 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <div
-          class="flex w-full items-center justify-end border-b border-neutral-200 bg-white px-1 py-2">
+          class="flex w-full items-center justify-between border-b border-neutral-200 bg-white px-2 py-2">
+          <div>
+            <H1
+              v-if="!filters.type == 'list'"
+              class="text-sm font-bold capitalize text-neutral-600">
+              {{ filters.type + 'Contacts' }}
+            </H1>
+            <H1 v-else class="text-sm font-bold capitalize text-neutral-600">
+              {{ filters.list }}
+            </H1>
+            <p
+              v-if="header.includes('all')"
+              class="text-2xs font-medium text-neutral-400">
+              {{ counts.total }} Total
+            </p>
+          </div>
           <div class="flex h-6 w-80 content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
@@ -119,7 +134,7 @@
                             </div>
                           </div>
                         </div>
-                        <div as="div" v-for="(column, index) in columns">
+                        <div as="div" v-for="(column, index) in otherColumns">
                           <SwitchGroup>
                             <SwitchLabel
                               class="flex items-center hover:bg-neutral-100 hover:text-white">
@@ -398,23 +413,25 @@
                     <div v-else>
                       <CrmTableSortableHeader
                         icon="Bars3BottomLeftIcon"
-                        name="Name"
+                        :column="fullNameColumn"
+                        @sortData="sortData({sortBy: fullNameColumn.key, sortOrder: fullNameColumn.sortOrder})"
                         menu="false" />
                     </div>
                   </th>
 
-                  <template v-for="column in columns">
+                  <template v-for="column in otherColumns">
                     <th
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
+                      :class="column.width ? 'w-' + column.width : ''"
                       class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         class="w-full"
+                        @sortData="sortData"
                         @hide-column="column.visible = false"
-                        :sortable="column.sortable"
-                        :icon="column.icon"
-                        :name="column.name" />
+                        :column="column"
+                      />
                     </th>
                   </template>
                   <th
@@ -444,7 +461,7 @@
                   :key="creator">
                   <tr
                     v-if="creator"
-                    @click="setCurrentContact(creator)"
+                    @click="setCurrentContact($event, creator)"
                     class="border-1 group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
@@ -467,6 +484,7 @@
                           <form>
                             <input
                               type="checkbox"
+                              name="selectCreatorCheckbox"
                               :value="creator.id"
                               class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                               v-model="selectedCreators" />
@@ -514,8 +532,9 @@
                       </div>
                     </td>
                     <td
-                      class="w-60 cursor-pointer whitespace-nowrap border px-2">
-                      <div class="flex items-center">
+                      v-on:dblclick="cellActive"
+                      class="w-32 cursor-pointer whitespace-nowrap border pl-2 pr-0.5">
+                      <div class="flex items-center justify-between">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div class="rounded-full bg-neutral-400 p-0.5">
                             <div class="rounded-full bg-white p-0">
@@ -534,7 +553,10 @@
                             </div>
                           </div>
                         </div>
-                        <div class="text-sm text-gray-900 line-clamp-1">
+
+                        <div
+                          v-if="cellActive"
+                          class="text-sm text-gray-900 line-clamp-1">
                           <input
                             v-model="creator.meta.name"
                             @blur="$emit('updateCrmMeta', creator)"
@@ -545,6 +567,15 @@
                             class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                             placeholder="Name"
                             aria-describedby="name-description" />
+                        </div>
+                        <div v-else class="text-sm text-gray-900 line-clamp-1">
+                          {{ creator.meta.name }}
+                        </div>
+                        <div
+                          @click="$emit('openSidebar', creator)"
+                          class="mx-auto items-center rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
+                          <ArrowsPointingOutIcon
+                            class="hidden h-3 w-3 group-hover:block" />
                         </div>
                       </div>
                     </td>
@@ -615,7 +646,7 @@
 
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 table-cell w-60 whitespace-nowrap border focus-visible:border-indigo-500">
+                      class="border-1 table-cell w-40 whitespace-nowrap border focus:border-indigo-500">
                       <div class="text-xs text-gray-700 line-clamp-1">
                         <input
                           v-model="creator.meta.emails"
@@ -631,7 +662,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-38 items-center whitespace-nowrap border">
+                      class="border-1 w-18 items-center whitespace-nowrap border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -670,7 +701,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.offer')"
-                      class="border-1 table-cell w-24 whitespace-nowrap border">
+                      class="border-1 table-cell w-12 whitespace-nowrap border">
                       <span
                         class="text-nuetral-800 inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5">
                         $
@@ -698,7 +729,7 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 relative isolate z-10 table-cell items-center whitespace-nowrap border">
+                      class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border">
                       <Popover
                         as="div"
                         class="relative z-10 inline-block w-full items-center text-left">
@@ -714,30 +745,30 @@
                               :class="[
                                 {
                                   'bg-indigo-50 text-indigo-600':
-                                    creator.crm_record_by_user.stage === 'Lead',
+                                    creator.crm_record_by_user.stage_name === 'Lead',
                                 },
                                 {
                                   'bg-sky-50 text-sky-600':
-                                    creator.crm_record_by_user.stage ===
+                                    creator.crm_record_by_user.stage_name ===
                                     'Interested',
                                 },
                                 {
                                   'bg-pink-50 text-pink-600':
-                                    creator.crm_record_by_user.stage ===
+                                    creator.crm_record_by_user.stage_name ===
                                     'Negotiating',
                                 },
                                 {
                                   'bg-fuchsia-50 text-fuchsia-600':
-                                    creator.crm_record_by_user.stage ===
+                                    creator.crm_record_by_user.stage_name ===
                                     'In Progress',
                                 },
                                 {
                                   'bg-red-50 text-red-600':
-                                    creator.crm_record_by_user.stage ===
+                                    creator.crm_record_by_user.stage_name ===
                                     'Complete',
                                 },
                               ]">
-                              {{ creator.crm_record_by_user.stage }}
+                              {{ creator.crm_record_by_user.stage_name }}
                             </div>
                             <div class="items-center">
                               <ChevronDownIcon
@@ -828,7 +859,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="table-cell w-28 whitespace-nowrap px-2 py-1 text-sm text-gray-500">
+                      class="w-18 table-cell whitespace-nowrap px-2 py-1 text-sm text-gray-500">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -1069,6 +1100,7 @@ import {
   AdjustmentsHorizontalIcon,
   XMarkIcon,
   UserGroupIcon,
+  ArrowsPointingOutIcon,
 } from '@heroicons/vue/24/solid';
 import KeyboardShortcut from '../../components/KeyboardShortcut';
 import Pagination from '../../components/Pagination';
@@ -1128,6 +1160,7 @@ export default {
     SwitchLabel,
     ArrowUpCircleIcon,
     TransitionRoot,
+    ArrowsPointingOutIcon,
   },
   data() {
     return {
@@ -1144,6 +1177,7 @@ export default {
       editingSocialHandle: true,
       searchVisible: false,
       imageLoaded: true,
+      cellActive: false,
       settings: [
         {
           name: 'Show Follower Counts',
@@ -1165,18 +1199,29 @@ export default {
       ],
       columns: [
         {
+          name: 'Name',
+          key: 'full_name',
+          icon: 'Bars3BottomLeftIcon',
+          sortable: true,
+          visible: true
+        },
+        {
           name: 'First',
           key: 'first_name',
           icon: 'Bars3BottomLeftIcon',
+          sortable: false,
           visible: false,
           breakpoint: '2xl',
+          width: '18',
         },
         {
           name: 'Last',
           key: 'last_name',
           icon: 'Bars3BottomLeftIcon',
           visible: false,
+          sortable: false,
           breakpoint: '2xl',
+          width: '18',
         },
         {
           name: 'Title',
@@ -1192,6 +1237,7 @@ export default {
           visible: true,
           sortable: false,
           breakpoint: '2xl',
+          width: '24',
         },
 
         {
@@ -1200,6 +1246,7 @@ export default {
           icon: 'AtSymbolIcon',
           visible: true,
           breakpoint: 'lg',
+          width: '40',
         },
 
         {
@@ -1207,21 +1254,23 @@ export default {
           key: 'networks',
           icon: 'LinkIcon',
           visible: true,
+          width: '18',
         },
         {
           name: 'Offer',
           key: 'crm_record_by_user.offer',
           icon: 'CurrencyDollarIcon',
-          sortable: false,
+          sortable: true,
           visible: false,
           breakpoint: 'lg',
+          width: '12',
         },
         {
           name: 'Stage',
           key: 'crm_record_by_user.stage',
           icon: 'ArrowDownCircleIcon',
-          width: 'w-24',
-          sortable: false,
+          width: '24',
+          sortable: true,
           visible: true,
           breakpoint: 'md',
         },
@@ -1232,16 +1281,20 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: '2xl',
+          width: '24',
         },
         {
           name: 'Rating',
           key: 'crm_record_by_user.rating',
           icon: 'StarIcon',
-          sortable: false,
+          sortable: true,
           visible: true,
           breakpoint: '2xl',
+          width: '24',
         },
       ],
+        currentSort: 'asc',
+        currentSortBy: ''
     };
   },
   props: [
@@ -1253,6 +1306,9 @@ export default {
     'creatorsMeta',
     'loading',
     'archived',
+    'subheader',
+    'header',
+    'counts',
   ],
   watch: {
     creators: function (val) {
@@ -1326,12 +1382,55 @@ export default {
         }
       });
     },
+      fullNameColumn() {
+        return this.columns.find(column => column.key == 'full_name')
+      },
+      otherColumns() {
+        return this.columns.filter(column => column.key != 'full_name')
+      },
   },
   // a beforeMount call to add a listener to the window
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      sortData({sortBy, sortOrder}) {
+          this.columns = this.columns.map(column => {
+              if (column.key == sortBy) {
+                  column.sortOrder = sortOrder == 'asc' ? 'desc' : 'asc'
+              } else {
+                  delete column.sortOrder
+              }
+              return column
+          })
+          if (sortBy.split('.')[1]) {
+              sortBy = sortBy.split('.')[1]
+          }
+          this.$emit('setOrder', {sortBy, sortOrder})
+
+          if (this.creatorRecords.length > 50) {
+              this.$emit('pageChanged', {page: this.creatorsMeta.current_page})
+          } else {
+              this.creatorRecords = this.creatorRecords.sort((a, b) => {
+                  let modifier = 1;
+                  if (sortOrder === 'desc') {
+                      modifier = -1
+                  }
+                  if (['first_name', 'last_name', 'full_name'].includes(sortBy)) {
+                      let sortByC = sortBy == 'full_name' ? 'name' : sortOrder
+                      return a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier
+                  } else {
+                      if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
+                          return -1 * modifier;
+                      }
+                      if (a.crm_record_by_user[sortBy] > b.crm_record_by_user[sortBy]) {
+                          return modifier;
+                      }
+                  }
+                  return 0;
+              });
+          }
+      },
     handleScroll() {
       // when the user scrolls, check the pageYOffset
       if (window.pageYOffset > 0) {
@@ -1581,8 +1680,15 @@ export default {
       //log the id of the active creator in the console
       console.log('The active creator is ' + this.activeCreator);
     },
-    setCurrentContact(creator) {
+    setCurrentContact(e, creator) {
       this.currentContact = creator;
+      if (e.target.name == 'selectCreatorCheckbox') {
+          if (this.selectedCreators.includes(creator.id)) {
+              this.selectedCreators.splice(this.selectedCreators.indexOf(creator.id), 1)
+          } else {
+              this.selectedCreators.push(creator.id)
+          }
+      }
       this.$emit('setCurrentContact', creator);
     },
     nextContact() {

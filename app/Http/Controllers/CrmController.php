@@ -34,7 +34,7 @@ class CrmController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => $e->getMessage()
+                'message' => ($e->getMessage().' '.$e->getFile().' '.$e->getLine())
             ], 200);
         }
     }

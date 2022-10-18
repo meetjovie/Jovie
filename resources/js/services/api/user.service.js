@@ -1,12 +1,13 @@
 import store from '../../store';
 import axios from 'axios';
+import router from "../../router";
 
 const baseApiUrl = '/api';
 const baseUrlWeb = '';
 
 export default {
-  async me() {
-    return axios.get(`${baseApiUrl}/me`);
+  async me(config) {
+    return axios.get(`${baseApiUrl}/me`, config);
   },
   async addToWaitList(data) {
     return axios.post(`${baseUrlWeb}/waitlist`, data);
@@ -50,11 +51,12 @@ export default {
   async getCreatorOverview(id) {
     return axios.get(`${baseApiUrl}/creators-overview/${id}`);
   },
-  async subscribe(token, selectedPlan, selectedProduct) {
+  async subscribe(token, selectedPlan, selectedProduct, coupon) {
     return axios.post(`${baseApiUrl}/subscription`, {
       paymentMethod: token,
       selectedPlan: selectedPlan,
       selectedProduct: selectedProduct,
+        coupon: coupon,
     });
   },
   async paymentIntent() {
@@ -69,11 +71,12 @@ export default {
   async resumeSubscription() {
     return axios.post(`${baseApiUrl}/resume-subscription`);
   },
-  async changeSubscription(token, selectedPlan, selectedProduct) {
+  async changeSubscription(token, selectedPlan, selectedProduct, coupon) {
     return axios.post(`${baseApiUrl}/change-subscription`, {
       paymentMethod: token,
       selectedPlan: selectedPlan,
       selectedProduct: selectedProduct,
+        coupon: coupon,
     });
   },
   buySeats(numberOfSeats) {
@@ -133,5 +136,8 @@ export default {
   },
   updateCrmMeta(crmId, meta) {
     return axios.post(`${baseApiUrl}/update-crm-meta/${crmId}`, {meta: meta});
+  },
+  uploadTempFileFromUrl(image) {
+      return axios.get(`${baseApiUrl}/upload-temp-file?image_url=${image}`);
   },
 };

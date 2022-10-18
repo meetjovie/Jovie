@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Broadcast::routes();
 
+    Route::get('/upload-temp-file', [\App\Http\Controllers\UserController::class, 'uploadTempFile']);
+
     //    PROFILE
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
     Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
