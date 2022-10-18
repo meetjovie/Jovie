@@ -224,6 +224,7 @@
           v-model="creator.meta.instagram_handler"
           id="instagram_handler"
           label="Instagram"
+          isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.instagram_handler)"
           placeholder="Instagram" />
         <DataInputGroup
@@ -232,6 +233,7 @@
           v-model="creator.meta.twitch_handler"
           id="twitch_handler"
           label="Twitch"
+          isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.twitch_handler)"
           placeholder="Twitch" />
         <DataInputGroup
@@ -240,6 +242,7 @@
           v-model="creator.meta.twitter_handler"
           id="twitter_handler"
           label="Twitter"
+          isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.twitter_handler)"
           placeholder="Twitter" />
         <DataInputGroup
@@ -248,6 +251,7 @@
           v-model="creator.meta.tiktok_handler"
           id="tiktok_handler"
           label="TikTok"
+          isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.tiktok_handler)"
           placeholder="TikTok" />
         <DataInputGroup
@@ -256,6 +260,7 @@
           v-model="creator.meta.tiktok_handler"
           id="youtube_handler"
           label="Youtube"
+          isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
           placeholder="Youtube" />
         <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />

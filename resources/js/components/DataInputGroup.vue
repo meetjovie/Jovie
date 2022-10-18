@@ -74,11 +74,11 @@
               </svg>
             </div>
             <div
-              class="group cursor-pointer text-red-500"
+              class="group text-red-500"
               v-else-if="isCopyable && (modelValue || value)">
               <DocumentDuplicateIcon
                 @click="copyToClipboard"
-                class="h-5 w-5 text-gray-400 active:text-gray-700 group-hover:text-gray-500" />
+                class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-700 group-hover:block group-hover:text-gray-500" />
             </div>
           </div>
         </div>
