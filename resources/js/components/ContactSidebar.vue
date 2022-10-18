@@ -126,7 +126,7 @@
           :countsVisible="false" />
         <SocialIcons
           icon="youtube"
-          :link="creator.youtubeh_handler"
+          :link="creator.youtube_handler"
           :followers="formatCount(creator.youtube_followers)"
           height="14"
           width="14"
@@ -236,6 +236,20 @@
           id="twitter_handler"
           label="Twitter"
           placeholder="Twitter" />
+        <DataInputGroup
+          @blur="$emit('updateCrmMeta')"
+          socialicon="tiktok"
+          v-model="creator.meta.tiktok_handler"
+          id="tiktok_handler"
+          label="TikTok"
+          placeholder="TikTok" />
+        <DataInputGroup
+          @blur="$emit('updateCrmMeta')"
+          socialicon="youtube"
+          v-model="creator.meta.tiktok_handler"
+          id="youtube_handler"
+          label="Youtube"
+          placeholder="Youtube" />
         <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
