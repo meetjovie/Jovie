@@ -90,56 +90,56 @@
       <div class="grid grid-cols-6 py-2 px-4">
         <SocialIcons
           icon="instagram"
-          :link="creator.instagram_handler"
+          :link="creator.instagram_handler || creator.meta.instagram_handler"
           :followers="formatCount(creator.instagram_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="twitter"
-          :link="creator.twitter_handler"
+          :link="creator.twitter_handler || creator.meta.twitter_handler"
           :followers="formatCount(creator.twitter_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="twitch"
-          :link="creator.twitch_handler"
+          :link="creator.twitch_handler || creator.meta.twitch_handler"
           :followers="formatCount(creator.twitch_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="tiktok"
-          :link="creator.tiktok_handler"
+          :link="creator.tiktok_handler || creator.meta.tiktok_handler"
           :followers="formatCount(creator.tiktok_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="youtube"
-          :link="creator.youtube_handler"
+          :link="creator.youtube_handler || creator.meta.youtube_handler"
           :followers="formatCount(creator.youtube_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="linkedin"
-          :link="creator.linkedin_handler"
+          :link="creator.linkedin_handler || creator.meta.linkedin_handler"
           :followers="formatCount(creator.linkedin_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
       </div>
