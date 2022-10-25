@@ -140,4 +140,7 @@ export default {
   uploadTempFileFromUrl(image) {
       return axios.get(`${baseApiUrl}/upload-temp-file?image_url=${image}`);
   },
+  saveToCrm(data) {
+      return axios.post(`${baseApiUrl}/save-to-crm`, data);
+  },
 };
