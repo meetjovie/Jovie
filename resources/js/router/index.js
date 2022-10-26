@@ -9,8 +9,16 @@ const router = VueRouter.createRouter({
 });
 router.beforeEach(async (to, from) => {
   if (to.meta) {
+      let config = null
+      if (to.name != 'Extension') {
+          config = {
+              headers: {
+                  Authorization: null
+              }
+          }
+      }
     await store
-      .dispatch('me')
+      .dispatch('me', config)
       .then((response) => {
         const user = response;
         if (to.meta.requiresAuth !== true) {

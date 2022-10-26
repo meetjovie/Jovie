@@ -159,14 +159,16 @@
           </div>
         </div>
       </template>
-      <div v-show="showPayment">
+      <div class="my-4" v-show="showPayment">
         <PaymentElement
+          ref="paymentElement"
+          :errors="errors"
           @setPaymentElement="setPaymentElement"
           :buttonText="showSubscriptionPlans ? 'Update' : 'Pay'"
           :processingPayment="processingPayment"
           @pay="pay" />
       </div>
-      <div class="flex h-80 justify-center" v-if="loadingProducts">
+      <div class="flex h-80 items-center justify-center" v-if="loadingProducts">
         <JovieSpinner />
       </div>
     </template>
@@ -231,9 +233,7 @@
             </dd>
           </div>
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">
-              Date Enrichment credits
-            </dt>
+            <dt class="text-sm font-medium text-gray-500">Contact credits</dt>
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <span class="flex-grow"
                 ><span class="text-neutral-600"
@@ -245,16 +245,7 @@
               >
             </dd>
           </div>
-          <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">
-              Data enrichment credits
-            </dt>
-            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <span class="flex-grow text-neutral-600"
-                >Not available on current plan</span
-              >
-            </dd>
-          </div>
+
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
             <dt class="text-sm font-medium text-gray-500">Seats</dt>
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
@@ -376,7 +367,7 @@ export default {
         this.$notify({
           group: 'user',
           title: 'Error',
-          message: 'Problem in selecting product',
+          text: 'Problem in selecting product',
           type: 'error',
         });
       }
@@ -396,7 +387,7 @@ export default {
         this.$notify({
           group: 'user',
           title: 'Error',
-          message: 'Problem in selecting plan',
+          text: 'Problem in selecting plan',
           type: 'error',
         });
       }
@@ -417,7 +408,7 @@ export default {
         this.$notify({
           group: 'user',
           title: 'Error',
-          message: 'Please select a plan to continue.',
+          text: 'Please select a plan to continue.',
           type: 'error',
         });
         return;
@@ -437,7 +428,7 @@ export default {
             this.$notify({
               group: 'user',
               title: 'Error',
-              message: response.message,
+              text: response.message,
               type: 'error',
             });
           }
@@ -469,10 +460,8 @@ export default {
           if (response.status) {
             this.$notify({
               group: 'user',
-
               title: 'Success',
-
-              message: response.message,
+              text: response.message,
               type: 'success',
             });
             /*  alert(response.message); */
@@ -482,9 +471,10 @@ export default {
             /*  alert(response.message); */
             this.$notify({
               group: 'user',
-              title: 'Error',
-              message: response.message,
               type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
             });
           }
         })
@@ -502,7 +492,7 @@ export default {
             this.$notify({
               group: 'user',
               title: 'Success',
-              message: response.message,
+              text: response.message,
               type: 'success',
             });
             this.currentUser.current_team.current_subscription =
@@ -511,7 +501,7 @@ export default {
             this.$notify({
               group: 'user',
               title: 'Error',
-              message: response.message,
+              text: response.message,
               type: 'error',
             });
             /*  alert(response.message); */
@@ -521,14 +511,14 @@ export default {
           this.updatingSubscription = false;
         });
     },
-    async pay({ stripe, elements }) {
+    async pay({ stripe, elements, coupon }) {
       if (this.processingPayment) return;
       if (!this.selectedProduct || !this.selectedPlan) {
         /*  alert('You must select a product and pricing to continue.'); */
         this.$notify({
           group: 'user',
           title: 'Error',
-          message: 'You must select a product and pricing to continue.',
+          text: 'You must select a product and pricing to continue.',
           type: 'error',
         });
         return;
@@ -551,15 +541,18 @@ export default {
             this.$notify({
               group: 'user',
               title: 'Error',
-              message: result.error.message,
+              text: result.error.message,
               type: 'error',
             });
             this.processingPayment = false;
           } else {
             if (this.showSubscriptionPlans) {
-              this.changeSubscription(result.setupIntent.payment_method);
+              this.changeSubscription(
+                result.setupIntent.payment_method,
+                coupon
+              );
             } else {
-              this.newSubscription(result.setupIntent.payment_method);
+              this.newSubscription(result.setupIntent.payment_method, coupon);
             }
           }
         });
@@ -567,8 +560,13 @@ export default {
     setPaymentElement(paymentElement) {
       this.paymentElement = paymentElement;
     },
-    newSubscription(paymentId) {
-      UserService.subscribe(paymentId, this.selectedPlan, this.selectedProduct)
+    newSubscription(paymentId, coupon) {
+      UserService.subscribe(
+        paymentId,
+        this.selectedPlan,
+        this.selectedProduct,
+        coupon
+      )
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -576,7 +574,7 @@ export default {
             this.$notify({
               group: 'user',
               title: 'Success',
-              message: response.message,
+              text: response.message,
               type: 'success',
             });
             this.resetSelections();
@@ -588,27 +586,30 @@ export default {
             this.$notify({
               group: 'user',
               title: 'Error',
-              message: response.message,
+              text: `${response.message} ${response.error}`,
               type: 'error',
             });
+            this.$refs.paymentElement.initPaymentIntent();
           }
         })
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-            this.error = error.data.errors.email[0];
+            this.errors = error.data.errors;
           }
+          this.$refs.paymentElement.initPaymentIntent();
         })
         .finally(() => {
           this.paymentElement.clear();
           this.processingPayment = false;
         });
     },
-    changeSubscription(paymentId) {
+    changeSubscription(paymentId, coupon) {
       UserService.changeSubscription(
         paymentId,
         this.selectedPlan,
-        this.selectedProduct
+        this.selectedProduct,
+        coupon
       )
         .then((response) => {
           response = response.data;
@@ -617,7 +618,7 @@ export default {
             this.$notify({
               group: 'user',
               title: 'Success',
-              message: response.message,
+              text: response.message,
               type: 'success',
             });
             this.resetSelections();
@@ -630,16 +631,18 @@ export default {
             this.$notify({
               group: 'user',
               title: 'Error',
-              message: response.message,
+              text: `${response.message} ${response.error}`,
               type: 'error',
             });
+            this.$refs.paymentElement.initPaymentIntent();
           }
         })
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-            this.error = error.data.errors.email[0];
+            this.errors = error.data.errors;
           }
+          this.$refs.paymentElement.initPaymentIntent();
         })
         .finally(() => {
           this.paymentElement.clear();

@@ -415,30 +415,47 @@ export default {
       console.log(val);
     },
   },
-  mounted() {
+  async mounted() {
     // console.log('Sidebar loaded');
-    // document.onreadystatechange = () => {
-    //   if (document.readyState == 'complete') {
-    //     console.log('Page completed with image and files!');
-    //     // fetch to next page or some code
-    //     /*  this.setCreatorData(); */
-    //   }
-    // };
-    //
-    // const queryParameters = location.href.split('?')[1];
-    // let image = queryParameters.split('image=')[1];
-    // const urlParameters = new URLSearchParams(queryParameters);
-    //
-    // let creator = urlParameters.get('creator');
-    // this.creator = JSON.parse(creator);
-    // this.creator.instagram_profile_picture = image;
-    // console.log('creator from iframe');
-    // console.log(this.creator);
+    document.onreadystatechange = () => {
+      if (document.readyState == 'complete') {
+        console.log('Page completed with image and files!');
+        // fetch to next page or some code
+        // this.setCreatorData();
+      }
+    };
+
+    if (this.creatorsData.id) {
+      this.creator = this.creatorsData;
+    } else {
+      const queryParameters = location.href.split('?')[1];
+      let image = queryParameters.split('image=')[1];
+      if (image) {
+        await this.$store
+          .dispatch('uploadTempFileFromUrl', image)
+          .then((response) => {
+            image = response.url;
+          });
+      }
+      const urlParameters = new URLSearchParams(queryParameters);
+
+      let creator = urlParameters.get('creator');
+      creator = JSON.parse(creator);
+      if (creator.meta == undefined) {
+        creator.meta = {};
+      }
+      this.creator = creator;
+      this.creator.profile_pic_url = image;
+      console.log('creator from iframe');
+      console.log(this.creator);
+    }
   },
   props: {
-    creator: {
+    creatorsData: {
       type: Object,
-      default: {},
+      default: {
+        meta: {},
+      },
     },
     jovie: {
       type: Boolean,
@@ -535,6 +552,9 @@ export default {
         password: '',
         passwordConfirm: '',
         errors: [],
+      },
+      creator: {
+        meta: {},
       },
     };
   },

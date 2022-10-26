@@ -10,7 +10,6 @@ export default {
     },
     mounted() {
         window.onmessage = function(e) {
-
             var payload = JSON.parse(e.data);
             console.log('payloadpayloadpayloadpayloadpayloadpayloadpayloadpayloadpayload');
             console.log(payload);

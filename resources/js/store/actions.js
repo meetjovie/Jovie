@@ -11,9 +11,9 @@ export default {
         })
     },
 
-    async me({state, commit}) {
+    async me({state, commit}, config) {
         return new Promise((resolve, reject) => {
-            userService.me().then(response => {
+            userService.me(config).then(response => {
                 response = response.data
                 commit('setAuthStateUser', response)
                 return resolve(response)
@@ -91,5 +91,15 @@ export default {
 
     async updateCrmMeta(context, payload) {
         return await userService.updateCrmMeta(payload.id, payload.meta)
+    },
+
+    async uploadTempFileFromUrl(context, payload) {
+        return new Promise((resolve, reject) => {
+            userService.uploadTempFileFromUrl(payload).then(response => {
+                resolve(response.data)
+            }).catch(error => {
+                return reject(error)
+            })
+        })
     }
 }

@@ -27,6 +27,8 @@ class Crm extends Model
         'offer',
     ];
 
+    protected $appends = ['stage_name'];
+
     public function toSearchableArray()
     {
         $array = $this->toArray();
@@ -34,11 +36,15 @@ class Crm extends Model
         return $array;
     }
 
-    public function getStageAttribute($value)
+    /**
+     * Interact the user's last contacted.
+     *
+     * @param null $value
+     * @return string
+     */
+    public function stageName($value = null): string
     {
-        $value = $value ?? 0;
-
-        return self::stages()[$value];
+        return $this->stages()[$value];
     }
 
     public static function stages()

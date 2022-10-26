@@ -248,7 +248,7 @@
         </span>
         <span
           @click="toggleAcceptCookies"
-          class="ml-2 cursor-pointer text-xs font-bold text-neutral-50 hover:text-neutral-700 active:text-neutral-700 md:text-sm"
+          class="ml-2 cursor-pointer text-xs font-bold text-neutral-50 hover:text-white hover:underline active:text-white md:text-sm"
           >Accept all cookies</span
         >
       </AlertBanner>

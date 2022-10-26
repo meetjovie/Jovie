@@ -155,7 +155,7 @@
               <!-- The top tooltip -->
 
               <div
-                v-if="$store.state.showImportProgress"
+                v-if="$store.state.showImportProgress || $store.state.importProgressSingleCount"
                 class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
                 <ArrowPathIcon
                   class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-neutral-600" />
@@ -236,11 +236,11 @@
                                     <div class="ml-3 w-60">
                                       <p
                                         class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
-                                        Importing {{ notification.name }}
+                                        {{ notification.message }}
                                         <span
                                           class="text-2xs font-light text-neutral-500"
                                           >-
-                                          {{ notification.type }} Profiles</span
+                                          {{ notification.typeMessage }}</span
                                         >
                                       </p>
                                       <div class="w-full">
