@@ -446,7 +446,7 @@ export default {
                       resolve()
                   })
               } else {
-                  creator.profile_pic_url = image;
+                  creator.profile_pic_url = decodeURIComponent(image);
                   resolve()
               }
           })
