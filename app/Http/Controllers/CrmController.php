@@ -416,48 +416,55 @@ class CrmController extends Controller
 
     public function saveToCrm(Request $request)
     {
-        $user = User::currentLoggedInUser();
+        try {
+            $user = User::currentLoggedInUser();
 
-        $data = $request->except('network');
-        $data = array_filter($data);
-        $creator = Creator::query()->where(($request->network.'_handler'), $request->{$request->network.'_handler'})->first();
-        $creator = $creator ?? new Creator();
-        if (!empty($data['profile_pic_url']) && $request->network ==  'instagram') {
-            $profilePicUrl = $data['profile_pic_url'];
-            unset($data['profile_pic_url']);
-            $fileName = explode('/tmp/', $profilePicUrl)[1] ?? null;
-            if ($fileName) {
-                Storage::disk('s3')->copy(
-                    ('tmp/'.$fileName),
-                    (Creator::CREATORS_CSV_PATH.$fileName)
-                );
-                $data['profile_pic_url'] = Storage::disk('s3')->url(Creator::CREATORS_CSV_PATH.$fileName);
-            }
-        }
-        $meta = $creator->{$request->network.'_meta'};
-        if (isset($data['profile_pic_url'])) {
-            $meta->profile_pic_url = $data['profile_pic_url'];
-        }
-        $creator->{$request->network.'_meta'} = $meta;
-
-        unset($data['profile_pic_url']);
-        foreach ($data as $k => $v) {
-            if ($k == 'meta') {
-                foreach ($v as $kk => $vv) {
-                    if (! Schema::hasColumn('creators', $kk)) continue;
-                    $creator->{$kk} = $vv;
+            $data = $request->except('network');
+            $data = array_filter($data);
+            $creator = Creator::query()->where(($request->network.'_handler'), $request->{$request->network.'_handler'})->first();
+            $creator = $creator ?? new Creator();
+            if (!empty($data['profile_pic_url']) && $request->network ==  'instagram') {
+                $profilePicUrl = $data['profile_pic_url'];
+                unset($data['profile_pic_url']);
+                $fileName = explode('/tmp/', $profilePicUrl)[1] ?? null;
+                if ($fileName) {
+                    Storage::disk('s3')->copy(
+                        ('tmp/'.$fileName),
+                        (Creator::CREATORS_CSV_PATH.$fileName)
+                    );
+                    $data['profile_pic_url'] = Storage::disk('s3')->url(Creator::CREATORS_CSV_PATH.$fileName);
                 }
-            } else {
-                if (! Schema::hasColumn('creators', $k)) continue;
-                $creator->{$k} = $v;
             }
-        }
-        $creator->save();
-        Creator::addToListAndCrm($creator, null, $user->id, $user->currentTeam->id);
+            $meta = $creator->{$request->network.'_meta'};
+            if (isset($data['profile_pic_url'])) {
+                $meta->profile_pic_url = $data['profile_pic_url'];
+            }
+            $creator->{$request->network.'_meta'} = $meta;
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Saved to your jovie CRM',
-        ], 200);
+            unset($data['profile_pic_url']);
+            foreach ($data as $k => $v) {
+                if ($k == 'meta') {
+                    foreach ($v as $kk => $vv) {
+                        if (! Schema::hasColumn('creators', $kk)) continue;
+                        $creator->{$kk} = $vv;
+                    }
+                } else {
+                    if (! Schema::hasColumn('creators', $k)) continue;
+                    $creator->{$k} = $v;
+                }
+            }
+            $creator->save();
+            Creator::addToListAndCrm($creator, null, $user->id, $user->currentTeam->id);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Saved to your jovie CRM',
+            ], 200);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'status' => false,
+                'message' => $exception->getMessage(),
+            ], 200);
+        }
     }
 }

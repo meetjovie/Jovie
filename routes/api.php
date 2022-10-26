@@ -67,7 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/toggle-creators-from-list', [\App\Http\Controllers\CrmController::class, 'toggleCreatorsFromList']);
     Route::post('/toggle-archive-creators', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreators']);
 
-    Route::post('/save-to-crm', [\App\Http\Controllers\CrmController::class, 'saveToCrm']);
+    Route::post('/save-to-crm', [\App\Http\Controllers\CrmController::class, 'saveToCrm'])->withoutMiddleware('state.csrf');
 
     //      OVERVIEW
     Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);

@@ -437,15 +437,24 @@ export default {
               creator.meta = {}
           }
           let image = queryParameters.split('image=')[1];
-          if (image && creator.network == 'instagram') {
-              await this.$store.dispatch('uploadTempFileFromUrl', image).then(response => {
-                  image = response.url;
-                  this.creator.profile_pic_url = image;
-              })
-          }
-          this.creator = creator;
-          console.log('creator from iframe');
-          console.log(this.creator);
+
+          let promise = new Promise(async (resolve, reject) => {
+              if (image && creator.network == 'instagram') {
+                  await this.$store.dispatch('uploadTempFileFromUrl', image).then(response => {
+                      image = response.url;
+                      creator.profile_pic_url = image;
+                      resolve()
+                  })
+              } else {
+                  creator.profile_pic_url = image;
+                  resolve()
+              }
+          })
+          promise.then(response => {
+              this.creator = creator;
+              console.log('creator from iframe');
+              console.log(this.creator);
+          })
       }
       // this.creator = {
       //     "profile_pic_url": "https://jovie-production-storage.s3.amazonaws.com/public/creators_media/profiles/2022_10_13_012300_2073930798634768750b2a36.51677614918368014634768750b2af4.23217496",
