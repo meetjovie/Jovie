@@ -358,6 +358,11 @@ class Creator extends Model
         return json_decode($value ?? '{}');
     }
 
+    public function setTwitterMetaAttribute($value)
+    {
+        $this->attributes['twitter_meta'] = json_encode($value ?? []);
+    }
+
     public function brands()
     {
         return $this->belongsToMany(self::class, 'brand_creator',

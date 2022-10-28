@@ -460,10 +460,12 @@ class CrmController extends Controller
                 'status' => true,
                 'message' => 'Saved to your jovie CRM',
             ], 200);
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return response()->json([
                 'status' => false,
                 'message' => $exception->getMessage(),
+                'getLine' => $exception->getLine(),
+                'getFile' => $exception->getFile(),
             ], 200);
         }
     }
