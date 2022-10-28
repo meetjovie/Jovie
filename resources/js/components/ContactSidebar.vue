@@ -417,44 +417,55 @@ export default {
   },
   async mounted() {
       // console.log('Sidebar loaded');
-      document.onreadystatechange = () => {
-          if (document.readyState == 'complete') {
-              console.log('Page completed with image and files!');
-              // fetch to next page or some code
-              // this.setCreatorData();
-          }
-      };
-
-      if (this.creatorsData.id) {
-          this.creator = this.creatorsData
-      } else {
-          const queryParameters = location.href.split('?')[1];
-          const urlParameters = new URLSearchParams(queryParameters);
-
-          let creator = urlParameters.get('creator');
-          creator = JSON.parse(creator)
-          if (creator.meta == undefined) {
-              creator.meta = {}
-          }
-          let image = queryParameters.split('image=')[1];
-
-          let promise = new Promise(async (resolve, reject) => {
-              if (image && creator.network == 'instagram') {
-                  await this.$store.dispatch('uploadTempFileFromUrl', image).then(response => {
-                      image = response.url;
-                      creator.profile_pic_url = image;
-                      resolve()
-                  })
-              } else {
-                  creator.profile_pic_url = decodeURIComponent(image);
-                  resolve()
+      try {
+          document.onreadystatechange = () => {
+              if (document.readyState == 'complete') {
+                  console.log('Page completed with image and files!');
+                  // fetch to next page or some code
+                  // this.setCreatorData();
               }
-          })
-          promise.then(response => {
-              this.creator = creator;
-              console.log('creator from iframe');
-              console.log(this.creator);
-          })
+          };
+
+          if (this.creatorsData.id) {
+              this.creator = this.creatorsData
+          } else {
+              const queryParameters = location.href.split('?')[1];
+              const urlParameters = new URLSearchParams(queryParameters);
+
+              let creator = urlParameters.get('creator');
+              creator = JSON.parse(creator)
+              if (creator.meta == undefined) {
+                  creator.meta = {}
+              }
+              let image = queryParameters.split('image=')[1];
+
+              let promise = new Promise(async (resolve, reject) => {
+                  if (image && creator.network == 'instagram') {
+                      await this.$store.dispatch('uploadTempFileFromUrl', image).then(response => {
+                          image = response.url;
+                          creator.profile_pic_url = image;
+                          resolve()
+                      })
+                  } else {
+                      creator.profile_pic_url = decodeURIComponent(image);
+                      resolve()
+                  }
+              })
+              promise.then(response => {
+                  for (const property in creator) {
+                      if (property == 'website') {
+                          creator[property] = decodeURIComponent(creator[property])
+                      }
+                  }
+
+                  this.creator = creator;
+                  console.log('creator from iframe');
+                  console.log(this.creator);
+              })
+          }
+      } catch (e) {
+          console.log('eeeeeeeeeeeeeeeeeeeeeeeeeee');
+          console.log(e);
       }
       // this.creator = {
       //     "profile_pic_url": "https://jovie-production-storage.s3.amazonaws.com/public/creators_media/profiles/2022_10_13_012300_2073930798634768750b2a36.51677614918368014634768750b2af4.23217496",
