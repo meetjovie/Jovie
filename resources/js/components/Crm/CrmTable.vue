@@ -234,13 +234,12 @@
             </div>
           </div>
         </div>
-        <div class="inline-block h-full min-w-full align-middle">
+        <div
+          class="inline-block h-full min-w-full overflow-x-auto align-middle">
           <div
-            class="overflow-x flex h-full w-full flex-col justify-between shadow-sm ring-1 ring-black ring-opacity-5">
-            <table
-              class="w-full table-fixed divide-y divide-gray-200 overflow-x-scroll">
-              <thead
-                class="relative isolate z-20 w-full items-center overflow-x-scroll bg-neutral-100">
+            class="flex h-full flex-col justify-between overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
+            <table class="w-full table-fixed divide-y divide-gray-200">
+              <thead class="relative isolate z-20 items-center bg-neutral-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
@@ -537,7 +536,7 @@
                     </td>
                     <td
                       v-on:dblclick="cellActive"
-                      class="w-32 cursor-pointer whitespace-nowrap border pl-2 pr-0.5">
+                      class="w-60 cursor-pointer whitespace-nowrap border pl-2 pr-0.5">
                       <div class="flex items-center justify-between">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div class="rounded-full bg-neutral-400 p-0.5">
@@ -931,7 +930,7 @@
                                     <a
                                       @click="emailCreator(creator.emails[0])"
                                       href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900 disabled:text-neutral-800"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'

@@ -2,87 +2,38 @@
   <div>
     <main>
       <HomeHeroSection />
-      <!--  <HomeFeatureCRM class="" id="crm"></HomeFeatureCRM> -->
-      <!--  <Enrichment :dark="false"></Enrichment> -->
-      <!-- <JovieReplaces></JovieReplaces> -->
-      <!-- <div class="">
+      <HomeFeatureCRM :features="features" class="" id="crm"></HomeFeatureCRM>
+      <div class="relative bg-gray-50">
         <div
-          class="flex w-full flex-col-reverse items-center justify-center pt-12 sm:py-12 md:flex-col md:py-40">
-          <img
-            :src="asset('img/External/bgImg.webp')"
-            class="mt-6 hidden w-full object-fill object-center md:mt-0 xl:block"
-            alt="background image" />
-          <img
-            :src="asset('img/External/tabley.webp')"
-            class="mt-6 w-full object-fill object-center md:mt-0 xl:hidden"
-            alt="background image" />
-          <div class="absolute flex flex-col items-center justify-center px-4">
-            <h1
-              class="text-center text-4xl font-extrabold tracking-tight text-gray-900 sm:text-3xl md:text-5xl xl:text-6xl">
-              <span class="inline">Scale your</span>
-              {{ ' ' }}
-              <span class="inline text-indigo-700">creator</span>
-              <vue-typed-js
-                :strings="['Creator', 'Biz Dev', 'Investor', 'Founder']">
-                <h1 class="typing"></h1>
-              </vue-typed-js>
-              
-              {{ ' ' }}
-
-              <span class="inline"> relationships</span>
-            </h1>
-            <p
-              class="mx-auto mt-8 max-w-md text-center text-base text-gray-500 sm:mt-3 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-              <span class="font-bold">Jovie is the </span>
-              {{ ' ' }}
-              <span class="font-bold text-indigo-600">CRM</span>
-              {{ ' ' }}
-              <span class="font-bold">you'll actually</span>
-              {{ ' ' }}
-              <span
-                class="font-bold underline decoration-social-instagram decoration-4"
-                >want to use</span
-              >.
-            </p>
-            <div class="mx-auto mt-8 flex max-w-md justify-center md:mt-5">
-              <div class="rounded-md">
-                <div class="mt-8 h-20 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
-                  <div class="sm:flex">
-                    <label for="email-address" class="sr-only"
-                      >Email address</label
-                    >
-                    <input
-                      v-on:keyup.enter="requestDemo() && identifyUser()"
-                      id="email-address"
-                      v-model="waitListEmail"
-                      name="email-address"
-                      type="email"
-                      autocomplete="off"
-                      required=""
-                      class="focus:ring-none focus:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-gray-500 shadow-xl shadow-indigo-700/20 focus:border-none focus:outline-none focus-visible:outline-none"
-                      placeholder="Enter your email" />
-
-                    <ButtonGroup
-                      type="button"
-                      :loader="loading"
-                      as="router-link"
-                      @click="requestDemo() && identifyUser()"
-                      text="Try Jovie free"
-                      design="hero">
-                      Try Jovie free
-                    </ButtonGroup>
-                  </div>
-                  <span
-                    class="float-left px-2 text-xs font-bold text-red-500"
-                    >{{ this.error }}</span
-                  >
+          class="bg-gray-50 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
+          <div class="mx-auto max-w-7xl lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-8">
+              <div
+                class="mx-auto max-w-md px-4 sm:max-w-7xl sm:px-6 sm:text-center lg:flex lg:items-center lg:px-0 lg:text-left">
+                <div class="lg:py-24">
+                  <h1
+                    class="text-4xl font-extrabold tracking-tight text-neutral-600 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-2xl">
+                    Bridge the gap between social networks
+                  </h1>
+                  <p
+                    class="mt-3 text-base text-gray-600 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                    Save a contact on instagram? Don’t worry, we have their
+                    twitter profile too. No more fragmented networks. Jovie
+                    automatically enriches contacts with all their social media
+                    profiles
+                  </p>
                 </div>
+              </div>
+              <div class="mt-12 -mb-16 sm:-mb-48 lg:m-0">
+                <img
+                  class="w-full object-fill lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
+                  :src="asset('img/External/jovie_social_data_enrichment.png')"
+                  alt="" />
               </div>
             </div>
           </div>
-          <HomeLogoCloud></HomeLogoCloud>
         </div>
-      </div> -->
+      </div>
 
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 
@@ -93,6 +44,7 @@
       
       <HomeTestimonials></HomeTestimonials> -->
       <!--  <HomeCTA></HomeCTA> -->
+      <JovieReplaces class="py-12"></JovieReplaces>
       <HomeCTA4></HomeCTA4>
     </main>
   </div>
@@ -146,28 +98,20 @@ export default {
       loading: false,
       features: [
         {
-          name: 'Discover creators by the products they use',
-          description:
-            'Jovie can see if a creator is wearing glass, holding an iPhone, or riding a skateboard. ',
-          icon: InboxIcon,
+          id: 1,
+          header: 'Import social media profiles in 1-click',
+          subheader:
+            ' Never type contact info again.  Jovie let’s you import any Tiktok, Twitter, Instagram, or Twitch profile instantly.',
+          cta: 'Download the Chrome Extension',
+          ctaLink: 'signup',
+          img: 'img/External/feature1.webp',
         },
         {
-          name: 'Identify Brands within content',
-          description:
-            'Search for Starbucks logos in Tiktok videos, or people wearing Prada on Instagram.',
-          icon: UsersIcon,
-        },
-        {
-          name: 'Brand Saftey',
-          description:
-            'Jovie can identify & restrict creators who post content that may not be suitable for your brand. ',
-          icon: TrashIcon,
-        },
-        {
-          name: 'Exclusion',
-          description:
-            'Jovie can check to make creators you partner with have never promoted a competing product.',
-          icon: PencilIcon,
+          id: 2,
+          header: 'Get organized.',
+          subheader:
+            'Jovie works like the tools you love, letting you create lists and drag-n-drop contacts right into them. Leave notes for yourself or comments to share with your team.',
+          img: 'img/External/jovie_social_data_enrichment.png',
         },
       ],
     };
