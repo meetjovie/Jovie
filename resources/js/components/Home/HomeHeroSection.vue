@@ -13,28 +13,48 @@
         class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
         :src="asset('img/External/HomeFeatureCRM.webp')" />
     </div> -->
-    <div
-      class="flex flex-col items-center justify-center bg-white px-4 py-24 sm:mt-12 sm:pt-48 2xl:pt-48">
-      <!-- <h2
-          class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
-          The easiest way to
-        </h2> -->
 
+    <div
+      class="flex flex-col items-center justify-center bg-gradient-to-b from-neutral-200 to-neutral-50 px-4 py-24 sm:pt-48 2xl:pt-48">
       <h1
-        class="text-xl font-extrabold tracking-tight text-gray-900 md:text-5xl xl:text-6xl">
-        Organize <span class="text-indigo-700">Everyone</span> You Follow.
-        <br />
+        class="bg-gradient-to-r from-sky-500 via-blue-600 to-fuchsia-500 bg-clip-text text-2xl font-semibold uppercase tracking-wide text-transparent">
+        Meet Jovie
       </h1>
-      <h2 class="inline py-2 text-center text-lg font-bold text-neutral-600">
-        One space for the people that matter to
-        <span class="text-sky-600">you</span> &
-        <span class="text-pink-600">your team</span> <br />
+
+      <h2
+        class="text-7xl font-extrabold tracking-normal text-neutral-800 md:text-5xl xl:text-8xl">
+        THE <span class="uppercase">Social</span> CRM
+        <br />
       </h2>
+      <h2 class="inline py-2 text-center text-xl font-bold text-neutral-500">
+        A
+        <span class="dexoration-2 font-bold underline decoration-pink-400"
+          >smarter</span
+        >
+        way to organize everyone you follow<br />
+      </h2>
+      <div class="flex text-neutral-400">
+        <span class="mx-auto items-center text-xs font-bold text-neutral-500"
+          >Import contacts from:
+        </span>
+
+        <SocialIcons
+          :color="black"
+          :height="10"
+          :width="10"
+          :icon="instagram" />
+        <SocialIcons :height="10" :width="10" :icon="twitter" />
+        <SocialIcons :height="10" :width="10" :icon="twitch" />
+        <SocialIcons :height="10" :width="10" :icon="tiktok" />
+        <SocialIcons :height="10" :width="10" :icon="youtube" />
+        <SocialIcons :height="10" :width="10" :icon="facebook" />
+        <SocialIcons :height="10" :width="10" :icon="linkedin" />
+      </div>
       <ButtonGroup
         @click="signup()"
         :loading="loading"
         :loader="loading"
-        class="mt-4 w-full sm:w-48"
+        class="mt-8 w-full sm:w-48"
         text="Try Jovie free" />
       <span class="mt-1 text-2xs text-gray-400">
         <!--  <span class="font-bold">Fast & easy. </span> -->
@@ -53,10 +73,12 @@
 <script>
 import ButtonGroup from '../../components/ButtonGroup.vue';
 import HomeLogoCloud from './HomeLogoCloud.vue';
+import SocialIcons from '../../components/SocialIcons.vue';
 export default {
   components: {
     ButtonGroup,
     HomeLogoCloud,
+    SocialIcons,
   },
   data() {
     return {
