@@ -44,7 +44,7 @@
       
       <HomeTestimonials></HomeTestimonials> -->
       <!--  <HomeCTA></HomeCTA> -->
-      <JovieReplaces class="py-12"></JovieReplaces>
+      <!--  <JovieReplaces class="py-12"></JovieReplaces> -->
       <HomeCTA4></HomeCTA4>
     </main>
   </div>
