@@ -13,7 +13,7 @@
           Import social media profiles in
           </h2> -->
             <p
-              class="mt-2 bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
+              class="mt-2 bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xl font-extrabold tracking-tight sm:text-2xl">
               {{ feature.header }}
             </p>
 

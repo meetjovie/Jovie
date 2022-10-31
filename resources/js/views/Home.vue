@@ -2,8 +2,8 @@
   <div>
     <main>
       <HomeHeroSection />
-      <HomeFeatureCRM :features="features" class="" id="crm"></HomeFeatureCRM>
-      <div class="relative bg-gray-50">
+      <!-- <HomeFeatureCRM :features="features" class="" id="crm"></HomeFeatureCRM> -->
+      <!-- <div class="relative bg-gray-50">
         <div
           class="bg-gray-50 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
           <div class="mx-auto max-w-7xl lg:px-8">
@@ -33,7 +33,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!--  <HomeCreatorSearch id="discovery"></HomeCreatorSearch> -->
 

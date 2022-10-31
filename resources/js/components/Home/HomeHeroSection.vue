@@ -33,7 +33,7 @@
         >
         way to organize everyone you follow<br />
       </h2>
-      <div class="flex text-neutral-400">
+      <!--  <div class="flex text-neutral-400">
         <span class="mx-auto items-center text-xs font-bold text-neutral-500"
           >Import contacts from:
         </span>
@@ -49,7 +49,7 @@
         <SocialIcons :height="10" :width="10" :icon="youtube" />
         <SocialIcons :height="10" :width="10" :icon="facebook" />
         <SocialIcons :height="10" :width="10" :icon="linkedin" />
-      </div>
+      </div> -->
       <ButtonGroup
         @click="signup()"
         :loading="loading"
