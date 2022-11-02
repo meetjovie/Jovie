@@ -237,7 +237,7 @@
         <div
           class="inline-block h-full w-full overflow-x-auto align-middle">
           <div
-            class="flex w-[calc(100%_-_225px)] h-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
+            class="flex w-full h-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table class="block overflow-x-auto w-full divide-y divide-gray-200 divide-y divide-gray-200">
               <thead class="relative isolate z-20 items-center bg-neutral-100">
                 <tr class="h-8 sticky items-center">
@@ -267,7 +267,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky w-20 top-0 isolate z-30 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-[55px] w-20 top-0 isolate z-50 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -535,7 +535,7 @@
                     </td>
                     <td
                       v-on:dblclick="cellActive"
-                      class="w-60 cursor-pointer whitespace-nowrap border pl-2 pr-0.5">
+                      class="w-60 sticky left-[55px] bg-white cursor-pointer whitespace-nowrap border pl-2 pr-0.5">
                       <div class="flex items-center justify-between">
                         <div class="mr-2 h-8 w-8 flex-shrink-0">
                           <div class="rounded-full bg-neutral-400 p-0.5">
