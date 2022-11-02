@@ -235,15 +235,15 @@
           </div>
         </div>
         <div
-          class="inline-block h-full min-w-full overflow-x-auto align-middle">
+          class="inline-block h-full w-full overflow-x-auto align-middle">
           <div
-            class="flex h-full flex-col justify-between overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
-            <table class="w-full table-fixed divide-y divide-gray-200">
+            class="flex w-[calc(100%_-_225px)] h-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
+            <table class="block overflow-x-auto w-full divide-y divide-gray-200 divide-y divide-gray-200">
               <thead class="relative isolate z-20 items-center bg-neutral-100">
-                <tr class="sticky h-8 items-center">
+                <tr class="h-8 sticky items-center">
                   <th
                     scope="col"
-                    class="sticky top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-0 w-20 top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -262,12 +262,12 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-50 w-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 isolate z-50 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky w-20 top-0 isolate z-30 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -428,8 +428,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      :class="column.width ? 'w-' + column.width : ''"
-                      class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                      class="w-48 sticky top-0 z-30 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -440,7 +439,7 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-50 table-cell content-end items-center border-x border-gray-300 border-x-neutral-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
+                    class="sticky top-0 isolate z-30 table-cell content-end items-center border-x border-gray-300 border-x-neutral-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
                 </tr>
               </thead>
               <tbody
@@ -474,7 +473,7 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="w-6 overflow-auto whitespace-nowrap py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="w-6 sticky left-0 bg-white overflow-auto whitespace-nowrap py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -505,7 +504,7 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
-                      class="w-4 overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="w-4 sticky left-[26.5px] bg-white overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
