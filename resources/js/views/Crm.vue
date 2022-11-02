@@ -194,7 +194,7 @@
           </div>
         </TransitionRoot>
 
-        <div class="h-full w-full transition-all duration-200 ease-in-out">
+        <div class="h-full overflow-hidden w-full transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
             <div class="h-full w-full">
               <div class="flex h-full w-full flex-col">

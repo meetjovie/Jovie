@@ -498,7 +498,7 @@
       </div>
 
       <main
-        class="relative flex-1 overflow-y-auto focus-visible:outline-none"
+        class="relative flex-1 overflow-y-auto overflow-x-hidden focus-visible:outline-none"
         id="main">
         <div class="h-full">
           <div class="h-full">
