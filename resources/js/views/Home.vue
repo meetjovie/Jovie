@@ -133,7 +133,7 @@
 
       <HomeCTA4></HomeCTA4>
 
-      <!--   <HomeTestimonials></HomeTestimonials> -->
+      <HomeTestimonials></HomeTestimonials>
     </main>
   </div>
 </template>
