@@ -234,16 +234,16 @@
             </div>
           </div>
         </div>
-        <div
-          class="inline-block h-full w-full overflow-x-auto align-middle">
+        <div class="inline-block h-full w-full overflow-x-auto align-middle">
           <div
-            class="flex w-full h-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
-            <table class="block overflow-x-auto w-full divide-y divide-gray-200 divide-y divide-gray-200">
+            class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
+            <table
+              class="block w-full divide-y divide-y divide-gray-200 divide-gray-200 overflow-x-auto">
               <thead class="relative isolate z-20 items-center bg-neutral-100">
-                <tr class="h-8 sticky items-center">
+                <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 w-20 top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-0 top-0 z-50 w-20 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -267,7 +267,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] w-20 top-0 isolate z-50 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -428,7 +428,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="w-48 sticky top-0 z-30 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -473,7 +473,7 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="w-6 sticky left-0 bg-white overflow-auto whitespace-nowrap py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -504,7 +504,7 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
-                      class="w-4 sticky left-[26.5px] bg-white overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -535,43 +535,47 @@
                     </td>
                     <td
                       v-on:dblclick="cellActive"
-                      class="w-60 sticky left-[55px] bg-white cursor-pointer whitespace-nowrap border pl-2 pr-0.5">
+                      class="sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5">
                       <div class="flex items-center justify-between">
-                        <div class="mr-2 h-8 w-8 flex-shrink-0">
-                          <div class="rounded-full bg-neutral-400 p-0.5">
-                            <div class="rounded-full bg-white p-0">
-                              <img
-                                v-if="imageLoaded"
-                                class="rounded-full object-cover object-center"
-                                :src="creator.profile_pic_url"
-                                @error="imageLoadingError()"
-                                alt="Profile Image" />
-                              <!--WIP Fixing image loading errors-->
-                              <img
-                                v-else
-                                class="rounded-full object-cover object-center"
-                                :src="asset('img/noimage.webp')"
-                                alt="Profile Image" />
+                        <div class="flex w-full items-center">
+                          <div class="mr-2 h-8 w-8 flex-shrink-0">
+                            <div class="rounded-full bg-neutral-400 p-0.5">
+                              <div class="rounded-full bg-white p-0">
+                                <img
+                                  v-if="imageLoaded"
+                                  class="rounded-full object-cover object-center"
+                                  :src="creator.profile_pic_url"
+                                  @error="imageLoadingError()"
+                                  alt="Profile Image" />
+                                <!--WIP Fixing image loading errors-->
+                                <img
+                                  v-else
+                                  class="rounded-full object-cover object-center"
+                                  :src="asset('img/noimage.webp')"
+                                  alt="Profile Image" />
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div
-                          v-if="cellActive"
-                          class="text-sm text-gray-900 line-clamp-1">
-                          <input
-                            v-model="creator.meta.name"
-                            @blur="$emit('updateCrmMeta', creator)"
-                            autocomplete="off"
-                            type="creator-name"
-                            name="creator-name"
-                            id="creator-name"
-                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
-                            placeholder="Name"
-                            aria-describedby="name-description" />
-                        </div>
-                        <div v-else class="text-sm text-gray-900 line-clamp-1">
-                          {{ creator.meta.name }}
+                          <div
+                            v-if="cellActive"
+                            class="text-sm text-gray-900 line-clamp-1">
+                            <input
+                              v-model="creator.meta.name"
+                              @blur="$emit('updateCrmMeta', creator)"
+                              autocomplete="off"
+                              type="creator-name"
+                              name="creator-name"
+                              id="creator-name"
+                              class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                              placeholder="Name"
+                              aria-describedby="name-description" />
+                          </div>
+                          <div
+                            v-else
+                            class="text-sm text-gray-900 line-clamp-1">
+                            {{ creator.meta.name }}
+                          </div>
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
