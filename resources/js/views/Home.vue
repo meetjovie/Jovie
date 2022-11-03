@@ -36,7 +36,7 @@
           </router-link>
         </div>
       </section>
-      <section>
+      <!--  <section>
         <div class="mx-auto my-11 px-4 md:px-8">
           <div class="rounded-3xl bg-gray-50 p-4 md:p-10 lg:p-14">
             <p
@@ -91,7 +91,7 @@
             </a>
           </div>
         </div>
-      </section>
+      </section> -->
       <HomeFeatureCRM :features="features" class="" id="crm"></HomeFeatureCRM>
       <div class="relative bg-gray-50">
         <div
@@ -131,7 +131,7 @@
       <!--  <HomeCTA></HomeCTA> -->
       <JovieReplaces class="py-12"></JovieReplaces>
       <HomeCTA4></HomeCTA4>
-      <HomeTestimonials></HomeTestimonials>
+      <!--   <HomeTestimonials></HomeTestimonials> -->
     </main>
   </div>
 </template>
