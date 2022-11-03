@@ -14,6 +14,9 @@ module.exports = {
   safelist: [...tailwindcssOriginSafelist],
   theme: {
     extend: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
       },

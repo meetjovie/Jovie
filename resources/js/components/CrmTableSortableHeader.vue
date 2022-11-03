@@ -1,7 +1,7 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
   <div
-    class="w-full"
+    class="w-44"
     @click="
       $emit('sortData', { sortBy: column.key, sortOrder: column.sortOrder })
     "
