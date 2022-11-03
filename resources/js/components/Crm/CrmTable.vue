@@ -535,7 +535,7 @@
                     </td>
                     <td
                       v-on:dblclick="cellActive"
-                      class="sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
