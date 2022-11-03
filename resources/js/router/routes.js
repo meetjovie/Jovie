@@ -382,11 +382,10 @@ export const routes = [
   {
     name: 'Chrome Extension',
     path: '/chrome-extension',
-    component: loadPage('ChromeExtension'),
-    meta: {
-      layout: 'Default',
-      requiresAuth: false,
-      requiresSubscribe: false,
+
+    beforeEnter(to, from, next) {
+      window.location.href =
+        'https://chrome.google.com/webstore/detail/jovie/daeopelnocmnhbkjbjmhckgjgheioafj';
     },
   },
   {
