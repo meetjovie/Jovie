@@ -37,8 +37,22 @@
               :src="feature.img"
               alt="" />
             <img
+              v-if="feature.id === 1"
               class="mx-auto rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
-              :src="feature.img"
+              :src="
+                asset(
+                  'img/External/Marketing/Chrome/Jovie_Chrome_Extension_Screenshot.png'
+                )
+              "
+              alt="Inbox user interface" />
+            <img
+              v-if="feature.id === 2"
+              class="mx-auto rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
+              :src="
+                asset(
+                  'img/External/Marketing/Chrome/Jovie_Lists_Screenshot.png'
+                )
+              "
               alt="Inbox user interface" />
           </div>
         </div>
