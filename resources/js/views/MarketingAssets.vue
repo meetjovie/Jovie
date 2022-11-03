@@ -99,6 +99,38 @@
         </div>
       </div>
     </section>
+    <section>
+      <div class="grid place-items-center bg-gray-700 p-4">
+        <div
+          id="ChromeSS2"
+          class="relative h-[400px] w-[640px] overflow-hidden bg-gradient-to-b from-neutral-200 to-neutral-50">
+          <!-- Content -->
+          <div
+            class="relative mt-24 flex h-full w-full flex-col items-center space-y-4 p-8">
+            <h1
+              class="text-md font-semibold uppercase tracking-wide text-sky-500 text-transparent">
+              Save Anyone In A Click
+            </h1>
+          </div>
+          <div class="hidden max-w-7xl sm:block">
+            <img
+              class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
+              :src="asset('img/External/HomeFeatureCRM.webp')" />
+          </div>
+        </div>
+
+        <div class="flex w-full max-w-5xl items-center justify-between py-4">
+          <h2 class="text-md font-semibold text-white">Chrome Screenshot 2</h2>
+
+          <ButtonGroup
+            class="w-60"
+            text="Download"
+            @click="downloadImage('ChromeSS2')">
+            Download
+          </ButtonGroup>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 <script>
