@@ -380,6 +380,16 @@ export const routes = [
     },
   },
   {
+    name: 'Brand',
+    path: '/brand',
+    component: loadPage('MarketingAssets'),
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+      requiresSubscribe: false,
+    },
+  },
+  {
     name: 'Chrome Extension',
     path: '/chrome-extension',
 
