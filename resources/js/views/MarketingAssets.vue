@@ -196,7 +196,7 @@
         </div>
         <div>
           <img
-            class="rounded-xl shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
+            class="mx-auto mt-24 w-2/3 items-center rounded-xl shadow-xl shadow-pink-700/30 ring-1 ring-black ring-opacity-5"
             :src="
               asset('img/External/Marketing/Chrome/Jovie_Lists_Screenshot.png')
             " />
@@ -212,7 +212,7 @@
       :name="'Chrome Screenshot'">
       <!-- Content -->
       <h1
-        class="mt-6 items-center text-center text-3xl font-semibold uppercase tracking-wide text-pink-500">
+        class="mt-6 items-center text-center text-3xl font-semibold uppercase tracking-wide text-violet-500">
         Enrich profiles with contact info & social data
       </h1>
       <div class="reverse relative grid h-full w-full grid-cols-2 p-8">
