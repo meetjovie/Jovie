@@ -22,6 +22,7 @@
             </p>
             <div class="mt-6">
               <ButtonGroup
+                class="w-80"
                 v-if="feature.cta"
                 :buttonlink="feature.ctaLink"
                 :text="feature.cta" />
@@ -29,14 +30,14 @@
           </div>
         </div>
         <div class="mx-auto w-full items-center rounded-md">
-          <div class="h-full w-full rounded-md">
+          <div class="mx-auto h-80 w-full rounded-md">
             <!--  <img class="object-fit" :src="feature.img" alt="" /> -->
             <img
               class="last:w-full lg:hidden last:lg:absolute last:lg:inset-y-0 last:lg:h-full last:lg:w-auto last:lg:max-w-none group-odd:lg:right-0"
               :src="feature.img"
               alt="" />
             <img
-              class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
+              class="mx-auto rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
               :src="feature.img"
               alt="Inbox user interface" />
           </div>

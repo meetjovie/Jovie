@@ -1,8 +1,9 @@
 <template>
-  <section>
+  <section v-if="show">
     <div class="grid place-items-center bg-gray-700 p-4">
       <div>
         <div
+          :category="category"
           :id="'Jovie_MA_' + divId"
           :class="`h-[${assetHeight}px] w-[${assetWidth}px]`"
           class="relative overflow-hidden bg-gradient-to-b from-neutral-200 to-neutral-50">
@@ -72,6 +73,14 @@ export default {
     assetWidth: {
       type: Number,
       default: 1400,
+    },
+    category: {
+      type: String,
+      default: 'MarketingAssets',
+    },
+    show: {
+      type: Boolean,
+      default: true,
     },
   },
   methods: {
