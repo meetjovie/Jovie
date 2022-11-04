@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <title>Jovie | The Social CRM</title>
+  </Head>
   <div>
     <header class="sticky top-0 z-20 bg-neutral-50">
       <nav>
@@ -257,6 +260,7 @@
 </template>
 
 <script>
+import { Head } from '@vueuse/head';
 import JovieLogo from '../components/JovieLogo.vue';
 import AlertBanner from '../components/AlertBanner.vue';
 import {
@@ -297,6 +301,7 @@ export default {
   components: {
     InboxIcon,
     AlertBanner,
+    Head,
     LightBulbIcon,
     PencilIcon,
     TrashIcon,
@@ -326,6 +331,7 @@ export default {
   },
   data() {
     return {
+      title: 'Jovie | The Social CRM',
       navigation: [
         { name: 'Pricing', href: '/pricing', current: false },
         { name: 'Get strarted free', href: '/signup', current: false },
