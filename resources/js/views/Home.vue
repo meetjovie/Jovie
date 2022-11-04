@@ -3,7 +3,53 @@
     <main>
       <HomeHeroSection />
 
-      <!--  <section>
+      <div class="bg-white">
+        <div class="mx-auto max-w-7xl px-4 pt-12 pb-6 sm:px-6 lg:px-8">
+          <div
+            class="py-2 text-center text-2xs font-bold tracking-wide text-neutral-400">
+            Trusted by individuals & teams at:
+          </div>
+          <div class="grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
+            <div
+              class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+              <img
+                class="h-12"
+                src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg"
+                alt="Tuple" />
+            </div>
+            <div
+              class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+              <img
+                class="h-12"
+                src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg"
+                alt="Mirage" />
+            </div>
+            <div
+              class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+              <img
+                class="h-12"
+                src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                alt="StaticKit" />
+            </div>
+            <div
+              class="col-span-1 flex justify-center md:col-span-3 lg:col-span-1">
+              <img
+                class="h-12"
+                src="https://tailwindui.com/img/logos/transistor-logo-gray-400.svg"
+                alt="Transistor" />
+            </div>
+            <div
+              class="col-span-2 flex justify-center md:col-span-3 lg:col-span-1">
+              <img
+                class="h-12"
+                src="https://tailwindui.com/img/logos/workcation-logo-gray-400.svg"
+                alt="Workcation" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section>
         <div class="mx-auto my-11 px-4 md:px-8">
           <div class="rounded-3xl bg-gray-50 p-4 md:p-10 lg:p-14">
             <p
@@ -14,13 +60,13 @@
               <div v-for="icon in icons" :key="icon.id">
                 <div class="relative hidden h-16 w-16 overflow-hidden lg:block">
                   <div
-                    class="relative z-20 mx-auto h-full items-center p-2 text-white">
+                    class="relative z-20 mx-auto h-full items-center p-1 text-white">
                     <SocialIcons
-                      class="z-20 h-14 w-14"
+                      class="z-20 mx-auto mt-4"
                       color="white"
                       link="#"
                       :icon="icon.name"
-                      height="16px" />
+                      height="24px" />
                   </div>
                   <svg viewBox="0 0 64 64" class="absolute top-0 h-full w-full">
                     <circle
@@ -58,7 +104,8 @@
             </a>
           </div>
         </div>
-      </section> -->
+      </section>
+
       <HomeFeatureCRM :features="features" class="" id="crm"></HomeFeatureCRM>
       <div class="relative bg-gray-50">
         <div
@@ -70,14 +117,14 @@
                 <div class="lg:py-24">
                   <h1
                     class="text-4xl font-extrabold tracking-tight text-neutral-600 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-2xl">
-                    Bridge the gap between social networks
+                    Enrich contacts automatically.
                   </h1>
                   <p
                     class="mt-3 text-base text-gray-600 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                    Save a contact on instagram? Don’t worry, we have their
-                    twitter profile too. No more fragmented networks. Jovie
-                    automatically enriches contacts with all their social media
-                    profiles
+                    No more manual data entry. No more incomplete records. Save
+                    a contact on instagram? Don’t worry, we have their twitter
+                    profile too. Jovie automatically enriches contacts with all
+                    their social media profiles & more.
                   </p>
                 </div>
               </div>
@@ -130,10 +177,8 @@
           </router-link>
         </div>
       </section>
-
+      <HomeTestimonials></HomeTestimonials>
       <HomeCTA4></HomeCTA4>
-
-      <!--  <HomeTestimonials></HomeTestimonials> -->
     </main>
   </div>
 </template>
@@ -216,7 +261,7 @@ export default {
       features: [
         {
           id: 1,
-          header: 'Import social media profiles in 1-click',
+          header: 'Save Contacts from any Social Media Profile',
           subheader:
             ' Never type contact info again.  Jovie let’s you import any Tiktok, Twitter, Instagram, or Twitch profile instantly.',
           cta: 'Download the Chrome Extension',
@@ -225,7 +270,7 @@ export default {
         },
         {
           id: 2,
-          header: 'Get organized.',
+          header: 'Organize everyone in one place',
           subheader:
             'Jovie works like the tools you love, letting you create lists and drag-n-drop contacts right into them. Leave notes for yourself or comments to share with your team.',
           img: 'img/External/Marketing/Chrome/Jovie_Lists_Screenshot.png',
