@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
+Route::post('login-user', [\App\Http\Controllers\Auth\AuthController::class, 'loginUser']);
+Route::post('login-user-extension', [\App\Http\Controllers\Auth\AuthController::class, 'loginUserExtension'])->withoutMiddleware('state.csrf');
 Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
 Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);

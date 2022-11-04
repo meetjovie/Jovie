@@ -394,6 +394,8 @@ import InputLists from '../components/InputLists.vue';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import SocialIcons from './SocialIcons.vue';
 import UserService from '../services/api/user.service';
+import router from "../router";
+import store from "../store";
 export default {
   name: 'Contact Sidebar',
   components: {
@@ -429,15 +431,12 @@ export default {
           if (this.creatorsData.id) {
               this.creator = this.creatorsData
           } else {
-              const queryParameters = location.href.split('?')[1];
-              const urlParameters = new URLSearchParams(queryParameters);
-
-              let creator = urlParameters.get('creator');
-              creator = JSON.parse(creator)
+              let queryParameters = store.state.extensionQuery
+              let creator = JSON.parse(queryParameters.creator)
               if (creator.meta == undefined) {
                   creator.meta = {}
               }
-              let image = queryParameters.split('image=')[1];
+              let image = queryParameters.image
 
               let promise = new Promise(async (resolve, reject) => {
                   if (image && creator.network == 'instagram') {

@@ -53,10 +53,10 @@ class User extends Authenticatable
 
     protected $appends = ['default_image', 'full_name'];
 
-    public static function currentLoggedInUser()
+    public static function currentLoggedInUser($userId = null)
     {
         $user = self::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
-            ->where('id', Auth::id())->first();
+            ->where('id', $userId ?? Auth::id())->first();
         $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
         $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
         $user->currentTeam->subscribed = false;
