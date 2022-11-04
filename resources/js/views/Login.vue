@@ -128,7 +128,7 @@ export default {
     ButtonGroup,
   },
   mounted() {
-    //add segment analytics
+      //add segment analytics
     window.analytics.page(this.$route.path);
   },
   data() {
@@ -151,35 +151,69 @@ export default {
       this.error = '';
       this.buttonError = false;
       this.loggingIn = true;
-      AuthService.login(this.user)
-        .then((response) => {
-          response = response.data;
-          localStorage.setItem('jovie_extension', response.token);
-          if (response.status) {
-            this.$store.commit('setAuthStateUser', response.user);
-            this.buttonError = false;
-            this.successfulLogin = true;
-            window.analytics.track('User Logged In', {
-              email: this.user.email,
-              first_name: this.user.first_name,
-              last_name: this.user.last_name,
-            });
-            router.push({ name: 'Contacts' });
-          } else {
-            this.error = response.error;
-          }
-        })
-        .catch((error) => {
-          if (error.response.status == 422) {
-            this.errors = error.response.data.errors;
-            this.buttonError = true;
-            return;
-          }
-          alert('Something went wrong.');
-        })
-        .finally(() => {
-          this.loggingIn = false;
-        });
+
+
+      if (this.$store.state.isExtension) {
+          AuthService.loginUserExtension(this.user)
+              .then((response) => {
+                  response = response.data;
+                  localStorage.setItem('jovie_extension', response.token);
+                  if (response.status) {
+                      this.$store.commit('setAuthStateUser', response.user);
+                      this.buttonError = false;
+                      this.successfulLogin = true;
+                      window.analytics.track('User Logged In', {
+                          email: this.user.email,
+                          first_name: this.user.first_name,
+                          last_name: this.user.last_name,
+                      });
+                      router.push({ name: 'Extension' });
+                  } else {
+                      this.error = response.error;
+                  }
+              })
+              .catch((error) => {
+                  if (error.response.status == 422) {
+                      this.errors = error.response.data.errors;
+                      this.buttonError = true;
+                      return;
+                  }
+                  alert('Something went wrong.');
+              })
+              .finally(() => {
+                  this.loggingIn = false;
+              });
+      } else {
+          AuthService.login(this.user)
+              .then((response) => {
+                  response = response.data;
+                  localStorage.setItem('jovie_extension', response.token);
+                  if (response.status) {
+                      this.$store.commit('setAuthStateUser', response.user);
+                      this.buttonError = false;
+                      this.successfulLogin = true;
+                      window.analytics.track('User Logged In', {
+                          email: this.user.email,
+                          first_name: this.user.first_name,
+                          last_name: this.user.last_name,
+                      });
+                      router.push({ name: 'Contacts' });
+                  } else {
+                      this.error = response.error;
+                  }
+              })
+              .catch((error) => {
+                  if (error.response.status == 422) {
+                      this.errors = error.response.data.errors;
+                      this.buttonError = true;
+                      return;
+                  }
+                  alert('Something went wrong.');
+              })
+              .finally(() => {
+                  this.loggingIn = false;
+              });
+      }
     },
   },
 };

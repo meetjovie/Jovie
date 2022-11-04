@@ -6,8 +6,13 @@ const baseApiUrl = '/api';
 const baseUrlWeb = '';
 
 export default {
-  async me(config) {
-    return axios.get(`${baseApiUrl}/me`, config);
+  async me(config, login) {
+      if (config) {
+          return axios.get(`${baseApiUrl}/me?login=${login ?? false}`, config);
+      } else {
+          console.log('234234');
+          return axios.get(`${baseApiUrl}/me?login=${login ?? false}`);
+      }
   },
   async addToWaitList(data) {
     return axios.post(`${baseUrlWeb}/waitlist`, data);
@@ -139,5 +144,8 @@ export default {
   },
   uploadTempFileFromUrl(image) {
       return axios.get(`${baseApiUrl}/upload-temp-file?image_url=${image}`);
+  },
+  saveToCrm(data) {
+      return axios.post(`${baseApiUrl}/save-to-crm`, data);
   },
 };

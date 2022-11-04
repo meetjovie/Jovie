@@ -96,7 +96,7 @@ class Creator extends Model
 
     public function getNameAttribute()
     {
-        return $this->full_name ?? ($this->first_name ? ($this->first_name.' '.$this->last_name) : null) ?? $this->instagram_name ?? $this->twitch_name ?? $this->twitter_name;
+        return $this->full_name ?? ($this->first_name ? ($this->first_name.' '.$this->last_name) : null) ?? $this->instagram_name ?? $this->twitch_name ?? $this->twitter_name ?? $this->tiktok_name;
     }
 
     public function getName($creator = null)
@@ -105,7 +105,7 @@ class Creator extends Model
             $creator = $this;
         }
 
-        return $creator->full_name ?? ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name;
+        return $creator->full_name ?? ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name ?? $creator->tiktok_name;
     }
 
     public function getBiographyAttribute($creator)
@@ -358,6 +358,21 @@ class Creator extends Model
         return json_decode($value ?? '{}');
     }
 
+    public function setTwitterMetaAttribute($value)
+    {
+        $this->attributes['twitter_meta'] = json_encode($value ?? []);
+    }
+
+    public function getTiktokMetaAttribute($value)
+    {
+        return json_decode($value ?? '{}');
+    }
+
+    public function setTiktokMetaAttribute($value)
+    {
+        $this->attributes['tiktok_meta'] = json_encode($value ?? []);
+    }
+
     public function brands()
     {
         return $this->belongsToMany(self::class, 'brand_creator',
@@ -540,6 +555,7 @@ class Creator extends Model
 
             $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
             $creator->twitch_meta = $creatorAccessor->getTwitchMetaAttribute($creator->twitch_meta);
+            $creator->tiktok_meta = $creatorAccessor->getTwitchMetaAttribute($creator->tiktok_meta);
 
             $creator->social_links = $creatorAccessor->getSocialLinksAttribute($creator->social_links);
             $creator->emails = $creatorAccessor->getEmailsAttribute($creator->emails);
@@ -548,6 +564,7 @@ class Creator extends Model
             $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
             $creator->twitch_handler = $creatorAccessor->getTwitchHandlerAttribute($creator->twitch_handler);
+            $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
 
             $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
 

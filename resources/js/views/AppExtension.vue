@@ -1,5 +1,5 @@
 <template>
-    <ContactSidebar/>
+    <ContactSidebar />
 </template>
 <script>
 import ContactSidebar from '../components/ContactSidebar.vue';
