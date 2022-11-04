@@ -1,12 +1,17 @@
 <template>
   <div class="bg-gray-50">
     <div class="mx-auto max-w-7xl py-12">
+      <h3
+        class="bg-gradient-to-r from-sky-500 via-pink-500 to-violet-500 bg-clip-text py-12 text-center text-3xl font-extrabold text-transparent">
+        Jovie creates contacts in 1-click
+      </h3>
+
       <div
         v-for="feature in features"
         :key="feature.id"
-        class="group relative grid grid-cols-2 items-center overflow-hidden py-48 odd:text-left even:text-right">
+        class="group relative grid grid-cols-2 items-center overflow-hidden pt-12 pb-48 odd:text-left even:text-right">
         <div
-          class="mx-auto max-w-md items-center px-4 group-odd:order-first group-even:order-last sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
+          class="mx-auto max-w-md items-center px-4 group-odd:order-last group-even:order-first sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
           <div>
             <!--   <h2
           class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">

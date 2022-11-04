@@ -11,9 +11,11 @@ export default {
         })
     },
 
-    async me({state, commit}, config) {
+    async me({state, commit}, params) {
+        console.log('params.config');
+        console.log(params.config);
         return new Promise((resolve, reject) => {
-            userService.me(config).then(response => {
+            userService.me(params.config, params.login).then(response => {
                 response = response.data
                 commit('setAuthStateUser', response)
                 return resolve(response)

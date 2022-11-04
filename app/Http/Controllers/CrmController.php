@@ -12,6 +12,8 @@ use App\Models\UserList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
@@ -410,5 +412,61 @@ class CrmController extends Controller
             'message' => 'Data updated.',
             'data' => Creator::getCrmCreators(['id' => $crm->creator_id])->first()
         ], 200);
+    }
+
+    public function saveToCrm(Request $request)
+    {
+        try {
+            $user = User::currentLoggedInUser();
+
+            $data = $request->except('network');
+            $data = array_filter($data);
+            $creator = Creator::query()->where(($request->network.'_handler'), $request->{$request->network.'_handler'})->first();
+            $creator = $creator ?? new Creator();
+            if (!empty($data['profile_pic_url']) && $request->network ==  'instagram') {
+                $profilePicUrl = $data['profile_pic_url'];
+                unset($data['profile_pic_url']);
+                $fileName = explode('/tmp/', $profilePicUrl)[1] ?? null;
+                if ($fileName) {
+                    Storage::disk('s3')->copy(
+                        ('tmp/'.$fileName),
+                        (Creator::CREATORS_CSV_PATH.$fileName)
+                    );
+                    $data['profile_pic_url'] = Storage::disk('s3')->url(Creator::CREATORS_CSV_PATH.$fileName);
+                }
+            }
+            $meta = $creator->{$request->network.'_meta'};
+            if (isset($data['profile_pic_url'])) {
+                $meta->profile_pic_url = $data['profile_pic_url'];
+            }
+            $creator->{$request->network.'_meta'} = $meta;
+
+            unset($data['profile_pic_url']);
+            foreach ($data as $k => $v) {
+                if ($k == 'meta') {
+                    foreach ($v as $kk => $vv) {
+                        if (! Schema::hasColumn('creators', $kk)) continue;
+                        $creator->{$kk} = $vv;
+                    }
+                } else {
+                    if (! Schema::hasColumn('creators', $k)) continue;
+                    $creator->{$k} = $v;
+                }
+            }
+            $creator->save();
+            Creator::addToListAndCrm($creator, null, $user->id, $user->currentTeam->id);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Saved to your jovie CRM',
+            ], 200);
+        } catch (\Throwable $exception) {
+            return response()->json([
+                'status' => false,
+                'message' => $exception->getMessage(),
+                'getLine' => $exception->getLine(),
+                'getFile' => $exception->getFile(),
+            ], 200);
+        }
     }
 }
