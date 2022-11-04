@@ -3,7 +3,7 @@
     <main>
       <HomeHeroSection />
 
-      <div class="bg-white">
+      <!-- <div class="bg-white">
         <div class="mx-auto max-w-7xl px-4 pt-12 pb-6 sm:px-6 lg:px-8">
           <div
             class="py-2 text-center text-2xs font-bold tracking-wide text-neutral-400">
@@ -47,7 +47,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <section>
         <div class="mx-auto my-11 px-4 md:px-8">
@@ -177,7 +177,7 @@
           </router-link>
         </div>
       </section>
-      <HomeTestimonials></HomeTestimonials>
+     <!--  <HomeTestimonials></HomeTestimonials> -->
       <HomeCTA4></HomeCTA4>
     </main>
   </div>

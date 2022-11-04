@@ -11,6 +11,7 @@ import VueObserveVisibility from 'vue-observe-visibility';
 import VueMousetrapPlugin from 'vue-mousetrap';
 import VueCookies from 'vue-cookies';
 import Notifications from 'notiwind';
+import { createHead } from '@vueuse/head';
 
 window.Vapor = require('laravel-vapor');
 
@@ -27,13 +28,13 @@ app.mixin({
     },
   },
   methods: {
-      async reconnectPusher() {
-          return new Promise(async (resolve, reject) => {
-              await Echo.disconnect()
-              await Echo.connect()
-              resolve()
-          });
-      },
+    async reconnectPusher() {
+      return new Promise(async (resolve, reject) => {
+        await Echo.disconnect();
+        await Echo.connect();
+        resolve();
+      });
+    },
     listenEvents(
       channel,
       event,
@@ -109,25 +110,28 @@ app.mixin({
 });
 
 axios.interceptors.request.use(
-    function (config) {
-        // Do something before request is sent.
-        if (router.currentRoute.value.name == undefined) {
-            delete config.headers.common['Authorization'];
-        }
-        if (router.currentRoute.value.name != undefined && router.currentRoute.value.name != 'Extension') {
-            delete config.headers.common['Authorization'];
-        } else {
-            let token = localStorage.getItem('jovie_extension');
-            if (token) {
-                config.headers.common['Authorization'] = `Bearer ${token}`;
-            }
-        }
-        return config;
-    },
-    function (error) {
-        // Do something with request error
-        return Promise.reject(error);
+  function (config) {
+    // Do something before request is sent.
+    if (router.currentRoute.value.name == undefined) {
+      delete config.headers.common['Authorization'];
     }
+    if (
+      router.currentRoute.value.name != undefined &&
+      router.currentRoute.value.name != 'Extension'
+    ) {
+      delete config.headers.common['Authorization'];
+    } else {
+      let token = localStorage.getItem('jovie_extension');
+      if (token) {
+        config.headers.common['Authorization'] = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
 );
 
 app.use(router);
@@ -137,5 +141,6 @@ app.use(VueCookies);
 app.use(VueObserveVisibility);
 app.use(VueMousetrapPlugin);
 app.use(Notifications);
+app.use(createHead());
 app.component('App', App);
 app.mount('#app');

@@ -11,7 +11,7 @@
         :key="feature.id"
         class="group relative grid grid-cols-2 items-center overflow-hidden pt-12 pb-48 odd:text-left even:text-right">
         <div
-          class="mx-auto max-w-md items-center px-4 group-odd:order-first group-even:order-last sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
+          class="mx-auto max-w-md items-center px-4 group-odd:order-last group-even:order-first sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
           <div>
             <!--   <h2
           class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
