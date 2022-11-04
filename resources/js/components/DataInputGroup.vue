@@ -40,11 +40,12 @@
             { 'pl-3': socialicon },
           ]"
           :placeholder="label" />
-        <div
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-          <div v-if="loader" class="transition-all"><JovieSpinner /></div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+          <div v-if="loader" class="pointer-events-none transition-all">
+            <JovieSpinner />
+          </div>
           <div v-else>
-            <div class="text-indigo-500" v-if="valid">
+            <div class="pointer-events-none text-indigo-500" v-if="valid">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5"
@@ -58,7 +59,7 @@
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <div class="text-red-500" v-if="isInvalid">
+            <div class="pointer-events-none text-red-500" v-else-if="isInvalid">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5"
@@ -71,6 +72,13 @@
                   stroke-linejoin="round"
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
+            </div>
+            <div
+              class="group cursor-pointer text-red-500"
+              v-else-if="isCopyable && (modelValue || value)">
+              <DocumentDuplicateIcon
+                @click="copyToClipboard"
+                class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-700 group-hover:block group-hover:text-gray-500" />
             </div>
           </div>
         </div>
@@ -109,10 +117,12 @@ import {
   ArrowSmallUpIcon,
   ArrowSmallDownIcon,
   BriefcaseIcon,
+  DocumentDuplicateIcon,
   CheckCircleIcon,
 } from '@heroicons/vue/24/solid';
 export default {
   name: 'InputGroup',
+
   props: {
     label: {
       type: String,
@@ -136,6 +146,14 @@ export default {
     error: {
       type: String,
       default: null,
+    },
+    isCopyable: {
+      type: Boolean,
+      default: false,
+    },
+    isCopied: {
+      type: Boolean,
+      default: false,
     },
     autocomplete: {
       type: String,
@@ -179,6 +197,7 @@ export default {
     TagIcon,
     UserIcon,
     SocialIcons,
+    DocumentDuplicateIcon,
     CheckCircleIcon,
     UsersIcon,
     ExclamationCircleIcon,
@@ -187,6 +206,11 @@ export default {
     BriefcaseIcon,
     JovieSpinner,
     PhoneIcon,
+  },
+  methods: {
+    copyToClipboard() {
+      this.$emit('copyToClipboard');
+    },
   },
 };
 </script>

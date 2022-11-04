@@ -1,32 +1,83 @@
 <template>
-  <div
-    class="relative overflow-hidden bg-gray-50 pt-16 pb-48 sm:pt-24 lg:pt-32">
-    <div
-      class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
-      <div>
-        <h2
-          class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
-          Fast. Simple. Automated.
-        </h2>
-        <p
-          class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          Next Generation
-          <span class="text-indigo-700">CRM</span>.
-        </p>
+  <div class="bg-gray-50">
+    <div class="mx-auto max-w-7xl py-12">
+      <h3
+        class="bg-gradient-to-r from-sky-500 via-pink-500 to-violet-500 bg-clip-text py-12 text-center text-3xl font-extrabold text-transparent">
+        Jovie creates contacts in 1-click
+      </h3>
 
-        <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-          Jovie creates & updates contacts automatically using data from social
-          media profiles.
-          <br class="hidden sm:inline" />
-          <span class="font-bold">Never </span>manually enter contact info
-          again.
-        </p>
-      </div>
-      <div class="mt-24 -mb-10 sm:-mb-24 lg:-mb-96">
-        <img
-          class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
-          :src="asset('img/External/HomeFeatureCRM.webp')" />
+      <div
+        v-for="feature in features"
+        :key="feature.id"
+        class="group relative grid grid-cols-2 items-center overflow-hidden pt-12 pb-48 odd:text-left even:text-right">
+        <div
+          class="mx-auto max-w-md items-center px-4 group-odd:order-first group-even:order-last sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
+          <div>
+            <!--   <h2
+          class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
+          Import social media profiles in
+          </h2> -->
+            <p
+              class="mt-2 bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xl font-extrabold tracking-tight sm:text-2xl">
+              {{ feature.header }}
+            </p>
+
+            <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
+              {{ feature.subheader }}
+            </p>
+            <div class="mt-6">
+              <ButtonGroup
+                class="w-80"
+                v-if="feature.cta"
+                :buttonlink="feature.ctaLink"
+                :text="feature.cta" />
+            </div>
+          </div>
+        </div>
+        <div class="mx-auto w-full items-center rounded-md">
+          <div class="mx-auto h-80 w-full rounded-md">
+            <!--  <img class="object-fit" :src="feature.img" alt="" /> -->
+            <img
+              class="last:w-full lg:hidden last:lg:absolute last:lg:inset-y-0 last:lg:h-full last:lg:w-auto last:lg:max-w-none group-odd:lg:right-0"
+              :src="feature.img"
+              alt="" />
+            <img
+              v-if="feature.id === 1"
+              class="mx-auto rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
+              :src="
+                asset(
+                  'img/External/Marketing/Chrome/Jovie_Chrome_Extension_Screenshot.png'
+                )
+              "
+              alt="Inbox user interface" />
+            <img
+              v-if="feature.id === 2"
+              class="mx-auto rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
+              :src="
+                asset(
+                  'img/External/Marketing/Chrome/Jovie_Lists_Screenshot.png'
+                )
+              "
+              alt="Inbox user interface" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
+<script>
+import ButtonGroup from '../../components/ButtonGroup.vue';
+export default {
+  name: 'HomeFeatureCRM',
+  components: {
+    ButtonGroup,
+  },
+  props: {
+    features: {
+      type: Object,
+      required: true,
+      default: () => {},
+    },
+  },
+};
+</script>

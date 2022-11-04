@@ -90,56 +90,56 @@
       <div class="grid grid-cols-6 py-2 px-4">
         <SocialIcons
           icon="instagram"
-          :link="creator.instagram_handler"
+          :link="creator.instagram_handler || creator.meta.instagram_handler"
           :followers="formatCount(creator.instagram_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="twitter"
-          :link="creator.twitter_handler"
+          :link="creator.twitter_handler || creator.meta.twitter_handler"
           :followers="formatCount(creator.twitter_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="twitch"
-          :link="creator.twitch_handler"
+          :link="creator.twitch_handler || creator.meta.twitch_handler"
           :followers="formatCount(creator.twitch_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="tiktok"
-          :link="creator.tiktok_handler"
+          :link="creator.tiktok_handler || creator.meta.tiktok_handler"
           :followers="formatCount(creator.tiktok_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="youtube"
-          :link="creator.youtubeh_handler"
+          :link="creator.youtube_handler || creator.meta.youtube_handler"
           :followers="formatCount(creator.youtube_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
           icon="linkedin"
-          :link="creator.linkedin_handler"
+          :link="creator.linkedin_handler || creator.meta.linkedin_handler"
           :followers="formatCount(creator.linkedin_followers)"
           height="14"
           width="14"
-          class="h-4 w-4 text-gray-400"
+          class="h-4 w-4 cursor-pointer text-gray-400"
           aria-hidden="true"
           :countsVisible="false" />
       </div>
@@ -200,6 +200,8 @@
           icon="EnvelopeIcon"
           id="email"
           label="Email"
+          isCopyable
+          @copyToClipboard="copyToClipboard(creator.meta.emails)"
           placeholder="email@email.com" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -214,6 +216,7 @@
           id="phone"
           icon="PhoneIcon"
           label="Phone"
+          @copyToClipboard="copyToClipboard(creator.meta.phone)"
           placeholder="Phone" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -221,6 +224,8 @@
           v-model="creator.meta.instagram_handler"
           id="instagram_handler"
           label="Instagram"
+          isCopyable
+          @copyToClipboard="copyToClipboard(creator.meta.instagram_handler)"
           placeholder="Instagram" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -228,6 +233,8 @@
           v-model="creator.meta.twitch_handler"
           id="twitch_handler"
           label="Twitch"
+          isCopyable
+          @copyToClipboard="copyToClipboard(creator.meta.twitch_handler)"
           placeholder="Twitch" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
@@ -235,7 +242,27 @@
           v-model="creator.meta.twitter_handler"
           id="twitter_handler"
           label="Twitter"
+          isCopyable
+          @copyToClipboard="copyToClipboard(creator.meta.twitter_handler)"
           placeholder="Twitter" />
+        <DataInputGroup
+          @blur="$emit('updateCrmMeta')"
+          socialicon="tiktok"
+          v-model="creator.meta.tiktok_handler"
+          id="tiktok_handler"
+          label="TikTok"
+          isCopyable
+          @copyToClipboard="copyToClipboard(creator.meta.tiktok_handler)"
+          placeholder="TikTok" />
+        <DataInputGroup
+          @blur="$emit('updateCrmMeta')"
+          socialicon="youtube"
+          v-model="creator.meta.tiktok_handler"
+          id="youtube_handler"
+          label="Youtube"
+          isCopyable
+          @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
+          placeholder="Youtube" />
         <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
@@ -524,7 +551,7 @@ export default {
     creatorsData: {
       type: Object,
       default: {
-          meta: {}
+        meta: {},
       },
     },
     jovie: {
@@ -638,6 +665,22 @@ export default {
     imageLoadingError() {
       this.imageLoaded = false;
     },
+    copyToClipboard(value) {
+      const el = document.createElement('textarea');
+      el.value = value;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      this.$notify({
+        group: 'user',
+        type: 'success',
+        duration: 15000,
+        title: 'Successful',
+        text: 'Copied to clipboard',
+      });
+    },
   },
   data() {
     return {
@@ -659,9 +702,9 @@ export default {
         passwordConfirm: '',
         errors: [],
       },
-        creator: {
-          meta: {}
-        }
+      creator: {
+        meta: {},
+      },
     };
   },
 };

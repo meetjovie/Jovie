@@ -13,39 +13,94 @@
         class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
         :src="asset('img/External/HomeFeatureCRM.webp')" />
     </div> -->
+
     <div
-      class="flex flex-col items-center justify-center bg-white px-4 py-24 sm:mt-12 sm:pt-48 2xl:pt-48">
-      <!-- <h2
-          class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
-          The easiest way to
-        </h2> -->
+      class="flex flex-col items-center justify-center bg-gradient-to-b from-neutral-200 to-neutral-50 px-4 py-24 sm:pt-48 2xl:pt-48">
+      <div class="flex justify-between">
+        <!-- <div class="relative">
+          <div class="-mt-24 flex flex-col space-y-24">
+            <span
+              v-for="avatar in avatars"
+              :key="avatar.id"
+              class="relative inline-block odd:translate-x-24">
+              <img
+                class="aspect-square h-14 w-14 rounded-full"
+                :src="avatar.src"
+                alt="" />
 
-      <h1
-        class="text-xl font-extrabold tracking-tight text-gray-900 md:text-5xl xl:text-6xl">
-        Organize <span class="text-indigo-700">Everyone</span> You Follow.
-        <br />
-      </h1>
-      <h2 class="inline py-2 text-center text-lg font-bold text-neutral-600">
-        One space for the people that matter to
-        <span class="text-sky-600">you</span> &
-        <span class="text-pink-600">your team</span> <br />
-      </h2>
-      <ButtonGroup
-        @click="signup()"
-        :loading="loading"
-        :loader="loading"
-        class="mt-4 w-full sm:w-48"
-        text="Try Jovie free" />
-      <span class="mt-1 text-2xs text-gray-400">
-        <!--  <span class="font-bold">Fast & easy. </span> -->
-        No credit card required.
-      </span>
+              <span
+                :class="`ring-neutral-50`"
+                class="absolute bottom-0 right-0 block h-3.5 w-3.5 items-center rounded-full bg-white ring-2"
+                ><div class="mt-0.5 items-center">
+                  <SocialIcons
+                    cla
+                    :height="8"
+                    link="#"
+                    :icon="avatar.network"
+                    :color="black" /></div
+              ></span>
+            </span>
+          </div>
+        </div> -->
+        <div class="z-10 flex flex-col text-center">
+          <h1
+            class="text-xs font-semibold uppercase tracking-wide text-sky-500 text-transparent sm:text-2xl">
+            Meet Jovie
+          </h1>
 
-      <!-- <home-logo-cloud /> -->
-      <div class="mt-24 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
-        <img
-          class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
-          :src="asset('img/External/HomeFeatureCRM.webp')" />
+          <h2
+            class="text-xl font-extrabold tracking-normal text-neutral-800 sm:text-5xl lg:text-7xl xl:text-8xl">
+            THE <span class="uppercase">Social</span> CRM
+            <br />
+          </h2>
+          <h2
+            class="inline py-2 text-center text-xs font-bold text-neutral-500 sm:text-xl">
+            A
+            <span class="dexoration-2 font-bold underline decoration-pink-400"
+              >smarter</span
+            >
+            way to organize everyone you follow<br />
+          </h2>
+
+          <ButtonGroup
+            @click="signup()"
+            :loading="loading"
+            :loader="loading"
+            class="mx-auto mt-8 w-full sm:w-48"
+            text="Try Jovie free" />
+          <span class="mt-1 text-2xs text-gray-400">
+            <!--  <span class="font-bold">Fast & easy. </span> -->
+            No credit card required.
+          </span>
+
+          <!--  <home-logo-cloud /> -->
+          <div class="mt-24 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
+            <img
+              class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
+              :src="asset('img/External/HomeFeatureCRM.webp')" />
+          </div>
+        </div>
+        <!-- <div class="relative">
+          <div class="-mt-12 flex flex-col space-y-24">
+            <span
+              v-for="avatar in avatars"
+              :key="avatar.id"
+              class="relative inline-block odd:-translate-x-24">
+              <img class="h-14 w-14 rounded-full" :src="avatar.src" alt="" />
+              <span
+                :class="`ring-neutral-50`"
+                class="absolute bottom-0 right-0 block h-3.5 w-3.5 items-center rounded-full bg-white ring-2"
+                ><div class="mt-0.5 items-center">
+                  <SocialIcons
+                    cla
+                    :height="8"
+                    link="#"
+                    :icon="avatar.network"
+                    :color="black" /></div
+              ></span>
+            </span>
+          </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -53,13 +108,32 @@
 <script>
 import ButtonGroup from '../../components/ButtonGroup.vue';
 import HomeLogoCloud from './HomeLogoCloud.vue';
+import SocialIcons from '../../components/SocialIcons.vue';
 export default {
   components: {
     ButtonGroup,
     HomeLogoCloud,
+    SocialIcons,
   },
   data() {
     return {
+      avatars: [
+        {
+          id: 1,
+          src: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+          network: 'instagram',
+        },
+        {
+          id: 2,
+          src: 'https://i.pravatar.cc/150?u=a042581f4e290267035',
+          network: 'twitter',
+        },
+        {
+          id: 3,
+          src: 'https://i.pravatar.cc/150?u=a042581f4e29w267036',
+          network: 'twitch',
+        },
+      ],
       waitListEmail: '',
       error: null,
       loading: false,

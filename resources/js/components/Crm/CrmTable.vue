@@ -234,17 +234,16 @@
             </div>
           </div>
         </div>
-        <div class="inline-block h-full min-w-full align-middle">
+        <div class="inline-block h-full w-full overflow-x-auto align-middle">
           <div
-            class="flex h-full w-full flex-col justify-between shadow-sm ring-1 ring-black ring-opacity-5">
+            class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="w-full table-fixed divide-y divide-gray-200 overflow-x-scroll">
-              <thead
-                class="relative isolate z-20 w-full items-center overflow-x-scroll bg-neutral-100">
+              class="block w-full divide-y divide-y divide-gray-200 divide-gray-200 overflow-x-auto">
+              <thead class="relative isolate z-20 items-center bg-neutral-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-0 top-0 z-50 w-20 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -263,12 +262,12 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 z-50 w-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky top-0 isolate z-50 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -414,7 +413,12 @@
                       <CrmTableSortableHeader
                         icon="Bars3BottomLeftIcon"
                         :column="fullNameColumn"
-                        @sortData="sortData({sortBy: fullNameColumn.key, sortOrder: fullNameColumn.sortOrder})"
+                        @sortData="
+                          sortData({
+                            sortBy: fullNameColumn.key,
+                            sortOrder: fullNameColumn.sortOrder,
+                          })
+                        "
                         menu="false" />
                     </div>
                   </th>
@@ -424,20 +428,18 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      :class="column.width ? 'w-' + column.width : ''"
-                      class="sticky top-0 z-50 table-cell items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
                         @hide-column="column.visible = false"
-                        :column="column"
-                      />
+                        :column="column" />
                     </th>
                   </template>
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-50 table-cell content-end items-center border-x border-gray-300 border-x-neutral-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
+                    class="sticky top-0 isolate z-30 table-cell content-end items-center border-x border-gray-300 border-x-neutral-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
                 </tr>
               </thead>
               <tbody
@@ -471,7 +473,7 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="w-6 overflow-auto whitespace-nowrap py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -502,7 +504,7 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
-                      class="w-4 overflow-auto whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -533,43 +535,47 @@
                     </td>
                     <td
                       v-on:dblclick="cellActive"
-                      class="w-32 cursor-pointer whitespace-nowrap border pl-2 pr-0.5">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5">
                       <div class="flex items-center justify-between">
-                        <div class="mr-2 h-8 w-8 flex-shrink-0">
-                          <div class="rounded-full bg-neutral-400 p-0.5">
-                            <div class="rounded-full bg-white p-0">
-                              <img
-                                v-if="imageLoaded"
-                                class="rounded-full object-cover object-center"
-                                :src="creator.profile_pic_url"
-                                @error="imageLoadingError()"
-                                alt="Profile Image" />
-                              <!--WIP Fixing image loading errors-->
-                              <img
-                                v-else
-                                class="rounded-full object-cover object-center"
-                                :src="asset('img/noimage.webp')"
-                                alt="Profile Image" />
+                        <div class="flex w-full items-center">
+                          <div class="mr-2 h-8 w-8 flex-shrink-0">
+                            <div class="rounded-full bg-neutral-400 p-0.5">
+                              <div class="rounded-full bg-white p-0">
+                                <img
+                                  v-if="imageLoaded"
+                                  class="rounded-full object-cover object-center"
+                                  :src="creator.profile_pic_url"
+                                  @error="imageLoadingError()"
+                                  alt="Profile Image" />
+                                <!--WIP Fixing image loading errors-->
+                                <img
+                                  v-else
+                                  class="rounded-full object-cover object-center"
+                                  :src="asset('img/noimage.webp')"
+                                  alt="Profile Image" />
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div
-                          v-if="cellActive"
-                          class="text-sm text-gray-900 line-clamp-1">
-                          <input
-                            v-model="creator.meta.name"
-                            @blur="$emit('updateCrmMeta', creator)"
-                            autocomplete="off"
-                            type="creator-name"
-                            name="creator-name"
-                            id="creator-name"
-                            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
-                            placeholder="Name"
-                            aria-describedby="name-description" />
-                        </div>
-                        <div v-else class="text-sm text-gray-900 line-clamp-1">
-                          {{ creator.meta.name }}
+                          <div
+                            v-if="cellActive"
+                            class="text-sm text-gray-900 line-clamp-1">
+                            <input
+                              v-model="creator.meta.name"
+                              @blur="$emit('updateCrmMeta', creator)"
+                              autocomplete="off"
+                              type="creator-name"
+                              name="creator-name"
+                              id="creator-name"
+                              class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                              placeholder="Name"
+                              aria-describedby="name-description" />
+                          </div>
+                          <div
+                            v-else
+                            class="text-sm text-gray-900 line-clamp-1">
+                            {{ creator.meta.name }}
+                          </div>
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
@@ -745,7 +751,8 @@
                               :class="[
                                 {
                                   'bg-indigo-50 text-indigo-600':
-                                    creator.crm_record_by_user.stage_name === 'Lead',
+                                    creator.crm_record_by_user.stage_name ===
+                                    'Lead',
                                 },
                                 {
                                   'bg-sky-50 text-sky-600':
@@ -926,7 +933,7 @@
                                     <a
                                       @click="emailCreator(creator.emails[0])"
                                       href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900 disabled:text-neutral-800"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
@@ -1203,7 +1210,7 @@ export default {
           key: 'full_name',
           icon: 'Bars3BottomLeftIcon',
           sortable: true,
-          visible: true
+          visible: true,
         },
         {
           name: 'First',
@@ -1293,8 +1300,8 @@ export default {
           width: '24',
         },
       ],
-        currentSort: 'asc',
-        currentSortBy: ''
+      currentSort: 'asc',
+      currentSortBy: '',
     };
   },
   props: [
@@ -1382,55 +1389,55 @@ export default {
         }
       });
     },
-      fullNameColumn() {
-        return this.columns.find(column => column.key == 'full_name')
-      },
-      otherColumns() {
-        return this.columns.filter(column => column.key != 'full_name')
-      },
+    fullNameColumn() {
+      return this.columns.find((column) => column.key == 'full_name');
+    },
+    otherColumns() {
+      return this.columns.filter((column) => column.key != 'full_name');
+    },
   },
   // a beforeMount call to add a listener to the window
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      sortData({sortBy, sortOrder}) {
-          this.columns = this.columns.map(column => {
-              if (column.key == sortBy) {
-                  column.sortOrder = sortOrder == 'asc' ? 'desc' : 'asc'
-              } else {
-                  delete column.sortOrder
-              }
-              return column
-          })
-          if (sortBy.split('.')[1]) {
-              sortBy = sortBy.split('.')[1]
-          }
-          this.$emit('setOrder', {sortBy, sortOrder})
+    sortData({ sortBy, sortOrder }) {
+      this.columns = this.columns.map((column) => {
+        if (column.key == sortBy) {
+          column.sortOrder = sortOrder == 'asc' ? 'desc' : 'asc';
+        } else {
+          delete column.sortOrder;
+        }
+        return column;
+      });
+      if (sortBy.split('.')[1]) {
+        sortBy = sortBy.split('.')[1];
+      }
+      this.$emit('setOrder', { sortBy, sortOrder });
 
-          if (this.creatorRecords.length > 50) {
-              this.$emit('pageChanged', {page: this.creatorsMeta.current_page})
-          } else {
-              this.creatorRecords = this.creatorRecords.sort((a, b) => {
-                  let modifier = 1;
-                  if (sortOrder === 'desc') {
-                      modifier = -1
-                  }
-                  if (['first_name', 'last_name', 'full_name'].includes(sortBy)) {
-                      let sortByC = sortBy == 'full_name' ? 'name' : sortOrder
-                      return a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier
-                  } else {
-                      if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
-                          return -1 * modifier;
-                      }
-                      if (a.crm_record_by_user[sortBy] > b.crm_record_by_user[sortBy]) {
-                          return modifier;
-                      }
-                  }
-                  return 0;
-              });
+      if (this.creatorRecords.length > 50) {
+        this.$emit('pageChanged', { page: this.creatorsMeta.current_page });
+      } else {
+        this.creatorRecords = this.creatorRecords.sort((a, b) => {
+          let modifier = 1;
+          if (sortOrder === 'desc') {
+            modifier = -1;
           }
-      },
+          if (['first_name', 'last_name', 'full_name'].includes(sortBy)) {
+            let sortByC = sortBy == 'full_name' ? 'name' : sortOrder;
+            return a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier;
+          } else {
+            if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
+              return -1 * modifier;
+            }
+            if (a.crm_record_by_user[sortBy] > b.crm_record_by_user[sortBy]) {
+              return modifier;
+            }
+          }
+          return 0;
+        });
+      }
+    },
     handleScroll() {
       // when the user scrolls, check the pageYOffset
       if (window.pageYOffset > 0) {
@@ -1558,7 +1565,17 @@ export default {
     },
 
     toggleSearchVisible() {
-      this.searchVisible = !this.searchVisible;
+      //if search is not visible then make it visible and focus on the search input
+      if (!this.searchVisible) {
+        this.searchVisible = true;
+        this.$nextTick(() => {
+          this.$refs.searchInput.focus();
+        });
+      }
+      //else make it not visible
+      else {
+        this.searchVisible = false;
+      }
     },
     setCurrentRow(row) {
       this.currentRow = row;
@@ -1683,11 +1700,14 @@ export default {
     setCurrentContact(e, creator) {
       this.currentContact = creator;
       if (e.target.name == 'selectCreatorCheckbox') {
-          if (this.selectedCreators.includes(creator.id)) {
-              this.selectedCreators.splice(this.selectedCreators.indexOf(creator.id), 1)
-          } else {
-              this.selectedCreators.push(creator.id)
-          }
+        if (this.selectedCreators.includes(creator.id)) {
+          this.selectedCreators.splice(
+            this.selectedCreators.indexOf(creator.id),
+            1
+          );
+        } else {
+          this.selectedCreators.push(creator.id);
+        }
       }
       this.$emit('setCurrentContact', creator);
     },

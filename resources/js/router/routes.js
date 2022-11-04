@@ -380,13 +380,22 @@ export const routes = [
     },
   },
   {
-    name: 'Chrome Extension',
-    path: '/chrome-extension',
-    component: loadPage('ChromeExtension'),
+    name: 'Brand',
+    path: '/brand',
+    component: loadPage('MarketingAssets'),
     meta: {
       layout: 'Default',
       requiresAuth: false,
       requiresSubscribe: false,
+    },
+  },
+  {
+    name: 'Chrome Extension',
+    path: '/chrome-extension',
+
+    beforeEnter(to, from, next) {
+      window.location.href =
+        'https://chrome.google.com/webstore/detail/jovie/daeopelnocmnhbkjbjmhckgjgheioafj';
     },
   },
   {

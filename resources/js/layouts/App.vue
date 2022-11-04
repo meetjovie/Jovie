@@ -155,7 +155,10 @@
               <!-- The top tooltip -->
 
               <div
-                v-if="$store.state.showImportProgress || $store.state.importProgressSingleCount"
+                v-if="
+                  $store.state.showImportProgress ||
+                  $store.state.importProgressSingleCount
+                "
                 class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
                 <ArrowPathIcon
                   class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-neutral-600" />
@@ -495,7 +498,7 @@
       </div>
 
       <main
-        class="relative flex-1 overflow-y-auto focus-visible:outline-none"
+        class="relative flex-1 overflow-y-auto overflow-x-hidden focus-visible:outline-none"
         id="main">
         <div class="h-full">
           <div class="h-full">
@@ -641,14 +644,14 @@ export default {
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
-      this.listenEvents(
-          `notification.${this.currentUser.current_team.id}`,
-          'Notification',
-          (data) => {
-              this.newNotification = true
-          }
-      );
-      this.getNotifications()
+    this.listenEvents(
+      `notification.${this.currentUser.current_team.id}`,
+      'Notification',
+      (data) => {
+        this.newNotification = true;
+      }
+    );
+    this.getNotifications();
   },
 
   methods: {

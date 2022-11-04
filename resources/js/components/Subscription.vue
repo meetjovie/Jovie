@@ -159,16 +159,16 @@
           </div>
         </div>
       </template>
-      <div v-show="showPayment">
+      <div class="my-4" v-show="showPayment">
         <PaymentElement
-            ref="paymentElement"
-            :errors="errors"
+          ref="paymentElement"
+          :errors="errors"
           @setPaymentElement="setPaymentElement"
           :buttonText="showSubscriptionPlans ? 'Update' : 'Pay'"
           :processingPayment="processingPayment"
           @pay="pay" />
       </div>
-      <div class="flex h-80 justify-center" v-if="loadingProducts">
+      <div class="flex h-80 items-center justify-center" v-if="loadingProducts">
         <JovieSpinner />
       </div>
     </template>
@@ -233,9 +233,7 @@
             </dd>
           </div>
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">
-              Date Enrichment credits
-            </dt>
+            <dt class="text-sm font-medium text-gray-500">Contact credits</dt>
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <span class="flex-grow"
                 ><span class="text-neutral-600"
@@ -247,16 +245,7 @@
               >
             </dd>
           </div>
-          <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">
-              Data enrichment credits
-            </dt>
-            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <span class="flex-grow text-neutral-600"
-                >Not available on current plan</span
-              >
-            </dd>
-          </div>
+
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
             <dt class="text-sm font-medium text-gray-500">Seats</dt>
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
@@ -480,13 +469,13 @@ export default {
               response.subscription;
           } else {
             /*  alert(response.message); */
-              this.$notify({
-                  group: 'user',
-                  type: 'error',
-                  duration: 15000,
-                  title: 'Error',
-                  text: response.message,
-              });
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
           }
         })
         .finally(() => {
@@ -558,7 +547,10 @@ export default {
             this.processingPayment = false;
           } else {
             if (this.showSubscriptionPlans) {
-              this.changeSubscription(result.setupIntent.payment_method, coupon);
+              this.changeSubscription(
+                result.setupIntent.payment_method,
+                coupon
+              );
             } else {
               this.newSubscription(result.setupIntent.payment_method, coupon);
             }
@@ -569,7 +561,12 @@ export default {
       this.paymentElement = paymentElement;
     },
     newSubscription(paymentId, coupon) {
-      UserService.subscribe(paymentId, this.selectedPlan, this.selectedProduct, coupon)
+      UserService.subscribe(
+        paymentId,
+        this.selectedPlan,
+        this.selectedProduct,
+        coupon
+      )
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -592,7 +589,7 @@ export default {
               text: `${response.message} ${response.error}`,
               type: 'error',
             });
-            this.$refs.paymentElement.initPaymentIntent()
+            this.$refs.paymentElement.initPaymentIntent();
           }
         })
         .catch((error) => {
@@ -600,7 +597,7 @@ export default {
           if (error.status == 422) {
             this.errors = error.data.errors;
           }
-            this.$refs.paymentElement.initPaymentIntent()
+          this.$refs.paymentElement.initPaymentIntent();
         })
         .finally(() => {
           this.paymentElement.clear();
@@ -637,15 +634,15 @@ export default {
               text: `${response.message} ${response.error}`,
               type: 'error',
             });
-              this.$refs.paymentElement.initPaymentIntent()
+            this.$refs.paymentElement.initPaymentIntent();
           }
         })
         .catch((error) => {
           error = error.response;
           if (error.status == 422) {
-              this.errors = error.data.errors;
+            this.errors = error.data.errors;
           }
-            this.$refs.paymentElement.initPaymentIntent()
+          this.$refs.paymentElement.initPaymentIntent();
         })
         .finally(() => {
           this.paymentElement.clear();
