@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -35,9 +37,58 @@ class AuthController extends Controller
         ]);
     }
 
+    public function loginUser(Request $request)
+    {
+        $token = $request->header('authorization');
+        if (!empty($token)) {
+            $token = str_replace('Bearer ', '', $token);
+            $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
+            if ($user) {
+                Auth::guard()->login($user);
+                $request->session()->regenerate();
+                $token = $request->user()->createToken('jovie_extension');
+
+                return response()->json([
+                    'status' => true,
+                    'token' => $token->plainTextToken,
+                    'user' => User::currentLoggedInUser(),
+                ], 200);
+            }
+        }
+
+        return response()->json([
+            'status' => false,
+            'error' => 'Token missing',
+        ]);
+    }
+
+    public function loginUserExtension(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => false,
+                'error' => 'Your email or password is incorrect.',
+            ]);
+        }
+
+        $token = $user->createToken('jovie_extension');
+        return response()->json([
+            'status' => true,
+            'token' => $token->plainTextToken,
+            'user' => User::currentLoggedInUser($user->id),
+        ], 200);
+    }
+
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
+//        $request->user()->tokens()->delete();
         Auth::guard()->logout();
 
         $request->session()->invalidate();

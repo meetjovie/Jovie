@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
+Route::post('login-user', [\App\Http\Controllers\Auth\AuthController::class, 'loginUser']);
+Route::post('login-user-extension', [\App\Http\Controllers\Auth\AuthController::class, 'loginUserExtension'])->withoutMiddleware('state.csrf');
 Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
 Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
@@ -66,6 +68,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/toggle-creators-from-list', [\App\Http\Controllers\CrmController::class, 'toggleCreatorsFromList']);
     Route::post('/toggle-archive-creators', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreators']);
+
+    Route::post('/save-to-crm', [\App\Http\Controllers\CrmController::class, 'saveToCrm'])->withoutMiddleware('state.csrf');
 
     //      OVERVIEW
     Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);

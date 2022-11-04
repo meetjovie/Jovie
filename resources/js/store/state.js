@@ -12,4 +12,6 @@ export default {
     importProgressSingleCount: 0,
     tooltipsEnabled: false,
     crmEventsRegistered: false,
+    isExtension: false,
+    extensionQuery: null,
 };

@@ -1,4 +1,17 @@
 <template>
+  <Head>
+    <title>Jovie | The Social CRM</title>
+    <meta name="description" content="Jovie is a CRM that creates & enriches contacts from social media profiles." />
+     <!--- OpenGraph -->
+     <meta property="og:image:height" content="333">
+        <meta property="og:image:width" content="636">
+        <meta property="og:description" content="Organize everyone you follow">
+        <meta property="og:title" content="Jovie | Social CRM">
+        <meta property="og:url" content="http://jov.ie">
+        <meta property="og:image" content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg">
+        <!-- End OpenGraph -->
+       
+  </Head>
   <div>
     <header class="sticky top-0 z-20 bg-neutral-50">
       <nav>
@@ -257,6 +270,7 @@
 </template>
 
 <script>
+import { Head } from '@vueuse/head';
 import JovieLogo from '../components/JovieLogo.vue';
 import AlertBanner from '../components/AlertBanner.vue';
 import {
@@ -297,6 +311,7 @@ export default {
   components: {
     InboxIcon,
     AlertBanner,
+    Head,
     LightBulbIcon,
     PencilIcon,
     TrashIcon,
@@ -326,6 +341,7 @@ export default {
   },
   data() {
     return {
+      title: 'Jovie | The Social CRM',
       navigation: [
         { name: 'Pricing', href: '/pricing', current: false },
         { name: 'Get strarted free', href: '/signup', current: false },

@@ -29,6 +29,32 @@ export default {
       });
     });
   },
+  async loginUser() {
+    return new Promise((resolve, reject) => {
+      axios.get('/sanctum/csrf-cookie').then(() => {
+        axios
+          .post(`${baseApiUrl}/login-user`)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    });
+  },
+  async loginUserExtension(data) {
+    return new Promise((resolve, reject) => {
+        axios
+            .post(`${baseApiUrl}/login-user-extension`, data)
+            .then((response) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+  },
   async logout() {
     return new Promise((resolve, reject) => {
       axios

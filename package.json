@@ -50,6 +50,7 @@
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
     "@vuepic/vue-datepicker": "^3.4.7",
+    "@vueuse/head": "^0.9.8",
     "html2canvas": "^1.4.1",
     "install": "^0.13.0",
     "mix-env-file": "^0.1.1",
