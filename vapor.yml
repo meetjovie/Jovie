@@ -17,6 +17,8 @@ environments:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
       - 'npm i && npm run prod && rm -rf node_modules'
+    deploy:
+      - 'php artisan migrate --force'
     domain:
       - jov.ie
     network: Jovie
@@ -40,6 +42,8 @@ environments:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
       - 'npm i && npm run prod && rm -rf node_modules'
+    deploy:
+      - 'php artisan migrate'
   dev:
     queues:
       - dev_default
@@ -62,3 +66,5 @@ environments:
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
       - 'npm i && npm run prod && rm -rf node_modules'
+    deploy:
+      - 'php artisan migrate'
