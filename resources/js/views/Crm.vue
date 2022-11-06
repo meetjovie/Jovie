@@ -445,7 +445,7 @@ export default {
 
       query: '',
       filters: {
-        list: null,
+        list: '',
         type: 'all',
         page: 1,
           sort: '',

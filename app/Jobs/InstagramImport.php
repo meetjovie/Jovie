@@ -330,7 +330,7 @@ class InstagramImport implements ShouldQueue
         $meta['average_comments'] = $averageLikesAndComments['averageComments'];
         $meta['average_likes'] = $averageLikesAndComments['averageLikes'];
         $meta['external_url'] = $user->external_url;
-        $meta['profile_pic_url'] = $this->getProfilePicUrl($user->profile_pic_url_hd, $creator);
+        $meta['profile_pic_url'] = $this->getProfilePicUrl($user, $creator);
         $meta['average_video_views'] = $this->getAverageVideoView($user);
         $meta['has_blocked_viewer'] = $user->has_blocked_viewer;
         $meta['is_business_account'] = $user->is_business_account;
@@ -379,7 +379,7 @@ class InstagramImport implements ShouldQueue
         return $business ? 'BRAND' : 'CREATOR';
     }
 
-    public function getProfilePicUrl($file, $creator)
+    public function getProfilePicUrl($user, $creator)
     {
         try {
             $filename = explode(Creator::CREATORS_PROFILE_PATH, $creator->instagram_meta->profile_pic_url)[1];

@@ -194,7 +194,10 @@ export default {
       this.errors = [];
       var form = new FormData();
       form.append(this.network, this.socialMediaProfileUrl);
-      form.append('list', this.list);
+      const listId = this.list && this.list != 'null' ? this.list : ''
+        if (listId) {
+            form.append('list', listId);
+        }
       ImportService.import(form)
         .then((response) => {
           response = response.data;
