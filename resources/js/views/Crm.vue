@@ -194,7 +194,8 @@
           </div>
         </TransitionRoot>
 
-        <div class="h-full overflow-hidden w-full transition-all duration-200 ease-in-out">
+        <div
+          class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
             <div class="h-full w-full">
               <div class="flex h-full w-full flex-col">
@@ -412,51 +413,22 @@ export default {
       currentContact: [],
       innerWidth: window.innerWidth,
 
-      lists: [
-        {
-          name: 'Dancers with really really really really long names',
-          emoji: '💃',
-          id: 1,
-          count: 34,
-          index: 2,
-        },
-        {
-          name: 'Singers',
-          emoji: '🧑‍🎤 ',
-          id: 2,
-          count: 23,
-          index: 3,
-        },
-        {
-          name: 'Actors',
-          emoji: '🎭',
-          id: 3,
-          count: 54,
-          index: 1,
-        },
-        {
-          name: 'Musicians',
-          emoji: '🎸',
-          id: 4,
-          count: 34,
-          index: 0,
-        },
-      ],
+      lists: [],
 
       query: '',
       filters: {
         list: '',
         type: 'all',
         page: 1,
-          sort: '',
-          order: ''
+        sort: '',
+        order: '',
       },
       searchList: '',
       abortController: null,
       openEmojis: false,
       selectedList: null,
-        currentSortBy: 'id',
-        currentSortOrder: 'desc'
+      currentSortBy: 'id',
+      currentSortOrder: 'desc',
     };
   },
   watch: {
@@ -717,10 +689,10 @@ export default {
         this.filters.archived = 0;
       }
     },
-      setOrder({sortBy, sortOrder}) {
-        this.filters.sort = sortBy;
-        this.filters.order = sortOrder;
-      },
+    setOrder({ sortBy, sortOrder }) {
+      this.filters.sort = sortBy;
+      this.filters.order = sortOrder;
+    },
     getCrmCreators(filters = {}) {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.filters));
