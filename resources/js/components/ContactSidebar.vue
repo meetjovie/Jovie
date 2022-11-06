@@ -166,12 +166,9 @@
       <hr />
 
       <div class="px-4 py-2">
-        <ButtonGroup
-          v-if="!jovie"
-          :text="buttonText"
-          :success="creator.saved ?? false"
-          @click="saveToCrm()"
-          class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
+        <ButtonGroup v-if="!jovie" :text="buttonText" :loading="saving
+        :success="creator.saved ?? false" @click="saveToCrm()" class="w-full
+        rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
       </div>
       <div class="px-2">
         <h2 class="text-xs font-semibold text-neutral-400">Lists</h2>
