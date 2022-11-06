@@ -579,7 +579,7 @@
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto items-center rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
+                          class="mx-auto items-center w-3 rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
                           <ArrowsPointingOutIcon
                             class="hidden h-3 w-3 group-hover:block" />
                         </div>
