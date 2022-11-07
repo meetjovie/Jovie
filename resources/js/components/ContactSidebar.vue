@@ -579,13 +579,12 @@ export default {
         this.creator = this.creatorsData;
       } else {
         let queryParameters = store.state.extensionQuery;
-        let creator = JSON.parse(queryParameters.creator);
-        if (creator.meta == undefined) {
-          creator.meta = {};
-        }
-        let image = queryParameters.image;
+        let image = queryParameters.split('image=')[1];
+      const urlParameters = new URLSearchParams(queryParameters);
+      let creator = urlParameters.get('creator');
+          creator = JSON.parse(creator);
 
-        let promise = new Promise(async (resolve, reject) => {
+          let promise = new Promise(async (resolve, reject) => {
           if (image && creator.network == 'instagram') {
             await this.$store
               .dispatch('uploadTempFileFromUrl', image)
@@ -600,6 +599,9 @@ export default {
           }
         });
         promise.then((response) => {
+            if (creator.meta == undefined) {
+                creator.meta = {};
+            }
           for (const property in creator) {
             if (property == 'website') {
               creator[property] = decodeURIComponent(creator[property]);
