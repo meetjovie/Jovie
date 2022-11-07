@@ -464,7 +464,7 @@
                   <tr
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
-                    class="border-1 group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
+                    class="border-1 group group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
                         'bg-neutral-100 hover:bg-neutral-100':
@@ -473,6 +473,13 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
                       class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div class="group mx-auto w-6">
                         <span
@@ -504,6 +511,13 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
                       class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
@@ -534,6 +548,13 @@
                       </div>
                     </td>
                     <td
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
                       v-on:dblclick="cellActive"
                       class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5">
                       <div class="flex items-center justify-between">
@@ -579,9 +600,16 @@
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto w-6 items-center rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
-                          <ArrowsPointingOutIcon
-                            class="hidden h-3 w-3 group-hover:block" />
+                          class="mx-auto w-6 items-center rounded-full bg-neutral-200/0 py-0.5 text-center text-neutral-400 hover:bg-neutral-200 active:border">
+                          <ArrowSmallRightIcon
+                            v-if="
+                              !this.$store.state.ContactSidebarOpen &&
+                              currentContact.id == creator.id
+                            "
+                            class="mx-auto hidden h-3 w-3 group-hover:block" />
+                          <ArrowSmallLeftIcon
+                            v-else
+                            class="mx-auto hidden h-3 w-3 group-hover:block" />
                         </div>
                       </div>
                     </td>
@@ -1151,6 +1179,7 @@ import StarRating from 'vue-star-rating';
 import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
+  ArrowSmallLeftIcon,
   ChevronDownIcon,
   PlusIcon,
   ChatBubbleOvalLeftEllipsisIcon,
@@ -1175,7 +1204,7 @@ import {
   AdjustmentsHorizontalIcon,
   XMarkIcon,
   UserGroupIcon,
-  ArrowsPointingOutIcon,
+  ArrowSmallRightIcon,
   PhoneIcon,
   ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
@@ -1201,6 +1230,7 @@ export default {
     ButtonGroup,
     Menu,
     EnvelopeIcon,
+    ArrowSmallLeftIcon,
     Switch,
     Datepicker,
     MenuButton,
@@ -1240,7 +1270,7 @@ export default {
     SwitchLabel,
     ArrowUpCircleIcon,
     TransitionRoot,
-    ArrowsPointingOutIcon,
+    ArrowSmallRightIcon,
   },
   data() {
     return {
@@ -1252,7 +1282,7 @@ export default {
       currentRow: null,
       date: null,
       selectedCreators: [],
-      activeCreator: {},
+      /*  activeCreator: {}, */
       currentContact: [],
       editingSocialHandle: true,
       searchVisible: false,
@@ -1811,18 +1841,20 @@ export default {
     },
     toggleContactSidebar() {
       //toggle this.$store.state.ContactSidebarOpen
+
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },
-    setActiveCreator(creator) {
+    /* setActiveCreator(creator) {
       this.activeCreator = creator;
       //emit the active creator to the parent component
       this.$emit('activeCreator', creator);
       //log the id of the active creator in the console
       console.log('The active creator is ' + this.activeCreator);
-    },
+    }, */
     setCurrentContact(e, creator) {
       this.currentContact = creator;
+
       if (e.target.name == 'selectCreatorCheckbox') {
         if (this.selectedCreators.includes(creator.id)) {
           this.selectedCreators.splice(
@@ -1838,13 +1870,13 @@ export default {
     nextContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index < this.creatorRecords.length - 1) {
-        this.setCurrentContact(this.creatorRecords[index + 1]);
+        this.setCurrentContact(e, this.creatorRecords[index + 1]);
       }
     },
     previousContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index > 0) {
-        this.setCurrentContact(this.creatorRecords[index - 1]);
+        this.setCurrentContact(e, this.creatorRecords[index - 1]);
       }
     },
     refresh(creator) {

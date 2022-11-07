@@ -39,16 +39,16 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <div
-              class="group inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200/50 active:shadow-xl">
-              <div class="group mx-auto w-4 flex-none cursor-grab items-center">
+              class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200/50 active:shadow-xl">
+              <div class="mx-auto w-4 flex-none cursor-grab items-center">
                 <Bars3Icon
-                  class="h-4 w-4 text-gray-500/0 hover:text-neutral-900 active:text-neutral-900 group-hover:text-gray-500"></Bars3Icon>
+                  class="group/list-hover:text-neutral-900 h-4 w-4 text-gray-500/10 active:text-neutral-900"></Bars3Icon>
               </div>
 
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="group-/50 w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-600 hover:shadow-xl active:bg-neutral-800">
+                  class="mr-1 w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-600 hover:shadow-xl active:bg-neutral-800">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
@@ -62,7 +62,7 @@
                         ? 'font-bold text-neutral-600 '
                         : 'font-medium text-neutral-500',
                     ]"
-                    class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-600"
+                    class="group/list-hover:text-neutral-600 cursor-pointer text-xs line-clamp-1"
                     >{{ element.name }}</span
                   >
                   <input
@@ -71,17 +71,17 @@
                     @keyup.esc="disableEditName(element)"
                     @keyup.enter="updateList(element)"
                     v-else
-                    class="text-xs font-medium text-neutral-500 group-hover:text-neutral-600" />
+                    class="group/list-hover:text-neutral-600 text-xs font-medium text-neutral-500" />
                 </div>
               </div>
               <div
                 class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                 <ArrowPathIcon
                   v-if="element.updating_list"
-                  class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover:hidden group-hover:text-neutral-600" />
+                  class="group/list-hover:hidden group/list-hover:text-neutral-600 mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
                 <span
                   v-else
-                  class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-600"
+                  class="group/list-hover:hidden group/list-hover:text-neutral-600 items-center text-xs font-semibold text-neutral-400"
                   >{{ element.creators_count }}</span
                 >
 
@@ -90,9 +90,9 @@
                   class="relative inline-block items-center text-center">
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
-                      class="hidden h-4 w-6 items-center text-gray-400 active:text-gray-500 group-hover:block">
+                      class="group/list-hover:block hidden h-4 w-6 items-center text-gray-400 active:text-gray-500">
                       <EllipsisVerticalIcon
-                        class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
+                        class="group/list-hover:block mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500"></EllipsisVerticalIcon>
                     </MenuButton>
 
                     <transition

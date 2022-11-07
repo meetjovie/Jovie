@@ -409,7 +409,7 @@ export default {
       loading: false,
 
       creatorsMeta: {},
-      activeCreator: [],
+      /*  activeCreator: [], */
       currentContact: [],
       innerWidth: window.innerWidth,
 
@@ -610,8 +610,22 @@ export default {
       this.openEmojis = false;
     },
     openSidebarContact(contact) {
-      this.currentContact = contact;
-      this.$store.state.ContactSidebarOpen = true;
+      //if the sidebar is not open, open it and set the current contact
+      if (!this.$store.state.ContactSidebarOpen) {
+        this.$store.state.ContactSidebarOpen = true;
+        this.currentContact = contact;
+      } else {
+        //if the sidebar is open and the current contact is the same as the one clicked, close the sidebar
+        if (this.currentContact.id == contact.id) {
+          this.$store.state.ContactSidebarOpen = false;
+          this.currentContact = null;
+        } else {
+          //if the sidebar is open and the current contact is not the same as the one clicked, set the current contact to the one clicked
+          this.currentContact = contact;
+        }
+      }
+      /*  this.currentContact = contact;
+      this.$store.state.ContactSidebarOpen = true; */
     },
 
     setCurrentContact(contact) {
