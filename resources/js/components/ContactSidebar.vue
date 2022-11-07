@@ -210,7 +210,7 @@
                       ]">
                       <EnvelopeIcon
                         :active="active"
-                        class="mr-2 h-4 w-4 text-neutral-400"
+                        class="mr-2 h-4 w-4 text-indigo-400"
                         aria-hidden="true" />
                       Email
                     </button>
@@ -227,11 +227,11 @@
                         active
                           ? 'bg-neutral-100 text-neutral-900'
                           : 'text-gray-700',
-                        'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                        'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleLeftEllipsisIcon
                         :active="active"
-                        class="mr-2 h-4 w-4 text-neutral-400"
+                        class="mr-2 h-4 w-4 text-blue-400"
                         aria-hidden="true" />
                       Send SMS
                     </button>
@@ -249,11 +249,11 @@
                         active
                           ? 'bg-neutral-100 text-neutral-900'
                           : 'text-gray-700',
-                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
                         :active="active"
-                        class="mr-2 h-4 w-4 text-neutral-400"
+                        class="mr-2 h-4 w-4 text-green-400"
                         aria-hidden="true" />
                       Send WhatsApp
                     </button>

@@ -86,7 +86,7 @@
                 </JovieTooltip>
               </div>
               <!--  <div
-                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30"
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
@@ -225,7 +225,7 @@
               <!-- <div v-if="currentContact">
                 <button
                   v-if="!$store.state.ContactSidebarOpen"
-                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
                   <ChevronRightIcon
                     @click="openSidebarAndSetContact()"
                     class="h-5 w-5 font-bold text-gray-400 transition-all group-hover:text-neutral-600" />
@@ -274,7 +274,7 @@
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
-                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
                               class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
@@ -304,7 +304,7 @@
                                     active
                                       ? 'bg-neutral-100 text-neutral-900'
                                       : 'text-gray-700',
-                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <TrashIcon class="mr-2 inline h-4 w-4" />
                                   Remove from list
@@ -326,7 +326,7 @@
                                     active
                                       ? 'bg-neutral-100 text-neutral-900'
                                       : 'text-gray-700',
-                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <ArchiveBoxIcon
                                     :active="active"
@@ -346,7 +346,7 @@
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
-                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
                             <span class="line-clamp-1">Add to list </span>
                             <ChevronDownIcon
                               class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
@@ -376,7 +376,7 @@
                                     active
                                       ? 'bg-neutral-100 text-neutral-900'
                                       : 'text-gray-700',
-                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <span class="px-1">{{
                                     list.emoji ? list.emoji : '📄'
@@ -390,7 +390,7 @@
                                     active
                                       ? 'bg-neutral-100 text-neutral-900'
                                       : 'text-gray-700',
-                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <div
                                     class="mx-auto flex content-center items-center text-center">
@@ -944,10 +944,10 @@
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <EnvelopeIcon
-                                        class="mr-2 inline h-4 w-4" />
+                                        class="mr-2 inline h-4 w-4 text-indigo-400" />
                                       Email
                                     </button>
                                   </MenuItem>
@@ -965,9 +965,10 @@
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
-                                      <PhoneIcon class="mr-2 inline h-4 w-4" />
+                                      <PhoneIcon
+                                        class="mr-2 inline h-4 w-4 text-pink-400" />
                                       Call
                                     </button>
                                   </MenuItem>
@@ -984,10 +985,10 @@
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ChatBubbleLeftEllipsisIcon
-                                        class="mr-2 inline h-4 w-4" />
+                                        class="mr-2 inline h-4 w-4 text-blue-400" />
                                       Send SMS
                                     </button>
                                   </MenuItem>
@@ -1006,10 +1007,10 @@
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ChatBubbleOvalLeftEllipsisIcon
-                                        class="mr-2 inline h-4 w-4" />
+                                        class="mr-2 inline h-4 w-4 text-green-400" />
                                       Whatsapp
                                     </button>
                                   </MenuItem>
@@ -1023,10 +1024,10 @@
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <CloudArrowDownIcon
-                                        class="mr-2 inline h-4 w-4" />
+                                        class="mr-2 inline h-4 w-4 text-violet-400" />
                                       Download VCard
                                     </button>
                                   </MenuItem>
@@ -1047,9 +1048,10 @@
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
-                                      <TrashIcon class="mr-2 inline h-4 w-4" />
+                                      <TrashIcon
+                                        class="mr-2 inline h-4 w-4 text-red-400" />
                                       Remove from list</a
                                     >
                                   </MenuItem>
@@ -1068,10 +1070,10 @@
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ArchiveBoxIcon
-                                        class="mr-2 inline h-4 w-4" />
+                                        class="mr-2 inline h-4 w-4 text-sky-400" />
                                       {{
                                         filters.type == 'archived' &&
                                         creator.crm_record_by_user.archived
@@ -1093,7 +1095,7 @@
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ArrowPathIcon
                                         class="mr-2 inline h-4 w-4" />
