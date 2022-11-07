@@ -674,7 +674,7 @@
                         :href="creator[`${network}_handler`]"
                         target="_blank"
                         class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
-                        <div class="mx-auto flex-col items-center">
+                        <div class=".clear-both mx-auto flex-col items-center">
                           <div
                             v-if="creator[`${network}_handler`]"
                             class="mx-auto items-center">
