@@ -191,42 +191,72 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
-                  <MenuItem class="items-center">
-                    <a
-                      :disabled="!creator.emails[0] || !creator.meta.emails"
+                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
+                  <MenuItem
+                    :disabled="
+                      creator.emails.length < 1 &&
+                      creator.meta.emails.length < 1
+                    "
+                    v-slot="{ active }">
+                    <button
                       @click="
-                        emailCreator(creator.emails[0] || creator.meta.emails)
+                        emailCreator(creator.emails || creator.meta.emails)
                       "
-                      href="#"
-                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
-                      <EnvelopeIcon class="mr-2 inline h-4 w-4" />
-                      Email</a
-                    >
-                  </MenuItem>
-                  <MenuItem class="items-center">
-                    <a
-                      :disabled="!creator.meta.phone || !creator.meta.phone"
-                      @click="textCreator(creator.meta.phone || creator.phone)"
-                      href="#"
-                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
-                      <ChatBubbleLeftEllipsisIcon class="mr-2 inline h-4 w-4" />
-                      Send SMS</a
-                    >
+                      :class="[
+                        active
+                          ? 'bg-neutral-100 text-neutral-900'
+                          : 'text-gray-700',
+                        'group flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                      ]">
+                      <EnvelopeIcon
+                        :active="active"
+                        class="mr-2 h-4 w-4 text-neutral-400"
+                        aria-hidden="true" />
+                      Email
+                    </button>
                   </MenuItem>
 
-                  <MenuItem class="items-center">
-                    <a
-                      :disabled="!creator.meta.phone || !creator.meta.phone"
+                  <MenuItem
+                    :disabled="
+                      creator.phone.length < 1 && creator.meta.phone.length < 1
+                    "
+                    v-slot="{ active }">
+                    <button
+                      @click="textCreator(creator.phone || creator.meta.phone)"
+                      :class="[
+                        active
+                          ? 'bg-neutral-100 text-neutral-900'
+                          : 'text-gray-700',
+                        'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                      ]">
+                      <ChatBubbleLeftEllipsisIcon
+                        :active="active"
+                        class="mr-2 h-4 w-4 text-neutral-400"
+                        aria-hidden="true" />
+                      Send SMS
+                    </button>
+                  </MenuItem>
+                  <MenuItem
+                    :disabled="
+                      creator.phone.length < 1 && creator.meta.phone.length < 1
+                    "
+                    v-slot="{ active }">
+                    <button
                       @click="
-                        whatsappCreator(creator.meta.phone || creator.phone)
+                        whatsappCreator(creator.phone || creator.meta.phone)
                       "
-                      href="#"
-                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
+                      :class="[
+                        active
+                          ? 'bg-neutral-100 text-neutral-900'
+                          : 'text-gray-700',
+                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                      ]">
                       <ChatBubbleOvalLeftEllipsisIcon
-                        class="mr-2 inline h-4 w-4" />
-                      Whatsapp Message</a
-                    >
+                        :active="active"
+                        class="mr-2 h-4 w-4 text-neutral-400"
+                        aria-hidden="true" />
+                      Send WhatsApp
+                    </button>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -670,7 +700,7 @@ export default {
       console.log('email');
       //go to the url mailto:creator.emails[0]
       //if email is not null
-      if (email) {
+      if (email.length > 0) {
         window.open('mailto:' + email);
         //else log no email found
       } else {
@@ -799,9 +829,9 @@ export default {
             this.errors = error.data.errors;
             this.$notify({
               group: 'user',
-              type: 'success',
+              type: 'error',
               duration: 15000,
-              title: 'Successful',
+              title: 'Error',
               text: Object.values(error.data.errors)[0][0],
             });
           }

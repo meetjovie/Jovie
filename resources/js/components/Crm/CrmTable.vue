@@ -1529,6 +1529,7 @@ export default {
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
         this.currentContact = this.creatorRecords[0];
+        console.log(this.currentContact);
         this.$store.state.ContactSidebarOpen = true;
       }
       //esle just open the sidebar
