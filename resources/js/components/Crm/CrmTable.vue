@@ -956,8 +956,7 @@
                                 <div class="py-1">
                                   <MenuItem
                                     :disabled="
-                                      creator.emails &&
-                                      creator.meta.emails
+                                      !creator.emails && !creator.meta.emails
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
@@ -982,13 +981,16 @@
 
                                   <MenuItem
                                     :disabled="
-                                      creator.meta.phone &&
-                                      creator.meta.phone
+                                      !creator.meta.phone && !creator.phone
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
                                     <button
-                                      @click="callCreator(creator.meta.phone)"
+                                      @click="
+                                        callCreator(
+                                          creator.meta.phone || creator.phone
+                                        )
+                                      "
                                       :class="[
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
@@ -1002,13 +1004,16 @@
                                   </MenuItem>
                                   <MenuItem
                                     :disabled="
-                                      !creator.meta.phone &&
-                                      !creator.meta.phone
+                                      !creator.meta.phone && !creator.phone
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
                                     <button
-                                      @click="textCreator(creator.meta.phone)"
+                                      @click="
+                                        textCreator(
+                                          creator.meta.phone || creator.phone
+                                        )
+                                      "
                                       :class="[
                                         active
                                           ? 'bg-neutral-100 text-neutral-900'
@@ -1028,7 +1033,9 @@
                                     class="items-center">
                                     <button
                                       @click="
-                                        whatsAppCreator(creator.meta.phone)
+                                        whatsAppCreator(
+                                          creator.meta.phone || creator.phone
+                                        )
                                       "
                                       :class="[
                                         active
