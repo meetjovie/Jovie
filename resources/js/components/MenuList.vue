@@ -4,19 +4,19 @@
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-500 hover:bg-neutral-100 hover:text-neutral-600">
+        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-500 hover:bg-neutral-200 hover:text-neutral-600">
         <ChevronDownIcon
           v-if="showMenu"
-          class="mt-0.5 mr-1 h-4 w-4 text-gray-500 group-hover:text-neutral-600" />
+          class="mt-0.5 mr-1 h-4 w-4 text-neutral-500 group-hover:text-neutral-600" />
         <ChevronRightIcon
           v-else
-          class="text-thin mr-1 h-4 w-4 text-xs text-gray-500 group-hover:text-neutral-600" />
+          class="text-thin mr-1 h-4 w-4 text-xs text-neutral-500 group-hover:text-neutral-600" />
         {{ menuName }}
       </div>
       <div class="flex items-center">
         <div
           v-if="draggable"
-          class="group mx-auto rounded-md p-1 text-gray-400 transition-all hover:bg-gray-300 hover:text-gray-50">
+          class="group mx-auto rounded-md p-1 text-neutral-400 transition-all hover:bg-neutral-300 hover:text-neutral-50">
           <PlusIcon
             v-if="!creatingList"
             @click="createList()"
@@ -39,16 +39,17 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <div
-              class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-100 active:shadow-xl">
-              <div class="mx-auto w-4 flex-none cursor-grab items-center">
+              class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200 active:shadow-xl">
+              <div
+                class="group/move mx-auto w-4 flex-none cursor-grab items-center">
                 <Bars3Icon
-                  class="h-4 w-4 text-gray-500/0 active:text-neutral-900 group-hover/list:text-neutral-900"></Bars3Icon>
+                  class="h-3 w-3 text-neutral-500/0 active:text-neutral-900 group-hover/list:text-neutral-900"></Bars3Icon>
               </div>
 
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="mr-1 w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-600 hover:shadow-xl active:bg-neutral-800 group-hover/list:bg-neutral-100">
+                  class="mr-1 w-6 cursor-pointer items-center rounded-md px-1 py-1 text-center text-xs transition-all hover:bg-neutral-600 active:bg-neutral-800 group-hover/list:bg-neutral-200">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
@@ -75,13 +76,13 @@
                 </div>
               </div>
               <div
-                class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-neutral-300 hover:text-neutral-50">
                 <ArrowPathIcon
                   v-if="element.updating_list"
                   class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-neutral-600" />
                 <span
                   v-else
-                  class="items-center text-right text-xs font-semibold text-neutral-400 group-hover/list:hidden group-hover/list:text-neutral-600"
+                  class="text-xs font-semibold text-neutral-500 group-hover/list:hidden group-hover/list:text-neutral-600"
                   >{{ element.creators_count }}</span
                 >
 
@@ -90,9 +91,9 @@
                   class="relative inline-block items-center text-center">
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
-                      class="hidden h-4 w-6 items-center text-gray-400 active:text-gray-500 group-hover/list:block">
+                      class="hidden h-4 w-6 items-center text-neutral-400 active:text-neutral-500 group-hover/list:block">
                       <EllipsisVerticalIcon
-                        class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover/list:block"></EllipsisVerticalIcon>
+                        class="mt-1 hidden h-4 w-4 text-neutral-400 active:text-neutral-500 group-hover/list:block"></EllipsisVerticalIcon>
                     </MenuButton>
 
                     <transition
@@ -103,15 +104,15 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-neutral-100 rounded-md border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="px-1 py-1">
                           <MenuItem v-slot="{ active }">
                             <button
                               @click="editList(element)"
                               :class="[
                                 active
-                                  ? 'bg-neutral-100 text-gray-700'
-                                  : 'text-gray-900',
+                                  ? 'bg-neutral-200 text-neutral-700'
+                                  : 'text-neutral-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
                               <PencilSquareIcon
@@ -126,13 +127,13 @@
                               @click="duplicateList(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-neutral-100 text-gray-700'
-                                  : 'text-gray-900',
+                                  ? 'bg-neutral-200 text-neutral-700'
+                                  : 'text-neutral-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
                               <DocumentDuplicateIcon
                                 :active="active"
-                                class="mr-2 h-3 w-3 text-teal-400 hover:text-gray-700"
+                                class="mr-2 h-3 w-3 text-teal-400 hover:text-neutral-700"
                                 aria-hidden="true" />
                               Duplicate
                             </button>
@@ -142,13 +143,13 @@
                               @click="pinList(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-neutral-100 text-gray-700'
-                                  : 'text-gray-900',
+                                  ? 'bg-neutral-200 text-neutral-700'
+                                  : 'text-neutral-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
                               <PinIcon
                                 :active="active"
-                                class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
+                                class="mr-2 h-3 w-3 text-indigo-400 hover:text-neutral-700"
                                 aria-hidden="true" />
                               Pin List
                             </button>
@@ -161,13 +162,13 @@
                               @click="confirmListDeletion(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-neutral-100 text-gray-900'
-                                  : 'text-gray-900',
+                                  ? 'bg-neutral-200 text-neutral-900'
+                                  : 'text-neutral-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
                               <TrashIcon
                                 :active="active"
-                                class="mr-2 h-3 w-3 text-gray-400 hover:text-white"
+                                class="mr-2 h-3 w-3 text-neutral-400 hover:text-white"
                                 aria-hidden="true" />
                               Delete List
                             </button>
@@ -189,18 +190,18 @@
     <ul v-if="showMenu && !draggable" class="">
       <div v-for="item in menuItems" :key="item.id">
         <div
-          class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-100">
+          class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200">
           <div class="group w-4 flex-none cursor-pointer items-center">
             <PinnedIcon
               :active="active"
-              class="h-4 w-4 text-indigo-400 hover:bg-neutral-200 hover:text-gray-500 active:text-indigo-500"
+              class="h-4 w-4 text-indigo-400 hover:bg-neutral-200 hover:text-neutral-500 active:text-indigo-500"
               aria-hidden="true" />
           </div>
 
           <div class="flex w-full items-center">
             <div
               @click="openEmojiPicker(item)"
-              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-500 hover:shadow-xl group-hover:bg-neutral-100">
+              class="w-6 cursor-pointer items-center rounded-md bg-neutral-50 px-1 text-center text-xs transition-all hover:bg-neutral-500 hover:shadow-xl group-hover:bg-neutral-200">
               {{ item.emoji ?? '📄' }}
             </div>
             <div
@@ -229,9 +230,9 @@
           </div>
 
           <div
-            class="group mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+            class="group mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-neutral-300 hover:text-neutral-50">
             <span
-              class="items-center text-xs font-semibold text-neutral-400 group-hover:hidden group-hover:text-neutral-500"
+              class="text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
               >{{ item.creators_count }}</span
             >
 
@@ -239,9 +240,9 @@
               <Float portal :offset="12" placement="right-start">
                 <div>
                   <MenuButton
-                    class="hidden h-4 w-4 text-gray-400 group-hover:block">
+                    class="hidden h-4 w-4 p-1 text-neutral-400 group-hover:block">
                     <EllipsisVerticalIcon
-                      class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover:block"></EllipsisVerticalIcon>
+                      class="mt-1 hidden h-4 w-4 text-neutral-400 active:text-neutral-500 group-hover:block"></EllipsisVerticalIcon>
                   </MenuButton>
                 </div>
 
@@ -253,15 +254,15 @@
                   leave-from-class="transform scale-100 opacity-100"
                   leave-to-class="transform scale-95 opacity-0">
                   <MenuItems
-                    class="z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    class="z-40 mt-2 w-28 origin-top-right divide-y divide-neutral-100 rounded-md border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="px-1 py-1">
                       <MenuItem v-slot="{ active }">
                         <button
                           @click="editList(item.id)"
                           :class="[
                             active
-                              ? 'bg-neutral-100 text-gray-700'
-                              : 'text-gray-900',
+                              ? 'bg-neutral-200 text-neutral-700'
+                              : 'text-neutral-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
                           <PencilSquareIcon
@@ -276,8 +277,8 @@
                           @click="duplicateList(item.id)"
                           :class="[
                             active
-                              ? 'bg-neutral-100 text-gray-700'
-                              : 'text-gray-900',
+                              ? 'bg-neutral-200 text-neutral-700'
+                              : 'text-neutral-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
                           <DocumentDuplicateIcon
@@ -292,8 +293,8 @@
                           @click="unpinList(item.id)"
                           :class="[
                             active
-                              ? 'bg-neutral-100 text-gray-700'
-                              : 'text-gray-900',
+                              ? 'bg-neutral-200 text-neutral-700'
+                              : 'text-neutral-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
                           <PinnedIcon
@@ -311,13 +312,13 @@
                           @click="confirmListDeletion(item.id)"
                           :class="[
                             active
-                              ? 'bg-neutral-100 text-gray-700'
-                              : 'text-gray-900',
+                              ? 'bg-neutral-200 text-neutral-700'
+                              : 'text-neutral-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
                           <TrashIcon
                             :active="active"
-                            class="mr-2 h-4 w-4 text-gray-400"
+                            class="mr-2 h-4 w-4 text-neutral-400"
                             aria-hidden="true" />
                           Delete List
                         </button>
