@@ -956,8 +956,8 @@
                                 <div class="py-1">
                                   <MenuItem
                                     :disabled="
-                                      creator.emails.length < 1 &&
-                                      creator.meta.emails.length < 1
+                                      creator.emails &&
+                                      creator.meta.emails
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
@@ -982,8 +982,8 @@
 
                                   <MenuItem
                                     :disabled="
-                                      creator.meta.phone.length < 1 &&
-                                      creator.meta.phone.length < 1
+                                      creator.meta.phone &&
+                                      creator.meta.phone
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
@@ -1002,8 +1002,8 @@
                                   </MenuItem>
                                   <MenuItem
                                     :disabled="
-                                      creator.meta.phone.length < 1 &&
-                                      creator.meta.phone.length < 1
+                                      !creator.meta.phone &&
+                                      !creator.meta.phone
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
@@ -1022,8 +1022,7 @@
                                   </MenuItem>
                                   <MenuItem
                                     :disabled="
-                                      creator.meta.phone.length < 1 &&
-                                      creator.phone.length < 1
+                                      !creator.meta.phone && !creator.phone
                                     "
                                     v-slot="{ active }"
                                     class="items-center">

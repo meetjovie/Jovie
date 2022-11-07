@@ -193,10 +193,7 @@
                 <MenuItems
                   class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                   <MenuItem
-                    :disabled="
-                      creator.emails.length < 1 &&
-                      creator.meta.emails.length < 1
-                    "
+                    :disabled="!creator.emails && !creator.meta.emails"
                     v-slot="{ active }">
                     <button
                       @click="
@@ -217,9 +214,7 @@
                   </MenuItem>
 
                   <MenuItem
-                    :disabled="
-                      creator.phone.length < 1 && creator.meta.phone.length < 1
-                    "
+                    :disabled="!creator.phone && !creator.meta.phone"
                     v-slot="{ active }">
                     <button
                       @click="textCreator(creator.phone || creator.meta.phone)"
@@ -237,9 +232,7 @@
                     </button>
                   </MenuItem>
                   <MenuItem
-                    :disabled="
-                      creator.phone.length < 1 && creator.meta.phone.length < 1
-                    "
+                    :disabled="!creator.phone && !creator.meta.phone"
                     v-slot="{ active }">
                     <button
                       @click="
