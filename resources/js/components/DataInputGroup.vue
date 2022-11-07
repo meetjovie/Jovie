@@ -10,9 +10,12 @@
         <div
           v-if="socialicon"
           class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <div class="h-5 w-5 text-neutral-400">
-            <SocialIcons height="15px" :icon="socialicon" />
-          </div>
+          <SocialIcons
+            class="text-neutral-400"
+            link="#"
+            width="16px"
+            height="16px"
+            :icon="socialicon" />
         </div>
         <input
           :autocomplete="autocomplete"
@@ -37,7 +40,7 @@
             { 'rounded-bl-md': rounded == 'bottom-left' },
             { 'rounded-br-md': rounded == 'bottom-right' },
             { 'py-0 text-xs': size == 'md' },
-            { 'pl-3': socialicon },
+            { 'pl-10': socialicon },
           ]"
           :placeholder="label" />
         <div class="absolute inset-y-0 right-0 flex items-center pr-3">

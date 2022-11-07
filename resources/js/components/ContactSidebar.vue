@@ -173,7 +173,7 @@
           :success="creator.saved ?? false"
           @click="saveToCrm()"
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
-        <div class="flex w-full gap-1">
+        <div class="flex w-full gap-1" v-else>
           <Menu>
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
@@ -342,7 +342,7 @@
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           socialicon="youtube"
-          v-model="creator.meta.tiktok_handler"
+          v-model="creator.meta.youtube_handler"
           id="youtube_handler"
           label="Youtube"
           isCopyable
