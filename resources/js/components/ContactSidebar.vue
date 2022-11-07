@@ -198,9 +198,7 @@
                     class="items-center">
                     <a
                       @click="
-                        emailCreator(
-                          creator.emails[0] || creator.meta.emails[0]
-                        )
+                        emailCreator(creator.emails[0] || creator.meta.emails)
                       "
                       href="#"
                       class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
@@ -685,6 +683,7 @@ export default {
   },
   methods: {
     emailCreator(email) {
+      console.log('email');
       //go to the url mailto:creator.emails[0]
       //if email is not null
       if (email) {
