@@ -82,7 +82,7 @@
                   class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-neutral-600" />
                 <span
                   v-else
-                  class="text-xs font-semibold text-neutral-500 group-hover/list:hidden group-hover/list:text-neutral-600"
+                  class="text-right text-xs font-semibold text-neutral-500 group-hover/list:hidden group-hover/list:text-neutral-600"
                   >{{ element.creators_count }}</span
                 >
 
@@ -232,7 +232,7 @@
           <div
             class="group mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-neutral-300 hover:text-neutral-50">
             <span
-              class="text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
+              class="p-1 text-right text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
               >{{ item.creators_count }}</span
             >
 
@@ -240,7 +240,7 @@
               <Float portal :offset="12" placement="right-start">
                 <div>
                   <MenuButton
-                    class="hidden h-4 w-4 p-1 text-neutral-400 group-hover:block">
+                    class="hidden h-4 w-4 text-neutral-400 group-hover:block">
                     <EllipsisVerticalIcon
                       class="mt-1 hidden h-4 w-4 text-neutral-400 active:text-neutral-500 group-hover:block"></EllipsisVerticalIcon>
                   </MenuButton>

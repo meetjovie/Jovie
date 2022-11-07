@@ -193,7 +193,7 @@
                 <MenuItems
                   class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                   <MenuItem
-                    :disabled="!creator.emails && !creator.meta.emails"
+                    :disabled="!creator.emails[0] && !creator.meta.emails"
                     v-slot="{ active }">
                     <button
                       @click="
