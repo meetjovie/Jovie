@@ -674,7 +674,7 @@
                         :href="creator[`${network}_handler`]"
                         target="_blank"
                         class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
-                        <div class="mx-auto flex-col items-center">
+                        <div class=".clear-both mx-auto flex-col items-center">
                           <div
                             v-if="creator[`${network}_handler`]"
                             class="mx-auto items-center">
@@ -927,17 +927,24 @@
                                 class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
-                                    :disabled="!creator.emails[0]"
+                                    :disabled="
+                                      !creator.emails[0] || !creator.meta.emails
+                                    "
                                     v-slot="{ active }"
                                     class="items-center">
                                     <a
-                                      @click="emailCreator(creator.emails[0])"
+                                      @click="
+                                        emailCreator(
+                                          creator.emails[0] ||
+                                            creator.meta.emails[0]
+                                        )
+                                      "
                                       href="#"
                                       class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <EnvelopeIcon
@@ -947,23 +954,61 @@
                                   </MenuItem>
 
                                   <MenuItem
-                                    :disabled="!creator.phone_numbers[0]"
+                                    :disabled="!creator.meta.phone"
+                                    v-slot="{ active }"
+                                    class="items-center">
+                                    <a
+                                      @click="callCreator(creator.meta.phone)"
+                                      href="#"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-800',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                      <PhoneIcon class="mr-2 inline h-4 w-4" />
+                                      Call</a
+                                    >
+                                  </MenuItem>
+                                  <MenuItem
+                                    :disabled="!creator.meta.phone"
+                                    v-slot="{ active }"
+                                    class="items-center">
+                                    <a
+                                      @click="textCreator(creator.meta.phone)"
+                                      href="#"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-800',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                      <ChatBubbleLeftEllipsisIcon
+                                        class="mr-2 inline h-4 w-4" />
+                                      Send SMS</a
+                                    >
+                                  </MenuItem>
+                                  <MenuItem
+                                    :disabled="!creator.meta.phone"
                                     v-slot="{ active }"
                                     class="items-center">
                                     <a
                                       @click="
-                                        callCreator(creator.phone_numbers[0])
+                                        whatsAppCreator(creator.meta.phone)
                                       "
                                       href="#"
                                       class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
-                                      <PhoneIcon class="mr-2 inline h-4 w-4" />
-                                      Call</a
+                                      <ChatBubbleOvalLeftEllipsisIcon
+                                        class="mr-2 inline h-4 w-4" />
+                                      Whatsapp</a
                                     >
                                   </MenuItem>
 
@@ -977,7 +1022,7 @@
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <CloudArrowDownIcon
@@ -1002,7 +1047,7 @@
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <TrashIcon class="mr-2 inline h-4 w-4" />
@@ -1011,6 +1056,7 @@
                                   </MenuItem>
                                   <MenuItem
                                     v-slot="{ active }"
+                                    @blur="$emit('updateCrmMeta')"
                                     @click="
                                       toggleArchiveCreators(
                                         creator.id,
@@ -1024,7 +1070,7 @@
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <ArchiveBoxIcon
@@ -1108,6 +1154,7 @@ import {
   ArchiveBoxIcon,
   ChevronDownIcon,
   PlusIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
   BriefcaseIcon,
   UserIcon,
   NoSymbolIcon,
@@ -1130,6 +1177,8 @@ import {
   XMarkIcon,
   UserGroupIcon,
   ArrowsPointingOutIcon,
+  PhoneIcon,
+  ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
 import KeyboardShortcut from '../../components/KeyboardShortcut';
 import Pagination from '../../components/Pagination';
@@ -1148,6 +1197,8 @@ export default {
     StarRating,
     KeyboardShortcut,
     MagnifyingGlassIcon,
+    PhoneIcon,
+    ChatBubbleLeftEllipsisIcon,
     ButtonGroup,
     Menu,
     EnvelopeIcon,
@@ -1164,6 +1215,7 @@ export default {
     Popover,
     BriefcaseIcon,
     UserIcon,
+    ChatBubbleOvalLeftEllipsisIcon,
     UserGroupIcon,
     ChevronDownIcon,
     PopoverButton,
@@ -1509,7 +1561,7 @@ export default {
       }
     },
     callCreator(phone) {
-      //go to the url tel:creator.phone
+      //go to the url tel:creator.meta.phone
       //if phone is not null
       if (phone) {
         window.open('tel:' + phone);
@@ -1524,8 +1576,26 @@ export default {
         });
       }
     },
+    whatsappCreator(phone) {
+      //go to the url tel:creator.meta.phone
+      //if phone is not null
+      if (phone) {
+        console.log('whatsapp');
+        //open whatsapp://send?text=Hello World!&phone=+phone
+        window.open('whatsapp://send?text=Hey!&phone=+' + phone);
+        //else log no phone found
+      } else {
+        console.log('No phone number found');
+        this.$notify({
+          title: 'No phone number found',
+          message: 'This contact does not have a phone number',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
     textCreator(phone) {
-      //go to the url sms:creator.phone
+      //go to the url sms:creator.meta.phone
       //if phone is not null
       if (phone) {
         window.open('sms:' + phone);
@@ -1552,8 +1622,8 @@ export default {
         vCard += 'FN:' + Creator.name + '\n';
       }
       //if creator has a phone number
-      if (Creator.phone) {
-        vCard += 'TEL;TYPE=WORK,VOICE:' + Creator.phone + '\n';
+      if (creator.meta.phone) {
+        vCard += 'TEL;TYPE=WORK,VOICE:' + creator.meta.phone + '\n';
       }
       //if creator has an email
       if (Creator.emails[0]) {

@@ -21,7 +21,7 @@ router.beforeEach(async (to, from) => {
       } else {
           store.state.isExtension = true
           if (to.query.creator != undefined) {
-              store.state.extensionQuery = to.query
+              store.state.extensionQuery = to.href.split('?')[1]
           }
           let token = localStorage.getItem('jovie_extension')
           if (token) {
