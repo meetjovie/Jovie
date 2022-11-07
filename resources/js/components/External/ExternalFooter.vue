@@ -248,6 +248,10 @@ const navigation = {
     { name: 'Social CRM', href: '/' },
     { name: 'Contact Profiles', href: '/profiles' },
     { name: 'Chrome Extension', href: 'chrome-extension' },
+    { name: 'Jovie for Instagram', href: 'chrome-extension' },
+    { name: 'Jovie for TikTok', href: 'chrome-extension' },
+    { name: 'Jovie for Twitch', href: 'chrome-extension' },
+    { name: 'Jovie for Twitter', href: 'chrome-extension' },
   ],
   support: [
     { name: 'Pricing', href: 'pricing' },

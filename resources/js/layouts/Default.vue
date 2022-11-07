@@ -1,16 +1,19 @@
 <template>
   <Head>
     <title>Jovie | The Social CRM</title>
-    <meta name="description" content="Jovie is a CRM that creates & enriches contacts from social media profiles." />
-     <!--- OpenGraph -->
-     <meta property="og:image:height" content="333">
-        <meta property="og:image:width" content="636">
-        <meta property="og:description" content="Organize everyone you follow">
-        <meta property="og:title" content="Jovie | Social CRM">
-        <meta property="og:url" content="http://jov.ie">
-        <meta property="og:image" content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg">
-        <!-- End OpenGraph -->
-       
+    <meta
+      name="description"
+      content="Jovie is a CRM that creates & enriches contacts from social media profiles." />
+    <!--- OpenGraph -->
+    <meta property="og:image:height" content="333" />
+    <meta property="og:image:width" content="636" />
+    <meta property="og:description" content="Organize everyone you follow" />
+    <meta property="og:title" content="Jovie | Social CRM" />
+    <meta property="og:url" content="http://jov.ie" />
+    <meta
+      property="og:image"
+      content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg" />
+    <!-- End OpenGraph -->
   </Head>
   <div>
     <header class="sticky top-0 z-20 bg-neutral-50">
@@ -124,26 +127,26 @@
                         </router-link>
                       </div>
                       <div class="inline-flex">
-                        <a class="max-auto justify-center px-2">
-                          <router-link
-                            to="signup"
-                            class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-neutral-200 hover:bg-indigo-600 hover:text-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
-                            <span>Try Jovie free</span>
-                            <svg
-                              class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
-                              fill="none"
-                              width="10"
-                              height="10"
-                              viewBox="0 0 10 10"
-                              aria-hidden="true">
-                              <path
-                                class="opacity-0 transition group-hover:opacity-100"
-                                d="M0 5h7"></path>
-                              <path
-                                class="transition group-hover:translate-x-[3px]"
-                                d="M1 1l4 4-4 4"></path>
-                            </svg>
-                            <!-- <span>
+                        <!--  <a class="max-auto justify-center px-2"> -->
+                        <router-link
+                          to="signup"
+                          class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-neutral-200 hover:bg-indigo-600 hover:text-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
+                          <span>Try Jovie free</span>
+                          <svg
+                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+                            fill="none"
+                            width="10"
+                            height="10"
+                            viewBox="0 0 10 10"
+                            aria-hidden="true">
+                            <path
+                              class="opacity-0 transition group-hover:opacity-100"
+                              d="M0 5h7"></path>
+                            <path
+                              class="transition group-hover:translate-x-[3px]"
+                              d="M1 1l4 4-4 4"></path>
+                          </svg>
+                          <!-- <span>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="ml-1 block h-4 w-4 group-hover:hidden"
@@ -169,8 +172,8 @@
                                   d="M13 7l5 5m0 0l-5 5m5-5H6" />
                               </svg>
                             </span> -->
-                          </router-link>
-                        </a>
+                        </router-link>
+                        <!--  </a> -->
                       </div>
                     </div>
                     <div v-else>
@@ -344,7 +347,7 @@ export default {
       title: 'Jovie | The Social CRM',
       navigation: [
         { name: 'Pricing', href: '/pricing', current: false },
-        { name: 'Get strarted free', href: '/signup', current: false },
+        { name: 'Get started free', href: '/signup', current: false },
       ],
       features: [
         {

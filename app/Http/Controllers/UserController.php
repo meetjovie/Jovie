@@ -305,7 +305,8 @@ class UserController extends Controller
     {
         $url = null;
         if ($request->image_url) {
-            $url = self::uploadFile($request->image_url, 'tmp/');
+            $url = rawurldecode(str_replace('image_url=', '', http_build_query($request->all())));
+            $url = self::uploadFile($url, 'tmp/');
         }
         return response()->json([
             'url' => $url,

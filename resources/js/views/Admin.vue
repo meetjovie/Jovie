@@ -12,7 +12,9 @@
                 <div class="w-0 flex-1">
                   <dl>
                     <dd>
-                      <div class="text-4xl font-medium text-indigo-700">1</div>
+                      <div class="text-4xl font-medium text-indigo-700">
+                        <!--    {{ $users->count() }} -->
+                      </div>
                     </dd>
                     <dt class="truncate text-sm font-medium text-neutral-500">
                       Total Users

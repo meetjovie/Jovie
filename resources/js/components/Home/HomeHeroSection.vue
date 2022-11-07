@@ -76,6 +76,7 @@
           <!--  <home-logo-cloud /> -->
           <div class="mt-24 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
             <img
+              alt="Jovie - Social CRM Screenshot"
               class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
               :src="asset('img/External/HomeFeatureCRM.webp')" />
           </div>
