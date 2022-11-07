@@ -4,6 +4,7 @@
     :class="[
       { 'text-white': color === 'white' },
       { 'text-neutral-400': !color === 'white' },
+
       { 'opacity-100': link },
       { 'opacity-10': !link },
       { 'group-hover:opacity-100': groupHover },
