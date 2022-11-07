@@ -937,7 +937,7 @@
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <EnvelopeIcon
@@ -947,23 +947,40 @@
                                   </MenuItem>
 
                                   <MenuItem
-                                    :disabled="!creator.phone_numbers[0]"
+                                    :disabled="!creator.meta.phone"
                                     v-slot="{ active }"
                                     class="items-center">
                                     <a
-                                      @click="
-                                        callCreator(creator.phone_numbers[0])
-                                      "
+                                      @click="callCreator(creator.meta.phone)"
                                       href="#"
                                       class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <PhoneIcon class="mr-2 inline h-4 w-4" />
                                       Call</a
+                                    >
+                                  </MenuItem>
+                                  <MenuItem
+                                    :disabled="!creator.meta.phone"
+                                    v-slot="{ active }"
+                                    class="items-center">
+                                    <a
+                                      @click="textCreator(creator.meta.phone)"
+                                      href="#"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-800',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                      <ChatBubbleLeftEllipsisIcon
+                                        class="mr-2 inline h-4 w-4" />
+                                      Text</a
                                     >
                                   </MenuItem>
 
@@ -977,7 +994,7 @@
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <CloudArrowDownIcon
@@ -1002,7 +1019,7 @@
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <TrashIcon class="mr-2 inline h-4 w-4" />
@@ -1011,6 +1028,7 @@
                                   </MenuItem>
                                   <MenuItem
                                     v-slot="{ active }"
+                                    @blur="$emit('updateCrmMeta')"
                                     @click="
                                       toggleArchiveCreators(
                                         creator.id,
@@ -1024,7 +1042,7 @@
                                       :class="[
                                         active
                                           ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
+                                          : 'text-gray-800',
                                         'block px-4 py-2 text-xs',
                                       ]">
                                       <ArchiveBoxIcon
@@ -1130,6 +1148,8 @@ import {
   XMarkIcon,
   UserGroupIcon,
   ArrowsPointingOutIcon,
+  PhoneIcon,
+  ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
 import KeyboardShortcut from '../../components/KeyboardShortcut';
 import Pagination from '../../components/Pagination';
@@ -1148,6 +1168,8 @@ export default {
     StarRating,
     KeyboardShortcut,
     MagnifyingGlassIcon,
+    PhoneIcon,
+    ChatBubbleLeftEllipsisIcon,
     ButtonGroup,
     Menu,
     EnvelopeIcon,
@@ -1509,7 +1531,7 @@ export default {
       }
     },
     callCreator(phone) {
-      //go to the url tel:creator.phone
+      //go to the url tel:creator.meta.phone
       //if phone is not null
       if (phone) {
         window.open('tel:' + phone);
@@ -1525,7 +1547,7 @@ export default {
       }
     },
     textCreator(phone) {
-      //go to the url sms:creator.phone
+      //go to the url sms:creator.meta.phone
       //if phone is not null
       if (phone) {
         window.open('sms:' + phone);
@@ -1552,8 +1574,8 @@ export default {
         vCard += 'FN:' + Creator.name + '\n';
       }
       //if creator has a phone number
-      if (Creator.phone) {
-        vCard += 'TEL;TYPE=WORK,VOICE:' + Creator.phone + '\n';
+      if (creator.meta.phone) {
+        vCard += 'TEL;TYPE=WORK,VOICE:' + creator.meta.phone + '\n';
       }
       //if creator has an email
       if (Creator.emails[0]) {
