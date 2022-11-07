@@ -20,11 +20,11 @@ return new class extends Migration
 
             $table->double('tiktok_followers', 20, 2)->nullable()->after('tiktok_name_update');
             $table->text('tiktok_biography')->fulltext()->nullable()->after('tiktok_followers');
-            $table->double('tiktok_engagement_rate')->index()->default(0)->nullable('tiktok_biography');
-            $table->boolean('tiktok_is_verified')->index()->default(false)->nullable('tiktok_engagement_rate');
-            $table->boolean('tiktok_is_private')->index()->default(false)->nullable('tiktok_is_verified');
-            $table->longText('tiktok_media')->nullable()->nullable('tiktok_is_private');
-            $table->longText('tiktok_meta')->nullable()->nullable('tiktok_media');
+            $table->double('tiktok_engagement_rate')->index()->default(0)->nullable()->after('tiktok_biography');
+            $table->boolean('tiktok_is_verified')->index()->default(false)->nullable()->after('tiktok_engagement_rate');
+            $table->boolean('tiktok_is_private')->index()->default(false)->nullable()->after('tiktok_is_verified');
+            $table->longText('tiktok_media')->nullable()->nullable()->after('tiktok_is_private');
+            $table->longText('tiktok_meta')->nullable()->nullable()->after('tiktok_media');
         });
     }
 

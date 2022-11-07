@@ -169,6 +169,7 @@
         <ButtonGroup
           v-if="!jovie"
           :text="buttonText"
+          :loading="saving"
           :success="creator.saved ?? false"
           @click="saveToCrm()"
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
@@ -296,6 +297,9 @@
         />
       </div> -->
     </div>
+    <div class="mx-auto h-full items-center" v-else-if="sidebarLoading">
+      <JovieSpinner />
+    </div>
     <div v-else>
       <div class="flex">
         <!-- <div class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
@@ -421,8 +425,8 @@ import InputLists from '../components/InputLists.vue';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import SocialIcons from './SocialIcons.vue';
 import UserService from '../services/api/user.service';
-import router from "../router";
-import store from "../store";
+import router from '../router';
+import store from '../store';
 export default {
   name: 'Contact Sidebar',
   components: {
@@ -445,107 +449,109 @@ export default {
     },
   },
   async mounted() {
-      // console.log('Sidebar loaded');
-      try {
-          document.onreadystatechange = () => {
-              if (document.readyState == 'complete') {
-                  console.log('Page completed with image and files!');
-                  // fetch to next page or some code
-                  // this.setCreatorData();
-              }
-          };
+    // console.log('Sidebar loaded');
+    try {
+      document.onreadystatechange = () => {
+        if (document.readyState == 'complete') {
+          console.log('Page completed with image and files!');
+          // fetch to next page or some code
+          // this.setCreatorData();
+        }
+      };
 
-          if (this.creatorsData.id) {
-              this.creator = this.creatorsData
+      if (this.creatorsData.id) {
+        this.creator = this.creatorsData;
+      } else {
+        let queryParameters = store.state.extensionQuery;
+        let creator = JSON.parse(queryParameters.creator);
+        if (creator.meta == undefined) {
+          creator.meta = {};
+        }
+        let image = queryParameters.image;
+
+        let promise = new Promise(async (resolve, reject) => {
+          if (image && creator.network == 'instagram') {
+            await this.$store
+              .dispatch('uploadTempFileFromUrl', image)
+              .then((response) => {
+                image = response.url;
+                creator.profile_pic_url = image;
+                resolve();
+              });
           } else {
-              let queryParameters = store.state.extensionQuery
-              let creator = JSON.parse(queryParameters.creator)
-              if (creator.meta == undefined) {
-                  creator.meta = {}
-              }
-              let image = queryParameters.image
-
-              let promise = new Promise(async (resolve, reject) => {
-                  if (image && creator.network == 'instagram') {
-                      await this.$store.dispatch('uploadTempFileFromUrl', image).then(response => {
-                          image = response.url;
-                          creator.profile_pic_url = image;
-                          resolve()
-                      })
-                  } else {
-                      creator.profile_pic_url = decodeURIComponent(image);
-                      resolve()
-                  }
-              })
-              promise.then(response => {
-                  for (const property in creator) {
-                      if (property == 'website') {
-                          creator[property] = decodeURIComponent(creator[property])
-                      }
-                  }
-
-                  this.creator = creator;
-                  console.log('creator from iframe');
-                  console.log(this.creator);
-              })
+            creator.profile_pic_url = decodeURIComponent(image);
+            resolve();
           }
-      } catch (e) {
-          console.log('eeeeeeeeeeeeeeeeeeeeeeeeeee');
-          console.log(e);
+        });
+        promise.then((response) => {
+          for (const property in creator) {
+            if (property == 'website') {
+              creator[property] = decodeURIComponent(creator[property]);
+            }
+          }
+
+          this.creator = creator;
+          console.log('creator from iframe');
+          console.log(this.creator);
+        });
       }
-      // this.creator = {
-      //     "profile_pic_url": "https://jovie-production-storage.s3.amazonaws.com/public/creators_media/profiles/2022_10_13_012300_2073930798634768750b2a36.51677614918368014634768750b2af4.23217496",
-      //     "full_name": "Tim White",
-      //     "meta": {
-      //         "name": "Tim White",
-      //         "emails": [
-      //             "m@timwhite.co"
-      //         ],
-      //         "phone": "",
-      //         "website": "",
-      //         "platform_title": "Musician",
-      //         "instagram_handler": "timwhite",
-      //         "instagram_biography": "👁I make music n stuff\n📍: LA\n🐶: @sircosmowhite is my dawg\n✉️: m@timwhite.co"
-      //     },
-      //     "website": "",
-      //     "network": "instagram",
-      //     "instagram_name": "Tim White",
-      //     "phone": "",
-      //     "instagram_handler": "timwhite",
-      //     "instagram_category": "Musician",
-      //     "biography": "👁I make music n stuff\n📍: LA\n🐶: @sircosmowhite is my dawg\n✉️: m@timwhite.co",
-      //     "instagram_website": "",
-      //     "instagram_email": "m@timwhite.co",
-      //     "instagram_followers": "",
-      //     "gender": null,
-      //     "city": "Los Angeles, CA",
-      //     "country": "United States"
-      // }
-      // // this.creator = {
-      // //     "profile_pic_url": "https://jovie-production-storage.s3.amazonaws.com/public/creators_media/profiles/2022_10_13_012300_2073930798634768750b2a36.51677614918368014634768750b2af4.23217496",
-      // //     "full_name":"Tim White",
-      // //     "website":"",
-      // //     "network":"instagram",
-      // //     "instagram_name":"Tim White",
-      // //     "phone":"",
-      // //     "instagram_handler":"timwhite",
-      // //     "instagram_category":"Musician",
-      // //     "instagram_biography":"👁I make music n stuff📍: LA🐶: @sircosmowhite is my dawg✉️: m@timwhite.co",
-      // //     "instagram_website":"",
-      // //     "instagram_email":"m@timwhite.co",
-      // //     "instagram_followers":"",
-      // //     "gender":null,
-      // //     "city":"Los Angeles, CA",
-      // //     "country":"United States",
-      // //     "meta":{
-      // //         "name":"Tim White",
-      // //         "city":"Los Angeles, CA",
-      // //         "country":"United States",
-      // //         "website":"",
-      // //         "phone":"",
-      // //         "instagram_handler":"timwhite"
-      // //     }
-      // // }
+    } catch (e) {
+      console.log('eeeeeeeeeeeeeeeeeeeeeeeeeee');
+      console.log(e);
+    }
+    // this.creator = {
+    //     "profile_pic_url": "https://jovie-production-storage.s3.amazonaws.com/public/creators_media/profiles/2022_10_13_012300_2073930798634768750b2a36.51677614918368014634768750b2af4.23217496",
+    //     "full_name": "Tim White",
+    //     "meta": {
+    //         "name": "Tim White",
+    //         "emails": [
+    //             "m@timwhite.co"
+    //         ],
+    //         "phone": "",
+    //         "website": "",
+    //         "platform_title": "Musician",
+    //         "instagram_handler": "timwhite",
+    //         "instagram_biography": "👁I make music n stuff\n📍: LA\n🐶: @sircosmowhite is my dawg\n✉️: m@timwhite.co"
+    //     },
+    //     "website": "",
+    //     "network": "instagram",
+    //     "instagram_name": "Tim White",
+    //     "phone": "",
+    //     "instagram_handler": "timwhite",
+    //     "instagram_category": "Musician",
+    //     "biography": "👁I make music n stuff\n📍: LA\n🐶: @sircosmowhite is my dawg\n✉️: m@timwhite.co",
+    //     "instagram_website": "",
+    //     "instagram_email": "m@timwhite.co",
+    //     "instagram_followers": "",
+    //     "gender": null,
+    //     "city": "Los Angeles, CA",
+    //     "country": "United States"
+    // }
+    // // this.creator = {
+    // //     "profile_pic_url": "https://jovie-production-storage.s3.amazonaws.com/public/creators_media/profiles/2022_10_13_012300_2073930798634768750b2a36.51677614918368014634768750b2af4.23217496",
+    // //     "full_name":"Tim White",
+    // //     "website":"",
+    // //     "network":"instagram",
+    // //     "instagram_name":"Tim White",
+    // //     "phone":"",
+    // //     "instagram_handler":"timwhite",
+    // //     "instagram_category":"Musician",
+    // //     "instagram_biography":"👁I make music n stuff📍: LA🐶: @sircosmowhite is my dawg✉️: m@timwhite.co",
+    // //     "instagram_website":"",
+    // //     "instagram_email":"m@timwhite.co",
+    // //     "instagram_followers":"",
+    // //     "gender":null,
+    // //     "city":"Los Angeles, CA",
+    // //     "country":"United States",
+    // //     "meta":{
+    // //         "name":"Tim White",
+    // //         "city":"Los Angeles, CA",
+    // //         "country":"United States",
+    // //         "website":"",
+    // //         "phone":"",
+    // //         "instagram_handler":"timwhite"
+    // //     }
+    // // }
   },
   props: {
     creatorsData: {
@@ -560,41 +566,41 @@ export default {
     },
   },
   methods: {
-      saveToCrm() {
-          this.saving = true
-          UserService.saveToCrm(this.creator)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.creator.saved = true
-                  } else {
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                  }
-              })
-              .catch((error) => {
-                  console.log(error);
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: Object.values(error.data.errors)[0][0],
-                      });
-                  }
-              })
-              .finally((response) => {
-                  this.saving = false
-              });
-      },
+    saveToCrm() {
+      this.saving = true;
+      UserService.saveToCrm(this.creator)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.creator.saved = true;
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((response) => {
+          this.saving = false;
+        });
+    },
     resetImage() {
       this.imageLoaded = true;
     },
@@ -684,7 +690,7 @@ export default {
   },
   data() {
     return {
-        jovie: false,
+      sidebarLoading: false,
       instagram_handler: '',
       loader: false,
       expandBio: false,
@@ -692,7 +698,6 @@ export default {
       buttonText: 'Save to Jovie',
       closeSidebar: '',
       imageLoaded: true,
-
       activeSocialNetworkURLEdit: [],
       user: {
         loggedIn: true,

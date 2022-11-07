@@ -579,7 +579,7 @@
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto items-center rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
+                          class="mx-auto w-6 items-center rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
                           <ArrowsPointingOutIcon
                             class="hidden h-3 w-3 group-hover:block" />
                         </div>
@@ -945,6 +945,28 @@
                                       Email</a
                                     >
                                   </MenuItem>
+
+                                  <MenuItem
+                                    :disabled="!creator.phone_numbers[0]"
+                                    v-slot="{ active }"
+                                    class="items-center">
+                                    <a
+                                      @click="
+                                        callCreator(creator.phone_numbers[0])
+                                      "
+                                      href="#"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-700',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                      <PhoneIcon class="mr-2 inline h-4 w-4" />
+                                      Call</a
+                                    >
+                                  </MenuItem>
+
                                   <MenuItem
                                     v-slot="{ active }"
                                     class="cursor-pointer items-center">
@@ -1481,6 +1503,38 @@ export default {
         this.$notify({
           title: 'No email found',
           message: 'This contact does not have an email address',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    callCreator(phone) {
+      //go to the url tel:creator.phone
+      //if phone is not null
+      if (phone) {
+        window.open('tel:' + phone);
+        //else log no phone found
+      } else {
+        console.log('No phone number found');
+        this.$notify({
+          title: 'No phone number found',
+          message: 'This contact does not have a phone number',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    textCreator(phone) {
+      //go to the url sms:creator.phone
+      //if phone is not null
+      if (phone) {
+        window.open('sms:' + phone);
+        //else log no phone found
+      } else {
+        console.log('No phone number found');
+        this.$notify({
+          title: 'No phone number found',
+          message: 'This contact does not have a phone number',
           type: 'warning',
           group: 'user',
         });
