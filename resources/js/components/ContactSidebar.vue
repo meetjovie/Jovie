@@ -173,6 +173,92 @@
           :success="creator.saved ?? false"
           @click="saveToCrm()"
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
+        <div class="flex w-full gap-1" v-else>
+          <Menu>
+            <Float portal :offset="2" placement="bottom-start">
+              <MenuButton
+                class="inline-flex w-full items-center justify-between rounded border border-gray-300 bg-white py-1 px-4 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                <span class="line-clamp-1">Message</span>
+                <ChevronDownIcon
+                  class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
+                  aria-hidden="true" />
+              </MenuButton>
+              <transition
+                enter-active-class="transition duration-100 ease-out"
+                enter-from-class="transform scale-95 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+                leave-active-class="transition duration-75 ease-in"
+                leave-from-class="transform scale-100 opacity-100"
+                leave-to-class="transform scale-95 opacity-0">
+                <MenuItems
+                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                  <MenuItem
+                    :disabled="!creator.emails[0] || !creator.meta.emails"
+                    v-slot="{ active }"
+                    class="items-center">
+                    <a
+                      @click="
+                        emailCreator(
+                          creator.emails[0] || creator.meta.emails[0]
+                        )
+                      "
+                      href="#"
+                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                      :class="[
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-800',
+                        'block px-4 py-2 text-xs',
+                      ]">
+                      <EnvelopeIcon class="mr-2 inline h-4 w-4" />
+                      Email</a
+                    >
+                  </MenuItem>
+                  <MenuItem
+                    :disabled="!creator.meta.phone || !creator.meta.phone"
+                    v-slot="{ active }"
+                    class="items-center">
+                    <a
+                      @click="textCreator(creator.meta.phone || creator.phone)"
+                      href="#"
+                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                      :class="[
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-800',
+                        'block px-4 py-2 text-xs',
+                      ]">
+                      <ChatBubbleLeftEllipsisIcon class="mr-2 inline h-4 w-4" />
+                      Send SMS</a
+                    >
+                  </MenuItem>
+
+                  <MenuItem
+                    :disabled="!creator.meta.phone || !creator.meta.phone"
+                    v-slot="{ active }"
+                    class="items-center">
+                    <a
+                      @click="
+                        whatsappCreator(creator.meta.phone || creator.phone)
+                      "
+                      href="#"
+                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                      :class="[
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-800',
+                        'block px-4 py-2 text-xs',
+                      ]">
+                      <ChatBubbleOvalLeftEllipsisIcon
+                        class="mr-2 inline h-4 w-4" />
+                      Whatsapp Message</a
+                    >
+                  </MenuItem>
+                </MenuItems>
+              </transition>
+            </Float>
+          </Menu>
+          <button
+            @click="callCreator(creator.meta.phone || creator.phone)"
+            class="mx-auto inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+            <span class="sr-only line-clamp-1">Call</span>
+            <PhoneIcon class="h-4 w-4 text-gray-500" aria-hidden="true" />
+          </button>
+        </div>
       </div>
       <div class="px-2">
         <h2 class="text-xs font-semibold text-neutral-400">Lists</h2>
@@ -422,15 +508,47 @@ import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
-import { XMarkIcon } from '@heroicons/vue/24/solid';
+import {
+  XMarkIcon,
+  ChevronDownIcon,
+  PhoneIcon,
+  ChatBubbleLeftEllipsisIcon,
+  EnvelopeIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
+} from '@heroicons/vue/24/solid';
+import {
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  TransitionRoot,
+} from '@headlessui/vue';
 import SocialIcons from './SocialIcons.vue';
 import UserService from '../services/api/user.service';
+import { Float } from '@headlessui-float/vue';
 import router from '../router';
 import store from '../store';
 export default {
   name: 'Contact Sidebar',
   components: {
+    PhoneIcon,
+    ChatBubbleLeftEllipsisIcon,
+    EnvelopeIcon,
+    ChevronDownIcon,
+    ChatBubbleOvalLeftEllipsisIcon,
+    Menu,
+    MenuButton,
+    MenuItems,
+    MenuItem,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    TransitionRoot,
     JovieLogo,
+    Float,
     AuthFooter,
     InputGroup,
     JovieSpinner,
@@ -566,6 +684,72 @@ export default {
     },
   },
   methods: {
+    emailCreator(email) {
+      //go to the url mailto:creator.emails[0]
+      //if email is not null
+      if (email) {
+        window.open('mailto:' + email);
+        //else log no email found
+      } else {
+        console.log('No email found');
+        this.$notify({
+          title: 'No email found',
+          message: 'This contact does not have an email address',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    callCreator(phone) {
+      //go to the url tel:creator.meta.phone
+      //if phone is not null
+      if (phone) {
+        window.open('tel:' + phone);
+        //else log no phone found
+      } else {
+        console.log('No phone number found');
+        this.$notify({
+          title: 'No phone number found',
+          message: 'This contact does not have a phone number',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    whatsappCreator(phone) {
+      //go to the url tel:creator.meta.phone
+      //if phone is not null
+      if (phone) {
+        console.log('whatsapp');
+        //open whatsapp://send?text=Hello World!&phone=+phone
+        window.open('whatsapp://send?text=Hey!&phone=+' + phone);
+        //else log no phone found
+      } else {
+        console.log('No phone number found');
+        this.$notify({
+          title: 'No phone number found',
+          message: 'This contact does not have a phone number',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    textCreator(phone) {
+      //go to the url sms:creator.meta.phone
+      //if phone is not null
+      if (phone) {
+        window.open('sms:' + phone);
+        //else log no phone found
+      } else {
+        console.log('No phone number found');
+        this.$notify({
+          title: 'No phone number found',
+          message: 'This contact does not have a phone number',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
     saveToCrm() {
       this.saving = true;
       UserService.saveToCrm(this.creator)

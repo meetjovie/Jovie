@@ -927,11 +927,18 @@
                                 class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
-                                    :disabled="!creator.emails[0]"
+                                    :disabled="
+                                      !creator.emails[0] || !creator.meta.emails
+                                    "
                                     v-slot="{ active }"
                                     class="items-center">
                                     <a
-                                      @click="emailCreator(creator.emails[0])"
+                                      @click="
+                                        emailCreator(
+                                          creator.emails[0] ||
+                                            creator.meta.emails[0]
+                                        )
+                                      "
                                       href="#"
                                       class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
@@ -980,7 +987,28 @@
                                       ]">
                                       <ChatBubbleLeftEllipsisIcon
                                         class="mr-2 inline h-4 w-4" />
-                                      Text</a
+                                      Send SMS</a
+                                    >
+                                  </MenuItem>
+                                  <MenuItem
+                                    :disabled="!creator.meta.phone"
+                                    v-slot="{ active }"
+                                    class="items-center">
+                                    <a
+                                      @click="
+                                        whatsAppCreator(creator.meta.phone)
+                                      "
+                                      href="#"
+                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                                      :class="[
+                                        active
+                                          ? 'bg-gray-100 text-gray-900'
+                                          : 'text-gray-800',
+                                        'block px-4 py-2 text-xs',
+                                      ]">
+                                      <ChatBubbleOvalLeftEllipsisIcon
+                                        class="mr-2 inline h-4 w-4" />
+                                      Whatsapp</a
                                     >
                                   </MenuItem>
 
@@ -1126,6 +1154,7 @@ import {
   ArchiveBoxIcon,
   ChevronDownIcon,
   PlusIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
   BriefcaseIcon,
   UserIcon,
   NoSymbolIcon,
@@ -1186,6 +1215,7 @@ export default {
     Popover,
     BriefcaseIcon,
     UserIcon,
+    ChatBubbleOvalLeftEllipsisIcon,
     UserGroupIcon,
     ChevronDownIcon,
     PopoverButton,
@@ -1535,6 +1565,24 @@ export default {
       //if phone is not null
       if (phone) {
         window.open('tel:' + phone);
+        //else log no phone found
+      } else {
+        console.log('No phone number found');
+        this.$notify({
+          title: 'No phone number found',
+          message: 'This contact does not have a phone number',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    whatsappCreator(phone) {
+      //go to the url tel:creator.meta.phone
+      //if phone is not null
+      if (phone) {
+        console.log('whatsapp');
+        //open whatsapp://send?text=Hello World!&phone=+phone
+        window.open('whatsapp://send?text=Hey!&phone=+' + phone);
         //else log no phone found
       } else {
         console.log('No phone number found');
