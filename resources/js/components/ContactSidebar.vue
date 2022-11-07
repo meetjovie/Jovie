@@ -192,55 +192,37 @@
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
                   class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
-                  <MenuItem
-                    :disabled="!creator.emails[0] || !creator.meta.emails"
-                    v-slot="{ active }"
-                    class="items-center">
+                  <MenuItem class="items-center">
                     <a
+                      :disabled="!creator.emails[0] || !creator.meta.emails"
                       @click="
                         emailCreator(creator.emails[0] || creator.meta.emails)
                       "
                       href="#"
-                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
-                      :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-800',
-                        'block px-4 py-2 text-xs',
-                      ]">
+                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
                       <EnvelopeIcon class="mr-2 inline h-4 w-4" />
                       Email</a
                     >
                   </MenuItem>
-                  <MenuItem
-                    :disabled="!creator.meta.phone || !creator.meta.phone"
-                    v-slot="{ active }"
-                    class="items-center">
+                  <MenuItem class="items-center">
                     <a
+                      :disabled="!creator.meta.phone || !creator.meta.phone"
                       @click="textCreator(creator.meta.phone || creator.phone)"
                       href="#"
-                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
-                      :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-800',
-                        'block px-4 py-2 text-xs',
-                      ]">
+                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
                       <ChatBubbleLeftEllipsisIcon class="mr-2 inline h-4 w-4" />
                       Send SMS</a
                     >
                   </MenuItem>
 
-                  <MenuItem
-                    :disabled="!creator.meta.phone || !creator.meta.phone"
-                    v-slot="{ active }"
-                    class="items-center">
+                  <MenuItem class="items-center">
                     <a
+                      :disabled="!creator.meta.phone || !creator.meta.phone"
                       @click="
                         whatsappCreator(creator.meta.phone || creator.phone)
                       "
                       href="#"
-                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
-                      :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-800',
-                        'block px-4 py-2 text-xs',
-                      ]">
+                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
                       <ChatBubbleOvalLeftEllipsisIcon
                         class="mr-2 inline h-4 w-4" />
                       Whatsapp Message</a
@@ -580,11 +562,11 @@ export default {
       } else {
         let queryParameters = store.state.extensionQuery;
         let image = queryParameters.split('image=')[1];
-      const urlParameters = new URLSearchParams(queryParameters);
-      let creator = urlParameters.get('creator');
-          creator = JSON.parse(creator);
+        const urlParameters = new URLSearchParams(queryParameters);
+        let creator = urlParameters.get('creator');
+        creator = JSON.parse(creator);
 
-          let promise = new Promise(async (resolve, reject) => {
+        let promise = new Promise(async (resolve, reject) => {
           if (image && creator.network == 'instagram') {
             await this.$store
               .dispatch('uploadTempFileFromUrl', image)
@@ -599,9 +581,9 @@ export default {
           }
         });
         promise.then((response) => {
-            if (creator.meta == undefined) {
-                creator.meta = {};
-            }
+          if (creator.meta == undefined) {
+            creator.meta = {};
+          }
           for (const property in creator) {
             if (property == 'website') {
               creator[property] = decodeURIComponent(creator[property]);

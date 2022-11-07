@@ -79,7 +79,12 @@
             <div
               class="group/copy cursor-pointer text-red-500"
               v-else-if="isCopyable && (modelValue || value)">
-              <DocumentDuplicateIcon
+              <ClipboardDocumentIcon
+                v-if="!itemCopied"
+                @click="copyToClipboard"
+                class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/copy:text-gray-500" />
+              <ClipboardDocumentCheckIcon
+                v-else
                 @click="copyToClipboard"
                 class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/copy:text-gray-500" />
             </div>
@@ -103,6 +108,7 @@ import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import {
   MagnifyingGlassIcon,
+  ClipboardDocumentCheckIcon,
   CameraIcon,
   VideoCameraIcon,
   ChatBubbleLeftEllipsisIcon,
@@ -120,12 +126,16 @@ import {
   ArrowSmallUpIcon,
   ArrowSmallDownIcon,
   BriefcaseIcon,
-  DocumentDuplicateIcon,
+  ClipboardDocumentIcon,
   CheckCircleIcon,
 } from '@heroicons/vue/24/solid';
 export default {
   name: 'InputGroup',
-
+  data() {
+    return {
+      itemCopied: false,
+    };
+  },
   props: {
     label: {
       type: String,
@@ -200,7 +210,7 @@ export default {
     TagIcon,
     UserIcon,
     SocialIcons,
-    DocumentDuplicateIcon,
+    ClipboardDocumentIcon,
     CheckCircleIcon,
     UsersIcon,
     ExclamationCircleIcon,
@@ -209,10 +219,17 @@ export default {
     BriefcaseIcon,
     JovieSpinner,
     PhoneIcon,
+    ClipboardDocumentCheckIcon,
   },
   methods: {
     copyToClipboard() {
+      this.itemCopied = false;
       this.$emit('copyToClipboard');
+      this.itemCopied = true;
+      //reset value after 10 seconds
+      setTimeout(() => {
+        this.itemCopied = false;
+      }, 10000);
     },
   },
 };
