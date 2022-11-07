@@ -4,7 +4,7 @@
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-600">
+        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-500 hover:bg-neutral-100 hover:text-neutral-600">
         <ChevronDownIcon
           v-if="showMenu"
           class="mt-0.5 mr-1 h-4 w-4 text-gray-500 group-hover:text-neutral-600" />
@@ -39,16 +39,16 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <div
-              class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200/50 active:shadow-xl">
+              class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-100 active:shadow-xl">
               <div class="mx-auto w-4 flex-none cursor-grab items-center">
                 <Bars3Icon
-                  class="group/list-hover:text-neutral-900 h-4 w-4 text-gray-500/10 active:text-neutral-900"></Bars3Icon>
+                  class="h-4 w-4 text-gray-500/0 active:text-neutral-900 group-hover/list:text-neutral-900"></Bars3Icon>
               </div>
 
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="mr-1 w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-600 hover:shadow-xl active:bg-neutral-800">
+                  class="mr-1 w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 py-1 text-center text-xs hover:text-neutral-600 hover:shadow-xl active:bg-neutral-800 group-hover/list:bg-neutral-100">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
@@ -62,7 +62,7 @@
                         ? 'font-bold text-neutral-600 '
                         : 'font-medium text-neutral-500',
                     ]"
-                    class="group/list-hover:text-neutral-600 cursor-pointer text-xs line-clamp-1"
+                    class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-neutral-600"
                     >{{ element.name }}</span
                   >
                   <input
@@ -71,17 +71,17 @@
                     @keyup.esc="disableEditName(element)"
                     @keyup.enter="updateList(element)"
                     v-else
-                    class="group/list-hover:text-neutral-600 text-xs font-medium text-neutral-500" />
+                    class="text-xs font-medium text-neutral-500 group-hover/list:text-neutral-600" />
                 </div>
               </div>
               <div
                 class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                 <ArrowPathIcon
                   v-if="element.updating_list"
-                  class="group/list-hover:hidden group/list-hover:text-neutral-600 mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
+                  class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-neutral-600" />
                 <span
                   v-else
-                  class="group/list-hover:hidden group/list-hover:text-neutral-600 items-center text-xs font-semibold text-neutral-400"
+                  class="items-center text-right text-xs font-semibold text-neutral-400 group-hover/list:hidden group-hover/list:text-neutral-600"
                   >{{ element.creators_count }}</span
                 >
 
@@ -90,9 +90,9 @@
                   class="relative inline-block items-center text-center">
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
-                      class="group/list-hover:block hidden h-4 w-6 items-center text-gray-400 active:text-gray-500">
+                      class="hidden h-4 w-6 items-center text-gray-400 active:text-gray-500 group-hover/list:block">
                       <EllipsisVerticalIcon
-                        class="group/list-hover:block mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500"></EllipsisVerticalIcon>
+                        class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-500 group-hover/list:block"></EllipsisVerticalIcon>
                     </MenuButton>
 
                     <transition
@@ -189,7 +189,7 @@
     <ul v-if="showMenu && !draggable" class="">
       <div v-for="item in menuItems" :key="item.id">
         <div
-          class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200/50">
+          class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-100">
           <div class="group w-4 flex-none cursor-pointer items-center">
             <PinnedIcon
               :active="active"
@@ -200,7 +200,7 @@
           <div class="flex w-full items-center">
             <div
               @click="openEmojiPicker(item)"
-              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-500 hover:shadow-xl group-hover:bg-neutral-200/50">
+              class="w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs hover:bg-neutral-500 hover:shadow-xl group-hover:bg-neutral-100">
               {{ item.emoji ?? '📄' }}
             </div>
             <div
