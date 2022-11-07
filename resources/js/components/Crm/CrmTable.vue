@@ -288,7 +288,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -302,9 +302,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                   ]">
                                   <TrashIcon class="mr-2 inline h-4 w-4" />
                                   Remove from list
@@ -324,9 +324,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                   ]">
                                   <ArchiveBoxIcon
                                     :active="active"
@@ -360,7 +360,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-slot="{ active }"
                                 v-for="list in userLists"
@@ -374,9 +374,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center px-4 py-2 text-left text-xs font-bold line-clamp-1 first:rounded-t-md',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                   ]">
                                   <span class="px-1">{{
                                     list.emoji ? list.emoji : '📄'
@@ -388,9 +388,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group inline w-full items-center rounded-b-md border border-t border-neutral-200 px-2 py-2 text-left text-xs font-bold ',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                   ]">
                                   <div
                                     class="mx-auto flex content-center items-center text-center">
@@ -399,7 +399,7 @@
                                     >
                                     <PlusIcon
                                       :active="active"
-                                      class="mr-2 h-3 w-3 text-neutral-400"
+                                      class="ml-2 h-3 w-3 text-neutral-400"
                                       aria-hidden="true" />
                                   </div>
                                 </button>
@@ -924,111 +924,111 @@
                               leave-from-class="transform opacity-100 scale-100"
                               leave-to-class="transform opacity-0 scale-95">
                               <MenuItems
-                                class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
                                     :disabled="
-                                      !creator.emails[0] || !creator.meta.emails
+                                      creator.emails.length < 1 &&
+                                      creator.meta.emails.length < 1
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
-                                    <a
+                                    <button
                                       @click="
                                         emailCreator(
                                           creator.emails[0] ||
                                             creator.meta.emails[0]
                                         )
                                       "
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                       ]">
                                       <EnvelopeIcon
                                         class="mr-2 inline h-4 w-4" />
-                                      Email</a
-                                    >
+                                      Email
+                                    </button>
                                   </MenuItem>
 
                                   <MenuItem
-                                    :disabled="!creator.meta.phone"
+                                    :disabled="
+                                      creator.meta.phone.length < 1 &&
+                                      creator.meta.phone.length < 1
+                                    "
                                     v-slot="{ active }"
                                     class="items-center">
-                                    <a
+                                    <button
                                       @click="callCreator(creator.meta.phone)"
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                       ]">
                                       <PhoneIcon class="mr-2 inline h-4 w-4" />
-                                      Call</a
-                                    >
+                                      Call
+                                    </button>
                                   </MenuItem>
                                   <MenuItem
-                                    :disabled="!creator.meta.phone"
+                                    :disabled="
+                                      creator.meta.phone.length < 1 &&
+                                      creator.meta.phone.length < 1
+                                    "
                                     v-slot="{ active }"
                                     class="items-center">
-                                    <a
+                                    <button
                                       @click="textCreator(creator.meta.phone)"
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                       ]">
                                       <ChatBubbleLeftEllipsisIcon
                                         class="mr-2 inline h-4 w-4" />
-                                      Send SMS</a
-                                    >
+                                      Send SMS
+                                    </button>
                                   </MenuItem>
                                   <MenuItem
-                                    :disabled="!creator.meta.phone"
+                                    :disabled="
+                                      creator.meta.phone.length < 1 &&
+                                      creator.phone.length < 1
+                                    "
                                     v-slot="{ active }"
                                     class="items-center">
-                                    <a
+                                    <button
                                       @click="
                                         whatsAppCreator(creator.meta.phone)
                                       "
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                       ]">
                                       <ChatBubbleOvalLeftEllipsisIcon
                                         class="mr-2 inline h-4 w-4" />
-                                      Whatsapp</a
-                                    >
+                                      Whatsapp
+                                    </button>
                                   </MenuItem>
 
                                   <MenuItem
                                     v-slot="{ active }"
                                     class="cursor-pointer items-center">
-                                    <a
-                                      href="#"
+                                    <button
                                       @click="downloadVCF(creator)"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                       ]">
                                       <CloudArrowDownIcon
                                         class="mr-2 inline h-4 w-4" />
                                       Download VCard
-                                    </a>
+                                    </button>
                                   </MenuItem>
                                   <MenuItem
                                     v-if="filters.list"
@@ -1043,12 +1043,11 @@
                                     ">
                                     <a
                                       href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                       ]">
                                       <TrashIcon class="mr-2 inline h-4 w-4" />
                                       Remove from list</a
@@ -1064,14 +1063,12 @@
                                       )
                                     "
                                     class="items-center">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
+                                    <button
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                       ]">
                                       <ArchiveBoxIcon
                                         class="mr-2 inline h-4 w-4" />
@@ -1081,7 +1078,7 @@
                                           ? 'Unarchived'
                                           : 'Archive'
                                       }}
-                                    </a>
+                                    </button>
                                   </MenuItem>
                                   <MenuItem
                                     v-if="currentUser.is_admin"
@@ -1094,9 +1091,9 @@
                                       class="items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
+                                          ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'block px-4 py-2 text-xs',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                                       ]">
                                       <ArrowPathIcon
                                         class="mr-2 inline h-4 w-4" />
@@ -1529,7 +1526,7 @@ export default {
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
         this.currentContact = this.creatorRecords[0];
-        console.log(this.currentContact);
+        console.log(this.currentContact.id);
         this.$store.state.ContactSidebarOpen = true;
       }
       //esle just open the sidebar
