@@ -191,17 +191,17 @@
       <div v-for="item in menuItems" :key="item.id">
         <div
           class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200">
-          <div class="group w-4 flex-none cursor-pointer items-center">
+          <div class="group h-4 w-4 flex-none cursor-pointer items-center">
             <PinnedIcon
               :active="active"
-              class="hidden h-4 w-4 text-indigo-400 hover:bg-neutral-200 hover:text-neutral-500 active:text-indigo-500 group-hover:block"
+              class="hidden h-3 w-3 text-indigo-400 hover:bg-neutral-200 hover:text-neutral-500 active:text-indigo-500 group-hover:block"
               aria-hidden="true" />
           </div>
 
           <div class="flex w-full items-center">
             <div
               @click="openEmojiPicker(item)"
-              class="h-full w-6 cursor-pointer items-center rounded-md bg-neutral-50 px-1 text-center text-xs transition-all hover:bg-neutral-700 hover:shadow-xl group-hover:bg-neutral-200">
+              class="h-full w-6 cursor-pointer items-center rounded-md bg-neutral-50 px-1 text-center text-xs transition-all hover:bg-neutral-700 group-hover:bg-neutral-200">
               {{ item.emoji ?? '📄' }}
             </div>
             <div
@@ -232,7 +232,7 @@
           <div
             class="group mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-neutral-300 hover:text-neutral-50">
             <span
-              class="p-1 text-right text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
+              class="text-right text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
               >{{ item.creators_count }}</span
             >
 
@@ -242,7 +242,7 @@
                   <MenuButton
                     class="hidden h-4 w-4 text-neutral-400 group-hover:block">
                     <EllipsisVerticalIcon
-                      class="mt-1 hidden h-4 w-4 text-neutral-400 active:text-neutral-500 group-hover:block"></EllipsisVerticalIcon>
+                      class="mt-1 h-3 w-3 text-neutral-400 active:text-neutral-500"></EllipsisVerticalIcon>
                   </MenuButton>
                 </div>
 
