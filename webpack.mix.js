@@ -19,6 +19,9 @@ mix.browserSync('127.0.0.1');
 mix.ImageWebp({
   from: 'resources/img',
   to: 'public/img',
+  imageminWebpOptions: {
+    quality: 50,
+  },
 });
 
 mix
