@@ -243,7 +243,7 @@
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-20 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-0 top-0 z-50 w-20 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter before:content-[''] before:border-l before:border-gray-300 before:absolute before:left-0 before:top-0 before:h-full">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -473,7 +473,7 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 before:content-[''] before:border-l before:border-neutral-200 before:absolute before:left-0 before:top-0 before:h-full">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -1431,6 +1431,11 @@ export default {
     this.creatorRecords = this.creatorRecords.length
       ? this.creatorRecords
       : this.creators;
+
+
+   
+
+
   },
   computed: {
     sidebarOpen() {
