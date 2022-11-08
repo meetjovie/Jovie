@@ -1876,13 +1876,13 @@ export default {
     nextContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index < this.creatorRecords.length - 1) {
-        this.setCurrentContact(e, this.creatorRecords[index + 1]);
+        this.setCurrentContact(null, this.creatorRecords[index + 1]);
       }
     },
     previousContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index > 0) {
-        this.setCurrentContact(e, this.creatorRecords[index - 1]);
+        this.setCurrentContact(null, this.creatorRecords[index - 1]);       
       }
     },
     refresh(creator) {
