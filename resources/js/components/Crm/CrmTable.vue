@@ -243,7 +243,7 @@
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter before:content-[''] before:border-l before:border-gray-300 before:absolute before:left-0 before:top-0 before:h-full">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-gray-300 before:content-['']">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -267,7 +267,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-r border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter after:content-[''] after:border-r after:border-gray-300 after:absolute after:right-[-1px] after:top-0 after:h-full">
+                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-r border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-gray-300 after:content-['']">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -473,7 +473,14 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 before:content-[''] before:border-l before:border-neutral-200 before:absolute before:left-0 before:top-0 before:h-full">
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-neutral-200 before:content-[''] group-hover:text-neutral-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -549,7 +556,7 @@
                         'bg-white group-hover:bg-neutral-50',
                       ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:content-[''] after:border-r after:border-gray-300 after:absolute after:right-[-1px] after:top-0 after:h-full">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-gray-300 after:content-['']">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
@@ -1459,11 +1466,6 @@ export default {
     this.creatorRecords = this.creatorRecords.length
       ? this.creatorRecords
       : this.creators;
-
-
-   
-
-
   },
   computed: {
     sidebarOpen() {

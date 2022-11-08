@@ -89,6 +89,7 @@
       </div>
       <div class="overflow-y-scoll grid grid-cols-6 py-2 px-4">
         <SocialIcons
+          @click="editSocialNetworkURL('instagram', creator)"
           icon="instagram"
           :link="creator.instagram_handler || creator.meta.instagram_handler"
           :followers="formatCount(creator.instagram_followers)"
@@ -98,6 +99,7 @@
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
+          @click="editSocialNetworkURL('twitter', creator)"
           icon="twitter"
           :link="creator.twitter_handler || creator.meta.twitter_handler"
           :followers="formatCount(creator.twitter_followers)"
@@ -107,6 +109,7 @@
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
+          @click="editSocialNetworkURL('twitch', creator)"
           icon="twitch"
           :link="creator.twitch_handler || creator.meta.twitch_handler"
           :followers="formatCount(creator.twitch_followers)"
@@ -116,6 +119,7 @@
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
+          @click="editSocialNetworkURL('tiktok', creator)"
           icon="tiktok"
           :link="creator.tiktok_handler || creator.meta.tiktok_handler"
           :followers="formatCount(creator.tiktok_followers)"
@@ -125,6 +129,7 @@
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
+          @click="editSocialNetworkURL('youtube', creator)"
           icon="youtube"
           :link="creator.youtube_handler || creator.meta.youtube_handler"
           :followers="formatCount(creator.youtube_followers)"
@@ -134,6 +139,7 @@
           aria-hidden="true"
           :countsVisible="false" />
         <SocialIcons
+          @click="editSocialNetworkURL('linkedin', creator)"
           icon="linkedin"
           :link="creator.linkedin_handler || creator.meta.linkedin_handler"
           :followers="formatCount(creator.linkedin_followers)"
@@ -143,7 +149,7 @@
           aria-hidden="true"
           :countsVisible="false" />
       </div>
-      <!--  <div v-if="activeSocialNetworkURLEdit">
+      <div v-if="activeSocialNetworkURLEdit">
         <div class="relative rounded-md py-1 px-2 shadow-sm">
           <div
             class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -159,9 +165,9 @@
             name="email"
             id="email"
             class="block w-full rounded-md border-gray-300 pl-10 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
-            placeholder="sdfsdfsfd" />
+            placeholder="Enter or paste social link here" />
         </div>
-      </div> -->
+      </div>
 
       <hr />
 
