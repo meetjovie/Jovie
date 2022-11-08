@@ -194,14 +194,14 @@
           <div class="group w-4 flex-none cursor-pointer items-center">
             <PinnedIcon
               :active="active"
-              class="h-4 w-4 text-indigo-400 hover:bg-neutral-200 hover:text-neutral-500 active:text-indigo-500"
+              class="hidden h-4 w-4 text-indigo-400 hover:bg-neutral-200 hover:text-neutral-500 active:text-indigo-500 group-hover:block"
               aria-hidden="true" />
           </div>
 
           <div class="flex w-full items-center">
             <div
               @click="openEmojiPicker(item)"
-              class="w-6 cursor-pointer items-center rounded-md bg-neutral-50 px-1 text-center text-xs transition-all hover:bg-neutral-500 hover:shadow-xl group-hover:bg-neutral-200">
+              class="h-full w-6 cursor-pointer items-center rounded-md bg-neutral-50 px-1 text-center text-xs transition-all hover:bg-neutral-700 hover:shadow-xl group-hover:bg-neutral-200">
               {{ item.emoji ?? '📄' }}
             </div>
             <div

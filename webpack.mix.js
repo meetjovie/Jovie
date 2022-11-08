@@ -2,7 +2,7 @@ const mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
 const path = require('path');
 const Vapor = require('laravel-vapor');
-require('laravel-mix-webp')
+require('laravel-mix-webp');
 
 /*
  |--------------------------------------------------------------------------
@@ -17,40 +17,45 @@ require('laravel-mix-webp')
 mix.browserSync('127.0.0.1');
 
 mix.ImageWebp({
-    from: 'resources/img',
-    to: 'public/img',
-  });
+  from: 'resources/img',
+  to: 'public/img',
+});
 
-
-mix.js("resources/js/app.js", "public/js")
-    .vue()
-    .postCss("resources/css/app.css", "public/css", [
-        require("tailwindcss"),
-    ]);
-
+mix
+  .js('resources/js/app.js', 'public/js')
+  .vue()
+  .postCss('resources/css/app.css', 'public/css', [require('tailwindcss')]);
 
 if (mix.inProduction()) {
-    mix.version();
+  mix.options({
+    terser: {
+      terserOptions: {
+        compress: {
+          drop_console: true,
+        },
+      },
+    },
+  });
+  mix.version();
 }
 
 mix.alias({
-    '@': path.join(__dirname, 'resources/js')
+  '@': path.join(__dirname, 'resources/js'),
 });
 
 if (mix.inProduction()) {
+  const ASSET_URL = process.env.ASSET_URL + '/';
 
-    const ASSET_URL = process.env.ASSET_URL + "/";
-
-    mix.webpackConfig(webpack => {
-        return {
-            plugins: [
-                new webpack.DefinePlugin({
-                    "process.env.ASSET_PATH": JSON.stringify(ASSET_URL)
-                })
-            ],
-            output: {
-                publicPath: ASSET_URL
-            },
-        };
-    });
+  mix.webpackConfig((webpack) => {
+    return {
+      plugins: [
+        new webpack.DefinePlugin({
+          'process.env.ASSET_PATH': JSON.stringify(ASSET_URL),
+        }),
+      ],
+      output: {
+        publicPath: ASSET_URL,
+      },
+    };
+  });
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full w-80 bg-white">
+  <div class="h-full w-80 bg-white">
     <div v-if="user.loggedIn">
       <div
         v-if="!jovie"
@@ -178,7 +178,7 @@
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
                 class="inline-flex w-full items-center justify-between rounded border border-gray-300 bg-white py-1 px-4 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                <span class="line-clamp-1">Message</span>
+                <span class="text-center line-clamp-1">Message</span>
                 <ChevronDownIcon
                   class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
                   aria-hidden="true" />
@@ -269,7 +269,7 @@
           :lists="creator.lists"
           :current-list="creator.current_list" />
       </div>
-      <div class="mt-4 space-y-4 px-2">
+      <div class="mt-4 h-full space-y-4 overflow-y-scroll px-2">
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">
           Contact Details
         </h2>
@@ -353,7 +353,10 @@
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
           placeholder="Youtube" />
-        <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />
+        <TextAreaInput
+          ref="noteInput"
+          v-model="creator.note"
+          @blur="updateCreatorNote" />
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
         <div class="mx-auto">
@@ -562,6 +565,13 @@ export default {
     InputLists,
     SocialIcons,
   },
+  mounted() {
+    this.$mousetrap.bind('n', () => {
+      //focus on noteInput
+      console.log('n');
+      this.$refs.noteInput.focus();
+    });
+  },
   watch: {
     creator: function (val) {
       console.log('this.creator');
@@ -688,6 +698,7 @@ export default {
       default: false,
     },
   },
+
   methods: {
     emailCreator(email) {
       console.log('email');
