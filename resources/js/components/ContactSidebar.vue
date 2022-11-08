@@ -571,13 +571,6 @@ export default {
     InputLists,
     SocialIcons,
   },
-  mounted() {
-    this.$mousetrap.bind('n', () => {
-      //focus on noteInput
-      console.log('n');
-      this.$refs.noteInput.focus();
-    });
-  },
   watch: {
     creator: function (val) {
       console.log('this.creator');
@@ -587,6 +580,11 @@ export default {
   },
   async mounted() {
     // console.log('Sidebar loaded');
+      this.$mousetrap.bind('n', () => {
+          //focus on noteInput
+          console.log('n');
+          this.$refs.noteInput.focus();
+      });
     try {
       document.onreadystatechange = () => {
         if (document.readyState == 'complete') {
@@ -603,7 +601,7 @@ export default {
         let image = queryParameters.split('image=')[1];
         const urlParameters = new URLSearchParams(queryParameters);
         let creator = urlParameters.get('creator');
-        creator = JSON.parse(creator);
+        creator = JSON.parse(decodeURIComponent(creator));
 
         let promise = new Promise(async (resolve, reject) => {
           if (image && creator.network == 'instagram') {
@@ -623,11 +621,11 @@ export default {
           if (creator.meta == undefined) {
             creator.meta = {};
           }
-          for (const property in creator) {
-            if (property == 'website') {
-              creator[property] = decodeURIComponent(creator[property]);
-            }
-          }
+          // for (const property in creator) {
+          //   if (property == 'website') {
+          //     creator[property] = decodeURIComponent(creator[property]);
+          //   }
+          // }
 
           this.creator = creator;
           console.log('creator from iframe');
