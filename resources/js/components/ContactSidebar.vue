@@ -87,7 +87,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-6 py-2 px-4">
+      <div class="overflow-y-scoll grid grid-cols-6 py-2 px-4">
         <SocialIcons
           icon="instagram"
           :link="creator.instagram_handler || creator.meta.instagram_handler"

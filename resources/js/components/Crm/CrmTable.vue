@@ -580,7 +580,7 @@
 
                           <div
                             v-if="cellActive"
-                            class="text-sm text-gray-900 line-clamp-1">
+                            class="items-center text-sm text-gray-900 line-clamp-1">
                             <input
                               v-model="creator.meta.name"
                               @blur="$emit('updateCrmMeta', creator)"
@@ -600,16 +600,16 @@
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto w-6 items-center rounded-full bg-neutral-200/0 py-0.5 text-center text-neutral-400 hover:bg-neutral-200 active:border">
-                          <ArrowSmallRightIcon
+                          class="mx-auto h-5 w-5 items-center rounded-full bg-neutral-200/0 pr-1 text-center text-neutral-400 hover:bg-neutral-200 active:border">
+                          <ArrowTopRightOnSquareIcon
                             v-if="
                               !this.$store.state.ContactSidebarOpen &&
                               currentContact.id == creator.id
                             "
-                            class="mx-auto hidden h-3 w-3 group-hover:block" />
-                          <ArrowSmallLeftIcon
+                            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
+                          <XMarkIcon
                             v-else
-                            class="mx-auto hidden h-3 w-3 group-hover:block" />
+                            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
                         </div>
                       </div>
                     </td>
@@ -1210,7 +1210,7 @@ import {
   AdjustmentsHorizontalIcon,
   XMarkIcon,
   UserGroupIcon,
-  ArrowSmallRightIcon,
+  ArrowTopRightOnSquareIcon,
   PhoneIcon,
   ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
@@ -1276,7 +1276,7 @@ export default {
     SwitchLabel,
     ArrowUpCircleIcon,
     TransitionRoot,
-    ArrowSmallRightIcon,
+    ArrowTopRightOnSquareIcon,
   },
   data() {
     return {
