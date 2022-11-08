@@ -86,7 +86,7 @@
                 </JovieTooltip>
               </div>
               <!--  <div
-                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30"
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
@@ -225,7 +225,7 @@
               <!-- <div v-if="currentContact">
                 <button
                   v-if="!$store.state.ContactSidebarOpen"
-                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
                   <ChevronRightIcon
                     @click="openSidebarAndSetContact()"
                     class="h-5 w-5 font-bold text-gray-400 transition-all group-hover:text-neutral-600" />
@@ -238,12 +238,12 @@
           <div
             class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="block w-full divide-y divide-y divide-gray-200 divide-gray-200 overflow-x-auto">
+              class="block w-full divide-y divide-gray-200 overflow-x-auto">
               <thead class="relative isolate z-20 items-center bg-neutral-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-20 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter before:content-[''] before:border-l before:border-gray-300 before:absolute before:left-0 before:top-0 before:h-full">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -267,7 +267,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-r border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter after:content-[''] after:border-r after:border-gray-300 after:absolute after:right-[-1px] after:top-0 after:h-full">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
@@ -288,7 +288,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -302,9 +302,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <TrashIcon class="mr-2 inline h-4 w-4" />
                                   Remove from list
@@ -324,9 +324,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <ArchiveBoxIcon
                                     :active="active"
@@ -360,7 +360,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-slot="{ active }"
                                 v-for="list in userLists"
@@ -374,9 +374,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center px-4 py-2 text-left text-xs font-bold line-clamp-1 first:rounded-t-md',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <span class="px-1">{{
                                     list.emoji ? list.emoji : '📄'
@@ -388,9 +388,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group inline w-full items-center rounded-b-md border border-t border-neutral-200 px-2 py-2 text-left text-xs font-bold ',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <div
                                     class="mx-auto flex content-center items-center text-center">
@@ -399,7 +399,7 @@
                                     >
                                     <PlusIcon
                                       :active="active"
-                                      class="mr-2 h-3 w-3 text-neutral-400"
+                                      class="ml-2 h-3 w-3 text-neutral-400"
                                       aria-hidden="true" />
                                   </div>
                                 </button>
@@ -464,7 +464,7 @@
                   <tr
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
-                    class="border-1 group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
+                    class="border-1 group group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
                         'bg-neutral-100 hover:bg-neutral-100':
@@ -473,7 +473,7 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 before:content-[''] before:border-l before:border-neutral-200 before:absolute before:left-0 before:top-0 before:h-full">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -504,6 +504,13 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
                       class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
@@ -534,8 +541,15 @@
                       </div>
                     </td>
                     <td
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:content-[''] after:border-r after:border-gray-300 after:absolute after:right-[-1px] after:top-0 after:h-full">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
@@ -559,7 +573,7 @@
 
                           <div
                             v-if="cellActive"
-                            class="text-sm text-gray-900 line-clamp-1">
+                            class="items-center text-sm text-gray-900 line-clamp-1">
                             <input
                               v-model="creator.meta.name"
                               @blur="$emit('updateCrmMeta', creator)"
@@ -579,9 +593,16 @@
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto w-6 items-center rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
-                          <ArrowsPointingOutIcon
-                            class="hidden h-3 w-3 group-hover:block" />
+                          class="mx-auto h-5 w-5 items-center rounded-full bg-neutral-200/0 pr-1 text-center text-neutral-400 hover:bg-neutral-200 active:border">
+                          <ArrowTopRightOnSquareIcon
+                            v-if="
+                              !this.$store.state.ContactSidebarOpen &&
+                              currentContact.id == creator.id
+                            "
+                            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
+                          <XMarkIcon
+                            v-else
+                            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
                         </div>
                       </div>
                     </td>
@@ -843,7 +864,7 @@
                         autoApply="true"
                         type="datetime-local"
                         :id="creator.id + '_datepicker'"
-                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                         placeholder="--/--/--"
                         aria-describedby="email-description" />
                       <!-- <input
@@ -924,111 +945,118 @@
                               leave-from-class="transform opacity-100 scale-100"
                               leave-to-class="transform opacity-0 scale-95">
                               <MenuItems
-                                class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                 <div class="py-1">
                                   <MenuItem
                                     :disabled="
-                                      !creator.emails[0] || !creator.meta.emails
+                                      !creator.emails && !creator.meta.emails
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
-                                    <a
+                                    <button
                                       @click="
                                         emailCreator(
                                           creator.emails[0] ||
                                             creator.meta.emails[0]
                                         )
                                       "
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <EnvelopeIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Email</a
-                                    >
+                                        class="mr-2 inline h-4 w-4 text-indigo-400" />
+                                      Email
+                                    </button>
                                   </MenuItem>
 
                                   <MenuItem
-                                    :disabled="!creator.meta.phone"
+                                    :disabled="
+                                      !creator.meta.phone && !creator.phone
+                                    "
                                     v-slot="{ active }"
                                     class="items-center">
-                                    <a
-                                      @click="callCreator(creator.meta.phone)"
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                                    <button
+                                      @click="
+                                        callCreator(
+                                          creator.meta.phone || creator.phone
+                                        )
+                                      "
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
-                                      <PhoneIcon class="mr-2 inline h-4 w-4" />
-                                      Call</a
-                                    >
+                                      <PhoneIcon
+                                        class="mr-2 inline h-4 w-4 text-pink-400" />
+                                      Call
+                                    </button>
                                   </MenuItem>
                                   <MenuItem
-                                    :disabled="!creator.meta.phone"
+                                    :disabled="
+                                      !creator.meta.phone && !creator.phone
+                                    "
                                     v-slot="{ active }"
                                     class="items-center">
-                                    <a
-                                      @click="textCreator(creator.meta.phone)"
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
+                                    <button
+                                      @click="
+                                        textCreator(
+                                          creator.meta.phone || creator.phone
+                                        )
+                                      "
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ChatBubbleLeftEllipsisIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Send SMS</a
-                                    >
+                                        class="mr-2 inline h-4 w-4 text-blue-400" />
+                                      Send SMS
+                                    </button>
                                   </MenuItem>
                                   <MenuItem
-                                    :disabled="!creator.meta.phone"
+                                    :disabled="
+                                      !creator.meta.phone && !creator.phone
+                                    "
                                     v-slot="{ active }"
                                     class="items-center">
-                                    <a
+                                    <button
                                       @click="
-                                        whatsAppCreator(creator.meta.phone)
+                                        whatsAppCreator(
+                                          creator.meta.phone || creator.phone
+                                        )
                                       "
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ChatBubbleOvalLeftEllipsisIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Whatsapp</a
-                                    >
+                                        class="mr-2 inline h-4 w-4 text-green-400" />
+                                      Whatsapp
+                                    </button>
                                   </MenuItem>
 
                                   <MenuItem
                                     v-slot="{ active }"
                                     class="cursor-pointer items-center">
-                                    <a
-                                      href="#"
+                                    <button
                                       @click="downloadVCF(creator)"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <CloudArrowDownIcon
-                                        class="mr-2 inline h-4 w-4" />
+                                        class="mr-2 inline h-4 w-4 text-violet-400" />
                                       Download VCard
-                                    </a>
+                                    </button>
                                   </MenuItem>
                                   <MenuItem
                                     v-if="filters.list"
@@ -1043,14 +1071,14 @@
                                     ">
                                     <a
                                       href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
-                                      <TrashIcon class="mr-2 inline h-4 w-4" />
+                                      <TrashIcon
+                                        class="mr-2 inline h-4 w-4 text-red-400" />
                                       Remove from list</a
                                     >
                                   </MenuItem>
@@ -1064,24 +1092,22 @@
                                       )
                                     "
                                     class="items-center">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
+                                    <button
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ArchiveBoxIcon
-                                        class="mr-2 inline h-4 w-4" />
+                                        class="mr-2 inline h-4 w-4 text-sky-400" />
                                       {{
                                         filters.type == 'archived' &&
                                         creator.crm_record_by_user.archived
                                           ? 'Unarchived'
                                           : 'Archive'
                                       }}
-                                    </a>
+                                    </button>
                                   </MenuItem>
                                   <MenuItem
                                     v-if="currentUser.is_admin"
@@ -1094,9 +1120,9 @@
                                       class="items-center text-neutral-400 hover:text-neutral-900"
                                       :class="[
                                         active
-                                          ? 'bg-gray-100 text-gray-900'
+                                          ? 'bg-neutral-100 text-neutral-900'
                                           : 'text-gray-700',
-                                        'block px-4 py-2 text-xs',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ArrowPathIcon
                                         class="mr-2 inline h-4 w-4" />
@@ -1152,6 +1178,7 @@ import StarRating from 'vue-star-rating';
 import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
+  ArrowSmallLeftIcon,
   ChevronDownIcon,
   PlusIcon,
   ChatBubbleOvalLeftEllipsisIcon,
@@ -1176,7 +1203,7 @@ import {
   AdjustmentsHorizontalIcon,
   XMarkIcon,
   UserGroupIcon,
-  ArrowsPointingOutIcon,
+  ArrowTopRightOnSquareIcon,
   PhoneIcon,
   ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
@@ -1202,6 +1229,7 @@ export default {
     ButtonGroup,
     Menu,
     EnvelopeIcon,
+    ArrowSmallLeftIcon,
     Switch,
     Datepicker,
     MenuButton,
@@ -1241,7 +1269,7 @@ export default {
     SwitchLabel,
     ArrowUpCircleIcon,
     TransitionRoot,
-    ArrowsPointingOutIcon,
+    ArrowTopRightOnSquareIcon,
   },
   data() {
     return {
@@ -1253,7 +1281,7 @@ export default {
       currentRow: null,
       date: null,
       selectedCreators: [],
-      activeCreator: {},
+      /*  activeCreator: {}, */
       currentContact: [],
       editingSocialHandle: true,
       searchVisible: false,
@@ -1431,6 +1459,11 @@ export default {
     this.creatorRecords = this.creatorRecords.length
       ? this.creatorRecords
       : this.creators;
+
+
+   
+
+
   },
   computed: {
     sidebarOpen() {
@@ -1529,6 +1562,7 @@ export default {
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
         this.currentContact = this.creatorRecords[0];
+        console.log(this.currentContact.id);
         this.$store.state.ContactSidebarOpen = true;
       }
       //esle just open the sidebar
@@ -1811,18 +1845,20 @@ export default {
     },
     toggleContactSidebar() {
       //toggle this.$store.state.ContactSidebarOpen
+
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },
-    setActiveCreator(creator) {
+    /* setActiveCreator(creator) {
       this.activeCreator = creator;
       //emit the active creator to the parent component
       this.$emit('activeCreator', creator);
       //log the id of the active creator in the console
       console.log('The active creator is ' + this.activeCreator);
-    },
+    }, */
     setCurrentContact(e, creator) {
       this.currentContact = creator;
+
       if (e.target.name == 'selectCreatorCheckbox') {
         if (this.selectedCreators.includes(creator.id)) {
           this.selectedCreators.splice(
@@ -1838,13 +1874,19 @@ export default {
     nextContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index < this.creatorRecords.length - 1) {
-        this.setCurrentContact(this.creatorRecords[index + 1]);
+        this.setCurrentContact(
+          'setCurrentCreator',
+          this.creatorRecords[index + 1]
+        );
       }
     },
     previousContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index > 0) {
-        this.setCurrentContact(this.creatorRecords[index - 1]);
+        this.setCurrentContact(
+          'setCurrentCreator',
+          this.creatorRecords[index - 1]
+        );
       }
     },
     refresh(creator) {

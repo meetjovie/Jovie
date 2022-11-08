@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full w-80 bg-white">
+  <div class="h-full w-80 bg-white">
     <div v-if="user.loggedIn">
       <div
         v-if="!jovie"
@@ -87,7 +87,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-6 py-2 px-4">
+      <div class="overflow-y-scoll grid grid-cols-6 py-2 px-4">
         <SocialIcons
           icon="instagram"
           :link="creator.instagram_handler || creator.meta.instagram_handler"
@@ -178,7 +178,7 @@
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
                 class="inline-flex w-full items-center justify-between rounded border border-gray-300 bg-white py-1 px-4 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                <span class="line-clamp-1">Message</span>
+                <span class="text-center line-clamp-1">Message</span>
                 <ChevronDownIcon
                   class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
                   aria-hidden="true" />
@@ -191,42 +191,65 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
-                  <MenuItem class="items-center">
-                    <a
-                      :disabled="!creator.emails[0] || !creator.meta.emails"
+                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
+                  <MenuItem
+                    :disabled="!creator.emails[0] && !creator.meta.emails"
+                    v-slot="{ active }">
+                    <button
                       @click="
-                        emailCreator(creator.emails[0] || creator.meta.emails)
+                        emailCreator(creator.emails || creator.meta.emails)
                       "
-                      href="#"
-                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
-                      <EnvelopeIcon class="mr-2 inline h-4 w-4" />
-                      Email</a
-                    >
-                  </MenuItem>
-                  <MenuItem class="items-center">
-                    <a
-                      :disabled="!creator.meta.phone || !creator.meta.phone"
-                      @click="textCreator(creator.meta.phone || creator.phone)"
-                      href="#"
-                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
-                      <ChatBubbleLeftEllipsisIcon class="mr-2 inline h-4 w-4" />
-                      Send SMS</a
-                    >
+                      :class="[
+                        active
+                          ? 'bg-neutral-100 text-neutral-900'
+                          : 'text-gray-700',
+                        'group flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                      ]">
+                      <EnvelopeIcon
+                        :active="active"
+                        class="mr-2 h-4 w-4 text-indigo-400"
+                        aria-hidden="true" />
+                      Email
+                    </button>
                   </MenuItem>
 
-                  <MenuItem class="items-center">
-                    <a
-                      :disabled="!creator.meta.phone || !creator.meta.phone"
+                  <MenuItem
+                    :disabled="!creator.phone && !creator.meta.phone"
+                    v-slot="{ active }">
+                    <button
+                      @click="textCreator(creator.phone || creator.meta.phone)"
+                      :class="[
+                        active
+                          ? 'bg-neutral-100 text-neutral-900'
+                          : 'text-gray-700',
+                        'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                      ]">
+                      <ChatBubbleLeftEllipsisIcon
+                        :active="active"
+                        class="mr-2 h-4 w-4 text-blue-400"
+                        aria-hidden="true" />
+                      Send SMS
+                    </button>
+                  </MenuItem>
+                  <MenuItem
+                    :disabled="!creator.phone && !creator.meta.phone"
+                    v-slot="{ active }">
+                    <button
                       @click="
-                        whatsappCreator(creator.meta.phone || creator.phone)
+                        whatsappCreator(creator.phone || creator.meta.phone)
                       "
-                      href="#"
-                      class="disable:cursor-not-allowed block cursor-pointer items-center px-4 py-2 text-xs text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 disabled:text-neutral-200 disabled:hover:text-neutral-200">
+                      :class="[
+                        active
+                          ? 'bg-neutral-100 text-neutral-900'
+                          : 'text-gray-700',
+                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                      ]">
                       <ChatBubbleOvalLeftEllipsisIcon
-                        class="mr-2 inline h-4 w-4" />
-                      Whatsapp Message</a
-                    >
+                        :active="active"
+                        class="mr-2 h-4 w-4 text-green-400"
+                        aria-hidden="true" />
+                      Send WhatsApp
+                    </button>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -246,7 +269,7 @@
           :lists="creator.lists"
           :current-list="creator.current_list" />
       </div>
-      <div class="mt-4 space-y-4 px-2">
+      <div class="mt-4 h-full space-y-4 overflow-y-scroll px-2">
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">
           Contact Details
         </h2>
@@ -330,7 +353,10 @@
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
           placeholder="Youtube" />
-        <TextAreaInput v-model="creator.note" @blur="updateCreatorNote" />
+        <TextAreaInput
+          ref="noteInput"
+          v-model="creator.note"
+          @blur="updateCreatorNote" />
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
         <div class="mx-auto">
@@ -539,6 +565,13 @@ export default {
     InputLists,
     SocialIcons,
   },
+  mounted() {
+    this.$mousetrap.bind('n', () => {
+      //focus on noteInput
+      console.log('n');
+      this.$refs.noteInput.focus();
+    });
+  },
   watch: {
     creator: function (val) {
       console.log('this.creator');
@@ -665,12 +698,13 @@ export default {
       default: false,
     },
   },
+
   methods: {
     emailCreator(email) {
       console.log('email');
       //go to the url mailto:creator.emails[0]
       //if email is not null
-      if (email) {
+      if (email.length > 0) {
         window.open('mailto:' + email);
         //else log no email found
       } else {
@@ -799,9 +833,9 @@ export default {
             this.errors = error.data.errors;
             this.$notify({
               group: 'user',
-              type: 'success',
+              type: 'error',
               duration: 15000,
-              title: 'Successful',
+              title: 'Error',
               text: Object.values(error.data.errors)[0][0],
             });
           }
