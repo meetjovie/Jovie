@@ -92,8 +92,8 @@
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
                       class="hidden h-4 w-6 items-center text-neutral-400 active:text-neutral-500 group-hover/list:block">
-                      <EllipsisVerticalIcon
-                        class="mt-1 hidden h-4 w-4 text-neutral-400 active:text-neutral-500 group-hover/list:block"></EllipsisVerticalIcon>
+                      <EllipsisHorizontalIcon
+                        class="mt-1 hidden h-4 w-4 text-neutral-400 active:text-neutral-500 group-hover/list:block"></EllipsisHorizontalIcon>
                     </MenuButton>
 
                     <transition
@@ -241,8 +241,8 @@
                 <div>
                   <MenuButton
                     class="hidden h-4 w-4 text-neutral-400 group-hover:block">
-                    <EllipsisVerticalIcon
-                      class="mt-1 h-3 w-3 text-neutral-400 active:text-neutral-500"></EllipsisVerticalIcon>
+                    <EllipsisHorizontalIcon
+                      class="mt-1 h-3 w-3 text-neutral-400 active:text-neutral-500"></EllipsisHorizontalIcon>
                   </MenuButton>
                 </div>
 
@@ -373,7 +373,7 @@ import {
   ChevronDownIcon,
   PlusIcon,
   Bars3Icon,
-  EllipsisVerticalIcon,
+  EllipsisHorizontalIcon,
   BookmarkIcon,
   DocumentDuplicateIcon,
   ArchiveBoxIcon,
@@ -759,7 +759,7 @@ export default {
     JovieSpinner,
     PinnedIcon,
     ChevronDownIcon,
-    EllipsisVerticalIcon,
+    EllipsisHorizontalIcon,
     PlusIcon,
     Bars3Icon,
     ArchiveBoxIcon,

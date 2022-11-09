@@ -282,7 +282,7 @@
           :lists="creator.lists"
           :current-list="creator.current_list" />
       </div>
-      <div class="mt-4 h-full space-y-4 overflow-y-scroll px-2">
+      <div class="mt-4 h-80 space-y-4 overflow-y-scroll px-2">
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">
           Contact Details
         </h2>
@@ -293,16 +293,16 @@
           id="location"
           icon="MapPinIcon"
           label="Location"
-          placeholder="Location"
-          ><slot name="icon">HI</slot></DataInputGroup
-        >
-
+          isCopyable
+          placeholder="Location"></DataInputGroup>
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.emails"
           icon="EnvelopeIcon"
           id="email"
           label="Email"
+          @action="emailCreator(creator.meta.emails)"
+          action="EnvelopeIcon"
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.emails)"
           placeholder="email@email.com" />
@@ -310,7 +310,11 @@
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.website"
           icon="LinkIcon"
+          action="ArrowTopRightOnSquareIcon"
+          @action="openLink(creator.meta.website)"
           id="website"
+          isCopyable
+          @copyToClipboard="copyToClipboard(creator.meta.website)"
           label="Website"
           placeholder="Website" />
         <DataInputGroup
@@ -318,12 +322,16 @@
           v-model="creator.meta.phone"
           id="phone"
           icon="PhoneIcon"
+          action="PhoneIcon"
+          @action="callCreator(creator.meta.phone)"
           label="Phone"
           @copyToClipboard="copyToClipboard(creator.meta.phone)"
           placeholder="Phone" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           socialicon="instagram"
+          action="ArrowTopRightOnSquareIcon"
+          @action="openSocialLink(creator.meta.instagram, 'instagram')"
           v-model="creator.meta.instagram_handler"
           id="instagram_handler"
           label="Instagram"
@@ -366,6 +374,8 @@
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
           placeholder="Youtube" />
+      </div>
+      <div class="mt-2 justify-self-end bg-white px-2">
         <TextAreaInput
           ref="noteInput"
           v-model="creator.note"
@@ -587,11 +597,11 @@ export default {
   },
   async mounted() {
     // console.log('Sidebar loaded');
-      this.$mousetrap.bind('n', () => {
-          //focus on noteInput
-          console.log('n');
-          this.$refs.noteInput.focus();
-      });
+    this.$mousetrap.bind('n', () => {
+      //focus on noteInput
+      console.log('n');
+      this.$refs.noteInput.focus();
+    });
     try {
       document.onreadystatechange = () => {
         if (document.readyState == 'complete') {
@@ -730,6 +740,22 @@ export default {
         this.$notify({
           title: 'No email found',
           message: 'This contact does not have an email address',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    openSocialLink(url, network) {
+      console.log('url');
+      //go to the url
+      //if url is not null
+      if (url.length > 0) {
+        //else log no url found
+      } else {
+        console.log('No url found');
+        this.$notify({
+          title: 'No url found',
+          message: 'This contact does not have a url',
           type: 'warning',
           group: 'user',
         });

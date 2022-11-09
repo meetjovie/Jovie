@@ -1,20 +1,24 @@
 <template>
-  <div class="">
-    <div class="group relative mt-1">
+  <div class="group/datainput mt-1 flex">
+    <div class="group/move active:grabbing flex w-3 cursor-grab items-center">
+      <EllipsisVerticalIcon
+        class="h-5 w-5 text-neutral-400 group-hover/move:text-neutral-700" />
+    </div>
+    <div class="group relative mt-1 w-full">
       <div class="relative">
         <div
           v-if="icon"
-          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <component :is="icon" class="h-5 w-5 text-neutral-400" />
+          class="pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
+          <component :is="icon" class="h-3 w-3 text-neutral-400" />
         </div>
         <div
           v-if="socialicon"
-          class="opacity/50 pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          class="opacity/50 pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
           <SocialIcons
             class="text-neutral-400"
             link="#"
-            width="16px"
-            height="16px"
+            width="8px"
+            height="8px"
             :icon="socialicon" />
         </div>
         <input
@@ -27,9 +31,9 @@
           :value="modelValue ?? value"
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
-          class="input-field h-8 w-full rounded border border-gray-300 border-opacity-0 py-2 px-2 leading-none text-gray-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-gray-100"
+          class="input-field prrounded h-8 w-full border border-gray-300 border-opacity-0 py-2 px-2 leading-none text-gray-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-gray-100"
           :class="[
-            icon ? 'pl-10' : '',
+            icon ? 'pl-4' : '',
             { 'rounded-r-md': rounded == 'right' },
             { 'rounded-l-md': rounded == 'left' },
             { 'rounded-t-md': rounded == 'top' },
@@ -40,10 +44,17 @@
             { 'rounded-bl-md': rounded == 'bottom-left' },
             { 'rounded-br-md': rounded == 'bottom-right' },
             { 'py-0 text-xs': size == 'md' },
-            { 'pl-10': socialicon },
+            { 'pl-4': socialicon },
+            { 'pr-14': action || isCopyable },
           ]"
           :placeholder="label" />
         <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+          <div v-if="action && (modelValue || value)" class="group/action px-1">
+            <component
+              @click="$emit('action')"
+              :is="action"
+              class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-neutral-500" />
+          </div>
           <div v-if="loader" class="pointer-events-none transition-all">
             <JovieSpinner />
           </div>
@@ -94,7 +105,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-neutral-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
+          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 pl-4 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-neutral-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
           >{{ label }}</label
         >
       </div>
@@ -108,6 +119,7 @@ import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import {
   MagnifyingGlassIcon,
+  ArrowTopRightOnSquareIcon,
   ClipboardDocumentCheckIcon,
   CameraIcon,
   VideoCameraIcon,
@@ -128,6 +140,7 @@ import {
   BriefcaseIcon,
   ClipboardDocumentIcon,
   CheckCircleIcon,
+  EllipsisVerticalIcon,
 } from '@heroicons/vue/24/solid';
 export default {
   name: 'InputGroup',
@@ -192,15 +205,21 @@ export default {
       type: Boolean,
       default: false,
     },
+    action: {
+      type: String,
+      default: null,
+    },
     socialicon: {
       type: String,
     },
   },
   components: {
     EnvelopeIcon,
+    EllipsisVerticalIcon,
     VideoCameraIcon,
     ChatBubbleLeftEllipsisIcon,
     CameraIcon,
+    ArrowTopRightOnSquareIcon,
     LinkIcon,
     MagnifyingGlassIcon,
     PhotoIcon,
