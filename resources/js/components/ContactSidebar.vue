@@ -149,8 +149,8 @@
           aria-hidden="true"
           :countsVisible="false" />
       </div>
-      <div v-if="activeSocialNetworkURLEdit">
-        <div class="relative rounded-md py-1 px-2 shadow-sm">
+      <div v-if="socialURLEditing">
+        <div class="relative rounded-md px-2 py-1 shadow-sm">
           <div
             class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <SocialIcons
@@ -161,11 +161,18 @@
               aria-hidden="true" />
           </div>
           <input
-            type="email"
-            name="email"
-            id="email"
-            class="block w-full rounded-md border-gray-300 pl-10 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+            type="social_network_url"
+            name="social_network_url"
+            id="social_network_url"
+            class="block w-full rounded-md border-gray-300 px-1 py-1 pl-8 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
             placeholder="Enter or paste social link here" />
+          <div
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <XMarkIcon
+              @click="saveSocialNetworkURL()"
+              class="h-4 w-4 text-gray-400"
+              aria-hidden="true" />
+          </div>
         </div>
       </div>
 
@@ -702,8 +709,15 @@ export default {
       default: false,
     },
   },
+  //add data for editingSocialURL
+  data() {
+    return { socialURLEditing: false };
+  },
 
   methods: {
+    saveSocialURL() {
+      this.socialURLEditing = false;
+    },
     emailCreator(email) {
       console.log('email');
       //go to the url mailto:creator.emails[0]
@@ -847,15 +861,19 @@ export default {
         .finally((response) => {});
     },
     editSocialNetworkURL(network, creator) {
-      console.log('editSocialNetworkURL');
       console.log(network);
       console.log(creator);
+      this.socialURLEditing = true;
+      console.log(this.socialURLEditing);
+      /*  this.editingSocialNetworkURL = network;
+      console.log('editSocialNetworkURL');
+      
 
       this.activeSocialNetworkURLEdit = {
         network: network,
         creator: creator,
       };
-      this.$emit('editSocialNetworkURL', network, creator);
+      this.$emit('editSocialNetworkURL', network, creator); */
     },
     closeContactSidebar() {
       //turn off the sidebar

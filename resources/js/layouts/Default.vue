@@ -349,6 +349,13 @@ export default {
         { name: 'Pricing', href: '/pricing', current: false },
         { name: 'Get started free', href: '/signup', current: false },
       ],
+      intergrations: [
+        { name: 'Instagram', href: '/integrations/instagram', current: false },
+        { name: 'Twitter', href: '/integrations/twitter', current: false },
+        { name: 'LinkedIn', href: '/integrations/linkedin', current: false },
+        { name: 'TikTok', href: '/integrations/tiktok', current: false },
+        { name: 'Twitch', href: '/intergrations/twitch', current: false },
+      ],
       features: [
         {
           name: 'Contact profiles',

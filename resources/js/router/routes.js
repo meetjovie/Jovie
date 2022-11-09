@@ -66,7 +66,7 @@ export const routes = [
     path: '/yc-demo-video',
     beforeEnter(to, from, next) {
       window.open(
-        'https://www.loom.com/share/aeeaf6beba554cb6898e454ababae321',
+        'https://www.loom.com/share/621ed0f9a53848c4858b3b9f8f9d22c6',
         '_self'
       );
     },
