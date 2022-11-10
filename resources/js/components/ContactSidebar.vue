@@ -289,7 +289,7 @@
       </div>
       <div class="h-80 space-y-6 overflow-y-scroll px-2">
         <draggable
-          class="select-none space-y-4"
+          class="select-none space-y-2"
           group="lists"
           ghost-class="ghost-card"
           :creator="creator"
@@ -310,7 +310,7 @@
               :placeholder="element.location" />
           </div>
         </draggable>
-        <DataInputGroup
+        <!-- <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.location"
           :value="`${creator.city ?? ''} ${creator.country ?? ''}`"
@@ -329,7 +329,7 @@
           action="EnvelopeIcon"
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.emails)"
-          placeholder="email@email.com" />
+          placeholder="email@email.com" /> -->
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.website"
@@ -956,30 +956,30 @@ export default {
       });
     },
   },
-    computed: {
-        fields: [
-            {
-                name: 'Location',
-                icon: 'MapPinIcon',
-                id: 1,
+  computed: {
+    fields: [
+      {
+        name: 'Location',
+        icon: 'MapPinIcon',
+        id: 1,
 
-                model: "creator.meta.location",
-                isCopyable: true,
-                actionFunction: 'editSocialNetworkURL',
-                placeholder: 'Location',
-            },
-            {
-                name: 'Email',
-                icon: 'EnvelopeIcon',
-                id: 2,
-                actionIcon: 'EditIcon',
-                value: null,
-                model: "creator.meta.emails",
-                isCopyable: true,
-                placeholder: 'Email',
-            },
-        ],
-    },
+        model: 'creator.meta.location',
+        isCopyable: true,
+        actionFunction: 'editSocialNetworkURL',
+        placeholder: 'Location',
+      },
+      {
+        name: 'Email',
+        icon: 'EnvelopeIcon',
+        id: 2,
+        actionIcon: 'EditIcon',
+        value: null,
+        model: 'creator.meta.emails',
+        isCopyable: true,
+        placeholder: 'Email',
+      },
+    ],
+  },
   data() {
     return {
       sidebarLoading: false,
