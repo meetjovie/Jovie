@@ -329,7 +329,7 @@
           action="EnvelopeIcon"
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.emails)"
-          placeholder="email@email.com" /> -->
+          placeholder="email@email.com" /> 
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.website"
@@ -397,7 +397,7 @@
           label="Youtube"
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
-          placeholder="Youtube" />
+          placeholder="Youtube" />-->
       </div>
       <div class="mt-2 justify-self-end bg-white px-2">
         <TextAreaInput
@@ -956,32 +956,112 @@ export default {
       });
     },
   },
-    computed: {
-        fields() {
-            return [
-                {
-                    name: 'Location',
-                    icon: 'MapPinIcon',
-                    id: 1,
-
-                    model: this.creator.meta.location,
-                    isCopyable: true,
-                    actionFunction: 'editSocialNetworkURL',
-                    placeholder: 'Location',
-                },
-                {
-                    name: 'Email',
-                    icon: 'EnvelopeIcon',
-                    id: 2,
-                    actionIcon: 'EditIcon',
-                    value: null,
-                    model: this.creator.meta.emails,
-                    isCopyable: true,
-                    placeholder: 'Email',
-                },
-            ]
+  computed: {
+    fields() {
+      return [
+        {
+          name: 'Location',
+          icon: 'MapPinIcon',
+          id: 1,
+          model: this.creator.meta.location,
+          isCopyable: true,
+          actionFunction: 'editSocialNetworkURL',
+          placeholder: 'Location',
         },
+        {
+          name: 'Email',
+          icon: 'EnvelopeIcon',
+          id: 2,
+          actionIcon: 'EditIcon',
+          value: null,
+          action: this.emailCreator(this.creator.meta.email),
+          model: this.creator.meta.emails,
+          isCopyable: true,
+          placeholder: 'Email',
+        },
+        {
+          name: 'Phone',
+          icon: 'PhoneIcon',
+          id: 3,
+          actionIcon: 'PhoneIcon',
+          action: this.callCreator(this.creator.meta.phone),
+          model: this.creator.meta.phone,
+          isCopyable: true,
+          placeholder: 'Phone',
+        },
+        {
+          name: 'Website',
+          icon: 'LinkIcon',
+          id: 4,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          action: this.openLink(this.creator.meta.website),
+          model: this.creator.meta.website,
+          isCopyable: true,
+          placeholder: 'Website',
+        },
+        {
+          name: 'Instagram',
+          sociaicon: 'instagram',
+          id: 5,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          action: this.openLink(this.creator.meta.instagram_handler),
+          model: this.creator.meta.instagram_handler,
+          isCopyable: true,
+          placeholder: 'Instagram',
+        },
+        {
+          name: 'Twitter',
+          sociaicon: 'twitter',
+          id: 6,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          action: this.openLink(this.creator.meta.twitter_handler),
+          model: this.creator.meta.twitter_handler,
+          isCopyable: true,
+          placeholder: 'Twitter',
+        },
+        {
+          name: 'TikTok',
+          sociaicon: 'tiktok',
+          id: 7,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          action: this.openLink(this.creator.meta.tiktok_handler),
+          model: this.creator.meta.tiktok_handler,
+          isCopyable: true,
+          placeholder: 'TikTok',
+        },
+        {
+          name: 'Youtube',
+          sociaicon: 'youtube',
+          id: 8,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          action: this.openLink(this.creator.meta.youtube_handler),
+          model: this.creator.meta.youtube_handler,
+          isCopyable: true,
+          placeholder: 'Youtube',
+        },
+        {
+          name: 'Twitch',
+          sociaicon: 'twitch',
+          id: 9,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          action: this.openLink(this.creator.meta.twitch_handler),
+          model: this.creator.meta.twitch_handler,
+          isCopyable: true,
+          placeholder: 'Twitch',
+        },
+        {
+          name: 'Linkedin',
+          sociaicon: 'linkedin',
+          id: 10,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          action: this.openLink(this.creator.meta.linkedin_handler),
+          model: this.creator.meta.linkedin_handler,
+          isCopyable: true,
+          placeholder: 'Linkedin',
+        },
+      ];
     },
+  },
   data() {
     return {
       sidebarLoading: false,

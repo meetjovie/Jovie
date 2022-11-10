@@ -88,6 +88,7 @@
               </svg>
             </div>
             <div
+              @click="copyToClipboard(modelValue || value)"
               class="group/copy cursor-pointer text-red-500"
               v-else-if="isCopyable && (modelValue || value)">
               <ClipboardDocumentIcon
@@ -245,10 +246,18 @@ export default {
       this.itemCopied = false;
       this.$emit('copyToClipboard');
       this.itemCopied = true;
+      //notify the user the item is copied
+      this.$notify({
+        group: 'user',
+        title: 'Copied',
+        text: 'Copied to clipboard',
+        type: 'success',
+        duration: 2000,
+      });
       //reset value after 10 seconds
       setTimeout(() => {
         this.itemCopied = false;
-      }, 10000);
+      }, 5000);
     },
   },
 };
