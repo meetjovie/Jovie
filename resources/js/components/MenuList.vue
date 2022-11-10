@@ -4,13 +4,13 @@
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-700 hover:bg-neutral-200 hover:text-neutral-600/0">
+        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-medium tracking-wider text-neutral-700 hover:bg-neutral-200 hover:text-neutral-800">
         <ChevronDownIcon
           v-if="showMenu"
-          class="mt-0.5 mr-1 h-4 w-4 text-neutral-500 group-hover:text-neutral-600/0" />
+          class="mt-0.5 mr-1 h-4 w-4 text-neutral-700 group-hover:text-neutral-800" />
         <ChevronRightIcon
           v-else
-          class="text-thin mr-1 h-4 w-4 text-xs text-neutral-500 group-hover:text-neutral-600/0" />
+          class="text-thin mr-1 h-4 w-4 text-xs text-neutral-700 group-hover:text-neutral-800" />
         {{ menuName }}
       </div>
       <div class="flex items-center">
@@ -43,13 +43,13 @@
               <div
                 class="group/move mx-auto w-4 flex-none cursor-grab items-center">
                 <Bars3Icon
-                  class="h-3 w-3 text-neutral-500/0 active:text-neutral-900 group-hover/list:text-neutral-900"></Bars3Icon>
+                  class="h-3 w-3 text-neutral-700/0 active:text-neutral-900 group-hover/list:text-neutral-900"></Bars3Icon>
               </div>
 
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="mr-1 w-6 cursor-pointer items-center rounded-md px-1 py-1 text-center text-xs transition-all hover:bg-neutral-600 active:bg-neutral-800 group-hover/list:bg-neutral-200">
+                  class="mr-1 w-6 cursor-pointer items-center rounded-md px-1 py-1 text-center text-xs transition-all hover:bg-neutral-800 active:bg-neutral-800 group-hover/list:bg-neutral-200">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
@@ -60,10 +60,10 @@
                     v-if="!element.editName"
                     :class="[
                       selectedList == element.id
-                        ? 'font-bold text-neutral-600 '
-                        : 'font-medium text-neutral-500',
+                        ? 'font-bold text-neutral-800 '
+                        : 'font-medium text-neutral-700',
                     ]"
-                    class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-neutral-600"
+                    class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-neutral-800"
                     >{{ element.name }}</span
                   >
                   <input
@@ -72,17 +72,17 @@
                     @keyup.esc="disableEditName(element)"
                     @keyup.enter="updateList(element)"
                     v-else
-                    class="text-xs font-medium text-neutral-500 group-hover/list:text-neutral-600" />
+                    class="text-xs font-medium text-neutral-700 group-hover/list:text-neutral-800" />
                 </div>
               </div>
               <div
                 class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-neutral-300 hover:text-neutral-50">
                 <ArrowPathIcon
                   v-if="element.updating_list"
-                  class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-neutral-600" />
+                  class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-neutral-800" />
                 <span
                   v-else
-                  class="text-right text-xs font-semibold text-neutral-500 group-hover/list:hidden group-hover/list:text-neutral-600"
+                  class="text-right text-xs font-medium text-neutral-700 group-hover/list:hidden group-hover/list:text-neutral-800"
                   >{{ element.creators_count }}</span
                 >
 
@@ -91,9 +91,9 @@
                   class="relative inline-block items-center text-center">
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
-                      class="hidden h-4 w-6 items-center text-neutral-400 active:text-neutral-500 group-hover/list:block">
+                      class="hidden h-6 w-6 items-center text-neutral-400 active:text-neutral-700 group-hover/list:block">
                       <EllipsisHorizontalIcon
-                        class="mt-1 hidden h-4 w-4 text-neutral-400 active:text-neutral-500 group-hover/list:block"></EllipsisHorizontalIcon>
+                        class="mt-1 hidden h-4 w-4 text-neutral-400 active:text-neutral-700 group-hover/list:block"></EllipsisHorizontalIcon>
                     </MenuButton>
 
                     <transition
@@ -190,11 +190,11 @@
     <ul v-if="showMenu && !draggable" class="">
       <div v-for="item in menuItems" :key="item.id">
         <div
-          class="group inline-flex h-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200">
+          class="group inline-flex h-8 w-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-neutral-200">
           <div class="group h-4 w-4 flex-none cursor-pointer items-center">
             <PinnedIcon
               :active="active"
-              class="hidden h-3 w-3 text-indigo-400 hover:bg-neutral-200 hover:text-neutral-500 active:text-indigo-500 group-hover:block"
+              class="hidden h-3 w-3 text-indigo-400 hover:bg-neutral-200 hover:text-neutral-700 active:text-indigo-500 group-hover:block"
               aria-hidden="true" />
           </div>
 
@@ -212,10 +212,10 @@
                 v-if="!item.editName"
                 :class="[
                   selectedList == item.id
-                    ? 'font-bold text-neutral-600 '
-                    : 'font-semibold text-neutral-500',
+                    ? 'font-bold text-neutral-800 '
+                    : 'font-medium text-neutral-700',
                 ]"
-                class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-600/0"
+                class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-800"
                 >{{ item.name }}</span
               >
               <input
@@ -225,24 +225,23 @@
                 @keyup.esc="disableEditName(item)"
                 @keyup.enter="updateList(item)"
                 v-else
-                class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-600/0" />
+                class="text-xs font-medium text-neutral-900 group-hover:text-neutral-800" />
             </div>
           </div>
 
           <div
             class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-neutral-300 hover:text-neutral-50">
             <span
-              class="text-right text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600/0"
+              class="text-right text-xs font-medium text-neutral-700 group-hover:hidden group-hover:text-neutral-800"
               >{{ item.creators_count }}</span
             >
-
             <Menu as="div" class="relative inline-block text-center">
               <Float portal :offset="12" placement="right-start">
                 <div class="mx-auto text-center">
                   <MenuButton
                     class="hidden h-4 w-4 text-neutral-400 group-hover:block">
                     <EllipsisHorizontalIcon
-                      class="mt-1 h-4 w-4 text-neutral-400 active:text-neutral-500"></EllipsisHorizontalIcon>
+                      class="mt-1 h-4 w-4 text-neutral-400 active:text-neutral-700"></EllipsisHorizontalIcon>
                   </MenuButton>
                 </div>
 
@@ -355,9 +354,9 @@
           label="List Name"
           placeholder="List Name"
           v-model="currentEditingList.name"
-          class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-500" />
+          class="text-xs font-medium text-neutral-900 group-hover:text-neutral-900" />
         <ToggleGroup :enabled="currentEditingList.pinned" /><span
-          class="ml-2 items-center text-xs font-semibold text-neutral-400 group-hover:text-neutral-500"
+          class="ml-2 items-center text-xs font-medium text-neutral-900 group-hover:text-neutral-900"
           >Pinned</span
         >
       </div>

@@ -20,11 +20,11 @@
                   text="Show All Contacts">
                   <button
                     @click="setFiltersType('all')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'all'
-                        ? 'text-sm font-bold text-neutral-600  '
-                        : 'text-sm font-semibold text-neutral-500',
+                        ? 'text-sm font-semibold text-neutral-900  '
+                        : 'text-sm font-medium text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <UserGroupIcon
@@ -36,7 +36,7 @@
                       @click="showCreatorModal = true"
                       class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
+                        class="text-xs font-medium text-neutral-700 group-hover:hidden group-hover:text-neutral-900"
                         >{{ counts.total }}</span
                       >
 
@@ -54,11 +54,11 @@
                   text="Show Archived Contacts">
                   <button
                     @click="setFiltersType('archived')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'archived'
-                        ? 'text-sm font-bold text-neutral-600 '
-                        : 'text-sm font-semibold text-neutral-500',
+                        ? 'text-sm font-semibold text-neutral-900 '
+                        : 'text-sm font-medium text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <ArchiveBoxIcon
@@ -67,7 +67,7 @@
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-500 group-hover:text-neutral-600"
+                        class="text-xs font-medium text-neutral-700 group-hover:text-neutral-900"
                         >{{ counts.archived }}</span
                       >
                     </div>
@@ -76,11 +76,11 @@
                 <JovieTooltip :shortcut="'G then F'" text="Show Favorites">
                   <button
                     @click="setFiltersType('favourites')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'favourites'
-                        ? 'text-sm font-bold text-neutral-600 '
-                        : 'text-sm font-semibold text-neutral-500',
+                        ? 'text-sm font-semibold text-neutral-900 '
+                        : 'text-sm font-medium text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <HeartIcon
@@ -89,7 +89,7 @@
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-500 group-hover:text-neutral-600"
+                        class="text-xs font-medium text-neutral-700 group-hover:text-neutral-900"
                         >{{ counts.favourites }}</span
                       >
                     </div>
@@ -124,7 +124,7 @@
               <JovieTooltip text="Import a new contact to Jovie">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200 hover:text-neutral-600">
+                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200 hover:text-neutral-900">
                   <PlusIcon
                     class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-500"
                     aria-hidden="true" />New Contact
@@ -133,7 +133,7 @@
               <JovieTooltip text="Upload a csv file to import contacts">
                 <router-link
                   to="import"
-                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200 hover:text-neutral-600">
+                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200 hover:text-neutral-900">
                   <div class="flex items-center">
                     <CloudArrowUpIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
@@ -213,7 +213,7 @@
                               <h1 class="text-md font-bold">
                                 You don't have any contacts yet.
                               </h1>
-                              <span class="text-sm font-medium text-neutral-500"
+                              <span class="text-sm font-medium text-neutral-900"
                                 >Enter a Twitch or Instagram url to add someone
                                 to Jovie.</span
                               >
@@ -239,7 +239,7 @@
                               <h1 class="text-md font-bold">
                                 You've just initated an import.
                               </h1>
-                              <span class="text-sm font-medium text-neutral-500"
+                              <span class="text-sm font-medium text-neutral-900"
                                 >You'll see creators populate this space
                                 soon.</span
                               >
