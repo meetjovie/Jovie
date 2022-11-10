@@ -301,7 +301,7 @@
             <DataInputGroup
               class="group/draggable"
               @blur="$emit('updateCrmMeta')"
-              v-model="$data[creator[element.model]]"
+              v-model="$data[creator.meta[element.model]]"
               :id="element.name"
               :icon="element.icon"
               :label="element.name"
