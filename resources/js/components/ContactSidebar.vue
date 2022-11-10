@@ -301,7 +301,7 @@
             <DataInputGroup
               class="group/draggable"
               @blur="$emit('updateCrmMeta')"
-              v-model="fields[index].model"
+              v-model="$data[creator[element.model]]"
               :id="element.name"
               :icon="element.icon"
               :label="element.name"
@@ -912,7 +912,7 @@ export default {
       console.log(this.socialURLEditing);
       /*  this.editingSocialNetworkURL = network;
       console.log('editSocialNetworkURL');
-      
+
 
       this.activeSocialNetworkURLEdit = {
         network: network,
@@ -967,7 +967,7 @@ export default {
           icon: 'MapPinIcon',
           id: 1,
 
-          model: creator.meta.location,
+          model: 'location',
           isCopyable: true,
           actionFunction: 'editSocialNetworkURL',
           placeholder: 'Location',
@@ -978,7 +978,7 @@ export default {
           id: 2,
           actionIcon: 'EditIcon',
           value: null,
-          model: creator.meta.emails,
+          model: 'emails',
           isCopyable: true,
           placeholder: 'Email',
         },
