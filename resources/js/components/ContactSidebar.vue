@@ -301,7 +301,7 @@
             <DataInputGroup
               class="group/draggable"
               @blur="$emit('updateCrmMeta')"
-              v-model="$data[element.model]"
+              v-model="element.model"
               :id="element.name"
               :icon="element.icon"
               :label="element.name"
@@ -956,33 +956,35 @@ export default {
       });
     },
   },
+    computed: {
+        fields: [
+            {
+                name: 'Location',
+                icon: 'MapPinIcon',
+                id: 1,
+
+                model: "creator.meta.location",
+                isCopyable: true,
+                actionFunction: 'editSocialNetworkURL',
+                placeholder: 'Location',
+            },
+            {
+                name: 'Email',
+                icon: 'EnvelopeIcon',
+                id: 2,
+                actionIcon: 'EditIcon',
+                value: null,
+                model: "creator.meta.emails",
+                isCopyable: true,
+                placeholder: 'Email',
+            },
+        ],
+    },
   data() {
     return {
       sidebarLoading: false,
       socialURLEditing: false,
       dragging: false,
-      fields: [
-        {
-          name: 'Location',
-          icon: 'MapPinIcon',
-          id: 1,
-
-          model: 'creator.meta.location',
-          isCopyable: true,
-          actionFunction: 'editSocialNetworkURL',
-          placeholder: 'Location',
-        },
-        {
-          name: 'Email',
-          icon: 'EnvelopeIcon',
-          id: 2,
-          actionIcon: 'EditIcon',
-          value: null,
-          model: 'creator.meta.emails',
-          isCopyable: true,
-          placeholder: 'Email',
-        },
-      ],
       instagram_handler: '',
       loader: false,
       expandBio: false,
