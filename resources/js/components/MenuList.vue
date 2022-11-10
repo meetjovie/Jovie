@@ -233,7 +233,6 @@
             class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-neutral-300 hover:text-neutral-50">
             <span
               class="text-right text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600/0"
-              class="text-center text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
               >{{ item.creators_count }}</span
             >
 
