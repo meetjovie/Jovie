@@ -36,7 +36,7 @@
                       @click="showCreatorModal = true"
                       class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                       <span
-                        class="text-xs font-medium text-neutral-700 group-hover:hidden group-hover:text-neutral-900"
+                        class="text-xs font-medium text-neutral-900 group-hover:hidden group-hover:text-neutral-900"
                         >{{ counts.total }}</span
                       >
 

@@ -4,7 +4,7 @@
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-medium tracking-wider text-neutral-700 hover:bg-neutral-200 hover:text-neutral-800">
+        class="flex cursor-pointer items-center rounded-md py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-neutral-700 hover:bg-neutral-200 hover:text-neutral-800">
         <ChevronDownIcon
           v-if="showMenu"
           class="mt-0.5 mr-1 h-4 w-4 text-neutral-700 group-hover:text-neutral-800" />
