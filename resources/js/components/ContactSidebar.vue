@@ -956,30 +956,32 @@ export default {
       });
     },
   },
-  computed: {
-    fields: [
-      {
-        name: 'Location',
-        icon: 'MapPinIcon',
-        id: 1,
+    computed: {
+        fields() {
+            return [
+                {
+                    name: 'Location',
+                    icon: 'MapPinIcon',
+                    id: 1,
 
-        model: 'creator.meta.location',
-        isCopyable: true,
-        actionFunction: 'editSocialNetworkURL',
-        placeholder: 'Location',
-      },
-      {
-        name: 'Email',
-        icon: 'EnvelopeIcon',
-        id: 2,
-        actionIcon: 'EditIcon',
-        value: null,
-        model: 'creator.meta.emails',
-        isCopyable: true,
-        placeholder: 'Email',
-      },
-    ],
-  },
+                    model: this.creator.meta.location,
+                    isCopyable: true,
+                    actionFunction: 'editSocialNetworkURL',
+                    placeholder: 'Location',
+                },
+                {
+                    name: 'Email',
+                    icon: 'EnvelopeIcon',
+                    id: 2,
+                    actionIcon: 'EditIcon',
+                    value: null,
+                    model: this.creator.meta.emails,
+                    isCopyable: true,
+                    placeholder: 'Email',
+                },
+            ]
+        },
+    },
   data() {
     return {
       sidebarLoading: false,
