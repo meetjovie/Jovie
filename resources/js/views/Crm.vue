@@ -11,7 +11,7 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full">
           <div
-            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-neutral-100 bg-neutral-50 py-4 pb-2 shadow-xl"
+            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-neutral-100 bg-white py-4 pb-2 shadow-xl"
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
               <div class="mt-10 flex-col py-0.5 px-2">

@@ -4,13 +4,13 @@
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-500 hover:bg-neutral-200 hover:text-neutral-600">
+        class="flex cursor-pointer items-center rounded-md py-0.5 px-1 text-xs font-semibold tracking-wider text-neutral-700 hover:bg-neutral-200 hover:text-neutral-600/0">
         <ChevronDownIcon
           v-if="showMenu"
-          class="mt-0.5 mr-1 h-4 w-4 text-neutral-500 group-hover:text-neutral-600" />
+          class="mt-0.5 mr-1 h-4 w-4 text-neutral-500 group-hover:text-neutral-600/0" />
         <ChevronRightIcon
           v-else
-          class="text-thin mr-1 h-4 w-4 text-xs text-neutral-500 group-hover:text-neutral-600" />
+          class="text-thin mr-1 h-4 w-4 text-xs text-neutral-500 group-hover:text-neutral-600/0" />
         {{ menuName }}
       </div>
       <div class="flex items-center">
@@ -215,7 +215,7 @@
                     ? 'font-bold text-neutral-600 '
                     : 'font-semibold text-neutral-500',
                 ]"
-                class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-600"
+                class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-600/0"
                 >{{ item.name }}</span
               >
               <input
@@ -225,24 +225,25 @@
                 @keyup.esc="disableEditName(item)"
                 @keyup.enter="updateList(item)"
                 v-else
-                class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-600" />
+                class="text-xs font-semibold text-neutral-400 group-hover:text-neutral-600/0" />
             </div>
           </div>
 
           <div
-            class="group mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-neutral-300 hover:text-neutral-50">
+            class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-neutral-300 hover:text-neutral-50">
             <span
-              class="text-right text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
+              class="text-right text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600/0"
+              class="text-center text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
               >{{ item.creators_count }}</span
             >
 
             <Menu as="div" class="relative inline-block text-center">
               <Float portal :offset="12" placement="right-start">
-                <div>
+                <div class="mx-auto text-center">
                   <MenuButton
                     class="hidden h-4 w-4 text-neutral-400 group-hover:block">
                     <EllipsisHorizontalIcon
-                      class="mt-1 h-3 w-3 text-neutral-400 active:text-neutral-500"></EllipsisHorizontalIcon>
+                      class="mt-1 h-4 w-4 text-neutral-400 active:text-neutral-500"></EllipsisHorizontalIcon>
                   </MenuButton>
                 </div>
 

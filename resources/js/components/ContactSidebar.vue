@@ -282,10 +282,34 @@
           :lists="creator.lists"
           :current-list="creator.current_list" />
       </div>
-      <div class="mt-4 h-80 space-y-4 overflow-y-scroll px-2">
+      <div class="mt-4 px-2">
         <h2 class="mb-2 text-xs font-semibold text-neutral-400">
           Contact Details
         </h2>
+      </div>
+      <div class="h-80 space-y-6 overflow-y-scroll px-2">
+        <draggable
+          class="select-none space-y-4"
+          group="lists"
+          ghost-class="ghost-card"
+          :creator="creator"
+          :list="fields">
+          <div
+            class="space-y-4"
+            v-for="(element, index) in fields"
+            :key="element.id">
+            <DataInputGroup
+              class="group/draggable"
+              @blur="$emit('updateCrmMeta')"
+              v-model="fields[index].model"
+              :id="element.name"
+              :icon="element.icon"
+              :label="element.name"
+              :action="actionIcon"
+              :isCopyable="element.isCopyable"
+              :placeholder="element.location" />
+          </div>
+        </draggable>
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.location"
@@ -537,6 +561,7 @@ import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
+import { VueDraggableNext } from 'vue-draggable-next';
 import {
   XMarkIcon,
   ChevronDownIcon,
@@ -550,9 +575,6 @@ import {
   MenuButton,
   MenuItems,
   MenuItem,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
   TransitionRoot,
 } from '@headlessui/vue';
 import SocialIcons from './SocialIcons.vue';
@@ -561,8 +583,9 @@ import { Float } from '@headlessui-float/vue';
 import router from '../router';
 import store from '../store';
 export default {
-  name: 'Contact Sidebar',
+  name: 'ContactSidebar',
   components: {
+    draggable: VueDraggableNext,
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
     EnvelopeIcon,
@@ -572,9 +595,6 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
-    Popover,
-    PopoverButton,
-    PopoverPanel,
     TransitionRoot,
     JovieLogo,
     Float,
@@ -719,12 +739,11 @@ export default {
       default: false,
     },
   },
-  //add data for editingSocialURL
-  data() {
-    return { socialURLEditing: false };
-  },
 
   methods: {
+    log(event) {
+      console.log(event);
+    },
     saveSocialURL() {
       this.socialURLEditing = false;
     },
@@ -940,6 +959,30 @@ export default {
   data() {
     return {
       sidebarLoading: false,
+      socialURLEditing: false,
+      dragging: false,
+      fields: [
+        {
+          name: 'Location',
+          icon: 'MapPinIcon',
+          id: 1,
+
+          model: creator.meta.location,
+          isCopyable: true,
+          actionFunction: 'editSocialNetworkURL',
+          placeholder: 'Location',
+        },
+        {
+          name: 'Email',
+          icon: 'EnvelopeIcon',
+          id: 2,
+          actionIcon: 'EditIcon',
+          value: null,
+          model: creator.meta.emails,
+          isCopyable: true,
+          placeholder: 'Email',
+        },
+      ],
       instagram_handler: '',
       loader: false,
       expandBio: false,

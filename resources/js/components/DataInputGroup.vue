@@ -2,7 +2,7 @@
   <div class="group/datainput mt-1 flex">
     <div class="group/move active:grabbing flex w-3 cursor-grab items-center">
       <EllipsisVerticalIcon
-        class="h-5 w-5 text-neutral-400 group-hover/move:text-neutral-700" />
+        class="h-5 w-5 text-neutral-400/0 group-hover/draggable:text-neutral-400 group-hover/move:text-neutral-700" />
     </div>
     <div class="group relative mt-1 w-full">
       <div class="relative">
@@ -17,8 +17,8 @@
           <SocialIcons
             class="text-neutral-400"
             link="#"
-            width="8px"
-            height="8px"
+            width="12px"
+            height="12px"
             :icon="socialicon" />
         </div>
         <input
@@ -105,7 +105,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 pl-4 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-neutral-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
+          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 pl-5 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-neutral-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
           >{{ label }}</label
         >
       </div>

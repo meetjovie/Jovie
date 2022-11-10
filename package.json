@@ -63,6 +63,7 @@
     "vue": "^3.2.38",
     "vue-columns-resizable": "^0.0.1",
     "vue-cookies": "^1.8.1",
+    "vue-draggable-next": "^2.1.1",
     "vue-freshchat": "^0.2.4",
     "vue-instantsearch": "^4.4.2",
     "vue-meta": "^2.4.0",
