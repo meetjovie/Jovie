@@ -304,8 +304,10 @@
               v-model="element.model"
               :id="element.name"
               :icon="element.icon"
+              :socialicon="element.socialicon"
               :label="element.name"
-              :action="actionIcon"
+              :action="element.actionIcon"
+              :@action="element.action"
               :isCopyable="element.isCopyable"
               :placeholder="element.location" />
           </div>
@@ -965,16 +967,15 @@ export default {
           id: 1,
           model: this.creator.meta.location,
           isCopyable: true,
-          actionFunction: 'editSocialNetworkURL',
           placeholder: 'Location',
         },
         {
           name: 'Email',
           icon: 'EnvelopeIcon',
           id: 2,
-          actionIcon: 'EditIcon',
+          actionIcon: 'EnvelopeIcon',
           value: null,
-          action: this.emailCreator(this.creator.meta.email),
+          /* action: this.emailCreator(this.creator.meta.emails), */
           model: this.creator.meta.emails,
           isCopyable: true,
           placeholder: 'Email',
@@ -984,7 +985,7 @@ export default {
           icon: 'PhoneIcon',
           id: 3,
           actionIcon: 'PhoneIcon',
-          action: this.callCreator(this.creator.meta.phone),
+          /*  action: this.callCreator(this.creator.meta.phone), */
           model: this.creator.meta.phone,
           isCopyable: true,
           placeholder: 'Phone',
@@ -994,54 +995,54 @@ export default {
           icon: 'LinkIcon',
           id: 4,
           actionIcon: 'ArrowTopRightOnSquareIcon',
-          action: this.openLink(this.creator.meta.website),
+          /*   action: this.openLink(this.creator.meta.website), */
           model: this.creator.meta.website,
           isCopyable: true,
           placeholder: 'Website',
         },
         {
           name: 'Instagram',
-          sociaicon: 'instagram',
+          socialicon: 'instagram',
           id: 5,
           actionIcon: 'ArrowTopRightOnSquareIcon',
-          action: this.openLink(this.creator.meta.instagram_handler),
+          /*      action: this.openLink(this.creator.meta.instagram_handler), */
           model: this.creator.meta.instagram_handler,
           isCopyable: true,
           placeholder: 'Instagram',
         },
         {
           name: 'Twitter',
-          sociaicon: 'twitter',
+          socialicon: 'twitter',
           id: 6,
           actionIcon: 'ArrowTopRightOnSquareIcon',
-          action: this.openLink(this.creator.meta.twitter_handler),
+          /*   action: this.openLink(this.creator.meta.twitter_handler), */
           model: this.creator.meta.twitter_handler,
           isCopyable: true,
           placeholder: 'Twitter',
         },
         {
           name: 'TikTok',
-          sociaicon: 'tiktok',
+          socialicon: 'tiktok',
           id: 7,
           actionIcon: 'ArrowTopRightOnSquareIcon',
-          action: this.openLink(this.creator.meta.tiktok_handler),
+          /*   action: this.openLink(this.creator.meta.tiktok_handler), */
           model: this.creator.meta.tiktok_handler,
           isCopyable: true,
           placeholder: 'TikTok',
         },
         {
           name: 'Youtube',
-          sociaicon: 'youtube',
+          socialicon: 'youtube',
           id: 8,
           actionIcon: 'ArrowTopRightOnSquareIcon',
-          action: this.openLink(this.creator.meta.youtube_handler),
+          /*      action: this.openLink(this.creator.meta.youtube_handler), */
           model: this.creator.meta.youtube_handler,
           isCopyable: true,
           placeholder: 'Youtube',
         },
         {
           name: 'Twitch',
-          sociaicon: 'twitch',
+          socialicon: 'twitch',
           id: 9,
           actionIcon: 'ArrowTopRightOnSquareIcon',
           action: this.openLink(this.creator.meta.twitch_handler),
@@ -1051,10 +1052,10 @@ export default {
         },
         {
           name: 'Linkedin',
-          sociaicon: 'linkedin',
+          socialicon: 'linkedin',
           id: 10,
           actionIcon: 'ArrowTopRightOnSquareIcon',
-          action: this.openLink(this.creator.meta.linkedin_handler),
+          /*    action: this.openLink(this.creator.meta.linkedin_handler), */
           model: this.creator.meta.linkedin_handler,
           isCopyable: true,
           placeholder: 'Linkedin',

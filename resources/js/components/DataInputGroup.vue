@@ -242,22 +242,20 @@ export default {
     ClipboardDocumentCheckIcon,
   },
   methods: {
-    copyToClipboard() {
-      this.itemCopied = false;
-      this.$emit('copyToClipboard');
-      this.itemCopied = true;
-      //notify the user the item is copied
+    copyToClipboard(value) {
+      const el = document.createElement('textarea');
+      el.value = value;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
       this.$notify({
         group: 'user',
-        title: 'Copied',
-        text: 'Copied to clipboard',
         type: 'success',
-        duration: 2000,
+        duration: 15000,
+        title: 'Successful',
+        text: 'Copied to clipboard',
       });
-      //reset value after 10 seconds
-      setTimeout(() => {
-        this.itemCopied = false;
-      }, 5000);
     },
   },
 };

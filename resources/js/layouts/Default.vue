@@ -1,9 +1,9 @@
 <template>
   <Head>
-    <title>Jovie | The Social CRM</title>
+    <title>Jovie Social CRM | Organize everyone you follow.</title>
     <meta
       name="description"
-      content="Jovie is a CRM that creates & enriches contacts from social media profiles." />
+      content="Jovie CRM creates & enriches contacts from social media profiles. Import contacts in 1-click from anywhere on the web. Try Jovie today for free." />
     <!--- OpenGraph -->
     <meta property="og:image:height" content="333" />
     <meta property="og:image:width" content="636" />
@@ -344,7 +344,7 @@ export default {
   },
   data() {
     return {
-      title: 'Jovie | The Social CRM',
+      title: 'Jovie Social CRM | Organize everyone you follow.',
       navigation: [
         { name: 'Pricing', href: '/pricing', current: false },
         { name: 'Get started free', href: '/signup', current: false },
