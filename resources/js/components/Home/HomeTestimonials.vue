@@ -4,7 +4,7 @@
     class="relative mx-auto my-20 max-w-7xl px-4 focus:outline-none sm:px-3 md:px-5">
     <h2 class="sr-only">Testimonials</h2>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-      <figure
+      <!--  <figure
         class="dark:highlight-white/5 relative flex flex-col-reverse rounded-lg bg-neutral-50 p-6 dark:bg-neutral-800"
         v-for="card in cards"
         :key="card.id">
@@ -28,6 +28,28 @@
             <div class="mt-0.5">{{ card.title }}, {{ card.company }}</div>
           </div>
         </figcaption>
+      </figure> -->
+      <figure
+        v-for="card in cards"
+        :key="card.id"
+        class="rounded-xl bg-slate-100 p-8 dark:bg-slate-800">
+        <img
+          class="mx-auto h-24 w-24 rounded-full"
+          :src="asset('img/External/Pepijn_vann_Kesteren.webp')"
+          alt=""
+          width="384"
+          height="512" />
+        <div class="space-y-4 pt-6 text-center">
+          <blockquote>
+            <p class="text-lg font-medium">{{ card.quote }}</p>
+          </blockquote>
+          <figcaption class="font-medium">
+            <div class="text-sky-500 dark:text-sky-400">{{ card.name }}</div>
+            <div class="text-slate-700 dark:text-slate-500">
+              {{ card.title }}, {{ card.company }}
+            </div>
+          </figcaption>
+        </div>
       </figure>
     </div>
   </section>

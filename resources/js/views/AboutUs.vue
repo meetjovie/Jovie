@@ -1,4 +1,20 @@
 <template>
+  <Head>
+    <title>Jovie Social CRM | About Jovie</title>
+    <meta
+      name="description"
+      content="Jovie is the first CRM built around social media.  We built Jovie to eliminate the manual data entry required by traditional CRMs." />
+    <!--- OpenGraph -->
+    <meta property="og:image:height" content="333" />
+    <meta property="og:image:width" content="636" />
+    <meta property="og:description" content="Organize everyone you follow" />
+    <meta property="og:title" content="Jovie | Social CRM" />
+    <meta property="og:url" content="http://jov.ie" />
+    <meta
+      property="og:image"
+      content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg" />
+    <!-- End OpenGraph -->
+  </Head>
   <body class="main py-16">
     <div
       class="flex flex-col justify-between px-4 pb-12 md:flex-row md:items-center xl:container xl:mx-auto">
