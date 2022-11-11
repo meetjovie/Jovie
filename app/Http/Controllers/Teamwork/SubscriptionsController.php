@@ -95,7 +95,11 @@ class SubscriptionsController extends Controller
             $product = $stripe->products->retrieve($product);
             $plan = $stripe->plans->retrieve($plan);
             if ($user->currentTeam) {
-                $customer = $user->currentTeam->createOrGetStripeCustomer();
+                if (empty($user->currentTeam->stripe_id)) {
+                    $customer = $user->currentTeam->createAsStripeCustomer();
+                } else {
+                    $customer = $user->currentTeam->createOrGetStripeCustomer();
+                }
                 $user->currentTeam->addPaymentMethod($paymentMethod);
                 $user->currentTeam->updateDefaultPaymentMethod($paymentMethod);
 
