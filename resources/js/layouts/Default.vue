@@ -373,7 +373,7 @@ export default {
           icon: 'UserGroupIcon',
         },
         {
-          name: 'Social Insights in Gmail',
+          name: 'Jovie for Chrome',
           description: `The Jovie Chrome Extension puts new & extsting contact\'s social data right inside your inbox`,
           href: 'chrome-extension',
           anchor: '',

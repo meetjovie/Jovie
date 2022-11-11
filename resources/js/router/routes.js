@@ -26,15 +26,6 @@ export const routes = [
     },
   },
   {
-    name: 'About Us',
-    path: '/about',
-    component: loadPage('AboutUs'),
-    meta: {
-      layout: 'default',
-      requiresAuth: false,
-    },
-  },
-  {
     name: 'Support',
     path: '/support',
     component: loadPage('Support'),
@@ -185,15 +176,15 @@ export const routes = [
     },
   },
   {
-    about: 'About',
-    path: '/about',
-    component: loadPage('About'),
+    name: 'Meet Jovie',
+    path: '/meet-jovie',
+    component: loadPage('MeetJovie'),
     meta: {
       requiresAuth: false,
     },
   },
   {
-    about: 'Jovie Profile',
+    name: 'Jovie Profile',
     path: '/profiles',
     component: loadPage('JovieProfile'),
     meta: {

@@ -260,7 +260,7 @@ const navigation = {
     { name: 'Status', href: 'Status' },
   ],
   company: [
-    /*  { name: 'About', href: 'about' }, */
+    { name: 'Meet Jovie', href: 'meet-jovie' },
     { name: 'Careers', href: 'Careers' },
 
     { name: 'Community', href: 'slack-community' },

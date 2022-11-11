@@ -93,11 +93,9 @@
               v-else-if="isCopyable && (modelValue || value)">
               <ClipboardDocumentIcon
                 v-if="!itemCopied"
-                @click="copyToClipboard"
                 class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/copy:text-gray-500" />
               <ClipboardDocumentCheckIcon
                 v-else
-                @click="copyToClipboard"
                 class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/copy:text-gray-500" />
             </div>
           </div>
@@ -243,19 +241,13 @@ export default {
   },
   methods: {
     copyToClipboard(value) {
-      const el = document.createElement('textarea');
-      el.value = value;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
-      this.$notify({
-        group: 'user',
-        type: 'success',
-        duration: 15000,
-        title: 'Successful',
-        text: 'Copied to clipboard',
-      });
+      ///emit copy to clipboard
+      this.$emit('copy', value);
+      this.itemCopied = true;
+      //after 2 seconds set itemCopied to false
+      setTimeout(() => {
+        this.itemCopied = false;
+      }, 2000);
     },
   },
 };

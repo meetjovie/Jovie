@@ -9,7 +9,7 @@
       <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
-          class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600" />
+          class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600 active:text-neutral-700" />
       </div>
 
       <div class="mt-2 grid grid-cols-3">
@@ -150,30 +150,11 @@
           :countsVisible="false" />
       </div>
       <div v-if="socialURLEditing">
-        <div class="relative rounded-md px-2 py-1 shadow-sm">
-          <div
-            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <SocialIcons
-              :network="activeSocialNetworkURLEdit.network"
-              height="14"
-              width="14"
-              class="h-4 w-4 text-gray-400"
-              aria-hidden="true" />
-          </div>
-          <input
-            type="social_network_url"
-            name="social_network_url"
-            id="social_network_url"
-            class="block w-full rounded-md border-gray-300 px-1 py-1 pl-8 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
-            placeholder="Enter or paste social link here" />
-          <div
-            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <XMarkIcon
-              @click="saveSocialNetworkURL()"
-              class="h-4 w-4 text-gray-400"
-              aria-hidden="true" />
-          </div>
-        </div>
+        <SocialInput
+          @finishImport="saveSocialNetworkURL"
+          @saveSocialNetworkURL="saveSocialNetworkURL()"
+          @cancelEdit="cancelEdit()"
+          minimalDesign />
       </div>
 
       <hr />
@@ -299,8 +280,10 @@
             v-for="(element, index) in fields"
             :key="element.id">
             <DataInputGroup
+              @copy="copyToClipboard(element.model)"
               class="group/draggable"
               @blur="$emit('updateCrmMeta')"
+              @action="triggerAction(element.action, element.model)"
               v-model="element.model"
               :id="element.name"
               :icon="element.icon"
@@ -555,6 +538,7 @@
 </template>
 
 <script>
+import SocialInput from '../components/SocialInput.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import JovieLogo from '../components/JovieLogo.vue';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
@@ -587,6 +571,7 @@ import store from '../store';
 export default {
   name: 'ContactSidebar',
   components: {
+    SocialInput,
     draggable: VueDraggableNext,
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
@@ -743,11 +728,35 @@ export default {
   },
 
   methods: {
+    triggerAction(action, data) {
+      this.action();
+      //trigger a function using the action prop
+
+      console.log('triggerAction');
+    },
     log(event) {
       console.log(event);
     },
-    saveSocialURL() {
+    saveSocialNetworkURL() {
+      console.log('saveSocialURL');
       this.socialURLEditing = false;
+      //notify the user
+      this.$notify({
+        group: 'user',
+        type: 'success',
+        title: 'Link Saved',
+        text: 'The new social link has been saved',
+      });
+    },
+    cancelEdit() {
+      this.socialURLEditing = false;
+      //notify the user
+      this.$notify({
+        group: 'user',
+        type: 'error',
+        title: 'Link Not Saved',
+        text: 'The new social link has not been saved',
+      });
     },
     emailCreator(email) {
       console.log('email');
@@ -911,6 +920,8 @@ export default {
       console.log(network);
       console.log(creator);
       this.socialURLEditing = true;
+      //focus on  id="social_network_url"
+      this.$refs.editInput.focus();
       console.log(this.socialURLEditing);
       /*  this.editingSocialNetworkURL = network;
       console.log('editSocialNetworkURL');

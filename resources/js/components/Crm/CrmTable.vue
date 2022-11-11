@@ -603,8 +603,8 @@
                           class="mx-auto h-5 w-5 items-center rounded-full bg-neutral-200/0 pr-1 text-center text-neutral-400 hover:bg-neutral-200 active:border">
                           <ArrowTopRightOnSquareIcon
                             v-if="
-                              !this.$store.state.ContactSidebarOpen &&
-                              currentContact.id == creator.id
+                              !this.$store.state.ContactSidebarOpen ||
+                              currentContact.id !== creator.id
                             "
                             class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
                           <XMarkIcon

@@ -1,6 +1,6 @@
 <template>
   <Head>
-    <title>Jovie Social CRM | About Jovie</title>
+    <title>Jovie Social CRM | 👋🏻 Meet Jovie</title>
     <meta
       name="description"
       content="Jovie is the first CRM built around social media.  We built Jovie to eliminate the manual data entry required by traditional CRMs." />
@@ -21,7 +21,7 @@
       <div class="mb-8 w-full pr-0 md:w-1/2 md:pr-4 lg:mb-0 lg:pr-0 xl:w-1/3">
         <h1
           class="pr-16 text-2xl font-bold text-gray-700 md:text-4xl lg:pr-0 xl:text-5xl">
-          Meet Jovie
+          👋🏻 Meet Jovie
         </h1>
         <p
           class="mt-4 w-full pr-0 text-base leading-normal text-gray-500 lg:w-10/12 lg:pr-16 xl:w-96 xl:pr-0">
@@ -75,7 +75,7 @@
             <div class="absolute left-0 bottom-0 rounded-tr bg-white px-6 py-4">
               <h5 class="mb-2 text-base leading-none text-gray-800">Tim</h5>
               <p class="text-base font-semibold leading-none text-gray-600">
-                Founder
+                CEO
               </p>
             </div>
           </div>
@@ -206,12 +206,14 @@
     </div>
 
     <JoinOurTeam />
+    <HomeCTA4 />
   </body>
 </template>
 <script setup>
 import ButtonGroup from '../components/ButtonGroup.vue';
 import JoinOurTeam from '../components/External/JoinOurTeam.vue';
 import OurTeam from '../components/External/OurTeam.vue';
+
 import {
   GlobeAltIcon,
   BoltIcon,
@@ -249,7 +251,11 @@ const features = [
 ];
 </script>
 <script>
+//import vue head
+import { Head } from '@vueuse/head';
+import HomeCTA4 from './../components/Home/HomeCTA4.vue';
 export default {
+  components: { Head, HomeCTA4 },
   mounted() {
     window.analytics.page(this.$route.name);
   },
