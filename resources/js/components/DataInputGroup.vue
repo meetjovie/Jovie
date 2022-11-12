@@ -49,9 +49,8 @@
           ]"
           :placeholder="label" />
         <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-          <div v-if="action && (modelValue || value)" class="group/action px-1">
+          <div v-if="action && (modelValue || value)" @click="$emit('actionMethod')" class="group/action px-1">
             <component
-              @click="$emit('action')"
               :is="action"
               class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-neutral-500" />
           </div>
@@ -205,6 +204,10 @@ export default {
       default: false,
     },
     action: {
+      type: String,
+      default: null,
+    },
+    actionMethod: {
       type: String,
       default: null,
     },

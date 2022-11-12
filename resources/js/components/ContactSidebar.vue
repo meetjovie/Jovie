@@ -283,14 +283,13 @@
               @copy="copyToClipboard(element.model)"
               class="group/draggable"
               @blur="$emit('updateCrmMeta')"
-              @action="triggerAction(element.action, element.model)"
+              @actionMethod="actionMethod(element.method)"
               v-model="element.model"
               :id="element.name"
               :icon="element.icon"
               :socialicon="element.socialicon"
               :label="element.name"
               :action="element.actionIcon"
-              :@action="element.action"
               :isCopyable="element.isCopyable"
               :placeholder="element.location" />
           </div>
@@ -314,7 +313,7 @@
           action="EnvelopeIcon"
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.emails)"
-          placeholder="email@email.com" /> 
+          placeholder="email@email.com" />
         <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.website"
@@ -728,6 +727,17 @@ export default {
   },
 
   methods: {
+      fallback() {
+
+      },
+      actionMethod(method) {
+          if (method) {
+              this[method]();
+          }
+      },
+      sendEmail() {
+          alert('email sent')
+      },
     triggerAction(action, data) {
       this.action();
       //trigger a function using the action prop
@@ -985,6 +995,7 @@ export default {
           icon: 'EnvelopeIcon',
           id: 2,
           actionIcon: 'EnvelopeIcon',
+          method: 'sendEmail',
           value: null,
           /* action: this.emailCreator(this.creator.meta.emails), */
           model: this.creator.meta.emails,
