@@ -500,7 +500,7 @@
                           </form>
                         </span>
                         <span
-                          class="text-xs group-hover:hidden"
+                          class="text-xs font-light text-neutral-600 group-hover:hidden"
                           :class="[
                             { hidden: selectedCreators.includes(creator.id) },
                             'block',
@@ -600,16 +600,16 @@
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto h-5 w-5 items-center rounded-full bg-neutral-200/0 pr-1 text-center text-neutral-400 hover:bg-neutral-200 active:border">
+                          class="mx-auto h-6 w-6 items-center rounded-full bg-neutral-200/0 pr-4 text-center text-neutral-400 transition-all active:border active:bg-neutral-200">
                           <ArrowTopRightOnSquareIcon
                             v-if="
                               !this.$store.state.ContactSidebarOpen ||
                               currentContact.id !== creator.id
                             "
-                            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
+                            class="mx-auto mt-0.5 ml-0.5 hidden h-4 w-4 group-hover:block" />
                           <XMarkIcon
                             v-else
-                            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
+                            class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
                         </div>
                       </div>
                     </td>
@@ -912,7 +912,7 @@
                     <td
                       class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
                       <div class="flex items-center justify-end text-right">
-                        <div>
+                        <!-- <div>
                           <router-link
                             :to="{
                               name: 'Creator Overview',
@@ -921,7 +921,7 @@
                             class="text-neutral-600 hover:text-indigo-900">
                             Manage
                           </router-link>
-                        </div>
+                        </div> -->
                         <Menu as="div" class="relative inline-block text-left">
                           <Float
                             enter="transition duration-200 ease-out"

@@ -2,23 +2,29 @@
   <Popover>
     <Float portal :offset="8" placement="right-end">
       <PopoverButton
-        class="group mx-auto flex w-full cursor-pointer items-center justify-between rounded-md border border-neutral-200 px-2 py-0.5 text-center hover:bg-gray-50">
-        <div class="flex w-full items-center justify-between">
-          <UserGroupIcon
-            class="h-4 w-4 text-neutral-400 group-hover:text-neutral-500" />
-          <div
-            class="w-full items-center text-2xs font-bold text-neutral-400 group-hover:text-neutral-500">
-            {{
-              currentUser.current_team
-                ? currentUser.current_team.name
-                : 'Select a team'
-            }}
+        class="group mx-auto flex h-full cursor-pointer items-center justify-between rounded-md px-1 py-0.5 hover:bg-gray-300">
+        <div class="flex items-center">
+          <div class="flex">
+            <UserGroupIcon
+              class="mr-1 h-4 w-4 text-neutral-500 group-hover:text-neutral-600" />
+
+            <div
+              class="items-center text-2xs font-bold text-neutral-500 line-clamp-1 group-hover:text-neutral-600">
+              {{
+                currentUser.current_team
+                  ? currentUser.current_team.name
+                  : 'Select a team'
+              }}
+            </div>
           </div>
-          <div class="w-6 flex-col justify-between text-center">
-            <ChevronUpIcon
-              class="h-3 w-3 text-neutral-500 group-hover:text-neutral-700" />
-            <ChevronDownIcon
-              class="h-3 w-3 text-neutral-500 group-hover:text-neutral-700" />
+          <div class="w-6">
+            <div
+              class="hidden w-6 flex-col justify-between text-center group-hover:block">
+              <ChevronUpIcon
+                class="h-3 w-3 text-neutral-500 group-hover:text-neutral-700" />
+              <ChevronDownIcon
+                class="h-3 w-3 text-neutral-500 group-hover:text-neutral-700" />
+            </div>
           </div>
         </div>
       </PopoverButton>

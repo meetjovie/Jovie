@@ -254,6 +254,8 @@ const navigation = {
     { name: 'Jovie for Twitter', href: 'chrome-extension' },
   ],
   support: [
+    //add changelog
+    { name: 'Changelog', href: '/changelog' },
     { name: 'Pricing', href: 'pricing' },
     { name: 'Get Help', href: 'support' },
     { name: 'API', href: 'api' },
