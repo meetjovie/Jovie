@@ -31,6 +31,7 @@
           :value="modelValue ?? value"
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
+          @change="$emit('updateModelValue', $event.target.value)"
           class="input-field prrounded h-8 w-full border border-gray-300 border-opacity-0 py-2 px-2 leading-none text-gray-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-gray-100"
           :class="[
             icon ? 'pl-4' : '',
