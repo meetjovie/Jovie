@@ -148,16 +148,15 @@
                   </div>
                 </router-link>
               </JovieTooltip>
-              <div class="flex h-6 w-full justify-between bg-red-500">
+              <div class="flex h-6 w-full justify-between">
                 <div>
                   <JovieTooltip
                     text="Choose which teamspace you want to work in.">
                     <SwitchTeams />
                   </JovieTooltip>
                 </div>
-                <div
+                <!--   <div
                   class="group mx-auto flex h-full cursor-pointer items-center rounded-md bg-blue-500 text-center hover:bg-gray-300">
-                  <!-- Profile dropdown -->
                   <PopoverGroup>
                     <Float portal :offset="8" placement="right-end">
                       <Popover as="div" class="relative">
@@ -197,7 +196,6 @@
                             aria-orientation="vertical"
                             aria-labelledby="user-menu-button"
                             tabindex="-1">
-                            <!-- Active: "bg-neutral-100", Not Active: "" -->
                             <div
                               as="div"
                               class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-neutral-400"
@@ -304,7 +302,7 @@
                       </Popover>
                     </Float>
                   </PopoverGroup>
-                </div>
+                </div> -->
               </div>
 
               <div class="mt-1 py-1">
@@ -492,6 +490,8 @@ import {
 } from '@headlessui/vue';
 import {
   ChevronDownIcon,
+  CreditCardIcon,
+  CogIcon,
   ChevronRightIcon,
   CloudArrowDownIcon,
   CheckIcon,
@@ -501,6 +501,8 @@ import {
   HeartIcon,
   ArchiveBoxIcon,
   CloudArrowUpIcon,
+  ArrowLeftOnRectangleIcon,
+  ArrowPathIcon,
 } from '@heroicons/vue/24/solid';
 
 import UserService from '../services/api/user.service';
@@ -520,6 +522,9 @@ import { Float } from '@headlessui-float/vue';
 export default {
   name: 'CRM',
   components: {
+    CreditCardIcon,
+    CogIcon,
+    ArrowPathIcon,
     EmojiPickerModal,
     Float,
     CloudArrowDownIcon,
@@ -556,6 +561,7 @@ export default {
     ChevronDownIcon,
     CheckIcon,
     ArchiveBoxIcon,
+    ArrowLeftOnRectangleIcon,
     UserGroupIcon,
     CloudArrowUpIcon,
     CrmTable,
@@ -566,6 +572,17 @@ export default {
   },
   data() {
     return {
+      dropdownmenuitems: [
+        {
+          name: 'Chrome Extension',
+          route: '/chrome-extension',
+          badge: 'Download',
+          badgeColor: 'pink',
+          icon: CloudArrowDownIcon,
+        },
+        { name: 'Billing', route: '/billing', icon: CreditCardIcon },
+        { name: 'Settings', route: 'Account', icon: CogIcon },
+      ],
       counts: {},
       stages: [],
       networks: [],

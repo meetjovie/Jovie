@@ -17,19 +17,12 @@ export const routes = [
     },
   },
   {
-    name: 'IntergrationsTiktok',
-    path: '/intergrationstiktok',
-    component: loadPage('IntergrationsTiktok'),
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
     name: 'Changelog',
     path: '/changelog',
     component: loadPage('ChangeLog'),
     meta: {
       requiresAuth: false,
+      layout: 'default',
     },
   },
   {
