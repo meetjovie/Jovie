@@ -280,9 +280,9 @@
             v-for="(element, index) in fields"
             :key="element.id">
             <DataInputGroup
-              @copy="copyToClipboard(element.model)"
+              @copy="copyToClipboard(element.value)"
               class="group/draggable"
-              @actionMethod="actionMethod(element.method)"
+              @actionMethod="actionMethod(element.method, 'test')"
               :value="element.value"
               @updateModelValue="updateModelValue(element.model, $event)"
               :id="element.name"
@@ -727,28 +727,26 @@ export default {
   },
 
   methods: {
-      updateModelValue(model, value) {
-          let keys = model.split('.')
-          if (keys.length == 1) {
-              this[keys[0]] = value
-          } else if (keys.length == 2) {
-              this[keys[0]][keys[1]] = value
-          } else if (keys.length == 3) {
-              this[keys[0]][keys[1]][keys[2]] = value
-          }
-          this.$emit('updateCrmMeta')
-      },
-      fallback() {
-
-      },
-      actionMethod(method) {
-          if (method) {
-              this[method]();
-          }
-      },
-      sendEmail() {
-          alert('email sent')
-      },
+    updateModelValue(model, value) {
+      let keys = model.split('.');
+      if (keys.length == 1) {
+        this[keys[0]] = value;
+      } else if (keys.length == 2) {
+        this[keys[0]][keys[1]] = value;
+      } else if (keys.length == 3) {
+        this[keys[0]][keys[1]][keys[2]] = value;
+      }
+      this.$emit('updateCrmMeta');
+    },
+    fallback() {},
+    actionMethod(method) {
+      if (method) {
+        this[method]();
+      }
+    },
+    sendEmail() {
+      alert('email sent');
+    },
     triggerAction(action, data) {
       this.action();
       //trigger a function using the action prop
@@ -781,6 +779,7 @@ export default {
     },
     emailCreator(email) {
       console.log('email');
+      email = this.creator.meta.emails[0];
       //go to the url mailto:creator.emails[0]
       //if email is not null
       if (email.length > 0) {
@@ -796,9 +795,10 @@ export default {
         });
       }
     },
-    openSocialLink(url, network) {
+    openLink(url) {
       console.log('url');
       //go to the url
+
       //if url is not null
       if (url.length > 0) {
         //else log no url found
@@ -815,6 +815,8 @@ export default {
     callCreator(phone) {
       //go to the url tel:creator.meta.phone
       //if phone is not null
+      phone = this.creator.meta.phone[0];
+      console.log('Calling contact at:' + phone);
       if (phone) {
         window.open('tel:' + phone);
         //else log no phone found
@@ -831,6 +833,7 @@ export default {
     whatsappCreator(phone) {
       //go to the url tel:creator.meta.phone
       //if phone is not null
+      phone = this.creator.meta.phone;
       if (phone) {
         console.log('whatsapp');
         //open whatsapp://send?text=Hello World!&phone=+phone
@@ -849,6 +852,7 @@ export default {
     textCreator(phone) {
       //go to the url sms:creator.meta.phone
       //if phone is not null
+      phone = this.creator.meta.phone;
       if (phone) {
         window.open('sms:' + phone);
         //else log no phone found
@@ -997,8 +1001,8 @@ export default {
           name: 'Location',
           icon: 'MapPinIcon',
           id: 1,
-          model: "creator.meta.location",
-            value: this.creator.meta.location,
+          model: 'creator.meta.location',
+          value: this.creator.meta.location,
           isCopyable: true,
           placeholder: 'Location',
         },
@@ -1007,10 +1011,11 @@ export default {
           icon: 'EnvelopeIcon',
           id: 2,
           actionIcon: 'EnvelopeIcon',
-          method: 'sendEmail',
+          method: 'emailCreator',
+
           /* action: this.emailCreator(this.creator.meta.emails), */
-          model: "creator.meta.emails",
-            value: this.creator.meta.emails,
+          model: 'creator.meta.emails',
+          value: this.creator.meta.emails,
           isCopyable: true,
           placeholder: 'Email',
         },
@@ -1019,9 +1024,10 @@ export default {
           icon: 'PhoneIcon',
           id: 3,
           actionIcon: 'PhoneIcon',
+          mehtod: 'callCreator',
           /*  action: this.callCreator(this.creator.meta.phone), */
-          model: "creator.meta.phone",
-            value: this.creator.meta.phone,
+          model: 'creator.meta.phone',
+          value: this.creator.meta.phone,
           isCopyable: true,
           placeholder: 'Phone',
         },
@@ -1031,8 +1037,10 @@ export default {
           id: 4,
           actionIcon: 'ArrowTopRightOnSquareIcon',
           /*   action: this.openLink(this.creator.meta.website), */
-          model: "creator.meta.website",
-            value: this.creator.meta.website,
+          model: 'creator.meta.website',
+          /*  method: 'openLink', */
+          /*  params: this.creator.meta.website, */
+          value: this.creator.meta.website,
           isCopyable: true,
           placeholder: 'Website',
         },
@@ -1041,9 +1049,10 @@ export default {
           socialicon: 'instagram',
           id: 5,
           actionIcon: 'ArrowTopRightOnSquareIcon',
+          /*  method: 'openLink', */
           /*      action: this.openLink(this.creator.meta.instagram_handler), */
-          model: "creator.meta.instagram_handler",
-            value: this.creator.meta.instagram_handler,
+          model: 'creator.meta.instagram_handler',
+          value: this.creator.meta.instagram_handler,
           isCopyable: true,
           placeholder: 'Instagram',
         },
@@ -1053,8 +1062,9 @@ export default {
           id: 6,
           actionIcon: 'ArrowTopRightOnSquareIcon',
           /*   action: this.openLink(this.creator.meta.twitter_handler), */
-          model: "creator.meta.twitter_handler",
-            value: this.creator.meta.twitter_handler,
+          model: 'creator.meta.twitter_handler',
+          /*   method: 'openLink', */
+          value: this.creator.meta.twitter_handler,
           isCopyable: true,
           placeholder: 'Twitter',
         },
@@ -1064,8 +1074,9 @@ export default {
           id: 7,
           actionIcon: 'ArrowTopRightOnSquareIcon',
           /*   action: this.openLink(this.creator.meta.tiktok_handler), */
-          model: "creator.meta.tiktok_handler",
-            value: this.creator.meta.tiktok_handler,
+          model: 'creator.meta.tiktok_handler',
+          value: this.creator.meta.tiktok_handler,
+          /*  method: 'openLink', */
           isCopyable: true,
           placeholder: 'TikTok',
         },
@@ -1075,8 +1086,9 @@ export default {
           id: 8,
           actionIcon: 'ArrowTopRightOnSquareIcon',
           /*      action: this.openLink(this.creator.meta.youtube_handler), */
-          model: "creator.meta.youtube_handler",
-            value: this.creator.meta.youtube_handler,
+          model: 'creator.meta.youtube_handler',
+          value: this.creator.meta.youtube_handler,
+          /* method: 'openLink', */
           isCopyable: true,
           placeholder: 'Youtube',
         },
@@ -1085,9 +1097,10 @@ export default {
           socialicon: 'twitch',
           id: 9,
           actionIcon: 'ArrowTopRightOnSquareIcon',
-          action: this.openLink(this.creator.meta.twitch_handler),
-          model: "creator.meta.twitch_handler",
-            value: this.creator.meta.twitch_handler,
+          /*   action: this.openLink(this.creator.meta.twitch_handler), */
+          model: 'creator.meta.twitch_handler',
+          value: this.creator.meta.twitch_handler,
+          /*  method: 'openLink', */
           isCopyable: true,
           placeholder: 'Twitch',
         },
@@ -1097,8 +1110,9 @@ export default {
           id: 10,
           actionIcon: 'ArrowTopRightOnSquareIcon',
           /*    action: this.openLink(this.creator.meta.linkedin_handler), */
-          model: "creator.meta.linkedin_handler",
-            value: this.creator.meta.linkedin_handler,
+          model: 'creator.meta.linkedin_handler',
+          value: this.creator.meta.linkedin_handler,
+          /*  method: 'openLink', */
           isCopyable: true,
           placeholder: 'Linkedin',
         },
