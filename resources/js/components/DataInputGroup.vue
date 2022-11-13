@@ -15,7 +15,7 @@
           v-if="socialicon"
           class="opacity/50 pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
           <SocialIcons
-            class="text-neutral-400"
+            class="text-neutral-400 opacity-40"
             link="#"
             width="12px"
             height="12px"
@@ -56,6 +56,14 @@
             class="group/action px-1">
             <component
               :is="action"
+              class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-neutral-500" />
+          </div>
+          <div
+            v-if="action2 && (modelValue || value)"
+            @click="$emit('actionMethod2')"
+            class="group/action px-1">
+            <component
+              :is="action2"
               class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-neutral-500" />
           </div>
           <div v-if="loader" class="pointer-events-none transition-all">
@@ -208,6 +216,14 @@ export default {
       default: false,
     },
     action: {
+      type: String,
+      default: null,
+    },
+    action2: {
+      type: String,
+      default: null,
+    },
+    actionMethod2: {
       type: String,
       default: null,
     },

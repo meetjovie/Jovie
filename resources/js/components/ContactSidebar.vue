@@ -226,6 +226,31 @@
                     </button>
                   </MenuItem>
                   <MenuItem
+                    :disabled="
+                      !creator.meta.instgaram_handler &&
+                      !creator.instagram_handler
+                    "
+                    v-slot="{ active }"
+                    class="items-center">
+                    <button
+                      @click="
+                        instagramDMContact(
+                          creator.meta.instagram_handler ||
+                            creator.instagram_handler
+                        )
+                      "
+                      :class="[
+                        active
+                          ? 'bg-neutral-100 text-neutral-900'
+                          : 'text-gray-700',
+                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                      ]">
+                      <ChatBubbleOvalLeftEllipsisIcon
+                        class="mr-2 inline h-4 w-4 text-social-instagram" />
+                      Instagram DM
+                    </button>
+                  </MenuItem>
+                  <MenuItem
                     :disabled="!creator.phone && !creator.meta.phone"
                     v-slot="{ active }">
                     <button
@@ -240,7 +265,7 @@
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
                         :active="active"
-                        class="mr-2 h-4 w-4 text-green-400"
+                        class="mr-2 h-4 w-4 text-social-whatsapp"
                         aria-hidden="true" />
                       Send WhatsApp
                     </button>
@@ -282,14 +307,17 @@
             <DataInputGroup
               @copy="copyToClipboard(element.value)"
               class="group/draggable"
-              @actionMethod="actionMethod(element.method, 'test')"
+              @actionMethod="actionMethod(element.method, element.params)"
+              @actionMethod2="actionMethod(element.method2, element.params2)"
               :value="element.value"
               @updateModelValue="updateModelValue(element.model, $event)"
               :id="element.name"
               :icon="element.icon"
+              :icon2="element.icon2"
               :socialicon="element.socialicon"
               :label="element.name"
               :action="element.actionIcon"
+              :action2="element.actionIcon2"
               :isCopyable="element.isCopyable"
               :placeholder="element.location" />
           </div>
@@ -728,6 +756,9 @@ export default {
   },
 
   methods: {
+    openURL(url) {
+      window.open(url, '_blank');
+    },
     updateModelValue(model, value) {
       let keys = model.split('.');
       if (keys.length == 1) {
@@ -740,9 +771,9 @@ export default {
       this.$emit('updateCrmMeta');
     },
     fallback() {},
-    actionMethod(method) {
+    actionMethod(method, data) {
       if (method) {
-        this[method]();
+        this[method](data);
       }
     },
     sendEmail() {
@@ -1046,7 +1077,7 @@ export default {
           name: 'Phone',
           icon: 'PhoneIcon',
           id: 3,
-          actionIcon: 'PhoneIcon',
+          actionIcon: 'ChatBubbleLeftEllipsisIcon',
           method: 'textCreator',
           /*  action: this.callCreator(this.creator.meta.phone), */
           model: 'creator.meta.phone',
@@ -1061,7 +1092,8 @@ export default {
           actionIcon: 'ArrowTopRightOnSquareIcon',
           /*   action: this.openLink(this.creator.meta.website), */
           model: 'creator.meta.website',
-          /*  method: 'openLink', */
+          method: 'openURL',
+          params: this.creator.meta.website,
           /*  params: this.creator.meta.website, */
           value: this.creator.meta.website,
           isCopyable: true,
@@ -1075,8 +1107,9 @@ export default {
           /*  method: 'openLink', */
           /*      action: this.openLink(this.creator.meta.instagram_handler), */
           model: 'creator.meta.instagram_handler',
-          method: 'instagramDMContact',
-          method2: 'openURL',
+          method: 'openLink',
+          method2: 'instagramDMContact',
+          params: this.creator.meta.instagram_handler,
           value: this.creator.meta.instagram_handler,
           isCopyable: true,
           placeholder: 'Instagram',
@@ -1088,7 +1121,9 @@ export default {
           actionIcon: 'ArrowTopRightOnSquareIcon',
           /*   action: this.openLink(this.creator.meta.twitter_handler), */
           model: 'creator.meta.twitter_handler',
-          /*   method: 'openLink', */
+
+          method: 'openURL',
+          params: this.creator.meta.twitter_handler,
           value: this.creator.meta.twitter_handler,
           isCopyable: true,
           placeholder: 'Twitter',
@@ -1101,7 +1136,8 @@ export default {
           /*   action: this.openLink(this.creator.meta.tiktok_handler), */
           model: 'creator.meta.tiktok_handler',
           value: this.creator.meta.tiktok_handler,
-          /*  method: 'openLink', */
+          method: 'openURL',
+          params: this.creator.meta.tiktok_handler,
           isCopyable: true,
           placeholder: 'TikTok',
         },
@@ -1113,6 +1149,8 @@ export default {
           /*      action: this.openLink(this.creator.meta.youtube_handler), */
           model: 'creator.meta.youtube_handler',
           value: this.creator.meta.youtube_handler,
+          method: 'openURL',
+          params: this.creator.meta.youtube_handler,
           /* method: 'openLink', */
           isCopyable: true,
           placeholder: 'Youtube',
@@ -1124,8 +1162,9 @@ export default {
           actionIcon: 'ArrowTopRightOnSquareIcon',
           /*   action: this.openLink(this.creator.meta.twitch_handler), */
           model: 'creator.meta.twitch_handler',
+          params: this.creator.meta.twitch_handler,
           value: this.creator.meta.twitch_handler,
-          /*  method: 'openLink', */
+          method: 'openURL',
           isCopyable: true,
           placeholder: 'Twitch',
         },
@@ -1137,6 +1176,7 @@ export default {
           /*    action: this.openLink(this.creator.meta.linkedin_handler), */
           model: 'creator.meta.linkedin_handler',
           value: this.creator.meta.linkedin_handler,
+          params: this.creator.meta.linkedin_handler,
           /*  method: 'openLink', */
           isCopyable: true,
           placeholder: 'Linkedin',

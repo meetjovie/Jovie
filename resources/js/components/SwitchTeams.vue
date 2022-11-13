@@ -2,7 +2,7 @@
   <Popover>
     <Float portal :offset="8" placement="right-end">
       <PopoverButton
-        class="group mx-auto flex h-full cursor-pointer items-center justify-between rounded-md px-1 hover:bg-gray-300">
+        class="group mx-auto flex h-full h-6 cursor-pointer items-center justify-between rounded-md px-1 hover:bg-gray-300">
         <div class="flex w-full items-center justify-between">
           <div class="flex">
             <UserGroupIcon
@@ -17,7 +17,7 @@
               }}
             </div>
           </div>
-          <div class="items-center">
+          <div class="w-2 items-center">
             <div
               class="hidden flex-col justify-between text-center group-hover:block">
               <ChevronUpIcon

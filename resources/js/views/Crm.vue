@@ -148,8 +148,8 @@
                   </div>
                 </router-link>
               </JovieTooltip>
-              <div class="flex h-6 w-full justify-between">
-                <div>
+              <div class="flex h-8 w-full justify-between">
+                <div class="">
                   <JovieTooltip
                     text="Choose which teamspace you want to work in.">
                     <SwitchTeams />
