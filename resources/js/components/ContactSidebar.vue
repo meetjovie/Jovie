@@ -572,6 +572,7 @@ export default {
   components: {
     SocialInput,
     draggable: VueDraggableNext,
+    ChatBubbleLeftEllipsisIcon,
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
     EnvelopeIcon,
@@ -815,7 +816,7 @@ export default {
     callCreator(phone) {
       //go to the url tel:creator.meta.phone
       //if phone is not null
-      phone = this.creator.meta.phone[0];
+      phone = this.creator.meta.phone || this.creator.phone;
       console.log('Calling contact at:' + phone);
       if (phone) {
         window.open('tel:' + phone);
@@ -830,10 +831,32 @@ export default {
         });
       }
     },
+    instagramDMContact(username) {
+      //go to the url https://ig.me/m/USERNAME
+      //if username is not null
+      //else notify the user
+      username =
+        this.creator.meta.instagram_handler || this.creator.instagram_handler;
+      //if username is an instagram link, extract the username
+      if (username.includes('instagram.com')) {
+        username = username.split('instagram.com/')[1];
+      }
+      if (username) {
+        window.open('https://ig.me/m/' + username);
+      } else {
+        console.log('No instagram username found');
+        this.$notify({
+          title: 'No instagram username found',
+          message: 'This contact does not have an instagram username',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
     whatsappCreator(phone) {
       //go to the url tel:creator.meta.phone
       //if phone is not null
-      phone = this.creator.meta.phone;
+      phone = this.creator.meta.phone || this.creator.phone;
       if (phone) {
         console.log('whatsapp');
         //open whatsapp://send?text=Hello World!&phone=+phone
@@ -852,7 +875,7 @@ export default {
     textCreator(phone) {
       //go to the url sms:creator.meta.phone
       //if phone is not null
-      phone = this.creator.meta.phone;
+      phone = this.creator.meta.phone || this.creator.phone;
       if (phone) {
         window.open('sms:' + phone);
         //else log no phone found
@@ -1024,7 +1047,7 @@ export default {
           icon: 'PhoneIcon',
           id: 3,
           actionIcon: 'PhoneIcon',
-          mehtod: 'callCreator',
+          method: 'textCreator',
           /*  action: this.callCreator(this.creator.meta.phone), */
           model: 'creator.meta.phone',
           value: this.creator.meta.phone,
@@ -1048,10 +1071,12 @@ export default {
           name: 'Instagram',
           socialicon: 'instagram',
           id: 5,
-          actionIcon: 'ArrowTopRightOnSquareIcon',
+          actionIcon: 'ChatBubbleLeftEllipsisIcon',
           /*  method: 'openLink', */
           /*      action: this.openLink(this.creator.meta.instagram_handler), */
           model: 'creator.meta.instagram_handler',
+          method: 'instagramDMContact',
+          method2: 'openURL',
           value: this.creator.meta.instagram_handler,
           isCopyable: true,
           placeholder: 'Instagram',

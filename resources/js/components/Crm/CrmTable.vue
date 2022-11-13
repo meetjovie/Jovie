@@ -1027,13 +1027,38 @@
                                   </MenuItem>
                                   <MenuItem
                                     :disabled="
+                                      !creator.meta.instgaram_handler &&
+                                      !creator.instagram_handler
+                                    "
+                                    v-slot="{ active }"
+                                    class="items-center">
+                                    <button
+                                      @click="
+                                        instagramDMContact(
+                                          creator.meta.instagram_handler ||
+                                            creator.instagram_handler
+                                        )
+                                      "
+                                      :class="[
+                                        active
+                                          ? 'bg-neutral-100 text-neutral-900'
+                                          : 'text-gray-700',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                      ]">
+                                      <ChatBubbleOvalLeftEllipsisIcon
+                                        class="mr-2 inline h-4 w-4 text-social-instagram" />
+                                      Instagram DM
+                                    </button>
+                                  </MenuItem>
+                                  <MenuItem
+                                    :disabled="
                                       !creator.meta.phone && !creator.phone
                                     "
                                     v-slot="{ active }"
                                     class="items-center">
                                     <button
                                       @click="
-                                        whatsAppCreator(
+                                        whatsappCreator(
                                           creator.meta.phone || creator.phone
                                         )
                                       "
@@ -1044,7 +1069,7 @@
                                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
                                       <ChatBubbleOvalLeftEllipsisIcon
-                                        class="mr-2 inline h-4 w-4 text-green-400" />
+                                        class="mr-2 inline h-4 w-4 text-social-whatsapp" />
                                       Whatsapp
                                     </button>
                                   </MenuItem>
@@ -1625,6 +1650,22 @@ export default {
         this.$notify({
           title: 'No phone number found',
           message: 'This contact does not have a phone number',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    instagramDMContact(username) {
+      if (username.includes('instagram.com')) {
+        username = username.split('instagram.com/')[1];
+      }
+      if (username) {
+        window.open('https://ig.me/m/' + username);
+      } else {
+        console.log('No instagram username found');
+        this.$notify({
+          title: 'No instagram username found',
+          message: 'This contact does not have an instagram username',
           type: 'warning',
           group: 'user',
         });
