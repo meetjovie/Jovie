@@ -177,6 +177,7 @@ export default {
     focused: { type: Boolean, default: false },
     disabled: Boolean,
     icon: String,
+
     value: String,
     modelValue: {},
     error: {

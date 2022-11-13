@@ -1161,7 +1161,7 @@
                     <td
                       class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
                       <div class="flex items-center justify-end text-right">
-                      <div>
+                        <div>
                           <router-link
                             :to="{
                               name: 'Creator Overview',
@@ -1170,13 +1170,8 @@
                             class="text-neutral-600 hover:text-indigo-900">
                             Manage
                           </router-link>
-                        </div> 
-                       
-
-                       
+                        </div>
                       </div>
-
-                     
                     </td>
                   </tr>
                 </template>

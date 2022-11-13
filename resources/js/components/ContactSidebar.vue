@@ -313,7 +313,6 @@
               @updateModelValue="updateModelValue(element.model, $event)"
               :id="element.name"
               :icon="element.icon"
-              :icon2="element.icon2"
               :socialicon="element.socialicon"
               :label="element.name"
               :action="element.actionIcon"
@@ -1104,6 +1103,7 @@ export default {
           socialicon: 'instagram',
           id: 5,
           actionIcon: 'ChatBubbleLeftEllipsisIcon',
+          actionIcon2: 'ArrowTopRightOnSquareIcon',
           /*  method: 'openLink', */
           /*      action: this.openLink(this.creator.meta.instagram_handler), */
           model: 'creator.meta.instagram_handler',
