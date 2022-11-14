@@ -61,7 +61,7 @@
                     :class="[
                       selectedList == element.id
                         ? 'font-bold text-neutral-800 '
-                        : 'font-medium text-neutral-700',
+                        : 'font-light text-neutral-700',
                     ]"
                     class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-neutral-800"
                     >{{ element.name }}</span
@@ -72,7 +72,7 @@
                     @keyup.esc="disableEditName(element)"
                     @keyup.enter="updateList(element)"
                     v-else
-                    class="text-xs font-medium text-neutral-700 group-hover/list:text-neutral-800" />
+                    class="text-xs font-light text-neutral-700 group-hover/list:text-neutral-800" />
                 </div>
               </div>
               <div
@@ -82,7 +82,7 @@
                   class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-neutral-800" />
                 <span
                   v-else
-                  class="text-right text-xs font-medium text-neutral-700 group-hover/list:hidden group-hover/list:text-neutral-800"
+                  class="text-right text-xs font-light text-neutral-700 group-hover/list:hidden group-hover/list:text-neutral-800"
                   >{{ element.creators_count }}</span
                 >
 
@@ -213,7 +213,7 @@
                 :class="[
                   selectedList == item.id
                     ? 'font-bold text-neutral-800 '
-                    : 'font-medium text-neutral-700',
+                    : 'font-light text-neutral-700',
                 ]"
                 class="cursor-pointer text-xs line-clamp-1 group-hover:text-neutral-800"
                 >{{ item.name }}</span
@@ -225,14 +225,14 @@
                 @keyup.esc="disableEditName(item)"
                 @keyup.enter="updateList(item)"
                 v-else
-                class="text-xs font-medium text-neutral-900 group-hover:text-neutral-800" />
+                class="text-xs font-light text-neutral-900 group-hover:text-neutral-800" />
             </div>
           </div>
 
           <div
             class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-neutral-300 hover:text-neutral-50">
             <span
-              class="text-right text-xs font-medium text-neutral-700 group-hover:hidden group-hover:text-neutral-800"
+              class="text-right text-xs font-light text-neutral-700 group-hover:hidden group-hover:text-neutral-800"
               >{{ item.creators_count }}</span
             >
             <Menu as="div" class="relative inline-block text-center">
