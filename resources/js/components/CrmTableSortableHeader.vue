@@ -1,33 +1,36 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
   <div
-    class="w-44"
+    class="group/header w-44"
+    @contextmenu.prevent="openMenu()"
     @click="
       $emit('sortData', { sortBy: column.key, sortOrder: column.sortOrder })
     "
     v-if="column">
     <div
-      :class="[{ ' hover:bg-neutral-200 active:bg-neutral-300': sortable }]"
-      class="text-medium group flex h-full w-full cursor-pointer select-none items-center justify-between py-2 pl-1 pr-2 tracking-wider">
+      class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider"
+      :class="[
+        {
+          ' cursor-pointer hover:bg-neutral-200 active:bg-neutral-300':
+            sortable,
+        },
+      ]">
       <div class="text-medium flex w-full items-center tracking-wider">
         <component
-          class="mr-1 h-4 w-4 text-neutral-400 group-hover:text-neutral-600"
+          class="mr-1 h-4 w-4 text-neutral-400"
+          :class="{
+            'text-neutral-600': sortable,
+          }"
           :is="column.icon"></component>
         <span class="text-medium tracking-wider line-clamp-1">
           {{ column.name }}
         </span>
       </div>
-      <div
-        v-if="column.sortable"
-        class="cursor-pointer group-hover:text-neutral-400"
-        :class="[
-          { 'text-neutral-200': column.sortOrder },
-          'text-neutral-200/0',
-        ]">
+      <div v-if="column.sortable" class="cursor-pointer text-neutral-400">
         <svg
           v-if="!column.sortOrder"
           xmlns="http://www.w3.org/2000/svg"
-          class="ml-1 h-3 w-3 text-neutral-500"
+          class="ml-1 h-3 w-3 text-neutral-500/0 group-hover/header:text-neutral-500"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 320 512">
@@ -40,23 +43,25 @@
         <ChevronUpIcon v-else class="ml-1 h-3 w-3" />
       </div>
     </div>
-    <!--    <Popover class="w-full">-->
-    <!--      <Float placement="bottom-start" portal shift>-->
-    <!--        <PopoverButton class="w-full">-->
-    <!--          -->
-    <!--        </PopoverButton>-->
-    <!--        <PopoverPanel-->
-    <!--          class="text-50 w-40 items-center rounded-md bg-neutral-700 shadow-md">-->
-    <!--          <div-->
-    <!--            @click="$emit('hide-column')"-->
-    <!--            class="flex cursor-pointer py-2 px-2 text-xs font-medium text-white first:rounded-t-md last:rounded-b-md hover:bg-neutral-600"-->
-    <!--            v-for="item in dropdownItems">-->
-    <!--            <component :is="item.icon" class="mr-2 h-4 w-4" />-->
-    <!--            {{ item.name }}-->
-    <!--          </div>-->
-    <!--        </PopoverPanel>-->
-    <!--      </Float>-->
-    <!--    </Popover>-->
+    <!--  <Popover v-slot="{ open }" class="w-full">
+      <Float placement="bottom-start" portal shift>
+        <PopoverButton class="w-full"> </PopoverButton>
+        <div v-if="open">
+          <PopoverPanel
+            static
+            class="text-50 w-40 items-center rounded-md bg-neutral-700 shadow-md">
+            <div
+              @click="$emit('hide-column')"
+              class="flex cursor-pointer py-2 px-2 text-xs font-medium text-white first:rounded-t-md last:rounded-b-md hover:bg-neutral-600"
+              v-for="item in dropdownItems"
+              :key="item.name">
+              <component :is="item.icon" class="mr-2 h-4 w-4" />
+              {{ item.name }}
+            </div>
+          </PopoverPanel>
+        </div>
+      </Float>
+    </Popover> -->
   </div>
 </template>
 <script>
@@ -96,6 +101,17 @@ export default {
     PopoverButton,
     PopoverPanel,
     Float,
+  },
+  data() {
+    return {
+      open: true,
+    };
+  },
+  methods: {
+    openMenu() {
+      this.open = true;
+      console.log('open menu');
+    },
   },
   props: {
     column: {

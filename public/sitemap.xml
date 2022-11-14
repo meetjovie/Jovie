@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+
+
+<url>
+  <loc>https://jov.ie/</loc>
+  <lastmod>2022-11-14T07:41:28+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://jov.ie/legal</loc>
+  <lastmod>2022-11-14T07:41:28+00:00</lastmod>
+</url>
+<url>
+  <loc>https://jov.ie/support</loc>
+  <lastmod>2022-11-14T07:41:28+00:00</lastmod>
+</url>
+<url>
+  <loc>https://jov.ie/careers</loc>
+  <lastmod>2022-11-14T07:41:28+00:00</lastmod>
+</url>
+<url>
+  <loc>https://jov.ie/chrome-extension</loc>
+  <lastmod>2022-11-14T07:41:28+00:00</lastmod>
+</url>
+<url>
+  <loc>https://jov.ie/meet-jovie</loc>
+  <lastmod>2022-11-14T07:41:28+00:00</lastmod>
+</url>
+
+
+
+
+
+</urlset>
