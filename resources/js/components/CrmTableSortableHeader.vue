@@ -2,6 +2,7 @@
   <!--  @click="toggleSortingOrder()" -->
   <div
     class="group/header w-44"
+    @contextmenu.prevent="openMenu()"
     @click="
       $emit('sortData', { sortBy: column.key, sortOrder: column.sortOrder })
     "
@@ -34,23 +35,23 @@
         <ChevronUpIcon v-else class="ml-1 h-3 w-3" />
       </div>
     </div>
-    <!--    <Popover class="w-full">-->
-    <!--      <Float placement="bottom-start" portal shift>-->
-    <!--        <PopoverButton class="w-full">-->
-    <!--          -->
-    <!--        </PopoverButton>-->
-    <!--        <PopoverPanel-->
-    <!--          class="text-50 w-40 items-center rounded-md bg-neutral-700 shadow-md">-->
-    <!--          <div-->
-    <!--            @click="$emit('hide-column')"-->
-    <!--            class="flex cursor-pointer py-2 px-2 text-xs font-medium text-white first:rounded-t-md last:rounded-b-md hover:bg-neutral-600"-->
-    <!--            v-for="item in dropdownItems">-->
-    <!--            <component :is="item.icon" class="mr-2 h-4 w-4" />-->
-    <!--            {{ item.name }}-->
-    <!--          </div>-->
-    <!--        </PopoverPanel>-->
-    <!--      </Float>-->
-    <!--    </Popover>-->
+    <Popover class="w-full">
+      <Float placement="bottom-start" portal shift>
+        <PopoverButton class="w-full"> </PopoverButton>
+        <PopoverPanel
+          v-if="columnMenu"
+          class="text-50 static w-40 items-center rounded-md bg-neutral-700 shadow-md">
+          <div
+            @click="$emit('hide-column')"
+            class="flex cursor-pointer py-2 px-2 text-xs font-medium text-white first:rounded-t-md last:rounded-b-md hover:bg-neutral-600"
+            v-for="item in dropdownItems"
+            :key="item.name">
+            <component :is="item.icon" class="mr-2 h-4 w-4" />
+            {{ item.name }}
+          </div>
+        </PopoverPanel>
+      </Float>
+    </Popover>
   </div>
 </template>
 <script>
@@ -90,6 +91,17 @@ export default {
     PopoverButton,
     PopoverPanel,
     Float,
+  },
+  data() {
+    return {
+      columnMenu: false,
+    };
+  },
+  methods: {
+    openMenu() {
+      this.columnMenu = true;
+      console.log('open menu');
+    },
   },
   props: {
     column: {
