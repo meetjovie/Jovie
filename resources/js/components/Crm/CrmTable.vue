@@ -650,7 +650,8 @@
                                   <div class="py-1">
                                     <MenuItem
                                       :disabled="
-                                        !creator.emails && !creator.meta.emails
+                                        !creator.emails[0] &&
+                                        !creator.meta.emails[0]
                                       "
                                       v-slot="{ active }"
                                       class="items-center">
@@ -767,8 +768,8 @@
                                         Whatsapp
                                       </button>
                                     </MenuItem>
-<!-- Work in progress -->
-                                   <!--  <MenuItem
+                                    <!-- Work in progress -->
+                                    <!--  <MenuItem
                                       v-slot="{ active }"
                                       class="cursor-pointer items-center">
                                       <button
