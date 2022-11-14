@@ -17,18 +17,18 @@ export const routes = [
     },
   },
   {
-    name: 'Pricing',
-    path: '/pricing',
-    component: loadPage('Pricing'),
+    name: 'Changelog',
+    path: '/changelog',
+    component: loadPage('ChangeLog'),
     meta: {
-      layout: 'default',
       requiresAuth: false,
+      layout: 'default',
     },
   },
   {
-    name: 'About Us',
-    path: '/about',
-    component: loadPage('AboutUs'),
+    name: 'Pricing',
+    path: '/pricing',
+    component: loadPage('Pricing'),
     meta: {
       layout: 'default',
       requiresAuth: false,
@@ -185,15 +185,15 @@ export const routes = [
     },
   },
   {
-    about: 'About',
-    path: '/about',
-    component: loadPage('About'),
+    name: 'Meet Jovie',
+    path: '/meet-jovie',
+    component: loadPage('MeetJovie'),
     meta: {
       requiresAuth: false,
     },
   },
   {
-    about: 'Jovie Profile',
+    name: 'Jovie Profile',
     path: '/profiles',
     component: loadPage('JovieProfile'),
     meta: {

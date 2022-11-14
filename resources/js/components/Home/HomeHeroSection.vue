@@ -36,10 +36,12 @@
         </div>
 
         <div class="z-10 flex flex-col text-center">
-          <h1
-            class="text-xs font-semibold uppercase tracking-wide text-sky-500 text-transparent sm:text-2xl">
-            Meet Jovie
-          </h1>
+          <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+            <div
+              class="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+              <h1 class="text-2xl font-semibold text-sky-500">👋🏻 Meet Jovie</h1>
+            </div>
+          </div>
 
           <h2
             class="text-xl font-extrabold tracking-normal text-neutral-800 sm:text-5xl lg:text-7xl xl:text-8xl">

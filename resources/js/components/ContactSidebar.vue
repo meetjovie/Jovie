@@ -9,7 +9,7 @@
       <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
-          class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600" />
+          class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600 active:text-neutral-700" />
       </div>
 
       <div class="mt-2 grid grid-cols-3">
@@ -150,30 +150,11 @@
           :countsVisible="false" />
       </div>
       <div v-if="socialURLEditing">
-        <div class="relative rounded-md px-2 py-1 shadow-sm">
-          <div
-            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <SocialIcons
-              :network="activeSocialNetworkURLEdit.network"
-              height="14"
-              width="14"
-              class="h-4 w-4 text-gray-400"
-              aria-hidden="true" />
-          </div>
-          <input
-            type="social_network_url"
-            name="social_network_url"
-            id="social_network_url"
-            class="block w-full rounded-md border-gray-300 px-1 py-1 pl-8 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
-            placeholder="Enter or paste social link here" />
-          <div
-            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <XMarkIcon
-              @click="saveSocialNetworkURL()"
-              class="h-4 w-4 text-gray-400"
-              aria-hidden="true" />
-          </div>
-        </div>
+        <SocialInput
+          @finishImport="saveSocialNetworkURL"
+          @saveSocialNetworkURL="saveSocialNetworkURL()"
+          @cancelEdit="cancelEdit()"
+          minimalDesign />
       </div>
 
       <hr />
@@ -245,6 +226,31 @@
                     </button>
                   </MenuItem>
                   <MenuItem
+                    :disabled="
+                      !creator.meta.instgaram_handler &&
+                      !creator.instagram_handler
+                    "
+                    v-slot="{ active }"
+                    class="items-center">
+                    <button
+                      @click="
+                        instagramDMContact(
+                          creator.meta.instagram_handler ||
+                            creator.instagram_handler
+                        )
+                      "
+                      :class="[
+                        active
+                          ? 'bg-neutral-100 text-neutral-900'
+                          : 'text-gray-700',
+                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                      ]">
+                      <ChatBubbleOvalLeftEllipsisIcon
+                        class="mr-2 inline h-4 w-4 text-social-instagram" />
+                      Instagram DM
+                    </button>
+                  </MenuItem>
+                  <MenuItem
                     :disabled="!creator.phone && !creator.meta.phone"
                     v-slot="{ active }">
                     <button
@@ -259,7 +265,7 @@
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
                         :active="active"
-                        class="mr-2 h-4 w-4 text-green-400"
+                        class="mr-2 h-4 w-4 text-social-whatsapp"
                         aria-hidden="true" />
                       Send WhatsApp
                     </button>
@@ -277,16 +283,45 @@
         </div>
       </div>
       <div class="px-2">
-        <h2 class="text-xs font-semibold text-neutral-400">Lists</h2>
+        <h2 class="text-xs font-semibold text-neutral-600">Lists</h2>
         <InputLists
           :lists="creator.lists"
           :current-list="creator.current_list" />
       </div>
-      <div class="mt-4 h-80 space-y-4 overflow-y-scroll px-2">
-        <h2 class="mb-2 text-xs font-semibold text-neutral-400">
+      <div class="mt-4 px-2">
+        <h2 class="mb-2 text-xs font-semibold text-neutral-600">
           Contact Details
         </h2>
-        <DataInputGroup
+      </div>
+      <div class="h-80 space-y-6 overflow-y-scroll px-2">
+        <draggable
+          class="select-none space-y-2"
+          group="lists"
+          ghost-class="ghost-card"
+          :creator="creator"
+          :list="fields">
+          <div
+            class="space-y-4"
+            v-for="(element, index) in fields"
+            :key="element.id">
+            <DataInputGroup
+              @copy="copyToClipboard(element.value)"
+              class="group/draggable"
+              @actionMethod="actionMethod(element.method, element.params)"
+              @actionMethod2="actionMethod(element.method2, element.params2)"
+              :value="element.value"
+              @updateModelValue="updateModelValue(element.model, $event)"
+              :id="element.name"
+              :icon="element.icon"
+              :socialicon="element.socialicon"
+              :label="element.name"
+              :action="element.actionIcon"
+              :action2="element.actionIcon2"
+              :isCopyable="element.isCopyable"
+              :placeholder="element.location" />
+          </div>
+        </draggable>
+        <!-- <DataInputGroup
           @blur="$emit('updateCrmMeta')"
           v-model="creator.meta.location"
           :value="`${creator.city ?? ''} ${creator.country ?? ''}`"
@@ -373,7 +408,7 @@
           label="Youtube"
           isCopyable
           @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
-          placeholder="Youtube" />
+          placeholder="Youtube" />-->
       </div>
       <div class="mt-2 justify-self-end bg-white px-2">
         <TextAreaInput
@@ -529,6 +564,7 @@
 </template>
 
 <script>
+import SocialInput from '../components/SocialInput.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import JovieLogo from '../components/JovieLogo.vue';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
@@ -537,6 +573,7 @@ import DataInputGroup from '../components/DataInputGroup.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
+import { VueDraggableNext } from 'vue-draggable-next';
 import {
   XMarkIcon,
   ChevronDownIcon,
@@ -550,9 +587,6 @@ import {
   MenuButton,
   MenuItems,
   MenuItem,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
   TransitionRoot,
 } from '@headlessui/vue';
 import SocialIcons from './SocialIcons.vue';
@@ -561,8 +595,11 @@ import { Float } from '@headlessui-float/vue';
 import router from '../router';
 import store from '../store';
 export default {
-  name: 'Contact Sidebar',
+  name: 'ContactSidebar',
   components: {
+    SocialInput,
+    draggable: VueDraggableNext,
+    ChatBubbleLeftEllipsisIcon,
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
     EnvelopeIcon,
@@ -572,9 +609,6 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
-    Popover,
-    PopoverButton,
-    PopoverPanel,
     TransitionRoot,
     JovieLogo,
     Float,
@@ -719,17 +753,64 @@ export default {
       default: false,
     },
   },
-  //add data for editingSocialURL
-  data() {
-    return { socialURLEditing: false };
-  },
 
   methods: {
-    saveSocialURL() {
+    openURL(url) {
+      window.open(url, '_blank');
+    },
+    updateModelValue(model, value) {
+      let keys = model.split('.');
+      if (keys.length == 1) {
+        this[keys[0]] = value;
+      } else if (keys.length == 2) {
+        this[keys[0]][keys[1]] = value;
+      } else if (keys.length == 3) {
+        this[keys[0]][keys[1]][keys[2]] = value;
+      }
+      this.$emit('updateCrmMeta');
+    },
+    fallback() {},
+    actionMethod(method, data) {
+      if (method) {
+        this[method](data);
+      }
+    },
+    sendEmail() {
+      alert('email sent');
+    },
+    triggerAction(action, data) {
+      this.action();
+      //trigger a function using the action prop
+
+      console.log('triggerAction');
+    },
+    log(event) {
+      console.log(event);
+    },
+    saveSocialNetworkURL() {
+      console.log('saveSocialURL');
       this.socialURLEditing = false;
+      //notify the user
+      this.$notify({
+        group: 'user',
+        type: 'success',
+        title: 'Link Saved',
+        text: 'The new social link has been saved',
+      });
+    },
+    cancelEdit() {
+      this.socialURLEditing = false;
+      //notify the user
+      this.$notify({
+        group: 'user',
+        type: 'error',
+        title: 'Link Not Saved',
+        text: 'The new social link has not been saved',
+      });
     },
     emailCreator(email) {
       console.log('email');
+      email = this.creator.meta.emails[0];
       //go to the url mailto:creator.emails[0]
       //if email is not null
       if (email.length > 0) {
@@ -745,9 +826,10 @@ export default {
         });
       }
     },
-    openSocialLink(url, network) {
+    openLink(url) {
       console.log('url');
       //go to the url
+
       //if url is not null
       if (url.length > 0) {
         //else log no url found
@@ -764,6 +846,8 @@ export default {
     callCreator(phone) {
       //go to the url tel:creator.meta.phone
       //if phone is not null
+      phone = this.creator.meta.phone || this.creator.phone;
+      console.log('Calling contact at:' + phone);
       if (phone) {
         window.open('tel:' + phone);
         //else log no phone found
@@ -777,9 +861,32 @@ export default {
         });
       }
     },
+    instagramDMContact(username) {
+      //go to the url https://ig.me/m/USERNAME
+      //if username is not null
+      //else notify the user
+      username =
+        this.creator.meta.instagram_handler || this.creator.instagram_handler;
+      //if username is an instagram link, extract the username
+      if (username.includes('instagram.com')) {
+        username = username.split('instagram.com/')[1];
+      }
+      if (username) {
+        window.open('https://ig.me/m/' + username);
+      } else {
+        console.log('No instagram username found');
+        this.$notify({
+          title: 'No instagram username found',
+          message: 'This contact does not have an instagram username',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
     whatsappCreator(phone) {
       //go to the url tel:creator.meta.phone
       //if phone is not null
+      phone = this.creator.meta.phone || this.creator.phone;
       if (phone) {
         console.log('whatsapp');
         //open whatsapp://send?text=Hello World!&phone=+phone
@@ -798,6 +905,7 @@ export default {
     textCreator(phone) {
       //go to the url sms:creator.meta.phone
       //if phone is not null
+      phone = this.creator.meta.phone || this.creator.phone;
       if (phone) {
         window.open('sms:' + phone);
         //else log no phone found
@@ -890,10 +998,12 @@ export default {
       console.log(network);
       console.log(creator);
       this.socialURLEditing = true;
+      //focus on  id="social_network_url"
+      this.$refs.editInput.focus();
       console.log(this.socialURLEditing);
       /*  this.editingSocialNetworkURL = network;
       console.log('editSocialNetworkURL');
-      
+
 
       this.activeSocialNetworkURLEdit = {
         network: network,
@@ -937,9 +1047,148 @@ export default {
       });
     },
   },
+  computed: {
+    fields() {
+      return [
+        {
+          name: 'Location',
+          icon: 'MapPinIcon',
+          id: 1,
+          model: 'creator.meta.location',
+          value: this.creator.meta.location,
+          isCopyable: true,
+          placeholder: 'Location',
+        },
+        {
+          name: 'Email',
+          icon: 'EnvelopeIcon',
+          id: 2,
+          actionIcon: 'EnvelopeIcon',
+          method: 'emailCreator',
+
+          /* action: this.emailCreator(this.creator.meta.emails), */
+          model: 'creator.meta.emails',
+          value: this.creator.meta.emails,
+          isCopyable: true,
+          placeholder: 'Email',
+        },
+        {
+          name: 'Phone',
+          icon: 'PhoneIcon',
+          id: 3,
+          actionIcon: 'ChatBubbleLeftEllipsisIcon',
+          method: 'textCreator',
+          /*  action: this.callCreator(this.creator.meta.phone), */
+          model: 'creator.meta.phone',
+          value: this.creator.meta.phone,
+          isCopyable: true,
+          placeholder: 'Phone',
+        },
+        {
+          name: 'Website',
+          icon: 'LinkIcon',
+          id: 4,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          /*   action: this.openLink(this.creator.meta.website), */
+          model: 'creator.meta.website',
+          method: 'openURL',
+          params: this.creator.meta.website,
+          /*  params: this.creator.meta.website, */
+          value: this.creator.meta.website,
+          isCopyable: true,
+          placeholder: 'Website',
+        },
+        {
+          name: 'Instagram',
+          socialicon: 'instagram',
+          id: 5,
+          actionIcon: 'ChatBubbleLeftEllipsisIcon',
+          actionIcon2: 'ArrowTopRightOnSquareIcon',
+          /*  method: 'openLink', */
+          /*      action: this.openLink(this.creator.meta.instagram_handler), */
+          model: 'creator.meta.instagram_handler',
+          method: 'openLink',
+          method2: 'instagramDMContact',
+          params: this.creator.meta.instagram_handler,
+          value: this.creator.meta.instagram_handler,
+          isCopyable: true,
+          placeholder: 'Instagram',
+        },
+        {
+          name: 'Twitter',
+          socialicon: 'twitter',
+          id: 6,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          /*   action: this.openLink(this.creator.meta.twitter_handler), */
+          model: 'creator.meta.twitter_handler',
+
+          method: 'openURL',
+          params: this.creator.meta.twitter_handler,
+          value: this.creator.meta.twitter_handler,
+          isCopyable: true,
+          placeholder: 'Twitter',
+        },
+        {
+          name: 'TikTok',
+          socialicon: 'tiktok',
+          id: 7,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          /*   action: this.openLink(this.creator.meta.tiktok_handler), */
+          model: 'creator.meta.tiktok_handler',
+          value: this.creator.meta.tiktok_handler,
+          method: 'openURL',
+          params: this.creator.meta.tiktok_handler,
+          isCopyable: true,
+          placeholder: 'TikTok',
+        },
+        {
+          name: 'Youtube',
+          socialicon: 'youtube',
+          id: 8,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          /*      action: this.openLink(this.creator.meta.youtube_handler), */
+          model: 'creator.meta.youtube_handler',
+          value: this.creator.meta.youtube_handler,
+          method: 'openURL',
+          params: this.creator.meta.youtube_handler,
+          /* method: 'openLink', */
+          isCopyable: true,
+          placeholder: 'Youtube',
+        },
+        {
+          name: 'Twitch',
+          socialicon: 'twitch',
+          id: 9,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          /*   action: this.openLink(this.creator.meta.twitch_handler), */
+          model: 'creator.meta.twitch_handler',
+          params: this.creator.meta.twitch_handler,
+          value: this.creator.meta.twitch_handler,
+          method: 'openURL',
+          isCopyable: true,
+          placeholder: 'Twitch',
+        },
+        {
+          name: 'Linkedin',
+          socialicon: 'linkedin',
+          id: 10,
+          actionIcon: 'ArrowTopRightOnSquareIcon',
+          /*    action: this.openLink(this.creator.meta.linkedin_handler), */
+          model: 'creator.meta.linkedin_handler',
+          value: this.creator.meta.linkedin_handler,
+          params: this.creator.meta.linkedin_handler,
+          /*  method: 'openLink', */
+          isCopyable: true,
+          placeholder: 'Linkedin',
+        },
+      ];
+    },
+  },
   data() {
     return {
       sidebarLoading: false,
+      socialURLEditing: false,
+      dragging: false,
       instagram_handler: '',
       loader: false,
       expandBio: false,
