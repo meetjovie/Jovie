@@ -271,7 +271,7 @@
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
-                      <Menu>
+                      <Menu v-slot="{ openContextMenu }">
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
                             class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
@@ -288,6 +288,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
+                              v-show="openContextMenu"
                               class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-if="filters.list"
@@ -464,7 +465,7 @@
                   <tr
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
-                    @contextmenu="openContextMenu($event, creator)"
+                    @contextmenu.prevent="openContextMenu($event, creator)"
                     class="border-1 group group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
@@ -631,7 +632,7 @@
                               arrow
                               placement="bottom-end">
                               <MenuButton
-                                class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
+                                class="flex items-center rounded-full text-gray-400/0 transition-all hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:bg-neutral-200 group-hover:text-gray-400">
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
                                   class="z-0 h-5 w-5"
@@ -771,7 +772,7 @@
                                       v-slot="{ active }"
                                       class="cursor-pointer items-center">
                                       <button
-                                        @click="downloadVCF(creator)"
+                                        @click="downloadVCF(this.creator)"
                                         :class="[
                                           active
                                             ? 'bg-neutral-100 text-neutral-900'
@@ -1306,6 +1307,7 @@ export default {
   },
   data() {
     return {
+      openContextMenu: false,
       view: {
         atTopOfPage: true,
       },
@@ -1538,8 +1540,9 @@ export default {
   methods: {
     openContextMenu(event, creator) {
       //notify the user they right clicked
-      console.log('right clicked');
-      this.$refs.contextMenu.open(event, creator);
+      console.log('right clicked' + creator.name);
+      //toggel open
+      this.openContextMenu = true;
     },
     sortData({ sortBy, sortOrder }) {
       this.columns = this.columns.map((column) => {
@@ -1693,84 +1696,101 @@ export default {
         });
       }
     },
-    generateVCF(Creator) {
+    generateVCF(creator) {
       let vCard = 'BEGIN:VCARD\n';
       vCard += 'VERSION:3.0\n';
       //if creator has a first name
-      if (Creator.first_name) {
-        vCard += 'N:' + Creator.first_name + ' ' + Creator.last_name + '\n';
-        vCard += 'FN:' + Creator.first_name + ' ' + Creator.last_name + '\n';
+      //if the creator has an instagram handler then set instagram to the instagram handler
+      //else if the creator has a meta.instagram_handler then set instagram to the meta.instagram_handler
+      //else set instagram to null
+
+      /*       //if creator has an email
+     if (creator.emails[0]) {
+        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.emails[0] + '\n';
+      } else if
+      {
+        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.meta.emails + '\n';
       } else {
-        vCard += 'N:' + Creator.name + '\n';
-        vCard += 'FN:' + Creator.name + '\n';
-      }
-      //if creator has a phone number
-      if (creator.meta.phone) {
-        vCard += 'TEL;TYPE=WORK,VOICE:' + creator.meta.phone + '\n';
-      }
-      //if creator has an email
-      if (Creator.emails[0]) {
-        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + Creator.emails[0] + '\n';
-      }
-      if (Creator.company) {
-        vCard += 'ORG:' + Creator.company + '\n';
-      }
-      if (Creator.title) {
-        vCard += 'TITLE:' + Creator.title + '\n';
-      }
+        console.log('No email found');
+      };
+      //set employer
+      if (creator.meta.employer) {
+        vCard += 'ORG:' + creator.meta.employer + '\n';
+      } else {
+        console.log('No employer found');
+      };
+      //set title
+      if (creator.meta.title) {
+        vCard += 'TITLE:' + creator.meta.title + '\n';
+      } else {
+        console.log('No title found');
+      };
       if (Creator.location) {
         vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
       }
-      if (Creator.website) {
-        vCard += 'URL:' + Creator.website + '\n';
-      }
-      if (Creator.twitter_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=twitter:' + Creator.twitter_handler + '\n';
-      }
-      if (Creator.instagram_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=instagram:' + Creator.instagram_handler + '\n';
-      }
-      if (Creator.facebook_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=facebook:' + Creator.facebook_handler + '\n';
-      }
-      if (Creator.linkedin_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=linkedin:' + Creator.linkedin_handler + '\n';
-      }
-      if (Creator.youtube_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=youtube:' + Creator.youtube_handler + '\n';
-      }
-      if (Creator.tiktok_handler) {
-        vCard += 'X-SOCIALPROFILE;TYPE=tiktok:' + Creator.tiktok_handler + '\n';
-      }
-      if (Creator.twitch_handler) {
-        vCard += 'X-SOCIALPROFILE;TYPE=twitch:' + Creator.twitch_handler + '\n';
-      }
-      if (Creator.bio) {
-        vCard += 'NOTE:' + Creator.bio + 'NOTE:Saved from Jovie\n';
+      //if creator.instagram_handler set instagram else if creator.meta.instagram set instagram else log no instagram found
+      if (creator.instagram_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.instagram_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.instagram + '\n';
       } else {
-        vCard += 'NOTE:Saved from Jovie\n';
-      }
+        console.log('No instagram found');
+      };
+      //do the twitter and twitch and youtube and tiktok and linkedin
+      if (creator.twitter_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.twitter_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.twitter + '\n';
+      } else {
+        console.log('No twitter found');
+      };
+      if (creator.twitch_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.twitch_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.twitch + '\n';
+      } else {
+        console.log('No twitch found');
+      };
+      if (creator.youtube_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.youtube_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.youtube + '\n';
+      } else {
+        console.log('No youtube found');
+      };
+      if (creator.tiktok_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.tiktok_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.tiktok + '\n';
+      } else {
+        console.log('No tiktok found');
+      };
+      if (creator.linkedin_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.linkedin_handler + '\n';
+      } else if {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.linkedin + '\n';
+      } else {console.log('No linkedin found');
+      }; */
+
+      vCard += 'NOTE:Saved from Jovie\n';
+
       vCard += 'END:VCARD';
       return vCard;
     },
-    downloadVCF(Creator) {
-      let vCard = this.generateVCF(Creator);
+    downloadVCF(creator) {
+      let vCard = this.generateVCF(creator);
       let blob = new Blob([vCard], { type: 'text/vcard' });
       let url = URL.createObjectURL(blob);
       let link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute(
-        'download',
-        `Jovie Contact ${Creator.first_name} ${Creator.last_name}.vcf`
-      );
+      link.setAttribute('download', this.creator.meta.name + '.vcf');
       link.click();
     },
-
     toggleSearchVisible() {
       //if search is not visible then make it visible and focus on the search input
       if (!this.searchVisible) {

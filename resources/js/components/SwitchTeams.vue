@@ -17,7 +17,7 @@
               }}
             </div>
           </div>
-          <div class="w-2 items-center">
+          <div class="w-4 items-center">
             <div
               class="hidden flex-col justify-between text-center group-hover:block">
               <ChevronUpIcon
@@ -43,22 +43,24 @@
               class="border-b bg-neutral-50 px-4 pt-2 pb-1 text-center text-xs font-semibold text-neutral-400">
               Your teams:
             </div>
-            <div v-if="currentUser.teams" v-for="team in currentUser.teams">
-              <button
-                @click="switchTeam(team.id)"
-                class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
-                :class="[
-                  active
-                    ? 'bg-white px-1 py-2 font-bold text-indigo-700'
-                    : 'text-sm text-gray-500',
-                  'group flex w-full items-center px-2 py-2 text-xs ',
-                ]">
-                <ChevronRightIcon
-                  :active="active"
-                  class="mr-1 h-5 w-5 text-indigo-400 group-hover:text-white"
-                  aria-hidden="true" />
-                {{ team.name }}
-              </button>
+            <div v-if="currentUser.teams">
+              <div v-for="team in currentUser.teams">
+                <button
+                  @click="switchTeam(team.id)"
+                  class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
+                  :class="[
+                    active
+                      ? 'bg-white px-1 py-2 font-bold text-indigo-700'
+                      : 'text-sm text-gray-500',
+                    'group flex w-full items-center px-2 py-2 text-xs ',
+                  ]">
+                  <ChevronRightIcon
+                    :active="active"
+                    class="mr-1 h-5 w-5 text-indigo-400 group-hover:text-white"
+                    aria-hidden="true" />
+                  {{ team.name }}
+                </button>
+              </div>
             </div>
             <div>
               <router-link
