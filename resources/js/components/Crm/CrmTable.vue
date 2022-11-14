@@ -971,20 +971,29 @@
                         class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
                         <div class=".clear-both mx-auto flex-col items-center">
                           <div
-                            v-if="creator[`${network}_handler`]"
+                            v-if="
+                              creator[`${network}_handler`] ||
+                              creator.meta[`${network}_handler`]
+                            "
                             class="mx-auto items-center">
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
                               setting.isVisable
-                              :link="creator[`${network}_handler`]"
+                              :link="
+                                creator[`${network}_handler`] ||
+                                creator.meta[`${network}_handler`]
+                              "
                               :icon="network" />
                           </div>
                           <div class="mx-auto items-center" v-else>
                             <div class="">
                               <SocialIcons
                                 height="14px"
-                                :link="creator[`${network}_handler`]"
+                                :link="
+                                  creator[`${network}_handler`] ||
+                                  creator.meta[`${network}_handler`]
+                                "
                                 :icon="network" />
                             </div>
                           </div>
