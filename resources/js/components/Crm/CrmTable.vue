@@ -86,7 +86,7 @@
                 </JovieTooltip>
               </div>
               <!--  <div
-                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30"
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
@@ -225,7 +225,7 @@
               <!-- <div v-if="currentContact">
                 <button
                   v-if="!$store.state.ContactSidebarOpen"
-                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
                   <ChevronRightIcon
                     @click="openSidebarAndSetContact()"
                     class="h-5 w-5 font-bold text-gray-400 transition-all group-hover:text-neutral-600" />
@@ -238,12 +238,12 @@
           <div
             class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="block w-full divide-y divide-y divide-gray-200 divide-gray-200 overflow-x-auto">
+              class="block w-full divide-y divide-gray-200 overflow-x-auto">
               <thead class="relative isolate z-20 items-center bg-neutral-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-20 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-gray-300 before:content-['']">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
@@ -267,11 +267,11 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-r border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-gray-300 after:content-['']">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
-                      <Menu>
+                      <Menu v-slot="{ openContextMenu }">
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
                             class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
@@ -288,7 +288,8 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                              v-show="openContextMenu"
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -302,9 +303,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <TrashIcon class="mr-2 inline h-4 w-4" />
                                   Remove from list
@@ -324,9 +325,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center rounded-md px-2 py-1 text-xs font-bold',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <ArchiveBoxIcon
                                     :active="active"
@@ -360,7 +361,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-slot="{ active }"
                                 v-for="list in userLists"
@@ -374,9 +375,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group flex w-full items-center px-4 py-2 text-left text-xs font-bold line-clamp-1 first:rounded-t-md',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <span class="px-1">{{
                                     list.emoji ? list.emoji : '📄'
@@ -388,9 +389,9 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-200 text-gray-600'
-                                      : 'text-gray-400',
-                                    'group inline w-full items-center rounded-b-md border border-t border-neutral-200 px-2 py-2 text-left text-xs font-bold ',
+                                      ? 'bg-neutral-100 text-neutral-900'
+                                      : 'text-gray-700',
+                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <div
                                     class="mx-auto flex content-center items-center text-center">
@@ -399,7 +400,7 @@
                                     >
                                     <PlusIcon
                                       :active="active"
-                                      class="mr-2 h-3 w-3 text-neutral-400"
+                                      class="ml-2 h-3 w-3 text-neutral-400"
                                       aria-hidden="true" />
                                   </div>
                                 </button>
@@ -464,7 +465,8 @@
                   <tr
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
-                    class="border-1 group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
+                    @contextmenu.prevent="openContextMenu($event, creator)"
+                    class="border-1 group group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
                         'bg-neutral-100 hover:bg-neutral-100':
@@ -473,7 +475,14 @@
                       'bg-white hover:bg-neutral-50',
                     ]">
                     <td
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-neutral-200 before:content-[''] group-hover:text-neutral-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -493,7 +502,7 @@
                           </form>
                         </span>
                         <span
-                          class="text-xs group-hover:hidden"
+                          class="text-xs font-light text-neutral-600 group-hover:hidden"
                           :class="[
                             { hidden: selectedCreators.includes(creator.id) },
                             'block',
@@ -504,6 +513,13 @@
                       <!--                                                                    favourite-->
                     </td>
                     <td
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
                       class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
@@ -534,8 +550,15 @@
                       </div>
                     </td>
                     <td
+                      :class="[
+                        {
+                          'bg-neutral-100 group-hover:bg-neutral-100':
+                            currentContact.id == creator.id,
+                        },
+                        'bg-white group-hover:bg-neutral-50',
+                      ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-gray-300 after:content-['']">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
@@ -559,7 +582,7 @@
 
                           <div
                             v-if="cellActive"
-                            class="text-sm text-gray-900 line-clamp-1">
+                            class="items-center text-sm text-gray-900 line-clamp-1">
                             <input
                               v-model="creator.meta.name"
                               @blur="$emit('updateCrmMeta', creator)"
@@ -579,9 +602,265 @@
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto w-6 items-center rounded-full bg-neutral-200/0 p-1 text-neutral-400 hover:bg-neutral-200 active:border">
-                          <ArrowsPointingOutIcon
-                            class="hidden h-3 w-3 group-hover:block" />
+                          class="mx-auto h-6 w-6 items-center rounded-full bg-neutral-200/0 pr-4 text-center text-neutral-400 transition-all active:border active:bg-neutral-200">
+                          <ArrowTopRightOnSquareIcon
+                            v-if="
+                              !this.$store.state.ContactSidebarOpen ||
+                              currentContact.id !== creator.id
+                            "
+                            class="mx-auto mt-0.5 ml-0.5 hidden h-4 w-4 group-hover:block" />
+                          <XMarkIcon
+                            v-else
+                            class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
+                        </div>
+                        <div>
+                          <Menu
+                            as="div"
+                            class="relative inline-block text-left">
+                            <Float
+                              enter="transition duration-200 ease-out"
+                              enter-from="scale-95 opacity-0"
+                              enter-to="scale-100 opacity-100"
+                              leave="transition duration-150 ease-in"
+                              leave-from="scale-100 opacity-100"
+                              leave-to="scale-95 opacity-0"
+                              tailwindcss-origin-class
+                              flip
+                              :offset="10"
+                              shift
+                              portal
+                              arrow
+                              placement="bottom-end">
+                              <MenuButton
+                                class="flex items-center rounded-full text-gray-400/0 transition-all hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:bg-neutral-200 group-hover:text-gray-400">
+                                <span class="sr-only">Open options</span>
+                                <EllipsisVerticalIcon
+                                  class="z-0 h-5 w-5"
+                                  aria-hidden="true" />
+                              </MenuButton>
+                              <transition
+                                enter-active-class="transition ease-out duration-100"
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-75"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95">
+                                <MenuItems
+                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                  <div class="py-1">
+                                    <MenuItem
+                                      :disabled="
+                                        !creator.emails[0] &&
+                                        !creator.meta.emails[0]
+                                      "
+                                      v-slot="{ active }"
+                                      class="items-center">
+                                      <button
+                                        @click="
+                                          emailCreator(
+                                            creator.emails[0] ||
+                                              creator.meta.emails[0]
+                                          )
+                                        "
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <EnvelopeIcon
+                                          class="mr-2 inline h-4 w-4 text-indigo-400" />
+                                        Email
+                                      </button>
+                                    </MenuItem>
+
+                                    <MenuItem
+                                      :disabled="
+                                        !creator.meta.phone && !creator.phone
+                                      "
+                                      v-slot="{ active }"
+                                      class="items-center">
+                                      <button
+                                        @click="
+                                          callCreator(
+                                            creator.meta.phone || creator.phone
+                                          )
+                                        "
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <PhoneIcon
+                                          class="mr-2 inline h-4 w-4 text-pink-400" />
+                                        Call
+                                      </button>
+                                    </MenuItem>
+                                    <MenuItem
+                                      :disabled="
+                                        !creator.meta.phone && !creator.phone
+                                      "
+                                      v-slot="{ active }"
+                                      class="items-center">
+                                      <button
+                                        @click="
+                                          textCreator(
+                                            creator.meta.phone || creator.phone
+                                          )
+                                        "
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <ChatBubbleLeftEllipsisIcon
+                                          class="mr-2 inline h-4 w-4 text-blue-400" />
+                                        Send SMS
+                                      </button>
+                                    </MenuItem>
+                                    <MenuItem
+                                      :disabled="
+                                        !creator.meta.instgaram_handler &&
+                                        !creator.instagram_handler
+                                      "
+                                      v-slot="{ active }"
+                                      class="items-center">
+                                      <button
+                                        @click="
+                                          instagramDMContact(
+                                            creator.meta.instagram_handler ||
+                                              creator.instagram_handler
+                                          )
+                                        "
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <ChatBubbleOvalLeftEllipsisIcon
+                                          class="mr-2 inline h-4 w-4 text-social-instagram" />
+                                        Instagram DM
+                                      </button>
+                                    </MenuItem>
+                                    <MenuItem
+                                      :disabled="
+                                        !creator.meta.phone && !creator.phone
+                                      "
+                                      v-slot="{ active }"
+                                      class="items-center">
+                                      <button
+                                        @click="
+                                          whatsappCreator(
+                                            creator.meta.phone || creator.phone
+                                          )
+                                        "
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <ChatBubbleOvalLeftEllipsisIcon
+                                          class="mr-2 inline h-4 w-4 text-social-whatsapp" />
+                                        Whatsapp
+                                      </button>
+                                    </MenuItem>
+                                    <!-- Work in progress -->
+                                    <!--  <MenuItem
+                                      v-slot="{ active }"
+                                      class="cursor-pointer items-center">
+                                      <button
+                                        @click="downloadVCF(this.creator)"
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <CloudArrowDownIcon
+                                          class="mr-2 inline h-4 w-4 text-violet-400" />
+                                        Download VCard
+                                      </button>
+                                    </MenuItem> -->
+                                    <MenuItem
+                                      v-if="filters.list"
+                                      v-slot="{ active }"
+                                      class="cursor-pointer items-center"
+                                      @click="
+                                        toggleCreatorsFromList(
+                                          creator.id,
+                                          filters.list,
+                                          true
+                                        )
+                                      ">
+                                      <a
+                                        href="#"
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <TrashIcon
+                                          class="mr-2 inline h-4 w-4 text-red-400" />
+                                        Remove from list</a
+                                      >
+                                    </MenuItem>
+                                    <MenuItem
+                                      v-slot="{ active }"
+                                      @blur="$emit('updateCrmMeta')"
+                                      @click="
+                                        toggleArchiveCreators(
+                                          creator.id,
+                                          !creator.crm_record_by_user.archived
+                                        )
+                                      "
+                                      class="items-center">
+                                      <button
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <ArchiveBoxIcon
+                                          class="mr-2 inline h-4 w-4 text-sky-400" />
+                                        {{
+                                          filters.type == 'archived' &&
+                                          creator.crm_record_by_user.archived
+                                            ? 'Unarchived'
+                                            : 'Archive'
+                                        }}
+                                      </button>
+                                    </MenuItem>
+                                    <MenuItem
+                                      v-if="currentUser.is_admin"
+                                      v-slot="{ active }"
+                                      class="items-center"
+                                      @click="refresh(creator)"
+                                      :disabled="adding">
+                                      <a
+                                        href="#"
+                                        class="items-center text-neutral-400 hover:text-neutral-900"
+                                        :class="[
+                                          active
+                                            ? 'bg-neutral-100 text-neutral-900'
+                                            : 'text-gray-700',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <ArrowPathIcon
+                                          class="mr-2 inline h-4 w-4" />
+                                        Refresh</a
+                                      >
+                                    </MenuItem>
+                                  </div>
+                                </MenuItems>
+                              </transition>
+                            </Float>
+                          </Menu>
                         </div>
                       </div>
                     </td>
@@ -843,7 +1122,7 @@
                         autoApply="true"
                         type="datetime-local"
                         :id="creator.id + '_datepicker'"
-                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                         placeholder="--/--/--"
                         aria-describedby="email-description" />
                       <!-- <input
@@ -894,225 +1173,7 @@
                             Manage
                           </router-link>
                         </div>
-                        <Menu as="div" class="relative inline-block text-left">
-                          <Float
-                            enter="transition duration-200 ease-out"
-                            enter-from="scale-95 opacity-0"
-                            enter-to="scale-100 opacity-100"
-                            leave="transition duration-150 ease-in"
-                            leave-from="scale-100 opacity-100"
-                            leave-to="scale-95 opacity-0"
-                            tailwindcss-origin-class
-                            flip
-                            :offset="10"
-                            shift
-                            portal
-                            arrow
-                            placement="bottom-end">
-                            <MenuButton
-                              class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
-                              <span class="sr-only">Open options</span>
-                              <EllipsisVerticalIcon
-                                class="z-0 h-5 w-5"
-                                aria-hidden="true" />
-                            </MenuButton>
-                            <transition
-                              enter-active-class="transition ease-out duration-100"
-                              enter-from-class="transform opacity-0 scale-95"
-                              enter-to-class="transform opacity-100 scale-100"
-                              leave-active-class="transition ease-in duration-75"
-                              leave-from-class="transform opacity-100 scale-100"
-                              leave-to-class="transform opacity-0 scale-95">
-                              <MenuItems
-                                class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                                <div class="py-1">
-                                  <MenuItem
-                                    :disabled="
-                                      !creator.emails[0] || !creator.meta.emails
-                                    "
-                                    v-slot="{ active }"
-                                    class="items-center">
-                                    <a
-                                      @click="
-                                        emailCreator(
-                                          creator.emails[0] ||
-                                            creator.meta.emails[0]
-                                        )
-                                      "
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <EnvelopeIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Email</a
-                                    >
-                                  </MenuItem>
-
-                                  <MenuItem
-                                    :disabled="!creator.meta.phone"
-                                    v-slot="{ active }"
-                                    class="items-center">
-                                    <a
-                                      @click="callCreator(creator.meta.phone)"
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <PhoneIcon class="mr-2 inline h-4 w-4" />
-                                      Call</a
-                                    >
-                                  </MenuItem>
-                                  <MenuItem
-                                    :disabled="!creator.meta.phone"
-                                    v-slot="{ active }"
-                                    class="items-center">
-                                    <a
-                                      @click="textCreator(creator.meta.phone)"
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <ChatBubbleLeftEllipsisIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Send SMS</a
-                                    >
-                                  </MenuItem>
-                                  <MenuItem
-                                    :disabled="!creator.meta.phone"
-                                    v-slot="{ active }"
-                                    class="items-center">
-                                    <a
-                                      @click="
-                                        whatsAppCreator(creator.meta.phone)
-                                      "
-                                      href="#"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <ChatBubbleOvalLeftEllipsisIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Whatsapp</a
-                                    >
-                                  </MenuItem>
-
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    class="cursor-pointer items-center">
-                                    <a
-                                      href="#"
-                                      @click="downloadVCF(creator)"
-                                      class="cursor-pointer items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <CloudArrowDownIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Download VCard
-                                    </a>
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-if="filters.list"
-                                    v-slot="{ active }"
-                                    class="cursor-pointer items-center"
-                                    @click="
-                                      toggleCreatorsFromList(
-                                        creator.id,
-                                        filters.list,
-                                        true
-                                      )
-                                    ">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <TrashIcon class="mr-2 inline h-4 w-4" />
-                                      Remove from list</a
-                                    >
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    @blur="$emit('updateCrmMeta')"
-                                    @click="
-                                      toggleArchiveCreators(
-                                        creator.id,
-                                        !creator.crm_record_by_user.archived
-                                      )
-                                    "
-                                    class="items-center">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-800',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <ArchiveBoxIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      {{
-                                        filters.type == 'archived' &&
-                                        creator.crm_record_by_user.archived
-                                          ? 'Unarchived'
-                                          : 'Archive'
-                                      }}
-                                    </a>
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-if="currentUser.is_admin"
-                                    v-slot="{ active }"
-                                    class="items-center"
-                                    @click="refresh(creator)"
-                                    :disabled="adding">
-                                    <a
-                                      href="#"
-                                      class="items-center text-neutral-400 hover:text-neutral-900"
-                                      :class="[
-                                        active
-                                          ? 'bg-gray-100 text-gray-900'
-                                          : 'text-gray-700',
-                                        'block px-4 py-2 text-xs',
-                                      ]">
-                                      <ArrowPathIcon
-                                        class="mr-2 inline h-4 w-4" />
-                                      Refresh</a
-                                    >
-                                  </MenuItem>
-                                </div>
-                              </MenuItems>
-                            </transition>
-                          </Float>
-                        </Menu>
-
-                        <!-- This example requires Tailwind CSS v2.0+ -->
                       </div>
-
-                      <!-- This example requires Tailwind CSS v2.0+ -->
                     </td>
                   </tr>
                 </template>
@@ -1152,6 +1213,7 @@ import StarRating from 'vue-star-rating';
 import {
   EllipsisVerticalIcon,
   ArchiveBoxIcon,
+  ArrowSmallLeftIcon,
   ChevronDownIcon,
   PlusIcon,
   ChatBubbleOvalLeftEllipsisIcon,
@@ -1176,7 +1238,7 @@ import {
   AdjustmentsHorizontalIcon,
   XMarkIcon,
   UserGroupIcon,
-  ArrowsPointingOutIcon,
+  ArrowTopRightOnSquareIcon,
   PhoneIcon,
   ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
@@ -1202,6 +1264,7 @@ export default {
     ButtonGroup,
     Menu,
     EnvelopeIcon,
+    ArrowSmallLeftIcon,
     Switch,
     Datepicker,
     MenuButton,
@@ -1241,10 +1304,11 @@ export default {
     SwitchLabel,
     ArrowUpCircleIcon,
     TransitionRoot,
-    ArrowsPointingOutIcon,
+    ArrowTopRightOnSquareIcon,
   },
   data() {
     return {
+      openContextMenu: false,
       view: {
         atTopOfPage: true,
       },
@@ -1253,7 +1317,7 @@ export default {
       currentRow: null,
       date: null,
       selectedCreators: [],
-      activeCreator: {},
+      /*  activeCreator: {}, */
       currentContact: [],
       editingSocialHandle: true,
       searchVisible: false,
@@ -1475,6 +1539,12 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    openContextMenu(event, creator) {
+      //notify the user they right clicked
+      console.log('right clicked' + creator.name);
+      //toggel open
+      this.openContextMenu = true;
+    },
     sortData({ sortBy, sortOrder }) {
       this.columns = this.columns.map((column) => {
         if (column.key == sortBy) {
@@ -1529,6 +1599,7 @@ export default {
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
         this.currentContact = this.creatorRecords[0];
+        console.log(this.currentContact.id);
         this.$store.state.ContactSidebarOpen = true;
       }
       //esle just open the sidebar
@@ -1594,6 +1665,22 @@ export default {
         });
       }
     },
+    instagramDMContact(username) {
+      if (username.includes('instagram.com')) {
+        username = username.split('instagram.com/')[1];
+      }
+      if (username) {
+        window.open('https://ig.me/m/' + username);
+      } else {
+        console.log('No instagram username found');
+        this.$notify({
+          title: 'No instagram username found',
+          message: 'This contact does not have an instagram username',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
     textCreator(phone) {
       //go to the url sms:creator.meta.phone
       //if phone is not null
@@ -1610,84 +1697,101 @@ export default {
         });
       }
     },
-    generateVCF(Creator) {
+    generateVCF(creator) {
       let vCard = 'BEGIN:VCARD\n';
       vCard += 'VERSION:3.0\n';
       //if creator has a first name
-      if (Creator.first_name) {
-        vCard += 'N:' + Creator.first_name + ' ' + Creator.last_name + '\n';
-        vCard += 'FN:' + Creator.first_name + ' ' + Creator.last_name + '\n';
+      //if the creator has an instagram handler then set instagram to the instagram handler
+      //else if the creator has a meta.instagram_handler then set instagram to the meta.instagram_handler
+      //else set instagram to null
+
+      /*       //if creator has an email
+     if (creator.emails[0]) {
+        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.emails[0] + '\n';
+      } else if
+      {
+        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.meta.emails + '\n';
       } else {
-        vCard += 'N:' + Creator.name + '\n';
-        vCard += 'FN:' + Creator.name + '\n';
-      }
-      //if creator has a phone number
-      if (creator.meta.phone) {
-        vCard += 'TEL;TYPE=WORK,VOICE:' + creator.meta.phone + '\n';
-      }
-      //if creator has an email
-      if (Creator.emails[0]) {
-        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + Creator.emails[0] + '\n';
-      }
-      if (Creator.company) {
-        vCard += 'ORG:' + Creator.company + '\n';
-      }
-      if (Creator.title) {
-        vCard += 'TITLE:' + Creator.title + '\n';
-      }
+        console.log('No email found');
+      };
+      //set employer
+      if (creator.meta.employer) {
+        vCard += 'ORG:' + creator.meta.employer + '\n';
+      } else {
+        console.log('No employer found');
+      };
+      //set title
+      if (creator.meta.title) {
+        vCard += 'TITLE:' + creator.meta.title + '\n';
+      } else {
+        console.log('No title found');
+      };
       if (Creator.location) {
         vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
       }
-      if (Creator.website) {
-        vCard += 'URL:' + Creator.website + '\n';
-      }
-      if (Creator.twitter_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=twitter:' + Creator.twitter_handler + '\n';
-      }
-      if (Creator.instagram_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=instagram:' + Creator.instagram_handler + '\n';
-      }
-      if (Creator.facebook_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=facebook:' + Creator.facebook_handler + '\n';
-      }
-      if (Creator.linkedin_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=linkedin:' + Creator.linkedin_handler + '\n';
-      }
-      if (Creator.youtube_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=youtube:' + Creator.youtube_handler + '\n';
-      }
-      if (Creator.tiktok_handler) {
-        vCard += 'X-SOCIALPROFILE;TYPE=tiktok:' + Creator.tiktok_handler + '\n';
-      }
-      if (Creator.twitch_handler) {
-        vCard += 'X-SOCIALPROFILE;TYPE=twitch:' + Creator.twitch_handler + '\n';
-      }
-      if (Creator.bio) {
-        vCard += 'NOTE:' + Creator.bio + 'NOTE:Saved from Jovie\n';
+      //if creator.instagram_handler set instagram else if creator.meta.instagram set instagram else log no instagram found
+      if (creator.instagram_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.instagram_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.instagram + '\n';
       } else {
-        vCard += 'NOTE:Saved from Jovie\n';
-      }
+        console.log('No instagram found');
+      };
+      //do the twitter and twitch and youtube and tiktok and linkedin
+      if (creator.twitter_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.twitter_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.twitter + '\n';
+      } else {
+        console.log('No twitter found');
+      };
+      if (creator.twitch_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.twitch_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.twitch + '\n';
+      } else {
+        console.log('No twitch found');
+      };
+      if (creator.youtube_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.youtube_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.youtube + '\n';
+      } else {
+        console.log('No youtube found');
+      };
+      if (creator.tiktok_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.tiktok_handler + '\n';
+      } else if
+      {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.tiktok + '\n';
+      } else {
+        console.log('No tiktok found');
+      };
+      if (creator.linkedin_handler) {
+        vCard += 'URL;TYPE=WORK:' + creator.linkedin_handler + '\n';
+      } else if {
+        vCard += 'URL;TYPE=WORK:' + creator.meta.linkedin + '\n';
+      } else {console.log('No linkedin found');
+      }; */
+
+      vCard += 'NOTE:Saved from Jovie\n';
+
       vCard += 'END:VCARD';
       return vCard;
     },
-    downloadVCF(Creator) {
-      let vCard = this.generateVCF(Creator);
+    downloadVCF(creator) {
+      let vCard = this.generateVCF(creator);
       let blob = new Blob([vCard], { type: 'text/vcard' });
       let url = URL.createObjectURL(blob);
       let link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute(
-        'download',
-        `Jovie Contact ${Creator.first_name} ${Creator.last_name}.vcf`
-      );
+      link.setAttribute('download', this.creator.meta.name + '.vcf');
       link.click();
     },
-
     toggleSearchVisible() {
       //if search is not visible then make it visible and focus on the search input
       if (!this.searchVisible) {
@@ -1811,18 +1915,20 @@ export default {
     },
     toggleContactSidebar() {
       //toggle this.$store.state.ContactSidebarOpen
+
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },
-    setActiveCreator(creator) {
+    /* setActiveCreator(creator) {
       this.activeCreator = creator;
       //emit the active creator to the parent component
       this.$emit('activeCreator', creator);
       //log the id of the active creator in the console
       console.log('The active creator is ' + this.activeCreator);
-    },
+    }, */
     setCurrentContact(e, creator) {
       this.currentContact = creator;
+
       if (e.target.name == 'selectCreatorCheckbox') {
         if (this.selectedCreators.includes(creator.id)) {
           this.selectedCreators.splice(
@@ -1838,13 +1944,19 @@ export default {
     nextContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index < this.creatorRecords.length - 1) {
-        this.setCurrentContact(this.creatorRecords[index + 1]);
+        this.setCurrentContact(
+          'setCurrentCreator',
+          this.creatorRecords[index + 1]
+        );
       }
     },
     previousContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
       if (index > 0) {
-        this.setCurrentContact(this.creatorRecords[index - 1]);
+        this.setCurrentContact(
+          'setCurrentCreator',
+          this.creatorRecords[index - 1]
+        );
       }
     },
     refresh(creator) {

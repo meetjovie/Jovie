@@ -1,23 +1,15 @@
 <template>
   <div class="overflow-y-hidden">
-    <!-- <img
-        :src="asset('img/External/bgImg.webp')"
-        class="mt-6 hidden w-full object-fill object-center md:mt-0 xl:block"
-        alt="background image" />
-      <img
-        :src="asset('img/External/tabley.webp')"
-        class="mt-6 w-full object-fill object-center md:mt-0 xl:hidden"
-        alt="background image" /> -->
-    <!--  <div class="mt-12 block max-w-xl to-white sm:hidden">
+    <div class="mt-12 block max-w-xl to-white sm:hidden">
       <img
         class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
         :src="asset('img/External/HomeFeatureCRM.webp')" />
-    </div> -->
+    </div>
 
     <div
       class="flex flex-col items-center justify-center bg-gradient-to-b from-neutral-200 to-neutral-50 px-4 py-24 sm:pt-48 2xl:pt-48">
       <div class="flex justify-between">
-        <!-- <div class="relative">
+        <div class="relative">
           <div class="-mt-24 flex flex-col space-y-24">
             <span
               v-for="avatar in avatars"
@@ -41,12 +33,15 @@
               ></span>
             </span>
           </div>
-        </div> -->
+        </div>
+
         <div class="z-10 flex flex-col text-center">
-          <h1
-            class="text-xs font-semibold uppercase tracking-wide text-sky-500 text-transparent sm:text-2xl">
-            Meet Jovie
-          </h1>
+          <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+            <div
+              class="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+              <h1 class="text-2xl font-semibold text-sky-500">👋🏻 Meet Jovie</h1>
+            </div>
+          </div>
 
           <h2
             class="text-xl font-extrabold tracking-normal text-neutral-800 sm:text-5xl lg:text-7xl xl:text-8xl">
@@ -81,7 +76,7 @@
               :src="asset('img/External/HomeFeatureCRM.webp')" />
           </div>
         </div>
-        <!-- <div class="relative">
+        <div class="relative">
           <div class="-mt-12 flex flex-col space-y-24">
             <span
               v-for="avatar in avatars"
@@ -101,7 +96,7 @@
               ></span>
             </span>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>

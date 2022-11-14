@@ -11,7 +11,7 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full">
           <div
-            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-neutral-100 bg-neutral-50 py-4 pb-2 shadow-xl"
+            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-neutral-100 bg-white py-4 pb-2 shadow-xl"
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
               <div class="mt-10 flex-col py-0.5 px-2">
@@ -20,11 +20,11 @@
                   text="Show All Contacts">
                   <button
                     @click="setFiltersType('all')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'all'
-                        ? 'text-sm font-bold text-neutral-600  '
-                        : 'text-sm font-semibold text-neutral-500',
+                        ? 'text-sm font-semibold text-neutral-900  '
+                        : 'text-sm font-medium text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <UserGroupIcon
@@ -36,7 +36,7 @@
                       @click="showCreatorModal = true"
                       class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-500 group-hover:hidden group-hover:text-neutral-600"
+                        class="text-xs font-medium text-neutral-900 group-hover:hidden group-hover:text-neutral-900"
                         >{{ counts.total }}</span
                       >
 
@@ -54,11 +54,11 @@
                   text="Show Archived Contacts">
                   <button
                     @click="setFiltersType('archived')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'archived'
-                        ? 'text-sm font-bold text-neutral-600 '
-                        : 'text-sm font-semibold text-neutral-500',
+                        ? 'text-sm font-semibold text-neutral-900 '
+                        : 'text-sm font-medium text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <ArchiveBoxIcon
@@ -67,7 +67,7 @@
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-500 group-hover:text-neutral-600"
+                        class="text-xs font-medium text-neutral-700 group-hover:text-neutral-900"
                         >{{ counts.archived }}</span
                       >
                     </div>
@@ -76,11 +76,11 @@
                 <JovieTooltip :shortcut="'G then F'" text="Show Favorites">
                   <button
                     @click="setFiltersType('favourites')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200/50 hover:text-neutral-600"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'favourites'
-                        ? 'text-sm font-bold text-neutral-600 '
-                        : 'text-sm font-semibold text-neutral-500',
+                        ? 'text-sm font-semibold text-neutral-900 '
+                        : 'text-sm font-medium text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <HeartIcon
@@ -89,7 +89,7 @@
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
-                        class="text-xs font-semibold text-neutral-500 group-hover:text-neutral-600"
+                        class="text-xs font-medium text-neutral-700 group-hover:text-neutral-900"
                         >{{ counts.favourites }}</span
                       >
                     </div>
@@ -124,7 +124,7 @@
               <JovieTooltip text="Import a new contact to Jovie">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-600">
+                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900">
                   <PlusIcon
                     class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-500"
                     aria-hidden="true" />New Contact
@@ -133,7 +133,7 @@
               <JovieTooltip text="Upload a csv file to import contacts">
                 <router-link
                   to="import"
-                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-600">
+                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900">
                   <div class="flex items-center">
                     <CloudArrowUpIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
@@ -148,9 +148,162 @@
                   </div>
                 </router-link>
               </JovieTooltip>
-              <JovieTooltip text="Choose which teamspace you want to work in.">
-                <SwitchTeams />
-              </JovieTooltip>
+              <div class="flex h-8 w-full justify-between">
+                <div class="">
+                  <JovieTooltip
+                    text="Choose which teamspace you want to work in.">
+                    <SwitchTeams />
+                  </JovieTooltip>
+                </div>
+                <!--   <div
+                  class="group mx-auto flex h-full cursor-pointer items-center rounded-md bg-blue-500 text-center hover:bg-gray-300">
+                  <PopoverGroup>
+                    <Float portal :offset="8" placement="right-end">
+                      <Popover as="div" class="relative">
+                        <PopoverButton
+                          as="div"
+                          type="button"
+                          class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
+                          id="user-menu-button"
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          @click="isShowing = !isShowing">
+                          <span class="sr-only">Open user menu</span>
+
+                          <img
+                            id="profile_pic_url_img"
+                            ref="profile_pic_url_img"
+                            class="h-4 w-4 rounded-full border border-neutral-200 object-cover object-center"
+                            :src="
+                              $store.state.AuthState.user.profile_pic_url ??
+                              $store.state.AuthState.user.default_image
+                            " />
+                        </PopoverButton>
+
+                        <transition
+                          enter-active-class="transition duration-150 ease-out"
+                          enter-from-class="transform scale-95 opacity-0"
+                          enter-to-class="transform scale-100 opacity-100"
+                          leave-active-class="transition duration-150 ease-out"
+                          leave-from-class="transform scale-100 opacity-100"
+                          leave-to-class="transform scale-95 opacity-0">
+                          <PopoverPanel
+                            as="div"
+                            active=""
+                            id="profileDropdown"
+                            class="z-30 mt-2 w-80 origin-bottom-left rounded-md border border-neutral-200 bg-white pt-1 shadow-xl"
+                            role="menu"
+                            aria-orientation="vertical"
+                            aria-labelledby="user-menu-button"
+                            tabindex="-1">
+                            <div
+                              as="div"
+                              class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-neutral-400"
+                              role="menuitem"
+                              tabindex="-1"
+                              id="user-menu-item-0">
+                              <router-link
+                                to="/account"
+                                class="0 group block flex-shrink-0">
+                                <div class="flex items-center">
+                                  <div>
+                                    <img
+                                      class="inline-block h-6 w-6 rounded-full"
+                                      :src="
+                                        currentUser.profile_pic_url ??
+                                        currentUser.default_image
+                                      "
+                                      alt="" />
+                                  </div>
+                                  <div class="ml-3">
+                                    <p
+                                      class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
+                                      {{ currentUser.first_name }}
+                                      {{ currentUser.last_name }}
+                                    </p>
+
+                                    <p
+                                      class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                                      {{ currentUser.email }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </router-link>
+                            </div>
+                            <router-link
+                              v-if="currentUser.username"
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              :to="profileLink">
+                              <component
+                                class="mr-4 h-4 w-4 cursor-pointer"
+                                is="UserIcon">
+                              </component
+                              >Your profile
+                            </router-link>
+                            <router-link
+                              v-else
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              to="edit-profile">
+                              <component
+                                class="mr-4 h-4 w-4 cursor-pointer"
+                                is="CogIcon">
+                              </component
+                              >Setup Your profile
+                            </router-link>
+                            <div
+                              v-for="dropdownmenuitem in dropdownmenuitems"
+                              :key="dropdownmenuitem"
+                              as="router-link"
+                              :to="dropdownmenuitem.route"
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              role="menuitem"
+                              tabindex="-1">
+                              <router-link
+                                class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                                :to="dropdownmenuitem.route">
+                                <div class="flex">
+                                  <component
+                                    class="mr-4 h-4 w-4 cursor-pointer"
+                                    :is="dropdownmenuitem.icon">
+                                  </component>
+                                  {{ dropdownmenuitem.name }}
+                                </div>
+                                <div>
+                                  <span
+                                    v-if="dropdownmenuitem.badge"
+                                    class="ml-2 inline-flex items-center rounded bg-pink-100 px-1 text-2xs font-medium text-pink-800"
+                                    >Download</span
+                                  >
+                                </div>
+                              </router-link>
+                            </div>
+                            <router-link
+                              to="slack-community"
+                              class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              role="menuitem">
+                              <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
+                              </component>
+                              Slack community
+                            </router-link>
+                            <div
+                              as="div"
+                              @click="$store.dispatch('logout')"
+                              class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              role="menuitem"
+                              tabindex="-1">
+                              <component
+                                class="mr-4 h-4 w-4"
+                                is="ArrowLeftOnRectangleIcon">
+                              </component>
+                              Sign out
+                            </div>
+                          </PopoverPanel>
+                        </transition>
+                      </Popover>
+                    </Float>
+                  </PopoverGroup>
+                </div> -->
+              </div>
 
               <div class="mt-1 py-1">
                 <ProgressBar
@@ -213,7 +366,7 @@
                               <h1 class="text-md font-bold">
                                 You don't have any contacts yet.
                               </h1>
-                              <span class="text-sm font-medium text-neutral-500"
+                              <span class="text-sm font-medium text-neutral-900"
                                 >Enter a Twitch or Instagram url to add someone
                                 to Jovie.</span
                               >
@@ -239,7 +392,7 @@
                               <h1 class="text-md font-bold">
                                 You've just initated an import.
                               </h1>
-                              <span class="text-sm font-medium text-neutral-500"
+                              <span class="text-sm font-medium text-neutral-900"
                                 >You'll see creators populate this space
                                 soon.</span
                               >
@@ -306,7 +459,7 @@
       <EmojiPickerModal
         v-show="openEmojis"
         @emojiSelected="emojiSelected($event)"
-        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-gray-50 text-center text-xs">
+        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-gray-50 text-center text-xs transition-all">
       </EmojiPickerModal>
     </div>
   </div>
@@ -330,9 +483,15 @@ import {
   TransitionChild,
   MenuItems,
   MenuItem,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  PopoverGroup,
 } from '@headlessui/vue';
 import {
   ChevronDownIcon,
+  CreditCardIcon,
+  CogIcon,
   ChevronRightIcon,
   CloudArrowDownIcon,
   CheckIcon,
@@ -342,6 +501,8 @@ import {
   HeartIcon,
   ArchiveBoxIcon,
   CloudArrowUpIcon,
+  ArrowLeftOnRectangleIcon,
+  ArrowPathIcon,
 } from '@heroicons/vue/24/solid';
 
 import UserService from '../services/api/user.service';
@@ -357,14 +518,23 @@ import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
+import { Float } from '@headlessui-float/vue';
 export default {
   name: 'CRM',
   components: {
+    CreditCardIcon,
+    CogIcon,
+    ArrowPathIcon,
     EmojiPickerModal,
+    Float,
     CloudArrowDownIcon,
     PlusIcon,
     SwitchTeams,
     TabGroup,
+    PopoverGroup,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
     HeartIcon,
     ContactSidebar,
     ProgressBar,
@@ -391,6 +561,7 @@ export default {
     ChevronDownIcon,
     CheckIcon,
     ArchiveBoxIcon,
+    ArrowLeftOnRectangleIcon,
     UserGroupIcon,
     CloudArrowUpIcon,
     CrmTable,
@@ -401,6 +572,17 @@ export default {
   },
   data() {
     return {
+      dropdownmenuitems: [
+        {
+          name: 'Chrome Extension',
+          route: '/chrome-extension',
+          badge: 'Download',
+          badgeColor: 'pink',
+          icon: CloudArrowDownIcon,
+        },
+        { name: 'Billing', route: '/billing', icon: CreditCardIcon },
+        { name: 'Settings', route: 'Account', icon: CogIcon },
+      ],
       counts: {},
       stages: [],
       networks: [],
@@ -409,7 +591,7 @@ export default {
       loading: false,
 
       creatorsMeta: {},
-      activeCreator: [],
+      /*  activeCreator: [], */
       currentContact: [],
       innerWidth: window.innerWidth,
 
@@ -610,8 +792,22 @@ export default {
       this.openEmojis = false;
     },
     openSidebarContact(contact) {
-      this.currentContact = contact;
-      this.$store.state.ContactSidebarOpen = true;
+      //if the sidebar is not open, open it and set the current contact
+      if (!this.$store.state.ContactSidebarOpen) {
+        this.$store.state.ContactSidebarOpen = true;
+        this.currentContact = contact;
+      } else {
+        //if the sidebar is open and the current contact is the same as the one clicked, close the sidebar
+        if (this.currentContact.id == contact.id) {
+          this.$store.state.ContactSidebarOpen = false;
+          this.currentContact = null;
+        } else {
+          //if the sidebar is open and the current contact is not the same as the one clicked, set the current contact to the one clicked
+          this.currentContact = contact;
+        }
+      }
+      /*  this.currentContact = contact;
+      this.$store.state.ContactSidebarOpen = true; */
     },
 
     setCurrentContact(contact) {

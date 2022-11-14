@@ -1,20 +1,24 @@
 <template>
-  <div class="">
-    <div class="group relative mt-1">
+  <div class="group/datainput mt-1 flex">
+    <div class="group/move active:grabbing flex w-3 cursor-grab items-center">
+      <EllipsisVerticalIcon
+        class="h-5 w-5 text-neutral-400/0 group-hover/draggable:text-neutral-400 group-hover/move:text-neutral-700" />
+    </div>
+    <div class="group relative mt-1 w-full">
       <div class="relative">
         <div
           v-if="icon"
-          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <component :is="icon" class="h-5 w-5 text-neutral-400" />
+          class="pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
+          <component :is="icon" class="h-3 w-3 text-neutral-400" />
         </div>
         <div
           v-if="socialicon"
-          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          class="opacity/50 pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
           <SocialIcons
-            class="text-neutral-400"
+            class="text-neutral-400 opacity-40"
             link="#"
-            width="16px"
-            height="16px"
+            width="12px"
+            height="12px"
             :icon="socialicon" />
         </div>
         <input
@@ -27,9 +31,10 @@
           :value="modelValue ?? value"
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
-          class="input-field h-8 w-full rounded border border-gray-300 border-opacity-0 py-2 px-2 leading-none text-gray-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-gray-100"
+          @change="$emit('updateModelValue', $event.target.value)"
+          class="input-field prrounded h-8 w-full border border-gray-300 border-opacity-0 py-2 px-2 leading-none text-gray-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-gray-100"
           :class="[
-            icon ? 'pl-10' : '',
+            icon ? 'pl-4' : '',
             { 'rounded-r-md': rounded == 'right' },
             { 'rounded-l-md': rounded == 'left' },
             { 'rounded-t-md': rounded == 'top' },
@@ -40,10 +45,28 @@
             { 'rounded-bl-md': rounded == 'bottom-left' },
             { 'rounded-br-md': rounded == 'bottom-right' },
             { 'py-0 text-xs': size == 'md' },
-            { 'pl-10': socialicon },
+            { 'pl-4': socialicon },
+            { 'pr-18': action2 },
+            { 'pr-14': action || isCopyable },
           ]"
           :placeholder="label" />
         <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+          <div
+            v-if="action && (modelValue || value)"
+            @click="$emit('actionMethod')"
+            class="group/action px-1">
+            <component
+              :is="action"
+              class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-neutral-500" />
+          </div>
+          <div
+            v-if="action2 && (modelValue || value)"
+            @click="$emit('actionMethod2')"
+            class="group/action px-1">
+            <component
+              :is="action2"
+              class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-neutral-500" />
+          </div>
           <div v-if="loader" class="pointer-events-none transition-all">
             <JovieSpinner />
           </div>
@@ -77,15 +100,14 @@
               </svg>
             </div>
             <div
+              @click="copyToClipboard(modelValue || value)"
               class="group/copy cursor-pointer text-red-500"
               v-else-if="isCopyable && (modelValue || value)">
               <ClipboardDocumentIcon
                 v-if="!itemCopied"
-                @click="copyToClipboard"
                 class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/copy:text-gray-500" />
               <ClipboardDocumentCheckIcon
                 v-else
-                @click="copyToClipboard"
                 class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/copy:text-gray-500" />
             </div>
           </div>
@@ -94,7 +116,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-neutral-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
+          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 pl-5 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-neutral-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
           >{{ label }}</label
         >
       </div>
@@ -108,6 +130,7 @@ import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import {
   MagnifyingGlassIcon,
+  ArrowTopRightOnSquareIcon,
   ClipboardDocumentCheckIcon,
   CameraIcon,
   VideoCameraIcon,
@@ -128,6 +151,7 @@ import {
   BriefcaseIcon,
   ClipboardDocumentIcon,
   CheckCircleIcon,
+  EllipsisVerticalIcon,
 } from '@heroicons/vue/24/solid';
 export default {
   name: 'InputGroup',
@@ -154,6 +178,7 @@ export default {
     focused: { type: Boolean, default: false },
     disabled: Boolean,
     icon: String,
+
     value: String,
     modelValue: {},
     error: {
@@ -192,15 +217,33 @@ export default {
       type: Boolean,
       default: false,
     },
+    action: {
+      type: String,
+      default: null,
+    },
+    action2: {
+      type: String,
+      default: null,
+    },
+    actionMethod2: {
+      type: String,
+      default: null,
+    },
+    actionMethod: {
+      type: String,
+      default: null,
+    },
     socialicon: {
       type: String,
     },
   },
   components: {
     EnvelopeIcon,
+    EllipsisVerticalIcon,
     VideoCameraIcon,
     ChatBubbleLeftEllipsisIcon,
     CameraIcon,
+    ArrowTopRightOnSquareIcon,
     LinkIcon,
     MagnifyingGlassIcon,
     PhotoIcon,
@@ -222,14 +265,14 @@ export default {
     ClipboardDocumentCheckIcon,
   },
   methods: {
-    copyToClipboard() {
-      this.itemCopied = false;
-      this.$emit('copyToClipboard');
+    copyToClipboard(value) {
+      ///emit copy to clipboard
+      this.$emit('copy', value);
       this.itemCopied = true;
-      //reset value after 10 seconds
+      //after 2 seconds set itemCopied to false
       setTimeout(() => {
         this.itemCopied = false;
-      }, 10000);
+      }, 2000);
     },
   },
 };
