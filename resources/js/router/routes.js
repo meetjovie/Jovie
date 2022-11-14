@@ -17,18 +17,18 @@ export const routes = [
     },
   },
   {
-    name: 'Pricing',
-    path: '/pricing',
-    component: loadPage('Pricing'),
+    name: 'Changelog',
+    path: '/changelog',
+    component: loadPage('ChangeLog'),
     meta: {
-      layout: 'default',
       requiresAuth: false,
+      layout: 'default',
     },
   },
   {
-    name: 'About Us',
-    path: '/about',
-    component: loadPage('AboutUs'),
+    name: 'Pricing',
+    path: '/pricing',
+    component: loadPage('Pricing'),
     meta: {
       layout: 'default',
       requiresAuth: false,
@@ -66,7 +66,7 @@ export const routes = [
     path: '/yc-demo-video',
     beforeEnter(to, from, next) {
       window.open(
-        'https://www.loom.com/share/aeeaf6beba554cb6898e454ababae321',
+        'https://www.loom.com/share/621ed0f9a53848c4858b3b9f8f9d22c6',
         '_self'
       );
     },
@@ -185,15 +185,15 @@ export const routes = [
     },
   },
   {
-    about: 'About',
-    path: '/about',
-    component: loadPage('About'),
+    name: 'Meet Jovie',
+    path: '/meet-jovie',
+    component: loadPage('MeetJovie'),
     meta: {
       requiresAuth: false,
     },
   },
   {
-    about: 'Jovie Profile',
+    name: 'Jovie Profile',
     path: '/profiles',
     component: loadPage('JovieProfile'),
     meta: {

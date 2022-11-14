@@ -254,13 +254,15 @@ const navigation = {
     { name: 'Jovie for Twitter', href: 'chrome-extension' },
   ],
   support: [
+    //add changelog
+    { name: 'Changelog', href: '/changelog' },
     { name: 'Pricing', href: 'pricing' },
     { name: 'Get Help', href: 'support' },
     { name: 'API', href: 'api' },
     { name: 'Status', href: 'Status' },
   ],
   company: [
-    /*  { name: 'About', href: 'about' }, */
+    { name: 'Meet Jovie', href: 'meet-jovie' },
     { name: 'Careers', href: 'Careers' },
 
     { name: 'Community', href: 'slack-community' },

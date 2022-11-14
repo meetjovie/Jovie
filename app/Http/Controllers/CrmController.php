@@ -9,6 +9,7 @@ use App\Models\CreatorNote;
 use App\Models\Crm;
 use App\Models\User;
 use App\Models\UserList;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -453,6 +454,7 @@ class CrmController extends Controller
                     $creator->{$k} = $v;
                 }
             }
+            $creator->{$request->network.'_last_scrapped_at'} = Carbon::now()->toDateTimeString();
             $creator->save();
             Creator::addToListAndCrm($creator, null, $user->id, $user->currentTeam->id);
 
