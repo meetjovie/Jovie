@@ -23,8 +23,8 @@
                     class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'all'
-                        ? 'text-sm font-semibold text-neutral-900  '
-                        : 'text-sm font-medium text-neutral-900',
+                        ? 'text-sm font-bold text-neutral-900  '
+                        : 'text-sm font-light text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <UserGroupIcon
@@ -57,8 +57,8 @@
                     class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'archived'
-                        ? 'text-sm font-semibold text-neutral-900 '
-                        : 'text-sm font-medium text-neutral-900',
+                        ? 'text-sm font-bold text-neutral-900 '
+                        : 'text-sm font-light text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <ArchiveBoxIcon
@@ -79,8 +79,8 @@
                     class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
                     :class="[
                       filters.type == 'favourites'
-                        ? 'text-sm font-semibold text-neutral-900 '
-                        : 'text-sm font-medium text-neutral-900',
+                        ? 'text-sm font-bold text-neutral-900 '
+                        : 'text-sm font-light text-neutral-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <HeartIcon
