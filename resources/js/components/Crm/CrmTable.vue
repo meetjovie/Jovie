@@ -767,8 +767,8 @@
                                         Whatsapp
                                       </button>
                                     </MenuItem>
-
-                                    <MenuItem
+<!-- Work in progress -->
+                                   <!--  <MenuItem
                                       v-slot="{ active }"
                                       class="cursor-pointer items-center">
                                       <button
@@ -783,7 +783,7 @@
                                           class="mr-2 inline h-4 w-4 text-violet-400" />
                                         Download VCard
                                       </button>
-                                    </MenuItem>
+                                    </MenuItem> -->
                                     <MenuItem
                                       v-if="filters.list"
                                       v-slot="{ active }"
