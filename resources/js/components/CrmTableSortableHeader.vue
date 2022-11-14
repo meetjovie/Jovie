@@ -1,7 +1,7 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
   <div
-    class="w-44"
+    class="group/header w-44"
     @click="
       $emit('sortData', { sortBy: column.key, sortOrder: column.sortOrder })
     "
@@ -17,17 +17,11 @@
           {{ column.name }}
         </span>
       </div>
-      <div
-        v-if="column.sortable"
-        class="cursor-pointer group-hover:text-neutral-400"
-        :class="[
-          { 'text-neutral-200': column.sortOrder },
-          'text-neutral-200/0',
-        ]">
+      <div v-if="column.sortable" class="cursor-pointer text-neutral-400">
         <svg
           v-if="!column.sortOrder"
           xmlns="http://www.w3.org/2000/svg"
-          class="ml-1 h-3 w-3 text-neutral-500"
+          class="ml-1 h-3 w-3 text-neutral-500/0 group-hover/header:text-neutral-500"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 320 512">
