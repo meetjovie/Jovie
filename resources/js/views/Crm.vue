@@ -415,6 +415,7 @@
                         @openSidebar="openSidebarContact"
                         @setOrder="setOrder"
                         :header="filters.type"
+                        @importCSV="importCSV"
                         subheader="All your contacts in one place."
                         :filters="filters"
                         :userLists="userLists"
