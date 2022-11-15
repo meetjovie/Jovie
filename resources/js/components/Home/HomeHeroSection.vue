@@ -7,7 +7,7 @@
     </div>
 
     <div
-      class="flex flex-col items-center justify-center bg-gradient-to-b from-neutral-200 to-neutral-50 px-4 py-24 sm:pt-48 2xl:pt-48">
+      class="flex flex-col items-center justify-center bg-gradient-to-b from-white to-neutral-50 px-4 py-24 sm:pt-48 2xl:pt-48">
       <div class="flex justify-between">
         <div class="relative">
           <div class="-mt-24 flex flex-col space-y-24">
@@ -36,19 +36,23 @@
         </div>
 
         <div class="z-10 flex flex-col text-center">
-          <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+          <div class="hidden rounded-full sm:mb-8 sm:flex sm:justify-center">
             <div
-              class="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-              <h1 class="text-2xl font-semibold text-sky-500">👋🏻 Meet Jovie</h1>
+              class="relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 py-2 px-8 text-xs leading-6">
+              <h1
+                class="items-center rounded-md text-lg font-medium text-indigo-600">
+                👋🏻 Meet Jovie: <span class="font-light">The Social CRM</span>
+              </h1>
             </div>
           </div>
 
           <h2
-            class="text-xl font-extrabold tracking-normal text-neutral-800 sm:text-5xl lg:text-7xl xl:text-8xl">
-            THE <span class="uppercase">Social</span> CRM
+            class="text-xl font-semibold tracking-normal text-neutral-800 sm:text-5xl lg:text-3xl xl:text-7xl">
+            Organize everyone<br class="hidden xl:block" />
+            you follow
             <br />
           </h2>
-          <h2
+          <!-- <h2
             class="inline py-2 text-center text-xs font-bold text-neutral-500 sm:text-xl">
             A
             <span class="dexoration-2 font-bold underline decoration-pink-400"
@@ -56,23 +60,27 @@
             >
             way to organize everyone you follow<br />
           </h2>
-
+ -->
           <ButtonGroup
             @click="signup()"
             :loading="loading"
             :loader="loading"
             class="mx-auto mt-8 w-full sm:w-48"
             text="Try Jovie free" />
-          <span class="mt-1 text-2xs text-gray-400">
-            <!--  <span class="font-bold">Fast & easy. </span> -->
-            No credit card required.
-          </span>
+          <div
+            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-indigo-100 to-neutral-400/0 py-1 px-2 text-center">
+            <CreditCardIcon class="mr-2 h-4 w-4 text-neutral-700" />
+            <span class="text-light text-2xs text-gray-700">
+              <!--  <span class="font-bold">Fast & easy. </span> -->
+              No credit card required.
+            </span>
+          </div>
 
           <!--  <home-logo-cloud /> -->
           <div class="mt-24 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
             <img
               alt="Jovie - Social CRM Screenshot"
-              class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
+              class="rounded-lg shadow-xl shadow-indigo-700/30 ring-8 ring-black ring-opacity-5"
               :src="asset('img/External/HomeFeatureCRM.webp')" />
           </div>
         </div>
@@ -105,11 +113,13 @@
 import ButtonGroup from '../../components/ButtonGroup.vue';
 import HomeLogoCloud from './HomeLogoCloud.vue';
 import SocialIcons from '../../components/SocialIcons.vue';
+import { CreditCardIcon } from '@heroicons/vue/24/solid';
 export default {
   components: {
     ButtonGroup,
     HomeLogoCloud,
     SocialIcons,
+    CreditCardIcon,
   },
   data() {
     return {
