@@ -58,6 +58,14 @@ return [
             'after_commit' => false,
         ],
 
+        'dev_twitter' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'dev_twitter',
+            'retry_after' => 90,
+            'after_commit' => false,
+        ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',

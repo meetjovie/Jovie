@@ -871,6 +871,7 @@ export default {
       UserService.getUserLists().then((response) => {
         response = response.data;
         if (response.status) {
+            this.userLists = []
           this.userLists = response.lists;
         }
       });

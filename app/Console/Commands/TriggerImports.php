@@ -97,6 +97,8 @@ class TriggerImports extends Command
 //            }
 //        }
         foreach ($users as $user) {
+            $twitters = [];
+            $subBatch = 0;
             foreach ($user->pendingImports as $import) { // timwhite and timwwhiteT
                 $dispatched = false;
                 //fetch a creator that has instagram == timwhite OR twitch == timwhiteT
@@ -129,8 +131,37 @@ class TriggerImports extends Command
                         $dispatched = true;
                     }
                 }
+
+                if ($import->twitter && $import->twitter_scrapped != 1) {
+                    // trigger twitter import
+
+                    $twitterBatch = $import->getImportBatch(config('import.twitter_queue'));
+                    if (! $twitterBatch->cancelled()) {
+
+                        if (isset($twitters[$import->user_id]) && count($twitters[$import->user_id][$twitterBatch->id][$subBatch]) < 10) {
+                            $twitters[$import->user_id][$twitterBatch->id][$subBatch][$import->id] = $import->twitter;
+                        } else {
+                            $subBatch++;
+                            $twitters[$import->user_id][$twitterBatch->id][$subBatch][$import->id] = $import->twitter;
+                        }
+//                        $import->twitter_dispatched = 1;
+//                        $import->save();
+                        $dispatched = true;
+                    }
+                }
+
                 if (! $dispatched) {
                     Import::where('id', $import->id)->delete();
+                }
+            }
+            foreach ($twitters as $userId => $batches) {
+                foreach ($batches as $batchId => $handlerGroups) {
+                    $batch = Bus::findBatch($batchId);
+                    $imports = Import::query()->whereIn('id', array_keys($handlerGroups))->get();
+                    foreach ($handlerGroups as $importId => $handlers) {
+                        $import = $imports->where('id', $importId)->first();
+                        $this->triggerTwitterImport($import, $batch, $commonData, $handlers);
+                    }
                 }
             }
         }
@@ -174,6 +205,13 @@ class TriggerImports extends Command
         }
         $batch->add([
             (new InstagramImport($instagram, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1)),
+        ]);
+    }
+
+    public function triggerTwitterImport($import, $batch, $commonData, $handlers)
+    {
+        $batch->add([
+            (new InstagramImport($handlers, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1)),
         ]);
     }
 }
