@@ -156,11 +156,11 @@
             </div>
             <router-link
               to="/chrome-extension"
-              class="group mt-8 flex w-60 cursor-pointer justify-between rounded-md bg-gradient-to-r from-indigo-600 via-indigo-600 to-pink-600 p-0.5 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
-              <div class="flex w-full items-center justify-between py-1 px-4">
+              class="group mt-8 flex cursor-pointer rounded-md bg-gradient-to-r from-indigo-600 via-indigo-600 to-pink-600 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
+              <div class="flex w-full items-center justify-between py-4 px-4">
                 <div
                   class="w-full transform text-left text-xs font-medium text-white transition-transform duration-300 ease-in-out group-hover:underline">
-                  Add to Chrome
+                  Download Chrome Extension
                 </div>
                 <svg
                   role="img"
