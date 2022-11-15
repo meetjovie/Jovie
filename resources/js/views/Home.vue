@@ -143,24 +143,28 @@
       <!--  <HomeFeatureSequences></HomeFeatureSequences> -->
       <JovieReplaces class="py-12"></JovieReplaces>
       <!--  <HomeCTA></HomeCTA> -->
-      <section
-        class="mx-auto bg-gradient-radial from-white via-white to-blue-600/10">
-        <div class="mx-auto max-w-7xl py-48">
-          <div class="text-center text-3xl font-bold text-neutral-700">
-            Add the Jovie Chrome Extension today.
-          </div>
-          <div class="text-center text-xl font-semibold text-neutral-500">
-            Save, enrich, & organize contacts from any social media profile.
-          </div>
-          <router-link
-            to="/chrome-extension"
-            class="group mx-auto mt-8 flex w-80 cursor-pointer justify-between rounded-full border border-neutral-400 bg-gradient-to-r from-[#7928ca] to-[#ff0080] p-0.5 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
-            <div
-              class="flex w-full justify-between rounded-full bg-neutral-800 py-2 px-4">
-              <div class="text-white">
+      <section class="mx-auto py-24">
+        <div
+          class="mx-auto flex h-80 max-w-5xl justify-between rounded-3xl border-2 border-fuchsia-600">
+          <div class="w-1/3 py-8 px-8">
+            <div class="text-xl font-bold text-neutral-700">
+              <span class="text-pink-500">Add</span> the Jovie Chrome<br />
+              Extension today.
+            </div>
+            <div class="text-sm font-semibold text-neutral-500">
+              Save, enrich, & organize contacts from any social media profile.
+            </div>
+            <router-link
+              to="/chrome-extension"
+              class="group mt-8 flex w-60 cursor-pointer justify-between rounded-md bg-gradient-to-r from-indigo-600 via-indigo-600 to-pink-600 p-0.5 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
+              <div class="flex w-full items-center justify-between py-1 px-4">
+                <div
+                  class="w-full transform text-left text-xs font-medium text-white transition-transform duration-300 ease-in-out group-hover:underline">
+                  Add to Chrome
+                </div>
                 <svg
                   role="img"
-                  class="h-8 w-8 transform transition-transform duration-300 ease-in-out group-hover:rotate-180"
+                  class="h-5 w-5 transform transition-transform duration-300 ease-in-out group-hover:rotate-180"
                   fill="white"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg">
@@ -169,12 +173,14 @@
                     d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z" />
                 </svg>
               </div>
-              <div
-                class="mx-auto mt-0.5 w-full transform text-center font-medium text-white transition-transform duration-300 ease-in-out group-hover:underline">
-                Add to Chrome
-              </div>
-            </div>
-          </router-link>
+            </router-link>
+          </div>
+          <div class="items-bottom rounded-3xl">
+            <img
+              class="h-full w-auto rounded-3xl"
+              :src="asset('img/External/Marketing/jovie_5-star_rating.webp')"
+              alt="" />
+          </div>
         </div>
       </section>
       <!--  <HomeTestimonials></HomeTestimonials> -->

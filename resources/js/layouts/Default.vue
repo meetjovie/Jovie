@@ -30,11 +30,11 @@
                 </div>
                 <div
                   class="hidden items-center py-1 md:ml-6 md:flex md:space-x-4">
-                  <!-- <Popover v-slot="{ open }" class="relative">
+                  <Popover v-slot="{ open }" class="relative">
                     <PopoverButton
                       :class="open ? '' : 'text-opacity-90'"
                       class="group z-20 -mt-1 inline-flex items-center rounded-md px-3 text-xs font-medium text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-200 focus-visible:ring-opacity-75">
-                      <span class="mt-0.5">Product</span>
+                      <span class="mt-0.5">Intergrations</span>
                       <ChevronDownIcon
                         :class="open ? '' : 'text-opacity-70'"
                         class="ml-2 mt-1 h-5 w-5 text-neutral-600 transition duration-150 ease-in-out group-hover:text-opacity-80"
@@ -82,29 +82,29 @@
                               </div>
                             </router-link>
                           </div>
-                           <div class="bg-gray-50 p-4">
-                          <router-link
-                            to="chrome-extension"
-                            class="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50">
-                            <span class="flex items-center">
-                              <span class="text-sm font-medium text-gray-900">
-                                Chrome Extension
+                          <div class="bg-gray-50 p-4">
+                            <router-link
+                              to="chrome-extension"
+                              class="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50">
+                              <span class="flex items-center">
+                                <span class="text-sm font-medium text-gray-900">
+                                  Chrome Extension
+                                </span>
+                                <span
+                                  class="ml-3 inline-flex items-center rounded-md bg-indigo-100 px-2 py-0 text-2xs font-medium leading-5 text-indigo-800">
+                                  New
+                                </span>
                               </span>
-                              <span
-                                class="ml-3 inline-flex items-center rounded-md bg-indigo-100 px-2 py-0 text-2xs font-medium leading-5 text-indigo-800">
-                                New
+                              <span class="block text-sm text-gray-500">
+                                Get creator insights & social content right
+                                inside Gmail.
                               </span>
-                            </span>
-                            <span class="block text-sm text-gray-500">
-                              Get creator insights & social content right inside
-                              Gmail.
-                            </span>
-                          </router-link>
-                        </div> 
+                            </router-link>
+                          </div>
                         </div>
                       </PopoverPanel>
                     </transition>
-                  </Popover> -->
+                  </Popover>
 
                   <router-link
                     to="pricing"
