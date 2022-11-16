@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Jobs\TwitchImport;
+use App\Jobs\TwitterImport;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
@@ -211,7 +212,7 @@ class TriggerImports extends Command
     public function triggerTwitterImport($import, $batch, $commonData, $handlers)
     {
         $batch->add([
-            (new InstagramImport($handlers, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1)),
+            (new TwitterImport($handlers, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1)),
         ]);
     }
 }

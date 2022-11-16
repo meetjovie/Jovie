@@ -50,7 +50,7 @@ class TwitterImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($id, $username, $tags, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null)
+    public function __construct($username, $tags, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null)
     {
         $this->username = $username;
         $this->tags = $tags;
@@ -102,15 +102,17 @@ class TwitterImport implements ShouldQueue
                 return;
             }
 
-            $creator = Creator::where('twitter_handler', $this->username)->first();
+            $creators = Creator::query()->whereIn('twitter_handler', $this->username)->get();
             // 30 days diff
-            if ($creator && ! is_null($creator->twitter_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
-                $lastScrappedDate = Carbon::parse($creator->twitter_last_scrapped_at);
-                if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                    Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId);
-                    Import::markImport($this->importId, ['twitter']);
+            foreach ($creators as $creator) {
+                if ($creator && ! is_null($creator->twitter_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
+                    $lastScrappedDate = Carbon::parse($creator->twitter_last_scrapped_at);
+                    if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
+                        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId);
+                        Import::markImport($this->importId, ['twitter']);
 //                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitter user '.$this->username), Notification::SINGLE_IMPORT);
-                    return;
+                        return;
+                    }
                 }
             }
 
@@ -119,10 +121,12 @@ class TwitterImport implements ShouldQueue
                 if ($response->getStatusCode() == 200) {
                     $response = json_decode($response->getBody()->getContents());
                     if (count($response->data)) {
-                        $this->insertInDatabase($response->data);
-                        Import::markImport($this->importId, ['twitter']);
+                        foreach ($response->data as $data) {
+                            $this->insertInDatabase($data);
+                            Import::markImport($this->importId, ['twitter']);
 //                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitter user '.$this->username), Notification::SINGLE_IMPORT);
-                        Log::channel('slack')->info('imported user.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitter']);
+                            Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'twitter']);
+                        }
                     } else {
                         Import::markImport($this->importId, ['twitter']);
                         $this->fail(new \Exception(('No profile data or no such profile for username '.$this->username), 200));
