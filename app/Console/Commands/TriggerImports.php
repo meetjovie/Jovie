@@ -158,10 +158,11 @@ class TriggerImports extends Command
             foreach ($twitters as $userId => $batches) {
                 foreach ($batches as $batchId => $handlerGroups) {
                     $batch = Bus::findBatch($batchId);
-                    $imports = Import::query()->whereIn('id', array_keys($handlerGroups))->get();
-                    foreach ($handlerGroups as $importId => $handlers) {
-                        $import = $imports->where('id', $importId)->first();
-                        $this->triggerTwitterImport($import, $batch, $commonData, $handlers);
+                    if (empty($batch->user_list_id)) {
+                        $batchRecord = DB::table('job_batches')->where('id', $batch->id)->first();
+                    }
+                    foreach ($handlerGroups as $handlers) {
+                        $this->triggerTwitterImport($batch, $batch->user_list_id, $commonData, $handlers, $userId);
                     }
                 }
             }
@@ -209,10 +210,10 @@ class TriggerImports extends Command
         ]);
     }
 
-    public function triggerTwitterImport($import, $batch, $commonData, $handlers)
+    public function triggerTwitterImport($batch, $listId, $commonData, $handlers, $userId)
     {
         $batch->add([
-            (new TwitterImport($handlers, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1)),
+            (new TwitterImport($handlers, $commonData['tags'], $commonData['meta'], $listId, $userId))->delay(now()->addSeconds(2)),
         ]);
     }
 }

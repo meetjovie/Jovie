@@ -50,14 +50,13 @@ class TwitterImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($username, $tags, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null)
+    public function __construct(array $username, $tags, $meta = null, $listId = null, $userId = null, $teamId = null)
     {
         $this->username = $username;
         $this->tags = $tags;
         $this->meta = $meta;
         $this->listId = $listId;
         $this->userId = $userId;
-        $this->importId = $importId;
         if (is_null($teamId) && $listId) {
             $list = UserList::where('id', $listId)->first();
             if ($list) {
@@ -78,7 +77,9 @@ class TwitterImport implements ShouldQueue
     {
         try {
             if ($this->userId && ! is_null($this->platformUser) && ! $this->platformUser->is_admin && $this->platformUser->currentTeam->credits <= 0) {
-                Import::markImport($this->importId, ['twitter']);
+                foreach (array_keys($this->username) as $importId) {
+                    Import::markImport($this->importId, ['twitter']);
+                }
                 if ($this->batch() && ! $this->batch()->cancelled()) {
                     $this->batch()->cancel();
                     DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
@@ -92,7 +93,9 @@ class TwitterImport implements ShouldQueue
             }
 
             if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
-                Import::markImport($this->importId, ['twitter']);
+                foreach (array_keys($this->username) as $importId) {
+                    Import::markImport($this->importId, ['twitter']);
+                }
                 if ($this->batch() && ! $this->batch()->cancelled()) {
                     $this->batch()->cancel();
 //                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
@@ -127,7 +130,7 @@ class TwitterImport implements ShouldQueue
 //                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitter user '.$this->username), Notification::SINGLE_IMPORT);
                             Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'twitter']);
                         }
-                    } else {
+                    } elseif (count($response->errors)) {
                         Import::markImport($this->importId, ['twitter']);
                         $this->fail(new \Exception(('No profile data or no such profile for username '.$this->username), 200));
 //                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('No profile data or no such profile for twitter user '.$this->username), Notification::SINGLE_IMPORT_FAILED);
