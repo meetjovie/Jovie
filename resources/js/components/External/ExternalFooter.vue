@@ -73,7 +73,7 @@
               </div>
             </div>
             <div
-              class="mt-8 block justify-between space-y-4 text-left sm:mt-0 xl:col-span-1">
+              class="mt-8 block justify-between space-y-16 text-left md:mt-0 md:space-y-4 xl:col-span-1">
               <div class="h-1/2">
                 <h3
                   class="text-sm font-bold uppercase tracking-wider text-gray-700">
@@ -111,7 +111,7 @@
                   >
                 </div>
               </div>
-              <div>
+              <div class="mt-16 sm:mt-0">
                 <h3
                   class="text-sm font-bold uppercase tracking-wider text-gray-500">
                   Stay in the loop

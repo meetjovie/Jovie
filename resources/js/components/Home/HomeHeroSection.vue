@@ -1,15 +1,9 @@
 <template>
   <div class="overflow-y-hidden">
-    <div class="mt-4 block max-w-xl to-white sm:hidden">
-      <img
-        class="h-[551px] w-[1270px] rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
-        :src="asset('img/External/HomeFeatureCRM.webp')" />
-    </div>
-
     <div
       class="flex flex-col items-center justify-center bg-gradient-to-b from-white to-neutral-50 px-4 pt-24">
       <div class="flex justify-between">
-        <div class="relative">
+        <div class="relative hidden md:block">
           <div class="-mt-14 flex flex-col space-y-14">
             <span
               v-for="(avatar, index) in avatars.slice(4, 6)"
@@ -51,7 +45,7 @@
         </div>
 
         <div class="z-10 flex flex-col text-center">
-          <div class="hidden rounded-full sm:mb-4 sm:flex sm:justify-center">
+          <div class="mb-4 flex justify-center rounded-full">
             <div
               class="relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 py-1 px-8 text-xs leading-6">
               <h1
@@ -62,7 +56,7 @@
           </div>
 
           <h2
-            class="text-xl font-semibold tracking-normal text-neutral-800 sm:text-5xl lg:text-3xl xl:text-7xl">
+            class="text-3xl font-semibold tracking-normal text-neutral-800 sm:text-5xl lg:text-3xl xl:text-7xl">
             Organize everyone<br class="hidden xl:block" />
             you follow
             <br />
@@ -92,14 +86,14 @@
           </div>
 
           <!--  <home-logo-cloud /> -->
-          <div class="mt-24 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
+          <div class="mt-24 -mb-36 block max-w-7xl sm:-mb-48 lg:-mb-96">
             <img
               alt="Jovie - Social CRM Screenshot"
               class="rounded-lg shadow-xl shadow-indigo-700/30 ring-8 ring-black ring-opacity-5"
               :src="asset('img/External/HomeFeatureCRM.webp')" />
           </div>
         </div>
-        <div class="relative">
+        <div class="relative hidden md:block">
           <div class="-mt-12 flex flex-col space-y-24">
             <span
               v-for="(avatar, index) in avatars.slice(0, 3)"

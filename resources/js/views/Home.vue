@@ -85,7 +85,7 @@
           <div>
             <div class="mt-8 items-center border-t border-white">
               <div class="mx-auto flex flex-col py-12 text-center sm:flex-row">
-                <h3 class="text-xl font-bold text-neutral-900">
+                <h3 class="text-md font-bold text-neutral-900 sm:text-xl">
                   Jovie replaces complicated tools & manual workflows
                 </h3>
                 <div class="mx-auto flex items-center space-x-8 opacity-30">
@@ -250,8 +250,8 @@
       <!--  <HomeCTA></HomeCTA> -->
       <section class="mx-auto py-24">
         <div
-          class="mx-auto flex h-80 max-w-5xl justify-between rounded-3xl border-2 border-fuchsia-600">
-          <div class="w-1/3 py-8 px-8">
+          class="mx-auto flex max-w-5xl flex-col justify-between overflow-hidden rounded-3xl border-2 border-fuchsia-600 md:h-80 md:flex-row">
+          <div class="w-full py-8 px-8 md:w-1/3">
             <div class="text-xl font-bold text-neutral-700">
               <span class="text-pink-500">Add</span> the Jovie Chrome<br />
               Extension today.
@@ -280,9 +280,9 @@
               </div>
             </router-link>
           </div>
-          <div class="items-bottom rounded-3xl">
+          <div class="items-bottom justify-end rounded-3xl">
             <img
-              class="h-full w-auto rounded-3xl"
+              class="right-0 rounded-3xl"
               :src="asset('img/External/Marketing/jovie_5-star_rating.webp')"
               alt="" />
           </div>
