@@ -2,12 +2,12 @@
 <template>
   <div class="h-80 overflow-hidden bg-purple-600 py-6 md:py-12">
     <div
-      class="mx-auto -mt-24 h-[1000px] w-[1000px] rounded-full bg-gradient-to-b from-purple-500 via-purple-500/0 to-purple-500/0">
+      class="mx-auto -mt-24 h-[500px] w-[500px] rounded-full bg-gradient-to-b from-purple-500 via-purple-500/0 to-purple-500/0 lg:h-[1000px] lg:w-[1000px]">
       <div
         class="mx-auto max-w-2xl items-center py-16 px-4 text-center sm:py-20 sm:px-6 lg:px-8">
         <!-- <JovieLogo class="py-4" height="20" color="white" /> -->
         <h2
-          class="mt-8 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          class="mt-16 text-3xl font-bold tracking-tight text-white sm:mt-8 sm:text-4xl">
           <span class="block">Try Jovie today</span>
         </h2>
         <p class="mt-4 text-lg leading-6 text-white">

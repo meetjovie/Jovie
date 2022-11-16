@@ -5,14 +5,118 @@
         <h2 id="footer-heading" class="sr-only">Footer</h2>
         <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div class="pb-8 xl:grid xl:grid-cols-3 xl:gap-8">
-            <div class="text-left xl:col-span-1">
+            <div class="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+              <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3
+                    class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                    Product
+                  </h3>
+                  <ul role="list" class="mt-4 space-y-4">
+                    <li v-for="item in navigation.solutions" :key="item.name">
+                      <a
+                        :href="item.href"
+                        class="text-sm text-gray-500 hover:text-gray-900">
+                        {{ item.name }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="mt-12 md:mt-0">
+                  <h3
+                    class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                    Features
+                  </h3>
+                  <ul role="list" class="mt-4 space-y-4">
+                    <li v-for="item in navigation.features" :key="item.name">
+                      <a
+                        :href="item.href"
+                        class="text-sm text-gray-500 hover:text-gray-900">
+                        {{ item.name }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3
+                    class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                    Support
+                  </h3>
+                  <ul role="list" class="mt-4 space-y-4">
+                    <li v-for="item in navigation.support" :key="item.name">
+                      <router-link
+                        :to="item.href"
+                        class="text-sm text-gray-500 hover:text-gray-900">
+                        {{ item.name }}
+                      </router-link>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="mt-12 md:mt-0">
+                  <h3
+                    class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                    Company
+                  </h3>
+                  <ul role="list" class="mt-4 space-y-4">
+                    <li v-for="item in navigation.company" :key="item.name">
+                      <a
+                        :href="item.href"
+                        class="text-sm text-gray-500 hover:text-gray-900">
+                        {{ item.name }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div
+              class="mt-8 block justify-between space-y-4 text-left sm:mt-0 xl:col-span-1">
+              <div class="h-1/2">
+                <h3
+                  class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                  Connect with Jovie
+                </h3>
+                <div
+                  class="mt-4 flex justify-between sm:justify-start sm:space-x-6">
+                  <a
+                    v-for="item in navigation.social"
+                    :key="item.name"
+                    :href="item.href"
+                    class="text-gray-400 hover:text-gray-500">
+                    <span class="sr-only">{{ item.name }}</span>
+                    <component
+                      :is="item.icon"
+                      class="h-6 w-6"
+                      aria-hidden="true" />
+                  </a>
+                </div>
+
+                <div class="mt-6 flex">
+                  <svg
+                    width="14"
+                    class="ml-3"
+                    height="14"
+                    viewBox="0 0 21 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M4.32616 0.62103C4.11686 0.440896 3.80116 0.464539 3.62103 0.673838L0.685572 4.08457C0.505438 4.29387 0.529081 4.60957 0.738381 4.7897C0.94768 4.96984 1.26338 4.94619 1.44351 4.73689L4.05281 1.70513L7.08457 4.31443C7.29387 4.49456 7.60957 4.47092 7.7897 4.26162C7.96984 4.05232 7.94619 3.73662 7.73689 3.55649L4.32616 0.62103ZM19.9426 20.4458C17.6786 20.7074 14.1467 20.0809 11.0208 17.2875C7.9022 14.5006 5.13882 9.51128 4.4986 0.962659L3.5014 1.03734C4.15556 9.7722 6.99518 15.0311 10.3545 18.0331C13.7065 21.0285 17.5274 21.7315 20.0574 21.4392L19.9426 20.4458Z"
+                      fill="#4B5563" />
+                  </svg>
+                  <span class="ml-1 font-medium text-neutral-700"
+                    >Join the Jovie Slack community</span
+                  >
+                </div>
+              </div>
               <div>
                 <h3
-                  class="text-sm font-semibold uppercase tracking-wider text-gray-400">
+                  class="text-sm font-bold uppercase tracking-wider text-gray-500">
                   Stay in the loop
                 </h3>
-                <p
-                  class="mt-0 text-xs font-semibold tracking-wider text-gray-400">
+                <p class="mt-0 text-xs font-bold tracking-wider text-gray-400">
                   Insights & updates from the team.
                 </p>
               </div>
@@ -39,7 +143,7 @@
                       :loader="loading"
                       @click="requestDemo()"
                       text="Subscribe"
-                      design="hero">
+                      class="bg-black text-white hover:bg-gray-900">
                     </ButtonGroup>
                   </div>
                   <div>
@@ -51,87 +155,6 @@
                 </form>
                 <div v-else class="flex min-w-0">
                   <p class="text-sm text-gray-500">You're subscribed!</p>
-                </div>
-              </div>
-
-              <div class="mt-4 flex space-x-6">
-                <a
-                  v-for="item in navigation.social"
-                  :key="item.name"
-                  :href="item.href"
-                  class="text-gray-400 hover:text-gray-500">
-                  <span class="sr-only">{{ item.name }}</span>
-                  <component
-                    :is="item.icon"
-                    class="h-6 w-6"
-                    aria-hidden="true" />
-                </a>
-              </div>
-            </div>
-            <div class="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-              <div class="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3
-                    class="text-sm font-semibold uppercase tracking-wider text-gray-400">
-                    Product
-                  </h3>
-                  <ul role="list" class="mt-4 space-y-4">
-                    <li v-for="item in navigation.solutions" :key="item.name">
-                      <a
-                        :href="item.href"
-                        class="text-sm text-gray-500 hover:text-gray-900">
-                        {{ item.name }}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="mt-12 md:mt-0">
-                  <h3
-                    class="text-sm font-semibold uppercase tracking-wider text-gray-400">
-                    Features
-                  </h3>
-                  <ul role="list" class="mt-4 space-y-4">
-                    <li v-for="item in navigation.features" :key="item.name">
-                      <a
-                        :href="item.href"
-                        class="text-sm text-gray-500 hover:text-gray-900">
-                        {{ item.name }}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3
-                    class="text-sm font-semibold uppercase tracking-wider text-gray-400">
-                    Support
-                  </h3>
-                  <ul role="list" class="mt-4 space-y-4">
-                    <li v-for="item in navigation.support" :key="item.name">
-                      <router-link
-                        :to="item.href"
-                        class="text-sm text-gray-500 hover:text-gray-900">
-                        {{ item.name }}
-                      </router-link>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="mt-12 md:mt-0">
-                  <h3
-                    class="text-sm font-semibold uppercase tracking-wider text-gray-400">
-                    Company
-                  </h3>
-                  <ul role="list" class="mt-4 space-y-4">
-                    <li v-for="item in navigation.company" :key="item.name">
-                      <a
-                        :href="item.href"
-                        class="text-sm text-gray-500 hover:text-gray-900">
-                        {{ item.name }}
-                      </a>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -276,15 +299,13 @@ const navigation = {
   ],
   social: [
     {
-      name: 'Facebook',
-      href: 'https://facebook.com/meetjovie',
+      name: 'Slack',
+      href: 'slack-community',
       icon: defineComponent({
         render: () =>
           h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
             h('path', {
-              'fill-rule': 'evenodd',
-              d: 'M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z',
-              'clip-rule': 'evenodd',
+              d: 'M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z',
             }),
           ]),
       }),
@@ -303,6 +324,7 @@ const navigation = {
           ]),
       }),
     },
+
     {
       name: 'Twitter',
       href: 'http://twitter.com/meetjovie',
@@ -316,6 +338,18 @@ const navigation = {
       }),
     },
     {
+      name: 'LinkedIn',
+      href: 'http://linkedin.com/company/meetjovie',
+      icon: defineComponent({
+        render: () =>
+          h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
+            h('path', {
+              d: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
+            }),
+          ]),
+      }),
+    },
+    {
       name: 'GitHub',
       href: 'https://github.com/meetjovie',
       icon: defineComponent({
@@ -324,6 +358,20 @@ const navigation = {
             h('path', {
               'fill-rule': 'evenodd',
               d: 'M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z',
+              'clip-rule': 'evenodd',
+            }),
+          ]),
+      }),
+    },
+    {
+      name: 'Facebook',
+      href: 'https://facebook.com/meetjovie',
+      icon: defineComponent({
+        render: () =>
+          h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
+            h('path', {
+              'fill-rule': 'evenodd',
+              d: 'M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z',
               'clip-rule': 'evenodd',
             }),
           ]),

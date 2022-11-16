@@ -1,32 +1,6 @@
-<!--
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  const colors = require('tailwindcss/colors')
-
-  module.exports = {
-    // ...
-    theme: {
-      extend: {
-        colors: {
-          indigo: colors.indigo,
-        },
-      },
-    },
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
   <div class="bg-white">
     <main>
-      <!-- Hero section -->
       <div class="overflow-hidden pt-8 sm:pt-12 lg:relative lg:py-48">
         <div
           class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-24 lg:px-8">

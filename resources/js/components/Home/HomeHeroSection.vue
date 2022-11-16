@@ -30,7 +30,7 @@
                   { 'border-social-youtube': avatar.network === 'youtube' },
                 ]">
                 <img
-                  class="aspect-square h-20 w-20 rounded-full"
+                  class="aspect-square h-10 w-10 rounded-full lg:h-14 lg:w-14 2xl:h-20 2xl:w-20"
                   :src="avatar.src"
                   alt="" />
               </div>
