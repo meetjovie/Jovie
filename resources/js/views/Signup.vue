@@ -92,7 +92,6 @@
                     :disabled="submitting"
                     text="Next"
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                    Next
                   </ButtonGroup>
                 </div>
 
@@ -161,7 +160,6 @@
                       :success="success"
                       :disabled="submitting"
                       text="Create Account">
-                      Create account
                     </ButtonGroup>
                   </div>
                 </div>

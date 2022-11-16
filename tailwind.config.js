@@ -67,6 +67,8 @@ module.exports = {
           whatsapp: '#25d366',
           telegram: '#00e676',
           snapchat: '#fffc00',
+          tiktok: '#ff0050',
+          tiktok2: '#00f2ea',
         },
       },
       fontSize: {

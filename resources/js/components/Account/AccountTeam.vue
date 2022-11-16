@@ -66,7 +66,6 @@
               text="cancel"
               size="sm"
               design="danger">
-              Cancel
             </ButtonGroup>
           </div>
         </div>
