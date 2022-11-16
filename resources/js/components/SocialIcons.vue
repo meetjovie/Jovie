@@ -163,6 +163,7 @@ export default {
     },
     link: {
       type: String,
+      default: '#',
     },
     followers: {
       type: String,

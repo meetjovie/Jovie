@@ -30,6 +30,18 @@
               fill="#CCCCFB" />
           </svg>
         </div>
+        <div v-if="feature.id == 3" class="absolute left-96 bottom-0">
+          <svg
+            width="56"
+            height="27"
+            viewBox="0 0 56 27"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28ZM12.104 28C12.104 36.7791 19.2209 43.896 28 43.896C36.7791 43.896 43.896 36.7791 43.896 28C43.896 19.2209 36.7791 12.104 28 12.104C19.2209 12.104 12.104 19.2209 12.104 28Z"
+              fill="#72CCFF" />
+          </svg>
+        </div>
         <div v-if="feature.id == 2" class="absolute right-0">
           <svg
             width="489"

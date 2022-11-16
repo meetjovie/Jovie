@@ -375,7 +375,8 @@ export default {
           subheader:
             ' Never type contact info again.  Jovie let’s you import any Tiktok, Twitter, Instagram, or Twitch profile instantly.',
           cta: 'Download Chrome Extension',
-          ctaLink: 'signup',
+          ctaLink:
+            'https://chrome.google.com/webstore/detail/jovie-the-social-crm/daeopelnocmnhbkjbjmhckgjgheioafj',
           img: 'img/External/Marketing/Chrome/Jovie_Chrome_Extension_Screenshot.png',
         },
         {
@@ -392,7 +393,7 @@ export default {
             'No more manual data entry. No more incomplete records. Save a contact on instagram? Don’t worry, we have their twitter profile too. Jovie automatically enriches contacts with all their social media profiles & more.',
           img: 'img/External/Marketing/Chrome/Jovie_Enrichment_Screenshot.png',
           cta: 'Try Jovie free',
-          ctaLink: 'signup',
+          ctaLink: '/signup',
         },
       ],
     };
