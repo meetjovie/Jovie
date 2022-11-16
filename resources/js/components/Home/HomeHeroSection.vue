@@ -2,7 +2,7 @@
   <div class="overflow-y-hidden">
     <div class="mt-4 block max-w-xl to-white sm:hidden">
       <img
-        class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
+        class="h-[551px] w-[1270px] rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
         :src="asset('img/External/HomeFeatureCRM.webp')" />
     </div>
 
