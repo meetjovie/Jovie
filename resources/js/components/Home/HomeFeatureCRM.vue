@@ -129,7 +129,9 @@
             </p>
             <div class="group/button2 mt-4" v-if="feature.id === 3">
               <ButtonGroup
+
                 class="z-20 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-4"
+
                 v-if="feature.cta"
                 :buttonlink="feature.ctaLink"
                 :text="feature.cta"
@@ -200,7 +202,9 @@
               v-if="feature.cta && feature.id === 1"
               class="group/button mt-6">
               <ButtonGroup
+
                 class="z-20 w-80 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 px-9 py-4"
+
                 :buttonlink="feature.ctaLink"
                 :text="feature.cta">
                 <svg

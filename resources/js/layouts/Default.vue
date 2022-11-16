@@ -42,7 +42,7 @@
                 </div>
                 <div
                   class="hidden items-center py-1 md:ml-6 md:flex md:space-x-4">
-                  <!-- <Popover v-slot="{ open }" class="relative">
+                  <Popover v-slot="{ open }" class="relative">
                     <PopoverButton
                       :class="open ? '' : 'text-opacity-90'"
                       class="group z-20 -mt-1 inline-flex items-center rounded-md px-3 text-xs font-medium text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-200 focus-visible:ring-opacity-75">
@@ -116,7 +116,9 @@
                         </div>
                       </PopoverPanel>
                     </transition>
+
                   </Popover> -->
+
                   <router-link
                     to="pricing"
                     class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-neutral-600 hover:text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 lg:inline-flex">
