@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-
-    Loading...
+    <div class="flex min-h-screen flex-col">Loading...</div>
   </div>
 </template>
 

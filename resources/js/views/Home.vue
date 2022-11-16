@@ -177,19 +177,20 @@
         </div>
       </section>
       <section class="isolate mx-auto">
-        <div class="mx-auto h-72 overflow-hidden bg-indigo-400 px-4 md:px-8">
+        <div
+          class="mx-auto h-60 overflow-hidden bg-indigo-400 px-4 sm:h-72 md:px-8">
           <div
-            class="mx-auto -mt-24 h-[500px] w-[500px] rounded-full bg-gradient-to-b from-indigo-500 via-purple-500/0 to-purple-500/0 lg:h-[1000px] lg:w-[1000px]">
-            <div class="mx-auto max-w-7xl items-center p-4 md:p-10 lg:p-14">
+            class="mx-auto -mt-24 h-[400px] w-[400px] rounded-full bg-gradient-to-b from-indigo-500 via-purple-500/0 to-purple-500/0 sm:h-[500px] sm:w-[500px] lg:h-[1000px] lg:w-[1000px]">
+            <div class="mx-auto max-w-7xl items-center p-8 sm:p-10 lg:p-14">
               <p
-                class="mt-24 text-center text-2xl font-bold text-white md:mb-12 md:text-2xl lg:text-3xl">
+                class="mt-24 mb-12 text-center text-xl font-bold text-white sm:text-2xl lg:text-3xl">
                 One space for everyone you follow
               </p>
               <div
                 class="mx-auto flex h-14 max-w-3xl flex-wrap items-center justify-between">
                 <div v-for="icon in icons" :key="icon.id">
                   <div
-                    class="relative hidden h-16 w-16 items-center overflow-hidden lg:block">
+                    class="relative block h-16 w-16 items-center overflow-hidden">
                     <div
                       class="relative z-20 mx-auto h-full items-center p-1"
                       :class="[
@@ -216,21 +217,23 @@
                     </svg>
                   </div>
                 </div>
-                <svg width="180" height="55" viewBox="0 0 180 55" fill="none">
-                  <path
-                    d="M177.664 43.916C179.077 42.5378 175.599 32.2257 175.309 31.8117M175.309 31.8117C175.061 31.4577 169.561 32.8439 165.328 35.8092M175.309 31.8117C168.61 53.0922 144.697 55.3061 128.339 51.4479C98.5444 44.4204 103.725 13.1508 67.3946 4.00585C35.4373 -1.47524 15.3433 3.95857 2 24.2465"
-                    stroke="#FFD058"
-                    stroke-width="4"
-                    stroke-miterlimit="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round" />
-                </svg>
+                <div class="hidden lg:flex">
+                  <svg width="180" height="55" viewBox="0 0 180 55" fill="none">
+                    <path
+                      d="M177.664 43.916C179.077 42.5378 175.599 32.2257 175.309 31.8117M175.309 31.8117C175.061 31.4577 169.561 32.8439 165.328 35.8092M175.309 31.8117C168.61 53.0922 144.697 55.3061 128.339 51.4479C98.5444 44.4204 103.725 13.1508 67.3946 4.00585C35.4373 -1.47524 15.3433 3.95857 2 24.2465"
+                      stroke="#FFD058"
+                      stroke-width="4"
+                      stroke-miterlimit="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
 
-                <a
-                  class="active:outline-3 -ml-1text-md hover:border-coral-500 hover:text-coral-500 group -mt-1 box-border inline-flex h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-white px-4 font-sans font-medium text-black outline-offset-2 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-700 active:bg-white active:bg-opacity-5 disabled:cursor-not-allowed disabled:border-gray-700 disabled:bg-transparent disabled:text-gray-700 md:h-12 md:text-lg"
-                  href="/signup"
-                  ><JovieLogo height="20px" />
-                </a>
+                  <a
+                    class="active:outline-3 -ml-1text-md hover:border-coral-500 hover:text-coral-500 group -mt-1 box-border inline-flex h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-white px-4 font-sans font-medium text-black outline-offset-2 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-700 active:bg-white active:bg-opacity-5 disabled:cursor-not-allowed disabled:border-gray-700 disabled:bg-transparent disabled:text-gray-700 md:h-12 md:text-lg"
+                    href="/signup"
+                    ><JovieLogo height="20px" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
