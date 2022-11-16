@@ -45,7 +45,6 @@
           class="w-60"
           text="Download"
           @click="downloadImage('Jovie_MA_' + divId)">
-          Download
         </ButtonGroup>
       </div>
     </div>

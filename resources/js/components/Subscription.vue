@@ -369,6 +369,7 @@ export default {
           title: 'Error',
           text: 'Problem in selecting product',
           type: 'error',
+          duration: 10000,
         });
       }
     },
@@ -389,6 +390,7 @@ export default {
           title: 'Error',
           text: 'Problem in selecting plan',
           type: 'error',
+          duration: 10000,
         });
       }
     },
@@ -410,6 +412,7 @@ export default {
           title: 'Error',
           text: 'Please select a plan to continue.',
           type: 'error',
+          duration: 10000,
         });
         return;
       }
@@ -430,6 +433,7 @@ export default {
               title: 'Error',
               text: response.message,
               type: 'error',
+              duration: 10000,
             });
           }
         })
@@ -463,6 +467,7 @@ export default {
               title: 'Success',
               text: response.message,
               type: 'success',
+              duration: 10000,
             });
             /*  alert(response.message); */
             this.currentUser.current_team.current_subscription =
@@ -503,6 +508,7 @@ export default {
               title: 'Error',
               text: response.message,
               type: 'error',
+              duration: 10000,
             });
             /*  alert(response.message); */
           }
@@ -520,6 +526,7 @@ export default {
           title: 'Error',
           text: 'You must select a product and pricing to continue.',
           type: 'error',
+          duration: 10000,
         });
         return;
       }
@@ -543,6 +550,7 @@ export default {
               title: 'Error',
               text: result.error.message,
               type: 'error',
+              duration: 10000,
             });
             this.processingPayment = false;
           } else {
@@ -576,6 +584,7 @@ export default {
               title: 'Success',
               text: response.message,
               type: 'success',
+              duration: 10000,
             });
             this.resetSelections();
             this.currentUser.current_team.current_subscription =
@@ -588,6 +597,7 @@ export default {
               title: 'Error',
               text: `${response.message} ${response.error}`,
               type: 'error',
+              duration: 10000,
             });
             this.$refs.paymentElement.initPaymentIntent();
           }
@@ -620,6 +630,7 @@ export default {
               title: 'Success',
               text: response.message,
               type: 'success',
+              duration: 10000,
             });
             this.resetSelections();
             this.currentUser.current_team.current_subscription =
@@ -633,6 +644,7 @@ export default {
               title: 'Error',
               text: `${response.message} ${response.error}`,
               type: 'error',
+              duration: 10000,
             });
             this.$refs.paymentElement.initPaymentIntent();
           }

@@ -3,7 +3,6 @@
     <div class="flex w-full items-center justify-between px-4 py-4">
       <h1 class="text-xl font-bold text-neutral-900">Jovie Brand Assets</h1>
       <ButtonGroup class="w-60" text="Download All" @click="downloadAll()">
-        Download All
       </ButtonGroup>
     </div>
     <div class="w-full bg-neutral-200 py-2">

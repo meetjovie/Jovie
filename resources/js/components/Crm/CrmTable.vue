@@ -216,6 +216,22 @@
                               </button>
                             </SwitchLabel>
                           </SwitchGroup>
+                          <div>
+                            <div
+                              class="flex items-center hover:bg-neutral-100 hover:text-white">
+                              <button
+                                @click="importCSV()"
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
+                                <div class="flex items-center">
+                                  <component
+                                    :is="CloudUploadIcon"
+                                    class="mr-2 h-3 w-3 text-neutral-400"
+                                    aria-hidden="true" />
+                                  <span class="line-clamp-1"> Import CSV </span>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </PopoverPanel>
                     </transition>
@@ -955,20 +971,29 @@
                         class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
                         <div class=".clear-both mx-auto flex-col items-center">
                           <div
-                            v-if="creator[`${network}_handler`]"
+                            v-if="
+                              creator[`${network}_handler`] ||
+                              creator.meta[`${network}_handler`]
+                            "
                             class="mx-auto items-center">
                             <SocialIcons
                               class="mx-auto"
                               height="14px"
                               setting.isVisable
-                              :link="creator[`${network}_handler`]"
+                              :link="
+                                creator[`${network}_handler`] ||
+                                creator.meta[`${network}_handler`]
+                              "
                               :icon="network" />
                           </div>
                           <div class="mx-auto items-center" v-else>
                             <div class="">
                               <SocialIcons
                                 height="14px"
-                                :link="creator[`${network}_handler`]"
+                                :link="
+                                  creator[`${network}_handler`] ||
+                                  creator.meta[`${network}_handler`]
+                                "
                                 :icon="network" />
                             </div>
                           </div>
@@ -1329,17 +1354,6 @@ export default {
           icon: 'UserGroupIcon',
           isVisible: false,
           type: 'toggle',
-        },
-        {
-          name: 'Import a CSV',
-          icon: 'ArrowUpCircleIcon',
-          isVisible: false,
-          link: '/import',
-        },
-        {
-          name: 'Export a CSV',
-          icon: 'ArrowDownCircleIcon',
-          isVisible: false,
         },
       ],
       columns: [
@@ -1958,6 +1972,11 @@ export default {
           this.creatorRecords[index - 1]
         );
       }
+    },
+    importCSV() {
+      //emit the importCSV event to the parent component
+      //push router to /import
+      this.$router.push('/import');
     },
     refresh(creator) {
       let imports = {};

@@ -20,7 +20,7 @@
         }}();
         </script>
         <!--End Segment-->
-        <script src="https://wchat.freshchat.com/js/widget.js"></script>
+        
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <!-- {{--        <link href="/css/app.css" rel="stylesheet">--}} -->
         <title>Jovie</title>
