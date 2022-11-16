@@ -116,7 +116,9 @@
                         </div>
                       </PopoverPanel>
                     </transition>
-                  </Popover>
+
+                  </Popover> -->
+
                   <router-link
                     to="pricing"
                     class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-neutral-600 hover:text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 lg:inline-flex">
