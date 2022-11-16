@@ -25,9 +25,8 @@ export default {
         // set layout by route meta
         if (to.meta.layout !== undefined) {
           this.layout = to.meta.layout;
-          console.log(this.layout);
         } else {
-          this.layout = Default; // this is default layout if route meta is not set
+          this.layout = Minimal; // this is default layout if route meta is not set
         }
       },
       immediate: true,
