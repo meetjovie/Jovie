@@ -970,13 +970,12 @@
                         target="_blank"
                         class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
                         <div class=".clear-both mx-auto flex-col items-center">
-                          <div
-                            v-if="
-                              creator[`${network}_handler`] ||
-                              creator.meta[`${network}_handler`]
-                            "
-                            class="mx-auto items-center">
+                          <div class="mx-auto items-center">
                             <SocialIcons
+                              :linkDisabled="
+                                !creator[`${network}_handler`] &&
+                                !creator.meta[`${network}_handler`]
+                              "
                               class="mx-auto"
                               height="14px"
                               setting.isVisable
@@ -986,18 +985,8 @@
                               "
                               :icon="network" />
                           </div>
-                          <div class="mx-auto items-center" v-else>
-                            <div class="">
-                              <SocialIcons
-                                height="14px"
-                                :link="
-                                  creator[`${network}_handler`] ||
-                                  creator.meta[`${network}_handler`]
-                                "
-                                :icon="network" />
-                            </div>
-                          </div>
-                          <!--  <div class="">
+
+                          <div v-if="settings.countsVisible" class="">
                             <span
                               v-if="creator[`${network}_handler`]"
                               class="mx-auto items-center text-2xs font-bold text-neutral-400">
@@ -1005,7 +994,7 @@
                                 formatCount(creator[`${network}_followers`])
                               }}</span
                             >
-                          </div> -->
+                          </div>
                         </div>
                       </a>
                     </td>
@@ -1352,7 +1341,7 @@ export default {
         {
           name: 'Show Follower Counts',
           icon: 'UserGroupIcon',
-          isVisible: false,
+          countsVisible: false,
           type: 'toggle',
         },
       ],
