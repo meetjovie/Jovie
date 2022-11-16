@@ -21,12 +21,20 @@ export default {
   },
   watch: {
     $route: {
-      handler: function (to) {
+      handler: function (to, from) {
         // set layout by route meta
-        if (to.meta.layout !== undefined) {
-          this.layout = to.meta.layout;
+
+          console.log(to);
+          console.log(from);
+          if (to != undefined && from == undefined) {
+            console.log('123123');
+            this.layout = Minimal
         } else {
-          this.layout = Minimal; // this is default layout if route meta is not set
+              if (to.meta.layout !== undefined) {
+                  this.layout = to.meta.layout;
+              } else {
+                  this.layout = Default; // this is default layout if route meta is not set
+              }
         }
       },
       immediate: true,
