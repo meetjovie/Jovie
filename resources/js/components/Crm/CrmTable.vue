@@ -970,7 +970,9 @@
                         target="_blank"
                         class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
                         <div class=".clear-both mx-auto flex-col items-center">
+
                           <div class="mx-auto items-center">
+
                             <SocialIcons
                               :linkDisabled="
                                 !creator[`${network}_handler`] &&
@@ -986,7 +988,9 @@
                               :icon="network" />
                           </div>
 
+
                           <div v-if="settings.countsVisible" class="">
+
                             <span
                               v-if="creator[`${network}_handler`]"
                               class="mx-auto items-center text-2xs font-bold text-neutral-400">
