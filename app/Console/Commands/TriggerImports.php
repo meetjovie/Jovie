@@ -162,7 +162,7 @@ class TriggerImports extends Command
                         $batchRecord = DB::table('job_batches')->where('id', $batch->id)->first();
                     }
                     foreach ($handlerGroups as $handlers) {
-                        $this->triggerTwitterImport($batch, $batch->user_list_id, $commonData, $handlers, $userId);
+                        $this->triggerTwitterImport($batch, $batchRecord->user_list_id, $commonData, $handlers, $userId);
                     }
                 }
             }
