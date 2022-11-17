@@ -230,7 +230,11 @@
 
                   <a
                     class="active:outline-3 -ml-1text-md hover:border-coral-500 hover:text-coral-500 group -mt-1 box-border inline-flex h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-white px-4 font-sans font-medium text-black outline-offset-2 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-700 active:bg-white active:bg-opacity-5 disabled:cursor-not-allowed disabled:border-gray-700 disabled:bg-transparent disabled:text-gray-700 md:h-12 md:text-lg"
-                    href="/signup"
+
+
+                    href="https://jov.ie/signup"
+
+
                     ><JovieLogo height="20px" />
                   </a>
                 </div>
@@ -396,7 +400,11 @@ export default {
             'No more manual data entry. No more incomplete records. Save a contact on instagram? Don’t worry, we have their twitter profile too. Jovie automatically enriches contacts with all their social media profiles & more.',
           img: 'img/External/Marketing/Chrome/Jovie_Enrichment_Screenshot.png',
           cta: 'Try Jovie free',
-          ctaLink: '/signup',
+
+
+          ctaLink: 'https://jov.ie/signup',
+
+
         },
       ],
     };

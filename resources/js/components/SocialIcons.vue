@@ -4,12 +4,13 @@
     :class="[
       { 'saturate-0': color == 'black' },
 
-      { 'opacity-100': link },
-      { 'opacity-10': !link },
+      { 'opacity-100': !linkDisabled },
+      { 'opacity-10': linkDisabled },
+
       { 'group-hover:opacity-100': groupHover },
     ]">
     <Float portal placement="bottom">
-      <a :disabled="!link" :href="link" target="blank">
+      <a :href="link" target="blank">
         <svg
           v-if="icon == 'linkedin'"
           role="img"
@@ -163,10 +164,16 @@ export default {
     },
     link: {
       type: String,
-      default: '#',
+
+      default: '',
+
     },
     followers: {
       type: String,
+    },
+    linkDisabled: {
+      type: Boolean,
+      default: false,
     },
     groupHover: {
       type: Boolean,

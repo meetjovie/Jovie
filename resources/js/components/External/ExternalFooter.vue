@@ -25,10 +25,14 @@
                 <div class="mt-12 md:mt-0">
                   <h3
                     class="text-sm font-bold uppercase tracking-wider text-gray-700">
-                    Features
+
+                    Intergrations
+
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
-                    <li v-for="item in navigation.features" :key="item.name">
+                    <li
+                      v-for="item in navigation.intergrations"
+                      :key="item.name">
                       <a
                         :href="item.href"
                         class="text-sm text-gray-500 hover:text-gray-900">
@@ -271,10 +275,6 @@ const navigation = {
     { name: 'Social CRM', href: '/' },
     { name: 'Contact Profiles', href: '/profiles' },
     { name: 'Chrome Extension', href: 'chrome-extension' },
-    { name: 'Jovie for Instagram', href: 'chrome-extension' },
-    { name: 'Jovie for TikTok', href: 'chrome-extension' },
-    { name: 'Jovie for Twitch', href: 'chrome-extension' },
-    { name: 'Jovie for Twitter', href: 'chrome-extension' },
   ],
   support: [
     //add changelog
@@ -293,9 +293,11 @@ const navigation = {
     /*  { name: 'Our Data', href: 'data' }, */
     { name: 'Legal', href: 'legal' },
   ],
-  features: [
-    { name: 'Social Data', href: '/' },
-    { name: 'Data Enrichment', href: 'enrichment' },
+  intergrations: [
+    { name: 'Jovie for Instagram', href: 'chrome-extension' },
+    { name: 'Jovie for TikTok', href: 'chrome-extension' },
+    { name: 'Jovie for Twitch', href: 'chrome-extension' },
+    { name: 'Jovie for Twitter', href: 'chrome-extension' },
   ],
   social: [
     {
