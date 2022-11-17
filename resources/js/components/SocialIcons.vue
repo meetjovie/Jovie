@@ -3,8 +3,10 @@
     class="relative isolate z-0 mx-auto cursor-pointer items-center hover:opacity-100"
     :class="[
       { 'saturate-0': color == 'black' },
+
       { 'opacity-100': !linkDisabled },
       { 'opacity-10': linkDisabled },
+
       { 'group-hover:opacity-100': groupHover },
     ]">
     <Float portal placement="bottom">
@@ -162,7 +164,9 @@ export default {
     },
     link: {
       type: String,
+
       default: '',
+
     },
     followers: {
       type: String,

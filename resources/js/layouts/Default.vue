@@ -117,7 +117,9 @@
                       </PopoverPanel>
                     </transition>
 
+
                   </Popover> -->
+
 
                   <router-link
                     to="pricing"
