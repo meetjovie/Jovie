@@ -404,7 +404,6 @@ export default {
 
           ctaLink: 'https://jov.ie/signup',
 
-
         },
       ],
     };
