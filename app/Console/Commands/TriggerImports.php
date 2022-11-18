@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Jobs\TwitchImport;
+use App\Jobs\TwitterImport;
+use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
@@ -97,6 +99,8 @@ class TriggerImports extends Command
 //            }
 //        }
         foreach ($users as $user) {
+            $twitters = [];
+            $subBatch = 0;
             foreach ($user->pendingImports as $import) { // timwhite and timwwhiteT
                 $dispatched = false;
                 //fetch a creator that has instagram == timwhite OR twitch == timwhiteT
@@ -129,8 +133,38 @@ class TriggerImports extends Command
                         $dispatched = true;
                     }
                 }
+
+                if ($import->twitter && $import->twitter_scrapped != 1) {
+                    // trigger twitter import
+
+                    $twitterBatch = $import->getImportBatch(config('import.twitter_queue'));
+                    if (! $twitterBatch->cancelled()) {
+
+                        if (isset($twitters[$import->user_id]) && count($twitters[$import->user_id][$twitterBatch->id][$subBatch]) < Creator::TWITTER_BATCH_SIZE) {
+                            $twitters[$import->user_id][$twitterBatch->id][$subBatch][$import->id] = $import->twitter;
+                        } else {
+                            $subBatch++;
+                            $twitters[$import->user_id][$twitterBatch->id][$subBatch][$import->id] = $import->twitter;
+                        }
+                        $import->twitter_dispatched = 1;
+                        $import->save();
+                        $dispatched = true;
+                    }
+                }
+
                 if (! $dispatched) {
                     Import::where('id', $import->id)->delete();
+                }
+            }
+            foreach ($twitters as $userId => $batches) {
+                foreach ($batches as $batchId => $handlerGroups) {
+                    $batch = Bus::findBatch($batchId);
+                    if (empty($batch->user_list_id)) {
+                        $batchRecord = DB::table('job_batches')->where('id', $batch->id)->first();
+                    }
+                    foreach ($handlerGroups as $handlers) {
+                        $this->triggerTwitterImport($batch, $batchRecord->user_list_id, $commonData, $handlers, $userId);
+                    }
                 }
             }
         }
@@ -174,6 +208,13 @@ class TriggerImports extends Command
         }
         $batch->add([
             (new InstagramImport($instagram, $commonData['tags'], true, null, $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(1)),
+        ]);
+    }
+
+    public function triggerTwitterImport($batch, $listId, $commonData, $handlers, $userId)
+    {
+        $batch->add([
+            (new TwitterImport($handlers, $commonData['tags'], $commonData['meta'], $listId, $userId))->delay(now()->addSeconds(2)),
         ]);
     }
 }

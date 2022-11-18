@@ -373,6 +373,7 @@
                             </div>
                             <SocialInput
                               class="py-12"
+                              :list="filters.list"
                               @finishImport="closeImportCreatorModal" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
@@ -871,6 +872,7 @@ export default {
       UserService.getUserLists().then((response) => {
         response = response.data;
         if (response.status) {
+            this.userLists = []
           this.userLists = response.lists;
         }
       });

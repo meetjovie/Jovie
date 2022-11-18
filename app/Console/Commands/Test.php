@@ -9,6 +9,7 @@ use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
+use App\Traits\SocialScrapperTrait;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
@@ -27,6 +28,7 @@ use Throwable;
 
 class Test extends Command
 {
+    use SocialScrapperTrait;
     /**
      * The name and signature of the console command.
      *
@@ -64,6 +66,8 @@ class Test extends Command
      */
     public function handle()
     {
+        $response = self::scrapTwitter('timwhite');
+        dd($response->getBody()->getContents());
         $batches = Import::importBatches(1);
         $batches = !! count(array_filter($batches, function ($batch) {
             dump($batch->is_batch);

@@ -52,7 +52,7 @@ class TwitchImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($id, $username, $tags, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null)
+    public function __construct($id, $username, $tags = [], $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null)
     {
         $this->id = $id;
         $this->username = $username;

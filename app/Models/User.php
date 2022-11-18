@@ -118,6 +118,11 @@ class User extends Authenticatable
                                 $qqqq->where('twitch', '!=', null)->orWhere('twitch_id', '!=', null);
                             })->where('twitch_scrapped', '!=', 1);
                         });
+                })->orWhere(function ($qq) {
+                    $qq->where('twitter_dispatched', '!=', 1)
+                        ->orWhere(function ($qqq) {
+                            $qqq->where('twitter', '!=', null)->where('twitter_scrapped', '!=', 1);
+                        });
                 });
             })
         ->limit(200000000000000000000000);

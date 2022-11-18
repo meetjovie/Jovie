@@ -109,4 +109,28 @@ trait SocialScrapperTrait
             return 'unknown';
         }
     }
+
+    public function scrapTwitter($username)
+    {
+        if (is_array($username)) {
+            $username = implode(',', $username);
+        }
+        try {
+            $client = new \GuzzleHttp\Client();
+            $token = config('import.twitter_bearer_token');
+            $response = $client->get("https://api.twitter.com/2/users/by", [
+                'query' => [
+                    'usernames' => $username,
+                    'user.fields' => 'created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld'
+                ],
+                'headers' => [
+                    'Authorization' => "Bearer $token",
+                ],
+            ]);
+
+            return $response;
+        } catch (\Exception $e) {
+            return $e->getResponse();
+        }
+    }
 }
