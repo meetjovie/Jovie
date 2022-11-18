@@ -92,7 +92,7 @@ import {
   BriefcaseIcon,
   CheckCircleIcon,
 } from '@heroicons/vue/24/solid';
-import SocialIcons from './SocialIcons';
+import SocialIcons from './../components/SocialIcons';
 
 export default {
   name: 'InputGroup',

@@ -153,7 +153,7 @@
     <div class="flex justify-between px-2 text-xs text-neutral-400">
       <div>
         Supports:
-        <div class="inline-flex">
+        <div class="inline-flex space-x-2">
           <SocialIcons
             height="10px"
             width="10px"
@@ -165,15 +165,21 @@
             width="10px"
             link="#"
             class="text-neutral-400"
+            icon="twitter" />
+          <SocialIcons
+            height="10px"
+            width="10px"
+            link="#"
+            class="text-neutral-400"
             icon="instagram" />
         </div>
       </div>
-      <div class="flex">
+      <div class="flex items-center">
         <router-link class="group items-center" to="Import"
           ><CloudArrowUpIcon
             class="mr-1 inline-flex h-3 w-3 items-center text-neutral-400 group-hover:text-neutral-500"></CloudArrowUpIcon
           ><span class="group-hover:text-neutral-500"
-            >Upload a CSV File</span
+            >Import CSV</span
           ></router-link
         >
       </div>

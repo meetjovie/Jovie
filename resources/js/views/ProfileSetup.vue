@@ -1,12 +1,12 @@
 <template>
   <div class="flex w-full">
-    <div class="mx-auto flex h-screen max-w-7xl flex-col justify-between py-12">
-      <div class="mx-12 py-6">
-        <h4 class="sr-only">Status</h4>
+    <div
+      class="mx-auto flex h-screen w-full flex-col items-center justify-between py-12">
+      <div class="mx-auto h-full w-full items-center px-12 py-6">
         <p class="text-sm font-medium text-gray-900">
-          Creating your Jovie profile...
+          Create your Jovie profile...
         </p>
-        <div class="py-6" aria-hidden="true">
+        <div class="mx-auto max-w-7xl py-6" aria-hidden="true">
           <div class="overflow-hidden rounded-full bg-gray-200">
             <div
               class="h-2 rounded-full bg-indigo-600"
@@ -19,7 +19,7 @@
               ]" />
           </div>
           <div
-            class="mt-2 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
+            class="max-w-7xlhidden mx-auto mt-2 grid-cols-4 px-8 text-sm font-medium text-gray-600 sm:grid">
             <div
               @click="setCurrentStep(1)"
               class="cursor-pointer"
@@ -265,13 +265,95 @@
       </div>
     </div>
     <aside
-      class="relative hidden w-96 flex-shrink-0 overflow-y-auto border-r border-gray-200 xl:order-last xl:flex xl:flex-col">
+      class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed xl:flex xl:flex-col">
       <!-- Start secondary column (hidden on smaller screens) -->
-      <div class="absolute inset-0 py-6 px-4 sm:px-6 lg:px-8">
-        <div
-          class="h-full items-center rounded-lg border-2 border-dashed border-gray-200">
-          <Profile />
-          Hello
+      <div
+        class="absolute inset-0 items-center border-r border-gray-200 py-6 px-4 sm:px-6 lg:px-8">
+        <span class="text-2xl font-semibold text-neutral-500">Preview</span>
+        <div class="items-center">
+          <div
+            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-gray-200 bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
+            <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
+              <div>
+                <img
+                  class="block-inline mx-auto mt-0 aspect-square w-48 rounded-full object-cover object-center"
+                  :src="this.currentUser.profile_pic_url"
+                  alt="" />
+
+                <div class="mx-auto mt-6 flex 2xl:mt-12">
+                  <h2
+                    class="mx-auto flex text-3xl font-extrabold text-gray-900">
+                    {{ this.currentUser.first_name }}
+                    {{ this.currentUser.last_name }}
+                    <svg
+                      v-if="this.currentUser.is_verified"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="-mr-5 h-5 w-5 text-indigo-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor">
+                      <path
+                        fill-rule="evenodd"
+                        d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd" />
+                    </svg>
+                  </h2>
+                </div>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                  {{ this.currentUser.title }}
+                  {{ this.currentUser.employer ? ' at ' : '' }}
+                  <a
+                    v-if="this.currentUser.employer"
+                    :href="this.currentUser.employer_link"
+                    class="font-medium text-indigo-600 hover:text-indigo-500">
+                    {{ this.currentUser.employer }}
+                  </a>
+                </p>
+              </div>
+              <div
+                class="mt-2 2xl:mt-8"
+                v-if="this.currentUser.creator_profile">
+                <fieldset class="mt-0 2xl:mt-2">
+                  <legend class="sr-only">Social links</legend>
+                  <div
+                    class="flex grid-cols-3 items-center justify-between gap-2 sm:grid-cols-6">
+                    <template v-for="network in networks" :key="network">
+                      <div
+                        v-if="
+                          user[`show_${network}`] &&
+                          this.currentUser.creator_profile[`${network}_handler`]
+                        "
+                        class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
+                        <a
+                          class
+                          :href="
+                            this.currentUser.creator_profile[
+                              `${network}_handler`
+                            ]
+                          "
+                          target="_blank">
+                          <SocialIcons
+                            groupHover
+                            height="24px"
+                            :icon="network" />
+                          <span class="sr-only">{{ network }}</span>
+                        </a>
+                      </div>
+                    </template>
+                  </div>
+                </fieldset>
+              </div>
+              <!--    this.currentUser.call_to_action -->
+              <!--  v-if="this.currentUser.call_to_action_text" -->
+              <a href="#">
+                <button
+                  class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  Save contact
+                </button>
+              </a>
+
+              <div class="border-t-2 border-gray-400 opacity-20"></div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- End secondary column -->
@@ -279,7 +361,6 @@
   </div>
 </template>
 <script>
-import Profile from './../components/Profile.vue';
 import InputGroup from './../components/InputGroup';
 import CardHeading from './../components/CardHeading';
 import CardLayout from './../components/CardLayout';
@@ -293,7 +374,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 export default {
   name: 'ProfileSetup',
   components: {
-    Profile,
     InputGroup,
     ChevronLeftIcon,
     ChevronRightIcon,
