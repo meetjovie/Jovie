@@ -1,15 +1,19 @@
 <template>
-  <div id="app">
+  <div class="h-screen items-center" id="app">
     <router-view />
-    <div class="flex min-h-screen flex-col">Loading...</div>
+    <div class="mt-16 flex h-80 flex-col items-center text-center">
+      <JovieSpinner />
+    </div>
   </div>
 </template>
 
 <script>
-import JovieSpinner from '../components/JovieSpinner.vue';
+import JovieSpinner from './../components/JovieSpinner.vue';
 export default {
   name: 'Loading',
-
+  components: {
+    JovieSpinner,
+  },
   mounted() {
     console.log('mounted');
   },

@@ -311,7 +311,12 @@
           Contact Details
         </h2>
       </div>
-      <div class="h-80 space-y-6 overflow-y-scroll px-2">
+      <div class="h-80 items-center px-2 text-center" v-if="!creator.id">
+        <div class="mx-auto text-center text-neutral-400">
+          No contact selected
+        </div>
+      </div>
+      <div v-else class="h-80 space-y-6 overflow-y-scroll px-2">
         <draggable
           class="select-none space-y-2"
           group="lists"
