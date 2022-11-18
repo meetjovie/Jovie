@@ -16,11 +16,23 @@
     <!-- End OpenGraph -->
   </Head>
   <div>
-    <header class="sticky top-0 z-20 bg-neutral-50">
+    <header
+      :class="
+        scrollPosition > 0
+          ? 'bg-neutral-50/90 backdrop-blur-2xl backdrop-saturate-150 '
+          : 'bg-transparent'
+      "
+      class="sticky top-0 z-20 transition-all duration-300">
       <nav>
-        <Disclosure as="nav" class="border-b border-gray-200" v-slot="{ open }">
+        <Disclosure
+          as="nav"
+          :class="scrollPosition > 50 ? 'border-b border-neutral-200' : ''"
+          class="transition-all duration-300"
+          v-slot="{ open }">
           <div class="mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex h-12 items-center justify-between">
+            <div
+              class="flex items-center justify-between transition-all"
+              :class="scrollPosition > 50 ? 'h-12' : 'h-20'">
               <div class="flex">
                 <div
                   class="flex flex-shrink-0 items-center text-neutral-800 md:mr-12">
@@ -34,7 +46,7 @@
                     <PopoverButton
                       :class="open ? '' : 'text-opacity-90'"
                       class="group z-20 -mt-1 inline-flex items-center rounded-md px-3 text-xs font-medium text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-200 focus-visible:ring-opacity-75">
-                      <span class="mt-0.5">Product</span>
+                      <span class="mt-0.5">Intergrations</span>
                       <ChevronDownIcon
                         :class="open ? '' : 'text-opacity-70'"
                         class="ml-2 mt-1 h-5 w-5 text-neutral-600 transition duration-150 ease-in-out group-hover:text-opacity-80"
@@ -82,35 +94,38 @@
                               </div>
                             </router-link>
                           </div>
-                           <div class="bg-gray-50 p-4">
-                          <router-link
-                            to="chrome-extension"
-                            class="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50">
-                            <span class="flex items-center">
-                              <span class="text-sm font-medium text-gray-900">
-                                Chrome Extension
+                          <div class="bg-gray-50 p-4">
+                            <router-link
+                              to="chrome-extension"
+                              class="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50">
+                              <span class="flex items-center">
+                                <span class="text-sm font-medium text-gray-900">
+                                  Chrome Extension
+                                </span>
+                                <span
+                                  class="ml-3 inline-flex items-center rounded-md bg-indigo-100 px-2 py-0 text-2xs font-medium leading-5 text-indigo-800">
+                                  New
+                                </span>
                               </span>
-                              <span
-                                class="ml-3 inline-flex items-center rounded-md bg-indigo-100 px-2 py-0 text-2xs font-medium leading-5 text-indigo-800">
-                                New
+                              <span class="block text-sm text-gray-500">
+                                Get creator insights & social content right
+                                inside Gmail.
                               </span>
-                            </span>
-                            <span class="block text-sm text-gray-500">
-                              Get creator insights & social content right inside
-                              Gmail.
-                            </span>
-                          </router-link>
-                        </div> 
+                            </router-link>
+                          </div>
                         </div>
                       </PopoverPanel>
                     </transition>
+
+
                   </Popover> -->
+
 
                   <router-link
                     to="pricing"
-                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-neutral-600 hover:text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 lg:inline-flex"
-                    >Pricing</router-link
-                  >
+                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-neutral-600 hover:text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 lg:inline-flex">
+                    Pricing
+                  </router-link>
                 </div>
               </div>
               <div class="hidden items-center lg:flex">
@@ -126,9 +141,9 @@
                           >Sign in
                         </router-link>
                       </div>
-                      <div class="inline-flex">
-                        <!--  <a class="max-auto justify-center px-2"> -->
+                      <div class="inline-flex transition-all">
                         <router-link
+                          v-if="scrollPosition > 0"
                           to="signup"
                           class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-neutral-200 hover:bg-indigo-600 hover:text-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
                           <span>Try Jovie free</span>
@@ -146,34 +161,27 @@
                               class="transition group-hover:translate-x-[3px]"
                               d="M1 1l4 4-4 4"></path>
                           </svg>
-                          <!-- <span>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="ml-1 block h-4 w-4 group-hover:hidden"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M9 5l7 7-7 7" />
-                              </svg>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="ml-1 hidden h-4 w-4 group-hover:block"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                              </svg>
-                            </span> -->
                         </router-link>
-                        <!--  </a> -->
+                        <router-link
+                          v-else
+                          to="signup"
+                          class="border-1 group relative inline-flex items-center rounded-lg bg-neutral-900 px-5 py-3 text-xs font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
+                          <span>Try Jovie free</span>
+                          <svg
+                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+                            fill="none"
+                            width="10"
+                            height="10"
+                            viewBox="0 0 10 10"
+                            aria-hidden="true">
+                            <path
+                              class="opacity-0 transition group-hover:opacity-100"
+                              d="M0 5h7"></path>
+                            <path
+                              class="transition group-hover:translate-x-[3px]"
+                              d="M1 1l4 4-4 4"></path>
+                          </svg>
+                        </router-link>
                       </div>
                     </div>
                     <div v-else>
@@ -345,6 +353,7 @@ export default {
   data() {
     return {
       title: 'Jovie Social CRM | Organize everyone you follow.',
+      scrollPosition: null,
       navigation: [
         { name: 'Pricing', href: '/pricing', current: false },
         { name: 'Get started free', href: '/signup', current: false },
@@ -399,8 +408,12 @@ export default {
     if (this.acceptCookies) {
       this.$store.commit('setAcceptCookies', true);
     }
+    window.addEventListener('scroll', this.updateScroll);
   },
   methods: {
+    updateScroll() {
+      this.scrollPosition = window.scrollY;
+    },
     toggleAcceptCookies() {
       this.acceptCookies = true;
       this.$cookies.set('acceptCookies', true, 60 * 60 * 24 * 365);

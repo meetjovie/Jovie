@@ -66,13 +66,13 @@
       aria-hidden="true" />
     <p
       v-if="text"
-      class="mx-auto text-center text-sm"
+      class="mx-auto flex items-center text-center text-sm"
       :class="[
         { 'text-2xs': size == 'xs' },
         { 'text-xs': size == 'sm' },
         { 'sr-only': hideText },
       ]">
-      {{ text }}
+      {{ text }}<slot></slot>
     </p>
     <div v-if="loader" class="ml-2 transition-all">
       <JovieSpinner class="mr-2" :spinnerColor="loaderColor" />

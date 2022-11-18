@@ -1,24 +1,33 @@
 <template>
   <div class="overflow-y-hidden">
-    <div class="mt-12 block max-w-xl to-white sm:hidden">
-      <img
-        class="rounded-lg shadow-xl shadow-indigo-700/30 ring-1 ring-black ring-opacity-5"
-        :src="asset('img/External/HomeFeatureCRM.webp')" />
-    </div>
-
     <div
-      class="flex flex-col items-center justify-center bg-gradient-to-b from-white to-neutral-50 px-4 py-24 sm:pt-48 2xl:pt-48">
+      class="flex flex-col items-center justify-center bg-gradient-to-b from-white to-neutral-50 px-4 pt-24">
       <div class="flex justify-between">
-        <div class="relative">
-          <div class="-mt-24 flex flex-col space-y-24">
+        <div class="relative hidden md:block">
+          <div class="-mt-14 flex flex-col space-y-14">
             <span
-              v-for="avatar in avatars"
+              v-for="(avatar, index) in avatars.slice(4, 6)"
               :key="avatar.id"
-              class="relative inline-block odd:translate-x-24">
-              <img
-                class="aspect-square h-14 w-14 rounded-full"
-                :src="avatar.src"
-                alt="" />
+              class="relative inline-block odd:translate-x-14">
+              <div
+                class="rounded-full border-2 border-dashed p-1"
+                :class="[
+                  { 'border-social-instagram': avatar.network === 'instagram' },
+                  { 'border-social-twitter': avatar.network === 'twitter' },
+                  {
+                    'bg-gradient border-gradient border-social-tiktok2 ':
+                      avatar.network === 'tiktok',
+                  },
+                  { 'border-social-twitch': avatar.network === 'twitch' },
+
+                  { 'border-social-linkedin': avatar.network === 'linkedin' },
+                  { 'border-social-youtube': avatar.network === 'youtube' },
+                ]">
+                <img
+                  class="aspect-square h-10 w-10 rounded-full lg:h-14 lg:w-14 2xl:h-20 2xl:w-20"
+                  :src="avatar.src"
+                  alt="" />
+              </div>
 
               <span
                 :class="`ring-neutral-50`"
@@ -26,8 +35,8 @@
                 ><div class="mt-0.5 items-center">
                   <SocialIcons
                     cla
-                    :height="8"
-                    link="#"
+                    :height="12"
+                    link="/signup"
                     :icon="avatar.network"
                     :color="black" /></div
               ></span>
@@ -36,9 +45,9 @@
         </div>
 
         <div class="z-10 flex flex-col text-center">
-          <div class="hidden rounded-full sm:mb-8 sm:flex sm:justify-center">
+          <div class="mb-4 flex justify-center rounded-full">
             <div
-              class="relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 py-2 px-8 text-xs leading-6">
+              class="relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 py-1 px-8 text-xs leading-6">
               <h1
                 class="items-center rounded-md text-lg font-medium text-indigo-600">
                 👋🏻 Meet Jovie: <span class="font-light">The Social CRM</span>
@@ -47,7 +56,7 @@
           </div>
 
           <h2
-            class="text-xl font-semibold tracking-normal text-neutral-800 sm:text-5xl lg:text-3xl xl:text-7xl">
+            class="text-3xl font-semibold tracking-normal text-neutral-800 sm:text-5xl lg:text-3xl xl:text-7xl">
             Organize everyone<br class="hidden xl:block" />
             you follow
             <br />
@@ -68,7 +77,7 @@
             class="mx-auto mt-8 w-full sm:w-48"
             text="Try Jovie free" />
           <div
-            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-indigo-100 to-neutral-400/0 py-1 px-2 text-center">
+            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-neutral-100 to-neutral-400/0 py-1 px-2 text-center">
             <CreditCardIcon class="mr-2 h-4 w-4 text-neutral-700" />
             <span class="text-light text-2xs text-gray-700">
               <!--  <span class="font-bold">Fast & easy. </span> -->
@@ -77,28 +86,44 @@
           </div>
 
           <!--  <home-logo-cloud /> -->
-          <div class="mt-24 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
+          <div class="mt-24 -mb-36 block max-w-7xl sm:-mb-48 lg:-mb-96">
             <img
               alt="Jovie - Social CRM Screenshot"
               class="rounded-lg shadow-xl shadow-indigo-700/30 ring-8 ring-black ring-opacity-5"
               :src="asset('img/External/HomeFeatureCRM.webp')" />
           </div>
         </div>
-        <div class="relative">
+        <div class="relative hidden md:block">
           <div class="-mt-12 flex flex-col space-y-24">
             <span
-              v-for="avatar in avatars"
+              v-for="(avatar, index) in avatars.slice(0, 3)"
               :key="avatar.id"
-              class="relative inline-block odd:-translate-x-24">
-              <img class="h-14 w-14 rounded-full" :src="avatar.src" alt="" />
+              class="relative inline-block odd:-translate-x-20">
+              <div
+                class="rounded-full border-2 border-dashed p-1"
+                :class="[
+                  { 'border-social-instagram': avatar.network === 'instagram' },
+                  { 'border-social-twitter': avatar.network === 'twitter' },
+
+                  { 'border-social-twitch': avatar.network === 'twitch' },
+
+                  {
+                    'bg-gradient border-gradient border-social-tiktok2 ':
+                      avatar.network === 'tiktok',
+                  },
+
+                  { 'border-social-linkedin': avatar.network === 'linkedin' },
+                  { 'border-social-youtube': avatar.network === 'youtube' },
+                ]">
+                <img class="h-16 w-16 rounded-full" :src="avatar.src" alt="" />
+              </div>
               <span
                 :class="`ring-neutral-50`"
-                class="absolute bottom-0 right-0 block h-3.5 w-3.5 items-center rounded-full bg-white ring-2"
-                ><div class="mt-0.5 items-center">
+                class="absolute bottom-0 right-0 mx-auto block h-6 w-6 items-center rounded-full bg-white ring-2"
+                ><div class="mx-auto mt-1 items-center">
                   <SocialIcons
-                    cla
-                    :height="8"
-                    link="#"
+                    :height="14"
+                    link="/signup"
                     :icon="avatar.network"
                     :color="black" /></div
               ></span>
@@ -128,16 +153,37 @@ export default {
           id: 1,
           src: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
           network: 'instagram',
+          handle: 'jessica',
         },
         {
           id: 2,
           src: 'https://i.pravatar.cc/150?u=a042581f4e290267035',
           network: 'twitter',
+          handle: 'loren',
         },
         {
           id: 3,
           src: 'https://i.pravatar.cc/150?u=a042581f4e29w267036',
           network: 'twitch',
+          handle: 'alexa',
+        },
+        {
+          id: 4,
+          src: 'https://i.pravatar.cc/150?u=a042581f4e290267067',
+          network: 'youtube',
+          handle: 'candice',
+        },
+        {
+          id: 5,
+          src: 'https://i.pravatar.cc/150?u=a042581f4e290267038',
+          network: 'tiktok',
+          handle: 'taylor',
+        },
+        {
+          id: 6,
+          src: 'https://i.pravatar.cc/150?u=a042581f4e290267039',
+          network: 'linkedin',
+          handle: 'lily',
         },
       ],
       waitListEmail: '',

@@ -14,6 +14,7 @@ export const routes = [
     component: loadPage('Home'),
     meta: {
       requiresAuth: false,
+      layout: 'default',
     },
   },
   {

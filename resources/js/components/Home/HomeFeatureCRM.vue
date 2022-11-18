@@ -1,76 +1,299 @@
 <template>
-  <div class="bg-gray-50">
-    <div class="mx-auto max-w-7xl py-12">
-      <h3
-        class="bg-gradient-to-r from-sky-500 via-pink-500 to-violet-500 bg-clip-text py-12 text-center text-3xl font-extrabold text-transparent">
-        Jovie creates contacts in 1-click
+  <div class="mx-auto max-w-7xl">
+    <div class="mx-auto max-w-7xl space-y-6 py-12">
+      <h3 class="py-12 text-center text-3xl font-bold text-neutral-900">
+        Jovie creates contacts
+        <span class="text-purple-700">in 1-click</span>
       </h3>
-
-      <div
-        v-for="feature in features"
-        :key="feature.id"
-        class="group relative grid grid-cols-2 items-center overflow-hidden pt-12 pb-48 odd:text-left even:text-right">
+      <FeatureCard v-for="feature in features" :key="feature.id">
+        <div v-if="feature.id == 1" class="absolute top-0 right-12">
+          <svg
+            width="87"
+            height="37"
+            viewBox="0 0 87 37"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M24.9137 -43.0372C28.2274 -48.7767 35.5665 -50.7432 41.306 -47.4295L80.0057 -25.0863C85.7452 -21.7726 87.7117 -14.4335 84.3979 -8.69397L62.0547 30.0057C58.741 35.7452 51.4019 37.7117 45.6624 34.3979L6.96279 12.0547C1.22328 8.74101 -0.743213 1.40192 2.5705 -4.33759L24.9137 -43.0372Z"
+              fill="#FFD058" />
+          </svg>
+        </div>
+        <div v-if="feature.id == 1" class="absolute left-96 bottom-0 mx-auto">
+          <svg
+            width="106"
+            height="48"
+            viewBox="0 0 106 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M53 0L61.5235 18.4189L77.6303 6.07083L76.6178 26.341L96.6181 22.8926L86.3015 40.3704L105.614 46.6116L88.3563 57.293L102.556 71.7941L82.3114 73.2322L88.1455 92.6711L69.5516 84.5364L65.6837 104.46L53 88.616L40.3163 104.46L36.4484 84.5364L17.8545 92.6711L23.6886 73.2322L3.44414 71.7941L17.6437 57.293L0.386429 46.6116L19.6985 40.3704L9.38185 22.8926L29.3822 26.341L28.3697 6.07083L44.4765 18.4189L53 0Z"
+              fill="#CCCCFB" />
+          </svg>
+        </div>
+        <div v-if="feature.id == 3" class="absolute left-96 bottom-0">
+          <svg
+            width="56"
+            height="27"
+            viewBox="0 0 56 27"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28ZM12.104 28C12.104 36.7791 19.2209 43.896 28 43.896C36.7791 43.896 43.896 36.7791 43.896 28C43.896 19.2209 36.7791 12.104 28 12.104C19.2209 12.104 12.104 19.2209 12.104 28Z"
+              fill="#72CCFF" />
+          </svg>
+        </div>
+        <div v-if="feature.id == 2" class="absolute right-0 hidden md:block">
+          <svg
+            width="489"
+            height="400"
+            viewBox="0 0 489 400"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <g opacity="0.8">
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 707.499 273.132)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 689.375 287.293)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 671.251 301.454)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 653.128 315.615)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 613.729 346.4)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 574.33 377.185)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 534.93 407.97)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 495.531 438.755)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+              <circle
+                r="362"
+                transform="matrix(-0.787983 0.615698 0.615698 0.787983 456.132 469.54)"
+                stroke="#D1CCD9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-dasharray="0.1 12" />
+            </g>
+          </svg>
+        </div>
         <div
-          class="mx-auto max-w-md items-center px-4 group-odd:order-last group-even:order-first sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
-          <div>
-            <!--   <h2
-          class="bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
-          Import social media profiles in
-          </h2> -->
-            <p
-              class="mt-2 bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-xl font-extrabold tracking-tight sm:text-2xl">
+          class="items-center md:w-1/3 md:group-odd:order-last md:group-even:order-first">
+          <div class="mt-4 justify-start px-12">
+            <h3
+              class="mt-2 bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-3xl font-medium leading-10 tracking-normal text-gray-900">
               {{ feature.header }}
-            </p>
+            </h3>
 
-            <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
+            <p class="leading-wide mx-auto mt-5 text-sm text-gray-600">
               {{ feature.subheader }}
             </p>
-            <div class="mt-6">
+            <div class="group/button2 mt-4" v-if="feature.id === 3">
               <ButtonGroup
-                class="w-80"
+
+
+                class="z-20 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-4"
+
+
                 v-if="feature.cta"
                 :buttonlink="feature.ctaLink"
-                :text="feature.cta" />
+                :text="feature.cta"
+                ><svg
+                  class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+                  fill="none"
+                  width="10"
+                  height="10"
+                  viewBox="0 0 10 10"
+                  aria-hidden="true">
+                  <path
+                    class="opacity-0 transition group-hover:opacity-100"
+                    d="M0 5h7"></path>
+                  <path
+                    class="transition group-hover:translate-x-[3px]"
+                    d="M1 1l4 4-4 4"></path>
+                </svg>
+              </ButtonGroup>
+            </div>
+            <div
+              v-if="feature.id === 1"
+              class="mt-8 border-t border-neutral-200">
+              <div class="mt-6 inline-flex h-4 w-80 items-center space-x-4">
+                <p class="text-sm leading-none text-gray-400">Supports</p>
+                <div class="flex items-start justify-start space-x-3">
+                  <svg
+                    width="136"
+                    height="16"
+                    viewBox="0 0 136 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M14.7747 3.77068C14.2657 3.99581 13.726 4.14366 13.1734 4.20935C13.7559 3.86097 14.1918 3.31269 14.4 2.66668C13.8534 2.99201 13.254 3.22001 12.6294 3.34335C12.2098 2.8944 11.6536 2.59665 11.0473 2.4964C10.4411 2.39615 9.81866 2.49901 9.27688 2.78898C8.7351 3.07896 8.30429 3.5398 8.05144 4.09987C7.7986 4.65995 7.73787 5.28787 7.8787 5.88601C6.77011 5.83045 5.68559 5.54236 4.69556 5.04046C3.70553 4.53855 2.83212 3.83404 2.13204 2.97268C1.88423 3.39831 1.75401 3.88216 1.7547 4.37468C1.7547 5.34135 2.2467 6.19535 2.9947 6.69535C2.55204 6.68141 2.11912 6.56187 1.73204 6.34668V6.38135C1.73217 7.02515 1.95495 7.64909 2.3626 8.14739C2.77025 8.64568 3.33769 8.98766 3.9687 9.11535C3.55778 9.2267 3.12691 9.24312 2.7087 9.16335C2.88661 9.7175 3.23337 10.2021 3.70043 10.5494C4.16749 10.8967 4.73145 11.0892 5.31337 11.1C4.73502 11.5542 4.07282 11.89 3.36462 12.0881C2.65642 12.2863 1.91612 12.3429 1.18604 12.2547C2.4605 13.0743 3.9441 13.5094 5.45937 13.508C10.588 13.508 13.3927 9.25935 13.3927 5.57468C13.3927 5.45468 13.3894 5.33335 13.384 5.21468C13.9299 4.82012 14.4011 4.33136 14.7754 3.77135L14.7747 3.77068Z"
+                      fill="#111827" />
+                    <path
+                      d="M38 2V9.82667L34.8693 12.9567H32.2607L30.636 14.522H28.6087V12.9567H26V4.08667L26.818 2H38ZM36.9567 3.04333H28.0867V10.87H30.1733V12.4347L31.7393 10.8693H34.8693L36.956 8.78267V3.04333H36.9567ZM34.87 5.13V8.26067H33.826V5.13067H34.8693L34.87 5.13ZM32.2607 5.13V8.26067H31.2173V5.13067H32.2607V5.13Z"
+                      fill="#111827" />
+                    <path
+                      d="M62.3622 4.33202C62.6668 5.52002 62.6668 8.00002 62.6668 8.00002C62.6668 8.00002 62.6668 10.48 62.3622 11.668C62.1928 12.3247 61.6975 12.8414 61.0702 13.016C59.9308 13.3334 56.0002 13.3334 56.0002 13.3334C56.0002 13.3334 52.0715 13.3334 50.9302 13.016C50.3002 12.8387 49.8055 12.3227 49.6382 11.668C49.3335 10.48 49.3335 8.00002 49.3335 8.00002C49.3335 8.00002 49.3335 5.52002 49.6382 4.33202C49.8075 3.67535 50.3028 3.15869 50.9302 2.98402C52.0715 2.66669 56.0002 2.66669 56.0002 2.66669C56.0002 2.66669 59.9308 2.66669 61.0702 2.98402C61.7002 3.16135 62.1948 3.67735 62.3622 4.33202ZM54.6668 10.3334L58.6668 8.00002L54.6668 5.66669V10.3334Z"
+                      fill="#111827" />
+                    <path
+                      d="M80.0002 1.33331C81.8115 1.33331 82.0375 1.33998 82.7482 1.37331C83.4582 1.40665 83.9415 1.51798 84.3668 1.68331C84.8068 1.85265 85.1775 2.08198 85.5482 2.45198C85.8872 2.78524 86.1495 3.18837 86.3168 3.63331C86.4815 4.05798 86.5935 4.54198 86.6268 5.25198C86.6582 5.96265 86.6668 6.18865 86.6668 7.99998C86.6668 9.81131 86.6602 10.0373 86.6268 10.748C86.5935 11.458 86.4815 11.9413 86.3168 12.3666C86.1499 12.8118 85.8876 13.2151 85.5482 13.548C85.2148 13.8869 84.8117 14.1491 84.3668 14.3166C83.9422 14.4813 83.4582 14.5933 82.7482 14.6266C82.0375 14.658 81.8115 14.6666 80.0002 14.6666C78.1888 14.6666 77.9628 14.66 77.2522 14.6266C76.5422 14.5933 76.0588 14.4813 75.6335 14.3166C75.1884 14.1496 74.7852 13.8873 74.4522 13.548C74.1131 13.2148 73.8508 12.8116 73.6835 12.3666C73.5182 11.942 73.4068 11.458 73.3735 10.748C73.3422 10.0373 73.3335 9.81131 73.3335 7.99998C73.3335 6.18865 73.3402 5.96265 73.3735 5.25198C73.4068 4.54131 73.5182 4.05865 73.6835 3.63331C73.8503 3.1881 74.1127 2.78486 74.4522 2.45198C74.7853 2.1128 75.1884 1.85047 75.6335 1.68331C76.0588 1.51798 76.5415 1.40665 77.2522 1.37331C77.9628 1.34198 78.1888 1.33331 80.0002 1.33331ZM80.0002 4.66665C79.1161 4.66665 78.2683 5.01784 77.6431 5.64296C77.018 6.26808 76.6668 7.11593 76.6668 7.99998C76.6668 8.88404 77.018 9.73188 77.6431 10.357C78.2683 10.9821 79.1161 11.3333 80.0002 11.3333C80.8842 11.3333 81.7321 10.9821 82.3572 10.357C82.9823 9.73188 83.3335 8.88404 83.3335 7.99998C83.3335 7.11593 82.9823 6.26808 82.3572 5.64296C81.7321 5.01784 80.8842 4.66665 80.0002 4.66665ZM84.3335 4.49998C84.3335 4.27897 84.2457 4.067 84.0894 3.91072C83.9331 3.75444 83.7212 3.66665 83.5002 3.66665C83.2792 3.66665 83.0672 3.75444 82.9109 3.91072C82.7546 4.067 82.6668 4.27897 82.6668 4.49998C82.6668 4.72099 82.7546 4.93296 82.9109 5.08924C83.0672 5.24552 83.2792 5.33331 83.5002 5.33331C83.7212 5.33331 83.9331 5.24552 84.0894 5.08924C84.2457 4.93296 84.3335 4.72099 84.3335 4.49998ZM80.0002 5.99998C80.5306 5.99998 81.0393 6.21069 81.4144 6.58577C81.7895 6.96084 82.0002 7.46955 82.0002 7.99998C82.0002 8.53041 81.7895 9.03912 81.4144 9.41419C81.0393 9.78927 80.5306 9.99998 80.0002 9.99998C79.4697 9.99998 78.961 9.78927 78.5859 9.41419C78.2109 9.03912 78.0002 8.53041 78.0002 7.99998C78.0002 7.46955 78.2109 6.96084 78.5859 6.58577C78.961 6.21069 79.4697 5.99998 80.0002 5.99998Z"
+                      fill="#111827" />
+                    <path
+                      d="M108.881 3.708C108.779 3.65563 108.681 3.59823 108.585 3.536C108.308 3.35248 108.053 3.13626 107.827 2.892C107.261 2.24467 107.05 1.588 106.973 1.12867H106.975C106.911 0.746667 106.937 0.5 106.942 0.5H104.365V10.462C104.365 10.5953 104.365 10.728 104.36 10.8587C104.36 10.8747 104.358 10.8893 104.357 10.9073C104.357 10.914 104.357 10.922 104.355 10.9293V10.9353C104.328 11.2927 104.214 11.6379 104.022 11.9406C103.83 12.2433 103.567 12.4943 103.255 12.6713C102.93 12.8563 102.563 12.9532 102.189 12.9527C100.989 12.9527 100.015 11.974 100.015 10.7653C100.015 9.556 100.989 8.57733 102.189 8.57733C102.416 8.57733 102.642 8.61333 102.858 8.684L102.861 6.06C102.205 5.97537 101.539 6.02764 100.904 6.21353C100.269 6.39942 99.6799 6.71488 99.1732 7.14C98.7291 7.52569 98.3557 7.98593 98.0699 8.5C97.9612 8.68733 97.5506 9.44133 97.5012 10.664C97.4699 11.3573 97.6786 12.0773 97.7779 12.374V12.3807C97.8399 12.5553 98.0826 13.1527 98.4772 13.656C98.7955 14.06 99.1715 14.4149 99.5932 14.7093V14.7027L99.5992 14.7093C100.846 15.556 102.229 15.5007 102.229 15.5007C102.469 15.4907 103.271 15.5007 104.181 15.0693C105.191 14.5907 105.766 13.878 105.766 13.878C106.133 13.4521 106.425 12.9667 106.63 12.4427C106.863 11.8293 106.941 11.0947 106.941 10.8013V5.51533C106.972 5.534 107.389 5.80933 107.389 5.80933C107.389 5.80933 107.989 6.194 108.924 6.444C109.595 6.622 110.499 6.66 110.499 6.66V4.102C110.183 4.13667 109.539 4.03667 108.88 3.70867L108.881 3.708Z"
+                      fill="#111827" />
+                    <path
+                      d="M132.223 12.226H130.447V9.44133C130.447 8.77733 130.433 7.92267 129.52 7.92267C128.594 7.92267 128.453 8.64533 128.453 9.39267V12.226H126.675V6.5H128.382V7.28H128.405C128.644 6.83067 129.224 6.35533 130.091 6.35533C131.891 6.35533 132.224 7.54067 132.224 9.08267V12.226H132.223ZM124.669 5.71667C124.533 5.71684 124.399 5.69025 124.273 5.6384C124.148 5.58656 124.034 5.51049 123.938 5.41456C123.842 5.31862 123.766 5.20471 123.715 5.07934C123.663 4.95398 123.636 4.81963 123.637 4.684C123.637 4.47989 123.697 4.2804 123.811 4.11076C123.924 3.94113 124.086 3.80896 124.274 3.73097C124.463 3.65298 124.67 3.63268 124.871 3.67263C125.071 3.71258 125.255 3.81098 125.399 3.9554C125.543 4.09983 125.641 4.28377 125.681 4.48399C125.721 4.6842 125.7 4.89169 125.622 5.08021C125.544 5.26873 125.411 5.42983 125.241 5.54311C125.072 5.6564 124.872 5.7168 124.668 5.71667H124.669ZM125.559 12.226H123.777V6.5H125.56V12.226H125.559ZM133.113 2H122.886C122.395 2 122 2.38667 122 2.86467V13.1353C122 13.6133 122.396 14 122.885 14H133.111C133.6 14 134 13.6133 134 13.1353V2.86467C134 2.38667 133.6 2 133.111 2H133.113H133.113Z"
+                      fill="#111827" />
+                  </svg>
+
+                  <!--  <div v-for="icon in socialIcons" :key="icon.id">
+                  <component
+                      :is="SocialIcons"
+                      :icon="icon.name"
+                      height="18px"
+                      color="black"
+                      width="18px" /> 
+                  </div> -->
+                </div>
+                <p
+                  class="items-center text-xs font-semibold leading-none text-gray-900">
+                  +7 others
+                </p>
+              </div>
+            </div>
+            <div
+              v-if="feature.cta && feature.id === 1"
+              class="group/button mt-6">
+              <ButtonGroup
+
+
+                class="z-20 w-80 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 px-9 py-4"
+
+
+                :buttonlink="feature.ctaLink"
+                :text="feature.cta">
+                <svg
+                  role="img"
+                  class="ml-2 h-5 w-5 transform transition-transform duration-300 ease-in-out group-hover/button:rotate-180"
+                  fill="white"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <title>Google Chrome</title>
+                  <path
+                    d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z" />
+                </svg>
+              </ButtonGroup>
             </div>
           </div>
         </div>
-        <div class="mx-auto w-full items-center rounded-md">
-          <div class="mx-auto h-80 w-full rounded-md">
-            <!--  <img class="object-fit" :src="feature.img" alt="" /> -->
-            <img
-              class="last:w-full lg:hidden last:lg:absolute last:lg:inset-y-0 last:lg:h-full last:lg:w-auto last:lg:max-w-none group-odd:lg:right-0"
-              :src="feature.img"
-              alt="" />
-            <img
-              v-if="feature.id === 1"
-              class="mx-auto rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
-              :src="
-                asset(
-                  'img/External/Marketing/Chrome/Jovie_Chrome_Extension_Screenshot.png'
-                )
-              "
-              alt="Inbox user interface" />
-            <img
-              v-if="feature.id === 2"
-              class="mx-auto rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
-              :src="
-                asset(
-                  'img/External/Marketing/Chrome/Jovie_Lists_Screenshot.png'
-                )
-              "
-              alt="Inbox user interface" />
-          </div>
+        <div class="mx-auto flex h-full flex-col justify-end">
+          <img
+            v-if="feature.id === 1"
+            class="h-[358px] w-[399px]"
+            :src="
+              asset('img/External/Marketing/Jovie_Chrome_Extension_Mockup.webp')
+            "
+            alt="Jovie Chrome Extension" />
+          <img
+            v-if="feature.id === 2"
+            class="h-[328px] w-[573px]"
+            :src="
+              asset(
+                'img/External/Marketing/Jovie_CRM_Create_Lists_Of_Social_Profiles.webp'
+              )
+            "
+            alt="Make lists of social media profiles inside Jovie" />
+          <img
+            v-if="feature.id === 3"
+            class="w-full object-cover lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
+            :src="
+              asset('img/External/Marketing/Jovie_CRM_Contact_Enrichment.webp')
+            "
+            alt="" />
         </div>
-      </div>
+      </FeatureCard>
     </div>
   </div>
 </template>
 <script>
 import ButtonGroup from '../../components/ButtonGroup.vue';
+import SocialIcons from '../../components/SocialIcons.vue';
+import FeatureCard from '../../components/FeatureCard.vue';
 export default {
   name: 'HomeFeatureCRM',
   components: {
     ButtonGroup,
+    FeatureCard,
+    SocialIcons,
+  },
+  data() {
+    return {
+      socialIcons: [
+        {
+          id: 1,
+          name: 'tiktok',
+        },
+        {
+          id: 2,
+          name: 'facebook',
+        },
+        {
+          id: 3,
+          name: 'linkedin',
+        },
+        {
+          id: 4,
+          name: 'twitter',
+        },
+        {
+          id: 5,
+          name: 'youtube',
+        },
+        {
+          id: 6,
+          name: 'instagram',
+        },
+      ],
+    };
   },
   props: {
     features: {

@@ -91,6 +91,9 @@
         <SocialIcons
           @click="editSocialNetworkURL('instagram', creator)"
           icon="instagram"
+          :linkDisabled="
+            !creator.instagram_handler || !creator.meta.instagram_handler
+          "
           :link="creator.instagram_handler || creator.meta.instagram_handler"
           :followers="formatCount(creator.instagram_followers)"
           height="14"
@@ -101,6 +104,9 @@
         <SocialIcons
           @click="editSocialNetworkURL('twitter', creator)"
           icon="twitter"
+          :linkDisabled="
+            !creator.twitter_handler || !creator.meta.twitter_handler
+          "
           :link="creator.twitter_handler || creator.meta.twitter_handler"
           :followers="formatCount(creator.twitter_followers)"
           height="14"
@@ -111,6 +117,9 @@
         <SocialIcons
           @click="editSocialNetworkURL('twitch', creator)"
           icon="twitch"
+          :linkDisabled="
+            !creator.twitch_handler || !creator.meta.twitch_handler
+          "
           :link="creator.twitch_handler || creator.meta.twitch_handler"
           :followers="formatCount(creator.twitch_followers)"
           height="14"
@@ -121,6 +130,9 @@
         <SocialIcons
           @click="editSocialNetworkURL('tiktok', creator)"
           icon="tiktok"
+          :linkDisabled="
+            !creator.tiktok_handler || !creator.meta.tiktok_handler
+          "
           :link="creator.tiktok_handler || creator.meta.tiktok_handler"
           :followers="formatCount(creator.tiktok_followers)"
           height="14"
@@ -131,6 +143,9 @@
         <SocialIcons
           @click="editSocialNetworkURL('youtube', creator)"
           icon="youtube"
+          :linkDisabled="
+            !creator.youtube_handler || !creator.meta.youtube_handler
+          "
           :link="creator.youtube_handler || creator.meta.youtube_handler"
           :followers="formatCount(creator.youtube_followers)"
           height="14"
@@ -141,6 +156,9 @@
         <SocialIcons
           @click="editSocialNetworkURL('linkedin', creator)"
           icon="linkedin"
+          :linkDisabled="
+            !creator.linkedin_handler || !creator.meta.linkedin_handler
+          "
           :link="creator.linkedin_handler || creator.meta.linkedin_handler"
           :followers="formatCount(creator.linkedin_followers)"
           height="14"
