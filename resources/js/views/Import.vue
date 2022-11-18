@@ -1,8 +1,9 @@
 <template>
   <div
     v-if="
-      currentUser.current_team.credits &&
-      currentUser.current_team.current_subscription
+      (currentUser.current_team.credits &&
+        currentUser.current_team.current_subscription) ||
+      currentUser.is_admin
     ">
     <div>
       <div>
