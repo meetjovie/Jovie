@@ -310,6 +310,8 @@ export default {
           //identify call to segment
           window.analytics.identify(this.user.email, {
             email: this.user.email,
+            created_at: new Date(),
+            plan_name: 'free',
             name: this.user.first_name + ' ' + this.user.last_name,
           });
           this.submitting = false;
