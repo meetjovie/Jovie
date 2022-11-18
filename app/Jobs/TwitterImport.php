@@ -249,6 +249,29 @@ class TwitterImport implements ShouldQueue
             $creator->gender_accuracy = 100;
         }
         $creator->twitter_last_scrapped_at = Carbon::now()->toDateTimeString();
+
+        if (isset($data->entities->url)) {
+            $urls = $data->entities->url->urls;
+            $import = new Import();
+            foreach ($urls as $url) {
+                if ($import->instagram = $url->expanded_url) {
+                    $creator->instagram_handler = $import->instagram;
+                    InstagramImport::dispatch($import->instagram, null, true, null)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
+                } elseif ($import->twitch = $url->expanded_url) {
+                    $creator->twitch_handler = $import->twitch;
+                    TwitchImport::dispatch(null, $import->twitch)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+                } elseif ($import->linkedin = $url->expanded_url) {
+                    $creator->linkedin_handler = $import->linkedin;
+                } elseif ($import->snapchat = $url->expanded_url) {
+                    $creator->snapchat_handler = $import->snapchat;
+                } elseif ($import->tiktok = $url->expanded_url) {
+                    $creator->tiktok_handler = $import->tiktok;
+                } elseif ($import->youtube = $url->expanded_url) {
+                    $creator->youtube_handler = $import->youtube;
+                }
+            }
+        }
+
         $creator->save();
         Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId);
 
