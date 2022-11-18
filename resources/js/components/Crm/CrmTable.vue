@@ -651,7 +651,7 @@
                                 class="flex items-center rounded-full text-gray-400/0 transition-all hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:bg-neutral-200 group-hover:text-gray-400">
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
-                                  class="z-0 h-5 w-5"
+                                  class="z-0 mt-0.5 h-5 w-5"
                                   aria-hidden="true" />
                               </MenuButton>
                               <transition
@@ -1182,14 +1182,14 @@
                       class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
                       <div class="flex items-center justify-end text-right">
                         <div>
-                          <router-link
+                          <!--  <router-link
                             :to="{
                               name: 'Creator Overview',
                               params: { id: creator.id },
                             }"
                             class="text-neutral-600 hover:text-indigo-900">
                             Manage
-                          </router-link>
+                          </router-link> -->
                         </div>
                       </div>
                     </td>
