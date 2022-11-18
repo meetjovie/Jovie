@@ -6,6 +6,7 @@ use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
 use App\Jobs\TwitchImport;
 use App\Jobs\TwitterImport;
+use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
@@ -139,14 +140,14 @@ class TriggerImports extends Command
                     $twitterBatch = $import->getImportBatch(config('import.twitter_queue'));
                     if (! $twitterBatch->cancelled()) {
 
-                        if (isset($twitters[$import->user_id]) && count($twitters[$import->user_id][$twitterBatch->id][$subBatch]) < 10) {
+                        if (isset($twitters[$import->user_id]) && count($twitters[$import->user_id][$twitterBatch->id][$subBatch]) < Creator::TWITTER_BATCH_SIZE) {
                             $twitters[$import->user_id][$twitterBatch->id][$subBatch][$import->id] = $import->twitter;
                         } else {
                             $subBatch++;
                             $twitters[$import->user_id][$twitterBatch->id][$subBatch][$import->id] = $import->twitter;
                         }
-//                        $import->twitter_dispatched = 1;
-//                        $import->save();
+                        $import->twitter_dispatched = 1;
+                        $import->save();
                         $dispatched = true;
                     }
                 }

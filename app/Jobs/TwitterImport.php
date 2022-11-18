@@ -232,7 +232,7 @@ class TwitterImport implements ShouldQueue
 
         $creator->first_name = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
         $creator->last_name = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
-        $creator->location = $data->location;
+        $creator->location = isset($data->location) ? $data->location : null;
         $creator->city = $this->meta['city'] ?? $creator->city;
         $creator->country = $this->meta['country'] ?? $creator->country;
 

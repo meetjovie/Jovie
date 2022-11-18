@@ -373,6 +373,7 @@
                             </div>
                             <SocialInput
                               class="py-12"
+                              :list="filters.list"
                               @finishImport="closeImportCreatorModal" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
