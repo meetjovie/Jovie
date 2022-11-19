@@ -163,7 +163,7 @@
                 <ArrowPathIcon
                   class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-gray-600" />
                 <span
-                  class="absolute left-4 top-10 hidden w-24 -translate-y-full rounded-lg bg-gray-700 px-2 py-1 text-center text-2xs text-white group-hover:flex"
+                  class="absolute left-4 top-10 hidden w-36 -translate-y-full rounded-lg bg-gray-700 px-2 py-1 text-center text-2xs text-white group-hover:flex"
                   >Import in progress</span
                 >
               </div>
