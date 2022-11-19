@@ -646,7 +646,6 @@ export default {
   components: {
     SocialInput,
     draggable: VueDraggableNext,
-    ChatBubbleLeftEllipsisIcon,
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
     EnvelopeIcon,
