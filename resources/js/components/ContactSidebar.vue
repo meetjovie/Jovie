@@ -29,14 +29,14 @@
             v-if="imageLoaded"
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-cover object-center"
+            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-fill object-center"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
           <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-cover object-center"
+            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-fill object-center"
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
@@ -108,21 +108,29 @@
               :countsVisible="false" />
             <div
               @click="editSocialNetworkURL('instagram', creator)"
-              class="group cursor-pointer bg-red-500 text-center"
+              class="group cursor-pointer text-center"
               v-else>
               <SocialIcons
                 icon="instagram"
                 linkDisabled
+                :class="{
+                  'group-hover:hidden': !socialURLEditing,
+                  'group-hover:block': socialURLEditing,
+                }"
                 :link="
                   creator.instagram_handler || creator.meta.instagram_handler
                 "
                 height="14"
                 width="14"
-                class="mx-auto block h-4 w-4 cursor-pointer text-gray-400 group-hover:hidden"
+                class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
                 aria-hidden="true"
                 :countsVisible="false" />
-              <PencilSquareIcon
-                class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-200 group-hover:block" />
+              <PlusCircleIcon
+                :class="{
+                  'group-hover:hidden': socialURLEditing,
+                  'group-hover:block': !socialURLEditing,
+                }"
+                class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
             </div>
           </div>
         </div>
@@ -618,9 +626,9 @@ import {
   PhoneIcon,
   ChatBubbleLeftEllipsisIcon,
   EnvelopeIcon,
-  PencilSquareIcon,
   ChatBubbleOvalLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
+import { PlusCircleIcon } from '@heroicons/vue/outline';
 import {
   Menu,
   MenuButton,
@@ -655,7 +663,7 @@ export default {
     InputGroup,
     JovieSpinner,
     XMarkIcon,
-    PencilSquareIcon,
+    PlusCircleIcon,
     ButtonGroup,
     DataInputGroup,
     TextAreaInput,
