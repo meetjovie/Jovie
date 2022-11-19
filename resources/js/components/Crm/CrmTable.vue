@@ -255,7 +255,8 @@
             class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table
               class="block w-full divide-y divide-gray-200 overflow-x-auto">
-              <thead class="relative isolate z-20 items-center bg-gray-100">
+              <thead
+                class="relative isolate z-20 min-w-full items-center bg-gray-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"

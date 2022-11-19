@@ -26,7 +26,7 @@
               clip-rule="evenodd" />
           </svg> -->
           <img
-            v-if="imageLoaded"
+            v-if="imageLoaded && creator.profile_pic_url"
             crossorigin="anonymous"
             id="profile-img-jovie"
             class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-fill object-center"
@@ -125,7 +125,7 @@
                 class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
                 aria-hidden="true"
                 :countsVisible="false" />
-              <PlusCircleIcon
+              <PlusIcon
                 :class="{
                   'group-hover:hidden': socialURLEditing,
                   'group-hover:block': !socialURLEditing,
@@ -630,7 +630,7 @@ import {
   EnvelopeIcon,
   ChatBubbleOvalLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
-import { PlusCircleIcon } from '@heroicons/vue/24/outline';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 import {
   Menu,
   MenuButton,
@@ -664,7 +664,7 @@ export default {
     InputGroup,
     JovieSpinner,
     XMarkIcon,
-    PlusCircleIcon,
+    PlusIcon,
     ButtonGroup,
     DataInputGroup,
     TextAreaInput,
