@@ -13,7 +13,7 @@
       </div>
 
       <div class="mt-2 grid grid-cols-3">
-        <div class="px-1">
+        <div class="px-1mt-2">
           <!--  <svg
             v-if="creator.verified"
             xmlns="http://www.w3.org/2000/svg"
@@ -29,14 +29,14 @@
             v-if="imageLoaded && creator.profile_pic_url"
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-fill object-center"
+            class="aspect-square h-24 w-24 rounded-full border-4 border-gray-200 object-cover object-center"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
           <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-fill object-center"
+            class="aspect-square h-24 w-24 rounded-full border-4 border-gray-200 object-cover object-center"
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
