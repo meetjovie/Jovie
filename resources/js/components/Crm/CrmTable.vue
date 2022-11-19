@@ -1932,16 +1932,16 @@ export default {
     setCurrentContact(e, creator) {
       this.currentContact = creator;
 
-      if (e.target.name == 'selectCreatorCheckbox') {
-        if (this.selectedCreators.includes(creator.id)) {
-          this.selectedCreators.splice(
-            this.selectedCreators.indexOf(creator.id),
-            1
-          );
-        } else {
-          this.selectedCreators.push(creator.id);
-        }
-      }
+      // if (e.target.name == 'selectCreatorCheckbox') {
+      //   if (this.selectedCreators.includes(creator.id)) {
+      //     this.selectedCreators.splice(
+      //       this.selectedCreators.indexOf(creator.id),
+      //       1
+      //     );
+      //   } else {
+      //     this.selectedCreators.push(creator.id);
+      //   }
+      // }
       this.$emit('setCurrentContact', creator);
     },
     nextContact() {

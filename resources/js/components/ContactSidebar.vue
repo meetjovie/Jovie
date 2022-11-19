@@ -628,7 +628,7 @@ import {
   EnvelopeIcon,
   ChatBubbleOvalLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
-import { PlusCircleIcon } from '@heroicons/vue/outline';
+import { PlusCircleIcon } from '@heroicons/vue/24/outline';
 import {
   Menu,
   MenuButton,
@@ -671,8 +671,9 @@ export default {
     SocialIcons,
   },
   watch: {
-    creator: function (val) {
+    creatorsData: function (val) {
       console.log('this.creator');
+      this.setCreatorData()
       this.resetImage();
       console.log(val);
     },
@@ -684,7 +685,6 @@ export default {
       console.log('n');
       this.$refs.noteInput.focus();
     });
-    try {
       document.onreadystatechange = () => {
         if (document.readyState == 'complete') {
           console.log('Page completed with image and files!');
@@ -692,49 +692,7 @@ export default {
           // this.setCreatorData();
         }
       };
-
-      if (this.creatorsData.id) {
-        this.creator = this.creatorsData;
-      } else {
-        let queryParameters = store.state.extensionQuery;
-        let image = queryParameters.split('image=')[1];
-        const urlParameters = new URLSearchParams(queryParameters);
-        let creator = urlParameters.get('creator');
-        creator = JSON.parse(decodeURIComponent(creator));
-
-        let promise = new Promise(async (resolve, reject) => {
-          if (image && creator.network == 'instagram') {
-            await this.$store
-              .dispatch('uploadTempFileFromUrl', image)
-              .then((response) => {
-                image = response.url;
-                creator.profile_pic_url = image;
-                resolve();
-              });
-          } else {
-            creator.profile_pic_url = decodeURIComponent(image);
-            resolve();
-          }
-        });
-        promise.then((response) => {
-          if (creator.meta == undefined) {
-            creator.meta = {};
-          }
-          // for (const property in creator) {
-          //   if (property == 'website') {
-          //     creator[property] = decodeURIComponent(creator[property]);
-          //   }
-          // }
-
-          this.creator = creator;
-          console.log('creator from iframe');
-          console.log(this.creator);
-        });
-      }
-    } catch (e) {
-      console.log('eeeeeeeeeeeeeeeeeeeeeeeeeee');
-      console.log(e);
-    }
+      this.setCreatorData()
     // this.creator = {
     //     "profile_pic_url": "https://jovie-production-storage.s3.amazonaws.com/public/creators_media/profiles/2022_10_13_012300_2073930798634768750b2a36.51677614918368014634768750b2af4.23217496",
     //     "full_name": "Tim White",
@@ -1065,12 +1023,49 @@ export default {
     },
     setCreatorData() {
       ///listen for an object from the content script
-      chrome.storage.local.get(['creator'], function (result) {
-        console.log(result);
-        if (result.creator) {
-          this.creator = result.creator;
+        try {
+            if (this.creatorsData.id) {
+                this.creator = this.creatorsData;
+            } else {
+                let queryParameters = store.state.extensionQuery;
+                let image = queryParameters.split('image=')[1];
+                const urlParameters = new URLSearchParams(queryParameters);
+                let creator = urlParameters.get('creator');
+                creator = JSON.parse(decodeURIComponent(creator));
+
+                let promise = new Promise(async (resolve, reject) => {
+                    if (image && creator.network == 'instagram') {
+                        await this.$store
+                            .dispatch('uploadTempFileFromUrl', image)
+                            .then((response) => {
+                                image = response.url;
+                                creator.profile_pic_url = image;
+                                resolve();
+                            });
+                    } else {
+                        creator.profile_pic_url = decodeURIComponent(image);
+                        resolve();
+                    }
+                });
+                promise.then((response) => {
+                    if (creator.meta == undefined) {
+                        creator.meta = {};
+                    }
+                    // for (const property in creator) {
+                    //   if (property == 'website') {
+                    //     creator[property] = decodeURIComponent(creator[property]);
+                    //   }
+                    // }
+
+                    this.creator = creator;
+                    console.log('creator from iframe');
+                    console.log(this.creator);
+                });
+            }
+        } catch (e) {
+            console.log('eeeeeeeeeeeeeeeeeeeeeeeeeee');
+            console.log(e);
         }
-      });
     },
     toggleExpandBio() {
       this.expandBio = !this.expandBio;

@@ -6,7 +6,7 @@ export default {
   addedToWaitList: false,
   creatorsDBCount: '3M',
   CRMSidebarOpen: true,
-  ContactSidebarOpen: true,
+  ContactSidebarOpen: false,
   crmRecords: [],
   showImportProgress: false,
   importProgressSingleCount: 0,
