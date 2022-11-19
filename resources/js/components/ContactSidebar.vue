@@ -88,19 +88,44 @@
         </div>
       </div>
       <div class="overflow-y-scoll grid grid-cols-6 py-2 px-4">
-        <SocialIcons
-          @click="editSocialNetworkURL('instagram', creator)"
-          icon="instagram"
-          :linkDisabled="
-            !creator.instagram_handler || !creator.meta.instagram_handler
-          "
-          :link="creator.instagram_handler || creator.meta.instagram_handler"
-          :followers="formatCount(creator.instagram_followers)"
-          height="14"
-          width="14"
-          class="h-4 w-4 cursor-pointer text-gray-400"
-          aria-hidden="true"
-          :countsVisible="false" />
+        <div>
+          <div>
+            <SocialIcons
+              v-if="creator.instagram_handler || creator.meta.instagram_handler"
+              @click="editSocialNetworkURL('instagram', creator)"
+              icon="instagram"
+              :linkDisabled="
+                !creator.instagram_handler || !creator.meta.instagram_handler
+              "
+              :link="
+                creator.instagram_handler || creator.meta.instagram_handler
+              "
+              :followers="formatCount(creator.instagram_followers)"
+              height="14"
+              width="14"
+              class="h-4 w-4 cursor-pointer text-gray-400"
+              aria-hidden="true"
+              :countsVisible="false" />
+            <div
+              @click="editSocialNetworkURL('instagram', creator)"
+              class="group cursor-pointer bg-red-500 text-center"
+              v-else>
+              <SocialIcons
+                icon="instagram"
+                linkDisabled
+                :link="
+                  creator.instagram_handler || creator.meta.instagram_handler
+                "
+                height="14"
+                width="14"
+                class="mx-auto block h-4 w-4 cursor-pointer text-gray-400 group-hover:hidden"
+                aria-hidden="true"
+                :countsVisible="false" />
+              <PencilSquareIcon
+                class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-200 group-hover:block" />
+            </div>
+          </div>
+        </div>
         <SocialIcons
           @click="editSocialNetworkURL('twitter', creator)"
           icon="twitter"
@@ -593,6 +618,7 @@ import {
   PhoneIcon,
   ChatBubbleLeftEllipsisIcon,
   EnvelopeIcon,
+  PencilSquareIcon,
   ChatBubbleOvalLeftEllipsisIcon,
 } from '@heroicons/vue/24/solid';
 import {
@@ -629,6 +655,7 @@ export default {
     InputGroup,
     JovieSpinner,
     XMarkIcon,
+    PencilSquareIcon,
     ButtonGroup,
     DataInputGroup,
     TextAreaInput,
