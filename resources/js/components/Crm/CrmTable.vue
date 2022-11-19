@@ -8,15 +8,15 @@
             <H1
               v-if="!filters.type == 'list'"
               class="text-sm font-bold capitalize text-gray-600">
-              {{ filters.type + 'Contacts' }}
+              {{ header + 'Contacts' }}
             </H1>
             <H1 v-else class="text-sm font-bold capitalize text-gray-600">
-              {{ filters.list }}
+              {{ header }}
             </H1>
             <p
               v-if="header.includes('all')"
               class="text-2xs font-medium text-gray-400">
-              {{ counts.total }} Total
+              {{ counts.total }} Total Contacts
             </p>
           </div>
           <div class="flex h-6 w-80 content-end items-center">
