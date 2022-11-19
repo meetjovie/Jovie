@@ -11,26 +11,25 @@
       class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider"
       :class="[
         {
-          ' cursor-pointer hover:bg-neutral-200 active:bg-neutral-300':
-            sortable,
+          ' cursor-pointer hover:bg-gray-200 active:bg-gray-300': sortable,
         },
       ]">
       <div class="text-medium flex w-full items-center tracking-wider">
         <component
-          class="mr-1 h-4 w-4 text-neutral-400"
+          class="mr-1 h-4 w-4 text-gray-400"
           :class="{
-            'text-neutral-600': sortable,
+            'text-gray-600': sortable,
           }"
           :is="column.icon"></component>
         <span class="text-medium tracking-wider line-clamp-1">
           {{ column.name }}
         </span>
       </div>
-      <div v-if="column.sortable" class="cursor-pointer text-neutral-400">
+      <div v-if="column.sortable" class="cursor-pointer text-gray-400">
         <svg
           v-if="!column.sortOrder"
           xmlns="http://www.w3.org/2000/svg"
-          class="ml-1 h-3 w-3 text-neutral-500/0 group-hover/header:text-neutral-500"
+          class="ml-1 h-3 w-3 text-gray-500/0 group-hover/header:text-gray-500"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 320 512">
@@ -49,10 +48,10 @@
         <div v-if="open">
           <PopoverPanel
             static
-            class="text-50 w-40 items-center rounded-md bg-neutral-700 shadow-md">
+            class="text-50 w-40 items-center rounded-md bg-gray-700 shadow-md">
             <div
               @click="$emit('hide-column')"
-              class="flex cursor-pointer py-2 px-2 text-xs font-medium text-white first:rounded-t-md last:rounded-b-md hover:bg-neutral-600"
+              class="flex cursor-pointer py-2 px-2 text-xs font-medium text-white first:rounded-t-md last:rounded-b-md hover:bg-gray-600"
               v-for="item in dropdownItems"
               :key="item.name">
               <component :is="item.icon" class="mr-2 h-4 w-4" />

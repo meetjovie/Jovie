@@ -3,19 +3,19 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <div
-          class="flex w-full items-center justify-between border-b border-neutral-200 bg-white px-2 py-2">
+          class="flex w-full items-center justify-between border-b border-gray-200 bg-white px-2 py-2">
           <div>
             <H1
               v-if="!filters.type == 'list'"
-              class="text-sm font-bold capitalize text-neutral-600">
+              class="text-sm font-bold capitalize text-gray-600">
               {{ filters.type + 'Contacts' }}
             </H1>
-            <H1 v-else class="text-sm font-bold capitalize text-neutral-600">
+            <H1 v-else class="text-sm font-bold capitalize text-gray-600">
               {{ filters.list }}
             </H1>
             <p
               v-if="header.includes('all')"
-              class="text-2xs font-medium text-neutral-400">
+              class="text-2xs font-medium text-gray-400">
               {{ counts.total }} Total
             </p>
           </div>
@@ -26,7 +26,7 @@
                 trigger
                 <span
                   data-tooltip="test"
-                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
+                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-gray-200 bg-gray-800 px-2 py-1 text-xs text-gray-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
                   >test content</span
                 >
               </div> -->
@@ -42,7 +42,7 @@
                 <div
                   class="flex h-6 w-full items-center justify-end transition-all">
                   <div
-                    class="flex items-center rounded-md border border-neutral-200">
+                    class="flex items-center rounded-md border border-gray-200">
                     <div
                       class="content-right relative flex flex-grow items-center focus-within:z-10">
                       <div
@@ -90,7 +90,7 @@
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
-                  class="h-5 w-5 text-gray-400 group-hover:text-neutral-600" />
+                  class="h-5 w-5 text-gray-400 group-hover:text-gray-600" />
               </div> -->
             </div>
             <div class="flex items-center">
@@ -99,7 +99,7 @@
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <PopoverButton class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
-                        class="h-5 w-5 font-bold text-gray-400 group-hover:text-neutral-600"
+                        class="h-5 w-5 font-bold text-gray-400 group-hover:text-gray-600"
                         aria-hidden="true" /> -->
                       <JovieTooltip
                         text="Adjustments"
@@ -124,12 +124,12 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <PopoverPanel
-                        class="w-60 flex-col rounded-md border-2 border-neutral-200 bg-white py-1 pl-2 pr-1 shadow-xl">
+                        class="w-60 flex-col rounded-md border-2 border-gray-200 bg-white py-1 pl-2 pr-1 shadow-xl">
                         <div as="div">
                           <div
-                            class="flex items-center justify-between border-b border-neutral-200 py-1">
+                            class="flex items-center justify-between border-b border-gray-200 py-1">
                             <div
-                              class="text-xs font-bold text-neutral-500 line-clamp-1">
+                              class="text-xs font-bold text-gray-500 line-clamp-1">
                               Display Columns
                             </div>
                           </div>
@@ -137,14 +137,14 @@
                         <div as="div" v-for="(column, index) in otherColumns">
                           <SwitchGroup>
                             <SwitchLabel
-                              class="flex items-center hover:bg-neutral-100 hover:text-white">
+                              class="flex items-center hover:bg-gray-100 hover:text-white">
                               <button
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
                                 <div class="flex items-center">
                                   <component
                                     :is="column.icon"
                                     :active="active"
-                                    class="mr-2 h-3 w-3 text-neutral-400"
+                                    class="mr-2 h-3 w-3 text-gray-400"
                                     aria-hidden="true" />
                                   <span class="line-clamp-1">{{
                                     column.name
@@ -177,16 +177,16 @@
                             </SwitchLabel>
                           </SwitchGroup>
                         </div>
-                        <div class="text-medium border-t border-neutral-200">
+                        <div class="text-medium border-t border-gray-200">
                           <SwitchGroup v-for="setting in settings">
                             <SwitchLabel
-                              class="flex items-center hover:bg-neutral-100 hover:text-white">
+                              class="flex items-center hover:bg-gray-100 hover:text-white">
                               <button
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
                                 <div class="flex items-center">
                                   <component
                                     :is="setting.icon"
-                                    class="mr-2 h-3 w-3 text-neutral-400"
+                                    class="mr-2 h-3 w-3 text-gray-400"
                                     aria-hidden="true" />
                                   <span class="line-clamp-1">{{
                                     setting.name
@@ -218,14 +218,14 @@
                           </SwitchGroup>
                           <div>
                             <div
-                              class="flex items-center hover:bg-neutral-100 hover:text-white">
+                              class="flex items-center hover:bg-gray-100 hover:text-white">
                               <button
                                 @click="importCSV()"
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
                                 <div class="flex items-center">
                                   <component
                                     :is="CloudUploadIcon"
-                                    class="mr-2 h-3 w-3 text-neutral-400"
+                                    class="mr-2 h-3 w-3 text-gray-400"
                                     aria-hidden="true" />
                                   <span class="line-clamp-1"> Import CSV </span>
                                 </div>
@@ -244,7 +244,7 @@
                   class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
                   <ChevronRightIcon
                     @click="openSidebarAndSetContact()"
-                    class="h-5 w-5 font-bold text-gray-400 transition-all group-hover:text-neutral-600" />
+                    class="h-5 w-5 font-bold text-gray-400 transition-all group-hover:text-gray-600" />
                 </button>
               </div> -->
             </div>
@@ -255,7 +255,7 @@
             class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table
               class="block w-full divide-y divide-gray-200 overflow-x-auto">
-              <thead class="relative isolate z-20 items-center bg-neutral-100">
+              <thead class="relative isolate z-20 items-center bg-gray-100">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
@@ -305,7 +305,7 @@
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
                               v-show="openContextMenu"
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -319,7 +319,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-neutral-100 text-neutral-900'
+                                      ? 'bg-gray-100 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -341,7 +341,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-neutral-100 text-neutral-900'
+                                      ? 'bg-gray-100 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -377,7 +377,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-slot="{ active }"
                                 v-for="list in userLists"
@@ -391,7 +391,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-neutral-100 text-neutral-900'
+                                      ? 'bg-gray-100 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -405,7 +405,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-neutral-100 text-neutral-900'
+                                      ? 'bg-gray-100 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -416,7 +416,7 @@
                                     >
                                     <PlusIcon
                                       :active="active"
-                                      class="ml-2 h-3 w-3 text-neutral-400"
+                                      class="ml-2 h-3 w-3 text-gray-400"
                                       aria-hidden="true" />
                                   </div>
                                 </button>
@@ -445,7 +445,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-b border-gray-300 border-x-neutral-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-b border-gray-300 border-x-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -456,7 +456,7 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-30 table-cell content-end items-center border-x border-gray-300 border-x-neutral-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
+                    class="sticky top-0 isolate z-30 table-cell content-end items-center border-x border-gray-300 border-x-gray-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
                 </tr>
               </thead>
               <tbody
@@ -482,23 +482,23 @@
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu($event, creator)"
-                    class="border-1 group group w-full flex-row overflow-y-visible border border-neutral-200 focus-visible:ring-indigo-700"
+                    class="border-1 group group w-full flex-row overflow-y-visible border border-gray-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
-                        'bg-neutral-100 hover:bg-neutral-100':
+                        'bg-gray-100 hover:bg-gray-100':
                           currentContact.id == creator.id,
                       },
-                      'bg-white hover:bg-neutral-50',
+                      'bg-white hover:bg-gray-50',
                     ]">
                     <td
                       :class="[
                         {
-                          'bg-neutral-100 group-hover:bg-neutral-100':
+                          'bg-gray-100 group-hover:bg-gray-100':
                             currentContact.id == creator.id,
                         },
-                        'bg-white group-hover:bg-neutral-50',
+                        'bg-white group-hover:bg-gray-50',
                       ]"
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-neutral-200 before:content-[''] group-hover:text-neutral-500">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-gray-200 before:content-[''] group-hover:text-gray-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -518,7 +518,7 @@
                           </form>
                         </span>
                         <span
-                          class="text-xs font-light text-neutral-600 group-hover:hidden"
+                          class="text-xs font-light text-gray-600 group-hover:hidden"
                           :class="[
                             { hidden: selectedCreators.includes(creator.id) },
                             'block',
@@ -531,12 +531,12 @@
                     <td
                       :class="[
                         {
-                          'bg-neutral-100 group-hover:bg-neutral-100':
+                          'bg-gray-100 group-hover:bg-gray-100':
                             currentContact.id == creator.id,
                         },
-                        'bg-white group-hover:bg-neutral-50',
+                        'bg-white group-hover:bg-gray-50',
                       ]"
-                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-gray-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -568,17 +568,17 @@
                     <td
                       :class="[
                         {
-                          'bg-neutral-100 group-hover:bg-neutral-100':
+                          'bg-gray-100 group-hover:bg-gray-100':
                             currentContact.id == creator.id,
                         },
-                        'bg-white group-hover:bg-neutral-50',
+                        'bg-white group-hover:bg-gray-50',
                       ]"
                       v-on:dblclick="cellActive"
                       class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-gray-300 after:content-['']">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
-                            <div class="rounded-full bg-neutral-400 p-0.5">
+                            <div class="rounded-full bg-gray-400 p-0.5">
                               <div class="rounded-full bg-white p-0">
                                 <img
                                   v-if="imageLoaded"
@@ -606,7 +606,7 @@
                               type="creator-name"
                               name="creator-name"
                               id="creator-name"
-                              class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                               placeholder="Name"
                               aria-describedby="name-description" />
                           </div>
@@ -618,7 +618,7 @@
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto h-6 w-6 items-center rounded-full bg-neutral-200/0 pr-4 text-center text-neutral-400 transition-all active:border active:bg-neutral-200">
+                          class="mx-auto h-6 w-6 items-center rounded-full bg-gray-200/0 pr-4 text-center text-gray-400 transition-all active:border active:bg-gray-200">
                           <ArrowTopRightOnSquareIcon
                             v-if="
                               !this.$store.state.ContactSidebarOpen ||
@@ -648,7 +648,7 @@
                               arrow
                               placement="bottom-end">
                               <MenuButton
-                                class="flex items-center rounded-full text-gray-400/0 transition-all hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:bg-neutral-200 group-hover:text-gray-400">
+                                class="flex items-center rounded-full text-gray-400/0 transition-all hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:bg-gray-200 group-hover:text-gray-400">
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
                                   class="z-0 mt-0.5 h-5 w-5"
@@ -662,7 +662,7 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-neutral-200 bg-white py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-gray-200 bg-white py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                   <div class="py-1">
                                     <MenuItem
                                       :disabled="
@@ -680,7 +680,7 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -704,7 +704,7 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -727,7 +727,7 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -752,7 +752,7 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -775,7 +775,7 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -792,7 +792,7 @@
                                         @click="downloadVCF(this.creator)"
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -816,7 +816,7 @@
                                         href="#"
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -838,7 +838,7 @@
                                       <button
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -860,10 +860,10 @@
                                       :disabled="adding">
                                       <a
                                         href="#"
-                                        class="items-center text-neutral-400 hover:text-neutral-900"
+                                        class="items-center text-gray-400 hover:text-gray-900"
                                         :class="[
                                           active
-                                            ? 'bg-neutral-100 text-neutral-900'
+                                            ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -891,7 +891,7 @@
                           type="creator-firstname"
                           name="creator-firstname"
                           id="creator-firname"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="First"
                           aria-describedby="email-description" />
                       </div>
@@ -907,7 +907,7 @@
                           type="creator-lastname"
                           name="creator-lastname"
                           id="creator-lastname"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="Last"
                           aria-describedby="email-description" />
                       </div>
@@ -923,7 +923,7 @@
                           type="platform-title"
                           name="platform-title"
                           id="platform-title"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="Title"
                           aria-describedby="title" />
                       </div>
@@ -939,7 +939,7 @@
                           type="platform-employer"
                           name="platform-employer"
                           id="platform-employer"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="Company"
                           aria-describedby="Company" />
                       </div>
@@ -956,7 +956,7 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
@@ -970,9 +970,7 @@
                         target="_blank"
                         class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
                         <div class=".clear-both mx-auto flex-col items-center">
-
                           <div class="mx-auto items-center">
-
                             <SocialIcons
                               :linkDisabled="
                                 !creator[`${network}_handler`] &&
@@ -988,12 +986,10 @@
                               :icon="network" />
                           </div>
 
-
                           <div v-if="settings.countsVisible" class="">
-
                             <span
                               v-if="creator[`${network}_handler`]"
-                              class="mx-auto items-center text-2xs font-bold text-neutral-400">
+                              class="mx-auto items-center text-2xs font-bold text-gray-400">
                               {{
                                 formatCount(creator[`${network}_followers`])
                               }}</span
@@ -1022,7 +1018,7 @@
                           type="number"
                           name="creator-offer"
                           id="creator-offer"
-                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           :placeholder="
                             creator.crm_record_by_user.suggested_offer
                           "
@@ -1076,7 +1072,7 @@
                             </div>
                             <div class="items-center">
                               <ChevronDownIcon
-                                class="mt-1 h-4 w-4 text-neutral-600" />
+                                class="mt-1 h-4 w-4 text-gray-600" />
                             </div>
                           </PopoverButton>
                           <transition
@@ -1087,7 +1083,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-neutral-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                               <div class="">
                                 <div class="">
                                   <button
@@ -1100,7 +1096,7 @@
                                         value: key,
                                       })
                                     "
-                                    class="group flex w-full items-center bg-white px-2 py-1 text-xs text-neutral-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-neutral-100 hover:text-neutral-600">
+                                    class="group flex w-full items-center bg-white px-2 py-1 text-xs text-gray-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-gray-100 hover:text-gray-600">
                                     <div
                                       class="mr-2 text-xs font-bold opacity-50">
                                       {{ key + 1 }}
@@ -1140,7 +1136,7 @@
                         autoApply="true"
                         type="datetime-local"
                         :id="creator.id + '_datepicker'"
-                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-gray-500 placeholder-gray-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                         placeholder="--/--/--"
                         aria-describedby="email-description" />
                       <!-- <input
@@ -1155,7 +1151,7 @@
                           autoApply="true"
                           type="datetime-local"
                           :id="creator.id + '_datepicker'"
-                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 px-2 py-1 text-xs text-neutral-500 placeholder-neutral-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 px-2 py-1 text-xs text-gray-500 placeholder-gray-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                           placeholder="--/--/--"
                           aria-describedby="email-description" /> -->
                     </td>
@@ -1187,7 +1183,7 @@
                               name: 'Creator Overview',
                               params: { id: creator.id },
                             }"
-                            class="text-neutral-600 hover:text-indigo-900">
+                            class="text-gray-600 hover:text-indigo-900">
                             Manage
                           </router-link> -->
                         </div>

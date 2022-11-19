@@ -1,40 +1,36 @@
 <template>
   <div class="">
     <!-- Pricing with four tiers and toggle -->
-    <div class="bg-gradient-to-b from-neutral-50 to-white">
+    <div class="bg-gradient-to-b from-gray-50 to-white">
       <div class="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
         <div class="sm:align-center sm:flex sm:flex-col">
-          <h1 class="text-5xl font-extrabold text-neutral-900 sm:text-center">
+          <h1 class="text-5xl font-extrabold text-gray-900 sm:text-center">
             Jovie Pricing
           </h1>
-          <p class="mt-5 text-xl text-neutral-500 sm:text-center">
+          <p class="mt-5 text-xl text-gray-500 sm:text-center">
             Everything you need to scale your relationships.
           </p>
 
           <div
-            class="relative mt-6 flex self-center rounded-lg bg-neutral-200 py-0.5 px-2 sm:mt-8">
+            class="relative mt-6 flex self-center rounded-lg bg-gray-200 py-0.5 px-2 sm:mt-8">
             <SwitchGroup as="div" class="flex items-center">
               <div class="flex items-center">
                 <Switch
                   v-model="annualBilling"
-                  :class="annualBilling ? 'bg-neutral-200' : 'bg-neutral-200'"
+                  :class="annualBilling ? 'bg-gray-200' : 'bg-gray-200'"
                   class="relative inline-flex h-14 w-96 items-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   <span
                     :class="annualBilling ? 'translate-x-0' : 'translate-x-48'"
                     class="inline-block h-12 w-1/2 transform rounded-md bg-white shadow-sm transition-transform" />
                   <div class="absolute mx-auto grid w-full grid-cols-2">
                     <div
-                      :class="
-                        annualBilling ? 'text-neutral-700' : 'text-neutral-500'
-                      "
+                      :class="annualBilling ? 'text-gray-700' : 'text-gray-500'"
                       class="text-sm font-medium focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
                       Yearly Billing
                     </div>
                     <div
-                      :class="
-                        annualBilling ? 'text-neutral-500' : 'text-neutral-700'
-                      "
-                      class="text-sm font-medium text-neutral-700 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
+                      :class="annualBilling ? 'text-gray-500' : 'text-gray-700'"
+                      class="text-sm font-medium text-gray-700 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
                       Monthly Billing
                     </div>
                   </div>
@@ -48,10 +44,10 @@
           <div
             v-for="tier in tiers"
             :key="tier.name"
-            class="divide-y divide-neutral-200 rounded-lg shadow-sm"
+            class="divide-y divide-gray-200 rounded-lg shadow-sm"
             :class="[
-              { 'border-2 border-neutral-400': tier.featured == true },
-              'border border-neutral-200',
+              { 'border-2 border-gray-400': tier.featured == true },
+              'border border-gray-200',
             ]">
             <div class="p-6">
               <h2
@@ -61,64 +57,62 @@
                   { 'text-pink-600': tier.color == 'pink' },
                   { 'text-violet-600': tier.color == 'violet' },
                   { 'text-red-600': tier.color == 'red' },
-                  'text-lg font-medium leading-6 text-neutral-900',
+                  'text-lg font-medium leading-6 text-gray-900',
                 ]"
                 class="text-lg font-medium leading-6">
                 {{ tier.name }}
               </h2>
-              <p class="mt-4 text-sm text-neutral-500">
+              <p class="mt-4 text-sm text-gray-500">
                 {{ tier.description }}
               </p>
               <p v-if="tier.name === 'Enterprise'" class="mt-4">
-                <span class="text-xs font-medium text-neutral-500"
-                  >Starts at</span
+                <span class="text-xs font-medium text-gray-500">Starts at</span
                 ><br />
-                <span class="-mt-2 text-4xl font-extrabold text-neutral-900"
+                <span class="-mt-2 text-4xl font-extrabold text-gray-900"
                   >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
                 >
                 {{ ' ' }}
-                <span class="text-base font-medium text-neutral-500">/mo</span>
+                <span class="text-base font-medium text-gray-500">/mo</span>
                 <br />
-                <span class="text-sm font-medium text-neutral-500"
+                <span class="text-sm font-medium text-gray-500"
                   >Annual billing only</span
                 >
               </p>
               <p v-else-if="annualBilling" class="mt-4">
-                <span class="text-xs font-medium text-neutral-500"></span><br />
-                <span class="text-4xl font-extrabold text-neutral-900"
+                <span class="text-xs font-medium text-gray-500"></span><br />
+                <span class="text-4xl font-extrabold text-gray-900"
                   >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
                 >
                 {{ ' ' }}
-                <span class="text-base font-medium text-neutral-500">/mo</span
+                <span class="text-base font-medium text-gray-500">/mo</span
                 ><span
                   v-if="tier.name == 'Team'"
-                  class="ml-0.5 text-sm font-medium text-neutral-400"
+                  class="ml-0.5 text-sm font-medium text-gray-400"
                   >/seat</span
                 >
                 <br />
-                <span class="text-sm font-medium text-neutral-500"
+                <span class="text-sm font-medium text-gray-500"
                   >Billed as
-                  <span
-                    class="text-sm font-medium text-neutral-400 line-through">
+                  <span class="text-sm font-medium text-gray-400 line-through">
                     ${{ tier.priceMonthly.toFixed(0) * 12 }}</span
                   >
                   ${{ tier.priceAnnual.toFixed(0) }}/yr
                 </span>
               </p>
               <p v-else class="mt-4">
-                <span class="text-xs font-medium text-neutral-500"></span><br />
-                <span class="text-4xl font-extrabold text-neutral-900"
+                <span class="text-xs font-medium text-gray-500"></span><br />
+                <span class="text-4xl font-extrabold text-gray-900"
                   >${{ tier.priceMonthly }}</span
                 >
                 {{ ' ' }}
-                <span class="text-base font-medium text-neutral-500">/mo</span
+                <span class="text-base font-medium text-gray-500">/mo</span
                 ><span
                   v-if="tier.name == 'Team'"
-                  class="ml-0.5 text-sm font-medium text-neutral-400"
+                  class="ml-0.5 text-sm font-medium text-gray-400"
                   >/seat</span
                 >
                 <br />
-                <span class="text-sm font-medium text-neutral-500"
+                <span class="text-sm font-medium text-gray-500"
                   >Billed monthly</span
                 >
               </p>
@@ -142,7 +136,7 @@
             </div>
             <div class="px-6 pt-6 pb-8">
               <h3
-                class="text-xs font-medium uppercase tracking-wide text-neutral-900">
+                class="text-xs font-medium uppercase tracking-wide text-gray-900">
                 What's included
               </h3>
               <ul role="list" class="mt-6 space-y-4">
@@ -152,11 +146,9 @@
                   class="flex space-x-3">
                   <component
                     :is="feature.icon"
-                    class="h-5 w-5 flex-shrink-0 text-neutral-400"
+                    class="h-5 w-5 flex-shrink-0 text-gray-400"
                     aria-hidden="true" />
-                  <span class="text-sm text-neutral-500">{{
-                    feature.name
-                  }}</span>
+                  <span class="text-sm text-gray-500">{{ feature.name }}</span>
                 </li>
               </ul>
             </div>
@@ -173,7 +165,7 @@
           <div class="flex-1">
             <div>
               <h3
-                class="inline-flex rounded-md bg-neutral-100 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-gray-600">
+                class="inline-flex rounded-md bg-gray-100 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-gray-600">
                 Get started with a free account
               </h3>
             </div>
@@ -197,7 +189,7 @@
   </div>
 
   <!-- FAQ -->
-  <div class="mt-4 bg-gradient-to-b from-white to-neutral-50">
+  <div class="mt-4 bg-gradient-to-b from-white to-gray-50">
     <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:py-24 lg:px-8">
       <div class="mx-auto max-w-3xl divide-y-2 divide-gray-200">
         <h2

@@ -43,11 +43,9 @@
                     autocomplete="email"
                     required="" />
                 </div>
-                  <p
-                      class="mt-2 text-sm text-red-900"
-                      v-if="this.errors.email">
-                      {{ this.errors.email[0] }}
-                  </p>
+                <p class="mt-2 text-sm text-red-900" v-if="this.errors.email">
+                  {{ this.errors.email[0] }}
+                </p>
               </div>
 
               <div>
@@ -71,53 +69,52 @@
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import InputGroup from '../components/InputGroup.vue';
-import UserService from "../services/api/user.service";
+import UserService from '../services/api/user.service';
 
 export default {
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
-
   },
   components: {
     JovieLogo,
     InputGroup,
     AuthFooter,
   },
-    data() {
-      return {
-          updating: false,
-          errors: {},
-          email: null
-      }
+  data() {
+    return {
+      updating: false,
+      errors: {},
+      email: null,
+    };
+  },
+  methods: {
+    sendResetEmail() {
+      this.updating = true;
+      UserService.sendResetEmail({ email: this.email })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.errors = {};
+            alert(response.message);
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: response.message,
+              type: 'success',
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          this.updating = false;
+        });
     },
-    methods: {
-        sendResetEmail() {
-            this.updating = true;
-            UserService.sendResetEmail({email: this.email})
-                .then((response) => {
-                    response = response.data;
-                    if (response.status) {
-                        this.errors = {};
-                        alert(response.message)
-                        this.$notify({
-                            group: 'user',
-                            title: 'Successful',
-                            text: response.message,
-                            type: 'success',
-                        });
-                    }
-                })
-                .catch((error) => {
-                    error = error.response;
-                    if (error.status == 422) {
-                        this.errors = error.data.errors;
-                    }
-                })
-                .finally(() => {
-                    this.updating = false;
-                });
-        },
-    }
+  },
 };
 </script>

@@ -6,10 +6,10 @@
         <div class="flex w-full items-center justify-between">
           <div class="flex">
             <UserGroupIcon
-              class="mr-1 h-4 w-4 text-neutral-500 group-hover:text-neutral-600" />
+              class="mr-1 h-4 w-4 text-gray-500 group-hover:text-gray-600" />
 
             <div
-              class="items-center text-2xs font-bold text-neutral-500 line-clamp-1 group-hover:text-neutral-600">
+              class="items-center text-2xs font-bold text-gray-500 line-clamp-1 group-hover:text-gray-600">
               {{
                 currentUser.current_team
                   ? currentUser.current_team.name
@@ -21,9 +21,9 @@
             <div
               class="hidden flex-col justify-between text-center group-hover:block">
               <ChevronUpIcon
-                class="h-2 w-2 text-neutral-500 group-hover:text-neutral-700" />
+                class="h-2 w-2 text-gray-500 group-hover:text-gray-700" />
               <ChevronDownIcon
-                class="h-2 w-2 text-neutral-500 group-hover:text-neutral-700" />
+                class="h-2 w-2 text-gray-500 group-hover:text-gray-700" />
             </div>
           </div>
         </div>
@@ -37,10 +37,10 @@
         leave-from-class="transform scale-100 opacity-100"
         leave-to-class="transform scale-95 opacity-0">
         <PopoverPanel
-          class="w-52 origin-left rounded-md border border-neutral-200 bg-white/90 shadow-lg backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+          class="w-52 origin-left rounded-md border border-gray-200 bg-white/90 shadow-lg backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
           <div class="">
             <div
-              class="border-b bg-neutral-50 px-4 pt-2 pb-1 text-center text-xs font-semibold text-neutral-400">
+              class="border-b bg-gray-50 px-4 pt-2 pb-1 text-center text-xs font-semibold text-gray-400">
               Your teams:
             </div>
             <div v-if="currentUser.teams">

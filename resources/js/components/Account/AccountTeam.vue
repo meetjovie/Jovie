@@ -158,7 +158,7 @@
             leave-to-class="transform scale-95 opacity-0">
             <DisclosurePanel>
               <ul role="list" class="border-b text-sm">
-                <span class="py-4 px-2 text-xs font-bold text-neutral-400"
+                <span class="py-4 px-2 text-xs font-bold text-gray-400"
                   >Members</span
                 >
                 <li
@@ -280,9 +280,7 @@
                     </div>
                   </div>
                 </li>
-                <li v-else class="text-sm font-bold text-neutral-400">
-                  No Users
-                </li>
+                <li v-else class="text-sm font-bold text-gray-400">No Users</li>
               </ul>
               <div class="mt-12 py-8 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-2">
                 <dt class="text-sm font-medium text-gray-500 sm:pt-5">

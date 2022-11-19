@@ -50,7 +50,7 @@
           height="12"
           link="#"
           width="12" />
-        <UserIcon v-else class="h-5 w-5 text-neutral-600" />
+        <UserIcon v-else class="h-5 w-5 text-gray-600" />
       </div>
       <input
         type="social_network_url"
@@ -129,7 +129,7 @@
           id="social-media-profile-url"
           v-on:keyup.enter="add()"
           tabindex="1"
-          class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-neutral-400 focus-visible:border-indigo-400 focus-visible:outline-none focus-visible:ring-indigo-500 active:border-indigo-500 sm:text-sm"
+          class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-gray-400 focus-visible:border-indigo-400 focus-visible:outline-none focus-visible:ring-indigo-500 active:border-indigo-500 sm:text-sm"
           placeholder="http://instagram.com/username" />
         <p v-if="network && errors[network]" class="mt-2 text-xs text-red-600">
           {{ errors[network][0] }}
@@ -150,7 +150,7 @@
         </button>
       </div>
     </div>
-    <div class="flex justify-between px-2 text-xs text-neutral-400">
+    <div class="flex justify-between px-2 text-xs text-gray-400">
       <div>
         Supports:
         <div class="inline-flex space-x-2">
@@ -158,27 +158,27 @@
             height="10px"
             width="10px"
             link="#"
-            class="text-neutral-400"
+            class="text-gray-400"
             icon="twitch" />
           <SocialIcons
             height="10px"
             width="10px"
             link="#"
-            class="text-neutral-400"
+            class="text-gray-400"
             icon="twitter" />
           <SocialIcons
             height="10px"
             width="10px"
             link="#"
-            class="text-neutral-400"
+            class="text-gray-400"
             icon="instagram" />
         </div>
       </div>
       <div class="flex items-center">
         <router-link class="group items-center" to="Import"
           ><CloudArrowUpIcon
-            class="mr-1 inline-flex h-3 w-3 items-center text-neutral-400 group-hover:text-neutral-500"></CloudArrowUpIcon
-          ><span class="group-hover:text-neutral-500"
+            class="mr-1 inline-flex h-3 w-3 items-center text-gray-400 group-hover:text-gray-500"></CloudArrowUpIcon
+          ><span class="group-hover:text-gray-500"
             >Import CSV</span
           ></router-link
         >

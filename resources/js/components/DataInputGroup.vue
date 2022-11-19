@@ -2,20 +2,20 @@
   <div class="group/datainput mt-1 flex">
     <div class="group/move active:grabbing flex w-3 cursor-grab items-center">
       <EllipsisVerticalIcon
-        class="h-5 w-5 text-neutral-400/0 group-hover/draggable:text-neutral-400 group-hover/move:text-neutral-700" />
+        class="h-5 w-5 text-gray-400/0 group-hover/draggable:text-gray-400 group-hover/move:text-gray-700" />
     </div>
     <div class="group relative mt-1 w-full">
       <div class="relative">
         <div
           v-if="icon"
           class="pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
-          <component :is="icon" class="h-3 w-3 text-neutral-400" />
+          <component :is="icon" class="h-3 w-3 text-gray-400" />
         </div>
         <div
           v-if="socialicon"
           class="opacity/50 pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
           <SocialIcons
-            class="text-neutral-400 opacity-40"
+            class="text-gray-400 opacity-40"
             link="#"
             width="12px"
             height="12px"
@@ -57,7 +57,7 @@
             class="group/action px-1">
             <component
               :is="action"
-              class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-neutral-500" />
+              class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-gray-500" />
           </div>
           <div
             v-if="action2 && (modelValue || value)"
@@ -65,7 +65,7 @@
             class="group/action px-1">
             <component
               :is="action2"
-              class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-neutral-500" />
+              class="hidden h-5 w-5 cursor-pointer text-gray-400 active:text-gray-900 group-hover:block group-hover/action:text-gray-500" />
           </div>
           <div v-if="loader" class="pointer-events-none transition-all">
             <JovieSpinner />
@@ -116,7 +116,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 pl-5 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-neutral-100 group-hover:text-neutral-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
+          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 pl-5 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-gray-100 group-hover:text-gray-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
           >{{ label }}</label
         >
       </div>

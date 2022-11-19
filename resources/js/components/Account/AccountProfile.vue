@@ -4,11 +4,11 @@
       <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
-            <h3 class="text-lg font-medium text-neutral-900">
+            <h3 class="text-lg font-medium text-gray-900">
               Profile Information
             </h3>
 
-            <p class="mt-1 text-sm text-neutral-600">
+            <p class="mt-1 text-sm text-gray-600">
               Update your account information and email address.
             </p>
           </div>
@@ -29,7 +29,7 @@
                   <!-- Profile Photo File Input -->
                   <div class="mt-1 flex items-center space-x-5">
                     <span
-                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-neutral-100 object-cover object-center">
+                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-gray-100 object-cover object-center">
                       <img
                         id="profile_pic_url_img"
                         ref="profile_pic_url_img"
@@ -41,7 +41,7 @@
 
                     <label
                       for="profile_pic_url"
-                      class="cursor-pointer rounded-md border border-neutral-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-neutral-700 shadow-sm hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      class="cursor-pointer rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Change
                     </label>
                     <input
@@ -64,7 +64,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-neutral-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-neutral-700 shadow-sm transition hover:text-neutral-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-neutral-50 active:text-neutral-800 disabled:opacity-25">
+                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition hover:text-gray-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-gray-50 active:text-gray-800 disabled:opacity-25">
                     Remove Photo
                   </button>
                 </div>
@@ -131,7 +131,7 @@
             </div>
 
             <div
-              class="flex items-center justify-end bg-neutral-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-gray-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
@@ -144,9 +144,9 @@
 
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
-            <h3 class="text-lg font-medium text-neutral-900">Social Handles</h3>
+            <h3 class="text-lg font-medium text-gray-900">Social Handles</h3>
 
-            <p class="mt-1 text-sm text-neutral-600">
+            <p class="mt-1 text-sm text-gray-600">
               Add your social network handles.
             </p>
           </div>
@@ -217,7 +217,7 @@
             </div>
 
             <div
-              class="flex items-center justify-end bg-neutral-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-gray-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
@@ -231,7 +231,7 @@
 
       <div class="hidden sm:block">
         <div class="py-8">
-          <div class="border-t border-neutral-200"></div>
+          <div class="border-t border-gray-200"></div>
         </div>
       </div>
     </div>
@@ -339,8 +339,14 @@ export default {
     },
     updateProfile() {
       let data = new FormData();
-      data.append('first_name', this.$store.state.AuthState.user.first_name ?? '');
-      data.append('last_name', this.$store.state.AuthState.user.last_name ?? '');
+      data.append(
+        'first_name',
+        this.$store.state.AuthState.user.first_name ?? ''
+      );
+      data.append(
+        'last_name',
+        this.$store.state.AuthState.user.last_name ?? ''
+      );
       if (this.bucketResponse && this.bucketResponse.uuid) {
         data.append('profile_pic_url', this.bucketResponse.uuid ?? '');
       }

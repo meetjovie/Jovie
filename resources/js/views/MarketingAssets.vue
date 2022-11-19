@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="flex w-full items-center justify-between px-4 py-4">
-      <h1 class="text-xl font-bold text-neutral-900">Jovie Brand Assets</h1>
+      <h1 class="text-xl font-bold text-gray-900">Jovie Brand Assets</h1>
       <ButtonGroup class="w-60" text="Download All" @click="downloadAll()">
       </ButtonGroup>
     </div>
-    <div class="w-full bg-neutral-200 py-2">
+    <div class="w-full bg-gray-200 py-2">
       <div class="flex max-w-7xl space-x-8 px-12">
         <div
           v-for="category in categories"
@@ -34,12 +34,12 @@
         </h1>
 
         <h2
-          class="uppercse text-7xl font-extrabold tracking-normal text-neutral-800 md:text-5xl xl:text-8xl">
+          class="uppercse text-7xl font-extrabold tracking-normal text-gray-800 md:text-5xl xl:text-8xl">
           The Social CRM
           <br />
         </h2>
         <h2
-          class="mb-12 inline py-2 text-center text-xl font-bold text-neutral-500">
+          class="mb-12 inline py-2 text-center text-xl font-bold text-gray-500">
           A
           <span class="dexoration-2 font-bold underline decoration-pink-400"
             >smarter</span
@@ -68,12 +68,12 @@
         </h1>
 
         <h2
-          class="uppercse text-7xl font-extrabold tracking-normal text-neutral-800 md:text-5xl xl:text-8xl">
+          class="uppercse text-7xl font-extrabold tracking-normal text-gray-800 md:text-5xl xl:text-8xl">
           The Social CRM
           <br />
         </h2>
         <h2
-          class="mb-12 inline py-2 text-center text-xl font-bold text-neutral-500">
+          class="mb-12 inline py-2 text-center text-xl font-bold text-gray-500">
           A
           <span class="dexoration-2 font-bold underline decoration-pink-400"
             >smarter</span
@@ -102,12 +102,12 @@
         </h1>
 
         <h2
-          class="uppercse text-7xl font-extrabold tracking-normal text-neutral-800 md:text-5xl xl:text-8xl">
+          class="uppercse text-7xl font-extrabold tracking-normal text-gray-800 md:text-5xl xl:text-8xl">
           The Social CRM
           <br />
         </h2>
         <h2
-          class="mb-12 inline py-2 text-center text-xl font-bold text-neutral-500">
+          class="mb-12 inline py-2 text-center text-xl font-bold text-gray-500">
           A
           <span class="dexoration-2 font-bold underline decoration-pink-400"
             >smarter</span
@@ -136,11 +136,11 @@
         </h1>
 
         <h2
-          class="uppercse text-7xl font-extrabold tracking-normal text-neutral-800 md:text-5xl xl:text-8xl">
+          class="uppercse text-7xl font-extrabold tracking-normal text-gray-800 md:text-5xl xl:text-8xl">
           The Social CRM
           <br />
         </h2>
-        <h2 class="inline py-2 text-center text-3xl font-bold text-neutral-500">
+        <h2 class="inline py-2 text-center text-3xl font-bold text-gray-500">
           A
           <span class="dexoration-2 font-bold underline decoration-pink-400"
             >smarter</span

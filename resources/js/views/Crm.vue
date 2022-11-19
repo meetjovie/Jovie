@@ -11,7 +11,7 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full">
           <div
-            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-neutral-100 bg-white py-4 pb-2 shadow-xl"
+            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-gray-100 bg-white py-4 pb-2 shadow-xl"
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
               <div class="mt-10 flex-col py-0.5 px-2">
@@ -20,11 +20,11 @@
                   text="Show All Contacts">
                   <button
                     @click="setFiltersType('all')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-gray-200 hover:text-gray-900"
                     :class="[
                       filters.type == 'all'
-                        ? 'text-sm font-bold text-neutral-900  '
-                        : 'text-sm font-light text-neutral-900',
+                        ? 'text-sm font-bold text-gray-900  '
+                        : 'text-sm font-light text-gray-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <UserGroupIcon
@@ -36,7 +36,7 @@
                       @click="showCreatorModal = true"
                       class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
                       <span
-                        class="text-xs font-light text-neutral-900 group-hover:hidden group-hover:text-neutral-900"
+                        class="text-xs font-light text-gray-900 group-hover:hidden group-hover:text-gray-900"
                         >{{ counts.total }}</span
                       >
 
@@ -54,11 +54,11 @@
                   text="Show Archived Contacts">
                   <button
                     @click="setFiltersType('archived')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-gray-200 hover:text-gray-900"
                     :class="[
                       filters.type == 'archived'
-                        ? 'text-sm font-bold text-neutral-900 '
-                        : 'text-sm font-light text-neutral-900',
+                        ? 'text-sm font-bold text-gray-900 '
+                        : 'text-sm font-light text-gray-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <ArchiveBoxIcon
@@ -67,7 +67,7 @@
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
-                        class="text-xs font-light text-neutral-700 group-hover:text-neutral-900"
+                        class="text-xs font-light text-gray-700 group-hover:text-gray-900"
                         >{{ counts.archived }}</span
                       >
                     </div>
@@ -76,11 +76,11 @@
                 <JovieTooltip :shortcut="'G then F'" text="Show Favorites">
                   <button
                     @click="setFiltersType('favourites')"
-                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-neutral-200 hover:text-neutral-900"
+                    class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-gray-200 hover:text-gray-900"
                     :class="[
                       filters.type == 'favourites'
-                        ? 'text-sm font-bold text-neutral-900 '
-                        : 'text-sm font-light text-neutral-900',
+                        ? 'text-sm font-bold text-gray-900 '
+                        : 'text-sm font-light text-gray-900',
                     ]">
                     <div class="flex items-center text-xs">
                       <HeartIcon
@@ -89,7 +89,7 @@
                     </div>
                     <div class="items-center rounded-md p-1 hover:text-gray-50">
                       <span
-                        class="text-xs font-light text-neutral-700 group-hover:text-neutral-900"
+                        class="text-xs font-light text-gray-700 group-hover:text-gray-900"
                         >{{ counts.favourites }}</span
                       >
                     </div>
@@ -120,20 +120,20 @@
                   :menuItems="filteredUsersLists"></MenuList>
               </div>
             </div>
-            <div class="flex-shrink-0 border-t border-neutral-200 py-2 px-2">
+            <div class="flex-shrink-0 border-t border-gray-200 py-2 px-2">
               <JovieTooltip text="Import a new contact to Jovie">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900">
+                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-gray-600 hover:bg-gray-200 hover:text-gray-900">
                   <PlusIcon
-                    class="mr-1 h-5 w-5 rounded-md p-1 text-neutral-500"
+                    class="mr-1 h-5 w-5 rounded-md p-1 text-gray-500"
                     aria-hidden="true" />New Contact
                 </div>
               </JovieTooltip>
               <JovieTooltip text="Upload a csv file to import contacts">
                 <router-link
                   to="import"
-                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900">
+                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-gray-600 hover:bg-gray-200 hover:text-gray-900">
                   <div class="flex items-center">
                     <CloudArrowUpIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
@@ -173,7 +173,7 @@
                           <img
                             id="profile_pic_url_img"
                             ref="profile_pic_url_img"
-                            class="h-4 w-4 rounded-full border border-neutral-200 object-cover object-center"
+                            class="h-4 w-4 rounded-full border border-gray-200 object-cover object-center"
                             :src="
                               $store.state.AuthState.user.profile_pic_url ??
                               $store.state.AuthState.user.default_image
@@ -191,14 +191,14 @@
                             as="div"
                             active=""
                             id="profileDropdown"
-                            class="z-30 mt-2 w-80 origin-bottom-left rounded-md border border-neutral-200 bg-white pt-1 shadow-xl"
+                            class="z-30 mt-2 w-80 origin-bottom-left rounded-md border border-gray-200 bg-white pt-1 shadow-xl"
                             role="menu"
                             aria-orientation="vertical"
                             aria-labelledby="user-menu-button"
                             tabindex="-1">
                             <div
                               as="div"
-                              class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-neutral-400"
+                              class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-gray-400"
                               role="menuitem"
                               tabindex="-1"
                               id="user-menu-item-0">
@@ -232,7 +232,7 @@
                             </div>
                             <router-link
                               v-if="currentUser.username"
-                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
                               :to="profileLink">
                               <component
                                 class="mr-4 h-4 w-4 cursor-pointer"
@@ -242,7 +242,7 @@
                             </router-link>
                             <router-link
                               v-else
-                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
                               to="edit-profile">
                               <component
                                 class="mr-4 h-4 w-4 cursor-pointer"
@@ -255,11 +255,11 @@
                               :key="dropdownmenuitem"
                               as="router-link"
                               :to="dropdownmenuitem.route"
-                              class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
                               role="menuitem"
                               tabindex="-1">
                               <router-link
-                                class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                                class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
                                 :to="dropdownmenuitem.route">
                                 <div class="flex">
                                   <component
@@ -279,7 +279,7 @@
                             </div>
                             <router-link
                               to="slack-community"
-                              class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
                               role="menuitem">
                               <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                               </component>
@@ -288,7 +288,7 @@
                             <div
                               as="div"
                               @click="$store.dispatch('logout')"
-                              class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100 hover:text-neutral-700"
+                              class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
                               role="menuitem"
                               tabindex="-1">
                               <component
@@ -329,11 +329,11 @@
                 v-if="!currentUser.current_team.credits"
                 class="flex items-center justify-between">
                 <div class="flex items-center px-2">
-                  <span class="text-2xs text-neutral-400"
+                  <span class="text-2xs text-gray-400"
                     >Account quota exceeded
                   </span>
                   <ChevronRightIcon
-                    class="h-3 w-3 text-neutral-400"
+                    class="h-3 w-3 text-gray-400"
                     aria-hidden="true" />
                 </div>
                 <div
@@ -366,7 +366,7 @@
                               <h1 class="text-md font-bold">
                                 You don't have any contacts yet.
                               </h1>
-                              <span class="text-sm font-medium text-neutral-900"
+                              <span class="text-sm font-medium text-gray-900"
                                 >Enter a Twitch or Instagram url to add someone
                                 to Jovie.</span
                               >
@@ -393,7 +393,7 @@
                               <h1 class="text-md font-bold">
                                 You've just initated an import.
                               </h1>
-                              <span class="text-sm font-medium text-neutral-900"
+                              <span class="text-sm font-medium text-gray-900"
                                 >You'll see creators populate this space
                                 soon.</span
                               >
@@ -444,7 +444,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 -mt-2 hidden h-full border-l-2 border-neutral-200 shadow-xl xl:block">
+            class="z-30 -mt-2 hidden h-full border-l-2 border-gray-200 shadow-xl xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -872,7 +872,7 @@ export default {
       UserService.getUserLists().then((response) => {
         response = response.data;
         if (response.status) {
-            this.userLists = []
+          this.userLists = [];
           this.userLists = response.lists;
         }
       });

@@ -66,7 +66,7 @@
                     <!-- Heroicon name: solid/check-circle -->
 
                     <svg
-                      class="mr-1.5 h-5 w-5 flex-shrink-0 text-neutral-400"
+                      class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -97,7 +97,7 @@
     <div class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
       <div>
         <h1 class="text-md font-bold">Add a creator.</h1>
-        <span class="text-sm font-medium text-neutral-500"
+        <span class="text-sm font-medium text-gray-500"
           >Enter the url of a social profile to add a creator to your
           contacts.</span
         >

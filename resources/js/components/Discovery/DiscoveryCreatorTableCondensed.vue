@@ -94,9 +94,9 @@
       <tr
         v-for="creator in creators"
         :key="creator"
-        class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+        class="border-1 group border-collapse overflow-y-visible border border-gray-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
         <td
-          class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500">
+          class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-gray-500">
           <div class="grid grid-cols-2 items-center">
             <div class="group mr-2">
               <span class="group-hover:hidden">
@@ -151,7 +151,7 @@
               type="creator-firstname"
               name="creator-firstname"
               id="creator-firname"
-              class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
               placeholder="First"
               aria-describedby="email-description" />
           </div>
@@ -165,7 +165,7 @@
               type="creator-lastname"
               name="creator-lastname"
               id="creator-lastname"
-              class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
               placeholder="Last"
               aria-describedby="email-description" />
           </div>
@@ -179,7 +179,7 @@
               type="creator-email"
               name="creator-email"
               id="creator-email"
-              class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
               placeholder="creatoremail@gmail.com"
               aria-describedby="email-description" />
           </div>
@@ -225,7 +225,7 @@
               type="creator-offer"
               name="creator-offer"
               id="creator-offer"
-              class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
               placeholder="5,000"
               aria-describedby="email-description" />
           </span>
@@ -371,7 +371,7 @@
             type="creator-offer"
             name="creator-offer"
             id="creator-offer"
-            class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+            class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
             placeholder="--/--/----"
             aria-describedby="email-description" />
         </td>

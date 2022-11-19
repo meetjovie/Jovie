@@ -63,7 +63,7 @@
                                                 alt="date" />
                                             </div>
                                             <span>Last contacted </span
-                                            ><span class="ml-2 font-bold text-neutral-400">Jan 2020</span>
+                                            ><span class="ml-2 font-bold text-gray-400">Jan 2020</span>
                                           </li>
                                         </ul> -->
         </div>
@@ -165,7 +165,7 @@
                             <div class="">
                               <div class="">
                                 <button
-                                  class="group flex w-full items-center px-2 py-2 text-xs text-neutral-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"
+                                  class="group flex w-full items-center px-2 py-2 text-xs text-gray-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"
                                   v-for="(stage, key) in stages"
                                   @click="
                                     updateCreator({
@@ -212,7 +212,7 @@
                           <DocumentDuplicateIcon
                             tooltip="Copy to clipboard"
                             @click="copyToClipboard(creator.emails[0])"
-                            class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700 active:mt-0.5 active:mr-0.5 active:text-neutral-500"
+                            class="h-5 w-5 cursor-pointer text-gray-400 hover:text-gray-700 active:mt-0.5 active:mr-0.5 active:text-gray-500"
                             aria-hidden="true" />
                         </div>
                         <InputGroup

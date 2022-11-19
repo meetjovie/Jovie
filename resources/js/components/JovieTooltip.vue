@@ -3,7 +3,7 @@
     <slot>Trigger Goes Here</slot>
   </div>
   <div
-    class="absolute -top-2 -right-3 z-50 hidden w-auto translate-x-full flex-col items-center justify-between rounded-md border border-neutral-200 bg-neutral-800 px-2 py-1 text-xs text-neutral-50 shadow-lg group-hover:flex group-hover:flex">
+    class="absolute -top-2 -right-3 z-50 hidden w-auto translate-x-full flex-col items-center justify-between rounded-md border border-gray-200 bg-gray-800 px-2 py-1 text-xs text-gray-50 shadow-lg group-hover:flex group-hover:flex">
     <div class="font-bold">{{ text }}</div>
     <div>
       <slot name="content"></slot>

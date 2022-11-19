@@ -13,7 +13,7 @@
                     Coming soon
                   </span>
                   <span
-                    class="inline-flex items-center space-x-1 text-sm font-medium text-neutral-500">
+                    class="inline-flex items-center space-x-1 text-sm font-medium text-gray-500">
                     <span>Jovie Chrome Extension</span>
                     <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
                   </span>
@@ -25,7 +25,7 @@
                   Social insights
                 </h1>
                 <h1
-                  class="-mt-4 text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl">
+                  class="-mt-4 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
                   right inside gmail
                 </h1>
 
@@ -153,20 +153,19 @@
       </div>
       <section
         class="mx-auto bg-gradient-radial from-white via-white to-blue-600/10">
-        <div
-          class="mx-auto max-w-7xl border-2 border-b border-neutral-400 py-48">
-          <div class="text-3xl font-bold text-neutral-700">
+        <div class="mx-auto max-w-7xl border-2 border-b border-gray-400 py-48">
+          <div class="text-3xl font-bold text-gray-700">
             <span class="pink-text-600">Add </span> the Jovie Chrome Extension
             today.
           </div>
-          <div class="text-xl font-semibold text-neutral-500">
+          <div class="text-xl font-semibold text-gray-500">
             Save, enrich, & organize contacts from any social media profile.
           </div>
           <router-link
             to="/chrome-extension"
-            class="group mx-auto mt-8 flex w-80 cursor-pointer justify-between rounded-full border border-neutral-400 bg-gradient-to-r from-[#7928ca] to-[#ff0080] p-0.5 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
+            class="group mx-auto mt-8 flex w-80 cursor-pointer justify-between rounded-full border border-gray-400 bg-gradient-to-r from-[#7928ca] to-[#ff0080] p-0.5 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
             <div
-              class="flex w-full justify-between rounded-md bg-neutral-800 py-2 px-4">
+              class="flex w-full justify-between rounded-md bg-gray-800 py-2 px-4">
               <div
                 class="mx-auto mt-0.5 w-full transform text-center font-medium text-white transition-transform duration-300 ease-in-out group-hover:underline">
                 Add to Chrome

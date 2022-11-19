@@ -5,7 +5,7 @@
         <div class="w-full border-t border-gray-300" />
       </div>
       <div class="relative flex justify-start">
-        <span class="bg-neutral-50 pr-2 text-xs text-gray-500"> Location </span>
+        <span class="bg-gray-50 pr-2 text-xs text-gray-500"> Location </span>
       </div>
     </div>
     <div class="top-16 w-full">

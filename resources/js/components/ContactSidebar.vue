@@ -3,13 +3,13 @@
     <div v-if="user.loggedIn">
       <div
         v-if="!jovie"
-        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-neutral-400 hover:text-neutral-500">
+        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-gray-400 hover:text-gray-500">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div>
       <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
-          class="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-600 active:text-neutral-700" />
+          class="h-4 w-4 cursor-pointer text-gray-400 hover:text-gray-600 active:text-gray-700" />
       </div>
 
       <div class="mt-2 grid grid-cols-3">
@@ -17,7 +17,7 @@
           <!--  <svg
             v-if="creator.verified"
             xmlns="http://www.w3.org/2000/svg"
-            class="relative top-8 left-20 h-4 w-4 text-neutral-600"
+            class="relative top-8 left-20 h-4 w-4 text-gray-600"
             viewBox="0 0 20 20"
             fill="currentColor">
             <path
@@ -29,14 +29,14 @@
             v-if="imageLoaded"
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
+            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-cover object-center"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
           <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-neutral-200 object-cover object-center"
+            class="h-18 w-18 mt-2 aspect-square rounded-full border-4 border-gray-200 object-cover object-center"
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
@@ -203,7 +203,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-neutral-200 bg-white px-1 py-1 shadow-xl">
+                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white px-1 py-1 shadow-xl">
                   <MenuItem
                     :disabled="!creator.emails[0] && !creator.meta.emails"
                     v-slot="{ active }">
@@ -212,9 +212,7 @@
                         emailCreator(creator.emails || creator.meta.emails)
                       "
                       :class="[
-                        active
-                          ? 'bg-neutral-100 text-neutral-900'
-                          : 'text-gray-700',
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'group flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                       ]">
                       <EnvelopeIcon
@@ -231,9 +229,7 @@
                     <button
                       @click="textCreator(creator.phone || creator.meta.phone)"
                       :class="[
-                        active
-                          ? 'bg-neutral-100 text-neutral-900'
-                          : 'text-gray-700',
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleLeftEllipsisIcon
@@ -258,9 +254,7 @@
                         )
                       "
                       :class="[
-                        active
-                          ? 'bg-neutral-100 text-neutral-900'
-                          : 'text-gray-700',
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
@@ -276,9 +270,7 @@
                         whatsappCreator(creator.phone || creator.meta.phone)
                       "
                       :class="[
-                        active
-                          ? 'bg-neutral-100 text-neutral-900'
-                          : 'text-gray-700',
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
@@ -301,20 +293,18 @@
         </div>
       </div>
       <div class="px-2">
-        <h2 class="text-xs font-semibold text-neutral-600">Lists</h2>
+        <h2 class="text-xs font-semibold text-gray-600">Lists</h2>
         <InputLists
           :lists="creator.lists"
           :current-list="creator.current_list" />
       </div>
       <div class="mt-4 px-2">
-        <h2 class="mb-2 text-xs font-semibold text-neutral-600">
+        <h2 class="mb-2 text-xs font-semibold text-gray-600">
           Contact Details
         </h2>
       </div>
       <div class="h-80 items-center px-2 text-center" v-if="!creator.id">
-        <div class="mx-auto text-center text-neutral-400">
-          No contact selected
-        </div>
+        <div class="mx-auto text-center text-gray-400">No contact selected</div>
       </div>
       <div v-else class="h-80 space-y-6 overflow-y-scroll px-2">
         <draggable
