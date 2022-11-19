@@ -8,6 +8,7 @@ use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
 use App\Jobs\TwitchImport;
+use App\Jobs\TwitterImport;
 use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
@@ -55,9 +56,10 @@ class ImportController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:key,twitch',
-            'twitch' => 'required_without_all:instagram,key',
-            'key' => 'required_without_all:instagram,twitch|nullable|string',
+            'instagram' => 'required_without_all:key,twitch,twitter',
+            'twitch' => 'required_without_all:instagram,twitter,key',
+            'twitter' => 'required_without_all:instagram,twitch,key',
+            'key' => 'required_without_all:instagram,twitch,twitter|nullable|string',
             'list' => 'sometimes|exists:user_lists,id'
         ]);
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
@@ -68,14 +70,20 @@ class ImportController extends Controller
             if ($instagram[0] == '@') {
                 $instagram = substr($instagram, 1);
             }
-            InstagramImport::dispatch($instagram, $request->tags, true, null, null, $request->list, Auth::user()->id, null,
+            InstagramImport::dispatch($instagram, $request->tags, true, null, null, $request->list, $user->id, null,
                 $user->currentTeam->id)->onQueue(config('import.instagram_queue'));
         }
         if ($request->twitch) {
             $import = new Import();
             $import->twitch = $request->twitch;
             $twitch = $import->twitch;
-            TwitchImport::dispatch(null, $twitch, $request->tags, null, $request->list, Auth::user()->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
+            TwitchImport::dispatch(null, $twitch, $request->tags, null, $request->list, $user->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
+        }
+        if ($request->twitter) {
+            $import = new Import();
+            $import->twitter = $request->twitter;
+            $twitter = $import->twitter;
+            TwitterImport::dispatch([$twitter], $request->tags, null, $request->list, $user->id, $user->currentTeam->id)->onQueue(config('import.twitter_queue'));
         }
         $file = null;
         try {

@@ -5,7 +5,7 @@
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <router-link
         v-if="user.username == currentUser?.username"
-        to="/Account"
+        to="/edit-profile"
         class="absolute top-0 right-0 cursor-pointer py-2 px-4 text-xs font-bold text-indigo-400 hover:text-indigo-600">
         Edit profile
       </router-link>

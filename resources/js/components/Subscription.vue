@@ -611,6 +611,17 @@ export default {
         })
         .finally(() => {
           this.paymentElement.clear();
+          window.analytics.identify(this.user.email, {
+            email: this.user.email,
+            plan_name: this.user.current_team.current_subscription.name,
+            name: this.user.first_name + ' ' + this.user.last_name,
+          });
+          //track and event for New Subscription
+          window.analytics.track('New Subscription', {
+            plan_name: this.user.current_team.current_subscription.name,
+            name: this.user.first_name + ' ' + this.user.last_name,
+            email: this.user.email,
+          });
           this.processingPayment = false;
         });
     },

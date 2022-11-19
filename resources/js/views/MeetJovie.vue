@@ -61,7 +61,7 @@
                 Mackenzie
               </h5>
               <p class="text-base font-semibold leading-none text-gray-600">
-                Operations
+                Founder
               </p>
             </div>
           </div>
