@@ -4,19 +4,28 @@
       <div class="h-full pb-10">
         <div
           class="flex w-full items-center justify-between border-b border-gray-200 bg-white px-2 py-2">
-          <div>
+          <div class="px-4">
             <H1
-              v-if="!filters.type == 'list'"
-              class="text-sm font-bold capitalize text-gray-600">
-              {{ header + 'Contacts' }}
+              v-if="header.includes('all')"
+              class="text-sm font-semibold capitalize text-gray-900">
+              {{ header + ' Contacts' }}
             </H1>
-            <H1 v-else class="text-sm font-bold capitalize text-gray-600">
+            <H1
+              v-else-if="header.includes('favourites')"
+              class="text-sm font-semibold capitalize text-gray-900">
+              Favorites
+            </H1>
+            <H1 v-else class="text-sm font-semibold capitalize text-gray-900">
               {{ header }}
             </H1>
             <p
               v-if="header.includes('all')"
-              class="text-2xs font-medium text-gray-400">
-              {{ counts.total }} Total Contacts
+              class="text-2xs font-light text-gray-600">
+              {{ subheader.total }} Contacts
+            </p>
+
+            <p v-else class="text-2xs font-light text-gray-600">
+              {{ subheader[header] }} Contacts
             </p>
           </div>
           <div class="flex h-6 w-80 content-end items-center">
@@ -255,8 +264,7 @@
             class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table
               class="block w-full divide-y divide-gray-200 overflow-x-auto">
-              <thead
-                class="relative isolate z-20 min-w-full items-center bg-gray-100">
+              <thead class="relative isolate z-20 w-full items-center">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
@@ -466,7 +474,7 @@
                   <tr class="w-full">
                     <td class="w-full" colspan="11">
                       <div
-                        class="flex min-h-screen w-full items-center justify-center bg-gray-50 pb-80">
+                        class="flex min-h-screen w-full items-center justify-center pb-80">
                         <JovieSpinner />
                         <span class="visually-hidden sr-only">
                           Loading...

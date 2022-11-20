@@ -2,7 +2,7 @@
   <div v-if="minimalDesign">
     <div class="relative rounded-md px-2 py-1 shadow-sm">
       <div
-        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
+        class="pointer-events-none absolute inset-y-0 left-2 flex items-center pl-2">
         <SocialIcons
           v-if="socialMediaProfileUrl.includes('instagram')"
           icon="instagram"

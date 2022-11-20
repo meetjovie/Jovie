@@ -13,7 +13,7 @@
       </div>
 
       <div class="mt-2 grid grid-cols-3">
-        <div class="px-1mt-2">
+        <div class="px-1">
           <!--  <svg
             v-if="creator.verified"
             xmlns="http://www.w3.org/2000/svg"
@@ -29,14 +29,14 @@
             v-if="imageLoaded && creator.profile_pic_url"
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="aspect-square h-24 w-24 rounded-full border-4 border-gray-200 object-cover object-center"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-gray-200 object-center"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
           <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="aspect-square h-24 w-24 rounded-full border-4 border-gray-200 object-cover object-center"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-gray-200 object-center"
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
@@ -89,119 +89,252 @@
       </div>
       <div class="overflow-y-scoll grid grid-cols-6 py-2 px-4">
         <div>
-          <div>
+          <SocialIcons
+            v-if="creator.instagram_handler || creator.meta.instagram_handler"
+            @click="editSocialNetworkURL('instagram', creator)"
+            icon="instagram"
+            :linkDisabled="
+              !creator.instagram_handler || !creator.meta.instagram_handler
+            "
+            :link="creator.instagram_handler || creator.meta.instagram_handler"
+            :followers="formatCount(creator.instagram_followers)"
+            height="14"
+            width="14"
+            class="h-4 w-4 cursor-pointer text-gray-400"
+            aria-hidden="true"
+            :countsVisible="false" />
+          <div
+            @click="editSocialNetworkURL('instagram', creator)"
+            class="group cursor-pointer text-center"
+            v-else>
             <SocialIcons
-              v-if="creator.instagram_handler || creator.meta.instagram_handler"
-              @click="editSocialNetworkURL('instagram', creator)"
               icon="instagram"
-              :linkDisabled="
-                !creator.instagram_handler || !creator.meta.instagram_handler
-              "
+              linkDisabled
+              :class="{
+                'group-hover:hidden': !socialURLEditing,
+                'group-hover:block': socialURLEditing,
+              }"
               :link="
                 creator.instagram_handler || creator.meta.instagram_handler
               "
-              :followers="formatCount(creator.instagram_followers)"
               height="14"
               width="14"
-              class="h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
               aria-hidden="true"
               :countsVisible="false" />
-            <div
-              @click="editSocialNetworkURL('instagram', creator)"
-              class="group cursor-pointer text-center"
-              v-else>
-              <SocialIcons
-                icon="instagram"
-                linkDisabled
-                :class="{
-                  'group-hover:hidden': !socialURLEditing,
-                  'group-hover:block': socialURLEditing,
-                }"
-                :link="
-                  creator.instagram_handler || creator.meta.instagram_handler
-                "
-                height="14"
-                width="14"
-                class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
-                aria-hidden="true"
-                :countsVisible="false" />
-              <PlusIcon
-                :class="{
-                  'group-hover:hidden': socialURLEditing,
-                  'group-hover:block': !socialURLEditing,
-                }"
-                class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
-            </div>
+            <PlusIcon
+              :class="{
+                'group-hover:hidden': socialURLEditing,
+                'group-hover:block': !socialURLEditing,
+              }"
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
           </div>
         </div>
-        <SocialIcons
-          @click="editSocialNetworkURL('twitter', creator)"
-          icon="twitter"
-          :linkDisabled="
-            !creator.twitter_handler || !creator.meta.twitter_handler
-          "
-          :link="creator.twitter_handler || creator.meta.twitter_handler"
-          :followers="formatCount(creator.twitter_followers)"
-          height="14"
-          width="14"
-          class="h-4 w-4 cursor-pointer text-gray-400"
-          aria-hidden="true"
-          :countsVisible="false" />
-        <SocialIcons
-          @click="editSocialNetworkURL('twitch', creator)"
-          icon="twitch"
-          :linkDisabled="
-            !creator.twitch_handler || !creator.meta.twitch_handler
-          "
-          :link="creator.twitch_handler || creator.meta.twitch_handler"
-          :followers="formatCount(creator.twitch_followers)"
-          height="14"
-          width="14"
-          class="h-4 w-4 cursor-pointer text-gray-400"
-          aria-hidden="true"
-          :countsVisible="false" />
-        <SocialIcons
-          @click="editSocialNetworkURL('tiktok', creator)"
-          icon="tiktok"
-          :linkDisabled="
-            !creator.tiktok_handler || !creator.meta.tiktok_handler
-          "
-          :link="creator.tiktok_handler || creator.meta.tiktok_handler"
-          :followers="formatCount(creator.tiktok_followers)"
-          height="14"
-          width="14"
-          class="h-4 w-4 cursor-pointer text-gray-400"
-          aria-hidden="true"
-          :countsVisible="false" />
-        <SocialIcons
-          @click="editSocialNetworkURL('youtube', creator)"
-          icon="youtube"
-          :linkDisabled="
-            !creator.youtube_handler || !creator.meta.youtube_handler
-          "
-          :link="creator.youtube_handler || creator.meta.youtube_handler"
-          :followers="formatCount(creator.youtube_followers)"
-          height="14"
-          width="14"
-          class="h-4 w-4 cursor-pointer text-gray-400"
-          aria-hidden="true"
-          :countsVisible="false" />
-        <SocialIcons
-          @click="editSocialNetworkURL('linkedin', creator)"
-          icon="linkedin"
-          :linkDisabled="
-            !creator.linkedin_handler || !creator.meta.linkedin_handler
-          "
-          :link="creator.linkedin_handler || creator.meta.linkedin_handler"
-          :followers="formatCount(creator.linkedin_followers)"
-          height="14"
-          width="14"
-          class="h-4 w-4 cursor-pointer text-gray-400"
-          aria-hidden="true"
-          :countsVisible="false" />
+        <div>
+          <SocialIcons
+            v-if="creator.twitter_handler || creator.meta.twitter_handler"
+            @click="editSocialNetworkURL('twitter', creator)"
+            icon="twitter"
+            :linkDisabled="
+              !creator.twitter_handler || !creator.meta.twitter_handler
+            "
+            :link="creator.twitter_handler || creator.meta.twitter_handler"
+            :followers="formatCount(creator.twitter_followers)"
+            height="14"
+            width="14"
+            class="h-4 w-4 cursor-pointer text-gray-400"
+            aria-hidden="true"
+            :countsVisible="false" />
+          <div
+            @click="editSocialNetworkURL('twitter', creator)"
+            class="group cursor-pointer text-center"
+            v-else>
+            <SocialIcons
+              icon="twitter"
+              linkDisabled
+              :class="{
+                'group-hover:hidden': !socialURLEditing,
+                'group-hover:block': socialURLEditing,
+              }"
+              :link="creator.twitter_handler || creator.meta.twitter_handler"
+              height="14"
+              width="14"
+              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              aria-hidden="true"
+              :countsVisible="false" />
+
+            <PlusIcon
+              :class="{
+                'group-hover:hidden': socialURLEditing,
+                'group-hover:block': !socialURLEditing,
+              }"
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+          </div>
+        </div>
+        <div>
+          <SocialIcons
+            v-if="creator.twitch_handler || creator.meta.twitch_handler"
+            @click="editSocialNetworkURL('twitch', creator)"
+            icon="twitch"
+            :linkDisabled="
+              !creator.twitch_handler || !creator.meta.twitch_handler
+            "
+            :link="creator.twitch_handler || creator.meta.twitch_handler"
+            :followers="formatCount(creator.twitch_followers)"
+            height="14"
+            width="14"
+            class="h-4 w-4 cursor-pointer text-gray-400"
+            aria-hidden="true"
+            :countsVisible="false" />
+          <div
+            @click="editSocialNetworkURL('twitch', creator)"
+            class="group cursor-pointer text-center"
+            v-else>
+            <SocialIcons
+              icon="twitch"
+              linkDisabled
+              :class="{
+                'group-hover:hidden': !socialURLEditing,
+                'group-hover:block': socialURLEditing,
+              }"
+              :link="creator.twitch_handler || creator.meta.twitch_handler"
+              height="14"
+              width="14"
+              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              aria-hidden="true"
+              :countsVisible="false" />
+            <PlusIcon
+              :class="{
+                'group-hover:hidden': socialURLEditing,
+                'group-hover:block': !socialURLEditing,
+              }"
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+          </div>
+        </div>
+        <div>
+          <SocialIcons
+            v-if="creator.tiktok_handler || creator.meta.tiktok_handler"
+            @click="editSocialNetworkURL('tiktok', creator)"
+            icon="tiktok"
+            :linkDisabled="
+              !creator.tiktok_handler || !creator.meta.tiktok_handler
+            "
+            :link="creator.tiktok_handler || creator.meta.tiktok_handler"
+            :followers="formatCount(creator.tiktok_followers)"
+            height="14"
+            width="14"
+            class="h-4 w-4 cursor-pointer text-gray-400"
+            aria-hidden="true"
+            :countsVisible="false" />
+          <div
+            @click="editSocialNetworkURL('tiktok', creator)"
+            class="group cursor-pointer text-center"
+            v-else>
+            <SocialIcons
+              icon="tiktok"
+              linkDisabled
+              :class="{
+                'group-hover:hidden': !socialURLEditing,
+                'group-hover:block': socialURLEditing,
+              }"
+              :link="creator.tiktok_handler || creator.meta.tiktok_handler"
+              height="14"
+              width="14"
+              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              aria-hidden="true"
+              :countsVisible="false" />
+            <PlusIcon
+              :class="{
+                'group-hover:hidden': socialURLEditing,
+                'group-hover:block': !socialURLEditing,
+              }"
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+          </div>
+        </div>
+        <div>
+          <SocialIcons
+            @click="editSocialNetworkURL('youtube', creator)"
+            v-if="creator.youtube_handler || creator.meta.youtube_handler"
+            icon="youtube"
+            :linkDisabled="
+              !creator.youtube_handler || !creator.meta.youtube_handler
+            "
+            :link="creator.youtube_handler || creator.meta.youtube_handler"
+            :followers="formatCount(creator.youtube_followers)"
+            height="14"
+            width="14"
+            class="h-4 w-4 cursor-pointer text-gray-400"
+            aria-hidden="true"
+            :countsVisible="false" />
+          <div
+            @click="editSocialNetworkURL('youtube', creator)"
+            class="group cursor-pointer text-center"
+            v-else>
+            <SocialIcons
+              icon="youtube"
+              linkDisabled
+              :class="{
+                'group-hover:hidden': !socialURLEditing,
+                'group-hover:block': socialURLEditing,
+              }"
+              :link="creator.youtube_handler || creator.meta.youtube_handler"
+              height="14"
+              width="14"
+              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              aria-hidden="true"
+              :countsVisible="false" />
+            <PlusIcon
+              :class="{
+                'group-hover:hidden': socialURLEditing,
+                'group-hover:block': !socialURLEditing,
+              }"
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+          </div>
+        </div>
+        <div>
+          <SocialIcons
+            @click="editSocialNetworkURL('linkedin', creator)"
+            v-if="creator.linkedin_handler || creator.meta.linkedin_handler"
+            icon="linkedin"
+            :linkDisabled="
+              !creator.linkedin_handler || !creator.meta.linkedin_handler
+            "
+            :link="creator.linkedin_handler || creator.meta.linkedin_handler"
+            :followers="formatCount(creator.linkedin_followers)"
+            height="14"
+            width="14"
+            class="h-4 w-4 cursor-pointer text-gray-400"
+            aria-hidden="true"
+            :countsVisible="false" />
+          <div
+            @click="editSocialNetworkURL('linkedin', creator)"
+            class="group cursor-pointer text-center"
+            v-else>
+            <SocialIcons
+              icon="linkedin"
+              linkDisabled
+              :class="{
+                'group-hover:hidden': !socialURLEditing,
+                'group-hover:block': socialURLEditing,
+              }"
+              :link="creator.linkedin_handler || creator.meta.linkedin_handler"
+              height="14"
+              width="14"
+              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              aria-hidden="true"
+              :countsVisible="false" />
+            <PlusIcon
+              :class="{
+                'group-hover:hidden': socialURLEditing,
+                'group-hover:block': !socialURLEditing,
+              }"
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+          </div>
+        </div>
       </div>
       <div v-if="socialURLEditing">
         <SocialInput
+          :socialMediaProfileUrl="socialMediaProfileUrl"
           @finishImport="saveSocialNetworkURL"
           @saveSocialNetworkURL="saveSocialNetworkURL()"
           @cancelEdit="cancelEdit()"
@@ -682,9 +815,9 @@ export default {
   async mounted() {
     // console.log('Sidebar loaded');
     this.$mousetrap.bind('n', () => {
-      //focus on noteInput
-      console.log('n');
-      this.$refs.noteInput.focus();
+      //prevent default
+
+      this.focusNoteInput();
     });
     document.onreadystatechange = () => {
       if (document.readyState == 'complete') {
@@ -762,6 +895,9 @@ export default {
   },
 
   methods: {
+    focusNoteInput() {
+      this.$refs.noteInput.$el.focus();
+    },
     openURL(url) {
       window.open(url, '_blank');
     },
@@ -1004,6 +1140,7 @@ export default {
     editSocialNetworkURL(network, creator) {
       console.log(network);
       console.log(creator);
+      this.setNetwork(network);
       this.socialURLEditing = true;
       //focus on  id="social_network_url"
       this.$refs.editInput.focus();
@@ -1017,6 +1154,24 @@ export default {
         creator: creator,
       };
       this.$emit('editSocialNetworkURL', network, creator); */
+    },
+    setNetwork(network) {
+      console.log(network);
+      if (network == 'instagram') {
+        this.socialMediaProfileUrl = 'https://instagram.com/';
+      } else if (network == 'twitter') {
+        this.socialMediaProfileUrl = 'https://twitter.com/';
+      } else if (network == 'linkedin') {
+        this.socialMediaProfileUrl = 'https://linkedin.com/in/';
+      } else if (network == 'youtube') {
+        this.socialMediaProfileUrl = 'https://youtube.com/';
+      } else if (network == 'tiktok') {
+        this.socialMediaProfileUrl = 'https://tiktok.com/@';
+      } else if (network == 'twitch') {
+        this.socialMediaProfileUrl = 'https://twitch.tv/';
+      } else {
+        this.socialMediaProfileUrl = '';
+      }
     },
     closeContactSidebar() {
       //turn off the sidebar

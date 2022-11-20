@@ -417,7 +417,7 @@
                         @setOrder="setOrder"
                         :header="filters.type"
                         @importCSV="importCSV"
-                        subheader="All your contacts in one place."
+                        :subheader="counts"
                         :filters="filters"
                         :userLists="userLists"
                         :creators="creators"
@@ -444,7 +444,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 -mt-2 hidden h-full border-l-2 border-gray-200 shadow-xl xl:block">
+            class="z-30 -mt-2 hidden h-full border-l-2 border-gray-200 xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
