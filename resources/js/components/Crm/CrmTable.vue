@@ -133,7 +133,7 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <PopoverPanel
-                        class="w-60 flex-col rounded-md border-2 border-gray-200 bg-white py-1 pl-2 pr-1 shadow-xl">
+                        class="w-60 flex-col rounded-md border-2 border border-gray-200 border-gray-200 bg-opacity-60 bg-clip-padding py-1 pl-2 pr-1 shadow-xl backdrop-blur-xl backdrop-blur-2xl backdrop-saturate-150 backdrop-filter">
                         <div as="div">
                           <div
                             class="flex items-center justify-between border-b border-gray-200 py-1">
@@ -146,7 +146,7 @@
                         <div as="div" v-for="(column, index) in otherColumns">
                           <SwitchGroup>
                             <SwitchLabel
-                              class="flex items-center hover:bg-gray-100 hover:text-white">
+                              class="flex items-center hover:bg-gray-200 hover:text-white">
                               <button
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
                                 <div class="flex items-center">
@@ -189,7 +189,7 @@
                         <div class="text-medium border-t border-gray-200">
                           <SwitchGroup v-for="setting in settings">
                             <SwitchLabel
-                              class="flex items-center hover:bg-gray-100 hover:text-white">
+                              class="flex items-center hover:bg-gray-200 hover:text-white">
                               <button
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
                                 <div class="flex items-center">
@@ -227,7 +227,7 @@
                           </SwitchGroup>
                           <div>
                             <div
-                              class="flex items-center hover:bg-gray-100 hover:text-white">
+                              class="flex items-center hover:bg-gray-200 hover:text-white">
                               <button
                                 @click="importCSV()"
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
@@ -1238,6 +1238,7 @@ import {
   ArchiveBoxIcon,
   ArrowSmallLeftIcon,
   ChevronDownIcon,
+  CloudUploadIcon,
   PlusIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   BriefcaseIcon,
@@ -1285,6 +1286,7 @@ export default {
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
     ButtonGroup,
+    CloudUploadIcon,
     Menu,
     EnvelopeIcon,
     ArrowSmallLeftIcon,

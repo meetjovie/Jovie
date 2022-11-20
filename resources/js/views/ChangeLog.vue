@@ -153,6 +153,10 @@
 
               <ul class="prose">
                 <li class="prose">- Improved navigation experience</li>
+
+                <li class="prose">
+                  - Made it easier to add additional social links to a contact
+                </li>
                 <li class="prose">
                   - Fixed an issue where images from Twitter appeared smaller
                   than images from other sources

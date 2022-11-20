@@ -98,6 +98,7 @@
               </div>
               <div class="flex-col justify-evenly space-y-4 px-2 py-4">
                 <MenuList
+                  v-if="pinnedUserLists.length"
                   ref="menuListPinned"
                   @getUserLists="getUserLists"
                   @setFiltersType="setFiltersType"

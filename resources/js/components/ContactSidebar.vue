@@ -192,7 +192,9 @@
             v-else>
             <SocialIcons
               icon="twitch"
-              linkDisabled
+              :linkDisabled="
+                !creator.twitch_handler || !creator.meta.twitch_handler
+              "
               :class="{
                 'group-hover:hidden': !socialURLEditing,
                 'group-hover:block': socialURLEditing,
