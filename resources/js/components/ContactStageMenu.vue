@@ -1,84 +1,166 @@
 <template>
-  <Combobox as="div" v-model="selectedPerson">
-    <div class="relative mt-1">
-      <ComboboxInput
-        class="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-        @change="query = $event.target.value"
-        :display-value="(person) => person?.name" />
-      <ComboboxButton
-        class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-        <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-      </ComboboxButton>
-
-      <ComboboxOptions
-        static
-        v-if="filteredPeople.length > 0"
-        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto text-xs shadow-lg ring-1 ring-black ring-opacity-5">
-        <ComboboxOption
-          v-for="person in filteredPeople"
-          :key="person.id"
-          :value="person"
-          as="template"
-          v-slot="{ active, selected }">
-          <li
-            :class="[
-              'relative cursor-default select-none py-2 pl-3 pr-9',
-              active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-            ]">
-            <div class="flex items-center">
-              <span
-                :class="[
-                  'inline-block h-2 w-2 flex-shrink-0 rounded-full',
-                  person.online ? 'bg-green-400' : 'bg-gray-200',
-                ]"
-                aria-hidden="true" />
-              <span :class="['ml-3 truncate', selected && 'font-semibold']">
-                {{ person.name }}
-                <span class="sr-only">
-                  is {{ person.online ? 'online' : 'offline' }}</span
+  <Menu
+    as="div"
+    class="relative z-10 inline-block w-full items-center text-left">
+    <Float portal :offset="0" shift placement="bottom-start">
+      <MenuButton class="flex w-full justify-between px-2">
+        <div
+          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1"
+          :class="[
+            {
+              'bg-indigo-50 text-indigo-600':
+                creator.crm_record_by_user.stage_name === 'Lead',
+            },
+            {
+              'bg-sky-50 text-sky-600':
+                creator.crm_record_by_user.stage_name === 'Interested',
+            },
+            {
+              'bg-pink-50 text-pink-600':
+                creator.crm_record_by_user.stage_name === 'Negotiating',
+            },
+            {
+              'bg-fuchsia-50 text-fuchsia-600':
+                creator.crm_record_by_user.stage_name === 'In Progress',
+            },
+            {
+              'bg-red-50 text-red-600':
+                creator.crm_record_by_user.stage_name === 'Complete',
+            },
+          ]">
+          {{ creator.crm_record_by_user.stage_name }}
+        </div>
+        <div class="items-center">
+          <ChevronDownIcon class="mt-1 h-4 w-4 text-gray-600" />
+        </div>
+      </MenuButton>
+      <transition
+        enter-active-class="transition duration-100 ease-out"
+        enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100"
+        leave-active-class="transition duration-75 ease-in"
+        leave-from-class="transform scale-100 opacity-100"
+        leave-to-class="transform scale-95 opacity-0">
+        <MenuItems
+          @focus="focusStageInput()"
+          class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border border-gray-200 border-gray-200 bg-white/60 bg-clip-padding py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+          <div class="px-1">
+            <div class="relative flex items-center">
+              <input
+                ref="stageInput"
+                v-model="stageSearchQuery"
+                placeholder="Set stage..."
+                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-semibold text-gray-700 outline-0 ring-0 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+              <div class="absolute inset-y-0 right-0 flex py-1 pr-1.5">
+                <kbd
+                  class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400"
+                  >S</kbd
                 >
-              </span>
+              </div>
             </div>
+            <div class="border-t border-gray-200">
+              <MenuItem
+                v-for="(stage, key) in stages"
+                :key="stage"
+                @click="
+                  $emit('updateCreator', {
+                    id: creator.id,
+                    index: index,
+                    key: `crm_record_by_user.stage`,
+                    value: key,
+                  })
+                "
+                class="group mt-1 flex w-full items-center rounded-md px-2 py-1 text-xs text-gray-600 hover:bg-gray-200 hover:text-gray-600">
+                <div class="flex">
+                  <div class="mr-2 w-3 text-xs font-bold opacity-50">
+                    <CheckIcon
+                      v-if="stage === creator.crm_record_by_user.stage_name"
+                      class="h-3 w-3 text-gray-600" />
+                  </div>
+                  <div class="mr-2 text-xs font-bold opacity-50">
+                    <span
+                      class="inline-block h-2 w-2 flex-shrink-0 rounded-full"
+                      :class="[
+                        {
+                          'bg-indigo-50 text-indigo-600': stage == 'Lead',
+                        },
+                        {
+                          'bg-sky-50 text-sky-600': stage == 'Interested',
+                        },
+                        {
+                          'bg-pink-50 text-pink-600': stage == 'Negotiating',
+                        },
+                        {
+                          'bg-fuchsia-50 text-fuchsia-600':
+                            stage == 'In Progress',
+                        },
+                        {
+                          'bg-red-50 text-red-600': stage == 'Complete',
+                        },
+                      ]"></span>
+                  </div>
 
-            <span
-              v-if="selected"
-              :class="[
-                'absolute inset-y-0 right-0 flex items-center pr-4',
-                active ? 'text-white' : 'text-indigo-600',
-              ]">
-              <CheckIcon class="h-5 w-5" aria-hidden="true" />
-            </span>
-          </li>
-        </ComboboxOption>
-      </ComboboxOptions>
-    </div>
-  </Combobox>
+                  <div class="text-xs font-medium">
+                    {{ stage }}
+                  </div>
+                </div>
+              </MenuItem>
+            </div>
+          </div>
+        </MenuItems>
+      </transition>
+    </Float>
+  </Menu>
 </template>
+<script>
+import { Menu, MenuItem, MenuButton, MenuItems } from '@headlessui/vue';
+import { ChevronDownIcon, CheckIcon } from '@heroicons/vue/24/outline';
+import { Float } from '@headlessui-float/vue';
 
-<script setup>
-import { computed, ref } from 'vue';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
-import {
-  Combobox,
-  ComboboxButton,
-  ComboboxInput,
-  ComboboxLabel,
-  ComboboxOption,
-  ComboboxOptions,
-} from '@headlessui/vue';
-
-const people = [
-  { id: 1, name: 'Leslie Alexander', online: true },
-  // More users...
-];
-
-const query = ref('');
-const selectedPerson = ref(null);
-const filteredPeople = computed(() =>
-  query.value === ''
-    ? people
-    : people.filter((person) => {
-        return person.name.toLowerCase().includes(query.value.toLowerCase());
-      })
-);
+export default {
+  components: {
+    Menu,
+    MenuItem,
+    ChevronDownIcon,
+    CheckIcon,
+    Float,
+    MenuButton,
+    MenuItems,
+  },
+  props: {
+    creator: {
+      type: Object,
+      required: true,
+    },
+    key: {
+      type: String,
+      required: true,
+    },
+    stages: {
+      type: Array,
+      required: true,
+    },
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      stageSearchQuery: '',
+    };
+  },
+  methods: {
+    focusStageInput() {
+      this.$nextTick(() => {
+        this.$refs.stageInput.focus();
+      });
+    },
+    filteredStages(creator) {
+      return Object.keys(creator.crm_record_by_user.stages).filter((stage) =>
+        stage.includes(this.stageSearchQuery)
+      );
+    },
+  },
+};
 </script>

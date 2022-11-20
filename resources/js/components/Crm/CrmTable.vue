@@ -1037,7 +1037,21 @@
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
                       class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border">
-                      <Popover
+                      <ContactStageMenu
+                        :creator="creator"
+                        :key="key"
+                        :stages="stages"
+                        :index="index"
+                        @updateCreator="
+                          $emit('updateCreator', {
+                            id: id,
+                            index: index,
+                            key: key,
+                            value: value,
+                          })
+                        " />
+
+                      <!-- <Popover
                         as="div"
                         class="relative z-10 inline-block w-full items-center text-left">
                         <Float
@@ -1094,14 +1108,14 @@
                             <PopoverPanel
                               class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border border-gray-200 border-gray-200 bg-white/60 bg-clip-padding py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
                               <div class="px-1">
-                                <div class="relative mt-1 flex items-center">
+                                <div class="relative flex items-center">
                                   <input
                                     ref="stageInput"
                                     v-model="stageSearchQuery"
                                     placeholder="Set stage..."
-                                    class="w-full border-0 border-transparent bg-transparent px-1 py-1 text-xs font-semibold text-gray-700 ring-0 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                                    class="w-full border-0 border-transparent bg-transparent px-1 py-2 text-xs font-semibold text-gray-700 ring-0 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
                                   <div
-                                    class="absolute inset-y-0 right-0 flex py-0.5 pr-1.5">
+                                    class="absolute inset-y-0 right-0 flex py-1 pr-1.5">
                                     <kbd
                                       class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400"
                                       >S</kbd
@@ -1110,7 +1124,9 @@
                                 </div>
                                 <div class="border-t border-gray-200">
                                   <button
-                                    v-for="(stage, key) in filteredStages"
+                                    v-for="(stage, key) in filteredStages(
+                                      creator
+                                    )"
                                     :key="stage"
                                     @click="
                                       $emit('updateCreator', {
@@ -1172,7 +1188,7 @@
                             </PopoverPanel>
                           </transition>
                         </Float>
-                      </Popover>
+                      </Popover> -->
                     </td>
                     <td
                       v-if="
@@ -1593,11 +1609,7 @@ export default {
         );
       });
     },
-    filteredStages() {
-      return this.stages.filter((stage) => {
-        return stage.toLowerCase().match(this.stageSearchQuery.toLowerCase());
-      });
-    },
+
     visibleColumns() {
       localStorage.setItem('columns', JSON.stringify(this.columns));
       return this.columns.map((column) => {
