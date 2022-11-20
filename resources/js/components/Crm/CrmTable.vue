@@ -133,7 +133,7 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <PopoverPanel
-                        class="w-60 flex-col rounded-md border-2 border border-gray-200 border-gray-200 bg-opacity-60 bg-clip-padding py-1 pl-2 pr-1 shadow-xl backdrop-blur-xl backdrop-blur-2xl backdrop-saturate-150 backdrop-filter">
+                        class="w-60 flex-col rounded-md border-2 border border-gray-200 border-gray-200 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl backdrop-blur-xl backdrop-blur-2xl backdrop-saturate-150 backdrop-filter">
                         <div as="div">
                           <div
                             class="flex items-center justify-between border-b border-gray-200 py-1">
@@ -146,9 +146,9 @@
                         <div as="div" v-for="(column, index) in otherColumns">
                           <SwitchGroup>
                             <SwitchLabel
-                              class="flex items-center hover:bg-gray-200 hover:text-white">
+                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
                               <button
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
                                 <div class="flex items-center">
                                   <component
                                     :is="column.icon"
@@ -169,7 +169,7 @@
                                     :class="
                                       checked ? 'bg-indigo-600' : 'bg-gray-200'
                                     "
-                                    class="relative inline-flex h-4 w-6 items-center rounded-full">
+                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-gray-300">
                                     <span class="sr-only"
                                       >Show/hide column</span
                                     >
@@ -189,9 +189,9 @@
                         <div class="text-medium border-t border-gray-200">
                           <SwitchGroup v-for="setting in settings">
                             <SwitchLabel
-                              class="flex items-center hover:bg-gray-200 hover:text-white">
+                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
                               <button
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
                                 <div class="flex items-center">
                                   <component
                                     :is="setting.icon"
@@ -212,7 +212,7 @@
                                     :class="
                                       checked ? 'bg-indigo-600' : 'bg-gray-200'
                                     "
-                                    class="relative inline-flex h-4 w-6 items-center rounded-full">
+                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-gray-300">
                                     <span
                                       :class="
                                         checked
@@ -227,13 +227,12 @@
                           </SwitchGroup>
                           <div>
                             <div
-                              class="flex items-center hover:bg-gray-200 hover:text-white">
+                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
                               <button
                                 @click="importCSV()"
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-500">
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
                                 <div class="flex items-center">
-                                  <component
-                                    :is="CloudUploadIcon"
+                                  <CloudArrowUpIcon
                                     class="mr-2 h-3 w-3 text-gray-400"
                                     aria-hidden="true" />
                                   <span class="line-clamp-1"> Import CSV </span>
@@ -1238,7 +1237,7 @@ import {
   ArchiveBoxIcon,
   ArrowSmallLeftIcon,
   ChevronDownIcon,
-  CloudUploadIcon,
+  CloudArrowUpIcon,
   PlusIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   BriefcaseIcon,
@@ -1286,7 +1285,7 @@ export default {
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
     ButtonGroup,
-    CloudUploadIcon,
+    CloudArrowUpIcon,
     Menu,
     EnvelopeIcon,
     ArrowSmallLeftIcon,
