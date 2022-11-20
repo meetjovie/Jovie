@@ -1046,6 +1046,7 @@
                           shift
                           placement="bottom-start">
                           <PopoverButton
+                            @click="focusStageInput()"
                             class="flex w-full justify-between px-2">
                             <div
                               class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1"
@@ -1091,11 +1092,26 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                              <div class="">
-                                <div class="">
+                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border border-gray-200 border-gray-200 bg-white/60 bg-clip-padding py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+                              <div class="px-1">
+                                <div class="relative mt-1 flex items-center">
+                                  <input
+                                    ref="stageInput"
+                                    v-model="stageSearchQuery"
+                                    placeholder="Set stage..."
+                                    class="w-full border-0 border-transparent bg-transparent px-1 py-1 text-xs font-semibold text-gray-700 ring-0 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                                  <div
+                                    class="absolute inset-y-0 right-0 flex py-0.5 pr-1.5">
+                                    <kbd
+                                      class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400"
+                                      >S</kbd
+                                    >
+                                  </div>
+                                </div>
+                                <div class="border-t border-gray-200">
                                   <button
-                                    v-for="(stage, key) in stages"
+                                    v-for="(stage, key) in filteredStages"
+                                    :key="stage"
                                     @click="
                                       $emit('updateCreator', {
                                         id: creator.id,
@@ -1104,13 +1120,51 @@
                                         value: key,
                                       })
                                     "
-                                    class="group flex w-full items-center bg-white px-2 py-1 text-xs text-gray-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-gray-100 hover:text-gray-600">
+                                    class="group mt-1 flex w-full items-center rounded-md px-2 py-1 text-xs text-gray-600 hover:bg-gray-200 hover:text-gray-600">
                                     <div
-                                      class="mr-2 text-xs font-bold opacity-50">
-                                      {{ key + 1 }}
-                                    </div>
-                                    <div class="text-xs font-medium">
-                                      {{ stage }}
+                                      v-if="stage.includes(stageSearchQuery)"
+                                      class="flex">
+                                      <div
+                                        class="mr-2 w-3 text-xs font-bold opacity-50">
+                                        <CheckIcon
+                                          v-if="
+                                            stage ===
+                                            creator.crm_record_by_user
+                                              .stage_name
+                                          "
+                                          class="h-3 w-3 text-gray-600" />
+                                      </div>
+                                      <div
+                                        class="mr-2 text-xs font-bold opacity-50">
+                                        <span
+                                          class="inline-block h-2 w-2 flex-shrink-0 rounded-full"
+                                          :class="[
+                                            {
+                                              'bg-indigo-50 text-indigo-600':
+                                                stage == 'Lead',
+                                            },
+                                            {
+                                              'bg-sky-50 text-sky-600':
+                                                stage == 'Interested',
+                                            },
+                                            {
+                                              'bg-pink-50 text-pink-600':
+                                                stage == 'Negotiating',
+                                            },
+                                            {
+                                              'bg-fuchsia-50 text-fuchsia-600':
+                                                stage == 'In Progress',
+                                            },
+                                            {
+                                              'bg-red-50 text-red-600':
+                                                stage == 'Complete',
+                                            },
+                                          ]"></span>
+                                      </div>
+
+                                      <div class="text-xs font-medium">
+                                        {{ stage }}
+                                      </div>
                                     </div>
                                   </button>
                                 </div>
@@ -1220,6 +1274,8 @@
 <script>
 import { Float } from '@headlessui-float/vue';
 import Datepicker from '@vuepic/vue-datepicker';
+
+import { ref } from 'vue';
 import '@vuepic/vue-datepicker/dist/main.css';
 import {
   Menu,
@@ -1264,6 +1320,7 @@ import {
   ArrowTopRightOnSquareIcon,
   PhoneIcon,
   ChatBubbleLeftEllipsisIcon,
+  CheckIcon,
 } from '@heroicons/vue/24/solid';
 import KeyboardShortcut from '../../components/KeyboardShortcut';
 import Pagination from '../../components/Pagination';
@@ -1274,9 +1331,11 @@ import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
 import ButtonGroup from '../../components/ButtonGroup.vue';
 import JovieTooltip from '../../components/JovieTooltip.vue';
+import ContactStageMenu from '../../components/ContactStageMenu.vue';
 export default {
   name: 'CrmTable',
   components: {
+    ContactStageMenu,
     ArchiveBoxIcon,
     ChevronRightIcon,
     StarRating,
@@ -1302,6 +1361,7 @@ export default {
     Popover,
     BriefcaseIcon,
     UserIcon,
+    CheckIcon,
     ChatBubbleOvalLeftEllipsisIcon,
     UserGroupIcon,
     ChevronDownIcon,
@@ -1338,6 +1398,7 @@ export default {
       },
       creatorRecords: [],
       searchQuery: '',
+      stageSearchQuery: '',
       currentRow: null,
       date: null,
       selectedCreators: [],
@@ -1532,6 +1593,11 @@ export default {
         );
       });
     },
+    filteredStages() {
+      return this.stages.filter((stage) => {
+        return stage.toLowerCase().match(this.stageSearchQuery.toLowerCase());
+      });
+    },
     visibleColumns() {
       localStorage.setItem('columns', JSON.stringify(this.columns));
       return this.columns.map((column) => {
@@ -1552,6 +1618,12 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    focusStageInput() {
+      //use next tick
+      this.$nextTick(() => {
+        this.$refs.stageInput.$el.focus();
+      });
+    },
     openContextMenu(event, creator) {
       //notify the user they right clicked
       console.log('right clicked' + creator.name);
