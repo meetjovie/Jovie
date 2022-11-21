@@ -63,6 +63,13 @@ export const routes = [
     },
   },
   {
+    name: 'Invest in Jovie',
+    path: '/invest',
+    beforeEnter(to, from, next) {
+      window.open('https://stack.angellist.com/s/qo9maosy1o', '_self');
+    },
+  },
+  {
     name: 'YC Demo Video',
     path: '/yc-demo-video',
     beforeEnter(to, from, next) {
