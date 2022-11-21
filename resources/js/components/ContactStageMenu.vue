@@ -75,14 +75,12 @@
               v-slot="{ active }"
               v-for="(stage, key) in filteredStage"
               :key="stage"
-              @click="
-                $emit('updateCreator', {
+              @click="$emit('updateCreator', {
                   id: creator.id,
                   index: index,
                   key: `crm_record_by_user.stage`,
                   value: key,
-                })
-              ">
+              })">
               <div
                 class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
                 :class="{

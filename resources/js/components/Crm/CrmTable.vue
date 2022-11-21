@@ -1077,14 +1077,7 @@
                         :key="key"
                         :stages="stages"
                         :index="index"
-                        @updateCreator="
-                          $emit('updateCreator', {
-                            id: id,
-                            index: index,
-                            key: key,
-                            value: value,
-                          })
-                        " />
+                        @updateCreator="$emit('updateCreator', $event)"/>
 
                       <!-- <Popover
                         as="div"
