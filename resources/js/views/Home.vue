@@ -398,6 +398,7 @@ export default {
           cta: 'Try Jovie free',
 
           ctaLink: 'https://jov.ie/signup',
+
         },
       ],
     };
