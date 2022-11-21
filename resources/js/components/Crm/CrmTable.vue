@@ -104,9 +104,9 @@
             </div>
             <div class="flex items-center">
               <div class="group h-full cursor-pointer items-center">
-                <Popover class="items-center">
+                <Menu class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
-                    <PopoverButton class="inline-flex items-center">
+                    <MenuButton class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
                         class="h-5 w-5 font-bold text-gray-400 group-hover:text-gray-600"
                         aria-hidden="true" /> -->
@@ -124,7 +124,7 @@
                           icon="AdjustmentsHorizontalIcon"
                           hideText />
                       </JovieTooltip>
-                    </PopoverButton>
+                    </MenuButton>
                     <transition
                       enter-active-class="transition duration-100 ease-out"
                       enter-from-class="transform scale-95 opacity-0"
@@ -132,8 +132,8 @@
                       leave-active-class="transition duration-75 ease-in"
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
-                      <PopoverPanel
-                        class="w-60 flex-col rounded-md border-2 border border-gray-200 border-gray-200 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl backdrop-blur-xl backdrop-blur-2xl backdrop-saturate-150 backdrop-filter">
+                      <MenuItems
+                        class="w-60 flex-col rounded-md border-2 border-gray-200 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0">
                         <div as="div">
                           <div
                             class="flex items-center justify-between border-b border-gray-200 py-1">
@@ -143,10 +143,16 @@
                             </div>
                           </div>
                         </div>
-                        <div as="div" v-for="(column, index) in otherColumns">
+                        <MenuItem
+                          as="div"
+                          v-slot="{ active }"
+                          v-for="(column, index) in otherColumns">
                           <SwitchGroup>
                             <SwitchLabel
-                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
+                              class="flex items-center rounded-md"
+                              :class="{
+                                'bg-gray-300 text-white': active,
+                              }">
                               <button
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
                                 <div class="flex items-center">
@@ -185,7 +191,7 @@
                               </button>
                             </SwitchLabel>
                           </SwitchGroup>
-                        </div>
+                        </MenuItem>
                         <div class="text-medium border-t border-gray-200">
                           <SwitchGroup v-for="setting in settings">
                             <SwitchLabel
@@ -241,10 +247,10 @@
                             </div>
                           </div>
                         </div>
-                      </PopoverPanel>
+                      </MenuItems>
                     </transition>
                   </Float>
-                </Popover>
+                </Menu>
               </div>
               <!-- <div v-if="currentContact">
                 <button

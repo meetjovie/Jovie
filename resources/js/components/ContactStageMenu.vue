@@ -192,8 +192,12 @@ export default {
   },
   mounted() {
     this.$mousetrap.bind('s', () => {
-      this.open = true;
-      this.logIt();
+      //if  currentContact.id == creator.id set open to true
+      if (this.currentContact.id == this.creator.id) {
+        this.open = true;
+      } else {
+        console.log('not the same');
+      }
     });
   },
   props: {
@@ -209,7 +213,6 @@ export default {
       type: Array,
       required: true,
     },
-
     index: {
       type: Number,
       required: true,
