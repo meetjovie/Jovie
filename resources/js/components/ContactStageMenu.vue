@@ -59,12 +59,12 @@
                   v-model="stageSearchQuery"
                   placeholder="Set stage..."
                   class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-gray-600 outline-0 ring-0 placeholder:font-light placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
-                <div class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
+                <!-- <div class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
                   <kbd
                     class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-2xs font-medium text-gray-400"
                     >S</kbd
                   >
-                </div>
+                </div> -->
               </div>
             </MenuItem>
           </div>

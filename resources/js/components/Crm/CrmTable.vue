@@ -5,19 +5,19 @@
         <div
           class="flex w-full items-center justify-between border-b border-gray-200 bg-white px-2 py-2">
           <div class="px-4">
-            <H1
+            <h1
               v-if="header.includes('all')"
               class="text-sm font-semibold capitalize text-gray-900">
               {{ header + ' Contacts' }}
-            </H1>
-            <H1
+            </h1>
+            <h1
               v-else-if="header.includes('favourites')"
               class="text-sm font-semibold capitalize text-gray-900">
               Favorites
-            </H1>
-            <H1 v-else class="text-sm font-semibold capitalize text-gray-900">
+            </h1>
+            <h1 v-else class="text-sm font-semibold capitalize text-gray-900">
               {{ header }}
-            </H1>
+            </h1>
             <p
               v-if="header.includes('all')"
               class="text-2xs font-light text-gray-600">
@@ -104,9 +104,9 @@
             </div>
             <div class="flex items-center">
               <div class="group h-full cursor-pointer items-center">
-                <Menu class="items-center">
+                <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
-                    <MenuButton class="inline-flex items-center">
+                    <MenuButton @click="open" class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
                         class="h-5 w-5 font-bold text-gray-400 group-hover:text-gray-600"
                         aria-hidden="true" /> -->
@@ -125,7 +125,8 @@
                           hideText />
                       </JovieTooltip>
                     </MenuButton>
-                    <transition
+                    <TransitionRoot
+                      :show="open"
                       enter-active-class="transition duration-100 ease-out"
                       enter-from-class="transform scale-95 opacity-0"
                       enter-to-class="transform scale-100 opacity-100"
@@ -133,8 +134,10 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
+                        @focus="focusTableColumnFilterInput()"
+                        static
                         class="w-60 flex-col rounded-md border-2 border-gray-200 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0">
-                        <div as="div">
+                        <!--  <div as="div">
                           <div
                             class="flex items-center justify-between border-b border-gray-200 py-1">
                             <div
@@ -142,11 +145,29 @@
                               Display Columns
                             </div>
                           </div>
+                        </div> -->
+                        <div class="px-1">
+                          <MenuItem v-slot="{ active }" as="div">
+                            <div class="relative flex items-center">
+                              <input
+                                ref="tableColumnFilterInput"
+                                v-model="tableViewSearchQuery"
+                                placeholder="Add columns..."
+                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-gray-600 outline-0 ring-0 placeholder:font-light placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                              <!-- <div
+                                class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
+                                <kbd
+                                  class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-2xs font-medium text-gray-400"
+                                  >S</kbd
+                                >
+                              </div> -->
+                            </div>
+                          </MenuItem>
                         </div>
                         <MenuItem
                           as="div"
                           v-slot="{ active }"
-                          v-for="(column, index) in otherColumns">
+                          v-for="(column, index) in filteredColumnList">
                           <SwitchGroup>
                             <SwitchLabel
                               class="flex items-center rounded-md"
@@ -193,47 +214,55 @@
                           </SwitchGroup>
                         </MenuItem>
                         <div class="text-medium border-t border-gray-200">
-                          <SwitchGroup v-for="setting in settings">
-                            <SwitchLabel
-                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
-                              <button
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
-                                <div class="flex items-center">
-                                  <component
-                                    :is="setting.icon"
-                                    class="mr-2 h-3 w-3 text-gray-400"
-                                    aria-hidden="true" />
-                                  <span class="line-clamp-1">{{
-                                    setting.name
-                                  }}</span>
-                                </div>
+                          <MenuItem
+                            v-slot="{ active }"
+                            v-for="setting in settings">
+                            <SwitchGroup>
+                              <SwitchLabel
+                                class="flex items-center rounded-md"
+                                :class="{ 'bg-gray-300 text-white': active }">
+                                <button
+                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
+                                  <div class="flex items-center">
+                                    <component
+                                      :is="setting.icon"
+                                      class="mr-2 h-3 w-3 text-gray-400"
+                                      aria-hidden="true" />
+                                    <span class="line-clamp-1">{{
+                                      setting.name
+                                    }}</span>
+                                  </div>
 
-                                <Switch
-                                  v-if="setting.type === 'toggle'"
-                                  name="columns-visible"
-                                  v-model="setting.isVisable"
-                                  as="template"
-                                  v-slot="{ checked }">
-                                  <button
-                                    :class="
-                                      checked ? 'bg-indigo-600' : 'bg-gray-200'
-                                    "
-                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-gray-300">
-                                    <span
+                                  <Switch
+                                    v-if="setting.type === 'toggle'"
+                                    name="columns-visible"
+                                    v-model="setting.isVisable"
+                                    as="template"
+                                    v-slot="{ checked }">
+                                    <button
                                       :class="
                                         checked
-                                          ? 'translate-x-3'
-                                          : 'translate-x-0'
+                                          ? 'bg-indigo-600'
+                                          : 'bg-gray-200'
                                       "
-                                      class="inline-block h-3 w-3 transform rounded-full bg-white transition" />
-                                  </button>
-                                </Switch>
-                              </button>
-                            </SwitchLabel>
-                          </SwitchGroup>
-                          <div>
+                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-gray-300">
+                                      <span
+                                        :class="
+                                          checked
+                                            ? 'translate-x-3'
+                                            : 'translate-x-0'
+                                        "
+                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition" />
+                                    </button>
+                                  </Switch>
+                                </button>
+                              </SwitchLabel>
+                            </SwitchGroup>
+                          </MenuItem>
+                          <MenuItem v-slot="{ active }">
                             <div
-                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
+                              class="flex items-center rounded-md"
+                              :class="{ 'bg-gray-300 text-white': active }">
                               <button
                                 @click="importCSV()"
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
@@ -245,10 +274,10 @@
                                 </div>
                               </button>
                             </div>
-                          </div>
+                          </MenuItem>
                         </div>
                       </MenuItems>
-                    </transition>
+                    </TransitionRoot>
                   </Float>
                 </Menu>
               </div>
@@ -310,7 +339,8 @@
                               class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
                               aria-hidden="true" />
                           </MenuButton>
-                          <transition
+                          <TransitionRoot
+                            show="openContextMenu"
                             enter-active-class="transition duration-100 ease-out"
                             enter-from-class="transform scale-95 opacity-0"
                             enter-to-class="transform scale-100 opacity-100"
@@ -318,7 +348,6 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              v-show="openContextMenu"
                               class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                               <MenuItem
                                 v-if="filters.list"
@@ -333,7 +362,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-gray-300 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -355,7 +384,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-gray-300 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -371,7 +400,7 @@
                                 </button>
                               </MenuItem>
                             </MenuItems>
-                          </transition>
+                          </TransitionRoot>
                         </Float>
                       </Menu>
                       <Menu>
@@ -405,7 +434,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-gray-300 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -419,7 +448,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-gray-300 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -1419,6 +1448,7 @@ export default {
         atTopOfPage: true,
       },
       creatorRecords: [],
+      tableViewSearchQuery: '',
       searchQuery: '',
       stageSearchQuery: '',
       currentRow: null,
@@ -1430,6 +1460,7 @@ export default {
       searchVisible: false,
       imageLoaded: true,
       cellActive: false,
+      open: false,
       settings: [
         {
           name: 'Show Follower Counts',
@@ -1606,16 +1637,13 @@ export default {
       return this.headers.filter((header) => header.visible);
     },
     filteredCreators() {
-      return this.creatorRecords.filter((creator) => {
-        return (
-          creator.name.toLowerCase().match(this.searchQuery.toLowerCase()) ||
-          creator.emails.some((email) =>
-            email.toString().toLowerCase().match(this.searchQuery.toLowerCase())
-          )
-        );
-      });
+      //return a list of columns from other columns matching the table view search query
+      return this.otherColumns.filter((column) =>
+        column.name
+          .toLowerCase()
+          .includes(this.tableViewSearchQuery.toLowerCase())
+      );
     },
-
     visibleColumns() {
       localStorage.setItem('columns', JSON.stringify(this.columns));
       return this.columns.map((column) => {
@@ -1630,12 +1658,26 @@ export default {
     otherColumns() {
       return this.columns.filter((column) => column.key != 'full_name');
     },
+    filteredColumnList() {
+      return this.columns.filter((column) => {
+        return (
+          column.name.toLowerCase().includes(this.tableViewSearchQuery) &&
+          column.key !== 'full_name'
+        );
+      });
+    },
   },
   // a beforeMount call to add a listener to the window
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    focusTableColumnFilterInput() {
+      //next tick
+      this.$nextTick(() => {
+        this.$refs.tableColumnFilterInput.focus();
+      });
+    },
     focusStageInput() {
       //use next tick
       this.$nextTick(() => {
