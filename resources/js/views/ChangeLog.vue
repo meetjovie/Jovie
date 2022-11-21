@@ -149,9 +149,30 @@
                 performance.
               </p>
 
+              <h4
+                class="prose mt-4 text-xl font-bold tracking-tight text-gray-800">
+                New Features
+              </h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Added the ability to search & update stages on contacts via
+                  keyboard navigation
+                </li>
+                <li class="prose">
+                  Added the ability to search for additonal columns to show/hide
+                  in the contacts table
+                </li>
+                <li class="prose">
+                  When adding a user from Twitter, if they have an additional
+                  social profile in their bio, Jovie now imports it
+                  automatically
+                </li>
+              </ul>
+
               <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
 
-              <ul class="prose">
+              <ul class="list-desc prose list-outside">
                 <li class="prose">- Improved navigation experience</li>
 
                 <li class="prose">
