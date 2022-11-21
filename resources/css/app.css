@@ -4,6 +4,6 @@
 
 @layer components {
   .ghost-card {
-    @apply border-b border-neutral-900 bg-gray-200 opacity-50;
+    @apply border-b border-gray-900 bg-gray-200 opacity-50;
   }
 }

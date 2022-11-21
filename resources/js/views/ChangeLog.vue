@@ -7,7 +7,7 @@
         content="Jovie is always improving. Our changelog contains a record of some of the latest features & improvements the Jovie CRM & Chrome extension." />
     </Head>
 
-    <div class="relative mb-24 overflow-hidden bg-white py-16">
+    <div class="relative mb-24 overflow-hidden bg-white py-8">
       <div
         class="hidden lg:absolute lg:inset-y-0 lg:block lg:h-full lg:w-full lg:[overflow-anchor:none]">
         <div
@@ -101,7 +101,7 @@
       </div>
       <div class="min-h-800 relative px-4 sm:px-6 lg:px-8">
         <div
-          class="sticky top-0 mx-auto max-w-prose border-b border-neutral-200 text-lg">
+          class="sticky top-0 mx-auto max-w-prose border-b border-gray-200 text-lg">
           <div class="py-6">
             <h1>
               <span class="block text-lg font-semibold text-indigo-600"
@@ -135,11 +135,75 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-gray-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-gray-500 sm:px-0">
             <div class="w-24 text-2xs">
-              <p class="text-sm font-semibold text-neutral-600">v0.0.2</p>
+              <p class="text-sm font-semibold text-gray-600">v0.0.3</p>
+              <p>2022.11.19</p>
+            </div>
+            <div class="w-full">
+              <h2 class="text-3xl font-bold tracking-tight text-gray-800">
+                Improved UI & Performance
+              </h2>
+              <p class="prose">
+                This release focuses on improving the UI and performance of the
+                CRM. We've made it easier to navigate between contacts &
+                addressed various issues related to import speed and
+                performance.
+              </p>
+
+              <h4
+                class="prose mt-4 text-xl font-bold tracking-tight text-gray-800">
+                New Features
+              </h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Added the ability to search & update stages on contacts via
+                  keyboard navigation
+                </li>
+                <li class="prose">
+                  Added the ability to search for additonal columns to show/hide
+                  in the contacts table
+                </li>
+                <li class="prose">
+                  When adding a user from Twitter, if they have an additional
+                  social profile in their bio, Jovie now imports it
+                  automatically
+                </li>
+              </ul>
+
+              <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
+
+              <ul class="list-desc prose list-outside">
+                <li class="prose">- Improved navigation experience</li>
+
+                <li class="prose">
+                  - Made it easier to add additional social links to a contact
+                </li>
+                <li class="prose">
+                  - Fixed an issue where images from Twitter appeared smaller
+                  than images from other sources
+                </li>
+                <li class="prose">
+                  - Fixed an issue where importing a contact from the dashboard
+                  & again from the chrome extensino created a duplicate contact
+                </li>
+                <li class="prose">
+                  - Fixed an issue that caused the Chrome Extension to crash
+                  when navigating between profiles
+                </li>
+                <li class="prose">
+                  - Fixed an issue that caused Instagram imports to fail on some
+                  new accounts
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="mx-auto mt-6 flex px-4 py-4 text-gray-500 sm:px-0">
+            <div class="w-24 text-2xs">
+              <p class="text-sm font-semibold text-gray-600">v0.0.2</p>
               <p>2022.11.18</p>
             </div>
             <div class="w-full">
-              <h2 class="text-3xl font-bold tracking-tight text-neutral-800">
+              <h2 class="text-3xl font-bold tracking-tight text-gray-800">
                 Chrome Extension & Twitter Support
               </h2>
               <p class="prose">
@@ -203,13 +267,13 @@
             :key="log.version"
             class="mx-auto mt-6 flex px-4 py-4 text-gray-500 sm:px-0">
             <div class="w-24 text-2xs">
-              <p class="text-sm font-semibold text-neutral-600">
+              <p class="text-sm font-semibold text-gray-600">
                 {{ log.version }}
               </p>
               <p>{{ log.date }}</p>
             </div>
             <div class="w-full">
-              <h2 class="text-3xl font-bold tracking-tight text-neutral-800">
+              <h2 class="text-3xl font-bold tracking-tight text-gray-800">
                 {{ log.summary }}
               </h2>
               <p class="text-base font-medium text-gray-500">

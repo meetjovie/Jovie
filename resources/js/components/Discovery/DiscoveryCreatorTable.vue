@@ -85,9 +85,9 @@
       <tr
         v-for="creator in creators"
         :key="creator"
-        class="border-1 group border-collapse overflow-y-visible border border-neutral-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+        class="border-1 group border-collapse overflow-y-visible border border-gray-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
         <td
-          class="hidden w-16 whitespace-nowrap py-1 pl-2 pr-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
+          class="hidden w-16 whitespace-nowrap py-1 pl-2 pr-4 text-center text-xs font-bold text-gray-300 group-hover:text-gray-500 lg:table-cell">
           <div class="grid grid-cols-2 items-center">
             <div class="group mr-2">
               <span class="group-hover:hidden">
@@ -122,7 +122,7 @@
           class="w-80 flex-none justify-center whitespace-nowrap border-l px-4 py-1">
           <div class="flex items-center">
             <div class="mr-2 h-24 w-24 flex-shrink-0">
-              <div class="rounded-full bg-neutral-200 p-0.5">
+              <div class="rounded-full bg-gray-200 p-0.5">
                 <img
                   class="rounded-full object-cover object-center"
                   :src="creator.avatar"
@@ -187,16 +187,16 @@
           <div class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
             <div>
               <div class="font-bold">234</div>
-              <div class="text-[8px] text-neutral-500">Followers</div>
+              <div class="text-[8px] text-gray-500">Followers</div>
             </div>
 
             <div class="hidden xl:block">
               <div class="font-bold">3.4%</div>
-              <div class="text-[8px] text-neutral-500">ER%</div>
+              <div class="text-[8px] text-gray-500">ER%</div>
             </div>
             <div class="hidden 2xl:block">
               <div class="font-bold">234</div>
-              <div class="text-[8px] text-neutral-500">EF</div>
+              <div class="text-[8px] text-gray-500">EF</div>
             </div>
           </div>
         </td>

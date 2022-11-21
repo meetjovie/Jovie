@@ -9,7 +9,7 @@
         @blur="$emit('blur')"
         name="comment"
         id="comment"
-        class="block w-full rounded-md border-gray-300 text-neutral-700 shadow-sm placeholder:text-neutral-500 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm"
+        class="block w-full rounded-md border-gray-300 text-gray-700 shadow-sm placeholder:text-gray-500 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm"
         placeholder="Add a note..." />
     </div>
   </form>

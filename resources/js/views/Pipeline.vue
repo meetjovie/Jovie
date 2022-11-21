@@ -88,7 +88,7 @@
                         <div
                           class="elipsis block text-2xs text-gray-500 line-clamp-1">
                           <span
-                            class="inline-flex items-center rounded-sm bg-neutral-100 px-1 py-0 text-[8px] font-medium text-neutral-800">
+                            class="inline-flex items-center rounded-sm bg-gray-100 px-1 py-0 text-[8px] font-medium text-gray-800">
                             {{ element.contacted }}
                           </span>
                           <span

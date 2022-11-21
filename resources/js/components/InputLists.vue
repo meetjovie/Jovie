@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full overflow-x-scroll rounded-md border-2 border-neutral-200 bg-gray-50 px-2 py-1">
+    class="flex w-full overflow-x-scroll rounded-md border-2 border-gray-200 bg-gray-50 px-2 py-1">
     <div class="flex overflow-x-scroll" v-if="lists.length > 0">
       <div v-for="item in lists" class="mr-2 flex">
         <div

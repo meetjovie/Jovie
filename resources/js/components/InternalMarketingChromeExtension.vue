@@ -4,7 +4,7 @@
     <ul role="list" class="space-y-4 divide-gray-200 rounded-lg">
       <li v-for="(item, itemIdx) in items" :key="itemIdx">
         <div
-          class="group relative flex h-24 items-center space-x-3 rounded-lg border border-gray-200 px-6 py-4 hover:bg-neutral-200">
+          class="group relative flex h-24 items-center space-x-3 rounded-lg border border-gray-200 px-6 py-4 hover:bg-gray-200">
           <div class="flex-shrink-0 items-center">
             <span
               :class="[

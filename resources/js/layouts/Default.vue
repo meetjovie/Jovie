@@ -19,14 +19,14 @@
     <header
       :class="
         scrollPosition > 0
-          ? 'bg-neutral-50/90 backdrop-blur-2xl backdrop-saturate-150 '
+          ? 'bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150 '
           : 'bg-transparent'
       "
       class="sticky top-0 z-20 transition-all duration-300">
       <nav>
         <Disclosure
           as="nav"
-          :class="scrollPosition > 50 ? 'border-b border-neutral-200' : ''"
+          :class="scrollPosition > 50 ? 'border-b border-gray-200' : ''"
           class="transition-all duration-300"
           v-slot="{ open }">
           <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,7 +35,7 @@
               :class="scrollPosition > 50 ? 'h-12' : 'h-20'">
               <div class="flex">
                 <div
-                  class="flex flex-shrink-0 items-center text-neutral-800 md:mr-12">
+                  class="flex flex-shrink-0 items-center text-gray-800 md:mr-12">
                   <a href="/">
                     <JovieLogo height="20" />
                   </a>
@@ -45,11 +45,11 @@
                   <!-- <Popover v-slot="{ open }" class="relative">
                     <PopoverButton
                       :class="open ? '' : 'text-opacity-90'"
-                      class="group z-20 -mt-1 inline-flex items-center rounded-md px-3 text-xs font-medium text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-200 focus-visible:ring-opacity-75">
+                      class="group z-20 -mt-1 inline-flex items-center rounded-md px-3 text-xs font-medium text-gray-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-200 focus-visible:ring-opacity-75">
                       <span class="mt-0.5">Intergrations</span>
                       <ChevronDownIcon
                         :class="open ? '' : 'text-opacity-70'"
-                        class="ml-2 mt-1 h-5 w-5 text-neutral-600 transition duration-150 ease-in-out group-hover:text-opacity-80"
+                        class="ml-2 mt-1 h-5 w-5 text-gray-600 transition duration-150 ease-in-out group-hover:text-opacity-80"
                         aria-hidden="true" />
                     </PopoverButton>
                     <transition
@@ -72,7 +72,7 @@
                               @click.native="scrollFix(item.anchor)"
                               class="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50">
                               <div
-                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center text-neutral-700 sm:h-12 sm:w-12">
+                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center text-gray-700 sm:h-12 sm:w-12">
                                 <div class="rounded-md p-2">
                                   <component
                                     :is="item.icon"
@@ -120,10 +120,9 @@
 
                   </Popover> -->
 
-
                   <router-link
                     to="pricing"
-                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-neutral-600 hover:text-neutral-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 lg:inline-flex">
+                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-gray-600 hover:text-gray-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 lg:inline-flex">
                     Pricing
                   </router-link>
                 </div>
@@ -137,7 +136,7 @@
                       <div class="inline-flex">
                         <router-link
                           to="login"
-                          class="cursor-hover:text-neutral-200 rounded-md px-4 py-2 text-xs font-medium text-neutral-600 hover:text-neutral-700"
+                          class="cursor-hover:text-gray-200 rounded-md px-4 py-2 text-xs font-medium text-gray-600 hover:text-gray-700"
                           >Sign in
                         </router-link>
                       </div>
@@ -145,7 +144,7 @@
                         <router-link
                           v-if="scrollPosition > 0"
                           to="signup"
-                          class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-neutral-200 hover:bg-indigo-600 hover:text-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
+                          class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-gray-200 hover:bg-indigo-600 hover:text-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800">
                           <span>Try Jovie free</span>
                           <svg
                             class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
@@ -165,7 +164,7 @@
                         <router-link
                           v-else
                           to="signup"
-                          class="border-1 group relative inline-flex items-center rounded-lg bg-neutral-900 px-5 py-3 text-xs font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800">
+                          class="border-1 group relative inline-flex items-center rounded-lg bg-gray-900 px-5 py-3 text-xs font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800">
                           <span>Try Jovie free</span>
                           <svg
                             class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
@@ -187,7 +186,7 @@
                     <div v-else>
                       <router-link
                         to="dashboard"
-                        class="group inline-flex w-32 items-center rounded-md border-transparent px-2 py-1 text-sm font-medium text-neutral-400 hover:text-neutral-100">
+                        class="group inline-flex w-32 items-center rounded-md border-transparent px-2 py-1 text-sm font-medium text-gray-400 hover:text-gray-100">
                         Dashboard
                       </router-link>
                     </div>
@@ -198,7 +197,7 @@
               <div class="-mr-2 flex items-center lg:hidden">
                 <!-- Mobile menu button -->
                 <DisclosureButton
-                  class="inline-flex items-center justify-center rounded-md bg-neutral-50 p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2">
+                  class="inline-flex items-center justify-center rounded-md bg-gray-50 p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2">
                   <span class="sr-only">Open main menu</span>
                   <Bars3Icon
                     v-if="!open"
@@ -217,14 +216,14 @@
               <div v-if="!$store.state.AuthState.isAuthenticated">
                 <a
                   @click="login()"
-                  class="rounded-md px-3 py-2 text-xs font-medium text-neutral-600 hover:text-neutral-200"
+                  class="rounded-md px-3 py-2 text-xs font-medium text-gray-600 hover:text-gray-200"
                   >Login</a
                 >
               </div>
               <div v-else>
                 <a
                   href="/"
-                  class="block rounded-md bg-neutral-900 px-3 py-2 text-base font-medium text-neutral-700"
+                  class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-gray-700"
                   aria-current="page"
                   >Dashboard</a
                 >
@@ -242,7 +241,7 @@
                 :href="item.href"
                 :class="[
                   item.current
-                    ? 'border-neutral-500 bg-neutral-50 text-neutral-600'
+                    ? 'border-gray-500 bg-gray-50 text-gray-600'
                     : 'border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700',
                   'block border-l-4 py-2 pl-3 pr-4 text-base font-medium',
                 ]"
@@ -263,7 +262,7 @@
         dismissable="false"
         v-if="!acceptCookies">
         <span
-          class="text-2xs font-light tracking-widest text-neutral-100 md:text-sm"
+          class="text-2xs font-light tracking-widest text-gray-100 md:text-sm"
           >We use
           <router-link class="cursor-pointer underline" to="privacy"
             >cookies</router-link
@@ -272,7 +271,7 @@
         </span>
         <span
           @click="toggleAcceptCookies"
-          class="ml-2 cursor-pointer text-xs font-bold text-neutral-50 hover:text-white hover:underline active:text-white md:text-sm"
+          class="ml-2 cursor-pointer text-xs font-bold text-gray-50 hover:text-white hover:underline active:text-white md:text-sm"
           >Accept all cookies</span
         >
       </AlertBanner>

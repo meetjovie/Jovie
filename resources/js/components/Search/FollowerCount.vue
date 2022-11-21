@@ -10,7 +10,7 @@
             <div class="w-full border-t border-gray-300" />
           </div>
           <div class="relative flex justify-start">
-            <span class="bg-neutral-50 pr-2 text-xs text-gray-500">
+            <span class="bg-gray-50 pr-2 text-xs text-gray-500">
               Follower Count</span
             >
           </div>
@@ -22,7 +22,7 @@
               <UserIcon class="h-5 w-5 text-gray-400" />
             </div>
             <input
-              class="block w-full rounded-tl-md border-neutral-200 py-2 pl-10 text-2xs text-neutral-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+              class="block w-full rounded-tl-md border-gray-200 py-2 pl-10 text-2xs text-gray-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
               type="number"
               :min="1000"
               :max="1000000000"
@@ -41,7 +41,7 @@
               <UserGroupIcon class="h-5 w-5 text-gray-400" />
             </div>
             <input
-              class="block w-full rounded-tr-md border-neutral-200 py-2 pl-10 text-2xs text-neutral-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+              class="block w-full rounded-tr-md border-gray-200 py-2 pl-10 text-2xs text-gray-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
               type="number"
               :min="1000"
               :max="1000000000"
@@ -62,7 +62,7 @@
               rounded="bl"
               size="xs"
               design="secondary"
-              class="w-full rounded-bl-md border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
+              class="w-full rounded-bl-md border bg-white text-2xs text-gray-500 hover:bg-gray-100 active:bg-gray-200"
               text="Micro">
               Micro
             </button>
@@ -71,7 +71,7 @@
               rounded="none"
               size="xs"
               design="secondary"
-              class="w-full border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
+              class="w-full border bg-white text-2xs text-gray-500 hover:bg-gray-100 active:bg-gray-200"
               text="Macro">
               Macro
             </button>
@@ -79,7 +79,7 @@
               @click="refine({ min: 1000000, max: 1000000000 })"
               rounded="br"
               size="xs"
-              class="w-full rounded-br-md border bg-white text-2xs text-neutral-500 hover:bg-neutral-100 active:bg-neutral-200"
+              class="w-full rounded-br-md border bg-white text-2xs text-gray-500 hover:bg-gray-100 active:bg-gray-200"
               design="secondary"
               text="1M+">
               1M+

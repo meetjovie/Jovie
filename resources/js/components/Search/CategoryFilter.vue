@@ -2,7 +2,7 @@
   <ais-menu-select searchable attribute="instagram_category">
     <template v-slot="{ items, refine, sendEvent }">
       <select
-        class="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md border border-neutral-400 outline-none ring-0 focus:outline-none sm:text-xs"
+        class="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md border border-gray-400 outline-none ring-0 focus:outline-none sm:text-xs"
         @change="refine($event.currentTarget.value)">
         <option
           class="absolute mt-1 max-h-60 w-40 overflow-auto rounded-md bg-white/60 py-1 text-base shadow-lg backdrop-blur-2xl backdrop-saturate-150 backdrop-filter hover:bg-indigo-700 focus:outline-none sm:text-xs"

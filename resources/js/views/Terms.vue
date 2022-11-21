@@ -1,15 +1,15 @@
 <template>
-  <div id="wbars_all" class="leading-4 text-neutral-700">
+  <div id="wbars_all" class="leading-4 text-gray-700">
     <div
-      class="clearfix relative mx-auto mt-12 rounded-xl bg-neutral-100 text-neutral-700"
+      class="clearfix relative mx-auto mt-12 rounded-xl bg-gray-100 text-gray-700"
       style="max-width: 800px">
       <div id="wbars" class="relative h-auto" style="overflow: hidden auto">
         <div
           class="relative my-0 mx-auto py-6 px-8"
           style="border-radius: 3px 3px 0px 0px">
-          <div class="relative border-b border-dotted border-neutral-300 pb-6">
+          <div class="relative border-b border-dotted border-gray-300 pb-6">
             <h1
-              class="mx-0 mt-0 mb-1 border-0 p-0 text-lg not-italic leading-6 text-neutral-800"
+              class="mx-0 mt-0 mb-1 border-0 p-0 text-lg not-italic leading-6 text-gray-800"
               style="font-weight: normal">
               Privacy Policy of
               <strong
@@ -35,18 +35,18 @@
           <!-- /header -->
 
           <div
-            class="clearfix float-none w-full border-t-0 border-b border-dotted border-neutral-300 pb-5">
+            class="clearfix float-none w-full border-t-0 border-b border-dotted border-gray-300 pb-5">
             <h2
               id="owner_of_the_data"
-              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Owner and Data Controller
             </h2>
             <p
               class="m-0 border-0 px-0 pt-1 pb-0 text-xs not-italic leading-5"
               style="font-weight: normal">
-              Jovie Inc <br class="" />1600 Vine St
-              <br class="" />Los Angeles, CA 90028
+              Jovie Inc <br class="" />1600 Vine St <br class="" />Los Angeles,
+              CA 90028
             </p>
             <p
               class="m-0 border-0 px-0 pt-3 pb-0 text-xs not-italic leading-5"
@@ -61,10 +61,10 @@
           </div>
 
           <div
-            class="clearfix float-none w-full border-t-0 border-b border-dotted border-neutral-300 pb-5">
+            class="clearfix float-none w-full border-t-0 border-b border-dotted border-gray-300 pb-5">
             <h2
               id="types_of_data"
-              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Types of Data collected
             </h2>
@@ -108,15 +108,15 @@
           </div>
 
           <div
-            class="clearfix float-none w-full border-t-0 border-b border-dotted border-neutral-300 pb-5">
+            class="clearfix float-none w-full border-t-0 border-b border-dotted border-gray-300 pb-5">
             <h2
               id="place_of_processing"
-              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Mode and place of processing the Data
             </h2>
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Methods of processing
             </h3>
@@ -138,7 +138,7 @@
               these parties may be requested from the Owner at any time.
             </p>
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Legal basis of processing
             </h3>
@@ -199,7 +199,7 @@
               a contract.
             </p>
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Place
             </h3>
@@ -229,7 +229,7 @@
               the Owner using the information provided in the contact section.
             </p>
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Retention time
             </h3>
@@ -282,10 +282,10 @@
           </div>
 
           <div
-            class="clearfix float-none w-full border-t-0 border-b border-dotted border-neutral-300 pb-5">
+            class="clearfix float-none w-full border-t-0 border-b border-dotted border-gray-300 pb-5">
             <h2
               id="use_collected_data"
-              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               The purposes of processing
             </h2>
@@ -312,10 +312,10 @@
           <div data-locale="en" class=""></div>
 
           <div
-            class="clearfix float-none w-full border-t-0 border-b border-dotted border-neutral-300 pb-5">
+            class="clearfix float-none w-full border-t-0 border-b border-dotted border-gray-300 pb-5">
             <h2
               id="data_processing_detailed_info"
-              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Detailed information on the processing of Personal Data
             </h2>
@@ -332,10 +332,10 @@
                 class="float-left clear-left m-0 w-1/2 border-0 p-0 text-left text-xs not-italic leading-5"
                 style="font-weight: normal; list-style: none">
                 <div
-                  class="shadow-xs mr-4 mb-4 rounded-sm border border-solid border-neutral-500 p-2"
+                  class="shadow-xs mr-4 mb-4 rounded-sm border border-solid border-gray-500 p-2"
                   style="border-image: initial; list-style: outside none none">
                   <h3
-                    class="relative m-0 cursor-pointer border-0 px-0 pt-6 pb-0 not-italic text-neutral-800"
+                    class="relative m-0 cursor-pointer border-0 px-0 pt-6 pb-0 not-italic text-gray-800"
                     style="font-weight: bold">
                     Interaction with external social networks and platforms
                   </h3>
@@ -406,7 +406,7 @@
                         href="https://twitter.com/en/privacy"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="m-0 cursor-pointer border-t-0 border-r-0 border-l-0 border-b border-solid border-neutral-200 p-0 not-italic text-neutral-800 no-underline hover:border-neutral-400 hover:text-neutral-900"
+                        class="m-0 cursor-pointer border-t-0 border-r-0 border-l-0 border-b border-solid border-gray-200 p-0 not-italic text-gray-800 no-underline hover:border-gray-400 hover:text-gray-900"
                         style="
                           border-width: 0px;
                           font-weight: normal;
@@ -425,10 +425,10 @@
           <div data-locale="en" class=""></div>
 
           <div
-            class="clearfix float-none w-full border-t-0 border-b border-dotted border-neutral-300 pb-5">
+            class="clearfix float-none w-full border-t-0 border-b border-dotted border-gray-300 pb-5">
             <h2
               id="rights_subjects"
-              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               The rights of Users
             </h2>
@@ -550,7 +550,7 @@
             </ul>
 
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Details about the right to object to processing
             </h3>
@@ -575,7 +575,7 @@
             </p>
 
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               How to exercise these rights
             </h3>
@@ -590,15 +590,15 @@
           </div>
 
           <div
-            class="clearfix float-none w-full border-t-0 border-b border-dotted border-neutral-300 pb-5">
+            class="clearfix float-none w-full border-t-0 border-b border-dotted border-gray-300 pb-5">
             <h2
               id="further_data_processing_info"
-              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-5 pb-0 text-base not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Additional information about Data collection and processing
             </h2>
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Legal action
             </h3>
@@ -613,7 +613,7 @@
               authorities.
             </p>
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Additional information about User's Personal Data
             </h3>
@@ -626,7 +626,7 @@
               processing of Personal Data upon request.
             </p>
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               System logs and maintenance
             </h3>
@@ -639,7 +639,7 @@
               IP Address) for this purpose.
             </p>
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Information not contained in this policy
             </h3>
@@ -652,7 +652,7 @@
             </p>
 
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               How “Do Not Track” requests are handled
             </h3>
@@ -666,7 +666,7 @@
             </p>
 
             <h3
-              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+              class="m-0 border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
               style="font-weight: bold">
               Changes to this privacy policy
             </h3>
@@ -688,17 +688,17 @@
           </div>
 
           <div
-            class="clearfix float-none w-full border-t-0 border-b border-dotted border-neutral-300 pb-5">
+            class="clearfix float-none w-full border-t-0 border-b border-dotted border-gray-300 pb-5">
             <div
-              class="shadow-xs mt-5 mb-4 rounded-sm border border-solid border-neutral-500 bg-white p-2 leading-4 text-neutral-700"
+              class="shadow-xs mt-5 mb-4 rounded-sm border border-solid border-gray-500 bg-white p-2 leading-4 text-gray-700"
               style="border-image: initial">
               <h3
                 id="definitions_and_legal_references"
-                class="relative m-0 cursor-pointer border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-neutral-800"
+                class="relative m-0 cursor-pointer border-0 px-0 pt-6 pb-0 text-xs not-italic leading-5 text-gray-800"
                 style="font-weight: bold">
                 Definitions and legal references
               </h3>
-              <div class="mt-2 px-1 text-neutral-700" style="">
+              <div class="mt-2 px-1 text-gray-700" style="">
                 <h4
                   class="m-0 border-0 p-0 text-xs not-italic leading-none"
                   style="font-weight: bold">
@@ -854,7 +854,7 @@
                   device.
                 </p>
                 <hr
-                  class="mx-0 mt-0 mb-4 border-t-0 border-r-0 border-l-0 border-b border-solid border-neutral-200 pt-4"
+                  class="mx-0 mt-0 mb-4 border-t-0 border-r-0 border-l-0 border-b border-solid border-gray-200 pt-4"
                   style="border-width: 0px 0px 1px; border-image: initial" />
                 <h4
                   class="m-0 border-0 px-0 pt-5 pb-0 text-xs not-italic leading-none"

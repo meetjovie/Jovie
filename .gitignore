@@ -6,6 +6,7 @@
 .env
 .env.dev
 .env.staging
+.env.production
 .env.prod
 auth.json
 .env.backup

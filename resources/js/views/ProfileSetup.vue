@@ -23,28 +23,19 @@
             <div
               @click="setCurrentStep(1)"
               class="cursor-pointer"
-              :class="[
-                { 'text-indigo-600': step1Complete },
-                'text-neutral-600',
-              ]">
+              :class="[{ 'text-indigo-600': step1Complete }, 'text-gray-600']">
               Upload picture
             </div>
             <div
               @click="setCurrentStep(2)"
               class="cursor-pointer"
-              :class="[
-                { 'text-indigo-600': step2Complete },
-                'text-neutral-600',
-              ]">
+              :class="[{ 'text-indigo-600': step2Complete }, 'text-gray-600']">
               Add social Links
             </div>
             <div
               @click="setCurrentStep(3)"
               class="cursor-pointer"
-              :class="[
-                { 'text-indigo-600': step3Complete },
-                'text-neutral-600',
-              ]">
+              :class="[{ 'text-indigo-600': step3Complete }, 'text-gray-600']">
               Set a username
             </div>
             <div
@@ -54,7 +45,7 @@
                   'text-indigo-600':
                     step1Complete && step2Complete && step3Complete,
                 },
-                'text-neutral-600',
+                'text-gray-600',
               ]">
               Finish
             </div>
@@ -74,7 +65,7 @@
                   <!-- Profile Photo File Input -->
                   <div class="mt-1 flex items-center space-x-5">
                     <span
-                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-neutral-100 object-cover object-center">
+                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-gray-100 object-cover object-center">
                       <img
                         class="aspect-square"
                         id="profile_pic_url_img"
@@ -87,7 +78,7 @@
 
                     <label
                       for="profile_pic_url"
-                      class="cursor-pointer rounded-md border border-neutral-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-neutral-700 shadow-sm hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      class="cursor-pointer rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Change
                     </label>
                     <input
@@ -113,7 +104,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-neutral-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-neutral-700 shadow-sm transition hover:text-neutral-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-neutral-50 active:text-neutral-800 disabled:opacity-25">
+                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition hover:text-gray-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-gray-50 active:text-gray-800 disabled:opacity-25">
                     Remove Photo
                   </button>
                 </div>
@@ -156,7 +147,7 @@
               </div>
             </div>
             <div
-              class="flex items-center justify-end bg-neutral-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-gray-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
@@ -170,7 +161,7 @@
 
         <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
           <div class="py- rounded-md bg-gray-50 px-4">
-            <h2 class="font-neutral-500 py-2 px-4">
+            <h2 class="font-gray-500 py-2 px-4">
               Add at least one social link to your profile.
             </h2>
             <div class="mt-4 grid grid-cols-2 gap-4">
@@ -248,7 +239,7 @@
       </div>
 
       <div
-        class="text-2x mx-auto flex items-center justify-between py-6 px-4 text-center font-semibold text-neutral-500">
+        class="text-2x mx-auto flex items-center justify-between py-6 px-4 text-center font-semibold text-gray-500">
         <div>
           <ChevronLeftIcon
             @click="previousStep()"
@@ -269,7 +260,7 @@
       <!-- Start secondary column (hidden on smaller screens) -->
       <div
         class="absolute inset-0 items-center border-r border-gray-200 py-6 px-4 sm:px-6 lg:px-8">
-        <span class="text-2xl font-semibold text-neutral-500">Preview</span>
+        <span class="text-2xl font-semibold text-gray-500">Preview</span>
         <div class="items-center">
           <div
             class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-gray-200 bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">

@@ -13,7 +13,7 @@
         'py-0.5 pl-2 pr-2 text-[12px] font-light tracking-wider': size == 'md',
       },
       { 'py-0.5 pl-2.5 pr-1 text-sm ': size == 'lg' },
-      { 'border-neutral-200 bg-neutral-100 text-neutral-900': color == 'none' },
+      { 'border-gray-200 bg-gray-100 text-gray-900': color == 'none' },
       { 'border-indigo-200 bg-indigo-100 text-indigo-900': color == 'indigo' },
       { 'border-blue-200 bg-blue-100 text-blue-900': color == 'blue' },
       { 'border-green-200 bg-green-100 text-green-900': color == 'green' },
@@ -33,8 +33,7 @@
         { 'py-0 pl-1 pr-1 text-2xs': size == 'sm' },
         { 'py-0.5 pl-2.5 pr-1 text-sm ': size == 'lg' },
         {
-          'bg-neutral-100 text-neutral-700 hover:text-neutral-900 ':
-            color == 'none',
+          'bg-gray-100 text-gray-700 hover:text-gray-900 ': color == 'none',
         },
         {
           'bg-indigo-100 text-indigo-700  hover:text-indigo-900':

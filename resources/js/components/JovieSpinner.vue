@@ -11,7 +11,7 @@
       { 'fill-indigo-600 text-gray-200': spinnerColor == 'indigo' },
       { 'fill-white text-gray-400': spinnerColor == 'white' },
 
-      { 'fill-neutral-600 text-gray-200': spinnerColor == 'neutral' },
+      { 'fill-gray-600 text-gray-200': spinnerColor == 'neutral' },
     ]"
     viewBox="0 0 100 101"
     fill="none"

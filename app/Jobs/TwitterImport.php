@@ -254,20 +254,20 @@ class TwitterImport implements ShouldQueue
             $urls = $data->entities->url->urls;
             $import = new Import();
             foreach ($urls as $url) {
-                if ($import->instagram = $url->expanded_url) {
+                if (strpos($url->expanded_url, 'instagram.com/') !== false && $import->instagram = $url->expanded_url) {
                     $creator->instagram_handler = $import->instagram;
                     InstagramImport::dispatch($import->instagram, null, true, null)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
-                } elseif ($import->twitch = $url->expanded_url) {
+                } elseif (strpos($url->expanded_url, 'twitch.tv/') !== false && $import->twitch = $url->expanded_url) {
                     $creator->twitch_handler = $import->twitch;
                     TwitchImport::dispatch(null, $import->twitch)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
-                } elseif ($import->linkedin = $url->expanded_url) {
+                } elseif (strpos($url->expanded_url, 'linkedin.com/') !== false && $import->linkedin = $url->expanded_url) {
                     $creator->linkedin_handler = $import->linkedin;
-                } elseif ($import->snapchat = $url->expanded_url) {
+                } elseif (strpos($url->expanded_url, 'snapchat.com/') !== false && $import->snapchat = $url->expanded_url) {
                     $creator->snapchat_handler = $import->snapchat;
-                } elseif ($import->tiktok = $url->expanded_url) {
+                } elseif (strpos($url->expanded_url, 'tiktok.com/') !== false && $import->tiktok = $url->expanded_url) {
                     $creator->tiktok_handler = $import->tiktok;
-                } elseif ($import->youtube = $url->expanded_url) {
-                    $creator->youtube_handler = $import->youtube;
+                } elseif (strpos($url->expanded_url, 'youtube.com/') !== false && $import->youtube = $url->expanded_url) {
+                    $creator->youtube_handler = $import->youtube->channel_name ?? $import->youtube->channel_id;
                 }
             }
         }

@@ -16,7 +16,7 @@
             <div class="mx-auto flex">
               <div
                 v-if="searchopen"
-                class="z-10 hidden w-60 shrink-0 bg-neutral-50 shadow-lg lg:flex">
+                class="z-10 hidden w-60 shrink-0 bg-gray-50 shadow-lg lg:flex">
                 <nav
                   aria-label="Searchbar"
                   class="min-h-screen divide-y divide-gray-300">
@@ -141,12 +141,12 @@
                                   {{ nbHits }} creators
                                   <br />
                                   <div
-                                    class="inline-flex items-center text-2xs text-neutral-400">
+                                    class="inline-flex items-center text-2xs text-gray-400">
                                     <div class="group">
                                       <JovieTooltip text="Search speed" />
 
                                       <BoltIcon
-                                        class="mr-1 h-3 w-3 text-neutral-400 hover:text-indigo-400"></BoltIcon>
+                                        class="mr-1 h-3 w-3 text-gray-400 hover:text-indigo-400"></BoltIcon>
                                     </div>
                                     <span>
                                       {{ (processingTimeMS / 1000).toFixed(1) }}
@@ -180,9 +180,9 @@
                                 'bg-indigo-200': item.id == selectedCreator.id,
                                 'hover:bg-indigo-50': !keyboardNav,
                               }"
-                              class="border-1 group flex border-collapse flex-row items-center overflow-y-visible border border-neutral-200 active:bg-indigo-100">
+                              class="border-1 group flex border-collapse flex-row items-center overflow-y-visible border border-gray-200 active:bg-indigo-100">
                               <div
-                                class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-neutral-500 lg:table-cell">
+                                class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-gray-300 group-hover:text-gray-500 lg:table-cell">
                                 <div class="mx-auto items-center">
                                   <div class="group mx-auto w-4">
                                     <span class="mx-auto group-hover:hidden">
@@ -210,7 +210,7 @@
                                   <div class="mr-2 h-24 w-24 flex-shrink-0">
                                     <div
                                       @click="toggleSidebar"
-                                      class="rounded-full bg-neutral-200 p-0.5">
+                                      class="rounded-full bg-gray-200 p-0.5">
                                       <img
                                         class="rounded-full object-cover object-center"
                                         :src="
@@ -276,7 +276,7 @@
                                     <div
                                       class="mt-1 grid w-80 grid-cols-6 items-center justify-start text-center">
                                       <div
-                                        class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                                        class="text-gray-5 mx-auto cursor-pointer justify-center text-center"
                                         :class="[
                                           {
                                             'opacity-10':
@@ -296,7 +296,7 @@
                                           class="z-0"
                                           icon="instagram" />
                                         <div
-                                          class="mx-auto text-center text-2xs text-neutral-500">
+                                          class="mx-auto text-center text-2xs text-gray-500">
                                           {{
                                             formatCount(
                                               item.instagram_followers
@@ -305,7 +305,7 @@
                                         </div>
                                       </div>
                                       <div
-                                        class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                                        class="text-gray-5 mx-auto cursor-pointer justify-center text-center"
                                         :class="[
                                           {
                                             'opacity-100': item.tiktok_handler,
@@ -324,7 +324,7 @@
                                           class="z-0 mx-auto"
                                           icon="tiktok" />
                                         <div
-                                          class="mx-auto text-center text-2xs text-neutral-500"
+                                          class="mx-auto text-center text-2xs text-gray-500"
                                           :class="[
                                             {
                                               'opacity-100':
@@ -338,7 +338,7 @@
                                         </div>
                                       </div>
                                       <div
-                                        class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                                        class="text-gray-5 mx-auto cursor-pointer justify-center text-center"
                                         :class="[
                                           {
                                             'opacity-100': item.twitter_handler,
@@ -357,7 +357,7 @@
                                           class="z-0 mx-auto"
                                           icon="twitter" />
                                         <div
-                                          class="mx-auto text-center text-2xs text-neutral-500"
+                                          class="mx-auto text-center text-2xs text-gray-500"
                                           :class="[
                                             {
                                               'opacity-100':
@@ -371,7 +371,7 @@
                                         </div>
                                       </div>
                                       <div
-                                        class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                                        class="text-gray-5 mx-auto cursor-pointer justify-center text-center"
                                         :class="[
                                           {
                                             'opacity-100': item.youtube_handler,
@@ -390,7 +390,7 @@
                                           class="z-0 mx-auto"
                                           icon="youtube" />
                                         <div
-                                          class="mx-auto text-center text-2xs text-neutral-500"
+                                          class="mx-auto text-center text-2xs text-gray-500"
                                           :class="[
                                             {
                                               'opacity-100':
@@ -429,7 +429,7 @@
                                         formatCount(item.instagram_followers)
                                       }}
                                     </div>
-                                    <div class="text-[8px] text-neutral-500">
+                                    <div class="text-[8px] text-gray-500">
                                       Followers
                                     </div>
                                   </div>
@@ -442,7 +442,7 @@
                                         )
                                       }}%
                                     </div>
-                                    <div class="text-[8px] text-neutral-500">
+                                    <div class="text-[8px] text-gray-500">
                                       ER
                                     </div>
                                   </div>
@@ -454,7 +454,7 @@
                                         )
                                       }}
                                     </div>
-                                    <div class="text-[8px] text-neutral-500">
+                                    <div class="text-[8px] text-gray-500">
                                       EF
                                     </div>
                                   </div>
@@ -573,11 +573,11 @@
 
                       <div v-else class="mx-auto w-full items-center">
                         <div
-                          class="mx-auto mt-24 max-w-xl items-center p-12 text-center text-sm font-bold text-neutral-500">
+                          class="mx-auto mt-24 max-w-xl items-center p-12 text-center text-sm font-bold text-gray-500">
                           <ChevronUpIcon
-                            class="mx-auto h-24 w-24 text-neutral-200"
+                            class="mx-auto h-24 w-24 text-gray-200"
                             aria-hidden="true" />
-                          <span class="text-xl text-neutral-700"
+                          <span class="text-xl text-gray-700"
                             ><span class="font-bold">Jovie</span>
                             <span class="font-medium">
                               Creator Search.</span
@@ -606,28 +606,28 @@
                 leaveTo="translate-x-80 opacity-80">
                 <div
                   v-if="sidebarOpen"
-                  class="fixed right-0 z-10 hidden w-60 shrink-0 bg-neutral-50 shadow-lg lg:flex">
+                  class="fixed right-0 z-10 hidden w-60 shrink-0 bg-gray-50 shadow-lg lg:flex">
                   <div
-                    class="absolute top-0 right-0 z-50 mb-12 h-screen w-192 border border-neutral-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
+                    class="absolute top-0 right-0 z-50 mb-12 h-screen w-192 border border-gray-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
                     <div class="mt-4 flex justify-between px-4">
                       <div class="group" @click="sidebarOpen = false">
                         <XMarkIcon
-                          class="h-5 w-5 cursor-pointer text-neutral-700 hover:text-neutral-900 active:text-neutral-400 group-active:text-indigo-700" />
+                          class="h-5 w-5 cursor-pointer text-gray-700 hover:text-gray-900 active:text-gray-400 group-active:text-indigo-700" />
                       </div>
-                      <div class="mr-4 flex space-x-2 text-xs text-neutral-400">
+                      <div class="mr-4 flex space-x-2 text-xs text-gray-400">
                         <HeartIcon
-                          class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
+                          class="h-5 w-5 cursor-pointer hover:text-gray-500" />
                         <NoSymbolIcon
-                          class="h-5 w-5 cursor-pointer hover:text-neutral-500" />
+                          class="h-5 w-5 cursor-pointer hover:text-gray-500" />
                         <div class="fixed top-4 text-right">
                           <Menu
                             as="div"
                             class="relative z-20 inline-block text-left">
                             <div>
                               <MenuButton
-                                class="inline-flex w-full justify-center rounded-md text-sm font-medium text-neutral-700 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                                class="inline-flex w-full justify-center rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                                 <EllipsisVerticalIcon
-                                  class="-mr-24 h-5 w-5 text-neutral-400 hover:text-neutral-700"
+                                  class="-mr-24 h-5 w-5 text-gray-400 hover:text-gray-700"
                                   aria-hidden="true" />
                               </MenuButton>
                             </div>
@@ -695,7 +695,7 @@
                         size="md" />
                       <div class="col-span-3 block pr-6 pl-8">
                         <div
-                          class="text-md relative z-10 inline-flex items-center font-bold text-neutral-700">
+                          class="text-md relative z-10 inline-flex items-center font-bold text-gray-700">
                           <!--  <VerifiedBadge
                                                                           :verified="selectedCreator.instagram_is_verified" /> -->
                           <span class="-mt-0.5">{{
@@ -706,7 +706,7 @@
                           }}</span>
                         </div>
                         <div
-                          class="mt-1 h-20 text-xs font-medium text-neutral-500 line-clamp-4">
+                          class="mt-1 h-20 text-xs font-medium text-gray-500 line-clamp-4">
                           {{
                             selectedCreator.instagram_biography ??
                             selectedCreator.twitter_biography
@@ -723,7 +723,7 @@
                           <div
                             class="mt-1 grid w-80 grid-cols-6 items-center justify-start text-center">
                             <div
-                              class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                              class="text-gray-5 mx-auto cursor-pointer justify-center text-center"
                               :class="[
                                 {
                                   'opacity-10':
@@ -743,7 +743,7 @@
                                 class="z-0 mx-auto"
                                 icon="instagram" />
                               <div
-                                class="mx-auto text-center text-2xs text-neutral-500">
+                                class="mx-auto text-center text-2xs text-gray-500">
                                 {{
                                   formatCount(
                                     selectedCreator.instagram_followers
@@ -752,7 +752,7 @@
                               </div>
                             </div>
                             <div
-                              class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                              class="text-gray-5 mx-auto cursor-pointer justify-center text-center"
                               :class="[
                                 {
                                   'opacity-100': selectedCreator.tiktok_handler,
@@ -771,7 +771,7 @@
                                 class="z-0 mx-auto"
                                 icon="tiktok" />
                               <div
-                                class="mx-auto text-center text-2xs text-neutral-500"
+                                class="mx-auto text-center text-2xs text-gray-500"
                                 :class="[
                                   {
                                     'opacity-100':
@@ -785,7 +785,7 @@
                               </div>
                             </div>
                             <div
-                              class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                              class="text-gray-5 mx-auto cursor-pointer justify-center text-center"
                               :class="[
                                 {
                                   'opacity-100':
@@ -805,7 +805,7 @@
                                 class="z-0 mx-auto"
                                 icon="twitter" />
                               <div
-                                class="mx-auto text-center text-2xs text-neutral-500"
+                                class="mx-auto text-center text-2xs text-gray-500"
                                 :class="[
                                   {
                                     'opacity-100':
@@ -819,7 +819,7 @@
                               </div>
                             </div>
                             <div
-                              class="text-neutral-5 mx-auto cursor-pointer justify-center text-center"
+                              class="text-gray-5 mx-auto cursor-pointer justify-center text-center"
                               :class="[
                                 {
                                   'opacity-100':
@@ -839,7 +839,7 @@
                                 class="z-0 mx-auto"
                                 icon="youtube" />
                               <div
-                                class="mx-auto text-center text-2xs text-neutral-500"
+                                class="mx-auto text-center text-2xs text-gray-500"
                                 :class="[
                                   {
                                     'opacity-100':
@@ -857,7 +857,7 @@
                       </div>
                       <div class="col-span-1">
                         <div
-                          class="mx-auto mt-6 inline-flex w-full items-center justify-center text-center text-neutral-400">
+                          class="mx-auto mt-6 inline-flex w-full items-center justify-center text-center text-gray-400">
                           <MapPinIcon
                             v-if="
                               selectedCreator.instagram_meta.country ||
@@ -866,44 +866,44 @@
                             class="mr-1 h-4 w-4" />
                           <span
                             v-if="selectedCreator.instagram_meta.city"
-                            class="text-xs font-bold text-neutral-500"
+                            class="text-xs font-bold text-gray-500"
                             >{{ selectedCreator.city }}</span
                           ><span
                             v-if="selectedCreator.instagram_meta.country"
-                            class="text-xs font-bold text-neutral-500"
+                            class="text-xs font-bold text-gray-500"
                             >{{ selectedCreator.country }}</span
                           >
                         </div>
                         <div
-                          class="mx-auto inline-flex w-full justify-center text-sm text-neutral-400">
+                          class="mx-auto inline-flex w-full justify-center text-sm text-gray-400">
                           <div
-                            class="mt-1 grid grid-cols-2 gap-4 border-neutral-200 pt-1">
+                            class="mt-1 grid grid-cols-2 gap-4 border-gray-200 pt-1">
                             <div class="text-center">
-                              <div class="text-sm font-bold text-neutral-600">
+                              <div class="text-sm font-bold text-gray-600">
                                 {{
                                   formatCount(
                                     selectedCreator.instagram_followers
                                   )
                                 }}
                               </div>
-                              <div class="text-[8px] text-neutral-400">
+                              <div class="text-[8px] text-gray-400">
                                 Followers
                               </div>
                             </div>
                             <div class="text-center">
-                              <div class="text-sm font-bold text-neutral-600">
+                              <div class="text-sm font-bold text-gray-600">
                                 {{
                                   formatCount(
                                     selectedCreator.instagram_engagement_rate
                                   )
                                 }}%
                               </div>
-                              <div class="text-[8px] text-neutral-400">
+                              <div class="text-[8px] text-gray-400">
                                 Engagement
                               </div>
                             </div>
                             <div class="text-center">
-                              <div class="text-sm font-bold text-neutral-600">
+                              <div class="text-sm font-bold text-gray-600">
                                 {{
                                   formatCount(
                                     selectedCreator.instagram_meta
@@ -911,13 +911,13 @@
                                   )
                                 }}
                               </div>
-                              <div class="text-[8px] text-neutral-400">EF</div>
+                              <div class="text-[8px] text-gray-400">EF</div>
                             </div>
                             <div class="text-center">
-                              <div class="text-sm font-bold text-neutral-600">
+                              <div class="text-sm font-bold text-gray-600">
                                 $0.50
                               </div>
-                              <div class="text-[8px] text-neutral-400">CPE</div>
+                              <div class="text-[8px] text-gray-400">CPE</div>
                             </div>
                             <div
                               class="mx-auto w-full flex-grow justify-center px-6 py-1 text-sm text-gray-500">
@@ -938,7 +938,7 @@
                       class="mx-auto items-center justify-center py-5 text-center sm:p-6">
                       <form class="mt-5 sm:flex sm:items-center">
                         <span
-                          class="mr-4 mt-1 items-center text-sm font-bold text-neutral-500"
+                          class="mr-4 mt-1 items-center text-sm font-bold text-gray-500"
                           >Contact options:
                         </span>
                         <div
@@ -950,7 +950,7 @@
                               @click="
                                 copyToClipboard(selectedCreator.emails[0])
                               "
-                              class="h-5 w-5 cursor-pointer text-gray-400 hover:text-neutral-700 active:mt-0.5 active:mr-0.5 active:text-neutral-500"
+                              class="h-5 w-5 cursor-pointer text-gray-400 hover:text-gray-700 active:mt-0.5 active:mr-0.5 active:text-gray-500"
                               aria-hidden="true" />
                           </div>
                           <input
@@ -976,7 +976,7 @@
                           class="mx-auto aspect-square h-full justify-center object-cover object-center" />
 
                         <div
-                          class="flex justify-between border-t border-b border-neutral-200 bg-neutral-200/20 px-6 py-0.5 text-center text-neutral-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
+                          class="flex justify-between border-t border-b border-gray-200 bg-gray-200/20 px-6 py-0.5 text-center text-gray-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                           <div class="inline-flex text-xs">
                             <HandThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" />
                             {{ formatCount(media.likes) }}

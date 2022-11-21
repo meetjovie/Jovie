@@ -127,7 +127,7 @@
     </div>
     <NewsletterSignup />
     <div
-      class="flex flex-col items-center justify-center space-y-8 bg-neutral-50 py-12 px-4 sm:py-24 md:space-y-12 md:px-6 xl:px-20 2xl:container 2xl:mx-auto">
+      class="flex flex-col items-center justify-center space-y-8 bg-gray-50 py-12 px-4 sm:py-24 md:space-y-12 md:px-6 xl:px-20 2xl:container 2xl:mx-auto">
       <div
         class="flex flex-col items-center justify-center space-y-2 md:space-y-4">
         <h1

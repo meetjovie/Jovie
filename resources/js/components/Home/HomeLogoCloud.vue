@@ -3,7 +3,7 @@
     <div class="mx-auto max-w-xl py-4 px-4 sm:px-6 sm:py-8 lg:px-8">
       <div class="justify center mx-auto items-center">
         <h2
-          class="mx-auto max-w-md py-4 text-center text-xs font-extrabold text-neutral-400 lg:max-w-xl lg:text-center">
+          class="mx-auto max-w-md py-4 text-center text-xs font-extrabold text-gray-400 lg:max-w-xl lg:text-center">
           Trusted by individuals & teams at
         </h2>
         <div class="mt-12 flow-root self-center lg:mt-0">
