@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-y-hidden">
     <div
-      class="flex flex-col items-center justify-center bg-gradient-to-b from-white to-neutral-50 px-4 pt-24">
+      class="flex flex-col items-center justify-center bg-gradient-to-b from-white to-gray-50 px-4 pt-24">
       <div class="flex justify-between">
         <div class="relative hidden md:block">
           <div class="-mt-14 flex flex-col space-y-14">
@@ -30,7 +30,7 @@
               </div>
 
               <span
-                :class="`ring-neutral-50`"
+                :class="`ring-gray-50`"
                 class="absolute bottom-0 right-0 block h-3.5 w-3.5 items-center rounded-full bg-white ring-2"
                 ><div class="mt-0.5 items-center">
                   <SocialIcons
@@ -56,13 +56,13 @@
           </div>
 
           <h2
-            class="text-3xl font-semibold tracking-normal text-neutral-800 sm:text-5xl lg:text-3xl xl:text-7xl">
+            class="text-3xl font-semibold tracking-normal text-gray-800 sm:text-5xl lg:text-3xl xl:text-7xl">
             Organize everyone<br class="hidden xl:block" />
             you follow
             <br />
           </h2>
           <!-- <h2
-            class="inline py-2 text-center text-xs font-bold text-neutral-500 sm:text-xl">
+            class="inline py-2 text-center text-xs font-bold text-gray-500 sm:text-xl">
             A
             <span class="dexoration-2 font-bold underline decoration-pink-400"
               >smarter</span
@@ -77,8 +77,8 @@
             class="mx-auto mt-8 w-full sm:w-48"
             text="Try Jovie free" />
           <div
-            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-neutral-100 to-neutral-400/0 py-1 px-2 text-center">
-            <CreditCardIcon class="mr-2 h-4 w-4 text-neutral-700" />
+            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-gray-100 to-gray-400/0 py-1 px-2 text-center">
+            <CreditCardIcon class="mr-2 h-4 w-4 text-gray-700" />
             <span class="text-light text-2xs text-gray-700">
               <!--  <span class="font-bold">Fast & easy. </span> -->
               No credit card required.
@@ -118,7 +118,7 @@
                 <img class="h-16 w-16 rounded-full" :src="avatar.src" alt="" />
               </div>
               <span
-                :class="`ring-neutral-50`"
+                :class="`ring-gray-50`"
                 class="absolute bottom-0 right-0 mx-auto block h-6 w-6 items-center rounded-full bg-white ring-2"
                 ><div class="mx-auto mt-1 items-center">
                   <SocialIcons

@@ -6,7 +6,9 @@
         <h3 v-if="title" class="text-md font-medium leading-6 text-gray-900">
           {{ title }}
         </h3>
-        <p v-if="subtitle" class="mt-1 text-xs text-gray-500">{{ subtitle }}</p>
+        <p v-if="subtitle" class="mt-1 text-xs text-gray-500">
+          {{ subtitle }}
+        </p>
       </div>
       <div v-if="buttontext" class="ml-4 mt-4 flex-shrink-0">
         <a :href="buttonlink">

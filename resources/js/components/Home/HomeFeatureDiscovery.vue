@@ -129,8 +129,8 @@
         Disocver creators with AI
       </h2>
       <p class="mt-4 max-w-3xl text-lg text-indigo-200">
-        Find <span class="text-neutral-100">highly relevant</span> and
-        <span class="text-neutral-100">influential creators</span> in seconds...
+        Find <span class="text-gray-100">highly relevant</span> and
+        <span class="text-gray-100">influential creators</span> in seconds...
       </p>
       <div
         class="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 lg:mt-16 lg:gap-x-8 lg:gap-y-8">
@@ -150,7 +150,7 @@
         class="bg-saturate-150 mx-auto rounded-lg bg-white/90 py-4 px-4 text-center text-lg font-bold text-gray-800 shadow-xl backdrop-blur-xl">
         Find
         <span
-          class="px-1 text-neutral-900 underline decoration-pink-600 decoration-4"
+          class="px-1 text-gray-900 underline decoration-pink-600 decoration-4"
           >female</span
         >
         <span class="underline decoration-amber-600 decoration-4"
@@ -158,7 +158,7 @@
         >
         wearing
         <span
-          class="px-1 text-neutral-900 underline decoration-sky-600 decoration-4"
+          class="px-1 text-gray-900 underline decoration-sky-600 decoration-4"
           >sunglasses</span
         >
       </div>

@@ -26,7 +26,7 @@
                     <div class="space-y-1 text-center">
                       <CloudArrowUpIcon
                         :class="{ 'text-white': ActiveDrag }"
-                        class="mx-auto h-12 w-12 text-neutral-200" />
+                        class="mx-auto h-12 w-12 text-gray-200" />
                       <div class="flex text-sm text-gray-600">
                         <label
                           class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
@@ -45,7 +45,7 @@
                     </div>
                   </div>
                 </label>
-                <span class="file-info py-2 text-xs font-bold text-neutral-400"
+                <span class="file-info py-2 text-xs font-bold text-gray-400"
                   >Uploading file: {{ importSet.listName.name }}</span
                 >
                 <ProgressBar
@@ -67,7 +67,7 @@
                 </p>
 
                 <div v-if="importStarted" class="mx-auto items-center py-6">
-                  <span class="mx-auto text-center text-sm text-neutral-400">
+                  <span class="mx-auto text-center text-sm text-gray-400">
                     Your contacts are importing and will be available in a few
                     moments.
                   </span>

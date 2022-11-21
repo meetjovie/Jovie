@@ -58,7 +58,7 @@
       :is="icon"
       :class="[
         {
-          'h-5 w-5 text-gray-400 group-hover:text-neutral-600':
+          'h-5 w-5 text-gray-400 group-hover:text-gray-600':
             design == 'toolbar',
         },
         { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },
@@ -99,7 +99,7 @@
         class="relative"
         :class="[
           {
-            'h-5 w-5 text-gray-400 group-hover:text-neutral-600':
+            'h-5 w-5 text-gray-400 group-hover:text-gray-600':
               design == 'toolbar',
           },
           { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },

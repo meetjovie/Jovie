@@ -51,10 +51,10 @@
                     <td class="whitespace-nowrap px-4 py-1">
                       <div class="flex items-center">
                         <div class="">
-                          <div class="text-sm font-medium text-neutral-900">
+                          <div class="text-sm font-medium text-gray-900">
                             Email sequence name
                           </div>
-                          <div class="text-xs font-medium text-neutral-400">
+                          <div class="text-xs font-medium text-gray-400">
                             Contains 4 steps
                           </div>
                         </div>
@@ -69,7 +69,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold text-blue-500 lg:text-sm">
                                 450
@@ -83,9 +83,9 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
-                                class="text-center text-sm font-bold text-neutral-500 lg:text-sm">
+                                class="text-center text-sm font-bold text-gray-500 lg:text-sm">
                                 101
                               </h1>
                               <h2
@@ -97,7 +97,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold text-pink-500 lg:text-sm">
                                 35
@@ -111,7 +111,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold text-red-500 lg:text-sm">
                                 530
@@ -125,7 +125,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold text-indigo-500 lg:text-sm">
                                 530
@@ -140,7 +140,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 40
@@ -154,7 +154,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 32
@@ -168,7 +168,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 3
@@ -182,7 +182,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 5
@@ -196,7 +196,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 530
@@ -232,9 +232,9 @@
                 <div class="border-r px-8 text-xl font-bold text-indigo-700">
                   1
                 </div>
-                <div class="px-4 text-sm font-medium text-neutral-900">
+                <div class="px-4 text-sm font-medium text-gray-900">
                   <div>First email in sequence</div>
-                  <div class="text-xs text-neutral-500">Send in 30 minutes</div>
+                  <div class="text-xs text-gray-500">Send in 30 minutes</div>
                 </div>
               </div>
             </div>
@@ -264,19 +264,19 @@
         </div>
         <div class="border-y">
           <div
-            class="grid grid-cols-12 items-center bg-white px-4 py-3 hover:bg-neutral-100">
+            class="grid grid-cols-12 items-center bg-white px-4 py-3 hover:bg-gray-100">
             <div class="col-span-1 inline-flex">
-              <div class="font-bold text-neutral-400">A</div>
+              <div class="font-bold text-gray-400">A</div>
               <div class="mx-4">
                 <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
                 <ToggleGroup></ToggleGroup>
               </div>
             </div>
             <div class="col-span-5">
-              <span class="grid-cols-span-1 text-sm font-bold text-neutral-700"
+              <span class="grid-cols-span-1 text-sm font-bold text-gray-700"
                 >Email subject line</span
               ><br /><span
-                class="text-xs font-medium text-neutral-600 line-clamp-1"
+                class="text-xs font-medium text-gray-600 line-clamp-1"
                 >Hey {firstname}! We're selling cool stuff and need your
                 help!</span
               >
@@ -290,7 +290,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1 class="text-center text-xs font-bold text-blue-500">
                         900
                       </h1>
@@ -303,9 +303,9 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
-                        class="text-center text-xs font-bold text-neutral-500 lg:text-xs">
+                        class="text-center text-xs font-bold text-gray-500 lg:text-xs">
                         101
                       </h1>
                       <h2
@@ -317,7 +317,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
                         class="text-center text-xs font-bold text-pink-500 lg:text-xs">
                         35
@@ -331,7 +331,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
                         class="text-center text-xs font-bold text-pink-500 lg:text-xs">
                         90
@@ -345,7 +345,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
                         class="text-center text-xs font-bold text-orange-500 lg:text-xs">
                         21
@@ -359,7 +359,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
                         class="text-center text-xs font-bold text-purple-500 lg:text-xs">
                         3
@@ -435,9 +435,9 @@
         </div>
         <div class="border-y">
           <div
-            class="grid grid-cols-12 items-center bg-white px-4 py-3 hover:bg-neutral-100">
+            class="grid grid-cols-12 items-center bg-white px-4 py-3 hover:bg-gray-100">
             <div class="col-span-1 inline-flex">
-              <div class="font-bold text-neutral-400">B</div>
+              <div class="font-bold text-gray-400">B</div>
               <div class="mx-4">
                 <!-- This example requires Tailwind CSS v2.0+ -->
 
@@ -445,10 +445,10 @@
               </div>
             </div>
             <div class="col-span-5">
-              <span class="grid-cols-span-1 text-sm font-bold text-neutral-700"
+              <span class="grid-cols-span-1 text-sm font-bold text-gray-700"
                 >Diffenret subjects have different results</span
               ><br /><span
-                class="text-xs font-medium text-neutral-600 line-clamp-1"
+                class="text-xs font-medium text-gray-600 line-clamp-1"
                 >That's why {company} supports multi-variant testing. We're
                 selling cool stuff and need your help!</span
               >
@@ -462,7 +462,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1 class="text-center text-xs font-bold text-blue-500">
                         900
                       </h1>
@@ -475,9 +475,9 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
-                        class="text-center text-xs font-bold text-neutral-500 lg:text-xs">
+                        class="text-center text-xs font-bold text-gray-500 lg:text-xs">
                         101
                       </h1>
                       <h2
@@ -489,7 +489,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
                         class="text-center text-xs font-bold text-pink-500 lg:text-xs">
                         35
@@ -503,7 +503,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
                         class="text-center text-xs font-bold text-pink-500 lg:text-xs">
                         90
@@ -517,7 +517,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
                         class="text-center text-xs font-bold text-orange-500 lg:text-xs">
                         21
@@ -531,7 +531,7 @@
                   <div
                     role="listitem"
                     class="flex w-full justify-center border-gray-300">
-                    <div class="text-neutral-400">
+                    <div class="text-gray-400">
                       <h1
                         class="text-center text-xs font-bold text-purple-500 lg:text-xs">
                         3
@@ -607,7 +607,7 @@
         </div>
         <div class="mx-auto rounded-b-xl border-y text-center">
           <div
-            class="group mx-auto inline-flex w-full cursor-pointer items-center justify-center rounded-b-xl bg-white px-4 py-4 text-center font-bold text-neutral-500 hover:bg-indigo-600 hover:text-white">
+            class="group mx-auto inline-flex w-full cursor-pointer items-center justify-center rounded-b-xl bg-white px-4 py-4 text-center font-bold text-gray-500 hover:bg-indigo-600 hover:text-white">
             Add variant
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -627,9 +627,9 @@
       <div
         class="mx-auto h-24 w-0 border-2 border-l border-solid border-indigo-500/50"></div>
       <div
-        class="group mx-auto w-64 cursor-pointer items-center rounded-lg bg-white py-2 px-8 text-center font-bold text-neutral-500 shadow-lg hover:bg-indigo-600">
+        class="group mx-auto w-64 cursor-pointer items-center rounded-lg bg-white py-2 px-8 text-center font-bold text-gray-500 shadow-lg hover:bg-indigo-600">
         <div
-          class="mx-auto inline-flex cursor-pointer items-center rounded-b-xl text-center font-bold text-neutral-500 group-hover:text-white">
+          class="mx-auto inline-flex cursor-pointer items-center rounded-b-xl text-center font-bold text-gray-500 group-hover:text-white">
           Add Step
           <svg
             xmlns="http://www.w3.org/2000/svg"

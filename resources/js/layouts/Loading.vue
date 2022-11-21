@@ -1,8 +1,10 @@
 <template>
   <div class="h-screen items-center" id="app">
     <router-view />
-    <div class="mt-16 flex h-80 flex-col items-center text-center">
-      <JovieSpinner />
+    <div class="flex h-screen items-center text-center">
+      <div class="mx-auto">
+        <JovieSpinner />
+      </div>
     </div>
   </div>
 </template>

@@ -1,21 +1,21 @@
 <template>
   <!-- <img
-    class="aspect-square w-48 rounded-full border-4 border-neutral-400 object-cover object-center"
+    class="aspect-square w-48 rounded-full border-4 border-gray-400 object-cover object-center"
     :src="imageUrl"
     :alt="name" /> -->
 
   <div
     class="mx-auto aspect-square flex-shrink-0 justify-center object-cover object-center"
     :class="[
-            { 'h-40 w-40': size == 'md' },
-            { 'h-24 w-24': size == 'sm' },
-            { 'h-12 w-12': size == 'xsm' },
-            { 'h-6 w-6': size == 'xxsm' },
-          ]">
+      { 'h-40 w-40': size == 'md' },
+      { 'h-24 w-24': size == 'sm' },
+      { 'h-12 w-12': size == 'xsm' },
+      { 'h-6 w-6': size == 'xxsm' },
+    ]">
     <div
       class="rounded-full p-1"
       :class="[
-        { 'bg-neutral-200': !network },
+        { 'bg-gray-200': !network },
         {
           'bg-social-youtube/60': network == 'youtube',
         },

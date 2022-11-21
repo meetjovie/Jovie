@@ -8,11 +8,11 @@
     class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 py-12 hover:border-gray-400">
     <div class="space-y-1 text-center">
       <CloudArrowUpIcon
-        class="mx-auto h-12 w-12 text-neutral-200 group-hover:text-gray-400" />
+        class="mx-auto h-12 w-12 text-gray-200 group-hover:text-gray-400" />
       <div class="flex text-sm text-gray-600">
         <label
           for="file-upload"
-          class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md bg-neutral-100 font-medium text-indigo-600 hover:text-indigo-500">
+          class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500">
           <span>Upload a file</span>
           <input
             id="file-upload"

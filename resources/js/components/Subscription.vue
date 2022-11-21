@@ -52,7 +52,7 @@
                             :class="checked ? 'text-white' : 'text-gray-900'"
                             class="font-medium">
                             {{ product.name }} -
-                            <span class="text-xs font-bold text-neutral-400">{{
+                            <span class="text-xs font-bold text-gray-400">{{
                               product.description
                             }}</span>
                           </RadioGroupLabel>
@@ -197,7 +197,7 @@
               <span class="ml-4 flex-shrink-0">
                 <button
                   type="button"
-                  class="rounded-md bg-neutral-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   Upgrade
                 </button>
               </span>
@@ -222,7 +222,7 @@
                   >
                   <span v-else>/yr</span>
                   <span
-                    class="font-bolder ml-1 text-xs uppercase text-neutral-400">
+                    class="font-bolder ml-1 text-xs uppercase text-gray-400">
                     {{
                       currentUser.current_team.current_subscription.currency
                     }}</span
@@ -236,7 +236,7 @@
             <dt class="text-sm font-medium text-gray-500">Contact credits</dt>
             <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <span class="flex-grow"
-                ><span class="text-neutral-600"
+                ><span class="text-gray-600"
                   >{{ currentUser.current_team.credits }}.</span
                 >/{{
                   currentUser.current_team.current_subscription.credits

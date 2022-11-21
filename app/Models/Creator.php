@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Scout\Searchable;
+use Nette\Utils\ArrayHash;
 
 class Creator extends Model
 {
@@ -392,6 +393,23 @@ class Creator extends Model
         return json_decode($value ?? '{}');
     }
 
+    public function getYoutubeLink($value)
+    {
+        if (is_null($value)) {
+            null;
+        }
+        if (is_string($value)) {
+            $value = json_decode($value);
+        }
+
+        if (isset($value->channel_name)) {
+            return 'https://youtube.com/c/'.$value->channel_name;
+        } elseif (isset($value->channel_id)) {
+            return 'https://youtube.com/channel/'.$value->channel_id;
+        }
+        return null;
+    }
+
     public function getInstagramMediaAttribute($value)
     {
         return json_decode($value ?? '[]');
@@ -566,6 +584,7 @@ class Creator extends Model
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
             $creator->twitch_handler = $creatorAccessor->getTwitchHandlerAttribute($creator->twitch_handler);
             $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
+            $creator->youtube_handler = $creatorAccessor->getYoutubeLink($creator->youtube_handler);
 
             $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
 

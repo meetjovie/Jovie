@@ -96,15 +96,15 @@
                 The Social CRM
               </h2>
               <h1
-                class="text-4xl font-extrabold tracking-tight text-neutral-600 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-2xl">
+                class="text-4xl font-extrabold tracking-tight text-gray-600 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-2xl">
                 From
                 <span
-                  class="text-neutral-700 underline decoration-pink-400 decoration-4"
+                  class="text-gray-700 underline decoration-pink-400 decoration-4"
                   >Social</span
                 >
                 to
                 <span
-                  class="text-neutral-700 underline decoration-indigo-400 decoration-4"
+                  class="text-gray-700 underline decoration-indigo-400 decoration-4"
                   >Jovie</span
                 >
                 <span class="block text-4xl text-indigo-600">In 1 Click</span>

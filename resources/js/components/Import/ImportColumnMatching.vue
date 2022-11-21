@@ -16,7 +16,7 @@
       </div>
       <table class="w-full rounded-md py-2 px-8">
         <tr
-          class="border-neutrual-400 rounded-md-t border border-b py-4 px-4 text-neutral-500">
+          class="border-neutrual-400 rounded-md-t border border-b py-4 px-4 text-gray-500">
           <th class="font-medium">
             Columns from <span class="font-bold">{{ csvFileName }}</span>
           </th>
@@ -101,31 +101,31 @@ export default {
   data() {
     return {
       columnsToMap: {
-          'firstName': 'First Name',
-          'lastName': 'Last Name',
-          'city': 'City',
-          'country': 'Country',
-          'instagram': 'Instagram',
-          'youtube': 'Youtube',
-          'twitter': 'Twitter',
-          /*   'onlyFans', */
-          'twitch': 'Twitch',
-          /*    'twitchId', */
-          'tiktok': 'Tiktok',
-          /*  'linkedin',
+        firstName: 'First Name',
+        lastName: 'Last Name',
+        city: 'City',
+        country: 'Country',
+        instagram: 'Instagram',
+        youtube: 'Youtube',
+        twitter: 'Twitter',
+        /*   'onlyFans', */
+        twitch: 'Twitch',
+        /*    'twitchId', */
+        tiktok: 'Tiktok',
+        /*  'linkedin',
         'snapchat', */
-          /*       'instagramFollowersCount',
+        /*       'instagramFollowersCount',
         'youtubeFollowersCount',
         'youtubeFollowersCount',
         'twitterFollowersCount',
         'onlyFansFollowersCount',
         'twitchFollowersCount',
         'tiktokFollowersCount', */
-          'email1': 'Email 1',
-          'email2': 'Email 2',
-          /*    'wikiId', */
-          'phone': 'Phone',
-          /* 'gender', */
+        email1: 'Email 1',
+        email2: 'Email 2',
+        /*    'wikiId', */
+        phone: 'Phone',
+        /* 'gender', */
       },
       mappedColumns: {},
       csvFileName: '',

@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto max-w-7xl">
     <div class="mx-auto max-w-7xl space-y-6 py-12">
-      <h3 class="py-12 text-center text-3xl font-bold text-neutral-900">
+      <h3 class="py-12 text-center text-3xl font-bold text-gray-900">
         Jovie creates contacts
         <span class="text-purple-700">in 1-click</span>
       </h3>
@@ -129,11 +129,7 @@
             </p>
             <div class="group/button2 mt-4" v-if="feature.id === 3">
               <ButtonGroup
-
-
                 class="z-20 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-4"
-
-
                 v-if="feature.cta"
                 :buttonlink="feature.ctaLink"
                 :text="feature.cta"
@@ -153,9 +149,7 @@
                 </svg>
               </ButtonGroup>
             </div>
-            <div
-              v-if="feature.id === 1"
-              class="mt-8 border-t border-neutral-200">
+            <div v-if="feature.id === 1" class="mt-8 border-t border-gray-200">
               <div class="mt-6 inline-flex h-4 w-80 items-center space-x-4">
                 <p class="text-sm leading-none text-gray-400">Supports</p>
                 <div class="flex items-start justify-start space-x-3">
@@ -204,11 +198,7 @@
               v-if="feature.cta && feature.id === 1"
               class="group/button mt-6">
               <ButtonGroup
-
-
                 class="z-20 w-80 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 px-9 py-4"
-
-
                 :buttonlink="feature.ctaLink"
                 :text="feature.cta">
                 <svg

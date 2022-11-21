@@ -83,7 +83,7 @@
                     </td>
                     <td class="w-10 whitespace-nowrap px-2 py-1">
                       <div
-                        class="flex items-center text-sm font-bold text-neutral-400">
+                        class="flex items-center text-sm font-bold text-gray-400">
                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
                         <ToggleGroup v-model="sequence.enabled"></ToggleGroup>
                       </div>
@@ -92,7 +92,7 @@
                       <div class="items-center">
                         <div class="">
                           <div
-                            class="truncate text-sm font-medium text-neutral-900">
+                            class="truncate text-sm font-medium text-gray-900">
                             <a
                               class="w-80 line-clamp-1"
                               href="/outreach/sequence"
@@ -100,7 +100,7 @@
                             >
                           </div>
                           <div
-                            class="truncate text-xs font-medium text-neutral-400">
+                            class="truncate text-xs font-medium text-gray-400">
                             Contains {{ sequence.steps }} steps
                           </div>
                         </div>
@@ -115,7 +115,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold text-blue-500 lg:text-sm">
                                 {{ sequence.countactive }}
@@ -129,9 +129,9 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
-                                class="text-center text-sm font-bold text-neutral-500 lg:text-sm">
+                                class="text-center text-sm font-bold text-gray-500 lg:text-sm">
                                 {{ sequence.countpaused }}
                               </h1>
                               <h2
@@ -143,7 +143,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold text-pink-500 lg:text-sm">
                                 {{ sequence.countnotsent }}
@@ -157,7 +157,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold text-red-500 lg:text-sm">
                                 {{ sequence.countbounced }}
@@ -171,7 +171,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold text-indigo-500 lg:text-sm">
                                 {{ sequence.countcompleted }}
@@ -186,7 +186,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countscheduled }}focus-visible:
@@ -200,7 +200,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countdelivered }}
@@ -214,7 +214,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countopened }}
@@ -228,7 +228,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countreplied }}
@@ -242,7 +242,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1">
-                            <div class="text-neutral-400">
+                            <div class="text-gray-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countinterested }}

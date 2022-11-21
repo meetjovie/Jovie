@@ -8,7 +8,7 @@
         { 'bg-red-500': percentage === 100 && invertedColor },
         { 'bg-green-500': percentage === 100 && !invertedColor },
         { 'bg-indigo-400': percentage < 100 && percentage > 0 },
-        { 'bg-neutral-500': percentage === 0 },
+        { 'bg-gray-500': percentage === 0 },
         { 'absolute top-0': indeterminate },
         { 'rounded-full': rounded },
       ]"

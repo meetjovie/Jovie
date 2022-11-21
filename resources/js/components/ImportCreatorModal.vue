@@ -45,7 +45,9 @@
                     Import a contact
                   </DialogTitle>
                   <div class="mt-2">
-                    <SocialInput :list="list" @finishImport="$emit('closeModal')" />
+                    <SocialInput
+                      :list="list"
+                      @finishImport="$emit('closeModal')" />
                   </div>
                 </div>
               </div>
@@ -83,9 +85,9 @@ export default {
       type: Boolean,
       default: false,
     },
-      list: {
-        type: String
-      }
+    list: {
+      type: String,
+    },
   },
 };
 </script>

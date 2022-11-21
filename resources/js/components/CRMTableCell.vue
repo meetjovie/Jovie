@@ -10,7 +10,7 @@
         :type="field"
         :name="field"
         :id="field"
-        class="block w-full bg-white/0 px-2 py-1 placeholder-neutral-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+        class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
         :placeholder="field"
         :aria-describedby="field" />
     </div>
