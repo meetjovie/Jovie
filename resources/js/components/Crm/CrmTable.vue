@@ -5,19 +5,19 @@
         <div
           class="flex w-full items-center justify-between border-b border-gray-200 bg-white px-2 py-2">
           <div class="px-4">
-            <H1
+            <h1
               v-if="header.includes('all')"
               class="text-sm font-semibold capitalize text-gray-900">
               {{ header + ' Contacts' }}
-            </H1>
-            <H1
+            </h1>
+            <h1
               v-else-if="header.includes('favourites')"
               class="text-sm font-semibold capitalize text-gray-900">
               Favorites
-            </H1>
-            <H1 v-else class="text-sm font-semibold capitalize text-gray-900">
+            </h1>
+            <h1 v-else class="text-sm font-semibold capitalize text-gray-900">
               {{ header }}
-            </H1>
+            </h1>
             <p
               v-if="header.includes('all')"
               class="text-2xs font-light text-gray-600">
@@ -104,9 +104,9 @@
             </div>
             <div class="flex items-center">
               <div class="group h-full cursor-pointer items-center">
-                <Popover class="items-center">
+                <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
-                    <PopoverButton class="inline-flex items-center">
+                    <MenuButton @click="open" class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
                         class="h-5 w-5 font-bold text-gray-400 group-hover:text-gray-600"
                         aria-hidden="true" /> -->
@@ -124,17 +124,20 @@
                           icon="AdjustmentsHorizontalIcon"
                           hideText />
                       </JovieTooltip>
-                    </PopoverButton>
-                    <transition
+                    </MenuButton>
+                    <TransitionRoot
+                      :show="open"
                       enter-active-class="transition duration-100 ease-out"
                       enter-from-class="transform scale-95 opacity-0"
                       enter-to-class="transform scale-100 opacity-100"
                       leave-active-class="transition duration-75 ease-in"
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
-                      <PopoverPanel
-                        class="w-60 flex-col rounded-md border-2 border border-gray-200 border-gray-200 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl backdrop-blur-xl backdrop-blur-2xl backdrop-saturate-150 backdrop-filter">
-                        <div as="div">
+                      <MenuItems
+                        @focus="focusTableColumnFilterInput()"
+                        static
+                        class="w-60 flex-col rounded-md border-2 border-gray-200 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0">
+                        <!--  <div as="div">
                           <div
                             class="flex items-center justify-between border-b border-gray-200 py-1">
                             <div
@@ -142,11 +145,35 @@
                               Display Columns
                             </div>
                           </div>
+                        </div> -->
+                        <div class="px-1">
+                          <MenuItem v-slot="{ active }" as="div">
+                            <div class="relative flex items-center">
+                              <input
+                                ref="tableColumnFilterInput"
+                                v-model="tableViewSearchQuery"
+                                placeholder="Add columns..."
+                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-gray-600 outline-0 ring-0 placeholder:font-light placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                              <!-- <div
+                                class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
+                                <kbd
+                                  class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-2xs font-medium text-gray-400"
+                                  >S</kbd
+                                >
+                              </div> -->
+                            </div>
+                          </MenuItem>
                         </div>
-                        <div as="div" v-for="(column, index) in otherColumns">
+                        <MenuItem
+                          as="div"
+                          v-slot="{ active }"
+                          v-for="(column, index) in filteredColumnList">
                           <SwitchGroup>
                             <SwitchLabel
-                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
+                              class="flex items-center rounded-md"
+                              :class="{
+                                'bg-gray-300 text-white': active,
+                              }">
                               <button
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
                                 <div class="flex items-center">
@@ -185,49 +212,57 @@
                               </button>
                             </SwitchLabel>
                           </SwitchGroup>
-                        </div>
+                        </MenuItem>
                         <div class="text-medium border-t border-gray-200">
-                          <SwitchGroup v-for="setting in settings">
-                            <SwitchLabel
-                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
-                              <button
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
-                                <div class="flex items-center">
-                                  <component
-                                    :is="setting.icon"
-                                    class="mr-2 h-3 w-3 text-gray-400"
-                                    aria-hidden="true" />
-                                  <span class="line-clamp-1">{{
-                                    setting.name
-                                  }}</span>
-                                </div>
+                          <MenuItem
+                            v-slot="{ active }"
+                            v-for="setting in settings">
+                            <SwitchGroup>
+                              <SwitchLabel
+                                class="flex items-center rounded-md"
+                                :class="{ 'bg-gray-300 text-white': active }">
+                                <button
+                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
+                                  <div class="flex items-center">
+                                    <component
+                                      :is="setting.icon"
+                                      class="mr-2 h-3 w-3 text-gray-400"
+                                      aria-hidden="true" />
+                                    <span class="line-clamp-1">{{
+                                      setting.name
+                                    }}</span>
+                                  </div>
 
-                                <Switch
-                                  v-if="setting.type === 'toggle'"
-                                  name="columns-visible"
-                                  v-model="setting.isVisable"
-                                  as="template"
-                                  v-slot="{ checked }">
-                                  <button
-                                    :class="
-                                      checked ? 'bg-indigo-600' : 'bg-gray-200'
-                                    "
-                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-gray-300">
-                                    <span
+                                  <Switch
+                                    v-if="setting.type === 'toggle'"
+                                    name="columns-visible"
+                                    v-model="setting.isVisable"
+                                    as="template"
+                                    v-slot="{ checked }">
+                                    <button
                                       :class="
                                         checked
-                                          ? 'translate-x-3'
-                                          : 'translate-x-0'
+                                          ? 'bg-indigo-600'
+                                          : 'bg-gray-200'
                                       "
-                                      class="inline-block h-3 w-3 transform rounded-full bg-white transition" />
-                                  </button>
-                                </Switch>
-                              </button>
-                            </SwitchLabel>
-                          </SwitchGroup>
-                          <div>
+                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-gray-300">
+                                      <span
+                                        :class="
+                                          checked
+                                            ? 'translate-x-3'
+                                            : 'translate-x-0'
+                                        "
+                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition" />
+                                    </button>
+                                  </Switch>
+                                </button>
+                              </SwitchLabel>
+                            </SwitchGroup>
+                          </MenuItem>
+                          <MenuItem v-slot="{ active }">
                             <div
-                              class="flex items-center rounded-md hover:bg-gray-200 hover:text-white">
+                              class="flex items-center rounded-md"
+                              :class="{ 'bg-gray-300 text-white': active }">
                               <button
                                 @click="importCSV()"
                                 class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
@@ -239,12 +274,12 @@
                                 </div>
                               </button>
                             </div>
-                          </div>
+                          </MenuItem>
                         </div>
-                      </PopoverPanel>
-                    </transition>
+                      </MenuItems>
+                    </TransitionRoot>
                   </Float>
-                </Popover>
+                </Menu>
               </div>
               <!-- <div v-if="currentContact">
                 <button
@@ -304,7 +339,8 @@
                               class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
                               aria-hidden="true" />
                           </MenuButton>
-                          <transition
+                          <TransitionRoot
+                            show="openContextMenu"
                             enter-active-class="transition duration-100 ease-out"
                             enter-from-class="transform scale-95 opacity-0"
                             enter-to-class="transform scale-100 opacity-100"
@@ -312,8 +348,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              v-show="openContextMenu"
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white px-1 py-1 shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -327,7 +362,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-gray-300 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -349,7 +384,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-gray-300 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -365,7 +400,7 @@
                                 </button>
                               </MenuItem>
                             </MenuItems>
-                          </transition>
+                          </TransitionRoot>
                         </Float>
                       </Menu>
                       <Menu>
@@ -399,7 +434,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-gray-300 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -413,7 +448,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-gray-300 text-gray-900'
                                       : 'text-gray-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -1037,7 +1072,14 @@
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
                       class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border">
-                      <Popover
+                      <ContactStageMenu
+                        :creator="creator"
+                        :key="key"
+                        :stages="stages"
+                        :index="index"
+                        @updateCreator="$emit('updateCreator', $event)"/>
+
+                      <!-- <Popover
                         as="div"
                         class="relative z-10 inline-block w-full items-center text-left">
                         <Float
@@ -1046,6 +1088,7 @@
                           shift
                           placement="bottom-start">
                           <PopoverButton
+                            @click="focusStageInput()"
                             class="flex w-full justify-between px-2">
                             <div
                               class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1"
@@ -1091,11 +1134,28 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                              <div class="">
-                                <div class="">
+                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border border-gray-200 border-gray-200 bg-white/60 bg-clip-padding py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+                              <div class="px-1">
+                                <div class="relative flex items-center">
+                                  <input
+                                    ref="stageInput"
+                                    v-model="stageSearchQuery"
+                                    placeholder="Set stage..."
+                                    class="w-full border-0 border-transparent bg-transparent px-1 py-2 text-xs font-semibold text-gray-700 ring-0 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                                  <div
+                                    class="absolute inset-y-0 right-0 flex py-1 pr-1.5">
+                                    <kbd
+                                      class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400"
+                                      >S</kbd
+                                    >
+                                  </div>
+                                </div>
+                                <div class="border-t border-gray-200">
                                   <button
-                                    v-for="(stage, key) in stages"
+                                    v-for="(stage, key) in filteredStages(
+                                      creator
+                                    )"
+                                    :key="stage"
                                     @click="
                                       $emit('updateCreator', {
                                         id: creator.id,
@@ -1104,13 +1164,51 @@
                                         value: key,
                                       })
                                     "
-                                    class="group flex w-full items-center bg-white px-2 py-1 text-xs text-gray-600 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-gray-100 hover:text-gray-600">
+                                    class="group mt-1 flex w-full items-center rounded-md px-2 py-1 text-xs text-gray-600 hover:bg-gray-200 hover:text-gray-600">
                                     <div
-                                      class="mr-2 text-xs font-bold opacity-50">
-                                      {{ key + 1 }}
-                                    </div>
-                                    <div class="text-xs font-medium">
-                                      {{ stage }}
+                                      v-if="stage.includes(stageSearchQuery)"
+                                      class="flex">
+                                      <div
+                                        class="mr-2 w-3 text-xs font-bold opacity-50">
+                                        <CheckIcon
+                                          v-if="
+                                            stage ===
+                                            creator.crm_record_by_user
+                                              .stage_name
+                                          "
+                                          class="h-3 w-3 text-gray-600" />
+                                      </div>
+                                      <div
+                                        class="mr-2 text-xs font-bold opacity-50">
+                                        <span
+                                          class="inline-block h-2 w-2 flex-shrink-0 rounded-full"
+                                          :class="[
+                                            {
+                                              'bg-indigo-50 text-indigo-600':
+                                                stage == 'Lead',
+                                            },
+                                            {
+                                              'bg-sky-50 text-sky-600':
+                                                stage == 'Interested',
+                                            },
+                                            {
+                                              'bg-pink-50 text-pink-600':
+                                                stage == 'Negotiating',
+                                            },
+                                            {
+                                              'bg-fuchsia-50 text-fuchsia-600':
+                                                stage == 'In Progress',
+                                            },
+                                            {
+                                              'bg-red-50 text-red-600':
+                                                stage == 'Complete',
+                                            },
+                                          ]"></span>
+                                      </div>
+
+                                      <div class="text-xs font-medium">
+                                        {{ stage }}
+                                      </div>
                                     </div>
                                   </button>
                                 </div>
@@ -1118,7 +1216,7 @@
                             </PopoverPanel>
                           </transition>
                         </Float>
-                      </Popover>
+                      </Popover> -->
                     </td>
                     <td
                       v-if="
@@ -1220,6 +1318,8 @@
 <script>
 import { Float } from '@headlessui-float/vue';
 import Datepicker from '@vuepic/vue-datepicker';
+
+import { ref } from 'vue';
 import '@vuepic/vue-datepicker/dist/main.css';
 import {
   Menu,
@@ -1264,6 +1364,7 @@ import {
   ArrowTopRightOnSquareIcon,
   PhoneIcon,
   ChatBubbleLeftEllipsisIcon,
+  CheckIcon,
 } from '@heroicons/vue/24/solid';
 import KeyboardShortcut from '../../components/KeyboardShortcut';
 import Pagination from '../../components/Pagination';
@@ -1274,9 +1375,11 @@ import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
 import ButtonGroup from '../../components/ButtonGroup.vue';
 import JovieTooltip from '../../components/JovieTooltip.vue';
+import ContactStageMenu from '../../components/ContactStageMenu.vue';
 export default {
   name: 'CrmTable',
   components: {
+    ContactStageMenu,
     ArchiveBoxIcon,
     ChevronRightIcon,
     StarRating,
@@ -1302,6 +1405,7 @@ export default {
     Popover,
     BriefcaseIcon,
     UserIcon,
+    CheckIcon,
     ChatBubbleOvalLeftEllipsisIcon,
     UserGroupIcon,
     ChevronDownIcon,
@@ -1337,7 +1441,9 @@ export default {
         atTopOfPage: true,
       },
       creatorRecords: [],
+      tableViewSearchQuery: '',
       searchQuery: '',
+      stageSearchQuery: '',
       currentRow: null,
       date: null,
       selectedCreators: [],
@@ -1347,6 +1453,7 @@ export default {
       searchVisible: false,
       imageLoaded: true,
       cellActive: false,
+      open: false,
       settings: [
         {
           name: 'Show Follower Counts',
@@ -1546,12 +1653,32 @@ export default {
     otherColumns() {
       return this.columns.filter((column) => column.key != 'full_name');
     },
+    filteredColumnList() {
+      return this.columns.filter((column) => {
+        return (
+          column.name.toLowerCase().includes(this.tableViewSearchQuery) &&
+          column.key !== 'full_name'
+        );
+      });
+    },
   },
   // a beforeMount call to add a listener to the window
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    focusTableColumnFilterInput() {
+      //next tick
+      this.$nextTick(() => {
+        this.$refs.tableColumnFilterInput.focus();
+      });
+    },
+    focusStageInput() {
+      //use next tick
+      this.$nextTick(() => {
+        this.$refs.stageInput.$el.focus();
+      });
+    },
     openContextMenu(event, creator) {
       //notify the user they right clicked
       console.log('right clicked' + creator.name);

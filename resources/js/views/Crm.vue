@@ -445,7 +445,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 -mt-2 hidden h-full border-l-2 border-gray-200 xl:block">
+            class="z-30 -mt-2 hidden h-full border-l border-gray-200 xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -522,10 +522,13 @@ import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
 import { Float } from '@headlessui-float/vue';
+1;
+
 export default {
   name: 'CRM',
   components: {
     CreditCardIcon,
+
     CogIcon,
     ArrowPathIcon,
     EmojiPickerModal,
