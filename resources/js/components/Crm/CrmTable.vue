@@ -1637,12 +1637,14 @@ export default {
       return this.headers.filter((header) => header.visible);
     },
     filteredCreators() {
-      //return a list of columns from other columns matching the table view search query
-      return this.otherColumns.filter((column) =>
-        column.name
-          .toLowerCase()
-          .includes(this.tableViewSearchQuery.toLowerCase())
-      );
+      return this.creatorRecords.filter((creator) => {
+        return (
+          creator.name.toLowerCase().match(this.searchQuery.toLowerCase()) ||
+          creator.emails.some((email) =>
+            email.toString().toLowerCase().match(this.searchQuery.toLowerCase())
+          )
+        );
+      });
     },
     visibleColumns() {
       localStorage.setItem('columns', JSON.stringify(this.columns));
