@@ -313,7 +313,7 @@
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
                               v-show="openContextMenu"
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white px-1 py-1 shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
