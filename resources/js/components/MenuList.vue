@@ -68,6 +68,7 @@
                   >
                   <input
                     v-model="element.name"
+                    :ref="`list_${element.id}`"
                     @blur="updateList(element)"
                     @keyup.esc="disableEditName(element)"
                     @keyup.enter="updateList(element)"
@@ -220,7 +221,7 @@
               >
               <input
                 ref="input"
-                :input="ref"
+                :ref="`list_${item.id}`"
                 @blur="disableEditName(item)"
                 @keyup.esc="disableEditName(item)"
                 @keyup.enter="updateList(item)"
@@ -438,11 +439,16 @@ export default {
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
-    enableEditName(item, fallBackFocus = false) {
-      if (!fallBackFocus) {
-        this.currentEditingList = JSON.parse(JSON.stringify(item));
-      }
-      item.editName = true;
+    async enableEditName(item, fallBackFocus = false) {
+        if (!fallBackFocus) {
+            this.currentEditingList = JSON.parse(JSON.stringify(item));
+        }
+        item.editName = true;
+        await this.$nextTick(() => {
+            if (this.$refs[`list_${item.id}`]) {
+                this.$refs[`list_${item.id}`].focus()
+            }
+        });
     },
     disableEditName(item) {
       item.editName = false;
@@ -475,6 +481,7 @@ export default {
               text: response.message,
             });
             this.editListPopup.open = false;
+            this.currentEditingList = null
             this.$emit('getUserLists');
           } else {
             // show toast error here later
@@ -518,6 +525,8 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.$emit('setFilterList', response.list.id)
+              this.enableEditName(response.list)
           } else {
             // show toast error here later
             this.$notify({
@@ -777,6 +786,19 @@ export default {
     ToggleGroup,
     ArrowPathIcon,
   },
+    watch: {
+        menuItems(val) {
+            console.log(this.menuName);
+            console.log(this.currentEditingList);
+            if (this.menuName == 'Lists' && this.currentEditingList) {
+                let enabledList = this.menuItems.find(list => this.currentEditingList.id = list.id)
+                console.log(enabledList);
+                if (enabledList) {
+                    this.enableEditName(enabledList)
+                }
+            }
+        }
+    },
   props: {
     menuName: {
       type: String,
