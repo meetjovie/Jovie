@@ -330,7 +330,7 @@
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-gray-100">
-                      <Menu v-slot="{ openContextMenu }">
+                      <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
                             class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
@@ -339,8 +339,7 @@
                               class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
                               aria-hidden="true" />
                           </MenuButton>
-                          <TransitionRoot
-                            show="openContextMenu"
+                          <transition
                             enter-active-class="transition duration-100 ease-out"
                             enter-from-class="transform scale-95 opacity-0"
                             enter-to-class="transform scale-100 opacity-100"
@@ -400,7 +399,7 @@
                                 </button>
                               </MenuItem>
                             </MenuItems>
-                          </TransitionRoot>
+                          </transition>
                         </Float>
                       </Menu>
                       <Menu>
@@ -1077,7 +1076,7 @@
                         :key="key"
                         :stages="stages"
                         :index="index"
-                        @updateCreator="$emit('updateCreator', $event)"/>
+                        @updateCreator="$emit('updateCreator', $event)" />
 
                       <!-- <Popover
                         as="div"
@@ -1284,14 +1283,14 @@
                       class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
                       <div class="flex items-center justify-end text-right">
                         <div>
-                          <!--  <router-link
+                          <router-link
                             :to="{
                               name: 'Creator Overview',
                               params: { id: creator.id },
                             }"
                             class="text-gray-600 hover:text-indigo-900">
                             Manage
-                          </router-link> -->
+                          </router-link>
                         </div>
                       </div>
                     </td>

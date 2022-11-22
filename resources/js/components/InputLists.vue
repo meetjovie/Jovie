@@ -25,18 +25,25 @@
         <span class="text-2xs line-clamp-1">Not in any lists...</span>
       </div>
     </div>
+    <JovieDropdownMenu />
+    <div @click="openMenu" class="cursor-pointer items-center px-2">
+      <PlusIcon class="h-3 w-3 text-gray-400 hover:text-gray-700" />
+    </div>
   </div>
 </template>
 <script>
 import { XMarkIcon, PlusIcon } from '@heroicons/vue/24/solid';
+import JovieDropdownMenu from './../components/JovieDropdownMenu.vue';
 export default {
   components: {
     XMarkIcon,
     PlusIcon,
+    JovieDropdownMenu,
   },
   data() {
     return {
       lists: [],
+      openMenu,
     };
   },
   props: {

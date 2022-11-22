@@ -34,6 +34,7 @@
           ]">
           {{ creator.crm_record_by_user.stage_name }}
         </div>
+
         <div class="items-center">
           <ChevronDownIcon class="mt-1 h-4 w-4 text-gray-600" />
         </div>
@@ -75,12 +76,14 @@
               v-slot="{ active }"
               v-for="(stage, key) in filteredStage"
               :key="stage"
-              @click="$emit('updateCreator', {
+              @click="
+                $emit('updateCreator', {
                   id: creator.id,
                   index: index,
                   key: `crm_record_by_user.stage`,
                   value: key,
-              })">
+                })
+              ">
               <div
                 class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
                 :class="{
@@ -180,6 +183,7 @@ export default {
   components: {
     TransitionRoot,
     Menu,
+    JovieDropdownMenu,
     XMarkIcon,
     MenuItem,
     ChevronDownIcon,
