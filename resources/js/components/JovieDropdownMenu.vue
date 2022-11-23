@@ -40,30 +40,31 @@
           </div>
 
           <div class="border-t border-gray-200 px-2">
-            <MenuItem
-              as="div"
-              v-slot="{ active }"
-              v-for="(item, key) in filteredItems"
-              :key="item">
-              <div
-                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
-                :class="{
-                  'bg-gray-300 text-gray-700': active,
-                }">
-                <div class="flex">
-                  <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
+            <template v-for="(item, key) in filteredItems" :key="item">
+              <MenuItem
+                @click="itemClicked(item.id)"
+                as="div"
+                v-slot="{ active }">
+                <div
+                  class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
+                  :class="{
+                    'bg-gray-300 text-gray-700': active,
+                  }">
+                  <div class="flex">
+                    <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="item === creator.crm_record_by_user.stage_name"
                       class="h-4 w-4 font-bold text-gray-600 hover:text-gray-700" />
                   </div> -->
-                  <div class="mr-2 text-xs font-bold">
-                    {{ item.emoji }}
-                  </div>
+                    <div class="mr-2 text-xs font-bold">
+                      {{ item.emoji }}
+                    </div>
 
-                  <div class="text-xs font-medium">{{ item.name }}</div>
+                    <div class="text-xs font-medium">{{ item.name }}</div>
+                  </div>
                 </div>
-              </div>
-            </MenuItem>
+              </MenuItem>
+            </template>
 
             <MenuItem
               disabled
@@ -163,6 +164,10 @@ export default {
     },
   },
   methods: {
+    itemClicked(item) {
+      this.$emit('itemClicked', item);
+      this.open = false;
+    },
     focusMenuSearch() {
       this.$nextTick(() => {
         this.$refs.menuSearchInput.focus();

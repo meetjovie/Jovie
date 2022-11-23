@@ -4,9 +4,9 @@
       <div v-for="item in lists" class="mr-2 flex" :key="item.order">
         <div
           class="mr-1 flex items-center justify-between rounded-full border border-gray-200 px-1 text-xs font-medium text-gray-800 hover:bg-gray-50">
-          <div class="flex w-full line-clamp-1">
+          <div class="flex w-full items-center">
             <span class="mr-1"> {{ item.emoji }}</span>
-            <span class="w-14 select-none text-ellipsis text-2xs">{{
+            <span class="w-18 select-none truncate text-ellipsis text-2xs">{{
               item.name
             }}</span>
           </div>
@@ -18,6 +18,7 @@
     </div>
 
     <JovieDropdownMenu
+      @itemClicked="setListAction($event)"
       :items="userLists"
       class="items-center"
       searchText="Find a list...">
@@ -42,7 +43,7 @@
 <script>
 import { XMarkIcon, PlusIcon } from '@heroicons/vue/24/solid';
 import JovieDropdownMenu from './../components/JovieDropdownMenu.vue';
-import UserService from "../services/api/user.service";
+import UserService from '../services/api/user.service';
 export default {
   components: {
     XMarkIcon,
@@ -52,7 +53,7 @@ export default {
   data() {
     return {
       lists: [],
-        userLists: [],
+      userLists: [],
     };
   },
   props: {
@@ -64,19 +65,22 @@ export default {
       type: String,
     },
   },
-    mounted() {
-      this.getUserLists()
-    },
+  mounted() {
+    this.getUserLists();
+  },
   methods: {
-      getUserLists() {
-          UserService.getUserLists().then((response) => {
-              response = response.data;
-              if (response.status) {
-                  this.userLists = [];
-                  this.userLists = response.lists;
-              }
-          });
-      },
+    getUserLists() {
+      UserService.getUserLists().then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.userLists = [];
+          this.userLists = response.lists;
+        }
+      });
+    },
+    setListAction(id) {
+      this.toggleCreatorsFromList(this.creator.id, id, false);
+    },
     toggleCreatorsFromList(ids, list, remove) {
       this.$store
         .dispatch('toggleCreatorsFromList', {

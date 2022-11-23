@@ -30,7 +30,7 @@
                       <UserGroupIcon
                         class="mr-1 h-5 w-5 rounded-md p-1 text-pink-400"
                         aria-hidden="true" />
-                      All Contacts
+                      Contacts
                     </div>
                     <div
                       @click="showCreatorModal = true"
