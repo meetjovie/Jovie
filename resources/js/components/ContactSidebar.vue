@@ -1191,34 +1191,58 @@ export default {
           let creator = urlParameters.get('creator');
           creator = JSON.parse(decodeURIComponent(creator));
 
-          let promise = new Promise(async (resolve, reject) => {
-            if (image && creator.network == 'instagram') {
-              await this.$store
-                .dispatch('uploadTempFileFromUrl', image)
-                .then((response) => {
-                  image = response.url;
-                  creator.profile_pic_url = image;
-                  resolve();
-                });
-            } else {
-              creator.profile_pic_url = decodeURIComponent(image);
-              resolve();
-            }
+          let cPromise = new Promise(async (resolve, reject) => {
+            UserService.getCrmCreatorByHandler({
+              network: creator.network,
+              username: creator[`${creator.network}_handler`],
+            }).then((response) => {
+              response = response.data;
+              if (response.status) {
+                response.creator.network = creator.network;
+                resolve(response.creator);
+              } else {
+                reject();
+              }
+            });
           });
-          promise.then((response) => {
-            if (creator.meta == undefined) {
-              creator.meta = {};
-            }
-            // for (const property in creator) {
-            //   if (property == 'website') {
-            //     creator[property] = decodeURIComponent(creator[property]);
-            //   }
-            // }
 
-            this.creator = creator;
-            console.log('creator from iframe');
-            console.log(this.creator);
-          });
+          cPromise.then(
+            (value) => {
+              this.creator = value;
+              console.log('creator from iframe DB');
+              console.log(this.creator);
+            },
+            () => {
+              let promise = new Promise(async (resolve, reject) => {
+                if (image && creator.network == 'instagram') {
+                  await this.$store
+                    .dispatch('uploadTempFileFromUrl', image)
+                    .then((response) => {
+                      image = response.url;
+                      creator.profile_pic_url = image;
+                      resolve();
+                    });
+                } else {
+                  creator.profile_pic_url = decodeURIComponent(image);
+                  resolve();
+                }
+              });
+              promise.then((response) => {
+                if (creator.meta == undefined) {
+                  creator.meta = {};
+                }
+                // for (const property in creator) {
+                //   if (property == 'website') {
+                //     creator[property] = decodeURIComponent(creator[property]);
+                //   }
+                // }
+
+                this.creator = creator;
+                console.log('creator from iframe');
+                console.log(this.creator);
+              });
+            }
+          );
         }
       } catch (e) {
         console.log('eeeeeeeeeeeeeeeeeeeeeeeeeee');
@@ -1387,6 +1411,7 @@ export default {
   },
   data() {
     return {
+      abortController: null,
       sidebarLoading: false,
       socialURLEditing: false,
       dragging: false,
