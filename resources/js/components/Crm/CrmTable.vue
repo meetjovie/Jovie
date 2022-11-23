@@ -297,7 +297,7 @@
           <div
             class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="block w-full divide-y divide-gray-200 overflow-x-auto">
+              class="block w-full divide-y divide-gray-200 overflow-x-auto bg-gray-100">
               <thead class="relative isolate z-20 w-full items-center">
                 <tr class="sticky h-8 items-center">
                   <th
@@ -499,11 +499,11 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-30 table-cell content-end items-center border-x border-gray-300 border-x-gray-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
+                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-gray-300 border-x-gray-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
                 </tr>
               </thead>
               <tbody
-                class="relative isolate z-0 h-full w-full divide-y divide-gray-200 overflow-y-scroll">
+                class="relative isolate z-0 h-full w-full divide-y divide-gray-200 overflow-y-scroll bg-gray-50">
                 <template class="w-full" v-if="loading">
                   <tr class="w-full">
                     <td class="w-full" colspan="11">
@@ -1077,7 +1077,7 @@
                         :key="key"
                         :stages="stages"
                         :index="index"
-                        @updateCreator="$emit('updateCreator', $event)"/>
+                        @updateCreator="$emit('updateCreator', $event)" />
 
                       <!-- <Popover
                         as="div"
