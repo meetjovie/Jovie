@@ -1203,7 +1203,7 @@ export default {
             })
 
             cPromise.then((value) => {
-                    this.creator = creator;
+                    this.creator = value;
                     console.log('creator from iframe DB');
                     console.log(this.creator);
                 },
