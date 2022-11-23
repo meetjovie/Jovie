@@ -556,6 +556,7 @@ class Creator extends Model
             $creatorUserLists[$creatorUserList->creator_id][] = [
                 'id' => $creatorUserList->id,
                 'name' => $creatorUserList->name,
+                'emoji' => $creatorUserList->emoji ?? '📄',
                 'creator_id' => $creatorUserList->creator_id
             ];
         }

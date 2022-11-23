@@ -18,18 +18,18 @@
     </div>
 
     <JovieDropdownMenu
-      :items="lists"
+      :items="userLists"
       class="items-center"
       searchText="Find a list...">
       <template #triggerButton>
         <div
-          :class="{ 'px-2': lists.length > 0 }"
+          :class="{ 'px-2': userLists.length > 0 }"
           class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-0.5 hover:border-gray-200 hover:bg-gray-50">
           <div class="flex items-center">
             <PlusIcon
               class="mr-1 h-3 w-3 text-gray-400 group-hover:text-gray-700" />
             <span
-              v-if="!lists.length > 0"
+              v-if="!userLists.length > 0"
               class="text-2xs font-light text-gray-400 group-hover:text-gray-700"
               >Add to a list</span
             >
@@ -42,6 +42,7 @@
 <script>
 import { XMarkIcon, PlusIcon } from '@heroicons/vue/24/solid';
 import JovieDropdownMenu from './../components/JovieDropdownMenu.vue';
+import UserService from "../services/api/user.service";
 export default {
   components: {
     XMarkIcon,
@@ -51,6 +52,7 @@ export default {
   data() {
     return {
       lists: [],
+        userLists: [],
     };
   },
   props: {
@@ -62,7 +64,19 @@ export default {
       type: String,
     },
   },
+    mounted() {
+      this.getUserLists()
+    },
   methods: {
+      getUserLists() {
+          UserService.getUserLists().then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.userLists = [];
+                  this.userLists = response.lists;
+              }
+          });
+      },
     toggleCreatorsFromList(ids, list, remove) {
       this.$store
         .dispatch('toggleCreatorsFromList', {

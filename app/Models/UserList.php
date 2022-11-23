@@ -27,6 +27,10 @@ class UserList extends Model
 
     protected $appends = ['updating_list'];
 
+    public function getEmojiAttribute($value)
+    {
+        return $value ?? '📄';
+    }
     public function creators()
     {
         return $this->belongsToMany(Creator::class)->withTimestamps();
