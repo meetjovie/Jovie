@@ -1539,7 +1539,7 @@ export default {
           breakpoint: 'md',
         },
         {
-          name: 'Last Contacted',
+          name: 'Last Contact',
           key: 'crm_record_by_user.last_contacted',
           icon: 'CalendarDaysIcon',
           sortable: false,

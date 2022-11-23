@@ -461,10 +461,10 @@
         </div>
       </div>
       <div class="px-2">
-        <h2 class="text-xs font-semibold text-gray-600">Lists</h2>
+        <!--  <h2 class="text-xs font-semibold text-gray-600">Lists</h2> -->
         <InputLists
           :lists="creator.lists"
-          :current-list="creator.current_list" />
+          :currentList="creator.current_list" />
       </div>
       <div class="mt-4 px-2">
         <h2 class="mb-2 text-xs font-semibold text-gray-600">
@@ -476,7 +476,7 @@
         v-if="jovie && !creator.id">
         <div class="mx-auto text-center text-gray-400">No contact selected</div>
       </div>
-      <div v-else class="h-80 space-y-6 overflow-y-scroll px-2">
+      <div v-else class="mt-2 h-80 space-y-6 overflow-y-scroll px-2">
         <draggable
           class="select-none space-y-2"
           group="lists"

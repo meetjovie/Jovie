@@ -1,5 +1,5 @@
 <template>
-  <div class="group/datainput mt-1 flex">
+  <div class="group/bg-gray-50nput mt-1 flex">
     <div class="group/move active:grabbing flex w-3 cursor-grab items-center">
       <EllipsisVerticalIcon
         class="h-5 w-5 text-gray-400/0 group-hover/draggable:text-gray-400 group-hover/move:text-gray-700" />
@@ -32,7 +32,7 @@
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
           @change="$emit('updateModelValue', $event.target.value)"
-          class="input-field prrounded h-8 w-full border border-gray-300 border-opacity-0 py-2 px-2 leading-none text-gray-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-gray-100"
+          class="input-field prrounded h-8 w-full border border-gray-200 border-opacity-0 py-2 px-2 leading-none text-gray-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-gray-50"
           :class="[
             icon ? 'pl-4' : '',
             { 'rounded-r-md': rounded == 'right' },
@@ -116,7 +116,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md bg-white px-1 pl-5 text-xs font-medium text-gray-400 transition-all group-hover:border-t group-hover:bg-gray-100 group-hover:text-gray-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
+          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md border-t border-transparent bg-white px-1 pl-5 text-xs font-medium text-gray-400 transition-all group-hover:border-gray-200 group-hover:bg-gray-50 group-hover:text-gray-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
           >{{ label }}</label
         >
       </div>

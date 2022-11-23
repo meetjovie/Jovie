@@ -183,7 +183,6 @@ export default {
   components: {
     TransitionRoot,
     Menu,
-    JovieDropdownMenu,
     XMarkIcon,
     MenuItem,
     ChevronDownIcon,
@@ -224,7 +223,6 @@ export default {
     return {
       open: false,
       stageSearchQuery: '',
-      menuOpen: false,
     };
   },
   computed: {

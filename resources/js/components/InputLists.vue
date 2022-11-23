@@ -1,13 +1,12 @@
 <template>
-  <div
-    class="flex w-full overflow-x-scroll rounded-md border-2 border-gray-200 bg-gray-50 px-2 py-1">
-    <div class="flex overflow-x-scroll" v-if="lists.length > 0">
-      <div v-for="item in lists" class="mr-2 flex">
+  <div class="flex w-full items-center overflow-auto py-2 px-2">
+    <div class="mr-1 flex">
+      <div v-for="item in lists" class="mr-2 flex" :key="item.order">
         <div
-          class="mr-1 flex items-center justify-between rounded bg-gray-200 px-1 text-xs font-medium text-gray-800 shadow-md hover:bg-gray-200">
-          <div class="flex">
-            <span class="mr-1 select-none text-2xs">{{ item.emoji }}</span>
-            <span class="select-none text-2xs line-clamp-1">{{
+          class="mr-1 flex items-center justify-between rounded-full border border-gray-200 px-1 text-xs font-medium text-gray-800 hover:bg-gray-50">
+          <div class="flex w-full line-clamp-1">
+            <span class="mr-1"> {{ item.emoji }}</span>
+            <span class="w-14 select-none text-ellipsis text-2xs">{{
               item.name
             }}</span>
           </div>
@@ -17,18 +16,27 @@
         </div>
       </div>
     </div>
-    <div
-      v-else
-      class="mr-1 flex select-none items-center justify-between rounded px-1 text-xs font-medium text-gray-400">
-      <div class="flex">
-        <span class="mr-1 text-2xs"><PlusIcon /></span>
-        <span class="text-2xs line-clamp-1">Not in any lists...</span>
-      </div>
-    </div>
-    <JovieDropdownMenu />
-    <div @click="openMenu" class="cursor-pointer items-center px-2">
-      <PlusIcon class="h-3 w-3 text-gray-400 hover:text-gray-700" />
-    </div>
+
+    <JovieDropdownMenu
+      :items="lists"
+      class="items-center"
+      searchText="Find a list...">
+      <template #triggerButton>
+        <div
+          :class="{ 'px-2': lists.length > 0 }"
+          class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-0.5 hover:border-gray-200 hover:bg-gray-50">
+          <div class="flex items-center">
+            <PlusIcon
+              class="mr-1 h-3 w-3 text-gray-400 group-hover:text-gray-700" />
+            <span
+              v-if="!lists.length > 0"
+              class="text-2xs font-light text-gray-400 group-hover:text-gray-700"
+              >Add to a list</span
+            >
+          </div>
+        </div>
+      </template>
+    </JovieDropdownMenu>
   </div>
 </template>
 <script>
@@ -43,13 +51,12 @@ export default {
   data() {
     return {
       lists: [],
-      openMenu,
     };
   },
   props: {
     lists: {
       type: Array,
-      default: [],
+      default: () => [],
     },
     currentList: {
       type: String,

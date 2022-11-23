@@ -623,7 +623,7 @@ export default {
     filters: {
       deep: true,
       handler: function (val) {
-          delete val.page
+        delete val.page;
         localStorage.setItem('filters', JSON.stringify(val));
       },
     },
@@ -884,7 +884,7 @@ export default {
     },
     pageChanged({ page }) {
       this.filters.page = page;
-        this.getCrmCreators();
+      this.getCrmCreators();
     },
     changeTab(index) {
       Object.assign(this.$data, this.$options.data());
