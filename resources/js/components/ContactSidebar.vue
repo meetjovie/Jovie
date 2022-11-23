@@ -1192,7 +1192,7 @@ export default {
           creator = JSON.parse(decodeURIComponent(creator));
 
             let cPromise = new Promise(async (resolve, reject) => {
-                UserService.getCrmCreatorByHandler({network: creator.network, username: creator[`${creator.network}_handler`]}, signal).then((response) => {
+                UserService.getCrmCreatorByHandler({network: creator.network, username: creator[`${creator.network}_handler`]}).then((response) => {
                     response = response.data;
                     if (response.status) {
                         resolve(response.creator)
