@@ -334,14 +334,23 @@
           </div>
         </div>
       </div>
-      <div v-if="socialURLEditing">
-        <SocialInput
-          :socialMediaProfileUrl="socialMediaProfileUrl"
-          @finishImport="saveSocialNetworkURL"
-          @saveSocialNetworkURL="saveSocialNetworkURL()"
-          @cancelEdit="cancelEdit()"
-          minimalDesign />
-      </div>
+      <TransitionRoot
+        :show="socialURLEditing"
+        enter="transition ease-out duration-300"
+        enter-from="opacity-0 -translate-y-1/2"
+        enter-to="opacity-100 translate-y-0"
+        leave="transition ease-in duration-300"
+        leave-from="opacity-100 translate-y-0"
+        leave-to="opacity-0 -translate-y-1/2">
+        <div>
+          <SocialInput
+            :socialMediaProfileUrl="socialMediaProfileUrl"
+            @finishImport="saveSocialNetworkURL"
+            @saveSocialNetworkURL="saveSocialNetworkURL()"
+            @cancelEdit="cancelEdit()"
+            minimalDesign />
+        </div>
+      </TransitionRoot>
 
       <hr />
 
