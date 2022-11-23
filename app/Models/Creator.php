@@ -511,6 +511,10 @@ class Creator extends Model
             $creators = $creators->where('creators.username', $params['username'])->limit(1);
         }
 
+        if (!empty($params['username']) && !empty($params['network'])) {
+            $creators = $creators->where(($params['network'].'_handler'), $params['username'])->limit(1);
+        }
+
         $order = 'DESC';
         $orderBy = null;
         if (!empty($params['order'])) {
@@ -637,6 +641,128 @@ class Creator extends Model
         }
 
         return $creators;
+    }
+
+    public static function getCrmCreatorByHandler($params, $userId = null)
+    {
+        $userId = $userId ?? Auth::id();
+        $user = User::with('currentTeam')->where('id', $userId)->first();
+        $creator = DB::table('creators')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
+            ->addSelect('creators.*')->addSelect('creators.id as id')
+            ->join('crms', function ($join) use ($params, $user) {
+                $join->on('crms.creator_id', '=', 'creators.id')
+                    ->where('crms.team_id', $user->currentTeam->id)
+                    ->where(function ($q) {
+                        $q->where('crms.muted', 0)->orWhere('crms.muted', null);
+                    });
+            })->leftJoin('creator_notes as cn', function ($join) use ($userId) {
+                $join->on('cn.creator_id', '=', 'crms.creator_id')
+                    ->where('cn.user_id', $userId);
+            });
+
+        if (!empty($params['username']) && !empty($params['network'])) {
+            $creator = $creator->where(($params['network'].'_handler'), $params['username']);
+        }
+
+        $creator = $creator->first();
+
+        if (is_null($creator)) {
+            return null;
+        }
+
+        $creatorAccessor = new self();
+
+        $lists = UserList::getLists($userId)->pluck('id')->toArray();
+        $creatorListIds = DB::table('creator_user_list as cul')
+            ->select('ul.id', 'ul.name', 'ul.emoji', 'cul.creator_id')
+            ->where('creator_id', $creator->id)
+            ->whereIn('user_list_id', $lists)
+            ->join('user_lists as ul', 'ul.id', '=', 'cul.user_list_id')->get();
+        $creatorUserLists = [];
+        foreach ($creatorListIds as $creatorUserList) {
+            $creatorUserLists[$creatorUserList->creator_id][] = [
+                'id' => $creatorUserList->id,
+                'name' => $creatorUserList->name,
+                'creator_id' => $creatorUserList->creator_id
+            ];
+        }
+
+        $creator->lists = $creatorUserLists[$creator->id] ?? [];
+        $creator->current_list = $params['list'] ?? null;
+
+        $creator->verified = $creatorAccessor->getVerifiedAttribute($creator);
+        $creator->category = $creatorAccessor->getCategoryAttribute($creator);
+        $creator->name = $creatorAccessor->getName($creator);
+        $creator->biography = $creatorAccessor->getBiographyAttribute($creator);
+
+        $creator->instagram_meta = $creatorAccessor->getInstagramMetaAttribute($creator->instagram_meta);
+        $creator->instagram_media = $creatorAccessor->getInstagramMediaAttribute($creator->instagram_media);
+
+        $creator->twitter_meta = $creatorAccessor->getTwitterMetaAttribute($creator->twitter_meta);
+        $creator->twitch_meta = $creatorAccessor->getTwitchMetaAttribute($creator->twitch_meta);
+        $creator->tiktok_meta = $creatorAccessor->getTwitchMetaAttribute($creator->tiktok_meta);
+
+        $creator->social_links = $creatorAccessor->getSocialLinksAttribute($creator->social_links);
+        $creator->emails = $creatorAccessor->getEmailsAttribute($creator->emails);
+        $creator->tags = $creatorAccessor->getTagsAttribute($creator->tags);
+
+        $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
+        $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
+        $creator->twitch_handler = $creatorAccessor->getTwitchHandlerAttribute($creator->twitch_handler);
+        $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
+        $creator->youtube_handler = $creatorAccessor->getYoutubeLink($creator->youtube_handler);
+
+        $creator->profile_pic_url = $creatorAccessor->getProfilePicUrlAttribute($creator);
+
+        // crm
+        $creator->crm_record_by_user = (object) [];
+        $creator->crm_record_by_user->user_id = $user->id;
+        $creator->crm_record_by_user->team_id = $user->currentTeam->id;
+        $creator->crm_record_by_user->creator_id = $creator->id;
+        $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
+        $creator->crm_record_by_user->offer = $creator->offer;
+        $creator->crm_record_by_user->archived = $creator->archived;
+        $creator->crm_record_by_user->rating = $creator->rating;
+        $creator->crm_record_by_user->favourite = $creator->favourite;
+        $creator->crm_record_by_user->muted = $creator->muted;
+        $creator->crm_record_by_user->selected = $creator->selected;
+        $creator->crm_record_by_user->rejected = $creator->rejected;
+        $creator->crm_record_by_user->created_at = $creator->created_at;
+        $creator->crm_record_by_user->updated_at = $creator->updated_at;
+
+        $crm = new Crm();
+        $creator->crm_record_by_user->stage = $creator->stage;
+        $creator->crm_record_by_user->stage_name = $crm->stageName($creator->stage);
+        $creator->crm_record_by_user->meta = $crm->getMetaAttribute($creator->meta);
+        $creator->meta = $creatorAccessor->getMeta($creator);
+        unset($creator->crm_record_by_user->meta);
+        unset($creator->creator_id);
+        unset($creator->last_contacted);
+        unset($creator->offer);
+        unset($creator->archived);
+        unset($creator->instagram_removed);
+        unset($creator->rating);
+        unset($creator->stage);
+        unset($creator->favourite);
+        unset($creator->muted);
+
+        // have suggested offer and make instagram offer == suggester offer in case instagram
+        // offer is null or 0, so we can use same model on frontend
+        // same goes for ratings
+        // on frontend one can check if instagram_suggested_offer or instagram_average_rating is present then style different
+        // these properties would only show up if user specific values are not set
+
+        foreach (self::NETWORKS as $network) {
+            if (! empty($creator->crm_record_by_user->offer) && empty($creator->{$network.'_meta'})) {
+                $creator->crm_record_by_user->{$network.'_suggested_offer'} = round(($creator->{$network.'_meta'}->engaged_follows ?? 0) * 0.5, 0);
+            }
+        }
+        if (empty($creator->crm_record_by_user->rating) && isset($avgRatings[$creator->id])) {
+            $creator->crm_record_by_user->rating = round($avgRatings[$creator->id]->average_rating);
+        }
+
+        return $creator;
     }
 
     public static function updateCrmCreator($request, $id)
@@ -779,5 +905,10 @@ class Creator extends Model
             ->groupBy('team_id')->first();
         unset($counts->team_id);
         return (array) $counts;
+    }
+
+    public function getCreatorByHandle()
+    {
+
     }
 }

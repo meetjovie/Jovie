@@ -42,6 +42,28 @@ class CrmController extends Controller
         }
     }
 
+    public function getExtensionCreator(Request $request)
+    {
+        try {
+            $creator = Creator::getCrmCreatorByHandler($request->all());
+            if ($creator) {
+                return response()->json([
+                    'status' => true,
+                    'creator' => $creator,
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                ], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => ($e->getMessage().' '.$e->getFile().' '.$e->getLine())
+            ], 200);
+        }
+    }
+
     public function crmCounts()
     {
         $counts = Creator::getCrmCounts();
