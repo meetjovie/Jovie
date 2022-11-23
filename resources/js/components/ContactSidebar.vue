@@ -1195,6 +1195,7 @@ export default {
                 UserService.getCrmCreatorByHandler({network: creator.network, username: creator[`${creator.network}_handler`]}).then((response) => {
                     response = response.data;
                     if (response.status) {
+                        response.creator.network = creator.network
                         resolve(response.creator)
                     } else {
                         reject()
