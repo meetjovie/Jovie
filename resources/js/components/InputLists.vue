@@ -11,7 +11,7 @@
             }}</span>
           </div>
           <XMarkIcon
-            @click="toggleCreatorsFromList(item.creator_id, item.id, true)"
+            @click="toggleCreatorsFromList(creatorId, item.id, true)"
             class="h-3 w-3 cursor-pointer text-gray-400 hover:text-gray-500"></XMarkIcon>
         </div>
       </div>
@@ -64,6 +64,9 @@ export default {
     currentList: {
       type: String,
     },
+      creatorId: {
+          type: Number,
+      },
   },
   mounted() {
     this.getUserLists();
@@ -79,7 +82,7 @@ export default {
       });
     },
     setListAction(id) {
-      this.toggleCreatorsFromList(this.creator.id, id, false);
+      this.toggleCreatorsFromList(this.creatorId, id, false);
     },
     toggleCreatorsFromList(ids, list, remove) {
       this.$store

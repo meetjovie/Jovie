@@ -358,7 +358,7 @@ class CrmController extends Controller
         }
         return response()->json([
             'status' => true,
-            'message' => ('Creators '. $request->remove ? 'removed' : 'added' . ' from the list.')
+            'message' => ('Creators '. ($request->remove == true ? 'removed from' : 'added to ' . ' the list.'))
         ], 200);
     }
 

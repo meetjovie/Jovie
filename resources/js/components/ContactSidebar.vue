@@ -475,6 +475,7 @@
       <div class="px-2">
         <!--  <h2 class="text-xs font-semibold text-gray-600">Lists</h2> -->
         <InputLists
+            :creatorId="creator.id ?? 0"
           :lists="creator.lists"
           :currentList="creator.current_list" />
       </div>
