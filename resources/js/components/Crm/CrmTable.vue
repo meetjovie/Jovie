@@ -13,6 +13,9 @@
             <h1
               v-else-if="header.includes('favourites')"
               class="text-sm font-semibold capitalize text-gray-900">
+              <HeartIcon
+                class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                aria-hidden="true" />
               Favorites
             </h1>
             <h1 v-else class="text-sm font-semibold capitalize text-gray-900">

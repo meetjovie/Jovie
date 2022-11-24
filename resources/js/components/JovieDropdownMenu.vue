@@ -4,7 +4,7 @@
     v-slot="{ open }"
     class="relative z-10 inline-block w-full items-center text-left">
     <Float portal :offset="0" shift placement="bottom-start">
-      <MenuButton @click="open" ref="menuButton">
+      <MenuButton class="cursor-pointer" @click="open" ref="menuButton">
         <slot name="triggerButton"> </slot>
       </MenuButton>
 
@@ -21,7 +21,8 @@
           @focus="focusMenuSearch()"
           as="div"
           class="z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
-          <div class="px-1">
+          <slot name="menuTop"></slot>
+          <div v-if="searchable" class="px-1">
             <MenuItem as="div">
               <div class="relative flex items-center">
                 <input
@@ -42,23 +43,62 @@
           <div class="border-t border-gray-200 px-2">
             <template v-for="(item, key) in filteredItems" :key="item">
               <MenuItem
+                v-if="item.route"
+                @click="itemClicked(item.id)"
+                as="div"
+                v-slot="{ active }">
+                <router-link :to="item.route">
+                  <div
+                    class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
+                    :class="{
+                      'bg-gray-200 text-gray-700': active,
+                    }">
+                    <div class="flex items-center">
+                      <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
+                    <CheckIcon
+                      v-if="item === creator.crm_record_by_user.stage_name"
+                      class="h-4 w-4 font-bold text-gray-600 hover:text-gray-700" />
+                  </div> -->
+                      <div v-if="item.emoji" class="mr-2 text-xs font-bold">
+                        {{ item.emoji }}
+                      </div>
+                      <div
+                        v-else-if="item.icon"
+                        class="mr-2 items-center text-xs font-bold">
+                        <component :is="item.icon" class="h-3 w-3" />
+                      </div>
+                      <div v-else></div>
+
+                      <div class="text-xs font-medium">{{ item.name }}</div>
+                    </div>
+                  </div>
+                </router-link>
+              </MenuItem>
+              <MenuItem
+                v-else
                 @click="itemClicked(item.id)"
                 as="div"
                 v-slot="{ active }">
                 <div
                   class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
                   :class="{
-                    'bg-gray-300 text-gray-700': active,
+                    'bg-gray-200 text-gray-700': active,
                   }">
-                  <div class="flex">
+                  <div class="flex items-center">
                     <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="item === creator.crm_record_by_user.stage_name"
                       class="h-4 w-4 font-bold text-gray-600 hover:text-gray-700" />
                   </div> -->
-                    <div class="mr-2 text-xs font-bold">
+                    <div v-if="item.emoji" class="mr-2 text-xs font-bold">
                       {{ item.emoji }}
                     </div>
+                    <div
+                      v-else-if="item.icon"
+                      class="mr-2 items-center text-xs font-bold">
+                      <component :is="item.icon" class="h-3 w-3" />
+                    </div>
+                    <div v-else></div>
 
                     <div class="text-xs font-medium">{{ item.name }}</div>
                   </div>
@@ -96,6 +136,7 @@
                 </div>
               </div>
             </MenuItem>
+            <slot name="menuBottom"></slot>
           </div>
         </MenuItems>
       </TransitionRoot>
@@ -111,7 +152,18 @@ import {
   MenuItem,
   TransitionRoot,
 } from '@headlessui/vue';
-import { ChevronDownIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/24/solid';
+import {
+  ChevronDownIcon,
+  CheckIcon,
+  XMarkIcon,
+  CogIcon,
+  BellIcon,
+  UserIcon,
+  CreditCardIcon,
+  ArrowLeftOnRectangleIcon,
+  LifebuoyIcon,
+  CloudArrowDownIcon,
+} from '@heroicons/vue/24/solid';
 import { Float } from '@headlessui-float/vue';
 
 export default {
@@ -125,6 +177,13 @@ export default {
     Float,
     MenuButton,
     MenuItems,
+    CogIcon,
+    BellIcon,
+    UserIcon,
+    CreditCardIcon,
+    ArrowLeftOnRectangleIcon,
+    CloudArrowDownIcon,
+    LifebuoyIcon,
   },
   data() {
     return {
@@ -154,6 +213,10 @@ export default {
     items: {
       type: Object,
       default: () => [],
+    },
+    searchable: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {

@@ -87,7 +87,7 @@
               <div
                 class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
                 :class="{
-                  'bg-gray-300 text-gray-700': active,
+                  'bg-gray-200 text-gray-700': active,
                 }">
                 <div class="flex">
                   <div class="mr-2 w-3 text-xs font-bold opacity-50">

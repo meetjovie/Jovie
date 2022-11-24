@@ -1,15 +1,15 @@
 <template>
-  <Popover>
-    <Float portal :offset="8" shift placement="right-start">
-      <PopoverButton>
+  <Menu>
+    <Float portal :offset="8" shift placement="bottom-start">
+      <MenuButton>
         <div
-          class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-gray-200">
+          class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-gray-100">
           <div class="flex">
             <!-- <UserGroupIcon
               class="mr-1 h-4 w-4 text-gray-500 group-hover:text-gray-600" /> -->
 
             <div
-              class="items-center text-2xs font-medium text-gray-500 line-clamp-1 group-hover:text-gray-600">
+              class="items-center text-2xs font-medium text-gray-700 line-clamp-1 group-hover:text-gray-800">
               {{
                 currentUser.current_team
                   ? currentUser.current_team.name
@@ -18,7 +18,7 @@
             </div>
           </div>
         </div>
-      </PopoverButton>
+      </MenuButton>
 
       <transition
         enter-active-class="transition duration-100 ease-out"
@@ -27,27 +27,28 @@
         leave-active-class="transition duration-75 ease-in"
         leave-from-class="transform scale-100 opacity-100"
         leave-to-class="transform scale-95 opacity-0">
-        <PopoverPanel
-          class="w-52 origin-left rounded-md border border-gray-200 bg-white/90 shadow-lg backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+        <MenuItems
+          as="div"
+          class="z-30 mt-2 max-h-80 w-60 origin-top-right divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
           <div class="">
             <div
-              class="border-b bg-gray-50 px-4 pt-2 pb-1 text-center text-xs font-semibold text-gray-400">
-              Your teams:
+              class="border-b px-4 pt-2 pb-1 text-center text-xs font-semibold text-gray-700">
+              Your workspaces:
             </div>
             <div v-if="currentUser.teams">
               <div v-for="team in currentUser.teams">
                 <button
                   @click="switchTeam(team.id)"
-                  class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
+                  class="group px-1 py-1 text-sm font-medium hover:bg-gray-200 hover:text-gray-700"
                   :class="[
                     active
-                      ? 'bg-white px-1 py-2 font-bold text-indigo-700'
-                      : 'text-sm text-gray-500',
+                      ? 'bg-white px-1 py-2 text-gray-800'
+                      : 'text-sm text-gray-700',
                     'group flex w-full items-center px-2 py-2 text-xs ',
                   ]">
                   <ChevronRightIcon
                     :active="active"
-                    class="mr-1 h-5 w-5 text-indigo-400 group-hover:text-white"
+                    class="mr-1 h-5 w-5 text-gray-400 group-hover:text-gray-700"
                     aria-hidden="true" />
                   {{ team.name }}
                 </button>
@@ -56,25 +57,25 @@
             <div>
               <router-link
                 to="/accounts"
-                class="group px-1 py-1 text-sm font-medium hover:bg-indigo-700 hover:text-white"
+                class="group px-1 py-1 text-sm font-medium hover:bg-gray-200 hover:text-gray-700"
                 :class="[
                   active
-                    ? 'bg-white px-1 py-2 font-bold text-indigo-700'
-                    : 'text-sm text-gray-500',
+                    ? 'bg-white px-1 py-2  text-gray-800'
+                    : 'text-sm text-gray-700',
                   'group flex w-full items-center px-2 py-2 text-xs  last:rounded-b-md',
                 ]">
                 <PlusCircleIcon
                   :active="active"
-                  class="mr-1 h-5 w-5 text-indigo-400 group-hover:text-white"
+                  class="mr-1 h-5 w-5 text-gray-700"
                   aria-hidden="true" />
                 Join or create workspace
               </router-link>
             </div>
           </div>
-        </PopoverPanel>
+        </MenuItems>
       </transition>
     </Float>
-  </Popover>
+  </Menu>
 </template>
 <script>
 import { Float } from '@headlessui-float/vue';
@@ -86,6 +87,10 @@ import {
   PlusCircleIcon,
 } from '@heroicons/vue/24/solid';
 import {
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
   Popover,
   PopoverButton,
   PopoverPanel,
@@ -106,6 +111,10 @@ export default {
     PlusCircleIcon,
     ChevronRightIcon,
     ChevronUpIcon,
+    Menu,
+    MenuButton,
+    MenuItems,
+    MenuItem,
   },
   computed: {
     currentUser() {

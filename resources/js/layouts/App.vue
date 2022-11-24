@@ -26,7 +26,7 @@
     <!-- Narrow sidebar -->
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
-      <div
+      <!--  <div
         class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b-2 border-gray-200 bg-white/75 backdrop-blur-md backdrop-filter">
         <button
           id="showSidebar"
@@ -74,24 +74,7 @@
                       <span class="sr-only">Home</span>
                     </router-link>
                   </li>
-                  <!--  <li>
-                    <div class="flex items-center">
-                      <svg
-                        class="h-5 w-5 flex-shrink-0 text-gray-300"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        aria-hidden="true">
-                        <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                      </svg>
-                      <a
-                        :href="currentRoutePath"
-                        class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-                        :aria-current="currentRouteName ? 'page' : undefined"
-                        >{{ currentRouteName }}</a
-                      >
-                    </div>
-                  </li> -->
+                  
                 </ol>
               </nav>
             </div>
@@ -99,7 +82,7 @@
 
           <div class="z-10 flex items-center">
             <div class="inline-flex items-center space-x-4">
-              <!-- The top tooltip -->
+             
 
               <div
                 v-if="
@@ -149,7 +132,7 @@
                     leave-to-class="transform scale-95 opacity-0">
                     <PopoverPanel
                       class="absolute left-6 z-10 mt-2 w-screen max-w-md -translate-x-full transform px-2 sm:px-0">
-                      <!-- Active: "bg-gray-100", Not Active: "" -->
+                      
                       <div
                         class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div class="relative h-80 gap-6 bg-white px-1 sm:gap-8">
@@ -295,7 +278,7 @@
               </PopoverGroup>
             </div>
 
-            <!-- Profile dropdown -->
+          
             <PopoverGroup>
               <Popover as="div" class="relative ml-3 border-l px-4">
                 <PopoverButton
@@ -334,7 +317,7 @@
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
                     tabindex="-1">
-                    <!-- Active: "bg-gray-100", Not Active: "" -->
+                   
                     <div
                       as="div"
                       class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-gray-400"
@@ -442,7 +425,7 @@
             </PopoverGroup>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <main
         class="relative flex-1 overflow-y-auto overflow-x-hidden focus-visible:outline-none"
