@@ -1,29 +1,20 @@
 <template>
   <Popover>
-    <Float portal :offset="8" placement="right-end">
-      <PopoverButton
-        class="group mx-auto flex h-full h-6 cursor-pointer items-center justify-between rounded-md px-1 hover:bg-gray-300">
-        <div class="flex w-full items-center justify-between">
+    <Float portal :offset="8" shift placement="right-start">
+      <PopoverButton>
+        <div
+          class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-gray-200">
           <div class="flex">
-            <UserGroupIcon
-              class="mr-1 h-4 w-4 text-gray-500 group-hover:text-gray-600" />
+            <!-- <UserGroupIcon
+              class="mr-1 h-4 w-4 text-gray-500 group-hover:text-gray-600" /> -->
 
             <div
-              class="items-center text-2xs font-bold text-gray-500 line-clamp-1 group-hover:text-gray-600">
+              class="items-center text-2xs font-medium text-gray-500 line-clamp-1 group-hover:text-gray-600">
               {{
                 currentUser.current_team
                   ? currentUser.current_team.name
                   : 'Select a team'
               }}
-            </div>
-          </div>
-          <div class="w-4 items-center">
-            <div
-              class="hidden flex-col justify-between text-center group-hover:block">
-              <ChevronUpIcon
-                class="h-2 w-2 text-gray-500 group-hover:text-gray-700" />
-              <ChevronDownIcon
-                class="h-2 w-2 text-gray-500 group-hover:text-gray-700" />
             </div>
           </div>
         </div>
