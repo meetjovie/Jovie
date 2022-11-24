@@ -15,6 +15,162 @@
             :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']">
             <div>
               <div class="mt-10 flex-col py-0.5 px-2">
+                <div class="flex h-8 w-full justify-between">
+                  <div class="">
+                    <JovieTooltip
+                      text="Choose which teamspace you want to work in.">
+                      <SwitchTeams />
+                    </JovieTooltip>
+                  </div>
+                  <div
+                    class="group mx-auto flex h-full cursor-pointer items-center rounded-md bg-blue-500 text-center hover:bg-gray-300">
+                    <!--  <PopoverGroup>
+                      <Float portal :offset="8" placement="right-end">
+                        <Popover as="div" class="relative">
+                          <PopoverButton
+                            as="div"
+                            type="button"
+                            class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
+                            id="user-menu-button"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            @click="isShowing = !isShowing">
+                            <span class="sr-only">Open user menu</span>
+
+                            <img
+                              id="profile_pic_url_img"
+                              ref="profile_pic_url_img"
+                              class="h-4 w-4 rounded-full border border-gray-200 object-cover object-center"
+                              :src="
+                                $store.state.AuthState.user.profile_pic_url ??
+                                $store.state.AuthState.user.default_image
+                              " />
+                          </PopoverButton>
+
+              <transition
+                          enter-active-class="transition duration-150 ease-out"
+                          enter-from-class="transform scale-95 opacity-0"
+                          enter-to-class="transform scale-100 opacity-100"
+                          leave-active-class="transition duration-150 ease-out"
+                          leave-from-class="transform scale-100 opacity-100"
+                          leave-to-class="transform scale-95 opacity-0">
+                          <PopoverPanel
+                            as="div"
+                            active=""
+                            id="profileDropdown"
+                            class="z-30 mt-2 w-80 origin-bottom-left rounded-md border border-gray-200 bg-white pt-1 shadow-xl"
+                            role="menu"
+                            aria-orientation="vertical"
+                            aria-labelledby="user-menu-button"
+                            tabindex="-1">
+                            <div
+                              as="div"
+                              class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-gray-400"
+                              role="menuitem"
+                              tabindex="-1"
+                              id="user-menu-item-0">
+                              <router-link
+                                to="/account"
+                                class="0 group block flex-shrink-0">
+                                <div class="flex items-center">
+                                  <div>
+                                    <img
+                                      class="inline-block h-6 w-6 rounded-full"
+                                      :src="
+                                        currentUser.profile_pic_url ??
+                                        currentUser.default_image
+                                      "
+                                      alt="" />
+                                  </div>
+                                  <div class="ml-3">
+                                    <p
+                                      class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
+                                      {{ currentUser.first_name }}
+                                      {{ currentUser.last_name }}
+                                    </p>
+
+                                    <p
+                                      class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                                      {{ currentUser.email }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </router-link>
+                            </div>
+                            <router-link
+                              v-if="currentUser.username"
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                              :to="profileLink">
+                              <component
+                                class="mr-4 h-4 w-4 cursor-pointer"
+                                is="UserIcon">
+                              </component
+                              >Your profile
+                            </router-link>
+                            <router-link
+                              v-else
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                              to="edit-profile">
+                              <component
+                                class="mr-4 h-4 w-4 cursor-pointer"
+                                is="CogIcon">
+                              </component
+                              >Setup Your profile
+                            </router-link>
+                            <div
+                              v-for="dropdownmenuitem in dropdownmenuitems"
+                              :key="dropdownmenuitem"
+                              as="router-link"
+                              :to="dropdownmenuitem.route"
+                              class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                              role="menuitem"
+                              tabindex="-1">
+                              <router-link
+                                class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                                :to="dropdownmenuitem.route">
+                                <div class="flex">
+                                  <component
+                                    class="mr-4 h-4 w-4 cursor-pointer"
+                                    :is="dropdownmenuitem.icon">
+                                  </component>
+                                  {{ dropdownmenuitem.name }}
+                                </div>
+                                <div>
+                                  <span
+                                    v-if="dropdownmenuitem.badge"
+                                    class="ml-2 inline-flex items-center rounded bg-pink-100 px-1 text-2xs font-medium text-pink-800"
+                                    >Download</span
+                                  >
+                                </div>
+                              </router-link>
+                            </div>
+                            <router-link
+                              to="slack-community"
+                              class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                              role="menuitem">
+                              <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
+                              </component>
+                              Slack community
+                            </router-link>
+                            <div
+                              as="div"
+                              @click="$store.dispatch('logout')"
+                              class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                              role="menuitem"
+                              tabindex="-1">
+                              <component
+                                class="mr-4 h-4 w-4"
+                                is="ArrowLeftOnRectangleIcon">
+                              </component>
+                              Sign out
+                            </div>
+                          </PopoverPanel>
+                        </transition>
+                        </Popover>
+                      </Float>
+                    </PopoverGroup> -->
+                  </div>
+                </div>
                 <JovieTooltip
                   shortcuts="{ key: 's', key: 'c', key: 't' }"
                   text="Show All Contacts">
@@ -149,162 +305,6 @@
                   </div>
                 </router-link>
               </JovieTooltip>
-              <div class="flex h-8 w-full justify-between">
-                <div class="">
-                  <JovieTooltip
-                    text="Choose which teamspace you want to work in.">
-                    <SwitchTeams />
-                  </JovieTooltip>
-                </div>
-                <!--   <div
-                  class="group mx-auto flex h-full cursor-pointer items-center rounded-md bg-blue-500 text-center hover:bg-gray-300">
-                  <PopoverGroup>
-                    <Float portal :offset="8" placement="right-end">
-                      <Popover as="div" class="relative">
-                        <PopoverButton
-                          as="div"
-                          type="button"
-                          class="flex max-w-xs items-center rounded-full bg-white text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 focus-visible:ring-offset-2"
-                          id="user-menu-button"
-                          aria-expanded="false"
-                          aria-haspopup="true"
-                          @click="isShowing = !isShowing">
-                          <span class="sr-only">Open user menu</span>
-
-                          <img
-                            id="profile_pic_url_img"
-                            ref="profile_pic_url_img"
-                            class="h-4 w-4 rounded-full border border-gray-200 object-cover object-center"
-                            :src="
-                              $store.state.AuthState.user.profile_pic_url ??
-                              $store.state.AuthState.user.default_image
-                            " />
-                        </PopoverButton>
-
-                        <transition
-                          enter-active-class="transition duration-150 ease-out"
-                          enter-from-class="transform scale-95 opacity-0"
-                          enter-to-class="transform scale-100 opacity-100"
-                          leave-active-class="transition duration-150 ease-out"
-                          leave-from-class="transform scale-100 opacity-100"
-                          leave-to-class="transform scale-95 opacity-0">
-                          <PopoverPanel
-                            as="div"
-                            active=""
-                            id="profileDropdown"
-                            class="z-30 mt-2 w-80 origin-bottom-left rounded-md border border-gray-200 bg-white pt-1 shadow-xl"
-                            role="menu"
-                            aria-orientation="vertical"
-                            aria-labelledby="user-menu-button"
-                            tabindex="-1">
-                            <div
-                              as="div"
-                              class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-gray-400"
-                              role="menuitem"
-                              tabindex="-1"
-                              id="user-menu-item-0">
-                              <router-link
-                                to="/account"
-                                class="0 group block flex-shrink-0">
-                                <div class="flex items-center">
-                                  <div>
-                                    <img
-                                      class="inline-block h-6 w-6 rounded-full"
-                                      :src="
-                                        currentUser.profile_pic_url ??
-                                        currentUser.default_image
-                                      "
-                                      alt="" />
-                                  </div>
-                                  <div class="ml-3">
-                                    <p
-                                      class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
-                                      {{ currentUser.first_name }}
-                                      {{ currentUser.last_name }}
-                                    </p>
-
-                                    <p
-                                      class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                                      {{ currentUser.email }}
-                                    </p>
-                                  </div>
-                                </div>
-                              </router-link>
-                            </div>
-                            <router-link
-                              v-if="currentUser.username"
-                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                              :to="profileLink">
-                              <component
-                                class="mr-4 h-4 w-4 cursor-pointer"
-                                is="UserIcon">
-                              </component
-                              >Your profile
-                            </router-link>
-                            <router-link
-                              v-else
-                              class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                              to="edit-profile">
-                              <component
-                                class="mr-4 h-4 w-4 cursor-pointer"
-                                is="CogIcon">
-                              </component
-                              >Setup Your profile
-                            </router-link>
-                            <div
-                              v-for="dropdownmenuitem in dropdownmenuitems"
-                              :key="dropdownmenuitem"
-                              as="router-link"
-                              :to="dropdownmenuitem.route"
-                              class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                              role="menuitem"
-                              tabindex="-1">
-                              <router-link
-                                class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                                :to="dropdownmenuitem.route">
-                                <div class="flex">
-                                  <component
-                                    class="mr-4 h-4 w-4 cursor-pointer"
-                                    :is="dropdownmenuitem.icon">
-                                  </component>
-                                  {{ dropdownmenuitem.name }}
-                                </div>
-                                <div>
-                                  <span
-                                    v-if="dropdownmenuitem.badge"
-                                    class="ml-2 inline-flex items-center rounded bg-pink-100 px-1 text-2xs font-medium text-pink-800"
-                                    >Download</span
-                                  >
-                                </div>
-                              </router-link>
-                            </div>
-                            <router-link
-                              to="slack-community"
-                              class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                              role="menuitem">
-                              <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
-                              </component>
-                              Slack community
-                            </router-link>
-                            <div
-                              as="div"
-                              @click="$store.dispatch('logout')"
-                              class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                              role="menuitem"
-                              tabindex="-1">
-                              <component
-                                class="mr-4 h-4 w-4"
-                                is="ArrowLeftOnRectangleIcon">
-                              </component>
-                              Sign out
-                            </div>
-                          </PopoverPanel>
-                        </transition>
-                      </Popover>
-                    </Float>
-                  </PopoverGroup>
-                </div> -->
-              </div>
 
               <div class="mt-1 py-1">
                 <ProgressBar

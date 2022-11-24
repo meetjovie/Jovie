@@ -334,14 +334,23 @@
           </div>
         </div>
       </div>
-      <div v-if="socialURLEditing">
-        <SocialInput
-          :socialMediaProfileUrl="socialMediaProfileUrl"
-          @finishImport="saveSocialNetworkURL"
-          @saveSocialNetworkURL="saveSocialNetworkURL()"
-          @cancelEdit="cancelEdit()"
-          minimalDesign />
-      </div>
+      <TransitionRoot
+        :show="socialURLEditing"
+        enter="transition ease-out duration-300"
+        enter-from="opacity-0 -translate-y-1/2"
+        enter-to="opacity-100 translate-y-0"
+        leave="transition ease-in duration-300"
+        leave-from="opacity-100 translate-y-0"
+        leave-to="opacity-0 -translate-y-1/2">
+        <div>
+          <SocialInput
+            :socialMediaProfileUrl="socialMediaProfileUrl"
+            @finishImport="saveSocialNetworkURL"
+            @saveSocialNetworkURL="saveSocialNetworkURL()"
+            @cancelEdit="cancelEdit()"
+            minimalDesign />
+        </div>
+      </TransitionRoot>
 
       <hr />
 
@@ -353,14 +362,17 @@
           :success="creator.saved ?? false"
           @click="saveToCrm()"
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
-        <div class="flex w-full gap-1" v-else>
+        <div class="flex" v-else>
           <Menu>
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
-                class="inline-flex w-full items-center justify-between rounded border border-gray-300 bg-white py-1 px-4 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                <span class="text-center line-clamp-1">Message</span>
+                class="inline-flex items-center rounded border border-gray-300 py-0.5 px-2 text-2xs font-light text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                <ChatBubbleLeftIcon
+                  class="hover:text-vue-gray-500 h-3 w-3 text-gray-400"
+                  aria-hidden="true" />
+                <span class="px-2 text-center line-clamp-1">Message</span>
                 <ChevronDownIcon
-                  class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
+                  class="hover:text-vue-gray-500 -mr-1 h-4 w-4 text-gray-400"
                   aria-hidden="true" />
               </MenuButton>
               <transition
@@ -371,7 +383,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white px-1 py-1 shadow-xl">
+                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                   <MenuItem
                     :disabled="!creator.emails[0] && !creator.meta.emails"
                     v-slot="{ active }">
@@ -454,9 +466,9 @@
           </Menu>
           <button
             @click="callCreator(creator.meta.phone || creator.phone)"
-            class="mx-auto inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+            class="mx-auto inline-flex items-center rounded border border-gray-300 bg-white py-0.5 px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
             <span class="sr-only line-clamp-1">Call</span>
-            <PhoneIcon class="h-4 w-4 text-gray-500" aria-hidden="true" />
+            <PhoneIcon class="h-3 w-3 text-gray-400" aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -504,94 +516,6 @@
               :placeholder="element.location" />
           </div>
         </draggable>
-        <!-- <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          v-model="creator.meta.location"
-          :value="`${creator.city ?? ''} ${creator.country ?? ''}`"
-          id="location"
-          icon="MapPinIcon"
-          label="Location"
-          isCopyable
-          placeholder="Location"></DataInputGroup>
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          v-model="creator.meta.emails"
-          icon="EnvelopeIcon"
-          id="email"
-          label="Email"
-          @action="emailCreator(creator.meta.emails)"
-          action="EnvelopeIcon"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.emails)"
-          placeholder="email@email.com" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          v-model="creator.meta.website"
-          icon="LinkIcon"
-          action="ArrowTopRightOnSquareIcon"
-          @action="openLink(creator.meta.website)"
-          id="website"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.website)"
-          label="Website"
-          placeholder="Website" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          v-model="creator.meta.phone"
-          id="phone"
-          icon="PhoneIcon"
-          action="PhoneIcon"
-          @action="callCreator(creator.meta.phone)"
-          label="Phone"
-          @copyToClipboard="copyToClipboard(creator.meta.phone)"
-          placeholder="Phone" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="instagram"
-          action="ArrowTopRightOnSquareIcon"
-          @action="openSocialLink(creator.meta.instagram, 'instagram')"
-          v-model="creator.meta.instagram_handler"
-          id="instagram_handler"
-          label="Instagram"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.instagram_handler)"
-          placeholder="Instagram" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="twitch"
-          v-model="creator.meta.twitch_handler"
-          id="twitch_handler"
-          label="Twitch"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.twitch_handler)"
-          placeholder="Twitch" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="twitter"
-          v-model="creator.meta.twitter_handler"
-          id="twitter_handler"
-          label="Twitter"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.twitter_handler)"
-          placeholder="Twitter" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="tiktok"
-          v-model="creator.meta.tiktok_handler"
-          id="tiktok_handler"
-          label="TikTok"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.tiktok_handler)"
-          placeholder="TikTok" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="youtube"
-          v-model="creator.meta.youtube_handler"
-          id="youtube_handler"
-          label="Youtube"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
-          placeholder="Youtube" />-->
       </div>
       <div class="mt-2 justify-self-end bg-white px-2">
         <TextAreaInput
@@ -764,6 +688,7 @@ import {
   ChatBubbleLeftEllipsisIcon,
   EnvelopeIcon,
   ChatBubbleOvalLeftEllipsisIcon,
+  ChatBubbleLeftIcon,
 } from '@heroicons/vue/24/solid';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import {
@@ -788,6 +713,7 @@ export default {
     EnvelopeIcon,
     ChevronDownIcon,
     ChatBubbleOvalLeftEllipsisIcon,
+    ChatBubbleLeftIcon,
     Menu,
     MenuButton,
     MenuItems,
