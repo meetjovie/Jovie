@@ -565,7 +565,6 @@ export default {
       previewAppMenu: false,
       showCommandPallette: false,
       user: this.$store.state.AuthState.user,
-      profileLink: this.$store.state.AuthState.user.username,
 
       nav: [
         /* /*  /*  { name: 'Admin', route: '/admin', icon: CheckCircleIcon }, */

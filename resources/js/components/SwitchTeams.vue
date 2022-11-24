@@ -1,12 +1,12 @@
 <template>
-  <Menu>
+  <div>
+    <!-- <Menu>
     <Float portal :offset="8" shift placement="bottom-start">
       <MenuButton>
         <div
           class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-gray-100">
           <div class="flex">
-            <!-- <UserGroupIcon
-              class="mr-1 h-4 w-4 text-gray-500 group-hover:text-gray-600" /> -->
+           
 
             <div
               class="items-center text-2xs font-medium text-gray-700 line-clamp-1 group-hover:text-gray-800">
@@ -29,7 +29,7 @@
         leave-to-class="transform scale-95 opacity-0">
         <MenuItems
           as="div"
-          class="z-30 mt-2 max-h-80 w-60 origin-top-right divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+          class="z-30 mt-2 max-h-80 w-60 origin-top-right divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
           <div class="">
             <div
               class="border-b px-4 pt-2 pb-1 text-center text-xs font-semibold text-gray-700">
@@ -75,10 +75,48 @@
         </MenuItems>
       </transition>
     </Float>
-  </Menu>
+  </Menu> -->
+    <!--  <JovieDropdownMenu :items="currentUser.current_team">
+    </JovieDropdownMenu> -->
+    <!--  <template #triggerButton>
+      <div
+        class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-gray-100">
+        <div class="flex">
+   
+    Hi
+ <div
+            class="items-center text-2xs font-medium text-gray-700 line-clamp-1 group-hover:text-gray-800">
+            {{
+              currentUser.current_team
+                ? currentUser.current_team.name
+                : 'Select a team'
+            }}
+          </div> 
+        </div>
+      </div>
+    </template> -->
+    <!-- <template #menuBottom>
+      <router-link
+        to="/accounts"
+        class="group px-1 py-1 text-sm font-medium hover:bg-gray-200 hover:text-gray-700"
+        :class="[
+          active
+            ? 'bg-white px-1 py-2  text-gray-800'
+            : 'text-sm text-gray-700',
+          'group flex w-full items-center px-2 py-2 text-xs  last:rounded-b-md',
+        ]">
+        <PlusCircleIcon
+          :active="active"
+          class="mr-1 h-5 w-5 text-gray-700"
+          aria-hidden="true" />
+        Join or create workspace
+      </router-link>
+    </template> -->
+  </div>
 </template>
 <script>
 import { Float } from '@headlessui-float/vue';
+import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -101,6 +139,7 @@ import TeamService from '../services/api/team.service';
 export default {
   name: 'TeamDropdown',
   components: {
+    JovieDropdownMenu,
     ChevronDownIcon,
     Popover,
     Float,
