@@ -483,12 +483,8 @@
       <div class="px-2">
         <!--  <h2 class="text-xs font-semibold text-slate-600">Lists</h2> -->
         <InputLists
-<<<<<<< HEAD
             @updateLists="updateCreatorLists"
             :creatorId="creator.id ?? 0"
-=======
-          :creatorId="creator.id ?? 0"
->>>>>>> cb59177 (Feat: Create slots in sidebar)
           :lists="creator.lists"
           :currentList="creator.current_list" />
       </div>
