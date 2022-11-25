@@ -16,9 +16,9 @@
           <div class="w-full flex-col px-2">
             <div @click="navigateBack()" v-if="menu">
               <div
-                class="flex cursor-pointer justify-between text-xl font-light text-slate-900">
+                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-600 text-slate-900 hover:text-slate-700 dark:text-gray-300 dark:hover:text-gray-200">
                 <ChevronLeftIcon
-                  class="mr-2 h-5 w-5 text-slate-400"
+                  class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-300 dark:hover:text-gray-200"
                   aria-hidden="true" />
                 {{ menu || 'Back' }}
               </div>
@@ -158,7 +158,7 @@
 
         <slot name="main"> Main </slot>
       </div>
-      <slot name="footer"> Footer </slot>
+      <slot name="footer"> </slot>
     </div>
   </TransitionRoot>
 </template>

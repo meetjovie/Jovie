@@ -55,12 +55,13 @@
                       leave-from="transform opacity-100 scale-100"
                       leave-to="transform opacity-0 scale-95">
                       <div class="pl-4">
-                        <MenuItem v-slot="{ active }">
+                        <MenuItem
+                          @click="setFiltersType('favourites')"
+                          v-slot="{ active }">
                           <JovieTooltip
                             :shortcut="'G then F'"
                             text="Show Favorites">
                             <button
-                              @click="setFiltersType('favourites')"
                               class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                               :class="[
                                 filters.type == 'favourites'
@@ -83,7 +84,9 @@
                             </button>
                           </JovieTooltip>
                         </MenuItem>
-                        <MenuItem v-slot="{ active }">
+                        <MenuItem
+                          @click="setFiltersType('archived')"
+                          v-slot="{ active }">
                           <JovieTooltip
                             :shortcut.key="{
                               key1: 'G',
@@ -92,7 +95,6 @@
                             }"
                             text="Show Archived Contacts">
                             <button
-                              @click="setFiltersType('archived')"
                               class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                               :class="[
                                 filters.type == 'archived'
@@ -262,7 +264,7 @@
                                           :is="'CloudArrowUpIcon'">
                                         </component>
                                       </div>
-                                      <div class="ml-3 w-60">
+                                      <div class="ml-3 w-full">
                                         <p
                                           class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900">
                                           {{ notification.message }}
@@ -315,7 +317,7 @@
                                           :is="'CloudArrowUpIcon'">
                                         </component>
                                       </div>
-                                      <div class="ml-3 w-60">
+                                      <div class="ml-3 w-full">
                                         <p
                                           class="mx-auto text-2xs text-red-400"
                                           v-if="
