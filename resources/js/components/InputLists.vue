@@ -110,6 +110,8 @@ export default {
               );
               this.$store.state.ContactSidebarOpen = false;
             }
+              response.list.creator_id = this.creatorId
+              this.$emit('updateLists', {list: response.list, add: !remove})
           } else {
             this.$notify({
               group: 'user',

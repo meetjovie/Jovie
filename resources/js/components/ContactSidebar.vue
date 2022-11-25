@@ -475,6 +475,7 @@
       <div class="px-2">
         <!--  <h2 class="text-xs font-semibold text-gray-600">Lists</h2> -->
         <InputLists
+            @updateLists="updateCreatorLists"
             :creatorId="creator.id ?? 0"
           :lists="creator.lists"
           :currentList="creator.current_list" />
@@ -824,6 +825,13 @@ export default {
   },
 
   methods: {
+      updateCreatorLists({list, add = false}) {
+          if (add) {
+              this.creator.lists.push(list)
+          } else {
+              this.creator.lists = this.creator.lists.filter(l => l.id != list.id)
+          }
+      },
     focusNoteInput() {
       this.$refs.noteInput.$el.focus();
     },
