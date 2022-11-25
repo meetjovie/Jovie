@@ -470,16 +470,29 @@
                       Send WhatsApp
                     </button>
                   </MenuItem>
+
+                  <MenuItem
+                    :disabled="!creator.phone && !creator.meta.phone"
+                    v-slot="{ active }">
+                    <button
+                      @click="callCreator(creator.phone || creator.meta.phone)"
+                      :class="[
+                        active
+                          ? 'bg-slate-100 text-slate-900'
+                          : 'text-slate-700',
+                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                      ]">
+                      <PhoneIcon
+                        :active="active"
+                        class="mr-2 h-4 w-4 text-red-400"
+                        aria-hidden="true" />
+                      Call
+                    </button>
+                  </MenuItem>
                 </MenuItems>
               </transition>
             </Float>
           </Menu>
-          <button
-            @click="callCreator(creator.meta.phone || creator.phone)"
-            class="mx-auto inline-flex items-center rounded border border-slate-300 bg-white py-0.5 px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-            <span class="sr-only line-clamp-1">Call</span>
-            <PhoneIcon class="h-3 w-3 text-slate-400" aria-hidden="true" />
-          </button>
         </div>
       </div>
       <div class="px-2">
@@ -502,6 +515,14 @@
           No contact selected
         </div>
       </div>
+      <div
+        class="h-80 items-center px-2 text-center"
+        v-if="!jovie && !creator.id">
+        <div class="mx-auto text-center text-slate-400">
+          Save this profile to edit contact details
+        </div>
+      </div>
+
       <div v-else class="mt-2 h-80 space-y-6 overflow-y-scroll px-2">
         <draggable
           class="select-none space-y-2"

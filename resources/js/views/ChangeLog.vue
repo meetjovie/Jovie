@@ -135,6 +135,63 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
+              <p class="text-sm font-semibold text-slate-600">v0.0.4</p>
+              <p>2022.11.25</p>
+            </div>
+            <div class="w-full">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
+                Chrome Extension, List Managment, & Bug Fixes
+              </h2>
+              <p class="prose">
+                This release adds search to dropdown menus, making it much
+                easier to add a contact to a list when you have a large number
+                of lists. We've alo brough all the functionality of the contact
+                sidebar to the chrome extension so you can add social media
+                profiles to lists, modify their contact information, or leave a
+                note, without leaving their social profile.
+              </p>
+
+              <h4
+                class="prose mt-4 text-xl font-bold tracking-tight text-slate-800">
+                New Features
+              </h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Added the ability to add contacts to lists from a social media
+                  page.
+                </li>
+                <li class="prose">
+                  Added the ability to search for lists in the dropdown menu.
+                </li>
+                <li class="prose">
+                  Added the ability to add a note to a contact from a social
+                  media page.
+                </li>
+                <li class="prose">
+                  Added the ability to modify a contact's information from a
+                  social media page.
+                </li>
+              </ul>
+
+              <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">Removed redudant navigation elements</li>
+
+                <li class="prose">Conformed settings page to new design</li>
+                <li class="prose">Added search to dropdown menus</li>
+                <li class="prose">Added breadcrumbs to sidebar</li>
+                <li class="prose">
+                  Chrome extension now has all the functionality of the CRM
+                  sidebar
+                </li>
+                <li class="prose">Fixed various bugs & improved performance</li>
+              </ul>
+            </div>
+          </li>
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
+            <div class="w-24 text-2xs">
               <p class="text-sm font-semibold text-slate-600">v0.0.3</p>
               <p>2022.11.19</p>
             </div>
