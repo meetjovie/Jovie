@@ -40,6 +40,8 @@
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
+            <span v-if="creator.id">DB</span>
+            <span v-else>Scrapped</span>
           <input
             @blur="$emit('updateCrmMeta')"
             v-model="creator.meta.name"
