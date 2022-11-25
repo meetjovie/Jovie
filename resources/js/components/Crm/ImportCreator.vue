@@ -11,7 +11,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0">
         <div
-          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" />
       </TransitionChild>
 
       <div class="fixed inset-0 z-10 overflow-y-auto">
@@ -37,11 +37,11 @@
                 <div class="mt-3 text-center sm:mt-5">
                   <DialogTitle
                     as="h3"
-                    class="text-lg font-medium leading-6 text-gray-900">
+                    class="text-lg font-medium leading-6 text-slate-900">
                     Payment successful
                   </DialogTitle>
                   <div class="mt-2">
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-slate-500">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Consequatur amet labore.
                     </p>

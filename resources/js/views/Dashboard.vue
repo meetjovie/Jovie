@@ -3,7 +3,7 @@
     <div class="bg-white shadow">
       <div class="px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
         <div
-          class="py-6 md:flex md:items-center md:justify-between lg:border-gray-200">
+          class="py-6 md:flex md:items-center md:justify-between lg:border-slate-200">
           <div class="min-w-0 flex-1">
             <!-- Profile -->
             <div @click="thatYou()" class="flex items-center">
@@ -18,7 +18,7 @@
                 <div class="flex items-center">
                   <img class="h-16 w-16 rounded-full sm:hidden" src="" alt="" />
                   <h1
-                    class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
+                    class="ml-3 text-2xl font-bold leading-7 text-slate-900 sm:truncate sm:leading-9">
                     Welcome {{ $store.state.AuthState.user.first_name }}!
                   </h1>
                 </div>
@@ -26,10 +26,10 @@
                   class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
                   <dt class="sr-only">Team</dt>
                   <dd
-                    class="flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6">
+                    class="flex items-center text-sm font-medium capitalize text-slate-500 sm:mr-6">
                     <!-- Heroicon name: solid/office-building -->
                     <svg
-                      class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                      class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-400"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -44,7 +44,7 @@
                   <dt class="sr-only">Account status</dt>
                   <dd
                     v-if="user.is_admin"
-                    class="mt-3 flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
+                    class="mt-3 flex items-center text-sm font-medium capitalize text-slate-500 sm:mr-6 sm:mt-0">
                     <!-- Heroicon name: solid/check-circle -->
 
                     <svg
@@ -62,11 +62,11 @@
                   </dd>
                   <dd
                     v-else-if="currentUser.isCurrentTeamOwner"
-                    class="mt-3 flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
+                    class="mt-3 flex items-center text-sm font-medium capitalize text-slate-500 sm:mr-6 sm:mt-0">
                     <!-- Heroicon name: solid/check-circle -->
 
                     <svg
-                      class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                      class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-400"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -86,7 +86,7 @@
             <a href="/account">
               <button
                 type="button"
-                class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2">
+                class="inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2">
                 Account Settings
               </button></a
             >
@@ -97,7 +97,7 @@
     <div class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
       <div>
         <h1 class="text-md font-bold">Add a creator.</h1>
-        <span class="text-sm font-medium text-gray-500"
+        <span class="text-sm font-medium text-slate-500"
           >Enter the url of a social profile to add a creator to your
           contacts.</span
         >
@@ -115,11 +115,11 @@
             <component
               :is="nav.icon"
               class="mr-2 mt-0.5 h-5 w-5 text-indigo-600"></component>
-            <h3 class="text-lg font-medium leading-6 text-gray-900">
+            <h3 class="text-lg font-medium leading-6 text-slate-900">
               {{ nav.name }}
             </h3>
           </div>
-          <div class="mt-2 max-w-xl text-sm text-gray-500">
+          <div class="mt-2 max-w-xl text-sm text-slate-500">
             <p>
               {{ nav.description }}
             </p>

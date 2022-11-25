@@ -1,5 +1,5 @@
 <template>
-  <div class="border-gray-200">
+  <div class="border-slate-200">
     <TabList class="-mb-px flex space-x-8">
       <Tab
         as="template"
@@ -10,7 +10,7 @@
           :class="[
             selected
               ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-gray-900',
+              : 'border-transparent text-slate-900',
             'flex-1 whitespace-nowrap border-b-2 px-1 text-xs font-medium',
           ]">
           {{ tab.name }}

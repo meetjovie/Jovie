@@ -8,7 +8,7 @@
           <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl">
             Meet our team
           </h2>
-          <p class="text-xl text-gray-500">
+          <p class="text-xl text-slate-500">
             We're a small team building products to make creator partnerships
             easier.
           </p>
@@ -31,7 +31,7 @@
                   <li>
                     <a
                       :href="person.twitterUrl"
-                      class="text-gray-400 hover:text-gray-500">
+                      class="text-slate-400 hover:text-slate-500">
                       <span class="sr-only">Twitter</span>
                       <svg
                         class="h-5 w-5"
@@ -46,7 +46,7 @@
                   <li>
                     <a
                       :href="person.linkedinUrl"
-                      class="text-gray-400 hover:text-gray-500">
+                      class="text-slate-400 hover:text-slate-500">
                       <span class="sr-only">LinkedIn</span>
                       <svg
                         class="h-5 w-5"

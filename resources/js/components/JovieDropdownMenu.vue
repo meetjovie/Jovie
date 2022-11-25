@@ -21,7 +21,7 @@
           @focus="focusMenuSearch()"
           as="div"
           :class="[{ 'w-40': size == 'md' }, { 'w-80': size == 'lg' }]"
-          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
           <slot name="menuTop"></slot>
           <div v-if="searchable" class="px-1">
             <MenuItem as="div">
@@ -30,10 +30,10 @@
                   ref="menuSearchInput"
                   v-model="searchQuery"
                   :placeholder="searchText"
-                  class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-gray-600 outline-0 ring-0 placeholder:font-light placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                  class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
                 <!-- <div class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
                   <kbd
-                    class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-2xs font-medium text-gray-400"
+                    class="inline-flex items-center rounded border border-slate-200 px-1 font-sans text-2xs font-medium text-slate-400"
                     >S</kbd
                   >
                 </div> -->
@@ -41,7 +41,7 @@
             </MenuItem>
           </div>
 
-          <div class="border-t border-gray-200 px-2">
+          <div class="border-t border-slate-200 px-2">
             <div v-if="items">
               <template v-for="(item, key) in filteredItems" :key="item.name">
                 <MenuItem
@@ -51,15 +51,15 @@
                   v-slot="{ active }">
                   <router-link :to="item.route">
                     <div
-                      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
+                      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600"
                       :class="{
-                        'bg-gray-200 text-gray-700': active,
+                        'bg-slate-200 text-slate-700': active,
                       }">
                       <div class="flex items-center">
                         <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="item === creator.crm_record_by_user.stage_name"
-                      class="h-4 w-4 font-bold text-gray-600 hover:text-gray-700" />
+                      class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700" />
                   </div> -->
                         <div v-if="item.emoji" class="mr-2 text-xs font-bold">
                           {{ item.emoji }}
@@ -85,15 +85,15 @@
                   as="div"
                   v-slot="{ active }">
                   <div
-                    class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
+                    class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600"
                     :class="{
-                      'bg-gray-200 text-gray-700': active,
+                      'bg-slate-200 text-slate-700': active,
                     }">
                     <div class="flex items-center">
                       <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="item === creator.crm_record_by_user.stage_name"
-                      class="h-4 w-4 font-bold text-gray-600 hover:text-gray-700" />
+                      class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700" />
                   </div> -->
                       <div v-if="item.emoji" class="mr-2 text-xs font-bold">
                         {{ item.emoji }}
@@ -117,10 +117,10 @@
                 v-slot="{ active }"
                 v-if="filteredItems.length === 0">
                 <div
-                  :class="{ 'bg-gray-200': active }"
-                  class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600">
+                  :class="{ 'bg-slate-200': active }"
+                  class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600">
                   <div class="mx-auto flex">
-                    <div class="text-center text-xs font-medium text-gray-300">
+                    <div class="text-center text-xs font-medium text-slate-300">
                       No match
                     </div>
                   </div>
@@ -130,13 +130,14 @@
               <MenuItem
                 as="div"
                 v-slot="{ active }"
-                :class="{ 'text-gray-700': active }"
+                :class="{ 'text-slate-700': active }"
                 v-if="searchQuery"
                 :disabled="!searchQuery"
                 @click="searchQuery = ''"
-                class="group mt-1 flex w-full cursor-pointer items-center border-t border-neutral-200 px-2 py-1 text-xs text-gray-600 hover:text-gray-600">
+                class="group mt-1 flex w-full cursor-pointer items-center border-t border-neutral-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600">
                 <div class="mx-auto flex items-center text-center">
-                  <div class="text-center text-2xs font-semibold text-gray-300">
+                  <div
+                    class="text-center text-2xs font-semibold text-slate-300">
                     Clear search
                   </div>
                 </div>

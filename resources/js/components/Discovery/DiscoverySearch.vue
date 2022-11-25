@@ -84,8 +84,8 @@
             v-model="value.isRefined"
             @click="refine(value.isRefined)"
             type="checkbox"
-            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
-          <span class="ml-1 text-2xs text-gray-400"
+            class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" />
+          <span class="ml-1 text-2xs text-slate-400"
             >Must have contact info</span
           >
         </template>
@@ -93,7 +93,7 @@
       <ais-clear-refinements>
         <template v-slot="{ canRefine, refine, createURL }">
           <a
-            class="px-2 text-xs font-bold text-gray-400 hover:text-gray-600"
+            class="px-2 text-xs font-bold text-slate-400 hover:text-slate-600"
             :href="createURL()"
             @click.prevent="refine"
             v-if="canRefine">

@@ -22,12 +22,12 @@
                     @dragover.prevent
                     @drop.prevent="toggleActive"
                     :class="{ 'bg-indigo-100': ActiveDrag }"
-                    class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 py-12 hover:border-gray-400">
+                    class="group mt-1 flex justify-center rounded-md border-2 border-dashed border-slate-300 px-6 py-12 hover:border-slate-400">
                     <div class="space-y-1 text-center">
                       <CloudArrowUpIcon
                         :class="{ 'text-white': ActiveDrag }"
-                        class="mx-auto h-12 w-12 text-gray-200" />
-                      <div class="flex text-sm text-gray-600">
+                        class="mx-auto h-12 w-12 text-slate-200" />
+                      <div class="flex text-sm text-slate-600">
                         <label
                           class="focus-active:underline-indigo-500 focus-active:ring-offset-2 focus-active:outline-none focus-active:ring-2 relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
                           <span>Upload a file</span>
@@ -41,11 +41,11 @@
                         </label>
                         <p class="pl-1">or drag and drop</p>
                       </div>
-                      <p class="text-xs text-gray-500">CSV</p>
+                      <p class="text-xs text-slate-500">CSV</p>
                     </div>
                   </div>
                 </label>
-                <span class="file-info py-2 text-xs font-bold text-gray-400"
+                <span class="file-info py-2 text-xs font-bold text-slate-400"
                   >Uploading file: {{ importSet.listName.name }}</span
                 >
                 <ProgressBar
@@ -67,7 +67,7 @@
                 </p>
 
                 <div v-if="importStarted" class="mx-auto items-center py-6">
-                  <span class="mx-auto text-center text-sm text-gray-400">
+                  <span class="mx-auto text-center text-sm text-slate-400">
                     Your contacts are importing and will be available in a few
                     moments.
                   </span>

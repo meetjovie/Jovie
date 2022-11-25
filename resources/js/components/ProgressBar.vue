@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative h-3 w-full overflow-hidden bg-gray-200"
+    class="relative h-3 w-full overflow-hidden bg-slate-200"
     :class="[{ 'rounded-full': rounded }, { indeterminate: indeterminate }]">
     <div
       class="progressbar h-full"
@@ -8,7 +8,7 @@
         { 'bg-red-500': percentage === 100 && invertedColor },
         { 'bg-green-500': percentage === 100 && !invertedColor },
         { 'bg-indigo-400': percentage < 100 && percentage > 0 },
-        { 'bg-gray-500': percentage === 0 },
+        { 'bg-slate-500': percentage === 0 },
         { 'absolute top-0': indeterminate },
         { 'rounded-full': rounded },
       ]"

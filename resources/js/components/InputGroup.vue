@@ -8,7 +8,7 @@
         <component
           :is="SocialIcons"
           :icon="socialicon"
-          class="h-5 w-5 text-gray-400"
+          class="h-5 w-5 text-slate-400"
           :class="{ 'h-3 w-3': rounded == 'sm' }" />
       </div>
       <div
@@ -17,7 +17,7 @@
         :class="{ 'pl-1': rounded == 'sm' }">
         <component
           :is="icon"
-          class="h-5 w-5 text-gray-400"
+          class="h-5 w-5 text-slate-400"
           :class="{ 'h-3 w-3': rounded == 'sm' }" />
       </div>
       <div class="relative">
@@ -31,7 +31,7 @@
           :value="modelValue ?? value"
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
-          class="peer block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 placeholder-opacity-0 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"
+          class="peer block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder-slate-400 placeholder-opacity-0 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"
           :class="[
             icon ? 'pl-10' : '',
             { 'rounded-r-md': rounded == 'right' },
@@ -66,7 +66,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-gray-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
+          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
           >{{ label }}</label
         >
       </div>

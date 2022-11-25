@@ -3,17 +3,17 @@
     <ul class="inline-flex gap-x-2">
       <router-link
         to="/api"
-        class="text-2xs font-bold text-gray-400 hover:text-gray-500 active:text-indigo-500">
+        class="text-2xs font-bold text-slate-400 hover:text-slate-500 active:text-indigo-500">
         API
       </router-link>
       <router-link
         to="/privacy"
-        class="text-2xs font-bold text-gray-400 hover:text-gray-500 active:text-indigo-500">
+        class="text-2xs font-bold text-slate-400 hover:text-slate-500 active:text-indigo-500">
         Legal
       </router-link>
       <router-link
         to="/status"
-        class="text-2xs font-bold text-gray-400 hover:text-gray-500 active:text-indigo-500">
+        class="text-2xs font-bold text-slate-400 hover:text-slate-500 active:text-indigo-500">
         Status
       </router-link>
     </ul>

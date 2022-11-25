@@ -32,7 +32,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-gray-200"
+                  class="text-slate-200"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -60,7 +60,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-gray-200"
+                  class="text-slate-200"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -88,7 +88,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-gray-200"
+                  class="text-slate-200"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -101,45 +101,45 @@
       </div>
       <div class="min-h-800 relative px-4 sm:px-6 lg:px-8">
         <div
-          class="sticky top-0 mx-auto max-w-prose border-b border-gray-200 text-lg">
+          class="sticky top-0 mx-auto max-w-prose border-b border-slate-200 text-lg">
           <div class="py-6">
             <h1>
               <span class="block text-lg font-semibold text-indigo-600"
                 >What's New:</span
               >
               <span
-                class="mt-4 block text-3xl font-bold leading-8 tracking-tight text-gray-900 sm:text-4xl"
+                class="mt-4 block text-3xl font-bold leading-8 tracking-tight text-slate-900 sm:text-4xl"
                 >Jovie Changelog</span
               >
             </h1>
-            <p class="mt-8 text-xl leading-8 text-gray-700">
+            <p class="mt-8 text-xl leading-8 text-slate-700">
               New updates and improvements to Jovie.
             </p>
 
             <div class="mt-4 flex space-x-8">
               <a href="https://twitter.com/meetjovie" class="">
                 <p
-                  class="cursor-pointer text-xs leading-8 text-gray-500 hover:text-indigo-500">
+                  class="cursor-pointer text-xs leading-8 text-slate-500 hover:text-indigo-500">
                   Follow us on Twitter.
                 </p>
               </a>
               <router-link to="/slack-community" class="">
                 <p
-                  class="cursor-pointer text-xs leading-8 text-gray-500 hover:text-indigo-500">
+                  class="cursor-pointer text-xs leading-8 text-slate-500 hover:text-indigo-500">
                   Join our Slack Community for support and feedback.
                 </p>
               </router-link>
             </div>
           </div>
         </div>
-        <ul role="list" class="mx-auto max-w-prose divide-y divide-gray-200">
-          <li class="mx-auto mt-6 flex px-4 py-4 text-gray-500 sm:px-0">
+        <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
-              <p class="text-sm font-semibold text-gray-600">v0.0.3</p>
+              <p class="text-sm font-semibold text-slate-600">v0.0.3</p>
               <p>2022.11.19</p>
             </div>
             <div class="w-full">
-              <h2 class="text-3xl font-bold tracking-tight text-gray-800">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
                 Improved UI & Performance
               </h2>
               <p class="prose">
@@ -150,7 +150,7 @@
               </p>
 
               <h4
-                class="prose mt-4 text-xl font-bold tracking-tight text-gray-800">
+                class="prose mt-4 text-xl font-bold tracking-tight text-slate-800">
                 New Features
               </h4>
 
@@ -197,13 +197,13 @@
               </ul>
             </div>
           </li>
-          <li class="mx-auto mt-6 flex px-4 py-4 text-gray-500 sm:px-0">
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
-              <p class="text-sm font-semibold text-gray-600">v0.0.2</p>
+              <p class="text-sm font-semibold text-slate-600">v0.0.2</p>
               <p>2022.11.18</p>
             </div>
             <div class="w-full">
-              <h2 class="text-3xl font-bold tracking-tight text-gray-800">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
                 Chrome Extension & Twitter Support
               </h2>
               <p class="prose">
@@ -265,18 +265,18 @@
           <li
             v-for="log in logs"
             :key="log.version"
-            class="mx-auto mt-6 flex px-4 py-4 text-gray-500 sm:px-0">
+            class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
-              <p class="text-sm font-semibold text-gray-600">
+              <p class="text-sm font-semibold text-slate-600">
                 {{ log.version }}
               </p>
               <p>{{ log.date }}</p>
             </div>
             <div class="w-full">
-              <h2 class="text-3xl font-bold tracking-tight text-gray-800">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
                 {{ log.summary }}
               </h2>
-              <p class="text-base font-medium text-gray-500">
+              <p class="text-base font-medium text-slate-500">
                 {{ log.description }}
               </p>
             </div>

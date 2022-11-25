@@ -6,12 +6,12 @@
         <li>
           <div class="relative pb-8">
             <span
-              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"
               aria-hidden="true"></span>
             <div class="relative flex space-x-3">
               <div>
                 <span
-                  class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white">
+                  class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-400 ring-8 ring-white">
                   <!-- Heroicon name: solid/user -->
                   <svg
                     class="h-5 w-5 text-white"
@@ -28,14 +28,15 @@
               </div>
               <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                 <div>
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-slate-500">
                     Applied to
-                    <a href="#" class="font-medium text-gray-900"
+                    <a href="#" class="font-medium text-slate-900"
                       >Front End Developer</a
                     >
                   </p>
                 </div>
-                <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <div
+                  class="whitespace-nowrap text-right text-sm text-slate-500">
                   <time datetime="2020-09-20">Sep 20</time>
                 </div>
               </div>
@@ -46,7 +47,7 @@
         <li>
           <div class="relative pb-8">
             <span
-              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"
               aria-hidden="true"></span>
             <div class="relative flex space-x-3">
               <div>
@@ -66,14 +67,15 @@
               </div>
               <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                 <div>
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-slate-500">
                     Advanced to phone screening by
-                    <a href="#" class="font-medium text-gray-900"
+                    <a href="#" class="font-medium text-slate-900"
                       >Bethany Blake</a
                     >
                   </p>
                 </div>
-                <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <div
+                  class="whitespace-nowrap text-right text-sm text-slate-500">
                   <time datetime="2020-09-22">Sep 22</time>
                 </div>
               </div>
@@ -84,7 +86,7 @@
         <li>
           <div class="relative pb-8">
             <span
-              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"
               aria-hidden="true"></span>
             <div class="relative flex space-x-3">
               <div>
@@ -106,14 +108,15 @@
               </div>
               <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                 <div>
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-slate-500">
                     Completed phone screening with
-                    <a href="#" class="font-medium text-gray-900"
+                    <a href="#" class="font-medium text-slate-900"
                       >Martha Gardner</a
                     >
                   </p>
                 </div>
-                <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <div
+                  class="whitespace-nowrap text-right text-sm text-slate-500">
                   <time datetime="2020-09-28">Sep 28</time>
                 </div>
               </div>
@@ -124,7 +127,7 @@
         <li>
           <div class="relative pb-8">
             <span
-              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"
               aria-hidden="true"></span>
             <div class="relative flex space-x-3">
               <div>
@@ -144,14 +147,15 @@
               </div>
               <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                 <div>
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-slate-500">
                     Advanced to interview by
-                    <a href="#" class="font-medium text-gray-900"
+                    <a href="#" class="font-medium text-slate-900"
                       >Bethany Blake</a
                     >
                   </p>
                 </div>
-                <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <div
+                  class="whitespace-nowrap text-right text-sm text-slate-500">
                   <time datetime="2020-09-30">Sep 30</time>
                 </div>
               </div>
@@ -181,14 +185,15 @@
               </div>
               <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                 <div>
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-slate-500">
                     Completed interview with
-                    <a href="#" class="font-medium text-gray-900"
+                    <a href="#" class="font-medium text-slate-900"
                       >Katherine Snyder</a
                     >
                   </p>
                 </div>
-                <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <div
+                  class="whitespace-nowrap text-right text-sm text-slate-500">
                   <time datetime="2020-10-04">Oct 4</time>
                 </div>
               </div>

@@ -1,10 +1,10 @@
 <template>
-  <table class="min-w-full divide-y divide-gray-200">
-    <thead class="bg-gray-50">
+  <table class="min-w-full divide-y divide-slate-200">
+    <thead class="bg-slate-50">
       <tr>
         <th
           scope="col"
-          class="items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500">
+          class="items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-slate-500">
           <div class="grid grid-cols-2 items-center">
             <div class="h-5 items-center text-center">
               <input
@@ -12,10 +12,10 @@
                 aria-describedby="comments-description"
                 name="comments"
                 type="checkbox"
-                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" />
             </div>
             <div
-              class="group sr-only items-center text-center text-gray-300 hover:text-red-500">
+              class="group sr-only items-center text-center text-slate-300 hover:text-red-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6 group-hover:fill-red-500"
@@ -33,70 +33,70 @@
         </th>
         <th
           scope="col"
-          class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+          class="px-6 py-3 text-left text-xs font-medium tracking-wider text-slate-500">
           Creator
         </th>
         <th
           scope="col"
-          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-slate-500 lg:table-cell">
           First
         </th>
         <th
           scope="col"
-          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:flex">
+          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-slate-500 xl:flex">
           Last
         </th>
         <th
           scope="col"
-          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-slate-500 lg:table-cell">
           Email
         </th>
         <th
           scope="col"
-          class="flex items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+          class="flex items-center px-2 py-3 text-left text-xs font-medium tracking-wider text-slate-500">
           Followers
         </th>
         <th
           scope="col"
-          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-slate-500 lg:table-cell">
           Offer
         </th>
 
         <!-- <th scope="col"
-                                        class="px-2 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
+                                        class="px-2 py-3 text-left text-xs font-medium text-slate-500  tracking-wider">
                                         Campaign
                                     </th> -->
         <th
           scope="col"
-          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-gray-500 md:table-cell">
+          class="hidden px-2 py-3 text-left text-xs font-medium tracking-wider text-slate-500 md:table-cell">
           Stage
         </th>
         <th
           scope="col"
-          class="hidden px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 xl:table-cell">
+          class="hidden px-6 py-3 text-left text-xs font-medium tracking-wider text-slate-500 xl:table-cell">
           Contacted
         </th>
         <th
           scope="col"
-          class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500">
+          class="px-6 py-3 text-left text-xs font-medium tracking-wider text-slate-500">
           Rating
         </th>
         <th
           scope="col"
-          class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+          class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-slate-500">
           <span class="sr-only">Edit</span>
           <div class="hidden w-60 2xl:block">Showing 50 of 1,500 results</div>
           <div class="hidden w-40 lg:block 2xl:hidden">50 of 1,500</div>
         </th>
       </tr>
     </thead>
-    <tbody class="h-full divide-y divide-gray-200 bg-white">
+    <tbody class="h-full divide-y divide-slate-200 bg-white">
       <tr
         v-for="creator in creators"
         :key="creator"
-        class="border-1 group border-collapse overflow-y-visible border border-gray-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+        class="border-1 group border-collapse overflow-y-visible border border-slate-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
         <td
-          class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-gray-500">
+          class="w-14 whitespace-nowrap px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500">
           <div class="grid grid-cols-2 items-center">
             <div class="group mr-2">
               <span class="group-hover:hidden">
@@ -108,7 +108,7 @@
                   aria-describedby="comments-description"
                   name="comments"
                   type="checkbox"
-                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                  class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" />
               </span>
             </div>
             <div>
@@ -136,7 +136,7 @@
                 alt="" />
             </div>
             <div class="">
-              <div class="text-xs font-medium text-gray-900">
+              <div class="text-xs font-medium text-slate-900">
                 {{ creator.name }}
               </div>
             </div>
@@ -144,42 +144,42 @@
         </td>
         <td
           class="border-1 hidden w-24 border-collapse whitespace-nowrap border lg:table-cell">
-          <div class="text-sm text-gray-900 line-clamp-1">
+          <div class="text-sm text-slate-900 line-clamp-1">
             <input
               v-model="creator.firstname"
               autocomplete="off"
               type="creator-firstname"
               name="creator-firstname"
               id="creator-firname"
-              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
               placeholder="First"
               aria-describedby="email-description" />
           </div>
         </td>
         <td
           class="border-1 hidden w-20 border-collapse whitespace-nowrap border xl:table-cell">
-          <div class="text-xs text-gray-900 line-clamp-1">
+          <div class="text-xs text-slate-900 line-clamp-1">
             <input
               v-model="creator.lastname"
               autocomplete="off"
               type="creator-lastname"
               name="creator-lastname"
               id="creator-lastname"
-              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
               placeholder="Last"
               aria-describedby="email-description" />
           </div>
         </td>
         <td
           class="border-1 hidden border-collapse whitespace-nowrap border focus-visible:border-indigo-500 lg:table-cell">
-          <div class="text-xs text-gray-700 line-clamp-1">
+          <div class="text-xs text-slate-700 line-clamp-1">
             <input
               v-model="creator.email"
               autocomplete="off"
               type="creator-email"
               name="creator-email"
               id="creator-email"
-              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
               placeholder="creatoremail@gmail.com"
               aria-describedby="email-description" />
           </div>
@@ -225,7 +225,7 @@
               type="creator-offer"
               name="creator-offer"
               id="creator-offer"
-              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
               placeholder="5,000"
               aria-describedby="email-description" />
           </span>
@@ -265,12 +265,12 @@
               leave-from-class="transform scale-100 opacity-100"
               leave-to-class="transform scale-95 opacity-0">
               <MenuItems
-                class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-slate-100 bg-white/90 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                 <div class="">
                   <MenuItem v-slot="{ active }">
                     <button
                       :class="[
-                        active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                        active ? 'bg-indigo-500 text-white' : 'text-slate-900',
                         'group flex w-full items-center  text-xs',
                       ]">
                       <EditIcon
@@ -283,7 +283,7 @@
                   <MenuItem v-slot="{ active }">
                     <button
                       :class="[
-                        active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                        active ? 'bg-indigo-500 text-white' : 'text-slate-900',
                         'group flex w-full items-center text-xs',
                       ]">
                       <DocumentDuplicateIcon
@@ -296,7 +296,7 @@
                   <MenuItem v-slot="{ active }">
                     <button
                       :class="[
-                        active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                        active ? 'bg-indigo-500 text-white' : 'text-slate-900',
                         'group flex w-full items-center text-xs',
                       ]">
                       <ArchiveBoxIcon
@@ -309,7 +309,7 @@
                   <MenuItem v-slot="{ active }">
                     <button
                       :class="[
-                        active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                        active ? 'bg-indigo-500 text-white' : 'text-slate-900',
                         'group flex w-full items-center  text-xs',
                       ]">
                       <MoveIcon
@@ -322,7 +322,7 @@
                   <MenuItem v-slot="{ active }">
                     <button
                       :class="[
-                        active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                        active ? 'bg-indigo-500 text-white' : 'text-slate-900',
                         'group flex w-full items-center  text-xs',
                       ]">
                       <DeleteIcon
@@ -335,7 +335,7 @@
                   <MenuItem v-slot="{ active }">
                     <button
                       :class="[
-                        active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                        active ? 'bg-indigo-500 text-white' : 'text-slate-900',
                         'group flex w-full items-center  text-xs',
                       ]">
                       <DeleteIcon
@@ -348,7 +348,7 @@
                   <MenuItem v-slot="{ active }">
                     <button
                       :class="[
-                        active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                        active ? 'bg-indigo-500 text-white' : 'text-slate-900',
                         'group flex w-full items-center  text-xs',
                       ]">
                       <DeleteIcon
@@ -364,18 +364,18 @@
           </Menu>
         </td>
         <td
-          class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-gray-500 xl:table-cell">
+          class="border-1 hidden w-14 border-collapse items-center whitespace-nowrap border text-xs text-slate-500 xl:table-cell">
           <input
             v-model="creator.contacted"
             autocomplete="off"
             type="creator-offer"
             name="creator-offer"
             id="creator-offer"
-            class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+            class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
             placeholder="--/--/----"
             aria-describedby="email-description" />
         </td>
-        <td class="W-28 whitespace-nowrap px-6 py-1 text-sm text-gray-500">
+        <td class="W-28 whitespace-nowrap px-6 py-1 text-sm text-slate-500">
           <star-rating
             class="w-20"
             :star-size="12"
@@ -395,7 +395,7 @@
             <Menu as="div" class="relative inline-block text-left">
               <div>
                 <MenuButton
-                  class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
+                  class="flex items-center rounded-full text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100">
                   <span class="sr-only">Open options</span>
                   <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
                 </MenuButton>
@@ -415,8 +415,8 @@
                         href="#"
                         :class="[
                           active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
+                            ? 'bg-slate-100 text-slate-900'
+                            : 'text-slate-700',
                           'block px-4 py-2 text-sm',
                         ]"
                         >Archive</a
@@ -427,8 +427,8 @@
                         href="#"
                         :class="[
                           active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
+                            ? 'bg-slate-100 text-slate-900'
+                            : 'text-slate-700',
                           'block px-4 py-2 text-sm',
                         ]"
                         >Mute</a
@@ -439,8 +439,8 @@
                         href="#"
                         :class="[
                           active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
+                            ? 'bg-slate-100 text-slate-900'
+                            : 'text-slate-700',
                           'block px-4 py-2 text-sm',
                         ]"
                         >Remove</a

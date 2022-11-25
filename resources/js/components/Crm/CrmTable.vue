@@ -3,31 +3,31 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <div
-          class="flex w-full items-center justify-between border-b border-gray-200 bg-white px-2 py-2">
+          class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2">
           <div class="px-4">
             <h1
               v-if="header.includes('all')"
-              class="text-sm font-semibold capitalize text-gray-900">
+              class="text-sm font-semibold capitalize text-slate-900">
               {{ header + ' Contacts' }}
             </h1>
             <h1
               v-else-if="header.includes('favourites')"
-              class="text-sm font-semibold capitalize text-gray-900">
+              class="text-sm font-semibold capitalize text-slate-900">
               <HeartIcon
                 class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
                 aria-hidden="true" />
-              Favorites
+              Favorited
             </h1>
-            <h1 v-else class="text-sm font-semibold capitalize text-gray-900">
+            <h1 v-else class="text-sm font-semibold capitalize text-slate-900">
               {{ header }}
             </h1>
             <p
               v-if="header.includes('all')"
-              class="text-2xs font-light text-gray-600">
+              class="text-2xs font-light text-slate-600">
               {{ subheader.total }} Contacts
             </p>
 
-            <p v-else class="text-2xs font-light text-gray-600">
+            <p v-else class="text-2xs font-light text-slate-600">
               {{ subheader[header] }} Contacts
             </p>
           </div>
@@ -38,7 +38,7 @@
                 trigger
                 <span
                   data-tooltip="test"
-                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-gray-200 bg-gray-800 px-2 py-1 text-xs text-gray-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
+                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-slate-200 bg-slate-800 px-2 py-1 text-xs text-slate-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
                   >test content</span
                 >
               </div> -->
@@ -54,26 +54,26 @@
                 <div
                   class="flex h-6 w-full items-center justify-end transition-all">
                   <div
-                    class="flex items-center rounded-md border border-gray-200">
+                    class="flex items-center rounded-md border border-slate-200">
                     <div
                       class="content-right relative flex flex-grow items-center focus-within:z-10">
                       <div
                         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                         <MagnifyingGlassIcon
-                          class="h-4 w-4 text-gray-400"
+                          class="h-4 w-4 text-slate-400"
                           aria-hidden="true" />
                       </div>
                       <input
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="block w-full rounded-md border-gray-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
+                        class="block w-full rounded-md border-slate-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm" />
 
                       <div
                         @click="toggleSearchVisible()"
                         class="group absolute inset-y-0 right-0 flex items-center pr-3">
                         <XMarkIcon
-                          class="h-4 w-4 cursor-pointer rounded-md text-gray-400 group-hover:bg-gray-100 group-hover:text-gray-600"
+                          class="h-4 w-4 cursor-pointer rounded-md text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600"
                           aria-hidden="true" />
                       </div>
                     </div>
@@ -98,11 +98,11 @@
                 </JovieTooltip>
               </div>
               <!--  <div
-                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30"
+                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30"
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
-                  class="h-5 w-5 text-gray-400 group-hover:text-gray-600" />
+                  class="h-5 w-5 text-slate-400 group-hover:text-slate-600" />
               </div> -->
             </div>
             <div class="flex items-center">
@@ -111,7 +111,7 @@
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton @click="open" class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
-                        class="h-5 w-5 font-bold text-gray-400 group-hover:text-gray-600"
+                        class="h-5 w-5 font-bold text-slate-400 group-hover:text-slate-600"
                         aria-hidden="true" /> -->
                       <JovieTooltip
                         text="Adjustments"
@@ -139,12 +139,12 @@
                       <MenuItems
                         @focus="focusTableColumnFilterInput()"
                         static
-                        class="w-60 flex-col rounded-md border-2 border-gray-200 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0">
+                        class="w-60 flex-col rounded-md border-2 border-slate-200 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0">
                         <!--  <div as="div">
                           <div
-                            class="flex items-center justify-between border-b border-gray-200 py-1">
+                            class="flex items-center justify-between border-b border-slate-200 py-1">
                             <div
-                              class="text-xs font-bold text-gray-500 line-clamp-1">
+                              class="text-xs font-bold text-slate-500 line-clamp-1">
                               Display Columns
                             </div>
                           </div>
@@ -156,11 +156,11 @@
                                 ref="tableColumnFilterInput"
                                 v-model="tableViewSearchQuery"
                                 placeholder="Add columns..."
-                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-gray-600 outline-0 ring-0 placeholder:font-light placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
                               <!-- <div
                                 class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
                                 <kbd
-                                  class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-2xs font-medium text-gray-400"
+                                  class="inline-flex items-center rounded border border-slate-200 px-1 font-sans text-2xs font-medium text-slate-400"
                                   >S</kbd
                                 >
                               </div> -->
@@ -175,15 +175,15 @@
                             <SwitchLabel
                               class="flex items-center rounded-md"
                               :class="{
-                                'bg-gray-300 text-white': active,
+                                'bg-slate-300 text-white': active,
                               }">
                               <button
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700">
                                 <div class="flex items-center">
                                   <component
                                     :is="column.icon"
                                     :active="active"
-                                    class="mr-2 h-3 w-3 text-gray-400"
+                                    class="mr-2 h-3 w-3 text-slate-400"
                                     aria-hidden="true" />
                                   <span class="line-clamp-1">{{
                                     column.name
@@ -197,9 +197,9 @@
                                   v-slot="{ checked }">
                                   <button
                                     :class="
-                                      checked ? 'bg-indigo-600' : 'bg-gray-200'
+                                      checked ? 'bg-indigo-600' : 'bg-slate-200'
                                     "
-                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-gray-300">
+                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300">
                                     <span class="sr-only"
                                       >Show/hide column</span
                                     >
@@ -216,20 +216,20 @@
                             </SwitchLabel>
                           </SwitchGroup>
                         </MenuItem>
-                        <div class="text-medium border-t border-gray-200">
+                        <div class="text-medium border-t border-slate-200">
                           <MenuItem
                             v-slot="{ active }"
                             v-for="setting in settings">
                             <SwitchGroup>
                               <SwitchLabel
                                 class="flex items-center rounded-md"
-                                :class="{ 'bg-gray-300 text-white': active }">
+                                :class="{ 'bg-slate-300 text-white': active }">
                                 <button
-                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
+                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700">
                                   <div class="flex items-center">
                                     <component
                                       :is="setting.icon"
-                                      class="mr-2 h-3 w-3 text-gray-400"
+                                      class="mr-2 h-3 w-3 text-slate-400"
                                       aria-hidden="true" />
                                     <span class="line-clamp-1">{{
                                       setting.name
@@ -246,9 +246,9 @@
                                       :class="
                                         checked
                                           ? 'bg-indigo-600'
-                                          : 'bg-gray-200'
+                                          : 'bg-slate-200'
                                       "
-                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-gray-300">
+                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300">
                                       <span
                                         :class="
                                           checked
@@ -265,13 +265,13 @@
                           <MenuItem v-slot="{ active }">
                             <div
                               class="flex items-center rounded-md"
-                              :class="{ 'bg-gray-300 text-white': active }">
+                              :class="{ 'bg-slate-300 text-white': active }">
                               <button
                                 @click="importCSV()"
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-gray-700">
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700">
                                 <div class="flex items-center">
                                   <CloudArrowUpIcon
-                                    class="mr-2 h-3 w-3 text-gray-400"
+                                    class="mr-2 h-3 w-3 text-slate-400"
                                     aria-hidden="true" />
                                   <span class="line-clamp-1"> Import CSV </span>
                                 </div>
@@ -287,10 +287,10 @@
               <!-- <div v-if="currentContact">
                 <button
                   v-if="!$store.state.ContactSidebarOpen"
-                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
+                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
                   <ChevronRightIcon
                     @click="openSidebarAndSetContact()"
-                    class="h-5 w-5 font-bold text-gray-400 transition-all group-hover:text-gray-600" />
+                    class="h-5 w-5 font-bold text-slate-400 transition-all group-hover:text-slate-600" />
                 </button>
               </div> -->
             </div>
@@ -300,16 +300,16 @@
           <div
             class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5">
             <table
-              class="block w-full divide-y divide-gray-200 overflow-x-auto bg-gray-100">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100">
               <thead class="relative isolate z-20 w-full items-center">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-light tracking-wider text-gray-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-gray-300 before:content-['']">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-slate-300 bg-slate-100 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
-                        class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500"
+                        class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500"
                         :checked="
                           intermediate ||
                           selectedCreators.length === creatorRecords.length
@@ -324,22 +324,22 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-b border-gray-300 bg-gray-100 text-center text-xs font-thin tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-b border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-r border-b border-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-gray-300 after:content-['']">
+                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-r border-b border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-['']">
                     <div
                       v-if="selectedCreators.length > 0"
-                      class="flex items-center space-x-3 bg-gray-100">
+                      class="flex items-center space-x-3 bg-slate-100">
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
-                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
-                              class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
+                              class="text-vue-slate-400 hover:text-vue-slate-500 ml-2 -mr-1 h-5 w-5"
                               aria-hidden="true" />
                           </MenuButton>
                           <transition
@@ -350,7 +350,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -364,8 +364,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-300 text-gray-900'
-                                      : 'text-gray-700',
+                                      ? 'bg-slate-300 text-slate-900'
+                                      : 'text-slate-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <TrashIcon class="mr-2 inline h-4 w-4" />
@@ -386,8 +386,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-300 text-gray-900'
-                                      : 'text-gray-700',
+                                      ? 'bg-slate-300 text-slate-900'
+                                      : 'text-slate-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <ArchiveBoxIcon
@@ -408,10 +408,10 @@
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
-                            class="py-.5 inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                             <span class="line-clamp-1">Add to list </span>
                             <ChevronDownIcon
-                              class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
+                              class="text-vue-slate-400 hover:text-vue-slate-500 ml-2 -mr-1 h-5 w-5"
                               aria-hidden="true" />
                           </MenuButton>
                           <transition
@@ -422,7 +422,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white px-1 py-1 shadow-xl">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white px-1 py-1 shadow-xl">
                               <MenuItem
                                 v-slot="{ active }"
                                 v-for="list in userLists"
@@ -436,8 +436,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-300 text-gray-900'
-                                      : 'text-gray-700',
+                                      ? 'bg-slate-300 text-slate-900'
+                                      : 'text-slate-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <span class="px-1">{{
@@ -450,8 +450,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-gray-300 text-gray-900'
-                                      : 'text-gray-700',
+                                      ? 'bg-slate-300 text-slate-900'
+                                      : 'text-slate-700',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <div
@@ -461,7 +461,7 @@
                                     >
                                     <PlusIcon
                                       :active="active"
-                                      class="ml-2 h-3 w-3 text-gray-400"
+                                      class="ml-2 h-3 w-3 text-slate-400"
                                       aria-hidden="true" />
                                   </div>
                                 </button>
@@ -490,7 +490,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-b border-gray-300 border-x-gray-300 bg-gray-100 text-left text-xs font-medium tracking-wider text-gray-600 backdrop-blur backdrop-filter">
+                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-b border-slate-300 border-x-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -501,11 +501,11 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-gray-300 border-x-gray-300 bg-gray-100 py-1 text-right text-xs font-medium tracking-wider text-gray-600 backdrop-blur-2xl backdrop-filter"></th>
+                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 border-x-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter"></th>
                 </tr>
               </thead>
               <tbody
-                class="relative isolate z-0 h-full w-full divide-y divide-gray-200 overflow-y-scroll bg-gray-50">
+                class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50">
                 <template class="w-full" v-if="loading">
                   <tr class="w-full">
                     <td class="w-full" colspan="11">
@@ -527,23 +527,23 @@
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu($event, creator)"
-                    class="border-1 group group w-full flex-row overflow-y-visible border border-gray-200 focus-visible:ring-indigo-700"
+                    class="border-1 group group w-full flex-row overflow-y-visible border border-slate-200 focus-visible:ring-indigo-700"
                     :class="[
                       {
-                        'bg-gray-100 hover:bg-gray-100':
+                        'bg-slate-100 hover:bg-slate-100':
                           currentContact.id == creator.id,
                       },
-                      'bg-white hover:bg-gray-50',
+                      'bg-white hover:bg-slate-50',
                     ]">
                     <td
                       :class="[
                         {
-                          'bg-gray-100 group-hover:bg-gray-100':
+                          'bg-slate-100 group-hover:bg-slate-100':
                             currentContact.id == creator.id,
                         },
-                        'bg-white group-hover:bg-gray-50',
+                        'bg-white group-hover:bg-slate-50',
                       ]"
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-gray-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-gray-200 before:content-[''] group-hover:text-gray-500">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-200 before:content-[''] group-hover:text-slate-500">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -558,12 +558,12 @@
                               type="checkbox"
                               name="selectCreatorCheckbox"
                               :value="creator.id"
-                              class="h-3 w-3 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
+                              class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 sm:left-6"
                               v-model="selectedCreators" />
                           </form>
                         </span>
                         <span
-                          class="text-xs font-light text-gray-600 group-hover:hidden"
+                          class="text-xs font-light text-slate-600 group-hover:hidden"
                           :class="[
                             { hidden: selectedCreators.includes(creator.id) },
                             'block',
@@ -576,12 +576,12 @@
                     <td
                       :class="[
                         {
-                          'bg-gray-100 group-hover:bg-gray-100':
+                          'bg-slate-100 group-hover:bg-slate-100':
                             currentContact.id == creator.id,
                         },
-                        'bg-white group-hover:bg-gray-50',
+                        'bg-white group-hover:bg-slate-50',
                       ]"
-                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-gray-300 group-hover:text-gray-500">
+                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -613,17 +613,17 @@
                     <td
                       :class="[
                         {
-                          'bg-gray-100 group-hover:bg-gray-100':
+                          'bg-slate-100 group-hover:bg-slate-100':
                             currentContact.id == creator.id,
                         },
-                        'bg-white group-hover:bg-gray-50',
+                        'bg-white group-hover:bg-slate-50',
                       ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-gray-300 after:content-['']">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-['']">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
-                            <div class="rounded-full bg-gray-400 p-0.5">
+                            <div class="rounded-full bg-slate-400 p-0.5">
                               <div class="rounded-full bg-white p-0">
                                 <img
                                   v-if="imageLoaded"
@@ -643,7 +643,7 @@
 
                           <div
                             v-if="cellActive"
-                            class="items-center text-sm text-gray-900 line-clamp-1">
+                            class="items-center text-sm text-slate-900 line-clamp-1">
                             <input
                               v-model="creator.meta.name"
                               @blur="$emit('updateCrmMeta', creator)"
@@ -651,19 +651,19 @@
                               type="creator-name"
                               name="creator-name"
                               id="creator-name"
-                              class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                               placeholder="Name"
                               aria-describedby="name-description" />
                           </div>
                           <div
                             v-else
-                            class="text-sm text-gray-900 line-clamp-1">
+                            class="text-sm text-slate-900 line-clamp-1">
                             {{ creator.meta.name }}
                           </div>
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto h-6 w-6 items-center rounded-full bg-gray-200/0 pr-4 text-center text-gray-400 transition-all active:border active:bg-gray-200">
+                          class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200">
                           <ArrowTopRightOnSquareIcon
                             v-if="
                               !this.$store.state.ContactSidebarOpen ||
@@ -693,7 +693,7 @@
                               arrow
                               placement="bottom-end">
                               <MenuButton
-                                class="flex items-center rounded-full text-gray-400/0 transition-all hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:bg-gray-200 group-hover:text-gray-400">
+                                class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400">
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
                                   class="z-0 mt-0.5 h-5 w-5"
@@ -707,7 +707,7 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-gray-200 bg-white py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-slate-200 bg-white py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
                                   <div class="py-1">
                                     <MenuItem
                                       :disabled="
@@ -725,8 +725,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <EnvelopeIcon
@@ -749,8 +749,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <PhoneIcon
@@ -772,8 +772,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ChatBubbleLeftEllipsisIcon
@@ -797,8 +797,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ChatBubbleOvalLeftEllipsisIcon
@@ -820,8 +820,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ChatBubbleOvalLeftEllipsisIcon
@@ -837,8 +837,8 @@
                                         @click="downloadVCF(this.creator)"
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <CloudArrowDownIcon
@@ -861,8 +861,8 @@
                                         href="#"
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <TrashIcon
@@ -883,8 +883,8 @@
                                       <button
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ArchiveBoxIcon
@@ -905,11 +905,11 @@
                                       :disabled="adding">
                                       <a
                                         href="#"
-                                        class="items-center text-gray-400 hover:text-gray-900"
+                                        class="items-center text-slate-400 hover:text-slate-900"
                                         :class="[
                                           active
-                                            ? 'bg-gray-100 text-gray-900'
-                                            : 'text-gray-700',
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-700',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ArrowPathIcon
@@ -928,7 +928,7 @@
                     <td
                       v-if="visibleColumns.includes('first_name')"
                       class="border-1 table-cell w-28 whitespace-nowrap border">
-                      <div class="text-sm text-gray-900 line-clamp-1">
+                      <div class="text-sm text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.first_name"
                           @blur="$emit('updateCrmMeta', creator)"
@@ -936,7 +936,7 @@
                           type="creator-firstname"
                           name="creator-firstname"
                           id="creator-firname"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="First"
                           aria-describedby="email-description" />
                       </div>
@@ -944,7 +944,7 @@
                     <td
                       v-if="visibleColumns.includes('last_name')"
                       class="border-1 table-cell w-28 whitespace-nowrap border">
-                      <div class="text-xs text-gray-900 line-clamp-1">
+                      <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.last_name"
                           @blur="$emit('updateCrmMeta', creator)"
@@ -952,7 +952,7 @@
                           type="creator-lastname"
                           name="creator-lastname"
                           id="creator-lastname"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="Last"
                           aria-describedby="email-description" />
                       </div>
@@ -960,7 +960,7 @@
                     <td
                       v-if="visibleColumns.includes('title')"
                       class="border-1 table-cell w-40 resize-x whitespace-nowrap border">
-                      <div class="text-xs text-gray-900 line-clamp-1">
+                      <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_title"
                           @blur="$emit('updateCrmMeta', creator)"
@@ -968,7 +968,7 @@
                           type="platform-title"
                           name="platform-title"
                           id="platform-title"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="Title"
                           aria-describedby="title" />
                       </div>
@@ -976,7 +976,7 @@
                     <td
                       v-if="visibleColumns.includes('employer')"
                       class="border-1 table-cell w-40 whitespace-nowrap border">
-                      <div class="text-xs text-gray-900 line-clamp-1">
+                      <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_employer"
                           @blur="$emit('updateCrmMeta', creator)"
@@ -984,7 +984,7 @@
                           type="platform-employer"
                           name="platform-employer"
                           id="platform-employer"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="Company"
                           aria-describedby="Company" />
                       </div>
@@ -993,7 +993,7 @@
                     <td
                       v-if="visibleColumns.includes('emails')"
                       class="border-1 table-cell w-40 whitespace-nowrap border focus:border-indigo-500">
-                      <div class="text-xs text-gray-700 line-clamp-1">
+                      <div class="text-xs text-slate-700 line-clamp-1">
                         <input
                           v-model="creator.meta.emails"
                           @blur="$emit('updateCrmMeta', creator)"
@@ -1001,7 +1001,7 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
@@ -1013,7 +1013,7 @@
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
                         target="_blank"
-                        class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-gray-800">
+                        class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-slate-800">
                         <div class=".clear-both mx-auto flex-col items-center">
                           <div class="mx-auto items-center">
                             <SocialIcons
@@ -1034,7 +1034,7 @@
                           <div v-if="settings.countsVisible" class="">
                             <span
                               v-if="creator[`${network}_handler`]"
-                              class="mx-auto items-center text-2xs font-bold text-gray-400">
+                              class="mx-auto items-center text-2xs font-bold text-slate-400">
                               {{
                                 formatCount(creator[`${network}_followers`])
                               }}</span
@@ -1063,7 +1063,7 @@
                           type="number"
                           name="creator-offer"
                           id="creator-offer"
-                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-gray-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
+                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-xs"
                           :placeholder="
                             creator.crm_record_by_user.suggested_offer
                           "
@@ -1125,7 +1125,7 @@
                             </div>
                             <div class="items-center">
                               <ChevronDownIcon
-                                class="mt-1 h-4 w-4 text-gray-600" />
+                                class="mt-1 h-4 w-4 text-slate-600" />
                             </div>
                           </PopoverButton>
                           <transition
@@ -1136,23 +1136,23 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <PopoverPanel
-                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg border border border-gray-200 border-gray-200 bg-white/60 bg-clip-padding py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
+                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-slate-100 rounded-lg border border border-slate-200 border-slate-200 bg-white/60 bg-clip-padding py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
                               <div class="px-1">
                                 <div class="relative flex items-center">
                                   <input
                                     ref="stageInput"
                                     v-model="stageSearchQuery"
                                     placeholder="Set stage..."
-                                    class="w-full border-0 border-transparent bg-transparent px-1 py-2 text-xs font-semibold text-gray-700 ring-0 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                                    class="w-full border-0 border-transparent bg-transparent px-1 py-2 text-xs font-semibold text-slate-700 ring-0 placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
                                   <div
                                     class="absolute inset-y-0 right-0 flex py-1 pr-1.5">
                                     <kbd
-                                      class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400"
+                                      class="inline-flex items-center rounded border border-slate-200 px-2 font-sans text-2xs font-medium text-slate-400"
                                       >S</kbd
                                     >
                                   </div>
                                 </div>
-                                <div class="border-t border-gray-200">
+                                <div class="border-t border-slate-200">
                                   <button
                                     v-for="(stage, key) in filteredStages(
                                       creator
@@ -1166,7 +1166,7 @@
                                         value: key,
                                       })
                                     "
-                                    class="group mt-1 flex w-full items-center rounded-md px-2 py-1 text-xs text-gray-600 hover:bg-gray-200 hover:text-gray-600">
+                                    class="group mt-1 flex w-full items-center rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-600">
                                     <div
                                       v-if="stage.includes(stageSearchQuery)"
                                       class="flex">
@@ -1178,7 +1178,7 @@
                                             creator.crm_record_by_user
                                               .stage_name
                                           "
-                                          class="h-3 w-3 text-gray-600" />
+                                          class="h-3 w-3 text-slate-600" />
                                       </div>
                                       <div
                                         class="mr-2 text-xs font-bold opacity-50">
@@ -1226,7 +1226,7 @@
                           'crm_record_by_user.last_contacted'
                         )
                       "
-                      class="border-1 table-cell w-40 items-center whitespace-nowrap border text-xs text-gray-500">
+                      class="border-1 table-cell w-40 items-center whitespace-nowrap border text-xs text-slate-500">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @update:modelValue="
@@ -1244,7 +1244,7 @@
                         autoApply="true"
                         type="datetime-local"
                         :id="creator.id + '_datepicker'"
-                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-gray-500 placeholder-gray-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                         placeholder="--/--/--"
                         aria-describedby="email-description" />
                       <!-- <input
@@ -1259,7 +1259,7 @@
                           autoApply="true"
                           type="datetime-local"
                           :id="creator.id + '_datepicker'"
-                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 px-2 py-1 text-xs text-gray-500 placeholder-gray-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 px-2 py-1 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                           placeholder="--/--/--"
                           aria-describedby="email-description" /> -->
                     </td>
@@ -1267,7 +1267,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="w-18 table-cell whitespace-nowrap px-2 py-1 text-sm text-gray-500">
+                      class="w-18 table-cell whitespace-nowrap px-2 py-1 text-sm text-slate-500">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -1291,7 +1291,7 @@
                               name: 'Creator Overview',
                               params: { id: creator.id },
                             }"
-                            class="text-gray-600 hover:text-indigo-900">
+                            class="text-slate-600 hover:text-indigo-900">
                             Manage
                           </router-link>
                         </div>

@@ -1,16 +1,16 @@
 <template>
-  <div id="app" class="flex h-screen overflow-hidden bg-gray-100">
+  <div id="app" class="flex h-screen overflow-hidden bg-slate-100">
     <!-- <div
       id="overlay"
       class="fixed inset-0 z-30 flex md:hidden"
       role="dialog"
       aria-modal="true">
       <div
-        class="fixed inset-0 bg-gray-600 bg-opacity-75"
+        class="fixed inset-0 bg-slate-600 bg-opacity-75"
         aria-hidden="true"></div>
       <div
         id="sidebar"
-        class="relative flex w-full flex-1 flex-col bg-gray-500/50 pt-5 pb-4 backdrop-blur-md">
+        class="relative flex w-full flex-1 flex-col bg-slate-500/50 pt-5 pb-4 backdrop-blur-md">
         <div class="mx-auto flex h-screen w-full items-center justify-center">
           <a href="{{ route('dashboard') }}">
             <JovieLogo color="#ffffff" height="40px" />
@@ -27,10 +27,10 @@
 
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <!--  <div
-        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b-2 border-gray-200 bg-white/75 backdrop-blur-md backdrop-filter">
+        class="border-1 relative z-50 flex h-10 flex-shrink-0 border-b-2 border-slate-200 bg-white/75 backdrop-blur-md backdrop-filter">
         <button
           id="showSidebar"
-          class="border-r border-gray-200 px-4 text-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden">
+          class="border-r border-slate-200 px-4 text-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 md:hidden">
           <span class="sr-only">Open sidebar</span>
 
           <svg
@@ -59,7 +59,7 @@
                       @mouseout="previewAppMenuFalse()"
                       @click="toggleShowAppMenu()"
                       href="#"
-                      class="text-gray-400 hover:text-gray-500">
+                      class="text-slate-400 hover:text-slate-500">
                       <Bars3Icon
                         class="h-5 w-5 flex-shrink-0"
                         aria-hidden="true" />
@@ -67,7 +67,7 @@
                     </a>
                   </li>
                   <li>
-                    <router-link to="/" class="text:bg-gray-500 text-gray-400">
+                    <router-link to="/" class="text:bg-slate-500 text-slate-400">
                       <HomeIcon
                         class="h-5 w-5 flex-shrink-0"
                         aria-hidden="true" />
@@ -91,9 +91,9 @@
                 "
                 class="group relative inline-block text-blue-500 underline duration-300 hover:text-red-500">
                 <ArrowPathIcon
-                  class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-gray-600" />
+                  class="h-5 w-5 flex-shrink-0 animate-spin-slow cursor-pointer text-slate-600" />
                 <span
-                  class="absolute left-4 top-10 hidden w-36 -translate-y-full rounded-lg bg-gray-700 px-2 py-1 text-center text-2xs text-white group-hover:flex"
+                  class="absolute left-4 top-10 hidden w-36 -translate-y-full rounded-lg bg-slate-700 px-2 py-1 text-center text-2xs text-white group-hover:flex"
                   >Import in progress</span
                 >
               </div>
@@ -103,7 +103,7 @@
                   <PopoverButton
                     as="div"
                     type="button"
-                    class="rounded-full p-1 text-gray-400 transition duration-300 ease-in-out hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-gray-100 active:text-gray-700"
+                    class="rounded-full p-1 text-slate-400 transition duration-300 ease-in-out hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-slate-100 active:text-slate-700"
                     id="notification-button"
                     aria-expanded="false"
                     aria-haspopup="true"
@@ -139,7 +139,7 @@
                           <div
                             class="mx-auto inline-flex w-full items-center border-b pb-1">
                             <p
-                              class="px-2 pt-2 text-xs font-bold text-gray-400">
+                              class="px-2 pt-2 text-xs font-bold text-slate-400">
                               Notifications
                             </p>
                           </div>
@@ -152,7 +152,7 @@
                               <div
                                 v-if="notification.is_batch"
                                 as="div"
-                                class="inline-flex w-full border-b px-2 py-2 text-xs text-gray-700 first:pt-3"
+                                class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
                                 role="menuitem"
                                 tabindex="-1">
                                 <router-link
@@ -162,23 +162,23 @@
                                     class="flex w-full items-center justify-between">
                                     <div class="px-2">
                                       <component
-                                        class="mx-auto h-5 w-5 text-gray-400"
+                                        class="mx-auto h-5 w-5 text-slate-400"
                                         :is="'CloudArrowUpIcon'">
                                       </component>
                                     </div>
                                     <div class="ml-3 w-60">
                                       <p
-                                        class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
+                                        class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900">
                                         {{ notification.message }}
                                         <span
-                                          class="text-2xs font-light text-gray-500"
+                                          class="text-2xs font-light text-slate-500"
                                           >-
                                           {{ notification.typeMessage }}</span
                                         >
                                       </p>
                                       <div class="w-full">
                                         <span
-                                          class="text-2xs font-medium text-gray-500">
+                                          class="text-2xs font-medium text-slate-500">
                                           Total:
                                           {{
                                             notification.initial_total_in_file
@@ -186,7 +186,7 @@
                                         </span>
                                         |
                                         <span
-                                          class="text-2xs font-medium text-gray-500">
+                                          class="text-2xs font-medium text-slate-500">
                                           Successful:
                                           {{ notification.successful }}
                                         </span>
@@ -196,7 +196,7 @@
                                         class="mx-auto w-full" />
                                     </div>
                                     <div
-                                      class="mx-auto px-2 font-bold text-gray-300 line-clamp-2">
+                                      class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
                                       {{ notification.created_at_formatted }}
                                     </div>
                                   </div>
@@ -205,7 +205,7 @@
                               <div
                                 v-else
                                 as="div"
-                                class="inline-flex w-full border-b px-2 py-2 text-xs text-gray-700 first:pt-3"
+                                class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
                                 role="menuitem"
                                 tabindex="-1">
                                 <router-link
@@ -215,7 +215,7 @@
                                     class="flex w-full items-center justify-between">
                                     <div class="px-2">
                                       <component
-                                        class="mx-auto h-5 w-5 text-gray-400"
+                                        class="mx-auto h-5 w-5 text-slate-400"
                                         :is="'CloudArrowUpIcon'">
                                       </component>
                                     </div>
@@ -252,7 +252,7 @@
                                       </p>
                                     </div>
                                     <div
-                                      class="mx-auto px-2 font-bold text-gray-300 line-clamp-2">
+                                      class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
                                       {{ notification.created_at_formatted }}
                                     </div>
                                   </div>
@@ -264,9 +264,9 @@
                             class="mx-auto w-full items-center py-4 text-center"
                             v-else>
                             <span
-                              class="mx-auto items-center text-sm font-bold text-gray-400"
+                              class="mx-auto items-center text-sm font-bold text-slate-400"
                               ><FaceSmileIcon
-                                class="mx-auto h-14 w-14 text-gray-200" />No
+                                class="mx-auto h-14 w-14 text-slate-200" />No
                               notifications</span
                             >
                           </div>
@@ -294,7 +294,7 @@
                   <img
                     id="profile_pic_url_img"
                     ref="profile_pic_url_img"
-                    class="h-8 w-8 rounded-full border border-gray-200 object-cover object-center"
+                    class="h-8 w-8 rounded-full border border-slate-200 object-cover object-center"
                     :src="
                       $store.state.AuthState.user.profile_pic_url ??
                       $store.state.AuthState.user.default_image
@@ -312,7 +312,7 @@
                     as="div"
                     active=""
                     id="profileDropdown"
-                    class="absolute right-0 z-30 mt-2 w-80 origin-top-right rounded-md border border-gray-200 bg-white pt-1 shadow-xl"
+                    class="absolute right-0 z-30 mt-2 w-80 origin-top-right rounded-md border border-slate-200 bg-white pt-1 shadow-xl"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
@@ -320,7 +320,7 @@
                    
                     <div
                       as="div"
-                      class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-gray-400"
+                      class="block border-b-2 border-opacity-30 px-4 pt-2 pb-1 text-left text-xs font-bold text-slate-400"
                       role="menuitem"
                       tabindex="-1"
                       id="user-menu-item-0">
@@ -339,13 +339,13 @@
                           </div>
                           <div class="ml-3">
                             <p
-                              class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
+                              class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900">
                               {{ currentUser.first_name }}
                               {{ currentUser.last_name }}
                             </p>
 
                             <p
-                              class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                              class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
                               {{ currentUser.email }}
                             </p>
                           </div>
@@ -354,7 +354,7 @@
                     </div>
                     <router-link
                       v-if="currentUser.username"
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
                       :to="profileLink">
                       <component
                         class="mr-4 h-4 w-4 cursor-pointer"
@@ -364,7 +364,7 @@
                     </router-link>
                     <router-link
                       v-else
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
                       to="edit-profile">
                       <component
                         class="mr-4 h-4 w-4 cursor-pointer"
@@ -377,11 +377,11 @@
                       :key="dropdownmenuitem"
                       as="router-link"
                       :to="dropdownmenuitem.route"
-                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                      class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
                       role="menuitem"
                       tabindex="-1">
                       <router-link
-                        class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                        class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
                         :to="dropdownmenuitem.route">
                         <div class="flex">
                           <component
@@ -401,7 +401,7 @@
                     </div>
                     <router-link
                       to="slack-community"
-                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                      class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
                       role="menuitem">
                       <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
                       </component>
@@ -410,7 +410,7 @@
                     <div
                       as="div"
                       @click="$store.dispatch('logout')"
-                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
                       role="menuitem"
                       tabindex="-1">
                       <component
@@ -465,15 +465,15 @@
             move="transition duration-500"
             move-delay="delay-300">
             <div
-              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-gray-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150"
+              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150"
               v-for="notification in notifications"
               :key="notification.id">
               <button
                 class="absolute top-0 right-0 m-2"
                 @click="notification.close">
-                <XIcon class="h-5 w-5 text-gray-400" />
+                <XIcon class="h-5 w-5 text-slate-400" />
               </button>
-              <div class="flex w-10 items-center justify-center bg-gray-200">
+              <div class="flex w-10 items-center justify-center bg-slate-200">
                 <XMarkIcon
                   v-if="notification.type === 'error'"
                   class="h-4 w-4 text-red-500" />
@@ -492,10 +492,10 @@
 
               <div class="-mx-3 px-4 py-2">
                 <div class="mx-3">
-                  <span class="text-xs font-semibold text-gray-600">{{
+                  <span class="text-xs font-semibold text-slate-600">{{
                     notification.title
                   }}</span>
-                  <p class="text-xs text-gray-400">{{ notification.text }}</p>
+                  <p class="text-xs text-slate-400">{{ notification.text }}</p>
                 </div>
               </div>
             </div>

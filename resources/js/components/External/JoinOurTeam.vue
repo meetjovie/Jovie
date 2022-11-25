@@ -1,14 +1,14 @@
 <template>
   <div class="relative bg-white py-16">
     <div
-      class="absolute inset-x-0 top-0 hidden h-1/2 bg-gray-50 lg:block"
+      class="absolute inset-x-0 top-0 hidden h-1/2 bg-slate-50 lg:block"
       aria-hidden="true" />
     <div class="mx-auto max-w-7xl bg-indigo-600 lg:bg-transparent lg:px-8">
       <div class="lg:grid lg:grid-cols-12">
         <div
           class="relative z-10 lg:col-span-4 lg:col-start-1 lg:row-start-1 lg:bg-transparent lg:py-16">
           <div
-            class="absolute inset-x-0 h-1/2 bg-gray-50 lg:hidden"
+            class="absolute inset-x-0 h-1/2 bg-slate-50 lg:hidden"
             aria-hidden="true" />
           <div
             class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-none lg:p-0">
@@ -95,7 +95,7 @@
               We're always looking for great people to join our team.
             </p>
             <router-link
-              class="block w-full rounded-md border border-transparent bg-white py-3 px-5 text-center text-base font-medium text-indigo-700 shadow-md hover:bg-gray-50 sm:inline-block sm:w-auto"
+              class="block w-full rounded-md border border-transparent bg-white py-3 px-5 text-center text-base font-medium text-indigo-700 shadow-md hover:bg-slate-50 sm:inline-block sm:w-auto"
               to="Careers">
               Explore open positions</router-link
             >

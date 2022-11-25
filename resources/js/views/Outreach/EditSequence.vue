@@ -6,10 +6,10 @@
         <span class="relative z-0 mr-2 inline-flex rounded-md py-2">
           <button
             type="button"
-            class="relative inline-flex items-center rounded-md border border-gray-300 bg-indigo-600 px-4 py-2 text-xs font-medium text-gray-200 hover:bg-indigo-700 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+            class="relative inline-flex items-center rounded-md border border-slate-300 bg-indigo-600 px-4 py-2 text-xs font-medium text-slate-200 hover:bg-indigo-700 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="-ml-1 mr-2 h-4 w-4 text-gray-200"
+              class="-ml-1 mr-2 h-4 w-4 text-slate-200"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor">
@@ -29,32 +29,32 @@
       <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div class="overflow-hidden border-b border-gray-200 shadow">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <div class="overflow-hidden border-b border-slate-200 shadow">
+              <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
                   <tr>
                     <th
                       scope="col"
-                      class="w-1/3 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      class="w-1/3 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                       Sequence
                     </th>
                     <th
                       scope="col"
-                      class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                       <span class="sr-only">Stage</span>
                     </th>
                   </tr>
                 </thead>
                 <tbody
-                  class="justify-between divide-y divide-gray-200 bg-white">
+                  class="justify-between divide-y divide-slate-200 bg-white">
                   <tr>
                     <td class="whitespace-nowrap px-4 py-1">
                       <div class="flex items-center">
                         <div class="">
-                          <div class="text-sm font-medium text-gray-900">
+                          <div class="text-sm font-medium text-slate-900">
                             Email sequence name
                           </div>
-                          <div class="text-xs font-medium text-gray-400">
+                          <div class="text-xs font-medium text-slate-400">
                             Contains 4 steps
                           </div>
                         </div>
@@ -68,8 +68,8 @@
                           class="md:grid-cols2 grid gap-1 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-10">
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold text-blue-500 lg:text-sm">
                                 450
@@ -82,10 +82,10 @@
                           </div>
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
-                                class="text-center text-sm font-bold text-gray-500 lg:text-sm">
+                                class="text-center text-sm font-bold text-slate-500 lg:text-sm">
                                 101
                               </h1>
                               <h2
@@ -96,8 +96,8 @@
                           </div>
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold text-pink-500 lg:text-sm">
                                 35
@@ -111,7 +111,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold text-red-500 lg:text-sm">
                                 530
@@ -125,7 +125,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold text-indigo-500 lg:text-sm">
                                 530
@@ -139,8 +139,8 @@
 
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 40
@@ -153,8 +153,8 @@
                           </div>
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 32
@@ -167,8 +167,8 @@
                           </div>
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 3
@@ -182,7 +182,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 5
@@ -196,7 +196,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1">
-                            <div class="text-gray-400">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 530
@@ -223,7 +223,7 @@
     <div>
       <!-- This example requires Tailwind CSS v2.0+ -->
       <div
-        class="mx-auto mt-8 max-w-7xl rounded-xl border-b border-gray-200 bg-white shadow-lg">
+        class="mx-auto mt-8 max-w-7xl rounded-xl border-b border-slate-200 bg-white shadow-lg">
         <div
           class="-ml-4 flex flex-wrap items-center justify-between px-4 py-2 sm:flex-nowrap">
           <div class="flex">
@@ -232,9 +232,9 @@
                 <div class="border-r px-8 text-xl font-bold text-indigo-700">
                   1
                 </div>
-                <div class="px-4 text-sm font-medium text-gray-900">
+                <div class="px-4 text-sm font-medium text-slate-900">
                   <div>First email in sequence</div>
-                  <div class="text-xs text-gray-500">Send in 30 minutes</div>
+                  <div class="text-xs text-slate-500">Send in 30 minutes</div>
                 </div>
               </div>
             </div>
@@ -243,7 +243,7 @@
             <span class="relative z-0 inline-flex rounded-md shadow-sm">
               <button
                 type="button"
-                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                class="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                 <span class="sr-only">Menu</span>
                 <!-- Heroicon name: solid/chevron-left -->
                 <svg
@@ -264,19 +264,19 @@
         </div>
         <div class="border-y">
           <div
-            class="grid grid-cols-12 items-center bg-white px-4 py-3 hover:bg-gray-100">
+            class="grid grid-cols-12 items-center bg-white px-4 py-3 hover:bg-slate-100">
             <div class="col-span-1 inline-flex">
-              <div class="font-bold text-gray-400">A</div>
+              <div class="font-bold text-slate-400">A</div>
               <div class="mx-4">
-                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-slate-200" -->
                 <ToggleGroup></ToggleGroup>
               </div>
             </div>
             <div class="col-span-5">
-              <span class="grid-cols-span-1 text-sm font-bold text-gray-700"
+              <span class="grid-cols-span-1 text-sm font-bold text-slate-700"
                 >Email subject line</span
               ><br /><span
-                class="text-xs font-medium text-gray-600 line-clamp-1"
+                class="text-xs font-medium text-slate-600 line-clamp-1"
                 >Hey {firstname}! We're selling cool stuff and need your
                 help!</span
               >
@@ -289,8 +289,8 @@
                   class="grid grid-cols-8 gap-1">
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1 class="text-center text-xs font-bold text-blue-500">
                         900
                       </h1>
@@ -302,10 +302,10 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
-                        class="text-center text-xs font-bold text-gray-500 lg:text-xs">
+                        class="text-center text-xs font-bold text-slate-500 lg:text-xs">
                         101
                       </h1>
                       <h2
@@ -316,8 +316,8 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
                         class="text-center text-xs font-bold text-pink-500 lg:text-xs">
                         35
@@ -330,8 +330,8 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
                         class="text-center text-xs font-bold text-pink-500 lg:text-xs">
                         90
@@ -344,8 +344,8 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
                         class="text-center text-xs font-bold text-orange-500 lg:text-xs">
                         21
@@ -358,8 +358,8 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
                         class="text-center text-xs font-bold text-purple-500 lg:text-xs">
                         3
@@ -377,7 +377,7 @@
               <span class="relative z-0 inline-flex rounded-md shadow-sm">
                 <button
                   type="button"
-                  class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                  class="relative inline-flex items-center rounded-l-md border border-slate-300 bg-white px-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                   <span class="sr-only">Clone</span>
                   <!-- Heroicon name: solid/chevron-left -->
                   <svg
@@ -395,7 +395,7 @@
                 </button>
                 <button
                   type="button"
-                  class="relative -ml-px inline-flex items-center border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                  class="relative -ml-px inline-flex items-center border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                   <span class="sr-only">Archive</span>
                   <!-- Heroicon name: solid/chevron-right -->
                   <svg
@@ -413,7 +413,7 @@
                 </button>
                 <button
                   type="button"
-                  class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                  class="relative -ml-px inline-flex items-center rounded-r-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                   <span class="sr-only">Delete</span>
                   <!-- Heroicon name: solid/chevron-right -->
                   <svg
@@ -435,9 +435,9 @@
         </div>
         <div class="border-y">
           <div
-            class="grid grid-cols-12 items-center bg-white px-4 py-3 hover:bg-gray-100">
+            class="grid grid-cols-12 items-center bg-white px-4 py-3 hover:bg-slate-100">
             <div class="col-span-1 inline-flex">
-              <div class="font-bold text-gray-400">B</div>
+              <div class="font-bold text-slate-400">B</div>
               <div class="mx-4">
                 <!-- This example requires Tailwind CSS v2.0+ -->
 
@@ -445,10 +445,10 @@
               </div>
             </div>
             <div class="col-span-5">
-              <span class="grid-cols-span-1 text-sm font-bold text-gray-700"
+              <span class="grid-cols-span-1 text-sm font-bold text-slate-700"
                 >Diffenret subjects have different results</span
               ><br /><span
-                class="text-xs font-medium text-gray-600 line-clamp-1"
+                class="text-xs font-medium text-slate-600 line-clamp-1"
                 >That's why {company} supports multi-variant testing. We're
                 selling cool stuff and need your help!</span
               >
@@ -461,8 +461,8 @@
                   class="grid grid-cols-8 gap-1">
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1 class="text-center text-xs font-bold text-blue-500">
                         900
                       </h1>
@@ -474,10 +474,10 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
-                        class="text-center text-xs font-bold text-gray-500 lg:text-xs">
+                        class="text-center text-xs font-bold text-slate-500 lg:text-xs">
                         101
                       </h1>
                       <h2
@@ -488,8 +488,8 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
                         class="text-center text-xs font-bold text-pink-500 lg:text-xs">
                         35
@@ -502,8 +502,8 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
                         class="text-center text-xs font-bold text-pink-500 lg:text-xs">
                         90
@@ -516,8 +516,8 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
                         class="text-center text-xs font-bold text-orange-500 lg:text-xs">
                         21
@@ -530,8 +530,8 @@
                   </div>
                   <div
                     role="listitem"
-                    class="flex w-full justify-center border-gray-300">
-                    <div class="text-gray-400">
+                    class="flex w-full justify-center border-slate-300">
+                    <div class="text-slate-400">
                       <h1
                         class="text-center text-xs font-bold text-purple-500 lg:text-xs">
                         3
@@ -549,7 +549,7 @@
               <span class="relative z-0 inline-flex rounded-md shadow-sm">
                 <button
                   type="button"
-                  class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                  class="relative inline-flex items-center rounded-l-md border border-slate-300 bg-white px-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                   <span class="sr-only">Clone</span>
                   <!-- Heroicon name: solid/chevron-left -->
                   <svg
@@ -567,7 +567,7 @@
                 </button>
                 <button
                   type="button"
-                  class="relative -ml-px inline-flex items-center border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                  class="relative -ml-px inline-flex items-center border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                   <span class="sr-only">Archive</span>
                   <!-- Heroicon name: solid/chevron-right -->
                   <svg
@@ -585,7 +585,7 @@
                 </button>
                 <button
                   type="button"
-                  class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                  class="relative -ml-px inline-flex items-center rounded-r-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                   <span class="sr-only">Delete</span>
                   <!-- Heroicon name: solid/chevron-right -->
                   <svg
@@ -607,7 +607,7 @@
         </div>
         <div class="mx-auto rounded-b-xl border-y text-center">
           <div
-            class="group mx-auto inline-flex w-full cursor-pointer items-center justify-center rounded-b-xl bg-white px-4 py-4 text-center font-bold text-gray-500 hover:bg-indigo-600 hover:text-white">
+            class="group mx-auto inline-flex w-full cursor-pointer items-center justify-center rounded-b-xl bg-white px-4 py-4 text-center font-bold text-slate-500 hover:bg-indigo-600 hover:text-white">
             Add variant
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -627,9 +627,9 @@
       <div
         class="mx-auto h-24 w-0 border-2 border-l border-solid border-indigo-500/50"></div>
       <div
-        class="group mx-auto w-64 cursor-pointer items-center rounded-lg bg-white py-2 px-8 text-center font-bold text-gray-500 shadow-lg hover:bg-indigo-600">
+        class="group mx-auto w-64 cursor-pointer items-center rounded-lg bg-white py-2 px-8 text-center font-bold text-slate-500 shadow-lg hover:bg-indigo-600">
         <div
-          class="mx-auto inline-flex cursor-pointer items-center rounded-b-xl text-center font-bold text-gray-500 group-hover:text-white">
+          class="mx-auto inline-flex cursor-pointer items-center rounded-b-xl text-center font-bold text-slate-500 group-hover:text-white">
           Add Step
           <svg
             xmlns="http://www.w3.org/2000/svg"

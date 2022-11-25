@@ -11,7 +11,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0">
         <div
-          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" />
       </TransitionChild>
 
       <div class="fixed inset-0 z-10 overflow-y-auto">
@@ -41,11 +41,11 @@
                   <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <DialogTitle
                       as="h3"
-                      class="text-lg font-medium leading-6 text-gray-900">
+                      class="text-lg font-medium leading-6 text-slate-900">
                       {{ title }}
                     </DialogTitle>
                     <div class="mt-2">
-                      <p class="text-sm text-gray-500">
+                      <p class="text-sm text-slate-500">
                         {{ description }}
                       </p>
                     </div>
@@ -56,11 +56,11 @@
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <DialogTitle
                     as="h3"
-                    class="text-lg font-medium leading-6 text-gray-900">
+                    class="text-lg font-medium leading-6 text-slate-900">
                     {{ title }}
                   </DialogTitle>
                   <div class="mt-2">
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-slate-500">
                       {{ description }}
                     </p>
                     <slot>Edit the modal content</slot>
@@ -68,7 +68,7 @@
                 </div>
               </div>
               <div
-                class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   :disabled="loading"
                   type="button"
@@ -85,7 +85,7 @@
                   :disabled="loading"
                   @click="$emit('cancelButtonClick')"
                   type="button"
-                  class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  class="mt-3 inline-flex w-full justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-base font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   ref="cancelButtonRef">
                   Cancel
                 </button>

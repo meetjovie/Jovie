@@ -2,265 +2,88 @@
   <div class="h-full w-full">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
-        <TransitionRoot
-          :show="$store.state.CRMSidebarOpen"
-          enter="transition ease-in-out duration-300 transform"
-          enter-from="-translate-x-full"
-          enter-to="translate-x-0"
-          leave="transition ease-in-out duration-300 transform"
-          leave-from="translate-x-0"
-          leave-to="-translate-x-full">
-          <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
-          <div
-            class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-gray-100 bg-white py-4">
+        <JovieSidebar>
+          <template #main>
             <div>
               <div class="w-full flex-col px-2">
-                <div class="flex h-8 w-full items-center justify-between">
-                  <!-- <SwitchTeams /> -->
-                  <JovieDropdownMenu
-                    :items="currentUser.teams"
-                    :numbered="true"
-                    size="md"
-                    :searchable="false">
-                    <template #triggerButton>
-                      <div
-                        class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-gray-100">
-                        <div class="flex">
-                          <div
-                            class="items-center text-2xs font-medium text-gray-700 line-clamp-1 group-hover:text-gray-800">
-                            {{
-                              currentUser.current_team
-                                ? currentUser.current_team.name
-                                : 'Select a team'
-                            }}
-                          </div>
-                        </div>
-                      </div>
-                    </template>
-                    <template #menuTop>
-                      <div class="">
-                        <div
-                          class="border-b px-4 pt-2 pb-1 text-center text-xs font-semibold text-gray-700">
-                          Your workspaces:
-                        </div>
-                      </div>
-                    </template>
-                    <template #menuBottom>
-                      <router-link
-                        to="/accounts"
-                        class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-gray-200 hover:text-gray-700"
-                        :class="[
-                          active
-                            ? 'bg-white px-1 py-2  text-gray-800'
-                            : 'text-sm text-gray-700',
-                          'group flex w-full items-center px-2 py-2 text-2xs  ',
-                        ]">
-                        <PlusCircleIcon
-                          :active="active"
-                          class="mr-2 h-4 w-4 text-gray-500"
-                          aria-hidden="true" />
-                        Create workspace
-                      </router-link>
-                    </template>
-                  </JovieDropdownMenu>
-                  <div class="items-center">
-                    <JovieDropdownMenu
-                      :searchable="false"
-                      :items="profileMenuItems">
-                      <template #triggerButton>
-                        <div
-                          class="mx-auto h-6 w-6 items-center rounded-full border border-neutral-200 hover:bg-gray-100">
-                          <img
-                            class="h-5 w-5 items-center rounded-full object-cover"
-                            :src="
-                              $store.state.AuthState.user.profile_pic_url ??
-                              $store.state.AuthState.user.default_image
-                            "
-                            alt="User Avatar" />
-                        </div>
-                      </template>
-                      <template #menuTop>
-                        <div class="ml-3 cursor-default">
-                          <p
-                            class="justify-between text-xs font-medium text-gray-700 group-hover:text-gray-900">
-                            {{ currentUser.first_name }}
-                            {{ currentUser.last_name }}
-                          </p>
-
-                          <p
-                            class="text-2xs font-medium text-gray-400 group-hover:text-gray-700">
-                            {{ currentUser.email }}
-                          </p>
-                        </div>
-                        <MenuItem as="div" role="menuitem" tabindex="-1">
-                          <router-link
-                            v-if="currentUser.username"
-                            class="flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                            :to="profileLink">
-                            <div
-                              class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
-                              :class="{
-                                'bg-gray-200 text-gray-700': active,
-                              }">
-                              <component
-                                class="mr-4 h-4 w-4 cursor-pointer"
-                                is="UserIcon">
-                              </component
-                              >Your profile
-                            </div>
-                          </router-link>
-                          <router-link
-                            v-else
-                            class="flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                            to="edit-profile">
-                            <div
-                              class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-gray-600"
-                              :class="{
-                                'bg-gray-200 text-gray-700': active,
-                              }">
-                              <component
-                                class="mr-4 h-4 w-4 cursor-pointer"
-                                is="CogIcon">
-                              </component
-                              >Setup Your profile
-                            </div>
-                          </router-link>
-                        </MenuItem>
-                      </template>
-                      <!-- <template #menuBottom>
-                        <router-link
-                          v-if="currentUser.username"
-                          class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                          :to="profileLink">
-                          <component
-                            class="mr-4 h-4 w-4 cursor-pointer"
-                            is="UserIcon">
-                          </component
-                          >Your profile
-                        </router-link>
-                        <router-link
-                          v-else
-                          class="first-rounded-t-md inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                          to="edit-profile">
-                          <component
-                            class="mr-4 h-4 w-4 cursor-pointer"
-                            is="CogIcon">
-                          </component
-                          >Setup Your profile
-                        </router-link>
-                        <div
-                          v-for="dropdownmenuitem in dropdownmenuitems"
-                          :key="dropdownmenuitem"
-                          as="router-link"
-                          :to="dropdownmenuitem.route"
-                          class="first-rounded-t-md inline-flex w-full cursor-pointer text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                          role="menuitem"
-                          tabindex="-1">
-                          <router-link
-                            class="first-rounded-t-md inline-flex w-full cursor-pointer justify-between px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                            :to="dropdownmenuitem.route">
-                            <div class="flex">
-                              <component
-                                class="mr-4 h-4 w-4 cursor-pointer"
-                                :is="dropdownmenuitem.icon">
-                              </component>
-                              {{ dropdownmenuitem.name }}
-                            </div>
-                            <div>
-                              <span
-                                v-if="dropdownmenuitem.badge"
-                                class="ml-2 inline-flex items-center rounded bg-pink-100 px-1 text-2xs font-medium text-pink-800"
-                                >Download</span
-                              >
-                            </div>
-                          </router-link>
-                        </div>
-                        <router-link
-                          to="slack-community"
-                          class="inline-flex w-full cursor-pointer px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                          role="menuitem">
-                          <component class="mr-4 h-4 w-4" is="LifebuoyIcon">
-                          </component>
-                          Slack community
-                        </router-link>
-                        <div
-                          as="div"
-                          @click="$store.dispatch('logout')"
-                          class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                          role="menuitem"
-                          tabindex="-1">
-                          <component
-                            class="mr-4 h-4 w-4"
-                            is="ArrowLeftOnRectangleIcon">
-                          </component>
-                          Sign out
-                        </div>
-                      </template> -->
-                      <template #menuBottom>
-                        <MenuItem
-                          as="div"
-                          @click="$store.dispatch('logout')"
-                          class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-700"
-                          role="menuitem"
-                          tabindex="-1">
-                          <component
-                            class="mr-4 h-4 w-4"
-                            is="ArrowLeftOnRectangleIcon">
-                          </component>
-                          Sign out
-                        </MenuItem>
-                      </template>
-                    </JovieDropdownMenu>
-                  </div>
-                </div>
                 <Menu v-slot="{ open }">
-                  <MenuButton class="w-full" as="div">
-                    <JovieTooltip
-                      shortcuts="{ key: 's', key: 'c', key: 't' }"
-                      text="Show All Contacts">
-                      <button
-                        @click="setFiltersType('all')"
-                        class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide hover:bg-gray-200 hover:text-gray-900"
-                        :class="[
-                          filters.type == 'all'
-                            ? 'text-sm font-bold text-gray-900  '
-                            : 'text-sm font-light text-gray-900',
-                        ]">
-                        <div class="flex items-center text-xs">
-                          <ChevronRightIcon
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-gray-400"
-                            :class="[
-                              {
-                                'rotate-90 transform': open,
-                              },
-                            ]"
-                            aria-hidden="true" />
-                          Contacts
-                        </div>
-                        <div
-                          @click="showCreatorModal = true"
-                          class="items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
-                          <span
-                            class="text-xs font-light text-gray-900 group-hover:hidden group-hover:text-gray-900"
-                            >{{ counts.total }}</span
-                          >
+                  <MenuItems static>
+                    <MenuItem class="w-full" v-slot="{ active }" as="div">
+                      <JovieTooltip
+                        shortcuts="{ key: 's', key: 'c', key: 't' }"
+                        text="Show All Contacts">
+                        <button
+                          @click="setFiltersType('all')"
+                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none"
+                          :class="[
+                            filters.type == 'all'
+                              ? 'text-sm font-bold text-slate-900  '
+                              : 'text-sm font-light text-slate-900',
+                            active ? 'bg-slate-100 text-slate-700' : '',
+                          ]">
+                          <div class="flex items-center text-xs">
+                            <ChevronRightIcon
+                              @click="toggleContactMenuOpen"
+                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400"
+                              :class="[
+                                {
+                                  'rotate-90 transform': contactMenuOpen,
+                                },
+                              ]"
+                              aria-hidden="true" />
+                            Contacts
+                          </div>
+                          <div
+                            @click="showCreatorModal = true"
+                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50">
+                            <span
+                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900"
+                              >{{ counts.total }}</span
+                            >
 
-                          <PlusIcon
-                            class="hidden h-3 w-3 text-gray-400 active:text-white group-hover:block"></PlusIcon>
-                        </div>
-                      </button>
-                    </JovieTooltip>
-                  </MenuButton>
-                  <TransitionRoot
-                    :show="open"
-                    transition="transition ease-out duration-300"
-                    enter-from="transform opacity-0 scale-95"
-                    enter-to="transform opacity-100 scale-100"
-                    leave-from="transform opacity-100 scale-100"
-                    leave-to="transform opacity-0 scale-95">
-                    <MenuItems static>
+                            <PlusIcon
+                              class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
+                          </div>
+                        </button>
+                      </JovieTooltip>
+                    </MenuItem>
+                    <TransitionRoot
+                      :show="contactMenuOpen"
+                      transition="transition ease-out duration-300"
+                      enter-from="transform opacity-0 scale-95"
+                      enter-to="transform opacity-100 scale-100"
+                      leave-from="transform opacity-100 scale-100"
+                      leave-to="transform opacity-0 scale-95">
                       <div class="pl-4">
-                        <MenuItem>
+                        <MenuItem v-slot="{ active }">
+                          <JovieTooltip
+                            :shortcut="'G then F'"
+                            text="Show Favorites">
+                            <button
+                              @click="setFiltersType('favourites')"
+                              class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                              :class="[
+                                filters.type == 'favourites'
+                                  ? 'text-sm font-bold text-slate-900 '
+                                  : 'text-sm font-light text-slate-900',
+                                active ? 'bg-slate-100 text-slate-700' : '',
+                              ]">
+                              <div class="flex items-center text-xs">
+                                <HeartIcon
+                                  class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                                  aria-hidden="true" />Favorited
+                              </div>
+                              <div
+                                class="items-center rounded-md p-1 hover:text-slate-50">
+                                <span
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900"
+                                  >{{ counts.favourites }}</span
+                                >
+                              </div>
+                            </button>
+                          </JovieTooltip>
+                        </MenuItem>
+                        <MenuItem v-slot="{ active }">
                           <JovieTooltip
                             :shortcut.key="{
                               key1: 'G',
@@ -270,11 +93,12 @@
                             text="Show Archived Contacts">
                             <button
                               @click="setFiltersType('archived')"
-                              class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-gray-200 hover:text-gray-900"
+                              class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                               :class="[
                                 filters.type == 'archived'
-                                  ? 'text-sm font-bold text-gray-900 '
-                                  : 'text-sm font-light text-gray-900',
+                                  ? 'text-sm font-bold text-slate-900 '
+                                  : 'text-sm font-light text-slate-900',
+                                active ? 'bg-slate-100 text-slate-700' : '',
                               ]">
                               <div class="flex items-center text-xs">
                                 <ArchiveBoxIcon
@@ -282,45 +106,18 @@
                                   aria-hidden="true" />Archived
                               </div>
                               <div
-                                class="items-center rounded-md p-1 hover:text-gray-50">
+                                class="items-center rounded-md p-1 hover:text-slate-50">
                                 <span
-                                  class="text-xs font-light text-gray-700 group-hover:text-gray-900"
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900"
                                   >{{ counts.archived }}</span
                                 >
                               </div>
                             </button>
                           </JovieTooltip>
                         </MenuItem>
-                        <MenuItem>
-                          <JovieTooltip
-                            :shortcut="'G then F'"
-                            text="Show Favorites">
-                            <button
-                              @click="setFiltersType('favourites')"
-                              class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide hover:bg-gray-200 hover:text-gray-900"
-                              :class="[
-                                filters.type == 'favourites'
-                                  ? 'text-sm font-bold text-gray-900 '
-                                  : 'text-sm font-light text-gray-900',
-                              ]">
-                              <div class="flex items-center text-xs">
-                                <HeartIcon
-                                  class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
-                                  aria-hidden="true" />Favorite
-                              </div>
-                              <div
-                                class="items-center rounded-md p-1 hover:text-gray-50">
-                                <span
-                                  class="text-xs font-light text-gray-700 group-hover:text-gray-900"
-                                  >{{ counts.favourites }}</span
-                                >
-                              </div>
-                            </button>
-                          </JovieTooltip>
-                        </MenuItem>
                       </div>
-                    </MenuItems>
-                  </TransitionRoot>
+                    </TransitionRoot>
+                  </MenuItems>
                 </Menu>
               </div>
               <div class="flex-col justify-evenly space-y-4 px-2 py-4">
@@ -348,20 +145,22 @@
                   :menuItems="filteredUsersLists"></MenuList>
               </div>
             </div>
-            <div class="flex-shrink-0 border-t border-gray-200 py-2 px-2">
+          </template>
+          <template #footer>
+            <div class="flex-shrink-0 border-t border-slate-200 py-2 px-2">
               <JovieTooltip text="Import a new contact to Jovie">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-gray-600 hover:bg-gray-200 hover:text-gray-900">
+                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900">
                   <PlusIcon
-                    class="mr-1 h-5 w-5 rounded-md p-1 text-gray-500"
+                    class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500"
                     aria-hidden="true" />New Contact
                 </div>
               </JovieTooltip>
               <JovieTooltip text="Upload a csv file to import contacts">
                 <router-link
                   to="import"
-                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-gray-600 hover:bg-gray-200 hover:text-gray-900">
+                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900">
                   <div class="flex items-center">
                     <CloudArrowUpIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
@@ -401,7 +200,7 @@
                   <Float portal :offset="0" shift placement="right-end">
                     <MenuButton
                       as="div"
-                      class="rounded-full p-1 text-gray-400 transition duration-300 ease-in-out hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-gray-100 active:text-gray-700"
+                      class="rounded-full p-1 text-slate-400 transition duration-300 ease-in-out hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-slate-100 active:text-slate-700"
                       id="notification-button"
                       aria-expanded="false"
                       aria-haspopup="true"
@@ -430,13 +229,13 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="z-10 w-96 transform rounded-lg border border-gray-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 sm:px-0">
+                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 sm:px-0">
                         <div class="overflow-hidden rounded-lg">
                           <div class="relative h-80 gap-6 px-1 sm:gap-8">
                             <div
                               class="mx-auto inline-flex w-full items-center border-b pb-1">
                               <p
-                                class="px-2 pt-2 text-xs font-bold text-gray-400">
+                                class="px-2 pt-2 text-xs font-bold text-slate-400">
                                 Notifications
                               </p>
                             </div>
@@ -449,7 +248,7 @@
                                 <div
                                   v-if="notification.is_batch"
                                   as="div"
-                                  class="inline-flex w-full border-b px-2 py-2 text-xs text-gray-700 first:pt-3"
+                                  class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
                                   role="menuitem"
                                   tabindex="-1">
                                   <router-link
@@ -459,23 +258,23 @@
                                       class="flex w-full items-center justify-between">
                                       <div class="px-2">
                                         <component
-                                          class="mx-auto h-5 w-5 text-gray-400"
+                                          class="mx-auto h-5 w-5 text-slate-400"
                                           :is="'CloudArrowUpIcon'">
                                         </component>
                                       </div>
                                       <div class="ml-3 w-60">
                                         <p
-                                          class="justify-between text-2xs font-medium uppercase text-gray-700 group-hover:text-gray-900">
+                                          class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900">
                                           {{ notification.message }}
                                           <span
-                                            class="text-2xs font-light text-gray-500"
+                                            class="text-2xs font-light text-slate-500"
                                             >-
                                             {{ notification.typeMessage }}</span
                                           >
                                         </p>
                                         <div class="w-full">
                                           <span
-                                            class="text-2xs font-medium text-gray-500">
+                                            class="text-2xs font-medium text-slate-500">
                                             Total:
                                             {{
                                               notification.initial_total_in_file
@@ -483,7 +282,7 @@
                                           </span>
                                           |
                                           <span
-                                            class="text-2xs font-medium text-gray-500">
+                                            class="text-2xs font-medium text-slate-500">
                                             Successful:
                                             {{ notification.successful }}
                                           </span>
@@ -493,7 +292,7 @@
                                           class="mx-auto w-full" />
                                       </div>
                                       <div
-                                        class="mx-auto px-2 font-bold text-gray-300 line-clamp-2">
+                                        class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
                                         {{ notification.created_at_formatted }}
                                       </div>
                                     </div>
@@ -502,7 +301,7 @@
                                 <div
                                   v-else
                                   as="div"
-                                  class="inline-flex w-full border-b px-2 py-2 text-xs text-gray-700 first:pt-3"
+                                  class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
                                   role="menuitem"
                                   tabindex="-1">
                                   <router-link
@@ -512,7 +311,7 @@
                                       class="flex w-full items-center justify-between">
                                       <div class="px-2">
                                         <component
-                                          class="mx-auto h-5 w-5 text-gray-400"
+                                          class="mx-auto h-5 w-5 text-slate-400"
                                           :is="'CloudArrowUpIcon'">
                                         </component>
                                       </div>
@@ -549,7 +348,7 @@
                                         </p>
                                       </div>
                                       <div
-                                        class="mx-auto px-2 font-bold text-gray-300 line-clamp-2">
+                                        class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
                                         {{ notification.created_at_formatted }}
                                       </div>
                                     </div>
@@ -561,9 +360,9 @@
                               class="mx-auto w-full items-center py-4 text-center"
                               v-else>
                               <span
-                                class="mx-auto items-center text-sm font-bold text-gray-400"
+                                class="mx-auto items-center text-sm font-bold text-slate-400"
                                 ><FaceSmileIcon
-                                  class="mx-auto h-14 w-14 text-gray-200" />No
+                                  class="mx-auto h-14 w-14 text-slate-200" />No
                                 notifications</span
                               >
                             </div>
@@ -578,11 +377,11 @@
                 v-if="!currentUser.current_team.credits"
                 class="flex items-center justify-between">
                 <div class="flex items-center px-2">
-                  <span class="text-2xs text-gray-400"
+                  <span class="text-2xs text-slate-400"
                     >Account quota exceeded
                   </span>
                   <ChevronRightIcon
-                    class="h-3 w-3 text-gray-400"
+                    class="h-3 w-3 text-slate-400"
                     aria-hidden="true" />
                 </div>
                 <div
@@ -593,9 +392,8 @@
                 </div>
               </div>
             </div>
-          </div>
-        </TransitionRoot>
-
+          </template>
+        </JovieSidebar>
         <div
           class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
@@ -615,7 +413,7 @@
                               <h1 class="text-md font-bold">
                                 You don't have any contacts yet.
                               </h1>
-                              <span class="text-sm font-medium text-gray-900"
+                              <span class="text-sm font-medium text-slate-900"
                                 >Enter a Twitch or Instagram url to add someone
                                 to Jovie.</span
                               >
@@ -642,7 +440,7 @@
                               <h1 class="text-md font-bold">
                                 You've just initated an import.
                               </h1>
-                              <span class="text-sm font-medium text-gray-900"
+                              <span class="text-sm font-medium text-slate-900"
                                 >You'll see creators populate this space
                                 soon.</span
                               >
@@ -692,7 +490,7 @@
           leave="transition ease-in-out duration-300 transform"
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
-          <aside class="z-30 hidden h-full border-l border-gray-200 xl:block">
+          <aside class="z-30 hidden h-full border-l border-slate-200 xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -709,13 +507,14 @@
       <EmojiPickerModal
         v-show="openEmojis"
         @emojiSelected="emojiSelected($event)"
-        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-gray-50 text-center text-xs transition-all">
+        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all">
       </EmojiPickerModal>
     </div>
   </div>
 </template>
 
 <script>
+import JovieSidebar from '../components/JovieSidebar.vue';
 import {
   Combobox,
   ComboboxButton,
@@ -779,6 +578,7 @@ export default {
   name: 'CRM',
   components: {
     CreditCardIcon,
+    JovieSidebar,
     UserIcon,
     CogIcon,
     ArrowPathIcon,
@@ -847,6 +647,7 @@ export default {
         { name: 'Billing', route: '/billing', icon: CreditCardIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
+      contactMenuOpen: true,
       counts: {},
       stages: [],
       networks: [],
@@ -857,34 +658,8 @@ export default {
       /*  activeCreator: [], */
       currentContact: [],
       innerWidth: window.innerWidth,
-      profileLink: this.$store.state.AuthState.user.username || '',
+
       lists: [],
-      profileMenuItems: [
-        {
-          id: 2,
-          name: 'Settings',
-          route: 'Account',
-          icon: 'CogIcon',
-        },
-        {
-          id: 3,
-          name: 'Billing',
-          route: '/billing',
-          icon: 'CreditCardIcon',
-        },
-        {
-          id: 4,
-          name: 'Slack Community',
-          route: '/slack-community',
-          icon: 'LifebuoyIcon',
-        },
-        {
-          id: 5,
-          name: 'Chrome Extension',
-          route: '/chrome-extension',
-          icon: 'CloudArrowDownIcon',
-        },
-      ],
 
       query: '',
       filters: {
@@ -920,6 +695,7 @@ export default {
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize());
   },
+
   computed: {
     showImporting() {
       if (this.userLists.length && this.filters.type == 'list') {
@@ -1098,6 +874,9 @@ export default {
     openEmojiPicker(item) {
       this.selectedList = item;
       this.openEmojis = true;
+    },
+    toggleContactMenuOpen() {
+      this.contactMenuOpen = !this.contactMenuOpen;
     },
     emojiSelected(emoji) {
       //take the value of the selected emoji and set it to the emoji variable

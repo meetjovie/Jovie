@@ -2,7 +2,7 @@
   <div>
     <div class="mt-8">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-lg font-medium leading-6 text-gray-900">KPIs</h2>
+        <h2 class="text-lg font-medium leading-6 text-slate-900">KPIs</h2>
         <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2">
           <!-- Card -->
           <div></div>
@@ -16,14 +16,14 @@
                         <!--    {{ $users->count() }} -->
                       </div>
                     </dd>
-                    <dt class="truncate text-sm font-medium text-gray-500">
+                    <dt class="truncate text-sm font-medium text-slate-500">
                       Total Users
                     </dt>
                   </dl>
                 </div>
               </div>
             </div>
-            <div class="bg-gray-50 px-5 py-3">
+            <div class="bg-slate-50 px-5 py-3">
               <div class="text-sm">
                 <a
                   href="/discovery"
@@ -42,14 +42,14 @@
                     <dd>
                       <div class="text-4xl font-medium text-indigo-700">-</div>
                     </dd>
-                    <dt class="truncate text-sm font-medium text-gray-500">
+                    <dt class="truncate text-sm font-medium text-slate-500">
                       Lifetime Revenue
                     </dt>
                   </dl>
                 </div>
               </div>
             </div>
-            <div class="bg-gray-50 px-5 py-3">
+            <div class="bg-slate-50 px-5 py-3">
               <div class="text-sm">
                 <a
                   href="/discovery"

@@ -4,19 +4,19 @@
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-gray-800 hover:bg-gray-200 hover:text-gray-900">
+        class="flex cursor-pointer items-center rounded-md py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:bg-slate-200 hover:text-slate-900">
         <ChevronDownIcon
           v-if="showMenu"
-          class="mt-0.5 mr-1 h-4 w-4 text-gray-700 group-hover:text-gray-800" />
+          class="mt-0.5 mr-1 h-4 w-4 text-slate-700 group-hover:text-slate-800" />
         <ChevronRightIcon
           v-else
-          class="text-thin mr-1 h-4 w-4 text-xs text-gray-700 group-hover:text-gray-800" />
+          class="text-thin mr-1 h-4 w-4 text-xs text-slate-700 group-hover:text-slate-800" />
         {{ menuName }}
       </div>
       <div class="flex items-center">
         <div
           v-if="draggable"
-          class="group mx-auto rounded-md p-1 text-gray-400 transition-all hover:bg-gray-300 hover:text-gray-50">
+          class="group mx-auto rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50">
           <PlusIcon
             v-if="!creatingList"
             @click="createList()"
@@ -39,17 +39,17 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <div
-              class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-gray-200 active:shadow-xl">
+              class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all hover:bg-slate-200 active:shadow-xl">
               <div
                 class="group/move mx-auto w-4 flex-none cursor-grab items-center">
                 <Bars3Icon
-                  class="h-3 w-3 text-gray-700/0 active:text-gray-900 group-hover/list:text-gray-900"></Bars3Icon>
+                  class="h-3 w-3 text-slate-700/0 active:text-slate-900 group-hover/list:text-slate-900"></Bars3Icon>
               </div>
 
               <div class="flex w-full items-center">
                 <div
                   @click="openEmojiPicker(element)"
-                  class="mr-1 w-6 cursor-pointer items-center rounded-md px-1 py-1 text-center text-xs transition-all hover:bg-gray-800 active:bg-gray-800 group-hover/list:bg-gray-200">
+                  class="mr-1 w-6 cursor-pointer items-center rounded-md px-1 py-1 text-center text-xs transition-all hover:bg-slate-800 active:bg-slate-800 group-hover/list:bg-slate-200">
                   {{ element.emoji ?? '📄' }}
                 </div>
                 <div
@@ -60,10 +60,10 @@
                     v-if="!element.editName"
                     :class="[
                       selectedList == element.id
-                        ? 'font-bold text-gray-800 '
-                        : 'font-light text-gray-700',
+                        ? 'font-bold text-slate-800 '
+                        : 'font-light text-slate-700',
                     ]"
-                    class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-gray-800"
+                    class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800"
                     >{{ element.name }}</span
                   >
                   <input
@@ -73,17 +73,17 @@
                     @keyup.esc="disableEditName(element)"
                     @keyup.enter="updateList(element)"
                     v-else
-                    class="text-xs font-light text-gray-700 group-hover/list:text-gray-800" />
+                    class="text-xs font-light text-slate-700 group-hover/list:text-slate-800" />
                 </div>
               </div>
               <div
-                class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-gray-300 hover:text-gray-50">
+                class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50">
                 <ArrowPathIcon
                   v-if="element.updating_list"
-                  class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-gray-800" />
+                  class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800" />
                 <span
                   v-else
-                  class="text-right text-xs font-light text-gray-700 group-hover/list:hidden group-hover/list:text-gray-800"
+                  class="text-right text-xs font-light text-slate-700 group-hover/list:hidden group-hover/list:text-slate-800"
                   >{{ element.creators_count }}</span
                 >
 
@@ -92,9 +92,9 @@
                   class="relative inline-block items-center text-center">
                   <Float portal :offset="12" placement="right-start">
                     <MenuButton
-                      class="hidden h-6 w-6 items-center text-gray-400 active:text-gray-700 group-hover/list:block">
+                      class="hidden h-6 w-6 items-center text-slate-400 active:text-slate-700 group-hover/list:block">
                       <EllipsisHorizontalIcon
-                        class="mt-1 hidden h-4 w-4 text-gray-400 active:text-gray-700 group-hover/list:block"></EllipsisHorizontalIcon>
+                        class="mt-1 hidden h-4 w-4 text-slate-400 active:text-slate-700 group-hover/list:block"></EllipsisHorizontalIcon>
                     </MenuButton>
 
                     <transition
@@ -105,15 +105,15 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        class="absolute right-0 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border-slate-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="px-1 py-1">
                           <MenuItem v-slot="{ active }">
                             <button
                               @click="editList(element)"
                               :class="[
                                 active
-                                  ? 'bg-gray-200 text-gray-700'
-                                  : 'text-gray-900',
+                                  ? 'bg-slate-200 text-slate-700'
+                                  : 'text-slate-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
                               <PencilSquareIcon
@@ -128,13 +128,13 @@
                               @click="duplicateList(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-gray-200 text-gray-700'
-                                  : 'text-gray-900',
+                                  ? 'bg-slate-200 text-slate-700'
+                                  : 'text-slate-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
                               <DocumentDuplicateIcon
                                 :active="active"
-                                class="mr-2 h-3 w-3 text-teal-400 hover:text-gray-700"
+                                class="mr-2 h-3 w-3 text-teal-400 hover:text-slate-700"
                                 aria-hidden="true" />
                               Duplicate
                             </button>
@@ -144,13 +144,13 @@
                               @click="pinList(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-gray-200 text-gray-700'
-                                  : 'text-gray-900',
+                                  ? 'bg-slate-200 text-slate-700'
+                                  : 'text-slate-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
                               <PinIcon
                                 :active="active"
-                                class="mr-2 h-3 w-3 text-indigo-400 hover:text-gray-700"
+                                class="mr-2 h-3 w-3 text-indigo-400 hover:text-slate-700"
                                 aria-hidden="true" />
                               Pin List
                             </button>
@@ -163,13 +163,13 @@
                               @click="confirmListDeletion(element.id)"
                               :class="[
                                 active
-                                  ? 'bg-gray-200 text-gray-900'
-                                  : 'text-gray-900',
+                                  ? 'bg-slate-200 text-slate-900'
+                                  : 'text-slate-900',
                                 'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                               ]">
                               <TrashIcon
                                 :active="active"
-                                class="mr-2 h-3 w-3 text-gray-400 hover:text-white"
+                                class="mr-2 h-3 w-3 text-slate-400 hover:text-white"
                                 aria-hidden="true" />
                               Delete List
                             </button>
@@ -191,18 +191,18 @@
     <ul v-if="showMenu && !draggable" class="">
       <div v-for="item in menuItems" :key="item.id">
         <div
-          class="group inline-flex h-8 w-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-gray-200">
+          class="group inline-flex h-8 w-8 w-full items-center justify-between rounded-md pl-1 transition-all hover:bg-slate-200">
           <div class="group h-4 w-4 flex-none cursor-pointer items-center">
             <PinnedIcon
               :active="active"
-              class="hidden h-3 w-3 text-indigo-400 hover:bg-gray-200 hover:text-gray-700 active:text-indigo-500 group-hover:block"
+              class="hidden h-3 w-3 text-indigo-400 hover:bg-slate-200 hover:text-slate-700 active:text-indigo-500 group-hover:block"
               aria-hidden="true" />
           </div>
 
           <div class="flex w-full items-center">
             <div
               @click="openEmojiPicker(item)"
-              class="h-full w-6 cursor-pointer items-center rounded-md bg-gray-50 px-1 text-center text-xs transition-all hover:bg-gray-700 group-hover:bg-gray-200">
+              class="h-full w-6 cursor-pointer items-center rounded-md bg-slate-50 px-1 text-center text-xs transition-all hover:bg-slate-700 group-hover:bg-slate-200">
               {{ item.emoji ?? '📄' }}
             </div>
             <div
@@ -213,10 +213,10 @@
                 v-if="!item.editName"
                 :class="[
                   selectedList == item.id
-                    ? 'font-bold text-gray-800 '
-                    : 'font-light text-gray-700',
+                    ? 'font-bold text-slate-800 '
+                    : 'font-light text-slate-700',
                 ]"
-                class="cursor-pointer text-xs line-clamp-1 group-hover:text-gray-800"
+                class="cursor-pointer text-xs line-clamp-1 group-hover:text-slate-800"
                 >{{ item.name }}</span
               >
               <input
@@ -226,23 +226,23 @@
                 @keyup.esc="disableEditName(item)"
                 @keyup.enter="updateList(item)"
                 v-else
-                class="text-xs font-light text-gray-900 group-hover:text-gray-800" />
+                class="text-xs font-light text-slate-900 group-hover:text-slate-800" />
             </div>
           </div>
 
           <div
-            class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-gray-300 hover:text-gray-50">
+            class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50">
             <span
-              class="text-right text-xs font-light text-gray-700 group-hover:hidden group-hover:text-gray-800"
+              class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800"
               >{{ item.creators_count }}</span
             >
             <Menu as="div" class="relative inline-block text-center">
               <Float portal :offset="12" placement="right-start">
                 <div class="mx-auto text-center">
                   <MenuButton
-                    class="hidden h-4 w-4 text-gray-400 group-hover:block">
+                    class="hidden h-4 w-4 text-slate-400 group-hover:block">
                     <EllipsisHorizontalIcon
-                      class="mt-1 h-4 w-4 text-gray-400 active:text-gray-700"></EllipsisHorizontalIcon>
+                      class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700"></EllipsisHorizontalIcon>
                   </MenuButton>
                 </div>
 
@@ -254,15 +254,15 @@
                   leave-from-class="transform scale-100 opacity-100"
                   leave-to-class="transform scale-95 opacity-0">
                   <MenuItems
-                    class="z-40 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border-slate-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="px-1 py-1">
                       <MenuItem v-slot="{ active }">
                         <button
                           @click="editList(item.id)"
                           :class="[
                             active
-                              ? 'bg-gray-200 text-gray-700'
-                              : 'text-gray-900',
+                              ? 'bg-slate-200 text-slate-700'
+                              : 'text-slate-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
                           <PencilSquareIcon
@@ -277,8 +277,8 @@
                           @click="duplicateList(item.id)"
                           :class="[
                             active
-                              ? 'bg-gray-200 text-gray-700'
-                              : 'text-gray-900',
+                              ? 'bg-slate-200 text-slate-700'
+                              : 'text-slate-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
                           <DocumentDuplicateIcon
@@ -293,8 +293,8 @@
                           @click="unpinList(item.id)"
                           :class="[
                             active
-                              ? 'bg-gray-200 text-gray-700'
-                              : 'text-gray-900',
+                              ? 'bg-slate-200 text-slate-700'
+                              : 'text-slate-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
                           <PinnedIcon
@@ -312,13 +312,13 @@
                           @click="confirmListDeletion(item.id)"
                           :class="[
                             active
-                              ? 'bg-gray-200 text-gray-700'
-                              : 'text-gray-900',
+                              ? 'bg-slate-200 text-slate-700'
+                              : 'text-slate-900',
                             'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                           ]">
                           <TrashIcon
                             :active="active"
-                            class="mr-2 h-4 w-4 text-gray-400"
+                            class="mr-2 h-4 w-4 text-slate-400"
                             aria-hidden="true" />
                           Delete List
                         </button>
@@ -355,9 +355,9 @@
           label="List Name"
           placeholder="List Name"
           v-model="currentEditingList.name"
-          class="text-xs font-medium text-gray-900 group-hover:text-gray-900" />
+          class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
         <ToggleGroup :enabled="currentEditingList.pinned" /><span
-          class="ml-2 items-center text-xs font-medium text-gray-900 group-hover:text-gray-900"
+          class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
           >Pinned</span
         >
       </div>
@@ -440,15 +440,15 @@ export default {
       this.showMenu = !this.showMenu;
     },
     async enableEditName(item, fallBackFocus = false) {
-        if (!fallBackFocus) {
-            this.currentEditingList = JSON.parse(JSON.stringify(item));
+      if (!fallBackFocus) {
+        this.currentEditingList = JSON.parse(JSON.stringify(item));
+      }
+      item.editName = true;
+      await this.$nextTick(() => {
+        if (this.$refs[`list_${item.id}`]) {
+          this.$refs[`list_${item.id}`].focus();
         }
-        item.editName = true;
-        await this.$nextTick(() => {
-            if (this.$refs[`list_${item.id}`]) {
-                this.$refs[`list_${item.id}`].focus()
-            }
-        });
+      });
     },
     disableEditName(item) {
       item.editName = false;
@@ -481,7 +481,7 @@ export default {
               text: response.message,
             });
             this.editListPopup.open = false;
-            this.currentEditingList = null
+            this.currentEditingList = null;
             this.$emit('getUserLists');
           } else {
             // show toast error here later
@@ -525,8 +525,8 @@ export default {
               title: 'Successful',
               text: response.message,
             });
-            this.$emit('setFilterList', response.list.id)
-              this.enableEditName(response.list)
+            this.$emit('setFilterList', response.list.id);
+            this.enableEditName(response.list);
           } else {
             // show toast error here later
             this.$notify({
@@ -786,19 +786,21 @@ export default {
     ToggleGroup,
     ArrowPathIcon,
   },
-    watch: {
-        menuItems(val) {
-            console.log(this.menuName);
-            console.log(this.currentEditingList);
-            if (this.menuName == 'Lists' && this.currentEditingList) {
-                let enabledList = this.menuItems.find(list => this.currentEditingList.id = list.id)
-                console.log(enabledList);
-                if (enabledList) {
-                    this.enableEditName(enabledList)
-                }
-            }
+  watch: {
+    menuItems(val) {
+      console.log(this.menuName);
+      console.log(this.currentEditingList);
+      if (this.menuName == 'Lists' && this.currentEditingList) {
+        let enabledList = this.menuItems.find(
+          (list) => (this.currentEditingList.id = list.id)
+        );
+        console.log(enabledList);
+        if (enabledList) {
+          this.enableEditName(enabledList);
         }
+      }
     },
+  },
   props: {
     menuName: {
       type: String,

@@ -156,7 +156,7 @@
             ? 'yellow'
             : ['critical', 'emergency', 'error', 'timeout'].some(e)
             ? 'red'
-            : 'gray';
+            : 'slate';
         },
       },
     };
@@ -2427,7 +2427,7 @@
                           'div',
                           {
                             staticClass:
-                              'py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-cool-gray-200',
+                              'py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-cool-slate-200',
                           },
                           [
                             n('div', { staticClass: 'flex-1 min-w-0' }),
@@ -2444,7 +2444,7 @@
                                     'label',
                                     {
                                       staticClass:
-                                        'block text-sm font-medium leading-5 text-gray-700',
+                                        'block text-sm font-medium leading-5 text-slate-700',
                                       attrs: { for: 'queue-input' },
                                     },
                                     [
@@ -2466,7 +2466,7 @@
                                         },
                                       ],
                                       staticClass:
-                                        '\n                                    mt-1\n                                    form-select\n                                    block\n                                    w-full\n                                    pl-3\n                                    pr-10\n                                    py-2\n                                    text-base\n                                    leading-6\n                                    border-gray-300\n                                    focus:outline-none focus:shadow-outline-blue focus:border-blue-300\n                                    sm:text-sm sm:leading-5\n                                ',
+                                        '\n                                    mt-1\n                                    form-select\n                                    block\n                                    w-full\n                                    pl-3\n                                    pr-10\n                                    py-2\n                                    text-base\n                                    leading-6\n                                    border-slate-300\n                                    focus:outline-none focus:shadow-outline-blue focus:border-blue-300\n                                    sm:text-sm sm:leading-5\n                                ',
                                       attrs: { id: 'queue-input' },
                                       on: {
                                         change: [
@@ -2531,7 +2531,7 @@
                               'div',
                               {
                                 staticClass:
-                                  'ml-3 font-semibold text-sm text-gray-600 uppercase tracking-wider',
+                                  'ml-3 font-semibold text-sm text-slate-600 uppercase tracking-wider',
                               },
                               [t._v('Server Error')]
                             ),
@@ -2556,7 +2556,7 @@
                           'h2',
                           {
                             staticClass:
-                              'text-lg leading-6 font-medium text-cool-gray-900',
+                              'text-lg leading-6 font-medium text-cool-slate-900',
                           },
                           [t._v('Overview')]
                         ),
@@ -2614,7 +2614,7 @@
                           'h2',
                           {
                             staticClass:
-                              'text-lg leading-6 font-medium text-cool-gray-900',
+                              'text-lg leading-6 font-medium text-cool-slate-900',
                           },
                           [t._v('Processed Jobs')]
                         ),
@@ -2639,7 +2639,7 @@
                                       { staticStyle: { height: '200px' } },
                                       [
                                         n('loader', {
-                                          staticClass: 'text-gray-500',
+                                          staticClass: 'text-slate-500',
                                         }),
                                       ],
                                       1
@@ -2685,7 +2685,7 @@
                           'h2',
                           {
                             staticClass:
-                              'text-lg leading-6 font-medium text-cool-gray-900',
+                              'text-lg leading-6 font-medium text-cool-slate-900',
                           },
                           [t._v('Failed Jobs')]
                         ),
@@ -2710,7 +2710,7 @@
                                       { staticStyle: { height: '200px' } },
                                       [
                                         n('loader', {
-                                          staticClass: 'text-gray-500',
+                                          staticClass: 'text-slate-500',
                                         }),
                                       ],
                                       1
@@ -2751,7 +2751,7 @@
           function () {
             var t = this.$createElement,
               e = this._self._c || t;
-            return e('div', { staticClass: 'mt-3 text-sm text-gray-700' }, [
+            return e('div', { staticClass: 'mt-3 text-sm text-slate-700' }, [
               e('p', [
                 this._v(
                   'It looks like there was an error. Please check your application logs.'
@@ -2797,7 +2797,7 @@
                               'label',
                               {
                                 staticClass:
-                                  'block text-sm font-medium leading-5 text-gray-700',
+                                  'block text-sm font-medium leading-5 text-slate-700',
                                 attrs: { for: 'queue-input' },
                               },
                               [
@@ -2819,7 +2819,7 @@
                                   },
                                 ],
                                 staticClass:
-                                  '\n                        mt-1\n                        form-select\n                        block\n                        w-full\n                        pl-3\n                        pr-10\n                        py-2\n                        text-base\n                        leading-6\n                        border-gray-300\n                        focus:outline-none focus:shadow-outline-blue focus:border-blue-300\n                        sm:text-sm sm:leading-5\n                    ',
+                                  '\n                        mt-1\n                        form-select\n                        block\n                        w-full\n                        pl-3\n                        pr-10\n                        py-2\n                        text-base\n                        leading-6\n                        border-slate-300\n                        focus:outline-none focus:shadow-outline-blue focus:border-blue-300\n                        sm:text-sm sm:leading-5\n                    ',
                                 attrs: { id: 'queue-input' },
                                 on: {
                                   change: [
@@ -2865,7 +2865,7 @@
                         'td',
                         {
                           staticClass:
-                            'max-w-0 w-full px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900',
+                            'max-w-0 w-full px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-slate-900',
                         },
                         [
                           n('div', { staticClass: 'ml-4' }, [
@@ -2873,7 +2873,7 @@
                               'div',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-900 truncate',
+                                  'text-sm leading-5 font-medium text-slate-900 truncate',
                               },
                               [
                                 n('p', { staticClass: 'truncate' }, [
@@ -2891,7 +2891,7 @@
                                   'div',
                                   {
                                     staticClass:
-                                      'text-sm leading-5 text-gray-500 truncate',
+                                      'text-sm leading-5 text-slate-500 truncate',
                                   },
                                   [
                                     t._v(
@@ -2910,7 +2910,7 @@
                         'td',
                         {
                           staticClass:
-                            'px-6 py-4 whitespace-no-wrap border-b border-gray-200',
+                            'px-6 py-4 whitespace-no-wrap border-b border-slate-200',
                         },
                         [
                           n(
@@ -2938,7 +2938,7 @@
                         'td',
                         {
                           staticClass:
-                            'px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500',
+                            'px-6 py-4 whitespace-no-wrap border-b border-slate-200 text-sm leading-5 text-slate-500',
                         },
                         [
                           t._v(
@@ -2959,7 +2959,7 @@
                         'td',
                         {
                           staticClass:
-                            'px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium',
+                            'px-6 py-4 whitespace-no-wrap text-right border-b border-slate-200 text-sm leading-5 font-medium',
                         },
                         [
                           n(
@@ -2973,7 +2973,7 @@
                                 'router-link',
                                 {
                                   staticClass:
-                                    '\n                        w-8\n                        h-8\n                        inline-flex\n                        items-center\n                        justify-center\n                        text-gray-400\n                        rounded-full\n                        bg-transparent\n                        hover:text-gray-500\n                        focus:outline-none focus:text-gray-500 focus:bg-gray-100\n                        transition\n                        ease-in-out\n                        duration-150\n                    ',
+                                    '\n                        w-8\n                        h-8\n                        inline-flex\n                        items-center\n                        justify-center\n                        text-slate-400\n                        rounded-full\n                        bg-transparent\n                        hover:text-slate-500\n                        focus:outline-none focus:text-slate-500 focus:bg-slate-100\n                        transition\n                        ease-in-out\n                        duration-150\n                    ',
                                   attrs: {
                                     to: {
                                       name: 'jobs-show',
@@ -2987,7 +2987,7 @@
                                 [
                                   n('icon-eye', {
                                     staticClass:
-                                      'mr-3 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500',
+                                      'mr-3 text-slate-400 group-hover:text-slate-500 group-focus:text-slate-500',
                                     attrs: { size: '5' },
                                   }),
                                 ],
@@ -5152,7 +5152,7 @@
                 'div',
                 {
                   staticClass:
-                    'relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none',
+                    'relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-slate-200 lg:border-none',
                 },
                 [
                   n(
@@ -5175,7 +5175,7 @@
                                 'router-link',
                                 {
                                   staticClass:
-                                    'text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out',
+                                    'text-slate-500 hover:text-slate-700 transition duration-150 ease-in-out',
                                   attrs: {
                                     to: {
                                       name: t.$route.meta.resource + '-index',
@@ -5203,7 +5203,8 @@
                               ),
                               t._v(' '),
                               n('icon-chevron-right', {
-                                staticClass: 'flex-shrink-0 mx-2 text-gray-400',
+                                staticClass:
+                                  'flex-shrink-0 mx-2 text-slate-400',
                                 attrs: { size: '5' },
                               }),
                               t._v(' '),
@@ -5211,7 +5212,7 @@
                                 'a',
                                 {
                                   staticClass:
-                                    'text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out',
+                                    'text-slate-500 hover:text-slate-700 transition duration-150 ease-in-out',
                                   attrs: { href: '#' },
                                 },
                                 [t._v('Details')]
@@ -5250,7 +5251,7 @@
                                 'button',
                                 {
                                   staticClass:
-                                    '\n                            inline-flex\n                            items-center\n                            px-4\n                            py-2\n                            border border-gray-300\n                            text-sm\n                            leading-5\n                            font-medium\n                            rounded-md\n                            text-gray-700\n                            bg-white\n                            hover:text-gray-500\n                            focus:outline-none focus:shadow-outline-blue focus:border-blue-300\n                            active:text-gray-800 active:bg-gray-50\n                            transition\n                            duration-150\n                            ease-in-out\n                        ',
+                                    '\n                            inline-flex\n                            items-center\n                            px-4\n                            py-2\n                            border border-slate-300\n                            text-sm\n                            leading-5\n                            font-medium\n                            rounded-md\n                            text-slate-700\n                            bg-white\n                            hover:text-slate-500\n                            focus:outline-none focus:shadow-outline-blue focus:border-blue-300\n                            active:text-slate-800 active:bg-slate-50\n                            transition\n                            duration-150\n                            ease-in-out\n                        ',
                                   attrs: { type: 'button' },
                                   on: {
                                     click: function (e) {
@@ -5299,14 +5300,14 @@
                               'div',
                               {
                                 staticClass:
-                                  'px-4 py-5 border-b border-gray-200 sm:px-6',
+                                  'px-4 py-5 border-b border-slate-200 sm:px-6',
                               },
                               [
                                 n(
                                   'h3',
                                   {
                                     staticClass:
-                                      'text-lg leading-6 font-medium text-gray-900',
+                                      'text-lg leading-6 font-medium text-slate-900',
                                   },
                                   [
                                     t._v(
@@ -11569,7 +11570,7 @@
                 'div',
                 {
                   staticClass:
-                    'relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none',
+                    'relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-slate-200 lg:border-none',
                 },
                 [
                   n(
@@ -11594,7 +11595,7 @@
                             'div',
                             {
                               staticClass:
-                                'relative w-full text-gray-400 focus-within:text-gray-600',
+                                'relative w-full text-slate-400 focus-within:text-slate-600',
                             },
                             [
                               n(
@@ -11617,7 +11618,7 @@
                                   },
                                 ],
                                 staticClass:
-                                  '\n                                block\n                                w-full\n                                h-full\n                                pl-8\n                                pr-3\n                                py-2\n                                rounded-md\n                                text-gray-900\n                                placeholder-gray-500\n                                focus:outline-none focus:placeholder-gray-400\n                                sm:text-sm\n                            ',
+                                  '\n                                block\n                                w-full\n                                h-full\n                                pl-8\n                                pr-3\n                                py-2\n                                rounded-md\n                                text-slate-900\n                                placeholder-slate-500\n                                focus:outline-none focus:placeholder-slate-400\n                                sm:text-sm\n                            ',
                                 attrs: {
                                   id: 'search-input',
                                   placeholder: 'Search',
@@ -11653,7 +11654,7 @@
                             'button',
                             {
                               staticClass:
-                                '\n                        p-1\n                        text-gray-400\n                        rounded-full\n                        hover:bg-gray-100 hover:text-gray-500\n                        focus:outline-none focus:shadow-outline focus:text-gray-500\n                    ',
+                                '\n                        p-1\n                        text-slate-400\n                        rounded-full\n                        hover:bg-slate-100 hover:text-slate-500\n                        focus:outline-none focus:shadow-outline focus:text-slate-500\n                    ',
                               attrs: { 'aria-label': 'Refresh' },
                               on: { click: t.loadEntries },
                             },
@@ -11683,7 +11684,7 @@
                           'div',
                           {
                             staticClass:
-                              'py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-cool-gray-200',
+                              'py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-cool-slate-200',
                           },
                           [
                             n('div', { staticClass: 'flex-1 min-w-0' }, [
@@ -11694,7 +11695,7 @@
                                     'label',
                                     {
                                       staticClass:
-                                        'block text-sm font-medium leading-5 text-gray-700',
+                                        'block text-sm font-medium leading-5 text-slate-700',
                                       attrs: { for: 'start-time-input' },
                                     },
                                     [t._v('Starting from')]
@@ -11715,7 +11716,7 @@
                                         },
                                         [
                                           n('icon-calendar', {
-                                            staticClass: 'text-gray-400',
+                                            staticClass: 'text-slate-400',
                                             attrs: { size: '5' },
                                           }),
                                         ],
@@ -11771,7 +11772,7 @@
                                                 },
                                               ],
                                               staticClass:
-                                                '\n                                            form-select\n                                            h-full\n                                            py-0\n                                            pl-2\n                                            pr-7\n                                            border-transparent\n                                            bg-transparent\n                                            text-gray-500\n                                            sm:text-sm sm:leading-5\n                                        ',
+                                                '\n                                            form-select\n                                            h-full\n                                            py-0\n                                            pl-2\n                                            pr-7\n                                            border-transparent\n                                            bg-transparent\n                                            text-slate-500\n                                            sm:text-sm sm:leading-5\n                                        ',
                                               attrs: {
                                                 'aria-label': 'Currency',
                                               },
@@ -11957,7 +11958,7 @@
                                       'div',
                                       {
                                         staticClass:
-                                          'ml-3 font-semibold text-sm text-gray-600 uppercase tracking-wider',
+                                          'ml-3 font-semibold text-sm text-slate-600 uppercase tracking-wider',
                                       },
                                       [
                                         t._v(
@@ -11972,7 +11973,7 @@
                                 n(
                                   'div',
                                   {
-                                    staticClass: 'mt-3 text-sm text-gray-700',
+                                    staticClass: 'mt-3 text-sm text-slate-700',
                                   },
                                   [t._t('troubleshooting')],
                                   2
@@ -12000,7 +12001,7 @@
                                         'div',
                                         {
                                           staticClass:
-                                            '\n                            px-6\n                            py-3\n                            border-b border-gray-200\n                            bg-gray-50\n                            text-left text-xs\n                            leading-4\n                            font-medium\n                            text-gray-500\n                            uppercase\n                            tracking-wider\n                        ',
+                                            '\n                            px-6\n                            py-3\n                            border-b border-slate-200\n                            bg-slate-50\n                            text-left text-xs\n                            leading-4\n                            font-medium\n                            text-slate-500\n                            uppercase\n                            tracking-wider\n                        ',
                                         },
                                         [
                                           t._v(
@@ -12016,7 +12017,7 @@
                                             'div',
                                             {
                                               staticClass:
-                                                '\n                            flex\n                            w-full\n                            py-4\n                            whitespace-no-wrap\n                            text-sm\n                            leading-5\n                            text-cool-gray-900 text-center\n                            border-b border-gray-200\n                        ',
+                                                '\n                            flex\n                            w-full\n                            py-4\n                            whitespace-no-wrap\n                            text-sm\n                            leading-5\n                            text-cool-slate-900 text-center\n                            border-b border-slate-200\n                        ',
                                             },
                                             [
                                               t.searching
@@ -12069,14 +12070,14 @@
                                     'table',
                                     {
                                       staticClass:
-                                        'bg-white min-w-full divide-y divide-gray-200',
+                                        'bg-white min-w-full divide-y divide-slate-200',
                                     },
                                     [
                                       n(
                                         'transition-group',
                                         {
                                           staticClass:
-                                            'divide-y divide-gray-200',
+                                            'divide-y divide-slate-200',
                                           attrs: { tag: 'tbody', name: 'list' },
                                         },
                                         t._l(t.entries, function (e) {
@@ -17247,7 +17248,7 @@
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('Time (' + t._s(t.moment().tz.guess()) + ')')]
                         ),
@@ -17256,14 +17257,14 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             n(
                               'div',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-900',
+                                  'text-sm leading-5 font-medium text-slate-900',
                               },
                               [
                                 t._v(
@@ -17283,7 +17284,7 @@
                             n(
                               'div',
                               {
-                                staticClass: 'text-sm leading-5 text-gray-500',
+                                staticClass: 'text-sm leading-5 text-slate-500',
                               },
                               [
                                 t._v(
@@ -17304,14 +17305,14 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                       },
                       [
                         n(
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('ID')]
                         ),
@@ -17320,7 +17321,7 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             t._v(
@@ -17338,14 +17339,14 @@
                           'div',
                           {
                             staticClass:
-                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                           },
                           [
                             n(
                               'dt',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-500',
+                                  'text-sm leading-5 font-medium text-slate-500',
                               },
                               [t._v('UUID')]
                             ),
@@ -17354,7 +17355,7 @@
                               'dd',
                               {
                                 staticClass:
-                                  'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                                  'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                               },
                               [
                                 t._v(
@@ -17372,14 +17373,14 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                       },
                       [
                         n(
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('Connection')]
                         ),
@@ -17388,7 +17389,7 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             t._v(
@@ -17405,14 +17406,14 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                       },
                       [
                         n(
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('Queue')]
                         ),
@@ -17421,7 +17422,7 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             t._v(
@@ -17438,14 +17439,14 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                       },
                       [
                         n(
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('Name')]
                         ),
@@ -17454,7 +17455,7 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             t._v(
@@ -17471,14 +17472,14 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                       },
                       [
                         n(
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('Message')]
                         ),
@@ -17487,7 +17488,7 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             t._v(
@@ -17504,7 +17505,7 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5 sm:col-span-2',
+                          'mt-8 sm:mt-0 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5 sm:col-span-2',
                       },
                       [
                         n('div', { staticClass: 'sm:block mb-2' }, [
@@ -17513,7 +17514,7 @@
                               'a',
                               {
                                 class:
-                                  'px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:text-indigo-600 focus:bg-indigo-50 ' +
+                                  'px-3 py-2 font-medium text-sm leading-5 rounded-md text-slate-500 hover:text-slate-700 focus:outline-none focus:text-indigo-600 focus:bg-indigo-50 ' +
                                   ('payload' == t.currentTab
                                     ? 'text-indigo-700 bg-indigo-100'
                                     : ''),
@@ -17536,7 +17537,7 @@
                               'a',
                               {
                                 class:
-                                  'ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:text-indigo-600 focus:bg-indigo-50 ' +
+                                  'ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-slate-500 hover:text-slate-700 focus:outline-none focus:text-indigo-600 focus:bg-indigo-50 ' +
                                   ('stackTrace' == t.currentTab
                                     ? 'text-indigo-700 bg-indigo-100'
                                     : ''),
@@ -17561,7 +17562,7 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             'payload' == t.currentTab
@@ -17569,7 +17570,7 @@
                                   'div',
                                   {
                                     staticClass:
-                                      'border border-gray-200 rounded-md bg-gray-900 text-white overflow-x-auto',
+                                      'border border-slate-200 rounded-md bg-slate-900 text-white overflow-x-auto',
                                   },
                                   [
                                     n('vue-json-pretty', {
@@ -17587,7 +17588,7 @@
                                   'div',
                                   {
                                     staticClass:
-                                      'border border-gray-200 rounded-md bg-gray-900 text-white overflow-x-auto',
+                                      'border border-slate-200 rounded-md bg-slate-900 text-white overflow-x-auto',
                                   },
                                   [
                                     n('div', { staticClass: 'm-4 3rem' }, [
@@ -17595,7 +17596,7 @@
                                         'table',
                                         {
                                           staticClass:
-                                            'min-w-full divide-y divide-gray-200',
+                                            'min-w-full divide-y divide-slate-200',
                                         },
                                         [
                                           n(
@@ -17717,7 +17718,7 @@
           darkblue: [0, 0, 139],
           darkcyan: [0, 139, 139],
           darkgoldenrod: [184, 134, 11],
-          darkgray: [169, 169, 169],
+          darkslate: [169, 169, 169],
           darkgreen: [0, 100, 0],
           darkgrey: [169, 169, 169],
           darkkhaki: [189, 183, 107],
@@ -17729,13 +17730,13 @@
           darksalmon: [233, 150, 122],
           darkseagreen: [143, 188, 143],
           darkslateblue: [72, 61, 139],
-          darkslategray: [47, 79, 79],
+          darkslateslate: [47, 79, 79],
           darkslategrey: [47, 79, 79],
           darkturquoise: [0, 206, 209],
           darkviolet: [148, 0, 211],
           deeppink: [255, 20, 147],
           deepskyblue: [0, 191, 255],
-          dimgray: [105, 105, 105],
+          dimslate: [105, 105, 105],
           dimgrey: [105, 105, 105],
           dodgerblue: [30, 144, 255],
           firebrick: [178, 34, 34],
@@ -17746,7 +17747,7 @@
           ghostwhite: [248, 248, 255],
           gold: [255, 215, 0],
           goldenrod: [218, 165, 32],
-          gray: [128, 128, 128],
+          slate: [128, 128, 128],
           green: [0, 128, 0],
           greenyellow: [173, 255, 47],
           grey: [128, 128, 128],
@@ -17764,14 +17765,14 @@
           lightcoral: [240, 128, 128],
           lightcyan: [224, 255, 255],
           lightgoldenrodyellow: [250, 250, 210],
-          lightgray: [211, 211, 211],
+          lightslate: [211, 211, 211],
           lightgreen: [144, 238, 144],
           lightgrey: [211, 211, 211],
           lightpink: [255, 182, 193],
           lightsalmon: [255, 160, 122],
           lightseagreen: [32, 178, 170],
           lightskyblue: [135, 206, 250],
-          lightslategray: [119, 136, 153],
+          lightslateslate: [119, 136, 153],
           lightslategrey: [119, 136, 153],
           lightsteelblue: [176, 196, 222],
           lightyellow: [255, 255, 224],
@@ -17825,7 +17826,7 @@
           silver: [192, 192, 192],
           skyblue: [135, 206, 235],
           slateblue: [106, 90, 205],
-          slategray: [112, 128, 144],
+          slateslate: [112, 128, 144],
           slategrey: [112, 128, 144],
           snow: [255, 250, 250],
           springgreen: [0, 255, 127],
@@ -17862,7 +17863,7 @@
             ansi256: { channels: 1, labels: ['ansi256'] },
             hcg: { channels: 3, labels: ['h', 'c', 'g'] },
             apple: { channels: 3, labels: ['r16', 'g16', 'b16'] },
-            gray: { channels: 1, labels: ['gray'] },
+            slate: { channels: 1, labels: ['slate'] },
           });
           for (var i in o)
             if (o.hasOwnProperty(i)) {
@@ -18465,32 +18466,32 @@
                 (t[2] / 255) * 65535,
               ];
             }),
-            (o.gray.rgb = function (t) {
+            (o.slate.rgb = function (t) {
               return [
                 (t[0] / 100) * 255,
                 (t[0] / 100) * 255,
                 (t[0] / 100) * 255,
               ];
             }),
-            (o.gray.hsl = o.gray.hsv =
+            (o.slate.hsl = o.slate.hsv =
               function (t) {
                 return [0, 0, t[0]];
               }),
-            (o.gray.hwb = function (t) {
+            (o.slate.hwb = function (t) {
               return [0, 100, t[0]];
             }),
-            (o.gray.cmyk = function (t) {
+            (o.slate.cmyk = function (t) {
               return [0, 0, 0, t[0]];
             }),
-            (o.gray.lab = function (t) {
+            (o.slate.lab = function (t) {
               return [t[0], 0, 0];
             }),
-            (o.gray.hex = function (t) {
+            (o.slate.hex = function (t) {
               var e = 255 & Math.round((t[0] / 100) * 255),
                 n = ((e << 16) + (e << 8) + e).toString(16).toUpperCase();
               return '000000'.substring(n.length) + n;
             }),
-            (o.rgb.gray = function (t) {
+            (o.rgb.slate = function (t) {
               return [((t[0] + t[1] + t[2]) / 3 / 255) * 100];
             });
         });
@@ -18548,7 +18549,7 @@
         n.ansi256,
         n.hcg,
         n.apple,
-        n.gray;
+        n.slate;
       var a = {};
       Object.keys(n).forEach(function (t) {
         (a[t] = {}),
@@ -18618,7 +18619,7 @@
           darkblue: [0, 0, 139],
           darkcyan: [0, 139, 139],
           darkgoldenrod: [184, 134, 11],
-          darkgray: [169, 169, 169],
+          darkslate: [169, 169, 169],
           darkgreen: [0, 100, 0],
           darkgrey: [169, 169, 169],
           darkkhaki: [189, 183, 107],
@@ -18630,13 +18631,13 @@
           darksalmon: [233, 150, 122],
           darkseagreen: [143, 188, 143],
           darkslateblue: [72, 61, 139],
-          darkslategray: [47, 79, 79],
+          darkslateslate: [47, 79, 79],
           darkslategrey: [47, 79, 79],
           darkturquoise: [0, 206, 209],
           darkviolet: [148, 0, 211],
           deeppink: [255, 20, 147],
           deepskyblue: [0, 191, 255],
-          dimgray: [105, 105, 105],
+          dimslate: [105, 105, 105],
           dimgrey: [105, 105, 105],
           dodgerblue: [30, 144, 255],
           firebrick: [178, 34, 34],
@@ -18647,7 +18648,7 @@
           ghostwhite: [248, 248, 255],
           gold: [255, 215, 0],
           goldenrod: [218, 165, 32],
-          gray: [128, 128, 128],
+          slate: [128, 128, 128],
           green: [0, 128, 0],
           greenyellow: [173, 255, 47],
           grey: [128, 128, 128],
@@ -18665,14 +18666,14 @@
           lightcoral: [240, 128, 128],
           lightcyan: [224, 255, 255],
           lightgoldenrodyellow: [250, 250, 210],
-          lightgray: [211, 211, 211],
+          lightslate: [211, 211, 211],
           lightgreen: [144, 238, 144],
           lightgrey: [211, 211, 211],
           lightpink: [255, 182, 193],
           lightsalmon: [255, 160, 122],
           lightseagreen: [32, 178, 170],
           lightskyblue: [135, 206, 250],
-          lightslategray: [119, 136, 153],
+          lightslateslate: [119, 136, 153],
           lightslategrey: [119, 136, 153],
           lightsteelblue: [176, 196, 222],
           lightyellow: [255, 255, 224],
@@ -18726,7 +18727,7 @@
           silver: [192, 192, 192],
           skyblue: [135, 206, 235],
           slateblue: [106, 90, 205],
-          slategray: [112, 128, 144],
+          slateslate: [112, 128, 144],
           slategrey: [112, 128, 144],
           snow: [255, 250, 250],
           springgreen: [0, 255, 127],
@@ -28005,7 +28006,7 @@
     var r = {
         name: 'Loader',
         props: {
-          color: { type: [String], required: !1, default: 'gray' },
+          color: { type: [String], required: !1, default: 'slate' },
           width: { type: [Number, String], required: !1, default: 50 },
           fillColor: { type: String, required: !1, default: 'currentColor' },
         },
@@ -28573,7 +28574,7 @@
           description: { type: [String], required: !1 },
           value: { type: [String, Number], required: !1 },
           increaseColor: { type: [String], required: !1, default: 'green' },
-          decreaseColor: { type: [String], required: !1, default: 'gray' },
+          decreaseColor: { type: [String], required: !1, default: 'slate' },
           average: { type: [String, Number], required: !1 },
         },
         methods: {
@@ -28594,7 +28595,7 @@
           return n(
             'div',
             {
-              staticClass: 'border-t border-gray-200 md:border-0 md:border-l',
+              staticClass: 'border-t border-slate-200 md:border-0 md:border-l',
             },
             [
               n('div', { staticClass: 'px-4 py-5 sm:p-6' }, [
@@ -28603,7 +28604,7 @@
                     'dt',
                     {
                       staticClass:
-                        'text-base leading-6 font-normal text-gray-900',
+                        'text-base leading-6 font-normal text-slate-900',
                     },
                     [
                       t.description
@@ -28672,7 +28673,7 @@
                                                 'span',
                                                 {
                                                   staticClass:
-                                                    'ml-2 text-sm leading-5 font-medium text-gray-500',
+                                                    'ml-2 text-sm leading-5 font-medium text-slate-500',
                                                 },
                                                 [
                                                   t._v(
@@ -31163,7 +31164,7 @@
               e('div', { staticClass: 'popper' }, [
                 e(
                   'p',
-                  { staticClass: 'm-1 text-sm leading-5 text-gray-500' },
+                  { staticClass: 'm-1 text-sm leading-5 text-slate-500' },
                   [this._t('content')],
                   2
                 ),
@@ -31538,14 +31539,14 @@
                 { class: this.sizeClass, attrs: { viewBox: '0 0 24 24' } },
                 [
                   e('path', {
-                    staticClass: 'fill-current text-gray-300',
+                    staticClass: 'fill-current text-slate-300',
                     attrs: {
                       d: 'M6 2h6v6c0 1.1.9 2 2 2h6v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4c0-1.1.9-2 2-2z',
                     },
                   }),
                   this._v(' '),
                   e('polygon', {
-                    staticClass: 'fill-current text-gray-500',
+                    staticClass: 'fill-current text-slate-500',
                     attrs: { points: '14 2 20 8 14 8' },
                   }),
                 ]
@@ -31988,7 +31989,7 @@
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('Time (' + t._s(t.moment().tz.guess()) + ')')]
                         ),
@@ -31997,14 +31998,14 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             n(
                               'div',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-900',
+                                  'text-sm leading-5 font-medium text-slate-900',
                               },
                               [
                                 t._v(
@@ -32024,7 +32025,7 @@
                             n(
                               'div',
                               {
-                                staticClass: 'text-sm leading-5 text-gray-500',
+                                staticClass: 'text-sm leading-5 text-slate-500',
                               },
                               [
                                 t._v(
@@ -32048,14 +32049,14 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                       },
                       [
                         n(
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('ID')]
                         ),
@@ -32064,7 +32065,7 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             t._v(
@@ -32081,14 +32082,14 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                       },
                       [
                         n(
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('Log Stream Name')]
                         ),
@@ -32097,7 +32098,7 @@
                           'dd',
                           {
                             staticClass:
-                              'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                              'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                           },
                           [
                             t._v(
@@ -32115,14 +32116,14 @@
                           'div',
                           {
                             staticClass:
-                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                           },
                           [
                             n(
                               'dt',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-500',
+                                  'text-sm leading-5 font-medium text-slate-500',
                               },
                               [t._v('Request ID')]
                             ),
@@ -32131,7 +32132,7 @@
                               'dd',
                               {
                                 staticClass:
-                                  'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                                  'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                               },
                               [
                                 t._v(
@@ -32149,14 +32150,14 @@
                       'div',
                       {
                         staticClass:
-                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                          'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                       },
                       [
                         n(
                           'dt',
                           {
                             staticClass:
-                              'text-sm leading-5 font-medium text-gray-500',
+                              'text-sm leading-5 font-medium text-slate-500',
                           },
                           [t._v('Type')]
                         ),
@@ -32185,14 +32186,14 @@
                           'div',
                           {
                             staticClass:
-                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                           },
                           [
                             n(
                               'dt',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-500',
+                                  'text-sm leading-5 font-medium text-slate-500',
                               },
                               [t._v('Location')]
                             ),
@@ -32223,14 +32224,14 @@
                           'div',
                           {
                             staticClass:
-                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                           },
                           [
                             n(
                               'dt',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-500',
+                                  'text-sm leading-5 font-medium text-slate-500',
                               },
                               [t._v('Command')]
                             ),
@@ -32239,7 +32240,7 @@
                               'dd',
                               {
                                 staticClass:
-                                  'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                                  'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                               },
                               [
                                 t._v(
@@ -32259,14 +32260,14 @@
                           'div',
                           {
                             staticClass:
-                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5',
+                              'mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5',
                           },
                           [
                             n(
                               'dt',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-500',
+                                  'text-sm leading-5 font-medium text-slate-500',
                               },
                               [t._v('Message')]
                             ),
@@ -32275,7 +32276,7 @@
                               'dd',
                               {
                                 staticClass:
-                                  'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                                  'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                               },
                               [
                                 t._v(
@@ -32298,21 +32299,21 @@
                           'div',
                           {
                             staticClass:
-                              'mt-8 sm:mt-0 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5 sm:col-span-2',
+                              'mt-8 sm:mt-0 sm:border-t sm:border-slate-200 sm:px-6 sm:py-5 sm:col-span-2',
                           },
                           [
                             n(
                               'dd',
                               {
                                 staticClass:
-                                  'mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2',
+                                  'mt-1 text-sm leading-5 text-slate-900 sm:mt-0 sm:col-span-2',
                               },
                               [
                                 n(
                                   'div',
                                   {
                                     staticClass:
-                                      'border border-gray-200 rounded-md bg-gray-900 text-white overflow-x-auto',
+                                      'border border-slate-200 rounded-md bg-slate-900 text-white overflow-x-auto',
                                   },
                                   [
                                     r.content.message.output
@@ -36015,7 +36016,7 @@
                               'label',
                               {
                                 staticClass:
-                                  'block text-sm font-medium leading-5 text-gray-700',
+                                  'block text-sm font-medium leading-5 text-slate-700',
                                 attrs: { for: 'type-input' },
                               },
                               [t._v(' Log type ')]
@@ -36033,7 +36034,7 @@
                                   },
                                 ],
                                 staticClass:
-                                  '\n                        mt-1\n                        form-select\n                        block\n                        w-full\n                        pl-3\n                        pr-10\n                        py-2\n                        text-base\n                        leading-6\n                        border-gray-300\n                        focus:outline-none focus:shadow-outline-blue focus:border-blue-300\n                        sm:text-sm sm:leading-5\n                    ',
+                                  '\n                        mt-1\n                        form-select\n                        block\n                        w-full\n                        pl-3\n                        pr-10\n                        py-2\n                        text-base\n                        leading-6\n                        border-slate-300\n                        focus:outline-none focus:shadow-outline-blue focus:border-blue-300\n                        sm:text-sm sm:leading-5\n                    ',
                                 attrs: { id: 'type-input' },
                                 on: {
                                   change: [
@@ -36092,7 +36093,7 @@
                         'td',
                         {
                           staticClass:
-                            'max-w-0 w-full px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900',
+                            'max-w-0 w-full px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-slate-900',
                         },
                         [
                           n('div', { staticClass: 'ml-4' }, [
@@ -36100,7 +36101,7 @@
                               'div',
                               {
                                 staticClass:
-                                  'text-sm leading-5 font-medium text-gray-900 truncate',
+                                  'text-sm leading-5 font-medium text-slate-900 truncate',
                               },
                               [
                                 n(
@@ -36143,7 +36144,7 @@
                                   'div',
                                   {
                                     staticClass:
-                                      'text-sm leading-5 text-gray-500 truncate',
+                                      'text-sm leading-5 text-slate-500 truncate',
                                   },
                                   [
                                     t._v(
@@ -36165,7 +36166,7 @@
                         'td',
                         {
                           staticClass:
-                            'px-6 py-4 whitespace-no-wrap border-b border-gray-200',
+                            'px-6 py-4 whitespace-no-wrap border-b border-slate-200',
                         },
                         [
                           n(
@@ -36193,7 +36194,7 @@
                         'td',
                         {
                           staticClass:
-                            'px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500',
+                            'px-6 py-4 whitespace-no-wrap border-b border-slate-200 text-sm leading-5 text-slate-500',
                         },
                         [
                           t._v(
@@ -36214,7 +36215,7 @@
                         'td',
                         {
                           staticClass:
-                            'px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium',
+                            'px-6 py-4 whitespace-no-wrap text-right border-b border-slate-200 text-sm leading-5 font-medium',
                         },
                         [
                           n(
@@ -36228,7 +36229,7 @@
                                 'router-link',
                                 {
                                   staticClass:
-                                    '\n                        w-8\n                        h-8\n                        inline-flex\n                        items-center\n                        justify-center\n                        text-gray-400\n                        rounded-full\n                        bg-transparent\n                        hover:text-gray-500\n                        focus:outline-none focus:text-gray-500 focus:bg-gray-100\n                        transition\n                        ease-in-out\n                        duration-150\n                    ',
+                                    '\n                        w-8\n                        h-8\n                        inline-flex\n                        items-center\n                        justify-center\n                        text-slate-400\n                        rounded-full\n                        bg-transparent\n                        hover:text-slate-500\n                        focus:outline-none focus:text-slate-500 focus:bg-slate-100\n                        transition\n                        ease-in-out\n                        duration-150\n                    ',
                                   attrs: {
                                     to: {
                                       name: 'logs-show',
@@ -36240,7 +36241,7 @@
                                 [
                                   n('icon-eye', {
                                     staticClass:
-                                      'mr-3 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500',
+                                      'mr-3 text-slate-400 group-hover:text-slate-500 group-focus:text-slate-500',
                                     attrs: { size: '5' },
                                   }),
                                 ],

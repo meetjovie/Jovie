@@ -8,7 +8,7 @@
     leave-to-class="transform opacity-0 scale-95">
     <div
       class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-      <!-- <XMarkIcon class="h-3 w-3 text-gray-400 hover:text-gray-500" /> -->
+      <!-- <XMarkIcon class="h-3 w-3 text-slate-400 hover:text-slate-500" /> -->
       <EmojiPicker @select="emojiSelected" />
     </div>
   </transition>
