@@ -40,8 +40,8 @@
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
-            <span v-if="creator.id">DB</span>
-            <span v-else>Scrapped</span>
+          <span v-if="creator.id">DB</span>
+          <span v-else>Scrapped</span>
           <input
             @blur="$emit('updateCrmMeta')"
             v-model="creator.meta.name"
@@ -358,7 +358,7 @@
 
       <div class="px-4 py-2">
         <ButtonGroup
-          v-if="!jovie"
+          v-if="!creator.id"
           :text="buttonText"
           :loading="saving"
           :success="creator.saved ?? false"
@@ -524,6 +524,7 @@
               :icon="element.icon"
               :socialicon="element.socialicon"
               :label="element.name"
+              :disabled="!creator.id"
               :action="element.actionIcon"
               :action2="element.actionIcon2"
               :isCopyable="element.isCopyable"
