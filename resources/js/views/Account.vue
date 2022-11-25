@@ -13,7 +13,7 @@
                 selected
                   ? 'bg-slate-100 text-slate-700'
                   : 'border-transparent text-slate-900',
-                'flex-1 whitespace-nowrap rounded-md py-1 px-1 text-xs font-medium  outline-none ring-0 focus:outline-none focus:ring-0',
+                'flex-1 whitespace-nowrap rounded-md py-1 px-1 text-left text-xs font-medium  outline-none ring-0 focus:outline-none focus:ring-0',
               ]">
               {{ tab.name }}
             </button>
