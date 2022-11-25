@@ -6,7 +6,7 @@
         class="mx-auto aspect-square h-full justify-center object-cover object-center" />
 
       <div
-        class="flex justify-between border-t border-b border-gray-200 bg-gray-200/20 px-6 py-0.5 text-center text-gray-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
+        class="flex justify-between border-t border-b border-slate-200 bg-slate-200/20 px-6 py-0.5 text-center text-slate-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
         <div class="inline-flex text-xs">
           <HandThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" /> 34K
         </div>

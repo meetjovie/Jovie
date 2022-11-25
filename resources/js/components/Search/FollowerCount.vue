@@ -7,10 +7,10 @@
       <div>
         <div class="relative">
           <div class="absolute inset-0 flex items-center" aria-hidden="true">
-            <div class="w-full border-t border-gray-300" />
+            <div class="w-full border-t border-slate-300" />
           </div>
           <div class="relative flex justify-start">
-            <span class="bg-gray-50 pr-2 text-xs text-gray-500">
+            <span class="bg-slate-50 pr-2 text-xs text-slate-500">
               Follower Count</span
             >
           </div>
@@ -19,10 +19,10 @@
           <div class="relative mt-1">
             <div
               class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <UserIcon class="h-5 w-5 text-gray-400" />
+              <UserIcon class="h-5 w-5 text-slate-400" />
             </div>
             <input
-              class="block w-full rounded-tl-md border-gray-200 py-2 pl-10 text-2xs text-gray-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+              class="block w-full rounded-tl-md border-slate-200 py-2 pl-10 text-2xs text-slate-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
               type="number"
               :min="1000"
               :max="1000000000"
@@ -38,10 +38,10 @@
           <div class="relative mt-1">
             <div
               class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <UserGroupIcon class="h-5 w-5 text-gray-400" />
+              <UserGroupIcon class="h-5 w-5 text-slate-400" />
             </div>
             <input
-              class="block w-full rounded-tr-md border-gray-200 py-2 pl-10 text-2xs text-gray-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+              class="block w-full rounded-tr-md border-slate-200 py-2 pl-10 text-2xs text-slate-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
               type="number"
               :min="1000"
               :max="1000000000"
@@ -62,7 +62,7 @@
               rounded="bl"
               size="xs"
               design="secondary"
-              class="w-full rounded-bl-md border bg-white text-2xs text-gray-500 hover:bg-gray-100 active:bg-gray-200"
+              class="w-full rounded-bl-md border bg-white text-2xs text-slate-500 hover:bg-slate-100 active:bg-slate-200"
               text="Micro">
               Micro
             </button>
@@ -71,7 +71,7 @@
               rounded="none"
               size="xs"
               design="secondary"
-              class="w-full border bg-white text-2xs text-gray-500 hover:bg-gray-100 active:bg-gray-200"
+              class="w-full border bg-white text-2xs text-slate-500 hover:bg-slate-100 active:bg-slate-200"
               text="Macro">
               Macro
             </button>
@@ -79,7 +79,7 @@
               @click="refine({ min: 1000000, max: 1000000000 })"
               rounded="br"
               size="xs"
-              class="w-full rounded-br-md border bg-white text-2xs text-gray-500 hover:bg-gray-100 active:bg-gray-200"
+              class="w-full rounded-br-md border bg-white text-2xs text-slate-500 hover:bg-slate-100 active:bg-slate-200"
               design="secondary"
               text="1M+">
               1M+

@@ -11,7 +11,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0">
         <div
-          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" />
       </TransitionChild>
 
       <div class="fixed inset-0 z-10 overflow-y-auto">
@@ -30,7 +30,7 @@
               <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                 <button
                   type="button"
-                  class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                  class="rounded-md bg-white text-slate-400 hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
                   @click="$emit('closeModal')">
                   <span class="sr-only">Close</span>
                   <XMarkIcon class="h-6 w-6" aria-hidden="true" />
@@ -41,7 +41,7 @@
                   class="mt-3 w-full text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <DialogTitle
                     as="h3"
-                    class="text-lg font-medium leading-6 text-gray-900">
+                    class="text-lg font-medium leading-6 text-slate-900">
                     Import a contact
                   </DialogTitle>
                   <div class="mt-2">

@@ -1,7 +1,7 @@
 <template>
   <div class="rounded bg-white px-3 pt-3 pb-5 shadow-md">
     <div class="flex justify-between">
-      <p class="font-sans text-sm font-semibold tracking-wide text-gray-700">
+      <p class="font-sans text-sm font-semibold tracking-wide text-slate-700">
         {{ task.title }}
       </p>
 
@@ -11,7 +11,7 @@
         alt="Avatar" />
     </div>
     <div class="mt-4 flex items-center justify-between">
-      <span class="text-sm text-gray-600">{{ task.date }}</span>
+      <span class="text-sm text-slate-600">{{ task.date }}</span>
       <badge v-if="task.type" :color="badgeColor">{{ task.type }}</badge>
     </div>
   </div>

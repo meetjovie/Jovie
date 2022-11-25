@@ -11,10 +11,10 @@
         <span class="relative z-0 mr-2 inline-flex rounded-md py-2">
           <button
             type="button"
-            class="relative inline-flex items-center rounded-md border border-gray-300 bg-indigo-600 px-2 py-2 text-xs font-medium text-gray-200 hover:bg-indigo-700 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+            class="relative inline-flex items-center rounded-md border border-slate-300 bg-indigo-600 px-2 py-2 text-xs font-medium text-slate-200 hover:bg-indigo-700 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="-ml-1 mr-2 h-4 w-4 text-gray-200"
+              class="-ml-1 mr-2 h-4 w-4 text-slate-200"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor">
@@ -34,28 +34,28 @@
       <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div class="overflow-hidden border-b border-gray-200 shadow">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <div class="overflow-hidden border-b border-slate-200 shadow">
+              <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
                   <tr>
                     <th
                       scope="col"
-                      class="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      class="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                       <span class="sr-only">Select</span>
                     </th>
                     <th
                       scope="col"
-                      class="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      class="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                       <span class="sr-only">Enabled</span>
                     </th>
                     <th
                       scope="col"
-                      class="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      class="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                       Sequence
                     </th>
                     <th
                       scope="col"
-                      class="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      class="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                       <span class="sr-only">Stage</span>
                     </th>
                     <th scope="col" class="relative px-2 py-3">
@@ -69,7 +69,7 @@
                 <tbody
                   v-for="sequence in sequences"
                   :key="sequence"
-                  class="divide-y divide-gray-200 bg-white">
+                  class="divide-y divide-slate-200 bg-white">
                   <tr>
                     <td class="w-10 whitespace-nowrap px-2 py-1">
                       <div class="flex items-center">
@@ -78,13 +78,13 @@
                           aria-describedby="offers-description"
                           name="offers"
                           type="checkbox"
-                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                          class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" />
                       </div>
                     </td>
                     <td class="w-10 whitespace-nowrap px-2 py-1">
                       <div
-                        class="flex items-center text-sm font-bold text-gray-400">
-                        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                        class="flex items-center text-sm font-bold text-slate-400">
+                        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-slate-200" -->
                         <ToggleGroup v-model="sequence.enabled"></ToggleGroup>
                       </div>
                     </td>
@@ -92,7 +92,7 @@
                       <div class="items-center">
                         <div class="">
                           <div
-                            class="truncate text-sm font-medium text-gray-900">
+                            class="truncate text-sm font-medium text-slate-900">
                             <a
                               class="w-80 line-clamp-1"
                               href="/outreach/sequence"
@@ -100,7 +100,7 @@
                             >
                           </div>
                           <div
-                            class="truncate text-xs font-medium text-gray-400">
+                            class="truncate text-xs font-medium text-slate-400">
                             Contains {{ sequence.steps }} steps
                           </div>
                         </div>
@@ -114,8 +114,8 @@
                           class="md:grid-cols2 grid gap-1 lg:grid-cols-3 xl:grid-cols-10 2xl:grid-cols-10">
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold text-blue-500 lg:text-sm">
                                 {{ sequence.countactive }}
@@ -128,10 +128,10 @@
                           </div>
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
-                                class="text-center text-sm font-bold text-gray-500 lg:text-sm">
+                                class="text-center text-sm font-bold text-slate-500 lg:text-sm">
                                 {{ sequence.countpaused }}
                               </h1>
                               <h2
@@ -142,8 +142,8 @@
                           </div>
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold text-pink-500 lg:text-sm">
                                 {{ sequence.countnotsent }}
@@ -157,7 +157,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold text-red-500 lg:text-sm">
                                 {{ sequence.countbounced }}
@@ -171,7 +171,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold text-indigo-500 lg:text-sm">
                                 {{ sequence.countcompleted }}
@@ -185,8 +185,8 @@
 
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countscheduled }}focus-visible:
@@ -199,8 +199,8 @@
                           </div>
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countdelivered }}
@@ -213,8 +213,8 @@
                           </div>
                           <div
                             role="listitem"
-                            class="flex w-full justify-center border-gray-300 py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            class="flex w-full justify-center border-slate-300 py-1 lg:border-r">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countopened }}
@@ -228,7 +228,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1 lg:border-r">
-                            <div class="text-gray-400">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countreplied }}
@@ -242,7 +242,7 @@
                           <div
                             role="listitem"
                             class="flex w-full justify-center py-1">
-                            <div class="text-gray-400">
+                            <div class="text-slate-400">
                               <h1
                                 class="text-center text-sm font-bold lg:text-sm">
                                 {{ sequence.countinterested }}
@@ -263,7 +263,7 @@
                         class="relative z-0 inline-flex rounded-md shadow-sm">
                         <button
                           type="button"
-                          class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                          class="relative inline-flex items-center rounded-l-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                           <span class="sr-only">Clone</span>
                           <!-- Heroicon name: solid/chevron-left -->
                           <svg
@@ -281,7 +281,7 @@
                         </button>
                         <button
                           type="button"
-                          class="relative -ml-px inline-flex items-center border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                          class="relative -ml-px inline-flex items-center border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                           <span class="sr-only">Archive</span>
                           <!-- Heroicon name: solid/chevron-right -->
                           <svg
@@ -299,7 +299,7 @@
                         </button>
                         <button
                           type="button"
-                          class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
+                          class="relative -ml-px inline-flex items-center rounded-r-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus-visible:z-10 focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500">
                           <span class="sr-only">Delete</span>
                           <!-- Heroicon name: solid/chevron-right -->
                           <svg

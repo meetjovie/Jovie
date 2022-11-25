@@ -11,7 +11,7 @@
                 class="bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 bg-clip-text text-xs font-semibold uppercase tracking-wide text-transparent">
                 Chrome extension
               </h2>
-              <p class="mt-4 text-lg text-gray-500">
+              <p class="mt-4 text-lg text-slate-500">
                 Jovie makes it easy to see exactly what needs your attention
                 with zero distractions.
               </p>
@@ -43,10 +43,10 @@
         Creator data
       </h2>
       <p
-        class="mt-2 text-center text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
+        class="mt-2 text-center text-3xl font-extrabold leading-8 tracking-tight text-slate-900 sm:text-4xl">
         Empower your team with social data
       </p>
-      <p class="text-md mt-4 max-w-2xl text-gray-500 lg:mx-auto">
+      <p class="text-md mt-4 max-w-2xl text-slate-500 lg:mx-auto">
         Jovie aggregates, enriches, & transforms data on
         <span class="text-indigo-500">3M+ creators</span> from 50+ sources.
 
@@ -57,7 +57,7 @@
       <div class="mx-auto grid grid-cols-3 items-center py-8">
         <div class="mx-auto grid grid-cols-4 items-center justify-center gap-4">
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -68,7 +68,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -79,7 +79,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -90,7 +90,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -101,7 +101,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -112,7 +112,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -123,7 +123,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -134,7 +134,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -145,7 +145,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -156,7 +156,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -167,7 +167,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -178,7 +178,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -189,7 +189,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -200,7 +200,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -211,7 +211,7 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-gray-400 shadow-md">
+            class="m-2 mx-auto h-10 w-10 rounded-lg border-2 p-2 text-slate-400 shadow-md">
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -222,8 +222,8 @@
             </svg>
           </div>
           <div
-            class="m-2 mx-auto h-10 w-10 items-center rounded-lg border-2 text-gray-400 shadow-md">
-            <span class="mx-auto mt-4 items-center text-xs text-gray-400"
+            class="m-2 mx-auto h-10 w-10 items-center rounded-lg border-2 text-slate-400 shadow-md">
+            <span class="mx-auto mt-4 items-center text-xs text-slate-400"
               >50+</span
             >
           </div>
@@ -241,12 +241,12 @@
             <JovieLogo class="z-20 mx-auto" height="14px" />
           </div>
           <div
-            class="bg-igray-50 mx-auto -mt-14 h-40 w-40 animate-pulse items-center rounded-full border-4 border-gray-200 bg-gradient-to-r from-gray-50 p-8 shadow-2xl shadow-indigo-500/30"></div>
+            class="bg-islate-50 mx-auto -mt-14 h-40 w-40 animate-pulse items-center rounded-full border-4 border-slate-200 bg-gradient-to-r from-slate-50 p-8 shadow-2xl shadow-indigo-500/30"></div>
         </div>
-        <div class="rounded-lg border-2 border-gray-200 py-2 px-4 shadow-md">
+        <div class="rounded-lg border-2 border-slate-200 py-2 px-4 shadow-md">
           <div class="min-h-full w-full px-2 py-2">
             <!--  <div
-              class="absolute top-2 right-0 w-full justify-end text-right text-xs font-bold text-gray-400 hover:text-gray-500">
+              class="absolute top-2 right-0 w-full justify-end text-right text-xs font-bold text-slate-400 hover:text-slate-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="absolute top-0 right-0 h-5 w-5"
@@ -263,12 +263,12 @@
             <div class="grid grid-cols-3">
               <div class="">
                 <img
-                  class="h-18 w-18 aspect-square rounded-full border-4 border-gray-200 object-cover object-center"
+                  class="h-18 w-18 aspect-square rounded-full border-4 border-slate-200 object-cover object-center"
                   src="https://jovie-production-store.s3.amazonaws.com/Logos/profile_pic2.png" />
               </div>
               <div class="col-span-2 mt-2 px-1 text-left">
                 <div class="inline-flex items-center">
-                  <h1 class="text-md text-gray-500">Elsa Richardson</h1>
+                  <h1 class="text-md text-slate-500">Elsa Richardson</h1>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="-mr-5 -mt-2 h-2 w-2 text-indigo-600"
@@ -280,7 +280,7 @@
                       clip-rule="evenodd" />
                   </svg>
                 </div>
-                <h2 class="text-[8px] text-gray-500">Los Angeles, CA</h2>
+                <h2 class="text-[8px] text-slate-500">Los Angeles, CA</h2>
                 <div class="py-0.5">
                   <span
                     class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-[8px] font-medium text-indigo-800">
@@ -299,15 +299,15 @@
                     Fashion
                   </span>
                 </div>
-                <div class="py-2 text-xs text-gray-400 line-clamp-2">
+                <div class="py-2 text-xs text-slate-400 line-clamp-2">
                   ✈️Enjoying life <br />☕️one sip at a time✨
                 </div>
               </div>
             </div>
             <div class="grid grid-cols-6 py-2 px-4">
-              <div class="text-gray-400">
+              <div class="text-slate-400">
                 <svg
-                  class="mx-auto h-4 w-4 text-gray-500"
+                  class="mx-auto h-4 w-4 text-slate-500"
                   role="img"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg">
@@ -316,10 +316,10 @@
                     d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
                 </svg>
               </div>
-              <div class="text-gray-400">
-                <div class="text-gray-400">
+              <div class="text-slate-400">
+                <div class="text-slate-400">
                   <svg
-                    class="mx-auto h-4 w-4 text-gray-500"
+                    class="mx-auto h-4 w-4 text-slate-500"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -329,10 +329,10 @@
                   </svg>
                 </div>
               </div>
-              <div class="text-gray-400">
-                <div class="text-gray-400">
+              <div class="text-slate-400">
+                <div class="text-slate-400">
                   <svg
-                    class="mx-auto h-4 w-4 text-gray-500"
+                    class="mx-auto h-4 w-4 text-slate-500"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -342,10 +342,10 @@
                   </svg>
                 </div>
               </div>
-              <div class="text-gray-400">
-                <div class="text-gray-400">
+              <div class="text-slate-400">
+                <div class="text-slate-400">
                   <svg
-                    class="mx-auto h-4 w-4 text-gray-500"
+                    class="mx-auto h-4 w-4 text-slate-500"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -355,10 +355,10 @@
                   </svg>
                 </div>
               </div>
-              <div class="text-gray-400">
-                <div class="text-gray-400">
+              <div class="text-slate-400">
+                <div class="text-slate-400">
                   <svg
-                    class="mx-auto h-4 w-4 text-gray-500"
+                    class="mx-auto h-4 w-4 text-slate-500"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -368,10 +368,10 @@
                   </svg>
                 </div>
               </div>
-              <div class="text-gray-400">
-                <div class="text-gray-400">
+              <div class="text-slate-400">
+                <div class="text-slate-400">
                   <svg
-                    class="mx-auto h-4 w-4 text-gray-500"
+                    class="mx-auto h-4 w-4 text-slate-500"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -442,11 +442,11 @@
                 Creator search
               </h2>
               <p
-                class="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
+                class="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-slate-900 sm:text-4xl">
                 Identify new partners
               </p>
 
-              <p class="text-md mt-4 text-gray-500">
+              <p class="text-md mt-4 text-slate-500">
                 Jovie analyzes millions of records in under 1/10th of a second
                 so you can instantly add ideal creators to your pipeline.
               </p>
@@ -459,10 +459,10 @@
               </div>
             </div>
           </div>
-          <div class="mt-8 border-t border-gray-200 pt-6">
+          <div class="mt-8 border-t border-slate-200 pt-6">
             <blockquote>
               <div>
-                <p class="text-base text-gray-500">
+                <p class="text-base text-slate-500">
                   &ldquo;Thanks to Jovie, software is no longer a bottleneck in
                   my workflow. The search feels instantaneous and the keyboard
                   shortcuts are a game changer.&rdquo;
@@ -476,7 +476,7 @@
                       :src="asset('img/External/Mackenzie_Moore.webp')"
                       alt="" />
                   </div>
-                  <div class="text-base font-medium text-gray-700">
+                  <div class="text-base font-medium text-slate-700">
                     NP Digital, Creator Partnerships
                   </div>
                 </div>

@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
+  <div class="min-h-screen bg-slate-100">
     <div class="">
       <div class="mx-auto flex">
         <div
           v-if="searchopen"
-          class="z-10 hidden w-60 shrink-0 bg-gray-50 shadow-lg lg:flex">
+          class="z-10 hidden w-60 shrink-0 bg-slate-50 shadow-lg lg:flex">
           <nav
             aria-label="Searchbar"
-            class="min-h-screen divide-y divide-gray-300">
+            class="min-h-screen divide-y divide-slate-300">
             <transition
               enter-active-class="transition duration-300 ease-out"
               enter-from-class="-translate-x-48 opacity-95"
@@ -23,12 +23,12 @@
           <button @click="searchopen = !searchopen">
             <ChevronLeftIcon
               v-if="searchopen"
-              class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"
+              class="ml-2 mt-1 h-5 w-5 text-slate-700 hover:text-indigo-700"
               :class="{ 'text-indigo-700': searchopen }"
               aria-hidden="true"></ChevronLeftIcon>
             <FunnelIcon
               v-if="searchopen == false"
-              class="ml-2 mt-1 h-5 w-5 text-gray-700 hover:text-indigo-700"></FunnelIcon>
+              class="ml-2 mt-1 h-5 w-5 text-slate-700 hover:text-indigo-700"></FunnelIcon>
           </button>
 
           <DiscoveryStats></DiscoveryStats>

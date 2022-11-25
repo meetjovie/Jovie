@@ -9,10 +9,10 @@
       <div>
         <h2
           id="payment-details-heading"
-          class="text-lg font-medium leading-6 text-gray-900">
+          class="text-lg font-medium leading-6 text-slate-900">
           {{ title }}
         </h2>
-        <p class="mt-1 text-sm text-gray-500">
+        <p class="mt-1 text-sm text-slate-500">
           {{ subtitle }}
 
           <span
@@ -49,10 +49,10 @@
                           <RadioGroupLabel
                             as="p"
                             :for="product.id"
-                            :class="checked ? 'text-white' : 'text-gray-900'"
+                            :class="checked ? 'text-white' : 'text-slate-900'"
                             class="font-medium">
                             {{ product.name }} -
-                            <span class="text-xs font-bold text-gray-400">{{
+                            <span class="text-xs font-bold text-slate-400">{{
                               product.description
                             }}</span>
                           </RadioGroupLabel>
@@ -61,7 +61,7 @@
                               as="span"
                               v-if="annualBillingEnabled"
                               :class="
-                                checked ? 'text-indigo-100' : 'text-gray-100'
+                                checked ? 'text-indigo-100' : 'text-slate-100'
                               "
                               class="inline">
                               <span v-if="plan.interval == 'year'">
@@ -80,7 +80,7 @@
                               as="span"
                               v-else
                               :class="
-                                checked ? 'text-indigo-100' : 'text-gray-500'
+                                checked ? 'text-indigo-100' : 'text-slate-500'
                               "
                               class="inline">
                               <span v-if="plan.interval == 'month'">
@@ -132,8 +132,8 @@
                 :disabled="!selectedProduct"
                 v-model="annualBillingEnabled"
                 :class="[
-                  annualBillingEnabled ? 'bg-indigo-500' : 'bg-gray-200',
-                  'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2',
+                  annualBillingEnabled ? 'bg-indigo-500' : 'bg-slate-200',
+                  'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2',
                 ]">
                 <span
                   aria-hidden="true"
@@ -143,10 +143,10 @@
                   ]" />
               </Switch>
               <SwitchLabel as="span" class="ml-3">
-                <span class="text-sm font-medium text-gray-900"
+                <span class="text-sm font-medium text-slate-900"
                   >Annual billing
                 </span>
-                <span class="text-sm text-gray-500">(Save 10%)</span>
+                <span class="text-sm text-slate-500">(Save 10%)</span>
               </SwitchLabel>
             </SwitchGroup>
             <div>
@@ -175,37 +175,37 @@
 
     <template class="items-center py-12" v-else>
       <div>
-        <h3 class="text-lg font-medium leading-6 text-gray-900">
+        <h3 class="text-lg font-medium leading-6 text-slate-900">
           Manage your subscription:
         </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500"></p>
+        <p class="mt-1 max-w-2xl text-sm text-slate-500"></p>
       </div>
       <div>
         <ul>
           <li></li>
         </ul>
       </div>
-      <div class="mt-5 border-t border-gray-200">
-        <dl class="divide-y divide-gray-200">
+      <div class="mt-5 border-t border-slate-200">
+        <dl class="divide-y divide-slate-200">
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">Current plan</dt>
+            <dt class="text-sm font-medium text-slate-500">Current plan</dt>
 
-            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <dd class="mt-1 flex text-sm text-slate-900 sm:col-span-2 sm:mt-0">
               <span class="flex-grow"
                 >{{ currentUser.current_team.current_subscription.name }}
               </span>
               <span class="ml-4 flex-shrink-0">
                 <button
                   type="button"
-                  class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  class="rounded-md bg-slate-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   Upgrade
                 </button>
               </span>
             </dd>
           </div>
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">Price</dt>
-            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <dt class="text-sm font-medium text-slate-500">Price</dt>
+            <dd class="mt-1 flex text-sm text-slate-900 sm:col-span-2 sm:mt-0">
               <span
                 v-if="
                   currentUser.current_team.current_subscription.amount !== 0
@@ -222,7 +222,7 @@
                   >
                   <span v-else>/yr</span>
                   <span
-                    class="font-bolder ml-1 text-xs uppercase text-gray-400">
+                    class="font-bolder ml-1 text-xs uppercase text-slate-400">
                     {{
                       currentUser.current_team.current_subscription.currency
                     }}</span
@@ -233,10 +233,10 @@
             </dd>
           </div>
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">Contact credits</dt>
-            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <dt class="text-sm font-medium text-slate-500">Contact credits</dt>
+            <dd class="mt-1 flex text-sm text-slate-900 sm:col-span-2 sm:mt-0">
               <span class="flex-grow"
-                ><span class="text-gray-600"
+                ><span class="text-slate-600"
                   >{{ currentUser.current_team.credits }}.</span
                 >/{{
                   currentUser.current_team.current_subscription.credits
@@ -247,8 +247,8 @@
           </div>
 
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-            <dt class="text-sm font-medium text-gray-500">Seats</dt>
-            <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            <dt class="text-sm font-medium text-slate-500">Seats</dt>
+            <dd class="mt-1 flex text-sm text-slate-900 sm:col-span-2 sm:mt-0">
               <span class="flex-grow"> 1</span>
             </dd>
           </div>

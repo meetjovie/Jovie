@@ -10,13 +10,13 @@
         @click="openLink(socialLink.url, true)"
         class="mx-auto cursor-pointer items-center justify-center">
         <template v-if="hasUrl(socialLink.url)">
-          <div class="text-gray-5 mx-auto justify-center text-center">
+          <div class="text-slate-5 mx-auto justify-center text-center">
             <SocialIcons
               :height="'14px'"
               :iconstyle="iconstyle"
               :icon="socialLink.network" />
           </div>
-          <div class="mx-auto text-center text-2xs text-gray-500">
+          <div class="mx-auto text-center text-2xs text-slate-500">
             v-if=socialLink.followers
             {{ formatCount(socialLink.followers) }}
           </div>
@@ -36,7 +36,7 @@
             :height="'14px'"
             :iconstyle="iconstyle"
             :icon="socialLink.network" />
-          <span class="text-xs text-gray-500" v-if="socialLink.followers">{{
+          <span class="text-xs text-slate-500" v-if="socialLink.followers">{{
             formatCount(socialLink.followers)
           }}</span>
         </template>

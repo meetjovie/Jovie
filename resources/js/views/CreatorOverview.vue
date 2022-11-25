@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-gray-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
+      class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-slate-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
       <div class="inline-flex">
         <div class="mr-4 inline-flex">
           <div class="relative aspect-square">
@@ -14,17 +14,17 @@
         <div>
           <button
             @click="previousCreator(creator.crm_record_by_user.id)"
-            class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
+            class="mr-3 rounded bg-slate-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
             <ChevronLeftIcon class="h-5 w-5" />
           </button>
           <button
             @click="nextCreator(creator.crm_record_by_user.id)"
-            class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
+            class="mr-3 rounded bg-slate-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
             <ChevronRightIcon class="h-5 w-5" />
           </button>
           <!-- <ul
                                           aria-label="current Status"
-                                          class="mt-3 flex flex-col items-start text-sm text-gray-600 dark:text-gray-400 md:flex-row md:items-center">
+                                          class="mt-3 flex flex-col items-start text-sm text-slate-600 dark:text-slate-400 md:flex-row md:items-center">
                                           <li class="mr-4 flex items-center">
                                             <div class="mr-1">
                                               <img
@@ -63,7 +63,7 @@
                                                 alt="date" />
                                             </div>
                                             <span>Last contacted </span
-                                            ><span class="ml-2 font-bold text-gray-400">Jan 2020</span>
+                                            ><span class="ml-2 font-bold text-slate-400">Jan 2020</span>
                                           </li>
                                         </ul> -->
         </div>
@@ -72,7 +72,7 @@
       <div class="mt-6 md:mt-0">
         <button
           @click="archiveCreator(creator.id)"
-          class="mr-3 rounded bg-gray-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
+          class="mr-3 rounded bg-slate-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
           Archive
         </button>
         <!-- <button
@@ -96,12 +96,12 @@
               <div class="grid-cols-1 px-4 pb-5 pt-2 sm:px-6">
                 <h2
                   id="applicant-information-title"
-                  class="text-lg font-medium leading-6 text-gray-900">
+                  class="text-lg font-medium leading-6 text-slate-900">
                   {{ creator.name }}
                 </h2>
                 <p
                   @click="fullbio = true"
-                  class="mt-1 max-w-2xl cursor-pointer text-sm text-gray-500"
+                  class="mt-1 max-w-2xl cursor-pointer text-sm text-slate-500"
                   :class="[
                     { 'line-clamp-none': fullbio == true },
                     { 'line-clamp-2': fullbio == false },
@@ -114,11 +114,11 @@
                     iconstyle="horizontal" />
                 </div>
               </div>
-              <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+              <div class="border-t border-slate-200 px-4 py-5 sm:px-6">
                 <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                   <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Rating</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
+                    <dt class="text-sm font-medium text-slate-500">Rating</dt>
+                    <dd class="mt-1 text-sm text-slate-900">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -134,8 +134,8 @@
                     </dd>
                   </div>
                   <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Stage</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
+                    <dt class="text-sm font-medium text-slate-500">Stage</dt>
+                    <dd class="mt-1 text-sm text-slate-900">
                       <Popover as="div" class="relative inline-block text-left">
                         <PopoverButton
                           class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
@@ -161,11 +161,11 @@
                           leave-from-class="transform scale-100 opacity-100"
                           leave-to-class="transform scale-95 opacity-0">
                           <PopoverPanel
-                            class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
+                            class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-slate-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
                             <div class="">
                               <div class="">
                                 <button
-                                  class="group flex w-full items-center px-2 py-2 text-xs text-gray-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"
+                                  class="group flex w-full items-center px-2 py-2 text-xs text-slate-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"
                                   v-for="(stage, key) in stages"
                                   @click="
                                     updateCreator({
@@ -189,14 +189,14 @@
                     </dd>
                   </div>
                   <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">
+                    <dt class="text-sm font-medium text-slate-500">
                       Last contact
                     </dt>
-                    <dd class="mt-1 text-sm text-gray-900">3 days ago</dd>
+                    <dd class="mt-1 text-sm text-slate-900">3 days ago</dd>
                   </div>
                   <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Category</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
+                    <dt class="text-sm font-medium text-slate-500">Category</dt>
+                    <dd class="mt-1 text-sm text-slate-900">
                       <CreatorTags
                         :showX="false"
                         size="md"
@@ -204,15 +204,15 @@
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">Email</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
+                    <dt class="text-sm font-medium text-slate-500">Email</dt>
+                    <dd class="mt-1 text-sm text-slate-900">
                       <div class="relative mt-1 rounded-md shadow-sm">
                         <div
                           class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                           <DocumentDuplicateIcon
                             tooltip="Copy to clipboard"
                             @click="copyToClipboard(creator.emails[0])"
-                            class="h-5 w-5 cursor-pointer text-gray-400 hover:text-gray-700 active:mt-0.5 active:mr-0.5 active:text-gray-500"
+                            class="h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:mt-0.5 active:mr-0.5 active:text-slate-500"
                             aria-hidden="true" />
                         </div>
                         <InputGroup
@@ -230,8 +230,8 @@
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">Tags</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
+                    <dt class="text-sm font-medium text-slate-500">Tags</dt>
+                    <dd class="mt-1 text-sm text-slate-900">
                       <template v-for="(tag, index) in creator.tags">
                         <CreatorTags
                           @deleteTag="deleteTag(creator.id, index)"
@@ -255,17 +255,17 @@
                     </dd>
                   </div>
                   <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">Reports</dt>
-                    <!-- <dd class="mt-1 text-sm text-gray-900">
+                    <dt class="text-sm font-medium text-slate-500">Reports</dt>
+                    <!-- <dd class="mt-1 text-sm text-slate-900">
                       <ul
                         role="list"
-                        class="divide-y divide-gray-200 rounded-md border border-gray-200">
+                        class="divide-y divide-slate-200 rounded-md border border-slate-200">
                         <li
                           class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
                           <div class="flex w-0 flex-1 items-center">
                            
                             <svg
-                              class="h-5 w-5 flex-shrink-0 text-gray-400"
+                              class="h-5 w-5 flex-shrink-0 text-slate-400"
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -295,7 +295,7 @@
               <div>
                 <a
                   href="#"
-                  class="block bg-gray-50 px-4 py-4 text-center text-sm font-medium text-gray-500 hover:text-gray-700 sm:rounded-b-lg"
+                  class="block bg-slate-50 px-4 py-4 text-center text-sm font-medium text-slate-500 hover:text-slate-700 sm:rounded-b-lg"
                   >View profile</a
                 >
               </div>
@@ -306,7 +306,7 @@
             aria-labelledby="timeline-title"
             class="lg:col-span-1 lg:col-start-3">
             <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-              <h2 id="timeline-title" class="text-lg font-medium text-gray-900">
+              <h2 id="timeline-title" class="text-lg font-medium text-slate-900">
                 Social Info
               </h2>
 
@@ -323,7 +323,7 @@
 
                                     <div class="relative">
                                         <div
-                                            class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-gray-700 dark:bg-indigo-600"></div>
+                                            class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-slate-700 dark:bg-indigo-600"></div>
                                     </div>
                                 </div>
                             </div> 
@@ -346,7 +346,7 @@
             <TabGroup as="div" @change="changeTab">
               <!-- Links -->
 
-              <div class="border-b border-gray-200">
+              <div class="border-b border-slate-200">
                 <TabList class="-mb-px flex space-x-8 px-4">
                   <Tab
                     as="template"
@@ -357,7 +357,7 @@
                       :class="[
                         selected
                           ? 'border-indigo-600 text-indigo-600'
-                          : 'border-transparent text-gray-900',
+                          : 'border-transparent text-slate-900',
                         'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-medium',
                       ]">
                       {{ tab.name }}

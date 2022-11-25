@@ -8,10 +8,10 @@
       { 'h-8 w-8': spinnerSize == 'md' },
       { 'h-10 w-10': spinnerSize == 'lg' },
       { 'h-12 w-12': spinnerSize == 'xl' },
-      { 'fill-indigo-600 text-gray-200': spinnerColor == 'indigo' },
-      { 'fill-white text-gray-400': spinnerColor == 'white' },
+      { 'fill-indigo-600 text-slate-200': spinnerColor == 'indigo' },
+      { 'fill-white text-slate-400': spinnerColor == 'white' },
 
-      { 'fill-gray-600 text-gray-200': spinnerColor == 'neutral' },
+      { 'fill-slate-600 text-slate-200': spinnerColor == 'neutral' },
     ]"
     viewBox="0 0 100 101"
     fill="none"

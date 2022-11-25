@@ -9,7 +9,7 @@
     <div class="min-w-0 flex-1">
       <form action="#" class="relative">
         <div
-          class="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+          class="overflow-hidden rounded-lg border border-slate-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
           <label for="comment" class="sr-only">Add your comment</label>
           <textarea
             rows="3"
@@ -34,7 +34,7 @@
             <!-- <div class="flex items-center">
                             <button
                                 type="button"
-                                class="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+                                class="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-slate-400 hover:text-slate-500">
                                 <PaperClipIcon class="h-5 w-5" aria-hidden="true"/>
                                 <span class="sr-only">Attach a file</span>
                             </button>
@@ -44,7 +44,7 @@
                 <ListboxLabel class="sr-only"> Your mood</ListboxLabel>
                 <div class="relative">
                   <ListboxButton
-                    class="relative -m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+                    class="relative -m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-slate-400 hover:text-slate-500">
                     <span class="flex items-center justify-center">
                       <span v-if="selected.value === null">
                         <FaceSmileIcon
@@ -82,7 +82,7 @@
                         v-slot="{ active }">
                         <li
                           :class="[
-                            active ? 'bg-gray-100' : 'bg-white',
+                            active ? 'bg-slate-100' : 'bg-white',
                             'relative cursor-default select-none py-2 px-3',
                           ]">
                           <div class="flex items-center">
@@ -186,7 +186,7 @@ const moods = [
     name: 'I feel nothing',
     value: null,
     icon: XMarkIcon,
-    iconColor: 'text-gray-400',
+    iconColor: 'text-slate-400',
     bgColor: 'bg-transparent',
   },
 ];

@@ -1,6 +1,7 @@
 <template>
-  <div v-if="dark" class="relative bg-gray-800">
-    <div class="bg-gray-900 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
+  <div v-if="dark" class="relative bg-slate-800">
+    <div
+      class="bg-slate-900 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
       <div class="mx-auto max-w-7xl lg:px-8">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8">
           <div
@@ -8,14 +9,14 @@
             <div class="lg:py-24">
               <!--  <a
                 href="#"
-                class="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base">
+                class="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-slate-200 sm:text-base lg:text-sm xl:text-base">
                 <span
                   class="rounded-full bg-indigo-500 px-3 py-0.5 text-xs font-semibold uppercase leading-5 tracking-wide text-white"
                   >Data enrichment</span
                 >
                 <span class="ml-4 text-sm">powered by Jovie</span>
                 <ChevronRightIcon
-                  class="ml-2 h-5 w-5 text-gray-500"
+                  class="ml-2 h-5 w-5 text-slate-500"
                   aria-hidden="true" />
               </a> -->
               <h1
@@ -24,7 +25,7 @@
                 <span class="block text-indigo-400">with social data</span>
               </h1>
               <p
-                class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                class="mt-3 text-base text-slate-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                 Get instant insight into every relationship. Jovie aggregates
                 social data from across the web so you have context for every
                 contact.
@@ -40,7 +41,7 @@
                         v-on:keyup.enter="requestDemo() && identifyUser()"
                         v-model="waitListEmail"
                         placeholder="Enter your email"
-                        class="block w-full rounded-md border-0 px-4 py-3 text-base text-gray-900 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900" />
+                        class="block w-full rounded-md border-0 px-4 py-3 text-base text-slate-900 placeholder-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900" />
                     </div>
                     <div class="mt-3 sm:mt-0 sm:ml-3">
                       <ButtonGroup
@@ -55,7 +56,7 @@
                     class="float-left px-2 text-xs font-bold text-red-500"
                     >{{ error }}</span
                   >
-                  <p class="mt-3 text-xs text-gray-300 sm:mt-4">
+                  <p class="mt-3 text-xs text-slate-300 sm:mt-4">
                     No credit card required.
                   </p>
                 </form>
@@ -72,8 +73,8 @@
       </div>
     </div>
   </div>
-  <div v-else class="relative bg-gray-50">
-    <div class="bg-gray-50 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
+  <div v-else class="relative bg-slate-50">
+    <div class="bg-slate-50 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
       <div class="mx-auto max-w-7xl lg:px-8">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8">
           <div
@@ -81,14 +82,14 @@
             <div class="lg:py-24">
               <!--  <a
                 href="#"
-                class="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base">
+                class="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-slate-200 sm:text-base lg:text-sm xl:text-base">
                 <span
                   class="rounded-full bg-indigo-500 px-3 py-0.5 text-xs font-semibold uppercase leading-5 tracking-wide text-white"
                   >Data enrichment</span
                 >
                 <span class="ml-4 text-sm">powered by Jovie</span>
                 <ChevronRightIcon
-                  class="ml-2 h-5 w-5 text-gray-500"
+                  class="ml-2 h-5 w-5 text-slate-500"
                   aria-hidden="true" />
               </a> -->
               <h2
@@ -96,21 +97,21 @@
                 The Social CRM
               </h2>
               <h1
-                class="text-4xl font-extrabold tracking-tight text-gray-600 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-2xl">
+                class="text-4xl font-extrabold tracking-tight text-slate-600 sm:mt-2 sm:text-6xl lg:mt-3 xl:text-2xl">
                 From
                 <span
-                  class="text-gray-700 underline decoration-pink-400 decoration-4"
+                  class="text-slate-700 underline decoration-pink-400 decoration-4"
                   >Social</span
                 >
                 to
                 <span
-                  class="text-gray-700 underline decoration-indigo-400 decoration-4"
+                  class="text-slate-700 underline decoration-indigo-400 decoration-4"
                   >Jovie</span
                 >
                 <span class="block text-4xl text-indigo-600">In 1 Click</span>
               </h1>
               <p
-                class="mt-3 text-base text-gray-600 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                class="mt-3 text-base text-slate-600 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                 Jovie is <span class="font-bold">powered by social media</span>.
                 <span class="block">
                   You never need to enter a name, or edit a job title. If it's
@@ -128,7 +129,7 @@
                         v-on:keyup.enter="requestDemo() && identifyUser()"
                         v-model="waitListEmail"
                         placeholder="Enter your email"
-                        class="block w-full rounded-md border-0 px-4 py-3 text-base text-gray-900 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900" />
+                        class="block w-full rounded-md border-0 px-4 py-3 text-base text-slate-900 placeholder-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900" />
                     </div>
                     <div class="mt-3 sm:mt-0 sm:ml-3">
                       <ButtonGroup
@@ -143,7 +144,7 @@
                     class="float-left px-2 text-xs font-bold text-red-500"
                     >{{ error }}</span
                   >
-                  <p class="mt-3 text-xs text-gray-700 sm:mt-4">
+                  <p class="mt-3 text-xs text-slate-700 sm:mt-4">
                     No credit card required.
                   </p>
                 </form>

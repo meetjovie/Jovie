@@ -34,7 +34,7 @@
               d="M1 1l4 4-4 4"></path>
           </svg>
         </ButtonGroup>
-        <p class="py-1 text-2xs text-gray-100">
+        <p class="py-1 text-2xs text-slate-100">
           On a big team?
           <router-link class="font-bold underline" to="demo"
             >Contact sales</router-link

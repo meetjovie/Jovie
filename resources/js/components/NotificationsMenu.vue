@@ -4,8 +4,8 @@
     <PopoverButton
     @click="getImportBatches()"
       :class="[
-        open ? 'text-gray-900' : 'text-gray-500',
-        'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+        open ? 'text-slate-900' : 'text-slate-500',
+        'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
       ]">
      <span class="sr-only">Open import notification</span>
                     <BellIcon
@@ -30,37 +30,37 @@
                               </p>
 
                               <p
-                                class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
                             
                               </p>
                               <p
-                                class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
                               
 
             <a
             v-for="batch in batches"
               :key="batch.id"
               
-              class="-m-3 flex items-start rounded-lg p-3 transition duration-150 ease-in-out hover:bg-gray-50">
+              class="-m-3 flex items-start rounded-lg p-3 transition duration-150 ease-in-out hover:bg-slate-50">
               <component
                 :is="item.icon"
                 class="h-6 w-6 flex-shrink-0 text-indigo-600"
                 aria-hidden="true" />
               <div class="ml-4">
-                <p class="text-base font-medium text-gray-900">
+                <p class="text-base font-medium text-slate-900">
                   {{ batch.name }}
                 </p>
-                <p class="mt-1 text-sm text-gray-500">
+                <p class="mt-1 text-sm text-slate-500">
                      total: {{ batch.initial_total_in_file }}
                 </p>
                   progress: {{ batch.progress }} %
               </div>
             </a>
           </div>
-          <div class="bg-gray-50 px-5 py-5 sm:px-8 sm:py-8">
+          <div class="bg-slate-50 px-5 py-5 sm:px-8 sm:py-8">
             <div>
               <h3
-                class="text-sm font-medium uppercase tracking-wide text-gray-500">
+                class="text-sm font-medium uppercase tracking-wide text-slate-500">
                 Recent Posts
               </h3>
               <ul role="list" class="mt-4 space-y-4">
@@ -70,7 +70,7 @@
                   class="truncate text-base">
                   <a
                     :href="post.href"
-                    class="font-medium text-gray-900 transition duration-150 ease-in-out hover:text-gray-700">
+                    class="font-medium text-slate-900 transition duration-150 ease-in-out hover:text-slate-700">
                     {{ post.name }}
                   </a>
                 </li>

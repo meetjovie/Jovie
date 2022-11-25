@@ -13,10 +13,10 @@
           <div class="block lg:hidden">
             <JovieLogo height="28px" />
           </div>
-          <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 class="mt-6 text-3xl font-extrabold text-slate-900">
             Reset your password
           </h2>
-          <p class="mt-2 text-sm text-gray-600">
+          <p class="mt-2 text-sm text-slate-600">
             Or
             {{ ' ' }}
             <router-link

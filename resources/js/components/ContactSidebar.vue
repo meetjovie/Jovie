@@ -3,13 +3,13 @@
     <div v-if="user.loggedIn">
       <div
         v-if="!jovie"
-        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-gray-400 hover:text-gray-500">
+        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-slate-400 hover:text-slate-500">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div>
       <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
-          class="h-4 w-4 cursor-pointer text-gray-400 hover:text-gray-600 active:text-gray-700" />
+          class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-600 active:text-slate-700" />
       </div>
 
       <div class="mt-2 grid grid-cols-3">
@@ -17,7 +17,7 @@
           <!--  <svg
             v-if="creator.verified"
             xmlns="http://www.w3.org/2000/svg"
-            class="relative top-8 left-20 h-4 w-4 text-gray-600"
+            class="relative top-8 left-20 h-4 w-4 text-slate-600"
             viewBox="0 0 20 20"
             fill="currentColor">
             <path
@@ -29,14 +29,14 @@
             v-if="imageLoaded && creator.profile_pic_url"
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-gray-200 object-center"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
           <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-gray-200 object-center"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center"
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
@@ -46,17 +46,17 @@
             @blur="$emit('updateCrmMeta')"
             v-model="creator.meta.name"
             placeholder="Name"
-            class="placeholder:text-gray-300/0hover:border-opacity-100 w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-lg font-bold text-gray-700 transition line-clamp-1 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+            class="placeholder:text-slate-300/0hover:border-opacity-100 w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 hover:bg-slate-100 hover:placeholder:text-slate-500" />
           <!-- <div class="">
             <input
               @blur="saveToCrm()"
               placeholder="Title"
-              class="w-auto rounded-md border border-gray-300 border-opacity-0 px-1 text-xs font-bold text-gray-700 transition line-clamp-1 placeholder:text-gray-300/0 hover:border-opacity-100 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+              class="w-auto rounded-md border border-slate-300 border-opacity-0 px-1 text-xs font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
 
             <input
               @blur="saveToCrm()"
               placeholder="Company"
-              class="w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-2xs font-semibold text-gray-400 transition line-clamp-1 placeholder:text-gray-300/0 hover:border-opacity-100 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+              class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
           </div> -->
 
           <div v-if="creator.category" class="">
@@ -102,7 +102,7 @@
             :followers="formatCount(creator.instagram_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -121,7 +121,7 @@
               "
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -129,7 +129,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -144,7 +144,7 @@
             :followers="formatCount(creator.twitter_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -161,7 +161,7 @@
               :link="creator.twitter_handler || creator.meta.twitter_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
               aria-hidden="true"
               :countsVisible="false" />
 
@@ -170,7 +170,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -185,7 +185,7 @@
             :followers="formatCount(creator.twitch_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -204,7 +204,7 @@
               :link="creator.twitch_handler || creator.meta.twitch_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -212,7 +212,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -227,7 +227,7 @@
             :followers="formatCount(creator.tiktok_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -244,7 +244,7 @@
               :link="creator.tiktok_handler || creator.meta.tiktok_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -252,7 +252,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -267,7 +267,7 @@
             :followers="formatCount(creator.youtube_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -284,7 +284,7 @@
               :link="creator.youtube_handler || creator.meta.youtube_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -292,7 +292,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -307,7 +307,7 @@
             :followers="formatCount(creator.linkedin_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -324,7 +324,7 @@
               :link="creator.linkedin_handler || creator.meta.linkedin_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -332,7 +332,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
       </div>
@@ -368,13 +368,13 @@
           <Menu>
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
-                class="inline-flex items-center rounded border border-gray-300 py-0.5 px-2 text-2xs font-light text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                 <ChatBubbleLeftIcon
-                  class="hover:text-vue-gray-500 h-3 w-3 text-gray-400"
+                  class="hover:text-vue-slate-500 h-3 w-3 text-slate-400"
                   aria-hidden="true" />
                 <span class="px-2 text-center line-clamp-1">Message</span>
                 <ChevronDownIcon
-                  class="hover:text-vue-gray-500 -mr-1 h-4 w-4 text-gray-400"
+                  class="hover:text-vue-slate-500 -mr-1 h-4 w-4 text-slate-400"
                   aria-hidden="true" />
               </MenuButton>
               <transition
@@ -385,7 +385,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
+                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                   <MenuItem
                     :disabled="!creator.emails[0] && !creator.meta.emails"
                     v-slot="{ active }">
@@ -394,7 +394,9 @@
                         emailCreator(creator.emails || creator.meta.emails)
                       "
                       :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        active
+                          ? 'bg-slate-100 text-slate-900'
+                          : 'text-slate-700',
                         'group flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                       ]">
                       <EnvelopeIcon
@@ -411,7 +413,9 @@
                     <button
                       @click="textCreator(creator.phone || creator.meta.phone)"
                       :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        active
+                          ? 'bg-slate-100 text-slate-900'
+                          : 'text-slate-700',
                         'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleLeftEllipsisIcon
@@ -436,7 +440,9 @@
                         )
                       "
                       :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        active
+                          ? 'bg-slate-100 text-slate-900'
+                          : 'text-slate-700',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
@@ -452,7 +458,9 @@
                         whatsappCreator(creator.phone || creator.meta.phone)
                       "
                       :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        active
+                          ? 'bg-slate-100 text-slate-900'
+                          : 'text-slate-700',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
@@ -468,29 +476,33 @@
           </Menu>
           <button
             @click="callCreator(creator.meta.phone || creator.phone)"
-            class="mx-auto inline-flex items-center rounded border border-gray-300 bg-white py-0.5 px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+            class="mx-auto inline-flex items-center rounded border border-slate-300 bg-white py-0.5 px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
             <span class="sr-only line-clamp-1">Call</span>
-            <PhoneIcon class="h-3 w-3 text-gray-400" aria-hidden="true" />
+            <PhoneIcon class="h-3 w-3 text-slate-400" aria-hidden="true" />
           </button>
         </div>
       </div>
       <div class="px-2">
-        <h2 class="text-xs font-semibold text-gray-600">Lists</h2>
+        <!--  <h2 class="text-xs font-semibold text-slate-600">Lists</h2> -->
         <InputLists
+          @updateLists="updateCreatorLists"
+          :creatorId="creator.id ?? 0"
           :lists="creator.lists"
-          :current-list="creator.current_list" />
+          :currentList="creator.current_list" />
       </div>
       <div class="mt-4 px-2">
-        <h2 class="mb-2 text-xs font-semibold text-gray-600">
+        <h2 class="mb-2 text-xs font-semibold text-slate-600">
           Contact Details
         </h2>
       </div>
       <div
         class="h-80 items-center px-2 text-center"
         v-if="jovie && !creator.id">
-        <div class="mx-auto text-center text-gray-400">No contact selected</div>
+        <div class="mx-auto text-center text-slate-400">
+          No contact selected
+        </div>
       </div>
-      <div v-else class="h-80 space-y-6 overflow-y-scroll px-2">
+      <div v-else class="mt-2 h-80 space-y-6 overflow-y-scroll px-2">
         <draggable
           class="select-none space-y-2"
           group="lists"
@@ -573,10 +585,10 @@
               <div class="block lg:hidden">
                 <JovieLogo height="28px" />
               </div>
-              <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+              <h2 class="mt-6 text-3xl font-extrabold text-slate-900">
                 Sign in
               </h2>
-              <p class="mt-2 text-sm text-gray-600">
+              <p class="mt-2 text-sm text-slate-600">
                 Or
                 {{ ' ' }}
                 <a
@@ -644,10 +656,10 @@
                         id="remember-me"
                         name="remember-me"
                         type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" />
                       <label
                         for="remember-me"
-                        class="ml-2 block text-sm text-gray-900">
+                        class="ml-2 block text-sm text-slate-900">
                         Remember me
                       </label>
                     </div>
@@ -825,6 +837,13 @@ export default {
   },
 
   methods: {
+    updateCreatorLists({ list, add = false }) {
+      if (add) {
+        this.creator.lists.push(list);
+      } else {
+        this.creator.lists = this.creator.lists.filter((l) => l.id != list.id);
+      }
+    },
     focusNoteInput() {
       this.$refs.noteInput.$el.focus();
     },

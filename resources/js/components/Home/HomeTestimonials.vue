@@ -5,10 +5,10 @@
     <h2 class="sr-only">Testimonials</h2>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
       <!--  <figure
-        class="dark:highlight-white/5 relative flex flex-col-reverse rounded-lg bg-gray-50 p-6 dark:bg-gray-800"
+        class="dark:highlight-white/5 relative flex flex-col-reverse rounded-lg bg-slate-50 p-6 dark:bg-slate-800"
         v-for="card in cards"
         :key="card.id">
-        <blockquote class="mt-6 text-gray-700 dark:text-gray-300">
+        <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
           <p>{{ card.quote }}</p>
         </blockquote>
         <figcaption class="flex items-center space-x-4">
@@ -20,7 +20,7 @@
             decoding="async" />
           <div class="flex-auto">
             <div
-              class="text-base font-semibold text-gray-900 dark:text-gray-300">
+              class="text-base font-semibold text-slate-900 dark:text-slate-300">
               <a href="#" tabindex="0"
                 ><span class="absolute inset-0"></span>{{ card.name }}</a
               >
@@ -32,7 +32,7 @@
       <figure
         v-for="card in cards"
         :key="card.id"
-        class="rounded-xl bg-gray-100 p-8 dark:bg-gray-800">
+        class="rounded-xl bg-slate-100 p-8 dark:bg-slate-800">
         <img
           class="mx-auto h-24 w-24 rounded-full"
           :src="asset('img/External/Pepijn_vann_Kesteren.webp')"
@@ -45,7 +45,7 @@
           </blockquote>
           <figcaption class="font-medium">
             <div class="text-sky-500 dark:text-sky-400">{{ card.name }}</div>
-            <div class="text-gray-700 dark:text-gray-500">
+            <div class="text-slate-700 dark:text-slate-500">
               {{ card.title }}, {{ card.company }}
             </div>
           </figcaption>
