@@ -11,6 +11,7 @@ module.exports = {
     './resources/**/*.js',
     './resources/**/*.vue',
   ],
+  darkMode: 'class',
   safelist: [...tailwindcssOriginSafelist],
   theme: {
     extend: {

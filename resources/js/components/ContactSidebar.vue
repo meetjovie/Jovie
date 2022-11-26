@@ -1,9 +1,9 @@
 <template>
-  <div class="h-full w-80 bg-white">
+  <div class="h-full w-80 bg-white dark:bg-slate-900">
     <div v-if="user.loggedIn">
       <div
         v-if="!jovie"
-        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-slate-400 hover:text-slate-500">
+        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div>
       <div v-else class="absolute right-1 top-1">
@@ -12,7 +12,7 @@
           class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-600 active:text-slate-700" />
       </div>
 
-      <div class="mt-2 grid grid-cols-3">
+      <div class="grid grid-cols-3">
         <div class="px-1">
           <!--  <svg
             v-if="creator.verified"
@@ -29,19 +29,17 @@
             v-if="imageLoaded && creator.profile_pic_url"
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
           <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
-          <span v-if="creator.id">DB</span>
-          <span v-else>Scrapped</span>
           <input
             @blur="$emit('updateCrmMeta')"
             v-model="creator.meta.name"
@@ -370,11 +368,11 @@
               <MenuButton
                 class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                 <ChatBubbleLeftIcon
-                  class="hover:text-vue-slate-500 h-3 w-3 text-slate-400"
+                  class="h-3 w-3 text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
                   aria-hidden="true" />
                 <span class="px-2 text-center line-clamp-1">Message</span>
                 <ChevronDownIcon
-                  class="hover:text-vue-slate-500 -mr-1 h-4 w-4 text-slate-400"
+                  class="-mr-1 h-4 w-4 text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
                   aria-hidden="true" />
               </MenuButton>
               <transition
@@ -385,7 +383,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
+                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
                   <MenuItem
                     :disabled="!creator.emails[0] && !creator.meta.emails"
                     v-slot="{ active }">
@@ -395,8 +393,8 @@
                       "
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900'
-                          : 'text-slate-700',
+                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                       ]">
                       <EnvelopeIcon
@@ -414,8 +412,8 @@
                       @click="textCreator(creator.phone || creator.meta.phone)"
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900'
-                          : 'text-slate-700',
+                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleLeftEllipsisIcon
@@ -441,8 +439,8 @@
                       "
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900'
-                          : 'text-slate-700',
+                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
@@ -459,8 +457,8 @@
                       "
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900'
-                          : 'text-slate-700',
+                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
@@ -478,8 +476,8 @@
                       @click="callCreator(creator.phone || creator.meta.phone)"
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900'
-                          : 'text-slate-700',
+                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <PhoneIcon
@@ -498,6 +496,7 @@
       <div class="px-2">
         <!--  <h2 class="text-xs font-semibold text-slate-600">Lists</h2> -->
         <InputLists
+          v-if="creator.id"
           @updateLists="updateCreatorLists"
           :creatorId="creator.id ?? 0"
           :lists="creator.lists"
@@ -522,42 +521,57 @@
           Save this profile to edit contact details
         </div>
       </div>
-
-      <div v-else class="mt-2 h-80 space-y-6 overflow-y-scroll px-2">
-        <draggable
-          class="select-none space-y-2"
-          group="lists"
-          ghost-class="ghost-card"
-          :creator="creator"
-          :list="fields">
-          <div
-            class="space-y-4"
-            v-for="(element, index) in fields"
-            :key="element.id">
-            <DataInputGroup
-              @copy="copyToClipboard(element.value)"
-              class="group/draggable"
-              @actionMethod="actionMethod(element.method, element.params)"
-              @actionMethod2="actionMethod(element.method2, element.params2)"
-              :value="element.value"
-              @updateModelValue="updateModelValue(element.model, $event)"
-              :id="element.name"
-              :icon="element.icon"
-              :socialicon="element.socialicon"
-              :label="element.name"
-              :disabled="!creator.id"
-              :action="element.actionIcon"
-              :action2="element.actionIcon2"
-              :isCopyable="element.isCopyable"
-              :placeholder="element.location" />
+      <div v-else class="relative h-full">
+        <div
+          class="flex flex-col justify-between"
+          :class="{
+            ' blur-sm saturate-150 ': !creator.id,
+          }">
+          <div class="mt-2 h-80 space-y-6 overflow-y-scroll px-2">
+            <draggable
+              class="select-none space-y-2"
+              group="lists"
+              ghost-class="ghost-card"
+              :creator="creator"
+              :list="fields">
+              <div
+                class="space-y-4"
+                v-for="(element, index) in fields"
+                :key="element.id">
+                <DataInputGroup
+                  @copy="copyToClipboard(element.value)"
+                  class="group/draggable"
+                  @actionMethod="actionMethod(element.method, element.params)"
+                  @actionMethod2="
+                    actionMethod(element.method2, element.params2)
+                  "
+                  :value="element.value"
+                  @updateModelValue="updateModelValue(element.model, $event)"
+                  :id="element.name"
+                  :icon="element.icon"
+                  :socialicon="element.socialicon"
+                  :label="element.name"
+                  :disabled="!creator.id"
+                  :action="element.actionIcon"
+                  :action2="element.actionIcon2"
+                  :isCopyable="element.isCopyable"
+                  :placeholder="element.location" />
+              </div>
+            </draggable>
           </div>
-        </draggable>
-      </div>
-      <div class="mt-2 justify-self-end bg-white px-2">
-        <TextAreaInput
-          ref="noteInput"
-          v-model="creator.note"
-          @blur="updateCreatorNote" />
+
+          <div class="mt-2 justify-self-end bg-white px-2">
+            <TextAreaInput
+              ref="noteInput"
+              v-model="creator.note"
+              @blur="updateCreatorNote" />
+          </div>
+        </div>
+        <div
+          v-if="!creator.id"
+          class="absolute top-40 z-30 mx-auto w-full text-center text-sm font-semibold text-slate-800">
+          Save this profile to edit contact details
+        </div>
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
         <div class="mx-auto">

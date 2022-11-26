@@ -32,7 +32,7 @@
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
           @change="$emit('updateModelValue', $event.target.value)"
-          class="input-field prrounded h-8 w-full border border-slate-200 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 group-hover:border-opacity-100 group-hover:bg-slate-50"
+          class="input-field prrounded disable:cursor-none h-8 w-full border border-slate-200 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50"
           :class="[
             icon ? 'pl-4' : '',
             { 'rounded-r-md': rounded == 'right' },
@@ -116,7 +116,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md border-t border-transparent bg-white px-1 pl-5 text-xs font-medium text-slate-400 transition-all group-hover:border-slate-200 group-hover:bg-slate-50 group-hover:text-slate-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium peer-disabled:top-1.5 peer-disabled:left-0 peer-disabled:-top-2 peer-disabled:text-sm peer-disabled:font-medium peer-disabled:font-medium peer-disabled:text-slate-400"
+          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md border-t border-transparent bg-white px-1 pl-5 text-xs font-medium text-slate-400 transition-all group-hover:border-slate-200 group-hover:bg-slate-50 group-hover:text-slate-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium"
           >{{ label }}</label
         >
       </div>

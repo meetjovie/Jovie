@@ -5,9 +5,9 @@
         <JovieSidebar>
           <template #main>
             <div>
-              <div class="w-full flex-col px-2">
-                <Menu v-slot="{ open }">
-                  <MenuItems static>
+              <Menu v-slot="{ open }">
+                <MenuItems static>
+                  <div class="w-full flex-col px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
                       <JovieTooltip
                         shortcuts="{ key: 's', key: 'c', key: 't' }"
@@ -17,14 +17,16 @@
                           class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none"
                           :class="[
                             filters.type == 'all'
-                              ? 'text-sm font-bold text-slate-900  '
-                              : 'text-sm font-light text-slate-900',
-                            active ? 'bg-slate-100 text-slate-700' : '',
+                              ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
+                              : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                            active
+                              ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                              : '',
                           ]">
                           <div class="flex items-center text-xs">
                             <ChevronRightIcon
                               @click="toggleContactMenuOpen"
-                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400"
+                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-700"
                               :class="[
                                 {
                                   'rotate-90 transform': contactMenuOpen,
@@ -35,12 +37,11 @@
                           </div>
                           <div
                             @click="showCreatorModal = true"
-                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50">
+                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-slate-600 hover:dark:text-slate-900">
                             <span
-                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900"
+                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-slate-100 group-hover:dark:text-slate-100"
                               >{{ counts.total }}</span
                             >
-
                             <PlusIcon
                               class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
                           </div>
@@ -56,6 +57,8 @@
                       leave-to="transform opacity-0 scale-95">
                       <div class="pl-4">
                         <MenuItem
+                          class="w-full"
+                          as="div"
                           @click="setFiltersType('favourites')"
                           v-slot="{ active }">
                           <JovieTooltip
@@ -65,9 +68,11 @@
                               class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                               :class="[
                                 filters.type == 'favourites'
-                                  ? 'text-sm font-bold text-slate-900 '
-                                  : 'text-sm font-light text-slate-900',
-                                active ? 'bg-slate-100 text-slate-700' : '',
+                                  ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
+                                  : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                                active
+                                  ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                  : '',
                               ]">
                               <div class="flex items-center text-xs">
                                 <HeartIcon
@@ -77,7 +82,7 @@
                               <div
                                 class="items-center rounded-md p-1 hover:text-slate-50">
                                 <span
-                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900"
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
                                   >{{ counts.favourites }}</span
                                 >
                               </div>
@@ -85,6 +90,7 @@
                           </JovieTooltip>
                         </MenuItem>
                         <MenuItem
+                          as="div"
                           @click="setFiltersType('archived')"
                           v-slot="{ active }">
                           <JovieTooltip
@@ -98,9 +104,11 @@
                               class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                               :class="[
                                 filters.type == 'archived'
-                                  ? 'text-sm font-bold text-slate-900 '
-                                  : 'text-sm font-light text-slate-900',
-                                active ? 'bg-slate-100 text-slate-700' : '',
+                                  ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
+                                  : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                                active
+                                  ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                  : '',
                               ]">
                               <div class="flex items-center text-xs">
                                 <ArchiveBoxIcon
@@ -108,9 +116,9 @@
                                   aria-hidden="true" />Archived
                               </div>
                               <div
-                                class="items-center rounded-md p-1 hover:text-slate-50">
+                                class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
                                 <span
-                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900"
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
                                   >{{ counts.archived }}</span
                                 >
                               </div>
@@ -119,65 +127,85 @@
                         </MenuItem>
                       </div>
                     </TransitionRoot>
-                  </MenuItems>
-                </Menu>
-              </div>
-              <div class="flex-col justify-evenly space-y-4 px-2 py-4">
-                <MenuList
-                  v-if="pinnedUserLists.length"
-                  ref="menuListPinned"
-                  @getUserLists="getUserLists"
-                  @setFiltersType="setFiltersType"
-                  @openEmojiPicker="openEmojiPicker"
-                  menuName="Pinned"
-                  :selectedList="filters.list"
-                  @setFilterList="setFilterList"
-                  :menuItems="pinnedUserLists"></MenuList>
-                <!--    Team Specific Lists -->
-                <MenuList
-                  ref="menuListAll"
-                  @getUserLists="getUserLists"
-                  @setFiltersType="setFiltersType"
-                  @openEmojiPicker="openEmojiPicker"
-                  menuName="Lists"
-                  @setFilterList="setFilterList"
-                  :selectedList="filters.list"
-                  :draggable="true"
-                  @end="sortLists"
-                  :menuItems="filteredUsersLists"></MenuList>
-              </div>
+                  </div>
+                  <div class="flex-col justify-evenly space-y-4 px-2 py-4">
+                    <MenuList
+                      v-if="pinnedUserLists.length"
+                      ref="menuListPinned"
+                      @getUserLists="getUserLists"
+                      @setFiltersType="setFiltersType"
+                      @openEmojiPicker="openEmojiPicker"
+                      menuName="Pinned"
+                      :selectedList="filters.list"
+                      @setFilterList="setFilterList"
+                      :menuItems="pinnedUserLists"></MenuList>
+                    <!--    Team Specific Lists -->
+                    <MenuList
+                      ref="menuListAll"
+                      @getUserLists="getUserLists"
+                      @setFiltersType="setFiltersType"
+                      @openEmojiPicker="openEmojiPicker"
+                      menuName="Lists"
+                      @setFilterList="setFilterList"
+                      :selectedList="filters.list"
+                      :draggable="true"
+                      @end="sortLists"
+                      :menuItems="filteredUsersLists"></MenuList>
+                  </div>
+                </MenuItems>
+              </Menu>
             </div>
           </template>
           <template #footer>
             <div class="flex-shrink-0 border-t border-slate-200 py-2 px-2">
-              <JovieTooltip text="Import a new contact to Jovie">
-                <div
-                  @click="showCreatorModal = true"
-                  class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900">
-                  <PlusIcon
-                    class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500"
-                    aria-hidden="true" />New Contact
-                </div>
-              </JovieTooltip>
-              <JovieTooltip text="Upload a csv file to import contacts">
-                <router-link
-                  to="import"
-                  class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900">
-                  <div class="flex items-center">
-                    <CloudArrowUpIcon
-                      class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-                      aria-hidden="true" />Upload A CSV
-                  </div>
-                  <div class="items-center">
-                    <CreatorTags
-                      v-if="!currentUser.current_team.current_subscription"
-                      :showX="false"
-                      text="Pro"
-                      color="blue" />
-                  </div>
-                </router-link>
-              </JovieTooltip>
-
+              <Menu>
+                <MenuItems static>
+                  <MenuItem as="div" v-slot="{ active }">
+                    <JovieTooltip text="Import a new contact to Jovie">
+                      <div
+                        :class="[
+                          active
+                            ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                            : '',
+                        ]"
+                        @click="showCreatorModal = true"
+                        class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100">
+                        <PlusIcon
+                          class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500 dark:text-slate-600"
+                          aria-hidden="true" />
+                        New Contact
+                      </div>
+                    </JovieTooltip>
+                  </MenuItem>
+                  <MenuItem as="div" v-slot="{ active }">
+                    <JovieTooltip text="Upload a csv file to import contacts">
+                      <router-link
+                        to="import"
+                        :class="[
+                          active
+                            ? 'bg-slate-200  text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                            : 'text-slate-700',
+                        ]"
+                        class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                        <div class="flex items-center">
+                          <CloudArrowUpIcon
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400 dark:text-sky-400"
+                            aria-hidden="true" />Upload A CSV
+                        </div>
+                        <div class="items-center">
+                          <CreatorTags
+                            v-if="
+                              !currentUser.current_team.current_subscription
+                            "
+                            :showX="false"
+                            text="Pro"
+                            color="blue" />
+                        </div>
+                      </router-link>
+                    </JovieTooltip>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
               <div class="mt-1 flex items-center justify-between py-1">
                 <ProgressBar
                   invertedColor
@@ -212,7 +240,7 @@
                         v-if="newNotification"
                         class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
                         <span
-                          class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
+                          class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75 dark:bg-indigo-600"></span>
                         <span
                           class="relative inline-flex h-1 w-1 rounded-full bg-indigo-500"></span>
                       </span>
@@ -231,7 +259,7 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 sm:px-0">
+                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:border-slate-700 dark:bg-slate-800/60 sm:px-0">
                         <div class="overflow-hidden rounded-lg">
                           <div class="relative h-80 gap-6 px-1 sm:gap-8">
                             <div
@@ -266,7 +294,7 @@
                                       </div>
                                       <div class="ml-3 w-full">
                                         <p
-                                          class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900">
+                                          class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100 dark:group-hover:text-slate-100">
                                           {{ notification.message }}
                                           <span
                                             class="text-2xs font-light text-slate-500"
@@ -492,7 +520,8 @@
           leave="transition ease-in-out duration-300 transform"
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
-          <aside class="z-30 hidden h-full border-l border-slate-200 xl:block">
+          <aside
+            class="z-30 hidden h-full border-l border-slate-200 dark:border-slate-700 xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -509,7 +538,7 @@
       <EmojiPickerModal
         v-show="openEmojis"
         @emojiSelected="emojiSelected($event)"
-        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all">
+        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-slate-800">
       </EmojiPickerModal>
     </div>
   </div>

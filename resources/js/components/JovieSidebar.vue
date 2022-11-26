@@ -10,13 +10,13 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
 
     <div
-      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-gray-700 dark:bg-gray-900">
+      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-gray-700 dark:bg-stone-900">
       <div>
         <slot name="header">
           <div class="w-full flex-col px-2">
-            <div @click="navigateBack()" v-if="menu">
+            <div class="items-center" @click="navigateBack()" v-if="menu">
               <div
-                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-600 text-slate-900 hover:text-slate-700 dark:text-gray-300 dark:hover:text-gray-200">
+                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-600 text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:text-gray-300 dark:hover:text-gray-200">
                 <ChevronLeftIcon
                   class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-300 dark:hover:text-gray-200"
                   aria-hidden="true" />
@@ -32,10 +32,10 @@
                 :searchable="false">
                 <template #triggerButton>
                   <div
-                    class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-100">
+                    class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-800">
                     <div class="flex">
                       <div
-                        class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800">
+                        class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200">
                         {{
                           currentUser.current_team
                             ? currentUser.current_team.name
@@ -48,7 +48,7 @@
                 <template #menuTop>
                   <div class="">
                     <div
-                      class="border-b px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700">
+                      class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-300">
                       Your workspaces:
                     </div>
                   </div>
@@ -56,16 +56,16 @@
                 <template #menuBottom>
                   <router-link
                     to="/accounts"
-                    class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700"
+                    class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-slate-700 dark:hover:text-slate-300"
                     :class="[
                       active
-                        ? 'bg-white px-1 py-2  text-slate-800'
-                        : 'text-sm text-slate-700',
+                        ? 'bg-white px-1 py-2 text-slate-800 dark:bg-slate-900 dark:text-slate-200'
+                        : 'text-sm text-slate-700 dark:text-slate-300',
                       'group flex w-full items-center px-2 py-2 text-2xs  ',
                     ]">
                     <PlusCircleIcon
                       :active="active"
-                      class="mr-2 h-4 w-4 text-slate-500"
+                      class="mr-2 h-4 w-4 text-slate-500 dark:text-slate-300"
                       aria-hidden="true" />
                     Create workspace
                   </router-link>
@@ -76,21 +76,18 @@
                   :searchable="false"
                   :items="profileMenuItems">
                   <template #triggerButton>
-                    <div
-                      class="mx-auto h-6 w-6 items-center rounded-full border border-neutral-200 hover:bg-slate-100">
-                      <img
-                        class="h-5 w-5 items-center rounded-full object-cover"
-                        :src="
-                          $store.state.AuthState.user.profile_pic_url ??
-                          $store.state.AuthState.user.default_image
-                        "
-                        alt="User Avatar" />
-                    </div>
+                    <img
+                      class="inline-block aspect-square h-6 w-6 rounded-full rounded-full border border-neutral-200 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:bg-slate-800"
+                      :src="
+                        $store.state.AuthState.user.profile_pic_url ??
+                        $store.state.AuthState.user.default_image
+                      "
+                      alt="User Avatar" />
                   </template>
                   <template #menuTop>
                     <div class="ml-3 cursor-default">
                       <p
-                        class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900">
+                        class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-slate-200 dark:group-hover:text-slate-200">
                         {{ currentUser.first_name }}
                         {{ currentUser.last_name }}
                       </p>
@@ -103,12 +100,13 @@
                     <MenuItem as="div" role="menuitem" tabindex="-1">
                       <router-link
                         v-if="currentUser.username"
-                        class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                         :to="profileLink">
                         <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600"
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-400"
                           :class="{
-                            'bg-slate-200 text-slate-700': active,
+                            'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                              active,
                           }">
                           <component
                             class="mr-4 h-4 w-4 cursor-pointer"
@@ -119,12 +117,13 @@
                       </router-link>
                       <router-link
                         v-else
-                        class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
+                        class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                         to="edit-profile">
                         <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600"
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-400"
                           :class="{
-                            'bg-slate-200 text-slate-700': active,
+                            'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                              active,
                           }">
                           <component
                             class="mr-4 h-4 w-4 cursor-pointer"
@@ -137,18 +136,21 @@
                   </template>
 
                   <template #menuBottom>
-                    <MenuItem
-                      as="div"
-                      @click="$store.dispatch('logout')"
-                      class="inline-flex w-full cursor-pointer rounded-b-md px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700"
-                      role="menuitem"
-                      tabindex="-1">
-                      <component
-                        class="mr-4 h-4 w-4"
-                        is="ArrowLeftOnRectangleIcon">
-                      </component>
-                      Sign out
-                    </MenuItem>
+                    <div
+                      class="border-t border-slate-200 dark:border-slate-500">
+                      <MenuItem
+                        as="div"
+                        @click="$store.dispatch('logout')"
+                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+                        role="menuitem"
+                        tabindex="-1">
+                        <component
+                          class="mr-4 h-4 w-4"
+                          is="ArrowLeftOnRectangleIcon">
+                        </component>
+                        Sign out
+                      </MenuItem>
+                    </div>
                   </template>
                 </JovieDropdownMenu>
               </div>
@@ -175,6 +177,8 @@ import {
   PopoverButton,
   PopoverPanel,
   PopoverGroup,
+  SwitchGroup,
+  Switch,
 } from '@headlessui/vue';
 import {
   ChevronDownIcon,
@@ -195,6 +199,9 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
+  SunIcon,
+  MoonIcon,
+  ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid';
 import JovieTooltip from '../components/JovieTooltip';
 import UserService from '../services/api/user.service';
@@ -215,6 +222,10 @@ export default {
     PlusIcon,
     PlusCircleIcon,
     Menu,
+    SwitchGroup,
+    Switch,
+    SunIcon,
+    MoonIcon,
     MenuItem,
     MenuItems,
     PopoverGroup,
@@ -238,7 +249,7 @@ export default {
     CloudArrowUpIcon,
     JovieTooltip,
     ChevronLeftIcon,
-
+    ComputerDesktopIcon,
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,
@@ -252,6 +263,7 @@ export default {
 
   data() {
     return {
+      darkmode: false,
       profileLink: this.$store.state.AuthState.user.username,
       profileMenuItems: [
         {
@@ -281,6 +293,7 @@ export default {
       ],
     };
   },
+
   methods: {
     async logout() {
       await UserService.logout();

@@ -339,7 +339,7 @@
                             class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
-                              class="text-vue-slate-400 hover:text-vue-slate-500 ml-2 -mr-1 h-5 w-5"
+                              class="textxt-vue-slate-500 ml-2 -mr-1 h-5 w-5 text-slate-400"
                               aria-hidden="true" />
                           </MenuButton>
                           <transition
@@ -411,7 +411,7 @@
                             class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                             <span class="line-clamp-1">Add to list </span>
                             <ChevronDownIcon
-                              class="text-vue-slate-400 hover:text-vue-slate-500 ml-2 -mr-1 h-5 w-5"
+                              class="text-slate-400 hover:text-slate-500 ml-2 -mr-1 h-5 w-5"
                               aria-hidden="true" />
                           </MenuButton>
                           <transition
