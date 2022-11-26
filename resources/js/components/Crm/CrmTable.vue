@@ -350,7 +350,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-blur-xl backdrop-saturate-150 backdrop-saturate-150 backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -364,8 +364,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-slate-300 text-slate-900'
-                                      : 'text-slate-700',
+                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                      : 'text-slate-700 dark:text-slate-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <TrashIcon class="mr-2 inline h-4 w-4" />
@@ -386,8 +386,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-slate-300 text-slate-900'
-                                      : 'text-slate-700',
+                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                      : 'text-slate-700 dark:text-slate-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <ArchiveBoxIcon
@@ -411,7 +411,7 @@
                             class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
                             <span class="line-clamp-1">Add to list </span>
                             <ChevronDownIcon
-                              class="text-slate-400 hover:text-slate-500 ml-2 -mr-1 h-5 w-5"
+                              class="ml-2 -mr-1 h-5 w-5 text-slate-400 hover:text-slate-500"
                               aria-hidden="true" />
                           </MenuButton>
                           <transition
@@ -436,8 +436,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-slate-300 text-slate-900'
-                                      : 'text-slate-700',
+                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                      : 'text-slate-700 dark:text-slate-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <span class="px-1">{{
@@ -450,8 +450,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-slate-300 text-slate-900'
-                                      : 'text-slate-700',
+                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                      : 'text-slate-700 dark:text-slate-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <div
@@ -707,7 +707,7 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-slate-200 bg-white py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border border-slate-200 border-slate-200 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-500 dark:bg-slate-900/60">
                                   <div class="py-1">
                                     <MenuItem
                                       :disabled="
@@ -725,8 +725,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <EnvelopeIcon
@@ -749,8 +749,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <PhoneIcon
@@ -772,8 +772,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ChatBubbleLeftEllipsisIcon
@@ -797,8 +797,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ChatBubbleOvalLeftEllipsisIcon
@@ -820,8 +820,8 @@
                                         "
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ChatBubbleOvalLeftEllipsisIcon
@@ -837,8 +837,8 @@
                                         @click="downloadVCF(this.creator)"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <CloudArrowDownIcon
@@ -861,8 +861,8 @@
                                         href="#"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <TrashIcon
@@ -883,8 +883,8 @@
                                       <button
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ArchiveBoxIcon
@@ -908,8 +908,8 @@
                                         class="items-center text-slate-400 hover:text-slate-900"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-700',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ArrowPathIcon
@@ -1080,145 +1080,6 @@
                         :stages="stages"
                         :index="index"
                         @updateCreator="$emit('updateCreator', $event)" />
-
-                      <!-- <Popover
-                        as="div"
-                        class="relative z-10 inline-block w-full items-center text-left">
-                        <Float
-                          portal
-                          :offset="0"
-                          shift
-                          placement="bottom-start">
-                          <PopoverButton
-                            @click="focusStageInput()"
-                            class="flex w-full justify-between px-2">
-                            <div
-                              class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1"
-                              :class="[
-                                {
-                                  'bg-indigo-50 text-indigo-600':
-                                    creator.crm_record_by_user.stage_name ===
-                                    'Lead',
-                                },
-                                {
-                                  'bg-sky-50 text-sky-600':
-                                    creator.crm_record_by_user.stage_name ===
-                                    'Interested',
-                                },
-                                {
-                                  'bg-pink-50 text-pink-600':
-                                    creator.crm_record_by_user.stage_name ===
-                                    'Negotiating',
-                                },
-                                {
-                                  'bg-fuchsia-50 text-fuchsia-600':
-                                    creator.crm_record_by_user.stage_name ===
-                                    'In Progress',
-                                },
-                                {
-                                  'bg-red-50 text-red-600':
-                                    creator.crm_record_by_user.stage_name ===
-                                    'Complete',
-                                },
-                              ]">
-                              {{ creator.crm_record_by_user.stage_name }}
-                            </div>
-                            <div class="items-center">
-                              <ChevronDownIcon
-                                class="mt-1 h-4 w-4 text-slate-600" />
-                            </div>
-                          </PopoverButton>
-                          <transition
-                            enter-active-class="transition duration-100 ease-out"
-                            enter-from-class="transform scale-95 opacity-0"
-                            enter-to-class="transform scale-100 opacity-100"
-                            leave-active-class="transition duration-75 ease-in"
-                            leave-from-class="transform scale-100 opacity-100"
-                            leave-to-class="transform scale-95 opacity-0">
-                            <PopoverPanel
-                              class="z-30 mt-2 w-40 origin-top-right divide-y divide-slate-100 rounded-lg border border border-slate-200 border-slate-200 bg-white/60 bg-clip-padding py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none">
-                              <div class="px-1">
-                                <div class="relative flex items-center">
-                                  <input
-                                    ref="stageInput"
-                                    v-model="stageSearchQuery"
-                                    placeholder="Set stage..."
-                                    class="w-full border-0 border-transparent bg-transparent px-1 py-2 text-xs font-semibold text-slate-700 ring-0 placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
-                                  <div
-                                    class="absolute inset-y-0 right-0 flex py-1 pr-1.5">
-                                    <kbd
-                                      class="inline-flex items-center rounded border border-slate-200 px-2 font-sans text-2xs font-medium text-slate-400"
-                                      >S</kbd
-                                    >
-                                  </div>
-                                </div>
-                                <div class="border-t border-slate-200">
-                                  <button
-                                    v-for="(stage, key) in filteredStages(
-                                      creator
-                                    )"
-                                    :key="stage"
-                                    @click="
-                                      $emit('updateCreator', {
-                                        id: creator.id,
-                                        index: index,
-                                        key: `crm_record_by_user.stage`,
-                                        value: key,
-                                      })
-                                    "
-                                    class="group mt-1 flex w-full items-center rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-600">
-                                    <div
-                                      v-if="stage.includes(stageSearchQuery)"
-                                      class="flex">
-                                      <div
-                                        class="mr-2 w-3 text-xs font-bold opacity-50">
-                                        <CheckIcon
-                                          v-if="
-                                            stage ===
-                                            creator.crm_record_by_user
-                                              .stage_name
-                                          "
-                                          class="h-3 w-3 text-slate-600" />
-                                      </div>
-                                      <div
-                                        class="mr-2 text-xs font-bold opacity-50">
-                                        <span
-                                          class="inline-block h-2 w-2 flex-shrink-0 rounded-full"
-                                          :class="[
-                                            {
-                                              'bg-indigo-50 text-indigo-600':
-                                                stage == 'Lead',
-                                            },
-                                            {
-                                              'bg-sky-50 text-sky-600':
-                                                stage == 'Interested',
-                                            },
-                                            {
-                                              'bg-pink-50 text-pink-600':
-                                                stage == 'Negotiating',
-                                            },
-                                            {
-                                              'bg-fuchsia-50 text-fuchsia-600':
-                                                stage == 'In Progress',
-                                            },
-                                            {
-                                              'bg-red-50 text-red-600':
-                                                stage == 'Complete',
-                                            },
-                                          ]"></span>
-                                      </div>
-
-                                      <div class="text-xs font-medium">
-                                        {{ stage }}
-                                      </div>
-                                    </div>
-                                  </button>
-                                </div>
-                              </div>
-                            </PopoverPanel>
-                          </transition>
-                        </Float>
-                      </Popover> -->
                     </td>
                     <td
                       v-if="

@@ -21,7 +21,7 @@
           @focus="focusMenuSearch()"
           as="div"
           :class="[{ 'w-40': size == 'md' }, { 'w-80': size == 'lg' }]"
-          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-800 dark:bg-slate-900/60">
+          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-slate-800 dark:bg-slate-900/60">
           <slot name="menuTop"></slot>
           <div v-if="searchable" class="px-1">
             <MenuItem as="div">
@@ -43,7 +43,7 @@
             </MenuItem>
           </div>
 
-          <div class="border-t border-slate-200 px-2 dark:border-slate-800">
+          <div class="border-t border-slate-200 px-2 dark:border-slate-600">
             <div v-if="items">
               <template v-for="(item, key) in filteredItems" :key="item.name">
                 <MenuItem
@@ -53,9 +53,9 @@
                   v-slot="{ active }">
                   <router-link :to="item.route">
                     <div
-                      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400"
+                      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-200"
                       :class="{
-                        'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-300':
+                        'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-100':
                           active,
                       }">
                       <div class="flex items-center">
@@ -88,9 +88,9 @@
                   as="div"
                   v-slot="{ active }">
                   <div
-                    class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400"
+                    class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-200"
                     :class="{
-                      'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-300':
+                      'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-100':
                         active,
                     }">
                     <div class="flex items-center">
@@ -122,10 +122,10 @@
                 v-if="filteredItems.length === 0">
                 <div
                   :class="{ 'bg-slate-200': active }"
-                  class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400">
+                  class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-200">
                   <div class="mx-auto flex">
                     <div
-                      class="text-center text-xs font-medium text-slate-300 dark:text-slate-700">
+                      class="text-center text-xs font-medium text-slate-300 dark:text-slate-400">
                       No match
                     </div>
                   </div>
@@ -139,10 +139,10 @@
                 v-if="searchQuery"
                 :disabled="!searchQuery"
                 @click="searchQuery = ''"
-                class="group mt-1 flex w-full cursor-pointer items-center border-t border-neutral-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:text-slate-400">
+                class="group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-slate-700 dark:text-slate-200">
                 <div class="mx-auto flex items-center text-center">
                   <div
-                    class="text-center text-2xs font-semibold text-slate-300 dark:text-slate-700">
+                    class="text-center text-2xs font-semibold text-slate-300 dark:text-slate-100">
                     Clear search
                   </div>
                 </div>

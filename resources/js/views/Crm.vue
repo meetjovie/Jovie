@@ -26,7 +26,7 @@
                           <div class="flex items-center text-xs">
                             <ChevronRightIcon
                               @click="toggleContactMenuOpen"
-                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-700"
+                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
                               :class="[
                                 {
                                   'rotate-90 transform': contactMenuOpen,

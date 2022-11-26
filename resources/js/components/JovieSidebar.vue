@@ -48,7 +48,7 @@
                 <template #menuTop>
                   <div class="">
                     <div
-                      class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-300">
+                      class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-300">
                       Your workspaces:
                     </div>
                   </div>
@@ -77,7 +77,7 @@
                   :items="profileMenuItems">
                   <template #triggerButton>
                     <img
-                      class="inline-block aspect-square h-6 w-6 rounded-full rounded-full border border-neutral-200 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:bg-slate-800"
+                      class="inline-block aspect-square h-6 w-6 rounded-full rounded-full border border-slate-200 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800 dark:hover:bg-slate-800"
                       :src="
                         $store.state.AuthState.user.profile_pic_url ??
                         $store.state.AuthState.user.default_image
@@ -100,10 +100,10 @@
                     <MenuItem as="div" role="menuitem" tabindex="-1">
                       <router-link
                         v-if="currentUser.username"
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-100 dark:hover:bg-slate-800"
                         :to="profileLink">
                         <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-400"
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
                           :class="{
                             'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
                               active,
@@ -137,7 +137,7 @@
 
                   <template #menuBottom>
                     <div
-                      class="border-t border-slate-200 dark:border-slate-500">
+                      class="border-t border-slate-200 dark:border-slate-600/40">
                       <MenuItem
                         as="div"
                         @click="$store.dispatch('logout')"
