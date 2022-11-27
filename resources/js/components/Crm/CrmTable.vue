@@ -3,7 +3,7 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <div
-          class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-slate-700 dark:bg-slate-900">
+          class="flex w-full items-center justify-between border-b border-slate-300 bg-white px-2 py-2 dark:border-slate-700 dark:bg-slate-900">
           <div class="px-4">
             <h1
               v-if="header.includes('all')"
@@ -40,7 +40,7 @@
                 trigger
                 <span
                   data-tooltip="test"
-                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-slate-200 bg-slate-800 px-2 py-1 text-xs text-slate-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
+                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-slate-300 bg-slate-800 px-2 py-1 text-xs text-slate-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
                   >test content</span
                 >
               </div> -->
@@ -56,7 +56,7 @@
                 <div
                   class="flex h-6 w-full items-center justify-end transition-all">
                   <div
-                    class="flex items-center rounded-md border border-slate-200 dark:border-slate-700">
+                    class="flex items-center rounded-md border border-slate-300 dark:border-slate-700">
                     <div
                       class="content-right relative flex flex-grow items-center focus-within:z-10">
                       <div
@@ -69,13 +69,13 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="block w-full rounded-md border-slate-300 py-1 pl-10 ring-0 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:border-slate-700 sm:text-sm" />
+                        class="rounded-m block w-full border-slate-300 py-1 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 sm:text-sm" />
 
                       <div
                         @click="toggleSearchVisible()"
                         class="group absolute inset-y-0 right-0 flex items-center pr-3">
                         <XMarkIcon
-                          class="h-4 w-4 cursor-pointer rounded-md text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600 dark:text-slate-600 group-hover:dark:bg-slate-800"
+                          class="h-4 w-4 cursor-pointer rounded-md text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-slate-800 dark:text-slate-600 group-hover:dark:bg-slate-800"
                           aria-hidden="true" />
                       </div>
                     </div>
@@ -111,7 +111,7 @@
               <div class="group h-full cursor-pointer items-center">
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
-                    <MenuButton @click="open" class="inline-flex items-center">
+                    <MenuButton class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
                         class="h-5 w-5 font-bold text-slate-400 dark:text-slate-600 group-hover:text-slate-600"
                         aria-hidden="true" /> -->
@@ -141,10 +141,10 @@
                       <MenuItems
                         @focus="focusTableColumnFilterInput()"
                         static
-                        class="w-60 flex-col rounded-md border-2 border-slate-200 bg-white/60 bg-slate-900/60 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0 dark:border-slate-700 dark:border-slate-700/40 dark:bg-slate-900/60">
+                        class="w-60 flex-col rounded-md border-2 border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0 dark:border-slate-700 dark:border-slate-700/40 dark:bg-slate-900/60 dark:bg-slate-900/60">
                         <!--  <div as="div">
                           <div
-                            class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700  py-1">
+                            class="flex items-center justify-between border-b border-slate-300 dark:border-slate-700  py-1">
                             <div
                               class="text-xs font-bold text-slate-500 line-clamp-1">
                               Display Columns
@@ -162,7 +162,7 @@
                               <!-- <div
                                 class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
                                 <kbd
-                                  class="inline-flex items-center rounded border border-slate-200 dark:border-slate-700  px-1 font-sans text-2xs font-medium text-slate-400"
+                                  class="inline-flex items-center rounded border border-slate-300 dark:border-slate-700  px-1 font-sans text-2xs font-medium text-slate-400"
                                   >S</kbd
                                 >
                               </div> -->
@@ -222,7 +222,7 @@
                           </SwitchGroup>
                         </MenuItem>
                         <div
-                          class="text-medium border-t border-slate-200 dark:border-slate-700">
+                          class="text-medium border-t border-slate-300 dark:border-slate-700">
                           <MenuItem
                             v-slot="{ active }"
                             v-for="setting in settings">
@@ -310,7 +310,7 @@
         </div>
         <div class="inline-block h-full w-full overflow-x-auto align-middle">
           <div
-            class="flex h-full w-full flex-col justify-between overflow-auto shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-black">
+            class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-black">
             <table
               class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:bg-slate-800">
               <thead class="relative isolate z-20 w-full items-center">
@@ -362,7 +362,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-blur-xl backdrop-saturate-150 backdrop-saturate-150 backdrop-filter dark:border-slate-700 dark:border-slate-400 dark:bg-slate-900/60 dark:bg-slate-900/60 dark:bg-slate-900/60">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-blur-xl backdrop-saturate-150 backdrop-saturate-150 backdrop-filter dark:border-slate-700 dark:border-slate-400 dark:bg-slate-900/60 dark:bg-slate-900/60 dark:bg-slate-900/60">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -434,7 +434,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white px-1 py-1 shadow-xl dark:border-slate-700 dark:bg-slate-900">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white px-1 py-1 shadow-xl dark:border-slate-700 dark:bg-slate-900">
                               <MenuItem
                                 v-slot="{ active }"
                                 v-for="list in userLists"
@@ -538,8 +538,8 @@
                   <tr
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
-                    @contextmenu="openContextMenu($event, creator)"
-                    class="border-1 group group w-full flex-row overflow-y-visible border border-slate-200 focus-visible:ring-indigo-700 dark:border-slate-700"
+                    @contextmenu.prevent="openContextMenu(creator)"
+                    class="border-1 group group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-slate-700"
                     :class="[
                       {
                         'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
@@ -555,7 +555,7 @@
                         },
                         'bg-white hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
                       ]"
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-200 before:content-[''] group-hover:text-slate-500 dark:bg-slate-900 before:dark:border-slate-700 dark:group-hover:text-slate-400">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:bg-slate-900 before:dark:border-slate-700 dark:group-hover:text-slate-400">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -707,13 +707,14 @@
                               arrow
                               placement="bottom-end">
                               <MenuButton
+                                v-slot="{ open }"
                                 class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 active:bg-slate-800 group-hover:text-slate-400 dark:hover:text-slate-400 dark:group-hover:text-slate-600">
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
                                   class="z-0 mt-0.5 h-5 w-5"
                                   aria-hidden="true" />
                               </MenuButton>
-                              <transition
+                              <TransitionRoot
                                 enter-active-class="transition ease-out duration-100"
                                 enter-from-class="transform opacity-0 scale-95"
                                 enter-to-class="transform opacity-100 scale-100"
@@ -721,7 +722,7 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border border-slate-200 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60 dark:bg-slate-900/60 dark:bg-slate-900/60">
+                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60 dark:bg-slate-900/60 dark:bg-slate-900/60">
                                   <div class="py-1">
                                     <MenuItem
                                       :disabled="
@@ -933,7 +934,7 @@
                                     </MenuItem>
                                   </div>
                                 </MenuItems>
-                              </transition>
+                              </TransitionRoot>
                             </Float>
                           </Menu>
                         </div>
@@ -941,7 +942,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('first_name')"
-                      class="border-1 table-cell w-28 whitespace-nowrap border dark:border-slate-700">
+                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-slate-700">
                       <div class="text-sm text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.first_name"
@@ -957,7 +958,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('last_name')"
-                      class="border-1 table-cell w-28 whitespace-nowrap border dark:border-slate-700">
+                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-slate-700">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.last_name"
@@ -973,7 +974,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('title')"
-                      class="border-1 table-cell w-40 resize-x whitespace-nowrap border dark:border-slate-700">
+                      class="border-1 table-cell w-40 resize-x whitespace-nowrap border border-slate-300 dark:border-slate-700">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_title"
@@ -989,7 +990,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('employer')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border dark:border-slate-700">
+                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 dark:border-slate-700">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_employer"
@@ -1006,7 +1007,7 @@
 
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border focus:border-indigo-500 dark:border-slate-700">
+                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-slate-700">
                       <div
                         class="text-xs text-slate-700 line-clamp-1 dark:text-slate-300">
                         <input
@@ -1023,7 +1024,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-18 items-center whitespace-nowrap border dark:border-slate-700">
+                      class="border-1 w-18 items-center whitespace-nowrap border border-slate-300 dark:border-slate-700">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -1060,7 +1061,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.offer')"
-                      class="border-1 table-cell w-12 whitespace-nowrap border dark:border-slate-700">
+                      class="border-1 table-cell w-12 whitespace-nowrap border border-slate-300 dark:border-slate-700">
                       <span
                         class="inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5 text-slate-800 dark:text-slate-200">
                         $
@@ -1088,7 +1089,7 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border dark:border-slate-700">
+                      class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border border-slate-300 dark:border-slate-700">
                       <ContactStageMenu
                         :creator="creator"
                         :key="key"
@@ -1314,7 +1315,7 @@ export default {
   },
   data() {
     return {
-      openContextMenu: false,
+      creatorMenu: false,
       view: {
         atTopOfPage: true,
       },
@@ -1557,11 +1558,9 @@ export default {
         this.$refs.stageInput.$el.focus();
       });
     },
-    openContextMenu(event, creator) {
-      //notify the user they right clicked
-      console.log('right clicked' + creator.name);
+    openContextMenu() {
       //toggel open
-      this.openContextMenu = true;
+      this.open = true;
     },
     sortData({ sortBy, sortOrder }) {
       this.columns = this.columns.map((column) => {
