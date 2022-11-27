@@ -3,7 +3,7 @@
     <div class="mr-1 flex">
       <div v-for="item in lists" class="mr-2 flex" :key="item.order">
         <div
-          class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-1 text-xs font-medium text-slate-800 hover:bg-slate-50 hover:bg-slate-900 dark:border-slate-700 dark:text-slate-200">
+          class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-1 text-xs font-medium text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">
           <div class="flex w-full items-center">
             <span class="mr-1"> {{ item.emoji }}</span>
             <span class="w-18 select-none truncate text-ellipsis text-2xs">{{
