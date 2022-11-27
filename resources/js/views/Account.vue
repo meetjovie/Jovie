@@ -11,8 +11,8 @@
             <button
               :class="[
                 selected
-                  ? 'bg-slate-100 text-slate-700'
-                  : 'border-transparent text-slate-900',
+                  ? 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300'
+                  : 'border-transparent text-slate-900 dark:text-slate-100',
                 'flex-1 whitespace-nowrap rounded-md py-1 px-1 text-left text-xs font-medium  outline-none ring-0 focus:outline-none focus:ring-0',
               ]">
               {{ tab.name }}
@@ -28,7 +28,8 @@
             <div class="pb-6">
               <!-- Tabs -->
 
-              <div class="border-b border-slate-200"></div>
+              <div
+                class="border-b border-slate-200 dark:border-slate-700"></div>
 
               <TabPanels as="template">
                 <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">

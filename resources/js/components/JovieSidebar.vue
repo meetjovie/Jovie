@@ -16,9 +16,9 @@
           <div class="w-full flex-col px-2">
             <div class="items-center" @click="navigateBack()" v-if="menu">
               <div
-                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-600 text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:text-gray-300 dark:hover:text-gray-200">
+                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-600 text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:text-gray-100 dark:hover:text-white">
                 <ChevronLeftIcon
-                  class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-300 dark:hover:text-gray-200"
+                  class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                   aria-hidden="true" />
                 {{ menu || 'Back' }}
               </div>

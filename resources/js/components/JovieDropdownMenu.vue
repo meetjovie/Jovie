@@ -238,6 +238,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    shortcut: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   computed: {
     filteredItems() {

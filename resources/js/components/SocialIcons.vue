@@ -113,7 +113,7 @@
           :class="
             iconstyle == 'horizontal'
               ? 'z-0 mx-auto  '
-              : 'mx-auto  text-slate-400'
+              : 'mx-auto  text-slate-400 dark:text-slate-600'
           "
           v-if="icon == 'twitch'">
           <title>Twitch</title>
@@ -122,7 +122,9 @@
             fill="#6441a5"
             d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
         </svg>
-        <div class="text-center text-2xs text-slate-500" v-if="countsVisible">
+        <div
+          class="text-center text-2xs text-slate-500 dark:text-slate-300"
+          v-if="countsVisible">
           {{ followers }} || -
         </div>
       </a>

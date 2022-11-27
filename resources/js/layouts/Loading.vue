@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen items-center" id="app">
     <router-view />
-    <div class="flex h-screen items-center text-center">
+    <div class="flex h-screen items-center text-center dark:bg-slate-900">
       <div class="mx-auto">
         <JovieSpinner />
       </div>

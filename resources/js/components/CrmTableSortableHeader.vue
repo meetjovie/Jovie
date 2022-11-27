@@ -11,25 +11,28 @@
       class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider"
       :class="[
         {
-          ' cursor-pointer hover:bg-slate-200 active:bg-slate-300': sortable,
+          ' cursor-pointer hover:bg-slate-200 active:bg-slate-300 active:bg-slate-700 dark:hover:bg-slate-800':
+            sortable,
         },
       ]">
       <div class="text-medium flex w-full items-center tracking-wider">
         <component
-          class="mr-1 h-4 w-4 text-slate-400"
+          class="mr-1 h-4 w-4 text-slate-400 dark:text-slate-600"
           :class="{
-            'text-slate-600': sortable,
+            'text-slate-600 dark:text-slate-400': sortable,
           }"
           :is="column.icon"></component>
         <span class="text-medium tracking-wider line-clamp-1">
           {{ column.name }}
         </span>
       </div>
-      <div v-if="column.sortable" class="cursor-pointer text-slate-400">
+      <div
+        v-if="column.sortable"
+        class="cursor-pointer text-slate-400 dark:text-slate-600">
         <svg
           v-if="!column.sortOrder"
           xmlns="http://www.w3.org/2000/svg"
-          class="ml-1 h-3 w-3 text-slate-500/0 group-hover/header:text-slate-500"
+          class="ml-1 h-3 w-3 text-slate-500/0 group-hover/header:text-slate-500 dark:group-hover/header:text-slate-400"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 320 512">
@@ -38,8 +41,10 @@
         </svg>
         <ChevronDownIcon
           v-else-if="column.sortOrder === 'desc'"
-          class="ml-1 h-3 w-3" />
-        <ChevronUpIcon v-else class="ml-1 h-3 w-3" />
+          class="ml-1 h-3 w-3 text-slate-500/0 group-hover/header:text-slate-500 dark:group-hover/header:text-slate-400" />
+        <ChevronUpIcon
+          v-else
+          class="ml-1 h-3 w-3 text-slate-500/0 group-hover/header:text-slate-500 dark:group-hover/header:text-slate-400" />
       </div>
     </div>
     <!--  <Popover v-slot="{ open }" class="w-full">

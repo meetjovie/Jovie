@@ -9,26 +9,26 @@
         @click="open"
         class="flex w-full justify-between px-2">
         <div
-          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1"
+          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:bg-slate-800 dark:text-slate-200"
           :class="[
             {
-              'bg-indigo-50 text-indigo-600':
+              'bg-indigo-50 text-indigo-600 dark:bg-indigo-800 dark:text-indigo-200':
                 creator.crm_record_by_user.stage_name === 'Lead',
             },
             {
-              'bg-sky-50 text-sky-600':
+              'bg-sky-50 text-sky-600 dark:bg-sky-800 dark:text-sky-200':
                 creator.crm_record_by_user.stage_name === 'Interested',
             },
             {
-              'bg-pink-50 text-pink-600':
+              'bg-pink-50 text-pink-600 dark:bg-pink-800 dark:text-pink-200':
                 creator.crm_record_by_user.stage_name === 'Negotiating',
             },
             {
-              'bg-fuchsia-50 text-fuchsia-600':
+              'bg-fuchsia-50 text-fuchsia-600 dark:bg-fuchsia-800 dark:text-fuchsia-200':
                 creator.crm_record_by_user.stage_name === 'In Progress',
             },
             {
-              'bg-red-50 text-red-600':
+              'bg-red-50 text-red-600 dark:bg-red-800 dark:text-red-200':
                 creator.crm_record_by_user.stage_name === 'Complete',
             },
           ]">
@@ -36,7 +36,8 @@
         </div>
 
         <div class="items-center">
-          <ChevronDownIcon class="mt-1 h-4 w-4 text-slate-600" />
+          <ChevronDownIcon
+            class="mt-1 h-4 w-4 text-slate-600 dark:text-slate-400" />
         </div>
       </MenuButton>
       <TransitionRoot
@@ -70,7 +71,7 @@
             </MenuItem>
           </div>
 
-          <div class="border-t border-slate-200 px-2">
+          <div class="border-t border-slate-200 px-2 dark:border-slate-700">
             <MenuItem
               as="div"
               v-slot="{ active }"
@@ -85,7 +86,7 @@
                 })
               ">
               <div
-                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600"
+                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400"
                 :class="{
                   'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200':
                     active,
@@ -94,7 +95,7 @@
                   <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="stage === creator.crm_record_by_user.stage_name"
-                      class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700" />
+                      class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-200" />
                   </div>
                   <div class="mr-2 text-xs font-bold opacity-50">
                     <span
@@ -121,7 +122,7 @@
                             stage == 'Complete',
                         },
                         {
-                          'bg-slate-600 text-slate-600 dark:bg-slate-400':
+                          'bg-slate-600 text-slate-600 dark:bg-slate-200 dark:text-slate-200':
                             stage == 'Not Interested',
                         },
                       ]"></span>
@@ -141,7 +142,7 @@
               v-if="filteredStage.length === 0">
               <div
                 :class="{ 'bg-slate-200 dark:bg-slate-700': active }"
-                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600">
+                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400">
                 <div class="mx-auto flex">
                   <div class="text-center text-xs font-medium text-slate-300">
                     No match
@@ -157,10 +158,11 @@
               v-if="stageSearchQuery"
               :disabled="!stageSearchQuery"
               @click="stageSearchQuery = ''"
-              class="group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-slate-700/40">
+              class="hover: group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-slate-700/40 dark:text-slate-400 dark:text-slate-400">
               <div class="mx-auto flex items-center text-center">
                 <div class="mr-2 w-3 text-xs font-bold opacity-50">
-                  <XMarkIcon class="h-3 w-3 text-slate-600" />
+                  <XMarkIcon
+                    class="h-3 w-3 text-slate-600 dark:text-slate-400" />
                 </div>
                 <div class="text-center text-xs font-semibold text-slate-400">
                   Clear search

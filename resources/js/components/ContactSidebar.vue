@@ -9,7 +9,7 @@
       <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
-          class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-600 active:text-slate-700" />
+          class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-600 active:text-slate-700 dark:text-slate-600 dark:hover:text-slate-400 dark:active:text-slate-300" />
       </div>
 
       <div class="grid grid-cols-3">
@@ -44,22 +44,22 @@
             @blur="$emit('updateCrmMeta')"
             v-model="creator.meta.name"
             placeholder="Name"
-            class="placeholder:text-slate-300/0hover:border-opacity-100 w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 hover:bg-slate-100 hover:placeholder:text-slate-500" />
+            class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:text-slate-300 dark:hover:bg-slate-800" />
           <!-- <div class="">
             <input
               @blur="saveToCrm()"
               placeholder="Title"
-              class="w-auto rounded-md border border-slate-300 border-opacity-0 px-1 text-xs font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
+              class="w-auto rounded-md border border-slate-300 dark:border-slate-700 border-slate-700 border-opacity-0 px-1 text-xs font-bold text-slate-700 dark:text-slate-300 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
 
             <input
               @blur="saveToCrm()"
               placeholder="Company"
-              class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
+              class="w-full rounded-md border border-slate-300 dark:border-slate-700 border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
           </div> -->
 
           <div v-if="creator.category" class="">
             <span
-              class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800">
+              class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="-ml-0.5 mr-1.5 h-2 w-2 text-indigo-400"
@@ -78,7 +78,7 @@
 
           <div
             @click="toggleExpandBio()"
-            class="w-full cursor-pointer whitespace-pre-wrap text-2xs transition-all"
+            class="w-full cursor-pointer whitespace-pre-wrap text-2xs text-slate-700 transition-all dark:text-slate-300"
             :class="{
               'h-12 line-clamp-5': expandBio,
               'h-8 line-clamp-2': !expandBio,
@@ -100,7 +100,7 @@
             :followers="formatCount(creator.instagram_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -119,7 +119,7 @@
               "
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -127,7 +127,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700 dark:text-slate-300" />
           </div>
         </div>
         <div>
@@ -142,7 +142,7 @@
             :followers="formatCount(creator.twitter_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -159,7 +159,7 @@
               :link="creator.twitter_handler || creator.meta.twitter_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
 
@@ -183,7 +183,7 @@
             :followers="formatCount(creator.twitch_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -202,7 +202,7 @@
               :link="creator.twitch_handler || creator.meta.twitch_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -225,7 +225,7 @@
             :followers="formatCount(creator.tiktok_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -242,7 +242,7 @@
               :link="creator.tiktok_handler || creator.meta.tiktok_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -265,7 +265,7 @@
             :followers="formatCount(creator.youtube_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -282,7 +282,7 @@
               :link="creator.youtube_handler || creator.meta.youtube_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -305,7 +305,7 @@
             :followers="formatCount(creator.linkedin_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -322,7 +322,7 @@
               :link="creator.linkedin_handler || creator.meta.linkedin_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -366,7 +366,7 @@
           <Menu>
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
-                class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
+                class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
                 <ChatBubbleLeftIcon
                   class="h-3 w-3 text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
                   aria-hidden="true" />
@@ -393,7 +393,7 @@
                       "
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
                           : 'text-slate-700 dark:text-slate-300',
                         'group flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                       ]">
@@ -412,7 +412,7 @@
                       @click="textCreator(creator.phone || creator.meta.phone)"
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
                           : 'text-slate-700 dark:text-slate-300',
                         'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
@@ -439,7 +439,7 @@
                       "
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
                           : 'text-slate-700 dark:text-slate-300',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
@@ -457,7 +457,7 @@
                       "
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
                           : 'text-slate-700 dark:text-slate-300',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
@@ -476,7 +476,7 @@
                       @click="callCreator(creator.phone || creator.meta.phone)"
                       :class="[
                         active
-                          ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
                           : 'text-slate-700 dark:text-slate-300',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
@@ -494,7 +494,7 @@
         </div>
       </div>
       <div class="px-2">
-        <!--  <h2 class="text-xs font-semibold text-slate-600">Lists</h2> -->
+        <!--  <h2 class="text-xs font-semibold text-slate-600 dark:text-slate-400">Lists</h2> -->
         <InputLists
           v-if="creator.id"
           @updateLists="updateCreatorLists"
@@ -503,21 +503,22 @@
           :currentList="creator.current_list" />
       </div>
       <div class="mt-4 px-2">
-        <h2 class="mb-2 text-xs font-semibold text-slate-600">
+        <h2
+          class="mb-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
           Contact Details
         </h2>
       </div>
       <div
         class="h-80 items-center px-2 text-center"
         v-if="jovie && !creator.id">
-        <div class="mx-auto text-center text-slate-400">
+        <div class="mx-auto text-center text-slate-400 dark:text-slate-600">
           No contact selected
         </div>
       </div>
       <div
         class="h-80 items-center px-2 text-center"
         v-if="!jovie && !creator.id">
-        <div class="mx-auto text-center text-slate-400">
+        <div class="mx-auto text-center text-slate-400 dark:text-slate-600">
           Save this profile to edit contact details
         </div>
       </div>
@@ -560,7 +561,7 @@
             </draggable>
           </div>
 
-          <div class="mt-2 justify-self-end bg-white px-2">
+          <div class="mt-2 justify-self-end bg-white px-2 dark:bg-slate-900">
             <TextAreaInput
               ref="noteInput"
               v-model="creator.note"
@@ -569,7 +570,7 @@
         </div>
         <div
           v-if="!creator.id"
-          class="absolute top-40 z-30 mx-auto w-full text-center text-sm font-semibold text-slate-800">
+          class="absolute top-24 z-30 mx-auto w-full text-center text-sm font-semibold text-slate-800 dark:text-slate-200">
           Save this profile to edit contact details
         </div>
       </div>
@@ -621,7 +622,8 @@
               <div class="block lg:hidden">
                 <JovieLogo height="28px" />
               </div>
-              <h2 class="mt-6 text-3xl font-extrabold text-slate-900">
+              <h2
+                class="mt-6 text-3xl font-extrabold text-slate-900 text-slate-100">
                 Sign in
               </h2>
               <p class="mt-2 text-sm text-slate-600">
@@ -692,10 +694,10 @@
                         id="remember-me"
                         name="remember-me"
                         type="checkbox"
-                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-slate-700 dark:border-slate-700" />
                       <label
                         for="remember-me"
-                        class="ml-2 block text-sm text-slate-900">
+                        class="ml-2 block text-sm text-slate-900 dark:text-slate-100">
                         Remember me
                       </label>
                     </div>
