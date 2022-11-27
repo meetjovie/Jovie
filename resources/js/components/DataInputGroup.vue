@@ -2,7 +2,7 @@
   <div class="group/bg-slate-50 dark:group/bg-slate-800 input mt-1 flex">
     <div class="group/move active:grabbing flex w-3 cursor-grab items-center">
       <EllipsisVerticalIcon
-        class="/0 h-5 w-5 text-slate-400 group-hover/draggable:text-slate-400 group-hover/move:text-slate-700 dark:text-slate-600 dark:text-slate-600/0 dark:group-hover/draggable:text-slate-600 dark:group-hover/move:text-slate-300" />
+        class="h-5 w-5 text-slate-400/0 group-hover/draggable:text-slate-400 group-hover/move:text-slate-700 dark:text-slate-600 dark:text-slate-600/0 dark:group-hover/draggable:text-slate-600 dark:group-hover/move:text-slate-300" />
     </div>
     <div class="group relative mt-1 w-full">
       <div class="relative">
@@ -34,7 +34,7 @@
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
           @change="$emit('updateModelValue', $event.target.value)"
-          class="input-field disable:cursor-none h-8 w-full rounded border border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:focus:border-indigo-400 dark:group-hover:bg-slate-800 dark:group-hover:bg-slate-800"
+          class="input-field disable:cursor-none h-8 w-full rounded border border-slate-300 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:focus:border-indigo-400 dark:group-hover:bg-slate-800 dark:group-hover:bg-slate-800"
           :class="[
             icon ? 'pl-4' : '',
             { 'rounded-r-md': rounded == 'right' },

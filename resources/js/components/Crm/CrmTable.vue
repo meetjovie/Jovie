@@ -312,7 +312,7 @@
           <div
             class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-black">
             <table
-              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:bg-slate-800">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto border-b border-slate-300 bg-slate-100 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800">
               <thead class="relative isolate z-20 w-full items-center">
                 <tr class="sticky h-8 items-center">
                   <th
@@ -502,7 +502,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="dark: sticky top-0 z-30 table-cell w-48 items-center border-x border-b border-slate-300 border-x-slate-300 border-x-slate-700 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:bg-slate-800 dark:bg-slate-800 dark:text-slate-400">
+                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:border-x-slate-700 dark:bg-slate-800 dark:bg-slate-800 dark:text-slate-400">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -513,7 +513,7 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 border-x-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-800"></th>
+                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-800"></th>
                 </tr>
               </thead>
               <tbody
@@ -539,7 +539,7 @@
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu(creator)"
-                    class="border-1 group group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-slate-700"
+                    class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-slate-700"
                     :class="[
                       {
                         'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
@@ -553,7 +553,7 @@
                           'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
                       ]"
                       class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:bg-slate-900 before:dark:border-slate-700 dark:group-hover:text-slate-400">
                       <div class="group mx-auto w-6">
@@ -591,7 +591,7 @@
                           'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
                       ]"
                       class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:text-slate-700 dark:group-hover:text-slate-400">
                       <div
@@ -628,7 +628,7 @@
                           'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
                       ]"
                       v-on:dblclick="cellActive"
                       class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-slate-700 dark:bg-slate-900 dark:after:border-slate-700">
