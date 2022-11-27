@@ -135,6 +135,62 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
+              <p class="text-sm font-semibold text-slate-600">v0.0.5</p>
+              <p>2022.11.27</p>
+            </div>
+            <div class="w-full">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
+                Faster loading times, Dark Mode, and more.
+              </h2>
+              <p class="prose">
+                This release focuses on loading the chrome extension faster.
+                We've also updated the dashboard with our initial dark mode
+                theme, added some important context to various screens including
+                loading screens, & improved the functionality of the contact
+                sidebar.
+              </p>
+
+              <h4
+                class="prose mt-4 text-xl font-bold tracking-tight text-slate-800">
+                New Features
+              </h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Dark mode. Currently this is enabled by default for all users
+                  who have dark mode set at the operating system level. We'll be
+                  adding a toggle in the future.
+                </li>
+                <li class="prose">Improved load times.</li>
+                <li class="prose">
+                  Improved performance of list managment from the chrome
+                  extension. Lists should now update instantly when adding from
+                  a third party site.
+                </li>
+              </ul>
+
+              <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">General code refactors</li>
+                <li class="prose">
+                  Fixed a bug that prevented certain users from saving notes
+                  when using the Chrome Extension
+                </li>
+                <li class="prose">Improved loading screens on first visit</li>
+                <li class="prose">
+                  Fixed a bug in a new unreleased API endpoint
+                </li>
+                <li class="prose">
+                  Add instructions for contacts not saved already
+                </li>
+
+                <li class="prose">Fixed various bugs & improved performance</li>
+              </ul>
+            </div>
+          </li>
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
+            <div class="w-24 text-2xs">
               <p class="text-sm font-semibold text-slate-600">v0.0.4</p>
               <p>2022.11.25</p>
             </div>
