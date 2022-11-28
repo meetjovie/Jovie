@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div id="outreach" class="overflow-hidden bg-gray-50 py-16 lg:py-24">
+  <div id="outreach" class="overflow-hidden bg-slate-50 py-16 lg:py-24">
     <div class="relative mx-auto max-w-xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
       <svg
         class="absolute right-full hidden translate-x-1/2 translate-y-12 transform lg:block"
@@ -22,7 +22,7 @@
               y="0"
               width="4"
               height="4"
-              class="text-gray-200"
+              class="text-slate-200"
               fill="currentColor" />
           </pattern>
         </defs>
@@ -37,10 +37,10 @@
           class="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:items-center lg:gap-8">
           <div class="lg:col-start-2">
             <h3
-              class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+              class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
               Creator outreach on autopilot
             </h3>
-            <p class="mt-3 text-lg text-gray-500">
+            <p class="mt-3 text-lg text-slate-500">
               Jovie allows you to build complex outreach sequences that
               dramtically increase response rates.
             </p>
@@ -58,11 +58,11 @@
                       class="h-6 w-6"
                       aria-hidden="true" />
                   </div>
-                  <p class="ml-16 text-lg font-medium leading-6 text-gray-900">
+                  <p class="ml-16 text-lg font-medium leading-6 text-slate-900">
                     {{ item.name }}
                   </p>
                 </dt>
-                <dd class="mt-2 ml-16 text-base text-gray-500">
+                <dd class="mt-2 ml-16 text-base text-slate-500">
                   {{ item.description }}
                 </dd>
               </div>
@@ -90,7 +90,7 @@
                     y="0"
                     width="4"
                     height="4"
-                    class="text-gray-200"
+                    class="text-slate-200"
                     fill="currentColor" />
                 </pattern>
               </defs>

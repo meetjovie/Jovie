@@ -15,7 +15,7 @@
   ```
 -->
 <template>
-  <div class="bg-gray-800">
+  <div class="bg-slate-800">
     <div
       class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:flex lg:items-center lg:py-16 lg:px-8">
       <div class="lg:w-0 lg:flex-1">
@@ -24,7 +24,7 @@
           id="newsletter-headline">
           Stay in the loop
         </h2>
-        <p class="mt-3 max-w-3xl text-lg leading-6 text-gray-300">
+        <p class="mt-3 max-w-3xl text-lg leading-6 text-slate-300">
           Drop you email to get insights & updates on everything Jovie.
         </p>
       </div>
@@ -41,7 +41,7 @@
             id="hero-email"
             autocomplete="email"
             required=""
-            class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus-visible:border-indigo-500 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:ring-indigo-500 sm:max-w-xs"
+            class="w-full min-w-0 appearance-none rounded-md border border-slate-300 bg-white py-2 px-4 text-base text-slate-900 placeholder-slate-500 focus-visible:border-indigo-500 focus-visible:placeholder-slate-400 focus-visible:outline-none focus-visible:ring-indigo-500 sm:max-w-xs"
             placeholder="Enter your email" />
           <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
             <ButtonGroup
@@ -59,7 +59,7 @@
           </div>
         </form>
         <div v-else class="flex min-w-0">
-          <p class="text-sm text-gray-500">You're subscribed!</p>
+          <p class="text-sm text-slate-500">You're subscribed!</p>
         </div>
       </div>
     </div>

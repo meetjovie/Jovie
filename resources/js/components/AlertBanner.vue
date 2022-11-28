@@ -34,7 +34,7 @@
           class="group flex rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
           <span class="sr-only">Dismiss</span>
           <XMarkIcon
-            class="active:text-neutal-100 h-6 w-6 rounded-full p-1 font-medium text-gray-50 transition duration-300 ease-in-out active:bg-gray-100/30 active:text-gray-400 group-hover:font-bold group-hover:text-white"
+            class="active:text-neutal-100 h-6 w-6 rounded-full p-1 font-medium text-slate-50 transition duration-300 ease-in-out active:bg-slate-100/30 active:text-slate-400 group-hover:font-bold group-hover:text-white"
             aria-hidden="true" />
         </button>
       </div>

@@ -3,11 +3,11 @@
     <div
       class="mx-auto flex h-screen w-full flex-col items-center justify-between py-12">
       <div class="mx-auto h-full w-full items-center px-12 py-6">
-        <p class="text-sm font-medium text-gray-900">
+        <p class="text-sm font-medium text-slate-900">
           Create your Jovie profile...
         </p>
         <div class="mx-auto max-w-7xl py-6" aria-hidden="true">
-          <div class="overflow-hidden rounded-full bg-gray-200">
+          <div class="overflow-hidden rounded-full bg-slate-200">
             <div
               class="h-2 rounded-full bg-indigo-600"
               :class="[
@@ -19,23 +19,23 @@
               ]" />
           </div>
           <div
-            class="max-w-7xlhidden mx-auto mt-2 grid-cols-4 px-8 text-sm font-medium text-gray-600 sm:grid">
+            class="max-w-7xlhidden mx-auto mt-2 grid-cols-4 px-8 text-sm font-medium text-slate-600 sm:grid">
             <div
               @click="setCurrentStep(1)"
               class="cursor-pointer"
-              :class="[{ 'text-indigo-600': step1Complete }, 'text-gray-600']">
+              :class="[{ 'text-indigo-600': step1Complete }, 'text-slate-600']">
               Upload picture
             </div>
             <div
               @click="setCurrentStep(2)"
               class="cursor-pointer"
-              :class="[{ 'text-indigo-600': step2Complete }, 'text-gray-600']">
+              :class="[{ 'text-indigo-600': step2Complete }, 'text-slate-600']">
               Add social Links
             </div>
             <div
               @click="setCurrentStep(3)"
               class="cursor-pointer"
-              :class="[{ 'text-indigo-600': step3Complete }, 'text-gray-600']">
+              :class="[{ 'text-indigo-600': step3Complete }, 'text-slate-600']">
               Set a username
             </div>
             <div
@@ -45,7 +45,7 @@
                   'text-indigo-600':
                     step1Complete && step2Complete && step3Complete,
                 },
-                'text-gray-600',
+                'text-slate-600',
               ]">
               Finish
             </div>
@@ -65,7 +65,7 @@
                   <!-- Profile Photo File Input -->
                   <div class="mt-1 flex items-center space-x-5">
                     <span
-                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-gray-100 object-cover object-center">
+                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-slate-100 object-cover object-center">
                       <img
                         class="aspect-square"
                         id="profile_pic_url_img"
@@ -78,7 +78,7 @@
 
                     <label
                       for="profile_pic_url"
-                      class="cursor-pointer rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      class="cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Change
                     </label>
                     <input
@@ -104,7 +104,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition hover:text-gray-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-gray-50 active:text-gray-800 disabled:opacity-25">
+                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25">
                     Remove Photo
                   </button>
                 </div>
@@ -147,12 +147,12 @@
               </div>
             </div>
             <div
-              class="flex items-center justify-end bg-gray-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
                 text="Save"
-                @click="currentStep = 2"
+                @click="updateProfile"
                 :disabled="updating">
               </ButtonGroup>
             </div>
@@ -160,8 +160,8 @@
         </div>
 
         <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
-          <div class="py- rounded-md bg-gray-50 px-4">
-            <h2 class="font-gray-500 py-2 px-4">
+          <div class="py- rounded-md bg-slate-50 px-4">
+            <h2 class="font-slate-500 py-2 px-4">
               Add at least one social link to your profile.
             </h2>
             <div class="mt-4 grid grid-cols-2 gap-4">
@@ -213,7 +213,7 @@
               <ButtonGroup
                 text="Next"
                 :loader="updating"
-                @click="currentStep = currentStep + 1" />
+                @click="updateSocialHandlers" />
             </div>
           </div>
         </div>
@@ -239,7 +239,7 @@
       </div>
 
       <div
-        class="text-2x mx-auto flex items-center justify-between py-6 px-4 text-center font-semibold text-gray-500">
+        class="text-2x mx-auto flex items-center justify-between py-6 px-4 text-center font-semibold text-slate-500">
         <div>
           <ChevronLeftIcon
             @click="previousStep()"
@@ -259,11 +259,11 @@
       class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed xl:flex xl:flex-col">
       <!-- Start secondary column (hidden on smaller screens) -->
       <div
-        class="absolute inset-0 items-center border-r border-gray-200 py-6 px-4 sm:px-6 lg:px-8">
-        <span class="text-2xl font-semibold text-gray-500">Preview</span>
+        class="absolute inset-0 items-center border-r border-slate-200 py-6 px-4 sm:px-6 lg:px-8">
+        <span class="text-2xl font-semibold text-slate-500">Preview</span>
         <div class="items-center">
           <div
-            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-gray-200 bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
+            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-slate-200 bg-slate-50 px-4 sm:items-center sm:px-6 lg:px-8">
             <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
               <div>
                 <img
@@ -273,7 +273,7 @@
 
                 <div class="mx-auto mt-6 flex 2xl:mt-12">
                   <h2
-                    class="mx-auto flex text-3xl font-extrabold text-gray-900">
+                    class="mx-auto flex text-3xl font-extrabold text-slate-900">
                     {{ this.currentUser.first_name }}
                     {{ this.currentUser.last_name }}
                     <svg
@@ -289,7 +289,7 @@
                     </svg>
                   </h2>
                 </div>
-                <p class="mt-2 text-center text-sm text-gray-600">
+                <p class="mt-2 text-center text-sm text-slate-600">
                   {{ this.currentUser.title }}
                   {{ this.currentUser.employer ? ' at ' : '' }}
                   <a
@@ -313,7 +313,7 @@
                           user[`show_${network}`] &&
                           this.currentUser.creator_profile[`${network}_handler`]
                         "
-                        class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
+                        class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-slate-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                         <a
                           class
                           :href="
@@ -342,7 +342,7 @@
                 </button>
               </a>
 
-              <div class="border-t-2 border-gray-400 opacity-20"></div>
+              <div class="border-t-2 border-slate-400 opacity-20"></div>
             </div>
           </div>
         </div>
@@ -468,6 +468,7 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
+            this.currentStep = this.currentStep + 1
           }
         })
         .catch((error) => {
@@ -495,6 +496,7 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
+            this.currentStep = 2
           }
         })
         .catch((error) => {

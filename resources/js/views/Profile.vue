@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="user"
-    class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-gray-50 px-4 sm:items-center sm:px-6 lg:px-8">
+    class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-slate-50 px-4 sm:items-center sm:px-6 lg:px-8">
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <router-link
         v-if="user.username == currentUser?.username"
@@ -15,7 +15,7 @@
           :src="user.profile_pic_url"
           alt="" />
         <div class="mx-auto mt-6 flex 2xl:mt-12">
-          <h2 class="mx-auto flex text-3xl font-extrabold text-gray-900">
+          <h2 class="mx-auto flex text-3xl font-extrabold text-slate-900">
             {{ user.first_name }} {{ user.last_name }}
             <svg
               v-if="user.is_verified"
@@ -30,7 +30,7 @@
             </svg>
           </h2>
         </div>
-        <p class="mt-2 text-center text-sm text-gray-600">
+        <p class="mt-2 text-center text-sm text-slate-600">
           {{ user.title }} {{ user.employer ? ' at ' : '' }}
           <a
             v-if="user.employer"
@@ -51,7 +51,7 @@
                   user[`show_${network}`] &&
                   user.creator_profile[`${network}_handler`]
                 "
-                class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-gray-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
+                class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-slate-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                 <a
                   class
                   :href="user.creator_profile[`${network}_handler`]"
@@ -74,9 +74,9 @@
         </button>
       </a>
 
-      <div class="border-t-2 border-gray-400 opacity-20"></div>
+      <div class="border-t-2 border-slate-400 opacity-20"></div>
       <router-link
-        class="group mt-1 py-4 text-center text-sm text-gray-500"
+        class="group mt-1 py-4 text-center text-sm text-slate-500"
         to="signup">
         <div class="mx-auto mt-4 flex items-center justify-center text-center">
           <JovieLogo
@@ -85,7 +85,7 @@
             class="opacity-20 group-hover:opacity-100" />
         </div>
         <div
-          class="bottom-0 w-full cursor-pointer items-center pb-4 font-semibold text-gray-900 opacity-20 group-hover:opacity-50">
+          class="bottom-0 w-full cursor-pointer items-center pb-4 font-semibold text-slate-900 opacity-20 group-hover:opacity-50">
           Get your profile
         </div>
       </router-link>

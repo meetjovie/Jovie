@@ -7,10 +7,10 @@
           Support
         </h2>
         <p
-          class="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+          class="mt-1 text-4xl font-extrabold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
           We're here to help.
         </p>
-        <p class="mx-auto mt-5 max-w-xl text-xl text-gray-500">
+        <p class="mx-auto mt-5 max-w-xl text-xl text-slate-500">
           <a class="text-indigo-400" href="mailto:support@jov.ie"
             >Get in touch</a
           >

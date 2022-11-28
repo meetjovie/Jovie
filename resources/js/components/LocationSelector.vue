@@ -2,10 +2,10 @@
   <div>
     <div class="relative">
       <div class="absolute inset-0 flex items-center" aria-hidden="true">
-        <div class="w-full border-t border-gray-300" />
+        <div class="w-full border-t border-slate-300" />
       </div>
       <div class="relative flex justify-start">
-        <span class="bg-gray-50 pr-2 text-xs text-gray-500"> Location </span>
+        <span class="bg-slate-50 pr-2 text-xs text-slate-500"> Location </span>
       </div>
     </div>
     <div class="top-16 w-full">
@@ -15,13 +15,13 @@
           <div
             class="relative w-full cursor-default overflow-hidden rounded-lg border bg-white/90 text-left backdrop-filter focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
             <ComboboxInput
-              class="w-full border-none py-1 pl-3 pr-10 text-xs leading-5 text-gray-700 focus:ring-0"
+              class="w-full border-none py-1 pl-3 pr-10 text-xs leading-5 text-slate-700 focus:ring-0"
               :displayValue="(Country) => Country.name"
               @change="query = $event.target.value" />
             <ComboboxButton
               class="absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronDownIcon
-                class="h-5 w-5 text-gray-400"
+                class="h-5 w-5 text-slate-400"
                 aria-hidden="true" />
             </ComboboxButton>
           </div>
@@ -33,7 +33,7 @@
               class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               <div
                 v-if="filteredCountries.length === 0 && query !== ''"
-                class="relative cursor-default select-none py-2 px-4 text-gray-700">
+                class="relative cursor-default select-none py-2 px-4 text-slate-700">
                 No results
               </div>
 
@@ -47,7 +47,7 @@
                   class="relative cursor-default select-none py-2 pl-10 pr-4"
                   :class="{
                     'bg-indigo-600 text-white': active,
-                    'text-gray-900': !active,
+                    'text-slate-900': !active,
                   }">
                   <span
                     class="block truncate"

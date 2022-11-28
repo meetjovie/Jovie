@@ -1,6 +1,6 @@
 <template>
   <!-- <img
-    class="aspect-square w-48 rounded-full border-4 border-gray-400 object-cover object-center"
+    class="aspect-square w-48 rounded-full border-4 border-slate-400 object-cover object-center"
     :src="imageUrl"
     :alt="name" /> -->
 
@@ -15,7 +15,7 @@
     <div
       class="rounded-full p-1"
       :class="[
-        { 'bg-gray-200': !network },
+        { 'bg-slate-200': !network },
         {
           'bg-social-youtube/60': network == 'youtube',
         },

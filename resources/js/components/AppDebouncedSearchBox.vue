@@ -6,7 +6,7 @@
     reset-title="Reset"
     autofocus="true"
     placeholder="Search for a creator, hashtag, or keyword..."
-    class="flex-auto rounded-md border-0 bg-white/0 py-2 text-base leading-6 text-gray-500 placeholder-gray-500 outline-0 ring-0 focus-visible:border-0 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:outline-none focus-visible:ring-0" />
+    class="flex-auto rounded-md border-0 bg-white/0 py-2 text-base leading-6 text-slate-500 placeholder-slate-500 outline-0 ring-0 focus-visible:border-0 focus-visible:placeholder-slate-400 focus-visible:outline-none focus-visible:outline-none focus-visible:ring-0" />
 </template>
 
 <script>

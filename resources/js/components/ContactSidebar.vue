@@ -1,23 +1,23 @@
 <template>
-  <div class="h-full w-80 bg-white">
+  <div class="h-full w-80 bg-white dark:bg-slate-900">
     <div v-if="user.loggedIn">
       <div
         v-if="!jovie"
-        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-gray-400 hover:text-gray-500">
+        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div>
       <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
-          class="h-4 w-4 cursor-pointer text-gray-400 hover:text-gray-600 active:text-gray-700" />
+          class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-600 active:text-slate-700 dark:text-slate-600 dark:hover:text-slate-400 dark:active:text-slate-300" />
       </div>
 
-      <div class="mt-2 grid grid-cols-3">
+      <div class="grid grid-cols-3">
         <div class="px-1">
           <!--  <svg
             v-if="creator.verified"
             xmlns="http://www.w3.org/2000/svg"
-            class="relative top-8 left-20 h-4 w-4 text-gray-600"
+            class="relative top-8 left-20 h-4 w-4 text-slate-600"
             viewBox="0 0 20 20"
             fill="currentColor">
             <path
@@ -29,14 +29,14 @@
             v-if="imageLoaded && creator.profile_pic_url"
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-gray-200 object-center"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
           <img
             v-else
             crossorigin="anonymous"
             id="profile-img-jovie"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-gray-200 object-center"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
@@ -44,22 +44,22 @@
             @blur="$emit('updateCrmMeta')"
             v-model="creator.meta.name"
             placeholder="Name"
-            class="placeholder:text-gray-300/0hover:border-opacity-100 w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-lg font-bold text-gray-700 transition line-clamp-1 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+            class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:text-slate-300 dark:hover:bg-slate-800" />
           <!-- <div class="">
             <input
               @blur="saveToCrm()"
               placeholder="Title"
-              class="w-auto rounded-md border border-gray-300 border-opacity-0 px-1 text-xs font-bold text-gray-700 transition line-clamp-1 placeholder:text-gray-300/0 hover:border-opacity-100 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+              class="w-auto rounded-md border border-slate-300 dark:border-slate-700 border-slate-700 border-opacity-0 px-1 text-xs font-bold text-slate-700 dark:text-slate-300 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
 
             <input
               @blur="saveToCrm()"
               placeholder="Company"
-              class="w-full rounded-md border border-gray-300 border-opacity-0 px-1 text-2xs font-semibold text-gray-400 transition line-clamp-1 placeholder:text-gray-300/0 hover:border-opacity-100 hover:bg-gray-100 hover:placeholder:text-gray-500" />
+              class="w-full rounded-md border border-slate-300 dark:border-slate-700 border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
           </div> -->
 
           <div v-if="creator.category" class="">
             <span
-              class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800">
+              class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="-ml-0.5 mr-1.5 h-2 w-2 text-indigo-400"
@@ -78,7 +78,7 @@
 
           <div
             @click="toggleExpandBio()"
-            class="w-full cursor-pointer whitespace-pre-wrap text-2xs transition-all"
+            class="w-full cursor-pointer whitespace-pre-wrap text-2xs text-slate-700 transition-all dark:text-slate-300"
             :class="{
               'h-12 line-clamp-5': expandBio,
               'h-8 line-clamp-2': !expandBio,
@@ -100,7 +100,7 @@
             :followers="formatCount(creator.instagram_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -119,7 +119,7 @@
               "
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -127,7 +127,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700 dark:text-slate-300" />
           </div>
         </div>
         <div>
@@ -142,7 +142,7 @@
             :followers="formatCount(creator.twitter_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -159,7 +159,7 @@
               :link="creator.twitter_handler || creator.meta.twitter_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
 
@@ -168,7 +168,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -183,7 +183,7 @@
             :followers="formatCount(creator.twitch_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -202,7 +202,7 @@
               :link="creator.twitch_handler || creator.meta.twitch_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -210,7 +210,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -225,7 +225,7 @@
             :followers="formatCount(creator.tiktok_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -242,7 +242,7 @@
               :link="creator.tiktok_handler || creator.meta.tiktok_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -250,7 +250,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -265,7 +265,7 @@
             :followers="formatCount(creator.youtube_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -282,7 +282,7 @@
               :link="creator.youtube_handler || creator.meta.youtube_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -290,7 +290,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
         <div>
@@ -305,7 +305,7 @@
             :followers="formatCount(creator.linkedin_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-gray-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -322,7 +322,7 @@
               :link="creator.linkedin_handler || creator.meta.linkedin_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-gray-400"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -330,37 +330,49 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-gray-700" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
           </div>
         </div>
       </div>
-      <div v-if="socialURLEditing">
-        <SocialInput
-          :socialMediaProfileUrl="socialMediaProfileUrl"
-          @finishImport="saveSocialNetworkURL"
-          @saveSocialNetworkURL="saveSocialNetworkURL()"
-          @cancelEdit="cancelEdit()"
-          minimalDesign />
-      </div>
+      <TransitionRoot
+        :show="socialURLEditing"
+        enter="transition ease-out duration-300"
+        enter-from="opacity-0 -translate-y-1/2"
+        enter-to="opacity-100 translate-y-0"
+        leave="transition ease-in duration-300"
+        leave-from="opacity-100 translate-y-0"
+        leave-to="opacity-0 -translate-y-1/2">
+        <div>
+          <SocialInput
+            :socialMediaProfileUrl="socialMediaProfileUrl"
+            @finishImport="saveSocialNetworkURL"
+            @saveSocialNetworkURL="saveSocialNetworkURL()"
+            @cancelEdit="cancelEdit()"
+            minimalDesign />
+        </div>
+      </TransitionRoot>
 
       <hr />
 
       <div class="px-4 py-2">
         <ButtonGroup
-          v-if="!jovie"
+          v-if="!creator.id"
           :text="buttonText"
           :loading="saving"
           :success="creator.saved ?? false"
           @click="saveToCrm()"
           class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
-        <div class="flex w-full gap-1" v-else>
+        <div class="flex" v-else>
           <Menu>
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
-                class="inline-flex w-full items-center justify-between rounded border border-gray-300 bg-white py-1 px-4 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-                <span class="text-center line-clamp-1">Message</span>
+                class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                <ChatBubbleLeftIcon
+                  class="h-3 w-3 text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
+                  aria-hidden="true" />
+                <span class="px-2 text-center line-clamp-1">Message</span>
                 <ChevronDownIcon
-                  class="text-vue-gray-400 hover:text-vue-gray-500 ml-2 -mr-1 h-5 w-5"
+                  class="-mr-1 h-4 w-4 text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
                   aria-hidden="true" />
               </MenuButton>
               <transition
@@ -371,7 +383,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-gray-200 bg-white px-1 py-1 shadow-xl">
+                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
                   <MenuItem
                     :disabled="!creator.emails[0] && !creator.meta.emails"
                     v-slot="{ active }">
@@ -380,7 +392,9 @@
                         emailCreator(creator.emails || creator.meta.emails)
                       "
                       :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        active
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
                       ]">
                       <EnvelopeIcon
@@ -397,7 +411,9 @@
                     <button
                       @click="textCreator(creator.phone || creator.meta.phone)"
                       :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        active
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleLeftEllipsisIcon
@@ -422,7 +438,9 @@
                         )
                       "
                       :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        active
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
@@ -438,7 +456,9 @@
                         whatsappCreator(creator.phone || creator.meta.phone)
                       "
                       :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        active
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                       ]">
                       <ChatBubbleOvalLeftEllipsisIcon
@@ -448,156 +468,111 @@
                       Send WhatsApp
                     </button>
                   </MenuItem>
+
+                  <MenuItem
+                    :disabled="!creator.phone && !creator.meta.phone"
+                    v-slot="{ active }">
+                    <button
+                      @click="callCreator(creator.phone || creator.meta.phone)"
+                      :class="[
+                        active
+                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
+                          : 'text-slate-700 dark:text-slate-300',
+                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                      ]">
+                      <PhoneIcon
+                        :active="active"
+                        class="mr-2 h-4 w-4 text-red-400"
+                        aria-hidden="true" />
+                      Call
+                    </button>
+                  </MenuItem>
                 </MenuItems>
               </transition>
             </Float>
           </Menu>
-          <button
-            @click="callCreator(creator.meta.phone || creator.phone)"
-            class="mx-auto inline-flex items-center rounded border border-gray-300 bg-white px-2 text-2xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30">
-            <span class="sr-only line-clamp-1">Call</span>
-            <PhoneIcon class="h-4 w-4 text-gray-500" aria-hidden="true" />
-          </button>
         </div>
       </div>
       <div class="px-2">
-        <h2 class="text-xs font-semibold text-gray-600">Lists</h2>
+        <!--  <h2 class="text-xs font-semibold text-slate-600 dark:text-slate-400">Lists</h2> -->
         <InputLists
+          v-if="creator.id"
+          @updateLists="updateCreatorLists"
+          :creatorId="creator.id ?? 0"
           :lists="creator.lists"
-          :current-list="creator.current_list" />
+          :currentList="creator.current_list" />
       </div>
       <div class="mt-4 px-2">
-        <h2 class="mb-2 text-xs font-semibold text-gray-600">
+        <h2
+          class="mb-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
           Contact Details
         </h2>
       </div>
       <div
         class="h-80 items-center px-2 text-center"
         v-if="jovie && !creator.id">
-        <div class="mx-auto text-center text-gray-400">No contact selected</div>
+        <div class="mx-auto text-center text-slate-400 dark:text-slate-600">
+          No contact selected
+        </div>
       </div>
-      <div v-else class="h-80 space-y-6 overflow-y-scroll px-2">
-        <draggable
-          class="select-none space-y-2"
-          group="lists"
-          ghost-class="ghost-card"
-          :creator="creator"
-          :list="fields">
-          <div
-            class="space-y-4"
-            v-for="(element, index) in fields"
-            :key="element.id">
-            <DataInputGroup
-              @copy="copyToClipboard(element.value)"
-              class="group/draggable"
-              @actionMethod="actionMethod(element.method, element.params)"
-              @actionMethod2="actionMethod(element.method2, element.params2)"
-              :value="element.value"
-              @updateModelValue="updateModelValue(element.model, $event)"
-              :id="element.name"
-              :icon="element.icon"
-              :socialicon="element.socialicon"
-              :label="element.name"
-              :action="element.actionIcon"
-              :action2="element.actionIcon2"
-              :isCopyable="element.isCopyable"
-              :placeholder="element.location" />
+      <div
+        class="h-80 items-center px-2 text-center"
+        v-if="!jovie && !creator.id">
+        <div class="mx-auto text-center text-slate-400 dark:text-slate-600">
+          Save this profile to edit contact details
+        </div>
+      </div>
+      <div v-else class="relative h-full">
+        <div
+          class="flex flex-col justify-between"
+          :class="{
+            ' blur-sm saturate-150 ': !creator.id,
+          }">
+          <div class="mt-2 h-80 space-y-6 overflow-y-scroll px-2">
+            <draggable
+              class="select-none space-y-2"
+              group="lists"
+              ghost-class="ghost-card"
+              :creator="creator"
+              :list="fields">
+              <div
+                class="space-y-4"
+                v-for="(element, index) in fields"
+                :key="element.id">
+                <DataInputGroup
+                  @copy="copyToClipboard(element.value)"
+                  class="group/draggable"
+                  @actionMethod="actionMethod(element.method, element.params)"
+                  @actionMethod2="
+                    actionMethod(element.method2, element.params2)
+                  "
+                  :value="element.value"
+                  @updateModelValue="updateModelValue(element.model, $event)"
+                  :id="element.name"
+                  :icon="element.icon"
+                  :socialicon="element.socialicon"
+                  :label="element.name"
+                  :disabled="!creator.id"
+                  :action="element.actionIcon"
+                  :action2="element.actionIcon2"
+                  :isCopyable="element.isCopyable"
+                  :placeholder="element.location" />
+              </div>
+            </draggable>
           </div>
-        </draggable>
-        <!-- <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          v-model="creator.meta.location"
-          :value="`${creator.city ?? ''} ${creator.country ?? ''}`"
-          id="location"
-          icon="MapPinIcon"
-          label="Location"
-          isCopyable
-          placeholder="Location"></DataInputGroup>
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          v-model="creator.meta.emails"
-          icon="EnvelopeIcon"
-          id="email"
-          label="Email"
-          @action="emailCreator(creator.meta.emails)"
-          action="EnvelopeIcon"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.emails)"
-          placeholder="email@email.com" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          v-model="creator.meta.website"
-          icon="LinkIcon"
-          action="ArrowTopRightOnSquareIcon"
-          @action="openLink(creator.meta.website)"
-          id="website"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.website)"
-          label="Website"
-          placeholder="Website" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          v-model="creator.meta.phone"
-          id="phone"
-          icon="PhoneIcon"
-          action="PhoneIcon"
-          @action="callCreator(creator.meta.phone)"
-          label="Phone"
-          @copyToClipboard="copyToClipboard(creator.meta.phone)"
-          placeholder="Phone" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="instagram"
-          action="ArrowTopRightOnSquareIcon"
-          @action="openSocialLink(creator.meta.instagram, 'instagram')"
-          v-model="creator.meta.instagram_handler"
-          id="instagram_handler"
-          label="Instagram"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.instagram_handler)"
-          placeholder="Instagram" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="twitch"
-          v-model="creator.meta.twitch_handler"
-          id="twitch_handler"
-          label="Twitch"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.twitch_handler)"
-          placeholder="Twitch" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="twitter"
-          v-model="creator.meta.twitter_handler"
-          id="twitter_handler"
-          label="Twitter"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.twitter_handler)"
-          placeholder="Twitter" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="tiktok"
-          v-model="creator.meta.tiktok_handler"
-          id="tiktok_handler"
-          label="TikTok"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.tiktok_handler)"
-          placeholder="TikTok" />
-        <DataInputGroup
-          @blur="$emit('updateCrmMeta')"
-          socialicon="youtube"
-          v-model="creator.meta.youtube_handler"
-          id="youtube_handler"
-          label="Youtube"
-          isCopyable
-          @copyToClipboard="copyToClipboard(creator.meta.youtube_handler)"
-          placeholder="Youtube" />-->
-      </div>
-      <div class="mt-2 justify-self-end bg-white px-2">
-        <TextAreaInput
-          ref="noteInput"
-          v-model="creator.note"
-          @blur="updateCreatorNote" />
+
+          <div class="mt-2 justify-self-end bg-white px-2 dark:bg-slate-900">
+            <TextAreaInput
+              ref="noteInput"
+              v-model="creator.note"
+              @blur="updateCreatorNote" />
+          </div>
+        </div>
+        <div
+          v-if="!creator.id"
+          class="absolute top-24 z-30 mx-auto w-full text-center text-sm font-semibold text-slate-800 dark:text-slate-200">
+          Save this profile to edit contact details
+        </div>
       </div>
       <!--  <div class="grid mt-2 border-b pb-2 px-2 grid-cols-3">
         <div class="mx-auto">
@@ -647,10 +622,11 @@
               <div class="block lg:hidden">
                 <JovieLogo height="28px" />
               </div>
-              <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+              <h2
+                class="mt-6 text-3xl font-extrabold text-slate-900 text-slate-100">
                 Sign in
               </h2>
-              <p class="mt-2 text-sm text-gray-600">
+              <p class="mt-2 text-sm text-slate-600">
                 Or
                 {{ ' ' }}
                 <a
@@ -718,10 +694,10 @@
                         id="remember-me"
                         name="remember-me"
                         type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-slate-700 dark:border-slate-700" />
                       <label
                         for="remember-me"
-                        class="ml-2 block text-sm text-gray-900">
+                        class="ml-2 block text-sm text-slate-900 dark:text-slate-100">
                         Remember me
                       </label>
                     </div>
@@ -764,6 +740,7 @@ import {
   ChatBubbleLeftEllipsisIcon,
   EnvelopeIcon,
   ChatBubbleOvalLeftEllipsisIcon,
+  ChatBubbleLeftIcon,
 } from '@heroicons/vue/24/solid';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import {
@@ -788,6 +765,7 @@ export default {
     EnvelopeIcon,
     ChevronDownIcon,
     ChatBubbleOvalLeftEllipsisIcon,
+    ChatBubbleLeftIcon,
     Menu,
     MenuButton,
     MenuItems,
@@ -897,6 +875,13 @@ export default {
   },
 
   methods: {
+    updateCreatorLists({ list, add = false }) {
+      if (add) {
+        this.creator.lists.push(list);
+      } else {
+        this.creator.lists = this.creator.lists.filter((l) => l.id != list.id);
+      }
+    },
     focusNoteInput() {
       this.$refs.noteInput.$el.focus();
     },
@@ -1191,34 +1176,58 @@ export default {
           let creator = urlParameters.get('creator');
           creator = JSON.parse(decodeURIComponent(creator));
 
-          let promise = new Promise(async (resolve, reject) => {
-            if (image && creator.network == 'instagram') {
-              await this.$store
-                .dispatch('uploadTempFileFromUrl', image)
-                .then((response) => {
-                  image = response.url;
-                  creator.profile_pic_url = image;
-                  resolve();
-                });
-            } else {
-              creator.profile_pic_url = decodeURIComponent(image);
-              resolve();
-            }
+          let cPromise = new Promise(async (resolve, reject) => {
+            UserService.getCrmCreatorByHandler({
+              network: creator.network,
+              username: creator[`${creator.network}_handler`],
+            }).then((response) => {
+              response = response.data;
+              if (response.status) {
+                response.creator.network = creator.network;
+                resolve(response.creator);
+              } else {
+                reject();
+              }
+            });
           });
-          promise.then((response) => {
-            if (creator.meta == undefined) {
-              creator.meta = {};
-            }
-            // for (const property in creator) {
-            //   if (property == 'website') {
-            //     creator[property] = decodeURIComponent(creator[property]);
-            //   }
-            // }
 
-            this.creator = creator;
-            console.log('creator from iframe');
-            console.log(this.creator);
-          });
+          cPromise.then(
+            (value) => {
+              this.creator = value;
+              console.log('creator from iframe DB');
+              console.log(this.creator);
+            },
+            () => {
+              let promise = new Promise(async (resolve, reject) => {
+                if (image && creator.network == 'instagram') {
+                  await this.$store
+                    .dispatch('uploadTempFileFromUrl', image)
+                    .then((response) => {
+                      image = response.url;
+                      creator.profile_pic_url = image;
+                      resolve();
+                    });
+                } else {
+                  creator.profile_pic_url = decodeURIComponent(image);
+                  resolve();
+                }
+              });
+              promise.then((response) => {
+                if (creator.meta == undefined) {
+                  creator.meta = {};
+                }
+                // for (const property in creator) {
+                //   if (property == 'website') {
+                //     creator[property] = decodeURIComponent(creator[property]);
+                //   }
+                // }
+
+                this.creator = creator;
+                console.log('creator from iframe');
+                console.log(this.creator);
+              });
+            }
+          );
         }
       } catch (e) {
         console.log('eeeeeeeeeeeeeeeeeeeeeeeeeee');
@@ -1387,6 +1396,7 @@ export default {
   },
   data() {
     return {
+      abortController: null,
       sidebarLoading: false,
       socialURLEditing: false,
       dragging: false,

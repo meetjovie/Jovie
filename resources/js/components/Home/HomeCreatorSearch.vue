@@ -14,11 +14,11 @@
                   class="h-6 w-6"
                   aria-hidden="true" />
               </div>
-              <p class="ml-16 text-sm font-medium leading-6 text-gray-900">
+              <p class="ml-16 text-sm font-medium leading-6 text-slate-900">
                 {{ feature.name }}
               </p>
             </dt>
-            <dd class="mt-2 ml-16 text-base text-gray-500">
+            <dd class="mt-2 ml-16 text-base text-slate-500">
               {{ feature.description }}
             </dd>
           </div>

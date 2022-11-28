@@ -9,8 +9,8 @@
       class="mx-auto grid h-full w-full auto-cols-max grid-flow-col justify-center py-4">
       <div
         v-for="list in lists"
-        class="mx-auto h-full justify-center divide-y divide-gray-200">
-        <div class="border border-b-0 border-gray-200 lg:border-0">
+        class="mx-auto h-full justify-center divide-y divide-slate-200">
+        <div class="border border-b-0 border-slate-200 lg:border-0">
           <!-- Completed Step -->
           <a href="#" class="group">
             <span class="flex items-start px-2 py-2 text-sm font-medium">
@@ -25,7 +25,7 @@
                   class="truncate text-xs font-semibold uppercase tracking-wide line-clamp-1"
                   >{{ list.title }}</span
                 >
-                <span class="text-2xs font-medium text-gray-500">
+                <span class="text-2xs font-medium text-slate-500">
                   4.7M Reach | $5,000
                 </span>
               </span>
@@ -40,7 +40,7 @@
           itemKey="name">
           <template #item="{ element, index }">
             <div
-              class="h-12 w-60 items-center overflow-hidden rounded-lg bg-white shadow-lg hover:bg-gray-50">
+              class="h-12 w-60 items-center overflow-hidden rounded-lg bg-white shadow-lg hover:bg-slate-50">
               <div
                 class="list-group-item flex w-full items-center justify-between">
                 <div class="flex-1 items-center overflow-hidden truncate">
@@ -82,17 +82,17 @@
                       </div>
                       <div class="ml-2 -mt-2 block w-28 overflow-ellipsis">
                         <div
-                          class="block text-ellipsis text-xs font-medium text-gray-900 line-clamp-1">
+                          class="block text-ellipsis text-xs font-medium text-slate-900 line-clamp-1">
                           {{ element.name }}
                         </div>
                         <div
-                          class="elipsis block text-2xs text-gray-500 line-clamp-1">
+                          class="elipsis block text-2xs text-slate-500 line-clamp-1">
                           <span
-                            class="inline-flex items-center rounded-sm bg-gray-100 px-1 py-0 text-[8px] font-medium text-gray-800">
+                            class="inline-flex items-center rounded-sm bg-slate-100 px-1 py-0 text-[8px] font-medium text-slate-800">
                             {{ element.contacted }}
                           </span>
                           <span
-                            class="inline-flex text-[8px] font-medium text-gray-900">
+                            class="inline-flex text-[8px] font-medium text-slate-900">
                             - {{ element.daysinstage }} days ago
                           </span>
                         </div>

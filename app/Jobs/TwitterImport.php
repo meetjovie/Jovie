@@ -286,11 +286,10 @@ class TwitterImport implements ShouldQueue
             Storage::disk('s3')->delete($path);
         } catch (\Exception $e) {
         }
-        $file = $profilePicUrl;
+        $file = str_replace('_normal.', '_reasonably_small.', $profilePicUrl);
         if (is_null($file)) {
             return asset('images/thumnailLogo.5243720b.png');
         }
-
         return self::uploadFile($file, Creator::CREATORS_PROFILE_PATH);
     }
 }

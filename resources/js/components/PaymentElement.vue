@@ -4,7 +4,7 @@
       <div class="w-full">
         <div
           id="card"
-          class="flex-inline appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"></div>
+          class="flex-inline appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder-slate-400 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"></div>
       </div>
     </div>
   </div>
@@ -15,7 +15,7 @@
         v-model="addCoupon"
         name="add_coupon"
         type="checkbox"
-        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
+        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" /> -->
 
       <p class="mt-1 text-sm text-red-900" v-if="errors.coupon">
         {{ errors.coupon[0] }}

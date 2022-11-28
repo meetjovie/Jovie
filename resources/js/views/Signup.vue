@@ -95,7 +95,7 @@
                   </ButtonGroup>
                 </div>
 
-                <h3 class="mx-auto text-center text-xs text-gray-400">
+                <h3 class="mx-auto text-center text-xs text-slate-400">
                   Fast & easy. No credit card required.
                 </h3>
               </template>
@@ -163,7 +163,7 @@
                     </ButtonGroup>
                   </div>
                 </div>
-                <p class="text-2xs text-gray-400">
+                <p class="text-2xs text-slate-400">
                   By clicking “Sign up” you agree to our
                   <router-link class="underline" to="privacy"
                     >privacy policy</router-link
@@ -175,7 +175,7 @@
               </template>
               <!--  <template v-if="step == 3">
                 <CreateAccount text="Choose a plan">
-                  <p class="mt-1 text-sm text-gray-500">
+                  <p class="mt-1 text-sm text-slate-500">
                     Choose a plan that fits your needs.
                   </p>
                 </CreateAccount>

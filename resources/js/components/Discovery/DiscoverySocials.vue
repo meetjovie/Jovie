@@ -7,7 +7,7 @@
           :height="'14px'"
           :iconstyle="iconstyle"
           :icon="socialLink.network" />
-        <span class="text-xs text-gray-500" v-if="socialLink.followers">{{
+        <span class="text-xs text-slate-500" v-if="socialLink.followers">{{
           formatCount(socialLink.followers)
         }}</span>
       </div>

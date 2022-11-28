@@ -13,8 +13,8 @@
           <div class="block lg:hidden">
             <JovieLogo height="28px" />
           </div>
-          <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Sign in</h2>
-          <p class="mt-2 text-sm text-gray-600">
+          <h2 class="mt-6 text-3xl font-extrabold text-slate-900">Sign in</h2>
+          <p class="mt-2 text-sm text-slate-600">
             Or
             {{ ' ' }}
             <router-link
@@ -88,10 +88,10 @@
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                    class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
                   <label
                     for="remember-me"
-                    class="ml-2 block text-sm text-gray-900">
+                    class="ml-2 block text-sm text-slate-900">
                     Remember me
                   </label>
                 </div>

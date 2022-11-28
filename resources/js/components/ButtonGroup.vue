@@ -10,7 +10,7 @@
         : error
         ? 'bg-red-500'
         : disabled
-        ? 'bg-gray-500'
+        ? 'bg-slate-500'
         : '',
       //design seconday then bg color white
       design === 'secondary' ? 'bg-white' : '',
@@ -27,11 +27,11 @@
           design == 'secondary',
       },
       {
-        'group flex cursor-pointer items-center rounded-md p-4 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-30':
+        'group flex cursor-pointer items-center rounded-md p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30':
           design == 'toolbar',
       },
       {
-        'hover:bg-indig-600 w-full  font-medium text-white  shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900':
+        'hover:bg-indig-600 w-full  font-medium text-white  shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900':
           design == 'primary',
       },
       {
@@ -58,7 +58,7 @@
       :is="icon"
       :class="[
         {
-          'h-5 w-5 text-gray-400 group-hover:text-gray-600':
+          'h-5 w-5 text-slate-400 group-hover:text-slate-600':
             design == 'toolbar',
         },
         { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },
@@ -99,7 +99,7 @@
         class="relative"
         :class="[
           {
-            'h-5 w-5 text-gray-400 group-hover:text-gray-600':
+            'h-5 w-5 text-slate-400 group-hover:text-slate-600':
               design == 'toolbar',
           },
           { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },

@@ -16,7 +16,7 @@
       </div>
       <table class="w-full rounded-md py-2 px-8">
         <tr
-          class="border-neutrual-400 rounded-md-t border border-b py-4 px-4 text-gray-500">
+          class="border-neutrual-400 rounded-md-t border border-b py-4 px-4 text-slate-500">
           <th class="font-medium">
             Columns from <span class="font-bold">{{ csvFileName }}</span>
           </th>

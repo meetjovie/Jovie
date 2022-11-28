@@ -12,11 +12,11 @@
     <div
       class="flex w-full items-center justify-between space-y-1 border-b px-4 py-2">
       <div class="">
-        <h3 class="text-lg font-medium leading-6 text-gray-900">Team</h3>
-        <p class="max-w-2xl text-sm text-gray-500">
+        <h3 class="text-lg font-medium leading-6 text-slate-900">Team</h3>
+        <p class="max-w-2xl text-sm text-slate-500">
           Invite collaborators to join your team.
         </p>
-        <p class="max-w-2xl text-sm text-gray-500">
+        <p class="max-w-2xl text-sm text-slate-500">
           With your current team's plan, you can add
           {{ currentUser.current_team.current_subscription.seats }}
           member/members to you current active team.
@@ -37,7 +37,7 @@
             <button
               type="button"
               @click="decrementSeats()"
-              class="relative -ml-px inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+              class="relative -ml-px inline-flex items-center rounded-l-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
               <span class="sr-only">Decrease Seat Count</span>
               <MinusCircleIcon class="h-5 w-5" aria-hidden="true" />
             </button>
@@ -50,7 +50,7 @@
             <button
               type="button"
               @click="incrementSeats()"
-              class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+              class="relative -ml-px inline-flex items-center rounded-r-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
               <span class="sr-only">Increase Seat Count</span>
               <PlusCircleIcon class="h-5 w-5" aria-hidden="true" />
             </button>
@@ -92,7 +92,7 @@
             :disabled="loading.addingTeam"
             @click="createTeam()"
             type="button"
-            class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+            class="rounded-md bg-slate-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
             Update
           </button>
           <button
@@ -102,7 +102,7 @@
               addTeam = false;
             "
             type="button"
-            class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+            class="rounded-md bg-slate-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
             Cancel
           </button>
         </span>
@@ -117,14 +117,14 @@
           <DisclosureButton class="w-full items-center">
             <div
               class="flex w-full items-center justify-between px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-              <dt class="items-center text-sm font-medium text-gray-500">
+              <dt class="items-center text-sm font-medium text-slate-500">
                 <ChevronRightIcon
                   :class="open ? 'rotate-90 transform' : ''"
                   class="mt-2 h-5 w-5 text-indigo-500" />
                 <span class="-mt-2">Team Name</span>
               </dt>
               <dd
-                class="mt-1 flex items-center text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                class="mt-1 flex items-center text-sm text-slate-900 sm:col-span-2 sm:mt-0">
                 <InputGroup
                   :disabled="loading.updating"
                   placeholder="Team Name"
@@ -135,7 +135,7 @@
                     :disabled="loading.updating"
                     @click="updateTeam(team)"
                     type="button"
-                    class="rounded-md bg-gray-100 px-2 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    class="rounded-md bg-slate-100 px-2 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     Update
                   </button>
                   <button
@@ -158,7 +158,7 @@
             leave-to-class="transform scale-95 opacity-0">
             <DisclosurePanel>
               <ul role="list" class="border-b text-sm">
-                <span class="py-4 px-2 text-xs font-bold text-gray-400"
+                <span class="py-4 px-2 text-xs font-bold text-slate-400"
                   >Members</span
                 >
                 <li
@@ -181,16 +181,16 @@
                             {{ user.full_name }}
                           </p>
                           <p
-                            class="mt-2 flex items-center text-sm text-gray-500">
+                            class="mt-2 flex items-center text-sm text-slate-500">
                             <EnvelopeIcon
-                              class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                              class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-400"
                               aria-hidden="true" />
                             <span class="truncate">{{ user.email }}</span>
                           </p>
                         </div>
                         <div class="hidden md:block">
                           <div>
-                            <p class="text-sm text-gray-900">
+                            <p class="text-sm text-slate-900">
                               Joined on
                               {{ ' ' }}
                               <time :datetime="user.pivot.created_at"
@@ -198,7 +198,7 @@
                               </time>
                             </p>
                             <p
-                              class="mt-2 flex items-center text-sm text-gray-500">
+                              class="mt-2 flex items-center text-sm text-slate-500">
                               <CheckCircleIcon
                                 class="mr-1.5 h-5 w-5 flex-shrink-0 text-green-400"
                                 aria-hidden="true" />
@@ -225,7 +225,7 @@
               </ul>
               <ul
                 role="list"
-                class="divide-y divide-gray-200 px-4 py-2 text-sm font-bold">
+                class="divide-y divide-slate-200 px-4 py-2 text-sm font-bold">
                 Pending Invites
                 <li
                   v-if="team.invites && team.invites.length"
@@ -247,16 +247,16 @@
                             {{ user.email }}
                           </p>
                           <p
-                            class="mt-2 flex items-center text-sm text-gray-500">
+                            class="mt-2 flex items-center text-sm text-slate-500">
                             <EnvelopeIcon
-                              class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                              class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-400"
                               aria-hidden="true" />
                             <span class="truncate">{{ user.email }}</span>
                           </p>
                         </div>
                         <div class="hidden md:block">
                           <div>
-                            <p class="text-sm text-gray-900">
+                            <p class="text-sm text-slate-900">
                               Sent on
                               {{ ' ' }}
                               <time :datetime="user.updated"
@@ -273,21 +273,23 @@
                           :disabled="loading.inviting"
                           @click="resendInvite(user.id)"
                           type="button"
-                          class="rounded-md bg-gray-100 text-xs font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                          class="rounded-md bg-slate-100 text-xs font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                           Resend Invite
                         </button>
                       </span>
                     </div>
                   </div>
                 </li>
-                <li v-else class="text-sm font-bold text-gray-400">No Users</li>
+                <li v-else class="text-sm font-bold text-slate-400">
+                  No Users
+                </li>
               </ul>
               <div class="mt-12 py-8 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-2">
-                <dt class="text-sm font-medium text-gray-500 sm:pt-5">
+                <dt class="text-sm font-medium text-slate-500 sm:pt-5">
                   Invite addition team members
                 </dt>
                 <dd
-                  class="mt-1 flex items-center text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                  class="mt-1 flex items-center text-sm text-slate-900 sm:col-span-2 sm:mt-0">
                   <span class="flex-grow">
                     <InputGroup
                       placeholder="Example@jov.ie"
@@ -298,7 +300,7 @@
                       :disabled="loading.inviting"
                       @click="inviteMember(team, index)"
                       type="button"
-                      class="rounded-md bg-gray-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      class="rounded-md bg-slate-100 font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                       Send Invite
                     </button>
                   </span>

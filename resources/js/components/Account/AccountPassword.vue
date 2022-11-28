@@ -4,9 +4,9 @@
       <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
-            <h3 class="text-lg font-medium text-gray-900">Password</h3>
+            <h3 class="text-lg font-medium text-slate-900">Password</h3>
 
-            <p class="mt-1 text-sm text-gray-600">Update your password</p>
+            <p class="mt-1 text-sm text-slate-600">Update your password</p>
           </div>
 
           <div class="px-4 sm:px-0"></div>
@@ -60,7 +60,7 @@
             </div>
 
             <div
-              class="flex items-center justify-end bg-gray-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
@@ -84,7 +84,7 @@
 
       <div class="hidden sm:block">
         <div class="py-8">
-          <div class="border-t border-gray-200"></div>
+          <div class="border-t border-slate-200"></div>
         </div>
       </div>
     </div>
