@@ -152,7 +152,7 @@
                 type="submit"
                 design="primary"
                 text="Save"
-                @click="currentStep = 2"
+                @click="updateProfile"
                 :disabled="updating">
               </ButtonGroup>
             </div>
@@ -213,7 +213,7 @@
               <ButtonGroup
                 text="Next"
                 :loader="updating"
-                @click="currentStep = currentStep + 1" />
+                @click="updateSocialHandlers" />
             </div>
           </div>
         </div>
@@ -468,6 +468,7 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
+            this.currentStep = this.currentStep + 1
           }
         })
         .catch((error) => {
@@ -495,6 +496,7 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
+            this.currentStep = 2
           }
         })
         .catch((error) => {
