@@ -133,6 +133,28 @@
                         </div>
                       </router-link>
                     </MenuItem>
+                    <MenuItem
+                      v-if="currentUser.is_admin"
+                      as="div"
+                      role="menuitem"
+                      tabindex="-1">
+                      <router-link
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-100 dark:hover:bg-slate-800"
+                        to="/admin">
+                        <div
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
+                          :class="{
+                            'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                              active,
+                          }">
+                          <component
+                            class="mr-4 h-4 w-4 cursor-pointer"
+                            is="UserIcon">
+                          </component
+                          >Admin Dashboard
+                        </div>
+                      </router-link>
+                    </MenuItem>
                   </template>
 
                   <template #menuBottom>

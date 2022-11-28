@@ -308,7 +308,8 @@
             </div>
           </div>
         </div>
-        <div class="inline-block h-full w-full overflow-x-auto align-middle">
+        <div
+          class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
           <div
             class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-black">
             <table
@@ -1173,7 +1174,7 @@
             </table>
 
             <Pagination
-              class="z-50 w-full bg-blue-500"
+              class="fixed bottom-0 z-50 w-full bg-blue-500"
               v-if="creatorRecords.length"
               :totalPages="creatorsMeta.last_page"
               :perPage="creatorsMeta.per_page"
