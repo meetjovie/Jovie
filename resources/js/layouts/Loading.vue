@@ -3,10 +3,12 @@
     class="flex h-screen w-full items-center bg-slate-100 dark:bg-black"
     id="app">
     <router-view />
-    <aside class="h-screen w-60 bg-white dark:bg-slate-900"></aside>
+    <aside
+      class="hidden h-screen w-60 bg-white dark:bg-slate-900 lg:block"></aside>
     <div class="mx-auto flex h-screen items-center text-center dark:bg-black">
       <div></div>
-      <div class="mx-auto flex w-full items-center text-center">
+      <div
+        class="mx-auto flex w-full flex-col items-center text-center sm:flex-row">
         <JovieSpinner class="mr-2" />
 
         <h1
@@ -61,7 +63,7 @@ export default {
   mounted() {
     console.log('mounted');
     //check for darkmode
-    /*   this.setTheme(); */
+    this.setTheme();
 
     //check for darkmode
     this.setLoadingText();
