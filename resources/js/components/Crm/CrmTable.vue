@@ -640,7 +640,7 @@
                               <div
                                 class="rounded-full bg-white p-0 dark:bg-slate-900">
                                 <img
-                                  v-if="creator.imageLoaded === false"
+                                  v-if="creator.imageLoaded !== false"
                                   class="rounded-full object-cover object-center"
                                   :src="creator.profile_pic_url"
                                   @error="imageLoadingError(index)"
