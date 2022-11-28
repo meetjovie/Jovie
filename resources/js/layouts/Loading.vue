@@ -14,7 +14,7 @@
         </h1>
         <h1 v-else class="py-4 text-slate-700 dark:text-white">
           <a
-            href="https://twitter.com/intent/tweet?text=Yo%20%40itstimwhite%20please%20help%21%20%40meetjovie%20is%20realllllllllllly%20slow%20today.%20not%20cool%20man%21%20&original_referer=https://clicktotweet.com&related=tweetdripapp"
+            href="https://twitter.com/intent/tweet?text=Yo%20%40itstimwhite%20please%20help%21%20%40meetjovie%20is%20realllllllllllly%20slow%20today.%20not%20cool%20man%21%20&original_referer=https://jov.ie"
             target="_blank"
             rel="noopener noreferrer">
             {{ loadingText }}
