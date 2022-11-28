@@ -11,27 +11,27 @@ const router = VueRouter.createRouter({
 router.beforeEach(async (to, from) => {
     console.log(to.name);
     if (to.meta) {
-      let config = null
-      if (to.name != 'Extension') {
-          config = {
-              headers: {
-                  Authorization: null
-              }
-          }
-      } else {
-          store.state.isExtension = true
-          if (to.query.creator != undefined) {
-              store.state.extensionQuery = to.href.split('?')[1]
-          }
-          let token = localStorage.getItem('jovie_extension')
-          if (token) {
-              config = {
-                  headers: {
-                      Authorization: `Bearer ${token}`
-                  }
-              }
-          }
-      }
+      // let config = null
+      // if (to.name != 'Extension') {
+      //     config = {
+      //         headers: {
+      //             Authorization: null
+      //         }
+      //     }
+      // } else {
+      //     store.state.isExtension = true
+      //     if (to.query.creator != undefined) {
+      //         store.state.extensionQuery = to.href.split('?')[1]
+      //     }
+      //     let token = localStorage.getItem('jovie_extension')
+      //     if (token) {
+      //         config = {
+      //             headers: {
+      //                 Authorization: `Bearer ${token}`
+      //             }
+      //         }
+      //     }
+      // }
     await store
       .dispatch('me', {config: config})
       .then((response) => {
