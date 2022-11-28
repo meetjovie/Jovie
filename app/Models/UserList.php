@@ -36,7 +36,7 @@ class UserList extends Model
         return $this->belongsToMany(Creator::class)->withTimestamps();
     }
 
-    public static function firstOrCreateList($userId, $listName, $teamId = null)
+    public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null)
     {
         $team = null;
         if ($teamId) {
@@ -57,11 +57,15 @@ class UserList extends Model
                 }
                 return $exists;
             }
-            $list = UserList::create([
+            $data = [
                 'user_id' => $userId,
                 'name' => $listName,
                 'team_id' => $user->currentTeam->id
-            ]);
+            ];
+            if ($emoji) {
+                $data['emoji'] = $emoji;
+            }
+            $list = UserList::create($data);
             $syncData = [];
             array_map(function ($value) use (&$syncData, $user) {
                 return $syncData[$value] = ['order' => 0, 'team_id' => $user->currentTeam->id];

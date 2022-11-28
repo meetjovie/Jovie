@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\DefaultCrm;
+use App\Models\Creator;
 use App\Models\User;
+use App\Models\UserList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -125,6 +129,8 @@ class AuthController extends Controller
         $user->attachTeam($team);
 
         Auth::login($user);
+
+        DefaultCrm::dispatch($user->id, $team->id);
 
         return response()->json([
             'status' => true,
