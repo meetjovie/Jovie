@@ -172,6 +172,10 @@
               <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
 
               <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  We've added sample contacts to new accounts to make it easier
+                  to get started.
+                </li>
                 <li class="prose">General code refactors</li>
                 <li class="prose">
                   Fixed a bug that prevented certain users from saving notes
