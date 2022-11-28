@@ -36,6 +36,19 @@ export default {
     return {
       loadingText: 'Hi, I am loading...',
       link: false,
+      messages: [
+        { id: 1, text: 'Loading your dashboard...' },
+        { id: 2, text: 'Loading your profile...' },
+        { id: 3, text: 'Loading your settings...' },
+        { id: 4, text: 'Loading your notifications...' },
+        { id: 5, text: 'Loading dock appears to be backed up...' },
+        { id: 6, text: 'Uhhh... I am stuck...' },
+        { id: 7, text: 'LA traffic, am I right?' },
+        { id: 8, text: 'Okay, do you have dial up or something...' },
+        { id: 9, text: 'I am going to take a nap...' },
+        { id: 10, text: 'Maybe hit refresh? ...or put on a movie...' },
+        { id: 11, text: 'Time to complain on twitter...' },
+      ],
     };
   },
   mounted() {
@@ -57,44 +70,16 @@ export default {
       //check for darkmode
     },
     setLoadingText() {
-      //set loadingText to Loading your dashboard...
-      //after 2 seconds change it to Loading your profile...
-      //after 4 seconds change it to Loading your settings...
-      //after 6 seconds change it to Loading your notifications...
-      //after 8 seconds change it to Loading dock appears to be backedup...
-      //after 10 seconds change it to Loading dock appears to be backedup...
-      this.loadingText = 'Loading your dashboard...';
-      setTimeout(() => {
-        this.loadingText = 'Loading your profile...';
-      }, 2000);
-      setTimeout(() => {
-        this.loadingText = 'Loading your settings...';
-      }, 4000);
-      setTimeout(() => {
-        this.loadingText = 'Loading your notifications...';
-      }, 6000);
-      setTimeout(() => {
-        this.loadingText = 'Loading dock appears to be backed up...';
-      }, 8000);
-      setTimeout(() => {
-        this.loadingText = 'Uhhh... I am stuck...';
-      }, 10000);
-      setTimeout(() => {
-        this.loadingText = 'LA traffic, am I right?';
-      }, 12000);
-      setTimeout(() => {
-        this.loadingText = 'Okay, do you have dial up or something...';
-      }, 14000);
-      setTimeout(() => {
-        this.loadingText = 'I am going to take a nap...';
-      }, 16000);
-      setTimeout(() => {
-        this.loadingText = 'Maybe hit refresh? ...or put on a movie...';
-      }, 18000);
-      setTimeout(() => {
-        this.link = true;
-        this.loadingText = 'Time to complain on twitter...';
-      }, 20000);
+      //loop through the messagess
+      let i = 0;
+      setInterval(() => {
+        if (i < this.messages.length) {
+          this.loadingText = this.messages[i].text;
+          i++;
+        } else {
+          i = 0;
+        }
+      }, 3000);
     },
   },
 };

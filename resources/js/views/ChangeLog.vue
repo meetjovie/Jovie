@@ -177,6 +177,18 @@
                   Fixed a bug that prevented certain users from saving notes
                   when using the Chrome Extension
                 </li>
+                <li class="prose">
+                  Fixes an issue with images from Twitter not displaying
+                  correctly in some cases.
+                </li>
+                <li class="prose">
+                  Fixes an issue with images not displaying in the CRM in some
+                  cases.
+                </li>
+                <li class="prose">
+                  Fixes an issue with pagination not working properly on the CRM
+                  in some cases.
+                </li>
                 <li class="prose">Improved loading screens on first visit</li>
                 <li class="prose">
                   Fixed a bug in a new unreleased API endpoint
