@@ -640,16 +640,9 @@
                               <div
                                 class="rounded-full bg-white p-0 dark:bg-slate-900">
                                 <img
-                                  v-if="creator.imageLoaded !== false"
                                   class="rounded-full object-cover object-center"
                                   :src="creator.profile_pic_url"
-                                  @error="imageLoadingError(index)"
-                                  alt="Profile Image" />
-                                <!--WIP Fixing image loading errors-->
-                                <img
-                                  v-else
-                                  class="rounded-full object-cover object-center"
-                                  :src="asset('img/noimage.webp')"
+                                  @error="imageLoadingError"
                                   alt="Profile Image" />
                               </div>
                             </div>
@@ -1629,8 +1622,8 @@ export default {
       console.log('exporting');
       //write a function to export all contacts in the current table while accounting for filters and lists
     },
-    imageLoadingError(index) {
-      this.creators[index].imageLoaded = false;
+    imageLoadingError(e) {
+      e.target.src = this.asset('img/noimage.webp');
     },
     emailCreator(email) {
       //go to the url mailto:creator.emails[0]
