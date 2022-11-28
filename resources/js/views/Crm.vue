@@ -157,7 +157,8 @@
             </div>
           </template>
           <template #footer>
-            <div class="flex-shrink-0 border-t border-slate-200 py-2 px-2">
+            <div
+              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">

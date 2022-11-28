@@ -1,10 +1,12 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div class="mx-auto max-w-lg">
-    <ul role="list" class="space-y-4 divide-slate-200 rounded-lg">
+    <ul
+      role="list"
+      class="space-y-4 divide-slate-200 rounded-lg dark:divide-slate-700">
       <li v-for="(item, itemIdx) in items" :key="itemIdx">
         <div
-          class="group relative flex h-24 items-center space-x-3 rounded-lg border border-slate-200 px-6 py-4 hover:bg-slate-200">
+          class="group relative flex h-24 items-center space-x-3 rounded-lg border border-slate-200 px-6 py-4 hover:bg-slate-200 dark:border-slate-700 dark:hover:bg-slate-700">
           <div class="flex-shrink-0 items-center">
             <span
               :class="[
@@ -13,12 +15,12 @@
               ]">
               <component
                 :is="item.icon"
-                class="h-6 w-6 text-white"
+                class="h-6 w-6 text-white dark:text-black"
                 aria-hidden="true" />
             </span>
           </div>
           <div class="min-w-0 flex-1">
-            <div class="text-sm font-medium text-slate-900">
+            <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
               <a :href="item.href">
                 <span class="absolute inset-0" aria-hidden="true" />
                 {{ item.name }}

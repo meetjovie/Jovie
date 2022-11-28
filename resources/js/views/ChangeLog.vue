@@ -136,7 +136,7 @@
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
               <p class="text-sm font-semibold text-slate-600">v0.0.5</p>
-              <p>2022.11.27</p>
+              <p>2022.11.28</p>
             </div>
             <div class="w-full">
               <h2 class="text-3xl font-bold tracking-tight text-slate-800">
