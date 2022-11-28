@@ -71,15 +71,18 @@ export default {
     },
     setLoadingText() {
       //loop through the messagess
+      //stop at the last message
       let i = 0;
-      setInterval(() => {
+      let interval = setInterval(() => {
         if (i < this.messages.length) {
           this.loadingText = this.messages[i].text;
           i++;
         } else {
-          i = 0;
+          this.link = true;
+          this.loadingText = 'Tweet at @itstimwhite';
+          clearInterval(interval);
         }
-      }, 3000);
+      }, 2000);
     },
   },
 };
