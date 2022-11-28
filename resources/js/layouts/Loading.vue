@@ -9,7 +9,15 @@
       <div class="mx-auto flex w-full items-center text-center">
         <JovieSpinner class="mr-2" />
 
-        <h1 v-if="!link" class="py-4 text-slate-700 dark:text-white">
+        <h1
+          v-if="!link"
+          :class="[
+            {
+              ' decoartion-2 decoration-slate-400 decoration-solid dark:decoration-slate-700':
+                link,
+            },
+          ]"
+          class="py-4 text-slate-700 dark:text-white">
           {{ loadingText }}
         </h1>
         <h1 v-else class="py-4 text-slate-700 dark:text-white">
@@ -42,19 +50,18 @@ export default {
         { id: 3, text: 'Loading your settings...' },
         { id: 4, text: 'Loading your notifications...' },
         { id: 5, text: 'Loading dock appears to be backed up...' },
-        { id: 6, text: 'Uhhh... I am stuck...' },
+        { id: 6, text: 'This is taking longer than expected...' },
         { id: 7, text: 'LA traffic, am I right?' },
         { id: 8, text: 'Okay, do you have dial up or something...' },
         { id: 9, text: 'I am going to take a nap...' },
         { id: 10, text: 'Maybe hit refresh? ...or put on a movie...' },
-        { id: 11, text: 'Time to complain on twitter...' },
       ],
     };
   },
   mounted() {
     console.log('mounted');
     //check for darkmode
-    this.setTheme();
+    /*   this.setTheme(); */
 
     //check for darkmode
     this.setLoadingText();
@@ -79,10 +86,10 @@ export default {
           i++;
         } else {
           this.link = true;
-          this.loadingText = 'Tweet at @itstimwhite';
+          this.loadingText = 'Time to complain on twitter...';
           clearInterval(interval);
         }
-      }, 2000);
+      }, 8000);
     },
   },
 };
