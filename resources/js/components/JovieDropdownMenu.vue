@@ -43,7 +43,8 @@
             </MenuItem>
           </div>
 
-          <div class="border-t border-slate-200 px-2 dark:border-slate-600">
+          <div
+            class="overflow-y-scroll border-t border-slate-200 px-2 dark:border-slate-600">
             <div v-if="items">
               <template v-for="(item, key) in filteredItems" :key="item.name">
                 <MenuItem
