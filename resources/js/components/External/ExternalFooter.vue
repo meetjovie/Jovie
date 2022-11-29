@@ -287,7 +287,7 @@ const navigation = {
   company: [
     { name: 'Meet Jovie', href: 'meet-jovie' },
     { name: 'Careers', href: 'Careers' },
-
+    { Name: 'Roadmap', href: 'roadmap' },
     { name: 'Community', href: 'slack-community' },
 
     /*  { name: 'Our Data', href: 'data' }, */

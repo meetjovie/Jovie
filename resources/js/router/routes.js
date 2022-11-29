@@ -208,6 +208,13 @@ export const routes = [
     },
   },
   {
+    name: 'Roadmap',
+    path: '/roadmap',
+    beforeEnter(to, from, next) {
+      window.open('https://roadmap.jov.ie', '_self');
+    },
+  },
+  {
     name: 'Jovie Profile',
     path: '/profiles',
     component: loadPage('JovieProfile'),

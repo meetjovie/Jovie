@@ -53,6 +53,7 @@
     "@vueuse/head": "^0.9.8",
     "html2canvas": "^1.4.1",
     "install": "^0.13.0",
+    "md5": "^2.3.0",
     "mix-env-file": "^0.1.1",
     "moment": "^2.29.4",
     "notiwind": "^1.2.6",

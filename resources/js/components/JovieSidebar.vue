@@ -16,7 +16,7 @@
           <div class="w-full flex-col px-2">
             <div class="items-center" @click="navigateBack()" v-if="menu">
               <div
-                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:text-gray-100 dark:hover:text-white">
+                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white">
                 <ChevronLeftIcon
                   class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                   aria-hidden="true" />
@@ -97,7 +97,11 @@
                         {{ currentUser.email }}
                       </p>
                     </div>
-                    <MenuItem as="div" role="menuitem" tabindex="-1">
+                    <MenuItem
+                      as="div"
+                      class="overflow-y-scroll"
+                      role="menuitem"
+                      tabindex="-1">
                       <router-link
                         v-if="currentUser.username"
                         class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
@@ -122,7 +126,7 @@
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-400"
                           :class="{
-                            'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
                               active,
                           }">
                           <component
