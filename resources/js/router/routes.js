@@ -201,6 +201,13 @@ export const routes = [
     },
   },
   {
+    name: 'Request A Feature',
+    path: '/request-a-feature',
+    beforeEnter(to, from, next) {
+      window.open('https://roadmap.jov.ie', '_self');
+    },
+  },
+  {
     name: 'Jovie Profile',
     path: '/profiles',
     component: loadPage('JovieProfile'),

@@ -234,7 +234,6 @@
     </div>
   </div>
   <!-- CTA -->
-
   <HomeCTA4 />
 </template>
 
@@ -255,6 +254,7 @@ import {
   BoltIcon,
   CircleStackIcon,
   ListBulletIcon,
+  GlobeEuropeAfricaIcon,
   LifebuoyIcon,
   UserIcon,
   UsersIcon,
@@ -281,6 +281,11 @@ const tiers = [
       { name: '500 contact credits/month', icon: 'UserGroupIcon' },
       { name: 'Unlimited lists', icon: 'ListBulletIcon' },
       { name: '1 User', icon: 'UserIcon' },
+      {
+        name: 'Use of the Jovie Chrome Extension',
+        icon: 'GlobeEuropeAfricaIcon',
+      },
+      { name: 'Email support', icon: 'LifebuoyIcon' },
 
       { name: 'Blazing fast CRM Search', icon: 'BoltIcon' },
     ],
@@ -297,7 +302,10 @@ const tiers = [
       { name: '2,500 contact credits/month', icon: 'UserGroupIcon' },
       { name: 'Unlimited lists', icon: 'ListBulletIcon' },
       { name: 'Up to 50 users', icon: 'UsersIcon' },
-
+      {
+        name: 'Use of the Jovie Chrome Extension',
+        icon: 'GlobeEuropeAfricaIcon',
+      },
       { name: 'Blazing fast search', icon: 'BoltIcon' },
       { name: 'Unlimited CSV exports', icon: 'CloudArrowDownIcon' },
       {
@@ -319,19 +327,19 @@ const tiers = [
         name: `Prospecting engine - Search ${store.state.creatorsDBCount}+ social media profiles`,
         icon: 'CircleStackIcon',
       }, */
-
       { name: '10,000 contact credits/month', icon: 'UserGroupIcon' },
       { name: 'Unlimited lists', icon: 'ListBulletIcon' },
       { name: 'Unlimited users', icon: 'UsersIcon' },
-
+      {
+        name: 'Use of the Jovie Chrome Extension',
+        icon: 'GlobeEuropeAfricaIcon',
+      },
       { name: 'Blazing fast search', icon: 'BoltIcon' },
-
       { name: 'Unlimited CSV exports', icon: 'CloudArrowDownIcon' },
       {
         name: 'Collaboration & team managment',
         icon: 'ChatBubbleBottomCenterIcon',
       },
-
       {
         name: `Prospecting engine - Search millions of social media profiles`,
         icon: 'CircleStackIcon',
@@ -368,6 +376,7 @@ export default {
     UserPlusIcon,
     CloudArrowDownIcon,
     ListBulletIcon,
+    GlobeEuropeAfricaIcon,
     Disclosure,
     DisclosureButton,
     DisclosurePanel,

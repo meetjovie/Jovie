@@ -403,6 +403,7 @@
                     </transition>
                   </Float>
                 </Menu>
+                <DarkModeToggle />
               </div>
               <div
                 v-if="!currentUser.current_team.credits"
@@ -547,6 +548,7 @@
 
 <script>
 import JovieSidebar from '../components/JovieSidebar.vue';
+import DarkModeToggle from '../components/DarkModeToggle.vue';
 import {
   Combobox,
   ComboboxButton,
@@ -587,6 +589,10 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
+  SunIcon,
+  MoonIcon,
+  SparklesIcon,
+  ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid';
 
 import UserService from '../services/api/user.service';
@@ -634,6 +640,7 @@ export default {
     ProgressBar,
     TabList,
     Tab,
+    DarkModeToggle,
     InternalMarketingChromeExtension,
     ImportCreatorModal,
     SocialInput,
@@ -665,6 +672,10 @@ export default {
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,
+    SunIcon,
+    SparklesIcon,
+    MoonIcon,
+    ComputerDesktopIcon,
   },
   data() {
     return {
