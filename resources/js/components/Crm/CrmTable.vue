@@ -69,13 +69,13 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="rounded-m block w-full border-slate-300 py-1 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 sm:text-sm" />
+                        class="rounded-m block w-full border-slate-300 py-1 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
 
                       <div
                         @click="toggleSearchVisible()"
                         class="group absolute inset-y-0 right-0 flex items-center pr-3">
                         <XMarkIcon
-                          class="h-4 w-4 cursor-pointer rounded-md text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-slate-800 dark:text-slate-600 group-hover:dark:bg-slate-800"
+                          class="h-4 w-4 cursor-pointer rounded-md p-0.5 text-slate-400 transition-all duration-150 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:group-hover:bg-slate-800"
                           aria-hidden="true" />
                       </div>
                     </div>
@@ -87,7 +87,7 @@
                   text="Search"
                   class="w-full justify-end"
                   arrow
-                  placement="bottom-end"
+                  placement="right-start"
                   ><template #content
                     ><KeyboardShortcut text="/" /> to search</template
                   >
@@ -699,10 +699,10 @@
                               shift
                               portal
                               arrow
-                              placement="bottom-end">
+                              placement="right-start">
                               <MenuButton
                                 v-slot="{ open }"
-                                class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 active:bg-slate-800 group-hover:text-slate-400 dark:hover:text-slate-400 dark:group-hover:text-slate-600">
+                                class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
                                   class="z-0 mt-0.5 h-5 w-5"
