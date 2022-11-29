@@ -196,7 +196,7 @@ class CrmController extends Controller
         return response([
             'status' => false,
             'data' => null,
-            'message' => 'No more creators.',
+            'message' => 'No more contacts.',
         ]);
     }
 
@@ -218,7 +218,7 @@ class CrmController extends Controller
         return response([
             'status' => false,
             'data' => null,
-            'message' => 'No more creators.',
+            'message' => 'No more contacts.',
         ]);
     }
 
@@ -363,7 +363,7 @@ class CrmController extends Controller
                 'name' => $list->name,
                 'emoji' => $list->emoji,
             ],
-            'message' => ('Creators '. ($request->remove == true ? 'removed from list' : 'added to list'))
+            'message' => ('Contacts '. ($request->remove == true ? 'removed from list' : 'added to list'))
         ], 200);
     }
 
