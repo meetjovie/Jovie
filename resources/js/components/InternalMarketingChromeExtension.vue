@@ -26,7 +26,9 @@
                 {{ item.name }}
               </a>
             </div>
-            <p class="text-sm text-slate-500">{{ item.description }}</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400">
+              {{ item.description }}
+            </p>
           </div>
           <div class="flex-shrink-0 self-center">
             <ChevronRightIcon

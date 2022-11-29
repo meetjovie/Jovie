@@ -468,7 +468,7 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
-            this.currentStep = this.currentStep + 1
+            this.currentStep = this.currentStep + 1;
           }
         })
         .catch((error) => {
@@ -496,7 +496,7 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
-            this.currentStep = 2
+            this.currentStep = 2;
           }
         })
         .catch((error) => {

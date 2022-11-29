@@ -28,7 +28,7 @@
                 :class="[
                   active
                     ? 'bg-slate-300 text-slate-800 dark:bg-slate-700 dark:text-slate-100'
-                    : 'bg-slate-100 text-slate-600',
+                    : ' text-slate-600  dark:text-slate-400',
                   'flex cursor-pointer items-center rounded-md px-2 py-1 text-xs',
                 ]">
                 <SunIcon class="mr-2 h-4 w-4 cursor-pointer" />
@@ -41,7 +41,7 @@
                 :class="[
                   active
                     ? 'bg-slate-300 text-slate-800 dark:bg-slate-700 dark:text-slate-100'
-                    : 'bg-slate-100 text-slate-600',
+                    : ' text-slate-600  dark:text-slate-400',
                   'flex cursor-pointer items-center rounded-md px-2 py-1 text-xs',
                 ]">
                 <MoonIcon class="mr-2 h-4 w-4 cursor-pointer" />
@@ -54,7 +54,7 @@
                 :class="[
                   active
                     ? 'bg-slate-300 text-slate-800 dark:bg-slate-700 dark:text-slate-100'
-                    : 'bg-slate-100 text-slate-600',
+                    : ' text-slate-600  dark:text-slate-400',
                   'flex cursor-pointer items-center rounded-md px-2 py-1 text-xs',
                 ]">
                 <ComputerDesktopIcon class="mr-2 h-4 w-4 cursor-pointer" />
@@ -123,6 +123,8 @@ export default {
       } else {
         document.documentElement.classList.remove('dark');
       }
+      //update the computed property getTheme
+      this.getTheme;
     },
   },
 };

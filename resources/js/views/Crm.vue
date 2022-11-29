@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full">
+  <div class="h-full w-full dark:bg-slate-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
         <JovieSidebar>
@@ -118,7 +118,7 @@
                               <div
                                 class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
                                 <span
-                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
                                   >{{ counts.archived }}</span
                                 >
                               </div>
@@ -437,12 +437,12 @@
                       <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && !creators.length && !showImporting"
-                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-slate-900 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
                             class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
                             <div>
-                              <h1 class="text-md font-bold">
+                              <h1 class="text-md font-bold dark:text-slate-100">
                                 You don't have any contacts yet.
                               </h1>
                               <span class="text-sm font-medium text-slate-900"
