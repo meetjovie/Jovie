@@ -44,7 +44,9 @@ export default {
   },
   data() {
     return {
-      loadingText: 'Hi, I am loading...',
+
+      loadingText: 'Jovie is loading...',
+
       link: false,
       messages: [
         { id: 1, text: 'Loading your dashboard...' },
@@ -71,10 +73,16 @@ export default {
 
   methods: {
     setTheme() {
-      if (document.documentElement.classList.contains('dark')) {
-        localStorage.theme = 'dark';
+
+      if (
+        localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
       } else {
-        localStorage.theme = 'light';
+        document.documentElement.classList.remove('dark');
+
       }
       //check for darkmode
     },

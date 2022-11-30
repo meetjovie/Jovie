@@ -16,7 +16,9 @@
       <div class="flex items-center">
         <div
           v-if="draggable"
-          class="group mx-auto rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-800">
+
+          class="group mx-auto rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-800">
+
           <PlusIcon
             v-if="!creatingList"
             @click="createList()"
@@ -53,8 +55,13 @@
                 <div class="flex w-full items-center">
                   <div
                     @click="openEmojiPicker(element)"
-                    :class="{ 'bg-slate-200 dark:bg-slate-700': active }"
-                    class="mr-1 w-6 cursor-pointer items-center rounded-md px-1 py-1 text-center text-xs transition-all active:bg-slate-800 dark:active:bg-slate-200">
+
+                    :class="{
+                      'bg-slate-200 hover:bg-slate-700 dark:bg-slate-700 hover:dark:bg-slate-900':
+                        active,
+                    }"
+                    class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+
                     {{ element.emoji ?? '📄' }}
                   </div>
                   <div
@@ -67,7 +74,9 @@
                           ? 'font-bold text-slate-800 dark:text-slate-200'
                           : 'font-light text-slate-700 dark:text-slate-300',
                       ]"
-                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200 dark:group-hover/list:text-slate-200"
+
+                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
+
                       >{{ element.name }}</span
                     >
                     <input
@@ -81,25 +90,30 @@
                   </div>
                 </div>
                 <div
-                  class="mx-auto h-8 w-6 flex-none cursor-pointer items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-slate-600">
+
+                  class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-slate-600">
+
                   <ArrowPathIcon
                     v-if="element.updating_list"
                     class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
                   <span
                     v-else
-                    class="text-right text-xs font-light text-slate-700 group-hover/list:hidden group-hover/list:text-slate-800 dark:text-slate-300 dark:group-hover/list:text-slate-200"
+
+                    class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
                     >{{ element.creators_count }}</span
                   >
 
-                  <Menu
-                    as="div"
-                    class="relative inline-block items-center text-center">
+                  <Menu as="div" class="relative inline-block text-center">
                     <Float portal :offset="12" placement="right-start">
-                      <MenuButton
-                        class="hidden h-6 w-6 items-center text-slate-400 active:text-slate-700 group-hover/list:block dark:text-slate-600 dark:active:text-slate-200">
-                        <EllipsisHorizontalIcon
-                          class="mt-1 hidden h-4 w-4 text-slate-400 active:text-slate-700 group-hover/list:block dark:text-slate-600 dark:text-slate-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
-                      </MenuButton>
+                      <div class="mx-auto text-center">
+                        <MenuButton
+                          class="hidden h-4 w-4 text-slate-400 group-hover:block dark:text-slate-600">
+                          <EllipsisHorizontalIcon
+                            :class="{ 'dark:text-slate-200': active }"
+                            class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-slate-600 dark:text-slate-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
+                        </MenuButton>
+                      </div>
+
 
                       <transition
                         enter-active-class="transition duration-100 ease-out"
@@ -109,14 +123,18 @@
                         leave-from-class="transform scale-100 opacity-100"
                         leave-to-class="transform scale-95 opacity-0">
                         <MenuItems
-                          class="dark:boder-slate-700 absolute right-0 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-slate-700 dark:bg-slate-900">
+
+                          class="mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-900/60">
+
                           <div class="px-1 py-1">
                             <MenuItem v-slot="{ active }">
                               <button
                                 @click="editList(element)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200 dark:bg-slate-800 dark:bg-slate-700 dark:text-slate-200'
+
+                                    ? 'bg-slate-200  dark:bg-slate-700 dark:text-slate-200'
+
                                     : 'text-slate-900 dark:text-slate-100',
                                   'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                                 ]">
@@ -209,7 +227,13 @@
             <div class="flex w-full items-center">
               <div
                 @click="openEmojiPicker(item)"
-                class="h-full w-6 cursor-pointer items-center rounded-md bg-slate-50 px-1 text-center text-xs transition-all hover:bg-slate-700 group-hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-700 hover:dark:bg-slate-900 dark:group-hover:bg-slate-800">
+
+                :class="{
+                  'bg-slate-200 hover:bg-slate-700 dark:bg-slate-700 hover:dark:bg-slate-900':
+                    active,
+                }"
+                class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+
                 {{ item.emoji ?? '📄' }}
               </div>
               <div
@@ -248,6 +272,9 @@
                     <MenuButton
                       class="hidden h-4 w-4 text-slate-400 group-hover:block dark:text-slate-600">
                       <EllipsisHorizontalIcon
+
+                        :class="{ 'dark:text-slate-200': active }"
+
                         class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-slate-600 dark:text-slate-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
                     </MenuButton>
                   </div>
@@ -260,14 +287,18 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0">
                     <MenuItems
-                      class="dark:boder-slate-700 z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 border-slate-200 border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-slate-700 dark:bg-slate-900/60">
+
+                      class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 border-slate-200 border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-900/60">
+
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button
                             @click="editList(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200 dark:bg-slate-800 dark:bg-slate-700 dark:text-slate-200'
+
+                                ? 'bg-slate-200  dark:bg-slate-700 dark:text-slate-200'
+
                                 : 'text-slate-900 dark:text-slate-100',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">

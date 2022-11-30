@@ -19,7 +19,9 @@
               ]" />
           </div>
           <div
-            class="max-w-7xlhidden mx-auto mt-2 grid-cols-4 px-8 text-sm font-medium text-slate-600 sm:grid">
+
+            class="mx-auto mt-2 hidden max-w-5xl grid-cols-4 px-8 text-sm font-medium text-slate-600 sm:grid">
+
             <div
               @click="setCurrentStep(1)"
               class="cursor-pointer"
@@ -59,7 +61,7 @@
             enctype="multipart/form-data">
             <div
               x-data="{photoName: null, photoPreview: null}"
-              class="bg-white px-4 py-5 shadow sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
+              class="bg-white px-4 py-5 shadow dark:bg-slate-900 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-4">
                   <!-- Profile Photo File Input -->
@@ -78,7 +80,9 @@
 
                     <label
                       for="profile_pic_url"
-                      class="cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+
+                      class="cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-slate-900">
+
                       Change
                     </label>
                     <input
@@ -104,7 +108,9 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25">
+
+                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-slate-900">
+
                     Remove Photo
                   </button>
                 </div>
@@ -160,12 +166,14 @@
         </div>
 
         <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
-          <div class="py- rounded-md bg-slate-50 px-4">
+
+          <div class="py- rounded-md bg-slate-50 px-4 dark:bg-slate-800">
+
             <h2 class="font-slate-500 py-2 px-4">
               Add at least one social link to your profile.
             </h2>
             <div class="mt-4 grid grid-cols-2 gap-4">
-              <InputGroup
+              <DataInputGroup
                 @blur="updateSocialHandlers()"
                 v-model="currentUser.instagram_handler"
                 :error="errors?.instagram_handler?.[0]"
@@ -176,7 +184,7 @@
                 placeholder="Instagram"
                 type="text" />
 
-              <InputGroup
+              <DataInputGroup
                 @blur="updateSocialHandlers()"
                 v-model="currentUser.tiktok_handler"
                 :error="errors?.tiktok_handler?.[0]"
@@ -187,7 +195,7 @@
                 placeholder="TikTok"
                 type="text" />
 
-              <InputGroup
+              <DataInputGroup
                 @blur="updateSocialHandlers()"
                 v-model="currentUser.twitter_handler"
                 :error="errors?.twitter_handler?.[0]"
@@ -198,7 +206,7 @@
                 placeholder="Twitter"
                 type="text" />
 
-              <InputGroup
+              <DataInputGroup
                 @blur="updateSocialHandlers()"
                 v-model="currentUser.youtube_handler"
                 :error="errors?.youtube_handler?.[0]"
@@ -352,6 +360,7 @@
   </div>
 </template>
 <script>
+import md5 from 'md5';
 import InputGroup from './../components/InputGroup';
 import CardHeading from './../components/CardHeading';
 import CardLayout from './../components/CardLayout';
@@ -361,6 +370,7 @@ import UserService from './../services/api/user.service';
 import ProgressBar from './../components/ProgressBar';
 import JovieSpinner from './../components/JovieSpinner';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
+import DataInputGroup from './../components/DataInputGroup';
 
 export default {
   name: 'ProfileSetup',
@@ -374,6 +384,8 @@ export default {
     ButtonGroup,
     ModalPopup,
     JovieSpinner,
+    DataInputGroup,
+    md5,
   },
   data() {
     return {
@@ -418,6 +430,7 @@ export default {
         : 2
       : 1;
   },
+
   methods: {
     completeProfileSetup() {
       this.updating = true;
@@ -468,7 +481,8 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
-            this.currentStep = this.currentStep + 1
+            this.currentStep = this.currentStep + 1;
+
           }
         })
         .catch((error) => {
@@ -496,7 +510,9 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
-            this.currentStep = 2
+
+            this.currentStep = 2;
+
           }
         })
         .catch((error) => {

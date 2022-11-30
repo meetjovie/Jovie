@@ -278,16 +278,18 @@ const navigation = {
   ],
   support: [
     //add changelog
-    { name: 'Changelog', href: '/changelog' },
     { name: 'Pricing', href: 'pricing' },
+    { name: 'Changelog', href: '/changelog' },
+
+    { name: 'Roadmap', href: 'roadmap' },
     { name: 'Get Help', href: 'support' },
-    { name: 'API', href: 'api' },
+
     { name: 'Status', href: 'Status' },
   ],
   company: [
     { name: 'Meet Jovie', href: 'meet-jovie' },
     { name: 'Careers', href: 'Careers' },
-
+    { name: 'API', href: 'api' },
     { name: 'Community', href: 'slack-community' },
 
     /*  { name: 'Our Data', href: 'data' }, */

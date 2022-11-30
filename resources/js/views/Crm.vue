@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full">
+  <div class="h-full w-full dark:bg-slate-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
         <JovieSidebar>
@@ -118,7 +118,9 @@
                               <div
                                 class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
                                 <span
-                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+
                                   >{{ counts.archived }}</span
                                 >
                               </div>
@@ -157,7 +159,10 @@
             </div>
           </template>
           <template #footer>
-            <div class="flex-shrink-0 border-t border-slate-200 py-2 px-2">
+
+            <div
+              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
+
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">
@@ -402,6 +407,9 @@
                     </transition>
                   </Float>
                 </Menu>
+
+                <DarkModeToggle />
+
               </div>
               <div
                 v-if="!currentUser.current_team.credits"
@@ -435,12 +443,12 @@
                       <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && !creators.length && !showImporting"
-                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-slate-900 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
                             class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
                             <div>
-                              <h1 class="text-md font-bold">
+                              <h1 class="text-md font-bold dark:text-slate-100">
                                 You don't have any contacts yet.
                               </h1>
                               <span class="text-sm font-medium text-slate-900"
@@ -546,6 +554,9 @@
 
 <script>
 import JovieSidebar from '../components/JovieSidebar.vue';
+
+import DarkModeToggle from '../components/DarkModeToggle.vue';
+
 import {
   Combobox,
   ComboboxButton,
@@ -586,6 +597,12 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
+
+  SunIcon,
+  MoonIcon,
+  SparklesIcon,
+  ComputerDesktopIcon,
+
 } from '@heroicons/vue/24/solid';
 
 import UserService from '../services/api/user.service';
@@ -633,6 +650,7 @@ export default {
     ProgressBar,
     TabList,
     Tab,
+    DarkModeToggle,
     InternalMarketingChromeExtension,
     ImportCreatorModal,
     SocialInput,
@@ -664,6 +682,12 @@ export default {
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,
+
+    SunIcon,
+    SparklesIcon,
+    MoonIcon,
+    ComputerDesktopIcon,
+
   },
   data() {
     return {

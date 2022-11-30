@@ -5,11 +5,14 @@
         v-if="socialicon"
         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
         :class="{ 'pl-1': rounded == 'sm' }">
-        <component
-          :is="SocialIcons"
-          :icon="socialicon"
-          class="h-5 w-5 text-slate-400"
-          :class="{ 'h-3 w-3': rounded == 'sm' }" />
+
+        <SocialIcons
+          class="text-slate-400 opacity-40 dark:text-slate-600"
+          link="#"
+          width="12px"
+          height="12px"
+          :icon="socialicon" />
+
       </div>
       <div
         v-if="icon"
@@ -92,7 +95,7 @@ import {
   BriefcaseIcon,
   CheckCircleIcon,
 } from '@heroicons/vue/24/solid';
-import SocialIcons from './../components/SocialIcons';
+import SocialIcons from '../components/SocialIcons.vue';
 
 export default {
   name: 'InputGroup',

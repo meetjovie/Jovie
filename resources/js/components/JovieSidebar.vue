@@ -10,13 +10,17 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
 
     <div
-      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-gray-700 dark:bg-stone-900">
+
+      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-slate-800 dark:bg-stone-900">
+
       <div>
         <slot name="header">
           <div class="w-full flex-col px-2">
             <div class="items-center" @click="navigateBack()" v-if="menu">
               <div
-                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-600 text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:text-gray-100 dark:hover:text-white">
+
+                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white">
+
                 <ChevronLeftIcon
                   class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                   aria-hidden="true" />
@@ -77,7 +81,9 @@
                   :items="profileMenuItems">
                   <template #triggerButton>
                     <img
-                      class="inline-block aspect-square h-6 w-6 rounded-full rounded-full border border-slate-200 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800 dark:hover:bg-slate-800"
+
+                      class="inline-block aspect-square h-6 w-6 rounded-full border border-slate-200 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800"
+
                       :src="
                         $store.state.AuthState.user.profile_pic_url ??
                         $store.state.AuthState.user.default_image
@@ -97,10 +103,16 @@
                         {{ currentUser.email }}
                       </p>
                     </div>
-                    <MenuItem as="div" role="menuitem" tabindex="-1">
+
+                    <MenuItem
+                      as="div"
+                      class="overflow-y-scroll"
+                      role="menuitem"
+                      tabindex="-1">
                       <router-link
                         v-if="currentUser.username"
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-100 dark:hover:bg-slate-800"
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+
                         :to="profileLink">
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
@@ -117,19 +129,25 @@
                       </router-link>
                       <router-link
                         v-else
-                        class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+
+                        class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 dark:text-slate-300"
+
                         to="edit-profile">
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-400"
                           :class="{
-                            'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+
+                            'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+
                               active,
                           }">
                           <component
                             class="mr-4 h-4 w-4 cursor-pointer"
-                            is="CogIcon">
+
+                            is="WrenchScrewdriverIcon">
                           </component
-                          >Setup Your profile
+                          >Setup profile
+
                         </div>
                       </router-link>
                     </MenuItem>
@@ -139,7 +157,9 @@
                       role="menuitem"
                       tabindex="-1">
                       <router-link
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-100 dark:hover:bg-slate-800"
+
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+
                         to="/admin">
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
@@ -159,7 +179,9 @@
 
                   <template #menuBottom>
                     <div
-                      class="border-t border-slate-200 dark:border-slate-600/40">
+
+                      class="border-t border-slate-200/40 dark:border-slate-600/40">
+
                       <MenuItem
                         as="div"
                         @click="$store.dispatch('logout')"
@@ -194,11 +216,7 @@ import {
   MenuItems,
   MenuItem,
   TransitionRoot,
-  TransitionChild,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-  PopoverGroup,
+
   SwitchGroup,
   Switch,
 } from '@headlessui/vue';
@@ -222,12 +240,18 @@ import {
   ArrowPathIcon,
   BellIcon,
   SunIcon,
+
+  FireIcon,
+  RocketLaunchIcon,
   MoonIcon,
+  BoltIcon,
+  WrenchScrewdriverIcon,
   ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid';
+
+import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
 import JovieTooltip from '../components/JovieTooltip';
 import UserService from '../services/api/user.service';
-
 import ProgressBar from '../components/ProgressBar';
 
 import { Float } from '@headlessui-float/vue';
@@ -238,6 +262,9 @@ export default {
     CreditCardIcon,
     UserIcon,
     CogIcon,
+
+    BoltIcon,
+
     ArrowPathIcon,
     Float,
     CloudArrowDownIcon,
@@ -250,11 +277,10 @@ export default {
     MoonIcon,
     MenuItem,
     MenuItems,
-    PopoverGroup,
-    Popover,
-    PopoverButton,
-    PopoverPanel,
+
     HeartIcon,
+    RocketLaunchIcon,
+
     ProgressBar,
     TransitionRoot,
     ChevronRightIcon,
@@ -264,6 +290,10 @@ export default {
     MenuItems,
     MenuItem,
     ChevronDownIcon,
+
+    SparklesIcon,
+    FireIcon,
+
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
@@ -271,9 +301,11 @@ export default {
     CloudArrowUpIcon,
     JovieTooltip,
     ChevronLeftIcon,
-    ComputerDesktopIcon,
-    TransitionChild,
+
+    LightBulbIcon,
     JovieDropdownMenu,
+    WrenchScrewdriverIcon,
+
     BellIcon,
   },
   props: {
@@ -301,10 +333,12 @@ export default {
           icon: 'CreditCardIcon',
         },
         {
-          id: 4,
-          name: 'Slack Community',
-          route: '/slack-community',
-          icon: 'LifebuoyIcon',
+
+          id: 6,
+          name: 'Request a feature',
+          route: '/request-a-feature',
+          icon: LightBulbIcon,
+
         },
         {
           id: 5,
@@ -312,6 +346,20 @@ export default {
           route: '/chrome-extension',
           icon: 'CloudArrowDownIcon',
         },
+
+        {
+          id: 1,
+          name: "What's new",
+          route: '/changelog',
+          icon: SparklesIcon,
+        },
+        {
+          id: 4,
+          name: 'Slack Community',
+          route: '/slack-community',
+          icon: 'LifebuoyIcon',
+        },
+
       ],
     };
   },
