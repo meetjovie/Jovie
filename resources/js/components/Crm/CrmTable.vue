@@ -377,7 +377,6 @@
                                   toggleCreatorsFromList(
                                     selectedCreators,
                                     filters.list,
-                                    true
                                   )
                                 ">
                                 <button
