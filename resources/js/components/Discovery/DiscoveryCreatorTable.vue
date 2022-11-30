@@ -1,12 +1,12 @@
 <template v-slot:item="{ item }">
   <table
-    class="min-w-full divide-y divide-gray-200 overflow-y-scroll overscroll-contain">
+    class="min-w-full divide-y divide-slate-200 overflow-y-scroll overscroll-contain">
     <thead
-      class="sticky top-0 bg-gray-50/90 backdrop-blur-2xl backdrop-saturate-150">
+      class="sticky top-0 bg-slate-50/90 backdrop-blur-2xl backdrop-saturate-150">
       <tr>
         <th
           scope="col"
-          class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+          class="hidden items-center px-2 py-1 text-center text-xs font-medium tracking-wider text-slate-500 lg:table-cell">
           <div class="grid grid-cols-2 items-center">
             <div class="h-5 items-center text-center">
               <input
@@ -14,10 +14,10 @@
                 aria-describedby="comments-description"
                 name="comments"
                 type="checkbox"
-                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" />
             </div>
             <div
-              class="group sr-only items-center text-center text-gray-300 hover:text-red-500">
+              class="group sr-only items-center text-center text-slate-300 hover:text-red-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6 group-hover:fill-red-500"
@@ -35,59 +35,59 @@
         </th>
         <th
           scope="col"
-          class="px-6 py-3 text-center text-xs font-medium tracking-wider text-gray-500">
+          class="px-6 py-3 text-center text-xs font-medium tracking-wider text-slate-500">
           Creators
         </th>
         <th
           scope="col"
-          class="table-cell px-2 py-3 text-center text-xs font-medium tracking-wider text-gray-500">
+          class="table-cell px-2 py-3 text-center text-xs font-medium tracking-wider text-slate-500">
           Content
         </th>
         <th
           scope="col"
-          class="hidden text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+          class="hidden text-center text-xs font-medium tracking-wider text-slate-500 lg:table-cell">
           <div class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
             <div
               class="inline-flex h-full cursor-pointer items-center justify-center py-3 pl-1 hover:bg-indigo-50">
               Followers
-              <ChevronDownIcon class="ml-1 mt-0.5 h-3 w-3 text-gray-500" />
+              <ChevronDownIcon class="ml-1 mt-0.5 h-3 w-3 text-slate-500" />
             </div>
             <div
               class="group hidden h-full cursor-pointer items-center justify-center py-3 hover:bg-indigo-50 xl:inline-flex">
               ER
               <ChevronUpIcon
-                class="ml-1 hidden h-3 w-3 text-gray-500 group-hover:block" />
+                class="ml-1 hidden h-3 w-3 text-slate-500 group-hover:block" />
             </div>
             <div
               class="group hidden h-full cursor-pointer items-center justify-center py-3 pr-1 hover:bg-indigo-50 2xl:inline-flex">
               EF
               <ChevronDownIcon
-                class="ml-1 mt-0.5 hidden h-3 w-3 text-gray-500 group-hover:block" />
+                class="ml-1 mt-0.5 hidden h-3 w-3 text-slate-500 group-hover:block" />
             </div>
           </div>
         </th>
         <th
           scope="col"
-          class="sr-only px-2 py-3 text-center text-xs font-medium tracking-wider text-gray-500 lg:table-cell">
+          class="sr-only px-2 py-3 text-center text-xs font-medium tracking-wider text-slate-500 lg:table-cell">
           Manage
         </th>
 
         <th
           scope="col"
-          class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500">
+          class="relative px-6 py-3 text-right text-xs font-medium tracking-wider text-slate-500">
           <!--  Hide results count until a search is performed -->
           <div class="hidden w-60 2xl:block">Showing 50 of 1,500 results</div>
           <div class="hidden w-40 lg:block 2xl:hidden">50 of 1,500</div>
         </th>
       </tr>
     </thead>
-    <tbody class="h-full divide-y divide-gray-200 bg-white">
+    <tbody class="h-full divide-y divide-slate-200 bg-white">
       <tr
         v-for="creator in creators"
         :key="creator"
-        class="border-1 group border-collapse overflow-y-visible border border-gray-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
+        class="border-1 group border-collapse overflow-y-visible border border-slate-200 hover:bg-indigo-50 focus-visible:ring-indigo-700">
         <td
-          class="hidden w-16 whitespace-nowrap py-1 pl-2 pr-4 text-center text-xs font-bold text-gray-300 group-hover:text-gray-500 lg:table-cell">
+          class="hidden w-16 whitespace-nowrap py-1 pl-2 pr-4 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 lg:table-cell">
           <div class="grid grid-cols-2 items-center">
             <div class="group mr-2">
               <span class="group-hover:hidden">
@@ -99,7 +99,7 @@
                   aria-describedby="comments-description"
                   name="comments"
                   type="checkbox"
-                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
+                  class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500" />
               </span>
             </div>
             <div>
@@ -122,7 +122,7 @@
           class="w-80 flex-none justify-center whitespace-nowrap border-l px-4 py-1">
           <div class="flex items-center">
             <div class="mr-2 h-24 w-24 flex-shrink-0">
-              <div class="rounded-full bg-gray-200 p-0.5">
+              <div class="rounded-full bg-slate-200 p-0.5">
                 <img
                   class="rounded-full object-cover object-center"
                   :src="creator.avatar"
@@ -136,7 +136,7 @@
                 alt="" /> -->
             </div>
             <div class="w-72">
-              <div class="flex text-xs font-medium text-gray-900">
+              <div class="flex text-xs font-medium text-slate-900">
                 {{ creator.name }}
                 <div class="text-white">
                   <svg
@@ -154,10 +154,10 @@
                 </div>
               </div>
               <div
-                class="wrap -mt-1 truncate text-2xs font-light text-gray-900">
+                class="wrap -mt-1 truncate text-2xs font-light text-slate-900">
                 {{ item.full_name }}
               </div>
-              <div class="pt-.05 pb-1 text-xs font-medium text-gray-900">
+              <div class="pt-.05 pb-1 text-xs font-medium text-slate-900">
                 <CreatorTags size="xs" color="none" text="Category" />
                 <CreatorTags size="xs" color="purple" text="Fashion" />
                 <CreatorTags size="xs" color="blue" text="Music" />
@@ -187,21 +187,21 @@
           <div class="grid shrink text-center xl:grid-cols-2 2xl:grid-cols-3">
             <div>
               <div class="font-bold">234</div>
-              <div class="text-[8px] text-gray-500">Followers</div>
+              <div class="text-[8px] text-slate-500">Followers</div>
             </div>
 
             <div class="hidden xl:block">
               <div class="font-bold">3.4%</div>
-              <div class="text-[8px] text-gray-500">ER%</div>
+              <div class="text-[8px] text-slate-500">ER%</div>
             </div>
             <div class="hidden 2xl:block">
               <div class="font-bold">234</div>
-              <div class="text-[8px] text-gray-500">EF</div>
+              <div class="text-[8px] text-slate-500">EF</div>
             </div>
           </div>
         </td>
         <td
-          class="W-28 flex-grow whitespace-nowrap px-6 py-1 text-sm text-gray-500">
+          class="W-28 flex-grow whitespace-nowrap px-6 py-1 text-sm text-slate-500">
           <star-rating
             class="w-20"
             :star-size="12"
@@ -214,7 +214,7 @@
             <Menu as="div" class="relative inline-block text-left">
               <div>
                 <MenuButton
-                  class="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100">
+                  class="flex items-center rounded-full text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100">
                   <span class="sr-only">Open options</span>
                   <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
                 </MenuButton>
@@ -234,8 +234,8 @@
                         href="#"
                         :class="[
                           active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
+                            ? 'bg-slate-100 text-slate-900'
+                            : 'text-slate-700',
                           'block px-4 py-2 text-sm',
                         ]"
                         >Archive</a
@@ -246,8 +246,8 @@
                         href="#"
                         :class="[
                           active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
+                            ? 'bg-slate-100 text-slate-900'
+                            : 'text-slate-700',
                           'block px-4 py-2 text-sm',
                         ]"
                         >Mute</a
@@ -258,8 +258,8 @@
                         href="#"
                         :class="[
                           active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
+                            ? 'bg-slate-100 text-slate-900'
+                            : 'text-slate-700',
                           'block px-4 py-2 text-sm',
                         ]"
                         >Remove</a

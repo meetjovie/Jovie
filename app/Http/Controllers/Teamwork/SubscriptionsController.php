@@ -72,11 +72,13 @@ class SubscriptionsController extends Controller
         $product = $request->selectedProduct;
         $coupon = $request->coupon;
 
-        $coupon = $this->validateCoupon($coupon, $user);
-        if (!$coupon) {
-            throw ValidationException::withMessages([
-                'coupon' => ['Invalid coupon code.']
-            ]);
+        if (!empty($coupon)) {
+            $coupon = $this->validateCoupon($coupon, $user);
+            if (!$coupon) {
+                throw ValidationException::withMessages([
+                    'coupon' => ['Invalid coupon code.']
+                ]);
+            }
         }
         return $this->subscribeTeam($product, $plan, $paymentMethod, $coupon, $user);
     }
@@ -104,7 +106,7 @@ class SubscriptionsController extends Controller
                 $user->currentTeam->updateDefaultPaymentMethod($paymentMethod);
 
                 $subscription = $user->currentTeam->newSubscription($product->name, $plan->id);
-                if ($coupon) {
+                if ($coupon && !empty($coupon->id)) {
                     $subscription->withPromotionCode($coupon->id);
                 }
                 $subscription = $subscription->create($customer->invoice_settings->default_payment_method, [
@@ -211,11 +213,13 @@ class SubscriptionsController extends Controller
         $product = $request->selectedProduct;
         $coupon = $request->coupon;
 
-        $coupon = $this->validateCoupon($coupon, $user);
-        if (!$coupon) {
-            throw ValidationException::withMessages([
-                'coupon' => ['Invalid coupon code.']
-            ]);
+        if (!empty($coupon)) {
+            $coupon = $this->validateCoupon($coupon, $user);
+            if (!$coupon) {
+                throw ValidationException::withMessages([
+                    'coupon' => ['Invalid coupon code.']
+                ]);
+            }
         }
 
         $currentSubscription = $user->currentTeam->currentSubscription();

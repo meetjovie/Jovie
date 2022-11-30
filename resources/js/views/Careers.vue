@@ -9,16 +9,16 @@
             Come build with us
           </h2>
           <p
-            class="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+            class="mt-1 text-4xl font-extrabold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
             Careers at Jovie
           </p>
-          <p class="mx-auto mt-5 max-w-xl text-xl text-gray-500">
+          <p class="mx-auto mt-5 max-w-xl text-xl text-slate-500">
             We're always looking for talented people to join our team.
           </p>
         </div>
       </div>
     </div>
-    <div class="mx-auto py-48 text-center text-gray-600">
+    <div class="mx-auto py-48 text-center text-slate-600">
       We have no open roles right now. Check back soon.
     </div>
   </div>

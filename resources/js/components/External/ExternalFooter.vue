@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!minimal">
-      <footer class="bg-gray-50" aria-labelledby="footer-heading">
+      <footer class="bg-slate-50" aria-labelledby="footer-heading">
         <h2 id="footer-heading" class="sr-only">Footer</h2>
         <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div class="pb-8 xl:grid xl:grid-cols-3 xl:gap-8">
@@ -9,14 +9,14 @@
               <div class="md:grid md:grid-cols-2 md:gap-8">
                 <div>
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
                     Product
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.solutions" :key="item.name">
                       <a
                         :href="item.href"
-                        class="text-sm text-gray-500 hover:text-gray-900">
+                        class="text-sm text-slate-500 hover:text-slate-900">
                         {{ item.name }}
                       </a>
                     </li>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="mt-12 md:mt-0">
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
                     Intergrations
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
@@ -33,7 +33,7 @@
                       :key="item.name">
                       <a
                         :href="item.href"
-                        class="text-sm text-gray-500 hover:text-gray-900">
+                        class="text-sm text-slate-500 hover:text-slate-900">
                         {{ item.name }}
                       </a>
                     </li>
@@ -43,14 +43,14 @@
               <div class="md:grid md:grid-cols-2 md:gap-8">
                 <div>
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
                     Support
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.support" :key="item.name">
                       <router-link
                         :to="item.href"
-                        class="text-sm text-gray-500 hover:text-gray-900">
+                        class="text-sm text-slate-500 hover:text-slate-900">
                         {{ item.name }}
                       </router-link>
                     </li>
@@ -59,14 +59,14 @@
 
                 <div class="mt-12 md:mt-0">
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
                     Company
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.company" :key="item.name">
                       <a
                         :href="item.href"
-                        class="text-sm text-gray-500 hover:text-gray-900">
+                        class="text-sm text-slate-500 hover:text-slate-900">
                         {{ item.name }}
                       </a>
                     </li>
@@ -78,7 +78,7 @@
               class="mt-8 block justify-between space-y-16 text-left md:mt-0 md:space-y-8 xl:col-span-1">
               <div class="h-1/2">
                 <h3
-                  class="text-sm font-bold uppercase tracking-wider text-gray-700">
+                  class="text-sm font-bold uppercase tracking-wider text-slate-700">
                   Connect with Jovie
                 </h3>
                 <div
@@ -87,7 +87,7 @@
                     v-for="item in navigation.social"
                     :key="item.name"
                     :href="item.href"
-                    class="text-gray-400 hover:text-gray-500">
+                    class="text-slate-400 hover:text-slate-500">
                     <span class="sr-only">{{ item.name }}</span>
                     <component
                       :is="item.icon"
@@ -108,17 +108,17 @@
                       d="M4.32616 0.62103C4.11686 0.440896 3.80116 0.464539 3.62103 0.673838L0.685572 4.08457C0.505438 4.29387 0.529081 4.60957 0.738381 4.7897C0.94768 4.96984 1.26338 4.94619 1.44351 4.73689L4.05281 1.70513L7.08457 4.31443C7.29387 4.49456 7.60957 4.47092 7.7897 4.26162C7.96984 4.05232 7.94619 3.73662 7.73689 3.55649L4.32616 0.62103ZM19.9426 20.4458C17.6786 20.7074 14.1467 20.0809 11.0208 17.2875C7.9022 14.5006 5.13882 9.51128 4.4986 0.962659L3.5014 1.03734C4.15556 9.7722 6.99518 15.0311 10.3545 18.0331C13.7065 21.0285 17.5274 21.7315 20.0574 21.4392L19.9426 20.4458Z"
                       fill="#4B5563" />
                   </svg>
-                  <span class="ml-1 font-medium text-gray-700"
+                  <span class="ml-1 font-medium text-slate-700"
                     >Join the Jovie Slack community</span
                   >
                 </div>
               </div>
               <div class="mt-16 sm:mt-0">
                 <h3
-                  class="text-sm font-bold uppercase tracking-wider text-gray-500">
+                  class="text-sm font-bold uppercase tracking-wider text-slate-500">
                   Stay in the loop
                 </h3>
-                <p class="mt-0 text-xs font-bold tracking-wider text-gray-400">
+                <p class="mt-0 text-xs font-bold tracking-wider text-slate-400">
                   Insights & updates from the team.
                 </p>
 
@@ -137,7 +137,7 @@
                       id="hero-email"
                       autocomplete="email"
                       required=""
-                      class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus-visible:border-indigo-500 focus-visible:placeholder-gray-400 focus-visible:outline-none focus-visible:ring-indigo-500 sm:max-w-xs"
+                      class="w-full min-w-0 appearance-none rounded-md border border-slate-300 bg-white py-2 px-4 text-base text-slate-900 placeholder-slate-500 focus-visible:border-indigo-500 focus-visible:placeholder-slate-400 focus-visible:outline-none focus-visible:ring-indigo-500 sm:max-w-xs"
                       placeholder="Enter your email" />
                     <div
                       class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
@@ -146,7 +146,7 @@
                         :loader="loading"
                         @click="requestDemo()"
                         text="Subscribe"
-                        class="bg-black text-white hover:bg-gray-900">
+                        class="bg-black text-white hover:bg-slate-900">
                       </ButtonGroup>
                     </div>
                     <div>
@@ -157,7 +157,7 @@
                     </div>
                   </form>
                   <div v-else class="flex min-w-0">
-                    <p class="text-sm text-gray-500">You're subscribed!</p>
+                    <p class="text-sm text-slate-500">You're subscribed!</p>
                   </div>
                 </div>
               </div>
@@ -166,7 +166,7 @@
         </div>
       </footer>
     </div>
-    <footer class="bg-gray-50">
+    <footer class="bg-slate-50">
       <div
         class="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:flex md:justify-between lg:px-8">
         <div class="mt-8 md:order-1 md:mt-0"></div>
@@ -174,26 +174,26 @@
           <div class="flex items-center">
             <p
               v-if="minimal"
-              class="justify-right items-center text-center text-xs text-gray-400">
-              <span class="divide divide-x-1 flex divide-gray-200">
-                <router-link class="px-2 hover:text-gray-700" to="/careers">
+              class="justify-right items-center text-center text-xs text-slate-400">
+              <span class="divide divide-x-1 flex divide-slate-200">
+                <router-link class="px-2 hover:text-slate-700" to="/careers">
                   Careers</router-link
                 >
-                <router-link class="px-2 hover:text-gray-700" to="/api"
+                <router-link class="px-2 hover:text-slate-700" to="/api"
                   >API</router-link
                 >
-                <router-link class="px-2 hover:text-gray-700" to="/pricing"
+                <router-link class="px-2 hover:text-slate-700" to="/pricing"
                   >Pricing</router-link
                 >
-                <router-link class="px-2 hover:text-gray-700" to="/privacy"
+                <router-link class="px-2 hover:text-slate-700" to="/privacy"
                   >Legal</router-link
                 >
-                <router-link class="px-2 hover:text-gray-700" to="/status"
+                <router-link class="px-2 hover:text-slate-700" to="/status"
                   >Status</router-link
                 >
               </span>
             </p>
-            <p class="ml-8 text-center text-2xs text-gray-400/75">
+            <p class="ml-8 text-center text-2xs text-slate-400/75">
               <span class="block sm:inline"
                 >&copy; {{ currentYear }} Jovie Inc</span
               >
@@ -201,7 +201,7 @@
           </div>
         </div>
         <div class="baseline">
-          <a href="/" class="group text-gray-400 hover:text-gray-500">
+          <a href="/" class="group text-slate-400 hover:text-slate-500">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -278,16 +278,18 @@ const navigation = {
   ],
   support: [
     //add changelog
-    { name: 'Changelog', href: '/changelog' },
     { name: 'Pricing', href: 'pricing' },
+    { name: 'Changelog', href: '/changelog' },
+
+    { name: 'Roadmap', href: 'roadmap' },
     { name: 'Get Help', href: 'support' },
-    { name: 'API', href: 'api' },
+
     { name: 'Status', href: 'Status' },
   ],
   company: [
     { name: 'Meet Jovie', href: 'meet-jovie' },
     { name: 'Careers', href: 'Careers' },
-
+    { name: 'API', href: 'api' },
     { name: 'Community', href: 'slack-community' },
 
     /*  { name: 'Our Data', href: 'data' }, */

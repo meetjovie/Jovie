@@ -11,6 +11,7 @@ module.exports = {
     './resources/**/*.js',
     './resources/**/*.vue',
   ],
+  darkMode: 'class',
   safelist: [...tailwindcssOriginSafelist],
   theme: {
     extend: {
@@ -45,7 +46,7 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        gray: colors.neutral,
+        slate: colors.neutral,
         social: {
           facebook: '#3b5998',
           twitter: '#1da1f2',

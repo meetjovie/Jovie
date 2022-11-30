@@ -2,10 +2,12 @@
   <div>
     <div class="relative">
       <div class="absolute inset-0 flex items-center" aria-hidden="true">
-        <div class="w-full border-t border-gray-300" />
+        <div class="w-full border-t border-slate-300" />
       </div>
       <div class="relative flex justify-start">
-        <span class="bg-gray-50 pr-2 text-xs text-gray-500"> {{ label }}</span>
+        <span class="bg-slate-50 pr-2 text-xs text-slate-500">
+          {{ label }}</span
+        >
       </div>
     </div>
     <div class="grid grid-cols-2">

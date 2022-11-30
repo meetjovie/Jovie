@@ -1,12 +1,12 @@
 <template>
   <section v-if="show">
-    <div class="grid place-items-center bg-gray-700 p-4">
+    <div class="grid place-items-center bg-slate-700 p-4">
       <div>
         <div
           :category="category"
           :id="'Jovie_MA_' + divId"
           :class="`h-[${assetHeight}px] w-[${assetWidth}px]`"
-          class="relative overflow-hidden bg-gradient-to-b from-gray-200 to-gray-50">
+          class="relative overflow-hidden bg-gradient-to-b from-slate-200 to-slate-50">
           <slot>
             <!-- Content -->
             <div
@@ -17,12 +17,12 @@
               </h1>
 
               <h2
-                class="uppercse text-7xl font-extrabold tracking-normal text-gray-800 md:text-5xl xl:text-8xl">
+                class="uppercse text-7xl font-extrabold tracking-normal text-slate-800 md:text-5xl xl:text-8xl">
                 The Social CRM
                 <br />
               </h2>
               <h2
-                class="mb-12 inline py-2 text-center text-xl font-bold text-gray-500">
+                class="mb-12 inline py-2 text-center text-xl font-bold text-slate-500">
                 A
                 <span
                   class="dexoration-2 font-bold underline decoration-pink-400"

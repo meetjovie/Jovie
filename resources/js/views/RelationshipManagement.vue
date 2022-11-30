@@ -1,7 +1,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div>
-    <div class="relative overflow-hidden bg-gray-50 pt-16 sm:pt-24 lg:pt-32">
+    <div class="relative overflow-hidden bg-slate-50 pt-16 sm:pt-24 lg:pt-32">
       <div
         class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
         <div>
@@ -10,10 +10,10 @@
             Social CRM
           </h2>
           <p
-            class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            class="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
             Manage creator partnerships at scale
           </p>
-          <p class="mx-auto mt-5 max-w-prose text-xl text-gray-500">
+          <p class="mx-auto mt-5 max-w-prose text-xl text-slate-500">
             Jovie makes it easy to manage creator relationships by bringing
             social data into the workflows you’re used to.
           </p>
@@ -42,7 +42,7 @@
                   aria-hidden="true" />
               </div>
 
-              <p class="mt-5 text-lg font-medium leading-6 text-gray-900">
+              <p class="mt-5 text-lg font-medium leading-6 text-slate-900">
                 {{ feature.name
                 }}<CreatorTags
                   v-if="feature.tag"
@@ -53,7 +53,7 @@
                   :text="feature.tag" />
               </p>
             </dt>
-            <dd class="mt-2 text-base text-gray-500">
+            <dd class="mt-2 text-base text-slate-500">
               {{ feature.description }}
             </dd>
           </div>

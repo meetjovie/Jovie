@@ -7,7 +7,7 @@
         <div
           class="mx-auto flex max-w-7xl items-center px-4 py-6 sm:px-6 lg:px-8">
           <div
-            class="items-center text-center text-xs font-bold tracking-wide text-gray-400">
+            class="items-center text-center text-xs font-bold tracking-wide text-slate-400">
             Trusted by teams at:
           </div>
           <div class="grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
@@ -15,35 +15,35 @@
               class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <img
                 class="h-12"
-                src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg"
+                src="https://tailwindui.com/img/logos/tuple-logo-slate-400.svg"
                 alt="Tuple" />
             </div>
             <div
               class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <img
                 class="h-12"
-                src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg"
+                src="https://tailwindui.com/img/logos/mirage-logo-slate-400.svg"
                 alt="Mirage" />
             </div>
             <div
               class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <img
                 class="h-12"
-                src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                src="https://tailwindui.com/img/logos/statickit-logo-slate-400.svg"
                 alt="StaticKit" />
             </div>
             <div
               class="col-span-1 flex justify-center md:col-span-3 lg:col-span-1">
               <img
                 class="h-12"
-                src="https://tailwindui.com/img/logos/transistor-logo-gray-400.svg"
+                src="https://tailwindui.com/img/logos/transistor-logo-slate-400.svg"
                 alt="Transistor" />
             </div>
             <div
               class="col-span-2 flex justify-center md:col-span-3 lg:col-span-1">
               <img
                 class="h-12"
-                src="https://tailwindui.com/img/logos/workcation-logo-gray-400.svg"
+                src="https://tailwindui.com/img/logos/workcation-logo-slate-400.svg"
                 alt="Workcation" />
             </div>
           </div>
@@ -85,7 +85,7 @@
           <div>
             <div class="mt-8 items-center border-t border-white">
               <div class="mx-auto flex flex-col py-12 text-center sm:flex-row">
-                <h3 class="text-md font-bold text-gray-900 sm:text-xl">
+                <h3 class="text-md font-bold text-slate-900 sm:text-xl">
                   Jovie replaces complicated tools & manual workflows
                 </h3>
                 <div class="mx-auto flex items-center space-x-8 opacity-30">
@@ -229,7 +229,7 @@
                   </svg>
 
                   <a
-                    class="active:outline-3 -ml-1text-md hover:border-coral-500 hover:text-coral-500 group -mt-1 box-border inline-flex h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-white px-4 font-sans font-medium text-black outline-offset-2 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-700 active:bg-white active:bg-opacity-5 disabled:cursor-not-allowed disabled:border-gray-700 disabled:bg-transparent disabled:text-gray-700 md:h-12 md:text-lg"
+                    class="active:outline-3 -ml-1text-md hover:border-coral-500 hover:text-coral-500 group -mt-1 box-border inline-flex h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-white px-4 font-sans font-medium text-black outline-offset-2 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-700 active:bg-white active:bg-opacity-5 disabled:cursor-not-allowed disabled:border-slate-700 disabled:bg-transparent disabled:text-slate-700 md:h-12 md:text-lg"
                     href="https://jov.ie/signup"
                     ><JovieLogo height="20px" />
                   </a>
@@ -252,11 +252,11 @@
         <div
           class="mx-auto flex max-w-5xl flex-col justify-between overflow-hidden rounded-3xl border-2 border-fuchsia-600 md:h-80 md:flex-row">
           <div class="w-full py-8 px-8 md:w-1/3">
-            <div class="text-xl font-bold text-gray-700">
+            <div class="text-xl font-bold text-slate-700">
               <span class="text-pink-500">Add</span> the Jovie Chrome<br />
               Extension today.
             </div>
-            <div class="text-sm font-semibold text-gray-500">
+            <div class="text-sm font-semibold text-slate-500">
               Save, enrich, & organize contacts from any social media profile.
             </div>
             <router-link
@@ -398,7 +398,6 @@ export default {
           cta: 'Try Jovie free',
 
           ctaLink: 'https://jov.ie/signup',
-
         },
       ],
     };

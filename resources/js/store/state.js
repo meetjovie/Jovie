@@ -14,4 +14,5 @@ export default {
   crmEventsRegistered: false,
   isExtension: false,
   extensionQuery: null,
+  theme: 'light',
 };

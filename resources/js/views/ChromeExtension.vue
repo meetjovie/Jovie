@@ -13,7 +13,7 @@
                     Coming soon
                   </span>
                   <span
-                    class="inline-flex items-center space-x-1 text-sm font-medium text-gray-500">
+                    class="inline-flex items-center space-x-1 text-sm font-medium text-slate-500">
                     <span>Jovie Chrome Extension</span>
                     <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
                   </span>
@@ -25,11 +25,11 @@
                   Social insights
                 </h1>
                 <h1
-                  class="-mt-4 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+                  class="-mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
                   right inside gmail
                 </h1>
 
-                <p class="mt-2 text-xs text-gray-500 sm:mt-6 sm:text-xl">
+                <p class="mt-2 text-xs text-slate-500 sm:mt-6 sm:text-xl">
                   See content & social metrics of contacts right inside your
                   inbox.
                 </p>
@@ -45,7 +45,7 @@
                       v-model="waitListEmail"
                       id="hero-email"
                       type="email"
-                      class="block w-full rounded-md border border-gray-300 px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                      class="block w-full rounded-md border border-slate-300 px-5 py-3 text-base text-slate-900 placeholder-slate-500 shadow-sm focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                       placeholder="Enter your email" />
 
                     <ButtonGroup
@@ -64,14 +64,14 @@
                   </div>
                 </div>
                 <div v-else class="flex min-w-0">
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-slate-500">
                     Awesome! We'll be in touch soon.
                   </p>
                 </div>
               </div>
 
               <div class="mt-6">
-                <div class="inline-flex items-center divide-x divide-gray-300">
+                <div class="inline-flex items-center divide-x divide-slate-300">
                   <div class="flex flex-shrink-0 pr-5">
                     <StarIcon
                       class="h-5 w-5 text-yellow-400"
@@ -90,8 +90,10 @@
                       aria-hidden="true" />
                   </div>
                   <div
-                    class="min-w-0 flex-1 py-1 pl-5 text-sm text-gray-500 sm:py-3">
-                    <span class="font-medium text-gray-900">Rated 5 stars</span>
+                    class="min-w-0 flex-1 py-1 pl-5 text-sm text-slate-500 sm:py-3">
+                    <span class="font-medium text-slate-900"
+                      >Rated 5 stars</span
+                    >
                     by
                     <span class="font-medium text-indigo-500">beta users</span>
                   </div>
@@ -124,7 +126,7 @@
                       y="0"
                       width="4"
                       height="4"
-                      class="text-gray-200"
+                      class="text-slate-200"
                       fill="currentColor" />
                   </pattern>
                 </defs>
@@ -134,7 +136,7 @@
                   fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
               </svg>
               <div
-                class="absolute inset-y-0 left-1/2 w-screen rounded-l-3xl bg-gray-50 lg:left-80 lg:right-0 lg:w-full">
+                class="absolute inset-y-0 left-1/2 w-screen rounded-l-3xl bg-slate-50 lg:left-80 lg:right-0 lg:w-full">
                 <img
                   class="z-10 w-full rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 blur-sm lg:h-full lg:w-auto lg:max-w-none"
                   :src="asset('img/External/gmail.jpeg')"
@@ -153,19 +155,19 @@
       </div>
       <section
         class="mx-auto bg-gradient-radial from-white via-white to-blue-600/10">
-        <div class="mx-auto max-w-7xl border-2 border-b border-gray-400 py-48">
-          <div class="text-3xl font-bold text-gray-700">
+        <div class="mx-auto max-w-7xl border-2 border-b border-slate-400 py-48">
+          <div class="text-3xl font-bold text-slate-700">
             <span class="pink-text-600">Add </span> the Jovie Chrome Extension
             today.
           </div>
-          <div class="text-xl font-semibold text-gray-500">
+          <div class="text-xl font-semibold text-slate-500">
             Save, enrich, & organize contacts from any social media profile.
           </div>
           <router-link
             to="/chrome-extension"
-            class="group mx-auto mt-8 flex w-80 cursor-pointer justify-between rounded-full border border-gray-400 bg-gradient-to-r from-[#7928ca] to-[#ff0080] p-0.5 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
+            class="group mx-auto mt-8 flex w-80 cursor-pointer justify-between rounded-full border border-slate-400 bg-gradient-to-r from-[#7928ca] to-[#ff0080] p-0.5 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
             <div
-              class="flex w-full justify-between rounded-md bg-gray-800 py-2 px-4">
+              class="flex w-full justify-between rounded-md bg-slate-800 py-2 px-4">
               <div
                 class="mx-auto mt-0.5 w-full transform text-center font-medium text-white transition-transform duration-300 ease-in-out group-hover:underline">
                 Add to Chrome
@@ -205,27 +207,27 @@ const stats = [
 const logos = [
   {
     name: 'Transistor',
-    url: 'https://tailwindui.com/img/logos/transistor-logo-gray-400.svg',
+    url: 'https://tailwindui.com/img/logos/transistor-logo-slate-400.svg',
   },
   {
     name: 'Mirage',
-    url: 'https://tailwindui.com/img/logos/mirage-logo-gray-400.svg',
+    url: 'https://tailwindui.com/img/logos/mirage-logo-slate-400.svg',
   },
   {
     name: 'Tuple',
-    url: 'https://tailwindui.com/img/logos/tuple-logo-gray-400.svg',
+    url: 'https://tailwindui.com/img/logos/tuple-logo-slate-400.svg',
   },
   {
     name: 'Laravel',
-    url: 'https://tailwindui.com/img/logos/laravel-logo-gray-400.svg',
+    url: 'https://tailwindui.com/img/logos/laravel-logo-slate-400.svg',
   },
   {
     name: 'StaticKit',
-    url: 'https://tailwindui.com/img/logos/statickit-logo-gray-400.svg',
+    url: 'https://tailwindui.com/img/logos/statickit-logo-slate-400.svg',
   },
   {
     name: 'Workcation',
-    url: 'https://tailwindui.com/img/logos/workcation-logo-gray-400.svg',
+    url: 'https://tailwindui.com/img/logos/workcation-logo-slate-400.svg',
   },
 ];
 const footerNavigation = {

@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto max-w-7xl">
     <div class="mx-auto max-w-7xl space-y-6 py-12">
-      <h3 class="py-12 text-center text-3xl font-bold text-gray-900">
+      <h3 class="py-12 text-center text-3xl font-bold text-slate-900">
         Jovie creates contacts
         <span class="text-purple-700">in 1-click</span>
       </h3>
@@ -120,11 +120,11 @@
           class="items-center md:w-1/3 md:group-odd:order-last md:group-even:order-first">
           <div class="mt-4 justify-start px-12">
             <h3
-              class="mt-2 bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-3xl font-medium leading-10 tracking-normal text-gray-900">
+              class="mt-2 bg-gradient-to-r from-sky-500 via-blue-500 to-fuchsia-500 bg-clip-text text-3xl font-medium leading-10 tracking-normal text-slate-900">
               {{ feature.header }}
             </h3>
 
-            <p class="leading-wide mx-auto mt-5 text-sm text-gray-600">
+            <p class="leading-wide mx-auto mt-5 text-sm text-slate-600">
               {{ feature.subheader }}
             </p>
             <div class="group/button2 mt-4" v-if="feature.id === 3">
@@ -149,9 +149,9 @@
                 </svg>
               </ButtonGroup>
             </div>
-            <div v-if="feature.id === 1" class="mt-8 border-t border-gray-200">
+            <div v-if="feature.id === 1" class="mt-8 border-t border-slate-200">
               <div class="mt-6 inline-flex h-4 w-80 items-center space-x-4">
-                <p class="text-sm leading-none text-gray-400">Supports</p>
+                <p class="text-sm leading-none text-slate-400">Supports</p>
                 <div class="flex items-start justify-start space-x-3">
                   <svg
                     width="136"
@@ -189,7 +189,7 @@
                   </div> -->
                 </div>
                 <p
-                  class="items-center text-xs font-semibold leading-none text-gray-900">
+                  class="items-center text-xs font-semibold leading-none text-slate-900">
                   +7 others
                 </p>
               </div>

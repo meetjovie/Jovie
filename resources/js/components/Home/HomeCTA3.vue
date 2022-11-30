@@ -12,7 +12,7 @@
         alt="background image" />
       <div class="absolute flex flex-col items-center justify-center px-4">
         <h1
-          class="text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl xl:text-6xl">
+          class="text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl xl:text-6xl">
           <span class="inline">Scale your</span>
           {{ ' ' }}
           <span class="inline text-indigo-700">creator</span>
@@ -21,7 +21,7 @@
           <span class="inline"> partnerships</span>
         </h1>
         <p
-          class="mx-auto mt-3 max-w-md text-center text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
+          class="mx-auto mt-3 max-w-md text-center text-base text-slate-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
           <span class="font-bold">Easily </span>
           {{ ' ' }}
           <span class="font-bold text-indigo-600">build</span>,
@@ -44,7 +44,7 @@
                   type="email"
                   autocomplete="off"
                   required=""
-                  class="focus:ring-none focus:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-gray-500 shadow-xl shadow-indigo-700/20 focus:border-none focus:outline-none focus-visible:outline-none"
+                  class="focus:ring-none focus:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-slate-500 shadow-xl shadow-indigo-700/20 focus:border-none focus:outline-none focus-visible:outline-none"
                   placeholder="Enter your email" />
 
                 <button

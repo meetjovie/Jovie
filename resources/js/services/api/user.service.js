@@ -37,6 +37,15 @@ export default {
       console.log(config);
       return axios.get(`${baseApiUrl}/crm-creators`, config);
   },
+  getCrmCreatorByHandler(data, cancelSignal = null) {
+      let config = {
+          params: data
+      }
+      if (cancelSignal) {
+          config.signal = cancelSignal
+      }
+      return axios.get(`${baseApiUrl}/get-extension-creator`, config);
+  },
   async exportCrmCreators(data) {
     return axios.get(`${baseApiUrl}/export-crm-creators`, {
       params: data,
