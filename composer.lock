@@ -1,5 +1,4 @@
 {
-
     "_readme": [
         "This file locks the dependencies of your project to a known state",
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
@@ -7,7 +6,7 @@
     ],
     "content-hash": "ea46edbba78b642478cb9e0190fdd600",
     "packages": [
-        
+        {
             "name": "aws/aws-crt-php",
             "version": "v1.0.2",
             "source": {
@@ -11677,5 +11676,4 @@
     },
     "platform-dev": [],
     "plugin-api-version": "2.2.0"
-
 }
