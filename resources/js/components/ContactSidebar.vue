@@ -27,14 +27,12 @@
           </svg> -->
           <img
             v-if="imageLoaded && creator.profile_pic_url"
-            crossorigin="anonymous"
             id="profile-img-jovie"
             class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="creator.profile_pic_url" />
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
           <img
             v-else
-            crossorigin="anonymous"
             id="profile-img-jovie"
             class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="asset('img/noimage.webp')" />
