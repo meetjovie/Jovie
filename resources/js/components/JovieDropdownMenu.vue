@@ -21,10 +21,12 @@
           @focus="focusMenuSearch()"
           as="div"
           :class="[{ 'w-40': size == 'md' }, { 'w-80': size == 'lg' }]"
-          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-slate-800 dark:bg-slate-900/60">
+          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 overflow-auto rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-slate-800 dark:bg-slate-900/60">
           <slot name="menuTop"></slot>
-          <div v-if="searchable" class="px-1">
-            <MenuItem as="div">
+          <div v-if="searchable" class="sticky top-0 px-1">
+            <MenuItem
+              as="div"
+              class="border border-slate-200 bg-white/60 backdrop-blur-2xl backdrop-saturate-150 dark:border-slate-800 dark:bg-slate-900/60">
               <div class="relative flex items-center">
                 <input
                   ref="menuSearchInput"
@@ -44,8 +46,8 @@
           </div>
 
           <div
-            class="overflow-auto border-t border-slate-200 px-2 dark:border-slate-600">
-            <div v-if="items" class="overflow-y-scroll">
+            class="overflow-y-scroll border-t border-slate-200 px-2 dark:border-slate-600">
+            <div v-if="items" class="">
               <template v-for="(item, key) in filteredItems" :key="item.name">
                 <MenuItem
                   v-if="item.route"
@@ -59,7 +61,7 @@
                         'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-100':
                           active,
                       }">
-                      <div class="flex items-center">
+                      <div class="flex items-center line-clamp-1">
                         <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="item === creator.crm_record_by_user.stage_name"

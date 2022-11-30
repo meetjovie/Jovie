@@ -32,7 +32,7 @@
       <draggable
         v-model="menuItems"
         group="lists"
-        class="select-none"
+        class="select-none overflow-y-scroll"
         ghost-class="ghost-card"
         itemKey="id"
         @change="$emit('sort')">
@@ -70,7 +70,7 @@
                           ? 'font-bold text-slate-800 dark:text-slate-200'
                           : 'font-light text-slate-700 dark:text-slate-300',
                       ]"
-                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
+                      class="w-36 cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
                       >{{ element.name }}</span
                     >
                     <input
@@ -230,7 +230,7 @@
                       ? 'font-bold text-slate-800 dark:text-slate-200'
                       : 'font-light text-slate-700 dark:text-slate-300',
                   ]"
-                  class="cursor-pointer text-xs line-clamp-1 group-hover:text-slate-800 dark:group-hover:text-slate-200"
+                  class="w-36 cursor-pointer text-xs line-clamp-1 group-hover:text-slate-800 dark:group-hover:text-slate-200"
                   >{{ item.name }}</span
                 >
                 <input
