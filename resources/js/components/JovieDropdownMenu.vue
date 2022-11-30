@@ -3,8 +3,8 @@
     as="div"
     v-slot="{ open }"
     class="relative z-10 inline-block w-full items-center text-left">
-    <Float portal :offset="0" shift placement="bottom-start">
-      <MenuButton class="cursor-pointer" @click="open" ref="menuButton">
+    <Float portal :offset="0" shift :placement="placement">
+      <MenuButton class="w-full cursor-pointer" @click="open" ref="menuButton">
         <slot name="triggerButton"> Button Goes Here</slot>
       </MenuButton>
 
@@ -44,8 +44,8 @@
           </div>
 
           <div
-            class="overflow-y-scroll border-t border-slate-200 px-2 dark:border-slate-600">
-            <div v-if="items">
+            class="overflow-auto border-t border-slate-200 px-2 dark:border-slate-600">
+            <div v-if="items" class="overflow-y-scroll">
               <template v-for="(item, key) in filteredItems" :key="item.name">
                 <MenuItem
                   v-if="item.route"
@@ -200,7 +200,6 @@ export default {
   },
   data() {
     return {
-      open: false,
       searchQuery: '',
       /*  items: [
         {
@@ -243,6 +242,20 @@ export default {
       type: String,
       required: false,
       default: '',
+    },
+    open: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    placement: {
+      type: String,
+      required: false,
+      default: 'right-start',
+    },
+    offset: {
+      type: Number,
+      required: false,
     },
   },
   computed: {

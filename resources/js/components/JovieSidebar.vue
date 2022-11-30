@@ -143,19 +143,19 @@
                       role="menuitem"
                       tabindex="-1">
                       <router-link
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+                        class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 dark:text-slate-300"
                         to="/admin">
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
                           :class="{
-                            'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
                               active,
                           }">
                           <component
                             class="mr-4 h-4 w-4 cursor-pointer"
-                            is="UserIcon">
+                            is="ChartBarIcon">
                           </component
-                          >Admin Dashboard
+                          >Admin
                         </div>
                       </router-link>
                     </MenuItem>
@@ -227,6 +227,7 @@ import {
   BoltIcon,
   WrenchScrewdriverIcon,
   ComputerDesktopIcon,
+  ChartBarIcon,
 } from '@heroicons/vue/24/solid';
 
 import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
@@ -251,6 +252,7 @@ export default {
     SwitchGroup,
     Switch,
     SunIcon,
+    ChartBarIcon,
     MoonIcon,
     MenuItem,
     MenuItems,

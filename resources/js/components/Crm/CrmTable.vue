@@ -69,7 +69,7 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
+                        class="rounded-m block w-full border-slate-300 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
 
                       <div
                         @click="toggleSearchVisible()"
@@ -342,10 +342,11 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-r border-b border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 after:dark:border-slate-700">
+                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-b border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 after:dark:border-slate-700">
                     <div
                       v-if="selectedCreators.length > 0"
                       class="flex items-center space-x-3 bg-slate-100 dark:bg-slate-800">
+                      <!--   <ContactActionMenu /> -->
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
@@ -363,7 +364,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-blur-xl backdrop-saturate-150 backdrop-saturate-150 backdrop-filter dark:border-slate-700 dark:border-slate-400 dark:bg-slate-900/60 dark:bg-slate-900/60 dark:bg-slate-900/60">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -414,92 +415,128 @@
                                   }}
                                 </button>
                               </MenuItem>
-                              <MenuItem
-                                @focus="subMenuOpen"
-                                v-slot="{ active }">
-                                <Menu
-                                  :class="[
-                                    active
-                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                      : 'text-slate-700 dark:text-slate-200',
-                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                  ]">
-                                  <Float
-                                    portal
-                                    :offset="2"
-                                    placement="right-start">
-                                    <MenuButton
-                                      @mouseover="subMenuOpen"
-                                      :class="[
-                                        'flex w-full items-center justify-between rounded-md px-2 py-2 text-xs text-slate-700 disabled:cursor-not-allowed disabled:opacity-50 group-hover:bg-slate-300 group-hover:text-slate-900 dark:text-slate-200 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-100',
-                                      ]">
-                                      <span class="line-clamp-1"
-                                        >Add to list
-                                      </span>
-                                      <ChevronRightIcon
-                                        class="ml-2 -mr-1 h-5 w-5 text-slate-400 hover:text-slate-500"
-                                        aria-hidden="true" />
-                                    </MenuButton>
-                                    <TransitionRoot
-                                      :show="subMenuOpen"
-                                      enter-active-class="transition duration-100 ease-out"
-                                      enter-from-class="transform scale-95 opacity-0"
-                                      enter-to-class="transform scale-100 opacity-100"
-                                      leave-active-class="transition duration-75 ease-in"
-                                      leave-from-class="transform scale-100 opacity-100"
-                                      leave-to-class="transform scale-95 opacity-0">
-                                      <MenuItems
-                                        static
-                                        class="max-h-80 w-48 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
-                                        <MenuItem
-                                          v-slot="{ active }"
-                                          v-for="list in userLists"
-                                          @click="
-                                            toggleCreatorsFromList(
-                                              selectedCreators,
-                                              list.id,
-                                              false
-                                            )
-                                          ">
-                                          <button
-                                            :class="[
-                                              active
-                                                ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                                : 'text-slate-700 dark:text-slate-200',
-                                              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                            ]">
-                                            <span class="px-1">{{
-                                              list.emoji ? list.emoji : '📄'
-                                            }}</span>
-                                            {{ list.name }}
-                                          </button>
-                                        </MenuItem>
-                                        <MenuItem
-                                          v-slot="{ active }"
-                                          class="mx-auto">
-                                          <button
-                                            :class="[
-                                              active
-                                                ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                                : 'text-slate-700 dark:text-slate-200',
-                                              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                            ]">
-                                            <div
-                                              class="mx-auto flex content-center items-center text-center">
-                                              <span class="text-center"
-                                                >Create New List</span
-                                              >
-                                              <PlusIcon
-                                                :active="active"
-                                                class="ml-2 h-3 w-3 text-slate-400"
-                                                aria-hidden="true" />
-                                            </div>
-                                          </button>
-                                        </MenuItem>
-                                      </MenuItems>
-                                    </TransitionRoot>
-                                  </Float>
-                                </Menu>
+                              <MenuItem v-slot="{ active }">
+                                <div class="w-full" @focus="subMenuOpen = true">
+                                  <JovieDropdownMenu
+                                    :placement="bottom"
+                                    :offset="8"
+                                    :items="userLists"
+                                    @itemClicked="
+                                      toggleCreatorsFromList(
+                                        selectedCreators,
+                                        item.id,
+                                        false
+                                      )
+                                    "
+                                    @mouseover="subMenuOpen = true"
+                                    :open="subMenuOpen"
+                                    :class="[
+                                      active
+                                        ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                        : 'text-slate-700 dark:text-slate-200',
+                                      'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                    ]">
+                                    <template
+                                      as="div"
+                                      class="w-full"
+                                      #triggerButton>
+                                      <button
+                                        class="flex w-full items-center justify-between">
+                                        <div class="flex">
+                                          <PlusIcon
+                                            :active="active"
+                                            class="mr-2 h-3 w-3 text-sky-400"
+                                            aria-hidden="true" />
+                                          <span class="line-clamp-1">
+                                            Add to list
+                                          </span>
+                                        </div>
+                                        <ChevronRightIcon
+                                          class="h-5 w-5 text-slate-400 hover:text-slate-500"
+                                          aria-hidden="true" />
+                                      </button>
+                                    </template>
+                                  </JovieDropdownMenu>
+                                  <!--  <Menu as="div">
+                                    <Float
+                                      portal
+                                      :offset="2"
+                                      placement="right-start">
+                                      <button
+                                        class="flex w-full items-center justify-between"
+                                        @mouseover="subMenuOpen">
+                                        <PlusIcon
+                                          :active="active"
+                                          class="mr-2 h-3 w-3 text-sky-400"
+                                          aria-hidden="true" />
+                                        <span class="line-clamp-1">
+                                          Add to list
+                                        </span>
+                                        <ChevronRightIcon
+                                          class="ml-2 -mr-1 h-5 w-5 text-slate-400 hover:text-slate-500"
+                                          aria-hidden="true" />
+                                      </button>
+                                      <TransitionRoot
+                                        :show="subMenuOpen"
+                                        enter-active-class="transition duration-100 ease-out"
+                                        enter-from-class="transform scale-95 opacity-0"
+                                        enter-to-class="transform scale-100 opacity-100"
+                                        leave-active-class="transition duration-75 ease-in"
+                                        leave-from-class="transform scale-100 opacity-100"
+                                        leave-to-class="transform scale-95 opacity-0">
+                                        <MenuItems
+                                          static
+                                          class="max-h-80 w-48 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-filter dark:border-slate-700/40 dark:bg-slate-900/60">
+                                          <MenuItem
+                                            v-slot="{ active }"
+                                            v-for="list in userLists"
+                                            @click="
+                                              toggleCreatorsFromList(
+                                                selectedCreators,
+                                                list.id,
+                                                false
+                                              )
+                                            ">
+                                            <button
+                                              :class="[
+                                                active
+                                                  ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                                  : 'text-slate-700 dark:text-slate-200',
+                                                'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                              ]">
+                                              <span class="px-1">{{
+                                                list.emoji ? list.emoji : '📄'
+                                              }}</span>
+                                              {{ list.name }}
+                                            </button>
+                                          </MenuItem>
+                                          <MenuItem
+                                            v-slot="{ active }"
+                                            class="mx-auto">
+                                            <button
+                                              :class="[
+                                                active
+                                                  ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                                  : 'text-slate-700 dark:text-slate-200',
+                                                'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                              ]">
+                                              <div
+                                                class="mx-auto flex content-center items-center text-center">
+                                                <span class="text-center"
+                                                  >Create New List</span
+                                                >
+                                                <PlusIcon
+                                                  :active="active"
+                                                  class="ml-2 h-3 w-3 text-slate-400"
+                                                  aria-hidden="true" />
+                                              </div>
+                                            </button>
+                                          </MenuItem>
+                                        </MenuItems>
+                                      </TransitionRoot>
+                                    </Float>
+                                  </Menu> -->
+                                </div>
                               </MenuItem>
                             </MenuItems>
                           </transition>
@@ -525,7 +562,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:border-x-slate-700 dark:bg-slate-800 dark:bg-slate-800 dark:text-slate-400">
+                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:border-x-slate-700 dark:bg-slate-800 dark:bg-slate-800 dark:text-slate-400">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -536,7 +573,7 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-800"></th>
+                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-800"></th>
                 </tr>
               </thead>
               <tbody
@@ -738,7 +775,7 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60 dark:bg-slate-900/60 dark:bg-slate-900/60">
+                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
                                   <div class="py-1">
                                     <MenuItem
                                       :disabled="
@@ -1196,7 +1233,7 @@
             </table>
 
             <Pagination
-              class="fixed bottom-0 z-50 w-full bg-blue-500"
+              class="z-50 w-full bg-blue-500"
               v-if="creatorRecords.length"
               :totalPages="creatorsMeta.last_page"
               :perPage="creatorsMeta.per_page"
@@ -1271,10 +1308,12 @@ import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
 import ButtonGroup from '../../components/ButtonGroup.vue';
 import JovieTooltip from '../../components/JovieTooltip.vue';
 import ContactStageMenu from '../../components/ContactStageMenu.vue';
+import JovieDropdownMenu from '../../components/JovieDropdownMenu.vue';
 export default {
   name: 'CrmTable',
   components: {
     ContactStageMenu,
+    JovieDropdownMenu,
     ArchiveBoxIcon,
     ChevronRightIcon,
     StarRating,
@@ -1349,7 +1388,7 @@ export default {
       imageLoaded: true,
       cellActive: false,
       open: false,
-      subMenuOpen: true,
+      subMenuOpen: false,
       settings: [
         {
           name: 'Show Follower Counts',
