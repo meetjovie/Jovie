@@ -363,7 +363,9 @@ class CrmController extends Controller
                 'name' => $list->name,
                 'emoji' => $list->emoji,
             ],
+
             'message' => ('Contacts '. ($request->remove == true ? 'removed from list' : 'added to list'))
+
         ], 200);
     }
 

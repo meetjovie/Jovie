@@ -118,7 +118,9 @@
                               <div
                                 class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
                                 <span
+
                                   class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+
                                   >{{ counts.archived }}</span
                                 >
                               </div>
@@ -157,8 +159,10 @@
             </div>
           </template>
           <template #footer>
+
             <div
               class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
+
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">
@@ -403,7 +407,9 @@
                     </transition>
                   </Float>
                 </Menu>
+
                 <DarkModeToggle />
+
               </div>
               <div
                 v-if="!currentUser.current_team.credits"
@@ -548,7 +554,9 @@
 
 <script>
 import JovieSidebar from '../components/JovieSidebar.vue';
+
 import DarkModeToggle from '../components/DarkModeToggle.vue';
+
 import {
   Combobox,
   ComboboxButton,
@@ -589,10 +597,12 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
+
   SunIcon,
   MoonIcon,
   SparklesIcon,
   ComputerDesktopIcon,
+
 } from '@heroicons/vue/24/solid';
 
 import UserService from '../services/api/user.service';
@@ -672,10 +682,12 @@ export default {
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,
+
     SunIcon,
     SparklesIcon,
     MoonIcon,
     ComputerDesktopIcon,
+
   },
   data() {
     return {

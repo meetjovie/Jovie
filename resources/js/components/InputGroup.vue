@@ -5,12 +5,14 @@
         v-if="socialicon"
         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
         :class="{ 'pl-1': rounded == 'sm' }">
+
         <SocialIcons
           class="text-slate-400 opacity-40 dark:text-slate-600"
           link="#"
           width="12px"
           height="12px"
           :icon="socialicon" />
+
       </div>
       <div
         v-if="icon"
