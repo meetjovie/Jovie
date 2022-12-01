@@ -79,10 +79,7 @@ export default {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
-      }
-      //check for darkmode
     },
-    setLoadingText() {
       //loop through the messagess
       //stop at the last message
       let i = 0;
