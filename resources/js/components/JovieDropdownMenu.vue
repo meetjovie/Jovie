@@ -3,8 +3,8 @@
     as="div"
     v-slot="{ open }"
     class="relative z-10 inline-block w-full items-center text-left">
-    <Float portal :offset="0" shift placement="bottom-start">
-      <MenuButton class="cursor-pointer" @click="open" ref="menuButton">
+    <Float portal :offset="0" shift :placement="placement">
+      <MenuButton class="w-full cursor-pointer" @click="open" ref="menuButton">
         <slot name="triggerButton"> Button Goes Here</slot>
       </MenuButton>
 
@@ -21,10 +21,12 @@
           @focus="focusMenuSearch()"
           as="div"
           :class="[{ 'w-40': size == 'md' }, { 'w-80': size == 'lg' }]"
-          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-slate-800 dark:bg-slate-900/60">
+          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 overflow-auto rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-slate-800 dark:bg-slate-900/60">
           <slot name="menuTop"></slot>
-          <div v-if="searchable" class="px-1">
-            <MenuItem as="div">
+          <div v-if="searchable" class="sticky top-0 px-1">
+            <MenuItem
+              as="div"
+              class="border border-slate-200 bg-white/60 backdrop-blur-2xl backdrop-saturate-150 dark:border-slate-800 dark:bg-slate-900/60">
               <div class="relative flex items-center">
                 <input
                   ref="menuSearchInput"
@@ -59,7 +61,7 @@
                         'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-100':
                           active,
                       }">
-                      <div class="flex items-center">
+                      <div class="flex items-center line-clamp-1">
                         <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="item === creator.crm_record_by_user.stage_name"
@@ -200,7 +202,6 @@ export default {
   },
   data() {
     return {
-      open: false,
       searchQuery: '',
       /*  items: [
         {
@@ -244,6 +245,20 @@ export default {
       required: false,
       default: '',
     },
+    open: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    placement: {
+      type: String,
+      required: false,
+      default: 'right-start',
+    },
+    offset: {
+      type: Number,
+      required: false,
+    },
   },
   computed: {
     filteredItems() {
@@ -255,7 +270,6 @@ export default {
   methods: {
     itemClicked(item) {
       this.$emit('itemClicked', item);
-      this.open = false;
     },
     focusMenuSearch() {
       this.$nextTick(() => {
