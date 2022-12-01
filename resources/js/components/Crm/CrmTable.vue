@@ -71,14 +71,11 @@
                         v-model="searchQuery"
                         class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
 
-
                       <div
                         @click="toggleSearchVisible()"
                         class="group absolute inset-y-0 right-0 flex items-center pr-3">
                         <XMarkIcon
-
                           class="h-4 w-4 cursor-pointer rounded-md p-0.5 text-slate-400 transition-all duration-150 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:group-hover:bg-slate-800"
-
                           aria-hidden="true" />
                       </div>
                     </div>
@@ -353,9 +350,7 @@
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
-
                             class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">
-
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
                               class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-slate-400"
@@ -424,40 +419,26 @@
                           </transition>
                         </Float>
                       </Menu>
-                        <JovieDropdownMenu
-                            :placement="bottom"
-                            :offset="8"
-                            :items="userLists"
-                            @itemClicked="addCreatorsToList($event)"
-                            @mouseover="subMenuOpen = true"
-                            :open="subMenuOpen"
-                            :class="[
-                                      active
-                                        ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                        : 'text-slate-700 dark:text-slate-200',
-                                      'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                    ]">
-                            <template
-                                as="div"
-                                class="w-full"
-                                #triggerButton>
-                                <button
-                                    class="flex w-full items-center justify-between">
-                                    <div class="flex">
-                                        <PlusIcon
-                                            :active="active"
-                                            class="mr-2 h-3 w-3 text-sky-400"
-                                            aria-hidden="true" />
-                                        <span class="line-clamp-1">
-                                            Add to list
-                                          </span>
-                                    </div>
-                                    <ChevronRightIcon
-                                        class="h-5 w-5 text-slate-400 hover:text-slate-500"
-                                        aria-hidden="true" />
-                                </button>
-                            </template>
-                        </JovieDropdownMenu>
+                      <JovieDropdownMenu
+                        :placement="bottom"
+                        :offset="8"
+                        :items="userLists"
+                        @itemClicked="addCreatorsToList($event)"
+                        @mouseover="subMenuOpen = true"
+                        :open="subMenuOpen"
+                        :class="[
+                          active
+                            ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                            : 'text-slate-700 dark:text-slate-200',
+                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                        ]">
+                        <template as="div" class="w-full" #triggerButton>
+                          <button
+                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">
+                            <span class="line-clamp-1"> Add to list </span>
+                          </button>
+                        </template>
+                      </JovieDropdownMenu>
                     </div>
                     <div v-else>
                       <CrmTableSortableHeader
@@ -677,9 +658,7 @@
                               placement="right-start">
                               <MenuButton
                                 v-slot="{ open }"
-
                                 class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
-
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
                                   class="z-0 mt-0.5 h-5 w-5"
@@ -1848,9 +1827,9 @@ export default {
         })
         .finally((response) => {});
     },
-      addCreatorsToList(id) {
-          this.toggleCreatorsFromList(this.selectedCreators, id, false);
-      },
+    addCreatorsToList(id) {
+      this.toggleCreatorsFromList(this.selectedCreators, id, false);
+    },
     toggleCreatorsFromList(ids, list, remove) {
       this.$store
         .dispatch('toggleCreatorsFromList', {
