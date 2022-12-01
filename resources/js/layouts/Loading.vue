@@ -80,6 +80,8 @@ export default {
       } else {
         document.documentElement.classList.remove('dark');
       }
+    },
+    setLoadingText() {
       //loop through the messagess
       //stop at the last message
       let i = 0;
