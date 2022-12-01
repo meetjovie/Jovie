@@ -106,6 +106,9 @@ app.mixin({
       }
       return time.format('ddd MMM DD, YYYY [at] HH:mm a');
     },
+      switchToDefaultImage(e) {
+          e.target.src = this.asset('img/noimage.webp');
+      }
   },
 });
 

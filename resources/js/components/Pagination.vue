@@ -4,10 +4,11 @@
       class="transiion-all flex w-full flex-auto items-center justify-between border-t border-slate-200 bg-white px-4 pb-2 dark:bg-slate-900 sm:px-2">
       <div class="group flex">
         <a
-          :disabled="isInFirstPage"
+          v-if="isFirstPage"
+          :disabled="isFirstPage"
           @click="onClickPreviousPage"
           href="#"
-          class="inline-flex items-center border-t-2 border-transparent pt-2 pr-1 text-xs font-medium text-slate-400 disabled:text-slate-200 group-hover:border-slate-300 group-hover:text-slate-700 dark:disabled:text-slate-400">
+          class="inline-flex items-center border-t-2 border-transparent pt-2 pr-1 text-xs font-medium text-slate-400 disabled:cursor-none disabled:text-slate-200 group-hover:border-slate-300 group-hover:text-slate-700 disabled:group-hover:text-slate-300 dark:disabled:text-slate-800 group-hover:dark:disabled:text-slate-800">
           <ArrowLongLeftIcon
             class="mr-3 h-3 w-3 text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700"
             aria-hidden="true" />
@@ -37,7 +38,7 @@
           :disabled="isInLastPage"
           @click="onClickNextPage()"
           href="#"
-          class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-xs font-medium text-slate-400 hover:border-slate-300 hover:text-slate-700 dark:text-slate-400">
+          class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-xs font-medium text-slate-400 hover:border-slate-300 hover:text-slate-700 disabled:cursor-none dark:text-slate-400">
           Next
           <ArrowLongRightIcon
             class="ml-3 h-5 w-5 text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700 dark:text-slate-400"
