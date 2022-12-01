@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-80 bg-white dark:bg-slate-900">
+  <div class="h-screen w-80 bg-white dark:bg-slate-900">
     <div v-if="user.loggedIn">
       <div
         v-if="!jovie"
@@ -518,7 +518,7 @@
       </div>
       <div v-else class="relative h-full">
         <div
-          class="flex flex-col justify-between"
+          class="flex h-full flex-col justify-between"
           :class="{
             ' blur-sm saturate-150 ': !creator.id,
           }">

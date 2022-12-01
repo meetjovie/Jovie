@@ -21,7 +21,7 @@
         </TabList>
       </template>
     </JovieSidebar>
-    <main class="w-full flex-1">
+    <main class="w-full flex-1 dark:bg-slate-900">
       <div class="relative mx-auto max-w-7xl md:px-8 xl:px-0">
         <div class="pb-16">
           <div class="px-4 sm:px-6 md:px-0">

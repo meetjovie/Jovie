@@ -1,12 +1,12 @@
 <template>
   <div
     v-if="user"
-    class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-slate-50 px-4 sm:items-center sm:px-6 lg:px-8">
+    class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-slate-50 px-4 dark:bg-slate-900 sm:items-center sm:px-6 lg:px-8">
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <router-link
         v-if="user.username == currentUser?.username"
         to="/edit-profile"
-        class="absolute top-0 right-0 cursor-pointer py-2 px-4 text-xs font-bold text-indigo-400 hover:text-indigo-600">
+        class="dark:text-indigio-200 absolute top-0 right-0 cursor-pointer py-2 px-4 text-xs font-bold text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400">
         Edit profile
       </router-link>
       <div>
@@ -15,12 +15,13 @@
           :src="user.profile_pic_url"
           alt="" />
         <div class="mx-auto mt-6 flex 2xl:mt-12">
-          <h2 class="mx-auto flex text-3xl font-extrabold text-slate-900">
+          <h2
+            class="mx-auto flex text-3xl font-extrabold text-slate-900 dark:text-slate-100">
             {{ user.first_name }} {{ user.last_name }}
             <svg
               v-if="user.is_verified"
               xmlns="http://www.w3.org/2000/svg"
-              class="-mr-5 h-5 w-5 text-indigo-600"
+              class="-mr-5 h-5 w-5 text-indigo-600 dark:text-indigo-300"
               viewBox="0 0 20 20"
               fill="currentColor">
               <path
@@ -30,12 +31,12 @@
             </svg>
           </h2>
         </div>
-        <p class="mt-2 text-center text-sm text-slate-600">
+        <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-300">
           {{ user.title }} {{ user.employer ? ' at ' : '' }}
           <a
             v-if="user.employer"
             :href="user.employer_link"
-            class="font-medium text-indigo-600 hover:text-indigo-500">
+            class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
             {{ user.employer }}
           </a>
         </p>
@@ -69,23 +70,25 @@
       <a href="#">
         <button
           @click="generateVCF(user)"
-          class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+          class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-700">
           Save contact
         </button>
       </a>
 
-      <div class="border-t-2 border-slate-400 opacity-20"></div>
+      <div
+        class="border-t-2 border-slate-400 opacity-20 dark:border-slate-700"></div>
       <router-link
-        class="group mt-1 py-4 text-center text-sm text-slate-500"
+        class="dark:text-sltate-300 group mt-1 py-4 text-center text-sm text-slate-500"
         to="signup">
-        <div class="mx-auto mt-4 flex items-center justify-center text-center">
+        <div
+          class="mx-auto mt-4 flex items-center justify-center text-center text-black dark:text-white">
           <JovieLogo
-            iconColor="black"
+            iconColor="currentColor"
             height="20px"
             class="opacity-20 group-hover:opacity-100" />
         </div>
         <div
-          class="bottom-0 w-full cursor-pointer items-center pb-4 font-semibold text-slate-900 opacity-20 group-hover:opacity-50">
+          class="bottom-0 w-full cursor-pointer items-center pb-4 font-semibold text-slate-900 opacity-20 group-hover:opacity-50 dark:text-slate-100">
           Get your profile
         </div>
       </router-link>

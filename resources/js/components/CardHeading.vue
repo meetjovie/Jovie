@@ -1,12 +1,17 @@
 <template>
-  <div class="rounded-t-lg border-b border-slate-200 px-4 py-5 sm:px-6">
+  <div
+    class="rounded-lg border-b border-slate-200 px-4 py-5 dark:border-slate-700 sm:px-6">
     <div
       class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
       <div class="ml-4 mt-4">
-        <h3 v-if="title" class="text-md font-medium leading-6 text-slate-900">
+        <h3
+          v-if="title"
+          class="text-md font-medium leading-6 text-slate-900 dark:text-slate-100">
           {{ title }}
         </h3>
-        <p v-if="subtitle" class="mt-1 text-xs text-slate-500">
+        <p
+          v-if="subtitle"
+          class="mt-1 text-xs text-slate-500 dark:text-slate-300">
           {{ subtitle }}
         </p>
       </div>

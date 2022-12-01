@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="mx-auto max-w-7xl py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl items-center py-10 sm:px-6 lg:px-8">
       <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
-            <h3 class="text-lg font-medium text-slate-900">
+            <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100">
               Profile Information
             </h3>
 
-            <p class="mt-1 text-sm text-slate-600">
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
               Update your account information and email address.
             </p>
           </div>
@@ -23,13 +23,13 @@
             enctype="multipart/form-data">
             <div
               x-data="{photoName: null, photoPreview: null}"
-              class="bg-white px-4 py-5 shadow sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
+              class="bg-white px-4 py-5 shadow dark:bg-slate-800 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-4">
                   <!-- Profile Photo File Input -->
                   <div class="mt-1 flex items-center space-x-5">
                     <span
-                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-slate-100 object-cover object-center">
+                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-slate-100 object-cover object-center dark:bg-slate-800">
                       <img
                         id="profile_pic_url_img"
                         ref="profile_pic_url_img"
@@ -41,7 +41,7 @@
 
                     <label
                       for="profile_pic_url"
-                      class="cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      class="cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:bg-slate-900 dark:text-slate-200">
                       Change
                     </label>
                     <input
@@ -64,7 +64,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25">
+                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:bg-slate-900 dark:text-slate-200">
                     Remove Photo
                   </button>
                 </div>
@@ -131,11 +131,12 @@
             </div>
 
             <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-slate-800 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
                 text="Save"
+                :loading="updating"
                 :disabled="updating">
               </ButtonGroup>
             </div>
@@ -144,9 +145,11 @@
 
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
-            <h3 class="text-lg font-medium text-slate-900">Social Handles</h3>
+            <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100">
+              Social Handles
+            </h3>
 
-            <p class="mt-1 text-sm text-slate-600">
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
               Add your social network handles.
             </p>
           </div>
@@ -161,7 +164,7 @@
             enctype="multipart/form-data">
             <div
               x-data="{photoName: null, photoPreview: null}"
-              class="bg-white px-4 py-5 shadow sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
+              class="bg-white px-4 py-5 shadow dark:bg-slate-800 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <!-- Social -->
                 <div class="grid-col-2 col-span-6 grid sm:col-span-3">
@@ -217,11 +220,12 @@
             </div>
 
             <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-slate-800 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
                 text="Save"
+                :loading="updating"
                 :disabled="updating">
               </ButtonGroup>
             </div>

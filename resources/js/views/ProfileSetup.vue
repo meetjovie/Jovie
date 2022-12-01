@@ -1,15 +1,16 @@
 <template>
-  <div class="flex w-full">
+  <div class="flex w-full dark:bg-slate-900">
     <div
       class="mx-auto flex h-screen w-full flex-col items-center justify-between py-12">
-      <div class="mx-auto h-full w-full items-center px-12 py-6">
-        <p class="text-sm font-medium text-slate-900">
+      <div class="mx-auto h-full items-center px-12 py-6">
+        <p class="text-sm font-medium text-slate-900 dark:text-slate-100">
           Create your Jovie profile...
         </p>
-        <div class="mx-auto max-w-7xl py-6" aria-hidden="true">
-          <div class="overflow-hidden rounded-full bg-slate-200">
+        <div class="mx-auto py-6" aria-hidden="true">
+          <div
+            class="overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600">
             <div
-              class="h-2 rounded-full bg-indigo-600"
+              class="h-2 rounded-full bg-indigo-600 dark:bg-indigo-400"
               :class="[
                 { 'w-1/6': currentStep === 1 },
                 { 'w-2/5': currentStep === 2 },
@@ -19,35 +20,42 @@
               ]" />
           </div>
           <div
-
-            class="mx-auto mt-2 hidden max-w-5xl grid-cols-4 px-8 text-sm font-medium text-slate-600 sm:grid">
-
+            class="mx-auto mt-2 hidden max-w-5xl grid-cols-4 px-8 text-sm font-medium text-slate-600 dark:text-slate-200 dark:text-slate-400 sm:grid">
             <div
               @click="setCurrentStep(1)"
               class="cursor-pointer"
-              :class="[{ 'text-indigo-600': step1Complete }, 'text-slate-600']">
+              :class="[
+                { 'text-indigo-600 dark:text-indigo-400': step1Complete },
+                'text-slate-600 dark:text-slate-300',
+              ]">
               Upload picture
             </div>
             <div
               @click="setCurrentStep(2)"
               class="cursor-pointer"
-              :class="[{ 'text-indigo-600': step2Complete }, 'text-slate-600']">
+              :class="[
+                { 'text-indigo-600 dark:text-indigo-400': step2Complete },
+                'text-slate-600 dark:text-slate-300',
+              ]">
               Add social Links
             </div>
             <div
               @click="setCurrentStep(3)"
               class="cursor-pointer"
-              :class="[{ 'text-indigo-600': step3Complete }, 'text-slate-600']">
+              :class="[
+                { 'text-indigo-600 dark:text-indigo-400': step3Complete },
+                'text-slate-600 dark:text-slate-300',
+              ]">
               Set a username
             </div>
             <div
               class="cursor-pointer"
               :class="[
                 {
-                  'text-indigo-600':
+                  'text-indigo-600 dark:text-indigo-400':
                     step1Complete && step2Complete && step3Complete,
                 },
-                'text-slate-600',
+                'text-slate-600 dark:text-slate-300',
               ]">
               Finish
             </div>
@@ -80,9 +88,7 @@
 
                     <label
                       for="profile_pic_url"
-
-                      class="cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-slate-900">
-
+                      class="dark;text-slate-200 bd:text-slate-200 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-slate-900 dark:text-slate-200">
                       Change
                     </label>
                     <input
@@ -99,7 +105,7 @@
                       :progress="uploadProgress" />
                     <p
                       v-if="errors.profile_pic_url"
-                      class="mt-2 text-sm text-red-600">
+                      class="text-red-600dark:text-red-400 mt-2 text-sm">
                       {{ errors.profile_pic_url[0] }}
                     </p>
                   </div>
@@ -108,9 +114,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-slate-900">
-
+                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-slate-900 dark:text-slate-200">
                     Remove Photo
                   </button>
                 </div>
@@ -153,7 +157,7 @@
               </div>
             </div>
             <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-slate-800 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
@@ -166,9 +170,8 @@
         </div>
 
         <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
-
-          <div class="py- rounded-md bg-slate-50 px-4 dark:bg-slate-800">
-
+          <div
+            class="py- rounded-md bg-slate-50 px-4 dark:bg-slate-800 dark:text-slate-300">
             <h2 class="font-slate-500 py-2 px-4">
               Add at least one social link to your profile.
             </h2>
@@ -264,14 +267,14 @@
       </div>
     </div>
     <aside
-      class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed xl:flex xl:flex-col">
+      class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed dark:border-slate-700 xl:flex xl:flex-col">
       <!-- Start secondary column (hidden on smaller screens) -->
       <div
         class="absolute inset-0 items-center border-r border-slate-200 py-6 px-4 sm:px-6 lg:px-8">
         <span class="text-2xl font-semibold text-slate-500">Preview</span>
         <div class="items-center">
           <div
-            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-slate-200 bg-slate-50 px-4 sm:items-center sm:px-6 lg:px-8">
+            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-slate-200 bg-slate-50 px-4 dark:border-slate-700 dark:bg-slate-800 sm:items-center sm:px-6 lg:px-8">
             <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
               <div>
                 <img
@@ -281,13 +284,13 @@
 
                 <div class="mx-auto mt-6 flex 2xl:mt-12">
                   <h2
-                    class="mx-auto flex text-3xl font-extrabold text-slate-900">
+                    class="mx-auto flex text-3xl font-extrabold text-slate-900 dark:text-slate-100">
                     {{ this.currentUser.first_name }}
                     {{ this.currentUser.last_name }}
                     <svg
                       v-if="this.currentUser.is_verified"
                       xmlns="http://www.w3.org/2000/svg"
-                      class="-mr-5 h-5 w-5 text-indigo-600"
+                      class="-mr-5 h-5 w-5 text-indigo-600 dark:text-indigo-400"
                       viewBox="0 0 20 20"
                       fill="currentColor">
                       <path
@@ -297,13 +300,14 @@
                     </svg>
                   </h2>
                 </div>
-                <p class="mt-2 text-center text-sm text-slate-600">
+                <p
+                  class="mt-2 text-center text-sm text-slate-600 dark:text-slate-200">
                   {{ this.currentUser.title }}
                   {{ this.currentUser.employer ? ' at ' : '' }}
                   <a
                     v-if="this.currentUser.employer"
                     :href="this.currentUser.employer_link"
-                    class="font-medium text-indigo-600 hover:text-indigo-500">
+                    class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
                     {{ this.currentUser.employer }}
                   </a>
                 </p>
@@ -345,12 +349,13 @@
               <!--  v-if="this.currentUser.call_to_action_text" -->
               <a href="#">
                 <button
-                  class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-400">
                   Save contact
                 </button>
               </a>
 
-              <div class="border-t-2 border-slate-400 opacity-20"></div>
+              <div
+                class="border-t-2 border-slate-400 opacity-20 dark:border-slate-700"></div>
             </div>
           </div>
         </div>
@@ -482,7 +487,6 @@ export default {
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
             this.currentStep = this.currentStep + 1;
-
           }
         })
         .catch((error) => {
@@ -512,7 +516,6 @@ export default {
             this.errors = {};
 
             this.currentStep = 2;
-
           }
         })
         .catch((error) => {
