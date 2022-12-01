@@ -55,7 +55,8 @@
           class="dark:bg-border-500 z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-500 dark:bg-slate-900/60">
           <div class="px-1">
             <MenuItem v-slot="{ active }" as="div">
-              <div class="relative flex items-center">
+              <div
+                class="relative flex items-center border-b border-slate-200 dark:border-slate-700/40">
                 <input
                   ref="stageInput"
                   v-model="stageSearchQuery"

@@ -9,44 +9,40 @@
                 <MenuItems static>
                   <div class="w-full flex-col px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
-                      <JovieTooltip
-                        shortcuts="{ key: 's', key: 'c', key: 't' }"
-                        text="Show All Contacts">
-                        <button
-                          @click="setFiltersType('all')"
-                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none"
-                          :class="[
-                            filters.type == 'all'
-                              ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                              : 'text-sm font-light text-slate-900 dark:text-slate-100',
-                            active
-                              ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
-                              : '',
-                          ]">
-                          <div class="flex items-center text-xs">
-                            <ChevronRightIcon
-                              @click="toggleContactMenuOpen"
-                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
-                              :class="[
-                                {
-                                  'rotate-90 transform': contactMenuOpen,
-                                },
-                              ]"
-                              aria-hidden="true" />
-                            Contacts
-                          </div>
-                          <div
-                            @click="showCreatorModal = true"
-                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-slate-600 hover:dark:text-slate-900">
-                            <span
-                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-slate-100 group-hover:dark:text-slate-100"
-                              >{{ counts.total }}</span
-                            >
-                            <PlusIcon
-                              class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
-                          </div>
-                        </button>
-                      </JovieTooltip>
+                      <button
+                        @click="setFiltersType('all')"
+                        class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none"
+                        :class="[
+                          filters.type == 'all'
+                            ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
+                            : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                          active
+                            ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                            : '',
+                        ]">
+                        <div class="flex items-center text-xs">
+                          <ChevronRightIcon
+                            @click="toggleContactMenuOpen"
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
+                            :class="[
+                              {
+                                'rotate-90 transform': contactMenuOpen,
+                              },
+                            ]"
+                            aria-hidden="true" />
+                          Contacts
+                        </div>
+                        <div
+                          @click="showCreatorModal = true"
+                          class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-slate-600 hover:dark:text-slate-900">
+                          <span
+                            class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-slate-100 group-hover:dark:text-slate-100"
+                            >{{ counts.total }}</span
+                          >
+                          <PlusIcon
+                            class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
+                        </div>
+                      </button>
                     </MenuItem>
                     <TransitionRoot
                       :show="contactMenuOpen"
@@ -61,33 +57,29 @@
                           as="div"
                           @click="setFiltersType('favourites')"
                           v-slot="{ active }">
-                          <JovieTooltip
-                            :shortcut="'G then F'"
-                            text="Show Favorites">
-                            <button
-                              class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
-                              :class="[
-                                filters.type == 'favourites'
-                                  ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                                  : 'text-sm font-light text-slate-900 dark:text-slate-100',
-                                active
-                                  ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
-                                  : '',
-                              ]">
-                              <div class="flex items-center text-xs">
-                                <HeartIcon
-                                  class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
-                                  aria-hidden="true" />Favorited
-                              </div>
-                              <div
-                                class="items-center rounded-md p-1 hover:text-slate-50">
-                                <span
-                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
-                                  >{{ counts.favourites }}</span
-                                >
-                              </div>
-                            </button>
-                          </JovieTooltip>
+                          <button
+                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                            :class="[
+                              filters.type == 'favourites'
+                                ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
+                                : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                              active
+                                ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                : '',
+                            ]">
+                            <div class="flex items-center text-xs">
+                              <HeartIcon
+                                class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                                aria-hidden="true" />Favorited
+                            </div>
+                            <div
+                              class="items-center rounded-md p-1 hover:text-slate-50">
+                              <span
+                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+                                >{{ counts.favourites }}</span
+                              >
+                            </div>
+                          </button>
                         </MenuItem>
                         <MenuItem
                           as="div"
@@ -166,48 +158,42 @@
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">
-                    <JovieTooltip text="Import a new contact to Jovie">
-                      <div
-                        :class="[
-                          active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
-                            : '',
-                        ]"
-                        @click="showCreatorModal = true"
-                        class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100">
-                        <PlusIcon
-                          class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500 dark:text-slate-600"
-                          aria-hidden="true" />
-                        New Contact
-                      </div>
-                    </JovieTooltip>
+                    <div
+                      :class="[
+                        active
+                          ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                          : '',
+                      ]"
+                      @click="showCreatorModal = true"
+                      class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100">
+                      <PlusIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500 dark:text-slate-600"
+                        aria-hidden="true" />
+                      New Contact
+                    </div>
                   </MenuItem>
                   <MenuItem as="div" v-slot="{ active }">
-                    <JovieTooltip text="Upload a csv file to import contacts">
-                      <router-link
-                        to="import"
-                        :class="[
-                          active
-                            ? 'bg-slate-200  text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                            : 'text-slate-700',
-                        ]"
-                        class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
-                        <div class="flex items-center">
-                          <CloudArrowUpIcon
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400 dark:text-sky-400"
-                            aria-hidden="true" />Upload A CSV
-                        </div>
-                        <div class="items-center">
-                          <CreatorTags
-                            v-if="
-                              !currentUser.current_team.current_subscription
-                            "
-                            :showX="false"
-                            text="Pro"
-                            color="blue" />
-                        </div>
-                      </router-link>
-                    </JovieTooltip>
+                    <router-link
+                      to="import"
+                      :class="[
+                        active
+                          ? 'bg-slate-200  text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                          : 'text-slate-700',
+                      ]"
+                      class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                      <div class="flex items-center">
+                        <CloudArrowUpIcon
+                          class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400 dark:text-sky-400"
+                          aria-hidden="true" />Upload A CSV
+                      </div>
+                      <div class="items-center">
+                        <CreatorTags
+                          v-if="!currentUser.current_team.current_subscription"
+                          :showX="false"
+                          text="Pro"
+                          color="blue" />
+                      </div>
+                    </router-link>
                   </MenuItem>
                 </MenuItems>
               </Menu>
