@@ -25,7 +25,7 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-7xl">
+              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-5xl">
               <div
                 class="flex h-full w-full items-center border border-gray-200 bg-white/90 backdrop-blur-xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/90">
                 <div class="h-full w-1/2 items-center px-6">
