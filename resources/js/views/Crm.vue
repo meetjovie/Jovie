@@ -9,40 +9,45 @@
                 <MenuItems static>
                   <div class="w-full flex-col px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
-                      <button
-                        @click="setFiltersType('all')"
-                        class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none"
-                        :class="[
-                          filters.type == 'all'
-                            ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                            : 'text-sm font-light text-slate-900 dark:text-slate-100',
-                          active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
-                            : '',
-                        ]">
-                        <div class="flex items-center text-xs">
-                          <ChevronRightIcon
-                            @click="toggleContactMenuOpen"
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
-                            :class="[
-                              {
-                                'rotate-90 transform': contactMenuOpen,
-                              },
-                            ]"
-                            aria-hidden="true" />
-                          Contacts
-                        </div>
-                        <div
-                          @click="showCreatorModal = true"
-                          class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-slate-600 hover:dark:text-slate-900">
-                          <span
-                            class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-slate-100 group-hover:dark:text-slate-100"
-                            >{{ counts.total }}</span
-                          >
-                          <PlusIcon
-                            class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
-                        </div>
-                      </button>
+
+                      <JovieTooltip
+                        shortcuts="{ key: 's', key: 'c', key: 't' }"
+                        text="Show All Contacts">
+                        <button
+                          @click="setFiltersType('all')"
+                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none"
+                          :class="[
+                            filters.type == 'all'
+                              ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
+                              : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                            active
+                              ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                              : '',
+                          ]">
+                          <div class="flex items-center text-xs">
+                            <ChevronRightIcon
+                              @click="toggleContactMenuOpen"
+                              :class="[
+                                contactMenuOpen ? 'rotate-90 transform' : '',
+                              ]"
+                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
+                              aria-hidden="true">
+                            </ChevronRightIcon>
+                            Contacts
+                          </div>
+                          <div
+                            @click="showCreatorModal = true"
+                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-slate-600 hover:dark:text-slate-900">
+                            <span
+                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-slate-100 group-hover:dark:text-slate-100"
+                              >{{ counts.total }}</span
+                            >
+                            <PlusIcon
+                              class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
+                          </div>
+                        </button>
+                      </JovieTooltip>
+
                     </MenuItem>
                     <TransitionRoot
                       :show="contactMenuOpen"
@@ -110,9 +115,7 @@
                               <div
                                 class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
                                 <span
-
                                   class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
-
                                   >{{ counts.archived }}</span
                                 >
                               </div>
@@ -151,10 +154,8 @@
             </div>
           </template>
           <template #footer>
-
             <div
-              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
-
+              class="flex-shrink-0 items-center border-t border-slate-200 py-2 px-2 dark:border-slate-700">
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">
@@ -198,24 +199,22 @@
                 </MenuItems>
               </Menu>
               <div class="mt-1 flex items-center justify-between py-1">
-                <ProgressBar
-                  invertedColor
-                  :percentage="
-                    100 -
-                    (currentUser.current_team.credits /
-                      (currentUser.current_team.current_subscription?.credits ||
-                        10)) *
-                      100
-                  "
-                  :label="
-                    (currentUser.current_team.current_subscription?.credits ||
-                      10) -
-                    currentUser.current_team.credits +
-                    ' of ' +
-                    (currentUser.current_team.current_subscription?.credits ||
-                      10) +
-                    ' contacts'
-                  " />
+                <div
+                  @click="openUpgradeModal()"
+                  class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-1 px-2 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800">
+                  <div class="flex items-center">
+                    <ArrowUpCircleIcon class="mr-1 h-5 w-5 text-slate-500" />
+                    <span class="text-xs text-slate-700 dark:text-slate-100"
+                      >Free Plan</span
+                    >
+                  </div>
+                  <div class="flex items-center">
+                    <span
+                      class="cursor-pointer items-center text-2xs text-indigo-700 dark:text-indigo-100"
+                      >Learn more</span
+                    >
+                  </div>
+                </div>
 
                 <Menu>
                   <Float portal :offset="0" shift placement="right-end">
@@ -395,7 +394,6 @@
                 </Menu>
 
                 <DarkModeToggle />
-
               </div>
               <div
                 v-if="!currentUser.current_team.credits"
@@ -523,7 +521,7 @@
           </aside>
         </TransitionRoot>
       </div>
-
+      <JovieUpgradeModal @close="!showUpgradeModal" :open="showUpgradeModal" />
       <ImportCreatorModal
         :open="showCreatorModal"
         :list="filters.list"
@@ -568,6 +566,7 @@ import {
 import {
   ChevronDownIcon,
   CreditCardIcon,
+  ArrowUpCircleIcon,
   CogIcon,
   ChevronRightIcon,
   CloudArrowDownIcon,
@@ -583,13 +582,12 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
-
   SunIcon,
   MoonIcon,
   SparklesIcon,
   ComputerDesktopIcon,
-
 } from '@heroicons/vue/24/solid';
+import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
@@ -615,6 +613,7 @@ export default {
     JovieSidebar,
     UserIcon,
     CogIcon,
+    ArrowUpCircleIcon,
     ArrowPathIcon,
     EmojiPickerModal,
     Float,
@@ -622,6 +621,7 @@ export default {
     PlusIcon,
     PlusCircleIcon,
     SwitchTeams,
+    JovieUpgradeModal,
     TabGroup,
     Menu,
     MenuItem,
@@ -668,12 +668,10 @@ export default {
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,
-
     SunIcon,
     SparklesIcon,
     MoonIcon,
     ComputerDesktopIcon,
-
   },
   data() {
     return {
@@ -694,6 +692,7 @@ export default {
       networks: [],
       userLists: [],
       showCreatorModal: false,
+      showUpgradeModal: false,
       loading: false,
       creatorsMeta: {},
       /*  activeCreator: [], */
@@ -756,6 +755,7 @@ export default {
         return 0;
       });
     },
+
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
       let filters = localStorage.getItem('filters');
@@ -911,6 +911,10 @@ export default {
     },
     onResize() {
       this.windowWidth = window.innerWidth;
+    },
+    openUpgradeModal() {
+      console.log('openUpgradeModal');
+      this.showUpgradeModal = true;
     },
     openEmojiPicker(item) {
       this.selectedList = item;
