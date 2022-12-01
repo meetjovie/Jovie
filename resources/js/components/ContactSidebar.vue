@@ -26,30 +26,24 @@
               clip-rule="evenodd" />
           </svg> -->
           <img
-<<<<<<< HEAD
-=======
             v-if="imageLoaded && creator.profile_pic_url"
->>>>>>> staging
             id="profile-img-jovie"
             @error="switchToDefaultImage"
             class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="creator.profile_pic_url" />
-<<<<<<< HEAD
-=======
           <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
-          <img
-            v-else
-            id="profile-img-jovie"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
-            :src="asset('img/noimage.webp')" />
->>>>>>> staging
+          id="profile-img-jovie" class="h-18 w-18 object-fit mt-2 aspect-square
+          rounded-full border-4 border-slate-200 object-center
+          dark:border-slate-700" :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-6 pl-1 pr-2">
-          <input
-            @blur="$emit('updateCrmMeta')"
-            v-model="creator.meta.name"
-            placeholder="Name"
-            class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:text-slate-300 dark:hover:bg-slate-800" />
+          @blur="$emit('updateCrmMeta')" v-model="creator.meta.name"
+          placeholder="Name" class="w-full rounded-md border border-slate-300
+          border-opacity-0 px-1 text-lg font-bold text-slate-700 transition
+          line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100
+          hover:bg-slate-100 hover:placeholder:text-slate-500
+          dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800
+          dark:text-slate-300 dark:text-slate-300 dark:hover:bg-slate-800" />
           <!-- <div class="">
             <input
               @blur="saveToCrm()"

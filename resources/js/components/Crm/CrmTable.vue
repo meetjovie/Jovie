@@ -69,30 +69,14 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        <<<<<<<
-                        HEAD
                         class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
-                      ======= class="rounded-m block w-full border-slate-300
-                      py-0.5 pl-10 ring-0 focus:outline-0
-                      focus-visible:border-none focus-visible:ring-0
-                      dark:border-slate-700 dark:bg-slate-800
-                      dark:text-slate-100 dark:placeholder:text-slate-400
-                      sm:text-sm" /> >>>>>>> staging
 
                       <div
                         @click="toggleSearchVisible()"
                         class="group absolute inset-y-0 right-0 flex items-center pr-3">
-                        <XMarkIcon <<<<<<< HEAD class="h-4 w-4 cursor-pointer
-                        rounded-md p-0.5 text-slate-400 transition-all
-                        duration-150 group-hover:bg-slate-100
-                        group-hover:text-slate-600 dark:bg-slate-800
-                        dark:text-slate-300 dark:group-hover:bg-slate-800"
-                        ======= class="h-4 w-4 cursor-pointer rounded-md p-0.5
-                        text-slate-400 transition-all duration-150
-                        group-hover:bg-slate-100 group-hover:text-slate-600
-                        dark:bg-slate-800 dark:text-slate-300
-                        dark:group-hover:bg-slate-800" >>>>>>> staging
-                        aria-hidden="true" />
+                        <XMarkIcon
+                          class="h-4 w-4 cursor-pointer rounded-md p-0.5 text-slate-400 transition-all duration-150 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:group-hover:bg-slate-800"
+                          aria-hidden="true" />
                       </div>
                     </div>
                   </div>
@@ -366,19 +350,7 @@
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
-                            <<<<<<<
-                            HEAD
                             class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">
-                            ======= class="py-.5 inline-flex items-center
-                            rounded border border-slate-300 bg-white px-2
-                            text-2xs font-medium text-slate-700 shadow-sm
-                            hover:bg-slate-50 focus-visible:outline-none
-                            focus-visible:ring-2 focus-visible:ring-indigo-500
-                            focus-visible:ring-offset-2
-                            disabled:cursor-not-allowed disabled:opacity-30
-                            dark:border-slate-700 dark:bg-slate-900
-                            dark:text-slate-300 dark:hover:bg-slate-800">
-                            >>>>>>> staging
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
                               class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-slate-400"
@@ -443,96 +415,6 @@
                                   }}
                                 </button>
                               </MenuItem>
-
-                              <<<<<<< HEAD =======
-                              <MenuItem
-                                @focus="subMenuOpen"
-                                v-slot="{ active }">
-                                <Menu
-                                  :class="[
-                                    active
-                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                      : 'text-slate-700 dark:text-slate-200',
-                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                  ]">
-                                  <Float
-                                    portal
-                                    :offset="2"
-                                    placement="right-start">
-                                    <MenuButton
-                                      @mouseover="subMenuOpen"
-                                      :class="[
-                                        'flex w-full items-center justify-between rounded-md px-2 py-2 text-xs text-slate-700 disabled:cursor-not-allowed disabled:opacity-50 group-hover:bg-slate-300 group-hover:text-slate-900 dark:text-slate-200 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-100',
-                                      ]">
-                                      <span class="line-clamp-1"
-                                        >Add to list
-                                      </span>
-                                      <ChevronRightIcon
-                                        class="ml-2 -mr-1 h-5 w-5 text-slate-400 hover:text-slate-500"
-                                        aria-hidden="true" />
-                                    </MenuButton>
-                                    <TransitionRoot
-                                      :show="subMenuOpen"
-                                      enter-active-class="transition duration-100 ease-out"
-                                      enter-from-class="transform scale-95 opacity-0"
-                                      enter-to-class="transform scale-100 opacity-100"
-                                      leave-active-class="transition duration-75 ease-in"
-                                      leave-from-class="transform scale-100 opacity-100"
-                                      leave-to-class="transform scale-95 opacity-0">
-                                      <MenuItems
-                                        static
-                                        class="max-h-80 w-48 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
-                                        <MenuItem
-                                          v-slot="{ active }"
-                                          v-for="list in userLists"
-                                          @click="
-                                            toggleCreatorsFromList(
-                                              selectedCreators,
-                                              list.id,
-                                              false
-                                            )
-                                          ">
-                                          <button
-                                            :class="[
-                                              active
-                                                ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                                : 'text-slate-700 dark:text-slate-200',
-                                              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                            ]">
-                                            <span class="px-1">{{
-                                              list.emoji ? list.emoji : '📄'
-                                            }}</span>
-                                            {{ list.name }}
-                                          </button>
-                                        </MenuItem>
-                                        <MenuItem
-                                          v-slot="{ active }"
-                                          class="mx-auto">
-                                          <button
-                                            :class="[
-                                              active
-                                                ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                                : 'text-slate-700 dark:text-slate-200',
-                                              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                            ]">
-                                            <div
-                                              class="mx-auto flex content-center items-center text-center">
-                                              <span class="text-center"
-                                                >Create New List</span
-                                              >
-                                              <PlusIcon
-                                                :active="active"
-                                                class="ml-2 h-3 w-3 text-slate-400"
-                                                aria-hidden="true" />
-                                            </div>
-                                          </button>
-                                        </MenuItem>
-                                      </MenuItems>
-                                    </TransitionRoot>
-                                  </Float>
-                                </Menu>
-                              </MenuItem>
-                              >>>>>>> staging
                             </MenuItems>
                           </transition>
                         </Float>
@@ -756,21 +638,7 @@
                               placement="right-start">
                               <MenuButton
                                 v-slot="{ open }"
-                                <<<<<<<
-                                HEAD
                                 class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
-                                ======= class="flex items-center rounded-full
-                                text-slate-400/0 transition-all
-                                hover:text-slate-600 focus-visible:outline-none
-                                focus-visible:ring-2
-                                focus-visible:ring-indigo-500
-                                focus-visible:ring-offset-2
-                                focus-visible:ring-offset-slate-100
-                                active:bg-slate-200 group-hover:text-slate-400
-                                dark:hover:text-slate-400
-                                dark:active:bg-slate-800
-                                dark:group-hover:text-slate-600"> >>>>>>>
-                                staging
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
                                   class="z-0 mt-0.5 h-5 w-5"
