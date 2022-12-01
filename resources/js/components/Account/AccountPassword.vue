@@ -64,7 +64,7 @@
             </div>
 
             <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-slate-900 dark:bg-slate-900 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-slate-900 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
