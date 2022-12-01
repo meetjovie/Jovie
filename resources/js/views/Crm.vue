@@ -85,29 +85,39 @@
                           as="div"
                           @click="setFiltersType('archived')"
                           v-slot="{ active }">
-                          <button
-                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
-                            :class="[
-                              filters.type == 'archived'
-                                ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-slate-100',
-                              active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
-                                : '',
-                            ]">
-                            <div class="flex items-center text-xs">
-                              <ArchiveBoxIcon
-                                class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-                                aria-hidden="true" />Archived
-                            </div>
-                            <div
-                              class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
-                              <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
-                                >{{ counts.archived }}</span
-                              >
-                            </div>
-                          </button>
+                          <JovieTooltip
+                            :shortcut.key="{
+                              key1: 'G',
+                              key2: 'A',
+                              delimiter: 'then',
+                            }"
+                            text="Show Archived Contacts">
+                            <button
+                              class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                              :class="[
+                                filters.type == 'archived'
+                                  ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
+                                  : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                                active
+                                  ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                  : '',
+                              ]">
+                              <div class="flex items-center text-xs">
+                                <ArchiveBoxIcon
+                                  class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                                  aria-hidden="true" />Archived
+                              </div>
+                              <div
+                                class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
+                                <span
+
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+
+                                  >{{ counts.archived }}</span
+                                >
+                              </div>
+                            </button>
+                          </JovieTooltip>
                         </MenuItem>
                       </div>
                     </TransitionRoot>
@@ -141,8 +151,10 @@
             </div>
           </template>
           <template #footer>
+
             <div
               class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
+
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">
@@ -381,7 +393,9 @@
                     </transition>
                   </Float>
                 </Menu>
+
                 <DarkModeToggle />
+
               </div>
               <div
                 v-if="!currentUser.current_team.credits"
@@ -526,7 +540,9 @@
 
 <script>
 import JovieSidebar from '../components/JovieSidebar.vue';
+
 import DarkModeToggle from '../components/DarkModeToggle.vue';
+
 import {
   Combobox,
   ComboboxButton,
@@ -567,10 +583,12 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
+
   SunIcon,
   MoonIcon,
   SparklesIcon,
   ComputerDesktopIcon,
+
 } from '@heroicons/vue/24/solid';
 
 import UserService from '../services/api/user.service';
@@ -650,10 +668,12 @@ export default {
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,
+
     SunIcon,
     SparklesIcon,
     MoonIcon,
     ComputerDesktopIcon,
+
   },
   data() {
     return {

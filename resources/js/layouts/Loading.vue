@@ -44,7 +44,9 @@ export default {
   },
   data() {
     return {
+
       loadingText: 'Jovie is loading...',
+
       link: false,
       messages: [
         { id: 1, text: 'Loading your dashboard...' },
@@ -71,6 +73,7 @@ export default {
 
   methods: {
     setTheme() {
+
       if (
         localStorage.theme === 'dark' ||
         (!('theme' in localStorage) &&
@@ -79,6 +82,7 @@ export default {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
+
       }
       //check for darkmode
     },

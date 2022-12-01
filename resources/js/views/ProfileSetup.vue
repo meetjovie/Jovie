@@ -19,7 +19,9 @@
               ]" />
           </div>
           <div
+
             class="mx-auto mt-2 hidden max-w-5xl grid-cols-4 px-8 text-sm font-medium text-slate-600 sm:grid">
+
             <div
               @click="setCurrentStep(1)"
               class="cursor-pointer"
@@ -78,7 +80,9 @@
 
                     <label
                       for="profile_pic_url"
+
                       class="cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-slate-900">
+
                       Change
                     </label>
                     <input
@@ -104,7 +108,9 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
+
                     class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-slate-900">
+
                     Remove Photo
                   </button>
                 </div>
@@ -160,7 +166,9 @@
         </div>
 
         <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
+
           <div class="py- rounded-md bg-slate-50 px-4 dark:bg-slate-800">
+
             <h2 class="font-slate-500 py-2 px-4">
               Add at least one social link to your profile.
             </h2>
@@ -474,6 +482,7 @@ export default {
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
             this.currentStep = this.currentStep + 1;
+
           }
         })
         .catch((error) => {
@@ -501,7 +510,9 @@ export default {
             this.$store.commit('setAuthStateUser', response.user);
             this.$refs.profile_pic_url.value = null;
             this.errors = {};
+
             this.currentStep = 2;
+
           }
         })
         .catch((error) => {
