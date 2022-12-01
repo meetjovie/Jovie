@@ -9,7 +9,6 @@
                 <MenuItems static>
                   <div class="w-full flex-col px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
-
                       <JovieTooltip
                         shortcuts="{ key: 's', key: 'c', key: 't' }"
                         text="Show All Contacts">
@@ -47,7 +46,6 @@
                           </div>
                         </button>
                       </JovieTooltip>
-
                     </MenuItem>
                     <TransitionRoot
                       :show="contactMenuOpen"
@@ -521,7 +519,9 @@
           </aside>
         </TransitionRoot>
       </div>
-      <JovieUpgradeModal @close="!showUpgradeModal" :open="showUpgradeModal" />
+      <JovieUpgradeModal
+        @close="closeUpdatedModal()"
+        :open="showUpgradeModal" />
       <ImportCreatorModal
         :open="showCreatorModal"
         :list="filters.list"
@@ -908,6 +908,9 @@ export default {
     },
     closeImportCreatorModal() {
       this.showCreatorModal = false;
+    },
+    closeUpgradeModal() {
+      this.showUpgradeModal = false;
     },
     onResize() {
       this.windowWidth = window.innerWidth;
