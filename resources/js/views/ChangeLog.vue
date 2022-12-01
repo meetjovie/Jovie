@@ -135,10 +135,58 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
+              <p class="text-sm font-semibold text-slate-600">v0.0.6</p>
+
+              <p>2022.12.01</p>
+            </div>
+            <div class="w-full">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
+                Fixes on fixes
+              </h2>
+              <p class="prose">
+                We're working hard to crush bugs & this update covers a lot.
+              </p>
+
+              <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Fixed a critical issue preventing users from upgrading their
+                  accounts in some cases.
+                </li>
+                <li class="prose">
+                  Fixed an issue with images from TikTok not loading in some
+                  cases.
+                </li>
+                <li class="prose">
+                  Fixed an issue with images that had been previously imported
+                  from Instagram not loading in some cases.
+                </li>
+                <li class="prose">
+                  Fixed an issue with the "Add to Jovie" button not working in
+                  some cases.
+                </li>
+                <li class="prose">
+                  Fixed an issue preventing the add to list modal from opening
+                  in some cases.
+                </li>
+                <li class="prose">
+                  Improved the performance of the "Add to Jovie" button.
+                </li>
+                <li class="prose">Improved upgrade screen</li>
+                <li class="prose">
+                  Fixed an issue with images not saving on the edit profile
+                  screen.
+                </li>
+                <li class="prose">Improved various aspects of the UI.</li>
+              </ul>
+            </div>
+          </li>
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
+            <div class="w-24 text-2xs">
               <p class="text-sm font-semibold text-slate-600">v0.0.5</p>
 
               <p>2022.11.28</p>
-
             </div>
             <div class="w-full">
               <h2 class="text-3xl font-bold tracking-tight text-slate-800">

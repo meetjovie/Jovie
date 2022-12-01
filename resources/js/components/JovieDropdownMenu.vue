@@ -61,7 +61,7 @@
                         'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-100':
                           active,
                       }">
-                      <div class="flex items-center line-clamp-1">
+                      <div class="flex items-center truncate">
                         <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="item === creator.crm_record_by_user.stage_name"
