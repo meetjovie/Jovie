@@ -3,8 +3,7 @@
     class="flex h-screen w-full items-center bg-slate-100 dark:bg-black"
     id="app">
     <router-view />
-    <aside
-      class="hidden h-screen w-60 bg-white dark:bg-slate-900 lg:block"></aside>
+    <aside class="w-60lg:block hidden h-screen"></aside>
     <div class="mx-auto flex h-screen items-center text-center dark:bg-black">
       <div></div>
       <div
@@ -44,7 +43,6 @@ export default {
   },
   data() {
     return {
-
       loadingText: 'Jovie is loading...',
 
       link: false,
@@ -73,7 +71,6 @@ export default {
 
   methods: {
     setTheme() {
-
       if (
         localStorage.theme === 'dark' ||
         (!('theme' in localStorage) &&
@@ -82,7 +79,6 @@ export default {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
-
       }
       //check for darkmode
     },

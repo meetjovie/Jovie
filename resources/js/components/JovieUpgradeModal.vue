@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog as="div" class="relative z-10" @close="open = false">
+    <Dialog as="div" class="relative z-10" @close="cloese()">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="w-1/2 items-center border px-6 py-12">
+                <div class="w-1/2 items-center px-6 py-12">
                   <div class="w-full px-8">
                     <h2 class="">
                       <span
@@ -103,7 +103,7 @@
                 <div class="flex items-center justify-end py-4">
                   <button
                     type="button"
-                    class="mt-3 inline-flex w-full justify-center px-4 py-2 text-base font-medium text-gray-700 dark:text-slate-300 sm:col-start-1 sm:mt-0 sm:text-sm"
+                    class="mt-3 inline-flex w-full justify-center px-4 py-2 text-base font-medium text-gray-700 focus:outline-none focus:ring-0 dark:text-slate-300 sm:col-start-1 sm:mt-0 sm:text-sm"
                     @click="open = false"
                     ref="cancelButtonRef">
                     Dismiss
@@ -111,7 +111,7 @@
                   <router-link to="/billing">
                     <button
                       type="button"
-                      class="flex w-40 justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm line-clamp-1 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                      class="flex w-40 justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm line-clamp-1 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:col-start-2 sm:text-sm"
                       @click="open = false">
                       Choose plan
                     </button>
@@ -181,6 +181,13 @@ export default {
     open: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    close() {
+      this.open = false;
+      //emit
+      this.$emit('close');
     },
   },
 };
