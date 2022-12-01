@@ -421,13 +421,7 @@
                                     :placement="bottom"
                                     :offset="8"
                                     :items="userLists"
-                                    @itemClicked="
-                                      toggleCreatorsFromList(
-                                        selectedCreators,
-                                        item.id,
-                                        false
-                                      )
-                                    "
+                                    @itemClicked="addCreatorsToList($event)"
                                     @mouseover="subMenuOpen = true"
                                     :open="subMenuOpen"
                                     :class="[
@@ -1930,6 +1924,9 @@ export default {
         })
         .finally((response) => {});
     },
+      addCreatorsToList(id) {
+          this.toggleCreatorsFromList(this.selectedCreators, id, false);
+      },
     toggleCreatorsFromList(ids, list, remove) {
       this.$store
         .dispatch('toggleCreatorsFromList', {

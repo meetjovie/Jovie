@@ -270,7 +270,6 @@ export default {
   methods: {
     itemClicked(item) {
       this.$emit('itemClicked', item);
-      this.open = false;
     },
     focusMenuSearch() {
       this.$nextTick(() => {
