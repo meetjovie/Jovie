@@ -69,6 +69,7 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
+<<<<<<< HEAD
                         <<<<<<<
                         HEAD
                         class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
@@ -78,10 +79,16 @@
                       dark:border-slate-700 dark:bg-slate-800
                       dark:text-slate-100 dark:placeholder:text-slate-400
                       sm:text-sm" /> >>>>>>> staging
+=======
+
+                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
+
+>>>>>>> master
 
                       <div
                         @click="toggleSearchVisible()"
                         class="group absolute inset-y-0 right-0 flex items-center pr-3">
+<<<<<<< HEAD
                         <XMarkIcon <<<<<<< HEAD class="h-4 w-4 cursor-pointer
                         rounded-md p-0.5 text-slate-400 transition-all
                         duration-150 group-hover:bg-slate-100
@@ -93,6 +100,13 @@
                         dark:bg-slate-800 dark:text-slate-300
                         dark:group-hover:bg-slate-800" >>>>>>> staging
                         aria-hidden="true" />
+=======
+                        <XMarkIcon
+
+                          class="h-4 w-4 cursor-pointer rounded-md p-0.5 text-slate-400 transition-all duration-150 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:group-hover:bg-slate-800"
+
+                          aria-hidden="true" />
+>>>>>>> master
                       </div>
                     </div>
                   </div>
@@ -358,6 +372,7 @@
                   </th>
                   <th
                     scope="col"
+<<<<<<< HEAD
                     class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-b border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 after:dark:border-slate-700">
                     <div
                       v-if="selectedCreators.length > 0"
@@ -379,6 +394,18 @@
                             dark:border-slate-700 dark:bg-slate-900
                             dark:text-slate-300 dark:hover:bg-slate-800">
                             >>>>>>> staging
+=======
+                    class="sticky left-[55px] top-0 isolate z-50 w-20 resize-x items-center border-r border-b border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 after:dark:border-slate-700">
+                    <div
+                      v-if="selectedCreators.length > 0"
+                      class="flex items-center space-x-3 bg-slate-100 dark:bg-slate-800">
+                      <Menu>
+                        <Float portal :offset="2" placement="bottom-start">
+                          <MenuButton
+
+                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">
+
+>>>>>>> master
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
                               class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-slate-400"
@@ -392,7 +419,11 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
+<<<<<<< HEAD
                               class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
+=======
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-blur-xl backdrop-saturate-150 backdrop-saturate-150 backdrop-filter dark:border-slate-700 dark:border-slate-400 dark:bg-slate-900/60 dark:bg-slate-900/60 dark:bg-slate-900/60">
+>>>>>>> master
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -444,17 +475,28 @@
                                 </button>
                               </MenuItem>
 
+<<<<<<< HEAD
                               <<<<<<< HEAD =======
+=======
+>>>>>>> master
                               <MenuItem
                                 @focus="subMenuOpen"
                                 v-slot="{ active }">
                                 <Menu
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                                   :class="[
                                     active
                                       ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
                                       : 'text-slate-700 dark:text-slate-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                                   <Float
                                     portal
                                     :offset="2"
@@ -531,6 +573,10 @@
                                     </TransitionRoot>
                                   </Float>
                                 </Menu>
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                               </MenuItem>
                               >>>>>>> staging
                             </MenuItems>
@@ -557,7 +603,11 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
+<<<<<<< HEAD
                       class="sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:border-x-slate-700 dark:bg-slate-800 dark:bg-slate-800 dark:text-slate-400">
+=======
+                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:border-x-slate-700 dark:bg-slate-800 dark:bg-slate-800 dark:text-slate-400">
+>>>>>>> master
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -568,7 +618,11 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
+<<<<<<< HEAD
                     class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-800"></th>
+=======
+                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-800"></th>
+>>>>>>> master
                 </tr>
               </thead>
               <tbody
@@ -756,6 +810,7 @@
                               placement="right-start">
                               <MenuButton
                                 v-slot="{ open }"
+<<<<<<< HEAD
                                 <<<<<<<
                                 HEAD
                                 class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
@@ -771,6 +826,11 @@
                                 dark:active:bg-slate-800
                                 dark:group-hover:text-slate-600"> >>>>>>>
                                 staging
+=======
+
+                                class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
+
+>>>>>>> master
                                 <span class="sr-only">Open options</span>
                                 <EllipsisVerticalIcon
                                   class="z-0 mt-0.5 h-5 w-5"
@@ -784,7 +844,11 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
+<<<<<<< HEAD
                                   class="z-10 mt-2 w-40 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
+=======
+                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60 dark:bg-slate-900/60 dark:bg-slate-900/60">
+>>>>>>> master
                                   <div class="py-1">
                                     <MenuItem
                                       :disabled="
@@ -1242,7 +1306,7 @@
             </table>
 
             <Pagination
-              class="z-50 w-full bg-blue-500"
+              class="fixed bottom-0 z-50 w-full bg-blue-500"
               v-if="creatorRecords.length"
               :totalPages="creatorsMeta.last_page"
               :perPage="creatorsMeta.per_page"

@@ -18,7 +18,10 @@
     </div>
 
     <JovieDropdownMenu
+<<<<<<< HEAD
       :placement="'bottom-start'"
+=======
+>>>>>>> master
       @itemClicked="setListAction($event)"
       :items="userLists"
       class="items-center"
@@ -29,10 +32,17 @@
           class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-0.5 hover:border-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-900 dark:hover:bg-slate-50">
           <div class="flex items-center">
             <PlusIcon
+<<<<<<< HEAD
               class="h-3 w-3 text-slate-400 group-hover:text-slate-700" />
             <span
               v-if="!userLists.length > 0"
               class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-700"
+=======
+              class="mr-1 h-3 w-3 text-slate-400 group-hover:text-slate-700" />
+            <span
+              v-if="!userLists.length > 0"
+              class="text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-700"
+>>>>>>> master
               >Add to a list</span
             >
           </div>

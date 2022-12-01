@@ -135,6 +135,7 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
+<<<<<<< HEAD
               <p class="text-sm font-semibold text-slate-600">v0.0.6</p>
 
               <p>2022.12.01</p>
@@ -187,6 +188,12 @@
               <p class="text-sm font-semibold text-slate-600">v0.0.5</p>
 
               <p>2022.11.28</p>
+=======
+              <p class="text-sm font-semibold text-slate-600">v0.0.5</p>
+
+              <p>2022.11.28</p>
+
+>>>>>>> master
             </div>
             <div class="w-full">
               <h2 class="text-3xl font-bold tracking-tight text-slate-800">

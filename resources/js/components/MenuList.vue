@@ -16,7 +16,13 @@
       <div class="flex items-center">
         <div
           v-if="draggable"
+<<<<<<< HEAD
           class="group mx-auto rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-800">
+=======
+
+          class="group mx-auto rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-800">
+
+>>>>>>> master
           <PlusIcon
             v-if="!creatingList"
             @click="createList()"
@@ -53,11 +59,19 @@
                 <div class="flex w-full items-center">
                   <div
                     @click="openEmojiPicker(element)"
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                     :class="{
                       'bg-slate-200 hover:bg-slate-700 dark:bg-slate-700 hover:dark:bg-slate-900':
                         active,
                     }"
                     class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                     {{ element.emoji ?? '📄' }}
                   </div>
                   <div
@@ -70,7 +84,13 @@
                           ? 'font-bold text-slate-800 dark:text-slate-200'
                           : 'font-light text-slate-700 dark:text-slate-300',
                       ]"
+<<<<<<< HEAD
                       class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
+=======
+
+                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
+
+>>>>>>> master
                       >{{ element.name }}</span
                     >
                     <input
@@ -84,16 +104,30 @@
                   </div>
                 </div>
                 <div
+<<<<<<< HEAD
                   class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-slate-600">
+=======
+
+                  class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-slate-600">
+
+>>>>>>> master
                   <ArrowPathIcon
                     v-if="element.updating_list"
                     class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
                   <span
                     v-else
+<<<<<<< HEAD
                     class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
                     >{{ element.creators_count }}</span
                   >
 
+=======
+
+                    class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
+                    >{{ element.creators_count }}</span
+                  >
+
+>>>>>>> master
                   <Menu as="div" class="relative inline-block text-center">
                     <Float portal :offset="12" placement="right-start">
                       <div class="mx-auto text-center">
@@ -105,6 +139,10 @@
                         </MenuButton>
                       </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                       <transition
                         enter-active-class="transition duration-100 ease-out"
                         enter-from-class="transform scale-95 opacity-0"
@@ -113,14 +151,26 @@
                         leave-from-class="transform scale-100 opacity-100"
                         leave-to-class="transform scale-95 opacity-0">
                         <MenuItems
+<<<<<<< HEAD
                           class="mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-900/60">
+=======
+
+                          class="mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-900/60">
+
+>>>>>>> master
                           <div class="px-1 py-1">
                             <MenuItem v-slot="{ active }">
                               <button
                                 @click="editList(element)"
                                 :class="[
                                   active
+<<<<<<< HEAD
                                     ? 'bg-slate-200  dark:bg-slate-700 dark:text-slate-200'
+=======
+
+                                    ? 'bg-slate-200  dark:bg-slate-700 dark:text-slate-200'
+
+>>>>>>> master
                                     : 'text-slate-900 dark:text-slate-100',
                                   'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                                 ]">
@@ -213,11 +263,19 @@
             <div class="flex w-full items-center">
               <div
                 @click="openEmojiPicker(item)"
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                 :class="{
                   'bg-slate-200 hover:bg-slate-700 dark:bg-slate-700 hover:dark:bg-slate-900':
                     active,
                 }"
                 class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                 {{ item.emoji ?? '📄' }}
               </div>
               <div
@@ -230,7 +288,11 @@
                       ? 'font-bold text-slate-800 dark:text-slate-200'
                       : 'font-light text-slate-700 dark:text-slate-300',
                   ]"
+<<<<<<< HEAD
                   class="w-36 cursor-pointer text-xs line-clamp-1 group-hover:text-slate-800 dark:group-hover:text-slate-200"
+=======
+                  class="cursor-pointer text-xs line-clamp-1 group-hover:text-slate-800 dark:group-hover:text-slate-200"
+>>>>>>> master
                   >{{ item.name }}</span
                 >
                 <input
@@ -256,6 +318,7 @@
                     <MenuButton
                       class="hidden h-4 w-4 text-slate-400 group-hover:block dark:text-slate-600">
                       <EllipsisHorizontalIcon
+<<<<<<< HEAD
                         :class="{ 'dark:text-slate-200': active }"
                         class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-slate-600 dark:text-slate-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
                     </MenuButton>
@@ -270,13 +333,39 @@
                     leave-to-class="transform scale-95 opacity-0">
                     <MenuItems
                       class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 border-slate-200 border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-900/60">
+=======
+
+                        :class="{ 'dark:text-slate-200': active }"
+
+                        class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-slate-600 dark:text-slate-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
+                    </MenuButton>
+                  </div>
+
+                  <transition
+                    enter-active-class="transition duration-100 ease-out"
+                    enter-from-class="transform scale-95 opacity-0"
+                    enter-to-class="transform scale-100 opacity-100"
+                    leave-active-class="transition duration-75 ease-in"
+                    leave-from-class="transform scale-100 opacity-100"
+                    leave-to-class="transform scale-95 opacity-0">
+                    <MenuItems
+
+                      class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 border-slate-200 border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-900/60">
+
+>>>>>>> master
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button
                             @click="editList(item.id)"
                             :class="[
                               active
+<<<<<<< HEAD
                                 ? 'bg-slate-200  dark:bg-slate-700 dark:text-slate-200'
+=======
+
+                                ? 'bg-slate-200  dark:bg-slate-700 dark:text-slate-200'
+
+>>>>>>> master
                                 : 'text-slate-900 dark:text-slate-100',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">

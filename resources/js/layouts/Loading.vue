@@ -3,7 +3,12 @@
     class="flex h-screen w-full items-center bg-slate-100 dark:bg-black"
     id="app">
     <router-view />
+<<<<<<< HEAD
     <aside class="w-60lg:block hidden h-screen"></aside>
+=======
+    <aside
+      class="hidden h-screen w-60 bg-white dark:bg-slate-900 lg:block"></aside>
+>>>>>>> master
     <div class="mx-auto flex h-screen items-center text-center dark:bg-black">
       <div></div>
       <div
@@ -43,6 +48,10 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
       loadingText: 'Jovie is loading...',
 
       link: false,
@@ -71,6 +80,10 @@ export default {
 
   methods: {
     setTheme() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
       if (
         localStorage.theme === 'dark' ||
         (!('theme' in localStorage) &&
@@ -79,7 +92,15 @@ export default {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
+<<<<<<< HEAD
     },
+=======
+
+      }
+      //check for darkmode
+    },
+    setLoadingText() {
+>>>>>>> master
       //loop through the messagess
       //stop at the last message
       let i = 0;

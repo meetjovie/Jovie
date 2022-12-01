@@ -26,12 +26,22 @@
                           <div class="flex items-center text-xs">
                             <ChevronRightIcon
                               @click="toggleContactMenuOpen"
+<<<<<<< HEAD
                               :class="[
                                 contactMenuOpen ? 'rotate-90 transform' : '',
                               ]"
                               class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
                               aria-hidden="true">
                             </ChevronRightIcon>
+=======
+                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
+                              :class="[
+                                {
+                                  'rotate-90 transform': contactMenuOpen,
+                                },
+                              ]"
+                              aria-hidden="true" />
+>>>>>>> master
                             Contacts
                           </div>
                           <div
@@ -60,6 +70,7 @@
                           as="div"
                           @click="setFiltersType('favourites')"
                           v-slot="{ active }">
+<<<<<<< HEAD
                           <button
                             class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                             :class="[
@@ -83,6 +94,35 @@
                               >
                             </div>
                           </button>
+=======
+                          <JovieTooltip
+                            :shortcut="'G then F'"
+                            text="Show Favorites">
+                            <button
+                              class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                              :class="[
+                                filters.type == 'favourites'
+                                  ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
+                                  : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                                active
+                                  ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                  : '',
+                              ]">
+                              <div class="flex items-center text-xs">
+                                <HeartIcon
+                                  class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                                  aria-hidden="true" />Favorited
+                              </div>
+                              <div
+                                class="items-center rounded-md p-1 hover:text-slate-50">
+                                <span
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+                                  >{{ counts.favourites }}</span
+                                >
+                              </div>
+                            </button>
+                          </JovieTooltip>
+>>>>>>> master
                         </MenuItem>
                         <MenuItem
                           as="div"
@@ -113,7 +153,13 @@
                               <div
                                 class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
                                 <span
+<<<<<<< HEAD
                                   class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+=======
+
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+
+>>>>>>> master
                                   >{{ counts.archived }}</span
                                 >
                               </div>
@@ -122,6 +168,7 @@
                         </MenuItem>
                       </div>
                     </TransitionRoot>
+<<<<<<< HEAD
                   </div>
                   <div class="flex-col justify-evenly space-y-4 px-2 py-4">
                     <MenuList
@@ -392,6 +439,289 @@
                 </Menu>
 
                 <DarkModeToggle />
+=======
+                  </div>
+                  <div class="flex-col justify-evenly space-y-4 px-2 py-4">
+                    <MenuList
+                      v-if="pinnedUserLists.length"
+                      ref="menuListPinned"
+                      @getUserLists="getUserLists"
+                      @setFiltersType="setFiltersType"
+                      @openEmojiPicker="openEmojiPicker"
+                      menuName="Pinned"
+                      :selectedList="filters.list"
+                      @setFilterList="setFilterList"
+                      :menuItems="pinnedUserLists"></MenuList>
+                    <!--    Team Specific Lists -->
+                    <MenuList
+                      ref="menuListAll"
+                      @getUserLists="getUserLists"
+                      @setFiltersType="setFiltersType"
+                      @openEmojiPicker="openEmojiPicker"
+                      menuName="Lists"
+                      @setFilterList="setFilterList"
+                      :selectedList="filters.list"
+                      :draggable="true"
+                      @end="sortLists"
+                      :menuItems="filteredUsersLists"></MenuList>
+                  </div>
+                </MenuItems>
+              </Menu>
+            </div>
+          </template>
+          <template #footer>
+
+            <div
+              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
+
+              <Menu>
+                <MenuItems static>
+                  <MenuItem as="div" v-slot="{ active }">
+                    <JovieTooltip text="Import a new contact to Jovie">
+                      <div
+                        :class="[
+                          active
+                            ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                            : '',
+                        ]"
+                        @click="showCreatorModal = true"
+                        class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100">
+                        <PlusIcon
+                          class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500 dark:text-slate-600"
+                          aria-hidden="true" />
+                        New Contact
+                      </div>
+                    </JovieTooltip>
+                  </MenuItem>
+                  <MenuItem as="div" v-slot="{ active }">
+                    <JovieTooltip text="Upload a csv file to import contacts">
+                      <router-link
+                        to="import"
+                        :class="[
+                          active
+                            ? 'bg-slate-200  text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                            : 'text-slate-700',
+                        ]"
+                        class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                        <div class="flex items-center">
+                          <CloudArrowUpIcon
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400 dark:text-sky-400"
+                            aria-hidden="true" />Upload A CSV
+                        </div>
+                        <div class="items-center">
+                          <CreatorTags
+                            v-if="
+                              !currentUser.current_team.current_subscription
+                            "
+                            :showX="false"
+                            text="Pro"
+                            color="blue" />
+                        </div>
+                      </router-link>
+                    </JovieTooltip>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+              <div class="mt-1 flex items-center justify-between py-1">
+                <ProgressBar
+                  invertedColor
+                  :percentage="
+                    100 -
+                    (currentUser.current_team.credits /
+                      (currentUser.current_team.current_subscription?.credits ||
+                        10)) *
+                      100
+                  "
+                  :label="
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) -
+                    currentUser.current_team.credits +
+                    ' of ' +
+                    (currentUser.current_team.current_subscription?.credits ||
+                      10) +
+                    ' contacts'
+                  " />
+
+                <Menu>
+                  <Float portal :offset="0" shift placement="right-end">
+                    <MenuButton
+                      as="div"
+                      class="rounded-full p-1 text-slate-400 transition duration-300 ease-in-out hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-slate-100 active:text-slate-700"
+                      id="notification-button"
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      @click="getNotifications()">
+                      <span class="sr-only">Open import notification</span>
+                      <span
+                        v-if="newNotification"
+                        class="absolute top-6 -mt-1 ml-4 flex h-1 w-1">
+                        <span
+                          class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75 dark:bg-indigo-600"></span>
+                        <span
+                          class="relative inline-flex h-1 w-1 rounded-full bg-indigo-500"></span>
+                      </span>
+
+                      <BellIcon
+                        class="h-4 w-4 flex-shrink-0 cursor-pointer"
+                        aria-hidden="true">
+                      </BellIcon>
+                    </MenuButton>
+
+                    <transition
+                      enter-active-class="transition duration-150 ease-out"
+                      enter-from-class="transform scale-95 opacity-0"
+                      enter-to-class="transform scale-100 opacity-100"
+                      leave-active-class="transition duration-150 ease-out"
+                      leave-from-class="transform scale-100 opacity-100"
+                      leave-to-class="transform scale-95 opacity-0">
+                      <MenuItems
+                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:border-slate-700 dark:bg-slate-800/60 sm:px-0">
+                        <div class="overflow-hidden rounded-lg">
+                          <div class="relative h-80 gap-6 px-1 sm:gap-8">
+                            <div
+                              class="mx-auto inline-flex w-full items-center border-b pb-1">
+                              <p
+                                class="px-2 pt-2 text-xs font-bold text-slate-400">
+                                Notifications
+                              </p>
+                            </div>
+                            <div
+                              class="overflow-y-scroll"
+                              v-if="notifications.length">
+                              <template
+                                v-for="notification in notifications"
+                                :key="notification.id">
+                                <div
+                                  v-if="notification.is_batch"
+                                  as="div"
+                                  class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
+                                  role="menuitem"
+                                  tabindex="-1">
+                                  <router-link
+                                    to="/imports"
+                                    class="0 group block flex-shrink-0">
+                                    <div
+                                      class="flex w-full items-center justify-between">
+                                      <div class="px-2">
+                                        <component
+                                          class="mx-auto h-5 w-5 text-slate-400"
+                                          :is="'CloudArrowUpIcon'">
+                                        </component>
+                                      </div>
+                                      <div class="ml-3 w-full">
+                                        <p
+                                          class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100 dark:group-hover:text-slate-100">
+                                          {{ notification.message }}
+                                          <span
+                                            class="text-2xs font-light text-slate-500"
+                                            >-
+                                            {{ notification.typeMessage }}</span
+                                          >
+                                        </p>
+                                        <div class="w-full">
+                                          <span
+                                            class="text-2xs font-medium text-slate-500">
+                                            Total:
+                                            {{
+                                              notification.initial_total_in_file
+                                            }}
+                                          </span>
+                                          |
+                                          <span
+                                            class="text-2xs font-medium text-slate-500">
+                                            Successful:
+                                            {{ notification.successful }}
+                                          </span>
+                                        </div>
+                                        <ProgressBar
+                                          :percentage="notification.progress"
+                                          class="mx-auto w-full" />
+                                      </div>
+                                      <div
+                                        class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
+                                        {{ notification.created_at_formatted }}
+                                      </div>
+                                    </div>
+                                  </router-link>
+                                </div>
+                                <div
+                                  v-else
+                                  as="div"
+                                  class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
+                                  role="menuitem"
+                                  tabindex="-1">
+                                  <router-link
+                                    to="/imports"
+                                    class="0 group block flex-shrink-0">
+                                    <div
+                                      class="flex w-full items-center justify-between">
+                                      <div class="px-2">
+                                        <component
+                                          class="mx-auto h-5 w-5 text-slate-400"
+                                          :is="'CloudArrowUpIcon'">
+                                        </component>
+                                      </div>
+                                      <div class="ml-3 w-full">
+                                        <p
+                                          class="mx-auto text-2xs text-red-400"
+                                          v-if="
+                                            !notification.is_error &&
+                                            notification.meta &&
+                                            notification.meta.total_jobs
+                                          ">
+                                          Completed
+                                          {{ notification.meta.type }} import at
+                                          {{ notification.created_at }}
+                                        </p>
+                                        <p
+                                          class="mx-auto text-2xs text-red-400"
+                                          v-else-if="notification.is_error">
+                                          {{ notification.message }}
+                                          <span
+                                            v-if="
+                                              notification.meta &&
+                                              notification.meta.name
+                                            ">
+                                            <b
+                                              >({{ notification.meta.name }})</b
+                                            ></span
+                                          >
+                                        </p>
+                                        <p
+                                          class="mx-auto text-2xs text-blue-500"
+                                          v-else>
+                                          {{ notification.message }}
+                                        </p>
+                                      </div>
+                                      <div
+                                        class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
+                                        {{ notification.created_at_formatted }}
+                                      </div>
+                                    </div>
+                                  </router-link>
+                                </div>
+                              </template>
+                            </div>
+                            <div
+                              class="mx-auto w-full items-center py-4 text-center"
+                              v-else>
+                              <span
+                                class="mx-auto items-center text-sm font-bold text-slate-400"
+                                ><FaceSmileIcon
+                                  class="mx-auto h-14 w-14 text-slate-200" />No
+                                notifications</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </MenuItems>
+                    </transition>
+                  </Float>
+                </Menu>
+
+                <DarkModeToggle />
+
+>>>>>>> master
               </div>
               <div
                 v-if="!currentUser.current_team.credits"
@@ -582,10 +912,18 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   SunIcon,
   MoonIcon,
   SparklesIcon,
   ComputerDesktopIcon,
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 } from '@heroicons/vue/24/solid';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
@@ -668,10 +1006,18 @@ export default {
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     SunIcon,
     SparklesIcon,
     MoonIcon,
     ComputerDesktopIcon,
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   },
   data() {
     return {

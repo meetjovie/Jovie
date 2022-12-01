@@ -9,7 +9,11 @@
       <div v-else class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
+<<<<<<< HEAD
           class="h-4 w-4 cursor-pointer rounded-full text-slate-400 transition-all duration-150 hover:text-slate-600 active:bg-slate-200 active:text-slate-700 dark:text-slate-600 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:active:text-slate-300" />
+=======
+          class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-600 active:text-slate-700 dark:text-slate-600 dark:hover:text-slate-400 dark:active:text-slate-300" />
+>>>>>>> master
       </div>
 
       <div class="grid grid-cols-3">
@@ -31,7 +35,10 @@
             v-if="imageLoaded && creator.profile_pic_url"
 >>>>>>> staging
             id="profile-img-jovie"
+<<<<<<< HEAD
             @error="switchToDefaultImage"
+=======
+>>>>>>> master
             class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="creator.profile_pic_url" />
 <<<<<<< HEAD

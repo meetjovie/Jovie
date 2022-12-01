@@ -3,8 +3,13 @@
     as="div"
     v-slot="{ open }"
     class="relative z-10 inline-block w-full items-center text-left">
+<<<<<<< HEAD
     <Float portal :offset="0" shift :placement="placement">
       <MenuButton class="w-full cursor-pointer" @click="open" ref="menuButton">
+=======
+    <Float portal :offset="0" shift placement="bottom-start">
+      <MenuButton class="cursor-pointer" @click="open" ref="menuButton">
+>>>>>>> master
         <slot name="triggerButton"> Button Goes Here</slot>
       </MenuButton>
 
@@ -21,12 +26,19 @@
           @focus="focusMenuSearch()"
           as="div"
           :class="[{ 'w-40': size == 'md' }, { 'w-80': size == 'lg' }]"
+<<<<<<< HEAD
           class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 overflow-auto rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-slate-800 dark:bg-slate-900/60">
           <slot name="menuTop"></slot>
           <div v-if="searchable" class="sticky top-0 px-1">
             <MenuItem
               as="div"
               class="border border-slate-200 bg-white/60 backdrop-blur-2xl backdrop-saturate-150 dark:border-slate-800 dark:bg-slate-900/60">
+=======
+          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-slate-800 dark:bg-slate-900/60">
+          <slot name="menuTop"></slot>
+          <div v-if="searchable" class="px-1">
+            <MenuItem as="div">
+>>>>>>> master
               <div class="relative flex items-center">
                 <input
                   ref="menuSearchInput"
@@ -45,8 +57,12 @@
             </MenuItem>
           </div>
 
+<<<<<<< HEAD
           <div
             class="overflow-y-scroll border-t border-slate-200 px-2 dark:border-slate-600">
+=======
+          <div class="border-t border-slate-200 px-2 dark:border-slate-600">
+>>>>>>> master
             <div v-if="items">
               <template v-for="(item, key) in filteredItems" :key="item.name">
                 <MenuItem
@@ -61,7 +77,11 @@
                         'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-100':
                           active,
                       }">
+<<<<<<< HEAD
                       <div class="flex items-center truncate">
+=======
+                      <div class="flex items-center">
+>>>>>>> master
                         <!--  <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="item === creator.crm_record_by_user.stage_name"
@@ -202,6 +222,10 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
+=======
+      open: false,
+>>>>>>> master
       searchQuery: '',
       /*  items: [
         {
@@ -245,6 +269,7 @@ export default {
       required: false,
       default: '',
     },
+<<<<<<< HEAD
     open: {
       type: Boolean,
       required: false,
@@ -259,6 +284,8 @@ export default {
       type: Number,
       required: false,
     },
+=======
+>>>>>>> master
   },
   computed: {
     filteredItems() {
@@ -270,6 +297,10 @@ export default {
   methods: {
     itemClicked(item) {
       this.$emit('itemClicked', item);
+<<<<<<< HEAD
+=======
+      this.open = false;
+>>>>>>> master
     },
     focusMenuSearch() {
       this.$nextTick(() => {

@@ -10,13 +10,25 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
 
     <div
+<<<<<<< HEAD
       class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-slate-800 dark:bg-stone-900">
+=======
+
+      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-slate-800 dark:bg-stone-900">
+
+>>>>>>> master
       <div>
         <slot name="header">
           <div class="w-full flex-col px-2">
             <div class="items-center" @click="navigateBack()" v-if="menu">
               <div
+<<<<<<< HEAD
                 class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white">
+=======
+
+                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white">
+
+>>>>>>> master
                 <ChevronLeftIcon
                   class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                   aria-hidden="true" />
@@ -25,6 +37,7 @@
             </div>
             <div v-else class="flex h-8 w-full items-center justify-between">
               <!-- <SwitchTeams /> -->
+<<<<<<< HEAD
               <div>
                 <JovieDropdownMenu
                   :items="currentUser.teams"
@@ -73,13 +86,67 @@
                   </template>
                 </JovieDropdownMenu>
               </div>
+=======
+              <JovieDropdownMenu
+                :items="currentUser.teams"
+                :numbered="true"
+                size="md"
+                :searchable="false">
+                <template #triggerButton>
+                  <div
+                    class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-800">
+                    <div class="flex">
+                      <div
+                        class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200">
+                        {{
+                          currentUser.current_team
+                            ? currentUser.current_team.name
+                            : 'Select a team'
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <template #menuTop>
+                  <div class="">
+                    <div
+                      class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-300">
+                      Your workspaces:
+                    </div>
+                  </div>
+                </template>
+                <template #menuBottom>
+                  <router-link
+                    to="/accounts"
+                    class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                    :class="[
+                      active
+                        ? 'bg-white px-1 py-2 text-slate-800 dark:bg-slate-900 dark:text-slate-200'
+                        : 'text-sm text-slate-700 dark:text-slate-300',
+                      'group flex w-full items-center px-2 py-2 text-2xs  ',
+                    ]">
+                    <PlusCircleIcon
+                      :active="active"
+                      class="mr-2 h-4 w-4 text-slate-500 dark:text-slate-300"
+                      aria-hidden="true" />
+                    Create workspace
+                  </router-link>
+                </template>
+              </JovieDropdownMenu>
+>>>>>>> master
               <div class="items-center">
                 <JovieDropdownMenu
                   :searchable="false"
                   :items="profileMenuItems">
                   <template #triggerButton>
                     <img
+<<<<<<< HEAD
                       class="inline-block aspect-square h-6 w-6 rounded-full border border-slate-200 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800"
+=======
+
+                      class="inline-block aspect-square h-6 w-6 rounded-full border border-slate-200 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800"
+
+>>>>>>> master
                       :src="
                         $store.state.AuthState.user.profile_pic_url ??
                         $store.state.AuthState.user.default_image
@@ -108,6 +175,10 @@
                       <router-link
                         v-if="currentUser.username"
                         class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                         :to="profileLink">
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
@@ -124,19 +195,39 @@
                       </router-link>
                       <router-link
                         v-else
+<<<<<<< HEAD
                         class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 dark:text-slate-300"
+=======
+
+                        class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 dark:text-slate-300"
+
+>>>>>>> master
                         to="edit-profile">
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-400"
                           :class="{
+<<<<<<< HEAD
                             'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+=======
+
+                            'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+
+>>>>>>> master
                               active,
                           }">
                           <component
                             class="mr-4 h-4 w-4 cursor-pointer"
+<<<<<<< HEAD
                             is="WrenchScrewdriverIcon">
                           </component
                           >Setup profile
+=======
+
+                            is="WrenchScrewdriverIcon">
+                          </component
+                          >Setup profile
+
+>>>>>>> master
                         </div>
                       </router-link>
                     </MenuItem>
@@ -146,19 +237,35 @@
                       role="menuitem"
                       tabindex="-1">
                       <router-link
+<<<<<<< HEAD
                         class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+=======
+
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+
+>>>>>>> master
                         to="/admin">
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
                           :class="{
+<<<<<<< HEAD
                             'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+=======
+                            'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+>>>>>>> master
                               active,
                           }">
                           <component
                             class="mr-4 h-4 w-4 cursor-pointer"
+<<<<<<< HEAD
                             is="ChartBarIcon">
                           </component
                           >Admin
+=======
+                            is="UserIcon">
+                          </component
+                          >Admin Dashboard
+>>>>>>> master
                         </div>
                       </router-link>
                     </MenuItem>
@@ -166,7 +273,13 @@
 
                   <template #menuBottom>
                     <div
+<<<<<<< HEAD
                       class="border-t border-slate-200/40 dark:border-slate-600/40">
+=======
+
+                      class="border-t border-slate-200/40 dark:border-slate-600/40">
+
+>>>>>>> master
                       <MenuItem
                         as="div"
                         @click="$store.dispatch('logout')"
@@ -201,6 +314,10 @@ import {
   MenuItems,
   MenuItem,
   TransitionRoot,
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   SwitchGroup,
   Switch,
 } from '@headlessui/vue';
@@ -224,13 +341,20 @@ import {
   ArrowPathIcon,
   BellIcon,
   SunIcon,
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   FireIcon,
   RocketLaunchIcon,
   MoonIcon,
   BoltIcon,
   WrenchScrewdriverIcon,
   ComputerDesktopIcon,
+<<<<<<< HEAD
   ChartBarIcon,
+=======
+>>>>>>> master
 } from '@heroicons/vue/24/solid';
 
 import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
@@ -258,7 +382,10 @@ export default {
     SwitchGroup,
     Switch,
     SunIcon,
+<<<<<<< HEAD
     ChartBarIcon,
+=======
+>>>>>>> master
     MoonIcon,
     MenuItem,
     MenuItems,
@@ -318,10 +445,18 @@ export default {
           icon: 'CreditCardIcon',
         },
         {
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
           id: 6,
           name: 'Request a feature',
           route: '/request-a-feature',
           icon: LightBulbIcon,
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         },
         {
           id: 5,
@@ -342,6 +477,10 @@ export default {
           route: '/slack-community',
           icon: 'LifebuoyIcon',
         },
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
       ],
     };
   },
