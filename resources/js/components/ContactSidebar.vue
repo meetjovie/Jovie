@@ -26,16 +26,10 @@
               clip-rule="evenodd" />
           </svg> -->
           <img
-            v-if="imageLoaded && creator.profile_pic_url"
             id="profile-img-jovie"
+            @error="switchToDefaultImage"
             class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
             :src="creator.profile_pic_url" />
-          <!--WIP fixing images not showing. trigger a function on error works but need to refresh when changing creators -->
-          <img
-            v-else
-            id="profile-img-jovie"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
-            :src="asset('img/noimage.webp')" />
         </div>
         <div class="col-span-2 mt-4 px-1">
           <input
