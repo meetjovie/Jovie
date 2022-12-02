@@ -652,7 +652,7 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
+                                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
                                   <div class="py-1">
                                     <MenuItem
                                       :disabled="
@@ -724,6 +724,22 @@
                                         <ChatBubbleLeftEllipsisIcon
                                           class="darktext-blue-600 mr-2 inline h-4 w-4 text-blue-400" />
                                         Send SMS
+                                      </button>
+                                    </MenuItem>
+                                    <MenuItem
+                                      v-slot="{ active }"
+                                      class="items-center">
+                                      <button
+                                        @click="createCalendarEvent(creator)"
+                                        :class="[
+                                          active
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            : 'text-slate-700 dark:text-slate-200',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <CalendarDaysIcon
+                                          class="mr-2 inline h-4 w-4 text-indigo-400" />
+                                        Create Calendar Event
                                       </button>
                                     </MenuItem>
                                     <MenuItem
@@ -1194,6 +1210,7 @@ export default {
     ArchiveBoxIcon,
     ChevronRightIcon,
     StarRating,
+
     KeyboardShortcut,
     MagnifyingGlassIcon,
     PhoneIcon,
@@ -1564,6 +1581,19 @@ export default {
     },
     imageLoadingError(e) {
       e.target.src = this.asset('img/noimage.webp');
+    },
+    createCalendarEvent(creator) {
+      window.open(
+        `https://calendar.google.com/calendar/r/eventedit?text=${
+          this.currentUser.first_name
+        } ${this.currentUser.last_name} <> ${
+          creator.meta.name
+        }&details=Created by ${this.currentUser.first_name} ${
+          this.currentUser.last_name
+        } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
+          creator.meta.emails[0] || creator.emails[0] || ''
+        }&notes='Created via Jovie: https://jov.ie`
+      );
     },
     emailCreator(email) {
       //go to the url mailto:creator.emails[0]
