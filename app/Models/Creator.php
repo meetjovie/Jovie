@@ -365,6 +365,16 @@ class Creator extends Model
         $this->attributes['twitter_meta'] = json_encode($value ?? []);
     }
 
+    public function getTiktokMediaAttribute($value)
+    {
+        return json_decode($value ?? '{}');
+    }
+
+    public function setTiktokMediaAttribute($value)
+    {
+        $this->attributes['tiktok_media'] = json_encode($value ?? []);
+    }
+
     public function getTiktokMetaAttribute($value)
     {
         return json_decode($value ?? '{}');
