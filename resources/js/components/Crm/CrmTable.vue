@@ -654,31 +654,18 @@
                                 <MenuItems
                                   class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
                                   <div class="py-1">
-                                    <MenuItem
-                                      :disabled="
-                                        !creator.emails[0] &&
-                                        !creator.meta.emails[0]
-                                      "
-                                      v-slot="{ active }"
-                                      class="items-center">
-                                      <button
-                                        @click="
-                                          emailCreator(
-                                            creator.emails[0] ||
-                                              creator.meta.emails[0]
-                                          )
-                                        "
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <EnvelopeIcon
-                                          class="mr-2 inline h-4 w-4 text-indigo-400" />
-                                        Email
-                                      </button>
-                                    </MenuItem>
+                                    <ContactContextMenuItem
+                                      :creator="creator"
+                                      :contactMethods="[
+                                        'email',
+                                        'sms',
+                                        'instagram',
+                                        'calendar',
+                                        'twitter',
+                                        'phone',
+                                        'whatsapp',
+                                      ]">
+                                    </ContactContextMenuItem>
 
                                     <!-- Work in progress -->
                                     <!--  <MenuItem
