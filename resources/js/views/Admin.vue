@@ -13,7 +13,7 @@
                   <dl>
                     <dd>
                       <div class="text-4xl font-medium text-indigo-700">
-                        <!--    {{ $users->count() }} -->
+                        {{ $users->count() }}
                       </div>
                     </dd>
                     <dt class="truncate text-sm font-medium text-slate-500">

@@ -664,6 +664,7 @@
                                         'twitter',
                                         'phone',
                                         'whatsapp',
+                                        'validate',
                                       ]">
                                     </ContactContextMenuItem>
 

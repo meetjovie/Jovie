@@ -112,7 +112,7 @@
           </button>
         </MenuItem>
       </div>
-      <div v-if="contactMethod == whatsapp">
+      <div v-if="contactMethod == 'whatsapp'">
         <MenuItem
           :disabled="!creator.meta.phone && !creator.phone"
           v-slot="{ active }"
@@ -131,7 +131,7 @@
           </button>
         </MenuItem>
       </div>
-      <div v-if="contactMethod == refresh">
+      <div v-if="contactMethod == 'refresh'">
         <div v-if="currentUser.is_admin">
           <MenuItem
             v-slot="{ active }"
@@ -152,6 +152,24 @@
             >
           </MenuItem>
         </div>
+      </div>
+      <div v-if="contactMethod == 'verify'">
+        <MenuItem
+          :disabled="!creator.emails[0] && !creator.meta.emails[0]"
+          v-slot="{ active }"
+          class="items-center">
+          <button
+            @click="verifyEmail(creator.meta.emails[0] || creator.emails[0])"
+            :class="[
+              active
+                ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                : 'text-slate-700 dark:text-slate-200',
+              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+            ]">
+            <CheckCircleIcon class="mr-2 inline h-4 w-4 text-slate-500" />
+            Verify Email
+          </button>
+        </MenuItem>
       </div>
     </div>
   </div>
@@ -177,6 +195,7 @@ import {
   ArrowPathIcon,
   CloudArrowDownIcon,
   CalendarDaysIcon,
+  CheckCircleIcon,
 } from '@heroicons/vue/24/solid';
 import { Float } from '@headlessui-float/vue';
 
@@ -186,6 +205,7 @@ export default {
     Menu,
     MenuButton,
     MenuItems,
+    CheckCircleIcon,
     MenuItem,
     TransitionRoot,
     ChevronDownIcon,
@@ -328,6 +348,38 @@ export default {
           group: 'user',
         });
       }
+    },
+    // define the method
+    verifyEmail(email) {
+      // extract the domain of the email address
+      const domain = email.split('@')[1];
+
+      // use the fetch method to send a GET request to the Google DNS over HTTPS endpoint
+      fetch(`https://dns.google.com/resolve?name=${domain}&type=MX`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.Answer) {
+            // if the response contains an Answer field, the email address is valid
+            console.log('Email appears valid');
+            this.$notify({
+              title: 'Email valid',
+              message: 'This email address appears to be valid',
+              type: 'success',
+              group: 'user',
+            });
+            return true;
+          } else {
+            // if the response does not contain an Answer field, the email address is not valid
+            console.log('Email appears invalid');
+            this.$notify({
+              title: 'Email invalid',
+              message: 'This email address may not valid',
+              type: 'warning',
+              group: 'user',
+            });
+            return false;
+          }
+        });
     },
   },
 };
