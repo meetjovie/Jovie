@@ -742,14 +742,15 @@
                                         Create Calendar Event
                                       </button>
                                     </MenuItem>
+
                                     <MenuItem
                                       v-slot="{ active }"
                                       class="items-center">
                                       <button
                                         @click="
                                           sendTwitterDM(
-                                            creator.meta.twitter_handler ||
-                                              creator.twitter_handler
+                                            creator.twitter_meta.id ||
+                                              creator.meta.twitter_meta.id
                                           )
                                         "
                                         :class="[
