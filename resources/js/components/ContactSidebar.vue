@@ -377,110 +377,21 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-200 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-xl backdrop-saturate-150 backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
-                  <MenuItem
-                    :disabled="!creator.emails[0] && !creator.meta.emails"
-                    v-slot="{ active }">
-                    <button
-                      @click="
-                        emailCreator(creator.emails || creator.meta.emails)
-                      "
-                      :class="[
-                        active
-                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
-                          : 'text-slate-700 dark:text-slate-300',
-                        'group flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed',
+                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
+                  <div class="py-1">
+                    <ContactContextMenuItem
+                      :creator="creator"
+                      :contactMethods="[
+                        'email',
+                        'sms',
+                        'instagram',
+                        'calendar',
+                        'twitter',
+                        'phone',
+                        'whatsapp',
                       ]">
-                      <EnvelopeIcon
-                        :active="active"
-                        class="mr-2 h-4 w-4 text-indigo-400"
-                        aria-hidden="true" />
-                      Email
-                    </button>
-                  </MenuItem>
-
-                  <MenuItem
-                    :disabled="!creator.phone && !creator.meta.phone"
-                    v-slot="{ active }">
-                    <button
-                      @click="textCreator(creator.phone || creator.meta.phone)"
-                      :class="[
-                        active
-                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
-                          : 'text-slate-700 dark:text-slate-300',
-                        'group flex w-full  items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                      ]">
-                      <ChatBubbleLeftEllipsisIcon
-                        :active="active"
-                        class="mr-2 h-4 w-4 text-blue-400"
-                        aria-hidden="true" />
-                      Send SMS
-                    </button>
-                  </MenuItem>
-                  <MenuItem
-                    :disabled="
-                      !creator.meta.instgaram_handler &&
-                      !creator.instagram_handler
-                    "
-                    v-slot="{ active }"
-                    class="items-center">
-                    <button
-                      @click="
-                        instagramDMContact(
-                          creator.meta.instagram_handler ||
-                            creator.instagram_handler
-                        )
-                      "
-                      :class="[
-                        active
-                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
-                          : 'text-slate-700 dark:text-slate-300',
-                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                      ]">
-                      <ChatBubbleOvalLeftEllipsisIcon
-                        class="mr-2 inline h-4 w-4 text-social-instagram" />
-                      Instagram DM
-                    </button>
-                  </MenuItem>
-                  <MenuItem
-                    :disabled="!creator.phone && !creator.meta.phone"
-                    v-slot="{ active }">
-                    <button
-                      @click="
-                        whatsappCreator(creator.phone || creator.meta.phone)
-                      "
-                      :class="[
-                        active
-                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
-                          : 'text-slate-700 dark:text-slate-300',
-                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                      ]">
-                      <ChatBubbleOvalLeftEllipsisIcon
-                        :active="active"
-                        class="mr-2 h-4 w-4 text-social-whatsapp"
-                        aria-hidden="true" />
-                      Send WhatsApp
-                    </button>
-                  </MenuItem>
-
-                  <MenuItem
-                    :disabled="!creator.phone && !creator.meta.phone"
-                    v-slot="{ active }">
-                    <button
-                      @click="callCreator(creator.phone || creator.meta.phone)"
-                      :class="[
-                        active
-                          ? 'bg-slate-100 text-slate-900 text-slate-100 dark:bg-slate-800 dark:text-slate-100'
-                          : 'text-slate-700 dark:text-slate-300',
-                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                      ]">
-                      <PhoneIcon
-                        :active="active"
-                        class="mr-2 h-4 w-4 text-red-400"
-                        aria-hidden="true" />
-                      Call
-                    </button>
-                  </MenuItem>
+                    </ContactContextMenuItem>
+                  </div>
                 </MenuItems>
               </transition>
             </Float>
@@ -727,6 +638,7 @@ import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
 import { VueDraggableNext } from 'vue-draggable-next';
+import ContactContextMenuItem from '../components/ContactContextMenuItem.vue';
 import {
   XMarkIcon,
   ChevronDownIcon,
@@ -754,6 +666,7 @@ export default {
   components: {
     SocialInput,
     draggable: VueDraggableNext,
+    ContactContextMenuItem,
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
     EnvelopeIcon,
