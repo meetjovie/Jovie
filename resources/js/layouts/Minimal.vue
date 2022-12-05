@@ -1,16 +1,16 @@
 <template>
-  <div id="app">
+  <div class="" id="app">
     <router-view />
   </div>
 </template>
 
 <script>
 export default {
-    name: 'Minimal',
-    mounted() {
-        console.log('mounted');
-    }
-}
+  name: 'Minimal',
+  mounted() {
+    console.log('mounted');
+  },
+};
 </script>
 <style>
 /* your style */

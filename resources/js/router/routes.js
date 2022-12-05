@@ -283,9 +283,9 @@ export const routes = [
     },
   },
   {
-    name: 'Admin Panel',
+    name: 'Admin Dashboard',
     path: '/admin',
-    component: loadPage('Admin'),
+    component: loadPage('AdminDashboard'),
     meta: {
       layout: 'App',
       requiresAuth: true,

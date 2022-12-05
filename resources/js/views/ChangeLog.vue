@@ -135,6 +135,51 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
+              <p class="text-sm font-semibold text-slate-600">v0.0.7</p>
+
+              <p>2022.12.04</p>
+            </div>
+            <div class="w-full">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
+                Calendar events, Twitter DMs, Email Validation, and More
+              </h2>
+              <p class="prose">
+                This release includes a number of new features and improvements.
+                We've also made it easier for users to request & vote on new
+                features. You can see our product roadmap and contribute to it
+                <a href="https://roadmap.jov.ie">here</a>.
+              </p>
+
+              <h4 class="prose mt-4 font-bold">Features</h4>
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Added the ability to initate a DM on Twitter with a contact.
+                </li>
+                <li class="prose">
+                  Added the ability to validate email addresses (addressign a
+                  user feature request).
+                </li>
+                <li class="prose">
+                  Added the ability to create a new calendar event.
+                </li>
+              </ul>
+
+              <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Fixed an issue rendering styles incorrectly on the sidebar
+                  when a user is in dark mode.
+                </li>
+                <li class="prose">Made the upgrade flow clearer.</li>
+                <li class="prose">
+                  Upgraded depenendcies to address security vulnerabilities.
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
+            <div class="w-24 text-2xs">
               <p class="text-sm font-semibold text-slate-600">v0.0.6</p>
 
               <p>2022.12.01</p>
