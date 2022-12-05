@@ -48,6 +48,8 @@ class TiktokImport implements ShouldQueue
 
     private $platformUser;
 
+    private $importId;
+
     private $teamId = null;
 
     /**
@@ -140,6 +142,7 @@ class TiktokImport implements ShouldQueue
                 dd($response);
             }
         } catch (\Exception $e) {
+            dd($e->getMessage().'-'.$e->getLine().'-'.$e->getFile());
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {
@@ -174,7 +177,7 @@ class TiktokImport implements ShouldQueue
 
     private function insertIntoDatabase($user)
     {
-        $creator = Creator::where('twitch_handler', $user->username)->first() ?? new Creator();
+        $creator = Creator::where('tiktok_handler', $user->username)->first() ?? new Creator();
         $creator->setAppends([]);
         if (isset($this->meta['socialHandlers'])) {
             foreach ($this->meta['socialHandlers'] as $k => $handler) {
@@ -209,13 +212,13 @@ class TiktokImport implements ShouldQueue
             $creator->gender_accuracy = 100;
         }
 
-        $creator->tiktok_media = $user->timeline_media;
+        $creator->tiktok_media = $this->getTimelineMedia($user->timeline_media, $creator);
         $creator->emails = Creator::getEmails($user, $this->meta['emails'] ?? [], $creator->emails);
         $creator->tiktok_handler = $user->username;
 
         $creator->tiktok_followers = $user->followers;
         $creator->tiktok_biography = $user->biography;
-        $creator->tikton_engagement_rate = round(floatval($user->likes/$user->followers), 2);
+        $creator->tiktok_engagement_rate = round(floatval($user->likes/$user->followers), 2);
 
         // meta
         $meta = [];
@@ -231,6 +234,32 @@ class TiktokImport implements ShouldQueue
         $creator->save();
         Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId);
         return $creator;
+    }
+
+    public function getTimelineMedia($medias, $creator)
+    {
+        foreach ($creator->tiktok_media as $media) {
+            try {
+                $filename = explode(Creator::CREATORS_MEDIA_PATH, $media->display_url)[1];
+                $path = Creator::CREATORS_MEDIA_PATH.$filename;
+                Storage::disk('s3')->delete($path);
+            } catch (\Exception $e) {
+            }
+        }
+        $timelineMedia = collect();
+        foreach ($medias as $media) {
+            $display_url = self::uploadFile($media['thumbnail'], Creator::CREATORS_MEDIA_PATH);
+            $timelineMedia->push([
+                'display_url' => $display_url,
+                'likes' => $media['likes'],
+                'comments' => $media['comments'],
+                'shares' => $media['shares'],
+                'caption' => $media['caption'],
+                'datetime' => $media['post_date']
+            ]);
+        }
+
+        return $timelineMedia->toArray();
     }
 
     public function getProfilePicUrl($profilePicUrl, $creator)

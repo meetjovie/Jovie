@@ -169,43 +169,31 @@ trait SocialScrapperTrait
             $post1 = @$crawler->filterXPath(
                 '//div[contains(@data-e2e,"user-post-item")]/div[1]/div/div/div/a/div/div/img'
             )->first()->extract(['src'])[0];
-            $title1 = @$crawler->filterXPath(
-                '//div[contains(@data-e2e,"user-post-item")]/div[1]/div/div/div/a/div/div/img'
-            )->first()->extract(['src'])[0];
             $url1 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[1]/div/div/div/a')->first(
             )->extract(['href'])[0];
             $post2 = @$crawler->filterXPath(
                 '//div[contains(@data-e2e,"user-post-item")]/div[2]/div/div/div/a/div/div/img'
             )->first()->extract(['src'])[0];
-            $title2 = @$crawler->filterXPath(
-                '//div[contains(@data-e2e,"user-post-item")]/div[2]/div/div/div/a/div/div/img'
-            )->first()->extract(['alt'])[0];
             $url2 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[2]/div/div/div/a')->first(
             )->extract(['href'])[0];
             $post3 = @$crawler->filterXPath(
                 '//div[contains(@data-e2e,"user-post-item")]/div[3]/div/div/div/a/div/div/img'
             )->first()->extract(['src'])[0];
-            $title3 = @$crawler->filterXPath(
-                '//div[contains(@data-e2e,"user-post-item")]/div[3]/div/div/div/a/div/div/img'
-            )->first()->extract(['alt'])[0];
             $url3 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[3]/div/div/div/a')->first(
             )->extract(['href'])[0];
 
             $timelineMedia = [
                 [
                     'thumbnail' => $post1,
-                    'url' => $url1,
-                    'title' => $title1
+                    'url' => $url1
                 ],
                 [
                     'thumbnail' => $post2,
-                    'url' => $url2,
-                    'title' => $title2
+                    'url' => $url2
                 ],
                 [
                     'thumbnail' => $post3,
-                    'url' => $url3,
-                    'title' => $title3
+                    'url' => $url3
                 ],
             ];
             $likes = self::convertToNumber($likes);
@@ -229,6 +217,15 @@ trait SocialScrapperTrait
                         $media['post_date'] = @$crawler->filterXPath(
                             '//span[contains(@data-e2e,"browser-nickname")]/span[3]'
                         )->first()->getNode(0)->firstChild->data;
+
+                        $caption = ' ';
+                        @$crawler->filterXPath('//div[contains(@data-e2e,"browse-video-desc")]')->children()->each(function ($node) use (&$caption) {
+                            $text = $node->extract(['_text'])[0];
+                            if (! str_contains($text, '.tiktok')) {
+                                $caption .= $text;
+                            }
+                        });
+                        $media['caption'] = $caption ?? null;
                     }
                 }
             }

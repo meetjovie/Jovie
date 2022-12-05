@@ -18,10 +18,18 @@ use MeiliSearch\Client;
 
 Route::get('/scrap', function () {
     $username = "@love_mian_jaan";
-    $url = "https://www.tiktok.com/$username";
+    $url = "https://www.tiktok.com/@boyjamping/video/7173243579559677210?is_from_webapp=v1&item_id=7173243579559677210";
     $client = new \Goutte\Client(); // create a crawler object from this link
     $crawler = $client->request('GET', $url);
 
+    $caption = '';
+    $handler = $crawler->filterXPath('//div[contains(@data-e2e,"browse-video-desc")]')->children()->each(function ($node) use (&$caption) {
+        $text = $node->extract(['_text'])[0];
+        if (! str_contains($text, '.tiktok')) {
+            $caption .= $text;
+        }
+    });
+    dd($caption);
     $handler = $crawler->filterXPath('//h2[contains(@data-e2e,"user-title")]')->first()->getNode(0)->firstChild->data;
     $name = @$crawler->filterXPath('//h1[contains(@data-e2e,"user-subtitle")]')->first()->getNode(0)->firstChild->data;
     $followers = @$crawler->filterXPath('//strong[contains(@data-e2e,"followers-count")]')->first()->getNode(0)->firstChild->data;

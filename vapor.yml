@@ -7,6 +7,7 @@ environments:
       - prod_instagram
       - prod_twitch
       - prod_twitter
+      - prod_tiktok
     queue-concurrency: 50
     database: jovie-production-db
     storage: 'jovie-production-storage'
@@ -30,6 +31,7 @@ environments:
       - stag_instagram
       - stag_twitch
       - stag_twitter
+      - stag_tiktok
     queue-concurrency: 10
     database: jovie-staging-db
     memory: 1024
@@ -52,6 +54,7 @@ environments:
       - dev_instagram
       - dev_twitch
       - dev_twitter
+      - dev_tiktok
     database: jovie-dev-db
     memory: 1024
     queue-concurrency: 10
@@ -65,7 +68,6 @@ environments:
     network: Jovie
     build:
       - 'composer install --no-dev'
-      - 'composer update'
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
       - 'npm i && npm run prod && rm -rf node_modules'
