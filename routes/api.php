@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 //ADMIN
 //add a route for the AdminDashboardController to get the user count
 Route::get('/admin-stats', [\App\Http\Controllers\AdminDashboardController::class, 'getAdminStats']);
+Route::get('/account-balance', [\App\Http\Controllers\AdminDashboardController::class, 'getAccountBalance']);
+
 
 Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
 Route::post('login-user', [\App\Http\Controllers\Auth\AuthController::class, 'loginUser']);

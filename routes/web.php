@@ -193,8 +193,7 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 //    dd($creator->instagram_media);
 //});
 
-//add a route for the AdminDashboardController to get the user count
-Route::get('/admin-stats', [\App\Http\Controllers\AdminDashboardController::class, 'getAdminStats']);
+
 
 Route::get('{any?}', function () {
     return view('welcome');

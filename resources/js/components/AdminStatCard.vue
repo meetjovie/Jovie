@@ -2,12 +2,23 @@
   <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-slate-800">
     <div class="p-5">
       <div class="flex items-center">
-        <div class="w-0 flex-1">
+        <div class="h-32 w-0 flex-1">
           <dl>
             <dd>
               <div
+                v-if="stat === null"
+                class="mx-auto items-center text-center text-7xl font-bold text-indigo-700 dark:text-slate-300">
+                <div class="itesm-center mx-auto h-24">
+                  <JovieSpinner class="mx-auto items-center" />
+                </div>
+              </div>
+              <div
+                v-else
                 class="text-center text-7xl font-bold text-indigo-700 dark:text-slate-300">
-                {{ stat }}
+                <span v-if="currency">${{ stat.toFixed(2) }}</span>
+
+                <span v-else>{{ stat }}</span>
+
               </div>
             </dd>
             <dt
@@ -31,7 +42,12 @@
   </div>
 </template>
 <script>
+import JovieSpinner from '../components/JovieSpinner';
 export default {
+  components: {
+    JovieSpinner,
+  },
+
   props: {
     stat: {
       type: String,
@@ -41,6 +57,11 @@ export default {
       type: String,
       required: true,
     },
+    currency: {
+      type: Boolean,
+      default: null,
+    },
+
   },
 };
 </script>
