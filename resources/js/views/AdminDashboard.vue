@@ -14,7 +14,11 @@
 
           <AdminStatCard title="Total Users" :stat="stats.userCount" />
           <AdminStatCard title="Total Creators" :stat="stats.creatorCount" />
-          <AdminStatCard title="Cash Balance" :stat="cashBalance" />
+          <AdminStatCard currency title="Cash Balance" :stat="cashBalance" />
+
+          <AdminStatCard title="24 Hour Users" :stat="stats.userCount24" />
+          <AdminStatCard title="7 Day Users" :stat="stats.userCount7" />
+          <AdminStatCard title="30 Day Users" :stat="stats.userCount30" />
           <!--  <AdminStatCard title="Total Revenue" :stat="stats.creatorCount" /> -->
 
           <!-- More items... -->
@@ -151,7 +155,7 @@ export default {
   },
   mounted() {
     this.getNewStats();
-    this.getAccountBalance();
+
     /* axios.get('/api/admin-stats').then((response) => {
       this.stats = response.data;
     }); */
@@ -173,65 +177,26 @@ export default {
           });
         }
       });
+      axios.get('/api/account-balance').then((response) => {
+        if (response.status === 200) {
+          this.cashBalance = response.data.cashBalance;
+        } else {
+          //show error message
+          this.$notify({
+            group: 'user',
+            title: 'Somethign went wrong',
+
+            type: 'error',
+            text: 'There was an error getting the stats',
+          });
+        }
+      });
       this.$notify({
         group: 'user',
         title: 'Stats Updated',
         type: 'success',
         text: 'The stats have been updated',
       });
-    },
-
-    async getAccountBalance() {
-      try {
-        const response = await axios.get(
-          `https://api.mercury.com/api/v1/accounts/`,
-          {
-            withCredentials: true,
-            followRedirect: true,
-            maxRedirects: 10,
-            auth: {
-              username: process.env.MERCURY_API_KEY,
-              password: '',
-            },
-          }
-        );
-
-        this.cashBalance = response.data.accounts.reduce(
-          (total, account) => total + account.currentBalance,
-          0
-        );
-      } catch (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-
-        if (error.response.status === 0) {
-          // Handle request cancelled or failed to reach server
-          console.error('Request failed with status code 0');
-        }
-
-        this.$notify({
-          group: 'user',
-          title: 'Error',
-          type: 'error',
-          text: 'There was an error getting the account balance',
-        });
-
-        console.error(error);
-      }
     },
   },
 };

@@ -6,16 +6,18 @@
           <dl>
             <dd>
               <div
-                v-if="stat"
-                class="text-center text-7xl font-bold text-indigo-700 dark:text-slate-300">
-                {{ stat }}
+                v-if="stat === null"
+                class="mx-auto items-center text-center text-7xl font-bold text-indigo-700 dark:text-slate-300">
+                <div class="itesm-center mx-auto h-24">
+                  <JovieSpinner class="mx-auto items-center" />
+                </div>
               </div>
               <div
                 v-else
-                class="mx-auto items-center text-center text-7xl font-bold text-indigo-700 dark:text-slate-300">
-                <div class="itesm-center mx-auto">
-                  <JovieSpinner />
-                </div>
+                class="text-center text-7xl font-bold text-indigo-700 dark:text-slate-300">
+                <span v-if="currency">${{ stat.toFixed(2) }}</span>
+
+                <span v-else>{{ stat }}</span>
               </div>
             </dd>
             <dt
@@ -52,6 +54,10 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    currency: {
+      type: Boolean,
+      default: null,
     },
   },
 };
