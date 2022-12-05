@@ -59,7 +59,7 @@
             AWS
           </button>
         </a>
-        <a href="https://github.com/itstimwhite/creatorconnect">
+        <a href="https://github.com/meetjovie/">
           <button
             type="button"
             class="inline-flex items-center rounded-md border border-transparent border-indigo-500 px-4 py-2 text-base font-medium text-indigo-500 shadow-sm hover:bg-indigo-700 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
