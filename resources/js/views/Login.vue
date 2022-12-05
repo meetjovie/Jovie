@@ -1,4 +1,19 @@
 <template>
+  <Head>
+    <title>Jovie Social CRM | Login to Jovie</title>
+    <meta name="description" content="Login to your Jovie account." />
+    <!--- OpenGraph -->
+    <meta property="og:image:height" content="333" />
+    <meta property="og:image:width" content="636" />
+    <meta property="og:description" content="Organize everyone you follow" />
+    <meta property="og:title" content="Jovie | Social CRM" />
+    <meta property="og:url" content="http://jov.ie" />
+    <meta
+      property="og:image"
+      content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg" />
+    <!-- End OpenGraph -->
+  </Head>
+
   <div class="flex min-h-screen">
     <div
       class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
@@ -119,12 +134,14 @@ import AuthService from '../services/auth/auth.service';
 import router from '../router';
 import InputGroup from '../components/InputGroup.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
+import { Head } from '@vueuse/head';
 export default {
   components: {
     JovieLogo,
     AuthFooter,
     InputGroup,
     ButtonGroup,
+    Head,
   },
   mounted() {
     //add segment analytics
