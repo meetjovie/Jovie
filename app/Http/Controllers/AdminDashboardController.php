@@ -43,7 +43,7 @@ class AdminDashboardController extends Controller
             // Make the request to the https://api.mercury.com/api/v1/accounts endpoint
             $response = $client->request('GET', 'https://api.mercury.com/api/v1/accounts', [
                 'auth' => [
-                    'hsk7reAokh4M81Wscy7ZV21YlIN7Vhep3KfynxgqLP45',
+                    env('MERCURY_API_KEY'),
                     ''
                 ],
                 'withCredentials' => true,
