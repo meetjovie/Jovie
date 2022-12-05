@@ -194,7 +194,6 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 //});
 
 
-
 Route::get('{any?}', function () {
     return view('welcome');
 });
