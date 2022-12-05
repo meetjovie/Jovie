@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
+//ADMIN
+//add a route for the AdminDashboardController to get the user count
+Route::get('/admin-stats', [\App\Http\Controllers\AdminDashboardController::class, 'getAdminStats']);
+
 Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
 Route::post('login-user', [\App\Http\Controllers\Auth\AuthController::class, 'loginUser']);
 Route::post('login-user-extension', [\App\Http\Controllers\Auth\AuthController::class, 'loginUserExtension'])->withoutMiddleware('state.csrf');
@@ -95,6 +99,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/payment-intent', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'paymentIntent']);
     Route::get('/subscription-products', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'getSubscriptionProducts']);
     Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
+
+    
 
     /**
      * Teamwork routes

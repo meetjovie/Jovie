@@ -652,128 +652,22 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-40 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
+                                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
                                   <div class="py-1">
-                                    <MenuItem
-                                      :disabled="
-                                        !creator.emails[0] &&
-                                        !creator.meta.emails[0]
-                                      "
-                                      v-slot="{ active }"
-                                      class="items-center">
-                                      <button
-                                        @click="
-                                          emailCreator(
-                                            creator.emails[0] ||
-                                              creator.meta.emails[0]
-                                          )
-                                        "
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <EnvelopeIcon
-                                          class="mr-2 inline h-4 w-4 text-indigo-400" />
-                                        Email
-                                      </button>
-                                    </MenuItem>
+                                    <ContactContextMenuItem
+                                      :creator="creator"
+                                      :contactMethods="[
+                                        'email',
+                                        'sms',
+                                        'instagram',
+                                        'calendar',
+                                        'twitter',
+                                        'phone',
+                                        'whatsapp',
+                                        'validate',
+                                      ]">
+                                    </ContactContextMenuItem>
 
-                                    <MenuItem
-                                      :disabled="
-                                        !creator.meta.phone && !creator.phone
-                                      "
-                                      v-slot="{ active }"
-                                      class="items-center">
-                                      <button
-                                        @click="
-                                          callCreator(
-                                            creator.meta.phone || creator.phone
-                                          )
-                                        "
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <PhoneIcon
-                                          class="mr-2 inline h-4 w-4 text-pink-400" />
-                                        Call
-                                      </button>
-                                    </MenuItem>
-                                    <MenuItem
-                                      :disabled="
-                                        !creator.meta.phone && !creator.phone
-                                      "
-                                      v-slot="{ active }"
-                                      class="items-center">
-                                      <button
-                                        @click="
-                                          textCreator(
-                                            creator.meta.phone || creator.phone
-                                          )
-                                        "
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <ChatBubbleLeftEllipsisIcon
-                                          class="darktext-blue-600 mr-2 inline h-4 w-4 text-blue-400" />
-                                        Send SMS
-                                      </button>
-                                    </MenuItem>
-                                    <MenuItem
-                                      :disabled="
-                                        !creator.meta.instgaram_handler &&
-                                        !creator.instagram_handler
-                                      "
-                                      v-slot="{ active }"
-                                      class="items-center">
-                                      <button
-                                        @click="
-                                          instagramDMContact(
-                                            creator.meta.instagram_handler ||
-                                              creator.instagram_handler
-                                          )
-                                        "
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <ChatBubbleOvalLeftEllipsisIcon
-                                          class="mr-2 inline h-4 w-4 text-social-instagram" />
-                                        Instagram DM
-                                      </button>
-                                    </MenuItem>
-                                    <MenuItem
-                                      :disabled="
-                                        !creator.meta.phone && !creator.phone
-                                      "
-                                      v-slot="{ active }"
-                                      class="items-center">
-                                      <button
-                                        @click="
-                                          whatsappCreator(
-                                            creator.meta.phone || creator.phone
-                                          )
-                                        "
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <ChatBubbleOvalLeftEllipsisIcon
-                                          class="mr-2 inline h-4 w-4 text-social-whatsapp" />
-                                        Whatsapp
-                                      </button>
-                                    </MenuItem>
                                     <!-- Work in progress -->
                                     <!--  <MenuItem
                                       v-slot="{ active }"
@@ -1127,6 +1021,7 @@
 <script>
 import { Float } from '@headlessui-float/vue';
 import Datepicker from '@vuepic/vue-datepicker';
+import ContactContextMenuItem from '../../components/ContactContextMenuItem';
 
 import { ref } from 'vue';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -1194,6 +1089,7 @@ export default {
     ArchiveBoxIcon,
     ChevronRightIcon,
     StarRating,
+    ContactContextMenuItem,
     KeyboardShortcut,
     MagnifyingGlassIcon,
     PhoneIcon,
@@ -1565,6 +1461,19 @@ export default {
     imageLoadingError(e) {
       e.target.src = this.asset('img/noimage.webp');
     },
+    createCalendarEvent(creator) {
+      window.open(
+        `https://calendar.google.com/calendar/r/eventedit?text=${
+          this.currentUser.first_name
+        } ${this.currentUser.last_name} <> ${
+          creator.meta.name
+        }&details=Created by ${this.currentUser.first_name} ${
+          this.currentUser.last_name
+        } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
+          creator.meta.emails[0] || creator.emails[0] || ''
+        }&notes='Created via Jovie: https://jov.ie`
+      );
+    },
     emailCreator(email) {
       //go to the url mailto:creator.emails[0]
       //if email is not null
@@ -1576,6 +1485,29 @@ export default {
         this.$notify({
           title: 'No email found',
           message: 'This contact does not have an email address',
+          type: 'warning',
+          group: 'user',
+        });
+      }
+    },
+    sendTwitterDM(id) {
+      //go to the url https://twitter.com/messages/compose?recipient_id=creator.twitter_id
+      //if twitter_id is not null
+      if (id) {
+        //add text tot he message that says "Hey creator.name || creator.meta.name "
+        window.open(
+          'https://twitter.com/messages/compose?recipient_id=' +
+            id +
+            '&text=Hey ' +
+            this.currentContact.meta.name +
+            ','
+        );
+        //else log no twitter id found
+      } else {
+        console.log('No twitter id found');
+        this.$notify({
+          title: 'No twitter id found',
+          message: 'This contact does not have a twitter id',
           type: 'warning',
           group: 'user',
         });

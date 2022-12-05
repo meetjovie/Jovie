@@ -1,64 +1,20 @@
 <template>
-  <div>
-    <div class="mt-8">
+  <div class="h-screen dark:bg-slate-900">
+    <div class="">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-lg font-medium leading-6 text-slate-900">KPIs</h2>
-        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2">
+        <div class="flex items-center gap-4">
+          <JovieLogo color="white" :height="20" />
+          <h2
+            class="py-6 text-lg font-medium leading-6 text-slate-900 dark:text-slate-100">
+            Admin Dashboard
+          </h2>
+        </div>
+        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <!-- Card -->
-          <div></div>
-          <div class="overflow-hidden rounded-lg bg-white shadow">
-            <div class="p-5">
-              <div class="flex items-center">
-                <div class="w-0 flex-1">
-                  <dl>
-                    <dd>
-                      <div class="text-4xl font-medium text-indigo-700">
-                        <!--    {{ $users->count() }} -->
-                      </div>
-                    </dd>
-                    <dt class="truncate text-sm font-medium text-slate-500">
-                      Total Users
-                    </dt>
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div class="bg-slate-50 px-5 py-3">
-              <div class="text-sm">
-                <a
-                  href="/discovery"
-                  class="font-medium text-indigo-700 hover:text-cyan-900">
-                  Users
-                </a>
-              </div>
-            </div>
-          </div>
 
-          <div class="overflow-hidden rounded-lg bg-white shadow">
-            <div class="p-5">
-              <div class="flex items-center justify-center">
-                <div class="w-0 flex-1">
-                  <dl>
-                    <dd>
-                      <div class="text-4xl font-medium text-indigo-700">-</div>
-                    </dd>
-                    <dt class="truncate text-sm font-medium text-slate-500">
-                      Lifetime Revenue
-                    </dt>
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div class="bg-slate-50 px-5 py-3">
-              <div class="text-sm">
-                <a
-                  href="/discovery"
-                  class="font-medium text-indigo-700 hover:text-cyan-900">
-                  Revenue
-                </a>
-              </div>
-            </div>
-          </div>
+          <AdminStatCard title="Total Users" :stat="stats.userCount" />
+          <AdminStatCard title="Total Creators" :stat="stats.creatorCount" />
+          <!--  <AdminStatCard title="Total Revenue" :stat="stats.creatorCount" /> -->
 
           <!-- More items... -->
         </div>
@@ -163,3 +119,29 @@
     </div>
   </div>
 </template>
+
+<script>
+import axios from 'axios';
+import AdminStatCard from './../components/AdminStatCard.vue';
+import JovieLogo from './../components/JovieLogo.vue';
+
+//import
+
+export default {
+  components: {
+    AdminStatCard,
+    JovieLogo,
+  },
+  data() {
+    return {
+      stats: {},
+    };
+  },
+  mounted() {
+    axios.get('/api/admin-stats').then((response) => {
+      this.stats = response.data;
+    });
+    //get the total revenue from stripe
+  },
+};
+</script>

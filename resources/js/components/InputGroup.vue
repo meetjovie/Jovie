@@ -5,14 +5,12 @@
         v-if="socialicon"
         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
         :class="{ 'pl-1': rounded == 'sm' }">
-
         <SocialIcons
           class="text-slate-400 opacity-40 dark:text-slate-600"
           link="#"
           width="12px"
           height="12px"
           :icon="socialicon" />
-
       </div>
       <div
         v-if="icon"
@@ -34,7 +32,7 @@
           :value="modelValue ?? value"
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
-          class="peer block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder-slate-400 placeholder-opacity-0 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 sm:text-sm"
+          class="peer block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder-slate-400 placeholder-opacity-0 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 sm:text-sm"
           :class="[
             icon ? 'pl-10' : '',
             { 'rounded-r-md': rounded == 'right' },
@@ -55,12 +53,12 @@
           <div v-else>
             <div v-if="valid">
               <CheckCircleIcon
-                class="h-5 w-5 text-indigo-500"
+                class="h-5 w-5 text-indigo-500 dark:text-indigo-300"
                 aria-hidden="true" />
             </div>
             <div v-if="isInvalid">
               <ExclamationCircleIcon
-                class="h-5 w-5 text-red-500"
+                class="h-5 w-5 text-red-500 dark:text-red-300"
                 aria-hidden="true" />
             </div>
           </div>
@@ -69,11 +67,13 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium"
+          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium dark:bg-slate-800 dark:text-slate-300"
           >{{ label }}</label
         >
       </div>
-      <div v-if="error" class="mt-2 text-xs text-red-600">{{ error }}</div>
+      <div v-if="error" class="mt-2 text-xs text-red-600 dark:text-red-300">
+        {{ error }}
+      </div>
     </div>
   </div>
 </template>
