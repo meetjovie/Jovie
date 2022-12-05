@@ -18,6 +18,7 @@
                 <span v-if="currency">${{ stat.toFixed(2) }}</span>
 
                 <span v-else>{{ stat }}</span>
+
               </div>
             </dd>
             <dt
@@ -46,6 +47,7 @@ export default {
   components: {
     JovieSpinner,
   },
+
   props: {
     stat: {
       type: String,
@@ -59,6 +61,7 @@ export default {
       type: Boolean,
       default: null,
     },
+
   },
 };
 </script>

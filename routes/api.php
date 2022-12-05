@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/admin-stats', [\App\Http\Controllers\AdminDashboardController::class, 'getAdminStats']);
 Route::get('/account-balance', [\App\Http\Controllers\AdminDashboardController::class, 'getAccountBalance']);
 
+
 Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
 Route::post('login-user', [\App\Http\Controllers\Auth\AuthController::class, 'loginUser']);
 Route::post('login-user-extension', [\App\Http\Controllers\Auth\AuthController::class, 'loginUserExtension'])->withoutMiddleware('state.csrf');
