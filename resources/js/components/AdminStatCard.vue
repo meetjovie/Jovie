@@ -15,10 +15,9 @@
               <div
                 v-else
                 class="text-center text-7xl font-bold text-indigo-700 dark:text-slate-300">
-                <span v-if="currency">${{ stat.toFixed(2) }}</span>
+                <span v-if="currency">${{ formatCount(stat) }}</span>
 
-                <span v-else>{{ stat }}</span>
-
+                <span v-else>{{ formatCount(stat) }}</span>
               </div>
             </dd>
             <dt
@@ -61,7 +60,6 @@ export default {
       type: Boolean,
       default: null,
     },
-
   },
 };
 </script>
