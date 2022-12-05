@@ -19,6 +19,7 @@
 
                 <span v-else>{{ formatCount(stat) }}</span>
 
+
               </div>
             </dd>
             <dt
