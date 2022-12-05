@@ -14,6 +14,7 @@
 
           <AdminStatCard title="Total Users" :stat="stats.userCount" />
           <AdminStatCard title="Total Creators" :stat="stats.creatorCount" />
+          <AdminStatCard title="Cash Balance" :stat="cashBalance" />
           <!--  <AdminStatCard title="Total Revenue" :stat="stats.creatorCount" /> -->
 
           <!-- More items... -->
@@ -114,6 +115,15 @@
           </button>
         </a>
 
+        <button
+          @click="getNewStats()"
+          type="button"
+          class="inline-flex items-center rounded-md border border-transparent border-indigo-500 px-4 py-2 text-base font-medium text-indigo-500 shadow-sm hover:bg-indigo-700 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+          <!-- Heroicon name: solid/mail -->
+          <ArrowPath class="" />
+          Refresh
+        </button>
+
         <!-- More items... -->
       </div>
     </div>
@@ -124,24 +134,105 @@
 import axios from 'axios';
 import AdminStatCard from './../components/AdminStatCard.vue';
 import JovieLogo from './../components/JovieLogo.vue';
-
+import { ArrowPathIcon } from '@heroicons/vue/24/solid';
 //import
 
 export default {
   components: {
     AdminStatCard,
     JovieLogo,
+    ArrowPathIcon,
   },
   data() {
     return {
       stats: {},
+      cashBalance: 0,
     };
   },
   mounted() {
-    axios.get('/api/admin-stats').then((response) => {
+    this.getNewStats();
+    this.getAccountBalance();
+    /* axios.get('/api/admin-stats').then((response) => {
       this.stats = response.data;
-    });
-    //get the total revenue from stripe
+    }); */
+    //use mouse trap to creat keyboard shortcuts
+  },
+  methods: {
+    getNewStats() {
+      axios.get('/api/admin-stats').then((response) => {
+        if (response.status === 200) {
+          this.stats = response.data;
+        } else {
+          //show error message
+          this.$notify({
+            group: 'user',
+            title: 'Somethign went wrong',
+
+            type: 'error',
+            text: 'There was an error getting the stats',
+          });
+        }
+      });
+      this.$notify({
+        group: 'user',
+        title: 'Stats Updated',
+        type: 'success',
+        text: 'The stats have been updated',
+      });
+    },
+
+    async getAccountBalance() {
+      try {
+        const response = await axios.get(
+          `https://api.mercury.com/api/v1/accounts/`,
+          {
+            withCredentials: true,
+            followRedirect: true,
+            maxRedirects: 10,
+            auth: {
+              username: process.env.MERCURY_API_KEY,
+              password: '',
+            },
+          }
+        );
+
+        this.cashBalance = response.data.accounts.reduce(
+          (total, account) => total + account.currentBalance,
+          0
+        );
+      } catch (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+
+        if (error.response.status === 0) {
+          // Handle request cancelled or failed to reach server
+          console.error('Request failed with status code 0');
+        }
+
+        this.$notify({
+          group: 'user',
+          title: 'Error',
+          type: 'error',
+          text: 'There was an error getting the account balance',
+        });
+
+        console.error(error);
+      }
+    },
   },
 };
 </script>
