@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('team_id');
             $table->string('name');
-            $table->string('stripe_id')->unique();
+            $table->string('stripe_id')->index();
             $table->string('stripe_status');
             $table->string('stripe_price')->nullable();
             $table->integer('quantity')->nullable();

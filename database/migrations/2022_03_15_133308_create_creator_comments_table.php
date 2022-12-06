@@ -14,10 +14,10 @@ return new class extends Migration {
     {
         Schema::create('creator_comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('creator_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+           /*  $table->foreignId('creator_id')->constrained()->onUpdate('cascade')->onDelete('cascade'); */
+          /*   $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade'); */
             $table->longText('comment');
-            $table->foreignId('deleted_by')->nullable()->references('id')->on('users');
+           /*  $table->foreignId('deleted_by')->nullable()->references('id')->on('users'); */
             $table->softDeletes();
             $table->timestamps();
         });

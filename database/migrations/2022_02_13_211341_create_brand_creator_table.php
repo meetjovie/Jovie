@@ -14,8 +14,8 @@ return new class extends Migration {
     {
         Schema::create('brand_creator', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('creator_id')->references('id')->on('creators')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('brand_id')->references('id')->on('creators')->onUpdate('cascade')->onDelete('cascade');
+           /*  $table->foreignId('creator_id')->references('id')->on('creators')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('brand_id')->references('id')->on('creators')->onUpdate('cascade')->onDelete('cascade'); */
             $table->timestamps();
         });
     }

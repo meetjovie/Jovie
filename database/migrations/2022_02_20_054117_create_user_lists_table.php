@@ -15,12 +15,12 @@ return new class extends Migration {
         Schema::create('user_lists', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('user_id')->constrained()
+          /*   $table->foreignId('user_id')->constrained()
                 ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onUpdate('cascade'); */
             $table->timestamps();
 
-            $table->unique(['user_id', 'name']);
+            $table->index([ 'name']);
         });
     }
 

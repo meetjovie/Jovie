@@ -14,12 +14,27 @@ return new class extends Migration {
     {
         Schema::create('crms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('creator_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+          /*   $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('creator_id')->constrained()->onDelete('cascade')->onUpdate('cascade'); */
             $table->dateTime('last_contacted')->nullable();
-            $table->double('instagram_offer', null, 2)->default(0)->nullable();
+            $table->double('instagram_offer', null, 2)->nullable();
             $table->integer('instagram_stage')->default(0);
+            $table->double('rating')->nullable();
+            $table->boolean('muted')->nullable();
+            $table->boolean('instagram_archived')->nullable();
+            $table->boolean('instagram_removed')->nullable();
             $table->timestamps();
+
+           /*  DB::statement('ALTER TABLE crms MODIFY COLUMN archived TINYINT(1) AFTER instagram_stage'); */
+
+          /*   if (! Type::hasType('double')) {
+                Type::addType('double', FloatType::class);
+            } */
+           
+           
+
+           
+          
         });
     }
 
