@@ -18,6 +18,7 @@ return new class extends Migration {
           /*   $table->foreignId('user_id')->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade'); */
+            $table->integer('team_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->index([ 'name']);

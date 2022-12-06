@@ -28,6 +28,8 @@ return new class extends Migration {
           
             $table->boolean('gender_updated')->default(false)->nullable();
             $table->string('location')->index()->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
            
             $table->string('type')->nullable();
             
@@ -65,11 +67,21 @@ return new class extends Migration {
             $table->longText('twitter_media')->nullable()->nullable();
             $table->longText('twitter_meta')->nullable()->nullable();
             $table->string('tiktok_handler')->nullable();
+            $table->string('twitch_id')->index()->nullable();
+            $table->string('twitch_name')->nullable()->index();
+            $table->string('twitch_category')->nullable()->index();
+            $table->string('twitch_biography')->nullable();
+            $table->bigInteger('twitch_followers')->nullable();
+            $table->bigInteger('twitch_average_viewers')->nullable();
+            $table->text('twitch_meta')->nullable();
+            $table->timestamp('instagram_last_scrapped_at')->nullable();
+
             
             /* $table->renameColumn('instagram_stage', 'stage'); */
            /*  Cant find the original column */
-
-            
+/* cant find
+ 
+          
   
 
            

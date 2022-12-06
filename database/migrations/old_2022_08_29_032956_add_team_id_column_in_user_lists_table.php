@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::table('user_lists', function (Blueprint $table) {
             $table->integer('team_id')->unsigned()->after('user_id')->nullable();
-            $table->foreign('team_id')
+            /* $table->foreign('team_id')
                 ->references('id')
-                ->on(\Illuminate\Support\Facades\Config::get('teamwork.teams_table'));
+                ->on(\Illuminate\Support\Facades\Config::get('teamwork.teams_table')); */
         });
     }
 

@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('errors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+          /*   $table->foreignId('user_id')->constrained(); */
             $table->unsignedInteger('type')->default(\App\Models\UserNotification::NOTIFICATION);
             $table->string('code')->nullable();
             $table->text('message')->nullable();

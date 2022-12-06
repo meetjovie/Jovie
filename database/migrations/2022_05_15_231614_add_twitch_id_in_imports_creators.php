@@ -12,9 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('creators', function (Blueprint $table) {
+       /*  Schema::table('creators', function (Blueprint $table) {
             $table->string('twitch_id')->after('twitch_handler')->index()->nullable();
-        });
+        }); */
         Schema::table('imports', function (Blueprint $table) {
             $table->string('twitch_id')->after('twitch')->index()->nullable();
         });

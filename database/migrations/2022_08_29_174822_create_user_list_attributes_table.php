@@ -21,9 +21,9 @@ return new class extends Migration
         });
         Schema::table('user_lists', function (Blueprint $table) {
             $table->integer('team_id')->unsigned()->after('user_id');
-            $table->foreign('team_id')
+           /*  $table->foreign('team_id')
                 ->references('id')
-                ->on(\Illuminate\Support\Facades\Config::get('teamwork.teams_table'))->cascadeOnDelete()->cascadeOnUpdate();
+                ->on(\Illuminate\Support\Facades\Config::get('teamwork.teams_table'))->cascadeOnDelete()->cascadeOnUpdate(); */
         });
         $lists = UserList::get();
         foreach ($lists as $list) {
@@ -49,14 +49,14 @@ return new class extends Migration
         Schema::dropIfExists('user_list_attributes');
         Schema::create('user_list_attributes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+           /*  $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate(); */
             $table->unsignedInteger('team_id');
-            $table->foreign('team_id')
+           /*  $table->foreign('team_id')
                 ->references('id')
                 ->on(\Config::get('teamwork.teams_table'))
                 ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreignId('user_list_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+                ->onUpdate('cascade'); */
+           /*  $table->foreignId('user_list_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate(); */
             $table->integer('order')->default(0);
             $table->boolean('pinned')->default(false);
             $table->timestamps();

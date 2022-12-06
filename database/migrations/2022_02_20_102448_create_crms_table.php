@@ -20,10 +20,13 @@ return new class extends Migration {
             $table->double('instagram_offer', null, 2)->nullable();
             $table->integer('instagram_stage')->default(0);
             $table->double('rating')->nullable();
-            $table->boolean('muted')->nullable();
+            $table->boolean('favourite')->default(0);
+            $table->boolean('muted')->default(0);
             $table->boolean('instagram_archived')->nullable();
             $table->boolean('instagram_removed')->nullable();
             $table->timestamps();
+
+           
 
            /*  DB::statement('ALTER TABLE crms MODIFY COLUMN archived TINYINT(1) AFTER instagram_stage'); */
 

@@ -27,16 +27,16 @@ return new class extends Migration {
             $table->integer('team_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('user_id')
+          /*   $table->foreign('user_id')
                 ->references(\Config::get('teamwork.user_foreign_key'))
                 ->on(\Config::get('teamwork.users_table'))
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('cascade'); */
 
-            $table->foreign('team_id')
+           /*  $table->foreign('team_id')
                 ->references('id')
                 ->on(\Config::get('teamwork.teams_table'))
-                ->onDelete('cascade');
+                ->onDelete('cascade'); */
         });
 
         Schema::create(\Config::get('teamwork.team_invites_table'), function (Blueprint $table) {
@@ -48,10 +48,10 @@ return new class extends Migration {
             $table->string('accept_token');
             $table->string('deny_token');
             $table->timestamps();
-            $table->foreign('team_id')
+           /*  $table->foreign('team_id')
                 ->references('id')
                 ->on(\Config::get('teamwork.teams_table'))
-                ->onDelete('cascade');
+                ->onDelete('cascade'); */
         });
     }
 
