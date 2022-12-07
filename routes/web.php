@@ -282,6 +282,8 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 //    dd($creator->instagram_media);
 //});
 
+
+
 Route::get('{any?}', function () {
     return view('welcome');
 });

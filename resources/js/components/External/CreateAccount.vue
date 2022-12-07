@@ -1,19 +1,19 @@
 <template>
   <div>
-    <h2 class="mt-6 text-3xl font-extrabold text-slate-900">
+    <h2 class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-slate-100">
       {{ text }}
     </h2>
 
-    <p class="text-sm text-slate-600">
+    <p class="text-sm text-slate-600 dark:text-slate-400">
       Or if you already have an account
       {{ ' ' }}
       <router-link
         to="Login"
-        class="font-medium text-indigo-600 hover:text-indigo-500">
+        class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
         login
       </router-link>
     </p>
-    <ul v-if="error" class="mt-2 text-sm text-red-900">
+    <ul v-if="error" class="mt-2 text-sm text-red-900 dark:text-red-100">
       <li>{{ error }}</li>
     </ul>
   </div>

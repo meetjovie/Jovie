@@ -1,7 +1,22 @@
 <template>
-  <div class="flex min-h-screen">
+  <Head>
+    <title>Jovie Social CRM | Login to Jovie</title>
+    <meta name="description" content="Login to your Jovie account." />
+    <!--- OpenGraph -->
+    <meta property="og:image:height" content="333" />
+    <meta property="og:image:width" content="636" />
+    <meta property="og:description" content="Organize everyone you follow" />
+    <meta property="og:title" content="Jovie | Social CRM" />
+    <meta property="og:url" content="http://jov.ie" />
+    <meta
+      property="og:image"
+      content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg" />
+    <!-- End OpenGraph -->
+  </Head>
+
+  <div class="flex min-h-screen bg-white dark:bg-slate-900">
     <div
-      class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
+      class="relative hidden h-screen flex-1 items-center bg-indigo-700 dark:bg-indigo-800 lg:flex">
       <div class="m-auto flex h-full items-center">
         <JovieLogo height="48px" color="#fff" />
       </div>
@@ -13,13 +28,16 @@
           <div class="block lg:hidden">
             <JovieLogo height="28px" />
           </div>
-          <h2 class="mt-6 text-3xl font-extrabold text-slate-900">Sign in</h2>
+          <h2
+            class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-slate-100">
+            Sign in
+          </h2>
           <p class="mt-2 text-sm text-slate-600">
             Or
             {{ ' ' }}
             <router-link
               to="/signup"
-              class="font-medium text-indigo-600 hover:text-indigo-500">
+              class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
               Create an account
             </router-link>
           </p>
@@ -91,7 +109,7 @@
                     class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
                   <label
                     for="remember-me"
-                    class="ml-2 block text-sm text-slate-900">
+                    class="ml-2 block text-sm text-slate-900 dark:text-slate-100">
                     Remember me
                   </label>
                 </div>
@@ -99,7 +117,7 @@
                 <div class="text-sm">
                   <router-link
                     :to="{ name: 'forget-password' }"
-                    class="font-medium text-indigo-600 hover:text-indigo-500">
+                    class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
                     Forgot your password?
                   </router-link>
                 </div>
@@ -119,12 +137,14 @@ import AuthService from '../services/auth/auth.service';
 import router from '../router';
 import InputGroup from '../components/InputGroup.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
+import { Head } from '@vueuse/head';
 export default {
   components: {
     JovieLogo,
     AuthFooter,
     InputGroup,
     ButtonGroup,
+    Head,
   },
   mounted() {
     //add segment analytics
