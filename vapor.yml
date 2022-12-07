@@ -67,7 +67,7 @@ environments:
       - dev.jov.ie
     network: Jovie
     build:
-      - 'composer install --no-dev'
+      - 'composer update --no-dev'
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
       - 'npm i && npm run prod && rm -rf node_modules'

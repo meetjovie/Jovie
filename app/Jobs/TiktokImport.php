@@ -139,10 +139,16 @@ class TiktokImport implements ShouldQueue
                 Import::markImport($this->importId, ['tiktok']);
                 Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'tiktok']);
             } else {
-                dd($response);
+                Log::channel('slack_warning')->info(
+                    ('NOOOO RESSPONSEE ' . $this->batch()->id),
+                    [
+                        'username' => $this->username,
+                        'message' => json_encode($response),
+                        'network' => 'tiktok'
+                    ]
+                );
             }
         } catch (\Exception $e) {
-            dd($e->getMessage().'-'.$e->getLine().'-'.$e->getFile());
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {
