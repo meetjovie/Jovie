@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen bg-white dark:bg-slate-900">
     <div
       class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
       <div class="m-auto flex h-full items-center">
@@ -95,7 +95,8 @@
                   </ButtonGroup>
                 </div>
 
-                <h3 class="mx-auto text-center text-xs text-slate-400">
+                <h3
+                  class="mx-auto text-center text-xs text-slate-400 dark:text-slate-300">
                   Fast & easy. No credit card required.
                 </h3>
               </template>
@@ -163,7 +164,7 @@
                     </ButtonGroup>
                   </div>
                 </div>
-                <p class="text-2xs text-slate-400">
+                <p class="text-2xs text-slate-400 dark:text-slate-200">
                   By clicking “Sign up” you agree to our
                   <router-link class="underline" to="privacy"
                     >privacy policy</router-link

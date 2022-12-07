@@ -14,9 +14,9 @@
     <!-- End OpenGraph -->
   </Head>
 
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen bg-white dark:bg-slate-900">
     <div
-      class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
+      class="relative hidden h-screen flex-1 items-center bg-indigo-700 dark:bg-indigo-800 lg:flex">
       <div class="m-auto flex h-full items-center">
         <JovieLogo height="48px" color="#fff" />
       </div>
@@ -28,13 +28,16 @@
           <div class="block lg:hidden">
             <JovieLogo height="28px" />
           </div>
-          <h2 class="mt-6 text-3xl font-extrabold text-slate-900">Sign in</h2>
+          <h2
+            class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-slate-100">
+            Sign in
+          </h2>
           <p class="mt-2 text-sm text-slate-600">
             Or
             {{ ' ' }}
             <router-link
               to="/signup"
-              class="font-medium text-indigo-600 hover:text-indigo-500">
+              class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
               Create an account
             </router-link>
           </p>
@@ -106,7 +109,7 @@
                     class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
                   <label
                     for="remember-me"
-                    class="ml-2 block text-sm text-slate-900">
+                    class="ml-2 block text-sm text-slate-900 dark:text-slate-100">
                     Remember me
                   </label>
                 </div>
@@ -114,7 +117,7 @@
                 <div class="text-sm">
                   <router-link
                     :to="{ name: 'forget-password' }"
-                    class="font-medium text-indigo-600 hover:text-indigo-500">
+                    class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
                     Forgot your password?
                   </router-link>
                 </div>
