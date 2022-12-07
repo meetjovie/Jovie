@@ -75,20 +75,23 @@ export default {
   },
   mounted() {
     this.checkForJovieChromeExtension();
+    //wait 10 seconds and check again
+    setTimeout(() => {
+      this.checkForJovieChromeExtension();
+    }, 10000);
   },
   methods: {
-    checkForChromeExtension() {
-      this.chrome.runtime.sendMessage(
-        'hdeknepgfjfmbgblafjfoaccmmdbdbgm',
-        { action: 'getStatus' },
-        (response) => {
-          if (response && response.status) {
-            console.log('The extension is installed.');
-          } else {
-            console.log('The extension is not installed.');
-          }
-        }
-      );
+    checkForJovieChromeExtension() {
+      //check if the chrome extension is installed
+      //if the document has a body tag that has the cattribute data-jovie-extension-installed and it is true
+      //this.isExtensionInstalled = true;
+      if (
+        document.body.hasAttribute('data-jovie-extension-installed') &&
+        document.body.getAttribute('data-jovie-extension-installed') === 'true'
+      ) {
+        this.isExtensionInstalled = true;
+        this.items[0].visible = false;
+      }
     },
   },
 };
