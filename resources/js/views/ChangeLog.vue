@@ -137,6 +137,57 @@
             <div class="w-24 text-2xs">
               <p class="text-sm font-semibold text-slate-600">v0.0.7</p>
 
+              <p>2022.12.07</p>
+            </div>
+            <div class="w-full">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
+                TikTok bulk imports! & more
+              </h2>
+              <p class="prose">
+                You can now impport TikTok profiles in bulk from a cvs file!
+                We've also added tiktok support to the import modal in the CRM,
+                and of course you could already do this from the Jovie Chrome
+                Extnesion. We've also made it easier for users to request & vote
+                on new features. You can see our product roadmap and contribute
+                to it
+                <a href="https://roadmap.jov.ie">here</a>.
+              </p>
+
+              <h4 class="prose mt-4 font-bold">Features</h4>
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Added the ability to import TikTok profiles in bulk.
+                </li>
+              </ul>
+
+              <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Added some very important backend infrastructure that will
+                  enable a great feature in our next release.
+                </li>
+                <li class="prose">
+                  Added a check to see if you've already installed the chrome
+                  extension. This will allow us to hide prompts as well as
+                  enable extra features for users who have the extension
+                  installed.
+                </li>
+                <li class="prose">
+                  Refactor some large sections of our codebase to make it easier
+                  for us to move quickly & add new features.
+                </li>
+                <!--    <li class="prose">Made the upgrade flow clearer.</li>
+                <li class="prose">
+                  Upgraded depenendcies to address security vulnerabilities.
+                </li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
+            <div class="w-24 text-2xs">
+              <p class="text-sm font-semibold text-slate-600">v0.0.7</p>
+
               <p>2022.12.04</p>
             </div>
             <div class="w-full">

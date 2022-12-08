@@ -81,6 +81,11 @@ export default {
         document.documentElement.classList.remove('dark');
       }
     },
+    checkForExtension() {
+      if (document.body.dataset.jovieExtensionInstalled === 'true') {
+        this.$store.commit('chromeExtensionInstalled', true);
+      }
+    },
     setLoadingText() {
       //loop through the messagess
       //stop at the last message

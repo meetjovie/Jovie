@@ -31,4 +31,7 @@ export default {
   setCrmRecords(state, payload) {
     state.crmRecords = payload;
   },
+  setChromeExtensionInstalled(state, payload) {
+    state.chromeExtensionInstalled = payload;
+  },
 };

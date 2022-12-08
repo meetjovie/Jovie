@@ -51,7 +51,6 @@ import { CloudArrowUpIcon } from '@heroicons/vue/24/outline';
 export default {
   data() {
     return {
-      isExtensionInstalled: false,
       items: [
         {
           name: 'Download Jovie Chrome Extension',
@@ -75,22 +74,29 @@ export default {
   },
   mounted() {
     this.checkForJovieChromeExtension();
-    //wait 10 seconds and check again
-    setTimeout(() => {
-      this.checkForJovieChromeExtension();
-    }, 10000);
   },
   methods: {
     checkForJovieChromeExtension() {
       //check if the chrome extension is installed
       //if the document has a body tag that has the cattribute data-jovie-extension-installed and it is true
       //this.isExtensionInstalled = true;
-      if (
-        document.body.hasAttribute('data-jovie-extension-installed') &&
-        document.body.getAttribute('data-jovie-extension-installed') === 'true'
-      ) {
-        this.isExtensionInstalled = true;
+      //check if the the store has chromeExtensionInstalled set to true
+      //if it it is true then hide the first item in the array
+      //otherwise check if the body has the attribute data-jovie-extension-installed and it is true
+      //then set the store chromeExtensionInstalled to true & hide the first item in the array
+      //otherwise set the store chromeExtensionInstalled to false
+      if (this.$store.state.chromeExtensionInstalled) {
         this.items[0].visible = false;
+        console.log('Jovie Chrome Extension is installed');
+      } else {
+        if (document.body.dataset.jovieExtensionInstalled === 'true') {
+          this.$store.commit('setChromeExtensionInstalled', true);
+          console.log('Jovie Chrome Extension is installed');
+          this.items[0].visible = false;
+        } else {
+          this.$store.commit('setChromeExtensionInstalled', false);
+          console.log('Jovie Chrome Extension is not installed');
+        }
       }
     },
   },

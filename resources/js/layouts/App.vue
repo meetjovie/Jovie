@@ -1,9 +1,7 @@
 <template>
-
   <div
     id="app"
     class="flex h-screen overflow-hidden bg-slate-100 transition-all duration-1000 ease-in-out">
-
     <!-- <div
       id="overlay"
       class="fixed inset-0 z-30 flex md:hidden"
@@ -34,8 +32,9 @@
         class="relative flex-1 overflow-y-auto overflow-x-hidden focus-visible:outline-none"
         id="main">
         <div class="h-full">
-          <div class="h-full">
+          <div class="mx-auto h-full">
             <CommandPallette as="div" :open="showCommandPallette" />
+
             <AlertBanner
               v-if="currentUser.current_team.credits < 1"
               design="danger"
@@ -43,6 +42,14 @@
               :title="`You're out of credits.`"
               :cta="`Upgrade`"
               ctaLink="Billing" />
+            <AlertBanner
+              class="hidden sm:block"
+              v-else-if="$store.state.chromeExtensionInstalled === false"
+              design="primary"
+              :mobiletitle="`Install Jovie Chrome Extension`"
+              :title="`Looks like you're missing the best part!`"
+              :cta="`Install Chrome Extension`"
+              ctaLink="Chrome Extension" />
             <router-view></router-view>
           </div>
         </div>
@@ -68,20 +75,16 @@
             move="transition duration-500"
             move-delay="delay-300">
             <div
-
               class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150 dark:border-slate-700 dark:bg-slate-900/60"
-
               v-for="notification in notifications"
               :key="notification.id">
               <button
                 class="absolute top-0 right-0 m-2"
                 @click="notification.close">
-
                 <XIcon class="h-5 w-5 text-slate-400 dark:text-slate-100" />
               </button>
               <div
                 class="flex w-10 items-center justify-center bg-slate-200 dark:bg-slate-800">
-
                 <XMarkIcon
                   v-if="notification.type === 'error'"
                   class="h-4 w-4 text-red-500" />
@@ -100,7 +103,6 @@
 
               <div class="-mx-3 px-4 py-2">
                 <div class="mx-3">
-
                   <span
                     class="text-xs font-semibold text-slate-600 dark:text-slate-100"
                     >{{ notification.title }}</span
@@ -108,7 +110,6 @@
                   <p class="text-xs text-slate-400 dark:text-slate-100">
                     {{ notification.text }}
                   </p>
-
                 </div>
               </div>
             </div>
