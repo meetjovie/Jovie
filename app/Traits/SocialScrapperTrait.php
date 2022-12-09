@@ -140,17 +140,38 @@ trait SocialScrapperTrait
 
     public function scrapTiktok($username)
     {
+        if ($username[0] !== '@') {
+            $username = "@$username";
+        }
         try {
             $url = "https://www.tiktok.com/$username";
             $client = new \Goutte\Client(); // create a crawler object from this link
             $crawler = $client->request('GET', $url);
 
+            $internalResponse = $client->getInternalResponse();
+            if ($internalResponse->getStatusCode() == 404) {
+                return (object)[
+                    'code' => 404,
+                    'message' => "User not found"
+                ];
+            } elseif ($internalResponse->getStatusCode() == 429) {
+                return (object)[
+                    'code' => 429,
+                    'message' => "Too many requests."
+                ];
+            } elseif ($internalResponse->getStatusCode() == 504) {
+                return (object)[
+                    'code' => $internalResponse->getStatusCode(),
+                    'message' => $internalResponse->getContent()
+                ];
+            }
             $name = @$crawler->filterXPath('//h1[contains(@data-e2e,"user-subtitle")]')->first()->getNode(
                 0
             )->firstChild->data;
             $followers = @$crawler->filterXPath('//strong[contains(@data-e2e,"followers-count")]')->first()->getNode(
                 0
             )->firstChild->data;
+
             $following = @$crawler->filterXPath('//strong[contains(@data-e2e,"following-count")]')->first()->getNode(
                 0
             )->firstChild->data;
@@ -185,15 +206,30 @@ trait SocialScrapperTrait
             $timelineMedia = [
                 [
                     'thumbnail' => $post1,
-                    'url' => $url1
+                    'url' => $url1,
+                    'likes' => 0,
+                    'shares' => 0,
+                    'comments' => 0,
+                    'post_date' => '',
+                    'caption' => '',
                 ],
                 [
                     'thumbnail' => $post2,
-                    'url' => $url2
+                    'url' => $url2,
+                    'likes' => 0,
+                    'shares' => 0,
+                    'comments' => 0,
+                    'post_date' => '',
+                    'caption' => '',
                 ],
                 [
                     'thumbnail' => $post3,
-                    'url' => $url3
+                    'url' => $url3,
+                    'likes' => 0,
+                    'shares' => 0,
+                    'comments' => 0,
+                    'post_date' => '',
+                    'caption' => '',
                 ],
             ];
             $likes = self::convertToNumber($likes);

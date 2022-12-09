@@ -23,7 +23,7 @@ class Creator extends Model
     const CREATORS_CSV_PATH = 'public/creators_csv/';
 
     const NETWORKS = ['instagram', 'twitch', /* 'onlyFans', 'snapchat', */ 'linkedin', 'youtube', 'twitter', 'tiktok'];
-    const TWITTER_BATCH_SIZE = 10;
+    const TWITTER_BATCH_SIZE = 100;
 
     protected $guarded = [];
 
@@ -875,7 +875,7 @@ class Creator extends Model
         if (! empty($user->business_email)) {
             $emails[] = $user->business_email;
         }
-        $emailString = $user->biography ?? $user->description;
+        $emailString = $user->biography ?? $user->description ?? '';
         if ($bioEmail = self::getEmailFromString($emailString)) {
             $emails[] = $bioEmail;
         }

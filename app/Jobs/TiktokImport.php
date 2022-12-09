@@ -137,8 +137,13 @@ class TiktokImport implements ShouldQueue
             if (isset($response->username)) {
                 $creator = $this->insertIntoDatabase($response);
                 Import::markImport($this->importId, ['tiktok']);
+                Log::info('imported user.', ['username' => $this->username, 'network' => 'tiktok']);
                 Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'tiktok']);
-            } else {
+            } elseif ($response->getStatusCode() == 429) {
+                $this->release(5);
+                Cache::put('tiktok_lock', 1, now()->addMinutes(5));
+            }  else {
+                Log::info(json_encode($response), ['username' => $this->username, 'network' => 'tiktok']);
                 Log::channel('slack_warning')->info(
                     ('NOOOO RESSPONSEE ' . $this->batch()->id),
                     [
@@ -149,6 +154,7 @@ class TiktokImport implements ShouldQueue
                 );
             }
         } catch (\Exception $e) {
+            Log::info($e->getMessage(), ['username' => $this->username, 'network' => 'tiktok']);
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {

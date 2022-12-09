@@ -43,6 +43,10 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             } elseif ($queue->queue == 'instagram' && (Cache::has('instagram_lock') || Cache::has('instagram_paused'))) {
                 return false;
+            } elseif ($queue->queue == 'twitter' && (Cache::has('twitter_lock') || Cache::has('twitter_paused'))) {
+                return false;
+            } elseif ($queue->queue == 'tiktok' && (Cache::has('tiktok_lock') || Cache::has('tiktok_paused'))) {
+                return false;
             }
         });
     }
