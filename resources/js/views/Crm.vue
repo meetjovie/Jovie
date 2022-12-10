@@ -511,7 +511,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 hidden h-full border-l border-slate-200 dark:border-slate-700 xl:block">
+            class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-slate-700 xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -780,116 +780,117 @@ export default {
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
-    this.listenEvents(
-      `notification.${this.currentUser.current_team.id}`,
-      'Notification',
-      (data) => {
-        this.newNotification = true;
+      if (!this.$store.state.crmEventsRegistered) {
+          this.listenEvents(
+              `notification.${this.currentUser.current_team.id}`,
+              'Notification',
+              (data) => {
+                  this.newNotification = true;
+              }
+          );
+          this.listenEvents(
+              `userListDuplicated.${this.currentUser.current_team.id}`,
+              'UserListDuplicated',
+              async (data) => {
+                  await this.getUserLists();
+                  setTimeout(() => {
+                      let list = this.userLists.find((list) => list.id == data.list);
+                      if (list) {
+                          list.updating_list = null;
+                          this.setFilterList(list.id);
+                      }
+                  }, 200);
+              }
+          );
+
+          this.listenEvents(
+              `importListCreated.${this.currentUser.current_team.id}`,
+              'ImportListCreated',
+              async (data) => {
+                  await this.getUserLists();
+                  setTimeout(() => {
+                      let list = this.userLists.find((list) => list.id == data.list);
+                      if (list) {
+                          this.setFilterList(list.id);
+                      }
+                  }, 200);
+              }
+          );
+
+          this.listenEvents(
+              `userListImported.${this.currentUser.current_team.id}`,
+              'UserListImported',
+              (data) => {
+                  let index = this.userLists.findIndex((list) => list.id == data.list);
+                  if (index >= 0) {
+                      this.userLists[index].updating_list = null;
+                  }
+                  this.$store.state.showImportProgress = data.remaining;
+                  if (!data.remaining) {
+                      this.getUserLists();
+                  }
+              }
+          );
+
+          this.listenEvents(
+              `userListImportTriggered.${this.currentUser.current_team.id}`,
+              'UserListImportTriggered',
+              (data) => {
+                  let index = this.userLists.findIndex((list) => list.id == data.list);
+                  if (index >= 0) {
+                      this.userLists[index].updating_list = true;
+                      this.$store.state.showImportProgress = data.remaining;
+                  }
+              }
+          );
+
+          this.listenEvents(
+              `creatorImported.${this.currentUser.current_team.id}`,
+              'CreatorImported',
+              (data) => {
+                  if (!data.list) {
+                      this.$store.state.importProgressSingleCount--;
+                  }
+                  if (
+                      (data.list && this.filters.type != 'list') ||
+                      (!data.list && this.filters.type != 'all')
+                  ) {
+                      return;
+                  }
+
+                  if (
+                      (data.list && data.list == this.filters.list) ||
+                      this.filters.type == 'all'
+                  ) {
+                      let newCreator = JSON.parse(window.atob(data.creator));
+                      let index = this.creators.findIndex(
+                          (creator) => creator.id == newCreator.id
+                      );
+
+                      if (index >= 0) {
+                          this.creators[index] = newCreator;
+                      } else {
+                          if (this.filters.page === 1 && this.creators.length == 50) {
+                              this.creators.pop();
+                          }
+                          if (this.creators.length) {
+                              this.creators.splice(0, 0, newCreator);
+                          } else {
+                              this.creators.push(newCreator);
+                          }
+                      }
+                  }
+              }
+          );
+          this.$store.state.crmEventsRegistered = true;
       }
-    );
+
     this.getNotifications();
 
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize());
     });
 
-    if (!this.$store.state.crmEventsRegistered) {
-      this.listenEvents(
-        `userListDuplicated.${this.currentUser.current_team.id}`,
-        'UserListDuplicated',
-        async (data) => {
-          await this.getUserLists();
-          setTimeout(() => {
-            let list = this.userLists.find((list) => list.id == data.list);
-            if (list) {
-              list.updating_list = null;
-              this.setFilterList(list.id);
-            }
-          }, 200);
-        }
-      );
-
-      this.listenEvents(
-        `importListCreated.${this.currentUser.current_team.id}`,
-        'ImportListCreated',
-        async (data) => {
-          await this.getUserLists();
-          setTimeout(() => {
-            let list = this.userLists.find((list) => list.id == data.list);
-            if (list) {
-              this.setFilterList(list.id);
-            }
-          }, 200);
-        }
-      );
-
-      this.listenEvents(
-        `userListImported.${this.currentUser.current_team.id}`,
-        'UserListImported',
-        (data) => {
-          let index = this.userLists.findIndex((list) => list.id == data.list);
-          if (index >= 0) {
-            this.userLists[index].updating_list = null;
-          }
-          this.$store.state.showImportProgress = data.remaining;
-          if (!data.remaining) {
-            this.getUserLists();
-          }
-        }
-      );
-
-      this.listenEvents(
-        `userListImportTriggered.${this.currentUser.current_team.id}`,
-        'UserListImportTriggered',
-        (data) => {
-          let index = this.userLists.findIndex((list) => list.id == data.list);
-          if (index >= 0) {
-            this.userLists[index].updating_list = true;
-            this.$store.state.showImportProgress = data.remaining;
-          }
-        }
-      );
-
-      this.listenEvents(
-        `creatorImported.${this.currentUser.current_team.id}`,
-        'CreatorImported',
-        (data) => {
-          if (!data.list) {
-            this.$store.state.importProgressSingleCount--;
-          }
-          if (
-            (data.list && this.filters.type != 'list') ||
-            (!data.list && this.filters.type != 'all')
-          ) {
-            return;
-          }
-
-          if (
-            (data.list && data.list == this.filters.list) ||
-            this.filters.type == 'all'
-          ) {
-            let newCreator = JSON.parse(window.atob(data.creator));
-            let index = this.creators.findIndex(
-              (creator) => creator.id == newCreator.id
-            );
-
-            if (index >= 0) {
-              this.creators[index] = newCreator;
-            } else {
-              if (this.filters.page === 1 && this.creators.length == 50) {
-                this.creators.pop();
-              }
-              if (this.creators.length) {
-                this.creators.splice(0, 0, newCreator);
-              } else {
-                this.creators.push(newCreator);
-              }
-            }
-          }
-        }
-      );
-      this.$store.state.crmEventsRegistered = true;
-    }
   },
   methods: {
     getNotifications() {

@@ -1,12 +1,12 @@
 <template>
-  <div class="h-screen w-80 bg-white dark:bg-slate-900">
+  <div class="h-screen w-full bg-white dark:bg-slate-900">
     <div v-if="user.loggedIn">
-      <div
+      <!--  <div
         v-if="!jovie"
         class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400">
         <a href="https://jov.ie" target="_blank">Jovie</a>
-      </div>
-      <div v-else class="absolute right-1 top-1">
+      </div> -->
+      <div class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
           class="h-4 w-4 cursor-pointer rounded-full text-slate-400 transition-all duration-150 hover:text-slate-600 active:bg-slate-200 active:text-slate-700 dark:text-slate-600 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:active:text-slate-300" />

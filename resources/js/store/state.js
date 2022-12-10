@@ -15,4 +15,5 @@ export default {
   isExtension: false,
   extensionQuery: null,
   theme: 'light',
+  chromeExtensionInstalled: false,
 };

@@ -7,6 +7,7 @@ use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
+use App\Jobs\TiktokImport;
 use App\Jobs\TwitchImport;
 use App\Jobs\TwitterImport;
 use App\Models\Creator;
@@ -56,10 +57,11 @@ class ImportController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:key,twitch,twitter',
-            'twitch' => 'required_without_all:instagram,twitter,key',
-            'twitter' => 'required_without_all:instagram,twitch,key',
-            'key' => 'required_without_all:instagram,twitch,twitter|nullable|string',
+            'instagram' => 'required_without_all:key,twitch,twitter,tiktok',
+            'twitch' => 'required_without_all:instagram,twitter,tiktok,key',
+            'twitter' => 'required_without_all:instagram,twitch,tiktok,key',
+            'tiktok' => 'required_without_all:instagram,twitch,twitter,key',
+            'key' => 'required_without_all:instagram,twitch,twitter,tiktok|nullable|string',
             'list' => 'sometimes|exists:user_lists,id'
         ]);
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
@@ -84,6 +86,12 @@ class ImportController extends Controller
             $import->twitter = $request->twitter;
             $twitter = $import->twitter;
             TwitterImport::dispatch([$twitter], $request->tags, null, $request->list, $user->id, $user->currentTeam->id)->onQueue(config('import.twitter_queue'));
+        }
+        if ($request->tiktok) {
+            $import = new Import();
+            $import->tiktok = $request->tiktok;
+            $tiktok = $import->tiktok;
+            TiktokImport::dispatch($tiktok, $request->tags, null, $request->list, $user->id, null, $user->currentTeam->id)->onQueue(config('import.tiktok_queue'));
         }
         $file = null;
         try {

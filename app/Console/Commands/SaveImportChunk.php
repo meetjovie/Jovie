@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendSlackNotification;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
@@ -153,7 +154,7 @@ class SaveImportChunk extends Command
 //            Import::query()->insert($imports);
             $bar->finish();
         } catch (\Exception $e) {
-            Log::info($e->getMessage().' = '.$e->getLine());
+            SendSlackNotification::dispatch(('Error on Save Import '.$e->getMessage().'----'.$e->getFile().'-----'.$e->getLine()));
         }
     }
 }

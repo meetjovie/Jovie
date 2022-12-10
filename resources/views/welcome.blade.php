@@ -3,6 +3,19 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 
+     ██  ██████  ██    ██ ██ ███████ 
+     ██ ██    ██ ██    ██ ██ ██      
+     ██ ██    ██ ██    ██ ██ █████   
+██   ██ ██    ██  ██  ██  ██ ██      
+ █████   ██████    ████   ██ ███████ 
+                                   
+ 
+ Come hack with us at Jovie: https://jov.ie/careers
+
+                                     -->
+                                     
+
 
         <!--- OpenGraph -->
         <meta property="og:image:height" content="333">

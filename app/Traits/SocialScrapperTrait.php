@@ -12,12 +12,14 @@ use PHPUnit\Exception;
 
 trait SocialScrapperTrait
 {
+    use GeneralTrait;
+
     private $INSTAGRAM_SCRAPPER_URL = 'https://api.webscraping.ai/html';
 
     public function scrapInstagram($username)
     {
         try {
-            $url = ('https://www.instagram.com/'.$username.'/?__a=1&hl=en');
+            $url = ('https://www.instagram.com/' . $username . '/?__a=1&hl=en');
             $client = new \GuzzleHttp\Client();
             $response = $client->get($this->INSTAGRAM_SCRAPPER_URL, [
                 'query' => [
@@ -88,7 +90,7 @@ trait SocialScrapperTrait
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
             ];
-            $response = $client->get('https://twitchtracker.com/api/channels/summary/'.$username, [
+            $response = $client->get('https://twitchtracker.com/api/channels/summary/' . $username, [
                 'headers' => $headers,
             ]);
 
@@ -102,7 +104,9 @@ trait SocialScrapperTrait
     {
         try {
             $client = new Client();
-            $response = $client->get('https://gender-api.com/get?name='.$name.'&key=cElJXXxpyXcZSBCUKqaDLChNqmAD9kSb2tDF');
+            $response = $client->get(
+                'https://gender-api.com/get?name=' . $name . '&key=cElJXXxpyXcZSBCUKqaDLChNqmAD9kSb2tDF'
+            );
 
             return json_decode($response->getBody()->getContents());
         } catch (Exception $exception) {
@@ -131,6 +135,153 @@ trait SocialScrapperTrait
             return $response;
         } catch (\Exception $e) {
             return $e->getResponse();
+        }
+    }
+
+    public function scrapTiktok($username)
+    {
+        if ($username[0] !== '@') {
+            $username = "@$username";
+        }
+        try {
+            $url = "https://www.tiktok.com/$username";
+            $client = new \Goutte\Client(); // create a crawler object from this link
+            $crawler = $client->request('GET', $url);
+
+            $internalResponse = $client->getInternalResponse();
+            if ($internalResponse->getStatusCode() == 404) {
+                return (object)[
+                    'code' => 404,
+                    'message' => "User not found"
+                ];
+            } elseif ($internalResponse->getStatusCode() == 429) {
+                return (object)[
+                    'code' => 429,
+                    'message' => "Too many requests."
+                ];
+            } elseif ($internalResponse->getStatusCode() == 504) {
+                return (object)[
+                    'code' => $internalResponse->getStatusCode(),
+                    'message' => $internalResponse->getContent()
+                ];
+            }
+            $name = @$crawler->filterXPath('//h1[contains(@data-e2e,"user-subtitle")]')->first()->getNode(
+                0
+            )->firstChild->data;
+            $followers = @$crawler->filterXPath('//strong[contains(@data-e2e,"followers-count")]')->first()->getNode(
+                0
+            )->firstChild->data;
+
+            $following = @$crawler->filterXPath('//strong[contains(@data-e2e,"following-count")]')->first()->getNode(
+                0
+            )->firstChild->data;
+            $likes = @$crawler->filterXPath('//strong[contains(@data-e2e,"likes-count")]')->first()->getNode(
+                0
+            )->firstChild->data;
+            $biography = @$crawler->filterXPath('//h2[contains(@data-e2e,"user-bio")]')->first()->getNode(
+                0
+            )->firstChild->data;
+            $website = @$crawler->filterXPath('//a[contains(@data-e2e,"user-link")]')->first()->getNode(
+                0
+            )->lastChild->firstChild->data;
+            $profilePicUrl = @$crawler->filterXPath(
+                '//div[contains(@data-e2e,"user-avatar")]/span[@shape="circle"]/img[@loading="lazy"]'
+            )->first()->extract(['src'])[0];
+            $post1 = @$crawler->filterXPath(
+                '//div[contains(@data-e2e,"user-post-item")]/div[1]/div/div/div/a/div/div/img'
+            )->first()->extract(['src'])[0];
+            $url1 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[1]/div/div/div/a')->first(
+            )->extract(['href'])[0];
+            $post2 = @$crawler->filterXPath(
+                '//div[contains(@data-e2e,"user-post-item")]/div[2]/div/div/div/a/div/div/img'
+            )->first()->extract(['src'])[0];
+            $url2 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[2]/div/div/div/a')->first(
+            )->extract(['href'])[0];
+            $post3 = @$crawler->filterXPath(
+                '//div[contains(@data-e2e,"user-post-item")]/div[3]/div/div/div/a/div/div/img'
+            )->first()->extract(['src'])[0];
+            $url3 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[3]/div/div/div/a')->first(
+            )->extract(['href'])[0];
+
+            $timelineMedia = [
+                [
+                    'thumbnail' => $post1,
+                    'url' => $url1,
+                    'likes' => 0,
+                    'shares' => 0,
+                    'comments' => 0,
+                    'post_date' => '',
+                    'caption' => '',
+                ],
+                [
+                    'thumbnail' => $post2,
+                    'url' => $url2,
+                    'likes' => 0,
+                    'shares' => 0,
+                    'comments' => 0,
+                    'post_date' => '',
+                    'caption' => '',
+                ],
+                [
+                    'thumbnail' => $post3,
+                    'url' => $url3,
+                    'likes' => 0,
+                    'shares' => 0,
+                    'comments' => 0,
+                    'post_date' => '',
+                    'caption' => '',
+                ],
+            ];
+            $likes = self::convertToNumber($likes);
+            $followers = self::convertToNumber($followers);
+            if ($followers >= 10000) {
+                foreach ($timelineMedia as &$media) {
+                    if (isset($media['url'])) {
+                        $url = $media['url'];
+                        $client = new \Goutte\Client(); // create a crawler object from this link
+                        $crawler = $client->request('GET', $url);
+                        $mediaLikes = @$crawler->filterXPath('//strong[contains(@data-e2e,"like-count")]')->first(
+                        )->getNode(0)->firstChild->data;
+                        $media['likes'] = self::convertToNumber($mediaLikes);
+                        $mediaShares = @$crawler->filterXPath('//strong[contains(@data-e2e,"share-count")]')->first(
+                        )->getNode(0)->firstChild->data;
+                        $media['shares'] = self::convertToNumber($mediaShares);
+                        $mediaComments = @$crawler->filterXPath(
+                            '//strong[contains(@data-e2e,"comment-count")]'
+                        )->first()->getNode(0)->firstChild->data;
+                        $media['comments'] = self::convertToNumber($mediaComments);
+                        $media['post_date'] = @$crawler->filterXPath(
+                            '//span[contains(@data-e2e,"browser-nickname")]/span[3]'
+                        )->first()->getNode(0)->firstChild->data;
+
+                        $caption = ' ';
+                        @$crawler->filterXPath('//div[contains(@data-e2e,"browse-video-desc")]')->children()->each(function ($node) use (&$caption) {
+                            $text = $node->extract(['_text'])[0];
+                            if (! str_contains($text, '.tiktok')) {
+                                $caption .= $text;
+                            }
+                        });
+                        $media['caption'] = $caption ?? null;
+                    }
+                }
+            }
+
+            $user = (object)[];
+            $user->username = $username;
+            $user->name = $name;
+            $user->followers = $followers;
+            $user->following = $following;
+            $user->likes = $likes;
+            $user->biography = $biography;
+            $user->website = $website;
+            $user->profile_image_url = $profilePicUrl;
+            $user->timeline_media = $timelineMedia;
+            return $user;
+        } catch (\Exception $e) {
+            return (object)[
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ];
         }
     }
 }

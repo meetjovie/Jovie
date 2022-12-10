@@ -11,4 +11,5 @@ return [
     'instagram_queue' => env('INSTAGRAM_QUEUE', 'dev_instagram'),
     'twitch_queue' => env('TWITCH_QUEUE', 'dev_twitch'),
     'twitter_queue' => env('TWITTER_QUEUE', 'dev_twitter'),
+    'tiktok_queue' => env('TIKTOK_QUEUE', 'dev_tiktok'),
 ];
