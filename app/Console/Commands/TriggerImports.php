@@ -153,16 +153,16 @@ class TriggerImports extends Command
                     }
                 }
 
-                if ($import->tiktok && $import->tiktok_scrapped != 1) {
-                    // trigger instagram import
-                    $tiktokBatch = $import->getImportBatch(config('import.tiktok_queue'));
-                    if (! $tiktokBatch->cancelled()) {
-                        $this->triggerTiktokImport($import, $tiktokBatch, $commonData);
-                        $import->tiktok_dispatched = 1;
-                        $import->save();
-                        $dispatched = true;
-                    }
-                }
+//                if ($import->tiktok && $import->tiktok_scrapped != 1) {
+//                    // trigger instagram import
+//                    $tiktokBatch = $import->getImportBatch(config('import.tiktok_queue'));
+//                    if (! $tiktokBatch->cancelled()) {
+//                        $this->triggerTiktokImport($import, $tiktokBatch, $commonData);
+//                        $import->tiktok_dispatched = 1;
+//                        $import->save();
+//                        $dispatched = true;
+//                    }
+//                }
 
                 if (! $dispatched) {
                     Import::where('id', $import->id)->delete();
