@@ -17,6 +17,24 @@ use MeiliSearch\Client;
 */
 
 Route::get('/scrap', function () {
+    try {
+        $url = "https://www.tiktok.com/@love_mian_jaan";
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get('https://api.webscraping.ai/html', [
+            'query' => [
+                'api_key' => config('import.scrapper_api_key'),
+                'js' => false,
+                'url' => $url,
+                'proxy' => 'residential',
+                'timeout' => 10000,
+            ],
+        ]);
+dd($response->getBody()->getContents());
+        return $response;
+    } catch (\Exception $e) {
+        dd($e->getMessage());
+        return $e->getResponse();
+    }
     $username = "@love_mian_jaan";
     $url = "https://www.tiktok.com/@boyjamping/video/7173243579559677210?is_from_webapp=v1&item_id=7173243579559677210";
     $client = new \Goutte\Client(); // create a crawler object from this link

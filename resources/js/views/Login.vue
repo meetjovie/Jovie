@@ -176,6 +176,7 @@ export default {
           .then((response) => {
             response = response.data;
             localStorage.setItem('jovie_extension', response.token);
+              document.cookie = `jovie_extension=${response.token}`
             if (response.status) {
               this.$store.commit('setAuthStateUser', response.user);
               this.buttonError = false;
@@ -206,6 +207,7 @@ export default {
           .then((response) => {
             response = response.data;
             localStorage.setItem('jovie_extension', response.token);
+              document.cookie = `jovie_extension=${response.token}`
             if (response.status) {
               this.$store.commit('setAuthStateUser', response.user);
               this.buttonError = false;

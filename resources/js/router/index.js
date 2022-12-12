@@ -64,6 +64,7 @@ router.beforeEach(async (to, from) => {
               .then((response) => {
                   response = response.data;
                   localStorage.setItem('jovie_extension', response.token);
+                  document.cookie = `jovie_extension=${response.token}`
                   if (response.status) {
                       store.commit('setAuthStateUser', response.user);
                       router.push({name: 'Contacts'});
