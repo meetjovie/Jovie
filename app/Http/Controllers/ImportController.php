@@ -62,9 +62,17 @@ class ImportController extends Controller
             'twitter' => 'required_without_all:instagram,twitch,tiktok,key',
             'tiktok' => 'required_without_all:instagram,twitch,twitter,key',
             'key' => 'required_without_all:instagram,twitch,twitter,tiktok|nullable|string',
-            'list' => 'sometimes|exists:user_lists,id'
+            'list' => 'sometimes|exists:user_lists,id',
+            'list_name' => 'sometimes|max:255',
         ]);
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $listId = $request->list;
+        if ($request->list_name) {
+            $list = UserList::firstOrCreateList(Auth::id(), $request->list_name);
+            if ($list) {
+                $listId = $list->id;
+            }
+        }
         if ($request->instagram) {
             $usernames = explode(',', $request->instagram);
             foreach ($usernames as $username) {
@@ -74,7 +82,7 @@ class ImportController extends Controller
                 if ($instagram[0] == '@') {
                     $instagram = substr($instagram, 1);
                 }
-                InstagramImport::dispatch($instagram, $request->tags, true, null, null, $request->list, $user->id, null,
+                InstagramImport::dispatch($instagram, $request->tags, true, null, null, $listId, $user->id, null,
                     $user->currentTeam->id)->onQueue(config('import.instagram_queue'));
             }
         }
@@ -84,7 +92,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitch = $username;
                 $twitch = $import->twitch;
-                TwitchImport::dispatch(null, $twitch, $request->tags, null, $request->list, $user->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
+                TwitchImport::dispatch(null, $twitch, $request->tags, null, $listId, $user->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
             }
         }
         if ($request->twitter) {
@@ -93,7 +101,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitter = $username;
                 $twitter = $import->twitter;
-                TwitterImport::dispatch([$twitter], $request->tags, null, $request->list, $user->id, $user->currentTeam->id)->onQueue(config('import.twitter_queue'));
+                TwitterImport::dispatch([$twitter], $request->tags, null, $listId, $user->id, $user->currentTeam->id)->onQueue(config('import.twitter_queue'));
             }
         }
         if ($request->tiktok) {
@@ -102,7 +110,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->tiktok = $username;
                 $tiktok = $import->tiktok;
-                TiktokImport::dispatch($tiktok, $request->tags, null, $request->list, $user->id, null, $user->currentTeam->id)->onQueue(config('import.tiktok_queue'));
+                TiktokImport::dispatch($tiktok, $request->tags, null, $listId, $user->id, null, $user->currentTeam->id)->onQueue(config('import.tiktok_queue'));
             }
         }
         $file = null;
