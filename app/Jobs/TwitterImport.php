@@ -112,7 +112,7 @@ class TwitterImport implements ShouldQueue
                 if ($creator && ! is_null($creator->twitter_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
                     $lastScrappedDate = Carbon::parse($creator->twitter_last_scrapped_at);
                     if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $meta['source'] ?? null);
+                        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
                         $importId = array_search ($creator->twitter_handler, $this->username);
                         Import::markImport($importId, ['twitter']);
 //                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitter user '.$this->username), Notification::SINGLE_IMPORT);
@@ -273,7 +273,7 @@ class TwitterImport implements ShouldQueue
         }
 
         $creator->save();
-        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $meta['source'] ?? null);
+        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
 
         return $creator;
     }

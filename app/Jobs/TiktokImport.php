@@ -125,7 +125,7 @@ class TiktokImport implements ShouldQueue
                 ) || !$this->platformUser->is_admin)) {
             $lastScrappedDate = Carbon::parse($creator->tiktok_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $meta['source'] ?? null);
+                Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
                 Import::markImport($this->importId, ['tiktok']);
 
                 return;
@@ -244,7 +244,7 @@ class TiktokImport implements ShouldQueue
         $creator->tiktok_meta = ($meta);
         $creator->tiktok_last_scrapped_at = Carbon::now()->toDateTimeString();
         $creator->save();
-        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $meta['source'] ?? null);
+        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
         return $creator;
     }
 
