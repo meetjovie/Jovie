@@ -25,6 +25,7 @@ class Crm extends Model
         'archived',
         'meta',
         'offer',
+        'source'
     ];
 
     protected $appends = ['stage_name'];

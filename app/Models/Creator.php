@@ -883,7 +883,7 @@ class Creator extends Model
         return array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails))));
     }
 
-    public static function addToListAndCrm($creator, $listId = null, $userId = null, $teamId = null)
+    public static function addToListAndCrm($creator, $listId = null, $userId = null, $teamId = null, $source = null)
     {
         if ($listId) {
             $creator->userLists()->syncWithoutDetaching($listId);
@@ -901,6 +901,11 @@ class Creator extends Model
                     $team->credits = ($team->credits - 1);
                     $team->save();
                 }
+            }
+            $crm = Crm::query()->where('creator_id', $creator->id)->where('user_id', $userId)->where('team_id', $team->id)->first();
+            if ($crm && is_null($crm->source) && $source) {
+                $crm->source = $source;
+                $crm->save();
             }
             CreatorImported::dispatch($creator->id, $userId, $teamId, $listId);
         }
