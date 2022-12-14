@@ -150,7 +150,7 @@ class Creator extends Model
                     $value->network = $network;
 
                     return $value;
-                }, $this->{$network.'_media'});
+                }, (array) $this->{$network.'_media'});
                 $media = array_merge($media, $nMedia);
             }
         }
