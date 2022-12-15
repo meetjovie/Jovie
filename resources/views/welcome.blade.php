@@ -32,8 +32,13 @@
         //analytics.page();
         }}();
         </script>
+
         <!--End Segment-->
         
+
+      <!--   Start Atlas -->
+      
+  <!--       End Atlas -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <!-- {{--        <link href="/css/app.css" rel="stylesheet">--}} -->
         <title>Jovie</title>

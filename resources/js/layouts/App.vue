@@ -44,7 +44,7 @@
               ctaLink="Billing" />
             <AlertBanner
               class="hidden sm:block"
-              v-else-if="$store.state.chromeExtensionInstalled === false"
+              v-else-if="this.$store.state.chromeExtensionInstalled === false"
               design="primary"
               :mobiletitle="`Install Jovie Chrome Extension`"
               :title="`Looks like you're missing the best part!`"
@@ -216,11 +216,7 @@ export default {
 
   mounted() {
     //check local storage for the value of CRM sidebar
-    console.log('CRMSidebarOpen', localStorage.getItem('CRMSidebarOpen'));
-    console.log(
-      'CRMSidebarOpen',
-      typeof localStorage.getItem('CRMSidebarOpen')
-    );
+
     if (localStorage.getItem('CRMSidebarOpen') === 'false') {
       this.$store.state.CRMSidebarOpen = false;
     }
@@ -243,9 +239,18 @@ export default {
     window.analytics.identify(this.user.email, {
       email: this.user.email,
       name: this.user.first_name + ' ' + this.user.last_name,
-      plan: this.user.plan,
-      team: this.user.team,
+      instagram: this.currentUser.instagram_handler,
+      twitter: this.currentUser.twitter_handler,
+      linkedin: this.currentUser.linkedin_handler,
+      tiktok: this.currentUser.tiktok_handler,
+      twitch: this.currentUser.twitch_handler,
+      youtube: this.currentUser.youtube_handler,
+      team: this.currentUser.current_team.name,
       user_id: this.user.id,
+      userId: this.user.id,
+      companyId: this.currentUser.current_team.id,
+      appId: 'Jovie_Web_App',
+      theme: localStorage.theme,
     });
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();

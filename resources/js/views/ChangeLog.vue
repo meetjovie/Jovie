@@ -141,20 +141,35 @@
             </div>
             <div class="w-full">
               <h2 class="text-3xl font-bold tracking-tight text-slate-800">
-                TikTok bulk imports! & more
+                Save Any Social Link Anywhere On The Web
               </h2>
-              <p class="prose">
-                You can now impport TikTok profiles in bulk from a cvs file!
-                We've also added tiktok support to the import modal in the CRM,
-                and of course you could already do this from the Jovie Chrome
-                Extnesion. We've also made it easier for users to request & vote
-                on new features. You can see our product roadmap and contribute
-                to it
+              <img
+                :src="
+                  asset(
+                    'img/External/Marketing/Chrome/Save_To_Jovie_Chrome_Menu.gif'
+                  )
+                "
+                alt="Jovie Chrome Extension"
+                class="mt-4 rounded-xl border border-neutral-200 py-4 shadow-lg dark:border-neutral-700" />
+              <p class="prose mt-4">
+                🚀 NEW: Easily add social profile links to your Jovie CRM lists
+                from ANY page on the internet! Now, when you come across a
+                profile link on any website, simply right click and select the
+                appropriate list from the dropdown menu to quickly and easily
+                save it for later. As always you can see our product roadmap and
+                contribute to it
                 <a href="https://roadmap.jov.ie">here</a>.
               </p>
 
               <h4 class="prose mt-4 font-bold">Features</h4>
               <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Added the ability to save any social link to a Jovie list from
+                  any page on the web Requires the
+                  <a href="/chrome-extension" target="new"
+                    >(Jovie Chrome Extenion</a
+                  >)
+                </li>
                 <li class="prose">
                   Added the ability to import TikTok profiles in bulk.
                 </li>

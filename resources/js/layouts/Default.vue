@@ -408,6 +408,23 @@ export default {
       this.$store.commit('setAcceptCookies', true);
     }
     window.addEventListener('scroll', this.updateScroll);
+    window.Atlas.start();
+    window.analytics.identify(this.user.email, {
+      email: this.user.email,
+      name: this.user.first_name + ' ' + this.user.last_name,
+      instagram: this.currentUser.instagram_handler,
+      twitter: this.currentUser.twitter_handler,
+      linkedin: this.currentUser.linkedin_handler,
+      tiktok: this.currentUser.tiktok_handler,
+      twitch: this.currentUser.twitch_handler,
+      youtube: this.currentUser.youtube_handler,
+      team: this.currentUser.current_team.name,
+      user_id: this.user.id,
+      userId: this.user.id,
+      companyId: this.currentUser.current_team.id,
+      appId: 'Jovie_Web_App',
+      theme: localStorage.theme,
+    });
   },
   methods: {
     updateScroll() {
@@ -426,6 +443,7 @@ export default {
     scrollFix: function (hashbang) {
       location.hash = hashbang;
     },
+
     async requestDemo() {
       await UserService.addToWaitList({ email: this.waitListEmail })
         .then((response) => {
