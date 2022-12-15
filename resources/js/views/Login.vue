@@ -26,7 +26,11 @@
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
-            <JovieLogo height="28px" />
+            <JovieLogo
+              v-if="$store.theme === 'dark'"
+              height="28px"
+              color="#000" />
+            <JovieLogo v-else height="28px" color="#fff" />
           </div>
           <h2
             class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -176,7 +180,7 @@ export default {
           .then((response) => {
             response = response.data;
             localStorage.setItem('jovie_extension', response.token);
-              document.cookie = `jovie_extension=${response.token}`
+            document.cookie = `jovie_extension=${response.token}`;
             if (response.status) {
               this.$store.commit('setAuthStateUser', response.user);
               this.buttonError = false;
@@ -207,7 +211,7 @@ export default {
           .then((response) => {
             response = response.data;
             localStorage.setItem('jovie_extension', response.token);
-              document.cookie = `jovie_extension=${response.token}`
+            document.cookie = `jovie_extension=${response.token}`;
             if (response.status) {
               this.$store.commit('setAuthStateUser', response.user);
               this.buttonError = false;

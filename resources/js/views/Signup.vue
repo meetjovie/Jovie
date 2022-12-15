@@ -11,7 +11,12 @@
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
-            <JovieLogo tabindex="-1" height="28px" />
+            <JovieLogo
+              tabindex="-1"
+              v-if="$store.theme === 'dark'"
+              height="48px"
+              color="#000" />
+            <JovieLogo tabindex="-1" v-else height="48px" color="#fff" />
           </div>
         </div>
 
