@@ -164,6 +164,7 @@
                       @click="register()"
                       :loader="loading"
                       :success="success"
+                      :error="error"
                       :disabled="submitting"
                       text="Create Account">
                     </ButtonGroup>
@@ -311,6 +312,7 @@ export default {
             return;
           }
           alert('Something went wrong.');
+          this.success = false;
         })
         .finally(() => {
           //identify call to segment
@@ -354,6 +356,7 @@ export default {
             return;
           }
           alert('Something went wrong.');
+          this.success = false;
         })
         .finally(() => {
           this.submitting = false;
