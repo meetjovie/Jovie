@@ -319,7 +319,7 @@
           <div
             class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-slate-900">
             <table
-              class="block w-full divide-y divide-slate-200 overflow-x-auto border-b border-slate-300 bg-slate-100 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800">
               <thead class="relative isolate z-20 w-full items-center">
                 <tr class="sticky h-8 items-center">
                   <th
@@ -1007,6 +1007,13 @@
                   </tr>
                 </template>
               </tbody>
+              <div
+                v-if="creatorRecords.length < 50"
+                @click="$emit('addContact')"
+                class="flex w-full cursor-pointer items-center py-2 px-4 text-xs font-bold text-slate-600 hover:text-slate-700 dark:bg-slate-900 dark:text-slate-400 hover:dark:bg-slate-700 dark:hover:text-slate-200">
+                <PlusIcon class="mr-2 h-4 w-4" />
+                Add new contact
+              </div>
             </table>
 
             <Pagination

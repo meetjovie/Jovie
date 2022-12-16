@@ -117,7 +117,7 @@
                           }">
                           <component
                             class="mr-4 h-4 w-4 cursor-pointer"
-                            is="UserIcon">
+                            :is="UserIcon">
                           </component
                           >Your profile
                         </div>

@@ -13,7 +13,7 @@
           class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
       </TransitionChild>
 
-      <div class="fixed inset-0 z-40 overflow-y-auto py-12 px-8">
+      <div class="fixed inset-0 z-40 overflow-y-auto px-8">
         <div
           class="flex min-h-full items-end justify-center text-center sm:items-center">
           <TransitionChild
@@ -25,7 +25,7 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
-              class="absolute right-4 my-12 flex h-full transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+              class="absolute right-4 top-4 my-12 flex h-full transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all dark:bg-slate-800 sm:mb-4 sm:w-full sm:max-w-lg sm:p-6">
               <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                 <button
                   type="button"
@@ -97,29 +97,6 @@
                   </div>
                 </li>
               </ul>
-              <router-link
-                to="/slack-community"
-                class="boder-slate-300 dark-bg-slate-800 mt-4 flex cursor-pointer items-center rounded-md border border bg-slate-100 px-4 py-6 hover:bg-slate-200 dark:border-slate-700 dark:hover:bg-slate-700">
-                <div>
-                  <div class="text-sm font-bold">Join our Slack community</div>
-                  <div class="mt-2">
-                    <p
-                      class="font-semi-bold text-sm text-gray-500 dark:text-gray-300">
-                      We're here to help and other awesome thigns.
-                    </p>
-                  </div>
-                </div>
-                <div class="items-center">
-                  <svg
-                    role="img"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <title>Slack</title>
-                    <path
-                      d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" />
-                  </svg>
-                </div>
-              </router-link>
               <div
                 class="mt-4 rounded-md border border-slate-300 bg-slate-100 py-6 px-4 dark:border-slate-700 dark:bg-slate-800">
                 <div class="prose font-bold text-slate-600 dark:text-slate-300">
@@ -144,20 +121,48 @@
                   </div>
                 </div>
               </div>
-              <div class="mt-8 sm:flex sm:flex-row-reverse">
+              <router-link
+                to="/slack-community"
+                class="boder-slate-300 mt-4 flex cursor-pointer items-center rounded-md border border bg-slate-100 px-4 py-6 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700">
+                <div class="items-center">
+                  <svg
+                    role="img"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <title>Slack</title>
+                    <path
+                      d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" />
+                  </svg>
+                </div>
+                <div>
+                  <div
+                    class="text-sm font-bold text-slate-700 dark:text-slate-200">
+                    Join our Slack community
+                  </div>
+                  <div class="mt-2">
+                    <p
+                      class="font-semi-bold text-sm text-gray-500 dark:text-gray-300">
+                      We're here to help and other awesome thigns.
+                    </p>
+                  </div>
+                </div>
+              </router-link>
+
+              <div
+                class="mt-8 justify-between border-t border-slate-300 py-6 dark:border-slate-700 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
                   class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
                   @click="launchSupportChat()">
                   <ChatBubbleLeftIcon class="mr-2 h-5 w-5" />
-                  Message Us
+                  Contact us
                 </button>
-                <button
-                  type="button"
-                  class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm"
-                  @click="close()">
-                  Cancel
-                </button>
+                <router-link
+                  class="flex items-center text-slate-400 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                  to="/changelog">
+                  <div class="mr-2 rounded-full bg-indigo-600"></div>
+                  Changelog
+                </router-link>
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -233,10 +238,12 @@ export default {
           visible: true,
         },
         {
-          name: 'Bulk Upload Contacts',
+          name: 'Join our Slack community',
           icon: CloudArrowUpIcon,
+          //use define component t put the svg of the slack icon
+
           description: 'Upload a CSV File to Jovie.',
-          href: '/import',
+          href: '/slack-community',
           iconColor: 'bg-purple-500',
 
           visible: true,

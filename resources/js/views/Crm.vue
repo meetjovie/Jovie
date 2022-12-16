@@ -5,6 +5,25 @@
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div>
+              <div class="px-4">
+                <div
+                  @click="showCreatorModal = true"
+                  class="rouned-md group my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:dark:bg-slate-700">
+                  <div class="flex items-center text-xs">
+                    <PlusIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                      aria-hidden="true" />
+                    New Contact
+                  </div>
+                  <div class="items-center">
+                    <kbd
+                      class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400 group-hover:bg-slate-100"
+                      >C</kbd
+                    >
+                  </div>
+                </div>
+              </div>
+
               <Menu v-slot="{ open }">
                 <MenuItems static>
                   <div class="w-full flex-col px-2">
@@ -158,30 +177,6 @@
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">
-                    <div
-                      :class="[
-                        active
-                          ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
-                          : '',
-                      ]"
-                      @click="showCreatorModal = true"
-                      class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
-                      <div class="flex">
-                        <PlusIcon
-                          class="mr-1 h-5 w-5 rounded-md p-1 text-purple-500 dark:text-purple-600"
-                          aria-hidden="true" />
-                        New Contact
-                      </div>
-                      <div class="items-center">
-                        <CreatorTags
-                          v-if="!currentUser.current_team.current_subscription"
-                          :showX="false"
-                          text="C"
-                          color="slate" />
-                      </div>
-                    </div>
-                  </MenuItem>
-                  <MenuItem as="div" v-slot="{ active }">
                     <router-link
                       to="import"
                       :class="[
@@ -216,7 +211,7 @@
                       <ChatBubbleLeftIcon
                         class="mr-1 h-5 w-5 rounded-md p-1 text-pink-500 dark:text-pink-600"
                         aria-hidden="true" />
-                      Get Help
+                      Help & Support
                     </div>
                   </MenuItem>
                 </MenuItems>
@@ -506,6 +501,7 @@
                         class="overflow-hidden"
                         v-else
                         ref="crmTable"
+                        @addContact="showCreatorModal = true"
                         @updateCreator="updateCreator"
                         @updateCrmMeta="updateCrmMeta"
                         @crmCounts="crmCounts"
