@@ -173,7 +173,12 @@
                       <MenuItem
                         as="div"
                         @click="toggleShowSupportModal()"
-                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+                        :class="[
+                          active
+                            ? 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-100'
+                            : '',
+                          'inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 dark:text-slate-300',
+                        ]"
                         role="menuitem"
                         tabindex="-1">
                         <component class="mr-4 h-4 w-4" is="ChatBubbleLeftIcon">
