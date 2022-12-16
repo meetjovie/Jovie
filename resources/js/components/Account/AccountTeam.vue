@@ -1,7 +1,7 @@
 <template>
   <!--    NO SUBSCRIPTION OR NO TEAM SUBSCRIPTION-->
   <div
-    class="flex w-full items-center justify-between space-y-1 border-b px-4 py-2"
+    class="flex w-full items-center justify-between space-y-1 border-b px-4 py-2 dark:text-slate-300"
     v-if="
       !currentUser.current_team.current_subscription ||
       !currentUser.current_team.current_subscription.seats
