@@ -149,6 +149,7 @@
                   type="button"
                   class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
                   @click="launchSupportChat()">
+                  <ChatBubbleLeftIcon class="mr-2 h-5 w-5" />
                   Message Us
                 </button>
                 <button
@@ -179,6 +180,7 @@ import {
   QuestionMarkCircleIcon,
   XMarkIcon,
   DocumentTextIcon,
+  ChatBubbleLeftIcon,
   CloudArrowUpIcon,
 } from '@heroicons/vue/24/outline';
 export default {
@@ -244,6 +246,7 @@ export default {
   },
   components: {
     Dialog,
+    ChatBubbleLeftIcon,
     CloudArrowUpIcon,
     DialogPanel,
     DialogTitle,
@@ -253,6 +256,7 @@ export default {
     DocumentTextIcon,
     XMarkIcon,
   },
+
   methods: {
     close() {
       this.$emit('close');
@@ -260,10 +264,12 @@ export default {
 
     launchSupportChat() {
       window.analytics.track('Support Chat Launched');
-      window.Atlas.chat.start();
+      this.close();
+      window.Atlas.start();
+      window.Atlas.chat.open();
+      window.Atlas.chat.openWindow();
 
       //emit close event
-      this.close();
     },
   },
 };
