@@ -69,7 +69,7 @@
           class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-700 dark:text-slate-600 dark:hover:text-slate-300" /> -->
         <XMarkIcon
           @click="cancelEdit()"
-          class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-700 dark:text-slate-600 dark:hover:text-slate-300"
+          class="focus:ring-none h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-700 focus:border-none dark:text-slate-600 dark:hover:text-slate-300"
           aria-hidden="true" />
       </div>
     </div>

@@ -40,15 +40,15 @@
               <div class="sm:flex sm:items-start">
                 <div
                   class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
-                  <ExclamationTriangleIcon
+                  <QuestionMarkCircleIcon
                     class="h-6 w-6 text-indigo-600"
                     aria-hidden="true" />
                 </div>
                 <div
-                  class="mt-3 text-center dark:bg-gray-800 dark:text-gray-300 sm:text-left sm:dark:mt-0 sm:dark:ml-4">
+                  class="mt-3 text-center dark:text-gray-300 sm:text-left sm:dark:mt-0 sm:dark:ml-4">
                   <DialogTitle
                     as="h3"
-                    class="text-lg leading-6 text-gray-900 dark:font-medium"
+                    class="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300"
                     >Need some help?</DialogTitle
                   >
                   <div class="mt-2">
@@ -97,7 +97,54 @@
                   </div>
                 </li>
               </ul>
-              <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+              <router-link
+                to="/slack-community"
+                class="boder-slate-300 dark-bg-slate-800 mt-4 flex cursor-pointer items-center rounded-md border border bg-slate-100 px-4 py-6 hover:bg-slate-200 dark:border-slate-700 dark:hover:bg-slate-700">
+                <div>
+                  <div class="text-sm font-bold">Join our Slack community</div>
+                  <div class="mt-2">
+                    <p
+                      class="font-semi-bold text-sm text-gray-500 dark:text-gray-300">
+                      We're here to help and other awesome thigns.
+                    </p>
+                  </div>
+                </div>
+                <div class="items-center">
+                  <svg
+                    role="img"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <title>Slack</title>
+                    <path
+                      d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" />
+                  </svg>
+                </div>
+              </router-link>
+              <div
+                class="mt-4 rounded-md border border-slate-300 bg-slate-100 py-6 px-4 dark:border-slate-700 dark:bg-slate-800">
+                <div class="prose font-bold text-slate-600 dark:text-slate-300">
+                  Keyboard Shortcuts
+                </div>
+                <div class="mt-2">
+                  <p
+                    class="font-semi-bold text-sm text-gray-500 dark:text-gray-300">
+                    We're here to help and other awesome thigns.
+                  </p>
+                </div>
+                <div class="mt-2 space-y-2 px-4">
+                  <div
+                    v-for="shortcut in shortcuts"
+                    :key="shortcut.id"
+                    class="flex justify-between rounded-md text-xs text-slate-500 dark:text-slate-300">
+                    <div>{{ shortcut.text }}</div>
+                    <div
+                      class="rounded-md border border-slate-300 px-1 py-0.5 font-bold dark:border-slate-700">
+                      {{ shortcut.name }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
                   class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
@@ -128,7 +175,12 @@ import {
   TransitionRoot,
 } from '@headlessui/vue';
 
-import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import {
+  QuestionMarkCircleIcon,
+  XMarkIcon,
+  DocumentTextIcon,
+  CloudArrowUpIcon,
+} from '@heroicons/vue/24/outline';
 export default {
   name: 'SupportModal',
   props: {
@@ -141,9 +193,37 @@ export default {
   //add data for items
   data() {
     return {
+      shortcuts: [
+        {
+          id: 1,
+          name: 'Shift + C',
+          text: 'Create new contact',
+        },
+        {
+          id: 2,
+          name: '?',
+          text: 'Open this help menu',
+        },
+        {
+          id: 3,
+          name: 'Spacebar',
+          text: 'Open the contact sidebar for the selected contact',
+        },
+        {
+          id: 4,
+          name: '/',
+          text: 'Search for a contact',
+        },
+        {
+          id: 5,
+          name: 'Esc',
+          text: 'Open/close the sidebar navigation menu',
+        },
+      ],
       items: [
         {
           name: 'Documentation',
+          icon: DocumentTextIcon,
           description:
             'Help center and documentation for Jovie. Learn how to use Jovie.',
           href: '/support',
@@ -152,6 +232,7 @@ export default {
         },
         {
           name: 'Bulk Upload Contacts',
+          icon: CloudArrowUpIcon,
           description: 'Upload a CSV File to Jovie.',
           href: '/import',
           iconColor: 'bg-purple-500',
@@ -163,17 +244,20 @@ export default {
   },
   components: {
     Dialog,
+    CloudArrowUpIcon,
     DialogPanel,
     DialogTitle,
     TransitionChild,
     TransitionRoot,
-    ExclamationTriangleIcon,
+    QuestionMarkCircleIcon,
+    DocumentTextIcon,
     XMarkIcon,
   },
   methods: {
     close() {
       this.$emit('close');
     },
+
     launchSupportChat() {
       window.analytics.track('Support Chat Launched');
       window.Atlas.chat.start();

@@ -4,23 +4,29 @@
       <div class="h-full pb-10">
         <div
           class="flex w-full items-center justify-between border-b border-slate-300 bg-white px-2 py-2 dark:border-slate-700 dark:bg-slate-900">
-          <div class="px-4">
+          <div class="w-full items-center px-4">
             <h1
               v-if="header.includes('all')"
-              class="text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
+              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
+              <UserGroupIcon
+                class="mr-1 h-4 w-4 rounded-md text-purple-400"
+                aria-hidden="true" />
               {{ header + ' Contacts' }}
             </h1>
             <h1
               v-else-if="header.includes('favourites')"
-              class="text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
+              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
               <HeartIcon
-                class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                class="mr-1 h-4 w-4 rounded-md text-red-400"
                 aria-hidden="true" />
               Favorited
             </h1>
             <h1
               v-else
-              class="text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
+              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
+              <UserIcon
+                class="mr-1 h-4 w-4 rounded-md text-sky-400"
+                aria-hidden="true" />
               {{ header }}
             </h1>
             <p
@@ -33,7 +39,7 @@
               {{ subheader[header] }} Contacts
             </p>
           </div>
-          <div class="flex h-6 w-80 content-end items-center">
+          <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
               <!-- <div class="group">
@@ -311,7 +317,7 @@
         <div
           class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
           <div
-            class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-black">
+            class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-slate-900">
             <table
               class="block w-full divide-y divide-slate-200 overflow-x-auto border-b border-slate-300 bg-slate-100 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800">
               <thead class="relative isolate z-20 w-full items-center">
@@ -1049,6 +1055,7 @@ import {
   NoSymbolIcon,
   StarIcon,
   TrashIcon,
+  HeartIcon,
   ArrowPathIcon,
   MagnifyingGlassIcon,
   ChevronUpIcon,
@@ -1121,6 +1128,7 @@ export default {
     NoSymbolIcon,
     TrashIcon,
     Pagination,
+    HeartIcon,
     JovieTooltip,
     PlusIcon,
     JovieSpinner,

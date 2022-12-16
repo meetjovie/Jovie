@@ -13,10 +13,10 @@
           class="text-thin mr-1 h-4 w-4 text-xs text-slate-700 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200" />
         {{ menuName }}
       </div>
-      <div class="flex items-center">
+      <div class="flex items-center overflow-auto">
         <div
           v-if="draggable"
-          class="group mx-auto rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-800">
+          class="group mx-auto overflow-y-scroll rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-800">
           <PlusIcon
             v-if="!creatingList"
             @click="createList()"

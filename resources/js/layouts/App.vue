@@ -9,7 +9,6 @@
         <div class="h-full">
           <div class="mx-auto h-full">
             <CommandPallette as="div" :open="showCommandPallette" />
-
             <AlertBanner
               v-if="currentUser.current_team.credits < 1"
               design="danger"
@@ -17,14 +16,7 @@
               :title="`You're out of credits.`"
               :cta="`Upgrade`"
               ctaLink="Billing" />
-            <AlertBanner
-              class="hidden sm:block"
-              v-else-if="this.$store.state.chromeExtensionInstalled === false"
-              design="primary"
-              :mobiletitle="`Install Jovie Chrome Extension`"
-              :title="`Looks like you're missing the best part!`"
-              :cta="`Install Chrome Extension`"
-              ctaLink="Chrome Extension" />
+
             <router-view></router-view>
           </div>
         </div>
@@ -92,16 +84,12 @@
         </div>
       </div>
     </NotificationGroup>
-    <SupportModal
-      @close="toggleShowSupportModal()"
-      @message="launchSupportChat()"
-      :open="showSupportModal" />
   </div>
 </template>
 
 <script>
 import JovieSidebar from '../components/JovieSidebar.vue';
-import SupportModal from './../components/SupportModal.vue';
+
 import {
   HomeIcon,
   Bars3Icon,
@@ -156,7 +144,7 @@ export default {
   data() {
     return {
       errors: [],
-      showSupportModal: false,
+
       showAppMenu: false,
       previewAppMenu: false,
       showCommandPallette: false,
@@ -237,10 +225,7 @@ export default {
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();
     });
-    //toffle the support modal with the shift + ? key
-    this.$mousetrap.bind(['shift+?'], () => {
-      this.toggleSupportModal();
-    });
+
     //toggle the sidebar when hitting cmd + q or ctrl + q
     this.$mousetrap.bind(['esc'], () => {
       this.toggleShowAppMenu();
@@ -275,9 +260,7 @@ export default {
         }
       });
     },
-    toggleShowSupportModal() {
-      this.showSupportModal = !this.showSupportModal;
-    },
+
     toggleShowAppMenu() {
       this.showAppMenu = !this.showAppMenu;
       //add the value for CRMSidebarOpen to local storage
@@ -326,7 +309,6 @@ export default {
     BellIcon,
     MegaphoneIcon,
     EnvelopeIcon,
-    SupportModal,
     SwitchTeams,
     CursorArrowRippleIcon,
     ChartBarIcon,

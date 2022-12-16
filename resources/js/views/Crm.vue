@@ -2,7 +2,7 @@
   <div class="h-full w-full dark:bg-slate-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
-        <JovieSidebar>
+        <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div>
               <Menu v-slot="{ open }">
@@ -14,7 +14,7 @@
                         text="Show All Contacts">
                         <button
                           @click="setFiltersType('all')"
-                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none"
+                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus-visible:outline-none"
                           :class="[
                             filters.type == 'all'
                               ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
@@ -123,7 +123,8 @@
                       </div>
                     </TransitionRoot>
                   </div>
-                  <div class="flex-col justify-evenly space-y-4 px-2 py-4">
+                  <div
+                    class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
                     <MenuList
                       v-if="pinnedUserLists.length"
                       ref="menuListPinned"
@@ -164,11 +165,20 @@
                           : '',
                       ]"
                       @click="showCreatorModal = true"
-                      class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100">
-                      <PlusIcon
-                        class="mr-1 h-5 w-5 rounded-md p-1 text-purple-500 dark:text-purple-600"
-                        aria-hidden="true" />
-                      New Contact
+                      class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                      <div class="flex">
+                        <PlusIcon
+                          class="mr-1 h-5 w-5 rounded-md p-1 text-purple-500 dark:text-purple-600"
+                          aria-hidden="true" />
+                        New Contact
+                      </div>
+                      <div class="items-center">
+                        <CreatorTags
+                          v-if="!currentUser.current_team.current_subscription"
+                          :showX="false"
+                          text="C"
+                          color="slate" />
+                      </div>
                     </div>
                   </MenuItem>
                   <MenuItem as="div" v-slot="{ active }">
@@ -196,7 +206,7 @@
                   </MenuItem>
                   <MenuItem v-slot="{ active }" as="div">
                     <div
-                      @click="toggleSupportModal()"
+                      @click="toggleShowSupportModal()"
                       :class="[
                         active
                           ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
@@ -262,7 +272,7 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:border-slate-700 dark:bg-slate-800/60 sm:px-0">
+                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-slate-700 dark:bg-slate-800/60 sm:px-0">
                         <div class="overflow-hidden rounded-lg">
                           <div class="relative h-80 gap-6 px-1 sm:gap-8">
                             <div
@@ -431,6 +441,14 @@
         </JovieSidebar>
         <div
           class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
+          <AlertBanner
+            class="hidden sm:block"
+            v-if="this.$store.state.chromeExtensionInstalled === false"
+            design="primary"
+            :mobiletitle="`Install Jovie Chrome Extension`"
+            :title="`Looks like you're missing the best part!`"
+            :cta="`Install Chrome Extension`"
+            ctaLink="Chrome Extension" />
           <div class="mx-auto h-full w-full">
             <div class="h-full w-full">
               <div class="flex h-full w-full flex-col">
@@ -547,12 +565,18 @@
         @emojiSelected="emojiSelected($event)"
         class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-slate-800">
       </EmojiPickerModal>
+      <SupportModal
+        @close="toggleShowSupportModal()"
+        @message="launchSupportChat()"
+        :open="showSupportModal" />
     </div>
   </div>
 </template>
 
 <script>
+import SupportModal from '../components/SupportModal.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
+import AlertBanner from '../components/AlertBanner.vue';
 
 import DarkModeToggle from '../components/DarkModeToggle.vue';
 
@@ -631,6 +655,7 @@ export default {
     CogIcon,
     ArrowUpCircleIcon,
     ArrowPathIcon,
+    AlertBanner,
     EmojiPickerModal,
     Float,
     CloudArrowDownIcon,
@@ -651,6 +676,7 @@ export default {
     ContactSidebar,
     ChatBubbleLeftIcon,
     ProgressBar,
+    SupportModal,
     TabList,
     Tab,
     DarkModeToggle,
@@ -678,6 +704,7 @@ export default {
     ArrowLeftOnRectangleIcon,
     UserGroupIcon,
     CloudArrowUpIcon,
+    SupportModal,
     CrmTable,
     JovieTooltip,
     vueMousetrapPlugin: VueMousetrapPlugin,
@@ -709,6 +736,8 @@ export default {
       networks: [],
       userLists: [],
       showCreatorModal: false,
+      showSuccessModal: false,
+      showSupportModal: false,
       showUpgradeModal: false,
       loading: false,
       creatorsMeta: {},
@@ -772,7 +801,6 @@ export default {
         return 0;
       });
     },
-
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
       let filters = localStorage.getItem('filters');
@@ -792,6 +820,14 @@ export default {
     this.getCrmCreators();
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
+    //c sets openCreatorModal to true
+    this.$mousetrap.bind(['c'], () => {
+      this.showCreatorModal = true;
+    });
+    //? sets openSupportModal to true
+    this.$mousetrap.bind(['?'], () => {
+      this.showSupportModal = true;
+    });
 
     // this.getNotifications();
     // setInterval(() => {
@@ -909,6 +945,9 @@ export default {
     });
   },
   methods: {
+    toggleShowSupportModal() {
+      this.showSupportModal = !this.showSupportModal;
+    },
     getNotifications() {
       ImportService.getNotifications().then((response) => {
         response = response.data;
