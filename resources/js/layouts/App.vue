@@ -298,7 +298,9 @@ export default {
 
       console.log(this.showAppMenu);
     },
-
+    openSupportChat() {
+      this.$freshchat.open();
+    },
     previewAppMenuTrue() {
       if (!this.showAppMenu) {
         setTimeout(() => {

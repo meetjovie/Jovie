@@ -38,10 +38,9 @@ export const routes = [
   {
     name: 'Support',
     path: '/support',
-    component: loadPage('Support'),
-    meta: {
-      layout: 'default',
-      requiresAuth: false,
+    //redirect to https://support.jov.ie/
+    beforeEnter(to, from, next) {
+      window.open('https://support.jov.ie/', '_self');
     },
   },
   {

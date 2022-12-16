@@ -156,21 +156,22 @@
               class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
               <Menu>
                 <MenuItems static>
-                  <MenuItem as="div" v-slot="{ active }">
-                    <div @click="launchSupportChat()"
+                  <MenuItem v-slot="{ active }" as="div">
+                    <div
+                      @click="launchSupportChat()"
                       :class="[
                         active
                           ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
                           : '',
-                      ]"
-                      @click="showCreatorModal = true"
-                      class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100">
+                        'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100',
+                      ]">
                       <LifeBuoyIcon
                         class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500 dark:text-slate-600"
                         aria-hidden="true" />
-                     Get Help
+                      Get Help
                     </div>
                   </MenuItem>
+
                   <MenuItem as="div" v-slot="{ active }">
                     <div
                       :class="[
