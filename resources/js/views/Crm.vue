@@ -745,9 +745,9 @@ export default {
     },
     creators: {
       deep: true,
-      handler: function () {
-        this.crmCounts();
-      },
+      handler: _.debounce(function () {
+          this.crmCounts();
+      }, 500),
     },
   },
   beforeDestroy() {

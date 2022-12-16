@@ -489,10 +489,11 @@ export default {
               this.currentUser.current_team.id ==
               this.currentUser.teams[index].id
             ) {
-              this.$store.commit('switchTeam', null);
             }
             this.currentUser.teams.splice(index, 1);
             alert('deleted');
+          } else {
+              alert(response.message)
           }
         })
         .catch((error) => {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teamwork;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
 
 class TeamController extends Controller
@@ -148,7 +149,22 @@ class TeamController extends Controller
         if (! auth()->user()->isOwnerOfTeam($team)) {
             return response([
                 'status' => false,
-            ], 403);
+                'message' => 'You can not delete this team.'
+            ], 200);
+        }
+
+        if (Auth::user()->teams->count() === 1) {
+            return response([
+                'status' => false,
+                'message' => 'You can not delete the default team.',
+            ], 200);
+        }
+
+        if (Auth::user()->currentTeam->id == $id) {
+            return response([
+                'status' => false,
+                'message' => 'You can not delete the active team.',
+            ], 200);
         }
 
         $team->delete();
