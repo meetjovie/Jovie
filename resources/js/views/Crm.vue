@@ -158,15 +158,15 @@
                 <MenuItems static>
                   <MenuItem v-slot="{ active }" as="div">
                     <div
-                      @click="launchSupportChat()"
+                      @click="toggleSupportModal()"
                       :class="[
                         active
                           ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
                           : '',
                         'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100',
                       ]">
-                      <LifeBuoyIcon
-                        class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500 dark:text-slate-600"
+                      <ChatBubbleLeftIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-pink-500 dark:text-slate-600"
                         aria-hidden="true" />
                       Get Help
                     </div>
@@ -182,7 +182,7 @@
                       @click="showCreatorModal = true"
                       class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100">
                       <PlusIcon
-                        class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500 dark:text-slate-600"
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-purple-500 dark:text-slate-600"
                         aria-hidden="true" />
                       New Contact
                     </div>
@@ -600,9 +600,9 @@ import {
   BellIcon,
   SunIcon,
   MoonIcon,
+  ChatBubbleLeftIcon,
   SparklesIcon,
   ComputerDesktopIcon,
-  LifeBuoyIcon,
 } from '@heroicons/vue/24/solid';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
@@ -650,7 +650,7 @@ export default {
     PopoverPanel,
     HeartIcon,
     ContactSidebar,
-    LifeBuoyIcon,
+    ChatBubbleLeftIcon,
     ProgressBar,
     TabList,
     Tab,
@@ -910,10 +910,6 @@ export default {
     });
   },
   methods: {
-    launchSupportChat() {
-      window.analytics.track('Support Chat Launched');
-      window.Atlas.chat.open();
-    },
     getNotifications() {
       ImportService.getNotifications().then((response) => {
         response = response.data;

@@ -2,31 +2,6 @@
   <div
     id="app"
     class="flex h-screen overflow-hidden bg-slate-100 transition-all duration-1000 ease-in-out">
-    <!-- <div
-      id="overlay"
-      class="fixed inset-0 z-30 flex md:hidden"
-      role="dialog"
-      aria-modal="true">
-      <div
-        class="fixed inset-0 bg-slate-600 bg-opacity-75"
-        aria-hidden="true"></div>
-      <div
-        id="sidebar"
-        class="relative flex w-full flex-1 flex-col bg-slate-500/50 pt-5 pb-4 backdrop-blur-md">
-        <div class="mx-auto flex h-screen w-full items-center justify-center">
-          <a href="{{ route('dashboard') }}">
-            <JovieLogo color="#ffffff" height="40px" />
-            <h2
-              class="align-center mt-4 flex text-center text-sm font-bold text-white opacity-90">
-              Your screen is too small. Jovie is built for larger devices. If
-              you'd like to use Jovie on your phone, please let us know.
-            </h2>
-          </a>
-        </div>
-      </div>
-    </div> -->
-    <!-- Narrow sidebar -->
-
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <main
         class="relative flex-1 overflow-y-auto overflow-x-hidden focus-visible:outline-none"
@@ -117,10 +92,16 @@
         </div>
       </div>
     </NotificationGroup>
+    <SupportModal
+      @close="toggleShowSupportModal()"
+      @message="launchSupportChat()"
+      :open="showSupportModal" />
   </div>
 </template>
 
 <script>
+import JovieSidebar from '../components/JovieSidebar.vue';
+import SupportModal from './../components/SupportModal.vue';
 import {
   HomeIcon,
   Bars3Icon,
@@ -175,6 +156,7 @@ export default {
   data() {
     return {
       errors: [],
+      showSupportModal: false,
       showAppMenu: false,
       previewAppMenu: false,
       showCommandPallette: false,
@@ -255,6 +237,10 @@ export default {
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();
     });
+    //toffle the support modal with the shift + ? key
+    this.$mousetrap.bind(['shift+?'], () => {
+      this.toggleSupportModal();
+    });
     //toggle the sidebar when hitting cmd + q or ctrl + q
     this.$mousetrap.bind(['esc'], () => {
       this.toggleShowAppMenu();
@@ -289,7 +275,9 @@ export default {
         }
       });
     },
-
+    toggleShowSupportModal() {
+      this.showSupportModal = !this.showSupportModal;
+    },
     toggleShowAppMenu() {
       this.showAppMenu = !this.showAppMenu;
       //add the value for CRMSidebarOpen to local storage
@@ -330,6 +318,7 @@ export default {
     HomeIcon,
     Bars3Icon,
     MenuItem,
+    JovieSidebar,
     CloudArrowDownIcon,
     MenuItems,
     ChatBubbleLeftEllipsisIcon,
@@ -337,6 +326,7 @@ export default {
     BellIcon,
     MegaphoneIcon,
     EnvelopeIcon,
+    SupportModal,
     SwitchTeams,
     CursorArrowRippleIcon,
     ChartBarIcon,

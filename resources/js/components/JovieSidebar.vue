@@ -112,7 +112,7 @@
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
                           :class="{
-                            'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
                               active,
                           }">
                           <component
@@ -124,10 +124,13 @@
                       </router-link>
                       <router-link
                         v-else
-                        class="flex w-full cursor-pointer px-4 py-2 text-xs text-slate-700 dark:text-slate-300"
+                        as="div"
+                        role="menuitem"
+                        tabindex="-1"
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
                         to="edit-profile">
                         <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-400"
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
                           :class="{
                             'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
                               active,
@@ -165,6 +168,21 @@
                   </template>
 
                   <template #menuBottom>
+                    <div
+                      class="border-t border-slate-200/40 dark:border-slate-600/40">
+                      <MenuItem
+                        as="div"
+                        @click="toggleShowSupportModal()"
+                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+                        role="menuitem"
+                        tabindex="-1">
+                        <component
+                          class="mr-4 h-4 w-4"
+                          is="ArrowLeftOnRectangleIcon">
+                        </component>
+                        Get help
+                      </MenuItem>
+                    </div>
                     <div
                       class="border-t border-slate-200/40 dark:border-slate-600/40">
                       <MenuItem
@@ -231,6 +249,7 @@ import {
   WrenchScrewdriverIcon,
   ComputerDesktopIcon,
   ChartBarIcon,
+  ChatBubbleLeftIcon,
 } from '@heroicons/vue/24/solid';
 
 import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
@@ -278,7 +297,7 @@ export default {
 
     SparklesIcon,
     FireIcon,
-
+    ChatBubbleLeftIcon,
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
@@ -329,9 +348,14 @@ export default {
           route: '/chrome-extension',
           icon: 'CloudArrowDownIcon',
         },
-
         {
-          id: 1,
+          id: 6,
+          name: 'Get help',
+
+          icon: ChatBubbleLeftIcon,
+        },
+        {
+          id: 7,
           name: "What's new",
           route: '/changelog',
           icon: SparklesIcon,
