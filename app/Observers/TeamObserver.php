@@ -46,6 +46,12 @@ class TeamObserver
             DB::table('team_invites')->where('team_id', $team->id)->delete();
             DB::table('team_user')->where('team_id', $team->id)->delete();
             UserList::where('team_id', $team->id)->delete();
+
+            $currentSubscription = $team->currentSubscription();
+            if ($currentSubscription) {
+                $team->subscription($currentSubscription->name)->cancel();
+            }
+
         } catch (\Exception $e) {
 
         }
