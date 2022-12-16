@@ -56,7 +56,7 @@
                 <div
                   class="flex h-6 w-full items-center justify-end transition-all">
                   <div
-                    class="flex items-center rounded-md border border-slate-300 dark:border-slate-700">
+                    class="flex items-center rounded-md border border-slate-300 dark:border-slate-700 dark:bg-slate-800">
                     <div
                       class="content-right relative flex flex-grow items-center py-1 focus-within:z-10">
                       <div
