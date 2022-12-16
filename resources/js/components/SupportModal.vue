@@ -25,7 +25,7 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
-              class="absolute right-4 top-4 my-12 flex h-full transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all dark:bg-slate-800 sm:mb-4 sm:w-full sm:max-w-lg sm:p-6">
+              class="absolute right-4 top-4 mb-12 flex h-full transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all dark:bg-slate-800 sm:mb-4 sm:w-full sm:max-w-lg sm:p-6">
               <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                 <button
                   type="button"
@@ -203,26 +203,31 @@ export default {
       shortcuts: [
         {
           id: 1,
-          name: 'Shift + C',
+          name: 'C',
           text: 'Create new contact',
         },
         {
           id: 2,
+          name: 'Shift + C',
+          text: 'Bulk import new Contacts',
+        },
+        {
+          id: 3,
           name: '?',
           text: 'Open this help menu',
         },
         {
-          id: 3,
+          id: 4,
           name: 'Spacebar',
           text: 'Open the contact sidebar for the selected contact',
         },
         {
-          id: 4,
+          id: 5,
           name: '/',
           text: 'Search for a contact',
         },
         {
-          id: 5,
+          id: 6,
           name: 'Esc',
           text: 'Open/close the sidebar navigation menu',
         },

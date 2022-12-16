@@ -5,7 +5,7 @@
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div>
-              <div class="px-4">
+              <div class="mt-2 px-4">
                 <div
                   @click="showCreatorModal = true"
                   class="rouned-md group my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:dark:bg-slate-700">
@@ -823,6 +823,10 @@ export default {
     //? sets openSupportModal to true
     this.$mousetrap.bind(['?'], () => {
       this.showSupportModal = true;
+    });
+    //shift+c redirect the page to /import
+    this.$mousetrap.bind(['shift+c'], () => {
+      this.$router.push('/import');
     });
 
     // this.getNotifications();
