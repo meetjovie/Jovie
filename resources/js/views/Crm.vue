@@ -4,11 +4,11 @@
       <div class="flex h-full w-full">
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
-            <div>
-              <div class="mt-2 px-4">
+            <div class="">
+              <div class="mt-2 w-full px-4">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md group my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-700 dark:bg-jovieDark-800 dark:text-slate-300 hover:dark:bg-jovieDark-700">
+                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-slate-300 hover:dark:bg-jovieDark-600">
                   <div class="flex items-center text-xs">
                     <PlusIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
@@ -16,7 +16,7 @@
                     New Contact
                   </div>
                   <div class="items-center">
-                    <KBShortcut shortcutKey="c"></KBShortcut>
+                    <KBShortcut shortcutKey="C"></KBShortcut>
                   </div>
                 </div>
               </div>

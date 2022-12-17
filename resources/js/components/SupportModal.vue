@@ -19,11 +19,11 @@
           <TransitionChild
             as="template"
             enter="ease-out duration-300"
-            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enter-to="opacity-100 translate-y-0 sm:scale-100"
+            enter-from="opacity-0 translate-x-100"
+            enter-to="opacity-100 translate-x-0"
             leave="ease-in duration-200"
-            leave-from="opacity-100 translate-y-0 sm:scale-100"
-            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+            leave-from="opacity-100 translate-x-0"
+            leave-to="opacity-0 translate-x-100">
             <DialogPanel
               class="absolute right-4 top-4 mb-12 flex h-full transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all dark:bg-jovieDark-800 sm:mb-4 sm:w-full sm:max-w-lg sm:p-6">
               <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">

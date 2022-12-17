@@ -1,6 +1,6 @@
 <template>
   <kbd
-    class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400 group-hover:bg-slate-100"
+    class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400 group-hover:bg-slate-100 dark:bg-jovieDark-700 dark:text-slate-100 dark:group-hover:bg-jovieDark-800"
     >{{ shortcutKey }}</kbd
   >
 </template>

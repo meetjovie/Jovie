@@ -21,7 +21,7 @@
           @focus="focusMenuSearch()"
           as="div"
           :class="[{ 'w-40': size == 'md' }, { 'w-80': size == 'lg' }]"
-          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 overflow-auto rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-jovieDark-700 dark:bg-jovieDark-800/60">
+          class="z-30 mt-2 max-h-80 origin-top-right items-center divide-y divide-slate-100 overflow-auto rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:divide-slate-700/30 dark:border-jovieDark-border dark:bg-jovieDark-800/60">
           <slot name="menuTop"></slot>
           <div v-if="searchable" class="sticky top-0 px-1">
             <MenuItem
