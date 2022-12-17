@@ -990,6 +990,15 @@
                         "></star-rating>
                     </td>
                     <td
+                      v-if="visibleColumns.includes('crm_record_by_user.lists')"
+                      class="table-cell w-24 overflow-x-scroll whitespace-nowrap px-2 py-1 text-sm text-slate-500">
+                      <InputLists
+                        @updateLists="updateCreatorLists"
+                        :creatorId="creator.id ?? 0"
+                        :lists="creator.lists"
+                        :currentList="creator.current_list" />
+                    </td>
+                    <td
                       class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
                       <div class="flex items-center justify-end text-right">
                         <div>
@@ -1035,7 +1044,7 @@
 import { Float } from '@headlessui-float/vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import ContactContextMenuItem from '../../components/ContactContextMenuItem';
-
+import InputLists from '../../components/InputLists';
 import { ref } from 'vue';
 import '@vuepic/vue-datepicker/dist/main.css';
 import {
@@ -1071,6 +1080,7 @@ import {
   CurrencyDollarIcon,
   EnvelopeIcon,
   LinkIcon,
+  ListBulletIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
   ArrowUpCircleIcon,
@@ -1111,6 +1121,7 @@ export default {
     ButtonGroup,
     CloudArrowUpIcon,
     Menu,
+    InputLists,
     EnvelopeIcon,
     ArrowSmallLeftIcon,
     Switch,
@@ -1133,6 +1144,7 @@ export default {
     PopoverButton,
     PopoverPanel,
     NoSymbolIcon,
+    ListBulletIcon,
     TrashIcon,
     Pagination,
     HeartIcon,
@@ -1275,6 +1287,15 @@ export default {
           name: 'Rating',
           key: 'crm_record_by_user.rating',
           icon: 'StarIcon',
+          sortable: true,
+          visible: true,
+          breakpoint: '2xl',
+          width: '24',
+        },
+        {
+          name: 'Lists',
+          key: 'crm_record_by_user.lists',
+          icon: 'ListBulletIcon',
           sortable: true,
           visible: true,
           breakpoint: '2xl',
