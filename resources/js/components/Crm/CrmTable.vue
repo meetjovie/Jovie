@@ -319,7 +319,7 @@
           <div
             class="flex h-full w-full flex-col justify-between overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
-              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-800">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead class="relative isolate z-20 w-full items-center">
                 <tr class="sticky h-8 items-center">
                   <th
@@ -813,7 +813,7 @@
                           type="platform-title"
                           name="platform-title"
                           id="platform-title"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="Title"
                           aria-describedby="title" />
                       </div>
@@ -829,7 +829,7 @@
                           type="platform-employer"
                           name="platform-employer"
                           id="platform-employer"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="Company"
                           aria-describedby="Company" />
                       </div>
@@ -991,7 +991,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.lists')"
-                      class="table-cell w-24 overflow-x-scroll whitespace-nowrap px-2 py-1 text-sm text-slate-500">
+                      class="table-cell w-24 whitespace-nowrap px-2 py-1 text-sm text-slate-500">
                       <InputLists
                         @updateLists="updateCreatorLists"
                         :creatorId="creator.id ?? 0"

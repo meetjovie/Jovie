@@ -33,7 +33,7 @@
                   :searchable="false">
                   <template #triggerButton>
                     <div
-                      class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-800">
+                      class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
                       <div class="flex">
                         <div
                           class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
@@ -49,7 +49,7 @@
                   <template #menuTop>
                     <div class="">
                       <div
-                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-300">
+                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-300">
                         Your workspaces:
                       </div>
                     </div>
@@ -60,7 +60,7 @@
                       class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-jovieDark-border dark:hover:text-slate-300"
                       :class="[
                         active
-                          ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-900 dark:text-jovieDark-200'
+                          ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
                           : 'text-sm text-slate-700 dark:text-jovieDark-300',
                         'group flex w-full items-center px-2 py-2 text-2xs  ',
                       ]">
@@ -169,13 +169,13 @@
 
                   <template #menuBottom>
                     <div
-                      class="border-t border-slate-200/40 dark:bg-jovieDark-700/40">
+                      class="border-t border-slate-200 dark:border-jovieDark-border">
                       <MenuItem
                         as="div"
                         @click="toggleShowSupportModal()"
                         :class="[
                           active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-800 dark:text-jovieDark-100'
+                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
                             : '',
                           'inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-300',
                         ]"
@@ -187,11 +187,11 @@
                       </MenuItem>
                     </div>
                     <div
-                      class="border-t border-slate-200/40 dark:bg-jovieDark-700/40">
+                      class="border-t border-slate-200 dark:border-jovieDark-border">
                       <MenuItem
                         as="div"
                         @click="$store.dispatch('logout')"
-                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800 dark:hover:text-slate-100"
+                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:bg-jovieDark-700 dark:hover:text-slate-100"
                         role="menuitem"
                         tabindex="-1">
                         <component

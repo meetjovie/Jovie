@@ -8,7 +8,7 @@
               <div class="mt-2 w-full px-4">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                   <div class="flex items-center text-xs">
                     <PlusIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
@@ -36,7 +36,7 @@
                               ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
                               : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                             active
-                              ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                              ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                               : '',
                           ]">
                           <div class="flex items-center text-xs">
@@ -83,7 +83,7 @@
                                 ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                 : '',
                             ]">
                             <div class="flex items-center text-xs">
@@ -118,7 +118,7 @@
                                   ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
                                   : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                                 active
-                                  ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                  ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                   : '',
                               ]">
                               <div class="flex items-center text-xs">
@@ -183,7 +183,7 @@
                       to="import"
                       :class="[
                         active
-                          ? 'bg-slate-200  text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                          ? 'bg-slate-200  text-slate-900 dark:bg-jovieDark-border dark:text-jovieDark-100'
                           : 'text-slate-700',
                       ]"
                       class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
@@ -206,7 +206,7 @@
                       @click="toggleShowSupportModal()"
                       :class="[
                         active
-                          ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                          ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                           : '',
                         'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100',
                       ]">

@@ -124,7 +124,7 @@
                 v-slot="{ active }"
                 v-if="filteredItems.length === 0">
                 <div
-                  :class="{ 'bg-slate-200': active }"
+                  :class="{ 'bg-slate-200 dark:bg-jovieDark-700': active }"
                   class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200">
                   <div class="mx-auto flex">
                     <div

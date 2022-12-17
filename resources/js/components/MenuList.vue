@@ -51,15 +51,23 @@
                 </div>
 
                 <div class="flex w-full items-center">
-                  <div
-                    @click="openEmojiPicker(element)"
-                    :class="{
-                      'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
-                        active,
-                    }"
-                    class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
-                    {{ element.emoji ?? '📄' }}
-                  </div>
+                  <Float portal shift :offset="2" placement="right-start">
+                    <div
+                      @click="openEmojiPicker(element)"
+                      :class="{
+                        'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
+                          active,
+                      }"
+                      class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+                      {{ element.emoji ?? '📄' }}
+                    </div>
+                    <EmojiPickerModal
+                      v-show="openEmojis"
+                      @emojiSelected="emojiSelected($event)"
+                      class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-jovieDark-800">
+                    </EmojiPickerModal>
+                  </Float>
+
                   <div
                     @dblclick="enableEditName(element)"
                     class="w-full cursor-pointer">
@@ -384,6 +392,7 @@
 import InputGroup from './../components/InputGroup.vue';
 import { PinIcon, PinnedIcon } from 'vue-tabler-icons';
 import JovieSpinner from './../components/JovieSpinner.vue';
+import { Float } from '@headlessui-float/vue';
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -410,7 +419,6 @@ import {
 import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
-import { Float } from '@headlessui-float/vue';
 
 export default {
   data() {
