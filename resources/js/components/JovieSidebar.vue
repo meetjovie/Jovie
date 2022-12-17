@@ -49,7 +49,7 @@
                   <template #menuTop>
                     <div class="">
                       <div
-                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-300">
+                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
                         Your workspaces:
                       </div>
                     </div>
