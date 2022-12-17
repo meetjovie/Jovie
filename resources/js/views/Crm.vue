@@ -500,10 +500,9 @@
                         </div>
                       </div>
                       <!-- Show the crm if there are creators -->
-                      <KeepAlive>
+                      <KeepAlive v-else>
                         <CrmTable
                           class="overflow-hidden"
-                          v-else
                           ref="crmTable"
                           @addContact="showCreatorModal = true"
                           @updateCreator="updateCreator"
