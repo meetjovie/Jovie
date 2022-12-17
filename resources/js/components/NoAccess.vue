@@ -1,7 +1,7 @@
 <template>
   <main
-    class="mx-auto flex h-screen w-full flex-grow flex-col items-center justify-center px-4 dark:bg-gray-800 dark:text-gray-300 sm:px-6 lg:px-8">
-    <div class="max-w-7xl items-center dark:bg-gray-800">
+    class="mx-auto flex h-screen w-full flex-grow flex-col items-center justify-center px-4 dark:bg-jovieDark-800 dark:text-gray-300 sm:px-6 lg:px-8">
+    <div class="max-w-7xl items-center dark:bg-jovieDark-800">
       <div class="text-center">
         <p
           class="text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300">

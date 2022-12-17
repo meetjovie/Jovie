@@ -14,7 +14,7 @@
             class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider"
             :class="[
               {
-                ' cursor-pointer hover:bg-slate-200 active:bg-slate-300 active:bg-slate-700 dark:hover:bg-slate-800':
+                ' cursor-pointer hover:bg-slate-200 active:bg-slate-300 active:bg-slate-700 dark:hover:bg-jovieDark-800':
                   sortable,
               },
             ]">
@@ -61,7 +61,7 @@
           :show="open">
           <PopoverPanel
             static
-            class="w-48 items-center rounded-md border border-gray-200 bg-white/60 bg-clip-padding text-slate-900 shadow-md backdrop-blur-xl backdrop-filter dark:border-gray-700 dark:bg-slate-900/60 dark:text-slate-100">
+            class="w-48 items-center rounded-md border border-gray-200 bg-white/60 bg-clip-padding text-slate-900 shadow-md backdrop-blur-xl backdrop-filter dark:border-gray-700 dark:bg-jovieDark-900/60 dark:text-slate-100">
             <div
               @click="$emit('hide-column')"
               class="flex cursor-pointer rounded-md py-2 px-2 text-xs font-medium text-slate-900 hover:bg-slate-300 dark:text-slate-100"

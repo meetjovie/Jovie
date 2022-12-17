@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <nav
-      class="transiion-all flex w-full flex-auto items-center justify-between border-t border-slate-200 bg-white px-4 pb-2 dark:bg-slate-900 sm:px-2">
+      class="transiion-all flex w-full flex-auto items-center justify-between border-t border-slate-200 bg-white px-4 pb-2 dark:bg-jovieDark-900 sm:px-2">
       <div class="group flex">
         <a
           v-if="isFirstPage"

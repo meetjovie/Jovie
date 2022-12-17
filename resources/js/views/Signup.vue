@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen bg-white dark:bg-slate-900">
+  <div class="flex min-h-screen bg-white dark:bg-jovieDark-900">
     <div
       class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
       <div class="m-auto flex h-full items-center">

@@ -9,7 +9,7 @@
         @click="open"
         class="flex w-full justify-between px-2">
         <div
-          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:bg-slate-800 dark:text-slate-200"
+          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:bg-jovieDark-800 dark:text-slate-200"
           :class="[
             {
               'bg-indigo-50 text-indigo-600 dark:bg-indigo-800 dark:text-indigo-200':
@@ -52,11 +52,11 @@
           static
           @focus="focusStageInput()"
           as="div"
-          class="dark:bg-border-500 z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-500 dark:bg-slate-900/60">
+          class="dark:bg-border-500 z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-500 dark:bg-jovieDark-900/60">
           <div class="px-1">
             <MenuItem v-slot="{ active }" as="div">
               <div
-                class="relative flex items-center border-b border-slate-200 dark:border-slate-700/40">
+                class="relative flex items-center border-b border-slate-200 dark:border-jovieDark-700/40">
                 <input
                   ref="stageInput"
                   v-model="stageSearchQuery"
@@ -72,7 +72,7 @@
             </MenuItem>
           </div>
 
-          <div class="border-t border-slate-200 px-2 dark:border-slate-700">
+          <div class="border-t border-slate-200 px-2 dark:border-jovieDark-700">
             <MenuItem
               as="div"
               v-slot="{ active }"
@@ -89,7 +89,7 @@
               <div
                 class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400"
                 :class="{
-                  'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200':
+                  'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-200':
                     active,
                 }">
                 <div class="flex">
@@ -123,7 +123,7 @@
                             stage == 'Complete',
                         },
                         {
-                          'bg-slate-600 text-slate-600 dark:bg-slate-200 dark:text-slate-200':
+                          'bg-slate-600 text-slate-600 dark:bg-jovieDark-200 dark:text-slate-200':
                             stage == 'Not Interested',
                         },
                       ]"></span>
@@ -142,7 +142,7 @@
               v-slot="{ active }"
               v-if="filteredStage.length === 0">
               <div
-                :class="{ 'bg-slate-200 dark:bg-slate-700': active }"
+                :class="{ 'bg-slate-200 dark:bg-jovieDark-700': active }"
                 class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400">
                 <div class="mx-auto flex">
                   <div class="text-center text-xs font-medium text-slate-300">
@@ -159,7 +159,7 @@
               v-if="stageSearchQuery"
               :disabled="!stageSearchQuery"
               @click="stageSearchQuery = ''"
-              class="hover: group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-slate-700/40 dark:text-slate-400 dark:text-slate-400">
+              class="hover: group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-jovieDark-700/40 dark:text-slate-400 dark:text-slate-400">
               <div class="mx-auto flex items-center text-center">
                 <div class="mr-2 w-3 text-xs font-bold opacity-50">
                   <XMarkIcon

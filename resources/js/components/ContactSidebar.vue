@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-full bg-white dark:bg-slate-900">
+  <div class="h-screen w-full bg-white dark:bg-jovieDark-900">
     <div v-if="user.loggedIn">
       <!--  <div
         v-if="!jovie"
@@ -29,7 +29,7 @@
             v-if="imageLoaded && creator.profile_pic_url"
             id="profile-img-jovie"
             @error="switchToDefaultImage"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-slate-700"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-700"
             :src="creator.profile_pic_url" />
         </div>
         <div class="col-span-2 mt-6 pl-1 pr-2">
@@ -37,17 +37,17 @@
             @blur="$emit('updateCrmMeta')"
             v-model="creator.meta.name"
             placeholder="Name"
-            class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:text-slate-300 dark:hover:bg-slate-800" />
+            class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-jovieDark-700 dark:border-jovieDark-700 dark:bg-jovieDark-800 dark:text-slate-300 dark:text-slate-300 dark:hover:bg-jovieDark-800" />
           <!-- <div class="">
             <input
               @blur="saveToCrm()"
               placeholder="Title"
-              class="w-auto rounded-md border border-slate-300 dark:border-slate-700 border-slate-700 border-opacity-0 px-1 text-xs font-bold text-slate-700 dark:text-slate-300 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
+              class="w-auto rounded-md border border-slate-300 dark:border-jovieDark-700 border-slate-700 border-opacity-0 px-1 text-xs font-bold text-slate-700 dark:text-slate-300 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
 
             <input
               @blur="saveToCrm()"
               placeholder="Company"
-              class="w-full rounded-md border border-slate-300 dark:border-slate-700 border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
+              class="w-full rounded-md border border-slate-300 dark:border-jovieDark-700 border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
           </div> -->
 
           <div v-if="creator.category" class="">
@@ -346,7 +346,7 @@
       </TransitionRoot>
 
       <hr
-        class="border border-slate-100 text-slate-300 dark:border-slate-700 dark:text-slate-700" />
+        class="border border-slate-100 text-slate-300 dark:border-jovieDark-700 dark:text-slate-700" />
 
       <div class="px-4 py-2">
         <ButtonGroup
@@ -360,7 +360,7 @@
           <Menu>
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
-                class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-700 dark:border-jovieDark-700 dark:text-slate-300 dark:hover:bg-jovieDark-800">
                 <ChatBubbleLeftIcon
                   class="h-3 w-3 text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
                   aria-hidden="true" />
@@ -377,7 +377,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
+                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-700 dark:bg-jovieDark-900/60">
                   <div class="py-1">
                     <ContactContextMenuItem
                       :creator="creator"
@@ -466,7 +466,8 @@
             </draggable>
           </div>
 
-          <div class="mt-2 justify-self-end bg-white px-2 dark:bg-slate-900">
+          <div
+            class="mt-2 justify-self-end bg-white px-2 dark:bg-jovieDark-900">
             <TextAreaInput
               ref="noteInput"
               v-model="creator.note"
@@ -599,7 +600,7 @@
                         id="remember-me"
                         name="remember-me"
                         type="checkbox"
-                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-slate-700 dark:border-slate-700" />
+                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-700 dark:border-jovieDark-700" />
                       <label
                         for="remember-me"
                         class="ml-2 block text-sm text-slate-900 dark:text-slate-100">

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full dark:bg-slate-900">
+  <div class="flex w-full dark:bg-jovieDark-900">
     <div
       class="mx-auto flex h-screen w-full flex-col items-center justify-between py-12">
       <div class="mx-auto h-full items-center px-12 py-6">
@@ -8,7 +8,7 @@
         </p>
         <div class="mx-auto py-6" aria-hidden="true">
           <div
-            class="overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600">
+            class="overflow-hidden rounded-full bg-slate-200 dark:bg-jovieDark-600">
             <div
               class="h-2 rounded-full bg-indigo-600 dark:bg-indigo-400"
               :class="[
@@ -69,7 +69,7 @@
             enctype="multipart/form-data">
             <div
               x-data="{photoName: null, photoPreview: null}"
-              class="bg-white px-4 py-5 shadow dark:bg-slate-900 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
+              class="bg-white px-4 py-5 shadow dark:bg-jovieDark-900 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-4">
                   <!-- Profile Photo File Input -->
@@ -88,7 +88,7 @@
 
                     <label
                       for="profile_pic_url"
-                      class="dark;text-slate-200 bd:text-slate-200 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-slate-900 dark:text-slate-200">
+                      class="dark;text-slate-200 bd:text-slate-200 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-900 dark:text-slate-200">
                       Change
                     </label>
                     <input
@@ -114,7 +114,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-slate-900 dark:text-slate-200">
+                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-jovieDark-900 dark:text-slate-200">
                     Remove Photo
                   </button>
                 </div>
@@ -157,7 +157,7 @@
               </div>
             </div>
             <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-slate-800 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-jovieDark-800 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
@@ -171,7 +171,7 @@
 
         <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
           <div
-            class="py- rounded-md bg-slate-50 px-4 dark:bg-slate-800 dark:text-slate-300">
+            class="py- rounded-md bg-slate-50 px-4 dark:bg-jovieDark-800 dark:text-slate-300">
             <h2 class="font-slate-500 py-2 px-4">
               Add at least one social link to your profile.
             </h2>
@@ -267,14 +267,14 @@
       </div>
     </div>
     <aside
-      class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed dark:border-slate-700 xl:flex xl:flex-col">
+      class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed dark:border-jovieDark-700 xl:flex xl:flex-col">
       <!-- Start secondary column (hidden on smaller screens) -->
       <div
         class="absolute inset-0 items-center border-r border-slate-200 py-6 px-4 sm:px-6 lg:px-8">
         <span class="text-2xl font-semibold text-slate-500">Preview</span>
         <div class="items-center">
           <div
-            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-slate-200 bg-slate-50 px-4 dark:border-slate-700 dark:bg-slate-800 sm:items-center sm:px-6 lg:px-8">
+            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-slate-200 bg-slate-50 px-4 dark:border-jovieDark-700 dark:bg-jovieDark-800 sm:items-center sm:px-6 lg:px-8">
             <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
               <div>
                 <img
@@ -355,7 +355,7 @@
               </a>
 
               <div
-                class="border-t-2 border-slate-400 opacity-20 dark:border-slate-700"></div>
+                class="border-t-2 border-slate-400 opacity-20 dark:border-jovieDark-700"></div>
             </div>
           </div>
         </div>

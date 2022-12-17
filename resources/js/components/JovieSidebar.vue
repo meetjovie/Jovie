@@ -10,7 +10,7 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
 
     <div
-      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-slate-800 dark:bg-stone-900">
+      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-jovieDark-700 dark:bg-jovieDark-900">
       <div>
         <slot name="header">
           <div class="w-full flex-col px-2">
@@ -33,7 +33,7 @@
                   :searchable="false">
                   <template #triggerButton>
                     <div
-                      class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-800">
+                      class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-800">
                       <div class="flex">
                         <div
                           class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200">
@@ -49,7 +49,7 @@
                   <template #menuTop>
                     <div class="">
                       <div
-                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-300">
+                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:bg-jovieDark-700 dark:text-slate-300">
                         Your workspaces:
                       </div>
                     </div>
@@ -57,10 +57,10 @@
                   <template #menuBottom>
                     <router-link
                       to="/accounts"
-                      class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                      class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-jovieDark-700 dark:hover:text-slate-300"
                       :class="[
                         active
-                          ? 'bg-white px-1 py-2 text-slate-800 dark:bg-slate-900 dark:text-slate-200'
+                          ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-900 dark:text-slate-200'
                           : 'text-sm text-slate-700 dark:text-slate-300',
                         'group flex w-full items-center px-2 py-2 text-2xs  ',
                       ]">
@@ -79,7 +79,7 @@
                   :items="profileMenuItems">
                   <template #triggerButton>
                     <img
-                      class="inline-block aspect-square h-6 w-6 rounded-full border border-slate-200 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800"
+                      class="inline-block aspect-square h-6 w-6 rounded-full border border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
                       :src="
                         $store.state.AuthState.user.profile_pic_url ??
                         $store.state.AuthState.user.default_image
@@ -112,7 +112,7 @@
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
                           :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100':
                               active,
                           }">
                           <component
@@ -132,7 +132,7 @@
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
                           :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100':
                               active,
                           }">
                           <component
@@ -154,7 +154,7 @@
                         <div
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
                           :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100':
                               active,
                           }">
                           <component
@@ -169,13 +169,13 @@
 
                   <template #menuBottom>
                     <div
-                      class="border-t border-slate-200/40 dark:border-slate-600/40">
+                      class="border-t border-slate-200/40 dark:bg-jovieDark-700/40">
                       <MenuItem
                         as="div"
                         @click="toggleShowSupportModal()"
                         :class="[
                           active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-100'
+                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-800 dark:text-slate-100'
                             : '',
                           'inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 dark:text-slate-300',
                         ]"
@@ -187,11 +187,11 @@
                       </MenuItem>
                     </div>
                     <div
-                      class="border-t border-slate-200/40 dark:border-slate-600/40">
+                      class="border-t border-slate-200/40 dark:bg-jovieDark-700/40">
                       <MenuItem
                         as="div"
                         @click="$store.dispatch('logout')"
-                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-jovieDark-800 dark:hover:text-slate-100"
                         role="menuitem"
                         tabindex="-1">
                         <component

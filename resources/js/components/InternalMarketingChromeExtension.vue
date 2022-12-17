@@ -7,7 +7,7 @@
       <li v-for="(item, itemIdx) in items" :key="itemIdx">
         <div
           v-if="item.visible"
-          class="group relative flex h-24 items-center space-x-3 rounded-lg border border-slate-200 px-6 py-4 hover:bg-slate-200 dark:border-slate-700 dark:hover:bg-slate-700">
+          class="group relative flex h-24 items-center space-x-3 rounded-lg border border-slate-200 px-6 py-4 hover:bg-slate-200 dark:border-jovieDark-700 dark:hover:bg-jovieDark-700">
           <div class="flex-shrink-0 items-center">
             <span
               :class="[

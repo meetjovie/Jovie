@@ -42,7 +42,7 @@
                         : '',
                       checked
                         ? 'bg-indigo-700/80 text-white '
-                        : 'bg-white dark:bg-slate-800 ',
+                        : 'bg-white dark:bg-jovieDark-800 ',
                     ]"
                     class="relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus-visible:outline-none">
                     <div class="flex w-full items-center justify-between">
@@ -150,7 +150,7 @@
                   aria-hidden="true"
                   :class="[
                     annualBillingEnabled ? 'translate-x-5' : 'translate-x-0',
-                    'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out dark:bg-slate-800',
+                    'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out dark:bg-jovieDark-800',
                   ]" />
               </Switch>
               <SwitchLabel as="span" class="ml-3">
@@ -201,7 +201,7 @@
           <li></li>
         </ul>
       </div>
-      <div class="mt-5 border-t border-slate-200 dark:border-slate-700">
+      <div class="mt-5 border-t border-slate-200 dark:border-jovieDark-700">
         <dl class="divide-y divide-slate-200">
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
             <dt class="text-sm font-medium text-slate-500 dark:text-slate-300">

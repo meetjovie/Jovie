@@ -27,7 +27,7 @@
             <DialogPanel
               class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-5xl">
               <div
-                class="flex h-full w-full items-center border border-gray-200 bg-white/90 backdrop-blur-xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/90">
+                class="flex h-full w-full items-center border border-gray-200 bg-white/90 backdrop-blur-xl backdrop-filter dark:border-jovieDark-700 dark:bg-jovieDark-900/90">
                 <div class="h-full w-1/2 items-center px-6">
                   <div class="mx-auto px-8">
                     <div
@@ -99,7 +99,7 @@
                 </div>
               </div>
               <div
-                class="flex w-full items-center justify-end bg-white px-4 dark:bg-slate-800">
+                class="flex w-full items-center justify-end bg-white px-4 dark:bg-jovieDark-800">
                 <div class="flex items-center justify-end py-4">
                   <button
                     type="button"

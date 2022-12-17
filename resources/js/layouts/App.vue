@@ -42,7 +42,7 @@
             move="transition duration-500"
             move-delay="delay-300">
             <div
-              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150 dark:border-slate-700 dark:bg-slate-900/60"
+              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-700 dark:bg-jovieDark-900/60"
               v-for="notification in notifications"
               :key="notification.id">
               <button
@@ -51,7 +51,7 @@
                 <XIcon class="h-5 w-5 text-slate-400 dark:text-slate-100" />
               </button>
               <div
-                class="flex w-10 items-center justify-center bg-slate-200 dark:bg-slate-800">
+                class="flex w-10 items-center justify-center bg-slate-200 dark:bg-jovieDark-800">
                 <XMarkIcon
                   v-if="notification.type === 'error'"
                   class="h-4 w-4 text-red-500" />

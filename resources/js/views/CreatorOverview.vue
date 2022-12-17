@@ -323,7 +323,7 @@
 
                                     <div class="relative">
                                         <div
-                                            class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-slate-700 dark:bg-indigo-600"></div>
+                                            class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-jovieDark-700 dark:bg-indigo-600"></div>
                                     </div>
                                 </div>
                             </div> 

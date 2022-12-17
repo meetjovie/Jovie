@@ -3,7 +3,7 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <div
-          class="flex w-full items-center justify-between border-b border-slate-300 bg-white px-2 py-2 dark:border-slate-700 dark:bg-slate-900">
+          class="flex w-full items-center justify-between border-b border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <div class="w-full items-center px-4">
             <h1
               v-if="header.includes('all')"
@@ -62,7 +62,7 @@
                 <div
                   class="flex h-6 w-full items-center justify-end transition-all">
                   <div
-                    class="flex items-center rounded-md border border-slate-300 dark:border-slate-700 dark:bg-slate-800">
+                    class="flex items-center rounded-md border border-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-700">
                     <div
                       class="content-right relative flex flex-grow items-center py-1 focus-within:z-10">
                       <div
@@ -75,13 +75,13 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
+                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
 
                       <div
                         @click="toggleSearchVisible()"
                         class="group absolute inset-y-0 right-0 flex items-center pr-3">
                         <XMarkIcon
-                          class="h-4 w-4 cursor-pointer rounded-md p-0.5 text-slate-400 transition-all duration-150 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:group-hover:bg-slate-800"
+                          class="h-4 w-4 cursor-pointer rounded-md p-0.5 text-slate-400 transition-all duration-150 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-jovieDark-800 dark:text-slate-300 dark:group-hover:bg-jovieDark-800"
                           aria-hidden="true" />
                       </div>
                     </div>
@@ -147,10 +147,10 @@
                       <MenuItems
                         @focus="focusTableColumnFilterInput()"
                         static
-                        class="w-60 flex-col rounded-md border-2 border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0 dark:border-slate-700 dark:border-slate-700/40 dark:bg-slate-900/60 dark:bg-slate-900/60">
+                        class="w-60 flex-col rounded-md border-2 border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0 dark:border-jovieDark-border dark:border-jovieDark-border/40 dark:bg-jovieDark-900/60 dark:bg-jovieDark-900/60">
                         <!--  <div as="div">
                           <div
-                            class="flex items-center justify-between border-b border-slate-300 dark:border-slate-700  py-1">
+                            class="flex items-center justify-between border-b border-slate-300 dark:border-jovieDark-border  py-1">
                             <div
                               class="text-xs font-bold text-slate-500 line-clamp-1">
                               Display Columns
@@ -164,11 +164,11 @@
                                 ref="tableColumnFilterInput"
                                 v-model="tableViewSearchQuery"
                                 placeholder="Add columns..."
-                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:bg-slate-800 dark:text-slate-300" />
+                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:bg-jovieDark-800 dark:text-slate-300" />
                               <!-- <div
                                 class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
                                 <kbd
-                                  class="inline-flex items-center rounded border border-slate-300 dark:border-slate-700  px-1 font-sans text-2xs font-medium text-slate-400"
+                                  class="inline-flex items-center rounded border border-slate-300 dark:border-jovieDark-border  px-1 font-sans text-2xs font-medium text-slate-400"
                                   >S</kbd
                                 >
                               </div> -->
@@ -183,7 +183,7 @@
                             <SwitchLabel
                               class="flex items-center rounded-md"
                               :class="{
-                                'bg-slate-300 text-white dark:bg-slate-700 dark:text-slate-300':
+                                'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-slate-300':
                                   active,
                               }">
                               <button
@@ -208,9 +208,9 @@
                                     :class="
                                       checked
                                         ? 'bg-indigo-600 dark:bg-indigo-400'
-                                        : 'bg-slate-200 dark:bg-slate-800'
+                                        : 'bg-slate-200 dark:bg-jovieDark-800'
                                     "
-                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-slate-700">
+                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
                                     <span class="sr-only"
                                       >Show/hide column</span
                                     >
@@ -220,7 +220,7 @@
                                           ? 'translate-x-3'
                                           : 'translate-x-0'
                                       "
-                                      class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-slate-900" />
+                                      class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-900" />
                                   </button>
                                 </Switch>
                               </button>
@@ -228,7 +228,7 @@
                           </SwitchGroup>
                         </MenuItem>
                         <div
-                          class="text-medium border-t border-slate-300 dark:border-slate-700">
+                          class="text-medium border-t border-slate-300 dark:border-jovieDark-border">
                           <MenuItem
                             v-slot="{ active }"
                             v-for="setting in settings">
@@ -236,7 +236,7 @@
                               <SwitchLabel
                                 class="flex items-center rounded-md"
                                 :class="{
-                                  'bg-slate-300 text-white dark:bg-slate-700 dark:text-slate-200':
+                                  'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-slate-200':
                                     active,
                                 }">
                                 <button
@@ -261,16 +261,16 @@
                                       :class="
                                         checked
                                           ? 'bg-indigo-600 dark:bg-indigo-400'
-                                          : 'bg-slate-200 dark:bg-slate-700'
+                                          : 'bg-slate-200 dark:bg-jovieDark-700'
                                       "
-                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-slate-700">
+                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
                                       <span
                                         :class="
                                           checked
                                             ? 'translate-x-3'
                                             : 'translate-x-0'
                                         "
-                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-slate-100" />
+                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-100" />
                                     </button>
                                   </Switch>
                                 </button>
@@ -281,7 +281,7 @@
                             <div
                               class="flex items-center rounded-md"
                               :class="{
-                                'bg-slate-300 text-white dark:bg-slate-700 dark:text-slate-200':
+                                'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-slate-200':
                                   active,
                               }">
                               <button
@@ -317,18 +317,18 @@
         <div
           class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
           <div
-            class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-slate-900">
+            class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
-              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-800">
               <thead class="relative isolate z-20 w-full items-center">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-slate-300 bg-slate-100 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:before:border-slate-700">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-slate-300 bg-slate-100 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-slate-700">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
-                        class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-slate-700 dark:text-indigo-400"
+                        class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400"
                         :checked="
                           intermediate ||
                           selectedCreators.length === creatorRecords.length
@@ -343,20 +343,20 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-b border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
+                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-b border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-slate-400">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-b border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 after:dark:border-slate-700">
+                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-b border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-slate-400 after:dark:border-jovieDark-border">
                     <div
                       v-if="selectedCreators.length > 0"
-                      class="flex items-center space-x-3 bg-slate-100 dark:bg-slate-800">
+                      class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
                       <!--   <ContactActionMenu /> -->
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
-                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">
+                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-slate-300 dark:hover:bg-jovieDark-800">
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
                               class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-slate-400"
@@ -370,7 +370,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -384,7 +384,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                      ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
                                       : 'text-slate-700 dark:text-slate-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -406,7 +406,7 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                      ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
                                       : 'text-slate-700 dark:text-slate-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
@@ -445,7 +445,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:border-x-slate-700 dark:bg-slate-800 dark:bg-slate-800 dark:text-slate-400">
+                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:border-x-slate-700 dark:bg-jovieDark-700 dark:bg-jovieDark-700 dark:text-slate-400">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -456,11 +456,11 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-800"></th>
+                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
                 </tr>
               </thead>
               <tbody
-                class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-slate-800">
+                class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
                 <template class="w-full" v-if="loading">
                   <tr class="w-full">
                     <td class="w-full" colspan="11">
@@ -482,23 +482,23 @@
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu(creator)"
-                    class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-slate-700"
+                    class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
                     :class="[
                       {
-                        'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
+                        'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
                           currentContact.id == creator.id,
                       },
-                      'bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800',
+                      'bg-white hover:bg-slate-50 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-800',
                     ]">
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
+                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:bg-slate-900 before:dark:border-slate-700 dark:group-hover:text-slate-400">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:bg-jovieDark-900 before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -513,7 +513,7 @@
                               type="checkbox"
                               name="selectCreatorCheckbox"
                               :value="creator.id"
-                              class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-slate-700 dark:text-indigo-400 sm:left-6"
+                              class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6"
                               v-model="selectedCreators" />
                           </form>
                         </span>
@@ -531,10 +531,10 @@
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
+                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
                       class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:text-slate-700 dark:group-hover:text-slate-400">
                       <div
@@ -568,20 +568,20 @@
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
+                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-slate-700 dark:bg-slate-900 dark:after:border-slate-700">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:bg-jovieDark-900 dark:after:border-slate-700">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
                             <div
-                              class="rounded-full bg-slate-400 p-0.5 dark:bg-slate-600">
+                              class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600">
                               <div
-                                class="rounded-full bg-white p-0 dark:bg-slate-900">
+                                class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
                                 <img
                                   class="rounded-full object-cover object-center"
                                   :src="creator.profile_pic_url"
@@ -601,7 +601,7 @@
                               type="creator-name"
                               name="creator-name"
                               id="creator-name"
-                              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 dark:placeholder-slate-700 sm:text-xs"
+                              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-700 sm:text-xs"
                               placeholder="Name"
                               aria-describedby="name-description" />
                           </div>
@@ -658,7 +658,7 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
+                                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                                   <div class="py-1">
                                     <ContactContextMenuItem
                                       :creator="creator"
@@ -682,7 +682,7 @@
                                         @click="downloadVCF(this.creator)"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
                                             : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -706,7 +706,7 @@
                                         href="#"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
                                             : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -728,7 +728,7 @@
                                       <button
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
                                             : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -753,7 +753,7 @@
                                         class="items-center text-slate-400 hover:text-slate-900"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
                                             : 'text-slate-700 dark:text-slate-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
@@ -772,7 +772,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('first_name')"
-                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-sm text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.first_name"
@@ -781,14 +781,14 @@
                           type="creator-firstname"
                           name="creator-firstname"
                           id="creator-firname"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
                           placeholder="First"
                           aria-describedby="email-description" />
                       </div>
                     </td>
                     <td
                       v-if="visibleColumns.includes('last_name')"
-                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.last_name"
@@ -797,14 +797,14 @@
                           type="creator-lastname"
                           name="creator-lastname"
                           id="creator-lastname"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
                           placeholder="Last"
                           aria-describedby="email-description" />
                       </div>
                     </td>
                     <td
                       v-if="visibleColumns.includes('title')"
-                      class="border-1 table-cell w-40 resize-x whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-40 resize-x whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_title"
@@ -813,14 +813,14 @@
                           type="platform-title"
                           name="platform-title"
                           id="platform-title"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
                           placeholder="Title"
                           aria-describedby="title" />
                       </div>
                     </td>
                     <td
                       v-if="visibleColumns.includes('employer')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_employer"
@@ -829,7 +829,7 @@
                           type="platform-employer"
                           name="platform-employer"
                           id="platform-employer"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
                           placeholder="Company"
                           aria-describedby="Company" />
                       </div>
@@ -837,7 +837,7 @@
 
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-slate-700">
+                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-jovieDark-border">
                       <div
                         class="text-xs text-slate-700 line-clamp-1 dark:text-slate-300">
                         <input
@@ -847,14 +847,14 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 dark:placeholder-slate-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-18 items-center whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 w-18 items-center whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -891,7 +891,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.offer')"
-                      class="border-1 table-cell w-12 whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-12 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <span
                         class="inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5 text-slate-800 dark:text-slate-200">
                         $
@@ -909,7 +909,7 @@
                           type="number"
                           name="creator-offer"
                           id="creator-offer"
-                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
                           :placeholder="
                             creator.crm_record_by_user.suggested_offer
                           "
@@ -919,7 +919,7 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <ContactStageMenu
                         :creator="creator"
                         :key="key"
@@ -951,7 +951,7 @@
                         autoApply="true"
                         type="datetime-local"
                         :id="creator.id + '_datepicker'"
-                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0"
+                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0"
                         placeholder="--/--/--"
                         aria-describedby="email-description" />
                       <!-- <input
@@ -966,7 +966,7 @@
                           autoApply="true"
                           type="datetime-local"
                           :id="creator.id + '_datepicker'"
-                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 dark:bg-slate-900/0 px-2 py-1 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 dark:bg-jovieDark-900/0 px-2 py-1 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                           placeholder="--/--/--"
                           aria-describedby="email-description" /> -->
                     </td>
@@ -1010,7 +1010,7 @@
               <div
                 v-if="creatorRecords.length < 50"
                 @click="$emit('addContact')"
-                class="flex w-full cursor-pointer items-center py-2 px-4 text-xs font-bold text-slate-600 hover:text-slate-700 dark:bg-slate-900 dark:text-slate-400 hover:dark:bg-slate-700 dark:hover:text-slate-200">
+                class="flex w-full cursor-pointer items-center py-2 px-4 text-xs font-bold text-slate-600 hover:text-slate-700 dark:bg-jovieDark-900 dark:text-slate-400 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
                 <PlusIcon class="mr-2 h-4 w-4" />
                 Add new contact
               </div>

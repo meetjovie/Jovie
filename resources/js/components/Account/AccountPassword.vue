@@ -23,7 +23,7 @@
             enctype="multipart/form-data">
             <div
               x-data="{photoName: null, photoPreview: null}"
-              class="bg-white px-4 py-5 shadow dark:bg-slate-800 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
+              class="bg-white px-4 py-5 shadow dark:bg-jovieDark-800 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <!-- Name -->
                 <div class="col-span-6 sm:col-span-4">
@@ -64,7 +64,7 @@
             </div>
 
             <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-slate-900 dark:bg-slate-900 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-jovieDark-900 dark:bg-jovieDark-900 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
@@ -88,7 +88,8 @@
 
       <div class="hidden sm:block">
         <div class="py-8">
-          <div class="border-t border-slate-200 dark:border-slate-700"></div>
+          <div
+            class="border-t border-slate-200 dark:border-jovieDark-700"></div>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@
     <h2 class="sr-only">Testimonials</h2>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
       <!--  <figure
-        class="dark:highlight-white/5 relative flex flex-col-reverse rounded-lg bg-slate-50 p-6 dark:bg-slate-800"
+        class="dark:highlight-white/5 relative flex flex-col-reverse rounded-lg bg-slate-50 p-6 dark:bg-jovieDark-800"
         v-for="card in cards"
         :key="card.id">
         <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
@@ -32,7 +32,7 @@
       <figure
         v-for="card in cards"
         :key="card.id"
-        class="rounded-xl bg-slate-100 p-8 dark:bg-slate-800">
+        class="rounded-xl bg-slate-100 p-8 dark:bg-jovieDark-800">
         <img
           class="mx-auto h-24 w-24 rounded-full"
           :src="asset('img/External/Pepijn_vann_Kesteren.webp')"

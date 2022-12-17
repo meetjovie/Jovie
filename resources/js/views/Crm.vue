@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full dark:bg-slate-900">
+  <div class="h-full w-full dark:bg-jovieDark-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
@@ -8,7 +8,7 @@
               <div class="mt-2 px-4">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md group my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:dark:bg-slate-700">
+                  class="rouned-md group my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-700 dark:bg-jovieDark-800 dark:text-slate-300 hover:dark:bg-jovieDark-700">
                   <div class="flex items-center text-xs">
                     <PlusIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
@@ -16,10 +16,7 @@
                     New Contact
                   </div>
                   <div class="items-center">
-                    <kbd
-                      class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400 group-hover:bg-slate-100"
-                      >C</kbd
-                    >
+                    <KBShortcut shortcutKey="c"></KBShortcut>
                   </div>
                 </div>
               </div>
@@ -39,7 +36,7 @@
                               ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
                               : 'text-sm font-light text-slate-900 dark:text-slate-100',
                             active
-                              ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                              ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
                               : '',
                           ]">
                           <div class="flex items-center text-xs">
@@ -51,11 +48,11 @@
                               class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
                               aria-hidden="true">
                             </ChevronRightIcon>
-                            Contacts
+                            All Contacts
                           </div>
                           <div
                             @click="showCreatorModal = true"
-                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-slate-600 hover:dark:text-slate-900">
+                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-slate-900">
                             <span
                               class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-slate-100 group-hover:dark:text-slate-100"
                               >{{ counts.total }}</span
@@ -86,7 +83,7 @@
                                 ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-slate-100',
                               active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
                                 : '',
                             ]">
                             <div class="flex items-center text-xs">
@@ -121,7 +118,7 @@
                                   ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
                                   : 'text-sm font-light text-slate-900 dark:text-slate-100',
                                 active
-                                  ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                  ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
                                   : '',
                               ]">
                               <div class="flex items-center text-xs">
@@ -173,7 +170,7 @@
           </template>
           <template #footer>
             <div
-              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
+              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-jovieDark-700">
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">
@@ -181,7 +178,7 @@
                       to="import"
                       :class="[
                         active
-                          ? 'bg-slate-200  text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                          ? 'bg-slate-200  text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
                           : 'text-slate-700',
                       ]"
                       class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
@@ -204,7 +201,7 @@
                       @click="toggleShowSupportModal()"
                       :class="[
                         active
-                          ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                          ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
                           : '',
                         'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100',
                       ]">
@@ -219,16 +216,16 @@
               <div class="mt-1 flex items-center justify-between py-1">
                 <div
                   @click="openUpgradeModal()"
-                  class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-1 px-2 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800">
+                  class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-2 px-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-700 dark:bg-jovieDark-800">
                   <div class="flex items-center">
-                    <ArrowUpCircleIcon class="mr-1 h-5 w-5 text-slate-500" />
+                    <ArrowUpCircleIcon class="mr-1 h-4 w-4 text-slate-500" />
                     <span class="text-xs text-slate-700 dark:text-slate-100"
                       >Free Plan</span
                     >
                   </div>
                   <div class="flex items-center">
                     <span
-                      class="cursor-pointer items-center text-2xs text-indigo-700 dark:text-indigo-100"
+                      class="cursor-pointer items-center text-2xs text-indigo-700 dark:text-indigo-400"
                       >Learn more</span
                     >
                   </div>
@@ -267,7 +264,7 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-slate-700 dark:bg-slate-800/60 sm:px-0">
+                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-jovieDark-700 dark:bg-jovieDark-800/60 sm:px-0">
                         <div class="overflow-hidden rounded-lg">
                           <div class="relative h-80 gap-6 px-1 sm:gap-8">
                             <div
@@ -453,7 +450,7 @@
                       <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && !creators.length && !showImporting"
-                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-slate-900 sm:px-6 lg:px-8">
+                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
                             class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
@@ -540,7 +537,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-slate-700 xl:block">
+            class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-700 xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -559,7 +556,7 @@
       <EmojiPickerModal
         v-show="openEmojis"
         @emojiSelected="emojiSelected($event)"
-        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-slate-800">
+        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-jovieDark-800">
       </EmojiPickerModal>
       <SupportModal
         @close="toggleShowSupportModal()"
@@ -641,6 +638,7 @@ import CreatorTags from '../components/Creator/CreatorTags.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import ImportService from '../services/api/import.service';
+import KBShortcut from '../components/KBShortcut.vue';
 
 export default {
   name: 'CRM',
@@ -694,6 +692,7 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
+    KBShortcut,
     ChevronDownIcon,
     CheckIcon,
     ArchiveBoxIcon,

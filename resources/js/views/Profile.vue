@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="user"
-    class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-slate-50 px-4 dark:bg-slate-900 sm:items-center sm:px-6 lg:px-8">
+    class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-slate-50 px-4 dark:bg-jovieDark-900 sm:items-center sm:px-6 lg:px-8">
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <router-link
         v-if="user.username == currentUser?.username"
@@ -76,7 +76,7 @@
       </a>
 
       <div
-        class="border-t-2 border-slate-400 opacity-20 dark:border-slate-700"></div>
+        class="border-t-2 border-slate-400 opacity-20 dark:border-jovieDark-700"></div>
       <router-link
         class="dark:text-sltate-300 group mt-1 py-4 text-center text-sm text-slate-500"
         to="signup">
