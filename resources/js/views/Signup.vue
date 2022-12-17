@@ -101,7 +101,7 @@
                 </div>
 
                 <h3
-                  class="mx-auto text-center text-xs text-slate-400 dark:text-slate-300">
+                  class="mx-auto text-center text-xs text-slate-400 dark:text-jovieDark-300">
                   Fast & easy. No credit card required.
                 </h3>
               </template>
@@ -170,7 +170,7 @@
                     </ButtonGroup>
                   </div>
                 </div>
-                <p class="text-2xs text-slate-400 dark:text-slate-200">
+                <p class="text-2xs text-slate-400 dark:text-jovieDark-200">
                   By clicking “Sign up” you agree to our
                   <router-link class="underline" to="privacy"
                     >privacy policy</router-link

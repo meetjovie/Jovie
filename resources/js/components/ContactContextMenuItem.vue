@@ -10,8 +10,8 @@
             @click="emailCreator(creator.emails[0] || creator.meta.emails[0])"
             :class="[
               active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                : 'text-slate-700 dark:text-slate-200',
+                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                : 'text-slate-700 dark:text-jovieDark-200',
               'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
             ]">
             <EnvelopeIcon class="mr-2 inline h-4 w-4 text-indigo-400" />
@@ -28,8 +28,8 @@
             @click="callCreator(creator.meta.phone || creator.phone)"
             :class="[
               active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                : 'text-slate-700 dark:text-slate-200',
+                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                : 'text-slate-700 dark:text-jovieDark-200',
               'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
             ]">
             <PhoneIcon class="mr-2 inline h-4 w-4 text-pink-400" />
@@ -46,8 +46,8 @@
             @click="textCreator(creator.meta.phone || creator.phone)"
             :class="[
               active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                : 'text-slate-700 dark:text-slate-200',
+                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                : 'text-slate-700 dark:text-jovieDark-200',
               'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
             ]">
             <ChatBubbleLeftEllipsisIcon
@@ -62,8 +62,8 @@
             @click="createCalendarEvent(creator)"
             :class="[
               active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                : 'text-slate-700 dark:text-slate-200',
+                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                : 'text-slate-700 dark:text-jovieDark-200',
               'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
             ]">
             <CalendarDaysIcon class="mr-2 inline h-4 w-4 text-indigo-400" />
@@ -77,8 +77,8 @@
             @click="sendTwitterDM(creator)"
             :class="[
               active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                : 'text-slate-700 dark:text-slate-200',
+                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                : 'text-slate-700 dark:text-jovieDark-200',
               'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
             ]">
             <ChatBubbleLeftEllipsisIcon
@@ -102,8 +102,8 @@
             "
             :class="[
               active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                : 'text-slate-700 dark:text-slate-200',
+                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                : 'text-slate-700 dark:text-jovieDark-200',
               'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
             ]">
             <ChatBubbleOvalLeftEllipsisIcon
@@ -121,8 +121,8 @@
             @click="whatsappCreator(creator.meta.phone || creator.phone)"
             :class="[
               active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                : 'text-slate-700 dark:text-slate-200',
+                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                : 'text-slate-700 dark:text-jovieDark-200',
               'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
             ]">
             <ChatBubbleOvalLeftEllipsisIcon
@@ -143,8 +143,8 @@
               class="items-center text-slate-400 hover:text-slate-900"
               :class="[
                 active
-                  ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                  : 'text-slate-700 dark:text-slate-200',
+                  ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                  : 'text-slate-700 dark:text-jovieDark-200',
                 'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
               ]">
               <ArrowPathIcon class="mr-2 inline h-4 w-4" />
@@ -162,8 +162,8 @@
             @click="verifyEmail(creator.meta.emails[0] || creator.emails[0])"
             :class="[
               active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
-                : 'text-slate-700 dark:text-slate-200',
+                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                : 'text-slate-700 dark:text-jovieDark-200',
               'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
             ]">
             <CheckCircleIcon class="mr-2 inline h-4 w-4 text-slate-500" />

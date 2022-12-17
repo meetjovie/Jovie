@@ -9,13 +9,13 @@
       { 'h-10 w-10': spinnerSize == 'lg' },
       { 'h-12 w-12': spinnerSize == 'xl' },
       {
-        'fill-indigo-600 text-slate-200 dark:fill-indigo-400 dark:text-slate-700':
+        'fill-indigo-600 text-slate-200 dark:fill-indigo-400 dark:text-jovieDark-700':
           spinnerColor == 'indigo',
       },
       { 'fill-white text-slate-400': spinnerColor == 'white' },
 
       {
-        'fill-slate-600 text-slate-200 dark:fill-slate-400 dark:text-slate-700':
+        'fill-slate-600 text-slate-200 dark:fill-slate-400 dark:text-jovieDark-700':
           spinnerColor == 'neutral',
       },
     ]"

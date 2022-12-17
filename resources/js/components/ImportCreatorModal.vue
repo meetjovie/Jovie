@@ -26,11 +26,11 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg border border-gray-200 bg-white/60 bg-opacity-60 bg-clip-padding px-4 pt-5 pb-4 text-left shadow-xl backdrop-blur-xl backdrop-filter transition-all dark:border-jovieDark-700 dark:bg-jovieDark-900/60 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+              class="relative transform overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-4 pt-5 pb-4 text-left shadow-xl backdrop-blur-xl backdrop-filter transition-all dark:border-jovieDark-border dark:bg-jovieDark-900 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
               <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                 <button
                   type="button"
-                  class="dark:hover:text-slate-500focus-visible:outline-none rounded-md bg-white text-slate-400 hover:text-slate-500 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-700 dark:text-slate-300"
+                  class="dark:hover:text-slate-500focus-visible:outline-none rounded-md bg-white text-slate-400 hover:text-slate-500 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-700 dark:text-jovieDark-300"
                   @click="$emit('closeModal')">
                   <span class="sr-only">Close</span>
                   <XMarkIcon class="h-6 w-6" aria-hidden="true" />
@@ -41,7 +41,7 @@
                   class="mt-3 w-full text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <DialogTitle
                     as="h3"
-                    class="text-lg font-medium leading-6 dark:text-slate-100">
+                    class="text-lg font-medium leading-6 dark:text-jovieDark-100">
                     Import a contact
                   </DialogTitle>
                   <div class="mt-2">

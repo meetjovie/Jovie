@@ -42,13 +42,13 @@
             move="transition duration-500"
             move-delay="delay-300">
             <div
-              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-700 dark:bg-jovieDark-900/60"
+              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border dark:bg-jovieDark-900/60"
               v-for="notification in notifications"
               :key="notification.id">
               <button
                 class="absolute top-0 right-0 m-2"
                 @click="notification.close">
-                <XIcon class="h-5 w-5 text-slate-400 dark:text-slate-100" />
+                <XIcon class="h-5 w-5 text-slate-400 dark:text-jovieDark-100" />
               </button>
               <div
                 class="flex w-10 items-center justify-center bg-slate-200 dark:bg-jovieDark-800">
@@ -71,10 +71,10 @@
               <div class="-mx-3 px-4 py-2">
                 <div class="mx-3">
                   <span
-                    class="text-xs font-semibold text-slate-600 dark:text-slate-100"
+                    class="text-xs font-semibold text-slate-600 dark:text-jovieDark-100"
                     >{{ notification.title }}</span
                   >
-                  <p class="text-xs text-slate-400 dark:text-slate-100">
+                  <p class="text-xs text-slate-400 dark:text-jovieDark-100">
                     {{ notification.text }}
                   </p>
                 </div>

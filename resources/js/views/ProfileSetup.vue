@@ -3,7 +3,7 @@
     <div
       class="mx-auto flex h-screen w-full flex-col items-center justify-between py-12">
       <div class="mx-auto h-full items-center px-12 py-6">
-        <p class="text-sm font-medium text-slate-900 dark:text-slate-100">
+        <p class="text-sm font-medium text-slate-900 dark:text-jovieDark-100">
           Create your Jovie profile...
         </p>
         <div class="mx-auto py-6" aria-hidden="true">
@@ -20,13 +20,13 @@
               ]" />
           </div>
           <div
-            class="mx-auto mt-2 hidden max-w-5xl grid-cols-4 px-8 text-sm font-medium text-slate-600 dark:text-slate-200 dark:text-slate-400 sm:grid">
+            class="mx-auto mt-2 hidden max-w-5xl grid-cols-4 px-8 text-sm font-medium text-slate-600 dark:text-jovieDark-200 dark:text-jovieDark-400 sm:grid">
             <div
               @click="setCurrentStep(1)"
               class="cursor-pointer"
               :class="[
                 { 'text-indigo-600 dark:text-indigo-400': step1Complete },
-                'text-slate-600 dark:text-slate-300',
+                'text-slate-600 dark:text-jovieDark-300',
               ]">
               Upload picture
             </div>
@@ -35,7 +35,7 @@
               class="cursor-pointer"
               :class="[
                 { 'text-indigo-600 dark:text-indigo-400': step2Complete },
-                'text-slate-600 dark:text-slate-300',
+                'text-slate-600 dark:text-jovieDark-300',
               ]">
               Add social Links
             </div>
@@ -44,7 +44,7 @@
               class="cursor-pointer"
               :class="[
                 { 'text-indigo-600 dark:text-indigo-400': step3Complete },
-                'text-slate-600 dark:text-slate-300',
+                'text-slate-600 dark:text-jovieDark-300',
               ]">
               Set a username
             </div>
@@ -55,7 +55,7 @@
                   'text-indigo-600 dark:text-indigo-400':
                     step1Complete && step2Complete && step3Complete,
                 },
-                'text-slate-600 dark:text-slate-300',
+                'text-slate-600 dark:text-jovieDark-300',
               ]">
               Finish
             </div>
@@ -88,7 +88,7 @@
 
                     <label
                       for="profile_pic_url"
-                      class="dark;text-slate-200 bd:text-slate-200 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-900 dark:text-slate-200">
+                      class="dark;text-slate-200 bd:text-slate-200 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-900 dark:text-jovieDark-200">
                       Change
                     </label>
                     <input
@@ -114,7 +114,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-jovieDark-900 dark:text-slate-200">
+                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-jovieDark-900 dark:text-jovieDark-200">
                     Remove Photo
                   </button>
                 </div>
@@ -171,7 +171,7 @@
 
         <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
           <div
-            class="py- rounded-md bg-slate-50 px-4 dark:bg-jovieDark-800 dark:text-slate-300">
+            class="py- rounded-md bg-slate-50 px-4 dark:bg-jovieDark-800 dark:text-jovieDark-300">
             <h2 class="font-slate-500 py-2 px-4">
               Add at least one social link to your profile.
             </h2>
@@ -267,14 +267,14 @@
       </div>
     </div>
     <aside
-      class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed dark:border-jovieDark-700 xl:flex xl:flex-col">
+      class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed dark:border-jovieDark-border xl:flex xl:flex-col">
       <!-- Start secondary column (hidden on smaller screens) -->
       <div
         class="absolute inset-0 items-center border-r border-slate-200 py-6 px-4 sm:px-6 lg:px-8">
         <span class="text-2xl font-semibold text-slate-500">Preview</span>
         <div class="items-center">
           <div
-            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-slate-200 bg-slate-50 px-4 dark:border-jovieDark-700 dark:bg-jovieDark-800 sm:items-center sm:px-6 lg:px-8">
+            class="items-top min-h-96 flex items-center justify-center overflow-hidden rounded-3xl border-4 border-slate-200 bg-slate-50 px-4 dark:border-jovieDark-border dark:bg-jovieDark-800 sm:items-center sm:px-6 lg:px-8">
             <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
               <div>
                 <img
@@ -284,7 +284,7 @@
 
                 <div class="mx-auto mt-6 flex 2xl:mt-12">
                   <h2
-                    class="mx-auto flex text-3xl font-extrabold text-slate-900 dark:text-slate-100">
+                    class="mx-auto flex text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
                     {{ this.currentUser.first_name }}
                     {{ this.currentUser.last_name }}
                     <svg
@@ -301,7 +301,7 @@
                   </h2>
                 </div>
                 <p
-                  class="mt-2 text-center text-sm text-slate-600 dark:text-slate-200">
+                  class="mt-2 text-center text-sm text-slate-600 dark:text-jovieDark-200">
                   {{ this.currentUser.title }}
                   {{ this.currentUser.employer ? ' at ' : '' }}
                   <a
@@ -355,7 +355,7 @@
               </a>
 
               <div
-                class="border-t-2 border-slate-400 opacity-20 dark:border-jovieDark-700"></div>
+                class="border-t-2 border-slate-400 opacity-20 dark:border-jovieDark-border"></div>
             </div>
           </div>
         </div>

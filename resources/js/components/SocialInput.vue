@@ -50,7 +50,9 @@
           height="12"
           link="#"
           width="12" />
-        <UserIcon v-else class="h-5 w-5 text-slate-600 dark:text-slate-400" />
+        <UserIcon
+          v-else
+          class="h-5 w-5 text-slate-600 dark:text-jovieDark-400" />
       </div>
       <input
         type="social_network_url"
@@ -60,16 +62,16 @@
         ref="editInput"
         v-on:keyup.enter="add()"
         tabindex="1"
-        class="block w-full rounded-md border-slate-300 px-1 py-1 pl-8 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:border-jovieDark-700 dark:text-slate-100"
+        class="block w-full rounded-md border-slate-300 px-1 py-1 pl-8 text-2xs focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-jovieDark-100"
         placeholder="Enter or paste social link here" />
       <div class="group/exit absolute inset-y-0 right-0 flex items-center pr-3">
         <!--  WIP this should will allow you to open a new one with a search on the social network. It will autuo populate the search with the creators name. -->
         <!-- <MagnifyingGlassIcon
           v-if="!socialMediaProfileUrl"
-          class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-700 dark:text-slate-600 dark:hover:text-slate-300" /> -->
+          class="h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-700 dark:text-jovieDark-600 dark:hover:text-slate-300" /> -->
         <XMarkIcon
           @click="cancelEdit()"
-          class="focus:ring-none h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-700 focus:border-none dark:text-slate-600 dark:hover:text-slate-300"
+          class="focus:ring-none h-4 w-4 cursor-pointer text-slate-400 hover:text-slate-700 focus:border-none dark:text-jovieDark-600 dark:hover:text-slate-300"
           aria-hidden="true" />
       </div>
     </div>
@@ -129,7 +131,7 @@
           id="social-media-profile-url"
           v-on:keyup.enter="add()"
           tabindex="1"
-          class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-slate-400 focus-visible:border-indigo-400 focus-visible:outline-none focus-visible:ring-indigo-500 active:border-indigo-500 dark:bg-jovieDark-800 dark:text-slate-100 dark:text-slate-600 sm:text-sm"
+          class="block w-full rounded-md border-2 border-indigo-300 py-3 pl-10 outline-indigo-200 placeholder:font-semibold placeholder:text-slate-400 focus-visible:border-indigo-400 focus-visible:outline-none focus-visible:ring-indigo-500 active:border-indigo-500 dark:bg-jovieDark-800 dark:text-jovieDark-100 dark:text-jovieDark-600 sm:text-sm"
           placeholder="http://instagram.com/username" />
         <p v-if="network && errors[network]" class="mt-2 text-xs text-red-600">
           {{ errors[network][0] }}
@@ -140,7 +142,7 @@
           class="group absolute inset-y-0 right-0 flex cursor-pointer py-2 pr-3"
           :class="{ 'disabled:opacity-25': adding }">
           <kbd
-            class="inline-flex select-none items-center rounded border border-indigo-200 px-2 py-1 font-sans text-sm font-medium text-indigo-400 focus-visible:border-indigo-300 active:border-indigo-500 active:bg-indigo-500 active:text-white group-hover:border-indigo-400 dark:bg-jovieDark-800 dark:text-slate-200">
+            class="inline-flex select-none items-center rounded border border-indigo-200 px-2 py-1 font-sans text-sm font-medium text-indigo-400 focus-visible:border-indigo-300 active:border-indigo-500 active:bg-indigo-500 active:text-white group-hover:border-indigo-400 dark:bg-jovieDark-800 dark:text-jovieDark-200">
             <JovieSpinner class="mr-2" v-if="loader" />
             <span v-if="adding">Adding...</span>
             <span v-else
@@ -151,7 +153,7 @@
       </div>
     </div>
     <div
-      class="flex justify-between px-2 text-xs text-slate-400 dark:text-slate-200">
+      class="flex justify-between px-2 text-xs text-slate-400 dark:text-jovieDark-200">
       <div>
         Supports:
         <div class="inline-flex space-x-2">
@@ -159,32 +161,32 @@
             height="10px"
             width="10px"
             link="#"
-            class="text-slate-400 dark:text-slate-200"
+            class="text-slate-400 dark:text-jovieDark-200"
             icon="twitch" />
           <SocialIcons
             height="10px"
             width="10px"
             link="#"
-            class="text-slate-400 dark:text-slate-200"
+            class="text-slate-400 dark:text-jovieDark-200"
             icon="tiktok" />
           <SocialIcons
             height="10px"
             width="10px"
             link="#"
-            class="text-slate-400 dark:text-slate-200"
+            class="text-slate-400 dark:text-jovieDark-200"
             icon="twitter" />
           <SocialIcons
             height="10px"
             width="10px"
             link="#"
-            class="text-slate-400 dark:text-slate-200"
+            class="text-slate-400 dark:text-jovieDark-200"
             icon="instagram" />
         </div>
       </div>
       <div class="flex items-center">
         <router-link class="group items-center" to="Import"
           ><CloudArrowUpIcon
-            class="mr-1 inline-flex h-3 w-3 items-center text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300"></CloudArrowUpIcon
+            class="mr-1 inline-flex h-3 w-3 items-center text-slate-400 group-hover:text-slate-500 dark:text-jovieDark-400 dark:group-hover:text-slate-300"></CloudArrowUpIcon
           ><span
             class="group-hover:text-slate-500 dark:group-hover:text-slate-300"
             >Import CSV</span

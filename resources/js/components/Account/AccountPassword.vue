@@ -4,11 +4,12 @@
       <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
-            <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100">
+            <h3
+              class="text-lg font-medium text-slate-900 dark:text-jovieDark-100">
               Password
             </h3>
 
-            <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
+            <p class="mt-1 text-sm text-slate-600 dark:text-jovieDark-300">
               Update your password
             </p>
           </div>
@@ -89,7 +90,7 @@
       <div class="hidden sm:block">
         <div class="py-8">
           <div
-            class="border-t border-slate-200 dark:border-jovieDark-700"></div>
+            class="border-t border-slate-200 dark:border-jovieDark-border"></div>
         </div>
       </div>
     </div>

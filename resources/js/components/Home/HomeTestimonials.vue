@@ -8,7 +8,7 @@
         class="dark:highlight-white/5 relative flex flex-col-reverse rounded-lg bg-slate-50 p-6 dark:bg-jovieDark-800"
         v-for="card in cards"
         :key="card.id">
-        <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
+        <blockquote class="mt-6 text-slate-700 dark:text-jovieDark-300">
           <p>{{ card.quote }}</p>
         </blockquote>
         <figcaption class="flex items-center space-x-4">
@@ -20,7 +20,7 @@
             decoding="async" />
           <div class="flex-auto">
             <div
-              class="text-base font-semibold text-slate-900 dark:text-slate-300">
+              class="text-base font-semibold text-slate-900 dark:text-jovieDark-300">
               <a href="#" tabindex="0"
                 ><span class="absolute inset-0"></span>{{ card.name }}</a
               >
@@ -45,7 +45,7 @@
           </blockquote>
           <figcaption class="font-medium">
             <div class="text-sky-500 dark:text-sky-400">{{ card.name }}</div>
-            <div class="text-slate-700 dark:text-slate-500">
+            <div class="text-slate-700 dark:text-jovieDark-500">
               {{ card.title }}, {{ card.company }}
             </div>
           </figcaption>

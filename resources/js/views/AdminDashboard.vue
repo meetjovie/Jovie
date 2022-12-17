@@ -5,7 +5,7 @@
         <div class="flex items-center gap-4">
           <JovieLogo color="white" :height="20" />
           <h2
-            class="py-6 text-lg font-medium leading-6 text-slate-900 dark:text-slate-100">
+            class="py-6 text-lg font-medium leading-6 text-slate-900 dark:text-jovieDark-100">
             Admin Dashboard
           </h2>
         </div>

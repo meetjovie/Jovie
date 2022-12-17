@@ -3,13 +3,13 @@
     <div v-if="user.loggedIn">
       <!--  <div
         v-if="!jovie"
-        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400">
+        class="absolute top-2 right-2 w-full justify-end text-right text-xs font-bold text-slate-400 hover:text-slate-500 dark:text-jovieDark-600 dark:hover:text-slate-400">
         <a href="https://jov.ie" target="_blank">Jovie</a>
       </div> -->
       <div class="absolute right-1 top-1">
         <XMarkIcon
           @click="closeContactSidebar()"
-          class="h-4 w-4 cursor-pointer rounded-full text-slate-400 transition-all duration-150 hover:text-slate-600 active:bg-slate-200 active:text-slate-700 dark:text-slate-600 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:active:text-slate-300" />
+          class="h-4 w-4 cursor-pointer rounded-full text-slate-400 transition-all duration-150 hover:text-slate-600 active:bg-slate-200 active:text-slate-700 dark:text-jovieDark-600 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:active:text-slate-300" />
       </div>
 
       <div class="grid grid-cols-3">
@@ -29,7 +29,7 @@
             v-if="imageLoaded && creator.profile_pic_url"
             id="profile-img-jovie"
             @error="switchToDefaultImage"
-            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-700"
+            class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"
             :src="creator.profile_pic_url" />
         </div>
         <div class="col-span-2 mt-6 pl-1 pr-2">
@@ -37,17 +37,17 @@
             @blur="$emit('updateCrmMeta')"
             v-model="creator.meta.name"
             placeholder="Name"
-            class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-jovieDark-700 dark:border-jovieDark-700 dark:bg-jovieDark-800 dark:text-slate-300 dark:text-slate-300 dark:hover:bg-jovieDark-800" />
+            class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-300 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800" />
           <!-- <div class="">
             <input
               @blur="saveToCrm()"
               placeholder="Title"
-              class="w-auto rounded-md border border-slate-300 dark:border-jovieDark-700 border-slate-700 border-opacity-0 px-1 text-xs font-bold text-slate-700 dark:text-slate-300 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
+              class="w-auto rounded-md border border-slate-300 dark:border-jovieDark-border border-slate-700 border-opacity-0 px-1 text-xs font-bold text-slate-700 dark:text-jovieDark-300 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
 
             <input
               @blur="saveToCrm()"
               placeholder="Company"
-              class="w-full rounded-md border border-slate-300 dark:border-jovieDark-700 border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
+              class="w-full rounded-md border border-slate-300 dark:border-jovieDark-border border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
           </div> -->
 
           <div v-if="creator.category" class="">
@@ -71,7 +71,7 @@
 
           <div
             @click="toggleExpandBio()"
-            class="w-full cursor-pointer whitespace-pre-wrap text-2xs text-slate-700 transition-all dark:text-slate-300"
+            class="w-full cursor-pointer whitespace-pre-wrap text-2xs text-slate-700 transition-all dark:text-jovieDark-300"
             :class="{
               'h-12 line-clamp-5': expandBio,
               'h-8 line-clamp-2': !expandBio,
@@ -93,7 +93,7 @@
             :followers="formatCount(creator.instagram_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -112,7 +112,7 @@
               "
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -120,7 +120,7 @@
                 'group-hover:hidden': socialURLEditing,
                 'group-hover:block': !socialURLEditing,
               }"
-              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700 dark:text-slate-300" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700 dark:text-jovieDark-300" />
           </div>
         </div>
         <div>
@@ -135,7 +135,7 @@
             :followers="formatCount(creator.twitter_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -152,7 +152,7 @@
               :link="creator.twitter_handler || creator.meta.twitter_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
               aria-hidden="true"
               :countsVisible="false" />
 
@@ -176,7 +176,7 @@
             :followers="formatCount(creator.twitch_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -195,7 +195,7 @@
               :link="creator.twitch_handler || creator.meta.twitch_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -218,7 +218,7 @@
             :followers="formatCount(creator.tiktok_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -235,7 +235,7 @@
               :link="creator.tiktok_handler || creator.meta.tiktok_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -258,7 +258,7 @@
             :followers="formatCount(creator.youtube_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -275,7 +275,7 @@
               :link="creator.youtube_handler || creator.meta.youtube_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -298,7 +298,7 @@
             :followers="formatCount(creator.linkedin_followers)"
             height="14"
             width="14"
-            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-400"
+            class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
             aria-hidden="true"
             :countsVisible="false" />
           <div
@@ -315,7 +315,7 @@
               :link="creator.linkedin_handler || creator.meta.linkedin_handler"
               height="14"
               width="14"
-              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-slate-600"
+              class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
               aria-hidden="true"
               :countsVisible="false" />
             <PlusIcon
@@ -346,7 +346,7 @@
       </TransitionRoot>
 
       <hr
-        class="border border-slate-100 text-slate-300 dark:border-jovieDark-700 dark:text-slate-700" />
+        class="border border-slate-100 text-slate-300 dark:border-jovieDark-border dark:text-jovieDark-700" />
 
       <div class="px-4 py-2">
         <ButtonGroup
@@ -360,13 +360,13 @@
           <Menu>
             <Float portal :offset="2" placement="bottom-start">
               <MenuButton
-                class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-700 dark:border-jovieDark-700 dark:text-slate-300 dark:hover:bg-jovieDark-800">
+                class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:border-jovieDark-border dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
                 <ChatBubbleLeftIcon
-                  class="h-3 w-3 text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
+                  class="h-3 w-3 text-slate-400 hover:text-slate-500 dark:text-jovieDark-600 dark:hover:text-slate-400"
                   aria-hidden="true" />
                 <span class="px-2 text-center line-clamp-1">Message</span>
                 <ChevronDownIcon
-                  class="-mr-1 h-4 w-4 text-slate-400 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
+                  class="-mr-1 h-4 w-4 text-slate-400 hover:text-slate-500 dark:text-jovieDark-600 dark:hover:text-slate-400"
                   aria-hidden="true" />
               </MenuButton>
               <transition
@@ -377,7 +377,7 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <MenuItems
-                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-700 dark:bg-jovieDark-900/60">
+                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                   <div class="py-1">
                     <ContactContextMenuItem
                       :creator="creator"
@@ -399,7 +399,7 @@
         </div>
       </div>
       <div class="px-2">
-        <!--  <h2 class="text-xs font-semibold text-slate-600 dark:text-slate-400">Lists</h2> -->
+        <!--  <h2 class="text-xs font-semibold text-slate-600 dark:text-jovieDark-400">Lists</h2> -->
         <InputLists
           v-if="creator.id"
           @updateLists="updateCreatorLists"
@@ -409,21 +409,21 @@
       </div>
       <div class="mt-4 px-2">
         <h2
-          class="mb-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
+          class="mb-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-400">
           Contact Details
         </h2>
       </div>
       <div
         class="h-80 items-center px-2 text-center"
         v-if="jovie && !creator.id">
-        <div class="mx-auto text-center text-slate-400 dark:text-slate-600">
+        <div class="mx-auto text-center text-slate-400 dark:text-jovieDark-600">
           No contact selected
         </div>
       </div>
       <div
         class="h-80 items-center px-2 text-center"
         v-if="!jovie && !creator.id">
-        <div class="mx-auto text-center text-slate-400 dark:text-slate-600">
+        <div class="mx-auto text-center text-slate-400 dark:text-jovieDark-600">
           Save this profile to edit contact details
         </div>
       </div>
@@ -476,7 +476,7 @@
         </div>
         <div
           v-if="!creator.id"
-          class="absolute top-24 z-30 mx-auto w-full text-center text-sm font-semibold text-slate-800 dark:text-slate-200">
+          class="absolute top-24 z-30 mx-auto w-full text-center text-sm font-semibold text-slate-800 dark:text-jovieDark-200">
           Save this profile to edit contact details
         </div>
       </div>
@@ -600,10 +600,10 @@
                         id="remember-me"
                         name="remember-me"
                         type="checkbox"
-                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-700 dark:border-jovieDark-700" />
+                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:border-jovieDark-border" />
                       <label
                         for="remember-me"
-                        class="ml-2 block text-sm text-slate-900 dark:text-slate-100">
+                        class="ml-2 block text-sm text-slate-900 dark:text-jovieDark-100">
                         Remember me
                       </label>
                     </div>

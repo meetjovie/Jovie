@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-lg border-b border-jovieDark-200 px-4 py-5 dark:border-jovieDark-700 sm:px-6">
+    class="rounded-lg border-b border-jovieDark-200 px-4 py-5 dark:border-jovieDark-border sm:px-6">
     <div
       class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
       <div class="ml-4 mt-4">
@@ -11,7 +11,7 @@
         </h3>
         <p
           v-if="subtitle"
-          class="mt-1 text-xs text-slate-500 dark:text-slate-300">
+          class="mt-1 text-xs text-slate-500 dark:text-jovieDark-300">
           {{ subtitle }}
         </p>
       </div>

@@ -7,7 +7,7 @@
       <li v-for="(item, itemIdx) in items" :key="itemIdx">
         <div
           v-if="item.visible"
-          class="group relative flex h-24 items-center space-x-3 rounded-lg border border-slate-200 px-6 py-4 hover:bg-slate-200 dark:border-jovieDark-700 dark:hover:bg-jovieDark-700">
+          class="group relative flex h-24 items-center space-x-3 rounded-lg border border-slate-200 px-6 py-4 hover:bg-slate-200 dark:border-jovieDark-border dark:hover:bg-jovieDark-border">
           <div class="flex-shrink-0 items-center">
             <span
               :class="[
@@ -21,14 +21,15 @@
             </span>
           </div>
           <div class="min-w-0 flex-1">
-            <div class="text-sm font-medium text-slate-900 dark:text-slate-100">
+            <div
+              class="text-sm font-medium text-slate-900 dark:text-jovieDark-100">
               <a :href="item.href">
                 <span class="absolute inset-0" aria-hidden="true" />
                 {{ item.name }}
               </a>
             </div>
 
-            <p class="text-sm text-slate-500 dark:text-slate-400">
+            <p class="text-sm text-slate-500 dark:text-jovieDark-400">
               {{ item.description }}
             </p>
           </div>

@@ -4,8 +4,7 @@
     id="app">
     <router-view />
     <aside class="hidden h-screen w-60 lg:block"></aside>
-    <div
-      class="mx-auto flex h-screen items-center text-center ">
+    <div class="mx-auto flex h-screen items-center text-center">
       <div></div>
       <div
         class="mx-auto flex w-full flex-col items-center text-center sm:flex-row">
@@ -15,7 +14,7 @@
           v-if="!link"
           :class="[
             {
-              ' decoartion-2 decoration-slate-400 decoration-solid dark:decoration-jovieDark-700':
+              ' decoartion-2 decoration-slate-400 decoration-solid dark:decoration-jovieDark-border':
                 link,
             },
           ]"

@@ -8,7 +8,7 @@
               <div class="mt-2 w-full px-4">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-slate-300 hover:dark:bg-jovieDark-600">
+                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                   <div class="flex items-center text-xs">
                     <PlusIcon
                       class="mr-1 h-5 w-5 rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
@@ -33,10 +33,10 @@
                           class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus-visible:outline-none"
                           :class="[
                             filters.type == 'all'
-                              ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                              : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                              ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                              : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                             active
-                              ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
+                              ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
                               : '',
                           ]">
                           <div class="flex items-center text-xs">
@@ -45,16 +45,16 @@
                               :class="[
                                 contactMenuOpen ? 'rotate-90 transform' : '',
                               ]"
-                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
+                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
                               aria-hidden="true">
                             </ChevronRightIcon>
                             All Contacts
                           </div>
                           <div
                             @click="showCreatorModal = true"
-                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-slate-900">
+                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
                             <span
-                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-slate-100 group-hover:dark:text-slate-100"
+                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-jovieDark-100 group-hover:dark:text-jovieDark-100"
                               >{{ counts.total }}</span
                             >
                             <PlusIcon
@@ -80,10 +80,10 @@
                             class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'favourites'
-                                ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                                ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
+                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
                                 : '',
                             ]">
                             <div class="flex items-center text-xs">
@@ -94,7 +94,7 @@
                             <div
                               class="items-center rounded-md p-1 hover:text-slate-50">
                               <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
                                 >{{ counts.favourites }}</span
                               >
                             </div>
@@ -115,10 +115,10 @@
                               class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                               :class="[
                                 filters.type == 'archived'
-                                  ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                                  : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                                  ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                  : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                                 active
-                                  ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
+                                  ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
                                   : '',
                               ]">
                               <div class="flex items-center text-xs">
@@ -129,7 +129,7 @@
                               <div
                                 class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
                                 <span
-                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
                                   >{{ counts.archived }}</span
                                 >
                               </div>
@@ -141,16 +141,21 @@
                   </div>
                   <div
                     class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
-                    <MenuList
-                      v-if="pinnedUserLists.length"
-                      ref="menuListPinned"
-                      @getUserLists="getUserLists"
-                      @setFiltersType="setFiltersType"
-                      @openEmojiPicker="openEmojiPicker"
-                      menuName="Pinned"
-                      :selectedList="filters.list"
-                      @setFilterList="setFilterList"
-                      :menuItems="pinnedUserLists"></MenuList>
+                    <Suspense>
+                      <template #default>
+                        <MenuList
+                          v-if="pinnedUserLists.length"
+                          ref="menuListPinned"
+                          @getUserLists="getUserLists"
+                          @setFiltersType="setFiltersType"
+                          @openEmojiPicker="openEmojiPicker"
+                          menuName="Pinned"
+                          :selectedList="filters.list"
+                          @setFilterList="setFilterList"
+                          :menuItems="pinnedUserLists"></MenuList>
+                      </template>
+                      <template #fallback> Loading... </template>
+                    </Suspense>
                     <!--    Team Specific Lists -->
                     <MenuList
                       ref="menuListAll"
@@ -170,7 +175,7 @@
           </template>
           <template #footer>
             <div
-              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-jovieDark-700">
+              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-jovieDark-border">
               <Menu>
                 <MenuItems static>
                   <MenuItem as="div" v-slot="{ active }">
@@ -178,10 +183,10 @@
                       to="import"
                       :class="[
                         active
-                          ? 'bg-slate-200  text-slate-900 dark:bg-jovieDark-700 dark:text-slate-100'
+                          ? 'bg-slate-200  text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
                           : 'text-slate-700',
                       ]"
-                      class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                      class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
                       <div class="flex items-center">
                         <CloudArrowUpIcon
                           class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400 dark:text-sky-400"
@@ -201,9 +206,9 @@
                       @click="toggleShowSupportModal()"
                       :class="[
                         active
-                          ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
+                          ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
                           : '',
-                        'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100',
+                        'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100',
                       ]">
                       <ChatBubbleLeftIcon
                         class="mr-1 h-5 w-5 rounded-md p-1 text-pink-500 dark:text-pink-600"
@@ -216,10 +221,10 @@
               <div class="mt-1 flex items-center justify-between py-1">
                 <div
                   @click="openUpgradeModal()"
-                  class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-2 px-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-700 dark:bg-jovieDark-800">
+                  class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-2 px-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
                   <div class="flex items-center">
                     <ArrowUpCircleIcon class="mr-1 h-4 w-4 text-slate-500" />
-                    <span class="text-xs text-slate-700 dark:text-slate-100"
+                    <span class="text-xs text-slate-700 dark:text-jovieDark-100"
                       >Free Plan</span
                     >
                   </div>
@@ -264,7 +269,7 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-jovieDark-700 dark:bg-jovieDark-800/60 sm:px-0">
+                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-jovieDark-border dark:bg-jovieDark-800/60 sm:px-0">
                         <div class="overflow-hidden rounded-lg">
                           <div class="relative h-80 gap-6 px-1 sm:gap-8">
                             <div
@@ -299,7 +304,7 @@
                                       </div>
                                       <div class="ml-3 w-full">
                                         <p
-                                          class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100 dark:group-hover:text-slate-100">
+                                          class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100 dark:group-hover:text-slate-100">
                                           {{ notification.message }}
                                           <span
                                             class="text-2xs font-light text-slate-500"
@@ -455,7 +460,8 @@
                           <div
                             class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
                             <div>
-                              <h1 class="text-md font-bold dark:text-slate-100">
+                              <h1
+                                class="text-md font-bold dark:text-jovieDark-100">
                                 You don't have any contacts yet.
                               </h1>
                               <span class="text-sm font-medium text-slate-900"
@@ -494,32 +500,34 @@
                         </div>
                       </div>
                       <!-- Show the crm if there are creators -->
-                      <CrmTable
-                        class="overflow-hidden"
-                        v-else
-                        ref="crmTable"
-                        @addContact="showCreatorModal = true"
-                        @updateCreator="updateCreator"
-                        @updateCrmMeta="updateCrmMeta"
-                        @crmCounts="crmCounts"
-                        :counts="counts"
-                        @updateListCount="updateListCount"
-                        @pageChanged="pageChanged"
-                        @setCurrentContact="setCurrentContact"
-                        @openSidebar="openSidebarContact"
-                        @setOrder="setOrder"
-                        :header="filters.type"
-                        @importCSV="importCSV"
-                        :subheader="counts"
-                        :filters="filters"
-                        :userLists="userLists"
-                        :creators="creators"
-                        :networks="networks"
-                        :stages="stages"
-                        :creatorsMeta="creatorsMeta"
-                        :loading="loading">
-                        <slot header="header"></slot>
-                      </CrmTable>
+                      <KeepAlive>
+                        <CrmTable
+                          class="overflow-hidden"
+                          v-else
+                          ref="crmTable"
+                          @addContact="showCreatorModal = true"
+                          @updateCreator="updateCreator"
+                          @updateCrmMeta="updateCrmMeta"
+                          @crmCounts="crmCounts"
+                          :counts="counts"
+                          @updateListCount="updateListCount"
+                          @pageChanged="pageChanged"
+                          @setCurrentContact="setCurrentContact"
+                          @openSidebar="openSidebarContact"
+                          @setOrder="setOrder"
+                          :header="filters.type"
+                          @importCSV="importCSV"
+                          :subheader="counts"
+                          :filters="filters"
+                          :userLists="userLists"
+                          :creators="creators"
+                          :networks="networks"
+                          :stages="stages"
+                          :creatorsMeta="creatorsMeta"
+                          :loading="loading">
+                          <slot header="header"></slot>
+                        </CrmTable>
+                      </KeepAlive>
                     </div>
                   </div>
                 </div>
@@ -537,7 +545,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-700 xl:block">
+            class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -570,6 +578,7 @@
 import SupportModal from '../components/SupportModal.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
 import AlertBanner from '../components/AlertBanner.vue';
+import MenuList from '../components/MenuList.vue';
 
 import DarkModeToggle from '../components/DarkModeToggle.vue';
 
@@ -627,7 +636,8 @@ import CrmTable from '../components/Crm/CrmTable';
 import ImportCreatorModal from '../components/ImportCreatorModal';
 import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
-import MenuList from '../components/MenuList';
+
+import { defineAsyncComponent } from 'vue';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams';
 import JovieTooltip from '../components/JovieTooltip.vue';

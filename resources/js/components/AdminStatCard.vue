@@ -22,7 +22,7 @@
             </dd>
             <dt
               v-if="subtitle"
-              class="truncate text-center text-sm font-medium text-slate-500 dark:text-slate-300">
+              class="truncate text-center text-sm font-medium text-slate-500 dark:text-jovieDark-300">
               {{ subtitle }}
             </dt>
           </dl>

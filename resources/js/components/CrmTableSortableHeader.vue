@@ -20,9 +20,9 @@
             ]">
             <div class="text-medium flex w-full items-center tracking-wider">
               <component
-                class="mr-1 h-4 w-4 text-slate-400 dark:text-slate-600"
+                class="mr-1 h-4 w-4 text-slate-400 dark:text-jovieDark-600"
                 :class="{
-                  'text-slate-600 dark:text-slate-400': sortable,
+                  'text-slate-600 dark:text-jovieDark-400': sortable,
                 }"
                 :is="column.icon"></component>
               <span class="text-medium tracking-wider line-clamp-1">
@@ -31,7 +31,7 @@
             </div>
             <div
               v-if="column.sortable"
-              class="cursor-pointer text-slate-400 dark:text-slate-600">
+              class="cursor-pointer text-slate-400 dark:text-jovieDark-600">
               <svg
                 v-if="!column.sortOrder"
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,10 +61,10 @@
           :show="open">
           <PopoverPanel
             static
-            class="w-48 items-center rounded-md border border-gray-200 bg-white/60 bg-clip-padding text-slate-900 shadow-md backdrop-blur-xl backdrop-filter dark:border-gray-700 dark:bg-jovieDark-900/60 dark:text-slate-100">
+            class="w-48 items-center rounded-md border border-gray-200 bg-white/60 bg-clip-padding text-slate-900 shadow-md backdrop-blur-xl backdrop-filter dark:border-gray-700 dark:bg-jovieDark-900/60 dark:text-jovieDark-100">
             <div
               @click="$emit('hide-column')"
-              class="flex cursor-pointer rounded-md py-2 px-2 text-xs font-medium text-slate-900 hover:bg-slate-300 dark:text-slate-100"
+              class="flex cursor-pointer rounded-md py-2 px-2 text-xs font-medium text-slate-900 hover:bg-slate-300 dark:text-jovieDark-100"
               v-for="item in dropdownItems"
               :key="item.name">
               <component :is="item.icon" class="mr-2 h-4 w-4" />

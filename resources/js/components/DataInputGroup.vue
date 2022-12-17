@@ -2,7 +2,7 @@
   <div class="group/bg-slate-50 dark:group/bg-slate-800 input mt-1 flex">
     <div class="group/move active:grabbing flex w-3 cursor-grab items-center">
       <EllipsisVerticalIcon
-        class="h-5 w-5 text-slate-400/0 group-hover/draggable:text-slate-400 group-hover/move:text-slate-700 dark:text-slate-600 dark:text-slate-600/0 dark:group-hover/draggable:text-slate-600 dark:group-hover/move:text-slate-300" />
+        class="h-5 w-5 text-slate-400/0 group-hover/draggable:text-slate-400 group-hover/move:text-slate-700 dark:text-jovieDark-600 dark:text-jovieDark-600/0 dark:group-hover/draggable:text-slate-600 dark:group-hover/move:text-slate-300" />
     </div>
     <div class="group relative mt-1 w-full">
       <div class="relative">
@@ -11,13 +11,13 @@
           class="pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
           <component
             :is="icon"
-            class="h-3 w-3 text-slate-400 dark:text-slate-600" />
+            class="h-3 w-3 text-slate-400 dark:text-jovieDark-600" />
         </div>
         <div
           v-if="socialicon"
           class="opacity/50 pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
           <SocialIcons
-            class="text-slate-400 opacity-40 dark:text-slate-600"
+            class="text-slate-400 opacity-40 dark:text-jovieDark-600"
             link="#"
             width="12px"
             height="12px"
@@ -34,7 +34,7 @@
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
           @change="$emit('updateModelValue', $event.target.value)"
-          class="input-field disable:cursor-none h-8 w-full rounded border border-slate-300 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50 dark:border-jovieDark-700/0 dark:bg-jovieDark-900 dark:text-slate-300 dark:hover:bg-jovieDark-800 dark:focus:border-indigo-400 dark:group-hover:border-jovieDark-700 dark:group-hover:bg-jovieDark-800"
+          class="input-field disable:cursor-none h-8 w-full rounded border border-slate-300 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50 dark:border-jovieDark-border/0 dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800 dark:focus:border-indigo-400 dark:group-hover:border-jovieDark-border dark:group-hover:bg-jovieDark-800"
           :class="[
             icon ? 'pl-4' : '',
             { 'rounded-r-md': rounded == 'right' },
@@ -59,7 +59,7 @@
             class="group/action px-1">
             <component
               :is="action"
-              class="hidden h-5 w-5 cursor-pointer text-slate-400 dark:text-slate-600 dark:active:text-slate-100 dark:group-hover/action:text-slate-400" />
+              class="hidden h-5 w-5 cursor-pointer text-slate-400 dark:text-jovieDark-600 dark:active:text-slate-100 dark:group-hover/action:text-slate-400" />
           </div>
           <div
             v-if="action2 && (modelValue || value)"
@@ -67,7 +67,7 @@
             class="group/action px-1">
             <component
               :is="action2"
-              class="hidden h-5 w-5 cursor-pointer text-slate-400 dark:text-slate-600 dark:active:text-slate-100 dark:group-hover/action:text-slate-400" />
+              class="hidden h-5 w-5 cursor-pointer text-slate-400 dark:text-jovieDark-600 dark:active:text-slate-100 dark:group-hover/action:text-slate-400" />
           </div>
           <div v-if="loader" class="pointer-events-none transition-all">
             <JovieSpinner />
@@ -111,10 +111,10 @@
               v-else-if="isCopyable && (modelValue || value)">
               <ClipboardDocumentIcon
                 v-if="!itemCopied"
-                class="hidden h-5 w-5 cursor-pointer text-slate-400 active:text-slate-900 group-hover:block group-hover/copy:text-slate-500 dark:text-slate-600" />
+                class="hidden h-5 w-5 cursor-pointer text-slate-400 active:text-slate-900 group-hover:block group-hover/copy:text-slate-500 dark:text-jovieDark-600" />
               <ClipboardDocumentCheckIcon
                 v-else
-                class="hidden h-5 w-5 cursor-pointer text-slate-400 active:text-slate-900 group-hover:block group-hover/copy:text-slate-500 dark:text-slate-600" />
+                class="hidden h-5 w-5 cursor-pointer text-slate-400 active:text-slate-900 group-hover:block group-hover/copy:text-slate-500 dark:text-jovieDark-600" />
             </div>
           </div>
         </div>
@@ -122,7 +122,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md border-t border-transparent bg-white px-1 pl-5 text-xs font-medium text-slate-400 transition-all group-hover:bg-slate-50 group-hover:text-slate-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium dark:bg-jovieDark-900 dark:text-slate-200 dark:hover:bg-jovieDark-800 group-hover:dark:border-jovieDark-700 dark:group-hover:bg-jovieDark-800 dark:group-hover:text-slate-200 dark:peer-placeholder-shown:text-slate-200"
+          class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md border-t border-transparent bg-white px-1 pl-5 text-xs font-medium text-slate-400 transition-all group-hover:bg-slate-50 group-hover:text-slate-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 group-hover:dark:border-jovieDark-border dark:group-hover:bg-jovieDark-800 dark:group-hover:text-slate-200 dark:peer-placeholder-shown:text-slate-200"
           >{{ label }}</label
         >
       </div>

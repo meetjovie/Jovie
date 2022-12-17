@@ -48,7 +48,7 @@
                   class="mt-3 text-center dark:text-gray-300 sm:text-left sm:dark:mt-0 sm:dark:ml-4">
                   <DialogTitle
                     as="h3"
-                    class="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300"
+                    class="text-lg font-medium leading-6 text-gray-900 dark:text-jovieDark-300"
                     >Need some help?</DialogTitle
                   >
                   <div class="mt-2">
@@ -59,11 +59,11 @@
                 </div>
               </div>
               <ul
-                class="mt-8 h-full space-y-8 text-slate-700 dark:text-slate-200">
+                class="mt-8 h-full space-y-8 text-slate-700 dark:text-jovieDark-200">
                 <li v-for="(item, itemIdx) in items" :key="itemIdx">
                   <div
                     v-if="item.visible"
-                    class="group relative flex h-24 items-center space-x-3 rounded-lg border border-slate-200 px-6 py-4 hover:bg-slate-200 dark:border-jovieDark-700 dark:hover:bg-jovieDark-700">
+                    class="group relative flex h-24 items-center space-x-3 rounded-lg border border-slate-200 px-6 py-4 hover:bg-slate-200 dark:border-jovieDark-border dark:hover:bg-jovieDark-border">
                     <div class="flex-shrink-0 items-center">
                       <span
                         :class="[
@@ -78,14 +78,14 @@
                     </div>
                     <div class="min-w-0 flex-1">
                       <div
-                        class="text-sm font-medium text-slate-900 dark:text-slate-100">
+                        class="text-sm font-medium text-slate-900 dark:text-jovieDark-100">
                         <a :href="item.href">
                           <span class="absolute inset-0" aria-hidden="true" />
                           {{ item.name }}
                         </a>
                       </div>
 
-                      <p class="text-sm text-slate-500 dark:text-slate-400">
+                      <p class="text-sm text-slate-500 dark:text-jovieDark-400">
                         {{ item.description }}
                       </p>
                     </div>
@@ -98,8 +98,9 @@
                 </li>
               </ul>
               <div
-                class="mt-4 rounded-md border border-slate-300 bg-slate-100 py-6 px-4 dark:border-jovieDark-700 dark:bg-jovieDark-800">
-                <div class="prose font-bold text-slate-600 dark:text-slate-300">
+                class="mt-4 rounded-md border border-slate-300 bg-slate-100 py-6 px-4 dark:border-jovieDark-border dark:bg-jovieDark-800">
+                <div
+                  class="prose font-bold text-slate-600 dark:text-jovieDark-300">
                   Keyboard Shortcuts
                 </div>
                 <div class="mt-2">
@@ -112,10 +113,10 @@
                   <div
                     v-for="shortcut in shortcuts"
                     :key="shortcut.id"
-                    class="flex justify-between rounded-md text-xs text-slate-500 dark:text-slate-300">
+                    class="flex justify-between rounded-md text-xs text-slate-500 dark:text-jovieDark-300">
                     <div>{{ shortcut.text }}</div>
                     <div
-                      class="rounded-md border border-slate-300 px-1 py-0.5 font-bold dark:border-jovieDark-700">
+                      class="rounded-md border border-slate-300 px-1 py-0.5 font-bold dark:border-jovieDark-border">
                       {{ shortcut.name }}
                     </div>
                   </div>
@@ -123,7 +124,7 @@
               </div>
               <router-link
                 to="/slack-community"
-                class="boder-slate-300 mt-4 flex cursor-pointer items-center rounded-md border border bg-slate-100 px-4 py-6 hover:bg-slate-200 dark:border-jovieDark-700 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700">
+                class="boder-slate-300 mt-4 flex cursor-pointer items-center rounded-md border border bg-slate-100 px-4 py-6 hover:bg-slate-200 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:hover:bg-jovieDark-border">
                 <div class="items-center">
                   <svg
                     role="img"
@@ -136,7 +137,7 @@
                 </div>
                 <div>
                   <div
-                    class="text-sm font-bold text-slate-700 dark:text-slate-200">
+                    class="text-sm font-bold text-slate-700 dark:text-jovieDark-200">
                     Join our Slack community
                   </div>
                   <div class="mt-2">
@@ -149,16 +150,16 @@
               </router-link>
 
               <div
-                class="mt-8 items-center justify-between border-t border-slate-300 py-6 dark:border-jovieDark-700 sm:flex sm:flex-row-reverse">
+                class="mt-8 items-center justify-between border-t border-slate-300 py-6 dark:border-jovieDark-border sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
                   class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-0.5 text-2xs font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
                   @click="launchSupportChat()">
-                  <ChatBubbleLeftIcon class="mr-2 h-3 w-3" />
+                  <ChatBubbleLeftIcon class="mr-2 mt-1 h-3 w-3" />
                   Contact us
                 </button>
                 <router-link
-                  class="flex items-center text-2xs text-slate-400 hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-200"
+                  class="flex items-center text-2xs text-slate-400 hover:text-slate-500 dark:text-jovieDark-300 dark:hover:text-slate-200"
                   to="/changelog">
                   <div
                     class="mr-2 rounded-full bg-indigo-600 p-1 dark:bg-indigo-400"></div>

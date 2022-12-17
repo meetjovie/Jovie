@@ -33,7 +33,7 @@
             <JovieLogo v-else height="28px" color="#fff" />
           </div>
           <h2
-            class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-slate-100">
+            class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
             Sign in
           </h2>
           <p class="mt-2 text-sm text-slate-600">
@@ -113,7 +113,7 @@
                     class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
                   <label
                     for="remember-me"
-                    class="ml-2 block text-sm text-slate-900 dark:text-slate-100">
+                    class="ml-2 block text-sm text-slate-900 dark:text-jovieDark-100">
                     Remember me
                   </label>
                 </div>

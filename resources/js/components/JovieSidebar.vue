@@ -10,13 +10,13 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
 
     <div
-      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-jovieDark-700 dark:bg-jovieDark-900">
+      class="top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
       <div>
         <slot name="header">
           <div class="w-full flex-col px-2">
             <div class="items-center" @click="navigateBack()" v-if="menu">
               <div
-                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-900 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white">
+                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
                 <ChevronLeftIcon
                   class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                   aria-hidden="true" />
@@ -36,7 +36,7 @@
                       class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-800">
                       <div class="flex">
                         <div
-                          class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200">
+                          class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
                           {{
                             currentUser.current_team
                               ? currentUser.current_team.name
@@ -49,7 +49,7 @@
                   <template #menuTop>
                     <div class="">
                       <div
-                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:bg-jovieDark-700 dark:text-slate-300">
+                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-300">
                         Your workspaces:
                       </div>
                     </div>
@@ -57,16 +57,16 @@
                   <template #menuBottom>
                     <router-link
                       to="/accounts"
-                      class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-jovieDark-700 dark:hover:text-slate-300"
+                      class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-jovieDark-border dark:hover:text-slate-300"
                       :class="[
                         active
-                          ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-900 dark:text-slate-200'
-                          : 'text-sm text-slate-700 dark:text-slate-300',
+                          ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-900 dark:text-jovieDark-200'
+                          : 'text-sm text-slate-700 dark:text-jovieDark-300',
                         'group flex w-full items-center px-2 py-2 text-2xs  ',
                       ]">
                       <PlusCircleIcon
                         :active="active"
-                        class="mr-2 h-4 w-4 text-slate-500 dark:text-slate-300"
+                        class="mr-2 h-4 w-4 text-slate-500 dark:text-jovieDark-300"
                         aria-hidden="true" />
                       Create workspace
                     </router-link>
@@ -89,7 +89,7 @@
                   <template #menuTop>
                     <div class="ml-3 cursor-default">
                       <p
-                        class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-slate-200 dark:group-hover:text-slate-200">
+                        class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
                         {{ currentUser.first_name }}
                         {{ currentUser.last_name }}
                       </p>
@@ -107,12 +107,12 @@
                       tabindex="-1">
                       <router-link
                         v-if="currentUser.username"
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-100"
                         :to="profileLink">
                         <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-jovieDark-200"
                           :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100':
                               active,
                           }">
                           <component
@@ -127,12 +127,12 @@
                         as="div"
                         role="menuitem"
                         tabindex="-1"
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-100"
                         to="edit-profile">
                         <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-jovieDark-200"
                           :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100':
                               active,
                           }">
                           <component
@@ -149,12 +149,12 @@
                       role="menuitem"
                       tabindex="-1">
                       <router-link
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-slate-100"
+                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-100"
                         to="/admin">
                         <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-slate-200"
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-jovieDark-200"
                           :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100':
+                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100':
                               active,
                           }">
                           <component
@@ -175,9 +175,9 @@
                         @click="toggleShowSupportModal()"
                         :class="[
                           active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-800 dark:text-slate-100'
+                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-800 dark:text-jovieDark-100'
                             : '',
-                          'inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 dark:text-slate-300',
+                          'inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-300',
                         ]"
                         role="menuitem"
                         tabindex="-1">
@@ -191,7 +191,7 @@
                       <MenuItem
                         as="div"
                         @click="$store.dispatch('logout')"
-                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-jovieDark-800 dark:hover:text-slate-100"
+                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800 dark:hover:text-slate-100"
                         role="menuitem"
                         tabindex="-1">
                         <component

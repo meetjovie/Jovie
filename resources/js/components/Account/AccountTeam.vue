@@ -1,7 +1,7 @@
 <template>
   <!--    NO SUBSCRIPTION OR NO TEAM SUBSCRIPTION-->
   <div
-    class="flex w-full items-center justify-between space-y-1 border-b px-4 py-2 dark:text-slate-300"
+    class="flex w-full items-center justify-between space-y-1 border-b px-4 py-2 dark:text-jovieDark-300"
     v-if="
       !currentUser.current_team.current_subscription ||
       !currentUser.current_team.current_subscription.seats
@@ -13,13 +13,13 @@
       class="flex w-full items-center justify-between space-y-1 border-b px-4 py-2">
       <div class="">
         <h3
-          class="text-lg font-medium leading-6 text-slate-900 dark:text-slate-100">
+          class="text-lg font-medium leading-6 text-slate-900 dark:text-jovieDark-100">
           Team
         </h3>
-        <p class="max-w-2xl text-sm text-slate-500 dark:text-slate-300">
+        <p class="max-w-2xl text-sm text-slate-500 dark:text-jovieDark-300">
           Invite collaborators to join your team.
         </p>
-        <p class="max-w-2xl text-sm text-slate-500 dark:text-slate-300">
+        <p class="max-w-2xl text-sm text-slate-500 dark:text-jovieDark-300">
           With your current team's plan, you can add
           {{ currentUser.current_team.current_subscription.seats }}
           member/members to you current active team.
@@ -40,7 +40,7 @@
             <button
               type="button"
               @click="decrementSeats()"
-              class="relative -ml-px inline-flex items-center rounded-l-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:text-slate-300">
+              class="relative -ml-px inline-flex items-center rounded-l-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:text-jovieDark-300">
               <span class="sr-only">Decrease Seat Count</span>
               <MinusCircleIcon class="h-5 w-5" aria-hidden="true" />
             </button>
@@ -53,7 +53,7 @@
             <button
               type="button"
               @click="incrementSeats()"
-              class="relative -ml-px inline-flex items-center rounded-r-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:text-slate-300">
+              class="relative -ml-px inline-flex items-center rounded-r-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:text-jovieDark-300">
               <span class="sr-only">Increase Seat Count</span>
               <PlusCircleIcon class="h-5 w-5" aria-hidden="true" />
             </button>
@@ -121,14 +121,14 @@
             <div
               class="flex w-full items-center justify-between px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
               <dt
-                class="items-center text-sm font-medium text-slate-500 dark:text-slate-300">
+                class="items-center text-sm font-medium text-slate-500 dark:text-jovieDark-300">
                 <ChevronRightIcon
                   :class="open ? 'rotate-90 transform' : ''"
                   class="mt-2 h-5 w-5 text-indigo-500" />
                 <span class="-mt-2">Team Name</span>
               </dt>
               <dd
-                class="mt-1 flex items-center text-sm text-slate-900 dark:text-slate-100 sm:col-span-2 sm:mt-0">
+                class="mt-1 flex items-center text-sm text-slate-900 dark:text-jovieDark-100 sm:col-span-2 sm:mt-0">
                 <InputGroup
                   :disabled="loading.updating"
                   placeholder="Team Name"
@@ -185,7 +185,7 @@
                             {{ user.full_name }}
                           </p>
                           <p
-                            class="mt-2 flex items-center text-sm text-slate-500 dark:text-slate-300">
+                            class="mt-2 flex items-center text-sm text-slate-500 dark:text-jovieDark-300">
                             <EnvelopeIcon
                               class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-400"
                               aria-hidden="true" />
@@ -195,7 +195,7 @@
                         <div class="hidden md:block">
                           <div>
                             <p
-                              class="text-sm text-slate-900 dark:text-slate-100">
+                              class="text-sm text-slate-900 dark:text-jovieDark-100">
                               Joined on
                               {{ ' ' }}
                               <time :datetime="user.pivot.created_at"
@@ -203,7 +203,7 @@
                               </time>
                             </p>
                             <p
-                              class="mt-2 flex items-center text-sm text-slate-500 dark:text-slate-300">
+                              class="mt-2 flex items-center text-sm text-slate-500 dark:text-jovieDark-300">
                               <CheckCircleIcon
                                 class="mr-1.5 h-5 w-5 flex-shrink-0 text-green-400"
                                 aria-hidden="true" />
@@ -252,7 +252,7 @@
                             {{ user.email }}
                           </p>
                           <p
-                            class="mt-2 flex items-center text-sm text-slate-500 dark:text-slate-300">
+                            class="mt-2 flex items-center text-sm text-slate-500 dark:text-jovieDark-300">
                             <EnvelopeIcon
                               class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-400"
                               aria-hidden="true" />
@@ -262,7 +262,7 @@
                         <div class="hidden md:block">
                           <div>
                             <p
-                              class="text-sm text-slate-900 dark:text-slate-100">
+                              class="text-sm text-slate-900 dark:text-jovieDark-100">
                               Sent on
                               {{ ' ' }}
                               <time :datetime="user.updated"
@@ -292,11 +292,11 @@
               </ul>
               <div class="mt-12 py-8 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-2">
                 <dt
-                  class="text-sm font-medium text-slate-500 dark:text-slate-300 sm:pt-5">
+                  class="text-sm font-medium text-slate-500 dark:text-jovieDark-300 sm:pt-5">
                   Invite addition team members
                 </dt>
                 <dd
-                  class="mt-1 flex items-center text-sm text-slate-900 dark:text-slate-100 sm:col-span-2 sm:mt-0">
+                  class="mt-1 flex items-center text-sm text-slate-900 dark:text-jovieDark-100 sm:col-span-2 sm:mt-0">
                   <span class="flex-grow">
                     <InputGroup
                       placeholder="Example@jov.ie"

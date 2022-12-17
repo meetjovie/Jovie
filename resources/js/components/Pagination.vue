@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <nav
-      class="transiion-all flex w-full flex-auto items-center justify-between border-t border-slate-200 bg-white px-4 pb-2 dark:bg-jovieDark-900 sm:px-2">
+      class="transiion-all flex w-full flex-auto items-center justify-between border-t border-slate-200 bg-white px-4 pb-2 dark:border-jovieDark-border dark:bg-jovieDark-900 sm:px-2">
       <div class="group flex">
         <a
           v-if="isFirstPage"
@@ -29,19 +29,19 @@
             {{ page.name }}
           </a>
         </template>
-        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-slate-400  dark:text-slate-400 hover:text-slate-700 hover:border-slate-300" -->
+        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-slate-400  dark:text-jovieDark-400 hover:text-slate-700 hover:border-slate-300" -->
         <!--            <a href="#" class="border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium" aria-current="page"> 2 </a>-->
-        <!--            <a href="#" class="border-transparent text-slate-400  dark:text-slate-400 hover:text-slate-700 hover:border-slate-300 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium"> 3 </a>-->
+        <!--            <a href="#" class="border-transparent text-slate-400  dark:text-jovieDark-400 hover:text-slate-700 hover:border-slate-300 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium"> 3 </a>-->
       </div>
       <div class="group flex">
         <a
           :disabled="isInLastPage"
           @click="onClickNextPage()"
           href="#"
-          class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-xs font-medium text-slate-400 hover:border-slate-300 hover:text-slate-700 disabled:cursor-none dark:text-slate-400">
+          class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-xs font-medium text-slate-400 hover:border-slate-300 hover:text-slate-700 disabled:cursor-none dark:text-jovieDark-400">
           Next
           <ArrowLongRightIcon
-            class="ml-3 h-5 w-5 text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700 dark:text-slate-400"
+            class="ml-3 h-5 w-5 text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700 dark:text-jovieDark-400"
             aria-hidden="true" />
         </a>
       </div>

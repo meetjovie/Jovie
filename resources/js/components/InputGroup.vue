@@ -6,7 +6,7 @@
         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
         :class="{ 'pl-1': rounded == 'sm' }">
         <SocialIcons
-          class="text-slate-400 opacity-40 dark:text-slate-600"
+          class="text-slate-400 opacity-40 dark:text-jovieDark-600"
           link="#"
           width="12px"
           height="12px"
@@ -32,7 +32,7 @@
           :value="modelValue ?? value"
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
-          class="peer block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder-slate-400 placeholder-opacity-0 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 dark:border-jovieDark-700 dark:bg-jovieDark-800 dark:text-slate-200 sm:text-sm"
+          class="peer block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder-slate-400 placeholder-opacity-0 shadow-sm focus-visible:border-indigo-500 focus-visible:outline-none focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200 sm:text-sm"
           :class="[
             icon ? 'pl-10' : '',
             { 'rounded-r-md': rounded == 'right' },
@@ -67,7 +67,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium dark:bg-jovieDark-800 dark:text-slate-300"
+          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium dark:bg-jovieDark-800 dark:text-jovieDark-300"
           >{{ label }}</label
         >
       </div>

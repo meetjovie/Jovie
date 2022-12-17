@@ -24,7 +24,7 @@
           </button>
           <!-- <ul
                                           aria-label="current Status"
-                                          class="mt-3 flex flex-col items-start text-sm text-slate-600 dark:text-slate-400 md:flex-row md:items-center">
+                                          class="mt-3 flex flex-col items-start text-sm text-slate-600 dark:text-jovieDark-400 md:flex-row md:items-center">
                                           <li class="mr-4 flex items-center">
                                             <div class="mr-1">
                                               <img
@@ -323,7 +323,7 @@
 
                                     <div class="relative">
                                         <div
-                                            class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-jovieDark-700 dark:bg-indigo-600"></div>
+                                            class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-jovieDark-border dark:bg-indigo-600"></div>
                                     </div>
                                 </div>
                             </div> 
