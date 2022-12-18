@@ -20,12 +20,13 @@
             ]">
             <div class="text-medium flex w-full items-center tracking-wider">
               <component
-                class="mr-1 h-4 w-4 text-slate-400 dark:text-jovieDark-600"
+                class="mr-1 h-4 w-4 text-slate-400 dark:text-jovieDark-200"
                 :class="{
-                  'text-slate-600 dark:text-jovieDark-400': sortable,
+                  'text-slate-600 dark:text-jovieDark-200': sortable,
                 }"
                 :is="column.icon"></component>
-              <span class="text-medium tracking-wider line-clamp-1">
+              <span
+                class="text-medium tracking-wider line-clamp-1 dark:text-jovieDark-600">
                 {{ column.name }}
               </span>
             </div>

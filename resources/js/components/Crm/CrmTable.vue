@@ -1000,18 +1000,17 @@
                         :currentList="creator.current_list" />
                     </td>
                     <td
-                      class="flex w-full justify-end whitespace-nowrap border-y border-slate-300 px-2 py-1 text-right text-xs font-medium dark:border-jovieDark-border">
-                      <div class="flex items-center justify-end text-right">
-                        <div>
-                          <router-link
-                            :to="{
-                              name: 'Creator Overview',
-                              params: { id: creator.id },
-                            }"
-                            class="hover:dark:text-indigio-300 text-slate-600 hover:text-indigo-900 dark:text-jovieDark-300">
-                            Manage
-                          </router-link>
-                        </div>
+                      class="table-cell h-full w-full items-center justify-end whitespace-nowrap border-y border-slate-300 px-2 py-1 text-right text-xs font-medium dark:border-jovieDark-border">
+                      <div
+                        class="flex h-full items-center justify-end text-right">
+                        <router-link
+                          :to="{
+                            name: 'Creator Overview',
+                            params: { id: creator.id },
+                          }"
+                          class="hover:dark:text-indigio-300 text-slate-600 hover:text-indigo-900 dark:text-jovieDark-300">
+                          Manage
+                        </router-link>
                       </div>
                     </td>
                   </tr>
