@@ -560,11 +560,11 @@
         :list="filters.list"
         @closeModal="closeImportCreatorModal()" />
 
-      <EmojiPickerModal
+      <!--  <EmojiPickerModal
         v-show="openEmojis"
         @emojiSelected="emojiSelected($event)"
         class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-jovieDark-800">
-      </EmojiPickerModal>
+      </EmojiPickerModal> -->
       <SupportModal
         @close="toggleShowSupportModal()"
         @message="launchSupportChat()"

@@ -1,5 +1,5 @@
 <template>
-  <transition
+  <!-- <transition
     enter-active-class="transition ease-out duration-100"
     enter-from-class="transform opacity-0 scale-95"
     enter-to-class="transform opacity-100 scale-100"
@@ -8,15 +8,30 @@
     leave-to-class="transform opacity-0 scale-95">
     <div
       class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-      <!-- <XMarkIcon class="h-3 w-3 text-slate-400 hover:text-slate-500" /> -->
-      <EmojiPicker @select="emojiSelected" />
+     
+      
     </div>
-  </transition>
+  </transition> -->
+  <div class="">
+    <Popover as="div" v-slot="{ close }" class="relative">
+      <Float portal shift placement="right-start">
+        <PopoverButton>
+          {{ currentEmoji || '📄' }}
+        </PopoverButton>
+        <PopoverPanel
+          class="z-40 mt-3 w-screen rounded-lg border border-slate-300 bg-white/60 px-4 shadow-lg backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border dark:bg-jovieDark-800 sm:px-0 lg:w-60">
+          <EmojiPicker @select="handleEmojiSelection" />
+        </PopoverPanel>
+      </Float>
+    </Popover>
+  </div>
 </template>
 
 <script>
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/vue/24/solid';
+import { ChevronDownIcon } from '@heroicons/vue/20/solid';
+import { Float } from '@headlessui-float/vue';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import { EllipsisVerticalIcon } from '@heroicons/vue/24/solid';
 // import picker compopnent
 import EmojiPicker from 'vue3-emoji-picker';
 import { ref } from 'vue';
@@ -24,16 +39,34 @@ import { ref } from 'vue';
 export default {
   components: {
     EmojiPicker,
-    XMarkIcon,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
+    Popover,
+    Float,
+    PopoverButton,
+    PopoverPanel,
     EllipsisVerticalIcon,
+    ChevronDownIcon,
+  },
+  data() {
+    return {
+      close: false,
+    };
+  },
+  props: {
+    currentEmoji: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
-    emojiSelected(selectedEmoji) {
-      this.$emit('emojiSelected', selectedEmoji);
+    handleEmojiSelection(emoji) {
+      this.emojiSelected(emoji.i);
+      console.log(emoji.i);
+      close();
+    },
+
+    emojiSelected(emoji) {
+      //emit the emoji to the parent component
+      this.$emit('emojiSelected', emoji);
     },
   },
 };
@@ -51,7 +84,7 @@ export default {
 }
 .v3-body-inner::-webkit-scrollbar-thumb {
   display: none;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0);
   border-radius: 5px;
 }
 .v3-body-inner:hover::-webkit-scrollbar-thumb {
@@ -85,7 +118,7 @@ export default {
   margin: 0;
   border: none;
   background: none;
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
   position: relative;
   display: block;
@@ -142,7 +175,7 @@ export default {
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group h5 {
   margin: 0;
   top: 0;
-  background: white;
+  background: transparent;
   padding: 7px 0 3px 4px;
 }
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group h5.v3-sticky {
@@ -321,7 +354,7 @@ export default {
   right: 5px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 24px;
+  font-size: 20px;
   border: none;
   background: none;
   padding: 0 5px;

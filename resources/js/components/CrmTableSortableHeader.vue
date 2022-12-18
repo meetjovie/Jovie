@@ -26,7 +26,7 @@
                 }"
                 :is="column.icon"></component>
               <span
-                class="text-medium tracking-wider line-clamp-1 dark:text-jovieDark-600">
+                class="text-medium tracking-wider line-clamp-1 dark:text-jovieDark-200">
                 {{ column.name }}
               </span>
             </div>

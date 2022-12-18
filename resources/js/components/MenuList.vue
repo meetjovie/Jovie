@@ -51,22 +51,19 @@
                 </div>
 
                 <div class="flex w-full items-center">
-                  <Float portal shift :offset="2" placement="right-start">
-                    <div
-                      @click="openEmojiPicker(element)"
-                      :class="{
-                        'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
-                          active,
-                      }"
-                      class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
-                      {{ element.emoji ?? '📄' }}
-                    </div>
-                    <EmojiPickerModal
-                      v-show="openEmojis"
-                      @emojiSelected="emojiSelected($event)"
-                      class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-jovieDark-800">
-                    </EmojiPickerModal>
-                  </Float>
+                  <!-- <div
+                    @click="openEmojiPicker(element)"
+                    :class="{
+                      'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
+                        active,
+                    }"
+                    class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+                    {{ element.emoji ?? '📄' }}
+                  </div> -->
+                  <EmojiPickerModal
+                    @emojiSelected="emojiSelected($event, element)"
+                    :currentEmoji="element.emoji">
+                  </EmojiPickerModal>
 
                   <div
                     @dblclick="enableEditName(element)"
@@ -219,23 +216,7 @@
             </div>
 
             <div class="flex w-full items-center">
-              <!--  <Float portal shift>
-                <TransitionRoot
-                  :show="showEmojiPicker"
-                  enter-active-class="transition ease-out duration-100"
-                  enter-from-class="transform opacity-0 scale-95"
-                  enter-to-class="transform opacity-100 scale-100"
-                  leave-active-class="transition ease-in duration-75"
-                  leave-from-class="transform opacity-100 scale-100"
-                  leave-to-class="transform opacity-0 scale-95">
-                  <div
-                    class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                   
-                    <EmojiPicker @select="emojiSelected" />
-                  </div>
-                </TransitionRoot>
-              </Float> -->
-              <div
+              <!-- <div
                 @click="openEmojiPicker(item)"
                 :class="{
                   'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
@@ -243,7 +224,10 @@
                 }"
                 class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
                 {{ item.emoji ?? '📄' }}
-              </div>
+              </div> -->
+              <EmojiPickerModal
+                @emojiSelected="emojiSelected($event, item)"
+                :currentEmoji="item.emoji" />
               <div
                 @dblclick="enableEditName(item)"
                 class="w-full cursor-pointer">
@@ -428,7 +412,6 @@ import {
   MenuButton,
   MenuItems,
   MenuItem,
-  TransitionRoot,
   Switch,
   SwitchGroup,
   SwitchLabel,
@@ -436,13 +419,12 @@ import {
 import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
-
+import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 export default {
   data() {
     return {
       showMenu: true,
       editName: false,
-      showEmojiPicker: false,
       emoji: '',
       editListPopup: {
         open: false,
@@ -474,10 +456,16 @@ export default {
       this.editListPopup.loading = false;
       this.editListPopup.open = false;
     },
+    emojiSelected(emoji, list) {
+      console.log('setting ' + list.emoji + 'to ' + emoji);
+      this.currentEditingList = JSON.parse(JSON.stringify(list));
+      this.currentEditingList.emoji = emoji;
+      this.updateList(this.currentEditingList);
+      //if triggered from an item set the item emoji to the selected emoji if triggered from an element  set the element emoji to the selected emoji
+    },
 
     openEmojiPicker(item) {
       this.$emit('openEmojiPicker', item);
-      this.showEmojiPicker = true;
     },
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
@@ -808,6 +796,7 @@ export default {
     SwitchGroup,
     SwitchLabel,
     JovieSpinner,
+    EmojiPickerModal,
     PinnedIcon,
     ChevronDownIcon,
     EllipsisHorizontalIcon,
@@ -825,7 +814,6 @@ export default {
     draggable,
     ModalPopup,
     InputGroup,
-    TransitionRoot,
     Float,
     ToggleGroup,
     ArrowPathIcon,
