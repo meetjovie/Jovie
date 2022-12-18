@@ -558,7 +558,7 @@
       <ImportCreatorModal
         :open="showCreatorModal"
         :list="filters.list"
-        @closeModal="closeImportCreatorModal" />
+        @closeModal="closeImportCreatorModal()" />
 
       <EmojiPickerModal
         v-show="openEmojis"

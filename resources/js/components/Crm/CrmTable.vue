@@ -498,7 +498,7 @@
                         },
                         'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:bg-jovieDark-900 before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap border-y border-slate-300 bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:border-jovieDark-border dark:bg-jovieDark-900 before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -536,7 +536,7 @@
                         },
                         'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
-                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:text-jovieDark-700 dark:group-hover:text-slate-400">
+                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap border-y border-slate-300 bg-white px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -574,7 +574,7 @@
                         'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:bg-jovieDark-900 dark:after:border-jovieDark-border">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap border-y border-slate-300 bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900 dark:after:border-jovieDark-border">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
@@ -933,7 +933,7 @@
                           'crm_record_by_user.last_contacted'
                         )
                       "
-                      class="border-1 table-cell w-40 items-center whitespace-nowrap border text-xs text-slate-500">
+                      class="border-1 table-cell w-40 items-center whitespace-nowrap border border border-slate-300 text-xs text-slate-500 dark:border-jovieDark-border">
                       <Datepicker
                         v-model="creator.crm_record_by_user.last_contacted"
                         @update:modelValue="
@@ -974,7 +974,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="w-18 table-cell whitespace-nowrap px-2 py-1 text-sm text-slate-500">
+                      class="table-cell w-14 whitespace-nowrap border border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -991,7 +991,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.lists')"
-                      class="table-cell w-24 whitespace-nowrap px-2 py-1 text-sm text-slate-500">
+                      class="table-cell w-24 whitespace-nowrap border border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
                       <InputLists
                         @updateLists="updateCreatorLists"
                         :creatorId="creator.id ?? 0"
