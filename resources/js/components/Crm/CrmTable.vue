@@ -317,7 +317,7 @@
         <div
           class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
           <div
-            class="flex h-full w-full flex-col justify-between overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
+            class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead class="relative isolate z-20 w-full items-center">
@@ -1016,18 +1016,18 @@
                   </tr>
                 </template>
               </tbody>
-              <div
-                v-if="creatorRecords.length < 50"
-                @click="$emit('addContact')"
-                class="flex w-full cursor-pointer items-center bg-white py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:bg-jovieDark-900 dark:text-jovieDark-400 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
-                <PlusIcon class="mr-2 h-4 w-4" />
-                Add new contact
-              </div>
             </table>
+            <div
+              v-if="creatorRecords.length < 50"
+              @click="$emit('addContact')"
+              class="flex w-full cursor-pointer items-center bg-white py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:bg-jovieDark-900 dark:text-jovieDark-400 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
+              <PlusIcon class="mr-2 h-4 w-4" />
+              Add new contact
+            </div>
 
             <Pagination
               class="z-50 w-full bg-blue-500"
-              v-if="creatorRecords.length"
+              v-if="creatorRecords.length > 50"
               :totalPages="creatorsMeta.last_page"
               :perPage="creatorsMeta.per_page"
               :currentPage="creatorsMeta.current_page"
