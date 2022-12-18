@@ -219,6 +219,22 @@
             </div>
 
             <div class="flex w-full items-center">
+              <!--  <Float portal shift>
+                <TransitionRoot
+                  :show="showEmojiPicker"
+                  enter-active-class="transition ease-out duration-100"
+                  enter-from-class="transform opacity-0 scale-95"
+                  enter-to-class="transform opacity-100 scale-100"
+                  leave-active-class="transition ease-in duration-75"
+                  leave-from-class="transform opacity-100 scale-100"
+                  leave-to-class="transform opacity-0 scale-95">
+                  <div
+                    class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                   
+                    <EmojiPicker @select="emojiSelected" />
+                  </div>
+                </TransitionRoot>
+              </Float> -->
               <div
                 @click="openEmojiPicker(item)"
                 :class="{
@@ -412,6 +428,7 @@ import {
   MenuButton,
   MenuItems,
   MenuItem,
+  TransitionRoot,
   Switch,
   SwitchGroup,
   SwitchLabel,
@@ -425,6 +442,7 @@ export default {
     return {
       showMenu: true,
       editName: false,
+      showEmojiPicker: false,
       emoji: '',
       editListPopup: {
         open: false,
@@ -459,6 +477,7 @@ export default {
 
     openEmojiPicker(item) {
       this.$emit('openEmojiPicker', item);
+      this.showEmojiPicker = true;
     },
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
@@ -806,6 +825,7 @@ export default {
     draggable,
     ModalPopup,
     InputGroup,
+    TransitionRoot,
     Float,
     ToggleGroup,
     ArrowPathIcon,

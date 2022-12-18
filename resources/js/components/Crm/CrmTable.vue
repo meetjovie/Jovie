@@ -935,6 +935,7 @@
                       "
                       class="border-1 table-cell w-40 items-center whitespace-nowrap border border border-slate-300 text-xs text-slate-500 dark:border-jovieDark-border">
                       <Datepicker
+                        :dark="getTheme === '!light'"
                         v-model="creator.crm_record_by_user.last_contacted"
                         @update:modelValue="
                           $emit('updateCreator', {
@@ -991,7 +992,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.lists')"
-                      class="table-cell w-24 whitespace-nowrap border border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
+                      class="table-cell w-24 whitespace-nowrap border-y border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
                       <InputLists
                         @updateLists="updateCreatorLists"
                         :creatorId="creator.id ?? 0"
@@ -999,7 +1000,7 @@
                         :currentList="creator.current_list" />
                     </td>
                     <td
-                      class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
+                      class="flex w-full justify-end whitespace-nowrap border-y border-slate-300 px-2 py-1 text-right text-xs font-medium dark:border-jovieDark-border">
                       <div class="flex items-center justify-end text-right">
                         <div>
                           <router-link
@@ -1363,6 +1364,9 @@ export default {
   computed: {
     sidebarOpen() {
       return this.$store.state.sidebarOpen;
+    },
+    getTheme() {
+      return localStorage.getItem('theme') || 'light';
     },
     intermediate() {
       return (
@@ -1924,3 +1928,85 @@ export default {
   },
 };
 </script>
+
+<style>
+.dp__theme_dark {
+  --dp-background-color: #191a22;
+  --dp-text-color: #ffffff;
+  --dp-hover-color: #484848;
+  --dp-hover-text-color: #ffffff;
+  --dp-hover-icon-color: #959595;
+  --dp-primary-color: #005cb2;
+  --dp-primary-text-color: #ffffff;
+  --dp-secondary-color: #a9a9a9;
+  --dp-border-color: #292b41;
+  --dp-menu-border-color: #2d2d2d;
+  --dp-border-color-hover: #aaaeb7;
+  --dp-disabled-color: #737373;
+  --dp-scroll-bar-background: #212121;
+  --dp-scroll-bar-color: #484848;
+  --dp-success-color: #00701a;
+  --dp-success-color-disabled: #428f59;
+  --dp-icon-color: #959595;
+  --dp-danger-color: #e53935;
+  --dp-highlight-color: rgba(80, 0, 178, 0.2);
+  --dp-row_margin: 0px 0 !default;
+  --dp-common_padding: 0px !default;
+  --dp-font_size: 0.5rem !default;
+  /* 
+  --dp-font_family: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
+    oxygen, ubuntu, cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !default;
+  --dp-border_radius: 4px !default;
+  --dp-cell_border_radius: --dp-border_radius !default;
+
+  --dp-transition_length: 22px !default; // Passed to the translateX in animation
+  --dp-transition_duration: 0.1s !default; // Transition duration
+
+  --dp-button_height: 35px !default; // size for buttons in overlays
+  --dp-month_year_row_height: 35px !default; // height of the month-year select row
+  --dp-month_year_row_button_size: 25px !default; // Specific height for the next/previous buttons
+  --dp-button_icon_height: 20px !default; // icon sizing in buttons
+  --dp-cell_size: 35px !default; // width and height of calendar cell
+  --dp-cell_padding: 5px !default; // padding in the cell
+ 
+  --dp-input_padding: 6px 6px !default; // padding in the input
+  --dp-input_icon_padding: 35px !default; // Padding on the left side of the input if icon is present
+  --dp-menu_min_width: 260px !default; // Adjust the min width of the menu
+  --dp-action_buttons_padding: 2px 5px !default; // Adjust padding for the action buttons in action row
+ 
+  --dp-calendar_header_cell_padding: 0.5rem !default; // Adjust padding in calendar header cells
+  --dp-two_calendars_spacing: 10px !default; // Space between two calendars if using two calendars
+  --dp-overlay_col_padding: 3px !default; // Padding in the overlay column
+  --dp-time_inc_dec_button_size: 32px !default; // Sizing for arrow buttons in the time picker */
+  /* 
+  // Font sizes
+ 
+  --dp-preview_font_size: 0.8rem !default; // font size of the date preview in the action row
+  --dp-time_font_size: 2rem !default; // font size in the time picker */
+}
+
+.dp__theme_light {
+  --dp-background-color: #ffffff;
+  --dp-text-color: #212121;
+  --dp-hover-color: #f3f3f3;
+  --dp-hover-text-color: #212121;
+  --dp-hover-icon-color: #959595;
+  --dp-primary-color: #1976d2;
+  --dp-primary-text-color: #f8f5f5;
+  --dp-secondary-color: #c0c4cc;
+  --dp-border-color: #ddd;
+  --dp-menu-border-color: #ddd;
+  --dp-border-color-hover: #aaaeb7;
+  --dp-disabled-color: #f6f6f6;
+  --dp-scroll-bar-background: #f3f3f3;
+  --dp-scroll-bar-color: #959595;
+  --dp-success-color: #76d275;
+  --dp-success-color-disabled: #a3d9b1;
+  --dp-icon-color: #959595;
+  --dp-danger-color: #ff6f60;
+  --dp-highlight-color: rgba(80, 0, 178, 0.2);
+  --dp-row_margin: 0px 0 !default;
+  --dp-common_padding: 0px !default;
+  --dp-font_size: 0.5rem !default;
+}
+</style>
