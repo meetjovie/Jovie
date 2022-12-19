@@ -135,7 +135,7 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
-              <p class="text-sm font-semibold text-slate-600">v0.0.7</p>
+              <p class="text-sm font-semibold text-slate-600">v0.0.8</p>
 
               <p>2022.12.07</p>
             </div>
@@ -173,11 +173,29 @@
                 <li class="prose">
                   Added the ability to import TikTok profiles in bulk.
                 </li>
+                <li class="prose">Added a support modal</li>
+                <li class="prose">Added support chat</li>
+                <li class="prose">
+                  Added a number of keyboard shortcuts. Press '?' from the
+                  dashboard to see the full list.
+                </li>
+                <li class="prose">Major UI upgraded.</li>
               </ul>
 
               <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
 
               <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Fixed various issues with the emoji picker bahaving
+                  erradically
+                </li>
+                <li class="prose">
+                  Relocated the Create contact button to the top of the page.
+                </li>
+                <li class="prose">
+                  Fixed a bug preventing modals from reopening after closing.
+                </li>
+
                 <li class="prose">
                   Added some very important backend infrastructure that will
                   enable a great feature in our next release.
