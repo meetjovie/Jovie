@@ -143,7 +143,6 @@ const tabs = [
   { name: 'Delete Account', href: '#', current: false },
 ];
 
-import AccountPlan from '../components/Account/AccountPlan.vue';
 import Subscribe from '../views/Subscribe';
 import Subscription from '../components/Subscription';
 import AccountPassword from '../components/Account/AccountPassword.vue';
@@ -176,7 +175,7 @@ export default {
     TabPanel,
     TabPanels,
     Tab,
-    AccountPlan,
+
     RadioGroup,
     RadioGroupLabel,
     RadioGroupOption,

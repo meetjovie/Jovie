@@ -148,7 +148,6 @@
                           ref="menuListPinned"
                           @getUserLists="getUserLists"
                           @setFiltersType="setFiltersType"
-                          @openEmojiPicker="openEmojiPicker"
                           menuName="Pinned"
                           :selectedList="filters.list"
                           @setFilterList="setFilterList"
@@ -161,7 +160,6 @@
                       ref="menuListAll"
                       @getUserLists="getUserLists"
                       @setFiltersType="setFiltersType"
-                      @openEmojiPicker="openEmojiPicker"
                       menuName="Lists"
                       @setFilterList="setFilterList"
                       :selectedList="filters.list"
@@ -560,11 +558,6 @@
         :list="filters.list"
         @closeModal="closeImportCreatorModal()" />
 
-      <!--  <EmojiPickerModal
-        v-show="openEmojis"
-        @emojiSelected="emojiSelected($event)"
-        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-jovieDark-800">
-      </EmojiPickerModal> -->
       <SupportModal
         @close="toggleShowSupportModal()"
         @message="launchSupportChat()"
@@ -640,7 +633,7 @@ import { defineAsyncComponent } from 'vue';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams';
 import JovieTooltip from '../components/JovieTooltip.vue';
-import EmojiPickerModal from '../components/EmojiPickerModal.vue';
+
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
@@ -659,7 +652,7 @@ export default {
     ArrowUpCircleIcon,
     ArrowPathIcon,
     AlertBanner,
-    EmojiPickerModal,
+
     Float,
     CloudArrowDownIcon,
     PlusIcon,
@@ -983,10 +976,7 @@ export default {
       console.log('openUpgradeModal');
       this.showUpgradeModal = true;
     },
-    openEmojiPicker(item) {
-      this.selectedList = item;
-      this.openEmojis = true;
-    },
+
     toggleContactMenuOpen() {
       this.contactMenuOpen = !this.contactMenuOpen;
     },

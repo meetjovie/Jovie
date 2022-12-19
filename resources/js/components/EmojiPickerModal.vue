@@ -107,9 +107,7 @@ export default {
 .v3-emoji-picker {
   height: 320px;
   width: 100%;
-
   color: #000;
-
   margin: 0 auto;
   box-sizing: border-box;
   display: flex;
@@ -406,7 +404,6 @@ export default {
   visibility: visible;
   z-index: 999;
 }
-// Theme Auto
 .v3-emoji-picker.v3-color-theme-auto {
   @media (prefers-color-scheme: dark) {
     --v3-picker-fg: #ffffff;
@@ -418,8 +415,6 @@ export default {
     --v3-picker-emoji-hover: #222222;
   }
 }
-
-// Theme Default
 .v3-emoji-picker.v3-color-theme-dark {
   --v3-picker-fg: #ffffff;
 
