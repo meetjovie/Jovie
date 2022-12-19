@@ -25,32 +25,49 @@
             leave="ease-in duration-200"
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-            <DialogPanel
-              class="relative transform overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-4 pt-5 pb-4 text-left shadow-xl backdrop-blur-xl backdrop-filter transition-all dark:border-jovieDark-border dark:bg-jovieDark-900 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-              <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
-                <button
-                  type="button"
-                  class="dark:hover:text-slate-500focus-visible:outline-none rounded-md bg-white text-slate-400 hover:text-slate-500 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-700 dark:text-jovieDark-300"
-                  @click="$emit('closeModal')">
-                  <span class="sr-only">Close</span>
-                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-              <div class="sm:flex sm:items-start">
+            <DialogPanel class="mx-auto w-full">
+              <GlassmorphismContainer size="3xl">
                 <div
-                  class="mt-3 w-full text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <DialogTitle
-                    as="h3"
-                    class="text-lg font-medium leading-6 dark:text-jovieDark-100">
-                    Import a contact
-                  </DialogTitle>
-                  <div class="mt-2">
-                    <SocialInput
-                      :list="list"
-                      @finishImport="$emit('closeModal')" />
+                  class="relative w-full transform overflow-hidden rounded-lg px-4 pb-6 pt-4">
+                  <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+                    <button
+                      type="button"
+                      class="dark:hover:text-slate-500focus-visible:outline-none rounded-md bg-white text-slate-400 hover:text-slate-500 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-700 dark:text-jovieDark-300"
+                      @click="$emit('closeModal')">
+                      <span class="sr-only">Close</span>
+                      <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <div class="sm:flex sm:items-start">
+                    <div
+                      class="mt-3 w-full text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      <DialogTitle
+                        as="h3"
+                        class="text-lg font-medium leading-6 dark:text-jovieDark-100">
+                        Import a contact
+                      </DialogTitle>
+
+                      <p
+                        class="text-2xs text-slate-500 dark:text-jovieDark-300">
+                        Type or
+                        <span
+                          class="decoration cursor-pointer"
+                          @click="pasteFromClipboard()"
+                          >paste</span
+                        >
+                        a link to a social media profile.
+                      </p>
+
+                      <div class="mt-2">
+                        <SocialInput
+                          :list="list"
+                          :socialMediaProfileUrl="socialMediaProfileUrl"
+                          @finishImport="$emit('closeModal')" />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </GlassmorphismContainer>
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -69,7 +86,7 @@ import {
 } from '@headlessui/vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import SocialInput from '../components/SocialInput.vue';
-
+import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 export default {
   components: {
     Dialog,
@@ -79,6 +96,12 @@ export default {
     TransitionRoot,
     XMarkIcon,
     SocialInput,
+    GlassmorphismContainer,
+  },
+  data() {
+    return {
+      socialMediaProfileUrl: '',
+    };
   },
   props: {
     open: {
@@ -87,6 +110,14 @@ export default {
     },
     list: {
       type: String,
+    },
+  },
+  methods: {
+    pasteFromClipboard() {
+      navigator.clipboard.readText().then((text) => {
+        //set it as the socialMediaProfileUrl
+        this.socialMediaProfileUrl = text;
+      });
     },
   },
 };

@@ -42,7 +42,8 @@
       </div>
     </div>
     <div v-if="sidebar && !dismissed" class="relative px-2">
-      <div
+      <router-link
+        :to="ctaLink"
         class="flex flex-col rounded-lg border border-slate-300 px-2 py-2 dark:border-jovieDark-border">
         <span
           class="text-xs font-semibold text-slate-700 dark:text-jovieDark-200"
@@ -52,9 +53,9 @@
           class="text-2xs font-medium text-slate-600 dark:text-jovieDark-400"
           >{{ subtitle }}</span
         >
+
         <ButtonGroup
           class="group/button z-20 mt-4 w-full cursor-pointer rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 px-2 py-2 text-white"
-          :buttonlink="ctaLink"
           :text="cta">
           <svg
             role="img"
@@ -67,7 +68,7 @@
               d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z" />
           </svg>
         </ButtonGroup>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>

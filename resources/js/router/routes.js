@@ -370,7 +370,7 @@ export const routes = [
   },
   {
     name: 'Creator Overview',
-    path: '/creator-overview/:id',
+    path: '/overview/:id',
     component: loadPage('CreatorOverview'),
     props: true,
     meta: {

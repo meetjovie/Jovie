@@ -183,7 +183,7 @@
                   :title="`Install Chrome Extension`"
                   :cta="`Install Extension`"
                   :subtitle="`Eeasily add contacts from any website.`"
-                  ctaLink="/chrome-extension" />
+                  ctaLink="chrome-extension" />
               </div>
 
               <div

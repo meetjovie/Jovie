@@ -1355,6 +1355,15 @@ export default {
     this.$mousetrap.bind('space', () => {
       this.toggleContactSidebar();
     });
+
+    this.$mousetrap.bind('enter', () => {
+      if (this.currentContact.length) {
+        this.$router.push({
+          name: 'Creator Overview',
+          params: { id: this.currentContact[0].id },
+        });
+      }
+    });
     let columns = JSON.parse(localStorage.getItem('columns'));
     if (columns) {
       this.columns = columns;

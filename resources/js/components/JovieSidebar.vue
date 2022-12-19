@@ -10,7 +10,7 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
 
     <div
-      class="min-w-60 top-0 z-30 mx-auto flex h-screen w-60 resize-x flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
+      class="min-w-60 max-w-96 top-0 z-30 mx-auto flex h-screen w-60 resize-x flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
       <div>
         <slot name="header">
           <div class="w-full flex-col px-2">
@@ -207,8 +207,9 @@
             </div>
           </div>
         </slot>
-
-        <slot name="main"> Main </slot>
+        <div class="overflow-y-scroll">
+          <slot name="main"> Main </slot>
+        </div>
       </div>
       <slot name="footer"> </slot>
     </div>
