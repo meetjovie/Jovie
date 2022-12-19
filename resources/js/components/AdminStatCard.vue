@@ -19,6 +19,7 @@
                 <span v-if="currency">${{ formatCount(stat) }}</span>
 
 
+
                 <span v-else>{{ formatCount(stat) }}</span>
               </div>
             </dd>
