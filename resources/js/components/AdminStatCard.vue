@@ -14,8 +14,10 @@
               </div>
               <div
                 v-else
+
                 class="text-center text-7xl font-bold text-indigo-700 dark:text-jovieDark-300">
                 <span v-if="currency">${{ formatCount(stat) }}</span>
+
 
                 <span v-else>{{ formatCount(stat) }}</span>
               </div>
