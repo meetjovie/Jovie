@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-y-hidden">
     <div
-      class="flex flex-col items-center justify-center bg-gradient-to-b from-white to-slate-50 px-4 pt-24">
+      class="flex min-h-[720px] flex-col items-center justify-center bg-gradient-to-b from-white to-slate-50 px-4 pt-24">
       <div class="flex justify-between">
         <div class="relative hidden md:block">
           <div class="-mt-14 flex flex-col space-y-14">
@@ -45,6 +45,12 @@
         </div>
 
         <div class="z-10 flex flex-col text-center">
+          <div class="mb-8 block sm:hidden">
+            <img
+              alt="Jovie - Social CRM Screenshot"
+              class="rounded-lg shadow-xl shadow-indigo-700/30 ring-8 ring-black ring-opacity-5"
+              :src="asset('img/External/HomeFeatureCRM.webp')" />
+          </div>
           <div class="mb-4 flex justify-center rounded-full">
             <div
               class="relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 py-1 px-8 text-xs leading-6">
@@ -86,7 +92,8 @@
           </div>
 
           <!--  <home-logo-cloud /> -->
-          <div class="mt-24 -mb-36 block max-w-7xl sm:-mb-48 lg:-mb-96">
+          <div
+            class="mt-24 -mb-36 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
             <img
               alt="Jovie - Social CRM Screenshot"
               class="rounded-lg shadow-xl shadow-indigo-700/30 ring-8 ring-black ring-opacity-5"

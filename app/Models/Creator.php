@@ -23,7 +23,7 @@ class Creator extends Model
     const CREATORS_CSV_PATH = 'public/creators_csv/';
 
     const NETWORKS = ['instagram', 'twitch', /* 'onlyFans', 'snapchat', */ 'linkedin', 'youtube', 'twitter', 'tiktok'];
-    const TWITTER_BATCH_SIZE = 10;
+    const TWITTER_BATCH_SIZE = 100;
 
     protected $guarded = [];
 
@@ -150,7 +150,7 @@ class Creator extends Model
                     $value->network = $network;
 
                     return $value;
-                }, $this->{$network.'_media'});
+                }, (array) $this->{$network.'_media'});
                 $media = array_merge($media, $nMedia);
             }
         }
@@ -363,6 +363,16 @@ class Creator extends Model
     public function setTwitterMetaAttribute($value)
     {
         $this->attributes['twitter_meta'] = json_encode($value ?? []);
+    }
+
+    public function getTiktokMediaAttribute($value)
+    {
+        return json_decode($value ?? '{}');
+    }
+
+    public function setTiktokMediaAttribute($value)
+    {
+        $this->attributes['tiktok_media'] = json_encode($value ?? []);
     }
 
     public function getTiktokMetaAttribute($value)
@@ -865,7 +875,7 @@ class Creator extends Model
         if (! empty($user->business_email)) {
             $emails[] = $user->business_email;
         }
-        $emailString = $user->biography ?? $user->description;
+        $emailString = $user->biography ?? $user->description ?? '';
         if ($bioEmail = self::getEmailFromString($emailString)) {
             $emails[] = $bioEmail;
         }
@@ -873,7 +883,7 @@ class Creator extends Model
         return array_values(array_map('trim', array_unique(array_merge($emails, $oldEmails))));
     }
 
-    public static function addToListAndCrm($creator, $listId = null, $userId = null, $teamId = null)
+    public static function addToListAndCrm($creator, $listId = null, $userId = null, $teamId = null, $source = null)
     {
         if ($listId) {
             $creator->userLists()->syncWithoutDetaching($listId);
@@ -892,8 +902,13 @@ class Creator extends Model
                     $team->save();
                 }
             }
+            $crm = Crm::query()->where('creator_id', $creator->id)->where('user_id', $userId)->where('team_id', $team->id)->first();
+            if ($crm && is_null($crm->source) && $source) {
+                $crm->source = $source;
+                $crm->save();
+            }
+            CreatorImported::dispatch($creator->id, $userId, $teamId, $listId);
         }
-        CreatorImported::dispatch($creator->id, $userId, $teamId, $listId);
     }
 
     public static function getCrmCounts()

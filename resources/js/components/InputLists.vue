@@ -3,7 +3,7 @@
     <div class="mr-1 flex">
       <div v-for="item in lists" class="mr-2 flex" :key="item.order">
         <div
-          class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-1 text-xs font-medium text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">
+          class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-1 text-xs font-medium text-slate-800 hover:bg-slate-50 dark:border-jovieDark-border dark:text-jovieDark-200 dark:hover:bg-jovieDark-900">
           <div class="flex w-full items-center">
             <span class="mr-1"> {{ item.emoji }}</span>
             <span class="w-18 select-none truncate text-ellipsis text-2xs">{{
@@ -12,7 +12,7 @@
           </div>
           <XMarkIcon
             @click="toggleCreatorsFromList(creatorId, item.id, true)"
-            class="h-3 w-3 cursor-pointer text-slate-400 hover:text-slate-500 dark:text-slate-400 dark:hover:text-slate-300"></XMarkIcon>
+            class="h-3 w-3 cursor-pointer text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
         </div>
       </div>
     </div>
@@ -26,13 +26,13 @@
         <template #triggerButton>
           <div
             :class="{ 'px-2': userLists.length > 0 }"
-            class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-0.5 hover:border-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-900">
+            class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-0.5 hover:border-slate-200 dark:hover:border-jovieDark-border dark:hover:bg-jovieDark-900">
             <div class="flex items-center">
               <PlusIcon
                 class="h-3 w-3 text-slate-400 group-hover:text-slate-700" />
               <span
                 v-if="!userLists.length > 0"
-                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-700"
+                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-400 dark:group-hover:text-slate-700"
                 >Add to a list</span
               >
             </div>

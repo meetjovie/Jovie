@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Jobs\InstagramImport;
 use App\Jobs\SendSlackNotification;
+use App\Jobs\TiktokImport;
 use App\Jobs\TwitchImport;
 use App\Jobs\TwitterImport;
 use App\Models\Creator;
@@ -152,6 +153,17 @@ class TriggerImports extends Command
                     }
                 }
 
+//                if ($import->tiktok && $import->tiktok_scrapped != 1) {
+//                    // trigger instagram import
+//                    $tiktokBatch = $import->getImportBatch(config('import.tiktok_queue'));
+//                    if (! $tiktokBatch->cancelled()) {
+//                        $this->triggerTiktokImport($import, $tiktokBatch, $commonData);
+//                        $import->tiktok_dispatched = 1;
+//                        $import->save();
+//                        $dispatched = true;
+//                    }
+//                }
+
                 if (! $dispatched) {
                     Import::where('id', $import->id)->delete();
                 }
@@ -174,6 +186,13 @@ class TriggerImports extends Command
     {
         $batch->add([
             (new TwitchImport($import->twitch_id, $import->twitch, $commonData['tags'], $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(2)),
+        ]);
+    }
+
+    public function triggerTiktokImport($import, $batch, $commonData)
+    {
+        $batch->add([
+            (new TiktokImport($import->tiktok, $commonData['tags'], $commonData['meta'], $import->user_list_id, $import->user_id, $import->id))->delay(now()->addSeconds(2)),
         ]);
     }
 

@@ -1,11 +1,11 @@
 <template>
-  <div class="h-screen dark:bg-slate-900">
+  <div class="h-screen dark:bg-jovieDark-900">
     <div class="">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center gap-4">
           <JovieLogo color="white" :height="20" />
           <h2
-            class="py-6 text-lg font-medium leading-6 text-slate-900 dark:text-slate-100">
+            class="py-6 text-lg font-medium leading-6 text-slate-900 dark:text-jovieDark-100">
             Admin Dashboard
           </h2>
         </div>

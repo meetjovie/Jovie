@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen bg-white dark:bg-jovieDark-900">
     <div
       class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
       <div class="m-auto flex h-full items-center">
@@ -11,7 +11,12 @@
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
-            <JovieLogo tabindex="-1" height="28px" />
+            <JovieLogo
+              tabindex="-1"
+              v-if="$store.theme === 'dark'"
+              height="48px"
+              color="#000" />
+            <JovieLogo tabindex="-1" v-else height="48px" color="#fff" />
           </div>
         </div>
 
@@ -95,7 +100,8 @@
                   </ButtonGroup>
                 </div>
 
-                <h3 class="mx-auto text-center text-xs text-slate-400">
+                <h3
+                  class="mx-auto text-center text-xs text-slate-400 dark:text-jovieDark-300">
                   Fast & easy. No credit card required.
                 </h3>
               </template>
@@ -158,12 +164,13 @@
                       @click="register()"
                       :loader="loading"
                       :success="success"
+                      :error="error"
                       :disabled="submitting"
                       text="Create Account">
                     </ButtonGroup>
                   </div>
                 </div>
-                <p class="text-2xs text-slate-400">
+                <p class="text-2xs text-slate-400 dark:text-jovieDark-200">
                   By clicking “Sign up” you agree to our
                   <router-link class="underline" to="privacy"
                     >privacy policy</router-link
@@ -305,6 +312,7 @@ export default {
             return;
           }
           alert('Something went wrong.');
+          this.success = false;
         })
         .finally(() => {
           //identify call to segment
@@ -348,6 +356,7 @@ export default {
             return;
           }
           alert('Something went wrong.');
+          this.success = false;
         })
         .finally(() => {
           this.submitting = false;

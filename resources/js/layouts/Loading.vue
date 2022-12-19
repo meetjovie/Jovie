@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex h-screen w-full items-center bg-slate-100 dark:bg-black"
+    class="flex h-screen w-full items-center bg-slate-100 dark:bg-jovieDark-900"
     id="app">
     <router-view />
-    <aside class="w-60lg:block hidden h-screen"></aside>
-    <div class="mx-auto flex h-screen items-center text-center dark:bg-black">
+    <aside class="hidden h-screen w-60 lg:block"></aside>
+    <div class="mx-auto flex h-screen items-center text-center">
       <div></div>
       <div
         class="mx-auto flex w-full flex-col items-center text-center sm:flex-row">
@@ -14,7 +14,7 @@
           v-if="!link"
           :class="[
             {
-              ' decoartion-2 decoration-slate-400 decoration-solid dark:decoration-slate-700':
+              ' decoartion-2 decoration-slate-400 decoration-solid dark:decoration-jovieDark-border':
                 link,
             },
           ]"
@@ -79,6 +79,11 @@ export default {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
+      }
+    },
+    checkForExtension() {
+      if (document.body.dataset.jovieExtensionInstalled === 'true') {
+        this.$store.commit('chromeExtensionInstalled', true);
       }
     },
     setLoadingText() {

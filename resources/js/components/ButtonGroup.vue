@@ -27,9 +27,7 @@
           design == 'secondary',
       },
       {
-
-        'group flex cursor-pointer items-center rounded-md p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-slate-800':
-
+        'group flex cursor-pointer items-center rounded-md p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-jovieDark-800':
           design == 'toolbar',
       },
       {
@@ -60,9 +58,7 @@
       :is="icon"
       :class="[
         {
-
-          'dark:group-hover:text-slate h-5 w-5 text-slate-400 group-hover:text-slate-600 dark:text-slate-400 dark:group-hover:text-slate-200':
-
+          'dark:group-hover:text-slate h-5 w-5 text-slate-400 group-hover:text-slate-600 dark:text-jovieDark-400 dark:group-hover:text-jovieDark-200':
             design == 'toolbar',
         },
         { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },

@@ -66,6 +66,14 @@ return [
             'after_commit' => false,
         ],
 
+        'dev_tiktok' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'dev_tiktok',
+            'retry_after' => 90,
+            'after_commit' => false,
+        ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',

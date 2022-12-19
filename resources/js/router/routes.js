@@ -38,10 +38,9 @@ export const routes = [
   {
     name: 'Support',
     path: '/support',
-    component: loadPage('Support'),
-    meta: {
-      layout: 'default',
-      requiresAuth: false,
+    //redirect to https://support.jov.ie/
+    beforeEnter(to, from, next) {
+      window.open('https://support.jov.ie/', '_self');
     },
   },
   {
@@ -204,7 +203,7 @@ export const routes = [
     name: 'Request A Feature',
     path: '/request-a-feature',
     beforeEnter(to, from, next) {
-      window.open('https://roadmap.jov.ie', '_self');
+      window.open('hhttps://roadmap.jov.ie/feature-requests', '_self');
     },
   },
   {

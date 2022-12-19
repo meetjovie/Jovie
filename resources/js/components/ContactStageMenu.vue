@@ -9,7 +9,7 @@
         @click="open"
         class="flex w-full justify-between px-2">
         <div
-          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:bg-slate-800 dark:text-slate-200"
+          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:bg-jovieDark-800 dark:text-jovieDark-200"
           :class="[
             {
               'bg-indigo-50 text-indigo-600 dark:bg-indigo-800 dark:text-indigo-200':
@@ -37,7 +37,7 @@
 
         <div class="items-center">
           <ChevronDownIcon
-            class="mt-1 h-4 w-4 text-slate-600 dark:text-slate-400" />
+            class="mt-1 h-4 w-4 text-slate-600 dark:text-jovieDark-400" />
         </div>
       </MenuButton>
       <TransitionRoot
@@ -52,16 +52,16 @@
           static
           @focus="focusStageInput()"
           as="div"
-          class="dark:bg-border-500 z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-500 dark:bg-slate-900/60">
+          class="dark:bg-border-500 z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white/60 bg-clip-padding pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
           <div class="px-1">
             <MenuItem v-slot="{ active }" as="div">
               <div
-                class="relative flex items-center border-b border-slate-200 dark:border-slate-700/40">
+                class="relative flex items-center border-b border-slate-200 dark:border-jovieDark-border">
                 <input
                   ref="stageInput"
                   v-model="stageSearchQuery"
                   placeholder="Set stage..."
-                  class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:text-slate-200" />
+                  class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:text-jovieDark-200" />
                 <!-- <div class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
                   <kbd
                     class="inline-flex items-center rounded border border-slate-200 px-1 font-sans text-2xs font-medium text-slate-400"
@@ -72,7 +72,8 @@
             </MenuItem>
           </div>
 
-          <div class="border-t border-slate-200 px-2 dark:border-slate-700">
+          <div
+            class="border-t border-slate-200 px-2 dark:border-jovieDark-border">
             <MenuItem
               as="div"
               v-slot="{ active }"
@@ -87,16 +88,16 @@
                 })
               ">
               <div
-                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400"
+                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
                 :class="{
-                  'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200':
+                  'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100':
                     active,
                 }">
                 <div class="flex">
                   <div class="mr-2 w-3 text-xs font-bold opacity-50">
                     <CheckIcon
                       v-if="stage === creator.crm_record_by_user.stage_name"
-                      class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-200" />
+                      class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:text-slate-200" />
                   </div>
                   <div class="mr-2 text-xs font-bold opacity-50">
                     <span
@@ -123,7 +124,7 @@
                             stage == 'Complete',
                         },
                         {
-                          'bg-slate-600 text-slate-600 dark:bg-slate-200 dark:text-slate-200':
+                          'bg-slate-600 text-slate-600 dark:bg-jovieDark-200 dark:text-jovieDark-200':
                             stage == 'Not Interested',
                         },
                       ]"></span>
@@ -142,8 +143,8 @@
               v-slot="{ active }"
               v-if="filteredStage.length === 0">
               <div
-                :class="{ 'bg-slate-200 dark:bg-slate-700': active }"
-                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-slate-400">
+                :class="{ 'bg-slate-200 dark:bg-jovieDark-700': active }"
+                class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-400">
                 <div class="mx-auto flex">
                   <div class="text-center text-xs font-medium text-slate-300">
                     No match
@@ -159,11 +160,11 @@
               v-if="stageSearchQuery"
               :disabled="!stageSearchQuery"
               @click="stageSearchQuery = ''"
-              class="hover: group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-slate-700/40 dark:text-slate-400 dark:text-slate-400">
+              class="hover: group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-400 dark:text-jovieDark-400">
               <div class="mx-auto flex items-center text-center">
                 <div class="mr-2 w-3 text-xs font-bold opacity-50">
                   <XMarkIcon
-                    class="h-3 w-3 text-slate-600 dark:text-slate-400" />
+                    class="h-3 w-3 text-slate-600 dark:text-jovieDark-400" />
                 </div>
                 <div class="text-center text-xs font-semibold text-slate-400">
                   Clear search

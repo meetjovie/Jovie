@@ -46,6 +46,21 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       colors: {
+        jovieDark: {
+          DEFAULT: '#575BC7',
+          50: '#f6f6f9',
+          100: '#ecedf2',
+          200: '#d5d6e2',
+          300: '#b0b4c9',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#2A2935',
+          700: '#20232E',
+          800: '#1B1D2A',
+          900: '#191A22',
+          border: '#292B41',
+        },
+
         slate: colors.neutral,
         social: {
           facebook: '#3b5998',

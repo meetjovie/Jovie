@@ -1,40 +1,13 @@
 <template>
-
   <div
     id="app"
     class="flex h-screen overflow-hidden bg-slate-100 transition-all duration-1000 ease-in-out">
-
-    <!-- <div
-      id="overlay"
-      class="fixed inset-0 z-30 flex md:hidden"
-      role="dialog"
-      aria-modal="true">
-      <div
-        class="fixed inset-0 bg-slate-600 bg-opacity-75"
-        aria-hidden="true"></div>
-      <div
-        id="sidebar"
-        class="relative flex w-full flex-1 flex-col bg-slate-500/50 pt-5 pb-4 backdrop-blur-md">
-        <div class="mx-auto flex h-screen w-full items-center justify-center">
-          <a href="{{ route('dashboard') }}">
-            <JovieLogo color="#ffffff" height="40px" />
-            <h2
-              class="align-center mt-4 flex text-center text-sm font-bold text-white opacity-90">
-              Your screen is too small. Jovie is built for larger devices. If
-              you'd like to use Jovie on your phone, please let us know.
-            </h2>
-          </a>
-        </div>
-      </div>
-    </div> -->
-    <!-- Narrow sidebar -->
-
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <main
         class="relative flex-1 overflow-y-auto overflow-x-hidden focus-visible:outline-none"
         id="main">
         <div class="h-full">
-          <div class="h-full">
+          <div class="mx-auto h-full">
             <CommandPallette as="div" :open="showCommandPallette" />
             <AlertBanner
               v-if="currentUser.current_team.credits < 1"
@@ -43,6 +16,7 @@
               :title="`You're out of credits.`"
               :cta="`Upgrade`"
               ctaLink="Billing" />
+
             <router-view></router-view>
           </div>
         </div>
@@ -68,20 +42,16 @@
             move="transition duration-500"
             move-delay="delay-300">
             <div
-
-              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150 dark:border-slate-700 dark:bg-slate-900/60"
-
+              class="mx-auto mt-4 flex w-80 max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-md backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border dark:bg-jovieDark-900/60"
               v-for="notification in notifications"
               :key="notification.id">
               <button
                 class="absolute top-0 right-0 m-2"
                 @click="notification.close">
-
-                <XIcon class="h-5 w-5 text-slate-400 dark:text-slate-100" />
+                <XIcon class="h-5 w-5 text-slate-400 dark:text-jovieDark-100" />
               </button>
               <div
-                class="flex w-10 items-center justify-center bg-slate-200 dark:bg-slate-800">
-
+                class="flex w-10 items-center justify-center bg-slate-200 dark:bg-jovieDark-800">
                 <XMarkIcon
                   v-if="notification.type === 'error'"
                   class="h-4 w-4 text-red-500" />
@@ -100,15 +70,13 @@
 
               <div class="-mx-3 px-4 py-2">
                 <div class="mx-3">
-
                   <span
-                    class="text-xs font-semibold text-slate-600 dark:text-slate-100"
+                    class="text-xs font-semibold text-slate-600 dark:text-jovieDark-100"
                     >{{ notification.title }}</span
                   >
-                  <p class="text-xs text-slate-400 dark:text-slate-100">
+                  <p class="text-xs text-slate-400 dark:text-jovieDark-100">
                     {{ notification.text }}
                   </p>
-
                 </div>
               </div>
             </div>
@@ -120,6 +88,8 @@
 </template>
 
 <script>
+import JovieSidebar from '../components/JovieSidebar.vue';
+
 import {
   HomeIcon,
   Bars3Icon,
@@ -174,6 +144,7 @@ export default {
   data() {
     return {
       errors: [],
+
       showAppMenu: false,
       previewAppMenu: false,
       showCommandPallette: false,
@@ -215,11 +186,7 @@ export default {
 
   mounted() {
     //check local storage for the value of CRM sidebar
-    console.log('CRMSidebarOpen', localStorage.getItem('CRMSidebarOpen'));
-    console.log(
-      'CRMSidebarOpen',
-      typeof localStorage.getItem('CRMSidebarOpen')
-    );
+
     if (localStorage.getItem('CRMSidebarOpen') === 'false') {
       this.$store.state.CRMSidebarOpen = false;
     }
@@ -242,13 +209,23 @@ export default {
     window.analytics.identify(this.user.email, {
       email: this.user.email,
       name: this.user.first_name + ' ' + this.user.last_name,
-      plan: this.user.plan,
-      team: this.user.team,
+      instagram: this.currentUser.instagram_handler,
+      twitter: this.currentUser.twitter_handler,
+      linkedin: this.currentUser.linkedin_handler,
+      tiktok: this.currentUser.tiktok_handler,
+      twitch: this.currentUser.twitch_handler,
+      youtube: this.currentUser.youtube_handler,
+      team: this.currentUser.current_team.name,
       user_id: this.user.id,
+      userId: this.user.id,
+      companyId: this.currentUser.current_team.id,
+      appId: 'Jovie_Web_App',
+      theme: localStorage.theme,
     });
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
       this.toggleCommandPallette();
     });
+
     //toggle the sidebar when hitting cmd + q or ctrl + q
     this.$mousetrap.bind(['esc'], () => {
       this.toggleShowAppMenu();
@@ -324,6 +301,7 @@ export default {
     HomeIcon,
     Bars3Icon,
     MenuItem,
+    JovieSidebar,
     CloudArrowDownIcon,
     MenuItems,
     ChatBubbleLeftEllipsisIcon,

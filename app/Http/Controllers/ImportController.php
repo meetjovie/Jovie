@@ -7,6 +7,7 @@ use App\Jobs\FileImport;
 use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
+use App\Jobs\TiktokImport;
 use App\Jobs\TwitchImport;
 use App\Jobs\TwitterImport;
 use App\Models\Creator;
@@ -56,34 +57,66 @@ class ImportController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:key,twitch,twitter',
-            'twitch' => 'required_without_all:instagram,twitter,key',
-            'twitter' => 'required_without_all:instagram,twitch,key',
-            'key' => 'required_without_all:instagram,twitch,twitter|nullable|string',
-            'list' => 'sometimes|exists:user_lists,id'
+            'instagram' => 'required_without_all:key,twitch,twitter,tiktok',
+            'twitch' => 'required_without_all:instagram,twitter,tiktok,key',
+            'twitter' => 'required_without_all:instagram,twitch,tiktok,key',
+            'tiktok' => 'required_without_all:instagram,twitch,twitter,key',
+            'key' => 'required_without_all:instagram,twitch,twitter,tiktok|nullable|string',
+            'list' => 'sometimes|exists:user_lists,id',
+            'list_name' => 'sometimes|max:255',
+            'source' => 'sometimes|max:255',
         ]);
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        if ($request->instagram) {
-            $import = new Import();
-            $import->instagram = $request->instagram;
-            $instagram = $import->instagram;
-            if ($instagram[0] == '@') {
-                $instagram = substr($instagram, 1);
+        $listId = $request->list;
+        if ($request->list_name) {
+            $list = UserList::firstOrCreateList(Auth::id(), $request->list_name);
+            if ($list) {
+                $listId = $list->id;
             }
-            InstagramImport::dispatch($instagram, $request->tags, true, null, null, $request->list, $user->id, null,
-                $user->currentTeam->id)->onQueue(config('import.instagram_queue'));
+        }
+        $meta = null;
+        if ($request->source) {
+            $meta['source'] = $request->source;
+        }
+        if ($request->instagram) {
+            $usernames = explode(',', $request->instagram);
+            foreach ($usernames as $username) {
+                $import = new Import();
+                $import->instagram = $username;
+                $instagram = $import->instagram;
+                if ($instagram[0] == '@') {
+                    $instagram = substr($instagram, 1);
+                }
+                InstagramImport::dispatch($instagram, $request->tags, true, null, $meta, $listId, $user->id, null,
+                    $user->currentTeam->id)->onQueue(config('import.instagram_queue'));
+            }
         }
         if ($request->twitch) {
-            $import = new Import();
-            $import->twitch = $request->twitch;
-            $twitch = $import->twitch;
-            TwitchImport::dispatch(null, $twitch, $request->tags, null, $request->list, $user->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
+            $usernames = explode(',', $request->twitch);
+            foreach ($usernames as $username) {
+                $import = new Import();
+                $import->twitch = $username;
+                $twitch = $import->twitch;
+                TwitchImport::dispatch(null, $twitch, $request->tags, $meta, $listId, $user->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
+            }
         }
         if ($request->twitter) {
-            $import = new Import();
-            $import->twitter = $request->twitter;
-            $twitter = $import->twitter;
-            TwitterImport::dispatch([$twitter], $request->tags, null, $request->list, $user->id, $user->currentTeam->id)->onQueue(config('import.twitter_queue'));
+            $usernames = explode(',', $request->twitter);
+            foreach ($usernames as $username) {
+                $import = new Import();
+                $import->twitter = $username;
+                $twitter = $import->twitter;
+                TwitterImport::dispatch([$twitter], $request->tags, $meta, $listId, $user->id, $user->currentTeam->id)->onQueue(config('import.twitter_queue'));
+            }
+        }
+        if ($request->tiktok) {
+            $usernames = explode(',', $request->tiktok);
+            foreach ($usernames as $username) {
+                $import = new Import();
+                $import->tiktok = $username;
+                $tiktok = $import->tiktok;
+                TiktokImport::dispatch($tiktok, $request->tags, $meta, $listId, $user->id, null, $user->currentTeam->id)->onQueue(config('import.tiktok_queue'));
+            }
         }
         $file = null;
         try {

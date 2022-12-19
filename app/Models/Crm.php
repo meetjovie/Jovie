@@ -25,9 +25,10 @@ class Crm extends Model
         'archived',
         'meta',
         'offer',
+        'source'
     ];
 
-    protected $appends = ['stage_name'];
+//    protected $appends = ['stage_name'];
 
     public function toSearchableArray()
     {
@@ -36,12 +37,6 @@ class Crm extends Model
         return $array;
     }
 
-    /**
-     * Interact the user's last contacted.
-     *
-     * @param null $value
-     * @return string
-     */
     public function stageName($value = null): string
     {
         return $this->stages()[$value];

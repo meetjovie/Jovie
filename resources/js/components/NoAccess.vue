@@ -1,21 +1,21 @@
 <template>
   <main
-    class="mx-auto flex h-screen w-full max-w-7xl flex-grow flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-    <div class="items-center">
+    class="mx-auto flex h-screen w-full flex-grow flex-col items-center justify-center px-4 dark:bg-jovieDark-800 dark:text-gray-300 sm:px-6 lg:px-8">
+    <div class="max-w-7xl items-center dark:bg-jovieDark-800">
       <div class="text-center">
         <p
-          class="text-sm font-semibold uppercase tracking-wide text-indigo-600">
+          class="text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300">
           {{ title }}
         </p>
         <h1
-          class="mt-2 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+          class="mt-2 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-gray-300 sm:text-5xl">
           Please
-          <router-link class="text-indigo-700" to="billing"
+          <router-link class="text-indigo-700 dark:text-indigo-300" to="billing"
             >upgrade</router-link
           >
           your account.
         </h1>
-        <p class="mt-2 text-base text-slate-500">
+        <p class="mt-2 text-base text-slate-500 dark:text-gray-300">
           {{ message }}
         </p>
       </div>

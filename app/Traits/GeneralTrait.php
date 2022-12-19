@@ -53,4 +53,19 @@ trait GeneralTrait
 
         return $matches[0] ? ($matches[0][0] ?? null) : null;
     }
+
+    public function convertToNumber($number)
+    {
+        $char = substr($number, -1);
+        $number = floatval(str_replace($char, '', $number));
+        if ($char == 'K') {
+            return intval($number * 1000);
+        } elseif ($char == 'M') {
+            return intval($number * 1000000);
+        } elseif ($char == 'B') {
+            return intval($number * 1000000000);
+        } else {
+            return intval($number);
+        }
+    }
 }

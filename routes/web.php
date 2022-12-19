@@ -16,6 +16,113 @@ use MeiliSearch\Client;
 |
 */
 
+Route::get('/scrap', function () {
+    try {
+        $url = "https://www.tiktok.com/@love_mian_jaan";
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get('https://api.webscraping.ai/html', [
+            'query' => [
+                'api_key' => config('import.scrapper_api_key'),
+                'js' => false,
+                'url' => $url,
+                'proxy' => 'residential',
+                'timeout' => 10000,
+            ],
+        ]);
+dd($response->getBody()->getContents());
+        return $response;
+    } catch (\Exception $e) {
+        dd($e->getMessage());
+        return $e->getResponse();
+    }
+    $username = "@love_mian_jaan";
+    $url = "https://www.tiktok.com/@boyjamping/video/7173243579559677210?is_from_webapp=v1&item_id=7173243579559677210";
+    $client = new \Goutte\Client(); // create a crawler object from this link
+    $crawler = $client->request('GET', $url);
+
+    $caption = '';
+    $handler = $crawler->filterXPath('//div[contains(@data-e2e,"browse-video-desc")]')->children()->each(function ($node) use (&$caption) {
+        $text = $node->extract(['_text'])[0];
+        if (! str_contains($text, '.tiktok')) {
+            $caption .= $text;
+        }
+    });
+    dd($caption);
+    $handler = $crawler->filterXPath('//h2[contains(@data-e2e,"user-title")]')->first()->getNode(0)->firstChild->data;
+    $name = @$crawler->filterXPath('//h1[contains(@data-e2e,"user-subtitle")]')->first()->getNode(0)->firstChild->data;
+    $followers = @$crawler->filterXPath('//strong[contains(@data-e2e,"followers-count")]')->first()->getNode(0)->firstChild->data;
+    $likes = @$crawler->filterXPath('//strong[contains(@data-e2e,"likes-count")]')->first()->getNode(0)->firstChild->data;
+    $biography = @$crawler->filterXPath('//h2[contains(@data-e2e,"user-bio")]')->first()->getNode(0)->firstChild->data;
+    $website = @$crawler->filterXPath('//a[contains(@data-e2e,"user-link")]')->first()->getNode(0)->lastChild->firstChild->data;
+    $profilePicUrl = @$crawler->filterXPath('//div[contains(@data-e2e,"user-avatar")]/span[@shape="circle"]/img[@loading="lazy"]')->first()->extract(['src'])[0];
+    $post1 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[1]/div/div/div/a/div/div/img')->first()->extract(['src'])[0];
+    $title1 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[1]/div/div/div/a/div/div/img')->first()->extract(['src'])[0];
+    $url1 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[1]/div/div/div/a')->first()->extract(['href'])[0];
+    $post2 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[2]/div/div/div/a/div/div/img')->first()->extract(['src'])[0];
+    $title2 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[2]/div/div/div/a/div/div/img')->first()->extract(['alt'])[0];
+    $url2 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[2]/div/div/div/a')->first()->extract(['href'])[0];
+    $post3 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[3]/div/div/div/a/div/div/img')->first()->extract(['src'])[0];
+    $title3 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[3]/div/div/div/a/div/div/img')->first()->extract(['alt'])[0];
+    $url3 = @$crawler->filterXPath('//div[contains(@data-e2e,"user-post-item")]/div[3]/div/div/div/a')->first()->extract(['href'])[0];
+
+    $timelineMedia = [
+        [
+            'thumbnail' => $post1,
+            'url' => $url1,
+            'title' => $title1
+        ],
+        [
+            'thumbnail' => $post2,
+            'url' => $url2,
+            'title' => $title2
+        ],
+        [
+            'thumbnail' => $post3,
+            'url' => $url3,
+            'title' => $title3
+        ],
+    ];
+//    if ($followers >= 10000) {
+        foreach ($timelineMedia as &$media) {
+            if (isset($media['url'])) {
+                $url = $media['url'];
+                $client = new \Goutte\Client(); // create a crawler object from this link
+                $crawler = $client->request('GET', $url);
+                $media['likes'] = @$crawler->filterXPath('//strong[contains(@data-e2e,"like-count")]')->first()->getNode(0)->firstChild->data;
+                $media['shares'] = @$crawler->filterXPath('//strong[contains(@data-e2e,"share-count")]')->first()->getNode(0)->firstChild->data;
+                $media['comments'] = @$crawler->filterXPath('//strong[contains(@data-e2e,"comment-count")]')->first()->getNode(0)->firstChild->data;
+                $media['post_date'] = @$crawler->filterXPath('//span[contains(@data-e2e,"browser-nickname")]/span[3]')->first()->getNode(0)->firstChild->data;
+            }
+        }
+//    }
+
+    $user = (object) [];
+    $user->username = $username;
+    $user->name = $name;
+    $user->followers = $followers;
+    $user->likes = $likes;
+    $user->biography = $biography;
+    $user->email = self::getEmailFromString($biography);
+    $user->website = $website;
+    $user->profile_pic_url = $profilePicUrl;
+    $user->timeline_media = $timelineMedia;
+    dd($user);
+    return $user;
+    dd($email);
+    $links = collect();
+    $crawler->filter('a.sc-pFZIQ')->each(function ($node) use ($links) {
+        $href = $node->extract(['href'])[0];
+        $links->push($href);
+    });
+    $crawler->filter('a.sc-eCssSg')->each(function ($node) use ($links) {
+        $href = $node->extract(['href'])[0];
+        if ($href != 'https://linktr.ee/') {
+            $links->push($href);
+        }
+    });
+
+    return $links->toArray();
+});
 Route::get('check', function () {
     $value = 'http://twitch.com/redbull';
     $twitch = null;

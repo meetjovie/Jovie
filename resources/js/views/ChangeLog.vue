@@ -135,6 +135,90 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
+              <p class="text-sm font-semibold text-slate-600">v0.0.8</p>
+
+              <p>2022.12.07</p>
+            </div>
+            <div class="w-full">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
+                Save Any Social Link Anywhere On The Web
+              </h2>
+              <img
+                :src="
+                  asset(
+                    'img/External/Marketing/Chrome/Save_To_Jovie_Chrome_Menu.gif'
+                  )
+                "
+                alt="Jovie Chrome Extension"
+                class="mt-4 rounded-xl border border-neutral-200 py-4 shadow-lg dark:border-neutral-700" />
+              <p class="prose mt-4">
+                🚀 NEW: Easily add social profile links to your Jovie CRM lists
+                from ANY page on the internet! Now, when you come across a
+                profile link on any website, simply right click and select the
+                appropriate list from the dropdown menu to quickly and easily
+                save it for later. As always you can see our product roadmap and
+                contribute to it
+                <a href="https://roadmap.jov.ie">here</a>.
+              </p>
+
+              <h4 class="prose mt-4 font-bold">Features</h4>
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Added the ability to save any social link to a Jovie list from
+                  any page on the web Requires the
+                  <a href="/chrome-extension" target="new"
+                    >(Jovie Chrome Extenion</a
+                  >)
+                </li>
+                <li class="prose">
+                  Added the ability to import TikTok profiles in bulk.
+                </li>
+                <li class="prose">Added a support modal</li>
+                <li class="prose">Added support chat</li>
+                <li class="prose">
+                  Added a number of keyboard shortcuts. Press '?' from the
+                  dashboard to see the full list.
+                </li>
+                <li class="prose">Major UI upgraded.</li>
+              </ul>
+
+              <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  Fixed various issues with the emoji picker bahaving
+                  erradically
+                </li>
+                <li class="prose">
+                  Relocated the Create contact button to the top of the page.
+                </li>
+                <li class="prose">
+                  Fixed a bug preventing modals from reopening after closing.
+                </li>
+
+                <li class="prose">
+                  Added some very important backend infrastructure that will
+                  enable a great feature in our next release.
+                </li>
+                <li class="prose">
+                  Added a check to see if you've already installed the chrome
+                  extension. This will allow us to hide prompts as well as
+                  enable extra features for users who have the extension
+                  installed.
+                </li>
+                <li class="prose">
+                  Refactor some large sections of our codebase to make it easier
+                  for us to move quickly & add new features.
+                </li>
+                <!--    <li class="prose">Made the upgrade flow clearer.</li>
+                <li class="prose">
+                  Upgraded depenendcies to address security vulnerabilities.
+                </li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
+            <div class="w-24 text-2xs">
               <p class="text-sm font-semibold text-slate-600">v0.0.7</p>
 
               <p>2022.12.04</p>

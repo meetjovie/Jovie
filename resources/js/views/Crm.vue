@@ -1,10 +1,26 @@
 <template>
-  <div class="h-full w-full dark:bg-slate-900">
+  <div class="h-full w-full dark:bg-jovieDark-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
-        <JovieSidebar>
+        <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
-            <div>
+            <div class="">
+              <div class="mt-2 w-full px-4">
+                <div
+                  @click="showCreatorModal = true"
+                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                  <div class="flex items-center text-xs">
+                    <PlusIcon
+                      class="mr-1 h-5 w-5 rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                      aria-hidden="true" />
+                    New Contact
+                  </div>
+                  <div class="items-center">
+                    <KBShortcut shortcutKey="C"></KBShortcut>
+                  </div>
+                </div>
+              </div>
+
               <Menu v-slot="{ open }">
                 <MenuItems static>
                   <div class="w-full flex-col px-2">
@@ -14,13 +30,13 @@
                         text="Show All Contacts">
                         <button
                           @click="setFiltersType('all')"
-                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none"
+                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus-visible:outline-none"
                           :class="[
                             filters.type == 'all'
-                              ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                              : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                              ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                              : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                             active
-                              ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                              ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                               : '',
                           ]">
                           <div class="flex items-center text-xs">
@@ -29,16 +45,16 @@
                               :class="[
                                 contactMenuOpen ? 'rotate-90 transform' : '',
                               ]"
-                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-slate-400"
+                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
                               aria-hidden="true">
                             </ChevronRightIcon>
-                            Contacts
+                            All Contacts
                           </div>
                           <div
                             @click="showCreatorModal = true"
-                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-slate-600 hover:dark:text-slate-900">
+                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
                             <span
-                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-slate-100 group-hover:dark:text-slate-100"
+                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-jovieDark-100 group-hover:dark:text-jovieDark-100"
                               >{{ counts.total }}</span
                             >
                             <PlusIcon
@@ -64,10 +80,10 @@
                             class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'favourites'
-                                ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                                ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                 : '',
                             ]">
                             <div class="flex items-center text-xs">
@@ -78,7 +94,7 @@
                             <div
                               class="items-center rounded-md p-1 hover:text-slate-50">
                               <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
                                 >{{ counts.favourites }}</span
                               >
                             </div>
@@ -99,10 +115,10 @@
                               class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                               :class="[
                                 filters.type == 'archived'
-                                  ? 'text-sm font-bold text-slate-900 dark:text-slate-100 '
-                                  : 'text-sm font-light text-slate-900 dark:text-slate-100',
+                                  ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                  : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                                 active
-                                  ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
+                                  ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                   : '',
                               ]">
                               <div class="flex items-center text-xs">
@@ -113,7 +129,7 @@
                               <div
                                 class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
                                 <span
-                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-slate-100"
+                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
                                   >{{ counts.archived }}</span
                                 >
                               </div>
@@ -123,23 +139,27 @@
                       </div>
                     </TransitionRoot>
                   </div>
-                  <div class="flex-col justify-evenly space-y-4 px-2 py-4">
-                    <MenuList
-                      v-if="pinnedUserLists.length"
-                      ref="menuListPinned"
-                      @getUserLists="getUserLists"
-                      @setFiltersType="setFiltersType"
-                      @openEmojiPicker="openEmojiPicker"
-                      menuName="Pinned"
-                      :selectedList="filters.list"
-                      @setFilterList="setFilterList"
-                      :menuItems="pinnedUserLists"></MenuList>
+                  <div
+                    class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
+                    <Suspense>
+                      <template #default>
+                        <MenuList
+                          v-if="pinnedUserLists.length"
+                          ref="menuListPinned"
+                          @getUserLists="getUserLists"
+                          @setFiltersType="setFiltersType"
+                          menuName="Pinned"
+                          :selectedList="filters.list"
+                          @setFilterList="setFilterList"
+                          :menuItems="pinnedUserLists"></MenuList>
+                      </template>
+                      <template #fallback> Loading... </template>
+                    </Suspense>
                     <!--    Team Specific Lists -->
                     <MenuList
                       ref="menuListAll"
                       @getUserLists="getUserLists"
                       @setFiltersType="setFiltersType"
-                      @openEmojiPicker="openEmojiPicker"
                       menuName="Lists"
                       @setFilterList="setFilterList"
                       :selectedList="filters.list"
@@ -153,33 +173,18 @@
           </template>
           <template #footer>
             <div
-              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-slate-700">
+              class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-jovieDark-border">
               <Menu>
                 <MenuItems static>
-                  <MenuItem as="div" v-slot="{ active }">
-                    <div
-                      :class="[
-                        active
-                          ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100'
-                          : '',
-                      ]"
-                      @click="showCreatorModal = true"
-                      class="rouned-md mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100">
-                      <PlusIcon
-                        class="mr-1 h-5 w-5 rounded-md p-1 text-slate-500 dark:text-slate-600"
-                        aria-hidden="true" />
-                      New Contact
-                    </div>
-                  </MenuItem>
                   <MenuItem as="div" v-slot="{ active }">
                     <router-link
                       to="import"
                       :class="[
                         active
-                          ? 'bg-slate-200  text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+                          ? 'bg-slate-200  text-slate-900 dark:bg-jovieDark-border dark:text-jovieDark-100'
                           : 'text-slate-700',
                       ]"
-                      class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                      class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
                       <div class="flex items-center">
                         <CloudArrowUpIcon
                           class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400 dark:text-sky-400"
@@ -194,21 +199,36 @@
                       </div>
                     </router-link>
                   </MenuItem>
+                  <MenuItem v-slot="{ active }" as="div">
+                    <div
+                      @click="toggleShowSupportModal()"
+                      :class="[
+                        active
+                          ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                          : '',
+                        'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100',
+                      ]">
+                      <ChatBubbleLeftIcon
+                        class="mr-1 h-5 w-5 rounded-md p-1 text-pink-500 dark:text-pink-600"
+                        aria-hidden="true" />
+                      Help & Support
+                    </div>
+                  </MenuItem>
                 </MenuItems>
               </Menu>
               <div class="mt-1 flex items-center justify-between py-1">
                 <div
                   @click="openUpgradeModal()"
-                  class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-1 px-2 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800">
+                  class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-2 px-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
                   <div class="flex items-center">
-                    <ArrowUpCircleIcon class="mr-1 h-5 w-5 text-slate-500" />
-                    <span class="text-xs text-slate-700 dark:text-slate-100"
+                    <ArrowUpCircleIcon class="mr-1 h-4 w-4 text-slate-500" />
+                    <span class="text-xs text-slate-700 dark:text-jovieDark-100"
                       >Free Plan</span
                     >
                   </div>
                   <div class="flex items-center">
                     <span
-                      class="cursor-pointer items-center text-2xs text-indigo-700 dark:text-indigo-100"
+                      class="cursor-pointer items-center text-2xs text-indigo-700 dark:text-indigo-400"
                       >Learn more</span
                     >
                   </div>
@@ -247,7 +267,7 @@
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems
-                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:border-slate-700 dark:bg-slate-800/60 sm:px-0">
+                        class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-jovieDark-border dark:bg-jovieDark-800/60 sm:px-0">
                         <div class="overflow-hidden rounded-lg">
                           <div class="relative h-80 gap-6 px-1 sm:gap-8">
                             <div
@@ -282,7 +302,7 @@
                                       </div>
                                       <div class="ml-3 w-full">
                                         <p
-                                          class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900 dark:text-slate-300 hover:dark:text-slate-100 dark:group-hover:text-slate-100">
+                                          class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100 dark:group-hover:text-slate-100">
                                           {{ notification.message }}
                                           <span
                                             class="text-2xs font-light text-slate-500"
@@ -416,6 +436,14 @@
         </JovieSidebar>
         <div
           class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
+          <AlertBanner
+            class="hidden sm:block"
+            v-if="this.$store.state.chromeExtensionInstalled === false"
+            design="primary"
+            :mobiletitle="`Install Jovie Chrome Extension`"
+            :title="`Looks like you're missing the best part!`"
+            :cta="`Install Chrome Extension`"
+            ctaLink="Chrome Extension" />
           <div class="mx-auto h-full w-full">
             <div class="h-full w-full">
               <div class="flex h-full w-full flex-col">
@@ -425,12 +453,13 @@
                       <!--  Show import screen if no creators -->
                       <div
                         v-if="!loading && !creators.length && !showImporting"
-                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-slate-900 sm:px-6 lg:px-8">
+                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
                             class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
                             <div>
-                              <h1 class="text-md font-bold dark:text-slate-100">
+                              <h1
+                                class="text-md font-bold dark:text-jovieDark-100">
                                 You don't have any contacts yet.
                               </h1>
                               <span class="text-sm font-medium text-slate-900"
@@ -469,31 +498,33 @@
                         </div>
                       </div>
                       <!-- Show the crm if there are creators -->
-                      <CrmTable
-                        class="overflow-hidden"
-                        v-else
-                        ref="crmTable"
-                        @updateCreator="updateCreator"
-                        @updateCrmMeta="updateCrmMeta"
-                        @crmCounts="crmCounts"
-                        :counts="counts"
-                        @updateListCount="updateListCount"
-                        @pageChanged="pageChanged"
-                        @setCurrentContact="setCurrentContact"
-                        @openSidebar="openSidebarContact"
-                        @setOrder="setOrder"
-                        :header="filters.type"
-                        @importCSV="importCSV"
-                        :subheader="counts"
-                        :filters="filters"
-                        :userLists="userLists"
-                        :creators="creators"
-                        :networks="networks"
-                        :stages="stages"
-                        :creatorsMeta="creatorsMeta"
-                        :loading="loading">
-                        <slot header="header"></slot>
-                      </CrmTable>
+                      <KeepAlive v-else>
+                        <CrmTable
+                          class="overflow-hidden"
+                          ref="crmTable"
+                          @addContact="showCreatorModal = true"
+                          @updateCreator="updateCreator"
+                          @updateCrmMeta="updateCrmMeta"
+                          @crmCounts="crmCounts"
+                          :counts="counts"
+                          @updateListCount="updateListCount"
+                          @pageChanged="pageChanged"
+                          @setCurrentContact="setCurrentContact"
+                          @openSidebar="openSidebarContact"
+                          @setOrder="setOrder"
+                          :header="filters.type"
+                          @importCSV="importCSV"
+                          :subheader="counts"
+                          :filters="filters"
+                          :userLists="userLists"
+                          :creators="creators"
+                          :networks="networks"
+                          :stages="stages"
+                          :creatorsMeta="creatorsMeta"
+                          :loading="loading">
+                          <slot header="header"></slot>
+                        </CrmTable>
+                      </KeepAlive>
                     </div>
                   </div>
                 </div>
@@ -511,7 +542,7 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 hidden h-full border-l border-slate-200 dark:border-slate-700 xl:block">
+            class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               :jovie="true"
@@ -525,19 +556,21 @@
       <ImportCreatorModal
         :open="showCreatorModal"
         :list="filters.list"
-        @closeModal="closeImportCreatorModal" />
+        @closeModal="closeImportCreatorModal()" />
 
-      <EmojiPickerModal
-        v-show="openEmojis"
-        @emojiSelected="emojiSelected($event)"
-        class="absolute left-60 w-4 cursor-pointer select-none items-center rounded-md bg-slate-50 text-center text-xs transition-all dark:bg-slate-800">
-      </EmojiPickerModal>
+      <SupportModal
+        @close="toggleShowSupportModal()"
+        @message="launchSupportChat()"
+        :open="showSupportModal" />
     </div>
   </div>
 </template>
 
 <script>
+import SupportModal from '../components/SupportModal.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
+import AlertBanner from '../components/AlertBanner.vue';
+import MenuList from '../components/MenuList.vue';
 
 import DarkModeToggle from '../components/DarkModeToggle.vue';
 
@@ -584,6 +617,7 @@ import {
   BellIcon,
   SunIcon,
   MoonIcon,
+  ChatBubbleLeftIcon,
   SparklesIcon,
   ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid';
@@ -594,17 +628,19 @@ import CrmTable from '../components/Crm/CrmTable';
 import ImportCreatorModal from '../components/ImportCreatorModal';
 import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
-import MenuList from '../components/MenuList';
+
+import { defineAsyncComponent } from 'vue';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams';
 import JovieTooltip from '../components/JovieTooltip.vue';
-import EmojiPickerModal from '../components/EmojiPickerModal.vue';
+
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
 import CreatorTags from '../components/Creator/CreatorTags.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import ImportService from '../services/api/import.service';
+import KBShortcut from '../components/KBShortcut.vue';
 
 export default {
   name: 'CRM',
@@ -615,7 +651,8 @@ export default {
     CogIcon,
     ArrowUpCircleIcon,
     ArrowPathIcon,
-    EmojiPickerModal,
+    AlertBanner,
+
     Float,
     CloudArrowDownIcon,
     PlusIcon,
@@ -633,7 +670,9 @@ export default {
     PopoverPanel,
     HeartIcon,
     ContactSidebar,
+    ChatBubbleLeftIcon,
     ProgressBar,
+    SupportModal,
     TabList,
     Tab,
     DarkModeToggle,
@@ -655,12 +694,14 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
+    KBShortcut,
     ChevronDownIcon,
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
     UserGroupIcon,
     CloudArrowUpIcon,
+    SupportModal,
     CrmTable,
     JovieTooltip,
     vueMousetrapPlugin: VueMousetrapPlugin,
@@ -692,6 +733,8 @@ export default {
       networks: [],
       userLists: [],
       showCreatorModal: false,
+      showSuccessModal: false,
+      showSupportModal: false,
       showUpgradeModal: false,
       loading: false,
       creatorsMeta: {},
@@ -755,7 +798,6 @@ export default {
         return 0;
       });
     },
-
     filteredUsersLists() {
       if (!this.searchList) this.filters.list = null;
       let filters = localStorage.getItem('filters');
@@ -775,25 +817,31 @@ export default {
     this.getCrmCreators();
     this.crmCounts();
     this.$mousetrap.bind(['e'], console.log('working'));
+    //c sets openCreatorModal to true
+    this.$mousetrap.bind(['c'], () => {
+      this.showCreatorModal = true;
+    });
+    //? sets openSupportModal to true
+    this.$mousetrap.bind(['?'], () => {
+      this.showSupportModal = true;
+    });
+    //shift+c redirect the page to /import
+    this.$mousetrap.bind(['shift+c'], () => {
+      this.$router.push('/import');
+    });
 
     // this.getNotifications();
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
-    this.listenEvents(
-      `notification.${this.currentUser.current_team.id}`,
-      'Notification',
-      (data) => {
-        this.newNotification = true;
-      }
-    );
-    this.getNotifications();
-
-    this.$nextTick(() => {
-      window.addEventListener('resize', this.onResize());
-    });
-
     if (!this.$store.state.crmEventsRegistered) {
+      this.listenEvents(
+        `notification.${this.currentUser.current_team.id}`,
+        'Notification',
+        (data) => {
+          this.newNotification = true;
+        }
+      );
       this.listenEvents(
         `userListDuplicated.${this.currentUser.current_team.id}`,
         'UserListDuplicated',
@@ -890,8 +938,17 @@ export default {
       );
       this.$store.state.crmEventsRegistered = true;
     }
+
+    this.getNotifications();
+
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize());
+    });
   },
   methods: {
+    toggleShowSupportModal() {
+      this.showSupportModal = !this.showSupportModal;
+    },
     getNotifications() {
       ImportService.getNotifications().then((response) => {
         response = response.data;
@@ -919,10 +976,7 @@ export default {
       console.log('openUpgradeModal');
       this.showUpgradeModal = true;
     },
-    openEmojiPicker(item) {
-      this.selectedList = item;
-      this.openEmojis = true;
-    },
+
     toggleContactMenuOpen() {
       this.contactMenuOpen = !this.contactMenuOpen;
     },

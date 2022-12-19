@@ -3,24 +3,30 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <div
-          class="flex w-full items-center justify-between border-b border-slate-300 bg-white px-2 py-2 dark:border-slate-700 dark:bg-slate-900">
-          <div class="px-4">
+          class="flex w-full items-center justify-between border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
+          <div class="w-full items-center px-4">
             <h1
               v-if="header.includes('all')"
-              class="text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
+              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
+              <UserGroupIcon
+                class="mr-1 h-4 w-4 rounded-md text-purple-400"
+                aria-hidden="true" />
               {{ header + ' Contacts' }}
             </h1>
             <h1
               v-else-if="header.includes('favourites')"
-              class="text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
+              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
               <HeartIcon
-                class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                class="mr-1 h-4 w-4 rounded-md text-red-400"
                 aria-hidden="true" />
               Favorited
             </h1>
             <h1
               v-else
-              class="text-sm font-semibold capitalize text-slate-900 dark:text-slate-100">
+              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
+              <UserIcon
+                class="mr-1 h-4 w-4 rounded-md text-sky-400"
+                aria-hidden="true" />
               {{ header }}
             </h1>
             <p
@@ -33,7 +39,7 @@
               {{ subheader[header] }} Contacts
             </p>
           </div>
-          <div class="flex h-6 w-80 content-end items-center">
+          <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
               <!-- <div class="group">
@@ -56,26 +62,26 @@
                 <div
                   class="flex h-6 w-full items-center justify-end transition-all">
                   <div
-                    class="flex items-center rounded-md border border-slate-300 dark:border-slate-700">
+                    class="flex items-center rounded-md border border-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-700">
                     <div
                       class="content-right relative flex flex-grow items-center py-1 focus-within:z-10">
                       <div
                         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                         <MagnifyingGlassIcon
-                          class="h-4 w-4 text-slate-400 dark:text-slate-600"
+                          class="h-4 w-4 text-slate-400 dark:text-jovieDark-600"
                           aria-hidden="true" />
                       </div>
                       <input
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-sm" />
+                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100 dark:placeholder:text-slate-400 sm:text-sm" />
 
                       <div
                         @click="toggleSearchVisible()"
                         class="group absolute inset-y-0 right-0 flex items-center pr-3">
                         <XMarkIcon
-                          class="h-4 w-4 cursor-pointer rounded-md p-0.5 text-slate-400 transition-all duration-150 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:group-hover:bg-slate-800"
+                          class="h-4 w-4 cursor-pointer rounded-md p-0.5 text-slate-400 transition-all duration-150 group-hover:bg-slate-100 group-hover:text-slate-600 dark:bg-jovieDark-800 dark:text-jovieDark-300 dark:group-hover:bg-jovieDark-800"
                           aria-hidden="true" />
                       </div>
                     </div>
@@ -104,7 +110,7 @@
                 v-else>
                 <MagnifyingGlassIcon
                   @click="toggleSearchVisible()"
-                  class="h-5 w-5 text-slate-400 dark:text-slate-600 group-hover:text-slate-600" />
+                  class="h-5 w-5 text-slate-400 dark:text-jovieDark-600 group-hover:text-slate-600" />
               </div> -->
             </div>
             <div class="flex items-center">
@@ -113,7 +119,7 @@
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
                       <!--  <AdjustmentsHorizontalIcon
-                        class="h-5 w-5 font-bold text-slate-400 dark:text-slate-600 group-hover:text-slate-600"
+                        class="h-5 w-5 font-bold text-slate-400 dark:text-jovieDark-600 group-hover:text-slate-600"
                         aria-hidden="true" /> -->
                       <JovieTooltip
                         text="Adjustments"
@@ -141,10 +147,10 @@
                       <MenuItems
                         @focus="focusTableColumnFilterInput()"
                         static
-                        class="w-60 flex-col rounded-md border-2 border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0 dark:border-slate-700 dark:border-slate-700/40 dark:bg-slate-900/60 dark:bg-slate-900/60">
+                        class="w-60 flex-col rounded-md border-2 border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0 dark:border-jovieDark-border dark:border-jovieDark-border/40 dark:bg-jovieDark-900/60 dark:bg-jovieDark-900/60">
                         <!--  <div as="div">
                           <div
-                            class="flex items-center justify-between border-b border-slate-300 dark:border-slate-700  py-1">
+                            class="flex items-center justify-between border-b border-slate-300 dark:border-jovieDark-border  py-1">
                             <div
                               class="text-xs font-bold text-slate-500 line-clamp-1">
                               Display Columns
@@ -158,11 +164,11 @@
                                 ref="tableColumnFilterInput"
                                 v-model="tableViewSearchQuery"
                                 placeholder="Add columns..."
-                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:bg-slate-800 dark:text-slate-300" />
+                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:bg-jovieDark-800 dark:text-jovieDark-300" />
                               <!-- <div
                                 class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
                                 <kbd
-                                  class="inline-flex items-center rounded border border-slate-300 dark:border-slate-700  px-1 font-sans text-2xs font-medium text-slate-400"
+                                  class="inline-flex items-center rounded border border-slate-300 dark:border-jovieDark-border  px-1 font-sans text-2xs font-medium text-slate-400"
                                   >S</kbd
                                 >
                               </div> -->
@@ -177,16 +183,16 @@
                             <SwitchLabel
                               class="flex items-center rounded-md"
                               :class="{
-                                'bg-slate-300 text-white dark:bg-slate-700 dark:text-slate-300':
+                                'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-300':
                                   active,
                               }">
                               <button
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-slate-300">
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
                                 <div class="flex items-center">
                                   <component
                                     :is="column.icon"
                                     :active="active"
-                                    class="mr-2 h-3 w-3 text-slate-400 dark:text-slate-200"
+                                    class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-200"
                                     aria-hidden="true" />
                                   <span class="line-clamp-1">{{
                                     column.name
@@ -202,9 +208,9 @@
                                     :class="
                                       checked
                                         ? 'bg-indigo-600 dark:bg-indigo-400'
-                                        : 'bg-slate-200 dark:bg-slate-800'
+                                        : 'bg-slate-200 dark:bg-jovieDark-800'
                                     "
-                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-slate-700">
+                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
                                     <span class="sr-only"
                                       >Show/hide column</span
                                     >
@@ -214,7 +220,7 @@
                                           ? 'translate-x-3'
                                           : 'translate-x-0'
                                       "
-                                      class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-slate-900" />
+                                      class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-900" />
                                   </button>
                                 </Switch>
                               </button>
@@ -222,7 +228,7 @@
                           </SwitchGroup>
                         </MenuItem>
                         <div
-                          class="text-medium border-t border-slate-300 dark:border-slate-700">
+                          class="text-medium border-t border-slate-300 dark:border-jovieDark-border">
                           <MenuItem
                             v-slot="{ active }"
                             v-for="setting in settings">
@@ -230,15 +236,15 @@
                               <SwitchLabel
                                 class="flex items-center rounded-md"
                                 :class="{
-                                  'bg-slate-300 text-white dark:bg-slate-700 dark:text-slate-200':
+                                  'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-200':
                                     active,
                                 }">
                                 <button
-                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-slate-300">
+                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
                                   <div class="flex items-center">
                                     <component
                                       :is="setting.icon"
-                                      class="mr-2 h-3 w-3 text-slate-400 dark:text-slate-200"
+                                      class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-200"
                                       aria-hidden="true" />
                                     <span class="line-clamp-1">{{
                                       setting.name
@@ -255,16 +261,16 @@
                                       :class="
                                         checked
                                           ? 'bg-indigo-600 dark:bg-indigo-400'
-                                          : 'bg-slate-200 dark:bg-slate-700'
+                                          : 'bg-slate-200 dark:bg-jovieDark-700'
                                       "
-                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-slate-700">
+                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
                                       <span
                                         :class="
                                           checked
                                             ? 'translate-x-3'
                                             : 'translate-x-0'
                                         "
-                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-slate-100" />
+                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-100" />
                                     </button>
                                   </Switch>
                                 </button>
@@ -275,12 +281,12 @@
                             <div
                               class="flex items-center rounded-md"
                               :class="{
-                                'bg-slate-300 text-white dark:bg-slate-700 dark:text-slate-200':
+                                'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-200':
                                   active,
                               }">
                               <button
                                 @click="importCSV()"
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-slate-300">
+                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
                                 <div class="flex items-center">
                                   <CloudArrowUpIcon
                                     class="mr-2 h-3 w-3 text-slate-400"
@@ -311,18 +317,18 @@
         <div
           class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
           <div
-            class="flex h-full w-full flex-col justify-between overflow-auto bg-slate-200 shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-black">
+            class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
-              class="block w-full divide-y divide-slate-200 overflow-x-auto border-b border-slate-300 bg-slate-100 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead class="relative isolate z-20 w-full items-center">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-6 items-center border-b border-slate-300 bg-slate-100 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:before:border-slate-700">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
                     <div class="mx-auto items-center text-center">
                       <input
                         type="checkbox"
-                        class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-slate-700 dark:text-indigo-400"
+                        class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400"
                         :checked="
                           intermediate ||
                           selectedCreators.length === creatorRecords.length
@@ -337,23 +343,23 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-b border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
+                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-b border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 after:dark:border-slate-700">
+                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
                     <div
                       v-if="selectedCreators.length > 0"
-                      class="flex items-center space-x-3 bg-slate-100 dark:bg-slate-800">
+                      class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
                       <!--   <ContactActionMenu /> -->
                       <Menu>
                         <Float portal :offset="2" placement="bottom-start">
                           <MenuButton
-                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">
+                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
-                              class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-slate-400"
+                              class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
                               aria-hidden="true" />
                           </MenuButton>
                           <transition
@@ -364,7 +370,7 @@
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/60">
+                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                               <MenuItem
                                 v-if="filters.list"
                                 v-slot="{ active }"
@@ -378,8 +384,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                      : 'text-slate-700 dark:text-slate-200',
+                                      ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                      : 'text-slate-700 dark:text-jovieDark-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <TrashIcon class="mr-2 inline h-4 w-4" />
@@ -400,8 +406,8 @@
                                 <button
                                   :class="[
                                     active
-                                      ? 'bg-slate-300 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                      : 'text-slate-700 dark:text-slate-200',
+                                      ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                      : 'text-slate-700 dark:text-jovieDark-200',
                                     'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                   ]">
                                   <ArchiveBoxIcon
@@ -439,7 +445,7 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-slate-700 dark:border-x-slate-700 dark:bg-slate-800 dark:bg-slate-800 dark:text-slate-400">
+                      class="dark:border-x-slate-border sticky top-0 z-30 table-cell w-48 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -450,11 +456,11 @@
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-x border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-slate-700 dark:bg-slate-800"></th>
+                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
                 </tr>
               </thead>
               <tbody
-                class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-slate-800">
+                class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
                 <template class="w-full" v-if="loading">
                   <tr class="w-full">
                     <td class="w-full" colspan="11">
@@ -476,23 +482,23 @@
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu(creator)"
-                    class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-slate-700"
+                    class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
                     :class="[
                       {
-                        'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
+                        'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
                           currentContact.id == creator.id,
                       },
-                      'bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800',
+                      'bg-white hover:bg-slate-50 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-800',
                     ]">
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
+                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:bg-slate-900 before:dark:border-slate-700 dark:group-hover:text-slate-400">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap border-y border-slate-300 bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:border-jovieDark-border dark:bg-jovieDark-900 before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -507,12 +513,12 @@
                               type="checkbox"
                               name="selectCreatorCheckbox"
                               :value="creator.id"
-                              class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-slate-700 dark:text-indigo-400 sm:left-6"
+                              class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6"
                               v-model="selectedCreators" />
                           </form>
                         </span>
                         <span
-                          class="text-xs font-light text-slate-600 group-hover:hidden dark:text-slate-400"
+                          class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
                           :class="[
                             { hidden: selectedCreators.includes(creator.id) },
                             'block',
@@ -525,12 +531,12 @@
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
+                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
-                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap bg-white px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:text-slate-700 dark:group-hover:text-slate-400">
+                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap border-y border-slate-300 bg-white px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -562,20 +568,20 @@
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-slate-700 hover:dark:bg-slate-700':
+                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
                             currentContact.id == creator.id,
                         },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-slate-900 dark:group-hover:bg-slate-800',
+                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
                       ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-slate-700 dark:bg-slate-900 dark:after:border-slate-700">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap border-y border-slate-300 bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900 dark:after:border-jovieDark-border">
                       <div class="flex items-center justify-between">
                         <div class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
                             <div
-                              class="rounded-full bg-slate-400 p-0.5 dark:bg-slate-600">
+                              class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600">
                               <div
-                                class="rounded-full bg-white p-0 dark:bg-slate-900">
+                                class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
                                 <img
                                   class="rounded-full object-cover object-center"
                                   :src="creator.profile_pic_url"
@@ -587,7 +593,7 @@
 
                           <div
                             v-if="cellActive"
-                            class="items-center text-sm text-slate-900 line-clamp-1 dark:text-slate-100">
+                            class="items-center text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
                             <input
                               v-model="creator.meta.name"
                               @blur="$emit('updateCrmMeta', creator)"
@@ -595,19 +601,19 @@
                               type="creator-name"
                               name="creator-name"
                               id="creator-name"
-                              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 dark:placeholder-slate-700 sm:text-xs"
+                              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-700 sm:text-xs"
                               placeholder="Name"
                               aria-describedby="name-description" />
                           </div>
                           <div
                             v-else
-                            class="text-sm text-slate-900 line-clamp-1 dark:text-slate-100">
+                            class="text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
                             {{ creator.meta.name }}
                           </div>
                         </div>
                         <div
                           @click="$emit('openSidebar', creator)"
-                          class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-slate-600 dark:active:bg-slate-800">
+                          class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-600 dark:active:bg-slate-800">
                           <ArrowTopRightOnSquareIcon
                             v-if="
                               !this.$store.state.ContactSidebarOpen ||
@@ -652,7 +658,7 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-slate-700 dark:bg-slate-900/60">
+                                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                                   <div class="py-1">
                                     <ContactContextMenuItem
                                       :creator="creator"
@@ -676,8 +682,8 @@
                                         @click="downloadVCF(this.creator)"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                            : 'text-slate-700 dark:text-jovieDark-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <CloudArrowDownIcon
@@ -700,8 +706,8 @@
                                         href="#"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                            : 'text-slate-700 dark:text-jovieDark-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <TrashIcon
@@ -722,8 +728,8 @@
                                       <button
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                            : 'text-slate-700 dark:text-jovieDark-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ArchiveBoxIcon
@@ -747,8 +753,8 @@
                                         class="items-center text-slate-400 hover:text-slate-900"
                                         :class="[
                                           active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
-                                            : 'text-slate-700 dark:text-slate-200',
+                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                            : 'text-slate-700 dark:text-jovieDark-200',
                                           'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                         ]">
                                         <ArrowPathIcon
@@ -766,7 +772,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('first_name')"
-                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-sm text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.first_name"
@@ -775,14 +781,14 @@
                           type="creator-firstname"
                           name="creator-firstname"
                           id="creator-firname"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="First"
                           aria-describedby="email-description" />
                       </div>
                     </td>
                     <td
                       v-if="visibleColumns.includes('last_name')"
-                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-28 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.last_name"
@@ -791,14 +797,14 @@
                           type="creator-lastname"
                           name="creator-lastname"
                           id="creator-lastname"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="Last"
                           aria-describedby="email-description" />
                       </div>
                     </td>
                     <td
                       v-if="visibleColumns.includes('title')"
-                      class="border-1 table-cell w-40 resize-x whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-40 resize-x whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_title"
@@ -807,14 +813,14 @@
                           type="platform-title"
                           name="platform-title"
                           id="platform-title"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="Title"
                           aria-describedby="title" />
                       </div>
                     </td>
                     <td
                       v-if="visibleColumns.includes('employer')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_employer"
@@ -823,7 +829,7 @@
                           type="platform-employer"
                           name="platform-employer"
                           id="platform-employer"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="Company"
                           aria-describedby="Company" />
                       </div>
@@ -831,9 +837,9 @@
 
                     <td
                       v-if="visibleColumns.includes('emails')"
-                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-slate-700">
+                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-jovieDark-border">
                       <div
-                        class="text-xs text-slate-700 line-clamp-1 dark:text-slate-300">
+                        class="text-xs text-slate-700 line-clamp-1 dark:text-jovieDark-300">
                         <input
                           v-model="creator.meta.emails"
                           @blur="$emit('updateCrmMeta', creator)"
@@ -841,14 +847,14 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 dark:placeholder-slate-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
                     </td>
                     <td
                       v-if="visibleColumns.includes('networks')"
-                      class="border-1 w-18 items-center whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 w-18 items-center whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
@@ -885,9 +891,9 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.offer')"
-                      class="border-1 table-cell w-12 whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 table-cell w-12 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <span
-                        class="inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5 text-slate-800 dark:text-slate-200">
+                        class="inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5 text-slate-800 dark:text-jovieDark-200">
                         $
                         <input
                           v-model="creator.crm_record_by_user.offer"
@@ -903,7 +909,7 @@
                           type="number"
                           name="creator-offer"
                           id="creator-offer"
-                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0 sm:text-xs"
+                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
                           :placeholder="
                             creator.crm_record_by_user.suggested_offer
                           "
@@ -913,7 +919,7 @@
 
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.stage')"
-                      class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border border-slate-300 dark:border-slate-700">
+                      class="border-1 relative isolate z-10 table-cell w-24 items-center whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <ContactStageMenu
                         :creator="creator"
                         :key="key"
@@ -927,8 +933,9 @@
                           'crm_record_by_user.last_contacted'
                         )
                       "
-                      class="border-1 table-cell w-40 items-center whitespace-nowrap border text-xs text-slate-500">
+                      class="border-1 table-cell w-40 items-center whitespace-nowrap border border border-slate-300 text-xs text-slate-500 dark:border-jovieDark-border">
                       <Datepicker
+                        :dark="getTheme === '!light'"
                         v-model="creator.crm_record_by_user.last_contacted"
                         @update:modelValue="
                           $emit('updateCreator', {
@@ -945,7 +952,7 @@
                         autoApply="true"
                         type="datetime-local"
                         :id="creator.id + '_datepicker'"
-                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-slate-900/0"
+                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0"
                         placeholder="--/--/--"
                         aria-describedby="email-description" />
                       <!-- <input
@@ -960,7 +967,7 @@
                           autoApply="true"
                           type="datetime-local"
                           :id="creator.id + '_datepicker'"
-                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 dark:bg-slate-900/0 px-2 py-1 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 dark:bg-jovieDark-900/0 px-2 py-1 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                           placeholder="--/--/--"
                           aria-describedby="email-description" /> -->
                     </td>
@@ -968,7 +975,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="w-18 table-cell whitespace-nowrap px-2 py-1 text-sm text-slate-500">
+                      class="table-cell w-14 whitespace-nowrap border border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -984,28 +991,43 @@
                         "></star-rating>
                     </td>
                     <td
-                      class="flex w-full justify-end whitespace-nowrap px-2 py-1 text-right text-xs font-medium">
-                      <div class="flex items-center justify-end text-right">
-                        <div>
-                          <router-link
-                            :to="{
-                              name: 'Creator Overview',
-                              params: { id: creator.id },
-                            }"
-                            class="hover:dark:text-indigio-300 text-slate-600 hover:text-indigo-900 dark:text-slate-300">
-                            Manage
-                          </router-link>
-                        </div>
+                      v-if="visibleColumns.includes('crm_record_by_user.lists')"
+                      class="table-cell w-24 whitespace-nowrap border-y border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
+                      <InputLists
+                        @updateLists="updateCreatorLists"
+                        :creatorId="creator.id ?? 0"
+                        :lists="creator.lists"
+                        :currentList="creator.current_list" />
+                    </td>
+                    <td
+                      class="table-cell h-full w-full items-center justify-end whitespace-nowrap border-y border-slate-300 px-2 py-1 text-right text-xs font-medium dark:border-jovieDark-border">
+                      <div
+                        class="flex h-full items-center justify-end text-right">
+                        <router-link
+                          :to="{
+                            name: 'Creator Overview',
+                            params: { id: creator.id },
+                          }"
+                          class="hover:dark:text-indigio-300 text-slate-600 hover:text-indigo-900 dark:text-jovieDark-300">
+                          Manage
+                        </router-link>
                       </div>
                     </td>
                   </tr>
                 </template>
               </tbody>
             </table>
+            <div
+              v-if="creatorRecords.length < 50"
+              @click="$emit('addContact')"
+              class="flex w-full cursor-pointer items-center bg-white py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:bg-jovieDark-900 dark:text-jovieDark-400 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
+              <PlusIcon class="mr-2 h-4 w-4" />
+              Add new contact
+            </div>
 
             <Pagination
               class="z-50 w-full bg-blue-500"
-              v-if="creatorRecords.length"
+              v-if="creatorRecords.length > 50"
               :totalPages="creatorsMeta.last_page"
               :perPage="creatorsMeta.per_page"
               :currentPage="creatorsMeta.current_page"
@@ -1022,7 +1044,7 @@
 import { Float } from '@headlessui-float/vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import ContactContextMenuItem from '../../components/ContactContextMenuItem';
-
+import InputLists from '../../components/InputLists';
 import { ref } from 'vue';
 import '@vuepic/vue-datepicker/dist/main.css';
 import {
@@ -1049,6 +1071,7 @@ import {
   NoSymbolIcon,
   StarIcon,
   TrashIcon,
+  HeartIcon,
   ArrowPathIcon,
   MagnifyingGlassIcon,
   ChevronUpIcon,
@@ -1057,6 +1080,7 @@ import {
   CurrencyDollarIcon,
   EnvelopeIcon,
   LinkIcon,
+  ListBulletIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
   ArrowUpCircleIcon,
@@ -1097,6 +1121,7 @@ export default {
     ButtonGroup,
     CloudArrowUpIcon,
     Menu,
+    InputLists,
     EnvelopeIcon,
     ArrowSmallLeftIcon,
     Switch,
@@ -1119,8 +1144,10 @@ export default {
     PopoverButton,
     PopoverPanel,
     NoSymbolIcon,
+    ListBulletIcon,
     TrashIcon,
     Pagination,
+    HeartIcon,
     JovieTooltip,
     PlusIcon,
     JovieSpinner,
@@ -1265,6 +1292,15 @@ export default {
           breakpoint: '2xl',
           width: '24',
         },
+        {
+          name: 'Lists',
+          key: 'crm_record_by_user.lists',
+          icon: 'ListBulletIcon',
+          sortable: true,
+          visible: true,
+          breakpoint: '2xl',
+          width: '24',
+        },
       ],
       currentSort: 'asc',
       currentSortBy: '',
@@ -1327,6 +1363,9 @@ export default {
   computed: {
     sidebarOpen() {
       return this.$store.state.sidebarOpen;
+    },
+    getTheme() {
+      return localStorage.getItem('theme') || 'light';
     },
     intermediate() {
       return (
@@ -1888,3 +1927,85 @@ export default {
   },
 };
 </script>
+
+<style>
+.dp__theme_dark {
+  --dp-background-color: #191a22;
+  --dp-text-color: #ffffff;
+  --dp-hover-color: #484848;
+  --dp-hover-text-color: #ffffff;
+  --dp-hover-icon-color: #959595;
+  --dp-primary-color: #005cb2;
+  --dp-primary-text-color: #ffffff;
+  --dp-secondary-color: #a9a9a9;
+  --dp-border-color: #292b41;
+  --dp-menu-border-color: #2d2d2d;
+  --dp-border-color-hover: #aaaeb7;
+  --dp-disabled-color: #737373;
+  --dp-scroll-bar-background: #212121;
+  --dp-scroll-bar-color: #484848;
+  --dp-success-color: #00701a;
+  --dp-success-color-disabled: #428f59;
+  --dp-icon-color: #959595;
+  --dp-danger-color: #e53935;
+  --dp-highlight-color: rgba(80, 0, 178, 0.2);
+  --dp-row_margin: 0px 0 !default;
+  --dp-common_padding: 0px !default;
+  --dp-font_size: 0.5rem !default;
+  /* 
+  --dp-font_family: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
+    oxygen, ubuntu, cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !default;
+  --dp-border_radius: 4px !default;
+  --dp-cell_border_radius: --dp-border_radius !default;
+
+  --dp-transition_length: 22px !default; // Passed to the translateX in animation
+  --dp-transition_duration: 0.1s !default; // Transition duration
+
+  --dp-button_height: 35px !default; // size for buttons in overlays
+  --dp-month_year_row_height: 35px !default; // height of the month-year select row
+  --dp-month_year_row_button_size: 25px !default; // Specific height for the next/previous buttons
+  --dp-button_icon_height: 20px !default; // icon sizing in buttons
+  --dp-cell_size: 35px !default; // width and height of calendar cell
+  --dp-cell_padding: 5px !default; // padding in the cell
+ 
+  --dp-input_padding: 6px 6px !default; // padding in the input
+  --dp-input_icon_padding: 35px !default; // Padding on the left side of the input if icon is present
+  --dp-menu_min_width: 260px !default; // Adjust the min width of the menu
+  --dp-action_buttons_padding: 2px 5px !default; // Adjust padding for the action buttons in action row
+ 
+  --dp-calendar_header_cell_padding: 0.5rem !default; // Adjust padding in calendar header cells
+  --dp-two_calendars_spacing: 10px !default; // Space between two calendars if using two calendars
+  --dp-overlay_col_padding: 3px !default; // Padding in the overlay column
+  --dp-time_inc_dec_button_size: 32px !default; // Sizing for arrow buttons in the time picker */
+  /* 
+  // Font sizes
+ 
+  --dp-preview_font_size: 0.8rem !default; // font size of the date preview in the action row
+  --dp-time_font_size: 2rem !default; // font size in the time picker */
+}
+
+.dp__theme_light {
+  --dp-background-color: #ffffff;
+  --dp-text-color: #212121;
+  --dp-hover-color: #f3f3f3;
+  --dp-hover-text-color: #212121;
+  --dp-hover-icon-color: #959595;
+  --dp-primary-color: #1976d2;
+  --dp-primary-text-color: #f8f5f5;
+  --dp-secondary-color: #c0c4cc;
+  --dp-border-color: #ddd;
+  --dp-menu-border-color: #ddd;
+  --dp-border-color-hover: #aaaeb7;
+  --dp-disabled-color: #f6f6f6;
+  --dp-scroll-bar-background: #f3f3f3;
+  --dp-scroll-bar-color: #959595;
+  --dp-success-color: #76d275;
+  --dp-success-color-disabled: #a3d9b1;
+  --dp-icon-color: #959595;
+  --dp-danger-color: #ff6f60;
+  --dp-highlight-color: rgba(80, 0, 178, 0.2);
+  --dp-row_margin: 0px 0 !default;
+  --dp-common_padding: 0px !default;
+  --dp-font_size: 0.5rem !default;
+}
+</style>

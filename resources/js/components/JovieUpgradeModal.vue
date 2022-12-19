@@ -27,13 +27,13 @@
             <DialogPanel
               class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-5xl">
               <div
-                class="flex h-full w-full items-center border border-gray-200 bg-white/90 backdrop-blur-xl backdrop-filter dark:border-slate-700 dark:bg-slate-900/90">
+                class="flex h-full w-full items-center border border-gray-200 bg-white/90 backdrop-blur-xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-900/90">
                 <div class="h-full w-1/2 items-center px-6">
                   <div class="mx-auto px-8">
                     <div
                       class="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 dark:bg-indigo-400">
                       <CheckIcon
-                        class="h-6 w-6 text-slate-300 dark:text-slate-50"
+                        class="h-6 w-6 text-slate-300 dark:text-jovieDark-50"
                         aria-hidden="true" />
                     </div>
                     <div class="mt-3 sm:mt-5">
@@ -44,7 +44,8 @@
                         Your workspace is on a free plan</DialogTitle
                       >
                       <div class="mt-2">
-                        <p class="text-sm text-gray-500 dark:text-slate-400">
+                        <p
+                          class="text-sm text-gray-500 dark:text-jovieDark-400">
                           Upgrade to remove limits & unlock more features.
                         </p>
                       </div>
@@ -75,7 +76,7 @@
                   <div class="w-full px-8">
                     <h2 class="">
                       <span
-                        class="text-md font-bold text-slate-900 dark:text-slate-100"
+                        class="text-md font-bold text-slate-900 dark:text-jovieDark-100"
                         >Upgrade to access:</span
                       >
                     </h2>
@@ -89,7 +90,7 @@
                           class="mr-2 h-5 w-5 text-indigo-700 dark:text-indigo-300" />
                         <div class="">
                           <span
-                            class="text-xs text-slate-700 dark:text-slate-200"
+                            class="text-xs text-slate-700 dark:text-jovieDark-200"
                             >{{ feature.name }}</span
                           >
                         </div>
@@ -99,11 +100,11 @@
                 </div>
               </div>
               <div
-                class="flex w-full items-center justify-end bg-white px-4 dark:bg-slate-800">
+                class="flex w-full items-center justify-end bg-white px-4 dark:bg-jovieDark-800">
                 <div class="flex items-center justify-end py-4">
                   <button
                     type="button"
-                    class="mt-3 inline-flex w-full justify-center px-4 py-2 text-base font-medium text-gray-700 focus:outline-none focus:ring-0 dark:text-slate-300 sm:col-start-1 sm:mt-0 sm:text-sm"
+                    class="mt-3 inline-flex w-full justify-center px-4 py-2 text-base font-medium text-gray-700 focus:outline-none focus:ring-0 dark:text-jovieDark-300 sm:col-start-1 sm:mt-0 sm:text-sm"
                     @click="open = false"
                     ref="cancelButtonRef">
                     Dismiss

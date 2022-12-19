@@ -11,7 +11,7 @@
           We're here to help.
         </p>
         <p class="mx-auto mt-5 max-w-xl text-xl text-slate-500">
-          <a class="text-indigo-400" href="mailto:support@jov.ie"
+          <a class="text-indigo-400" @click="launchSupportChat()" href="#"
             >Get in touch</a
           >
           with our team.
@@ -31,6 +31,12 @@ export default {
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
+  },
+  methods: {
+    launchSupportChat() {
+      window.analytics.track('Support Chat Launched');
+      window.Atlas.chat.openWindow();
+    },
   },
 };
 </script>

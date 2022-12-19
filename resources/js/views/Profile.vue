@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="user"
-    class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-slate-50 px-4 dark:bg-slate-900 sm:items-center sm:px-6 lg:px-8">
+    class="items-top flex max-h-screen min-h-screen justify-center overflow-hidden bg-slate-50 px-4 dark:bg-jovieDark-900 sm:items-center sm:px-6 lg:px-8">
     <div class="mt-8 max-w-md items-center space-y-8 pt-8 sm:mt-0">
       <router-link
         v-if="user.username == currentUser?.username"
@@ -16,7 +16,7 @@
           alt="" />
         <div class="mx-auto mt-6 flex 2xl:mt-12">
           <h2
-            class="mx-auto flex text-3xl font-extrabold text-slate-900 dark:text-slate-100">
+            class="mx-auto flex text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
             {{ user.first_name }} {{ user.last_name }}
             <svg
               v-if="user.is_verified"
@@ -31,7 +31,8 @@
             </svg>
           </h2>
         </div>
-        <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-300">
+        <p
+          class="mt-2 text-center text-sm text-slate-600 dark:text-jovieDark-300">
           {{ user.title }} {{ user.employer ? ' at ' : '' }}
           <a
             v-if="user.employer"
@@ -76,7 +77,7 @@
       </a>
 
       <div
-        class="border-t-2 border-slate-400 opacity-20 dark:border-slate-700"></div>
+        class="border-t-2 border-slate-400 opacity-20 dark:border-jovieDark-border"></div>
       <router-link
         class="dark:text-sltate-300 group mt-1 py-4 text-center text-sm text-slate-500"
         to="signup">
@@ -88,7 +89,7 @@
             class="opacity-20 group-hover:opacity-100" />
         </div>
         <div
-          class="bottom-0 w-full cursor-pointer items-center pb-4 font-semibold text-slate-900 opacity-20 group-hover:opacity-50 dark:text-slate-100">
+          class="bottom-0 w-full cursor-pointer items-center pb-4 font-semibold text-slate-900 opacity-20 group-hover:opacity-50 dark:text-jovieDark-100">
           Get your profile
         </div>
       </router-link>
