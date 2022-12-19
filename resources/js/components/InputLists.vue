@@ -18,6 +18,8 @@
     </div>
     <div>
       <JovieDropdownMenu
+        createIfNotFound
+        @createItem="createList($event, name)"
         :placement="'bottom-start'"
         @itemClicked="setListAction($event)"
         :items="userLists"
@@ -74,6 +76,30 @@ export default {
     this.getUserLists();
   },
   methods: {
+    createList(name) {
+      UserService.createList(name).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.$notify({
+            group: 'user',
+            type: 'success',
+            duration: 15000,
+            title: 'Successful',
+            text: response.message,
+          });
+          this.userLists.push(response.list);
+          this.setListAction(response.list.id);
+        } else {
+          this.$notify({
+            group: 'user',
+            type: 'success',
+            duration: 15000,
+            title: 'Successful',
+            text: response.message,
+          });
+        }
+      });
+    },
     getUserLists() {
       UserService.getUserLists().then((response) => {
         response = response.data;

@@ -203,7 +203,7 @@ export const routes = [
     name: 'Request A Feature',
     path: '/request-a-feature',
     beforeEnter(to, from, next) {
-      window.open('hhttps://roadmap.jov.ie/feature-requests', '_self');
+      window.open('https://roadmap.jov.ie/feature-requests', '_self');
     },
   },
   {

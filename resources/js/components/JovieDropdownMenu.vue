@@ -128,6 +128,13 @@
                   class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200">
                   <div class="mx-auto flex">
                     <div
+                      v-if="createIfNotFound"
+                      @click="createItem(searchQuery)"
+                      class="text-center text-xs font-medium text-slate-300 dark:text-jovieDark-400">
+                      Create "{{ searchQuery }}"
+                    </div>
+                    <div
+                      v-else
                       class="text-center text-xs font-medium text-slate-300 dark:text-jovieDark-400">
                       No match
                     </div>
@@ -232,6 +239,10 @@ export default {
       type: Object,
       default: () => [],
     },
+    createIfNotFound: {
+      type: Boolean,
+      default: false,
+    },
     searchable: {
       type: Boolean,
       default: true,
@@ -270,6 +281,9 @@ export default {
   methods: {
     itemClicked(item) {
       this.$emit('itemClicked', item);
+    },
+    createItem(name) {
+      this.$emit('createItem', name);
     },
     focusMenuSearch() {
       this.$nextTick(() => {

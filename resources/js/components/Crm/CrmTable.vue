@@ -576,7 +576,9 @@
                       v-on:dblclick="cellActive"
                       class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap border-y border-slate-300 bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900 dark:after:border-jovieDark-border">
                       <div class="flex items-center justify-between">
-                        <div class="flex w-full items-center">
+                        <div
+                          @click="$emit('openSidebar', creator)"
+                          class="flex w-full items-center">
                           <div class="mr-2 h-8 w-8 flex-shrink-0">
                             <div
                               class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600">
@@ -1004,6 +1006,7 @@
                       <div
                         class="flex h-full items-center justify-end text-right">
                         <router-link
+                          v-if="currentUser.is_admin"
                           :to="{
                             name: 'Creator Overview',
                             params: { id: creator.id },

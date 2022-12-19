@@ -155,7 +155,7 @@
                             </MenuItem>
                             <MenuItem v-slot="{ active }">
                               <button
-                                @click="pinList(element.id)"
+                                @click="unpinList(element.id)"
                                 :class="[
                                   active
                                     ? 'bg-slate-200 dark:bg-jovieDark-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
