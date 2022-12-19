@@ -19,7 +19,7 @@
     <div>
       <JovieDropdownMenu
         createIfNotFound
-        @createItem="createList($event, name)"
+        @createItem="createList(name)"
         :placement="'bottom-start'"
         @itemClicked="setListAction($event)"
         :items="userLists"
@@ -77,28 +77,80 @@ export default {
   },
   methods: {
     createList(name) {
-      UserService.createList(name).then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.$notify({
-            group: 'user',
-            type: 'success',
-            duration: 15000,
-            title: 'Successful',
-            text: response.message,
-          });
-          this.userLists.push(response.list);
-          this.setListAction(response.list.id);
-        } else {
-          this.$notify({
-            group: 'user',
-            type: 'success',
-            duration: 15000,
-            title: 'Successful',
-            text: response.message,
-          });
-        }
-      });
+      //based on the name make a request to openai to get the emoji
+      // {
+      // "model": "text-davinci-003",
+      // "prompt": "Generate a single emoji based on the list name provided.\n\nList name: People in LA\nEmoji: \n\n\n\n\n\n\n\n 🌴",
+      // "temperature": 0.7,
+      // "max_tokens": 4,
+      // "top_p": 1,
+      // "frequency_penalty": 0,
+      // "presence_penalty": 0
+      // }
+      axios
+        .get('https://api.openai.com/v1/engines/davinci/completions', {
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            Authorization: 'Bearer ' + process.env.MIX_OPENAI_API_KEY,
+          },
+          params: {
+            model: 'text-davinci-003',
+            prompt:
+              'Generate a single emoji based on the list name provided.\n\nList name: ' +
+              name +
+              '\nEmoji: \n',
+            temperature: 0.7,
+            max_tokens: 4,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+          },
+        })
+        .then((response) => {
+          let emoji = response.data.choices[0].text;
+          alert(emoji);
+        });
+      this.creatingList = true;
+      UserService.createList(name)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Created ' + response.list.name,
+              text: response.message,
+            });
+            this.$emit('setFilterList', response.list.id);
+            this.enableEditName(response.list);
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((response) => {
+          this.creatingList = false;
+          this.$emit('getUserLists');
+        });
     },
     getUserLists() {
       UserService.getUserLists().then((response) => {

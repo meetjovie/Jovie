@@ -130,7 +130,7 @@
                     <div
                       v-if="createIfNotFound"
                       @click="createItem(searchQuery)"
-                      class="text-center text-xs font-medium text-slate-300 dark:text-jovieDark-400">
+                      class="text-center text-xs font-medium text-slate-600 dark:text-jovieDark-200">
                       Create "{{ searchQuery }}"
                     </div>
                     <div
