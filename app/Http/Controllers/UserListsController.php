@@ -140,7 +140,11 @@ class UserListsController extends Controller
 
     public function createList(Request $request)
     {
-        $list = UserList::firstOrCreateList(Auth::id(), 'New List');
+        $name = 'New List';
+        if (!empty($request->name)) {
+            $name = $request->name;
+        }
+        $list = UserList::firstOrCreateList(Auth::id(), $name, null, $request->emoji);
         return response()->json([
             'status' => true,
             'message' => 'List Created.',
