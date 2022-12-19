@@ -845,6 +845,7 @@
                         <input
                           v-model="creator.meta.emails"
                           @blur="$emit('updateCrmMeta', creator)"
+                          @keyup.enter="$emit('selectNextCreator', creator)"
                           autocomplete="off"
                           type="creator-email"
                           name="creator-email"

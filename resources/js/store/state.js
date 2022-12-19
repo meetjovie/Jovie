@@ -16,4 +16,5 @@ export default {
   extensionQuery: null,
   theme: 'light',
   chromeExtensionInstalled: false,
+  jovieVersion: '0.0.9',
 };

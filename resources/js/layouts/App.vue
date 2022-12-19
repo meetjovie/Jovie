@@ -185,7 +185,15 @@ export default {
   },
 
   mounted() {
-    //check local storage for the value of CRM sidebar
+    //check the local storage for the current JovieVersion number. if it is different than the current version, clear the local storage, save the new version number, and reload the page
+    if (
+      localStorage.getItem('JovieVersion') !== this.$store.state.jovieVersion
+    ) {
+      localStorage.clear();
+      localStorage.setItem('JovieVersion', this.$store.state.jovieVersion);
+      location.reload();
+    }
+    //
 
     if (localStorage.getItem('CRMSidebarOpen') === 'false') {
       this.$store.state.CRMSidebarOpen = false;
@@ -220,6 +228,7 @@ export default {
       userId: this.user.id,
       companyId: this.currentUser.current_team.id,
       appId: 'Jovie_Web_App',
+      jovieVersion: this.$store.state.jovieVersion,
       theme: localStorage.theme,
     });
     this.$mousetrap.bind(['command+k', 'ctrl+k'], () => {
