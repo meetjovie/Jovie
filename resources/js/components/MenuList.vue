@@ -61,6 +61,7 @@
                     {{ element.emoji ?? '📄' }}
                   </div> -->
                   <EmojiPickerModal
+                    class="mr-1"
                     @emojiSelected="emojiSelected($event, element)"
                     :currentEmoji="element.emoji">
                   </EmojiPickerModal>
@@ -226,6 +227,7 @@
                 {{ item.emoji ?? '📄' }}
               </div> -->
               <EmojiPickerModal
+                class="mr-1"
                 @emojiSelected="emojiSelected($event, item)"
                 :currentEmoji="item.emoji" />
               <div

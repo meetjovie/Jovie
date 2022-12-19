@@ -13,14 +13,21 @@
     </div>
   </transition> -->
   <div class="">
-    <Popover as="div" v-slot="{ close }" class="relative">
+    <Popover as="div" class="relative">
       <Float portal shift placement="right-start">
         <PopoverButton>
-          {{ currentEmoji || '📄' }}
+          <span class="text-sm">
+            {{ currentEmoji || '📄' }}
+          </span>
         </PopoverButton>
         <PopoverPanel
-          class="z-40 mt-3 w-screen rounded-lg border border-slate-300 bg-white/60 px-4 shadow-lg backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border dark:bg-jovieDark-800 sm:px-0 lg:w-60">
-          <EmojiPicker @select="handleEmojiSelection" />
+          v-slot="{ close }"
+          class="z-40 mt-3 w-screen rounded-lg border border-slate-300 bg-white/60 px-4 shadow-lg backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border sm:px-0 lg:w-60">
+          <EmojiPicker
+            disable-skin-tones
+            native
+            :theme="theme"
+            @select="handleEmojiSelection" />
         </PopoverPanel>
       </Float>
     </Popover>
@@ -57,6 +64,13 @@ export default {
       required: true,
     },
   },
+  computed:
+    //get the theme from store if its dark return dark if its light return light if its empty return auto
+    {
+      theme() {
+        return this.$store.state.theme;
+      },
+    },
   methods: {
     handleEmojiSelection(emoji) {
       this.emojiSelected(emoji.i);
@@ -150,8 +164,8 @@ export default {
   display: block;
   height: 26px;
   padding: 0 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
   font-size: 12px;
   transition: 0.2s;
 }
@@ -175,15 +189,22 @@ export default {
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group h5 {
   margin: 0;
   top: 0;
+  font-weight: 600;
+  color: #334155;
   background: transparent;
   padding: 7px 0 3px 4px;
 }
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group h5.v3-sticky {
   position: sticky;
+  border-bottom: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(40px);
+  filter: saturate(1.5);
+  z-index: 1;
 }
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group .v3-emojis {
   display: flex;
-  font-size: 18px;
+  font-size: 14px;
   flex-wrap: wrap;
 }
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group .v3-emojis button {
@@ -255,7 +276,7 @@ export default {
   vertical-align: top;
 }
 .v3-emoji-picker .v3-footer .v3-tone .v3-text {
-  font-size: 13px;
+  font-size: 10px;
 }
 .v3-emoji-picker .v3-footer .v3-tone .v3-icon {
   padding-bottom: 3px;
@@ -384,5 +405,28 @@ export default {
   opacity: 1;
   visibility: visible;
   z-index: 999;
+}
+// Theme Auto
+.v3-emoji-picker.v3-color-theme-auto {
+  @media (prefers-color-scheme: dark) {
+    --v3-picker-fg: #ffffff;
+
+    --v3-picker-input-bg: #222222;
+    --v3-picker-input-border: #444444;
+    --v3-picker-input-focus-border: #555555;
+    --v3-group-image-filter: invert(1);
+    --v3-picker-emoji-hover: #222222;
+  }
+}
+
+// Theme Default
+.v3-emoji-picker.v3-color-theme-dark {
+  --v3-picker-fg: #ffffff;
+
+  --v3-picker-input-bg: #222222;
+  --v3-picker-input-border: #444444;
+  --v3-picker-input-focus-border: #555555;
+  --v3-group-image-filter: invert(1);
+  --v3-picker-emoji-hover: #222222;
 }
 </style>
