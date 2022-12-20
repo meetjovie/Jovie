@@ -16,7 +16,7 @@
           <div class="w-full flex-col px-2">
             <div class="items-center" @click="navigateBack()" v-if="menu">
               <div
-                class="items-cemter flex cursor-pointer justify-between text-xl font-light text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
+                class="items-cemter flex cursor-pointer justify-between text-xl font-light tracking-wide text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
                 <ChevronLeftIcon
                   class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                   aria-hidden="true" />
@@ -76,6 +76,7 @@
               <div class="items-center">
                 <JovieDropdownMenu
                   :searchable="false"
+                  size="lg"
                   :items="profileMenuItems">
                   <template #triggerButton>
                     <img
@@ -87,119 +88,64 @@
                       alt="User Avatar" />
                   </template>
                   <template #menuTop>
-                    <div class="ml-3 cursor-default">
-                      <p
-                        class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
-                        {{ currentUser.first_name }}
-                        {{ currentUser.last_name }}
-                      </p>
+                    <div
+                      class="mt-2 flex w-full cursor-default justify-between px-4">
+                      <div>
+                        <p
+                          class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
+                          {{ currentUser.first_name }}
+                          {{ currentUser.last_name }}
+                        </p>
 
-                      <p
-                        class="text-2xs font-medium text-slate-400 group-hover:text-slate-700">
-                        {{ currentUser.email }}
-                      </p>
+                        <p
+                          class="text-2xs font-medium text-slate-400 group-hover:text-slate-700">
+                          {{ currentUser.email }}
+                        </p>
+                      </div>
+                      <div>
+                        <router-link
+                          v-if="currentUser.username"
+                          :to="profileLink">
+                          <DropdownMenuItem
+                            name="View profile"
+                            :icon="UserIcon" />
+                        </router-link>
+                        <router-link v-else to="edit-profile">
+                          <DropdownMenuItem
+                            name="Setup profile"
+                            icon="WrenchScrewdriverIcon" />
+                        </router-link>
+                      </div>
                     </div>
 
-                    <MenuItem
-                      as="div"
-                      class="overflow-y-scroll"
-                      role="menuitem"
-                      tabindex="-1">
-                      <router-link
-                        v-if="currentUser.username"
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-100"
-                        :to="profileLink">
-                        <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-jovieDark-200"
-                          :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100':
-                              active,
-                          }">
-                          <component
-                            class="mr-4 h-4 w-4 cursor-pointer"
-                            :is="UserIcon">
-                          </component
-                          >Your profile
-                        </div>
-                      </router-link>
-                      <router-link
-                        v-else
-                        as="div"
-                        role="menuitem"
-                        tabindex="-1"
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-100"
-                        to="edit-profile">
-                        <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-jovieDark-200"
-                          :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100':
-                              active,
-                          }">
-                          <component
-                            class="mr-4 h-4 w-4 cursor-pointer"
-                            is="WrenchScrewdriverIcon">
-                          </component
-                          >Setup profile
-                        </div>
-                      </router-link>
-                    </MenuItem>
-                    <MenuItem
-                      v-if="currentUser.is_admin"
-                      as="div"
-                      role="menuitem"
-                      tabindex="-1">
-                      <router-link
-                        class="flex w-full cursor-pointer px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-100"
-                        to="/admin">
-                        <div
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md text-xs text-slate-600 dark:text-jovieDark-200"
-                          :class="{
-                            'bg-slate-300 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100':
-                              active,
-                          }">
-                          <component
-                            class="mr-4 h-4 w-4 cursor-pointer"
-                            is="ChartBarIcon">
-                          </component
-                          >Admin
-                        </div>
-                      </router-link>
-                    </MenuItem>
+                    <router-link v-if="currentUser.is_admin" to="/admin">
+                      <DropdownMenuItem :name="Admin" icon="ChartBarIcon" />
+                    </router-link>
                   </template>
 
                   <template #menuBottom>
+                    <DropdownMenuItem
+                      shortcut="?"
+                      @click="toggleShowSupportModal()"
+                      name="Get Help"
+                      icon="ChatBubbleLeftIcon" />
                     <div
-                      class="border-t border-slate-200 dark:border-jovieDark-border">
-                      <MenuItem
-                        as="div"
-                        @click="toggleShowSupportModal()"
-                        :class="[
-                          active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                            : '',
-                          'inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 dark:text-jovieDark-300',
-                        ]"
-                        role="menuitem"
-                        tabindex="-1">
-                        <component class="mr-4 h-4 w-4" is="ChatBubbleLeftIcon">
-                        </component>
-                        Get help
-                      </MenuItem>
-                    </div>
-                    <div
-                      class="border-t border-slate-200 dark:border-jovieDark-border">
-                      <MenuItem
-                        as="div"
-                        @click="$store.dispatch('logout')"
-                        class="inline-flex w-full cursor-pointer rounded-md px-4 py-1 text-xs text-slate-700 hover:bg-slate-200 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:bg-jovieDark-700 dark:hover:text-slate-100"
-                        role="menuitem"
-                        tabindex="-1">
-                        <component
-                          class="mr-4 h-4 w-4"
-                          is="ArrowLeftOnRectangleIcon">
-                        </component>
-                        Sign out
-                      </MenuItem>
+                      class="my-1 border-t border-slate-200 dark:border-jovieDark-border"></div>
+                    <DropdownMenuItem
+                      :shortcut="
+                        $store.state.platform === 'mac'
+                          ? ['⌘', '⇧', 'Q']
+                          : ['Ctrl', '⇧', 'Q']
+                      "
+                      @click="$store.dispatch('logout')"
+                      name="Logout"
+                      icon="ArrowLeftOnRectangleIcon" />
+
+                    <div class="flex justify-end">
+                      <span
+                        class="text-right text-[8px] text-slate-400 dark:text-jovieDark-400">
+                        {{ $store.state.jovieVersion }}
+                      </span>
                     </div>
                   </template>
                 </JovieDropdownMenu>
@@ -263,13 +209,14 @@ import ProgressBar from '../components/ProgressBar';
 
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
+import DropdownMenuItem from '../components/DropdownMenuItem.vue';
 
 export default {
   components: {
     CreditCardIcon,
     UserIcon,
     CogIcon,
-
+    DropdownMenuItem,
     BoltIcon,
 
     ArrowPathIcon,
@@ -348,7 +295,7 @@ export default {
         },
         {
           id: 5,
-          name: 'Chrome Extension',
+          name: 'Download Chrome Extension',
           route: '/chrome-extension',
           icon: 'CloudArrowDownIcon',
         },

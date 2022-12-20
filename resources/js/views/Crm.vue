@@ -848,6 +848,10 @@ export default {
     this.$mousetrap.bind(['shift+c'], () => {
       this.$router.push('/import');
     });
+    //enter key opens overview page
+    this.$mousetrap.bind(['enter'], () => {
+      this.$router.push('/overview');
+    });
 
     // this.getNotifications();
     // setInterval(() => {

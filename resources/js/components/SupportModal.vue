@@ -53,7 +53,8 @@
                   >
                   <div class="mt-2">
                     <p class="text-sm text-gray-500 dark:text-gray-300">
-                      We're here to help and other awesome thigns.
+                      We're here to help. If you can't find what you're looking
+                      feel free to reach out via the chat below.
                     </p>
                   </div>
                 </div>

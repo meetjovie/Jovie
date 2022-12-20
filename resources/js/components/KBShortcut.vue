@@ -1,14 +1,24 @@
 <template>
-  <kbd
-    class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-2xs font-medium text-gray-400 group-hover:bg-slate-100 dark:bg-jovieDark-700 dark:text-jovieDark-100 dark:group-hover:bg-jovieDark-800"
-    >{{ shortcutKey }}</kbd
-  >
+  <div
+    class="flex w-full items-center space-x-2"
+    v-for="(key, index) in shortcutKey">
+    <kbd
+      class="itemse-center inline-flex rounded-md py-0.5 px-2 text-2xs dark:border-jovieDark-border dark:bg-jovieDark-600 dark:text-white"
+      >{{ key }}</kbd
+    >
+    <span
+      class="items-center text-[8px] dark:text-slate-200"
+      v-if="index < shortcutKey.length - 1">
+      +
+    </span>
+  </div>
 </template>
+
 <script>
 export default {
   props: {
     shortcutKey: {
-      type: String,
+      type: Array,
       required: true,
     },
   },

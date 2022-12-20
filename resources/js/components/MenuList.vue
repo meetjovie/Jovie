@@ -42,7 +42,7 @@
               @click="$emit('setFilterList', element.id)"
               v-slot="{ active }">
               <div
-                :class="{ 'bg-slate-200 dark:bg-jovieDark-700': active }"
+                :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
                 class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all">
                 <div
                   class="group/move mx-auto w-4 flex-none cursor-grab items-center">
@@ -142,7 +142,7 @@
                                 @click="duplicateList(element.id)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200 dark:bg-jovieDark-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                     : 'text-slate-900 dark:text-jovieDark-100',
                                   'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                                 ]">
@@ -158,7 +158,7 @@
                                 @click="unpinList(element.id)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200 dark:bg-jovieDark-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                     : 'text-slate-900 dark:text-jovieDark-100',
                                   'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                                 ]">
@@ -177,7 +177,7 @@
                                 @click="confirmListDeletion(element.id)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200 dark:bg-jovieDark-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                     : 'text-slate-900 dark:text-jovieDark-100',
                                   'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                                 ]">
@@ -207,7 +207,7 @@
       <div v-for="item in menuItems" :key="item.id">
         <MenuItem @click="$emit('setFilterList', item.id)" v-slot="{ active }">
           <div
-            :class="{ 'bg-slate-200 dark:bg-jovieDark-700': active }"
+            :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
             class="group inline-flex h-8 w-8 w-full items-center justify-between rounded-md pl-1 transition-all">
             <div class="group h-4 w-4 flex-none cursor-pointer items-center">
               <PinnedIcon
@@ -267,7 +267,7 @@
                       class="hidden h-4 w-4 text-slate-400 group-hover:block dark:text-jovieDark-600">
                       <EllipsisHorizontalIcon
                         :class="{ 'dark:text-jovieDark-200': active }"
-                        class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-jovieDark-600 dark:text-jovieDark-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
+                        class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-jovieDark-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
                     </MenuButton>
                   </div>
 
@@ -279,7 +279,7 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0">
                     <MenuItems
-                      class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 border-slate-200 border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                      class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button
@@ -302,7 +302,7 @@
                             @click="duplicateList(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200 dark:bg-jovieDark-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                 : 'text-slate-900 dark:text-jovieDark-100',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">
@@ -318,7 +318,7 @@
                             @click="unpinList(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200 dark:bg-jovieDark-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                 : 'text-slate-900 dark:text-jovieDark-100',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">
@@ -337,7 +337,7 @@
                             @click="confirmListDeletion(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200 dark:bg-jovieDark-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                 : 'text-slate-900 dark:text-jovieDark-100',
                               'group flex w-full items-center rounded-md px-2 py-1 text-xs',
                             ]">

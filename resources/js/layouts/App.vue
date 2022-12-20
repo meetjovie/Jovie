@@ -194,6 +194,12 @@ export default {
       location.reload();
     }
     //
+    //check if the user is on a mac or pc and then set the platform in store
+    if (navigator.platform.indexOf('Mac') > -1) {
+      this.$store.state.platform = 'mac';
+    } else {
+      this.$store.state.platform = 'pc';
+    }
 
     if (localStorage.getItem('CRMSidebarOpen') === 'false') {
       this.$store.state.CRMSidebarOpen = false;
@@ -238,6 +244,11 @@ export default {
     //toggle the sidebar when hitting cmd + q or ctrl + q
     this.$mousetrap.bind(['esc'], () => {
       this.toggleShowAppMenu();
+    });
+
+    //logout the user when hitting cmd + shift + q or ctrl + shift + q
+    this.$mousetrap.bind(['option+shift+q', 'alt+shift+q'], () => {
+      this.$store.dispatch('logout');
     });
 
     // this.getNotifications();
