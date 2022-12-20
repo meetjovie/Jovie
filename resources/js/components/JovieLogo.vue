@@ -18,6 +18,11 @@
 </template>
 <script>
 export default {
+  computed: {
+    defaultColor() {
+      return this.$store.state.theme === 'dark' ? '#ffffff' : '#000000';
+    },
+  },
   props: {
     width: {
       type: String,
@@ -29,7 +34,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#000000',
+      default: 'defaultColor',
     },
     link: {
       type: String,

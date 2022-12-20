@@ -87,29 +87,7 @@ export default {
       // "frequency_penalty": 0,
       // "presence_penalty": 0
       // }
-      axios
-        .get('https://api.openai.com/v1/engines/davinci/completions', {
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            Authorization: 'Bearer ' + process.env.MIX_OPENAI_API_KEY,
-          },
-          params: {
-            model: 'text-davinci-003',
-            prompt:
-              'Generate a single emoji based on the list name provided.\n\nList name: ' +
-              name +
-              '\nEmoji: \n',
-            temperature: 0.7,
-            max_tokens: 4,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-          },
-        })
-        .then((response) => {
-          let emoji = response.data.choices[0].text;
-          alert(emoji);
-        });
+
       this.creatingList = true;
       UserService.createList(name)
         .then((response) => {

@@ -125,14 +125,14 @@
 
                   <template #menuBottom>
                     <DropdownMenuItem
-                      shortcut="?"
+                      shortcutKey="?"
                       @click="toggleShowSupportModal()"
                       name="Get Help"
                       icon="ChatBubbleLeftIcon" />
                     <div
                       class="my-1 border-t border-slate-200 dark:border-jovieDark-border"></div>
                     <DropdownMenuItem
-                      :shortcut="
+                      :shortcutKey="
                         $store.state.platform === 'mac'
                           ? ['⌘', '⇧', 'Q']
                           : ['Ctrl', '⇧', 'Q']
@@ -198,6 +198,7 @@ import {
   BoltIcon,
   WrenchScrewdriverIcon,
   ComputerDesktopIcon,
+  LifebuoyIcon,
   ChartBarIcon,
   ChatBubbleLeftIcon,
 } from '@heroicons/vue/24/solid';
@@ -218,7 +219,7 @@ export default {
     CogIcon,
     DropdownMenuItem,
     BoltIcon,
-
+    LifebuoyIcon,
     ArrowPathIcon,
     Float,
     CloudArrowDownIcon,
@@ -279,13 +280,15 @@ export default {
           id: 2,
           name: 'Settings',
           route: 'Account',
-          icon: 'CogIcon',
+          icon: CogIcon,
+          shortcutKey: ['g', 's'],
+          shortcutSequence: true,
         },
         {
           id: 3,
           name: 'Billing',
           route: '/billing',
-          icon: 'CreditCardIcon',
+          icon: CreditCardIcon,
         },
         {
           id: 6,
@@ -297,7 +300,7 @@ export default {
           id: 5,
           name: 'Download Chrome Extension',
           route: '/chrome-extension',
-          icon: 'CloudArrowDownIcon',
+          icon: CloudArrowDownIcon,
         },
 
         {
@@ -310,7 +313,7 @@ export default {
           id: 4,
           name: 'Slack Community',
           route: '/slack-community',
-          icon: 'LifebuoyIcon',
+          icon: LifebuoyIcon,
         },
       ],
     };

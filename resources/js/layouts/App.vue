@@ -251,6 +251,11 @@ export default {
       this.$store.dispatch('logout');
     });
 
+    //open settings when hitting g then s
+    this.$mousetrap.bind(['g s'], () => {
+      this.$router.push('/account');
+    });
+
     // this.getNotifications();
     // setInterval(() => {
     //   this.getNotifications();

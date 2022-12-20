@@ -30,7 +30,7 @@
                         text="Show All Contacts">
                         <button
                           @click="setFiltersType('all')"
-                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus-visible:outline-none"
+                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none focus:ring-0"
                           :class="[
                             filters.type == 'all'
                               ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
@@ -283,155 +283,159 @@
                         leave-active-class="transition duration-150 ease-out"
                         leave-from-class="transform scale-100 opacity-100"
                         leave-to-class="transform scale-95 opacity-0">
-                        <MenuItems
-                          class="z-10 w-96 transform rounded-lg border border-slate-200 bg-white/60 bg-clip-padding px-2 pb-2 pt-1 shadow-lg outline-0 ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-jovieDark-border dark:bg-jovieDark-800/60 sm:px-0">
-                          <div class="overflow-hidden rounded-lg">
-                            <div class="relative h-80 gap-6 px-1 sm:gap-8">
-                              <div
-                                class="mx-auto inline-flex w-full items-center border-b pb-1">
-                                <p
-                                  class="px-2 pt-2 text-xs font-bold text-slate-400">
-                                  Notifications
-                                </p>
-                              </div>
-                              <div
-                                class="overflow-y-scroll"
-                                v-if="notifications.length">
-                                <template
-                                  v-for="notification in notifications"
-                                  :key="notification.id">
-                                  <div
-                                    v-if="notification.is_batch"
-                                    as="div"
-                                    class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
-                                    role="menuitem"
-                                    tabindex="-1">
-                                    <router-link
-                                      to="/imports"
-                                      class="0 group block flex-shrink-0">
-                                      <div
-                                        class="flex w-full items-center justify-between">
-                                        <div class="px-2">
-                                          <component
-                                            class="mx-auto h-5 w-5 text-slate-400"
-                                            :is="'CloudArrowUpIcon'">
-                                          </component>
-                                        </div>
-                                        <div class="ml-3 w-full">
-                                          <p
-                                            class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100 dark:group-hover:text-slate-100">
-                                            {{ notification.message }}
-                                            <span
-                                              class="text-2xs font-light text-slate-500"
-                                              >-
-                                              {{
-                                                notification.typeMessage
-                                              }}</span
-                                            >
-                                          </p>
-                                          <div class="w-full">
-                                            <span
-                                              class="text-2xs font-medium text-slate-500">
-                                              Total:
-                                              {{
-                                                notification.initial_total_in_file
-                                              }}
-                                            </span>
-                                            |
-                                            <span
-                                              class="text-2xs font-medium text-slate-500">
-                                              Successful:
-                                              {{ notification.successful }}
-                                            </span>
+                        <MenuItems>
+                          <GlassmorphismContainer
+                            class="z-10 w-96 transform rounded-lg px-2 pb-2 pt-1 outline-0 ring-0 focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 sm:px-0">
+                            <div class="overflow-hidden rounded-lg">
+                              <div class="relative h-80 gap-6 px-1 sm:gap-8">
+                                <div
+                                  class="mx-auto inline-flex w-full items-center border-b pb-1">
+                                  <p
+                                    class="px-2 pt-2 text-xs font-bold text-slate-400">
+                                    Notifications
+                                  </p>
+                                </div>
+                                <div
+                                  class="overflow-y-scroll"
+                                  v-if="notifications.length">
+                                  <template
+                                    v-for="notification in notifications"
+                                    :key="notification.id">
+                                    <div
+                                      v-if="notification.is_batch"
+                                      as="div"
+                                      class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
+                                      role="menuitem"
+                                      tabindex="-1">
+                                      <router-link
+                                        to="/imports"
+                                        class="0 group block flex-shrink-0">
+                                        <div
+                                          class="flex w-full items-center justify-between">
+                                          <div class="px-2">
+                                            <component
+                                              class="mx-auto h-5 w-5 text-slate-400"
+                                              :is="'CloudArrowUpIcon'">
+                                            </component>
                                           </div>
-                                          <ProgressBar
-                                            :percentage="notification.progress"
-                                            class="mx-auto w-full" />
+                                          <div class="ml-3 w-full">
+                                            <p
+                                              class="justify-between text-2xs font-medium uppercase text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100 dark:group-hover:text-slate-100">
+                                              {{ notification.message }}
+                                              <span
+                                                class="text-2xs font-light text-slate-500"
+                                                >-
+                                                {{
+                                                  notification.typeMessage
+                                                }}</span
+                                              >
+                                            </p>
+                                            <div class="w-full">
+                                              <span
+                                                class="text-2xs font-medium text-slate-500">
+                                                Total:
+                                                {{
+                                                  notification.initial_total_in_file
+                                                }}
+                                              </span>
+                                              |
+                                              <span
+                                                class="text-2xs font-medium text-slate-500">
+                                                Successful:
+                                                {{ notification.successful }}
+                                              </span>
+                                            </div>
+                                            <ProgressBar
+                                              :percentage="
+                                                notification.progress
+                                              "
+                                              class="mx-auto w-full" />
+                                          </div>
+                                          <div
+                                            class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
+                                            {{
+                                              notification.created_at_formatted
+                                            }}
+                                          </div>
                                         </div>
+                                      </router-link>
+                                    </div>
+                                    <div
+                                      v-else
+                                      as="div"
+                                      class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
+                                      role="menuitem"
+                                      tabindex="-1">
+                                      <router-link
+                                        to="/imports"
+                                        class="0 group block flex-shrink-0">
                                         <div
-                                          class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
-                                          {{
-                                            notification.created_at_formatted
-                                          }}
-                                        </div>
-                                      </div>
-                                    </router-link>
-                                  </div>
-                                  <div
-                                    v-else
-                                    as="div"
-                                    class="inline-flex w-full border-b px-2 py-2 text-xs text-slate-700 first:pt-3"
-                                    role="menuitem"
-                                    tabindex="-1">
-                                    <router-link
-                                      to="/imports"
-                                      class="0 group block flex-shrink-0">
-                                      <div
-                                        class="flex w-full items-center justify-between">
-                                        <div class="px-2">
-                                          <component
-                                            class="mx-auto h-5 w-5 text-slate-400"
-                                            :is="'CloudArrowUpIcon'">
-                                          </component>
-                                        </div>
-                                        <div class="ml-3 w-full">
-                                          <p
-                                            class="mx-auto text-2xs text-red-400"
-                                            v-if="
-                                              !notification.is_error &&
-                                              notification.meta &&
-                                              notification.meta.total_jobs
-                                            ">
-                                            Completed
-                                            {{ notification.meta.type }} import
-                                            at
-                                            {{ notification.created_at }}
-                                          </p>
-                                          <p
-                                            class="mx-auto text-2xs text-red-400"
-                                            v-else-if="notification.is_error">
-                                            {{ notification.message }}
-                                            <span
+                                          class="flex w-full items-center justify-between">
+                                          <div class="px-2">
+                                            <component
+                                              class="mx-auto h-5 w-5 text-slate-400"
+                                              :is="'CloudArrowUpIcon'">
+                                            </component>
+                                          </div>
+                                          <div class="ml-3 w-full">
+                                            <p
+                                              class="mx-auto text-2xs text-red-400"
                                               v-if="
+                                                !notification.is_error &&
                                                 notification.meta &&
-                                                notification.meta.name
+                                                notification.meta.total_jobs
                                               ">
-                                              <b
-                                                >({{
+                                              Completed
+                                              {{ notification.meta.type }}
+                                              import at
+                                              {{ notification.created_at }}
+                                            </p>
+                                            <p
+                                              class="mx-auto text-2xs text-red-400"
+                                              v-else-if="notification.is_error">
+                                              {{ notification.message }}
+                                              <span
+                                                v-if="
+                                                  notification.meta &&
                                                   notification.meta.name
-                                                }})</b
-                                              ></span
-                                            >
-                                          </p>
-                                          <p
-                                            class="mx-auto text-2xs text-blue-500"
-                                            v-else>
-                                            {{ notification.message }}
-                                          </p>
+                                                ">
+                                                <b
+                                                  >({{
+                                                    notification.meta.name
+                                                  }})</b
+                                                ></span
+                                              >
+                                            </p>
+                                            <p
+                                              class="mx-auto text-2xs text-blue-500"
+                                              v-else>
+                                              {{ notification.message }}
+                                            </p>
+                                          </div>
+                                          <div
+                                            class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
+                                            {{
+                                              notification.created_at_formatted
+                                            }}
+                                          </div>
                                         </div>
-                                        <div
-                                          class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
-                                          {{
-                                            notification.created_at_formatted
-                                          }}
-                                        </div>
-                                      </div>
-                                    </router-link>
-                                  </div>
-                                </template>
-                              </div>
-                              <div
-                                class="mx-auto w-full items-center py-4 text-center"
-                                v-else>
-                                <span
-                                  class="mx-auto items-center text-sm font-bold text-slate-400"
-                                  ><FaceSmileIcon
-                                    class="mx-auto h-14 w-14 text-slate-200" />No
-                                  notifications</span
-                                >
+                                      </router-link>
+                                    </div>
+                                  </template>
+                                </div>
+                                <div
+                                  class="mx-auto w-full items-center py-4 text-center"
+                                  v-else>
+                                  <span
+                                    class="mx-auto items-center text-sm font-bold text-slate-400"
+                                    ><FaceSmileIcon
+                                      class="mx-auto h-14 w-14 text-slate-200" />No
+                                    notifications</span
+                                  >
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          </GlassmorphismContainer>
                         </MenuItems>
                       </transition>
                     </Float>
@@ -570,7 +574,7 @@
         </TransitionRoot>
       </div>
       <JovieUpgradeModal
-        @close="closeUpdatedModal()"
+        @close="closeUpgradeModal()"
         :open="showUpgradeModal" />
       <ImportCreatorModal
         :open="showCreatorModal"
@@ -586,6 +590,7 @@
 </template>
 
 <script>
+import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 import SupportModal from '../components/SupportModal.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
 import AlertBanner from '../components/AlertBanner.vue';
@@ -671,7 +676,7 @@ export default {
     ArrowUpCircleIcon,
     ArrowPathIcon,
     AlertBanner,
-
+    GlassmorphismContainer,
     Float,
     CloudArrowDownIcon,
     PlusIcon,
@@ -990,7 +995,7 @@ export default {
       this.showCreatorModal = false;
     },
     closeUpgradeModal() {
-      this.showUpgradeModal = false;
+      this.showUpgradeModal = !this.showUpgradeModal;
     },
     onResize() {
       this.windowWidth = window.innerWidth;

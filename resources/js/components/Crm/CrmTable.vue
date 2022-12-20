@@ -144,11 +144,10 @@
                       leave-active-class="transition duration-75 ease-in"
                       leave-from-class="transform scale-100 opacity-100"
                       leave-to-class="transform scale-95 opacity-0">
-                      <MenuItems
-                        @focus="focusTableColumnFilterInput()"
-                        static
-                        class="w-60 flex-col rounded-md border-2 border-slate-300 bg-white/60 bg-opacity-60 bg-clip-padding py-2 pl-2 pr-1 shadow-xl ring-0 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:ring-0 dark:border-jovieDark-border dark:border-jovieDark-border/40 dark:bg-jovieDark-900/60 dark:bg-jovieDark-900/60">
-                        <!--  <div as="div">
+                      <MenuItems @focus="focusTableColumnFilterInput()" static>
+                        <GlassmorphismContainer
+                          class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus:ring-0">
+                          <!--  <div as="div">
                           <div
                             class="flex items-center justify-between border-b border-slate-300 dark:border-jovieDark-border  py-1">
                             <div
@@ -157,146 +156,149 @@
                             </div>
                           </div>
                         </div> -->
-                        <div class="px-1">
-                          <MenuItem v-slot="{ active }" as="div">
-                            <div class="relative flex items-center">
-                              <input
-                                ref="tableColumnFilterInput"
-                                v-model="tableViewSearchQuery"
-                                placeholder="Add columns..."
-                                class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:bg-jovieDark-800 dark:text-jovieDark-300" />
-                              <!-- <div
+                          <div class="px-1">
+                            <MenuItem v-slot="{ active }" as="div">
+                              <div class="relative flex items-center">
+                                <input
+                                  ref="tableColumnFilterInput"
+                                  v-model="tableViewSearchQuery"
+                                  placeholder="Add columns..."
+                                  class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:bg-jovieDark-800 dark:text-jovieDark-300" />
+                                <!-- <div
                                 class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
                                 <kbd
                                   class="inline-flex items-center rounded border border-slate-300 dark:border-jovieDark-border  px-1 font-sans text-2xs font-medium text-slate-400"
                                   >S</kbd
                                 >
                               </div> -->
-                            </div>
-                          </MenuItem>
-                        </div>
-                        <MenuItem
-                          as="div"
-                          v-slot="{ active }"
-                          v-for="(column, index) in filteredColumnList">
-                          <SwitchGroup>
-                            <SwitchLabel
-                              class="flex items-center rounded-md"
-                              :class="{
-                                'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-300':
-                                  active,
-                              }">
-                              <button
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
-                                <div class="flex items-center">
-                                  <component
-                                    :is="column.icon"
-                                    :active="active"
-                                    class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-200"
-                                    aria-hidden="true" />
-                                  <span class="line-clamp-1">{{
-                                    column.name
-                                  }}</span>
-                                </div>
-
-                                <Switch
-                                  name="columns-visible"
-                                  v-model="column.visible"
-                                  as="template"
-                                  v-slot="{ checked }">
-                                  <button
-                                    :class="
-                                      checked
-                                        ? 'bg-indigo-600 dark:bg-indigo-400'
-                                        : 'bg-slate-200 dark:bg-jovieDark-800'
-                                    "
-                                    class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
-                                    <span class="sr-only"
-                                      >Show/hide column</span
-                                    >
-                                    <span
-                                      :class="
-                                        checked
-                                          ? 'translate-x-3'
-                                          : 'translate-x-0'
-                                      "
-                                      class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-900" />
-                                  </button>
-                                </Switch>
-                              </button>
-                            </SwitchLabel>
-                          </SwitchGroup>
-                        </MenuItem>
-                        <div
-                          class="text-medium border-t border-slate-300 dark:border-jovieDark-border">
+                              </div>
+                            </MenuItem>
+                          </div>
                           <MenuItem
+                            as="div"
                             v-slot="{ active }"
-                            v-for="setting in settings">
+                            v-for="(column, index) in filteredColumnList">
                             <SwitchGroup>
                               <SwitchLabel
                                 class="flex items-center rounded-md"
                                 :class="{
-                                  'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-200':
+                                  'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-300':
                                     active,
                                 }">
                                 <button
                                   class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
                                   <div class="flex items-center">
                                     <component
-                                      :is="setting.icon"
+                                      :is="column.icon"
+                                      :active="active"
                                       class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-200"
                                       aria-hidden="true" />
                                     <span class="line-clamp-1">{{
-                                      setting.name
+                                      column.name
                                     }}</span>
                                   </div>
 
                                   <Switch
-                                    v-if="setting.type === 'toggle'"
                                     name="columns-visible"
-                                    v-model="setting.isVisable"
+                                    v-model="column.visible"
                                     as="template"
                                     v-slot="{ checked }">
                                     <button
                                       :class="
                                         checked
                                           ? 'bg-indigo-600 dark:bg-indigo-400'
-                                          : 'bg-slate-200 dark:bg-jovieDark-700'
+                                          : 'bg-slate-200 dark:bg-jovieDark-800'
                                       "
                                       class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
+                                      <span class="sr-only"
+                                        >Show/hide column</span
+                                      >
                                       <span
                                         :class="
                                           checked
                                             ? 'translate-x-3'
                                             : 'translate-x-0'
                                         "
-                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-100" />
+                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-900" />
                                     </button>
                                   </Switch>
                                 </button>
                               </SwitchLabel>
                             </SwitchGroup>
                           </MenuItem>
-                          <MenuItem v-slot="{ active }">
-                            <div
-                              class="flex items-center rounded-md"
-                              :class="{
-                                'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-200':
-                                  active,
-                              }">
-                              <button
-                                @click="importCSV()"
-                                class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
-                                <div class="flex items-center">
-                                  <CloudArrowUpIcon
-                                    class="mr-2 h-3 w-3 text-slate-400"
-                                    aria-hidden="true" />
-                                  <span class="line-clamp-1"> Import CSV </span>
-                                </div>
-                              </button>
-                            </div>
-                          </MenuItem>
-                        </div>
+                          <div
+                            class="text-medium border-t border-slate-300 dark:border-jovieDark-border">
+                            <MenuItem
+                              v-slot="{ active }"
+                              v-for="setting in settings">
+                              <SwitchGroup>
+                                <SwitchLabel
+                                  class="flex items-center rounded-md"
+                                  :class="{
+                                    'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-200':
+                                      active,
+                                  }">
+                                  <button
+                                    class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
+                                    <div class="flex items-center">
+                                      <component
+                                        :is="setting.icon"
+                                        class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-200"
+                                        aria-hidden="true" />
+                                      <span class="line-clamp-1">{{
+                                        setting.name
+                                      }}</span>
+                                    </div>
+
+                                    <Switch
+                                      v-if="setting.type === 'toggle'"
+                                      name="columns-visible"
+                                      v-model="setting.isVisable"
+                                      as="template"
+                                      v-slot="{ checked }">
+                                      <button
+                                        :class="
+                                          checked
+                                            ? 'bg-indigo-600 dark:bg-indigo-400'
+                                            : 'bg-slate-200 dark:bg-jovieDark-700'
+                                        "
+                                        class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
+                                        <span
+                                          :class="
+                                            checked
+                                              ? 'translate-x-3'
+                                              : 'translate-x-0'
+                                          "
+                                          class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-100" />
+                                      </button>
+                                    </Switch>
+                                  </button>
+                                </SwitchLabel>
+                              </SwitchGroup>
+                            </MenuItem>
+                            <MenuItem v-slot="{ active }">
+                              <div
+                                class="flex items-center rounded-md"
+                                :class="{
+                                  'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-200':
+                                    active,
+                                }">
+                                <button
+                                  @click="importCSV()"
+                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
+                                  <div class="flex items-center">
+                                    <CloudArrowUpIcon
+                                      class="mr-2 h-3 w-3 text-slate-400"
+                                      aria-hidden="true" />
+                                    <span class="line-clamp-1">
+                                      Import CSV
+                                    </span>
+                                  </div>
+                                </button>
+                              </div>
+                            </MenuItem>
+                          </div>
+                        </GlassmorphismContainer>
                       </MenuItems>
                     </TransitionRoot>
                   </Float>
@@ -1045,6 +1047,7 @@
 </template>
 
 <script>
+import GlassmorphismContainer from '../../components/GlassmorphismContainer';
 import { Float } from '@headlessui-float/vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import ContactContextMenuItem from '../../components/ContactContextMenuItem';
@@ -1122,6 +1125,7 @@ export default {
     MagnifyingGlassIcon,
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
+    GlassmorphismContainer,
     ButtonGroup,
     CloudArrowUpIcon,
     Menu,

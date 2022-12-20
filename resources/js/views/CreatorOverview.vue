@@ -3,7 +3,7 @@
     <aside>
       <JovieSidebar />
     </aside>
-    <di class="w-full">
+    <div class="w-full">
       <div
         class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-slate-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
         <div class="inline-flex">

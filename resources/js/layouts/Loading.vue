@@ -3,13 +3,15 @@
     class="flex h-screen w-full items-center bg-slate-100 dark:bg-jovieDark-900"
     id="app">
     <router-view />
-    <aside class="hidden h-screen w-60 lg:block"></aside>
+    <!-- <aside class="hidden h-screen w-60 lg:block"></aside> -->
     <div class="mx-auto flex h-screen items-center text-center">
       <div></div>
       <div
         class="mx-auto flex w-full flex-col items-center text-center sm:flex-row">
+        <div class="mx-auto flex-col py-6">
+          <JovieLogo height="20px" />
+        </div>
         <JovieSpinner class="mr-2" />
-
         <h1
           v-if="!link"
           :class="[
@@ -18,7 +20,7 @@
                 link,
             },
           ]"
-          class="py-4 text-slate-700 dark:text-white">
+          class="mt-4 py-4 text-slate-700 dark:text-white">
           {{ loadingText }}
         </h1>
         <h1 v-else class="py-4 text-slate-700 dark:text-white">
@@ -36,10 +38,12 @@
 
 <script>
 import JovieSpinner from './../components/JovieSpinner.vue';
+import JovieLogo from './../components/JovieLogo.vue';
 export default {
   name: 'Loading',
   components: {
     JovieSpinner,
+    JovieLogo,
   },
   data() {
     return {

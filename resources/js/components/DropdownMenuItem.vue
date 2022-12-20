@@ -1,7 +1,7 @@
 <template>
   <MenuItem as="div" v-slot="{ active }">
     <div
-      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
+      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200"
       :class="{
         'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
           active,
@@ -21,7 +21,7 @@
               <div class="text-xs font-normal tracking-wider">{{ name }}</div>
             </div>
             <div class="flex">
-              <KBShortcut :shortcutKey="shortcut" />
+              <KBShortcut :sequence="shortuctSequence" :shortcutKey="Key" />
             </div>
           </div>
         </slot>
@@ -37,12 +37,17 @@ import {
   ChartBarIcon,
   WrenchScrewdriverIcon,
   UserIcon,
+  SunIcon,
+  MoonIcon,
 } from '@heroicons/vue/24/outline';
 import { MenuItem } from '@headlessui/vue';
 export default {
   components: {
     KBShortcut,
     MenuItem,
+    SunIcon,
+    MoonIcon,
+
     WrenchScrewdriverIcon,
     UserIcon,
     ChatBubbleLeftIcon,
@@ -62,9 +67,20 @@ export default {
       type: String,
       required: false,
     },
-    shortcut: {
-      type: String,
+    numbered: {
+      type: Boolean,
       required: false,
+      default: false,
+    },
+    shortcutKey: {
+      type: Array,
+      required: false,
+      default: ['shift', 'alt', 'c'],
+    },
+    shortuctSequence: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 };

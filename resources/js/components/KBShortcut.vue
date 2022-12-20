@@ -8,8 +8,13 @@
     >
     <span
       class="items-center text-[8px] dark:text-slate-200"
-      v-if="index < shortcutKey.length - 1">
+      v-if="index < shortcutKey.length - 1 && !sequence">
       +
+    </span>
+    <span
+      class="items-center text-[8px] dark:text-slate-200"
+      v-else-if="index < shortcutKey.length - 1 && sequence">
+      =>
     </span>
   </div>
 </template>
@@ -20,6 +25,10 @@ export default {
     shortcutKey: {
       type: Array,
       required: true,
+    },
+    sequemce: {
+      type: Boolean,
+      default: false,
     },
   },
 };
