@@ -1,181 +1,85 @@
 <template>
   <div>
     <div v-for="contactMethod in contactMethods" :key="contactMethod">
-      <div v-if="contactMethod == 'email'">
-        <MenuItem
-          :disabled="!creator.emails[0] && !creator.meta.emails[0]"
-          v-slot="{ active }"
-          class="items-center">
-          <button
-            @click="emailCreator(creator.emails[0] || creator.meta.emails[0])"
-            :class="[
-              active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                : 'text-slate-700 dark:text-jovieDark-200',
-              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-            ]">
-            <EnvelopeIcon class="mr-2 inline h-4 w-4 text-indigo-400" />
-            Email
-          </button>
-        </MenuItem>
+      <DropdownMenuItem
+        v-if="contactMethod == 'email'"
+        name="Email"
+        color="text-purple-600 dark:text-purple-400"
+        @click="emailCreator(creator.emails[0] || creator.meta.emails[0])"
+        :disabled="!creator.emails[0] && !creator.meta.emails[0]"
+        icon="EnvelopeIcon" />
+      <DropdownMenuItem
+        v-if="contactMethod == 'phone'"
+        name="Call"
+        color="text-blue-600 dark:text-blue-400"
+        @click="callCreator(creator.meta.phone || creator.phone)"
+        :disabled="!creator.meta.phone && !creator.phone"
+        icon="PhoneIcon" />
+      <DropdownMenuItem
+        v-if="contactMethod == 'sms'"
+        name="Send SMS"
+        color="text-blue-600 dark:text-blue-400"
+        @click="textCreator(creator.meta.phone || creator.phone)"
+        :disabled="!creator.meta.phone && !creator.phone"
+        icon="ChatBubbleLeftEllipsisIcon" />
+      <DropdownMenuItem
+        v-if="contactMethod == 'calendar'"
+        name="Create Calendar Event"
+        color="text-indigo-600 dark:text-indigo-400"
+        @click="createCalendarEvent(creator)"
+        icon="CalendarDaysIcon" />
+      <DropdownMenuItem
+        v-if="contactMethod == 'twitter'"
+        name="DM on Twitter"
+        color="text-twitter-600 dark:text-twitter-400"
+        @click="sendTwitterDM(creator)"
+        :disabled="!creator.meta.twitter_handler && !creator.twitter_handler"
+        icon="ChatBubbleLeftEllipsisIcon" />
+
+      <DropdownMenuItem
+        v-if="contactMethod == 'instagram'"
+        name="Instagram DM"
+        color="text-instagram-600 dark:text-instagram-400"
+        @click="
+          instagramDMContact(
+            creator.meta.instagram_handler || creator.instagram_handler
+          )
+        "
+        :disabled="
+          !creator.meta.instgaram_handler && !creator.instagram_handler
+        "
+        icon="ChatBubbleLeftEllipsisIcon" />
+      <DropdownMenuItem
+        v-if="contactMethod == 'whatsapp'"
+        name="Whatsapp"
+        color="text-social-whatsapp"
+        @click="whatsappCreator(creator.meta.phone || creator.phone)"
+        :disabled="!creator.meta.phone && !creator.phone"
+        icon="ChatBubbleOvalLeftEllipsisIcon" />
+
+      <div v-if="currentUser.is_admin">
+        <DropdownMenuItem
+          v-if="contactMethod == 'refresh'"
+          name="Refresh"
+          color="text-slate-400 hover:text-slate-900"
+          @click="refresh(creator)"
+          :disabled="adding"
+          icon="ArrowPathIcon" />
       </div>
-      <div v-if="contactMethod == 'phone'">
-        <MenuItem
-          :disabled="!creator.meta.phone && !creator.phone"
-          v-slot="{ active }"
-          class="items-center">
-          <button
-            @click="callCreator(creator.meta.phone || creator.phone)"
-            :class="[
-              active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                : 'text-slate-700 dark:text-jovieDark-200',
-              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-            ]">
-            <PhoneIcon class="mr-2 inline h-4 w-4 text-pink-400" />
-            Call
-          </button>
-        </MenuItem>
-      </div>
-      <div v-if="contactMethod == 'sms'">
-        <MenuItem
-          :disabled="!creator.meta.phone && !creator.phone"
-          v-slot="{ active }"
-          class="items-center">
-          <button
-            @click="textCreator(creator.meta.phone || creator.phone)"
-            :class="[
-              active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                : 'text-slate-700 dark:text-jovieDark-200',
-              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-            ]">
-            <ChatBubbleLeftEllipsisIcon
-              class="darktext-blue-600 mr-2 inline h-4 w-4 text-blue-400" />
-            Send SMS
-          </button>
-        </MenuItem>
-      </div>
-      <div v-if="contactMethod == 'calendar'">
-        <MenuItem v-slot="{ active }" class="items-center">
-          <button
-            @click="createCalendarEvent(creator)"
-            :class="[
-              active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                : 'text-slate-700 dark:text-jovieDark-200',
-              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-            ]">
-            <CalendarDaysIcon class="mr-2 inline h-4 w-4 text-indigo-400" />
-            Create Calendar Event
-          </button>
-        </MenuItem>
-      </div>
-      <div v-if="contactMethod == 'twitter'">
-        <MenuItem v-slot="{ active }" class="items-center">
-          <button
-            @click="sendTwitterDM(creator)"
-            :class="[
-              active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                : 'text-slate-700 dark:text-jovieDark-200',
-              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-            ]">
-            <ChatBubbleLeftEllipsisIcon
-              class="mr-2 inline h-4 w-4 text-social-twitter" />
-            DM on Twitter
-          </button>
-        </MenuItem>
-      </div>
-      <div v-if="contactMethod == 'instagram'">
-        <MenuItem
-          :disabled="
-            !creator.meta.instgaram_handler && !creator.instagram_handler
-          "
-          v-slot="{ active }"
-          class="items-center">
-          <button
-            @click="
-              instagramDMContact(
-                creator.meta.instagram_handler || creator.instagram_handler
-              )
-            "
-            :class="[
-              active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                : 'text-slate-700 dark:text-jovieDark-200',
-              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-            ]">
-            <ChatBubbleOvalLeftEllipsisIcon
-              class="mr-2 inline h-4 w-4 text-social-instagram" />
-            Instagram DM
-          </button>
-        </MenuItem>
-      </div>
-      <div v-if="contactMethod == 'whatsapp'">
-        <MenuItem
-          :disabled="!creator.meta.phone && !creator.phone"
-          v-slot="{ active }"
-          class="items-center">
-          <button
-            @click="whatsappCreator(creator.meta.phone || creator.phone)"
-            :class="[
-              active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                : 'text-slate-700 dark:text-jovieDark-200',
-              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-            ]">
-            <ChatBubbleOvalLeftEllipsisIcon
-              class="mr-2 inline h-4 w-4 text-social-whatsapp" />
-            Whatsapp
-          </button>
-        </MenuItem>
-      </div>
-      <div v-if="contactMethod == 'refresh'">
-        <div v-if="currentUser.is_admin">
-          <MenuItem
-            v-slot="{ active }"
-            class="items-center"
-            @click="refresh(creator)"
-            :disabled="adding">
-            <a
-              href="#"
-              class="items-center text-slate-400 hover:text-slate-900"
-              :class="[
-                active
-                  ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                  : 'text-slate-700 dark:text-jovieDark-200',
-                'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-              ]">
-              <ArrowPathIcon class="mr-2 inline h-4 w-4" />
-              Refresh</a
-            >
-          </MenuItem>
-        </div>
-      </div>
-      <div v-if="contactMethod == 'verify'">
-        <MenuItem
-          :disabled="!creator.emails[0] && !creator.meta.emails[0]"
-          v-slot="{ active }"
-          class="items-center">
-          <button
-            @click="verifyEmail(creator.meta.emails[0] || creator.emails[0])"
-            :class="[
-              active
-                ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                : 'text-slate-700 dark:text-jovieDark-200',
-              'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-            ]">
-            <CheckCircleIcon class="mr-2 inline h-4 w-4 text-slate-500" />
-            Verify Email
-          </button>
-        </MenuItem>
-      </div>
+
+      <DropdownMenuItem
+        v-if="contactMethod == 'verify'"
+        name="Verify Email"
+        color="text-slate-400 hover:text-slate-900"
+        @click="verifyEmail(creator.meta.emails[0] || creator.emails[0])"
+        :disabled="!creator.emails[0] && !creator.meta.emails[0]"
+        icon="CheckCircleIcon" />
     </div>
   </div>
 </template>
 
 <script>
+import DropdownMenuItem from '../components/DropdownMenuItem.vue';
 import {
   Menu,
   MenuButton,
@@ -206,6 +110,7 @@ export default {
     MenuButton,
     MenuItems,
     CheckCircleIcon,
+    DropdownMenuItem,
     MenuItem,
     TransitionRoot,
     ChevronDownIcon,

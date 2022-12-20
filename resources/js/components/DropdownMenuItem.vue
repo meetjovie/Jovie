@@ -1,11 +1,12 @@
 <template>
-  <MenuItem as="div" v-slot="{ active }">
+  <MenuItem :disabled="disabled" as="div" v-slot="{ active }">
     <div
-      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200"
       :class="{
+        'cursor-not-allowed opacity-50': disabled,
         'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
           active,
-      }">
+      }"
+      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200">
       <div class="flex w-full items-center">
         <slot>
           <div class="flex w-full items-center justify-between">
@@ -14,7 +15,13 @@
                 {{ emoji }}
               </div>
               <div v-else-if="icon" class="mr-2 items-center text-xs font-bold">
-                <component :is="icon" class="h-3 w-3" />
+                <component
+                  :is="icon"
+                  class="h-3 w-3"
+                  :class="{
+                    'text-slate-600 dark:text-jovieDark-200': !color,
+                    [color]: color,
+                  }" />
               </div>
               <div v-else></div>
 
@@ -36,20 +43,35 @@ import {
   ArrowLeftOnRectangleIcon,
   ChartBarIcon,
   WrenchScrewdriverIcon,
+  ComputerDesktopIcon,
   UserIcon,
   SunIcon,
   MoonIcon,
-} from '@heroicons/vue/24/outline';
+  EnvelopeIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
+  PhoneIcon,
+  CalendarDaysIcon,
+  ChatBubbleLeftEllipsisIcon,
+  CheckCircleIcon,
+  ArrowPathIcon,
+} from '@heroicons/vue/24/solid';
 import { MenuItem } from '@headlessui/vue';
 export default {
   components: {
     KBShortcut,
     MenuItem,
+    PhoneIcon,
     SunIcon,
     MoonIcon,
-
+    CalendarDaysIcon,
+    ChatBubbleOvalLeftEllipsisIcon,
+    EnvelopeIcon,
+    ComputerDesktopIcon,
     WrenchScrewdriverIcon,
     UserIcon,
+    CheckCircleIcon,
+    ArrowPathIcon,
+    ChatBubbleLeftEllipsisIcon,
     ChatBubbleLeftIcon,
     ChartBarIcon,
     ArrowLeftOnRectangleIcon,
@@ -58,6 +80,10 @@ export default {
     name: {
       type: String,
       required: true,
+    },
+    color: {
+      type: String,
+      required: false,
     },
     emoji: {
       type: String,
@@ -76,6 +102,11 @@ export default {
       type: Array,
       required: false,
       default: ['shift', 'alt', 'c'],
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     shortuctSequence: {
       type: Boolean,

@@ -661,25 +661,26 @@
                                 leave-active-class="transition ease-in duration-75"
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
-                                <MenuItems
-                                  class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
-                                  <div class="py-1">
-                                    <ContactContextMenuItem
-                                      :creator="creator"
-                                      :contactMethods="[
-                                        'email',
-                                        'sms',
-                                        'instagram',
-                                        'calendar',
-                                        'twitter',
-                                        'phone',
-                                        'whatsapp',
-                                        'validate',
-                                      ]">
-                                    </ContactContextMenuItem>
+                                <MenuItems>
+                                  <GlassmorphismContainer
+                                    class="z-10 mt-2 w-48 origin-top-right py-1 px-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+                                    <div class="py-1">
+                                      <ContactContextMenuItem
+                                        :creator="creator"
+                                        :contactMethods="[
+                                          'email',
+                                          'sms',
+                                          'instagram',
+                                          'calendar',
+                                          'twitter',
+                                          'phone',
+                                          'whatsapp',
+                                          'validate',
+                                        ]">
+                                      </ContactContextMenuItem>
 
-                                    <!-- Work in progress -->
-                                    <!--  <MenuItem
+                                      <!-- Work in progress -->
+                                      <!--  <MenuItem
                                       v-slot="{ active }"
                                       class="cursor-pointer items-center">
                                       <button
@@ -695,78 +696,79 @@
                                         Download VCard
                                       </button>
                                     </MenuItem> -->
-                                    <MenuItem
-                                      v-if="filters.list"
-                                      v-slot="{ active }"
-                                      class="cursor-pointer items-center"
-                                      @click="
-                                        toggleCreatorsFromList(
-                                          creator.id,
-                                          filters.list,
-                                          true
-                                        )
-                                      ">
-                                      <a
-                                        href="#"
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                            : 'text-slate-700 dark:text-jovieDark-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <TrashIcon
-                                          class="mr-2 inline h-4 w-4 text-red-400" />
-                                        Remove from list</a
-                                      >
-                                    </MenuItem>
-                                    <MenuItem
-                                      v-slot="{ active }"
-                                      @blur="$emit('updateCrmMeta')"
-                                      @click="
-                                        toggleArchiveCreators(
-                                          creator.id,
-                                          !creator.crm_record_by_user.archived
-                                        )
-                                      "
-                                      class="items-center">
-                                      <button
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                            : 'text-slate-700 dark:text-jovieDark-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <ArchiveBoxIcon
-                                          class="mr-2 inline h-4 w-4 text-sky-400" />
-                                        {{
-                                          filters.type == 'archived' &&
-                                          creator.crm_record_by_user.archived
-                                            ? 'Unarchived'
-                                            : 'Archive'
-                                        }}
-                                      </button>
-                                    </MenuItem>
-                                    <MenuItem
-                                      v-if="currentUser.is_admin"
-                                      v-slot="{ active }"
-                                      class="items-center"
-                                      @click="refresh(creator)"
-                                      :disabled="adding">
-                                      <a
-                                        href="#"
-                                        class="items-center text-slate-400 hover:text-slate-900"
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                            : 'text-slate-700 dark:text-jovieDark-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <ArrowPathIcon
-                                          class="mr-2 inline h-4 w-4" />
-                                        Refresh</a
-                                      >
-                                    </MenuItem>
-                                  </div>
+                                      <MenuItem
+                                        v-if="filters.list"
+                                        v-slot="{ active }"
+                                        class="cursor-pointer items-center"
+                                        @click="
+                                          toggleCreatorsFromList(
+                                            creator.id,
+                                            filters.list,
+                                            true
+                                          )
+                                        ">
+                                        <a
+                                          href="#"
+                                          :class="[
+                                            active
+                                              ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                              : 'text-slate-700 dark:text-jovieDark-200',
+                                            'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                          ]">
+                                          <TrashIcon
+                                            class="mr-2 inline h-4 w-4 text-red-400" />
+                                          Remove from list</a
+                                        >
+                                      </MenuItem>
+                                      <MenuItem
+                                        v-slot="{ active }"
+                                        @blur="$emit('updateCrmMeta')"
+                                        @click="
+                                          toggleArchiveCreators(
+                                            creator.id,
+                                            !creator.crm_record_by_user.archived
+                                          )
+                                        "
+                                        class="items-center">
+                                        <button
+                                          :class="[
+                                            active
+                                              ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                              : 'text-slate-700 dark:text-jovieDark-200',
+                                            'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                          ]">
+                                          <ArchiveBoxIcon
+                                            class="mr-2 inline h-4 w-4 text-sky-400" />
+                                          {{
+                                            filters.type == 'archived' &&
+                                            creator.crm_record_by_user.archived
+                                              ? 'Unarchived'
+                                              : 'Archive'
+                                          }}
+                                        </button>
+                                      </MenuItem>
+                                      <MenuItem
+                                        v-if="currentUser.is_admin"
+                                        v-slot="{ active }"
+                                        class="items-center"
+                                        @click="refresh(creator)"
+                                        :disabled="adding">
+                                        <a
+                                          href="#"
+                                          class="items-center text-slate-400 hover:text-slate-900"
+                                          :class="[
+                                            active
+                                              ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                              : 'text-slate-700 dark:text-jovieDark-200',
+                                            'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                          ]">
+                                          <ArrowPathIcon
+                                            class="mr-2 inline h-4 w-4" />
+                                          Refresh</a
+                                        >
+                                      </MenuItem>
+                                    </div>
+                                  </GlassmorphismContainer>
                                 </MenuItems>
                               </TransitionRoot>
                             </Float>
