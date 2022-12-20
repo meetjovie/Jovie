@@ -135,6 +135,52 @@
         <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
           <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
             <div class="w-24 text-2xs">
+              <p class="text-sm font-semibold text-slate-600">v0.0.9</p>
+
+              <p>2022.12.19</p>
+            </div>
+            <div class="w-full">
+              <h2 class="text-3xl font-bold tracking-tight text-slate-800">
+                Save Any Social Link Anywhere On The Web
+              </h2>
+              <img
+                :src="
+                  asset(
+                    'img/External/Marketing/Chrome/Save_To_Jovie_Chrome_Menu.gif'
+                  )
+                "
+                alt="Jovie Chrome Extension"
+                class="mt-4 rounded-xl border border-neutral-200 py-4 shadow-lg dark:border-neutral-700" />
+              <p class="prose mt-4">
+                Minor Tweeaks & UI improvements. As always you can see our
+                product roadmap and contribute to it
+                <a href="https://roadmap.jov.ie">here</a>.
+              </p>
+
+              <h4 class="prose mt-4 font-bold">Features</h4>
+              <ul class="prose list-outside list-disc">
+                <li class="prose">Added keyboard shortcuts to menus.</li>
+                <li class="prose">Added App versions to improve support.</li>
+                <li class="prose">
+                  We know automitically clear cache when loading new versions of
+                  Jovie. This should result in less issues & faster access to
+                  new features.
+                </li>
+              </ul>
+
+              <h4 class="prose mt-4 font-bold">Fixes & Improvements</h4>
+
+              <ul class="prose list-outside list-disc">
+                <li class="prose">
+                  We've made some big improvements under the hood that should
+                  lead to big performance pay off in a future release.
+                </li>
+                <li class="prose">Various UI Improvements and bug fixes.</li>
+              </ul>
+            </div>
+          </li>
+          <li class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
+            <div class="w-24 text-2xs">
               <p class="text-sm font-semibold text-slate-600">v0.0.8</p>
 
               <p>2022.12.07</p>
