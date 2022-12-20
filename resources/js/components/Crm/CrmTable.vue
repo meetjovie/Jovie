@@ -483,7 +483,7 @@
                   <tr
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
-                    @contextmenu.prevent="openContextMenu(creator)"
+                    @contextmenu.prevent="openContextMenu(index, creator)"
                     class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
                     :class="[
                       {
@@ -629,150 +629,81 @@
                             class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
                         </div>
                         <div>
-                          <Menu
-                            as="div"
-                            class="relative inline-block text-left">
-                            <Float
-                              enter="transition duration-200 ease-out"
-                              enter-from="scale-95 opacity-0"
-                              enter-to="scale-100 opacity-100"
-                              leave="transition duration-150 ease-in"
-                              leave-from="scale-100 opacity-100"
-                              leave-to="scale-95 opacity-0"
-                              tailwindcss-origin-class
-                              flip
-                              :offset="10"
-                              shift
-                              portal
-                              arrow
-                              placement="right-start">
-                              <MenuButton
-                                v-slot="{ open }"
-                                class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
-                                <span class="sr-only">Open options</span>
-                                <EllipsisVerticalIcon
-                                  class="z-0 mt-0.5 h-5 w-5"
-                                  aria-hidden="true" />
-                              </MenuButton>
-                              <TransitionRoot
-                                enter-active-class="transition ease-out duration-100"
-                                enter-from-class="transform opacity-0 scale-95"
-                                enter-to-class="transform opacity-100 scale-100"
-                                leave-active-class="transition ease-in duration-75"
-                                leave-from-class="transform opacity-100 scale-100"
-                                leave-to-class="transform opacity-0 scale-95">
-                                <MenuItems>
-                                  <GlassmorphismContainer
-                                    class="z-10 mt-2 w-48 origin-top-right py-1 px-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-                                    <div class="py-1">
-                                      <ContactContextMenuItem
-                                        :creator="creator"
-                                        :contactMethods="[
-                                          'email',
-                                          'sms',
-                                          'instagram',
-                                          'calendar',
-                                          'twitter',
-                                          'phone',
-                                          'whatsapp',
-                                          'validate',
-                                        ]">
-                                      </ContactContextMenuItem>
-
-                                      <!-- Work in progress -->
-                                      <!--  <MenuItem
-                                      v-slot="{ active }"
-                                      class="cursor-pointer items-center">
-                                      <button
-                                        @click="downloadVCF(this.creator)"
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                            : 'text-slate-700 dark:text-jovieDark-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <CloudArrowDownIcon
-                                          class="mr-2 inline h-4 w-4 text-violet-400" />
-                                        Download VCard
-                                      </button>
-                                    </MenuItem> -->
-                                      <MenuItem
-                                        v-if="filters.list"
-                                        v-slot="{ active }"
-                                        class="cursor-pointer items-center"
-                                        @click="
-                                          toggleCreatorsFromList(
-                                            creator.id,
-                                            filters.list,
-                                            true
-                                          )
-                                        ">
-                                        <a
-                                          href="#"
-                                          :class="[
-                                            active
-                                              ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                              : 'text-slate-700 dark:text-jovieDark-200',
-                                            'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                          ]">
-                                          <TrashIcon
-                                            class="mr-2 inline h-4 w-4 text-red-400" />
-                                          Remove from list</a
-                                        >
-                                      </MenuItem>
-                                      <MenuItem
-                                        v-slot="{ active }"
-                                        @blur="$emit('updateCrmMeta')"
-                                        @click="
-                                          toggleArchiveCreators(
-                                            creator.id,
-                                            !creator.crm_record_by_user.archived
-                                          )
-                                        "
-                                        class="items-center">
-                                        <button
-                                          :class="[
-                                            active
-                                              ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                              : 'text-slate-700 dark:text-jovieDark-200',
-                                            'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                          ]">
-                                          <ArchiveBoxIcon
-                                            class="mr-2 inline h-4 w-4 text-sky-400" />
-                                          {{
-                                            filters.type == 'archived' &&
-                                            creator.crm_record_by_user.archived
-                                              ? 'Unarchived'
-                                              : 'Archive'
-                                          }}
-                                        </button>
-                                      </MenuItem>
-                                      <MenuItem
-                                        v-if="currentUser.is_admin"
-                                        v-slot="{ active }"
-                                        class="items-center"
-                                        @click="refresh(creator)"
-                                        :disabled="adding">
-                                        <a
-                                          href="#"
-                                          class="items-center text-slate-400 hover:text-slate-900"
-                                          :class="[
-                                            active
-                                              ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                              : 'text-slate-700 dark:text-jovieDark-200',
-                                            'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                          ]">
-                                          <ArrowPathIcon
-                                            class="mr-2 inline h-4 w-4" />
-                                          Refresh</a
-                                        >
-                                      </MenuItem>
-                                    </div>
-                                  </GlassmorphismContainer>
-                                </MenuItems>
-                              </TransitionRoot>
-                            </Float>
-                          </Menu>
+                          <ContactContextMenu
+                            @close="showContextMenu = false"
+                            :open="showContextMenu"
+                            :creator="creator">
+                            <MenuItem
+                              v-if="filters.list"
+                              v-slot="{ active }"
+                              class="cursor-pointer items-center"
+                              @click="
+                                toggleCreatorsFromList(
+                                  creator.id,
+                                  filters.list,
+                                  true
+                                )
+                              ">
+                              <a
+                                href="#"
+                                :class="[
+                                  active
+                                    ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                    : 'text-slate-700 dark:text-jovieDark-200',
+                                  'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                ]">
+                                <TrashIcon
+                                  class="mr-2 inline h-4 w-4 text-red-400" />
+                                Remove from list</a
+                              >
+                            </MenuItem>
+                            <MenuItem
+                              v-slot="{ active }"
+                              @blur="$emit('updateCrmMeta')"
+                              @click="
+                                toggleArchiveCreators(
+                                  creator.id,
+                                  !creator.crm_record_by_user.archived
+                                )
+                              "
+                              class="items-center">
+                              <button
+                                :class="[
+                                  active
+                                    ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                    : 'text-slate-700 dark:text-jovieDark-200',
+                                  'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                ]">
+                                <ArchiveBoxIcon
+                                  class="mr-2 inline h-4 w-4 text-sky-400" />
+                                {{
+                                  filters.type == 'archived' &&
+                                  creator.crm_record_by_user.archived
+                                    ? 'Unarchived'
+                                    : 'Archive'
+                                }}
+                              </button>
+                            </MenuItem>
+                            <MenuItem
+                              v-if="currentUser.is_admin"
+                              v-slot="{ active }"
+                              class="items-center"
+                              @click="refresh(creator)"
+                              :disabled="adding">
+                              <a
+                                href="#"
+                                class="items-center text-slate-400 hover:text-slate-900"
+                                :class="[
+                                  active
+                                    ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                    : 'text-slate-700 dark:text-jovieDark-200',
+                                  'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                ]">
+                                <ArrowPathIcon class="mr-2 inline h-4 w-4" />
+                                Refresh</a
+                              >
+                            </MenuItem>
+                          </ContactContextMenu>
                         </div>
                       </div>
                     </td>
@@ -1049,6 +980,7 @@
 </template>
 
 <script>
+import ContactContextMenu from '../../components/ContactContextMenu';
 import GlassmorphismContainer from '../../components/GlassmorphismContainer';
 import { Float } from '@headlessui-float/vue';
 import Datepicker from '@vuepic/vue-datepicker';
@@ -1121,6 +1053,7 @@ export default {
     JovieDropdownMenu,
     ArchiveBoxIcon,
     ChevronRightIcon,
+    ContactContextMenu,
     StarRating,
     ContactContextMenuItem,
     KeyboardShortcut,
@@ -1189,6 +1122,7 @@ export default {
       searchQuery: '',
       stageSearchQuery: '',
       currentRow: null,
+      ShowContextMenu: false,
       date: null,
       selectedCreators: [],
       /*  activeCreator: {}, */
@@ -1445,9 +1379,12 @@ export default {
         this.$refs.stageInput.$el.focus();
       });
     },
-    openContextMenu() {
+    openContextMenu(index, creator) {
       //toggel open
-      this.open = true;
+      //if the selected creator is this creator then show the context menu
+
+      this.showContextMenu = true;
+      //only opnt the menu if there are selected creators
     },
     sortData({ sortBy, sortOrder }) {
       this.columns = this.columns.map((column) => {
