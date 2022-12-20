@@ -52,7 +52,7 @@
             <div
               class="overflow-clip border-t border-slate-200 px-2 dark:border-jovieDark-border">
               <div class="" v-if="items">
-                <template v-for="(item, key) in filteredItems" :key="item.name">
+                <template v-for="item in filteredItems" :key="item.name">
                   <router-link v-if="item.route" :to="item.route">
                     <DropdownMenuItem
                       :name="item.name"

@@ -1,7 +1,8 @@
 <template>
   <Menu
     as="div"
-    v-slot="{ open }"
+    v-slot="{ open, close }"
+    @close="closeMenu()"
     class="relative z-10 inline-block w-full items-center text-left">
     <Float portal :offset="0" shift placement="bottom-start">
       <MenuButton
@@ -50,90 +51,51 @@
         leave-to-class="transform scale-95 opacity-0">
         <MenuItems static @focus="focusStageInput()" as="div">
           <GlassmorphismContainer
-            class="z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-slate-100 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+            class="z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-slate-200 ring-opacity-5 focus-visible:outline-none dark:divide-jovieDark-border">
             <div class="px-1">
               <MenuItem v-slot="{ active }" as="div">
-                <div
-                  class="relative flex items-center border-b border-slate-200 dark:border-jovieDark-border/60">
+                <div class="relative flex items-center">
                   <input
                     ref="stageInput"
                     v-model="stageSearchQuery"
                     placeholder="Set stage..."
-                    class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:text-jovieDark-200" />
-                  <!-- <div class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
-                  <kbd
-                    class="inline-flex items-center rounded border border-slate-200 px-1 font-sans text-2xs font-medium text-slate-400"
-                    >S</kbd
-                  >
-                </div> -->
+                    class="w-full border-0 border-none border-transparent bg-transparent py-2 pl-1 pr-4 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:text-jovieDark-200" />
+                  <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+                    <KBShortcut bg :shortcutKey="['s']" />
+                  </div>
                 </div>
               </MenuItem>
             </div>
 
-            <div
-              class="border-t border-slate-200 px-2 dark:border-jovieDark-border">
-              <MenuItem
-                as="div"
-                v-slot="{ active }"
-                v-for="(stage, key) in filteredStage"
-                :key="stage"
-                @click="
-                  $emit('updateCreator', {
-                    id: creator.id,
-                    index: index,
-                    key: `crm_record_by_user.stage`,
-                    value: key,
-                  })
-                ">
-                <div
-                  class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
-                  :class="{
-                    'bg-slate-200 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-100':
-                      active,
-                  }">
-                  <div class="flex">
-                    <div class="mr-2 w-3 text-xs font-bold opacity-50">
-                      <CheckIcon
-                        v-if="stage === creator.crm_record_by_user.stage_name"
-                        class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:text-slate-200" />
-                    </div>
-                    <div class="mr-2 text-xs font-bold opacity-50">
-                      <span
-                        class="inline-block h-2 w-2 flex-shrink-0 rounded-full"
-                        :class="[
-                          {
-                            'bg-indigo-600 text-indigo-600 dark:bg-indigo-400':
-                              stage == 'Lead',
-                          },
-                          {
-                            'bg-sky-600 text-sky-600 dark:bg-sky-400':
-                              stage == 'Interested',
-                          },
-                          {
-                            'bg-pink-600 text-pink-600 dark:bg-pink-400':
-                              stage == 'Negotiating',
-                          },
-                          {
-                            'bg-fuchsia-600 text-fuchsia-600 dark:bg-fuchsia-400':
-                              stage == 'In Progress',
-                          },
-                          {
-                            'bg-red-600 text-red-600 dark:bg-red-400':
-                              stage == 'Complete',
-                          },
-                          {
-                            'bg-slate-600 text-slate-600 dark:bg-jovieDark-200 dark:text-jovieDark-200':
-                              stage == 'Not Interested',
-                          },
-                        ]"></span>
-                    </div>
-
-                    <div class="text-xs font-medium">
-                      {{ stage }}
-                    </div>
-                  </div>
-                </div>
-              </MenuItem>
+            <div class="border-slate-200 dark:border-jovieDark-border">
+              <div v-for="(stage, key) in filteredStage" :key="stage">
+                <DropdownMenuItem
+                  :name="stage"
+                  :colorDot="
+                    stage === 'Lead'
+                      ? 'indigo'
+                      : stage === 'Interested'
+                      ? 'sky'
+                      : stage === 'Negotiating'
+                      ? 'pink'
+                      : stage === 'In Progress'
+                      ? 'fuchsia'
+                      : stage === 'Complete'
+                      ? 'red'
+                      : 'slate'
+                  "
+                  checkable
+                  :checked="stage === creator.crm_record_by_user.stage_name"
+                  @click="
+                    $emit('updateCreator', {
+                      id: creator.id,
+                      index: index,
+                      key: `crm_record_by_user.stage`,
+                      value: key,
+                    })
+                  ">
+                </DropdownMenuItem>
+              </div>
 
               <MenuItem
                 disabled
@@ -177,7 +139,9 @@
   </Menu>
 </template>
 <script>
-import GlassmorphismContainer from '@/components/GlassmorphismContainer.vue';
+import KBShortcut from './../components/KBShortcut.vue';
+import DropdownMenuItem from './../components/DropdownMenuItem.vue';
+import GlassmorphismContainer from './../components/GlassmorphismContainer.vue';
 import {
   Menu,
   MenuButton,
@@ -190,7 +154,9 @@ import { Float } from '@headlessui-float/vue';
 
 export default {
   components: {
+    KBShortcut,
     GlassmorphismContainer,
+    DropdownMenuItem,
     TransitionRoot,
     Menu,
     XMarkIcon,
@@ -228,13 +194,17 @@ export default {
       type: Number,
       required: true,
     },
+    open: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
-      open: false,
       stageSearchQuery: '',
     };
   },
+
   computed: {
     filteredStage() {
       return this.stages.filter((stage) =>
@@ -249,10 +219,8 @@ export default {
       this.$refs.menuButton.$el.click();
     },
     closeMenu() {
-      //after 2 seconds close the menu
-      setTimeout(() => {
-        this.menuOpen = false;
-      }, 2000);
+      //emit close menu
+      this.$emit('closeMenu');
     },
     toggleMenuOpen() {
       //if menu open is true, close it
@@ -263,6 +231,7 @@ export default {
         this.menuOpen = true;
       }
     },
+
     focusStageInput() {
       this.$nextTick(() => {
         this.$refs.stageInput.focus();

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-auto rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-lg backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-600/60"
+    class="mx-auto rounded-lg border border-slate-200 bg-white/60 bg-clip-padding shadow-lg ring-black backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus:outline-none focus:ring-0 focus:ring-black dark:border-jovieDark-border dark:bg-jovieDark-600/60"
     :class="containerSize">
     <slot></slot>
   </div>

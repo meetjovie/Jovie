@@ -1,21 +1,28 @@
 <template>
-  <div
-    class="flex w-full items-center space-x-2"
-    v-for="(key, index) in shortcutKey">
-    <kbd
-      class="itemse-center inline-flex rounded-md py-0.5 px-2 text-2xs dark:border-jovieDark-border dark:bg-jovieDark-600 dark:text-white"
-      >{{ key }}</kbd
-    >
-    <span
-      class="items-center text-[8px] dark:text-slate-200"
-      v-if="index < shortcutKey.length - 1 && !sequence">
-      +
-    </span>
-    <span
-      class="items-center text-[8px] dark:text-slate-200"
-      v-else-if="index < shortcutKey.length - 1 && sequence">
-      =>
-    </span>
+  <div class="flex">
+    <div
+      class="flex items-center text-slate-300 dark:text-jovieDark-400"
+      :key="key"
+      v-for="(key, index) in shortcutKey">
+      <kbd
+        :class="{
+          'rounded-md bg-slate-100 px-2 dark:bg-jovieDark-500': bg,
+          'border-slate-200 dark:border-jovieDark-border': !bg,
+        }"
+        class="inline-flex items-center text-sm font-bold uppercase dark:border-jovieDark-border"
+        >{{ key }}</kbd
+      >
+      <span
+        class="-mt-0.5 items-center px-1 text-sm opacity-50"
+        v-if="index < shortcutKey.length - 1 && !sequence">
+        +
+      </span>
+      <span
+        class="-mt-0.5 items-center px-1 text-sm opacity-50"
+        v-else-if="index < shortcutKey.length - 1 && sequence">
+        then
+      </span>
+    </div>
   </div>
 </template>
 
@@ -25,6 +32,10 @@ export default {
     shortcutKey: {
       type: Array,
       required: true,
+    },
+    bg: {
+      type: Boolean,
+      default: false,
     },
     sequemce: {
       type: Boolean,

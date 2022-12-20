@@ -39,6 +39,7 @@
                   'sms',
                   'instagram',
                   'calendar',
+                  'seperator',
                   'twitter',
                   'phone',
                   'whatsapp',

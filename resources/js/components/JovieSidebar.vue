@@ -8,156 +8,157 @@
     leave-from="translate-x-0"
     leave-to="-translate-x-full">
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
-
-    <div
-      class="min-w-60 max-w-96 top-0 z-30 mx-auto flex h-screen w-60 resize-x flex-col justify-between overflow-hidden border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
-      <div>
-        <slot name="header">
-          <div class="w-full flex-col px-2">
-            <div class="items-center" @click="navigateBack()" v-if="menu">
-              <div
-                class="items-cemter flex cursor-pointer justify-between text-xl font-light tracking-wide text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
-                <ChevronLeftIcon
-                  class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
-                  aria-hidden="true" />
-                {{ menu || 'Back' }}
+    <div class="flex">
+      <div
+        class="min-w-60 max-w-96 top-0 z-30 mx-auto flex h-screen w-60 cursor-ew-resize resize-x flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
+        <div>
+          <slot name="header">
+            <div class="w-full flex-col px-2">
+              <div class="items-center" @click="navigateBack()" v-if="menu">
+                <div
+                  class="items-cemter flex cursor-pointer justify-between text-xl font-light tracking-wide text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
+                  <ChevronLeftIcon
+                    class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
+                    aria-hidden="true" />
+                  {{ menu || 'Back' }}
+                </div>
               </div>
-            </div>
-            <div v-else class="flex h-8 w-full items-center justify-between">
-              <!-- <SwitchTeams /> -->
-              <div>
-                <JovieDropdownMenu
-                  :items="currentUser.teams"
-                  :numbered="true"
-                  size="md"
-                  :searchable="false">
-                  <template #triggerButton>
-                    <div
-                      class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
-                      <div class="flex">
-                        <div
-                          class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
-                          {{
-                            currentUser.current_team
-                              ? currentUser.current_team.name
-                              : 'Select a team'
-                          }}
+              <div v-else class="flex h-8 w-full items-center justify-between">
+                <!-- <SwitchTeams /> -->
+                <div>
+                  <JovieDropdownMenu
+                    :items="currentUser.teams"
+                    :numbered="true"
+                    size="md"
+                    :searchable="false">
+                    <template #triggerButton>
+                      <div
+                        class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
+                        <div class="flex">
+                          <div
+                            class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
+                            {{
+                              currentUser.current_team
+                                ? currentUser.current_team.name
+                                : 'Select a team'
+                            }}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </template>
-                  <template #menuTop>
-                    <div class="">
+                    </template>
+                    <template #menuTop>
+                      <div class="">
+                        <div
+                          class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
+                          Your workspaces:
+                        </div>
+                      </div>
+                    </template>
+                    <template #menuBottom>
+                      <router-link
+                        to="/accounts"
+                        class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-jovieDark-border dark:hover:text-slate-300"
+                        :class="[
+                          active
+                            ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                            : 'text-sm text-slate-700 dark:text-jovieDark-300',
+                          'group flex w-full items-center px-2 py-2 text-2xs  ',
+                        ]">
+                        <PlusCircleIcon
+                          :active="active"
+                          class="mr-2 h-4 w-4 text-slate-500 dark:text-jovieDark-300"
+                          aria-hidden="true" />
+                        Create workspace
+                      </router-link>
+                    </template>
+                  </JovieDropdownMenu>
+                </div>
+                <div class="items-center">
+                  <JovieDropdownMenu
+                    :searchable="false"
+                    size="lg"
+                    :items="profileMenuItems">
+                    <template #triggerButton>
+                      <img
+                        class="inline-block aspect-square h-6 w-6 rounded-full border border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
+                        :src="
+                          $store.state.AuthState.user.profile_pic_url ??
+                          $store.state.AuthState.user.default_image
+                        "
+                        alt="User Avatar" />
+                    </template>
+                    <template #menuTop>
                       <div
-                        class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
-                        Your workspaces:
+                        class="mt-2 flex w-full cursor-default justify-between px-4">
+                        <div>
+                          <p
+                            class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
+                            {{ currentUser.first_name }}
+                            {{ currentUser.last_name }}
+                          </p>
+
+                          <p
+                            class="text-2xs font-medium text-slate-400 group-hover:text-slate-700">
+                            {{ currentUser.email }}
+                          </p>
+                        </div>
+                        <div>
+                          <router-link
+                            v-if="currentUser.username"
+                            :to="profileLink">
+                            <DropdownMenuItem
+                              name="View profile"
+                              :icon="UserIcon" />
+                          </router-link>
+                          <router-link v-else to="edit-profile">
+                            <DropdownMenuItem
+                              name="Setup profile"
+                              icon="WrenchScrewdriverIcon" />
+                          </router-link>
+                        </div>
                       </div>
-                    </div>
-                  </template>
-                  <template #menuBottom>
-                    <router-link
-                      to="/accounts"
-                      class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-jovieDark-border dark:hover:text-slate-300"
-                      :class="[
-                        active
-                          ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
-                          : 'text-sm text-slate-700 dark:text-jovieDark-300',
-                        'group flex w-full items-center px-2 py-2 text-2xs  ',
-                      ]">
-                      <PlusCircleIcon
-                        :active="active"
-                        class="mr-2 h-4 w-4 text-slate-500 dark:text-jovieDark-300"
-                        aria-hidden="true" />
-                      Create workspace
-                    </router-link>
-                  </template>
-                </JovieDropdownMenu>
-              </div>
-              <div class="items-center">
-                <JovieDropdownMenu
-                  :searchable="false"
-                  size="lg"
-                  :items="profileMenuItems">
-                  <template #triggerButton>
-                    <img
-                      class="inline-block aspect-square h-6 w-6 rounded-full border border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
-                      :src="
-                        $store.state.AuthState.user.profile_pic_url ??
-                        $store.state.AuthState.user.default_image
-                      "
-                      alt="User Avatar" />
-                  </template>
-                  <template #menuTop>
-                    <div
-                      class="mt-2 flex w-full cursor-default justify-between px-4">
-                      <div>
-                        <p
-                          class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
-                          {{ currentUser.first_name }}
-                          {{ currentUser.last_name }}
-                        </p>
 
-                        <p
-                          class="text-2xs font-medium text-slate-400 group-hover:text-slate-700">
-                          {{ currentUser.email }}
-                        </p>
+                      <router-link v-if="currentUser.is_admin" to="/admin">
+                        <DropdownMenuItem :name="Admin" icon="ChartBarIcon" />
+                      </router-link>
+                    </template>
+
+                    <template #menuBottom>
+                      <DropdownMenuItem
+                        shortcutKey="?"
+                        @click="toggleShowSupportModal()"
+                        name="Get Help"
+                        icon="ChatBubbleLeftIcon" />
+                      <div
+                        class="my-1 border-t border-slate-200 dark:border-jovieDark-border"></div>
+                      <DropdownMenuItem
+                        :shortcutKey="
+                          $store.state.platform === 'mac'
+                            ? ['⌘', '⇧', 'Q']
+                            : ['Ctrl', '⇧', 'Q']
+                        "
+                        @click="$store.dispatch('logout')"
+                        name="Logout"
+                        icon="ArrowLeftOnRectangleIcon" />
+
+                      <div class="flex justify-end">
+                        <span
+                          class="text-right text-[8px] text-slate-400 dark:text-jovieDark-400">
+                          {{ $store.state.jovieVersion }}
+                        </span>
                       </div>
-                      <div>
-                        <router-link
-                          v-if="currentUser.username"
-                          :to="profileLink">
-                          <DropdownMenuItem
-                            name="View profile"
-                            :icon="UserIcon" />
-                        </router-link>
-                        <router-link v-else to="edit-profile">
-                          <DropdownMenuItem
-                            name="Setup profile"
-                            icon="WrenchScrewdriverIcon" />
-                        </router-link>
-                      </div>
-                    </div>
-
-                    <router-link v-if="currentUser.is_admin" to="/admin">
-                      <DropdownMenuItem :name="Admin" icon="ChartBarIcon" />
-                    </router-link>
-                  </template>
-
-                  <template #menuBottom>
-                    <DropdownMenuItem
-                      shortcutKey="?"
-                      @click="toggleShowSupportModal()"
-                      name="Get Help"
-                      icon="ChatBubbleLeftIcon" />
-                    <div
-                      class="my-1 border-t border-slate-200 dark:border-jovieDark-border"></div>
-                    <DropdownMenuItem
-                      :shortcutKey="
-                        $store.state.platform === 'mac'
-                          ? ['⌘', '⇧', 'Q']
-                          : ['Ctrl', '⇧', 'Q']
-                      "
-                      @click="$store.dispatch('logout')"
-                      name="Logout"
-                      icon="ArrowLeftOnRectangleIcon" />
-
-                    <div class="flex justify-end">
-                      <span
-                        class="text-right text-[8px] text-slate-400 dark:text-jovieDark-400">
-                        {{ $store.state.jovieVersion }}
-                      </span>
-                    </div>
-                  </template>
-                </JovieDropdownMenu>
+                    </template>
+                  </JovieDropdownMenu>
+                </div>
               </div>
             </div>
+          </slot>
+          <div class="overflow-y-scroll">
+            <slot name="main"> Main </slot>
           </div>
-        </slot>
-        <div class="overflow-y-scroll">
-          <slot name="main"> Main </slot>
         </div>
+        <slot name="footer"> </slot>
       </div>
-      <slot name="footer"> </slot>
     </div>
   </TransitionRoot>
 </template>

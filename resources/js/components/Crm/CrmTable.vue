@@ -484,6 +484,7 @@
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu(index, creator)"
+                    @mouseover="setCurrentContact($event, creator)"
                     class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
                     :class="[
                       {
@@ -861,6 +862,8 @@
                       <ContactStageMenu
                         :creator="creator"
                         :key="key"
+                        :open="showContactStageMenu[index]"
+                        @close="toggleContactStageMenu(index)"
                         :stages="stages"
                         :index="index"
                         @updateCreator="$emit('updateCreator', $event)" />
@@ -1122,7 +1125,8 @@ export default {
       searchQuery: '',
       stageSearchQuery: '',
       currentRow: null,
-      ShowContextMenu: false,
+      showContextMenu: false,
+      showContactStageMenu: [],
       date: null,
       selectedCreators: [],
       /*  activeCreator: {}, */
@@ -1276,6 +1280,8 @@ export default {
   },
   mounted() {
     this.$mousetrap.bind('up', () => {
+      //prevent the page from scrolling up
+      event.preventDefault();
       this.previousContact();
     });
     this.$mousetrap.bind('/', () => {
@@ -1291,10 +1297,17 @@ export default {
       }
     });
     this.$mousetrap.bind('down', () => {
+      event.preventDefault();
       this.nextContact();
     });
     this.$mousetrap.bind('space', () => {
       this.toggleContactSidebar();
+    });
+    //s key opens the stage menu for the current contact
+    this.$mousetrap.bind('s', () => {
+      if (this.currentContact.length) {
+        this.showContactStageMenu = true;
+      }
     });
 
     this.$mousetrap.bind('enter', () => {
@@ -1367,6 +1380,9 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    toggleContactStageMenu(index) {
+      this.showContactStageMenu[index] = !this.showContactStageMenu[index];
+    },
     focusTableColumnFilterInput() {
       //next tick
       this.$nextTick(() => {

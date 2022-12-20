@@ -156,16 +156,21 @@
                       <template #fallback> Loading... </template>
                     </Suspense>
                     <!--    Team Specific Lists -->
-                    <MenuList
-                      ref="menuListAll"
-                      @getUserLists="getUserLists"
-                      @setFiltersType="setFiltersType"
-                      menuName="Lists"
-                      @setFilterList="setFilterList"
-                      :selectedList="filters.list"
-                      :draggable="true"
-                      @end="sortLists"
-                      :menuItems="filteredUsersLists"></MenuList>
+                    <Suspense>
+                      <template #default>
+                        <MenuList
+                          ref="menuListAll"
+                          @getUserLists="getUserLists"
+                          @setFiltersType="setFiltersType"
+                          menuName="Lists"
+                          @setFilterList="setFilterList"
+                          :selectedList="filters.list"
+                          :draggable="true"
+                          @end="sortLists"
+                          :menuItems="filteredUsersLists"></MenuList>
+                      </template>
+                      <template #fallback> Loading... </template>
+                    </Suspense>
                   </div>
                 </MenuItems>
               </Menu>
