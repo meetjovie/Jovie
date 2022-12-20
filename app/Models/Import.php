@@ -9,6 +9,7 @@ use App\Traits\SocialScrapperTrait;
 use Aws\S3\S3Client;
 use Carbon\Carbon;
 use Illuminate\Bus\Batch;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ use Throwable;
 
 class Import extends Model
 {
-    use HasFactory, SocialScrapperTrait;
+    use HasFactory, SocialScrapperTrait, HasUuids;
 
     protected $fillable = [
         'user_id',

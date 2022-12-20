@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\CreatorImported;
 use App\Traits\GeneralTrait;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ use Nette\Utils\ArrayHash;
 
 class Creator extends Model
 {
-    use HasFactory, Searchable, GeneralTrait;
+    use HasFactory, Searchable, GeneralTrait, HasUuids;
 
     const CREATORS_MEDIA_PATH = 'public/creators_media/timeline_media/';
 

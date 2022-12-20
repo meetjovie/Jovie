@@ -7,6 +7,7 @@ use App\Events\UserListDuplicated;
 use App\Jobs\DuplicateList;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Bus;
@@ -16,7 +17,7 @@ use Throwable;
 
 class UserList extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $fillable = [
         'name',

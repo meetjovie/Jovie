@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\Billable;
@@ -9,7 +10,7 @@ use Mpociot\Teamwork\TeamworkTeam;
 
 class Team extends TeamworkTeam
 {
-    use Billable;
+    use Billable, HasUuids;
 
     const PLAN_TYPE_BASIC = 0;
 
