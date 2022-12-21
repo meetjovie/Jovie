@@ -418,21 +418,17 @@
                     @mouseover="setCurrentContact($event, creator)"
                     class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
                     :class="[
-                      {
-                        'border-2 border-jovieDark-300 bg-slate-100 hover:bg-slate-100  dark:bg-jovieDark-700 ':
-                          currentContact.id == creator.id,
-                      },
-                      'bg-white hover:bg-slate-50 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-800',
+                      currentContact.id == creator.id
+                        ? 'border border-jovieDark-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700'
+                        : 'bg-white dark:bg-jovieDark-900',
                     ]">
                     <td
                       :class="[
-                        {
-                          'bg-slate-100   dark:bg-jovieDark-700 ':
-                            currentContact.id == creator.id,
-                        },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
+                        currentContact.id == creator.id
+                          ? ' bg-slate-100 dark:bg-jovieDark-700'
+                          : 'bg-white dark:bg-jovieDark-900',
                       ]"
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap border-y border-slate-300 bg-white py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:border-jovieDark-border dark:bg-jovieDark-900 before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
+                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap border-y border-slate-300 py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:border-jovieDark-border before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -464,13 +460,11 @@
                     </td>
                     <td
                       :class="[
-                        {
-                          'bg-slate-100   dark:bg-jovieDark-700 ':
-                            currentContact.id == creator.id,
-                        },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
+                        currentContact.id == creator.id
+                          ? ' bg-slate-100 dark:bg-jovieDark-700'
+                          : 'bg-white dark:bg-jovieDark-900',
                       ]"
-                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap border-y border-slate-300 bg-white px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
+                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap border-y border-slate-300 px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -501,14 +495,12 @@
                     </td>
                     <td
                       :class="[
-                        {
-                          'bg-slate-100   dark:bg-jovieDark-700 ':
-                            currentContact.id == creator.id,
-                        },
-                        'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
+                        currentContact.id == creator.id
+                          ? ' bg-slate-100 dark:bg-jovieDark-700'
+                          : 'bg-white dark:bg-jovieDark-900',
                       ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap border-y border-slate-300 bg-white pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900 dark:after:border-jovieDark-border">
+                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap border-y border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:after:border-jovieDark-border">
                       <div class="flex items-center justify-between">
                         <div
                           @click="$emit('openSidebar', creator)"

@@ -11,7 +11,9 @@
         class="flex w-full justify-between px-2">
         <div
           class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200">
-          <ColorDot class="mr-1" :color="color(creator.crm_record_by_user.stage_name)" />
+          <ColorDot
+            class="mr-1"
+            :color="color(creator.crm_record_by_user.stage_name)" />
           {{ creator.crm_record_by_user.stage_name }}
         </div>
         <div class="items-center">
@@ -182,17 +184,24 @@ export default {
     },
   },
   methods: {
-      color(stageName) {
-          if (stageName === 'Lead') {
-              return 'indigo';
-          } else if (stageName === 'Interested') {
-              return 'sky';
-          } else if (stageName === 'Negotiating') {
-              return 'blue';
-          } else if (stageName === 'In Progress') {
-              return 'pink';
-          }
-      },
+    color(stageName) {
+      switch (stageName) {
+        case 'Lead':
+          return 'indigo';
+        case 'Interested':
+          return 'green';
+        case 'Negotiating':
+          return 'blue';
+        case 'In Progress':
+          return 'pink';
+        case 'Complete':
+          return 'purple';
+        case 'Not Interested':
+          return 'red';
+        default:
+          return 'slate';
+      }
+    },
     logIt() {
       console.log('logIt');
       //click the menu bitton

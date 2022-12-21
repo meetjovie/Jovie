@@ -77,6 +77,7 @@ import GlassmorphismContainer from './../components/GlassmorphismContainer.vue';
 import { Float } from '@headlessui-float/vue';
 import { Menu, MenuButton, MenuItems, TransitionRoot } from '@headlessui/vue';
 import ContactContextMenuItem from './../components/ContactContextMenuItem.vue';
+import { EllipsisVerticalIcon } from '@heroicons/vue/24/solid';
 
 export default {
   components: {
@@ -87,6 +88,7 @@ export default {
     MenuButton,
     MenuItems,
     TransitionRoot,
+    EllipsisVerticalIcon,
   },
   props: {
     creator: {
