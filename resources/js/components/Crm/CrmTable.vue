@@ -626,7 +626,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('title')"
-                      class="border-1 table-cell w-40 resize-x whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
+                      class="border-1 table-cell w-40 whitespace-nowrap border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
                           v-model="creator.meta.platform_title"
