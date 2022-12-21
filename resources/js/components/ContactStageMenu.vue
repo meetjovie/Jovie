@@ -11,7 +11,7 @@
         class="flex w-full justify-between px-2">
         <div
           class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200">
-          <ColorDot class="mr-1" :color="color" />
+          <ColorDot class="mr-1" :color="color(creator.crm_record_by_user.stage_name)" />
           {{ creator.crm_record_by_user.stage_name }}
         </div>
         <div class="items-center">
@@ -58,7 +58,7 @@
               <div v-for="(stage, key) in filteredStage" :key="stage">
                 <DropdownMenuItem
                   :name="stage"
-                  :colorDot="color"
+                  :colorDot="color(stage)"
                   checkable
                   :checked="stage === creator.crm_record_by_user.stage_name"
                   @click="
@@ -180,26 +180,19 @@ export default {
         stage.toLowerCase().includes(this.stageSearchQuery.toLowerCase())
       );
     },
-    color() {
-      switch (this.creator.crm_record_by_user.stage_name) {
-        case 'Lead':
-          return 'indigo';
-        case 'Interested':
-          return 'sky';
-        case 'Negotiating':
-          return 'blue';
-        case 'In Progress':
-          return 'pink';
-        case 'Complete':
-          return 'orange';
-        case 'Not Interested':
-          return 'slate';
-        default:
-          return 'slate';
-      }
-    },
   },
   methods: {
+      color(stageName) {
+          if (stageName === 'Lead') {
+              return 'indigo';
+          } else if (stageName === 'Interested') {
+              return 'sky';
+          } else if (stageName === 'Negotiating') {
+              return 'blue';
+          } else if (stageName === 'In Progress') {
+              return 'pink';
+          }
+      },
     logIt() {
       console.log('logIt');
       //click the menu bitton
