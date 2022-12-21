@@ -407,11 +407,9 @@
                     </td>
                   </tr>
                 </template>
-                <template
-                  v-else
-                  v-for="(creator, index) in filteredCreators"
-                  :key="creator.id">
+                <template v-else v-for="(creator, index) in filteredCreators">
                   <tr
+                    :key="creator.id"
                     v-focus
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
@@ -555,7 +553,6 @@
                         </div>
                         <div>
                           <ContactContextMenu
-                            @close="hideContextMenu(creator)"
                             :open="creator.showContextMenu"
                             :creator="creator">
                             <DropdownMenuItem
