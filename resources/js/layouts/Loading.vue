@@ -7,8 +7,23 @@
     <div class="mx-auto flex h-screen items-center text-center">
       <div></div>
       <div class="mx-auto flex w-full flex-col items-center text-center">
-        <div class="mx-auto flex-col py-6">
-          <JovieLogo :color="darkMode ? '#ffffff' : '#000000'" height="48px" />
+        <div
+          class="mx-auto origin-center scale-95 transform flex-col py-6 transition-all duration-300 ease-in-out">
+          <TransitionRoot
+            appear
+            :show="isShowing"
+            as="template"
+            enter="transform transition duration-1000"
+            enter-from="opacity-0 scale-150"
+            enter-to="opacity-100 scale-100"
+            leave="transform duration-200 transition ease-in-out"
+            leave-from="opacity-100 rotate-0 scale-100 "
+            leave-to="opacity-0 scale-95 "
+            hide="opacity-0">
+            <JovieLogo
+              :color="darkMode ? '#ffffff' : '#000000'"
+              height="48px" />
+          </TransitionRoot>
         </div>
 
         <h1
@@ -44,15 +59,18 @@
 
 <script>
 import JovieLogo from './../components/JovieLogo.vue';
+import { TransitionRoot } from '@headlessui/vue';
 export default {
   name: 'Loading',
   components: {
     JovieLogo,
+    TransitionRoot,
   },
   data() {
     return {
       loadingText: 'Initializing...',
       darkMode: false,
+      isShowing: true,
 
       link: false,
       messages: [

@@ -181,14 +181,21 @@ export default {
       );
     },
     color() {
-      if (this.creator.crm_record_by_user.stage_name === 'Lead') {
-        return 'indigo';
-      } else if (this.creator.crm_record_by_user.stage_name === 'Interested') {
-        return 'sky';
-      } else if (this.creator.crm_record_by_user.stage_name === 'Negotiating') {
-        return 'blue';
-      } else if (this.creator.crm_record_by_user.stage_name === 'In Progress') {
-        return 'pink';
+      switch (this.creator.crm_record_by_user.stage_name) {
+        case 'Lead':
+          return 'indigo';
+        case 'Interested':
+          return 'sky';
+        case 'Negotiating':
+          return 'blue';
+        case 'In Progress':
+          return 'pink';
+        case 'Complete':
+          return 'orange';
+        case 'Not Interested':
+          return 'slate';
+        default:
+          return 'slate';
       }
     },
   },

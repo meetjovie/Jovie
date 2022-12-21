@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full flex-col overflow-y-scroll">
+  <div class="h-full w-full flex-col">
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <div
