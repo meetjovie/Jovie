@@ -141,7 +141,7 @@
             </div>
             <div class="w-full">
               <h2 class="text-3xl font-bold tracking-tight text-slate-800">
-                Save Any Social Link Anywhere On The Web
+                Fixes & Improvements
               </h2>
               <img
                 :src="
@@ -160,6 +160,7 @@
               <h4 class="prose mt-4 font-bold">Features</h4>
               <ul class="prose list-outside list-disc">
                 <li class="prose">Added keyboard shortcuts to menus.</li>
+
                 <li class="prose">Added App versions to improve support.</li>
                 <li class="prose">
                   We know automitically clear cache when loading new versions of
@@ -176,6 +177,9 @@
                   lead to big performance pay off in a future release.
                 </li>
                 <li class="prose">Various UI Improvements and bug fixes.</li>
+                <li class="prose">
+                  Fixed an issue where contacts disappeared when updating data.
+                </li>
               </ul>
             </div>
           </li>
