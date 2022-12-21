@@ -130,8 +130,8 @@ export default {
   async deleteList(id) {
     return axios.post(`${baseApiUrl}/delete-list/${id}?_method=DELETE`);
   },
-  async createList() {
-    return axios.post(`${baseApiUrl}/create-list`);
+  async createList(data) {
+    return axios.post(`${baseApiUrl}/create-list`, data);
   },
   async updateList(data, id) {
     return axios.post(`${baseApiUrl}/update-list/${id}?_method=PUT`, data);

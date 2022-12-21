@@ -20,7 +20,7 @@
     <div>
       <JovieDropdownMenu
         createIfNotFound
-        @createItem="createList(name)"
+        @createItem="createList($event)"
         :placement="'bottom-start'"
         @itemClicked="setListAction($event)"
         :items="userLists"
@@ -77,7 +77,7 @@ export default {
     this.getUserLists();
   },
   methods: {
-    createList(name) {
+    createList(name, emoji = undefined) {
       //based on the name make a request to openai to get the emoji
       // {
       // "model": "text-davinci-003",
@@ -89,8 +89,12 @@ export default {
       // "presence_penalty": 0
       // }
 
+        let data = {
+            name: name,
+            emoji: emoji
+        }
       this.creatingList = true;
-      UserService.createList(name)
+      UserService.createList(data)
         .then((response) => {
           response = response.data;
           if (response.status) {

@@ -104,7 +104,7 @@
                     <div class="mx-auto flex">
                       <div
                         v-if="createIfNotFound"
-                        @click="createItem(searchQuery)"
+                        @click="createItem()"
                         class="text-center text-xs font-medium text-slate-600 dark:text-jovieDark-200">
                         Create "{{ searchQuery }}"
                       </div>
@@ -266,8 +266,10 @@ export default {
     itemClicked(item) {
       this.$emit('itemClicked', item);
     },
-    createItem(name) {
-      this.$emit('createItem', name);
+    createItem() {
+        console.log('this.searchQuery');
+        console.log(this.searchQuery);
+        this.$emit('createItem', this.searchQuery);
     },
     focusMenuSearch() {
       this.$nextTick(() => {
