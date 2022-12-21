@@ -1,5 +1,9 @@
 <template>
-  <Menu v-bind:open="open" as="div" class="relative inline-block text-left">
+  <Menu
+    v-bind:open="open"
+    v-slot="{ close }"
+    as="div"
+    class="relative inline-block text-left">
     <Float
       enter="transition duration-200 ease-out"
       enter-from="scale-95 opacity-0"
@@ -99,6 +103,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+  },
+  methods: {
+    close() {
+      //close
     },
   },
 };

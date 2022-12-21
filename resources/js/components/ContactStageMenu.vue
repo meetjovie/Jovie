@@ -29,7 +29,7 @@
         leave-active-class="transition duration-75 ease-in"
         leave-from-class="transform scale-100 opacity-100"
         leave-to-class="transform scale-95 opacity-0">
-        <MenuItems static as="div">
+        <MenuItems @focus="focusInput()" static as="div">
           <GlassmorphismContainer
             class="z-30 mt-2 max-h-80 w-40 origin-top-right px-1 py-1 ring-opacity-5 focus-visible:outline-none">
             <!-- <div class="px-1"> -->
@@ -48,7 +48,7 @@
             <!--  </div> -->
             <DropdownMenuItem
               :shortcutKey="['s']"
-              ref="updateStageSearchInput"
+              ref="child"
               v-on:search-query="updateStageSearchQuery"
               :searchBox="{
                 query: 'stageSearchQuery',
@@ -223,10 +223,8 @@ export default {
         this.menuOpen = true;
       }
     },
-    focusStageInput() {
-      this.$nextTick(() => {
-        this.$refs.stageInput.focus();
-      });
+    focusInput() {
+      this.$refs.child.$emit('focus');
     },
   },
 };

@@ -2,15 +2,13 @@
   <div
     v-if="separator"
     class="w-full divide-y divide-slate-200 dark:divide-jovieDark-border" />
-  <MenuItem
-    @focus="moveFocusToSearchBox()"
-    v-else-if="searchBox"
-    v-slot="{ active }"
-    as="div">
-    <div class="relative flex items-center">
+  <MenuItem disabled v-else-if="searchBox" v-slot="{ active }" as="div">
+    <div
+      class="relative flex items-center border-b border-slate-300 dark:border-jovieDark-border">
       <input
+        v-focus="true"
         @input="$emit('search-query', $event.target.value)"
-        ref="searchBox"
+        ref="searchInput"
         :v-model="searchBox.query"
         :placeholder="searchBox.placeholder"
         class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:text-jovieDark-300" />
@@ -99,8 +97,11 @@
   </MenuItem>
 </template>
 <script>
+import { ref } from 'vue';
 import KBShortcut from './KBShortcut.vue';
-
+const focus = {
+  mounted: (el) => el.focus(),
+};
 import {
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,
@@ -196,7 +197,10 @@ export default {
     UserGroupIcon,
     ArrowTopRightOnSquareIcon,
   },
-
+  directives: {
+    // enables v-focus in template
+    focus,
+  },
   props: {
     name: {
       type: String,
@@ -263,14 +267,6 @@ export default {
       type: Object,
       required: false,
       default: () => {},
-    },
-  },
-  methods: {
-    moveFocusToSearchBox() {
-      alert('Focusing...');
-      this.$nextTick(() => {
-        this.$refs.searchBox.focus();
-      });
     },
   },
 };

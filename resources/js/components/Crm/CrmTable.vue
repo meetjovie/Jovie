@@ -412,6 +412,7 @@
                   v-for="(creator, index) in filteredCreators"
                   :key="creator.id">
                   <tr
+                    v-focus
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu(index, creator)"
@@ -428,7 +429,7 @@
                           ? ' bg-slate-100 dark:bg-jovieDark-700'
                           : 'bg-white dark:bg-jovieDark-900',
                       ]"
-                      class="sticky left-0 w-6 overflow-auto whitespace-nowrap border-y border-slate-300 py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:border-jovieDark-border before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
+                      class="sticky left-0 isolate z-20 w-6 overflow-auto whitespace-nowrap border-y border-slate-300 py-0.5 text-center text-xs font-bold text-slate-300 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] group-hover:text-slate-500 dark:border-jovieDark-border before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
                       <div class="group mx-auto w-6">
                         <span
                           class="group-hover:block"
@@ -464,7 +465,7 @@
                           ? ' bg-slate-100 dark:bg-jovieDark-700'
                           : 'bg-white dark:bg-jovieDark-900',
                       ]"
-                      class="sticky left-[26.5px] w-4 overflow-auto whitespace-nowrap border-y border-slate-300 px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
+                      class="sticky left-[26.5px] isolate z-20 w-4 overflow-auto whitespace-nowrap border-y border-slate-300 px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -500,7 +501,7 @@
                           : 'bg-white dark:bg-jovieDark-900',
                       ]"
                       v-on:dblclick="cellActive"
-                      class="border-seperate sticky left-[55px] w-60 cursor-pointer whitespace-nowrap border-y border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:after:border-jovieDark-border">
+                      class="border-seperate sticky left-[55px] isolate z-20 w-60 cursor-pointer whitespace-nowrap border-y border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:after:border-jovieDark-border">
                       <div class="flex items-center justify-between">
                         <div
                           @click="$emit('openSidebar', creator)"
@@ -554,8 +555,8 @@
                         </div>
                         <div>
                           <ContactContextMenu
-                            @close="showContextMenu = false"
-                            :open="showContextMenu"
+                            @close="hideContextMenu(creator)"
+                            :open="creator.showContextMenu"
                             :creator="creator">
                             <DropdownMenuItem
                               :name="
@@ -684,7 +685,7 @@
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
                         target="_blank"
-                        class="inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-slate-800">
+                        class="isolate inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-slate-800">
                         <div class=".clear-both mx-auto flex-col items-center">
                           <div class="mx-auto items-center">
                             <SocialIcons
@@ -1268,6 +1269,9 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    hideContextMenu(creator) {
+      creator.showContextMenu = false;
+    },
     updateTableViewSearchQuery(query) {
       this.tableViewSearchQuery = query;
     },
@@ -1286,12 +1290,15 @@ export default {
         this.$refs.stageInput.$el.focus();
       });
     },
-    openContextMenu(index, creator) {
-      //toggel open
-      //if the selected creator is this creator then show the context menu
-
-      this.showContextMenu = true;
-      //only opnt the menu if there are selected creators
+    openContextMenu(creator) {
+      // Close the context menu for any other creators that may have it open
+      /*  filteredCreators.forEach((c) => {
+        if (c !== creator && c.showContextMenu) {
+          c.showContextMenu = false;
+        }
+      }); */
+      // Open the context menu for the given creator
+      creator.showContextMenu = true;
     },
     sortData({ sortBy, sortOrder }) {
       this.columns = this.columns.map((column) => {
@@ -1787,6 +1794,10 @@ export default {
           this.adding = false;
         });
     },
+  },
+  directives: {
+    // enables v-focus in template
+    focus,
   },
 };
 </script>
