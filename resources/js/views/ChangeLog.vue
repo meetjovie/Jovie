@@ -193,14 +193,7 @@
               <h2 class="text-3xl font-bold tracking-tight text-slate-800">
                 Save Any Social Link Anywhere On The Web
               </h2>
-              <img
-                :src="
-                  asset(
-                    'img/External/Marketing/Chrome/Save_To_Jovie_Chrome_Menu.gif'
-                  )
-                "
-                alt="Jovie Chrome Extension"
-                class="mt-4 rounded-xl border border-neutral-200 py-4 shadow-lg dark:border-neutral-700" />
+
               <p class="prose mt-4">
                 🚀 NEW: Easily add social profile links to your Jovie CRM lists
                 from ANY page on the internet! Now, when you come across a
