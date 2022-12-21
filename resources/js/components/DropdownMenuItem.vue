@@ -1,7 +1,24 @@
 <template>
   <div
-    v-if="seperator"
-    class="divide my-1 w-full divide-slate-200 dark:divide-jovieDark-border" />
+    v-if="separator"
+    class="w-full divide-y divide-slate-200 dark:divide-jovieDark-border" />
+  <MenuItem
+    @focus="moveFocusToSearchBox()"
+    v-else-if="searchBox"
+    v-slot="{ active }"
+    as="div">
+    <div class="relative flex items-center">
+      <input
+        @input="$emit('search-query', $event.target.value)"
+        ref="searchBox"
+        :v-model="searchBox.query"
+        :placeholder="searchBox.placeholder"
+        class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:text-jovieDark-300" />
+      <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+        <KBShortcut hasBg :shortcutKey="['s']" />
+      </div>
+    </div>
+  </MenuItem>
   <MenuItem v-else :disabled="disabled" as="div" v-slot="{ active }">
     <div
       :class="{
@@ -28,9 +45,10 @@
               <div
                 v-else-if="colorDot"
                 class="mr-2 text-xs font-bold opacity-50">
-                <span
+                <!--  <span
                   class="inline-block h-2 w-2 flex-shrink-0 rounded-full"
-                  :class="dotClass"></span>
+                  :class="dotClass"></span> -->
+                <ColorDot :color="colorDot" />
               </div>
               <div v-else-if="icon" class="mr-2 items-center text-xs font-bold">
                 <component
@@ -47,8 +65,32 @@
             </div>
             <div class="flex">
               <KBShortcut
+                v-if="shortcutKey"
                 :sequence="shortcutSequence"
                 :shortcutKey="shortcutKey" />
+
+              <slot name="toggle">
+                <!-- <Switch
+                    v-if="toggle"
+                    :name="name"
+                    v-bind="toggle"
+                    as="template"
+                    @checked="emit('checked', $event)"
+                    v-slot="{ checked }">
+                    <button
+                      :class="
+                        checked
+                          ? 'bg-indigo-600 dark:bg-indigo-400'
+                          : 'bg-slate-200 dark:bg-jovieDark-800'
+                      "
+                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
+                      <span class="sr-only">{{ name }}</span>
+                      <span
+                        :class="checked ? 'translate-x-3' : 'translate-x-0'"
+                        class="inline-block h-3 w-3 transform rounded-full bg-white transition transition duration-200 ease-in-out dark:bg-jovieDark-900" />
+                    </button>
+                  </Switch> -->
+              </slot>
             </div>
           </div>
         </slot>
@@ -58,13 +100,13 @@
 </template>
 <script>
 import KBShortcut from './KBShortcut.vue';
+
 import {
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,
   ChartBarIcon,
   WrenchScrewdriverIcon,
   ComputerDesktopIcon,
-  UserIcon,
   SunIcon,
   MoonIcon,
   EnvelopeIcon,
@@ -74,13 +116,47 @@ import {
   ChatBubbleLeftEllipsisIcon,
   CheckIcon,
   ArrowPathIcon,
+  TrashIcon,
+  ArchiveBoxIcon,
+  EllipsisVerticalIcon,
+  ArrowSmallLeftIcon,
+  ChevronDownIcon,
+  CloudArrowUpIcon,
+  PlusIcon,
+  BriefcaseIcon,
+  NoSymbolIcon,
+  StarIcon,
+  HeartIcon,
+  MagnifyingGlassIcon,
+  ChevronUpIcon,
+  Bars3BottomLeftIcon,
+  AtSymbolIcon,
+  CurrencyDollarIcon,
+  LinkIcon,
+  ListBulletIcon,
+  ArrowDownCircleIcon,
+  ArrowUpCircleIcon,
+  ChevronRightIcon,
+  CloudArrowDownIcon,
+  AdjustmentsHorizontalIcon,
+  XMarkIcon,
+  UserGroupIcon,
+  UserIcon,
+  ArrowTopRightOnSquareIcon,
 } from '@heroicons/vue/24/solid';
-import { MenuItem } from '@headlessui/vue';
+import { MenuItem, Switch, SwitchLabel, SwitchGroup } from '@headlessui/vue';
+import ColorDot from './../components/ColorDot.vue';
 export default {
   components: {
     KBShortcut,
     MenuItem,
+    Switch,
+    SwitchLabel,
+    SwitchGroup,
+    ColorDot,
+    ArchiveBoxIcon,
     PhoneIcon,
+    TrashIcon,
     SunIcon,
     MoonIcon,
     CalendarDaysIcon,
@@ -88,45 +164,37 @@ export default {
     EnvelopeIcon,
     ComputerDesktopIcon,
     WrenchScrewdriverIcon,
-    UserIcon,
     CheckIcon,
     ArrowPathIcon,
     ChatBubbleLeftEllipsisIcon,
     ChatBubbleLeftIcon,
     ChartBarIcon,
     ArrowLeftOnRectangleIcon,
-  },
-  computed: {
-    dotClass() {
-      switch (this.colorDot) {
-        case 'indigo':
-          return 'bg-indigo-600 text-indigo-600 dark:bg-indigo-400';
-        case 'sky':
-          return 'bg-sky-600 text-sky-600 dark:bg-sky-400';
-        case 'green':
-          return 'bg-green-600 text-green-600 dark:bg-green-400';
-        case 'yellow':
-          return 'bg-yellow-600 text-yellow-600 dark:bg-yellow-400';
-        case 'orange':
-          return 'bg-orange-600 text-orange-600 dark:bg-orange-400';
-        case 'red':
-          return 'bg-red-600 text-red-600 dark:bg-red-400';
-        case 'pink':
-          return 'bg-pink-600 text-pink-600 dark:bg-pink-400';
-        case 'purple':
-          return 'bg-purple-600 text-purple-600 dark:bg-purple-400';
-        case 'gray':
-          return 'bg-gray-600 text-gray-600 dark:bg-gray-400';
-        case 'fuchsia':
-          return 'bg-fuchsia-600 text-fuchsia-600 dark:bg-fuchsia-400';
-        case 'lime':
-          return 'bg-lime-600 text-lime-600 dark:bg-lime-400';
-        case 'slate':
-          return 'bg-slate-600 text-slate-600 dark:bg-slate-400';
-        default:
-          return null;
-      }
-    },
+    EllipsisVerticalIcon,
+    ArrowSmallLeftIcon,
+    ChevronDownIcon,
+    CloudArrowUpIcon,
+    PlusIcon,
+    BriefcaseIcon,
+    NoSymbolIcon,
+    StarIcon,
+    HeartIcon,
+    MagnifyingGlassIcon,
+    ChevronUpIcon,
+    Bars3BottomLeftIcon,
+    AtSymbolIcon,
+    CurrencyDollarIcon,
+    LinkIcon,
+    ListBulletIcon,
+    ArrowDownCircleIcon,
+    ArrowUpCircleIcon,
+    ChevronRightIcon,
+    CloudArrowDownIcon,
+    AdjustmentsHorizontalIcon,
+    XMarkIcon,
+    UserIcon,
+    UserGroupIcon,
+    ArrowTopRightOnSquareIcon,
   },
 
   props: {
@@ -150,6 +218,12 @@ export default {
       type: String,
       required: false,
     },
+    toggle: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+
     numbered: {
       type: Boolean,
       required: false,
@@ -170,7 +244,7 @@ export default {
       required: false,
       default: false,
     },
-    seperator: {
+    separator: {
       type: Boolean,
       required: false,
       default: false,
@@ -184,6 +258,19 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    searchBox: {
+      type: Object,
+      required: false,
+      default: () => {},
+    },
+  },
+  methods: {
+    moveFocusToSearchBox() {
+      alert('Focusing...');
+      this.$nextTick(() => {
+        this.$refs.searchBox.focus();
+      });
     },
   },
 };

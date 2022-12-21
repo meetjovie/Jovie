@@ -10,32 +10,10 @@
         @click="open"
         class="flex w-full justify-between px-2">
         <div
-          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:bg-jovieDark-800 dark:text-jovieDark-200"
-          :class="[
-            {
-              'bg-indigo-50 text-indigo-600 dark:bg-indigo-800 dark:text-indigo-200':
-                creator.crm_record_by_user.stage_name === 'Lead',
-            },
-            {
-              'bg-sky-50 text-sky-600 dark:bg-sky-800 dark:text-sky-200':
-                creator.crm_record_by_user.stage_name === 'Interested',
-            },
-            {
-              'bg-pink-50 text-pink-600 dark:bg-pink-800 dark:text-pink-200':
-                creator.crm_record_by_user.stage_name === 'Negotiating',
-            },
-            {
-              'bg-fuchsia-50 text-fuchsia-600 dark:bg-fuchsia-800 dark:text-fuchsia-200':
-                creator.crm_record_by_user.stage_name === 'In Progress',
-            },
-            {
-              'bg-red-50 text-red-600 dark:bg-red-800 dark:text-red-200':
-                creator.crm_record_by_user.stage_name === 'Complete',
-            },
-          ]">
+          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200">
+          <ColorDot class="mr-1" :color="color" />
           {{ creator.crm_record_by_user.stage_name }}
         </div>
-
         <div class="items-center">
           <ChevronDownIcon
             class="mt-1 h-4 w-4 text-slate-600 dark:text-jovieDark-400" />
@@ -49,11 +27,11 @@
         leave-active-class="transition duration-75 ease-in"
         leave-from-class="transform scale-100 opacity-100"
         leave-to-class="transform scale-95 opacity-0">
-        <MenuItems static @focus="focusStageInput()" as="div">
+        <MenuItems static as="div">
           <GlassmorphismContainer
-            class="z-30 mt-2 max-h-80 w-40 origin-top-right divide-y divide-slate-200 ring-opacity-5 focus-visible:outline-none dark:divide-jovieDark-border">
-            <div class="px-1">
-              <MenuItem v-slot="{ active }" as="div">
+            class="z-30 mt-2 max-h-80 w-40 origin-top-right px-1 py-1 ring-opacity-5 focus-visible:outline-none">
+            <!-- <div class="px-1"> -->
+            <!-- <MenuItem @focus="focusStageInput()" v-slot="{ active }" as="div">
                 <div class="relative flex items-center">
                   <input
                     ref="stageInput"
@@ -61,29 +39,26 @@
                     placeholder="Set stage..."
                     class="w-full border-0 border-none border-transparent bg-transparent py-2 pl-1 pr-4 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:text-jovieDark-200" />
                   <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-                    <KBShortcut bg :shortcutKey="['s']" />
+                    <KBShortcut hasBg :shortcutKey="['s']" />
                   </div>
                 </div>
-              </MenuItem>
-            </div>
+              </MenuItem> -->
+            <!--  </div> -->
+            <DropdownMenuItem
+              :shortcutKey="['s']"
+              ref="updateStageSearchInput"
+              v-on:search-query="updateStageSearchQuery"
+              :searchBox="{
+                query: 'stageSearchQuery',
+                placeholder: 'Set stage...',
+              }" />
+            <DropdownMenuItem separator />
 
             <div class="border-slate-200 dark:border-jovieDark-border">
               <div v-for="(stage, key) in filteredStage" :key="stage">
                 <DropdownMenuItem
                   :name="stage"
-                  :colorDot="
-                    stage === 'Lead'
-                      ? 'indigo'
-                      : stage === 'Interested'
-                      ? 'sky'
-                      : stage === 'Negotiating'
-                      ? 'pink'
-                      : stage === 'In Progress'
-                      ? 'fuchsia'
-                      : stage === 'Complete'
-                      ? 'red'
-                      : 'slate'
-                  "
+                  :colorDot="color"
                   checkable
                   :checked="stage === creator.crm_record_by_user.stage_name"
                   @click="
@@ -96,24 +71,11 @@
                   ">
                 </DropdownMenuItem>
               </div>
-
-              <MenuItem
+              <DropdownMenuItem
                 disabled
-                as="div"
-                v-slot="{ active }"
-                v-if="filteredStage.length === 0">
-                <div
-                  :class="{ 'bg-slate-200 dark:bg-jovieDark-700': active }"
-                  class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-400">
-                  <div class="mx-auto flex">
-                    <div class="text-center text-xs font-medium text-slate-300">
-                      No match
-                    </div>
-                  </div>
-                </div>
-              </MenuItem>
-
-              <MenuItem
+                name="No match"
+                v-if="filteredStage.length === 0" />
+              <!--  <MenuItem
                 as="div"
                 v-slot="{ active }"
                 :class="{ 'text-slate-700': active }"
@@ -130,7 +92,13 @@
                     Clear search
                   </div>
                 </div>
-              </MenuItem>
+              </MenuItem> -->
+              <DropdownMenuItem
+                name="Clear search"
+                icon="XMarkIcon"
+                v-if="stageSearchQuery"
+                :disabled="!stageSearchQuery"
+                @click="stageSearchQuery = ''" />
             </div>
           </GlassmorphismContainer>
         </MenuItems>
@@ -140,6 +108,7 @@
 </template>
 <script>
 import KBShortcut from './../components/KBShortcut.vue';
+import ColorDot from './../components/ColorDot.vue';
 import DropdownMenuItem from './../components/DropdownMenuItem.vue';
 import GlassmorphismContainer from './../components/GlassmorphismContainer.vue';
 import {
@@ -159,6 +128,7 @@ export default {
     DropdownMenuItem,
     TransitionRoot,
     Menu,
+    ColorDot,
     XMarkIcon,
     MenuItem,
     ChevronDownIcon,
@@ -204,12 +174,22 @@ export default {
       stageSearchQuery: '',
     };
   },
-
   computed: {
     filteredStage() {
       return this.stages.filter((stage) =>
         stage.toLowerCase().includes(this.stageSearchQuery.toLowerCase())
       );
+    },
+    color() {
+      if (this.creator.crm_record_by_user.stage_name === 'Lead') {
+        return 'indigo';
+      } else if (this.creator.crm_record_by_user.stage_name === 'Interested') {
+        return 'sky';
+      } else if (this.creator.crm_record_by_user.stage_name === 'Negotiating') {
+        return 'blue';
+      } else if (this.creator.crm_record_by_user.stage_name === 'In Progress') {
+        return 'pink';
+      }
     },
   },
   methods: {
@@ -217,6 +197,9 @@ export default {
       console.log('logIt');
       //click the menu bitton
       this.$refs.menuButton.$el.click();
+    },
+    updateStageSearchQuery(query) {
+      this.stageSearchQuery = query;
     },
     closeMenu() {
       //emit close menu
@@ -231,7 +214,6 @@ export default {
         this.menuOpen = true;
       }
     },
-
     focusStageInput() {
       this.$nextTick(() => {
         this.$refs.stageInput.focus();

@@ -147,110 +147,63 @@
                       <MenuItems @focus="focusTableColumnFilterInput()" static>
                         <GlassmorphismContainer
                           class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus:ring-0">
-                          <!--  <div as="div">
-                          <div
-                            class="flex items-center justify-between border-b border-slate-300 dark:border-jovieDark-border  py-1">
-                            <div
-                              class="text-xs font-bold text-slate-500 line-clamp-1">
-                              Display Columns
-                            </div>
-                          </div>
-                        </div> -->
                           <div class="px-1">
-                            <MenuItem v-slot="{ active }" as="div">
-                              <div class="relative flex items-center">
-                                <input
-                                  ref="tableColumnFilterInput"
-                                  v-model="tableViewSearchQuery"
-                                  placeholder="Add columns..."
-                                  class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0 dark:bg-jovieDark-800 dark:text-jovieDark-300" />
-                                <!-- <div
-                                class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
-                                <kbd
-                                  class="inline-flex items-center rounded border border-slate-300 dark:border-jovieDark-border  px-1 font-sans text-2xs font-medium text-slate-400"
-                                  >S</kbd
-                                >
-                              </div> -->
-                              </div>
-                            </MenuItem>
+                            <DropdownMenuItem
+                              ref="tableColumnFilterInput"
+                              v-on:search-query="updateTableViewSearchQuery"
+                              :searchBox="{
+                                query: 'tableViewSearchQuery',
+                                placeholder: 'Add columns...',
+                              }" />
                           </div>
-                          <MenuItem
-                            as="div"
-                            v-slot="{ active }"
-                            v-for="(column, index) in filteredColumnList">
+                          <div
+                            v-for="column in filteredColumnList"
+                            :key="column.name">
                             <SwitchGroup>
-                              <SwitchLabel
-                                class="flex items-center rounded-md"
-                                :class="{
-                                  'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-300':
-                                    active,
-                                }">
-                                <button
-                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
-                                  <div class="flex items-center">
-                                    <component
-                                      :is="column.icon"
-                                      :active="active"
-                                      class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-200"
-                                      aria-hidden="true" />
-                                    <span class="line-clamp-1">{{
-                                      column.name
-                                    }}</span>
-                                  </div>
-
-                                  <Switch
-                                    name="columns-visible"
-                                    v-model="column.visible"
-                                    as="template"
-                                    v-slot="{ checked }">
-                                    <button
-                                      :class="
-                                        checked
-                                          ? 'bg-indigo-600 dark:bg-indigo-400'
-                                          : 'bg-slate-200 dark:bg-jovieDark-800'
-                                      "
-                                      class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
-                                      <span class="sr-only"
-                                        >Show/hide column</span
-                                      >
-                                      <span
+                              <SwitchLabel>
+                                <DropdownMenuItem
+                                  :name="column.name"
+                                  :icon="column.icon">
+                                  <template #toggle>
+                                    <Switch
+                                      :name="column.name"
+                                      v-model="column.visible"
+                                      as="template"
+                                      v-slot="{ checked }">
+                                      <button
                                         :class="
                                           checked
-                                            ? 'translate-x-3'
-                                            : 'translate-x-0'
+                                            ? 'bg-indigo-600 dark:bg-indigo-400'
+                                            : 'bg-slate-200 dark:bg-jovieDark-800'
                                         "
-                                        class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-900" />
-                                    </button>
-                                  </Switch>
-                                </button>
+                                        class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
+                                        <span class="sr-only">{{
+                                          column.name
+                                        }}</span>
+                                        <span
+                                          :class="
+                                            checked
+                                              ? 'translate-x-3'
+                                              : 'translate-x-0'
+                                          "
+                                          class="inline-block h-3 w-3 transform rounded-full bg-white transition duration-200 ease-in-out dark:bg-jovieDark-900" />
+                                      </button>
+                                    </Switch>
+                                  </template>
+                                </DropdownMenuItem>
                               </SwitchLabel>
                             </SwitchGroup>
-                          </MenuItem>
-                          <div
-                            class="text-medium border-t border-slate-300 dark:border-jovieDark-border">
-                            <MenuItem
-                              v-slot="{ active }"
-                              v-for="setting in settings">
-                              <SwitchGroup>
-                                <SwitchLabel
-                                  class="flex items-center rounded-md"
-                                  :class="{
-                                    'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-200':
-                                      active,
-                                  }">
-                                  <button
-                                    class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
-                                    <div class="flex items-center">
-                                      <component
-                                        :is="setting.icon"
-                                        class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-200"
-                                        aria-hidden="true" />
-                                      <span class="line-clamp-1">{{
-                                        setting.name
-                                      }}</span>
-                                    </div>
-
-                                    <Switch
+                          </div>
+                          <DropdownMenuItem separator />
+                          <div class="">
+                            <SwitchGroup>
+                              <SwitchLabel>
+                                <DropdownMenuItem
+                                  :icon="setting.icon"
+                                  :name="setting.name"
+                                  v-for="setting in settings">
+                                  <template #toggle
+                                    ><Switch
                                       v-if="setting.type === 'toggle'"
                                       name="columns-visible"
                                       v-model="setting.isVisable"
@@ -270,33 +223,15 @@
                                               : 'translate-x-0'
                                           "
                                           class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-100" />
-                                      </button>
-                                    </Switch>
-                                  </button>
-                                </SwitchLabel>
-                              </SwitchGroup>
-                            </MenuItem>
-                            <MenuItem v-slot="{ active }">
-                              <div
-                                class="flex items-center rounded-md"
-                                :class="{
-                                  'bg-slate-300 text-white dark:bg-jovieDark-700 dark:text-jovieDark-200':
-                                    active,
-                                }">
-                                <button
-                                  @click="importCSV()"
-                                  class="group flex w-full items-center justify-between rounded-md px-2 py-1 text-xs font-medium text-slate-700 dark:text-jovieDark-300">
-                                  <div class="flex items-center">
-                                    <CloudArrowUpIcon
-                                      class="mr-2 h-3 w-3 text-slate-400"
-                                      aria-hidden="true" />
-                                    <span class="line-clamp-1">
-                                      Import CSV
-                                    </span>
-                                  </div>
-                                </button>
-                              </div>
-                            </MenuItem>
+                                      </button> </Switch
+                                  ></template>
+                                </DropdownMenuItem>
+                              </SwitchLabel>
+                            </SwitchGroup>
+                            <DropdownMenuItem
+                              @click="importCSV()"
+                              name="Import CSV"
+                              icon="CloudArrowUpIcon" />
                           </div>
                         </GlassmorphismContainer>
                       </MenuItems>
@@ -371,58 +306,54 @@
                             leave-active-class="transition duration-75 ease-in"
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
-                            <MenuItems
-                              class="max-h-80 w-60 flex-col overflow-y-scroll rounded-md border border-slate-300 bg-white/60 bg-clip-padding px-1 py-1 shadow-xl backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-900/60">
-                              <MenuItem
-                                v-if="filters.list"
-                                v-slot="{ active }"
-                                @click="
-                                  toggleCreatorsFromList(
-                                    selectedCreators,
-                                    filters.list,
-                                    true
-                                  )
-                                ">
-                                <button
-                                  :class="[
-                                    active
-                                      ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                      : 'text-slate-700 dark:text-jovieDark-200',
-                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                  ]">
-                                  <TrashIcon class="mr-2 inline h-4 w-4" />
-                                  Remove from list
-                                </button>
-                              </MenuItem>
-
-                              <MenuItem
-                                v-slot="{ active }"
-                                @click="
-                                  toggleArchiveCreators(
-                                    this.selectedCreators,
-                                    this.filters.type == 'archived'
-                                      ? false
-                                      : true
-                                  )
-                                ">
-                                <button
-                                  :class="[
-                                    active
-                                      ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                      : 'text-slate-700 dark:text-jovieDark-200',
-                                    'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                  ]">
-                                  <ArchiveBoxIcon
-                                    :active="active"
-                                    class="mr-2 h-3 w-3 text-sky-400"
-                                    aria-hidden="true" />
-                                  {{
-                                    this.filters.type == 'archived'
-                                      ? 'Unarchive'
-                                      : 'Archive'
-                                  }}
-                                </button>
-                              </MenuItem>
+                            <MenuItems>
+                              <GlassmorphismContainer
+                                class="max-h-80 w-60 flex-col overflow-y-scroll px-1 py-1">
+                                <DropdownMenuItem
+                                  v-if="filters.list"
+                                  @click="
+                                    toggleCreatorsFromList(
+                                      selectedCreators,
+                                      filters.list,
+                                      true
+                                    )
+                                  "
+                                  name="Remove from list"
+                                  icon="TrashIcon" />
+                                <MenuItem
+                                  v-slot="{ active }"
+                                  @click="
+                                    toggleArchiveCreators(
+                                      this.selectedCreators,
+                                      this.filters.type == 'archived'
+                                        ? false
+                                        : true
+                                    )
+                                  ">
+                                  <button
+                                    :class="[
+                                      active
+                                        ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                        : 'text-slate-700 dark:text-jovieDark-200',
+                                      'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                    ]">
+                                    <ArchiveBoxIcon
+                                      :active="active"
+                                      class="mr-2 h-3 w-3 text-sky-400"
+                                      aria-hidden="true" />
+                                    {{
+                                      this.filters.type == 'archived'
+                                        ? 'Unarchive'
+                                        : 'Archive'
+                                    }}
+                                  </button>
+                                </MenuItem>
+                                <!-- <DropdownMenuItem @click="toggleArchiveCreators(
+                              selectedCreators, filters.type == 'archived' ?
+                              false : true ) :name="( filters.type == 'archived'
+                              ? 'Unarchive' : 'Archive' )"
+                              :icon="ArchiveBoxIcon" /> -->
+                              </GlassmorphismContainer>
                             </MenuItems>
                           </transition>
                         </Float>
@@ -479,7 +410,7 @@
                 <template
                   v-else
                   v-for="(creator, index) in filteredCreators"
-                  :key="creator">
+                  :key="creator.id">
                   <tr
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
@@ -488,7 +419,7 @@
                     class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
                     :class="[
                       {
-                        'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
+                        'border-2 border-jovieDark-300 bg-slate-100 hover:bg-slate-100  dark:bg-jovieDark-700 ':
                           currentContact.id == creator.id,
                       },
                       'bg-white hover:bg-slate-50 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-800',
@@ -496,7 +427,7 @@
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
+                          'bg-slate-100   dark:bg-jovieDark-700 ':
                             currentContact.id == creator.id,
                         },
                         'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
@@ -534,7 +465,7 @@
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
+                          'bg-slate-100   dark:bg-jovieDark-700 ':
                             currentContact.id == creator.id,
                         },
                         'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
@@ -571,7 +502,7 @@
                     <td
                       :class="[
                         {
-                          'bg-slate-100 hover:bg-slate-100 hover:bg-slate-100 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-700':
+                          'bg-slate-100   dark:bg-jovieDark-700 ':
                             currentContact.id == creator.id,
                         },
                         'bg-white hover:bg-slate-50 group-hover:bg-slate-50 dark:bg-jovieDark-900 dark:group-hover:bg-jovieDark-800',
@@ -634,32 +565,14 @@
                             @close="showContextMenu = false"
                             :open="showContextMenu"
                             :creator="creator">
-                            <MenuItem
-                              v-if="filters.list"
-                              v-slot="{ active }"
-                              class="cursor-pointer items-center"
-                              @click="
-                                toggleCreatorsFromList(
-                                  creator.id,
-                                  filters.list,
-                                  true
-                                )
-                              ">
-                              <a
-                                href="#"
-                                :class="[
-                                  active
-                                    ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                    : 'text-slate-700 dark:text-jovieDark-200',
-                                  'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                ]">
-                                <TrashIcon
-                                  class="mr-2 inline h-4 w-4 text-red-400" />
-                                Remove from list</a
-                              >
-                            </MenuItem>
-                            <MenuItem
-                              v-slot="{ active }"
+                            <DropdownMenuItem
+                              :name="
+                                filters.type == 'archived' &&
+                                creator.crm_record_by_user.archived
+                                  ? 'Unarchived'
+                                  : 'Archive'
+                              "
+                              icon="ArchiveBoxIcon"
                               @blur="$emit('updateCrmMeta')"
                               @click="
                                 toggleArchiveCreators(
@@ -667,43 +580,24 @@
                                   !creator.crm_record_by_user.archived
                                 )
                               "
-                              class="items-center">
-                              <button
-                                :class="[
-                                  active
-                                    ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                    : 'text-slate-700 dark:text-jovieDark-200',
-                                  'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                ]">
-                                <ArchiveBoxIcon
-                                  class="mr-2 inline h-4 w-4 text-sky-400" />
-                                {{
-                                  filters.type == 'archived' &&
-                                  creator.crm_record_by_user.archived
-                                    ? 'Unarchived'
-                                    : 'Archive'
-                                }}
-                              </button>
-                            </MenuItem>
-                            <MenuItem
-                              v-if="currentUser.is_admin"
-                              v-slot="{ active }"
-                              class="items-center"
+                              color="text-blue-600 dark:text-blue-400" />
+                            <DropdownMenuItem
+                              name="Refresh"
+                              color="text-green-600 dark:text-green-400"
+                              icon="ArrowPathIcon"
                               @click="refresh(creator)"
-                              :disabled="adding">
-                              <a
-                                href="#"
-                                class="items-center text-slate-400 hover:text-slate-900"
-                                :class="[
-                                  active
-                                    ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                    : 'text-slate-700 dark:text-jovieDark-200',
-                                  'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                ]">
-                                <ArrowPathIcon class="mr-2 inline h-4 w-4" />
-                                Refresh</a
-                              >
-                            </MenuItem>
+                              :disabled="adding" />
+                            <DropdownMenuItem
+                              name="Remove from list"
+                              icon="TrashIcon"
+                              color="text-red-600 dark:text-red-400"
+                              @click="
+                                toggleCreatorsFromList(
+                                  creator.id,
+                                  filters.list,
+                                  true
+                                )
+                              " />
                           </ContactContextMenu>
                         </div>
                       </div>
@@ -874,7 +768,7 @@
                           'crm_record_by_user.last_contacted'
                         )
                       "
-                      class="border-1 table-cell w-40 items-center whitespace-nowrap border border border-slate-300 text-xs text-slate-500 dark:border-jovieDark-border">
+                      class="border-1 table-cell w-40 items-center whitespace-nowrap border border-slate-300 text-xs text-slate-500 dark:border-jovieDark-border">
                       <Datepicker
                         :dark="getTheme === '!light'"
                         v-model="creator.crm_record_by_user.last_contacted"
@@ -916,7 +810,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="table-cell w-14 whitespace-nowrap border border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
+                      class="table-cell w-28 whitespace-nowrap border border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -960,7 +854,7 @@
               </tbody>
             </table>
             <div
-              v-if="creatorRecords.length < 50"
+              v-if="creatorRecords.length < 50 && creatorRecords.length > 0"
               @click="$emit('addContact')"
               class="flex w-full cursor-pointer items-center bg-white py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:bg-jovieDark-900 dark:text-jovieDark-400 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
               <PlusIcon class="mr-2 h-4 w-4" />
@@ -984,7 +878,8 @@
 
 <script>
 import ContactContextMenu from '../../components/ContactContextMenu';
-import GlassmorphismContainer from '../../components/GlassmorphismContainer';
+import DropdownMenuItem from '../../components/DropdownMenuItem.vue';
+import GlassmorphismContainer from '../../components/GlassmorphismContainer.vue';
 import { Float } from '@headlessui-float/vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import ContactContextMenuItem from '../../components/ContactContextMenuItem';
@@ -1054,6 +949,7 @@ export default {
   components: {
     ContactStageMenu,
     JovieDropdownMenu,
+    DropdownMenuItem,
     ArchiveBoxIcon,
     ChevronRightIcon,
     ContactContextMenu,
@@ -1238,7 +1134,7 @@ export default {
           sortable: true,
           visible: true,
           breakpoint: '2xl',
-          width: '24',
+          width: '28',
         },
         {
           name: 'Lists',
@@ -1380,6 +1276,9 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    updateTableViewSearchQuery(query) {
+      this.tableViewSearchQuery = query;
+    },
     toggleContactStageMenu(index) {
       this.showContactStageMenu[index] = !this.showContactStageMenu[index];
     },

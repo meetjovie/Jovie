@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <ul v-if="showMenu && draggable" class="">
+    <ul v-if="showMenu && draggable" class="overflow-auto">
       <draggable
         v-model="menuItems"
         group="lists"

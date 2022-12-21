@@ -8,7 +8,7 @@
         @click="emailCreator(creator.emails[0] || creator.meta.emails[0])"
         :disabled="!creator.emails[0] && !creator.meta.emails[0]"
         icon="EnvelopeIcon" />
-      <DropdownMenuItem v-if="contactMethod == 'seperator'" seperator />
+      <DropdownMenuItem v-if="contactMethod == 'separator'" separator />
       <DropdownMenuItem
         v-if="contactMethod == 'phone'"
         name="Call"

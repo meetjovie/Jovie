@@ -6,19 +6,19 @@
       v-for="(key, index) in shortcutKey">
       <kbd
         :class="{
-          'rounded-md bg-slate-100 px-2 dark:bg-jovieDark-500': bg,
-          'border-slate-200 dark:border-jovieDark-border': !bg,
+          'rounded-md bg-slate-100 px-2 dark:bg-jovieDark-500': hasBg,
+          'border-slate-200 dark:border-jovieDark-border': !hasBg,
         }"
-        class="inline-flex items-center text-sm font-bold uppercase dark:border-jovieDark-border"
+        class="inline-flex items-center text-xs font-bold uppercase dark:border-jovieDark-border"
         >{{ key }}</kbd
       >
       <span
-        class="-mt-0.5 items-center px-1 text-sm opacity-50"
+        class="-mt-0.5 items-center px-1 text-xs opacity-50"
         v-if="index < shortcutKey.length - 1 && !sequence">
         +
       </span>
       <span
-        class="-mt-0.5 items-center px-1 text-sm opacity-50"
+        class="-mt-0.5 items-center px-1 text-xs opacity-50"
         v-else-if="index < shortcutKey.length - 1 && sequence">
         then
       </span>
@@ -33,7 +33,7 @@ export default {
       type: Array,
       required: true,
     },
-    bg: {
+    hasBg: {
       type: Boolean,
       default: false,
     },

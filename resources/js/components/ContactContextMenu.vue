@@ -39,7 +39,7 @@
                   'sms',
                   'instagram',
                   'calendar',
-                  'seperator',
+                  'separator',
                   'twitter',
                   'phone',
                   'whatsapp',
@@ -64,7 +64,7 @@
                                         Download VCard
                                       </button>
                                     </MenuItem> -->
-              <Slot></Slot>
+              <slot></slot>
             </div>
           </GlassmorphismContainer>
         </MenuItems>

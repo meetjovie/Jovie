@@ -6,12 +6,11 @@
     <!-- <aside class="hidden h-screen w-60 lg:block"></aside> -->
     <div class="mx-auto flex h-screen items-center text-center">
       <div></div>
-      <div
-        class="mx-auto flex w-full flex-col items-center text-center sm:flex-row">
+      <div class="mx-auto flex w-full flex-col items-center text-center">
         <div class="mx-auto flex-col py-6">
-          <JovieLogo height="20px" />
+          <JovieLogo :color="darkMode ? '#ffffff' : '#000000'" height="48px" />
         </div>
-        <JovieSpinner class="mr-2" />
+
         <h1
           v-if="!link"
           :class="[
@@ -20,10 +19,12 @@
                 link,
             },
           ]"
-          class="mt-4 py-4 text-slate-700 dark:text-white">
+          class="mt-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200">
           {{ loadingText }}
         </h1>
-        <h1 v-else class="py-4 text-slate-700 dark:text-white">
+        <h1
+          v-else
+          class="fon-semibold py-2 text-xs text-slate-700 dark:text-slate-200">
           <a
             href="https://twitter.com/intent/tweet?text=Yo%20%40itstimwhite%20please%20help%21%20%40meetjovie%20is%20realllllllllllly%20slow%20today.%20not%20cool%20man%21%20&original_referer=https://jov.ie"
             target="_blank"
@@ -31,23 +32,27 @@
             {{ loadingText }}
           </a>
         </h1>
+        <div class="flex justify-center">
+          <span class="circle animate-loader"></span>
+          <span class="circle animate-loader animation-delay-200"></span>
+          <span class="circle animate-loader animation-delay-400"></span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import JovieSpinner from './../components/JovieSpinner.vue';
 import JovieLogo from './../components/JovieLogo.vue';
 export default {
   name: 'Loading',
   components: {
-    JovieSpinner,
     JovieLogo,
   },
   data() {
     return {
-      loadingText: 'Jovie is loading...',
+      loadingText: 'Initializing...',
+      darkMode: false,
 
       link: false,
       messages: [
@@ -81,6 +86,7 @@ export default {
           window.matchMedia('(prefers-color-scheme: dark)').matches)
       ) {
         document.documentElement.classList.add('dark');
+        this.darkMode = true;
       } else {
         document.documentElement.classList.remove('dark');
       }
