@@ -200,6 +200,7 @@
                               <SwitchLabel>
                                 <DropdownMenuItem
                                   :icon="setting.icon"
+                                  :key="setting.name"
                                   :name="setting.name"
                                   v-for="setting in settings">
                                   <template #toggle
@@ -394,21 +395,8 @@
               </thead>
               <tbody
                 class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
-                <template class="w-full" :v-show="loading">
-                  <tr class="w-full">
-                    <td class="w-full" colspan="11">
-                      <div
-                        class="flex min-h-screen w-full items-center justify-center pb-80">
-                        <JovieSpinner />
-                        <span class="visually-hidden sr-only">
-                          Loading...
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                </template>
                 <template v-for="(creator, index) in filteredCreators">
-                  <tr
+                  <!--  <tr
                     :key="creator.id"
                     v-focus
                     v-if="creator"
@@ -420,7 +408,18 @@
                       currentContact.id == creator.id
                         ? 'border border-jovieDark-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700'
                         : 'bg-white dark:bg-jovieDark-900',
-                    ]">
+                    ]"> -->
+                  <DataGridRow
+                    :creator="creator"
+                    :index="index"
+                    :visibleColumns="visibleColumns"
+                    :currentContact="currentContact"
+                    :key="creator.id"
+                    v-focus
+                    v-if="creator"
+                    @click="setCurrentContact($event, creator)"
+                    @contextmenu.prevent="openContextMenu(index, creator)"
+                    @mouseover="setCurrentContact($event, creator)">
                     <DataGridCell
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
@@ -622,7 +621,6 @@
                       :creator="creator"
                       :index="index"
                       width="28"
-                      v-if="visibleColumns.includes('last_name')"
                       class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
@@ -638,13 +636,12 @@
                       </div>
                     </DataGridCell>
                     <DataGridCell
-                    columnName="title"
+                      columnName="title"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="40"
-                      v-if="visibleColumns.includes('title')"
                       class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
@@ -654,19 +651,18 @@
                           type="platform-title"
                           name="platform-title"
                           id="platform-title"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
+                          class="block w-full rounded-md bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="Title"
                           aria-describedby="title" />
                       </div>
                     </DataGridCell>
                     <DataGridCell
-                    columnName="employer"
+                      columnName="employer"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="40"
-                      v-if="visibleColumns.includes('employer')"
                       class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
                       <div class="text-xs text-slate-900 line-clamp-1">
                         <input
@@ -676,20 +672,19 @@
                           type="platform-employer"
                           name="platform-employer"
                           id="platform-employer"
-                          class="block w-full bg-white/0 px-2 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:outline-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="Company"
                           aria-describedby="Company" />
                       </div>
                     </DataGridCell>
 
                     <DataGridCell
-                    columnName="email"
+                      columnName="emails"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="40"
-                      v-if="visibleColumns.includes('emails')"
                       class="border-1 table-cell border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-jovieDark-border">
                       <div
                         class="text-xs text-slate-700 line-clamp-1 dark:text-jovieDark-300">
@@ -701,24 +696,31 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
+                      <!--  <DataGridCellTextInput
+                        class="h-full"
+                        :value="creator.meta.emails"
+                        @update:value="updateCrmMeta(creator)"
+                        @select-next-creator="
+                          $emit('selectNextCreator', creator)
+                        " /> -->
                     </DataGridCell>
                     <DataGridCell
-                    columnName="networks"
+                      columnName="networks"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="18"
-                      v-if="visibleColumns.includes('networks')"
                       class="border-1 items-center border border-slate-300 dark:border-jovieDark-border">
                       <a
                         v-for="network in networks"
                         :href="creator[`${network}_handler`]"
                         target="_blank"
+                        :key="network"
                         class="isolate inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-slate-800">
                         <div class=".clear-both mx-auto flex-col items-center">
                           <div class="mx-auto items-center">
@@ -750,13 +752,12 @@
                       </a>
                     </DataGridCell>
                     <DataGridCell
-                    columnName="offer"
+                      columnName="crm_record_by_user.offer"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="12"
-                      v-if="visibleColumns.includes('crm_record_by_user.offer')"
                       class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
                       <span
                         class="inline-flex items-center rounded-full px-2 text-center text-xs font-bold leading-5 text-slate-800 dark:text-jovieDark-200">
@@ -784,13 +785,12 @@
                     </DataGridCell>
 
                     <DataGridCell
-                    columnName="stage"
+                      columnName="crm_record_by_user.stage"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="24"
-                      v-if="visibleColumns.includes('crm_record_by_user.stage')"
                       class="border-1 relative isolate z-10 table-cell items-center border border-slate-300 dark:border-jovieDark-border">
                       <ContactStageMenu
                         :creator="creator"
@@ -802,17 +802,12 @@
                         @updateCreator="$emit('updateCreator', $event)" />
                     </DataGridCell>
                     <DataGridCell
-                    
+                      columnName="crm_record_by_user.last_contacted"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="40"
-                      v-if="
-                        visibleColumns.includes(
-                          'crm_record_by_user.last_contacted'
-                        )
-                      "
                       class="border-1 table-cell items-center border border-slate-300 text-xs text-slate-500 dark:border-jovieDark-border">
                       <DatePicker
                         :enable-time-picker="false"
@@ -837,14 +832,12 @@
                         aria-describedby="email-description" />
                     </DataGridCell>
                     <DataGridCell
+                      columnName="crm_record_by_user.rating"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="28"
-                      v-if="
-                        visibleColumns.includes('crm_record_by_user.rating')
-                      "
                       class="table-cell border border-slate-300 px-2 text-sm text-slate-500 dark:border-jovieDark-border">
                       <star-rating
                         class="w-20"
@@ -861,12 +854,12 @@
                         "></star-rating>
                     </DataGridCell>
                     <DataGridCell
+                      columnName="crm_record_by_user.lists"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
                       :index="index"
                       width="24"
-                      v-if="visibleColumns.includes('crm_record_by_user.lists')"
                       class="table-cell border-y border-slate-300 px-2 text-sm text-slate-500 dark:border-jovieDark-border">
                       <Suspense>
                         <template #default>
@@ -880,6 +873,7 @@
                       </Suspense>
                     </DataGridCell>
                     <DataGridCell
+                      neverHide
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
@@ -899,7 +893,7 @@
                         </router-link>
                       </div>
                     </DataGridCell>
-                  </tr>
+                  </DataGridRow>
                 </template>
               </tbody>
             </table>
@@ -927,7 +921,10 @@
 </template>
 
 <script>
+import LoadingOverlay from '../../components/LoadingOverlay';
+import DataGridRow from '../../components/DataGridRow.vue';
 import DataGridCell from '../../components/DataGridCell.vue';
+import DataGridCellTextInput from '../../components/DataGridCellTextInput.vue';
 import ContactContextMenu from '../../components/ContactContextMenu';
 import DropdownMenuItem from '../../components/DropdownMenuItem.vue';
 import GlassmorphismContainer from '../../components/GlassmorphismContainer.vue';
@@ -1002,6 +999,9 @@ export default {
     JovieDropdownMenu,
     DropdownMenuItem,
     DataGridCell,
+    DataGridRow,
+    DataGridCellTextInput,
+    LoadingOverlay,
     ArchiveBoxIcon,
     ChevronRightIcon,
     ContactContextMenu,

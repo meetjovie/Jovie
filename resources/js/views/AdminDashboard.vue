@@ -11,7 +11,6 @@
         </div>
         <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <!-- Card -->
-
           <AdminStatCard title="Total Users" :stat="stats.userCount" />
           <AdminStatCard title="Total Creators" :stat="stats.creatorCount" />
           <AdminStatCard currency title="Cash Balance" :stat="cashBalance" />

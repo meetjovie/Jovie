@@ -1,14 +1,15 @@
 <template>
   <td
-    v-if="freezeColumn || visibleColumns.includes(columnName)"
+    v-if="freezeColumn || neverHide || visibleColumns.includes(columnName)"
     :class="[
       currentContact.id == creator.id
-        ? ' bg-slate-100 dark:bg-jovieDark-700'
-        : 'bg-white dark:bg-jovieDark-900',
-      freezeColumn ? 'sticky isolate z-20' : '',
-      { [`w-${width}`]: width }, // Add this object
+        ? ' bg-slate-100 text-slate-500 dark:bg-jovieDark-700 dark:text-slate-400'
+        : 'darK bg-white text-slate-200 text-slate-300 dark:bg-jovieDark-900  ',
+      freezeColumn ? 'sticky isolate z-20 font-bold focus:outline-none' : '',
+      cellActive ? 'border-indigo-500' : '',
+      width ? `w-${width}` : '',
     ]"
-    class="overflow-auto whitespace-nowrap border-y border-slate-300 py-0.5 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border before:dark:border-jovieDark-border dark:group-hover:text-slate-400">
+    class="overflow-auto whitespace-nowrap border-y border-slate-300 text-center text-xs font-medium focus:outline-indigo-500 dark:border-jovieDark-border before:dark:border-jovieDark-border">
     <slot> Content Here </slot>
   </td>
 </template>
@@ -25,6 +26,8 @@ export default {
     width: String,
     columnName: String,
     visibleColumns: Array,
+    neverHide: Boolean,
+    cellActive: Boolean,
   },
 };
 </script>

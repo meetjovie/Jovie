@@ -1045,9 +1045,11 @@ export default {
       this.currentContact = contact;
     },
     setFiltersType(type) {
+      this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
       this.getCrmCreators();
+      this.loading = false;
     },
     setFilterList(list) {
       this.filters.type = 'list';
