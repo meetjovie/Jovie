@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             'name' => $user->first_name,
             'owner_id' => $user->id,
         ]);
+        $team->credits = 10000;
+        $team->save();
         $user->attachTeam($team);
     }
 }

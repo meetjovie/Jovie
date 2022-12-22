@@ -68,7 +68,7 @@ return new class extends Migration
 
             Schema::create('personal_access_tokens', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->id();
                 $table->string('tokenable_type');
                 $table->uuid('tokenable_id');
                 $table->string('name');
@@ -187,7 +187,11 @@ return new class extends Migration
                 $table->boolean('twitter_is_private')->nullable()->default(false)->index();
                 $table->longText('twitter_media')->nullable();
                 $table->longText('twitter_meta')->nullable();
-
+                $table->dateTime('instagram_last_scrapped_at')->nullable();
+                $table->timestamp('twitch_last_scrapped_at')->nullable();
+                $table->dateTime('twitter_last_scrapped_at')->nullable();
+                $table->timestamp('twitch_summary_last_scrapped_at')->nullable();
+                $table->dateTime('tiktok_last_scrapped_at')->nullable();
             });
 
             Schema::create('brand_creator', function (Blueprint $table) {
@@ -262,7 +266,7 @@ return new class extends Migration
 
             Schema::create('failed_jobs', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->id();
                 $table->string('uuid')->index();
                 $table->text('connection');
                 $table->text('queue');
