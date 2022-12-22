@@ -16,7 +16,7 @@ return new class extends Migration
         try {
             Schema::create('users', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->string('first_name');
                 $table->string('last_name')->nullable();
                 $table->string('email')->index();
@@ -82,7 +82,7 @@ return new class extends Migration
 
             Schema::create('team_invites', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->enum('type', ['invite', 'request']);
@@ -101,7 +101,7 @@ return new class extends Migration
 
             Schema::create('teams', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('owner_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->string('name');
                 $table->timestamps();
@@ -114,7 +114,7 @@ return new class extends Migration
 
             Schema::create('creators', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->boolean('platform_verified')->nullable()->default(false);
                 $table->string('platform_username')->nullable();
                 $table->string('platform_title')->nullable();
@@ -196,7 +196,7 @@ return new class extends Migration
 
             Schema::create('brand_creator', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('creator_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('brand_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->timestamps();
@@ -204,7 +204,7 @@ return new class extends Migration
 
             Schema::create('creator_comments', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('creator_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->longText('comment');
@@ -215,7 +215,7 @@ return new class extends Migration
 
             Schema::create('creator_notes', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('creator_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->text('note');
@@ -226,7 +226,7 @@ return new class extends Migration
 
             Schema::create('creator_user_list', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('creator_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('user_list_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->timestamps();
@@ -234,7 +234,7 @@ return new class extends Migration
 
             Schema::create('crms', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('creator_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
@@ -254,7 +254,7 @@ return new class extends Migration
 
             Schema::create('errors', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('user_list_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('type')->default(1);
@@ -277,7 +277,7 @@ return new class extends Migration
 
             Schema::create('imports', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('user_list_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
@@ -324,7 +324,7 @@ return new class extends Migration
 
             Schema::create('job_batches', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->string('name');
                 $table->integer('total_jobs');
                 $table->integer('pending_jobs');
@@ -353,7 +353,7 @@ return new class extends Migration
 
             Schema::create('notifications', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('user_id')->nullable();
                 $table->uuid('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->integer('type');
@@ -364,7 +364,7 @@ return new class extends Migration
 
             Schema::create('subscriptions', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('team_id');
                 $table->string('name');
                 $table->string('stripe_id')->index();
@@ -386,7 +386,7 @@ return new class extends Migration
 
             Schema::create('subscription_items', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('subscription_id');
                 $table->string('stripe_id')->index();
                 $table->string('stripe_product');
@@ -400,13 +400,13 @@ return new class extends Migration
 
             Schema::create('testes', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->timestamps();
             });
 
             Schema::create('user_lists', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->string('name');
                 $table->char('emoji')->nullable()->default('?');
                 $table->uuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
@@ -418,7 +418,7 @@ return new class extends Migration
 
             Schema::create('user_list_attributes', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->uuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
                 $table->uuid('user_list_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
@@ -429,7 +429,7 @@ return new class extends Migration
 
             Schema::create('waitlists', function (Blueprint $table) {
                 $table->comment('');
-                $table->uuid('id')->primary();
+                $table->uuid('id');
                 $table->string('email');
                 $table->timestamps();
                 $table->string('page')->nullable();
