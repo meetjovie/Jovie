@@ -99,9 +99,7 @@
 <script>
 import { ref } from 'vue';
 import KBShortcut from './KBShortcut.vue';
-const focus = {
-  mounted: (el) => el.focus(),
-};
+
 import {
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,

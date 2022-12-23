@@ -25,43 +25,39 @@
                 <MenuItems static>
                   <div class="w-full flex-col px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
-                      <JovieTooltip
-                        shortcuts="{ key: 's', key: 'c', key: 't' }"
-                        text="Show All Contacts">
-                        <button
-                          @click="setFiltersType('all')"
-                          class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none focus:ring-0"
-                          :class="[
-                            filters.type == 'all'
-                              ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
-                              : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                            active
-                              ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                              : '',
-                          ]">
-                          <div class="flex items-center text-xs">
-                            <ChevronRightIcon
-                              @click="toggleContactMenuOpen"
-                              :class="[
-                                contactMenuOpen ? 'rotate-90 transform' : '',
-                              ]"
-                              class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
-                              aria-hidden="true">
-                            </ChevronRightIcon>
-                            All Contacts
-                          </div>
-                          <div
-                            @click="showCreatorModal = true"
-                            class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
-                            <span
-                              class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-jovieDark-100 group-hover:dark:text-jovieDark-100"
-                              >{{ counts.total }}</span
-                            >
-                            <PlusIcon
-                              class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
-                          </div>
-                        </button>
-                      </JovieTooltip>
+                      <button
+                        @click="setFiltersType('all')"
+                        class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none focus:ring-0"
+                        :class="[
+                          filters.type == 'all'
+                            ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                            : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                          active
+                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                            : '',
+                        ]">
+                        <div class="flex items-center text-xs">
+                          <ChevronRightIcon
+                            @click="toggleContactMenuOpen"
+                            :class="[
+                              contactMenuOpen ? 'rotate-90 transform' : '',
+                            ]"
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
+                            aria-hidden="true">
+                          </ChevronRightIcon>
+                          All Contacts
+                        </div>
+                        <div
+                          @click="showCreatorModal = true"
+                          class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
+                          <span
+                            class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-jovieDark-100 group-hover:dark:text-jovieDark-100"
+                            >{{ counts.total }}</span
+                          >
+                          <PlusIcon
+                            class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
+                        </div>
+                      </button>
                     </MenuItem>
                     <TransitionRoot
                       :show="contactMenuOpen"
@@ -104,37 +100,29 @@
                           as="div"
                           @click="setFiltersType('archived')"
                           v-slot="{ active }">
-                          <JovieTooltip
-                            :shortcut.key="{
-                              key1: 'G',
-                              key2: 'A',
-                              delimiter: 'then',
-                            }"
-                            text="Show Archived Contacts">
-                            <button
-                              class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
-                              :class="[
-                                filters.type == 'archived'
-                                  ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
-                                  : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                                active
-                                  ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                                  : '',
-                              ]">
-                              <div class="flex items-center text-xs">
-                                <ArchiveBoxIcon
-                                  class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
-                                  aria-hidden="true" />Archived
-                              </div>
-                              <div
-                                class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
-                                <span
-                                  class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
-                                  >{{ counts.archived }}</span
-                                >
-                              </div>
-                            </button>
-                          </JovieTooltip>
+                          <button
+                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                            :class="[
+                              filters.type == 'archived'
+                                ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                              active
+                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                                : '',
+                            ]">
+                            <div class="flex items-center text-xs">
+                              <ArchiveBoxIcon
+                                class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                                aria-hidden="true" />Archived
+                            </div>
+                            <div
+                              class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
+                              <span
+                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
+                                >{{ counts.archived }}</span
+                              >
+                            </div>
+                          </button>
                         </MenuItem>
                       </div>
                     </TransitionRoot>
@@ -479,7 +467,7 @@
                   <div class="inline-block h-full w-full align-middle">
                     <div class="h-full w-full">
                       <!--  Show import screen if no creators -->
-                      <div
+                      <!--  <div
                         v-if="!loading && !creators.length && !showImporting"
                         class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
@@ -490,7 +478,8 @@
                                 class="text-md font-bold dark:text-jovieDark-100">
                                 You don't have any contacts yet.
                               </h1>
-                              <span class="text-sm font-medium text-slate-900"
+                              <span
+                                class="text-sm font-medium text-slate-900 dark:text-jovieDark-200"
                                 >Enter a Twitch or Instagram url to add someone
                                 to Jovie.</span
                               >
@@ -503,7 +492,7 @@
                           </div>
                         </div>
                       </div>
-                      <!-- Show loading screen if the users first ever import is loading -->
+                     
 
                       <div
                         v-else-if="showImporting && !creators.length"
@@ -524,10 +513,10 @@
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                       <!-- Show the crm if there are creators -->
-                      <KeepAlive v-else>
-                        <CrmTable
+                      <div>
+                        <!--  <CrmTable
                           class="overflow-hidden"
                           ref="crmTable"
                           @addContact="showCreatorModal = true"
@@ -551,8 +540,33 @@
                           :creatorsMeta="creatorsMeta"
                           :loading="loading">
                           <slot header="header"></slot>
-                        </CrmTable>
-                      </KeepAlive>
+                        </CrmTable> -->
+                        <DataGrid
+                          class="overflow-hidden"
+                          ref="crmTable"
+                          @addContact="showCreatorModal = true"
+                          @updateCreator="updateCreator"
+                          @updateCrmMeta="updateCrmMeta"
+                          @crmCounts="crmCounts"
+                          :counts="counts"
+                          @updateListCount="updateListCount"
+                          @pageChanged="pageChanged"
+                          @setCurrentContact="setCurrentContact"
+                          @openSidebar="openSidebarContact"
+                          @setOrder="setOrder"
+                          :header="filters.type"
+                          @importCSV="importCSV"
+                          :subheader="counts"
+                          :filters="filters"
+                          :userLists="userLists"
+                          :creators="creators"
+                          :networks="networks"
+                          :stages="stages"
+                          :creatorsMeta="creatorsMeta"
+                          :loading="loading">
+                          <slot header="header"></slot>
+                        </DataGrid>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -650,6 +664,7 @@ import {
   SparklesIcon,
   ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid';
+import DataGrid from '../components/DataGrid.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
 import UserService from '../services/api/user.service';
@@ -661,7 +676,6 @@ import InternalMarketingChromeExtension from '../components/InternalMarketingChr
 import { defineAsyncComponent } from 'vue';
 import ProgressBar from '../components/ProgressBar';
 import SwitchTeams from '../components/SwitchTeams';
-import JovieTooltip from '../components/JovieTooltip.vue';
 
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
@@ -682,6 +696,7 @@ export default {
     ArrowPathIcon,
     AlertBanner,
     GlassmorphismContainer,
+    DataGrid,
     Float,
     CloudArrowDownIcon,
     PlusIcon,
@@ -732,7 +747,6 @@ export default {
     CloudArrowUpIcon,
     SupportModal,
     CrmTable,
-    JovieTooltip,
     vueMousetrapPlugin: VueMousetrapPlugin,
     CreatorTags,
     TransitionChild,

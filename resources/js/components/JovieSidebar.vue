@@ -117,13 +117,14 @@
                           </router-link>
                         </div>
                       </div>
-
-                      <router-link v-if="currentUser.is_admin" to="/admin">
-                        <DropdownMenuItem :name="Admin" icon="ChartBarIcon" />
-                      </router-link>
                     </template>
 
                     <template #menuBottom>
+                      <router-link v-if="currentUser.is_admin" to="/admin">
+                        <DropdownMenuItem
+                          name="Admin Dashboard"
+                          icon="ChartBarIcon" />
+                      </router-link>
                       <DropdownMenuItem
                         shortcutKey="?"
                         @click="toggleShowSupportModal()"

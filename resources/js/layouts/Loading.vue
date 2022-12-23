@@ -5,24 +5,36 @@
     <router-view />
     <!-- <aside class="hidden h-screen w-60 lg:block"></aside> -->
     <div class="mx-auto flex h-screen items-center text-center">
-      <div></div>
       <div class="mx-auto flex w-full flex-col items-center text-center">
         <div
           class="mx-auto origin-center scale-95 transform flex-col py-6 transition-all duration-300 ease-in-out">
-          <TransitionRoot
-            appear
-            :show="isShowing"
-            as="template"
-            enter="transform transition duration-1000"
-            enter-from="opacity-0 scale-150"
-            enter-to="opacity-100 scale-100"
-            leave="transform duration-200 transition ease-in-out"
-            leave-from="opacity-100 rotate-0 scale-100 "
-            leave-to="opacity-0 scale-95 "
-            hide="opacity-0">
-            <JovieLogo
-              :color="darkMode ? '#ffffff' : '#000000'"
-              height="48px" />
+          <TransitionRoot appear :show="isShowing">
+            <TransitionChild
+              as="template"
+              enter="transform transition duration-1000"
+              enter-from="opacity-0 scale-150"
+              enter-to="opacity-100 scale-100"
+              leave="transform duration-200 transition ease-in-out"
+              leave-from="opacity-100 rotate-0 scale-100 "
+              leave-to="opacity-0
+              scale-95 "
+              hide="opacity-0">
+              <JovieLogo
+                :color="darkMode ? '#ffffff' : '#000000'"
+                height="48px" />
+            </TransitionChild>
+            <TransitionChild
+              as="div"
+              enter="transform transition  delay-300 duration-1000"
+              enter-from="opacity-0 scale-0"
+              enter-to="opacity-100 scale-100"
+              leave="transform duration-700 transition ease-in-out"
+              leave-from="opacity-100 rotate-0 scale-100 "
+              leave-to="opacity-0 scale-0 "
+              hide="opacity-0">
+              <div
+                class="animation-pulse mt-1 h-0.5 w-full rounded-md bg-gradient-to-r from-transparent via-white to-transparent"></div>
+            </TransitionChild>
           </TransitionRoot>
         </div>
 
@@ -47,11 +59,6 @@
             {{ loadingText }}
           </a>
         </h1>
-        <div class="flex justify-center">
-          <span class="circle animate-loader"></span>
-          <span class="circle animate-loader animation-delay-200"></span>
-          <span class="circle animate-loader animation-delay-400"></span>
-        </div>
       </div>
     </div>
   </div>
@@ -59,12 +66,13 @@
 
 <script>
 import JovieLogo from './../components/JovieLogo.vue';
-import { TransitionRoot } from '@headlessui/vue';
+import { TransitionRoot, TransitionChild } from '@headlessui/vue';
 export default {
   name: 'Loading',
   components: {
     JovieLogo,
     TransitionRoot,
+    TransitionChild,
   },
   data() {
     return {

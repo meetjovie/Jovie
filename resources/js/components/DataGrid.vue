@@ -2,55 +2,12 @@
   <div class="h-full w-full flex-col">
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
-        <div
+        <header
           class="flex w-full items-center justify-between border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
-          <div class="w-full items-center px-4">
-            <h1
-              v-if="header.includes('all')"
-              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
-              <UserGroupIcon
-                class="mr-1 h-4 w-4 rounded-md text-purple-400"
-                aria-hidden="true" />
-              {{ header + ' Contacts' }}
-            </h1>
-            <h1
-              v-else-if="header.includes('favourites')"
-              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
-              <HeartIcon
-                class="mr-1 h-4 w-4 rounded-md text-red-400"
-                aria-hidden="true" />
-              Favorited
-            </h1>
-            <h1
-              v-else
-              class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
-              <UserIcon
-                class="mr-1 h-4 w-4 rounded-md text-sky-400"
-                aria-hidden="true" />
-              {{ header }}
-            </h1>
-            <p
-              v-if="header.includes('all')"
-              class="text-2xs font-light text-slate-600">
-              {{ subheader.total }} Contacts
-            </p>
-
-            <p v-else class="text-2xs font-light text-slate-600">
-              {{ subheader[header] }} Contacts
-            </p>
-          </div>
+          <DataGridHeaderContent :header="header" :subheader="subheader" />
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-              <!-- <div class="group">
-                trigger
-                <span
-                  data-tooltip="test"
-                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-slate-300 bg-slate-800 px-2  text-xs text-slate-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
-                  >test content</span
-                >
-              </div> -->
-
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -105,22 +62,12 @@
                     @click="toggleSearchVisible()" />
                 </JovieTooltip>
               </div>
-              <!--  <div
-                class="group flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30"
-                v-else>
-                <MagnifyingGlassIcon
-                  @click="toggleSearchVisible()"
-                  class="h-5 w-5 text-slate-400 dark:text-jovieDark-600 group-hover:text-slate-600" />
-              </div> -->
             </div>
             <div class="flex items-center">
               <div class="group h-full cursor-pointer items-center">
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
-                      <!--  <AdjustmentsHorizontalIcon
-                        class="h-5 w-5 font-bold text-slate-400 dark:text-jovieDark-600 group-hover:text-slate-600"
-                        aria-hidden="true" /> -->
                       <JovieTooltip
                         text="Adjustments"
                         class="w-full justify-end"
@@ -240,18 +187,9 @@
                   </Float>
                 </Menu>
               </div>
-              <!-- <div v-if="currentContact">
-                <button
-                  v-if="!$store.state.ContactSidebarOpen"
-                  class="group inline-flex items-center rounded-md px-2 py-2 text-2xs font-medium text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-30">
-                  <ChevronRightIcon
-                    @click="openSidebarAndSetContact()"
-                    class="h-5 w-5 font-bold text-slate-400 transition-all group-hover:text-slate-600" />
-                </button>
-              </div> -->
             </div>
           </div>
-        </div>
+        </header>
         <div
           class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
           <div
@@ -350,10 +288,10 @@
                                   </button>
                                 </MenuItem>
                                 <!-- <DropdownMenuItem @click="toggleArchiveCreators(
-                              selectedCreators, filters.type == 'archived' ?
-                              false : true ) :name="( filters.type == 'archived'
-                              ? 'Unarchive' : 'Archive' )"
-                              :icon="ArchiveBoxIcon" /> -->
+                                selectedCreators, filters.type == 'archived' ?
+                                false : true ) :name="( filters.type == 'archived'
+                                ? 'Unarchive' : 'Archive' )"
+                                :icon="ArchiveBoxIcon" /> -->
                               </GlassmorphismContainer>
                             </MenuItems>
                           </transition>
@@ -402,454 +340,14 @@
                     :visibleColumns="visibleColumns"
                     :currentContact="currentContact"
                     :key="creator.id"
+                    :column="column"
+                    :columnIndex="columnIndex"
+                    :otherColumns="otherColumns"
+                    :selectedCreators="selectedCreators"
                     v-if="creator"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu(index, creator)"
-                    @mouseover="setCurrentContact($event, creator)">
-                    <DataGridCell
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      freezeColumn
-                      width="6"
-                      class="left-0 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
-                      <div class="group mx-auto w-6">
-                        <span
-                          class="group-hover:block"
-                          :class="[
-                            {
-                              hidden: !selectedCreators.includes(creator.id),
-                            },
-                            'block',
-                          ]">
-                          <form>
-                            <input
-                              type="checkbox"
-                              name="selectCreatorCheckbox"
-                              :value="creator.id"
-                              class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6"
-                              v-model="selectedCreators" />
-                          </form>
-                        </span>
-                        <span
-                          class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
-                          :class="[
-                            { hidden: selectedCreators.includes(creator.id) },
-                            'block',
-                          ]">
-                          {{ index + 1 }}
-                        </span>
-                      </div>
-                    </DataGridCell>
-                    <DataGridCell
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      freezeColumn
-                      width="4"
-                      class="left-[26.5px] overflow-auto border-y border-slate-300 px-2 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
-                      <div
-                        class="hidden cursor-pointer items-center lg:block"
-                        @click="
-                          $emit('updateCreator', {
-                            id: creator.id,
-                            index: index,
-                            key: `crm_record_by_user.favourite`,
-                            value: !creator.crm_record_by_user.favourite,
-                          })
-                        ">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          :class="{
-                            'fill-red-500 text-red-500':
-                              creator.crm_record_by_user.favourite,
-                          }"
-                          class="-mt-.5 h-3 w-3 hover:fill-red-500 hover:text-red-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                      </div>
-                    </DataGridCell>
-                    <DataGridCell
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      freezeColumn
-                      width="60"
-                      v-on:dblclick="cellActive"
-                      class="border-seperate left-[55px] cursor-pointer border-y border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:after:border-jovieDark-border">
-                      <div class="flex items-center justify-between">
-                        <div
-                          @click="$emit('openSidebar', creator)"
-                          class="flex w-full items-center">
-                          <div class="mr-2 h-8 w-8 flex-shrink-0">
-                            <div
-                              class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600">
-                              <div
-                                class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
-                                <img
-                                  class="rounded-full object-cover object-center"
-                                  :src="creator.profile_pic_url"
-                                  @error="imageLoadingError"
-                                  alt="Profile Image" />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div
-                            v-if="cellActive"
-                            class="items-center text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
-                            <input
-                              v-model="creator.meta.name"
-                              @blur="$emit('updateCrmMeta', creator)"
-                              autocomplete="off"
-                              type="creator-name"
-                              name="creator-name"
-                              id="creator-name"
-                              class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-700 sm:text-xs"
-                              placeholder="Name"
-                              aria-describedby="name-description" />
-                          </div>
-                          <div
-                            v-else
-                            class="text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
-                            {{ creator.meta.name }}
-                          </div>
-                        </div>
-                        <div
-                          @click="$emit('openSidebar', creator)"
-                          class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-600 dark:active:bg-slate-800">
-                          <ArrowTopRightOnSquareIcon
-                            v-if="
-                              !this.$store.state.ContactSidebarOpen ||
-                              currentContact.id !== creator.id
-                            "
-                            class="mx-auto mt-0.5 ml-0.5 hidden h-4 w-4 group-hover:block" />
-                          <XMarkIcon
-                            v-else
-                            class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
-                        </div>
-                        <div>
-                          <ContactContextMenu
-                            :open="creator.showContextMenu"
-                            :creator="creator">
-                            <DropdownMenuItem
-                              :name="
-                                filters.type == 'archived' &&
-                                creator.crm_record_by_user.archived
-                                  ? 'Unarchived'
-                                  : 'Archive'
-                              "
-                              icon="ArchiveBoxIcon"
-                              @blur="$emit('updateCrmMeta')"
-                              @click="
-                                toggleArchiveCreators(
-                                  creator.id,
-                                  !creator.crm_record_by_user.archived
-                                )
-                              "
-                              color="text-blue-600 dark:text-blue-400" />
-                            <DropdownMenuItem
-                              name="Refresh"
-                              color="text-green-600 dark:text-green-400"
-                              icon="ArrowPathIcon"
-                              @click="refresh(creator)"
-                              :disabled="adding" />
-                            <DropdownMenuItem
-                              name="Remove from list"
-                              icon="TrashIcon"
-                              color="text-red-600 dark:text-red-400"
-                              @click="
-                                toggleCreatorsFromList(
-                                  creator.id,
-                                  filters.list,
-                                  true
-                                )
-                              " />
-                          </ContactContextMenu>
-                        </div>
-                      </div>
-                    </DataGridCell>
-                    <DataGridCell
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="20"
-                      dataType="text"
-                      columnName="first_name"
-                      class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
-                      <DataGridCellTextInput
-                        fieldId="creator-firstname"
-                        @blur="$emit('updateCrmMeta', creator)"
-                        @keyup.enter="$emit('selectNextCreator', creator)"
-                        v-model="creator.meta.first_name" />
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="last_name"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      fieldId="creator-lastname"
-                      @blur="$emit('updateCrmMeta', creator)"
-                      @keyup.enter="$emit('selectNextCreator', creator)"
-                      v-model="creator.meta.last_name"
-                      :index="index"
-                      width="28"
-                      class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
-                      <!-- <DataGridCellTextInput
-                        fieldId="creator-lastname"
-                        @blur="$emit('updateCrmMeta', creator)"
-                        @keyup.enter="$emit('selectNextCreator', creator)"
-                        v-model="creator.meta.last_name" /> -->
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="title"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="40"
-                      class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
-                      <DataGridCellTextInput
-                        fieldId="platform-title"
-                        @blur="$emit('updateCrmMeta', creator)"
-                        @keyup.enter="$emit('selectNextCreator', creator)"
-                        v-model="creator.meta.platform_title" />
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="employer"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="40"
-                      class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
-                      <DataGridCellTextInput
-                        fieldId="platform-employer"
-                        @blur="$emit('updateCrmMeta', creator)"
-                        @keyup.enter="$emit('selectNextCreator', creator)"
-                        v-model="creator.meta.platform_employer" />
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="emails"
-                      dataType="email"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="40"
-                      class="border-1 table-cell border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-jovieDark-border">
-                      <DataGridCellTextInput
-                        class="h-full"
-                        dataType="email"
-                        fieldId="creator-email"
-                        @blur="$emit('updateCrmMeta', creator)"
-                        @keyup.enter="$emit('selectNextCreator', creator)"
-                        v-model="creator.meta.emails" />
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="networks"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="18"
-                      class="border-1 items-center border border-slate-300 dark:border-jovieDark-border">
-                      <a
-                        v-for="network in networks"
-                        :href="creator[`${network}_handler`]"
-                        target="_blank"
-                        :key="network"
-                        class="isolate inline-flex items-center justify-between rounded-full px-1 py-1 text-center text-xs font-bold text-slate-800">
-                        <div class=".clear-both mx-auto flex-col items-center">
-                          <div class="mx-auto items-center">
-                            <SocialIcons
-                              :linkDisabled="
-                                !creator[`${network}_handler`] &&
-                                !creator.meta[`${network}_handler`]
-                              "
-                              class="mx-auto"
-                              height="14px"
-                              setting.isVisable
-                              :link="
-                                creator[`${network}_handler`] ||
-                                creator.meta[`${network}_handler`]
-                              "
-                              :icon="network" />
-                          </div>
-
-                          <div v-if="settings.countsVisible" class="">
-                            <span
-                              v-if="creator[`${network}_handler`]"
-                              class="mx-auto items-center text-2xs font-bold text-slate-400">
-                              {{
-                                formatCount(creator[`${network}_followers`])
-                              }}</span
-                            >
-                          </div>
-                        </div>
-                      </a>
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="crm_record_by_user.offer"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="12">
-                      <DataGridCellTextInput
-                        fieldId="creator-offer"
-                        dataType="currency"
-                        @blur="
-                          $emit('updateCreator', {
-                            id: creator.id,
-                            index: index,
-                            key: `crm_record_by_user.offer`,
-                            value: creator.crm_record_by_user.offer,
-                          })
-                        "
-                        v-model="creator.crm_record_by_user.offer" />
-                      <!--  <input
-                          v-model="creator.crm_record_by_user.offer"
-                          @blur="
-                            $emit('updateCreator', {
-                              id: creator.id,
-                              index: index,
-                              key: `crm_record_by_user.offer`,
-                              value: creator.crm_record_by_user.offer,
-                            })
-                          "
-                          autocomplete="off"
-                          type="number"
-                          name="creator-offer"
-                          id="creator-offer"
-                          class="block w-full border-0 bg-white/0 px-2 py-0.5 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 sm:text-xs"
-                          :placeholder="
-                            creator.crm_record_by_user.suggested_offer
-                          "
-                          aria-describedby="email-description" /> -->
-                    </DataGridCell>
-
-                    <DataGridCell
-                      columnName="crm_record_by_user.stage"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="24"
-                      class="border-1 relative isolate z-10 table-cell items-center border border-slate-300 dark:border-jovieDark-border">
-                      <ContactStageMenu
-                        :creator="creator"
-                        :key="key"
-                        :open="showContactStageMenu[index]"
-                        @close="toggleContactStageMenu(index)"
-                        :stages="stages"
-                        :index="index"
-                        @updateCreator="$emit('updateCreator', $event)" />
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="crm_record_by_user.last_contacted"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="40"
-                      class="border-1 table-cell items-center border border-slate-300 text-xs text-slate-500 dark:border-jovieDark-border">
-                      <DatePicker
-                        :enable-time-picker="false"
-                        dark
-                        v-model="creator.crm_record_by_user.last_contacted"
-                        @update:modelValue="
-                          $emit('updateCreator', {
-                            id: creator.id,
-                            index: index,
-                            key: `crm_record_by_user.last_contacted`,
-                            value: creator.crm_record_by_user.last_contacted,
-                          })
-                        "
-                        autocomplete="off"
-                        monthNameFormat="short"
-                        data-format="yyyy-MM-dd"
-                        autoApply="true"
-                        type="datetime-local"
-                        :id="creator.id + '_datepicker'"
-                        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0"
-                        placeholder="--/--/--"
-                        aria-describedby="email-description" />
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="crm_record_by_user.rating"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="28"
-                      class="table-cell border border-slate-300 px-2 text-sm text-slate-500 dark:border-jovieDark-border">
-                      <star-rating
-                        class="w-20"
-                        :star-size="12"
-                        :increment="0.5"
-                        v-model:rating="creator.crm_record_by_user.rating"
-                        @update:rating="
-                          $emit('updateCreator', {
-                            id: creator.id,
-                            index: index,
-                            key: `crm_record_by_user.rating`,
-                            value: creator.crm_record_by_user.rating,
-                          })
-                        "></star-rating>
-                    </DataGridCell>
-                    <DataGridCell
-                      columnName="crm_record_by_user.lists"
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="24"
-                      class="table-cell border-y border-slate-300 px-2 text-sm text-slate-500 dark:border-jovieDark-border">
-                      <Suspense>
-                        <template #default>
-                          <InputLists
-                            @updateLists="updateCreatorLists"
-                            :creatorId="creator.id ?? 0"
-                            :lists="creator.lists"
-                            :currentList="creator.current_list" />
-                        </template>
-                        <template #fallback> Loading... </template>
-                      </Suspense>
-                    </DataGridCell>
-                    <DataGridCell
-                      neverHide
-                      :visibleColumns="visibleColumns"
-                      :currentContact="currentContact"
-                      :creator="creator"
-                      :index="index"
-                      width="full"
-                      class="table-cell h-full items-center justify-end border-y border-slate-300 px-2 text-right text-xs font-medium dark:border-jovieDark-border">
-                      <div
-                        class="flex h-full items-center justify-end text-right">
-                        <router-link
-                          v-if="currentUser.is_admin"
-                          :to="{
-                            name: 'Creator Overview',
-                            params: { id: creator.id },
-                          }"
-                          class="hover:dark:text-indigio-300 text-slate-600 hover:text-indigo-900 dark:text-jovieDark-300">
-                          Manage
-                        </router-link>
-                      </div>
-                    </DataGridCell>
-                  </DataGridRow>
+                    @mouseover="setCurrentContact($event, creator)" />
                 </template>
               </tbody>
             </table>
@@ -930,25 +428,26 @@ import {
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import StarRating from 'vue-star-rating';
-import ButtonGroup from '../../components/ButtonGroup.vue';
-import ContactContextMenu from '../../components/ContactContextMenu';
-import ContactContextMenuItem from '../../components/ContactContextMenuItem';
-import ContactStageMenu from '../../components/ContactStageMenu.vue';
-import DataGridCell from '../../components/DataGridCell.vue';
-import DataGridCellTextInput from '../../components/DataGridCellTextInput.vue';
-import DataGridRow from '../../components/DataGridRow.vue';
-import DropdownMenuItem from '../../components/DropdownMenuItem.vue';
-import GlassmorphismContainer from '../../components/GlassmorphismContainer.vue';
-import InputLists from '../../components/InputLists';
-import JovieDropdownMenu from '../../components/JovieDropdownMenu.vue';
-import JovieSpinner from '../../components/JovieSpinner.vue';
-import JovieTooltip from '../../components/JovieTooltip.vue';
-import KeyboardShortcut from '../../components/KeyboardShortcut';
-import LoadingOverlay from '../../components/LoadingOverlay';
-import Pagination from '../../components/Pagination';
-import SocialIcons from '../../components/SocialIcons.vue';
-import ImportService from '../../services/api/import.service';
-import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
+import ImportService from './../services/api/import.service';
+import ButtonGroup from './ButtonGroup.vue';
+import ContactContextMenu from './ContactContextMenu';
+import ContactContextMenuItem from './ContactContextMenuItem';
+import ContactStageMenu from './ContactStageMenu.vue';
+import CrmTableSortableHeader from './CrmTableSortableHeader.vue';
+import DataGridCell from './DataGridCell.vue';
+import DataGridCellTextInput from './DataGridCellTextInput.vue';
+import DataGridHeaderContent from './DataGridHeaderContent.vue';
+import DataGridRow from './DataGridRow.vue';
+import DropdownMenuItem from './DropdownMenuItem.vue';
+import GlassmorphismContainer from './GlassmorphismContainer.vue';
+import InputLists from './InputLists';
+import JovieDropdownMenu from './JovieDropdownMenu.vue';
+import JovieSpinner from './JovieSpinner.vue';
+import JovieTooltip from './JovieTooltip.vue';
+import KeyboardShortcut from './KeyboardShortcut';
+import LoadingOverlay from './LoadingOverlay';
+import Pagination from './Pagination';
+import SocialIcons from './SocialIcons.vue';
 export default {
   name: 'CrmTable',
   components: {
@@ -958,6 +457,7 @@ export default {
     DataGridCell,
     DataGridRow,
     DataGridCellTextInput,
+    DataGridHeaderContent,
     LoadingOverlay,
     ArchiveBoxIcon,
     ChevronRightIcon,
@@ -1034,7 +534,6 @@ export default {
       showContactStageMenu: [],
       date: null,
       selectedCreators: [],
-      /*  activeCreator: {}, */
       currentContact: [],
       editingSocialHandle: true,
       searchVisible: false,
@@ -1309,10 +808,10 @@ export default {
     openContextMenu(creator) {
       // Close the context menu for any other creators that may have it open
       /*  filteredCreators.forEach((c) => {
-        if (c !== creator && c.showContextMenu) {
-          c.showContextMenu = false;
-        }
-      }); */
+          if (c !== creator && c.showContextMenu) {
+            c.showContextMenu = false;
+          }
+        }); */
       // Open the context menu for the given creator
       creator.showContextMenu = true;
     },
@@ -1513,77 +1012,77 @@ export default {
       //else set instagram to null
 
       /*       //if creator has an email
-     if (creator.emails[0]) {
-        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.emails[0] + '\n';
-      } else if
-      {
-        vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.meta.emails + '\n';
-      } else {
-        console.log('No email found');
-      };
-      //set employer
-      if (creator.meta.employer) {
-        vCard += 'ORG:' + creator.meta.employer + '\n';
-      } else {
-        console.log('No employer found');
-      };
-      //set title
-      if (creator.meta.title) {
-        vCard += 'TITLE:' + creator.meta.title + '\n';
-      } else {
-        console.log('No title found');
-      };
-      if (Creator.location) {
-        vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
-      }
-      //if creator.instagram_handler set instagram else if creator.meta.instagram set instagram else log no instagram found
-      if (creator.instagram_handler) {
-        vCard += 'URL;TYPE=WORK:' + creator.instagram_handler + '\n';
-      } else if
-      {
-        vCard += 'URL;TYPE=WORK:' + creator.meta.instagram + '\n';
-      } else {
-        console.log('No instagram found');
-      };
-      //do the twitter and twitch and youtube and tiktok and linkedin
-      if (creator.twitter_handler) {
-        vCard += 'URL;TYPE=WORK:' + creator.twitter_handler + '\n';
-      } else if
-      {
-        vCard += 'URL;TYPE=WORK:' + creator.meta.twitter + '\n';
-      } else {
-        console.log('No twitter found');
-      };
-      if (creator.twitch_handler) {
-        vCard += 'URL;TYPE=WORK:' + creator.twitch_handler + '\n';
-      } else if
-      {
-        vCard += 'URL;TYPE=WORK:' + creator.meta.twitch + '\n';
-      } else {
-        console.log('No twitch found');
-      };
-      if (creator.youtube_handler) {
-        vCard += 'URL;TYPE=WORK:' + creator.youtube_handler + '\n';
-      } else if
-      {
-        vCard += 'URL;TYPE=WORK:' + creator.meta.youtube + '\n';
-      } else {
-        console.log('No youtube found');
-      };
-      if (creator.tiktok_handler) {
-        vCard += 'URL;TYPE=WORK:' + creator.tiktok_handler + '\n';
-      } else if
-      {
-        vCard += 'URL;TYPE=WORK:' + creator.meta.tiktok + '\n';
-      } else {
-        console.log('No tiktok found');
-      };
-      if (creator.linkedin_handler) {
-        vCard += 'URL;TYPE=WORK:' + creator.linkedin_handler + '\n';
-      } else if {
-        vCard += 'URL;TYPE=WORK:' + creator.meta.linkedin + '\n';
-      } else {console.log('No linkedin found');
-      }; */
+       if (creator.emails[0]) {
+          vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.emails[0] + '\n';
+        } else if
+        {
+          vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.meta.emails + '\n';
+        } else {
+          console.log('No email found');
+        };
+        //set employer
+        if (creator.meta.employer) {
+          vCard += 'ORG:' + creator.meta.employer + '\n';
+        } else {
+          console.log('No employer found');
+        };
+        //set title
+        if (creator.meta.title) {
+          vCard += 'TITLE:' + creator.meta.title + '\n';
+        } else {
+          console.log('No title found');
+        };
+        if (Creator.location) {
+          vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
+        }
+        //if creator.instagram_handler set instagram else if creator.meta.instagram set instagram else log no instagram found
+        if (creator.instagram_handler) {
+          vCard += 'URL;TYPE=WORK:' + creator.instagram_handler + '\n';
+        } else if
+        {
+          vCard += 'URL;TYPE=WORK:' + creator.meta.instagram + '\n';
+        } else {
+          console.log('No instagram found');
+        };
+        //do the twitter and twitch and youtube and tiktok and linkedin
+        if (creator.twitter_handler) {
+          vCard += 'URL;TYPE=WORK:' + creator.twitter_handler + '\n';
+        } else if
+        {
+          vCard += 'URL;TYPE=WORK:' + creator.meta.twitter + '\n';
+        } else {
+          console.log('No twitter found');
+        };
+        if (creator.twitch_handler) {
+          vCard += 'URL;TYPE=WORK:' + creator.twitch_handler + '\n';
+        } else if
+        {
+          vCard += 'URL;TYPE=WORK:' + creator.meta.twitch + '\n';
+        } else {
+          console.log('No twitch found');
+        };
+        if (creator.youtube_handler) {
+          vCard += 'URL;TYPE=WORK:' + creator.youtube_handler + '\n';
+        } else if
+        {
+          vCard += 'URL;TYPE=WORK:' + creator.meta.youtube + '\n';
+        } else {
+          console.log('No youtube found');
+        };
+        if (creator.tiktok_handler) {
+          vCard += 'URL;TYPE=WORK:' + creator.tiktok_handler + '\n';
+        } else if
+        {
+          vCard += 'URL;TYPE=WORK:' + creator.meta.tiktok + '\n';
+        } else {
+          console.log('No tiktok found');
+        };
+        if (creator.linkedin_handler) {
+          vCard += 'URL;TYPE=WORK:' + creator.linkedin_handler + '\n';
+        } else if {
+          vCard += 'URL;TYPE=WORK:' + creator.meta.linkedin + '\n';
+        } else {console.log('No linkedin found');
+        }; */
 
       vCard += 'NOTE:Saved from Jovie\n';
 
@@ -1724,31 +1223,12 @@ export default {
       this.resetChecked();
     },
     toggleContactSidebar() {
-      //toggle this.$store.state.ContactSidebarOpen
-
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },
-    /* setActiveCreator(creator) {
-      this.activeCreator = creator;
-      //emit the active creator to the parent component
-      this.$emit('activeCreator', creator);
-      //log the id of the active creator in the console
-      console.log('The active creator is ' + this.activeCreator);
-    }, */
+
     setCurrentContact(e, creator) {
       this.currentContact = creator;
-
-      // if (e.target.name == 'selectCreatorCheckbox') {
-      //   if (this.selectedCreators.includes(creator.id)) {
-      //     this.selectedCreators.splice(
-      //       this.selectedCreators.indexOf(creator.id),
-      //       1
-      //     );
-      //   } else {
-      //     this.selectedCreators.push(creator.id);
-      //   }
-      // }
       this.$emit('setCurrentContact', creator);
     },
     nextContact() {
@@ -1843,35 +1323,35 @@ export default {
   --dp-common_padding: 0px !default;
   --dp-font_size: 0.5rem !default;
   /* 
-  --dp-font_family: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
-    oxygen, ubuntu, cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !default;
-  --dp-border_radius: 4px !default;
-  --dp-cell_border_radius: --dp-border_radius !default;
-
-  --dp-transition_length: 22px !default; // Passed to the translateX in animation
-  --dp-transition_duration: 0.1s !default; // Transition duration
-
-  --dp-button_height: 35px !default; // size for buttons in overlays
-  --dp-month_year_row_height: 35px !default; // height of the month-year select row
-  --dp-month_year_row_button_size: 25px !default; // Specific height for the next/previous buttons
-  --dp-button_icon_height: 20px !default; // icon sizing in buttons
-  --dp-cell_size: 35px !default; // width and height of calendar cell
-  --dp-cell_padding: 5px !default; // padding in the cell
- 
-  --dp-input_padding: 6px 6px !default; // padding in the input
-  --dp-input_icon_padding: 35px !default; // Padding on the left side of the input if icon is present
-  --dp-menu_min_width: 260px !default; // Adjust the min width of the menu
-  --dp-action_buttons_padding: 2px 5px !default; // Adjust padding for the action buttons in action row
- 
-  --dp-calendar_header_cell_padding: 0.5rem !default; // Adjust padding in calendar header cells
-  --dp-two_calendars_spacing: 10px !default; // Space between two calendars if using two calendars
-  --dp-overlay_col_padding: 3px !default; // Padding in the overlay column
-  --dp-time_inc_dec_button_size: 32px !default; // Sizing for arrow buttons in the time picker */
+    --dp-font_family: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
+      oxygen, ubuntu, cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !default;
+    --dp-border_radius: 4px !default;
+    --dp-cell_border_radius: --dp-border_radius !default;
+  
+    --dp-transition_length: 22px !default; // Passed to the translateX in animation
+    --dp-transition_duration: 0.1s !default; // Transition duration
+  
+    --dp-button_height: 35px !default; // size for buttons in overlays
+    --dp-month_year_row_height: 35px !default; // height of the month-year select row
+    --dp-month_year_row_button_size: 25px !default; // Specific height for the next/previous buttons
+    --dp-button_icon_height: 20px !default; // icon sizing in buttons
+    --dp-cell_size: 35px !default; // width and height of calendar cell
+    --dp-cell_padding: 5px !default; // padding in the cell
+   
+    --dp-input_padding: 6px 6px !default; // padding in the input
+    --dp-input_icon_padding: 35px !default; // Padding on the left side of the input if icon is present
+    --dp-menu_min_width: 260px !default; // Adjust the min width of the menu
+    --dp-action_buttons_padding: 2px 5px !default; // Adjust padding for the action buttons in action row
+   
+    --dp-calendar_header_cell_padding: 0.5rem !default; // Adjust padding in calendar header cells
+    --dp-two_calendars_spacing: 10px !default; // Space between two calendars if using two calendars
+    --dp-overlay_col_padding: 3px !default; // Padding in the overlay column
+    --dp-time_inc_dec_button_size: 32px !default; // Sizing for arrow buttons in the time picker */
   /* 
-  // Font sizes
- 
-  --dp-preview_font_size: 0.8rem !default; // font size of the date preview in the action row
-  --dp-time_font_size: 2rem !default; // font size in the time picker */
+    // Font sizes
+   
+    --dp-preview_font_size: 0.8rem !default; // font size of the date preview in the action row
+    --dp-time_font_size: 2rem !default; // font size in the time picker */
 }
 
 .dp__theme_light {
