@@ -166,12 +166,12 @@ class Creator extends Model
 
     public function userLists()
     {
-        return $this->belongsToMany(UserList::class)->withTimestamps();
+        return $this->belongsToMany(UserList::class)->withTimestamps()->using(CreatorUserList::class);
     }
 
     public function crms()
     {
-        return $this->belongsToMany(User::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps();
+        return $this->belongsToMany(User::class, 'crms')->withPivot(['offer', 'stage', 'last_contacted', 'muted'])->withTimestamps()->using(Crm::class);
     }
 
     public function crmRecords()
@@ -392,7 +392,7 @@ class Creator extends Model
             'creator_id',
             'brand_id',
             'id',
-            'id')->withTimestamps();
+            'id')->withTimestamps()->using(BrandCreator::class);
     }
 
     public function getYoutubeHandlerAttribute($value)

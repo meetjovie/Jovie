@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class UserListAttribute extends Pivot
+class CreatorUserList extends Pivot
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'user_list_attributes';
+    protected $table = 'creator_user_list';
 }

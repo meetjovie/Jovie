@@ -288,7 +288,7 @@ class SubscriptionsController extends Controller
                     ]);
                 }
             }
-
+            DB::rollBack();
             return response([
                 'status' => false,
                 'message' => 'There are no add ons for seats in your package.',

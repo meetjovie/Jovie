@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Laravel\Scout\Searchable;
 
-class Crm extends Model
+class Crm extends Pivot
 {
     use HasFactory, Searchable, HasUuids;
 
+    protected $table = 'crms';
     protected $fillable = [
         'creator_id',
         'user_id',
