@@ -126,6 +126,10 @@ class InstagramImport implements ShouldQueue
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
                 Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
+                if ($this->parentCreator && $creator->account_type == 'BRAND') {
+                    $parentCreator = Creator::where('id', $this->parentCreator)->first();
+                    $parentCreator->brands()->syncWithoutDetaching($creator->id);
+                }
                 Import::markImport($this->importId, ['instagram']);
 
                 return;
