@@ -340,7 +340,16 @@
                     :visibleColumns="visibleColumns"
                     :currentContact="currentContact"
                     :key="creator.id"
+                    :filters="filters"
+                    @openSidebar="$emit('openSidebar', creator)"
                     :column="column"
+                    @archive-creators="
+                      toggleArchiveCreators(
+                        creator.id,
+                        !creator.crm_record_by_user.archived
+                      )
+                    "
+                    @refresh="refresh(creator)"
                     :columnIndex="columnIndex"
                     :otherColumns="otherColumns"
                     :selectedCreators="selectedCreators"
@@ -449,7 +458,7 @@ import LoadingOverlay from './LoadingOverlay';
 import Pagination from './Pagination';
 import SocialIcons from './SocialIcons.vue';
 export default {
-  name: 'CrmTable',
+  name: 'DataGrid',
   components: {
     ContactStageMenu,
     JovieDropdownMenu,
@@ -556,6 +565,7 @@ export default {
           icon: 'Bars3BottomLeftIcon',
           sortable: true,
           visible: true,
+          dataType: 'text',
         },
         {
           name: 'First',
@@ -565,6 +575,7 @@ export default {
           visible: false,
           breakpoint: '2xl',
           width: '18',
+          dataType: 'text',
         },
         {
           name: 'Last',
@@ -574,6 +585,7 @@ export default {
           sortable: false,
           breakpoint: '2xl',
           width: '18',
+          dataType: 'text',
         },
         {
           name: 'Title',
@@ -581,6 +593,7 @@ export default {
           icon: 'UserIcon',
           visible: false,
           breakpoint: '2xl',
+          dataType: 'text',
         },
         {
           name: 'Company',
@@ -590,6 +603,7 @@ export default {
           sortable: false,
           breakpoint: '2xl',
           width: '24',
+          dataType: 'text',
         },
 
         {
@@ -599,6 +613,7 @@ export default {
           visible: true,
           breakpoint: 'lg',
           width: '40',
+          dataType: 'email',
         },
 
         {
@@ -607,6 +622,7 @@ export default {
           icon: 'LinkIcon',
           visible: true,
           width: '18',
+          dataType: 'socialLinks',
         },
         {
           name: 'Offer',
@@ -616,6 +632,7 @@ export default {
           visible: false,
           breakpoint: 'lg',
           width: '12',
+          dataType: 'currency',
         },
         {
           name: 'Stage',
@@ -625,6 +642,7 @@ export default {
           sortable: true,
           visible: true,
           breakpoint: 'md',
+          dataType: 'singleSelect',
         },
         {
           name: 'Last Contact',
@@ -634,6 +652,7 @@ export default {
           visible: false,
           breakpoint: '2xl',
           width: '24',
+          dataType: 'date',
         },
         {
           name: 'Rating',
@@ -643,6 +662,7 @@ export default {
           visible: true,
           breakpoint: '2xl',
           width: '28',
+          dataType: 'rating',
         },
         {
           name: 'Lists',
@@ -652,6 +672,7 @@ export default {
           visible: true,
           breakpoint: '2xl',
           width: '24',
+          dataType: 'multiSelect',
         },
       ],
       currentSort: 'asc',
@@ -882,9 +903,7 @@ export default {
       console.log('exporting');
       //write a function to export all contacts in the current table while accounting for filters and lists
     },
-    imageLoadingError(e) {
-      e.target.src = this.asset('img/noimage.webp');
-    },
+
     createCalendarEvent(creator) {
       window.open(
         `https://calendar.google.com/calendar/r/eventedit?text=${
@@ -1297,85 +1316,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.dp__theme_dark {
-  --dp-background-color: #191a22;
-  --dp-text-color: #ffffff;
-  --dp-hover-color: #484848;
-  --dp-hover-text-color: #ffffff;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #005cb2;
-  --dp-primary-text-color: #ffffff;
-  --dp-secondary-color: #a9a9a9;
-  --dp-border-color: #292b41;
-  --dp-menu-border-color: #2d2d2d;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-disabled-color: #737373;
-  --dp-scroll-bar-background: #212121;
-  --dp-scroll-bar-color: #484848;
-  --dp-success-color: #00701a;
-  --dp-success-color-disabled: #428f59;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #e53935;
-  --dp-highlight-color: rgba(80, 0, 178, 0.2);
-  --dp-row_margin: 0px 0 !default;
-  --dp-common_padding: 0px !default;
-  --dp-font_size: 0.5rem !default;
-  /* 
-    --dp-font_family: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
-      oxygen, ubuntu, cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !default;
-    --dp-border_radius: 4px !default;
-    --dp-cell_border_radius: --dp-border_radius !default;
-  
-    --dp-transition_length: 22px !default; // Passed to the translateX in animation
-    --dp-transition_duration: 0.1s !default; // Transition duration
-  
-    --dp-button_height: 35px !default; // size for buttons in overlays
-    --dp-month_year_row_height: 35px !default; // height of the month-year select row
-    --dp-month_year_row_button_size: 25px !default; // Specific height for the next/previous buttons
-    --dp-button_icon_height: 20px !default; // icon sizing in buttons
-    --dp-cell_size: 35px !default; // width and height of calendar cell
-    --dp-cell_padding: 5px !default; // padding in the cell
-   
-    --dp-input_padding: 6px 6px !default; // padding in the input
-    --dp-input_icon_padding: 35px !default; // Padding on the left side of the input if icon is present
-    --dp-menu_min_width: 260px !default; // Adjust the min width of the menu
-    --dp-action_buttons_padding: 2px 5px !default; // Adjust padding for the action buttons in action row
-   
-    --dp-calendar_header_cell_padding: 0.5rem !default; // Adjust padding in calendar header cells
-    --dp-two_calendars_spacing: 10px !default; // Space between two calendars if using two calendars
-    --dp-overlay_col_padding: 3px !default; // Padding in the overlay column
-    --dp-time_inc_dec_button_size: 32px !default; // Sizing for arrow buttons in the time picker */
-  /* 
-    // Font sizes
-   
-    --dp-preview_font_size: 0.8rem !default; // font size of the date preview in the action row
-    --dp-time_font_size: 2rem !default; // font size in the time picker */
-}
-
-.dp__theme_light {
-  --dp-background-color: #ffffff;
-  --dp-text-color: #212121;
-  --dp-hover-color: #f3f3f3;
-  --dp-hover-text-color: #212121;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #1976d2;
-  --dp-primary-text-color: #f8f5f5;
-  --dp-secondary-color: #c0c4cc;
-  --dp-border-color: #ddd;
-  --dp-menu-border-color: #ddd;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-disabled-color: #f6f6f6;
-  --dp-scroll-bar-background: #f3f3f3;
-  --dp-scroll-bar-color: #959595;
-  --dp-success-color: #76d275;
-  --dp-success-color-disabled: #a3d9b1;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #ff6f60;
-  --dp-highlight-color: rgba(80, 0, 178, 0.2);
-  --dp-row_margin: 0px 0 !default;
-  --dp-common_padding: 0px !default;
-  --dp-font_size: 0.5rem !default;
-}
-</style>

@@ -12,6 +12,7 @@
       :creator="creator"
       :index="index"
       freezeColumn
+      dataType="checkbox"
       width="6"
       class="left-0 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
       <div class="group mx-auto w-6">
@@ -24,12 +25,7 @@
             'block',
           ]">
           <form>
-            <input
-              type="checkbox"
-              name="selectCreatorCheckbox"
-              :value="creator.id"
-              class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6"
-              v-model="selectedCreators" />
+            <CheckboxInput v-model="selectedCreators" :value="creator.id" />
           </form>
         </span>
         <span
@@ -39,7 +35,6 @@
         </span>
       </div>
     </DataGridCell>
-
     <DataGridCell
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
@@ -75,7 +70,6 @@
         </svg>
       </div>
     </DataGridCell>
-
     <DataGridCell
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
@@ -89,18 +83,7 @@
         <div
           @click="$emit('openSidebar', creator)"
           class="flex w-full items-center">
-          <div class="mr-2 h-8 w-8 flex-shrink-0">
-            <div class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600">
-              <div class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
-                <img
-                  class="rounded-full object-cover object-center"
-                  :src="creator.profile_pic_url"
-                  @error="imageLoadingError"
-                  alt="Profile Image" />
-              </div>
-            </div>
-          </div>
-
+          <ContactAvatar :creator="creator" class="mr-2" />
           <div
             v-if="cellActive"
             class="items-center text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
@@ -123,7 +106,7 @@
         </div>
         <div
           @click="$emit('openSidebar', creator)"
-          class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-600 dark:active:bg-slate-800">
+          class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-300 dark:active:bg-slate-800">
           <ArrowTopRightOnSquareIcon
             v-if="
               !this.$store.state.ContactSidebarOpen ||
@@ -148,17 +131,19 @@
               icon="ArchiveBoxIcon"
               @blur="$emit('updateCrmMeta')"
               @click="
-                toggleArchiveCreators(
+                $emit(
+                  'archive-creators',
                   creator.id,
                   !creator.crm_record_by_user.archived
                 )
               "
-              color="text-blue-600 dark:text-blue-400" />
+              color="text-blue-600
+            dark:text-blue-400" />
             <DropdownMenuItem
               name="Refresh"
               color="text-green-600 dark:text-green-400"
               icon="ArrowPathIcon"
-              @click="refresh(creator)"
+              @click="$emit('refresh', creator)"
               :disabled="adding" />
             <DropdownMenuItem
               name="Remove from list"
@@ -177,6 +162,7 @@
         :visibleColumns="visibleColumns"
         :currentContact="currentContact"
         :creator="creator"
+        :dataType="column.dataType"
         :columnIndex="columnIndex"
         :columnName="column.name"
         :column="column"
@@ -189,7 +175,9 @@
 <script>
 import DataGridCell from './DataGridCell.vue';
 import ContactContextMenu from './ContactContextMenu.vue';
+import ContactAvatar from './ContactAvatar.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
+import CheckboxInput from './CheckboxInput.vue';
 import {
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
@@ -201,6 +189,8 @@ export default {
     DataGridCell,
     ContactContextMenu,
     DropdownMenuItem,
+    ContactAvatar,
+    CheckboxInput,
     ArrowTopRightOnSquareIcon,
     XMarkIcon,
   },
@@ -211,6 +201,7 @@ export default {
     selectedCreators: Array,
     freezeColumn: Boolean,
     width: String,
+    filters: Object,
     columnName: String,
     visibleColumns: Array,
     neverHide: Boolean,

@@ -23,6 +23,8 @@ environments:
       - 'php artisan migrate --force'
     domain:
       - jov.ie
+    asset-domain:
+      - assets.jov.ie
     network: Jovie
     timeout: 900
   staging:
@@ -41,6 +43,8 @@ environments:
     storage: 'jovie-staging-storage'
     domain:
       - staging.jov.ie
+    asset-domain:
+      - stagingassets.jov.ie
     network: Jovie
     build:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
@@ -65,6 +69,8 @@ environments:
     timeout: 900
     domain:
       - dev.jov.ie
+    asset-domain:
+      - devassets.jov.ie
     network: Jovie
     build:
       - 'composer update --no-dev'
