@@ -1,9 +1,6 @@
 <template>
   <td
     @focus="setFocus"
-    :tabindex="
-      currentCell.row === row && currentCell.column === column ? 0 : -1
-    "
     @keydown="onKeyDown"
     v-if="freezeColumn || neverHide || visibleColumns.includes(column.key)"
     :class="[
