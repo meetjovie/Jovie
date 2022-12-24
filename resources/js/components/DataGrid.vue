@@ -313,9 +313,8 @@
                     </div>
                   </th>
 
-                  <template v-for="column in otherColumns">
+                  <template :key="column.key" v-for="column in otherColumns">
                     <th
-                      :key="column.key"
                       v-if="column.visible"
                       scope="col"
                       :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
@@ -337,6 +336,8 @@
                 class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
                 <template v-for="(creator, index) in filteredCreators">
                   <DataGridRow
+                    @move="moveCell"
+                    :row="index"
                     :creator="creator"
                     :index="index"
                     :visibleColumns="visibleColumns"
@@ -532,6 +533,10 @@ export default {
   },
   data() {
     return {
+      currentCell: {
+        row: 0,
+        column: 0,
+      },
       creatorMenu: false,
       view: {
         atTopOfPage: true,
@@ -807,6 +812,22 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    moveCell(direction) {
+      switch (direction) {
+        case 'right':
+          this.currentCell.column += 1;
+          break;
+        case 'left':
+          this.currentCell.column -= 1;
+          break;
+        case 'up':
+          this.currentCell.row -= 1;
+          break;
+        case 'down':
+          this.currentCell.row += 1;
+          break;
+      }
+    },
     hideContextMenu(creator) {
       creator.showContextMenu = false;
     },

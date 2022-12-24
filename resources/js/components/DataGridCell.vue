@@ -1,7 +1,9 @@
 <template>
   <td
     @focus="setFocus"
-    :tabindex="freezeColumn ? -1 : 0"
+    :tabindex="
+      currentCell.row === row && currentCell.column === column ? 0 : -1
+    "
     @keydown="onKeyDown"
     v-if="freezeColumn || neverHide || visibleColumns.includes(column.key)"
     :class="[
@@ -124,16 +126,14 @@ export default {
     index: Number,
     selectedCreators: Array,
     freezeColumn: Boolean,
-
     fieldId: String,
-
     visibleColumns: Array,
     neverHide: Boolean,
     cellActive: Boolean,
     column: Object,
     rowIndex: Number,
-
     modelValue: String,
+    currentCell: Object,
   },
 };
 </script>

@@ -161,6 +161,7 @@
         :visibleColumns="visibleColumns"
         :currentContact="currentContact"
         :creator="creator"
+        :currentCell="currentCell"
         :columnIndex="columnIndex"
         :columnName="column.name"
         :column="column"
@@ -198,6 +199,7 @@ export default {
     rowIndex: Number,
     selectedCreators: Array,
     freezeColumn: Boolean,
+    currentCell: Object,
     width: String,
     filters: Object,
     columnName: String,
