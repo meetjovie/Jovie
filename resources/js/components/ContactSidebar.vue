@@ -412,9 +412,11 @@
           class="mb-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-400">
           Contact Details
         </h2>
-        <JovieDropdownMenu :items="customFields" :placement="left"
-          ><template #triggerButton>Add</template></JovieDropdownMenu
-        >
+        <JovieDropdownMenu :items="customFields" placement="left"
+          ><template #triggerButton
+            ><PlusIcon
+              class="h-4 w-5 text-slate-600 dark:text-jovieDark-200"></PlusIcon></template
+        ></JovieDropdownMenu>
       </div>
       <div
         class="h-80 items-center px-2 text-center"
@@ -652,6 +654,7 @@ import {
   EnvelopeIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   ChatBubbleLeftIcon,
+  PlusIcon,
 } from '@heroicons/vue/24/solid';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import {
@@ -679,6 +682,7 @@ export default {
     ChevronDownIcon,
     ChatBubbleOvalLeftEllipsisIcon,
     ChatBubbleLeftIcon,
+    PlusIcon,
     Menu,
     MenuButton,
     MenuItems,
