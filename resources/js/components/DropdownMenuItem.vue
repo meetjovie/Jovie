@@ -6,7 +6,7 @@
     <div
       class="relative flex items-center border-b border-slate-300 dark:border-jovieDark-border">
       <input
-        v-focus="true"
+        tabindex="0"
         @input="$emit('search-query', $event.target.value)"
         ref="searchInput"
         :v-model="searchBox.query"

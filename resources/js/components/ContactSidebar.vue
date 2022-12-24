@@ -407,15 +407,15 @@
           :lists="creator.lists"
           :currentList="creator.current_list" />
       </div>
-      <div class="mt-4 flex justify-between px-2">
+      <div class="mt-4 mb-2 flex w-full justify-between px-2">
         <h2
-          class="mb-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-400">
+          class="text-xs font-semibold text-slate-600 dark:text-jovieDark-400">
           Contact Details
         </h2>
-        <JovieDropdownMenu :items="customFields" placement="left"
+        <JovieDropdownMenu :items="customFields" placement="left-start"
           ><template #triggerButton
             ><PlusIcon
-              class="h-4 w-5 text-slate-600 dark:text-jovieDark-200"></PlusIcon></template
+              class="h-4 w-4 text-slate-600 dark:text-jovieDark-200"></PlusIcon></template
         ></JovieDropdownMenu>
       </div>
       <div

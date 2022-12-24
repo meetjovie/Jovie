@@ -33,6 +33,7 @@
                 class="border border-slate-200 dark:border-jovieDark-border">
                 <div class="relative flex items-center">
                   <input
+                    tabindex="0"
                     ref="menuSearchInput"
                     v-model="searchQuery"
                     :placeholder="searchText"
@@ -267,9 +268,9 @@ export default {
       this.$emit('itemClicked', item);
     },
     createItem() {
-        console.log('this.searchQuery');
-        console.log(this.searchQuery);
-        this.$emit('createItem', this.searchQuery);
+      console.log('this.searchQuery');
+      console.log(this.searchQuery);
+      this.$emit('createItem', this.searchQuery);
     },
     focusMenuSearch() {
       this.$nextTick(() => {

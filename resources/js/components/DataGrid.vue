@@ -96,6 +96,7 @@
                           class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus:ring-0">
                           <div class="px-1">
                             <DropdownMenuItem
+                              tabindex="0"
                               ref="tableColumnFilterInput"
                               v-on:search-query="updateTableViewSearchQuery"
                               :searchBox="{
