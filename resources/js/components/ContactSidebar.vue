@@ -656,7 +656,6 @@ import {
   ChatBubbleLeftIcon,
   PlusIcon,
 } from '@heroicons/vue/24/solid';
-import { PlusIcon } from '@heroicons/vue/24/outline';
 import {
   Menu,
   MenuButton,
@@ -694,7 +693,6 @@ export default {
     InputGroup,
     JovieSpinner,
     XMarkIcon,
-
     ButtonGroup,
     DataInputGroup,
     TextAreaInput,
