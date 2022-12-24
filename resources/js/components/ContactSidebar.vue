@@ -407,11 +407,14 @@
           :lists="creator.lists"
           :currentList="creator.current_list" />
       </div>
-      <div class="mt-4 px-2">
+      <div class="mt-4 flex justify-between px-2">
         <h2
           class="mb-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-400">
           Contact Details
         </h2>
+        <JovieDropdownMenu :items="customFields" :placement="left"
+          ><template #triggerButton>Add</template></JovieDropdownMenu
+        >
       </div>
       <div
         class="h-80 items-center px-2 text-center"
@@ -639,6 +642,7 @@ import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
 import { VueDraggableNext } from 'vue-draggable-next';
+import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import ContactContextMenuItem from '../components/ContactContextMenuItem.vue';
 import {
   XMarkIcon,
@@ -668,6 +672,7 @@ export default {
     SocialInput,
     draggable: VueDraggableNext,
     ContactContextMenuItem,
+    JovieDropdownMenu,
     PhoneIcon,
     ChatBubbleLeftEllipsisIcon,
     EnvelopeIcon,
@@ -1304,6 +1309,27 @@ export default {
   },
   data() {
     return {
+      customFields: [
+        {
+          name: 'Text',
+        },
+        {
+          name: 'Number',
+        },
+        {
+          name: 'Date',
+        },
+
+        {
+          name: 'Checkbox',
+        },
+        {
+          name: 'Single Select',
+        },
+        {
+          name: 'Multi Select',
+        },
+      ],
       abortController: null,
       sidebarLoading: false,
       socialURLEditing: false,
