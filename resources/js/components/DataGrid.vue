@@ -196,7 +196,8 @@
             class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
-              <thead class="relative isolate z-20 w-full items-center">
+              <thead
+                class="relative isolate z-20 w-full items-center overflow-auto">
                 <tr class="sticky h-8 items-center">
                   <th
                     scope="col"
@@ -317,7 +318,8 @@
                       :key="column.key"
                       v-if="column.visible"
                       scope="col"
-                      class="dark:border-x-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
+                      class="dark:border-x-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"

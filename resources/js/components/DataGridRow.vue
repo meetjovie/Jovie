@@ -157,12 +157,10 @@
 
     <template v-for="(column, columnIndex) in otherColumns">
       <DataGridCell
-        v-for="(column, columnIndex) in otherColumns"
         :key="column.key"
         :visibleColumns="visibleColumns"
         :currentContact="currentContact"
         :creator="creator"
-        :dataType="column.dataType"
         :columnIndex="columnIndex"
         :columnName="column.name"
         :column="column"

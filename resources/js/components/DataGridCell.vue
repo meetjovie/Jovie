@@ -1,44 +1,52 @@
 <template>
   <td
     @focus="setFocus"
-    tabindex="freezeColumn ? -1 : 0"
+    :tabindex="freezeColumn ? -1 : 0"
     @keydown="onKeyDown"
     v-if="freezeColumn || neverHide || visibleColumns.includes(column.key)"
     :class="[
       currentContact.id == creator.id
         ? ' bg-slate-100 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'bg-white text-slate-600 dark:bg-jovieDark-900 dark:text-slate-200  ',
+
+      cellActive ? 'border border-indigo-500' : '',
       freezeColumn
         ? 'fcous:ring-0 sticky isolate z-20 font-bold focus:border-none focus:outline-none'
         : 'border-x',
-      cellActive ? 'border-indigo-500' : '',
+
       columnWidth ? `w-${columnWidth}` : '',
     ]"
     class="overflow-auto whitespace-nowrap border-slate-300 text-center text-xs font-medium focus:border-none focus:outline-indigo-500 focus:ring-0 dark:border-jovieDark-border before:dark:border-jovieDark-border">
-    <slot>
-      <component
+    <slot></slot>
+    <!--   <component
         ref="cellInput"
         tabindex="0"
         :is="inputComponent"
         :fieldId="fieldId"
         @blur="onBlur"
         :placeholder="columnName"
-        v-model="modelValue" />
-      <!--  <star-rating
-        v-if="dataType == 'rating'"
+        v-model="modelValue" /> -->
+    <div v-if="!freezeColumn">
+      <star-rating
+        v-if="column.dataType == 'rating'"
         class="w-20"
         :star-size="12"
         :increment="0.5"
         v-model:rating="modelValue"
         @blur="onBlur" />
-      <CheckboxInput v-if="dataType == 'checkbox'" v-model="modelValue" />
+      <CheckboxInput v-else-if="dataType == 'checkbox'" v-model="modelValue" />
       <DataGridCellTextInput
-        v-else
+        v-else-if="column.dataType == 'text' || 'email' || 'currency'"
         :fieldId="fieldId"
         @blur="onBlur"
+        :dataType="column.dataType"
         :placeholder="columnName"
-        v-model="modelValue" /> -->
-    </slot>
+        v-model="modelValue" />
+      <span v-else
+        >Data Type:
+        {{ column.dataType }}
+      </span>
+    </div>
   </td>
 </template>
 
@@ -53,10 +61,16 @@ export default {
     StarRating,
     CheckboxInput,
   },
+  data() {
+    return {
+      cellActive: false,
+    };
+  },
   emits: ['update:modelValue', 'blur', 'move'],
   methods: {
     onBlur() {
       this.$emit('blur');
+      this.cellActive = false;
     },
   },
   onKeyDown(event) {
@@ -88,8 +102,12 @@ export default {
     },
     setFocus() {
       //focus on the cell input
-      this.$refs.cellInput.focus();
+      //on next tick
+      this.$nextTick(() => {
+        this.$refs.cellInput.focus();
+      });
       console.log(this.$refs.cellInput);
+      this.cellActive = true;
     },
     columnWidth() {
       // Find the object in the visibleColumns array that represents the current column
@@ -114,7 +132,7 @@ export default {
     cellActive: Boolean,
     column: Object,
     rowIndex: Number,
-    dataType: String,
+
     modelValue: String,
   },
 };
