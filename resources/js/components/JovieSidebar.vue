@@ -127,6 +127,7 @@
                       </router-link>
                       <DropdownMenuItem
                         shortcutKey="?"
+                        shortcutSequence
                         @click="toggleShowSupportModal()"
                         name="Get Help"
                         icon="ChatBubbleLeftIcon" />

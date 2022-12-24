@@ -5,6 +5,11 @@
         <header
           class="flex w-full items-center justify-between border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent :header="header" :subheader="subheader" />
+          <span
+            class="flex w-40 items-center text-xs text-slate-600 dark:text-jovieDark-200">
+            >You're in Column: {{ currentCell.column }} Row:
+            {{ currentCell.row }}</span
+          >
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">

@@ -256,7 +256,7 @@ export default {
       required: false,
       default: false,
     },
-    shortuctSequence: {
+    shortcutSequence: {
       type: Boolean,
       required: false,
       default: false,

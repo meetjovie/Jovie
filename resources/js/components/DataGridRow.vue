@@ -160,6 +160,7 @@
         :visibleColumns="visibleColumns"
         :currentContact="currentContact"
         :creator="creator"
+        @move="moveCell"
         :currentCell="currentCell"
         :columnIndex="columnIndex"
         :columnName="column.name"
@@ -191,6 +192,12 @@ export default {
     CheckboxInput,
     ArrowTopRightOnSquareIcon,
     XMarkIcon,
+  },
+  methods: {
+    moveCell({ row, column }) {
+      this.$emit('move', { row, column });
+      alert('move' + row + column);
+    },
   },
   props: {
     currentContact: Object,

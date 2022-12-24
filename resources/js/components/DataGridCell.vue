@@ -8,7 +8,9 @@
         ? ' bg-slate-100 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'bg-white text-slate-600 dark:bg-jovieDark-900 dark:text-slate-200  ',
 
-      cellActive ? 'border border-indigo-500' : '',
+      currentCell.row == index && currentCell.column == column.key
+        ? 'border border-indigo-500'
+        : '',
       freezeColumn
         ? 'fcous:ring-0 sticky isolate z-20 font-bold focus:border-none focus:outline-none'
         : 'border-x',
@@ -107,6 +109,11 @@ export default {
       });
       console.log(this.$refs.cellInput);
       this.cellActive = true;
+      //set the current cell to this cell row and column
+      this.$emit('update:currentCell', {
+        row: this.rowIndex,
+        column: this.column.key,
+      });
     },
     columnWidth() {
       // Find the object in the visibleColumns array that represents the current column
