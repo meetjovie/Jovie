@@ -694,7 +694,7 @@ export default {
     InputGroup,
     JovieSpinner,
     XMarkIcon,
-    PlusIcon,
+
     ButtonGroup,
     DataInputGroup,
     TextAreaInput,
