@@ -155,9 +155,8 @@
       </div>
     </DataGridCell>
 
-    <template v-for="(column, columnIndex) in otherColumns">
+    <template :key="column.key" v-for="(column, columnIndex) in otherColumns">
       <DataGridCell
-        :key="column.key"
         :visibleColumns="visibleColumns"
         :currentContact="currentContact"
         :creator="creator"

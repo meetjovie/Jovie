@@ -337,6 +337,7 @@
                 <template v-for="(creator, index) in filteredCreators">
                   <DataGridRow
                     @move="moveCell"
+                    :currentCell="currentCell"
                     :row="index"
                     :creator="creator"
                     :index="index"
@@ -554,7 +555,7 @@ export default {
       editingSocialHandle: true,
       searchVisible: false,
       imageLoaded: true,
-      cellActive: false,
+
       open: false,
       subMenuOpen: true,
       settings: [
