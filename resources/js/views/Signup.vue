@@ -98,6 +98,13 @@
                     text="Next"
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   </ButtonGroup>
+                    <ButtonGroup
+                        :disabled="loading"
+                        @click.prevent="authProvider('google')"
+                        :text="'Sign up with Google'"
+                        type="button"
+                        class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    </ButtonGroup>
                 </div>
 
                 <h3
@@ -168,6 +175,13 @@
                       :disabled="submitting"
                       text="Create Account">
                     </ButtonGroup>
+                      <ButtonGroup
+                          :disabled="loading"
+                          @click.prevent="authProvider('google')"
+                          :text="'Sign up with Google'"
+                          type="button"
+                          class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      </ButtonGroup>
                   </div>
                 </div>
                 <p class="text-2xs text-slate-400 dark:text-jovieDark-200">
@@ -241,6 +255,9 @@ export default {
     window.analytics.page(this.$route.path);
   },
   methods: {
+      authProvider(provider) {
+          window.location.href = `http://127.0.0.1:8000/auth/${provider}/redirect`
+      },
     back() {
       this.user.password = '';
       this.user.password_confirmation = '';

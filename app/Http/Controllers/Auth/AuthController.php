@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -150,5 +151,54 @@ class AuthController extends Controller
             'status' => true,
             'data' => $data,
         ]);
+    }
+
+    public function redirect(string $network)
+    {
+        $socialite = Socialite::driver($network);
+        if ($network == 'reddit') {
+            $socialite = $socialite
+                ->with(['duration' => 'permanent'])->setScopes(['identity', 'submit', 'flair', 'modflair', 'privatemessages']);
+        } elseif ($network == 'google') {
+            $socialite = $socialite->with(["access_type" => "offline", "prompt" => "consent select_account"]);
+        } elseif ($network == 'facebook') {
+            $socialite = $socialite->setScopes(['pages_show_list', 'pages_manage_metadata', 'pages_messaging', 'pages_read_engagement', 'instagram_basic', 'instagram_manage_messages']);
+        }
+//        dd($socialite);
+        return $socialite->redirect();
+    }
+
+    public function callback(string $network)
+    {
+        $user = Socialite::driver($network)->stateless()->user();
+
+        $names = explode(' ', $user->name);
+        $user = User::query()->updateOrCreate([
+            'google_id' => $user->id
+        ], [
+            'first_name' => $names[0],
+            'last_name' => $names[1] ?? null,
+            'email' => $user->email,
+            'profile_pic_url' => $user->avatar,
+            'password' => Hash::make(rand(1, 10)),
+        ]);
+
+        if ($user->wasRecentlyCreated) {
+            $teamModel = config('teamwork.team_model');
+
+            $team = $teamModel::create([
+                'name' => ($names[0]."'s Team"),
+                'owner_id' => $user->id,
+            ]);
+            $team->credits = 10;
+            $team->save();
+            $user->attachTeam($team);
+
+            DefaultCrm::dispatch($user->id, $team->id);
+        }
+
+        Auth::login($user);
+
+        return redirect()->route('welcome');
     }
 }
