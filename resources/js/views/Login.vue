@@ -34,7 +34,7 @@
           </div>
           <h2
             class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
-            Sign in
+            Sign in to Jovie
           </h2>
           <p class="mt-2 text-sm text-slate-600">
             Or
@@ -52,7 +52,31 @@
         </div>
 
         <div class="mt-8">
-          <div class="mt-6">
+          <div v-show="!showEmailLoginMethod">
+            <ButtonGroup
+              :disabled="loggingIn"
+              :error="buttonError"
+              icon="google"
+              @click.prevent="authProvider('google')"
+              :text="loggingIn ? 'Logging in...' : 'Continue with Google'"
+              :loader="loggingIn"
+              :success="successfulLogin"
+              type="button"
+              class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+            </ButtonGroup>
+            <ButtonGroup
+              :disabled="loggingIn"
+              :error="buttonError"
+              @click.prevent="showEmailLoginMethod = !showEmailLoginMethod"
+              :text="loggingIn ? 'Logging in...' : 'Continue with Email'"
+              :loader="loggingIn"
+              :success="successfulLogin"
+              theme="secondary"
+              type="button"
+              class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+            </ButtonGroup>
+          </div>
+          <div v-show="showEmailLoginMethod" class="mt-6">
             <form action="#" method="POST" class="space-y-6">
               <div>
                 <div class="relative mt-1">
@@ -97,16 +121,6 @@
                   :error="buttonError"
                   @click="login()"
                   :text="loggingIn ? 'Logging in...' : 'Sign in'"
-                  :loader="loggingIn"
-                  :success="successfulLogin"
-                  type="button"
-                  class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                </ButtonGroup>
-                  <ButtonGroup
-                  :disabled="loggingIn"
-                  :error="buttonError"
-                  @click.prevent="authProvider('google')"
-                  :text="loggingIn ? 'Logging in...' : 'Sign in with Google'"
                   :loader="loggingIn"
                   :success="successfulLogin"
                   type="button"
@@ -167,6 +181,7 @@ export default {
   data() {
     return {
       errors: {},
+      showEmailLoginMethod: false,
       buttonError: false,
       error: '',
 
@@ -179,9 +194,9 @@ export default {
     };
   },
   methods: {
-      authProvider(provider) {
-          window.location.href = `http://127.0.0.1:8000/auth/${provider}/redirect`
-      },
+    authProvider(provider) {
+      window.location.href = `http://127.0.0.1:8000/auth/${provider}/redirect`;
+    },
     login() {
       this.errors = {};
       this.error = '';
