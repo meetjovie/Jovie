@@ -1,16 +1,12 @@
 <template>
   <td
-    @focus="setFocus"
-    @keydown="onKeyDown"
     v-if="freezeColumn || neverHide || visibleColumns.includes(column.key)"
     :class="[
+      cellActive ? ' border border-indigo-500 bg-red-500' : '',
       currentContact.id == creator.id
         ? ' bg-slate-100 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'bg-white text-slate-600 dark:bg-jovieDark-900 dark:text-slate-200  ',
 
-      currentCell.row == index && currentCell.column == column.key
-        ? 'border border-indigo-500'
-        : '',
       freezeColumn
         ? 'fcous:ring-0 sticky isolate z-20 font-bold focus:border-none focus:outline-none'
         : 'border-x',
@@ -28,6 +24,7 @@
         :placeholder="columnName"
         v-model="modelValue" /> -->
     <div v-if="!freezeColumn">
+      <span v-if="cellActive">Active</span>
       <star-rating
         v-if="column.dataType == 'rating'"
         class="w-20"
@@ -62,33 +59,17 @@ export default {
     StarRating,
     CheckboxInput,
   },
-  data() {
-    return {
-      cellActive: false,
-    };
-  },
   emits: ['update:modelValue', 'blur', 'move'],
   methods: {
     onBlur() {
       this.$emit('blur');
-      this.cellActive = false;
     },
-  },
-  onKeyDown(event) {
-    switch (event.key) {
-      case 'ArrowRight':
-        this.$emit('move', 'right');
-        break;
-      case 'ArrowLeft':
-        this.$emit('move', 'left');
-        break;
-      case 'ArrowUp':
-        this.$emit('move', 'up');
-        break;
-      case 'ArrowDown':
-        this.$emit('move', 'down');
-        break;
-    }
+    setFocus() {
+      this.$emit('update:currentCell', {
+        row: this.rowIndex,
+        column: this.columnIndex,
+      });
+    },
   },
   computed: {
     inputComponent() {
@@ -100,20 +81,6 @@ export default {
         default:
           return 'data-grid-cell-text-input';
       }
-    },
-    setFocus() {
-      //focus on the cell input
-      //on next tick
-      this.$nextTick(() => {
-        this.$refs.cellInput.focus();
-      });
-      console.log(this.$refs.cellInput);
-      this.cellActive = true;
-      //set the current cell to this cell row and column
-      this.$emit('update:currentCell', {
-        row: this.rowIndex,
-        column: this.column.key,
-      });
     },
     columnWidth() {
       // Find the object in the visibleColumns array that represents the current column
@@ -133,11 +100,12 @@ export default {
     fieldId: String,
     visibleColumns: Array,
     neverHide: Boolean,
-    cellActive: Boolean,
     column: Object,
     rowIndex: Number,
+    columnIndex: Number,
     modelValue: String,
     currentCell: Object,
+    cellActive: Boolean,
   },
 };
 </script>

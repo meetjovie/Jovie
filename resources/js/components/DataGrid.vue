@@ -347,6 +347,7 @@
                     :row="index"
                     :creator="creator"
                     :index="index"
+                    @update:currentCell="handleUpdateCurrentCell"
                     :visibleColumns="visibleColumns"
                     :currentContact="currentContact"
                     :key="creator.id"
@@ -420,11 +421,9 @@ import {
   Bars3BottomLeftIcon,
   BriefcaseIcon,
   CalendarDaysIcon,
-  ChatBubbleLeftEllipsisIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   CheckIcon,
   ChevronDownIcon,
-  ChevronRightIcon,
   ChevronUpIcon,
   CloudArrowDownIcon,
   CloudArrowUpIcon,
@@ -436,7 +435,6 @@ import {
   ListBulletIcon,
   MagnifyingGlassIcon,
   NoSymbolIcon,
-  PhoneIcon,
   PlusIcon,
   StarIcon,
   TrashIcon,
@@ -446,12 +444,8 @@ import {
 } from '@heroicons/vue/24/solid';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import StarRating from 'vue-star-rating';
 import ImportService from './../services/api/import.service';
 import ButtonGroup from './ButtonGroup.vue';
-import ContactContextMenu from './ContactContextMenu';
-import ContactContextMenuItem from './ContactContextMenuItem';
-import ContactStageMenu from './ContactStageMenu.vue';
 import CrmTableSortableHeader from './CrmTableSortableHeader.vue';
 import DataGridCell from './DataGridCell.vue';
 import DataGridCellTextInput from './DataGridCellTextInput.vue';
@@ -460,33 +454,25 @@ import DataGridRow from './DataGridRow.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
 import GlassmorphismContainer from './GlassmorphismContainer.vue';
 import InputLists from './InputLists';
-import JovieDropdownMenu from './JovieDropdownMenu.vue';
 import JovieSpinner from './JovieSpinner.vue';
 import JovieTooltip from './JovieTooltip.vue';
 import KeyboardShortcut from './KeyboardShortcut';
-import LoadingOverlay from './LoadingOverlay';
 import Pagination from './Pagination';
 import SocialIcons from './SocialIcons.vue';
 export default {
   name: 'DataGrid',
   components: {
-    ContactStageMenu,
-    JovieDropdownMenu,
     DropdownMenuItem,
     DataGridCell,
     DataGridRow,
     DataGridCellTextInput,
     DataGridHeaderContent,
-    LoadingOverlay,
+
     ArchiveBoxIcon,
-    ChevronRightIcon,
-    ContactContextMenu,
-    StarRating,
-    ContactContextMenuItem,
+
     KeyboardShortcut,
     MagnifyingGlassIcon,
-    PhoneIcon,
-    ChatBubbleLeftEllipsisIcon,
+
     GlassmorphismContainer,
     ButtonGroup,
     CloudArrowUpIcon,
@@ -722,6 +708,7 @@ export default {
       //prevent the page from scrolling up
       event.preventDefault();
       this.previousContact();
+      this.handleCellNavigation('ArrowUp');
     });
     this.$mousetrap.bind('/', () => {
       if (!this.searchVisible) {
@@ -735,9 +722,19 @@ export default {
         this.$refs.searchInput.focus();
       }
     });
+    //arrow keys to navigate through the table
+    this.$mousetrap.bind('right', () => {
+      event.preventDefault();
+      this.handleCellNavigation('ArrowRight');
+    });
+    this.$mousetrap.bind('left', () => {
+      event.preventDefault();
+      this.handleCellNavigation('ArrowLeft');
+    });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
       this.nextContact();
+      this.handleCellNavigation('ArrowDown');
     });
     this.$mousetrap.bind('space', () => {
       this.toggleContactSidebar();
@@ -799,6 +796,7 @@ export default {
         }
       });
     },
+
     fullNameColumn() {
       return this.columns.find((column) => column.key == 'full_name');
     },
@@ -819,21 +817,30 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-    moveCell(direction) {
-      switch (direction) {
-        case 'right':
+    handleCellNavigation(event) {
+      // Initialize variables to store the new values of currentCell.row and currentCell.column
+
+      // Check the value of event.key to determine which arrow key was pressed
+      switch (event) {
+        case 'ArrowRight':
           this.currentCell.column += 1;
           break;
-        case 'left':
+        case 'ArrowLeft':
           this.currentCell.column -= 1;
           break;
-        case 'up':
+        case 'ArrowUp':
           this.currentCell.row -= 1;
           break;
-        case 'down':
+        case 'ArrowDown':
           this.currentCell.row += 1;
           break;
       }
+    },
+    handleUpdateCurrentCell(newCell) {
+      this.currentCell = {
+        row: newCell.row,
+        column: newCell.column,
+      };
     },
     hideContextMenu(creator) {
       creator.showContextMenu = false;
@@ -1052,7 +1059,7 @@ export default {
         });
       }
     },
-    generateVCF(creator) {
+    generateVCF(_creator) {
       let vCard = 'BEGIN:VCARD\n';
       vCard += 'VERSION:3.0\n';
       //if creator has a first name
@@ -1210,7 +1217,7 @@ export default {
             });
           }
         })
-        .finally((response) => {});
+        .finally((_) => {});
     },
     addCreatorsToList(id) {
       this.toggleCreatorsFromList(this.selectedCreators, id, false);
@@ -1268,7 +1275,7 @@ export default {
             });
           }
         })
-        .finally((response) => {});
+        .finally((_) => {});
       this.resetChecked();
     },
     toggleContactSidebar() {
@@ -1276,7 +1283,7 @@ export default {
         !this.$store.state.ContactSidebarOpen;
     },
 
-    setCurrentContact(e, creator) {
+    setCurrentContact(_e, creator) {
       this.currentContact = creator;
       this.$emit('setCurrentContact', creator);
     },
@@ -1335,7 +1342,7 @@ export default {
             this.errors = error.data.errors;
           }
         })
-        .finally((response) => {
+        .finally((_) => {
           this.adding = false;
         });
     },

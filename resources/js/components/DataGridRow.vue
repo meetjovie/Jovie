@@ -160,9 +160,13 @@
         :visibleColumns="visibleColumns"
         :currentContact="currentContact"
         :creator="creator"
-        @move="moveCell"
+        :cellActive="
+          currentCell.row == index && currentCell.column == columnIndex
+        "
+        @update:currentCell="handleCellUpdate"
         :currentCell="currentCell"
         :columnIndex="columnIndex"
+        :rowIndex="index"
         :columnName="column.name"
         :column="column"
         @blur="$emit('updateCrmMeta', creator)"
@@ -194,9 +198,9 @@ export default {
     XMarkIcon,
   },
   methods: {
-    moveCell({ row, column }) {
-      this.$emit('move', { row, column });
-      alert('move' + row + column);
+    handleCellUpdate(payload) {
+      // Handle the "update:currentCell" event emitted by the cell component
+      this.$emit('update:currentCell', payload); // Emit a new event to the parent table component
     },
   },
   props: {
