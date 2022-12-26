@@ -7,6 +7,9 @@ use App\Jobs\DefaultCrm;
 use App\Models\Creator;
 use App\Models\User;
 use App\Models\UserList;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -129,6 +132,8 @@ class AuthController extends Controller
         $team->save();
         $user->attachTeam($team);
 
+        event(new Registered($user));
+
         Auth::login($user);
 
         DefaultCrm::dispatch($user->id, $team->id);
@@ -200,5 +205,18 @@ class AuthController extends Controller
         Auth::login($user);
 
         return redirect()->route('welcome');
+    }
+
+    public function verify(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+        }
+
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
+        }
+
+        return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
     }
 }
