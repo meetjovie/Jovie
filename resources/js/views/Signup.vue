@@ -25,86 +25,101 @@
             <form action="#" method="POST" class="space-y-6">
               <template v-if="step == 1">
                 <CreateAccount />
-                <div class="grid grid-cols-2 gap-6">
-                  <div class="col-span-1">
-                    <div class="relative mt-1">
-                      <InputGroup
-                        v-model="user.first_name"
-                        id="first_name"
-                        name="first_name"
-                        type="text"
-                        :valid="firstNameIsValid"
-                        @blur="validateFirstName"
-                        autocomplete="first_name"
-                        required=""
-                        label="First Name"
-                        placeholder="First Name" />
-                      <p
-                        class="mt-2 text-sm text-red-900"
-                        v-if="this.errors.first_name">
-                        {{ this.errors.first_name[0] }}
-                      </p>
+                <div v-show="!showEmailSignupMethod">
+                  <ButtonGroup
+                    :disabled="loading"
+                    @click.prevent="authProvider('google')"
+                    :text="'Continue with Google'"
+                    type="button"
+                    icon="google"
+                    class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  </ButtonGroup>
+                  <ButtonGroup
+                    :disabled="loading"
+                    @click.prevent="showEmailSignupMethod = true"
+                    :text="'Continue with email'"
+                    type="button"
+                    design="secondary"
+                    class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  </ButtonGroup>
+                </div>
+                <div v-show="showEmailSignupMethod">
+                  <div
+                    v-show="showEmailSignupMethod"
+                    class="grid grid-cols-2 gap-6">
+                    <div class="col-span-1">
+                      <div class="relative mt-1">
+                        <InputGroup
+                          v-model="user.first_name"
+                          id="first_name"
+                          name="first_name"
+                          type="text"
+                          :valid="firstNameIsValid"
+                          @blur="validateFirstName"
+                          autocomplete="first_name"
+                          required=""
+                          label="First Name"
+                          placeholder="First Name" />
+                        <p
+                          class="mt-2 text-sm text-red-900"
+                          v-if="this.errors.first_name">
+                          {{ this.errors.first_name[0] }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-span-1">
+                      <div class="relative mt-1">
+                        <InputGroup
+                          v-model="user.last_name"
+                          id="last_name"
+                          :valid="lastNameIsValid"
+                          @blur="validateLastName"
+                          name="last_name"
+                          placeholder="Last Name"
+                          label="Last Name"
+                          type="text"
+                          autocomplete="last_name"
+                          required="" />
+                        <p
+                          class="mt-2 text-sm text-red-900"
+                          v-if="this.errors.last_name">
+                          {{ this.errors.last_name[0] }}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-span-1">
+                  <div>
                     <div class="relative mt-1">
                       <InputGroup
-                        v-model="user.last_name"
-                        id="last_name"
-                        :valid="lastNameIsValid"
-                        @blur="validateLastName"
-                        name="last_name"
-                        placeholder="Last Name"
-                        label="Last Name"
-                        type="text"
-                        autocomplete="last_name"
+                        v-model="user.email"
+                        id="email"
+                        :valid="emailIsValid"
+                        name="email"
+                        label="Email address"
+                        @blur="validateEmail"
+                        placeholder="Email address"
+                        type="email"
+                        autocomplete="email"
+                        v-on:keyup.enter="nextStep()"
                         required="" />
                       <p
                         class="mt-2 text-sm text-red-900"
-                        v-if="this.errors.last_name">
-                        {{ this.errors.last_name[0] }}
+                        v-if="this.errors.email">
+                        {{ this.errors.email[0] }}
                       </p>
                     </div>
                   </div>
-                </div>
-                <div>
-                  <div class="relative mt-1">
-                    <InputGroup
-                      v-model="user.email"
-                      id="email"
-                      :valid="emailIsValid"
-                      name="email"
-                      label="Email address"
-                      @blur="validateEmail"
-                      placeholder="Email address"
-                      type="email"
-                      autocomplete="email"
-                      v-on:keyup.enter="nextStep()"
-                      required="" />
-                    <p
-                      class="mt-2 text-sm text-red-900"
-                      v-if="this.errors.email">
-                      {{ this.errors.email[0] }}
-                    </p>
-                  </div>
-                </div>
 
-                <div>
-                  <ButtonGroup
-                    type="button"
-                    @click="nextStep()"
-                    :loader="loading"
-                    :disabled="submitting"
-                    text="Next"
-                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                  </ButtonGroup>
+                  <div>
                     <ButtonGroup
-                        :disabled="loading"
-                        @click.prevent="authProvider('google')"
-                        :text="'Sign up with Google'"
-                        type="button"
-                        class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      type="button"
+                      @click="nextStep()"
+                      :loader="loading"
+                      :disabled="submitting"
+                      text="Next"
+                      class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     </ButtonGroup>
+                  </div>
                 </div>
 
                 <h3
@@ -175,13 +190,6 @@
                       :disabled="submitting"
                       text="Create Account">
                     </ButtonGroup>
-                      <ButtonGroup
-                          :disabled="loading"
-                          @click.prevent="authProvider('google')"
-                          :text="'Sign up with Google'"
-                          type="button"
-                          class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                      </ButtonGroup>
                   </div>
                 </div>
                 <p class="text-2xs text-slate-400 dark:text-jovieDark-200">
@@ -230,6 +238,7 @@ export default {
   },
   data() {
     return {
+      showEmailSignupMethod: false,
       errors: {},
       error: '',
       step: 1,
@@ -255,9 +264,9 @@ export default {
     window.analytics.page(this.$route.path);
   },
   methods: {
-      authProvider(provider) {
-          window.location.href = `http://127.0.0.1:8000/auth/${provider}/redirect`
-      },
+    authProvider(provider) {
+      window.location.href = `http://127.0.0.1:8000/auth/${provider}/redirect`;
+    },
     back() {
       this.user.password = '';
       this.user.password_confirmation = '';

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2
-      class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
+      class="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
       {{ text }}
     </h2>
 
@@ -24,7 +24,7 @@ export default {
   props: {
     text: {
       type: String,
-      default: 'Create an account',
+      default: 'Create a Jovie account',
     },
     subtext: {
       type: String,

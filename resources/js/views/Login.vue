@@ -34,7 +34,7 @@
           </div>
           <h2
             class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
-            Sign in to Jovie
+            Log in to Jovie
           </h2>
           <p class="mt-2 text-sm text-slate-600">
             Or
@@ -52,7 +52,9 @@
         </div>
 
         <div class="mt-8">
-          <div v-show="!showEmailLoginMethod">
+          <div
+            class="divide-x divide-slate-300 dark:divide-jovieDark-border"
+            v-show="!showEmailLoginMethod">
             <ButtonGroup
               :disabled="loggingIn"
               :error="buttonError"
@@ -64,6 +66,7 @@
               type="button"
               class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
             </ButtonGroup>
+
             <ButtonGroup
               :disabled="loggingIn"
               :error="buttonError"
@@ -71,11 +74,12 @@
               :text="loggingIn ? 'Logging in...' : 'Continue with Email'"
               :loader="loggingIn"
               :success="successfulLogin"
-              theme="secondary"
+              design="secondary"
               type="button"
               class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
             </ButtonGroup>
           </div>
+
           <div v-show="showEmailLoginMethod" class="mt-6">
             <form action="#" method="POST" class="space-y-6">
               <div>
@@ -120,7 +124,7 @@
                   :disabled="loggingIn"
                   :error="buttonError"
                   @click="login()"
-                  :text="loggingIn ? 'Logging in...' : 'Sign in'"
+                  :text="loggingIn ? 'Logging in...' : 'Log in'"
                   :loader="loggingIn"
                   :success="successfulLogin"
                   type="button"
@@ -151,6 +155,13 @@
                 </div>
               </div>
             </form>
+            <div class="flex w-full justify-end">
+              <div
+                @click="showEmailLoginMethod = !showEmailLoginMethod"
+                class="cursor-pointer justify-end text-xs text-slate-600 dark:text-jovieDark-400">
+                Login another way
+              </div>
+            </div>
           </div>
         </div>
       </div>
