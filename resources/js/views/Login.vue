@@ -33,10 +33,10 @@
             <JovieLogo v-else height="28px" color="#fff" />
           </div>
           <h2
-            class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
+            class="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
             Log in to Jovie
           </h2>
-          <p class="mt-2 text-sm text-slate-600">
+          <p class="mt-2 text-center text-sm text-slate-600">
             Or
             {{ ' ' }}
             <router-link
@@ -78,6 +78,23 @@
               type="button"
               class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
             </ButtonGroup>
+            <span
+              class="mt-4 text-center text-[8px] text-slate-600 dark:text-jovieDark-400">
+              By clicking “Continue with Apple/Google/Email/SAML” above, you
+              acknowledge that you have read and understood, and agree to
+              Jovie's
+              <router-link
+                to="/legal"
+                class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
+                Privacy Policy
+              </router-link>
+              and
+              <router-link
+                to="/legal"
+                class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
+                Terms of Service </router-link
+              >.
+            </span>
           </div>
 
           <div v-show="showEmailLoginMethod" class="mt-6">
