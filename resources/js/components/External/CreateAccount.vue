@@ -1,11 +1,11 @@
 <template>
   <div>
     <h2
-      class="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
+      class="mt-6 text-center text-xl font-semibold text-slate-900 dark:text-jovieDark-100">
       {{ text }}
     </h2>
 
-    <p class="text-center text-sm text-slate-600 dark:text-jovieDark-400">
+    <!-- <p class="text-center text-2xs text-slate-600 dark:text-jovieDark-400">
       Or if you already have an account
       {{ ' ' }}
       <router-link
@@ -13,7 +13,7 @@
         class="text-center font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
         login
       </router-link>
-    </p>
+    </p> -->
     <ul v-if="error" class="mt-2 text-sm text-red-900 dark:text-red-100">
       <li>{{ error }}</li>
     </ul>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen bg-white dark:bg-jovieDark-900">
+  <div class="flex min-h-screen bg-white dark:bg-jovieDark-800">
     <div
       class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
       <div class="m-auto flex h-full items-center">
@@ -24,15 +24,15 @@
           <div class="min-h-96 mt-6">
             <form action="#" method="POST" class="space-y-6">
               <template v-if="step == 1">
-                <CreateAccount />
-                <div v-show="!showEmailSignupMethod">
+                <CreateAccount text="Create your Jovie account" />
+                <div class="space-y-4" v-show="!showEmailSignupMethod">
                   <ButtonGroup
                     :disabled="loading"
                     @click.prevent="authProvider('google')"
                     :text="'Continue with Google'"
                     type="button"
                     icon="google"
-                    class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   </ButtonGroup>
                   <ButtonGroup
                     :disabled="loading"
@@ -40,13 +40,11 @@
                     :text="'Continue with email'"
                     type="button"
                     design="secondary"
-                    class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   </ButtonGroup>
                 </div>
-                <div v-show="showEmailSignupMethod">
-                  <div
-                    v-show="showEmailSignupMethod"
-                    class="grid grid-cols-2 gap-6">
+                <div class="space-y-4" v-show="showEmailSignupMethod">
+                  <div class="grid grid-cols-2 gap-6">
                     <div class="col-span-1">
                       <div class="relative mt-1">
                         <InputGroup
@@ -123,7 +121,7 @@
                 </div>
 
                 <h3
-                  class="mx-auto text-center text-xs text-slate-400 dark:text-jovieDark-300">
+                  class="mx-auto text-center text-xs text-slate-400 dark:text-jovieDark-500">
                   Fast & easy. No credit card required.
                 </h3>
               </template>
@@ -192,12 +190,12 @@
                     </ButtonGroup>
                   </div>
                 </div>
-                <p class="text-2xs text-slate-400 dark:text-jovieDark-200">
+                <p class="mt-4 text-2xs text-slate-400 dark:text-jovieDark-400">
                   By clicking “Sign up” you agree to our
-                  <router-link class="underline" to="privacy"
+                  <router-link class="underline" to="legal"
                     >privacy policy</router-link
                   >.and
-                  <router-link class="underline" to="terms">terms</router-link>
+                  <router-link class="underline" to="legal">terms</router-link>
                   of use. You’re also opting in to receive marketing emails. You
                   can unsubscribe at anytime.
                 </p>

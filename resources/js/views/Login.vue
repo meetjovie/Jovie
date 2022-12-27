@@ -32,19 +32,7 @@
               color="#000" />
             <JovieLogo v-else height="28px" color="#fff" />
           </div>
-          <h2
-            class="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
-            Log in to Jovie
-          </h2>
-          <p class="mt-2 text-center text-sm text-slate-600">
-            Or
-            {{ ' ' }}
-            <router-link
-              to="/signup"
-              class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
-              Create an account
-            </router-link>
-          </p>
+          <CreateAccount text="Login to Jovie" />
 
           <ul v-if="error" class="text-red-900">
             <li>{{ error }}</li>
@@ -80,9 +68,8 @@
             </ButtonGroup>
             <span
               class="mt-4 text-center text-[8px] text-slate-600 dark:text-jovieDark-400">
-              By clicking “Continue with Apple/Google/Email/SAML” above, you
-              acknowledge that you have read and understood, and agree to
-              Jovie's
+              By clicking “Continue with Google/Email” above, you acknowledge
+              that you have read and understood, and agree to Jovie's
               <router-link
                 to="/legal"
                 class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
@@ -187,6 +174,7 @@
   </div>
 </template>
 <script>
+import CreateAccount from '../components/External/CreateAccount.vue';
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
@@ -197,6 +185,7 @@ import { Head } from '@vueuse/head';
 export default {
   components: {
     JovieLogo,
+    CreateAccount,
     AuthFooter,
     InputGroup,
     ButtonGroup,
