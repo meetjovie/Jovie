@@ -44,7 +44,7 @@
                   </ButtonGroup>
                 </div>
                 <div class="space-y-4" v-show="showEmailSignupMethod">
-                  <div class="grid grid-cols-2 gap-6">
+                  <!-- <div class="grid grid-cols-2 gap-6">
                     <div class="col-span-1">
                       <div class="relative mt-1">
                         <InputGroup
@@ -85,7 +85,7 @@
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div>
                     <div class="relative mt-1">
                       <InputGroup
@@ -101,7 +101,7 @@
                         v-on:keyup.enter="nextStep()"
                         required="" />
                       <p
-                        class="mt-2 text-sm text-red-900"
+                        class="dark:text-red--300 mt-2 text-sm text-red-700"
                         v-if="this.errors.email">
                         {{ this.errors.email[0] }}
                       </p>
@@ -126,37 +126,17 @@
                 </h3>
               </template>
               <template v-if="step == 2">
-                <CreateAccount text="Enter a password" />
-                <div class="space-y-1">
-                  <div class="relative mt-1">
-                    <InputGroup
-                      v-model="user.password"
-                      id="password"
-                      name="password"
-                      placeholder="Password"
-                      label="Password"
-                      :loader="passwordIsLoading"
-                      type="password"
-                      :valid="passwordIsValid"
-                      @blur="validatePassword"
-                      autocomplete="current-password"
-                      required="" />
-                    <p
-                      class="mt-2 text-sm font-bold text-red-900"
-                      v-if="this.errors.password">
-                      {{ this.errors.password[0] }}
-                    </p>
-                  </div>
-                </div>
+                <CreateAccount text="Check your email" />
+
                 <div class="space-y-1">
                   <div class="relative mt-1">
                     <InputGroup
                       v-model="user.password_confirmation"
                       id="password_confirmation"
                       name="password_confirmation"
-                      placeholder="Confirm Password"
-                      label="Confirm Password"
-                      type="password"
+                      placeholder="000-000"
+                      label="Enter code"
+                      type="code"
                       v-on:keyup.enter="register()"
                       autocomplete="confirm-password"
                       required="" />

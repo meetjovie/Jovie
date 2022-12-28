@@ -23,7 +23,7 @@
       { 'py-2 px-4 text-lg': size == 'md' },
       { 'py-3 px-6 text-xl': size == 'hero' },
       {
-        'border-slate-300 bg-white shadow-sm hover:bg-indigo-500 hover:text-white   dark:border-jovieDark-border dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700  ':
+        'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-indigo-500 hover:text-white   dark:border-jovieDark-border dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700  ':
           design == 'secondary',
       },
       {
