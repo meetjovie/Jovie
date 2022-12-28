@@ -37,8 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Broadcast::routes();
 
-    Route::get('verify-email/{id}/{hash}', [\App\Http\Controllers\Auth\AuthController::class, 'verify'])
-        ->middleware(['signed', 'throttle:6,1'])
+    Route::get('verify-email', [\App\Http\Controllers\Auth\AuthController::class, 'verify'])
+        ->middleware(['throttle:6,1'])
         ->name('verification.verify');
 
     Route::get('/upload-temp-file', [\App\Http\Controllers\UserController::class, 'uploadTempFile']);

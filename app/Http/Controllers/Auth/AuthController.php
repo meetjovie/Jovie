@@ -115,28 +115,30 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        DB::transaction(function () use ($request) {
+            $user = User::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        $teamModel = config('teamwork.team_model');
+            $teamModel = config('teamwork.team_model');
 
-        $team = $teamModel::create([
-            'name' => ($request->first_name."'s Team"),
-            'owner_id' => $user->id,
-        ]);
-        $team->credits = 10;
-        $team->save();
-        $user->attachTeam($team);
+            $team = $teamModel::create([
+                'name' => ($request->first_name."'s Team"),
+                'owner_id' => $user->id,
+            ]);
+            $team->credits = 10;
+            $team->save();
+            $user->attachTeam($team);
 
-        event(new Registered($user));
+            event(new Registered($user));
 
-        Auth::login($user);
+            Auth::login($user);
 
-        DefaultCrm::dispatch($user->id, $team->id);
+            DefaultCrm::dispatch($user->id, $team->id);
+        });
 
         return response()->json([
             'status' => true,
@@ -211,6 +213,10 @@ class AuthController extends Controller
     {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+        }
+
+        if (!$request->user()->validateCode()) {
+
         }
 
         if ($request->user()->markEmailAsVerified()) {

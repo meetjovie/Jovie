@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\SendEmailVerificationNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -270,5 +271,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userListAttributes()
     {
         return $this->belongsToMany(UserList::class, 'user_list_attributes')->withTimestamps();
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new SendEmailVerificationNotification());
     }
 }
