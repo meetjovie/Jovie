@@ -1,6 +1,83 @@
 <template>
   <div>
-    <div class="mx-auto max-w-7xl items-center py-10 sm:px-6 lg:px-8">
+    <div v-if="onboarding">
+      <div class="space-y-4">
+        <!-- Profile Photo File Input -->
+        <div class="mx-auto mt-1 flex flex-col items-center">
+          <span
+            class="inline-block h-20 w-20 overflow-hidden rounded-full bg-slate-100 object-cover object-center dark:bg-jovieDark-800">
+            <img
+              id="profile_pic_url_img"
+              ref="profile_pic_url_img"
+              :src="
+                $store.state.AuthState.user.profile_pic_url ??
+                $store.state.AuthState.user.default_image
+              " />
+          </span>
+
+          <label
+            for="profile_pic_url"
+            class="mx-auto mt-2 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700">
+            Add photo
+          </label>
+          <input
+            :disabled="updating"
+            type="file"
+            ref="profile_pic_url"
+            @change="fileChanged($event)"
+            name="profile_pic_url"
+            id="profile_pic_url"
+            style="display: none" />
+          <span v-if="uploadProgress">{{ uploadProgress }} %</span>
+          <p v-if="errors.profile_pic_url" class="mt-2 text-sm text-red-600">
+            {{ errors.profile_pic_url[0] }}
+          </p>
+        </div>
+
+        <button
+          @click="removeProfilePhoto()"
+          v-if="$store.state.AuthState.user.profile_pic_url"
+          type="button"
+          class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
+          Remove Photo
+        </button>
+        <button
+          @click="removeProfilePhoto()"
+          v-else
+          type="button"
+          class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
+          Add a photo
+        </button>
+        <!-- Name -->
+        <div class="col-span-6 flex space-x-4">
+          <div class="col-span-3">
+            <InputGroup
+              v-model="$store.state.AuthState.user.first_name"
+              :error="errors?.first_name?.[0]"
+              :disabled="updating"
+              @blur="updateProfile"
+              name="first_name"
+              label="First Name"
+              placeholder="First Name"
+              type="text" />
+          </div>
+
+          <!-- Name -->
+          <div class="col-span-3">
+            <InputGroup
+              @blur="updateProfile"
+              v-model="$store.state.AuthState.user.last_name"
+              :error="errors?.last_name?.[0]"
+              :disabled="updating"
+              name="last_name"
+              label="Last Name"
+              placeholder="Last Name"
+              type="text" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="mx-auto max-w-7xl items-center py-10 sm:px-6 lg:px-8">
       <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
@@ -267,6 +344,12 @@ export default {
     ButtonGroup,
     ModalPopup,
     SocialIcons,
+  },
+  props: {
+    onboarding: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

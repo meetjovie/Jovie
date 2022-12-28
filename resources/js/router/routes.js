@@ -369,6 +369,14 @@ export const routes = [
     },
   },
   {
+    name: 'onboarding',
+    path: '/onboarding',
+    component: loadPage('OnboardingScreen'),
+    meta: {
+      layout: 'Minimal',
+    },
+  },
+  {
     name: 'Creator Overview',
     path: '/overview/:id',
     component: loadPage('CreatorOverview'),
