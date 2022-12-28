@@ -125,7 +125,7 @@
                   Fast & easy. No credit card required.
                 </h3>
               </template>
-              <template v-if="step == 2">
+              <template v-if="step == 1">
                 <CreateAccount text="Check your email" />
 
                 <div class="space-y-1">
@@ -166,7 +166,7 @@
                       :success="success"
                       :error="error"
                       :disabled="submitting"
-                      text="Create Account">
+                      text="Contine with code">
                     </ButtonGroup>
                   </div>
                 </div>
