@@ -117,9 +117,9 @@
 <script>
 import UserService from '../../services/api/user.service';
 import InputGroup from '../../components/InputGroup.vue';
-import CardHeading from '../../components/CardHeading';
-import CardLayout from '../../components/CardLayout';
-import ButtonGroup from '../../components/ButtonGroup';
+import CardHeading from '../CardHeading.vue';
+import CardLayout from '../../components/CardLayout.vue';
+import ButtonGroup from '../../components/ButtonGroup.vue';
 import ImportService from '../../services/api/import.service';
 
 export default {

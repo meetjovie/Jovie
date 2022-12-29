@@ -18,20 +18,20 @@
         :class="{ 'pl-1': rounded == 'sm' }">
         <component
           :is="icon"
-          class="h-5 w-5 text-slate-400"
+          class="h-5 w-5 text-slate-400 dark:text-jovieDark-200"
           :class="{ 'h-3 w-3': rounded == 'sm' }" />
       </div>
       <div
-        v-if="passwordRevealToggle"
         @click="togglePasswordReveal"
         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
         :class="{ 'pl-1': rounded == 'sm' }">
         <EyeIcon
-          class="h-5 w-5 text-slate-400"
+          class="h-5 w-5 text-slate-400 dark:text-jovieDark-200"
           :class="{ 'h-3 w-3': rounded == 'sm' }" />
       </div>
       <div class="relative">
         <input
+          ref="input"
           :autocomplete="autocomplete"
           :type="
             passwordRevealToggle ? (passwordReveal ? 'text' : 'password') : type
@@ -119,6 +119,12 @@ export default {
   methods: {
     togglePasswordReveal() {
       this.passwordReveal = !this.passwordReveal;
+    },
+    focusInput() {
+      //next tick focus input
+      this.$nextTick(() => {
+        this.$refs.input.focus();
+      });
     },
   },
   props: {

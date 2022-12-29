@@ -23,7 +23,7 @@
       { 'py-2 px-4 text-lg': size == 'md' },
       { 'py-3 px-6 text-xl': size == 'hero' },
       {
-        'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-indigo-500 hover:text-white   dark:border-jovieDark-border dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700  ':
+        'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-indigo-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-30   dark:border-jovieDark-border dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700  ':
           design == 'secondary',
       },
       {
@@ -31,7 +31,7 @@
           design == 'toolbar',
       },
       {
-        'hover:bg-indig-600 w-full  font-medium text-white  shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900':
+        ' w-full font-medium text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
           design == 'primary',
       },
       {
