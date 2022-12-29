@@ -14,42 +14,52 @@
       </div>
     </OnboardingStep>
     <OnboardingStep
-      v-if="step === 2"
+      v-if="step === 2 && type === ''"
       header="How are you planning to use Jovie?"
       subheader="We'll streamline your setup experience accordingly.">
       <div class="space-y-6">
-        <RadioGroup :items="items" />
+        <RadioGroup v-model="type" :value="type" :options="items" />
         <ButtonGroup
-          @click="step = 3"
+          @click="setAccountType"
           :loading="updating"
           text="Continue"></ButtonGroup>
       </div>
     </OnboardingStep>
     <OnboardingStep
-      v-if="step === 3"
+      v-else-if="step === 2 && type === 'team'"
       header="Create a team workspace"
       subheader="Fill in some details for your teammates.">
       <div class="mt-4 space-y-6">
         <EmojiPickerModal
           xl
           class="py-4"
-          @emojiSelected="emojiSelected($event, item)"
+          @emojiSelected="emojiSelected($event)"
           :currentEmoji="emoji" />
         <span
           class="mt-4 text-xl font-bold text-slate-900 dark:text-jovieDark-100">
           Choose icon
         </span>
+        <div>
+          <InputGroup
+            :error="errors?.name?.[0]"
+            name="workspace-name"
+            label="Workspace Name"
+            placeholder="Enter a Team Name" />
 
-        <InputGroup
-          :error="errors?.name?.[0]"
-          name="workspace-name"
-          label="Workspace Name"
-          placeholder="Enter a Team Name" />
-
-        <h3
-          class="text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
-          The name of your company or organization
-        </h3>
+          <h3
+            class="mt-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
+            The name of your company or organization
+          </h3>
+        </div>
+        <ButtonGroup :loading="updating" text="Continue"></ButtonGroup>
+      </div>
+    </OnboardingStep>
+    <OnboardingStep
+      v-else-if="step === 2 && type === 'personal'"
+      header="Personal Workspace"
+      subheader="Just you">
+      <div class="mt-4 space-y-6">
+        ok
 
         <ButtonGroup :loading="updating" text="Continue"></ButtonGroup>
       </div>
@@ -72,6 +82,7 @@ export default {
       errors: {},
       updating: false,
       emoji: '👋',
+      type: '',
       items: [
         {
           id: 1,
@@ -86,6 +97,16 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    setAccountType(type) {
+      this.step = 3;
+      this.type = type;
+    },
+    emojiSelected(emoji) {
+      this.emoji = emoji;
+      this.closeEmojiModal = !this.closeEmojiModal;
+    },
   },
   components: {
     AccountProfile,

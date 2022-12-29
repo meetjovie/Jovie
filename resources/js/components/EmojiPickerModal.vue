@@ -16,6 +16,7 @@
           v-slot="{ close }"
           class="z-40 mt-3 w-screen rounded-lg border border-slate-300 bg-white/60 px-4 shadow-lg backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border sm:px-0 lg:w-60">
           <EmojiPicker
+            :class="{ 'dark-theme': $store.state.theme === 'dark' }"
             disable-skin-tones
             native
             :theme="theme"
@@ -139,6 +140,8 @@ export default {
 }
 .v3-emoji-picker .v3-header .v3-groups .v3-group:hover {
   opacity: 1;
+
+  border-radius: 0.375rem;
 }
 .v3-emoji-picker .v3-header .v3-groups .v3-group span {
   display: flex;
@@ -222,6 +225,7 @@ export default {
 }
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group .v3-emojis button:hover {
   background: #f7f7f7;
+  border-radius: 0.375rem;
 }
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group .v3-emojis button img {
   max-width: 100%;
