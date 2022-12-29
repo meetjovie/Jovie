@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -79,7 +80,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => false,
                 'error' => 'Your email or password is incorrect.',
@@ -111,11 +112,22 @@ class AuthController extends Controller
         $socialite = Socialite::driver($network);
         if ($network == 'reddit') {
             $socialite = $socialite
-                ->with(['duration' => 'permanent'])->setScopes(['identity', 'submit', 'flair', 'modflair', 'privatemessages']);
+                ->with(['duration' => 'permanent'])->setScopes(
+                    ['identity', 'submit', 'flair', 'modflair', 'privatemessages']
+                );
         } elseif ($network == 'google') {
             $socialite = $socialite->with(["access_type" => "offline", "prompt" => "consent select_account"]);
         } elseif ($network == 'facebook') {
-            $socialite = $socialite->setScopes(['pages_show_list', 'pages_manage_metadata', 'pages_messaging', 'pages_read_engagement', 'instagram_basic', 'instagram_manage_messages']);
+            $socialite = $socialite->setScopes(
+                [
+                    'pages_show_list',
+                    'pages_manage_metadata',
+                    'pages_messaging',
+                    'pages_read_engagement',
+                    'instagram_basic',
+                    'instagram_manage_messages'
+                ]
+            );
         }
 //        dd($socialite);
         return $socialite->redirect();
@@ -140,7 +152,7 @@ class AuthController extends Controller
             $teamModel = config('teamwork.team_model');
 
             $team = $teamModel::create([
-                'name' => ($names[0]."'s Team"),
+                'name' => ($names[0] . "'s Team"),
                 'owner_id' => $user->id,
             ]);
             $team->credits = 10;
@@ -155,7 +167,7 @@ class AuthController extends Controller
         return redirect()->route('welcome');
     }
 
-    public function register(Request $request)
+    public function registerX(Request $request)
     {
         $request->validate([
             'first_name' => 'required|max:255',
@@ -175,7 +187,7 @@ class AuthController extends Controller
             $teamModel = config('teamwork.team_model');
 
             $team = $teamModel::create([
-                'name' => ($request->first_name."'s Team"),
+                'name' => ($request->first_name . "'s Team"),
                 'owner_id' => $user->id,
             ]);
             $team->credits = 10;
@@ -209,14 +221,21 @@ class AuthController extends Controller
         ]);
     }
 
-    public function verificationEmail(Request $request)
+    public function register(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|max:255|unique:users,email,NULL,id,verified_at,NULL',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->whereNotNull('email_verified_at')
+            ]
         ]);
 
         DB::transaction(function () use ($request) {
-            $user = User::create([
+            $user = User::query()->updateOrCreate([
+                'email' => $request->email
+            ], [
                 'email' => $request->email
             ]);
             event(new Registered($user));
@@ -225,9 +244,11 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => true,
-            'user' => User::currentLoggedInUser(),
+            'user' => Auth::user(),
+            'message' => 'Please check you email for activation code.'
         ], 200);
     }
+
     public function verify(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
@@ -242,7 +263,7 @@ class AuthController extends Controller
                 event(new Verified($request->user()));
                 return response()->json([
                     'status' => true,
-                    'user' => User::currentLoggedInUser(),
+                    'user' => Auth::user(),
                 ], 200);
             }
         }

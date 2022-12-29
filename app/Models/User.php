@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\SendEmailVerificationNotification;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -59,11 +60,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $user = self::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
             ->where('id', $userId ?? Auth::id())->first();
-        $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
-        $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
-        $user->currentTeam->subscribed = false;
-        if ($user->currentTeam->current_subscription) {
-            $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
+        if ($user->currentSubscription) {
+            $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
+            $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
+            $user->currentTeam->subscribed = false;
+            if ($user->currentTeam->current_subscription) {
+                $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
+            }
         }
 
         return $user;
@@ -276,5 +279,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new SendEmailVerificationNotification());
+    }
+
+    public function validateCode($code = null)
+    {
+        if (is_null($code) || $this->verification_code != $code || $this->codeExpired()) {
+            return false;
+        }
+        return true;
+    }
+
+    private function codeExpired()
+    {
+        return Carbon::make($this->verification_code_expires_at)->lte(Carbon::now());
     }
 }

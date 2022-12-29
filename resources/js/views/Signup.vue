@@ -98,7 +98,7 @@
                         placeholder="Email address"
                         type="email"
                         autocomplete="email"
-                        v-on:keyup.enter="nextStep()"
+                        v-on:keyup.enter="register()"
                         required="" />
                       <p
                         class="dark:text-red--300 mt-2 text-sm text-red-700"
@@ -111,7 +111,7 @@
                   <div>
                     <ButtonGroup
                       type="button"
-                      @click="nextStep()"
+                      @click="register()"
                       :loader="loading"
                       :disabled="submitting"
                       text="Next"
@@ -131,42 +131,35 @@
                 <div class="space-y-1">
                   <div class="relative mt-1">
                     <InputGroup
-                      v-model="user.password_confirmation"
+                      v-model="code"
                       id="password_confirmation"
                       name="password_confirmation"
                       placeholder="000-000"
                       label="Enter code"
                       type="code"
-                      v-on:keyup.enter="register()"
+                      v-on:keyup.enter="verify()"
                       autocomplete="confirm-password"
                       required="" />
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
-                      v-if="this.errors.password">
-                      {{ this.errors.password[0] }}
+                      v-if="this.errors.code">
+                      {{ this.errors.code[0] }}
                     </p>
                   </div>
                 </div>
                 <div class="grid grid-cols-2">
                   <div>
-                    <button
-                      type="button"
-                      @click="back()"
-                      tabindex="0"
-                      class="col-span-1 cursor-pointer justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                      Back
-                    </button>
                   </div>
                   <div>
                     <ButtonGroup
                       type="button"
                       tabindex="0"
-                      @click="register()"
+                      @click="verify()"
                       :loader="loading"
                       :success="success"
                       :error="error"
                       :disabled="submitting"
-                      text="Contine with code">
+                      text="Continue with code">
                     </ButtonGroup>
                   </div>
                 </div>
@@ -235,11 +228,13 @@ export default {
       submitting: false,
       success: false,
       loading: false,
+        code: '',
     };
   },
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
+    this.code = this.$route.query.code ?? ''
   },
   methods: {
     authProvider(provider) {
@@ -340,7 +335,42 @@ export default {
           response = response.data;
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
-            this.$router.push({ name: 'Home' });
+              this.$notify({
+                  group: 'user',
+                  type: 'success',
+                  title: 'Successful',
+                  message: response.message,
+              });
+          } else {
+            this.error = response.error;
+          }
+        })
+        .catch((error) => {
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors;
+            this.error = error.response.data.message;
+            return;
+          }
+          alert('Something went wrong.');
+          this.success = false;
+        })
+        .finally(() => {
+          this.submitting = false;
+          this.success = true;
+          this.loading = false;
+        });
+    },
+    verify() {
+      this.loading = true;
+      this.errors = {};
+      this.error = '';
+      this.submitting = true;
+      AuthService.verify({code: this.code})
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$store.commit('setAuthStateUser', response.user);
+            this.$router.push('onboarding');
           } else {
             this.error = response.error;
           }

@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Broadcast::routes();
 
-    Route::get('verify-email', [\App\Http\Controllers\Auth\AuthController::class, 'verify'])
+    Route::post('verify-email', [\App\Http\Controllers\Auth\AuthController::class, 'verify'])
         ->middleware(['throttle:6,1'])
         ->name('verification.verify');
 

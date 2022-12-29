@@ -62,7 +62,7 @@ class SendEmailVerificationNotification extends Notification
 
     public function getUrl($code): string
     {
-        return route('verification.verify', ['code', $code]);
+        return (config('app.url').'/'.'signup?code='.$code);
     }
 
     /**
