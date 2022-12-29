@@ -85,7 +85,6 @@ const items = [
     description: 'Use Jovie for yourself and your personal projects.',
   },
 ];
-const label = 'Choose a workspace type';
 
 const selectedItems = ref(items[0]);
 </script>

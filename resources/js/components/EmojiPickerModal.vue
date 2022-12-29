@@ -3,7 +3,12 @@
     <Popover as="div" class="relative">
       <Float portal shift placement="right-start">
         <PopoverButton>
-          <span :class="xl ? 'text-lg' : 'text-sm'">
+          <span
+            :class="
+              xl
+                ? 'rounded-md px-4 py-4 text-4xl hover:bg-slate-100 dark:hover:bg-jovieDark-700'
+                : 'text-sm'
+            ">
             {{ currentEmoji || '📄' }}
           </span>
         </PopoverButton>

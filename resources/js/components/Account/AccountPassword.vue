@@ -10,7 +10,7 @@
           v-model="user.password"
           :error="errors?.password?.[0]"
           :disabled="updating"
-          :passwordRevealToggle="true"
+          passwordRevealToggle
           name="set_password"
           label="Set Password"
           placeholder="Enter a Password" />
