@@ -48,6 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
     Route::put('/update-password', [\App\Http\Controllers\UserController::class, 'updatePassword']);
+    Route::put('/set-password', [\App\Http\Controllers\UserController::class, 'setPassword']);
 
 //    Route::group(['middleware' => 'subscribed'], function () {
 

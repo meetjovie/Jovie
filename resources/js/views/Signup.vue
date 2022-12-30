@@ -375,14 +375,6 @@ export default {
             this.error = response.error;
           }
         })
-        .then(() => {
-          //track call to segment
-          window.analytics.track('Signed Up', {
-            first_name: this.user.first_name,
-            last_name: this.user.last_name,
-            email_address: this.user.email,
-          });
-        })
         .catch((error) => {
           if (error.response.status == 422) {
             this.errors = error.response.data.errors;

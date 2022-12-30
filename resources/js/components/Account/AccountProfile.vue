@@ -424,6 +424,7 @@ export default {
       }).then((response) => {
         this.bucketResponse = response;
         this.$refs.profile_pic_url_img.src = src;
+        this.updateProfile()
       });
     },
     updateProfile() {

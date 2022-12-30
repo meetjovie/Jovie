@@ -301,6 +301,20 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function setPassword(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', Password::defaults()],
+        ]);
+
+        User::where('id', Auth::id())->update(['password'=> Hash::make($request->password)]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Password updated successfully',
+        ], 200);
+    }
+
     public function uploadTempFile(Request $request)
     {
         $url = null;
