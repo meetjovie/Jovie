@@ -374,6 +374,7 @@ export const routes = [
     component: loadPage('OnboardingScreen'),
     meta: {
       layout: 'Minimal',
+      requiresAuth: true,
     },
   },
   {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Teamwork;
 
+use App\Jobs\DefaultCrm;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
@@ -52,13 +54,21 @@ class TeamController extends Controller
 
         $team = $teamModel::create([
             'name' => $request->name,
+            'emoji' => $request->emoji ?? '👋',
             'owner_id' => $request->user()->getKey(),
         ]);
         $request->user()->attachTeam($team);
+        $request->user()->switchTeam($team);
 
+        if ($request->user()) {
+            $team->credits = 10;
+            $team->save();
+            DefaultCrm::dispatch($request->user()->id, $team->id);
+        }
         return response([
             'status' => true,
             'team' => $team,
+            'user' => User::currentLoggedInUser()
         ]);
     }
 

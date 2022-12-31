@@ -148,20 +148,6 @@ class AuthController extends Controller
             'password' => Hash::make(rand(1, 10)),
         ]);
 
-        if ($user->wasRecentlyCreated) {
-            $teamModel = config('teamwork.team_model');
-
-            $team = $teamModel::create([
-                'name' => ($names[0] . "'s Team"),
-                'owner_id' => $user->id,
-            ]);
-            $team->credits = 10;
-            $team->save();
-            $user->attachTeam($team);
-
-            DefaultCrm::dispatch($user->id, $team->id);
-        }
-
         Auth::login($user);
 
         return redirect()->route('welcome');
@@ -232,6 +218,7 @@ class AuthController extends Controller
             ]
         ]);
 
+        $user = null;
         DB::transaction(function () use ($request) {
             $user = User::query()->updateOrCreate([
                 'email' => $request->email
@@ -239,28 +226,34 @@ class AuthController extends Controller
                 'email' => $request->email
             ]);
             event(new Registered($user));
-            Auth::login($user);
         });
 
         return response()->json([
             'status' => true,
-            'user' => Auth::user(),
+            'user' => $user,
             'message' => 'Please check you email for activation code.'
         ], 200);
     }
 
     public function verify(Request $request)
     {
-        if ($request->user()->hasVerifiedEmail()) {
+        $user = User::query()->where('email', $request->email)->first();
+        if (is_null($user)) {
             return response()->json([
-                'status' => true,
-                'user' => User::currentLoggedInUser(),
+                'status' => false,
+                'message' => 'This email does not exist. Enter your email and to get code.',
             ], 200);
         }
-
-        if ($request->user()->validateCode($request->code)) {
-            if ($request->user()->markEmailAsVerified()) {
-                event(new Verified($request->user()));
+        if (!is_null($user->email_verfied_at)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This email is already registered and verified. Please login to continue.',
+            ], 200);
+        }
+        if ($user->validateCode($request->code)) {
+            if ($user->markEmailAsVerified()) {
+                Auth::login($user);
+                event(new Verified($user));
                 return response()->json([
                     'status' => true,
                     'user' => Auth::user(),

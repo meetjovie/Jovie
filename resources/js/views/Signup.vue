@@ -365,7 +365,7 @@ export default {
       this.errors = {};
       this.error = '';
       this.submitting = true;
-      AuthService.verify({code: this.code})
+      AuthService.verify({code: this.code, email: this.user.email})
         .then((response) => {
           response = response.data;
           if (response.status) {

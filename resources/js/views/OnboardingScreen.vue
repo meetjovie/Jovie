@@ -14,7 +14,7 @@
       </div>
     </OnboardingStep>
     <OnboardingStep
-      v-if="step === 2 && type === ''"
+      v-if="step === 2"
       header="How are you planning to use Jovie?"
       subheader="We'll streamline your setup experience accordingly.">
       <div class="space-y-6">
@@ -26,7 +26,7 @@
       </div>
     </OnboardingStep>
     <OnboardingStep
-      v-else-if="step === 2 && type === 'team'"
+      v-else-if="step === 3 && type === 'team'"
       header="Create a team workspace"
       subheader="Fill in some details for your teammates.">
       <div class="mt-4 space-y-6">
@@ -44,6 +44,7 @@
             :error="errors?.name?.[0]"
             name="workspace-name"
             label="Workspace Name"
+            v-model="workspace"
             placeholder="Enter a Team Name" />
 
           <h3
@@ -51,17 +52,17 @@
             The name of your company or organization
           </h3>
         </div>
-        <ButtonGroup :loading="updating" text="Continue"></ButtonGroup>
+        <ButtonGroup @click="setupWorkspace" :loading="updating" text="Continue"></ButtonGroup>
       </div>
     </OnboardingStep>
     <OnboardingStep
-      v-else-if="step === 2 && type === 'personal'"
+      v-else-if="step === 3 && type === 'personal'"
       header="Personal Workspace"
       subheader="Just you">
       <div class="mt-4 space-y-6">
         ok
 
-        <ButtonGroup :loading="updating" text="Continue"></ButtonGroup>
+        <ButtonGroup @click="setupWorkspace" :loading="updating" text="Continue"></ButtonGroup>
       </div>
     </OnboardingStep>
   </div>
@@ -74,6 +75,7 @@ import AccountPassword from '../components/Account/AccountPassword.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import OnboardingStep from '../components/OnboardingStep.vue';
+import TeamService from "../services/api/team.service";
 export default {
   name: 'Onboarding',
   data() {
@@ -82,6 +84,7 @@ export default {
       errors: {},
       updating: false,
       emoji: '👋',
+      workspace: '',
       type: '',
       items: [
         {
@@ -98,15 +101,44 @@ export default {
       ],
     };
   },
+    mounted() {
+      if (this.currentUser.first_name && this.currentUser.password_set) {
+          this.step = 2
+      }
+    },
   methods: {
-    setAccountType(type) {
-      this.step = 3;
-      this.type = type;
+    setAccountType() {
+        this.step = 3;
     },
     emojiSelected(emoji) {
       this.emoji = emoji;
       this.closeEmojiModal = !this.closeEmojiModal;
     },
+      setupWorkspace() {
+          let data = {
+              emoji: this.emoji,
+              name: this.workspace ? this.workspace : (`${this.currentUser.first_name}' s`)
+          }
+          this.updating = true;
+          TeamService.createTeam(data)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$store.commit('setAuthStateUser', response.user);
+                      this.errors = {};
+                      this.$router.push('Contacts')
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                  }
+              })
+              .finally((response) => {
+                  this.updating = false;
+              });
+      },
   },
   components: {
     AccountProfile,

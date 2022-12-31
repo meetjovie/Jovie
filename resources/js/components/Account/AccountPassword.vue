@@ -4,7 +4,7 @@
       <!-- Name -->
 
       <!-- Password -->
-      <div class="col-span-6 sm:col-span-4">
+      <div class="col-span-6 sm:col-span-4" v-if="!currentUser.password_set">
         <InputGroup
           @blur="setPassword()"
           v-model="user.password"

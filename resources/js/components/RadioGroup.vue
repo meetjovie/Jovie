@@ -12,7 +12,7 @@
         as="template"
         v-for="item in items"
         :key="item.id"
-        :value="item"
+        :value="item.value"
         v-slot="{ checked, active }">
         <div
           :class="[
@@ -77,12 +77,14 @@ const items = [
     description: 'Collaborate with your team on a shared workspace.',
     cta: 'Try free',
     icon: 'UsersIcon',
+    value: 'team',
   },
   {
     id: 2,
     title: 'For myself',
     icon: 'UserIcon',
     description: 'Use Jovie for yourself and your personal projects.',
+    value: 'personal',
   },
 ];
 
