@@ -139,11 +139,11 @@ class AuthController extends Controller
 
         $names = explode(' ', $user->name);
         $user = User::query()->updateOrCreate([
-            'google_id' => $user->id
+            'email' => $user->email,
         ], [
             'first_name' => $names[0],
             'last_name' => $names[1] ?? null,
-            'email' => $user->email,
+            'google_id' => $user->id,
             'profile_pic_url' => $user->avatar,
             'password' => Hash::make(rand(1, 10)),
         ]);
