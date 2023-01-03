@@ -1,6 +1,6 @@
 <template>
   <td
-    v-if="freezeColumn || neverHide || visibleColumns.includes(column.key)"
+    v-if="freezeColumn || neverHide || (column && visibleColumns.includes(column.key))"
     :class="[
       cellActive ? ' border border-indigo-500 bg-red-500' : '',
       currentContact.id == creator.id
@@ -30,16 +30,34 @@
         class="w-20"
         :star-size="12"
         :increment="0.5"
-        v-model:rating="modelValue"
-        @blur="onBlur" />
+        v-model:rating="creator.crm_record_by_user.rating"
+        @update:rating="
+          $emit('updateCreator', {
+            id: key,
+            index: index,
+            key: `crm_record_by_user.rating`,
+            value: creator.crm_record_by_user.rating,
+          })
+        "
+      />
       <CheckboxInput v-else-if="dataType == 'checkbox'" v-model="modelValue" />
       <DataGridCellTextInput
-        v-else-if="column.dataType == 'text' || 'email' || 'currency'"
+        v-else-if="['text', 'email', 'currency'].includes(column.dataType)"
         :fieldId="fieldId"
         @blur="onBlur"
         :dataType="column.dataType"
         :placeholder="columnName"
         v-model="modelValue" />
+      <DataGridSocialLinksCell :creator="creator" :networks="networks" v-else-if="column.dataType == 'socialLinks'" />
+        <ContactStageMenu
+            v-else-if="column.dataType == 'singleSelect'"
+            :creator="creator"
+            :key="key"
+            :open="showContactStageMenu[index]"
+            @close="toggleContactStageMenu(index)"
+            :stages="stages"
+            :index="index"
+            @updateCreator="$emit('updateCreator', $event)" />
       <span v-else
         >Data Type:
         {{ column.dataType }}
@@ -52,15 +70,32 @@
 import CheckboxInput from './CheckboxInput.vue';
 import DataGridCellTextInput from './DataGridCellTextInput.vue';
 import StarRating from 'vue-star-rating';
+import SocialIcons from "./SocialIcons.vue";
+import DataGridSocialLinksCell from "./DataGridSocialLinksCell.vue";
+import ContactStageMenu from "./ContactStageMenu.vue";
 export default {
   name: 'DataGridCell',
   components: {
+      ContactStageMenu,
+      DataGridSocialLinksCell,
+      SocialIcons,
     DataGridCellTextInput,
     StarRating,
     CheckboxInput,
   },
   emits: ['update:modelValue', 'blur', 'move'],
+    mounted() {
+        console.log(this.column);
+    },
+    data() {
+      return {
+          showContactStageMenu: [],
+      }
+    },
   methods: {
+      toggleContactStageMenu(index) {
+          this.showContactStageMenu[index] = !this.showContactStageMenu[index];
+      },
     onBlur() {
       this.$emit('blur');
     },
@@ -95,6 +130,7 @@ export default {
     currentContact: Object,
     creator: Object,
     index: Number,
+    key: Number,
     selectedCreators: Array,
     freezeColumn: Boolean,
     fieldId: String,
@@ -106,6 +142,8 @@ export default {
     modelValue: String,
     currentCell: Object,
     cellActive: Boolean,
+    networks: Array,
+    stages: Array,
   },
 };
 </script>

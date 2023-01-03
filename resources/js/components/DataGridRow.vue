@@ -155,8 +155,8 @@
       </div>
     </DataGridCell>
 
-    <template :key="column.key" v-for="(column, columnIndex) in otherColumns">
       <DataGridCell
+          v-for="(column, columnIndex) in otherColumns"
         :visibleColumns="visibleColumns"
         :currentContact="currentContact"
         :creator="creator"
@@ -167,12 +167,15 @@
         :currentCell="currentCell"
         :columnIndex="columnIndex"
         :rowIndex="index"
+        :networks="networks"
+        :stages="stages"
         :columnName="column.name"
         :column="column"
+          @updateCreator="$emit('updateCreator', $event)"
         @blur="$emit('updateCrmMeta', creator)"
         :modelValue="creator.meta[column.key]"
-        :index="index" />
-    </template>
+        :index="index"
+        :key="key" />
   </tr>
 </template>
 <script>
@@ -217,9 +220,12 @@ export default {
     neverHide: Boolean,
     cellActive: Boolean,
     index: Number,
+    key: Number,
     column: Object,
     otherColumns: Array,
     columnIndex: Number,
+    networks: Array,
+    stages: Array,
   },
 };
 </script>
