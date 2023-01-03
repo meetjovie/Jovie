@@ -50,7 +50,6 @@ router.beforeEach(async (to, from) => {
             return router.push({ name: from.name });
           }
 
-          alert(to.name)
           if (to.name != 'onboarding' && (!user.first_name || !user.current_team || (!user.google_id && !user.password_set))) {
               return router.push({ name: 'onboarding' });
           }
