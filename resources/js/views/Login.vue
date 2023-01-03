@@ -212,7 +212,7 @@ export default {
   },
   methods: {
     authProvider(provider) {
-      window.location.href = process.env.MIX_GOOGLE_URL;
+        window.location.href = `/auth/${provider}/redirect`;
     },
     login() {
       this.errors = {};
