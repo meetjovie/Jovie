@@ -44,10 +44,11 @@ class SendEmailVerificationNotification extends Notification
     {
         $code = $this->generateCode($notifiable);
         return (new MailMessage)
-            ->subject(Lang::get('Verify Email Address'))
-            ->line(Lang::get('Please use the code below to verify your email address.'))
-            ->line(Lang::get("Verification Code: $code (The code would expire in an hour.)"))
-            ->action(Lang::get('Verify Email Address'), $this->getUrl($code))
+            ->subject(Lang::get('Your Jovie login code is :code', ['code' => $code]))
+            ->line(Lang::get("Your temporary Jovie login code is: $code (The code would expire in an hour.)"))
+            ->line(Lang::get('Copy & paste or use the magic link below to login.'))
+         
+            ->action(Lang::get('Click here to login with code'), $this->getUrl($code))
             ->line(Lang::get('If you did not create an account, no further action is required.'));
     }
 

@@ -124,13 +124,37 @@
                   class="mx-auto text-center text-xs text-slate-400 dark:text-jovieDark-500">
                   Fast & easy. No credit card required.
                 </h3>
+                <p class="mt-4 text-2xs text-slate-400 dark:text-jovieDark-400">
+                  By clicking “Continue with Google/Email” above, you
+                  acknowledge that you have read and understood, and agree to
+                  Jovie's
+                  <router-link class="underline" to="legal"
+                    >privacy policy</router-link
+                  >.and
+                  <router-link class="underline" to="legal">terms</router-link>
+                  of use. You’re also opting in to receive marketing emails. You
+                  can unsubscribe at anytime.
+                </p>
               </template>
-              <template v-if="step == 1">
+              <template v-if="step == 2">
                 <CreateAccount text="Check your email" />
+                <h2
+                  class="text-center text-sm text-slate-600 dark:text-jovieDark-300">
+                  We just sent you a temporary sign up code.
+                </h2>
+                <p class="mt-4 text-2xs text-slate-400 dark:text-jovieDark-400">
+                  Please check your email and enter the code below to continue
+                  the sign up process.
+                </p>
 
                 <div class="space-y-1">
                   <div class="relative mt-1">
-                    <InputGroup
+                    <OTPInput
+                      :loading="loading"
+                      @complete="verify()"
+                      v-model="code"
+                      @input="codeChanged" />
+                    <!-- <InputGroup
                       v-model="code"
                       id="password_confirmation"
                       name="password_confirmation"
@@ -139,7 +163,8 @@
                       type="code"
                       v-on:keyup.enter="verify()"
                       autocomplete="confirm-password"
-                      required="" />
+                      required="" /> -->
+                    <p>{{ code }}</p>
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
                       v-if="this.errors.code">
@@ -147,31 +172,20 @@
                     </p>
                   </div>
                 </div>
-                <div class="grid grid-cols-2">
-                  <div>
-                  </div>
+                <!--  <div class="flex w-full">
                   <div>
                     <ButtonGroup
                       type="button"
                       tabindex="0"
                       @click="verify()"
                       :loader="loading"
-                      :success="success"
+                      :success="codeVerified"
                       :error="error"
                       :disabled="submitting"
                       text="Continue with code">
                     </ButtonGroup>
                   </div>
-                </div>
-                <p class="mt-4 text-2xs text-slate-400 dark:text-jovieDark-400">
-                  By clicking “Sign up” you agree to our
-                  <router-link class="underline" to="legal"
-                    >privacy policy</router-link
-                  >.and
-                  <router-link class="underline" to="legal">terms</router-link>
-                  of use. You’re also opting in to receive marketing emails. You
-                  can unsubscribe at anytime.
-                </p>
+                </div> -->
               </template>
               <!--  <template v-if="step == 3">
                 <CreateAccount text="Choose a plan">
@@ -198,6 +212,7 @@ import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
 import InputGroup from '../components/InputGroup.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
+import OTPInput from '../components/OTPInput.vue';
 
 export default {
   components: {
@@ -206,6 +221,7 @@ export default {
     CreateAccount,
     ButtonGroup,
     InputGroup,
+    OTPInput,
   },
   data() {
     return {
@@ -227,14 +243,15 @@ export default {
       },
       submitting: false,
       success: false,
+      codeValid: false,
       loading: false,
-        code: '',
+      code: '',
     };
   },
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
-    this.code = this.$route.query.code ?? ''
+    this.code = this.$route.query.code ?? '';
   },
   methods: {
     authProvider(provider) {
@@ -335,12 +352,12 @@ export default {
           response = response.data;
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
-              this.$notify({
-                  group: 'user',
-                  type: 'success',
-                  title: 'Successful',
-                  message: response.message,
-              });
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Successful',
+              message: response.message,
+            });
           } else {
             this.error = response.error;
           }
@@ -357,6 +374,7 @@ export default {
         .finally(() => {
           this.submitting = false;
           this.success = true;
+          this.step = 2;
           this.loading = false;
         });
     },
@@ -365,7 +383,7 @@ export default {
       this.errors = {};
       this.error = '';
       this.submitting = true;
-      AuthService.verify({code: this.code, email: this.user.email})
+      AuthService.verify({ code: this.code, email: this.user.email })
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -382,11 +400,13 @@ export default {
             return;
           }
           alert('Something went wrong.');
-          this.success = false;
+
+          this.codeValidated = false;
         })
         .finally(() => {
           this.submitting = false;
-          this.success = true;
+
+          this.codeValid = true;
           this.loading = false;
         });
     },
