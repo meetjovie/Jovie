@@ -53,6 +53,8 @@
     "@vueuse/head": "^0.9.8",
     "html2canvas": "^1.4.1",
     "install": "^0.13.0",
+    "markdown-it": "^13.0.1",
+    "marked": "^4.2.5",
     "md5": "^2.3.0",
     "mix-env-file": "^0.1.1",
     "moment": "^2.29.4",

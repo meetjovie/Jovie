@@ -1,6 +1,23 @@
 <template>
   <div>
-    <div class="mx-auto max-w-7xl py-10 sm:px-6 lg:px-8">
+    <div v-if="onboarding">
+      <!-- Name -->
+
+      <!-- Password -->
+      <div class="col-span-6 sm:col-span-4" v-if="!currentUser.password_set">
+        <InputGroup
+          @blur="setPassword()"
+          v-model="user.password"
+          :error="errors?.password?.[0]"
+          :disabled="updating"
+          passwordRevealToggle
+          name="set_password"
+          label="Set Password"
+          placeholder="Enter a Password" />
+      </div>
+    </div>
+
+    <div v-else class="mx-auto max-w-7xl py-10 sm:px-6 lg:px-8">
       <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
@@ -99,10 +116,10 @@
 
 <script>
 import UserService from '../../services/api/user.service';
-import InputGroup from '../../components/InputGroup';
-import CardHeading from '../../components/CardHeading';
-import CardLayout from '../../components/CardLayout';
-import ButtonGroup from '../../components/ButtonGroup';
+import InputGroup from '../../components/InputGroup.vue';
+import CardHeading from '../CardHeading.vue';
+import CardLayout from '../../components/CardLayout.vue';
+import ButtonGroup from '../../components/ButtonGroup.vue';
 import ImportService from '../../services/api/import.service';
 
 export default {
@@ -119,10 +136,41 @@ export default {
       },
     };
   },
+  props: {
+    onboarding: {
+      type: Boolean,
+      default: false,
+    },
+  },
   mounted() {
     window.analytics.page('Manage Security');
   },
   methods: {
+      setPassword() {
+          this.updating = true;
+          UserService.setPassword(this.user)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.errors = {};
+                      this.$notify({
+                          group: 'user',
+                          title: 'Successful',
+                          text: response.message,
+                          type: 'success',
+                      });
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                  }
+              })
+              .finally(() => {
+                  this.updating = false;
+              });
+      },
     updatePassword() {
       this.updating = true;
       UserService.updatePassword(this.user)

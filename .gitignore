@@ -3,6 +3,8 @@
 /public/storage
 /storage/*.key
 /vendor
+/database/.DS_Store
+.DS_Store
 .env
 .env.dev
 .env.staging

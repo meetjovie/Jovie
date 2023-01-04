@@ -49,7 +49,14 @@ router.beforeEach(async (to, from) => {
           if (to.meta.requiresAdmin && !user.is_admin) {
             return router.push({ name: from.name });
           }
-          if (
+
+          if (to.name != 'onboarding' && (!user.first_name || !user.current_team || (!user.google_id && !user.password_set))) {
+              return router.push({ name: 'onboarding' });
+          }
+          else if (to.name == 'onboarding' && user.first_name && user.current_team && (user.google_id || user.password_set)) {
+              return router.push({ name: 'Contacts' });
+          }
+          else if (
             to.meta.requiresSubscribe &&
             !user.current_team.subscribed &&
             !user.is_admin

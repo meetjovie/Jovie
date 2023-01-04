@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\SendEmailVerificationNotification;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
 
@@ -30,6 +32,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_pic_url',
+        'google_id'
     ];
 
     /**
@@ -57,13 +60,17 @@ class User extends Authenticatable
     {
         $user = self::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
             ->where('id', $userId ?? Auth::id())->first();
-        $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
-        $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
-        $user->currentTeam->subscribed = false;
-        if ($user->currentTeam->current_subscription) {
-            $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
+        if ($user->currentSubscription) {
+            $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
+            $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
+            $user->currentTeam->subscribed = false;
+            if ($user->currentTeam->current_subscription) {
+                $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
+            }
         }
-
+        $user->makeVisible('password');
+        $user->password_set = !! $user->password;
+        $user->makeHidden('password');
         return $user;
     }
 
@@ -269,5 +276,23 @@ class User extends Authenticatable
     public function userListAttributes()
     {
         return $this->belongsToMany(UserList::class, 'user_list_attributes')->withTimestamps();
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new SendEmailVerificationNotification());
+    }
+
+    public function validateCode($code = null)
+    {
+        if (is_null($code) || $this->verification_code != $code || $this->codeExpired()) {
+            return false;
+        }
+        return true;
+    }
+
+    private function codeExpired()
+    {
+        return Carbon::make($this->verification_code_expires_at)->lte(Carbon::now());
     }
 }

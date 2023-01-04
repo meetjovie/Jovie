@@ -46,7 +46,7 @@
                 trigger
                 <span
                   data-tooltip="test"
-                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-slate-300 bg-slate-800 px-2 py-1 text-xs text-slate-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
+                  class="backfdrop-filter absolute z-50 hidden w-auto flex-col items-center justify-between rounded-md border border-slate-300 bg-slate-800 px-2  text-xs text-slate-50 shadow-lg backdrop-blur-2xl backdrop-saturate-150 group-hover:flex"
                   >test content</span
                 >
               </div> -->
@@ -463,7 +463,7 @@
                           ? ' bg-slate-100 dark:bg-jovieDark-700'
                           : 'bg-white dark:bg-jovieDark-900',
                       ]"
-                      class="sticky left-[26.5px] isolate z-20 w-4 overflow-auto whitespace-nowrap border-y border-slate-300 px-2 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
+                      class="sticky left-[26.5px] isolate z-20 w-4 overflow-auto whitespace-nowrap border-y border-slate-300 px-2 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
                       <div
                         class="hidden cursor-pointer items-center lg:block"
                         @click="
@@ -651,7 +651,7 @@
                           type="platform-employer"
                           name="platform-employer"
                           id="platform-employer"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:text-jovieDark-100 sm:text-xs"
                           placeholder="Company"
                           aria-describedby="Company" />
                       </div>
@@ -670,7 +670,7 @@
                           type="creator-email"
                           name="creator-email"
                           id="creator-email"
-                          class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-500 sm:text-xs"
+                          class="block w-full bg-white/0 px-2 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-500 sm:text-xs"
                           placeholder="someone@gmail.com"
                           aria-describedby="email-description" />
                       </div>
@@ -760,7 +760,8 @@
                       "
                       class="border-1 table-cell w-40 items-center whitespace-nowrap border border-slate-300 text-xs text-slate-500 dark:border-jovieDark-border">
                       <Datepicker
-                        :dark="getTheme === '!light'"
+                        :enable-time-picker="false"
+                        dark
                         v-model="creator.crm_record_by_user.last_contacted"
                         @update:modelValue="
                           $emit('updateCreator', {
@@ -792,7 +793,7 @@
                           autoApply="true"
                           type="datetime-local"
                           :id="creator.id + '_datepicker'"
-                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 dark:bg-jovieDark-900/0 px-2 py-1 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
+                          class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 dark:bg-jovieDark-900/0 px-2  text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500"
                           placeholder="--/--/--"
                           aria-describedby="email-description" /> -->
                     </td>
@@ -800,7 +801,7 @@
                       v-if="
                         visibleColumns.includes('crm_record_by_user.rating')
                       "
-                      class="table-cell w-28 whitespace-nowrap border border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
+                      class="table-cell w-28 whitespace-nowrap border border-slate-300 px-2 text-sm text-slate-500 dark:border-jovieDark-border">
                       <star-rating
                         class="w-20"
                         :star-size="12"
@@ -817,7 +818,7 @@
                     </td>
                     <td
                       v-if="visibleColumns.includes('crm_record_by_user.lists')"
-                      class="table-cell w-24 whitespace-nowrap border-y border-slate-300 px-2 py-1 text-sm text-slate-500 dark:border-jovieDark-border">
+                      class="table-cell w-24 whitespace-nowrap border-y border-slate-300 px-2 text-sm text-slate-500 dark:border-jovieDark-border">
                       <InputLists
                         @updateLists="updateCreatorLists"
                         :creatorId="creator.id ?? 0"
@@ -825,7 +826,7 @@
                         :currentList="creator.current_list" />
                     </td>
                     <td
-                      class="table-cell h-full w-full items-center justify-end whitespace-nowrap border-y border-slate-300 px-2 py-1 text-right text-xs font-medium dark:border-jovieDark-border">
+                      class="table-cell h-full w-full items-center justify-end whitespace-nowrap border-y border-slate-300 px-2 text-right text-xs font-medium dark:border-jovieDark-border">
                       <div
                         class="flex h-full items-center justify-end text-right">
                         <router-link
