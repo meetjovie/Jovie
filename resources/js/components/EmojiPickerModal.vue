@@ -1,22 +1,14 @@
 <template>
-  <!-- <transition
-    enter-active-class="transition ease-out duration-100"
-    enter-from-class="transform opacity-0 scale-95"
-    enter-to-class="transform opacity-100 scale-100"
-    leave-active-class="transition ease-in duration-75"
-    leave-from-class="transform opacity-100 scale-100"
-    leave-to-class="transform opacity-0 scale-95">
-    <div
-      class="right-18 absolute z-50 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
-     
-      
-    </div>
-  </transition> -->
   <div class="">
     <Popover as="div" class="relative">
       <Float portal shift placement="right-start">
         <PopoverButton>
-          <span class="text-sm">
+          <span
+            :class="
+              xl
+                ? 'rounded-md px-4 py-4 text-4xl hover:bg-slate-100 dark:hover:bg-jovieDark-700'
+                : 'text-sm'
+            ">
             {{ currentEmoji || '📄' }}
           </span>
         </PopoverButton>
@@ -24,6 +16,7 @@
           v-slot="{ close }"
           class="z-40 mt-3 w-screen rounded-lg border border-slate-300 bg-white/60 px-4 shadow-lg backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border sm:px-0 lg:w-60">
           <EmojiPicker
+            :class="{ 'dark-theme': $store.state.theme === 'dark' }"
             disable-skin-tones
             native
             :theme="theme"
@@ -59,6 +52,10 @@ export default {
     };
   },
   props: {
+    xl: {
+      type: Boolean,
+      default: false,
+    },
     currentEmoji: {
       type: String,
       required: true,
@@ -143,6 +140,8 @@ export default {
 }
 .v3-emoji-picker .v3-header .v3-groups .v3-group:hover {
   opacity: 1;
+
+  border-radius: 0.375rem;
 }
 .v3-emoji-picker .v3-header .v3-groups .v3-group span {
   display: flex;
@@ -226,6 +225,7 @@ export default {
 }
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group .v3-emojis button:hover {
   background: #f7f7f7;
+  border-radius: 0.375rem;
 }
 .v3-emoji-picker .v3-body .v3-body-inner .v3-group .v3-emojis button img {
   max-width: 100%;

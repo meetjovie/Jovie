@@ -11,6 +11,8 @@ class Team extends TeamworkTeam
 {
     use Billable;
 
+    protected $fillable = ['name', 'owner_id', 'emoji'];
+
     const PLAN_TYPE_BASIC = 0;
 
     const PLAN_TYPE_TEAM = 1;

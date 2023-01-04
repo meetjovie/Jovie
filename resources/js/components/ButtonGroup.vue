@@ -23,7 +23,7 @@
       { 'py-2 px-4 text-lg': size == 'md' },
       { 'py-3 px-6 text-xl': size == 'hero' },
       {
-        'bg-white shadow-sm   hover:bg-indigo-500 hover:text-white  ':
+        'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-indigo-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-30   dark:border-jovieDark-border dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700  ':
           design == 'secondary',
       },
       {
@@ -31,7 +31,7 @@
           design == 'toolbar',
       },
       {
-        'hover:bg-indig-600 w-full  font-medium text-white  shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900':
+        ' w-full font-medium text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
           design == 'primary',
       },
       {
@@ -53,8 +53,19 @@
       { 'rounded-bl-md': rounded == 'blt' },
       { 'rounded-br-md': rounded == 'br' },
     ]">
+    <svg
+      v-if="icon == 'google'"
+      role="img"
+      class="h-5 w-5"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg">
+      <title>Google</title>
+      <path
+        d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+    </svg>
     <component
-      v-if="icon"
+      v-else-if="icon"
       :is="icon"
       :class="[
         {

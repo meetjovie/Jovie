@@ -18,13 +18,17 @@
         :class="{ 'pl-1': rounded == 'sm' }">
         <component
           :is="icon"
-          class="h-5 w-5 text-slate-400"
+          class="z-10 h-5 w-5 text-slate-400 dark:text-jovieDark-200"
           :class="{ 'h-3 w-3': rounded == 'sm' }" />
       </div>
+
       <div class="relative">
         <input
+          ref="input"
           :autocomplete="autocomplete"
-          :type="type"
+          :type="
+            passwordRevealToggle ? (passwordReveal ? 'text' : 'password') : type
+          "
           :name="name"
           :id="id"
           :v-focus="focused"
@@ -47,19 +51,32 @@
             { 'py-0 text-xs': size == 'sm' },
           ]"
           :placeholder="placeholder" />
-        <div
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3">
           <div v-if="loader" class="transition-all"><JovieSpinner /></div>
           <div v-else>
             <div v-if="valid">
               <CheckCircleIcon
-                class="h-5 w-5 text-indigo-500 dark:text-indigo-300"
+                class="pointer-events-none h-5 w-5 text-indigo-500 dark:text-indigo-300"
                 aria-hidden="true" />
             </div>
             <div v-if="isInvalid">
               <ExclamationCircleIcon
-                class="h-5 w-5 text-red-500 dark:text-red-300"
+                class="pointer-events-none h-5 w-5 text-red-500 dark:text-red-300"
                 aria-hidden="true" />
+            </div>
+            <div
+              class="cursor-pointer"
+              v-if="passwordRevealToggle"
+              @click="togglePasswordReveal"
+              :class="{ 'pl-1': rounded == 'sm' }">
+              <EyeIcon
+                v-if="passwordReveal"
+                class="z-10 h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-600 dark:text-jovieDark-200 hover:dark:text-jovieDark-100"
+                :class="{ 'h-3 w-3': rounded == 'sm' }" />
+              <EyeSlashIcon
+                v-else
+                class="z-10 h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-600 dark:text-jovieDark-200 hover:dark:text-jovieDark-100"
+                :class="{ 'h-3 w-3': rounded == 'sm' }" />
             </div>
           </div>
         </div>
@@ -94,11 +111,30 @@ import {
   ArrowSmallDownIcon,
   BriefcaseIcon,
   CheckCircleIcon,
+  EyeIcon,
+  EyeSlashIcon,
 } from '@heroicons/vue/24/solid';
+import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 
 export default {
   name: 'InputGroup',
+  data() {
+    return {
+      passwordReveal: false,
+    };
+  },
+  methods: {
+    togglePasswordReveal() {
+      this.passwordReveal = !this.passwordReveal;
+    },
+    focusInput() {
+      //next tick focus input
+      this.$nextTick(() => {
+        this.$refs.input.focus();
+      });
+    },
+  },
   props: {
     label: {
       type: String,
@@ -109,6 +145,10 @@ export default {
     type: {
       type: String,
       default: 'text',
+    },
+    passwordRevealToggle: {
+      type: Boolean,
+      default: false,
     },
     placeholder: {
       type: String,
@@ -128,6 +168,10 @@ export default {
       default: 'off',
     },
     isInvalid: {
+      type: Boolean,
+      default: false,
+    },
+    loader: {
       type: Boolean,
       default: false,
     },
@@ -164,6 +208,9 @@ export default {
     ArrowSmallDownIcon,
     BriefcaseIcon,
     SocialIcons,
+    JovieSpinner,
+    EyeIcon,
+    EyeSlashIcon,
   },
 };
 </script>

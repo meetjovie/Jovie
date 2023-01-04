@@ -37,4 +37,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_ID', '9111521615687-68vsk9eo03bef01mtss91v11kd643tr4.apps.googleusercontent.com'),
+        'client_secret' => env('GOOGLE_SECRET', 'uk_VmMTLS5WIzq0cmEt9zVjz'),
+        'redirect' => env('GOOGLE_URL', 'https://flagtick.com/auth/google/callback'),
+    ],
 ];

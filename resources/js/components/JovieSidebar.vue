@@ -134,8 +134,8 @@
                       <DropdownMenuItem
                         :shortcutKey="
                           $store.state.platform === 'mac'
-                            ? ['⌘', '⇧', 'Q']
-                            : ['Ctrl', '⇧', 'Q']
+                            ? ['⌥', '⇧', 'Q']
+                            : ['Alt', '⇧', 'Q']
                         "
                         @click="$store.dispatch('logout')"
                         name="Logout"
