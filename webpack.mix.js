@@ -26,7 +26,6 @@ mix.ImageWebp({
 
 mix
   .js('resources/js/app.js', 'public/js')
-  .copy('resources/markdown/*.md', 'public/markdown')
 
   .vue()
   .postCss('resources/css/app.css', 'public/css', [require('tailwindcss')])
