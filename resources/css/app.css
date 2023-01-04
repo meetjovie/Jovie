@@ -20,3 +20,7 @@
 .circle {
   @apply my-12 mx-1 h-4 w-4 rounded-full bg-gray-500;
 }
+.wp-exclude-emoji {
+  position: relative;
+  top: -20px;
+}

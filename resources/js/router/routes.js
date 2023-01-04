@@ -234,12 +234,33 @@ export const routes = [
   {
     name: 'Legal',
     path: '/legal',
-    component: loadPage('Privacy'),
+    component: loadPage('Legal'),
     meta: {
       layout: 'Default',
       requiresAuth: false,
     },
   },
+  {
+    name: 'Privacy',
+    path: '/privacy',
+    component: loadPage('Legal'),
+    props: { defaultTab: 0 },
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Terms',
+    path: '/terms',
+    component: loadPage('Legal'),
+    props: { defaultTab: 1 },
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+
   {
     name: 'Demo',
     path: '/demo',
