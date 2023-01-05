@@ -17,6 +17,15 @@ class BlogPostController extends Controller
             'data' => $blogPost
         ]);
     }
+    
+    public function showBySlug($slug)
+    {
+        $blogPost = BlogPost::where('slug', $slug)->firstOrFail();
+        return response([
+            'status' => true,
+            'data' => $blogPost
+        ]);
+    }
 
     public function index()
     {

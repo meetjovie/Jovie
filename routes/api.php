@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 //BLOG
 Route::get('/blog/{id}', [\App\Http\Controllers\BlogPostController::class, 'show']);
+Route::get('/blog/{slug}', [\App\Http\Controllers\BlogPostController::class, 'showBySlug']);
+
 Route::get('/blog', [\App\Http\Controllers\BlogPostController::class, 'index']);
 
 

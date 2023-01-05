@@ -194,9 +194,21 @@
               </span>
             </p>
             <p class="ml-8 text-center text-2xs text-slate-400/75">
-              <span class="block sm:inline"
-                >&copy; {{ currentYear }} Jovie Inc</span
-              >
+              <span class="block sm:inline">
+                <ul class="flex justify-center">
+                  <li class="px-2">&copy; {{ currentYear }} Jovie Inc</li>
+                  <li class="px-2">
+                    <router-link class="hover:text-slate-700" to="/privacy"
+                      >Privacy</router-link
+                    >
+                  </li>
+                  <li class="px-2">
+                    <router-link class="hover:text-slate-700" to="/terms"
+                      >Terms</router-link
+                    >
+                  </li>
+                </ul>
+              </span>
             </p>
           </div>
         </div>

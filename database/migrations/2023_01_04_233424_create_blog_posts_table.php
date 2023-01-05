@@ -13,7 +13,7 @@ class CreateBlogPostsTable extends Migration
             $table->string('title');
             $table->text('excerpt');
             $table->string('author');
-            $table->string('image_url');
+            $table->string('image_url') -> nullable();
             $table->string('slug') -> unique();
             $table->string('category');
             $table->timestamp('publish_date') -> nullable();
