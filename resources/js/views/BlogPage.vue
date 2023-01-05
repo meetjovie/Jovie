@@ -77,21 +77,19 @@ export default {
   },
   methods: {
     fetchPosts() {
-      (this.loading = true),
-        axios
-          .get('/api/blog')
-          .then((response) => {
-            this.posts = response.data;
-            this.status = response.status;
-          })
-          .catch((error) => {
-            this.error = true;
-            this.loading = false;
-            this.status = error.response.status;
-          })
-          .finally(() =>
-            (this.loading = false)((this.status = response.status))
-          );
+      this.loading = true;
+      axios.get('/api/blog').then(response => {
+          response = response.data
+          if (response.status) {
+              this.posts = response.data
+          } else {
+
+          }
+      }).catch(() => {
+
+      }).finally(() => {
+          this.loading = false;
+      })
     },
   },
 };

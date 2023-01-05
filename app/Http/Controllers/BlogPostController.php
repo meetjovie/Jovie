@@ -12,13 +12,19 @@ class BlogPostController extends Controller
     public function show($id)
     {
         $blogPost = BlogPost::findOrFail($id);
-        return response()->json($blogPost);
+        return response([
+            'status' => true,
+            'data' => $blogPost
+        ]);
     }
 
     public function index()
     {
         $blogPosts = BlogPost::all();
-        return response()->json($blogPosts);
+        return response([
+            'status' => true,
+            'data' => $blogPosts
+        ]);
     }
 
 }
