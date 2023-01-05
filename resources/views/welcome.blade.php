@@ -37,7 +37,7 @@
         
 
       <!--   Start Atlas -->
-      <script>(()=>{"use strict";const t={appId:"rr5tc0w7w4",v:2,q:[],start:function(o){this.autorun=o||!0},identify:function(t){this.q.push(["identify",t])}};window.Atlas=t;const e=document.createElement("script");e.async=!0,e.src="https://app.getatlas.io/client-js/atlas.bundle.js";const s=document.getElementsByTagName("script")[0];s.parentNode?.insertBefore(e,s)})();</script>
+      <script defer>(()=>{"use strict";const t={appId:"rr5tc0w7w4",v:2,q:[],start:function(o){this.autorun=o||!0},identify:function(t){this.q.push(["identify",t])}};window.Atlas=t;const e=document.createElement("script");e.async=!0,e.src="https://app.getatlas.io/client-js/atlas.bundle.js";const s=document.getElementsByTagName("script")[0];s.parentNode?.insertBefore(e,s)})();</script>
   <!--       End Atlas -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <!-- {{--        <link href="/css/app.css" rel="stylesheet">--}} -->
@@ -50,11 +50,11 @@
         <div id="app">
             <App></App>
         </div>
-        <script src="{{ asset('/js/app.js') }}"></script>
+        <script defer src="{{ asset('/js/app.js') }}"></script>
+        <script defer src="{{ asset('/js/vendor.js') }}"></script>
+        <script defer src="{{ asset('/js/manifest.js') }}"></script>
 
         <!-- {{--        <script src="/js/app.js"></script>--}} -->
-        <!--  Freshchat start -->
-
-       <!-- Freshchat end -->
+        
     </body>
 </html>

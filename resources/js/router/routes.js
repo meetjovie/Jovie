@@ -260,7 +260,26 @@ export const routes = [
       requiresAuth: false,
     },
   },
-
+  {
+    path: '/blog/',
+    name: 'Blog',
+    component: loadPage('BlogPage'),
+    props: true,
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+  {
+    path: '/blog/:id',
+    name: 'blogPost',
+    component: loadPage('BlogPost'),
+    props: true,
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
   {
     name: 'Demo',
     path: '/demo',
