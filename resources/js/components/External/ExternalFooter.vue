@@ -194,7 +194,7 @@
               </span>
             </p>
             <p class="ml-8 text-center text-2xs text-slate-400/75">
-              <span class="block sm:inline">
+              <div class="block sm:inline"></span>
                 <ul class="flex justify-center">
                   <li class="px-2">&copy; {{ currentYear }} Jovie Inc</li>
                   <li class="px-2">
@@ -208,7 +208,7 @@
                     >
                   </li>
                 </ul>
-              </span>
+              </div>
             </p>
           </div>
         </div>

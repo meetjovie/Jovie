@@ -20,7 +20,7 @@ class BlogPostController extends Controller
     
     public function showBySlug($slug)
     {
-        $blogPost = BlogPost::where('slug', $slug)->firstOrFail();
+        $blogPost = BlogPost::firstOrFail($slug);
         return response([
             'status' => true,
             'data' => $blogPost

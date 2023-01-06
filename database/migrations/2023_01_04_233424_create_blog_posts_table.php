@@ -9,7 +9,7 @@ class CreateBlogPostsTable extends Migration
     public function up()
     {
         Schema::create('blog_posts', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
             $table->string('title');
             $table->text('excerpt');
             $table->string('author');

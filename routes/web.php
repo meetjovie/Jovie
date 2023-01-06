@@ -305,4 +305,4 @@ Route::get('/auth/{network}/redirect', [\App\Http\Controllers\Auth\AuthControlle
 Route::get('/auth/{network}/callback', [\App\Http\Controllers\Auth\AuthController::class, 'callback']);
 Route::get('{any?}', function () {
     return view('welcome');
-})->name('welcome');
+})->where('any', '.*')->name('welcome');

@@ -1,9 +1,11 @@
 <template>
-  <ul role="list" class="mx-auto max-w-prose divide-y divide-slate-200">
+  <ul
+    role="list"
+    class="mx-auto max-w-prose divide-y divide-slate-200 dark:divide-jovieDark-border">
     <li
       v-for="post in posts"
       :key="post.id"
-      class="mx-auto mt-6 flex px-4 py-4 text-slate-500 sm:px-0">
+      class="mx-auto mt-6 flex px-4 py-4 text-slate-500 dark:text-jovieDark-400 sm:px-0">
       <div class="sticky top-24 w-24 text-2xs">
         <p class="text-sm font-semibold text-slate-600">
           {{ formatDate(post.publish_date) }}
@@ -13,19 +15,18 @@
         <router-link
           :to="'/blog/' + post.slug"
           as="h2"
-          class="text-3xl font-bold tracking-tight text-slate-800"
+          class="text-3xl font-bold tracking-tight text-slate-800 dark:text-jovieDark-200"
           >{{ post.title }}</router-link
         >
         <img
           v-if="post.image_url"
           :src="asset(post.image_url)"
           :alt="post.title"
-          class="mt-4 rounded-xl border border-neutral-200 py-4 shadow-lg dark:border-neutral-700" />
+          class="mt-4 rounded-xl border border-neutral-200 py-4 shadow-lg dark:border-jovieDark-border" />
         <p
           class="prose mt-4 rounded-md bg-slate-100 px-4 px-4 py-2 text-xs dark:bg-jovieDark-800">
           <MapIcon class="mr-1 inline-block h-4 w-4" />
-          As always we welcome you vote on new features & contribute your own
-          ideas to the
+          Vote on new features & contribute your own ideas to the
           <a href="https://roadmap.jov.ie">Jovie Roadmap</a>.
         </p>
         <p v-if="post.excerpt" class="prose mt-4" v-html="post.excerpt"></p>
@@ -33,7 +34,7 @@
         <router-link
           v-if="post.excerpt"
           :to="'/blog/' + post.slug"
-          class="mt-4 py-4 font-semibold text-slate-600 hover:text-slate-800"
+          class="mt-4 py-4 font-semibold text-slate-600 hover:text-slate-800 dark:text-jovieDark-400 hover:dark:text-jovieDark-200"
           >Read more...</router-link
         >
       </div>
