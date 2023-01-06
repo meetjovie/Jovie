@@ -142,7 +142,11 @@ async function fetchPost() {
   try {
     let response = await axios.get('/api/blog/' + this.$route.params.slug);
     response = response.data;
-
+    if (response.status) {
+      // Sort the post by publish date, with the newest first
+      post.value = response.data.sort((a, b) => {
+        return new Date(b.publish_date) - new Date(a.publish_date);
+      });
     } else {
     }
   } catch (err) {
