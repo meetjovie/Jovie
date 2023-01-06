@@ -127,40 +127,46 @@
   </div>
 </template>
 
-<script setup>
-import axios from 'axios';
-import { MapIcon } from '@heroicons/vue/24/solid';
-import moment from 'moment';
-import { ref, onMounted } from 'vue';
 
-const post = ref([]);
-const loading = ref(false);
-const error = ref(false);
+<script>
 
-async function fetchPost() {
-  loading.value = true;
-  try {
-    let response = await axios.get('/api/blog/' + this.$route.params.slug);
-    response = response.data;
-    if (response.status) {
-      // Sort the post by publish date, with the newest first
-      post.value = response.data.sort((a, b) => {
-        return new Date(b.publish_date) - new Date(a.publish_date);
-      });
-    } else {
+import axios from "axios";
+import moment from "moment/moment";
+
+export default {
+    name: 'BlogPost',
+    data() {
+        return {
+            loading: false,
+            post: {},
+            error: false
+        }
+    },
+    methods: {
+        formatDate(date) {
+            return moment(date).format('YY.MM.DD');
+        },
+        async fetchPost() {
+            this.loading = true;
+            try {
+                let response = await axios.get('/api/blog/' + this.$route.params.slug);
+                response = response.data;
+                if (response.status) {
+                    // Sort the post by publish date, with the newest first
+                    this.post = response.data.sort((a, b) => {
+                        return new Date(b.publish_date) - new Date(a.publish_date);
+                    });
+                } else {
+                }
+            } catch (err) {
+               this.error = true;
+            } finally {
+                this.loading = false;
+            }
+        }
+    },
+    mounted() {
+        this.fetchPost()
     }
-  } catch (err) {
-    error.value = true;
-  } finally {
-    loading.value = false;
-  }
-}
-
-function formatDate(date) {
-  return moment(date).format('YY.MM.DD');
-}
-
-onMounted(() => {
-  fetchPost();
-});
+};
 </script>
