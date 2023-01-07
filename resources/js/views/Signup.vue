@@ -152,8 +152,7 @@
                     <OTPInput
                       :loading="loading"
                       @complete="verify()"
-                      v-model="code"
-                      @input="codeChanged" />
+                      v-model="code" />
                     <!-- <InputGroup
                       v-model="code"
                       id="password_confirmation"

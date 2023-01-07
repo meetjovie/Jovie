@@ -63,7 +63,7 @@ export default {
       if (event.type === 'paste') {
         // Get the pasted OTP code from the clipboard
         const clipboardData = event.clipboardData || window.clipboardData;
-        let otpCode = clipboardData.getData('text');
+        let otpCode = clipboardData ? clipboardData.getData('text') : '';
 
         // Make sure the pasted OTP code is 6 digits and contains only digits
         otpCode = otpCode.slice(0, 6);
@@ -81,6 +81,7 @@ export default {
       }
 
       if (this.code.every((digit) => digit !== '')) {
+        this.$emit('update:modelValue', this.code.join(''))
         this.$emit('complete', this.code.join(''));
       }
     },
