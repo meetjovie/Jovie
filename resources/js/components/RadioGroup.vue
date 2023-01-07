@@ -23,18 +23,24 @@
             'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none dark:bg-jovieDark-800',
           ]">
           <span class="flex flex-1">
-            <span class="flex flex-col">
+            <span class="mx-auto flex flex-col">
               <component
                 :is="item.icon"
-                class="h-6 w-6 text-gray-400 dark:text-jovieDark-200" />
+                :class="[
+                  checked
+                    ? 'text-indigo-400 dark:text-indigo-200 '
+                    : 'text-slate-400 dark:text-slate-200',
+                  active ? 'text-indigo-500 dark:text-indigo-200' : '',
+                ]"
+                class="mx-auto h-14 w-14 text-slate-600 dark:text-jovieDark-200" />
               <RadioGroupLabel
                 as="span"
-                class="block text-sm font-medium text-slate-900 dark:text-jovieDark-100"
+                class="mt-4 block text-xs font-medium text-slate-900 dark:text-jovieDark-100"
                 >{{ item.title }}</RadioGroupLabel
               >
               <RadioGroupDescription
                 as="span"
-                class="mt-1 flex items-center text-sm text-slate-500 dark:text-jovieDark-400"
+                class="mt-1 flex items-center text-2xs text-slate-500 dark:text-jovieDark-400"
                 >{{ item.description }}</RadioGroupDescription
               >
               <RadioGroupDescription
@@ -69,20 +75,24 @@ import {
   RadioGroupLabel,
   RadioGroupOption,
 } from '@headlessui/vue';
-import { CheckCircleIcon, UserIcon, UsersIcon } from '@heroicons/vue/20/solid';
+import {
+  CheckCircleIcon,
+  UserIcon,
+  UsersIcon,
+} from '@heroicons/vue/24/outline';
 const items = [
   {
     id: 1,
     title: 'With my team',
     description: 'Collaborate with your team on a shared workspace.',
     cta: 'Try free',
-    icon: 'UsersIcon',
+    icon: UsersIcon,
     value: 'team',
   },
   {
     id: 2,
     title: 'For myself',
-    icon: 'UserIcon',
+    icon: UserIcon,
     description: 'Use Jovie for yourself and your personal projects.',
     value: 'personal',
   },

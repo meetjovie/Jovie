@@ -163,7 +163,7 @@
                       v-on:keyup.enter="verify()"
                       autocomplete="confirm-password"
                       required="" /> -->
-                    <p>{{ code }}</p>
+                    <!--  <p>{{ code }}</p> -->
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
                       v-if="this.errors.code">

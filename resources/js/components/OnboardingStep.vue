@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-auto flex h-full max-w-5xl flex-col justify-center py-12 text-center font-bold text-slate-600 dark:text-jovieDark-200">
+    class="mx-auto flex h-full max-w-3xl flex-col justify-center py-12 text-center font-bold text-slate-600 dark:text-jovieDark-200">
     <div class="py-6">
       <h1 class="text-2xl font-bold text-slate-900 dark:text-jovieDark-100">
         {{ header }}
