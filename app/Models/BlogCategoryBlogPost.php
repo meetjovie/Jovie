@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class BlogPostCategory extends Model
+class BlogCategoryBlogPost extends Pivot
 {
     use HasFactory, HasUuids;
 }

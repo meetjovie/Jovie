@@ -16,6 +16,6 @@ class BlogPost extends Model
 
     public function blogCategories()
     {
-        return $this->belongsToMany(BlogCategory::class)->using(BlogPostCategory::class);
+        return $this->belongsToMany(BlogCategory::class)->using(BlogCategoryBlogPost::class)->withTimestamps();
     }
 }

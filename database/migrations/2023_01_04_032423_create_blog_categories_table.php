@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('blog_categories', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id');
             $table->string('name');
             $table->string('slug')->unique();
             $table->timestamps();

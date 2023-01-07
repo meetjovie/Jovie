@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blog_post_blog_category', function (Blueprint $table) {
-            $table->uuid();
+        Schema::create('blog_category_blog_post', function (Blueprint $table) {
+            $table->uuid('id');
             $table->uuid('blog_post_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->uuid('blog_category_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
