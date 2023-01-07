@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!minimal">
-      <footer class="bg-slate-50" aria-labelledby="footer-heading">
+      <footer class="bg-slate-50 dark:bg-jovieDark-900" aria-labelledby="footer-heading">
         <h2 id="footer-heading" class="sr-only">Footer</h2>
         <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div class="pb-8 xl:grid xl:grid-cols-3 xl:gap-8">
@@ -9,14 +9,14 @@
               <div class="md:grid md:grid-cols-2 md:gap-8">
                 <div>
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                    class="text-sm font-bold uppercase tracking-wider dark:text-jovieDark-300dark:text-jovieDark-300  text-slate-700">
                     Product
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.solutions" :key="item.name">
                       <a
                         :href="item.href"
-                        class="text-sm text-slate-500 hover:text-slate-900">
+                        class="text-sm text-slate-500 dark:text-jovieDark-200 dark:hover:text-jovieDark-100 hover:text-slate-900">
                         {{ item.name }}
                       </a>
                     </li>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="mt-12 md:mt-0">
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                    class="text-sm font-bold uppercase tracking-widerdark:text-jovieDark-300  text-slate-700">
                     Intergrations
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
@@ -33,7 +33,7 @@
                       :key="item.name">
                       <a
                         :href="item.href"
-                        class="text-sm text-slate-500 hover:text-slate-900">
+                        class="text-sm text-slate-500 dark:text-jovieDark-200 dark:hover:text-jovieDark-100 hover:text-slate-900">
                         {{ item.name }}
                       </a>
                     </li>
@@ -43,14 +43,14 @@
               <div class="md:grid md:grid-cols-2 md:gap-8">
                 <div>
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                    class="text-sm font-bold uppercase tracking-widerdark:text-jovieDark-300  text-slate-700">
                     Support
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.support" :key="item.name">
                       <router-link
                         :to="item.href"
-                        class="text-sm text-slate-500 hover:text-slate-900">
+                        class="text-sm text-slate-500 dark:text-jovieDark-200 dark:hover:text-jovieDark-100 hover:text-slate-900">
                         {{ item.name }}
                       </router-link>
                     </li>
@@ -59,14 +59,14 @@
 
                 <div class="mt-12 md:mt-0">
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                    class="text-sm font-bold uppercase tracking-widerdark:text-jovieDark-300  text-slate-700">
                     Company
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.company" :key="item.name">
                       <a
                         :href="item.href"
-                        class="text-sm text-slate-500 hover:text-slate-900">
+                        class="text-sm text-slate-500 dark:text-jovieDark-200 dark:hover:text-jovieDark-100 hover:text-slate-900">
                         {{ item.name }}
                       </a>
                     </li>
@@ -78,7 +78,7 @@
               class="mt-8 block justify-between space-y-16 text-left md:mt-0 md:space-y-8 xl:col-span-1">
               <div class="h-1/2">
                 <h3
-                  class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                  class="text-sm font-bold uppercase tracking-widerdark:text-jovieDark-300  text-slate-700">
                   Connect with Jovie
                 </h3>
                 <div
@@ -108,7 +108,7 @@
                       d="M4.32616 0.62103C4.11686 0.440896 3.80116 0.464539 3.62103 0.673838L0.685572 4.08457C0.505438 4.29387 0.529081 4.60957 0.738381 4.7897C0.94768 4.96984 1.26338 4.94619 1.44351 4.73689L4.05281 1.70513L7.08457 4.31443C7.29387 4.49456 7.60957 4.47092 7.7897 4.26162C7.96984 4.05232 7.94619 3.73662 7.73689 3.55649L4.32616 0.62103ZM19.9426 20.4458C17.6786 20.7074 14.1467 20.0809 11.0208 17.2875C7.9022 14.5006 5.13882 9.51128 4.4986 0.962659L3.5014 1.03734C4.15556 9.7722 6.99518 15.0311 10.3545 18.0331C13.7065 21.0285 17.5274 21.7315 20.0574 21.4392L19.9426 20.4458Z"
                       fill="#4B5563" />
                   </svg>
-                  <span class="ml-1 font-medium text-slate-700"
+                  <span class="ml-1 font-mediumdark:text-jovieDark-300  text-slate-700"
                     >Join the Jovie Slack community</span
                   >
                 </div>
@@ -166,7 +166,7 @@
         </div>
       </footer>
     </div>
-    <footer class="bg-slate-50">
+    <footer class="bg-slate-50 dark:bg-jovieDark-900">
       <div
         class="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:flex md:justify-between lg:px-8">
         <div class="mt-8 md:order-1 md:mt-0"></div>
@@ -194,9 +194,21 @@
               </span>
             </p>
             <p class="ml-8 text-center text-2xs text-slate-400/75">
-              <span class="block sm:inline"
-                >&copy; {{ currentYear }} Jovie Inc</span
-              >
+              <div class="block sm:inline">
+                <ul class="flex justify-center">
+                  <li class="px-2">&copy; {{ currentYear }} Jovie Inc</li>
+                  <li class="px-2">
+                    <router-link class="hover:text-slate-700" to="/privacy"
+                      >Privacy</router-link
+                    >
+                  </li>
+                  <li class="px-2">
+                    <router-link class="hover:text-slate-700" to="/terms"
+                      >Terms</router-link
+                    >
+                  </li>
+                </ul>
+              </div>
             </p>
           </div>
         </div>

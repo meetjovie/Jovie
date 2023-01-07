@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
+//BLOG
+//Route::get('/blog/{id}', [\App\Http\Controllers\BlogPostController::class, 'show']);
+Route::get('/blog/{slug}', [\App\Http\Controllers\BlogPostController::class, 'showBySlug']);
+
+Route::get('/blog', [\App\Http\Controllers\BlogPostController::class, 'index']);
+
+
 //ADMIN
 //add a route for the AdminDashboardController to get the user count
 Route::get('/admin-stats', [\App\Http\Controllers\AdminDashboardController::class, 'getAdminStats']);

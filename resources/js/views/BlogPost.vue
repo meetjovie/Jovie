@@ -1,13 +1,6 @@
 <template>
   <div>
-    <Head>
-      <title>Jovie Social CRM | Changelog</title>
-      <meta
-        name="description"
-        content="Jovie is always improving. Our changelog contains a record of some of the latest features & improvements the Jovie CRM & Chrome extension." />
-    </Head>
-
-    <div class="relative mb-24 overflow-hidden bg-white py-8">
+    <div class="relative overflow-hidden bg-white py-16 dark:bg-jovieDark-900">
       <div
         class="hidden lg:absolute lg:inset-y-0 lg:block lg:h-full lg:w-full lg:[overflow-anchor:none]">
         <div
@@ -32,7 +25,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-slate-200"
+                  class="text-gray-200 dark:text-jovieDark-300"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -60,7 +53,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-slate-200"
+                  class="text-gray-200 dark:text-jovieDark-300"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -88,7 +81,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-slate-200"
+                  class="text-gray-200 dark:text-jovieDark-300"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -99,81 +92,80 @@
           </svg>
         </div>
       </div>
-      <div class="min-h-800 relative px-4 sm:px-6 lg:px-8">
-        <div
-          class="sticky top-0 mx-auto max-w-prose border-b border-slate-200 text-lg">
-          <div class="py-6">
-            <h1>
-              <span class="block text-lg font-semibold text-indigo-600"
-                >What's New:</span
-              >
-              <span
-                class="mt-4 block text-3xl font-bold leading-8 tracking-tight text-slate-900 sm:text-4xl"
-                >Jovie Changelog</span
-              >
+      <div class="relative px-6 lg:px-8">
+        <div class="mx-auto max-w-prose text-lg">
+          <div class="mx-auto">
+            <h1
+              class="mt-2 block text-3xl font-bold leading-8 tracking-tight text-gray-900 dark:text-jovieDark-100 sm:text-4xl">
+              {{ post.title || 'Title' }}
             </h1>
-            <p class="mt-8 text-xl leading-8 text-slate-700">
-              New updates and improvements to Jovie.
-            </p>
-
-            <div class="mt-4 flex space-x-8">
-              <a href="https://twitter.com/meetjovie" class="">
-                <p
-                  class="cursor-pointer text-xs leading-8 text-slate-500 hover:text-indigo-500">
-                  Follow us on Twitter.
-                </p>
-              </a>
-              <router-link to="/slack-community" class="">
-                <p
-                  class="cursor-pointer text-xs leading-8 text-slate-500 hover:text-indigo-500">
-                  Join our Slack Community for support and feedback.
-                </p>
-              </router-link>
-            </div>
+            <span
+              v-if="post.author"
+              class="block text-sm font-semibold text-indigo-600 dark:text-indigo-400"
+              >{{ post.author }}</span
+            >
+            <span
+              v-else
+              class="block w-40 rounded-md bg-slate-300 text-sm font-semibold text-indigo-600 dark:bg-jovieDark-700 dark:text-indigo-400"
+              >{{ post.author }}</span
+            >
           </div>
+
+          <figure>
+            <img
+              v-if="post.image"
+              class="w-full rounded-lg"
+              :src="asset(post.image)"
+              :alt="post.title"
+              width="1310"
+              height="873" />
+          </figure>
+          <p
+            v-html="post.body"
+            class="mt-8 text-xl leading-8 text-gray-500 dark:text-jovieDark-400"></p>
         </div>
-        <Suspense>
-          <template #default>
-            <BlogList />
-          </template>
-          <template #fallback>
-            <BlogListSkeleton />
-          </template>
-        </Suspense>
       </div>
     </div>
-    <HomeCTA2 />
+
     <HomeCTA4 />
   </div>
 </template>
+
 <script>
-import { Head } from '@vueuse/head';
-import HomeCTA2 from './../components/Home/HomeCTA2.vue';
-import HomeCTA4 from './../components/Home/HomeCTA4.vue';
-import BlogList from './../components/BlogList.vue';
-import BlogListSkeleton from './../components/BlogListSkeleton.vue';
+import axios from 'axios';
+import moment from 'moment/moment';
+import HomeCTA4 from '../components/Home/HomeCTA4.vue';
 
 export default {
-  name: 'ChangeLog',
+  name: 'BlogPost',
+  components: {
+    HomeCTA4,
+  },
   data() {
     return {
-      logs: [
-        {
-          version: '0.0.1',
-          date: '2022-11-07',
-          summary: 'Initial release of Jovie.',
-          description: 'Today we rolled out the first release of Jovie.',
-          //add html to description
-        },
-      ],
+      loading: false,
+      post: {},
+      error: false,
     };
   },
-  components: {
-    Head,
-    HomeCTA2,
-    HomeCTA4,
-    BlogList,
-    BlogListSkeleton,
+  methods: {
+    async getBlogPost() {
+      try {
+        const slug = this.$route.params.slug;
+        let response = await axios.get(`/api/blog/${slug}`);
+        response = response.data;
+        if (response.status) {
+          this.post = response.data;
+        }
+      } catch (err) {
+        this.error = true;
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+  mounted() {
+    this.getBlogPost();
   },
 };
 </script>

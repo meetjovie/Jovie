@@ -38,7 +38,6 @@ export const routes = [
   {
     name: 'Support',
     path: '/support',
-    //redirect to https://support.jov.ie/
     beforeEnter(to, from, next) {
       window.open('https://support.jov.ie/', '_self');
     },
@@ -260,7 +259,25 @@ export const routes = [
       requiresAuth: false,
     },
   },
-
+  {
+    path: '/blog/:slug',
+    name: 'BlogPost',
+    component: loadPage('BlogPost'),
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+  {
+    path: '/blog/',
+    name: 'Blog',
+    component: loadPage('BlogPage'),
+    props: true,
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
   {
     name: 'Demo',
     path: '/demo',

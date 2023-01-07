@@ -31,9 +31,26 @@
                     @click.prevent="authProvider('google')"
                     :text="'Continue with Google'"
                     type="button"
+                    design="secondary"
                     icon="google"
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   </ButtonGroup>
+
+                  <div class="relative">
+                    <div
+                      class="absolute inset-0 flex items-center"
+                      aria-hidden="true">
+                      <div
+                        class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
+                    </div>
+                    <div class="relative flex justify-center">
+                      <span
+                        class="bg-white px-2 text-xs text-gray-500 dark:bg-jovieDark-800 dark:text-jovieDark-200"
+                        >OR</span
+                      >
+                    </div>
+                  </div>
+
                   <ButtonGroup
                     :disabled="loading"
                     @click.prevent="showEmailSignupMethod = true"
