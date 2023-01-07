@@ -19,14 +19,18 @@
     <header
       :class="
         scrollPosition > 0
-          ? 'bg-slate-50/90 backdrop-blur-2xl backdrop-saturate-150 '
+          ? 'bg-slate-50/90 backdrop-blur-2xl backdrop-saturate-150 dark:bg-jovieDark-800/50 '
           : 'bg-transparent'
       "
       class="sticky top-0 z-20 transition-all duration-300">
       <nav>
         <Disclosure
           as="nav"
-          :class="scrollPosition > 50 ? 'border-b border-slate-200' : ''"
+          :class="
+            scrollPosition > 50
+              ? 'border-b border-slate-200 dark:border-jovieDark-border'
+              : ''
+          "
           class="transition-all duration-300"
           v-slot="{ open }">
           <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,7 +39,7 @@
               :class="scrollPosition > 50 ? 'h-12' : 'h-20'">
               <div class="flex">
                 <div
-                  class="flex flex-shrink-0 items-center text-slate-800 md:mr-12">
+                  class="flex flex-shrink-0 items-center text-slate-800 dark:text-jovieDark-200 md:mr-12">
                   <a href="/">
                     <JovieLogo height="20" />
                   </a>
@@ -122,7 +126,7 @@
 
                   <router-link
                     to="pricing"
-                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-slate-600 hover:text-slate-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 lg:inline-flex">
+                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-slate-600 hover:text-slate-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 dark:text-jovieDark-300 dark:text-jovieDark-200 dark:hover:text-jovieDark-200 dark:hover:text-jovieDark-100 lg:inline-flex">
                     Pricing
                   </router-link>
                 </div>
@@ -136,7 +140,7 @@
                       <div class="inline-flex">
                         <router-link
                           to="login"
-                          class="cursor-hover:text-slate-200 rounded-md px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-700"
+                          class="cursor-hover:text-slate-200 rounded-md px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:text-jovieDark-200"
                           >Sign in
                         </router-link>
                       </div>
@@ -403,6 +407,16 @@ export default {
     };
   },
   mounted() {
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
     this.acceptCookies = this.$cookies.get('acceptCookies');
     if (this.acceptCookies) {
       this.$store.commit('setAcceptCookies', true);
@@ -428,6 +442,7 @@ export default {
       });
     }
   },
+
   methods: {
     updateScroll() {
       this.scrollPosition = window.scrollY;
