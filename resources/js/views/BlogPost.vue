@@ -135,23 +135,24 @@ export default {
     };
   },
   methods: {
-    formatDate(date) {
-      return moment(date).format('YY.MM.DD');
-    },
-    async fetchPost() {
-      this.loading = true;
+    getBlogPost() {
       try {
-        let response = await axios.get('/api/blog/' + this.$route.params.slug);
-        response = response.data;
-      } catch (err) {
-        this.error = true;
-      } finally {
-        this.loading = false;
+        // Get the slug from the URL
+        const slug = this.$route.params.slug;
+        alert(slug);
+        // Fetch the blog post from the API
+        const response = axios.get(`/api/blog/${slug}`);
+        const blogPost = response.data;
+
+        // Set the blog post data in the component's data
+        this.post = blogPost;
+      } catch (error) {
+        console.error(error);
       }
     },
   },
-  mounted() {
-    this.fetchPost();
+  created() {
+    this.getBlogPost;
   },
 };
 </script>
