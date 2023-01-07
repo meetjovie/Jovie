@@ -22,7 +22,7 @@
 
         <div class="mt-8">
           <div class="min-h-96 mt-6">
-            <form action="#" method="POST" class="space-y-6">
+            <div action="#" method="POST" class="space-y-6">
               <template v-if="step == 1">
                 <CreateAccount text="Create your Jovie account" />
                 <div class="space-y-4" v-show="!showEmailSignupMethod">
@@ -196,7 +196,7 @@
                   <Subscription />
                 </div>
               </template> -->
-            </form>
+            </div>
           </div>
         </div>
       </div>
