@@ -24,7 +24,7 @@
           :alt="post.title"
           class="mt-4 rounded-xl border border-neutral-200 py-4 shadow-lg dark:border-jovieDark-border" />
         <p
-          class="prose mt-4 rounded-md bg-slate-100 px-4 px-4 py-2 text-xs dark:bg-jovieDark-800">
+          class="prose mt-4 rounded-md bg-slate-100 px-4 py-2 text-xs dark:bg-jovieDark-800">
           <MapIcon class="mr-1 inline-block h-4 w-4" />
           Vote on new features & contribute your own ideas to the
           <a href="https://roadmap.jov.ie">Jovie Roadmap</a>.

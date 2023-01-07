@@ -103,9 +103,7 @@
             >{{ post.title || 'Title' }}</span
           >
         </h1>
-        <p class="mt-8 text-xl leading-8 text-gray-500">
-          {{ post.body }}
-        </p>
+        <p v-html="post.body" class="mt-8 text-xl leading-8 text-gray-500"></p>
 
         <figure>
           <img
@@ -136,18 +134,18 @@ export default {
   },
   methods: {
     async getBlogPost() {
-        try {
-            const slug = this.$route.params.slug;
-            let response = await axios.get(`/api/blog/${slug}`);
-            response = response.data;
-            if (response.status) {
-                this.post = response.data;
-            }
-        } catch (err) {
-            this.error = true;
-        } finally {
-            this.loading = false;
+      try {
+        const slug = this.$route.params.slug;
+        let response = await axios.get(`/api/blog/${slug}`);
+        response = response.data;
+        if (response.status) {
+          this.post = response.data;
         }
+      } catch (err) {
+        this.error = true;
+      } finally {
+        this.loading = false;
+      }
     },
   },
   mounted() {

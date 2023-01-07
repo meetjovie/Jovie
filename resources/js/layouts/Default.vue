@@ -408,23 +408,23 @@ export default {
       this.$store.commit('setAcceptCookies', true);
     }
     window.addEventListener('scroll', this.updateScroll);
-      if (this.currentUser) {
-        window.Atlas.start();
-        window.analytics.identify(this.currentUser.email, {
-            email: this.currentUser.email,
-            name: this.currentUser.first_name + ' ' + this.currentUser.last_name,
-            instagram: this.currentUser.instagram_handler,
-            twitter: this.currentUser.twitter_handler,
-            linkedin: this.currentUser.linkedin_handler,
-            tiktok: this.currentUser.tiktok_handler,
-            twitch: this.currentUser.twitch_handler,
-            youtube: this.currentUser.youtube_handler,
-            team: this.currentUser.current_team.name,
-            user_id: this.currentUser.id,
-            userId: this.currentUser.id,
-            companyId: this.currentUser.current_team.id,
-            appId: 'Jovie_Web_App',
-            theme: localStorage.theme,
+    if (this.currentUser) {
+      window.Atlas.start();
+      window.analytics.identify(this.currentUser.email, {
+        email: this.currentUser.email,
+        name: this.currentUser.first_name + ' ' + this.currentUser.last_name,
+        instagram: this.currentUser.instagram_handler,
+        twitter: this.currentUser.twitter_handler,
+        linkedin: this.currentUser.linkedin_handler,
+        tiktok: this.currentUser.tiktok_handler,
+        twitch: this.currentUser.twitch_handler,
+        youtube: this.currentUser.youtube_handler,
+        team: this.currentUser.current_team?.name,
+        user_id: this.currentUser.id,
+        userId: this.currentUser.id,
+        companyId: this.currentUser.current_team?.id,
+        appId: 'Jovie_Web_App',
+        theme: localStorage.theme,
       });
     }
   },
