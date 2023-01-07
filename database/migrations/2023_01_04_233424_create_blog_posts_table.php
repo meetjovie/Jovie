@@ -9,13 +9,13 @@ class CreateBlogPostsTable extends Migration
     public function up()
     {
         Schema::create('blog_posts', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid();
             $table->string('title');
             $table->text('excerpt');
             $table->string('author');
             $table->string('image_url') -> nullable();
             $table->string('slug') -> unique();
-            $table->string('category');
+            $table->uuid('category_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamp('publish_date') -> nullable();
             $table->text('body');
             $table->timestamps();

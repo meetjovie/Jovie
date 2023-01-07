@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class BlogPost extends Model
 {
-    // Table name
-    protected $table = 'blog_posts';
-    // Primary key
-    public $primaryKey = 'id';
-    // Timestamps
-    public $timestamps = true;
+    protected $with = ['blogCategories'];
 
+    use HasUuids;
     protected $fillable = [
         'title', 'author', 'publish_date', 'html'
     ];
+
+    public function blogCategories()
+    {
+        return $this->belongsToMany(BlogCategory::class)->using(BlogPostCategory::class);
+    }
 }
