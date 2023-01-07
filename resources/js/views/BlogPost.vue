@@ -96,18 +96,15 @@
         <h1>
           <span
             class="block text-center text-lg font-semibold text-indigo-600"
-            >{{ post.author }}</span
+            >{{ post.author || 'Author' }}</span
           >
           <span
             class="mt-2 block text-center text-3xl font-bold leading-8 tracking-tight text-gray-900 sm:text-4xl"
-            >{{ post.title }}</span
+            >{{ post.title || 'Title' }}</span
           >
         </h1>
         <p class="mt-8 text-xl leading-8 text-gray-500">
-          Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At
-          arcu, sit dui mi, nibh dui, diam eget aliquam. Quisque id at vitae
-          feugiat egestas ac. Diam nulla orci at in viverra scelerisque eget.
-          Eleifend egestas fringilla sapien.
+          {{ post.body }}
         </p>
 
         <figure>
@@ -118,55 +115,43 @@
             :alt="post.title"
             width="1310"
             height="873" />
-          <figcaption>
-            Sagittis scelerisque nulla cursus in enim consectetur quam.
-          </figcaption>
         </figure>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-
-import axios from "axios";
-import moment from "moment/moment";
+import axios from 'axios';
+import moment from 'moment/moment';
 
 export default {
-    name: 'BlogPost',
-    data() {
-        return {
-            loading: false,
-            post: {},
-            error: false
-        }
+  name: 'BlogPost',
+  data() {
+    return {
+      loading: false,
+      post: {},
+      error: false,
+    };
+  },
+  methods: {
+    formatDate(date) {
+      return moment(date).format('YY.MM.DD');
     },
-    methods: {
-        formatDate(date) {
-            return moment(date).format('YY.MM.DD');
-        },
-        async fetchPost() {
-            this.loading = true;
-            try {
-                let response = await axios.get('/api/blog/' + this.$route.params.slug);
-                response = response.data;
-                if (response.status) {
-                    // Sort the post by publish date, with the newest first
-                    this.post = response.data.sort((a, b) => {
-                        return new Date(b.publish_date) - new Date(a.publish_date);
-                    });
-                } else {
-                }
-            } catch (err) {
-               this.error = true;
-            } finally {
-                this.loading = false;
-            }
-        }
+    async fetchPost() {
+      this.loading = true;
+      try {
+        let response = await axios.get('/api/blog/' + this.$route.params.slug);
+        response = response.data;
+      } catch (err) {
+        this.error = true;
+      } finally {
+        this.loading = false;
+      }
     },
-    mounted() {
-        this.fetchPost()
-    }
+  },
+  mounted() {
+    this.fetchPost();
+  },
 };
 </script>

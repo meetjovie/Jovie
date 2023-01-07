@@ -40,9 +40,7 @@
         </div>
 
         <div class="mt-8">
-          <div
-            class="divide-x divide-slate-300 dark:divide-jovieDark-border"
-            v-show="!showEmailLoginMethod">
+          <div class="space-y-4" v-show="!showEmailLoginMethod">
             <ButtonGroup
               :disabled="loggingIn"
               :error="buttonError"
@@ -51,9 +49,25 @@
               :text="loggingIn ? 'Logging in...' : 'Continue with Google'"
               :loader="loggingIn"
               :success="successfulLogin"
+              design="secondary"
               type="button"
               class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
             </ButtonGroup>
+
+            <div class="relative">
+              <div
+                class="absolute inset-0 flex items-center"
+                aria-hidden="true">
+                <div
+                  class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
+              </div>
+              <div class="relative flex justify-center">
+                <span
+                  class="bg-white px-2 text-xs text-gray-500 dark:bg-jovieDark-800 dark:text-jovieDark-200"
+                  >OR</span
+                >
+              </div>
+            </div>
 
             <ButtonGroup
               :disabled="loggingIn"
@@ -212,7 +226,7 @@ export default {
   },
   methods: {
     authProvider(provider) {
-        window.location.href = `/auth/${provider}/redirect`;
+      window.location.href = `/auth/${provider}/redirect`;
     },
     login() {
       this.errors = {};
