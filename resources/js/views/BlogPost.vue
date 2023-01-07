@@ -135,24 +135,23 @@ export default {
     };
   },
   methods: {
-    getBlogPost() {
-      try {
-        // Get the slug from the URL
-        const slug = this.$route.params.slug;
-        alert(slug);
-        // Fetch the blog post from the API
-        const response = axios.get(`/api/blog/${slug}`);
-        const blogPost = response.data;
-
-        // Set the blog post data in the component's data
-        this.post = blogPost;
-      } catch (error) {
-        console.error(error);
-      }
+    async getBlogPost() {
+        try {
+            const slug = this.$route.params.slug;
+            let response = await axios.get(`/api/blog/${slug}`);
+            response = response.data;
+            if (response.status) {
+                this.post = response.data;
+            }
+        } catch (err) {
+            this.error = true;
+        } finally {
+            this.loading = false;
+        }
     },
   },
-  created() {
-    this.getBlogPost;
+  mounted() {
+    this.getBlogPost();
   },
 };
 </script>
