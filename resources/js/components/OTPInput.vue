@@ -59,52 +59,50 @@ export default {
     clearInputs() {
       this.code = ['', '', '', '', '', ''];
     },
-    checkComplete(event) {
-      if (event.type === 'paste') {
-        // Get the pasted OTP code from the clipboard
-        const clipboardData = event.clipboardData || window.clipboardData;
-        let otpCode = clipboardData ? clipboardData.getData('text') : '';
+    async checkComplete(event) {
+        if (event.type === 'paste') {
+            // Get the pasted OTP code from the clipboard
+            let otpCode = await navigator.clipboard.readText();
 
-        // Make sure the pasted OTP code is 6 digits and contains only digits
+            // Make sure the pasted OTP code is 6 digits and contains only digits
+            otpCode = otpCode.slice(0, 6);
+            otpCode = otpCode.replace(/\D/g, '');
+
+            // Update the code array with the pasted OTP code if the pasted OTP code is valid
+            if (otpCode.length === 6) {
+                this.code = otpCode.split('');
+            } else {
+                // Reset the code array if the pasted OTP code is invalid
+                this.code = ['', '', '', '', '', ''];
+            }
+        } else {
+            this.focusNextInput(event);
+        }
+
+        if (this.code.every((digit) => digit !== '')) {
+            this.$emit('update:modelValue', this.code.join(''))
+            this.$emit('complete', this.code.join(''));
+        }
+    },
+    async checkClipboard(event) {
+        // Check if the clipboard contains a valid OTP code
+        let otpCode = await navigator.clipboard.readText();
         otpCode = otpCode.slice(0, 6);
         otpCode = otpCode.replace(/\D/g, '');
 
-        // Update the code array with the pasted OTP code if the pasted OTP code is valid
         if (otpCode.length === 6) {
-          this.code = otpCode.split('');
+            // Paste the OTP code into the input element
+            if (document.queryCommandSupported('insertText')) {
+                // Insert the OTP code with the insertText command
+                document.execCommand('insertText', false, otpCode);
+            } else if (document.queryCommandSupported('paste')) {
+                // Insert the OTP code with the paste command
+                document.execCommand('paste', false, otpCode);
+            }
         } else {
-          // Reset the code array if the pasted OTP code is invalid
-          this.code = ['', '', '', '', '', ''];
+            // Prevent the default paste behavior
+            event.preventDefault();
         }
-      } else {
-        this.focusNextInput(event);
-      }
-
-      if (this.code.every((digit) => digit !== '')) {
-        this.$emit('update:modelValue', this.code.join(''))
-        this.$emit('complete', this.code.join(''));
-      }
-    },
-    checkClipboard(event) {
-      // Check if the clipboard contains a valid OTP code
-      const clipboardData = event.clipboardData || window.clipboardData;
-      let otpCode = clipboardData.getData('text');
-      otpCode = otpCode.slice(0, 6);
-      otpCode = otpCode.replace(/\D/g, '');
-
-      if (otpCode.length === 6) {
-        // Paste the OTP code into the input element
-        if (document.queryCommandSupported('insertText')) {
-          // Insert the OTP code with the insertText command
-          document.execCommand('insertText', false, otpCode);
-        } else if (document.queryCommandSupported('paste')) {
-          // Insert the OTP code with the paste command
-          document.execCommand('paste', false, otpCode);
-        }
-      } else {
-        // Prevent the default paste behavior
-        event.preventDefault();
-      }
     },
   },
 };
