@@ -10,7 +10,13 @@
         <p class="text-sm font-semibold text-slate-600 dark:text-jovieDark-300">
           {{ formatDate(post.publish_date) }}
         </p>
-        <!--  <p v-if="catTags">{{ post.category.name }}</p> -->
+
+        <span
+          v-if="catTags"
+          v-for="category in post.blog_categories"
+          class="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-2xs font-medium text-purple-800"
+          >{{ category.name }}</span
+        >
       </div>
       <div class="w-full">
         <router-link
