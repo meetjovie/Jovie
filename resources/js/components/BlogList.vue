@@ -10,7 +10,7 @@
         <p class="text-sm font-semibold text-slate-600 dark:text-jovieDark-300">
           {{ formatDate(post.publish_date) }}
         </p>
-        <p v-if="catTags">Cat Tags</p>
+        <!--  <p v-if="catTags">{{ post.category.name }}</p> -->
       </div>
       <div class="w-full">
         <router-link
@@ -81,6 +81,8 @@ async function fetchPosts() {
   }
 }
 
+//
+
 function formatDate(date) {
   return moment(date).format('YY.MM.DD');
 }
@@ -88,4 +90,15 @@ function formatDate(date) {
 onMounted(() => {
   fetchPosts();
 });
+</script>
+
+<script>
+export default {
+  props: {
+    catTags: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
 </script>
