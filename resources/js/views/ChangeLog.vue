@@ -7,7 +7,8 @@
         content="Jovie is always improving. Our changelog contains a record of some of the latest features & improvements the Jovie CRM & Chrome extension." />
     </Head>
 
-    <div class="relative mb-24 overflow-hidden bg-white py-8">
+    <div
+      class="relative mb-24 overflow-hidden bg-white py-8 dark:bg-jovieDark-900">
       <div
         class="hidden lg:absolute lg:inset-y-0 lg:block lg:h-full lg:w-full lg:[overflow-anchor:none]">
         <div
@@ -32,7 +33,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-slate-200"
+                  class="text-slate-200 dark:text-jovieDark-400"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -60,7 +61,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-slate-200"
+                  class="text-slate-200 dark:text-jovieDark-400"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -88,7 +89,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-slate-200"
+                  class="text-slate-200 dark:text-jovieDark-400"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -101,31 +102,33 @@
       </div>
       <div class="min-h-800 relative px-4 sm:px-6 lg:px-8">
         <div
-          class="sticky top-0 mx-auto max-w-prose border-b border-slate-200 text-lg">
+          class="sticky top-0 mx-auto max-w-prose border-b border-slate-200 text-lg dark:border-jovieDark-border">
           <div class="py-6">
             <h1>
-              <span class="block text-lg font-semibold text-indigo-600"
+              <span
+                class="block text-lg font-semibold text-indigo-600 dark:text-indigo-400"
                 >What's New:</span
               >
               <span
-                class="mt-4 block text-3xl font-bold leading-8 tracking-tight text-slate-900 sm:text-4xl"
+                class="mt-4 block text-3xl font-bold leading-8 tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl"
                 >Jovie Changelog</span
               >
             </h1>
-            <p class="mt-8 text-xl leading-8 text-slate-700">
+            <p
+              class="mt-8 text-xl leading-8 text-slate-700 dark:text-jovieDark-300">
               New updates and improvements to Jovie.
             </p>
 
             <div class="mt-4 flex space-x-8">
               <a href="https://twitter.com/meetjovie" class="">
                 <p
-                  class="cursor-pointer text-xs leading-8 text-slate-500 hover:text-indigo-500">
+                  class="cursor-pointer text-xs leading-8 text-slate-500 hover:text-indigo-500 dark:text-jovieDark-300 hover:dark:text-indigo-300">
                   Follow us on Twitter.
                 </p>
               </a>
               <router-link to="/slack-community" class="">
                 <p
-                  class="cursor-pointer text-xs leading-8 text-slate-500 hover:text-indigo-500">
+                  class="cursor-pointer text-xs leading-8 text-slate-500 hover:text-indigo-500 dark:text-jovieDark-300 hover:dark:text-indigo-300">
                   Join our Slack Community for support and feedback.
                 </p>
               </router-link>

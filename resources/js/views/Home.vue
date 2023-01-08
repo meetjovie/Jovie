@@ -178,7 +178,7 @@
       </section>
       <section class="isolate mx-auto">
         <div
-          class="mx-auto h-60 overflow-hidden bg-indigo-400 px-4 sm:h-72 md:px-8">
+          class="mx-auto h-60 overflow-hidden bg-indigo-400 px-4 dark:bg-indigo-600 sm:h-72 md:px-8">
           <div
             class="mx-auto -mt-24 h-[400px] w-[400px] rounded-full bg-gradient-to-b from-indigo-500 via-purple-500/0 to-purple-500/0 sm:h-[500px] sm:w-[500px] lg:h-[1000px] lg:w-[1000px]">
             <div class="mx-auto max-w-7xl items-center p-8 sm:p-10 lg:p-14">
@@ -212,8 +212,12 @@
                     </div>
                     <svg
                       viewBox="0 0 64 64"
-                      class="absolute top-0 h-full w-full">
-                      <circle cx="32" cy="32" r="32" fill="#fff"></circle>
+                      class="absolute top-0 h-full w-full text-white dark:text-jovieDark-700">
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="32"
+                        fill="currentColor"></circle>
                     </svg>
                   </div>
                 </div>
@@ -229,7 +233,7 @@
                   </svg>
 
                   <a
-                    class="active:outline-3 -ml-1text-md hover:border-coral-500 hover:text-coral-500 group -mt-1 box-border inline-flex h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-white px-4 font-sans font-medium text-black outline-offset-2 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-700 active:bg-white active:bg-opacity-5 disabled:cursor-not-allowed disabled:border-slate-700 disabled:bg-transparent disabled:text-slate-700 md:h-12 md:text-lg"
+                    class="active:outline-3 -ml-1text-md hover:border-coral-500 hover:text-coral-500 group -mt-1 box-border inline-flex h-10 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-white px-4 font-sans font-medium text-black outline-offset-2 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-700 active:bg-white active:bg-opacity-5 disabled:cursor-not-allowed disabled:border-slate-700 disabled:bg-transparent disabled:text-slate-700 dark:bg-jovieDark-700 md:h-12 md:text-lg"
                     href="https://jov.ie/signup"
                     ><JovieLogo height="20px" />
                   </a>
@@ -240,7 +244,7 @@
         </div>
       </section>
 
-      <section class="bg-indigo-50">
+      <section class="bg-indigo-50 dark:bg-jovieDark-900">
         <HomeFeatureCRM :features="features" class="" id="crm"></HomeFeatureCRM>
       </section>
 
@@ -250,9 +254,10 @@
       <!--  <HomeCTA></HomeCTA> -->
       <section class="mx-auto py-24">
         <div
-          class="mx-auto flex max-w-5xl flex-col justify-between overflow-hidden rounded-3xl border-2 border-fuchsia-600 md:h-80 md:flex-row">
+          class="mx-auto flex max-w-5xl flex-col justify-between overflow-hidden rounded-3xl border-2 border-fuchsia-600 dark:bg-white md:h-80 md:flex-row">
           <div class="w-full py-8 px-8 md:w-1/3">
-            <div class="text-xl font-bold text-slate-700">
+            <div
+              class="text-xl font-bold text-slate-700 dark:text-jovieDark-300">
               <span class="text-pink-500">Add</span> the Jovie Chrome<br />
               Extension today.
             </div>

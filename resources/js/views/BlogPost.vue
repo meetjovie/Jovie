@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="relative overflow-hidden bg-white py-16 dark:bg-jovieDark-900">
+  <div class="bg-white dark:bg-jovieDark-900">
+    <div class="relative min-h-screen overflow-hidden py-16">
       <div
         class="hidden lg:absolute lg:inset-y-0 lg:block lg:h-full lg:w-full lg:[overflow-anchor:none]">
         <div
@@ -25,7 +25,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-gray-200 dark:text-jovieDark-300"
+                  class="text-gray-200 dark:text-jovieDark-600"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -53,7 +53,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-gray-200 dark:text-jovieDark-300"
+                  class="text-gray-200 dark:text-jovieDark-600"
                   fill="currentColor" />
               </pattern>
             </defs>
@@ -81,7 +81,7 @@
                   y="0"
                   width="4"
                   height="4"
-                  class="text-gray-200 dark:text-jovieDark-300"
+                  class="text-gray-200 dark:text-jovieDark-600"
                   fill="currentColor" />
               </pattern>
             </defs>

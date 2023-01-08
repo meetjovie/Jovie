@@ -1,11 +1,11 @@
 <template>
-  <div class="bg-slate-50">
+  <div class="bg-slate-50 dark:bg-jovieDark-900">
     <div
       class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:flex lg:items-center lg:justify-between lg:py-24 lg:px-8">
       <h2
-        class="text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">
+        class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-jovieDark-100 md:text-4xl">
         <span class="block">Ready to dive in?</span>
-        <span class="block text-indigo-600"
+        <span class="block text-indigo-600 dark:text-jovieDark-300"
           >See what Jovie can do for you...</span
         >
       </h2>

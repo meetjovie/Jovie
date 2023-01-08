@@ -15,7 +15,7 @@
       content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg" />
     <!-- End OpenGraph -->
   </Head>
-  <div>
+  <div class="dark:bg-jovieDark-900">
     <header
       :class="
         scrollPosition > 0
@@ -151,7 +151,7 @@
                           class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-slate-200 hover:bg-indigo-600 hover:text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800">
                           <span>Try Jovie free</span>
                           <svg
-                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2 dark:stroke-black"
                             fill="none"
                             width="10"
                             height="10"
@@ -168,10 +168,10 @@
                         <router-link
                           v-else
                           to="signup"
-                          class="border-1 group relative inline-flex items-center rounded-lg bg-slate-900 px-5 py-3 text-xs font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800">
+                          class="border-1 group relative inline-flex items-center rounded-lg bg-slate-900 px-5 py-3 text-xs font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800 dark:bg-jovieDark-100 dark:text-jovieDark-900">
                           <span>Try Jovie free</span>
                           <svg
-                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+                            class="dark:stroke- mt-0 ml-2 -mr-1 stroke-white stroke-2 dark:stroke-black"
                             fill="none"
                             width="10"
                             height="10"
@@ -190,7 +190,7 @@
                     <div v-else>
                       <router-link
                         to="dashboard"
-                        class="group inline-flex w-32 items-center rounded-md border-transparent px-2 py-1 text-sm font-medium text-slate-400 hover:text-slate-100">
+                        class="group inline-flex w-32 items-center rounded-md border-transparent px-2 py-1 text-sm font-medium text-slate-400 hover:text-slate-100 dark:text-jovieDark-200 hover:dark:text-jovieDark-100">
                         Dashboard
                       </router-link>
                     </div>
@@ -245,7 +245,7 @@
                 :href="item.href"
                 :class="[
                   item.current
-                    ? 'border-slate-500 bg-slate-50 text-slate-600'
+                    ? 'border-slate-500 bg-slate-50 text-slate-600 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-400'
                     : 'border-transparent text-slate-600 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700',
                   'block border-l-4 py-2 pl-3 pr-4 text-base font-medium',
                 ]"

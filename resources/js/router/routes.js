@@ -503,6 +503,56 @@ export const routes = [
     },
   },
   {
+    name: 'Jovie Instagram',
+    path: '/jovie-instagram',
+    beforeEnter(to, from, next) {
+      window.open('http://instagram.com/meetjovie', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie Twitter',
+    path: '/jovie-twitter',
+    beforeEnter(to, from, next) {
+      window.open('http://twitter.com/meetjovie', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie Github',
+    path: '/jovie-github',
+    beforeEnter(to, from, next) {
+      window.open('https://github.com/meetjovie', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie Facebook',
+    path: '/jovie-facebook',
+    beforeEnter(to, from, next) {
+      window.open('https://facebook.com/meetjovie', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie LinkedIn',
+    path: '/jovie-linkedin',
+    beforeEnter(to, from, next) {
+      window.open('https://www.linkedin.com/company/meetjovie/', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
     name: '404',
     path: '/notfound',
     component: loadPage('404Page'),

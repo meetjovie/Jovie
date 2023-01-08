@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-y-hidden">
     <div
-      class="flex min-h-[720px] flex-col items-center justify-center bg-gradient-to-b from-white to-slate-50 px-4 pt-24">
+      class="flex min-h-[720px] flex-col items-center justify-center bg-gradient-to-b from-white to-slate-50 px-4 pt-24 dark:from-jovieDark-900 dark:to-jovieDark-800">
       <div class="flex justify-between">
         <div class="relative hidden md:block">
           <div class="-mt-14 flex flex-col space-y-14">
@@ -48,21 +48,21 @@
           <div class="mb-8 block sm:hidden">
             <img
               alt="Jovie - Social CRM Screenshot"
-              class="rounded-lg shadow-xl shadow-indigo-700/30 ring-8 ring-black ring-opacity-5"
+              class="rounded-lg shadow-xl shadow-indigo-700/30 ring-8 ring-black ring-opacity-5 dark:ring-jovieDark-border"
               :src="asset('img/External/HomeFeatureCRM.webp')" />
           </div>
           <div class="mb-4 flex justify-center rounded-full">
             <div
-              class="relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 py-1 px-8 text-xs leading-6">
+              class="dark:border-joiveDark-border relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 py-1 px-8 text-xs leading-6 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <h1
-                class="items-center rounded-md text-lg font-medium text-indigo-600">
+                class="items-center rounded-md text-lg font-medium text-indigo-600 dark:text-jovieDark-300">
                 👋🏻 Meet Jovie: <span class="font-light">The Social CRM</span>
               </h1>
             </div>
           </div>
 
           <h2
-            class="text-3xl font-semibold tracking-normal text-slate-800 sm:text-5xl lg:text-3xl xl:text-7xl">
+            class="text-3xl font-semibold tracking-normal text-slate-800 dark:text-jovieDark-50 sm:text-5xl lg:text-3xl xl:text-7xl">
             Organize everyone<br class="hidden xl:block" />
             you follow
             <br />
@@ -83,9 +83,10 @@
             class="mx-auto mt-8 w-full sm:w-48"
             text="Try Jovie free" />
           <div
-            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-slate-100 to-slate-400/0 py-1 px-2 text-center">
+            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-slate-100 to-slate-400/0 py-1 px-2 text-center dark:from-slate-800 dark:to-slate-700">
             <CreditCardIcon class="mr-2 h-4 w-4 text-slate-700" />
-            <span class="text-light text-2xs text-slate-700">
+            <span
+              class="text-light text-2xs text-slate-700 dark:text-jovieDark-300">
               <!--  <span class="font-bold">Fast & easy. </span> -->
               No credit card required.
             </span>

@@ -5,11 +5,12 @@
     <li
       v-for="post in posts"
       :key="post.id"
-      class="mx-auto mt-6 flex px-4 py-4 text-slate-500 dark:text-jovieDark-400 sm:px-0">
+      class="mx-auto mt-6 flex px-4 py-4 text-slate-500 dark:text-jovieDark-300 sm:px-0">
       <div class="sticky top-24 w-24 text-2xs">
-        <p class="text-sm font-semibold text-slate-600">
+        <p class="text-sm font-semibold text-slate-600 dark:text-jovieDark-300">
           {{ formatDate(post.publish_date) }}
         </p>
+        <p v-if="catTags">Cat Tags</p>
       </div>
       <div class="w-full">
         <router-link
@@ -22,15 +23,25 @@
           v-if="post.image_url"
           :src="asset(post.image_url)"
           :alt="post.title"
-          class="mt-4 rounded-xl border border-neutral-200 py-4 shadow-lg dark:border-jovieDark-border" />
+          class="mt-4 rounded-xl border border-slate-300 py-4 shadow-lg dark:border-jovieDark-border" />
         <p
-          class="prose mt-4 rounded-md bg-slate-100 px-4 py-2 text-xs dark:bg-jovieDark-800">
+          class="prose mt-4 rounded-md border border-slate-300 bg-slate-100 px-4 py-2 text-xs text-slate-600 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-300">
           <MapIcon class="mr-1 inline-block h-4 w-4" />
           Vote on new features & contribute your own ideas to the
-          <a href="https://roadmap.jov.ie">Jovie Roadmap</a>.
+          <a
+            class="text-slate-700 dark:text-jovieDark-100"
+            href="https://roadmap.jov.ie"
+            >Jovie Roadmap</a
+          >.
         </p>
-        <p v-if="post.excerpt" class="prose mt-4" v-html="post.excerpt"></p>
-        <p v-else class="prose mt-4" v-html="post.body"></p>
+        <p
+          v-if="post.excerpt"
+          class="prose mt-4 text-slate-700 dark:text-jovieDark-100"
+          v-html="post.excerpt"></p>
+        <p
+          v-else
+          class="prose mt-4 text-slate-700 dark:text-jovieDark-100"
+          v-html="post.body"></p>
         <router-link
           v-if="post.excerpt"
           :to="'/blog/' + post.slug"
