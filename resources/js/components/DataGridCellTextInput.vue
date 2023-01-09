@@ -13,7 +13,6 @@
       class="block w-full bg-transparent px-2 py-1 placeholder-slate-300 focus-visible:border-none focus-visible:outline-none focus-visible:ring-0 dark:placeholder-slate-500 sm:text-xs"
       :value="modelValue"
       :id="fieldId"
-      @blur="onBlur"
       autocomplete="off"
       :placeholder="placeholder"
       :pattern="dataType == 'currency' ? '\\d*' : null"
@@ -54,7 +53,7 @@ export default {
   emits: ['update:modelValue', 'blur'],
   methods: {
     onBlur() {
-      this.$emit('blur');
+      this.$emit('blur', this.modelValue);
     },
     debouncedEmailCheck(email) {
       // Define the debounce function

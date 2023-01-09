@@ -341,36 +341,34 @@
               <tbody
                 class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
                 <template v-for="(creator, index) in filteredCreators">
-                  <DataGridRow
-                    @move="moveCell"
-                    :currentCell="currentCell"
-                    :row="index"
-                    :creator="creator"
-                    :networks="networks"
-                    :stages="stages"
-                    :index="index"
-                    @update:currentCell="$emit('updateCreator', $event)"
-                    :visibleColumns="visibleColumns"
-                    :currentContact="currentContact"
-                    :key="creator.id"
-                    :filters="filters"
-                    @openSidebar="$emit('openSidebar', creator)"
-                    :column="column"
-                    @archive-creators="
+                    <DataGridRow
+                        :currentCell="currentCell"
+                        :networks="networks"
+                        :stages="stages"
+                        :visibleColumns="visibleColumns"
+                        :otherColumns="otherColumns"
+                        :filters="filters"
+                        :currentContact="currentContact"
+                        :selectedCreators="selectedCreators"
+                        :creator="creator"
+                        :row="index"
+                        :key="creator.id"
+                        v-if="creator"
+                        @update:currentCell="$emit('updateCreator', $event)"
+                        @click="setCurrentContact($event, creator)"
+                        @contextmenu.prevent="openContextMenu(index, creator)"
+                        @mouseover="setCurrentContact($event, creator)"
+                        @openSidebar="$emit('openSidebar', creator)"
+                        @refresh="refresh(creator)"
+                        @updateCreator="$emit('updateCreator', $event)"
+                        @updateCrmMeta="$emit('updateCrmMeta', $event)"
+                        @archive-creators="
                       toggleArchiveCreators(
                         creator.id,
                         !creator.crm_record_by_user.archived
-                      )
-                    "
-                    @refresh="refresh(creator)"
-                    :columnIndex="columnIndex"
-                    :otherColumns="otherColumns"
-                    :selectedCreators="selectedCreators"
-                    v-if="creator"
-                    @updateCreator="$emit('updateCreator', $event)"
-                    @click="setCurrentContact($event, creator)"
-                    @contextmenu.prevent="openContextMenu(index, creator)"
-                    @mouseover="setCurrentContact($event, creator)" />
+                      )"
+                        @toggleCreatorsFromList="toggleCreatorsFromList"
+                    />
                 </template>
               </tbody>
             </table>
@@ -793,10 +791,8 @@ export default {
     },
     visibleColumns() {
       localStorage.setItem('columns', JSON.stringify(this.columns));
-      return this.columns.map((column) => {
-        if (column.visible) {
+      return this.columns.filter(col => col.visible).map((column) => {
           return column.key;
-        }
       });
     },
 

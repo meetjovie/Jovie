@@ -33,8 +33,8 @@
         v-model:rating="creator.crm_record_by_user.rating"
         @update:rating="
           $emit('updateCreator', {
-            id: key,
-            index: index,
+            id: creator.id,
+            index: row,
             key: `crm_record_by_user.rating`,
             value: creator.crm_record_by_user.rating,
           })
@@ -44,19 +44,20 @@
       <DataGridCellTextInput
         v-else-if="['text', 'email', 'currency'].includes(column.dataType)"
         :fieldId="fieldId"
-        @blur="onBlur"
+        @update:modelValue="updateData($event)"
         :dataType="column.dataType"
-        :placeholder="columnName"
-        v-model="modelValue" />
+        :placeholder="column.name"
+        v-model="modelValue"
+      />
       <DataGridSocialLinksCell :creator="creator" :networks="networks" v-else-if="column.dataType == 'socialLinks'" />
         <ContactStageMenu
             v-else-if="column.dataType == 'singleSelect'"
             :creator="creator"
-            :key="key"
-            :open="showContactStageMenu[index]"
-            @close="toggleContactStageMenu(index)"
+            :key="row"
+            :open="showContactStageMenu[row]"
+            @close="toggleContactStageMenu(row)"
             :stages="stages"
-            :index="index"
+            :index="row"
             @updateCreator="$emit('updateCreator', $event)" />
       <span v-else
         >Data Type:
@@ -86,6 +87,8 @@ export default {
   emits: ['update:modelValue', 'blur', 'move'],
     mounted() {
         console.log(this.column);
+        console.log('this.visibleColumns');
+        console.log(this.visibleColumns);
     },
     data() {
       return {
@@ -93,6 +96,10 @@ export default {
       }
     },
   methods: {
+      updateData(value) {
+          this.$emit('update:modelValue', value)
+          this.$emit('updateCrmMeta', this.creator)
+      },
       toggleContactStageMenu(index) {
           this.showContactStageMenu[index] = !this.showContactStageMenu[index];
       },
@@ -120,7 +127,7 @@ export default {
     columnWidth() {
       // Find the object in the visibleColumns array that represents the current column
       const column = this.visibleColumns.find(
-        (col) => col.name === this.columnName
+        (col) => col.name === this.column ? this.column.name : ''
       );
       // If the object was found, return its width. Otherwise, return an empty string.
       return column ? column.width : '';
@@ -129,16 +136,16 @@ export default {
   props: {
     currentContact: Object,
     creator: Object,
-    index: Number,
-    key: Number,
     selectedCreators: Array,
     freezeColumn: Boolean,
     fieldId: String,
     visibleColumns: Array,
     neverHide: Boolean,
-    column: Object,
-    rowIndex: Number,
-    columnIndex: Number,
+    row: Number,
+    column: {
+        type: Object,
+        default: {}
+    },
     modelValue: String,
     currentCell: Object,
     cellActive: Boolean,

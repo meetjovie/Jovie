@@ -10,7 +10,7 @@
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
       :creator="creator"
-      :index="index"
+      :row="row"
       freezeColumn
       dataType="checkbox"
       width="6"
@@ -31,7 +31,7 @@
         <span
           class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
           :class="[{ hidden: selectedCreators.includes(creator.id) }, 'block']">
-          {{ index + 1 }}
+          {{ row + 1 }}
         </span>
       </div>
     </DataGridCell>
@@ -39,7 +39,7 @@
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
       :creator="creator"
-      :index="index"
+      :row="row"
       freezeColumn
       width="4"
       class="left-[26.5px] overflow-auto border-y border-slate-300 px-2 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
@@ -48,7 +48,7 @@
         @click="
           $emit('updateCreator', {
             id: creator.id,
-            index: index,
+            index: row,
             key: `crm_record_by_user.favourite`,
             value: !creator.crm_record_by_user.favourite,
           })
@@ -74,7 +74,7 @@
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
       :creator="creator"
-      :index="index"
+      :row="row"
       freezeColumn
       width="60"
       v-on:dblclick="cellActive"
@@ -109,7 +109,7 @@
           class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-300 dark:active:bg-slate-800">
           <ArrowTopRightOnSquareIcon
             v-if="
-              !this.$store.state.ContactSidebarOpen ||
+              !$store.state.ContactSidebarOpen ||
               currentContact.id !== creator.id
             "
             class="mx-auto mt-0.5 ml-0.5 hidden h-4 w-4 group-hover:block" />
@@ -143,13 +143,12 @@
               name="Refresh"
               color="text-green-600 dark:text-green-400"
               icon="ArrowPathIcon"
-              @click="$emit('refresh', creator)"
-              :disabled="adding" />
+              @click="$emit('refresh', creator)" />
             <DropdownMenuItem
               name="Remove from list"
               icon="TrashIcon"
               color="text-red-600 dark:text-red-400"
-              @click="toggleCreatorsFromList(creator.id, filters.list, true)" />
+              @click="$emit('toggleCreatorsFromList', ...{id: creator.id, list: filters.list, remove: true})" />
           </ContactContextMenu>
         </div>
       </div>
@@ -161,21 +160,21 @@
         :currentContact="currentContact"
         :creator="creator"
         :cellActive="
-          currentCell.row == index && currentCell.column == columnIndex
+          currentCell.row == row && currentCell.column == columnIndex
         "
         @update:currentCell="handleCellUpdate"
         :currentCell="currentCell"
         :columnIndex="columnIndex"
-        :rowIndex="index"
+        :rowIndex="row"
         :networks="networks"
         :stages="stages"
-        :columnName="column.name"
         :column="column"
-          @updateCreator="$emit('updateCreator', $event)"
+        @updateCreator="$emit('updateCreator', $event)"
+        @updateCrmMeta="$emit('updateCrmMeta', creator)"
         @blur="$emit('updateCrmMeta', creator)"
-        :modelValue="creator.meta[column.key]"
-        :index="index"
-        :key="key" />
+        v-model="creator.meta[column.key]"
+        :row="row"
+        :key="row" />
   </tr>
 </template>
 <script>
@@ -207,25 +206,23 @@ export default {
     },
   },
   props: {
-    currentContact: Object,
-    creator: Object,
-    rowIndex: Number,
-    selectedCreators: Array,
-    freezeColumn: Boolean,
-    currentCell: Object,
-    width: String,
-    filters: Object,
-    columnName: String,
-    visibleColumns: Array,
-    neverHide: Boolean,
-    cellActive: Boolean,
-    index: Number,
-    key: Number,
-    column: Object,
-    otherColumns: Array,
-    columnIndex: Number,
-    networks: Array,
-    stages: Array,
+      currentCell: Object,
+      networks: Array,
+      stages: Array,
+      visibleColumns: Array,
+      filters: Object,
+      currentContact: Object,
+      creator: Object,
+      selectedCreators: Array,
+      row: Number,
+      column: Number,
+      freezeColumn: Boolean,
+      width: String,
+      columnName: String,
+      neverHide: Boolean,
+      cellActive: Boolean,
+      otherColumns: Array,
+      columnIndex: Number,
   },
 };
 </script>
