@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen bg-white dark:bg-jovieDark-900">
+  <div class="flex min-h-screen bg-white dark:bg-jovieDark-800">
     <div
       class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
       <div class="m-auto flex h-full items-center">
@@ -22,163 +22,186 @@
 
         <div class="mt-8">
           <div class="min-h-96 mt-6">
-            <form action="#" method="POST" class="space-y-6">
+            <div action="#" method="POST" class="space-y-6">
               <template v-if="step == 1">
-                <CreateAccount />
-                <div class="grid grid-cols-2 gap-6">
-                  <div class="col-span-1">
-                    <div class="relative mt-1">
-                      <InputGroup
-                        v-model="user.first_name"
-                        id="first_name"
-                        name="first_name"
-                        type="text"
-                        :valid="firstNameIsValid"
-                        @blur="validateFirstName"
-                        autocomplete="first_name"
-                        required=""
-                        label="First Name"
-                        placeholder="First Name" />
-                      <p
-                        class="mt-2 text-sm text-red-900"
-                        v-if="this.errors.first_name">
-                        {{ this.errors.first_name[0] }}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-span-1">
-                    <div class="relative mt-1">
-                      <InputGroup
-                        v-model="user.last_name"
-                        id="last_name"
-                        :valid="lastNameIsValid"
-                        @blur="validateLastName"
-                        name="last_name"
-                        placeholder="Last Name"
-                        label="Last Name"
-                        type="text"
-                        autocomplete="last_name"
-                        required="" />
-                      <p
-                        class="mt-2 text-sm text-red-900"
-                        v-if="this.errors.last_name">
-                        {{ this.errors.last_name[0] }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div class="relative mt-1">
-                    <InputGroup
-                      v-model="user.email"
-                      id="email"
-                      :valid="emailIsValid"
-                      name="email"
-                      label="Email address"
-                      @blur="validateEmail"
-                      placeholder="Email address"
-                      type="email"
-                      autocomplete="email"
-                      v-on:keyup.enter="nextStep()"
-                      required="" />
-                    <p
-                      class="mt-2 text-sm text-red-900"
-                      v-if="this.errors.email">
-                      {{ this.errors.email[0] }}
-                    </p>
-                  </div>
-                </div>
-
-                <div>
+                <CreateAccount text="Create your Jovie account" />
+                <div class="space-y-4" v-show="!showEmailSignupMethod">
                   <ButtonGroup
+                    :disabled="loading"
+                    @click.prevent="authProvider('google')"
+                    :text="'Continue with Google'"
                     type="button"
-                    @click="nextStep()"
-                    :loader="loading"
-                    :disabled="submitting"
-                    text="Next"
+                    design="secondary"
+                    icon="google"
+                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  </ButtonGroup>
+
+                  <div class="relative">
+                    <div
+                      class="absolute inset-0 flex items-center"
+                      aria-hidden="true">
+                      <div
+                        class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
+                    </div>
+                    <div class="relative flex justify-center">
+                      <span
+                        class="bg-white px-2 text-xs text-gray-500 dark:bg-jovieDark-800 dark:text-jovieDark-200"
+                        >OR</span
+                      >
+                    </div>
+                  </div>
+
+                  <ButtonGroup
+                    :disabled="loading"
+                    @click.prevent="showEmailSignupMethod = true"
+                    :text="'Continue with email'"
+                    type="button"
+                    design="secondary"
                     class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   </ButtonGroup>
                 </div>
+                <div class="space-y-4" v-show="showEmailSignupMethod">
+                  <!-- <div class="grid grid-cols-2 gap-6">
+                    <div class="col-span-1">
+                      <div class="relative mt-1">
+                        <InputGroup
+                          v-model="user.first_name"
+                          id="first_name"
+                          name="first_name"
+                          type="text"
+                          :valid="firstNameIsValid"
+                          @blur="validateFirstName"
+                          autocomplete="first_name"
+                          required=""
+                          label="First Name"
+                          placeholder="First Name" />
+                        <p
+                          class="mt-2 text-sm text-red-900"
+                          v-if="this.errors.first_name">
+                          {{ this.errors.first_name[0] }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-span-1">
+                      <div class="relative mt-1">
+                        <InputGroup
+                          v-model="user.last_name"
+                          id="last_name"
+                          :valid="lastNameIsValid"
+                          @blur="validateLastName"
+                          name="last_name"
+                          placeholder="Last Name"
+                          label="Last Name"
+                          type="text"
+                          autocomplete="last_name"
+                          required="" />
+                        <p
+                          class="mt-2 text-sm text-red-900"
+                          v-if="this.errors.last_name">
+                          {{ this.errors.last_name[0] }}
+                        </p>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div>
+                    <div class="relative mt-1">
+                      <InputGroup
+                        v-model="user.email"
+                        id="email"
+                        :valid="emailIsValid"
+                        name="email"
+                        label="Email address"
+                        @blur="validateEmail"
+                        placeholder="Email address"
+                        type="email"
+                        autocomplete="email"
+                        v-on:keyup.enter="register()"
+                        required="" />
+                      <p
+                        class="dark:text-red--300 mt-2 text-sm text-red-700"
+                        v-if="this.errors.email">
+                        {{ this.errors.email[0] }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <ButtonGroup
+                      type="button"
+                      @click="register()"
+                      :loader="loading"
+                      :disabled="submitting"
+                      text="Next"
+                      class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    </ButtonGroup>
+                  </div>
+                </div>
 
                 <h3
-                  class="mx-auto text-center text-xs text-slate-400 dark:text-jovieDark-300">
+                  class="mx-auto text-center text-xs text-slate-400 dark:text-jovieDark-500">
                   Fast & easy. No credit card required.
                 </h3>
+                <p class="mt-4 text-2xs text-slate-400 dark:text-jovieDark-400">
+                  By clicking “Continue with Google/Email” above, you
+                  acknowledge that you have read and understood, and agree to
+                  Jovie's
+                  <router-link class="underline" to="legal"
+                    >privacy policy</router-link
+                  >.and
+                  <router-link class="underline" to="legal">terms</router-link>
+                  of use. You’re also opting in to receive marketing emails. You
+                  can unsubscribe at anytime.
+                </p>
               </template>
               <template v-if="step == 2">
-                <CreateAccount text="Enter a password" />
+                <CreateAccount text="Check your email" />
+                <h2
+                  class="text-center text-sm text-slate-600 dark:text-jovieDark-300">
+                  We just sent you a temporary sign up code.
+                </h2>
+                <p class="mt-4 text-2xs text-slate-400 dark:text-jovieDark-400">
+                  Please check your email and enter the code below to continue
+                  the sign up process.
+                </p>
+
                 <div class="space-y-1">
                   <div class="relative mt-1">
-                    <InputGroup
-                      v-model="user.password"
-                      id="password"
-                      name="password"
-                      placeholder="Password"
-                      label="Password"
-                      :loader="passwordIsLoading"
-                      type="password"
-                      :valid="passwordIsValid"
-                      @blur="validatePassword"
-                      autocomplete="current-password"
-                      required="" />
-                    <p
-                      class="mt-2 text-sm font-bold text-red-900"
-                      v-if="this.errors.password">
-                      {{ this.errors.password[0] }}
-                    </p>
-                  </div>
-                </div>
-                <div class="space-y-1">
-                  <div class="relative mt-1">
-                    <InputGroup
-                      v-model="user.password_confirmation"
+                    <OTPInput
+                      :loading="loading"
+                      @complete="verify()"
+                      v-model="code" />
+                    <!-- <InputGroup
+                      v-model="code"
                       id="password_confirmation"
                       name="password_confirmation"
-                      placeholder="Confirm Password"
-                      label="Confirm Password"
-                      type="password"
-                      v-on:keyup.enter="register()"
+                      placeholder="000-000"
+                      label="Enter code"
+                      type="code"
+                      v-on:keyup.enter="verify()"
                       autocomplete="confirm-password"
-                      required="" />
+                      required="" /> -->
+                    <!--  <p>{{ code }}</p> -->
                     <p
                       class="mt-2 text-sm font-bold text-red-900"
-                      v-if="this.errors.password">
-                      {{ this.errors.password[0] }}
+                      v-if="this.errors.code">
+                      {{ this.errors.code[0] }}
                     </p>
                   </div>
                 </div>
-                <div class="grid grid-cols-2">
-                  <div>
-                    <button
-                      type="button"
-                      @click="back()"
-                      tabindex="0"
-                      class="col-span-1 cursor-pointer justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                      Back
-                    </button>
-                  </div>
+                <!--  <div class="flex w-full">
                   <div>
                     <ButtonGroup
                       type="button"
                       tabindex="0"
-                      @click="register()"
+                      @click="verify()"
                       :loader="loading"
-                      :success="success"
+                      :success="codeVerified"
                       :error="error"
                       :disabled="submitting"
-                      text="Create Account">
+                      text="Continue with code">
                     </ButtonGroup>
                   </div>
-                </div>
-                <p class="text-2xs text-slate-400 dark:text-jovieDark-200">
-                  By clicking “Sign up” you agree to our
-                  <router-link class="underline" to="privacy"
-                    >privacy policy</router-link
-                  >.and
-                  <router-link class="underline" to="terms">terms</router-link>
-                  of use. You’re also opting in to receive marketing emails. You
-                  can unsubscribe at anytime.
-                </p>
+                </div> -->
               </template>
               <!--  <template v-if="step == 3">
                 <CreateAccount text="Choose a plan">
@@ -190,7 +213,7 @@
                   <Subscription />
                 </div>
               </template> -->
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -205,6 +228,7 @@ import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
 import InputGroup from '../components/InputGroup.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
+import OTPInput from '../components/OTPInput.vue';
 
 export default {
   components: {
@@ -213,9 +237,11 @@ export default {
     CreateAccount,
     ButtonGroup,
     InputGroup,
+    OTPInput,
   },
   data() {
     return {
+      showEmailSignupMethod: false,
       errors: {},
       error: '',
       step: 1,
@@ -233,14 +259,20 @@ export default {
       },
       submitting: false,
       success: false,
+      codeValid: false,
       loading: false,
+      code: '',
     };
   },
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
+    this.code = this.$route.query.code ?? '';
   },
   methods: {
+    authProvider(provider) {
+      window.location.href = `/auth/${provider}/redirect`;
+    },
     back() {
       this.user.password = '';
       this.user.password_confirmation = '';
@@ -336,18 +368,15 @@ export default {
           response = response.data;
           if (response.status) {
             this.$store.commit('setAuthStateUser', response.user);
-            this.$router.push({ name: 'Home' });
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Successful',
+              message: response.message,
+            });
           } else {
             this.error = response.error;
           }
-        })
-        .then(() => {
-          //track call to segment
-          window.analytics.track('Signed Up', {
-            first_name: this.user.first_name,
-            last_name: this.user.last_name,
-            email_address: this.user.email,
-          });
         })
         .catch((error) => {
           if (error.response.status == 422) {
@@ -361,6 +390,39 @@ export default {
         .finally(() => {
           this.submitting = false;
           this.success = true;
+          this.step = 2;
+          this.loading = false;
+        });
+    },
+    verify() {
+      this.loading = true;
+      this.errors = {};
+      this.error = '';
+      this.submitting = true;
+      AuthService.verify({ code: this.code, email: this.user.email })
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$store.commit('setAuthStateUser', response.user);
+            this.$router.push('onboarding');
+          } else {
+            this.error = response.error;
+          }
+        })
+        .catch((error) => {
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors;
+            this.error = error.response.data.message;
+            return;
+          }
+          alert('Something went wrong.');
+
+          this.codeValidated = false;
+        })
+        .finally(() => {
+          this.submitting = false;
+
+          this.codeValid = true;
           this.loading = false;
         });
     },

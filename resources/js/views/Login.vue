@@ -32,19 +32,7 @@
               color="#000" />
             <JovieLogo v-else height="28px" color="#fff" />
           </div>
-          <h2
-            class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
-            Sign in
-          </h2>
-          <p class="mt-2 text-sm text-slate-600">
-            Or
-            {{ ' ' }}
-            <router-link
-              to="/signup"
-              class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
-              Create an account
-            </router-link>
-          </p>
+          <CreateAccount text="Login to Jovie" />
 
           <ul v-if="error" class="text-red-900">
             <li>{{ error }}</li>
@@ -52,7 +40,65 @@
         </div>
 
         <div class="mt-8">
-          <div class="mt-6">
+          <div class="space-y-4" v-show="!showEmailLoginMethod">
+            <ButtonGroup
+              :disabled="loggingIn"
+              :error="buttonError"
+              icon="google"
+              @click.prevent="authProvider('google')"
+              :text="loggingIn ? 'Logging in...' : 'Continue with Google'"
+              :loader="loggingIn"
+              :success="successfulLogin"
+              design="secondary"
+              type="button"
+              class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+            </ButtonGroup>
+
+            <div class="relative">
+              <div
+                class="absolute inset-0 flex items-center"
+                aria-hidden="true">
+                <div
+                  class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
+              </div>
+              <div class="relative flex justify-center">
+                <span
+                  class="bg-white px-2 text-xs text-gray-500 dark:bg-jovieDark-800 dark:text-jovieDark-200"
+                  >OR</span
+                >
+              </div>
+            </div>
+
+            <ButtonGroup
+              :disabled="loggingIn"
+              :error="buttonError"
+              @click.prevent="showEmailLoginMethod = !showEmailLoginMethod"
+              :text="loggingIn ? 'Logging in...' : 'Continue with Email'"
+              :loader="loggingIn"
+              :success="successfulLogin"
+              design="secondary"
+              type="button"
+              class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+            </ButtonGroup>
+            <span
+              class="mt-4 text-center text-[8px] text-slate-600 dark:text-jovieDark-400">
+              By clicking “Continue with Google/Email” above, you acknowledge
+              that you have read and understood, and agree to Jovie's
+              <router-link
+                to="/legal"
+                class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
+                Privacy Policy
+              </router-link>
+              and
+              <router-link
+                to="/legal"
+                class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
+                Terms of Service </router-link
+              >.
+            </span>
+          </div>
+
+          <div v-show="showEmailLoginMethod" class="mt-6">
             <form action="#" method="POST" class="space-y-6">
               <div>
                 <div class="relative mt-1">
@@ -96,7 +142,7 @@
                   :disabled="loggingIn"
                   :error="buttonError"
                   @click="login()"
-                  :text="loggingIn ? 'Logging in...' : 'Sign in'"
+                  :text="loggingIn ? 'Logging in...' : 'Log in'"
                   :loader="loggingIn"
                   :success="successfulLogin"
                   type="button"
@@ -105,7 +151,7 @@
               </div>
 
               <div class="flex items-center justify-between">
-                <div class="flex items-center">
+                <!--    <div class="flex items-center">
                   <input
                     id="remember-me"
                     name="remember-me"
@@ -116,7 +162,7 @@
                     class="ml-2 block text-sm text-slate-900 dark:text-jovieDark-100">
                     Remember me
                   </label>
-                </div>
+                </div> -->
 
                 <div class="text-sm">
                   <router-link
@@ -127,6 +173,13 @@
                 </div>
               </div>
             </form>
+            <div class="flex w-full justify-end">
+              <div
+                @click="showEmailLoginMethod = !showEmailLoginMethod"
+                class="cursor-pointer justify-end text-xs text-slate-600 dark:text-jovieDark-400">
+                Login another way
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -135,6 +188,7 @@
   </div>
 </template>
 <script>
+import CreateAccount from '../components/External/CreateAccount.vue';
 import JovieLogo from '../components/JovieLogo';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
@@ -145,6 +199,7 @@ import { Head } from '@vueuse/head';
 export default {
   components: {
     JovieLogo,
+    CreateAccount,
     AuthFooter,
     InputGroup,
     ButtonGroup,
@@ -157,6 +212,7 @@ export default {
   data() {
     return {
       errors: {},
+      showEmailLoginMethod: false,
       buttonError: false,
       error: '',
 
@@ -169,6 +225,9 @@ export default {
     };
   },
   methods: {
+    authProvider(provider) {
+      window.location.href = `/auth/${provider}/redirect`;
+    },
     login() {
       this.errors = {};
       this.error = '';

@@ -301,7 +301,8 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 //});
 
 
-
+Route::get('/auth/{network}/redirect', [\App\Http\Controllers\Auth\AuthController::class, 'redirect']);
+Route::get('/auth/{network}/callback', [\App\Http\Controllers\Auth\AuthController::class, 'callback']);
 Route::get('{any?}', function () {
     return view('welcome');
-});
+})->where('any', '.*')->name('welcome');

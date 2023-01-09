@@ -38,7 +38,6 @@ export const routes = [
   {
     name: 'Support',
     path: '/support',
-    //redirect to https://support.jov.ie/
     beforeEnter(to, from, next) {
       window.open('https://support.jov.ie/', '_self');
     },
@@ -234,7 +233,46 @@ export const routes = [
   {
     name: 'Legal',
     path: '/legal',
-    component: loadPage('Privacy'),
+    component: loadPage('Legal'),
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Privacy',
+    path: '/privacy',
+    component: loadPage('Legal'),
+    props: { defaultTab: 0 },
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Terms',
+    path: '/terms',
+    component: loadPage('Legal'),
+    props: { defaultTab: 1 },
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+  {
+    path: '/blog/:slug',
+    name: 'BlogPost',
+    component: loadPage('BlogPost'),
+    meta: {
+      layout: 'Default',
+      requiresAuth: false,
+    },
+  },
+  {
+    path: '/blog/',
+    name: 'Blog',
+    component: loadPage('BlogPage'),
+    props: true,
     meta: {
       layout: 'Default',
       requiresAuth: false,
@@ -369,6 +407,15 @@ export const routes = [
     },
   },
   {
+    name: 'onboarding',
+    path: '/onboarding',
+    component: loadPage('OnboardingScreen'),
+    meta: {
+      layout: 'Minimal',
+      requiresAuth: true,
+    },
+  },
+  {
     name: 'Creator Overview',
     path: '/overview/:id',
     component: loadPage('CreatorOverview'),
@@ -450,6 +497,56 @@ export const routes = [
         'https://join.slack.com/t/joviecommunity/shared_invite/zt-1gdffx9bp-gjhCk1ihRUOnv54Pc5sm5Q',
         '_blank'
       );
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie Instagram',
+    path: '/jovie-instagram',
+    beforeEnter(to, from, next) {
+      window.open('http://instagram.com/meetjovie', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie Twitter',
+    path: '/jovie-twitter',
+    beforeEnter(to, from, next) {
+      window.open('http://twitter.com/meetjovie', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie Github',
+    path: '/jovie-github',
+    beforeEnter(to, from, next) {
+      window.open('https://github.com/meetjovie', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie Facebook',
+    path: '/jovie-facebook',
+    beforeEnter(to, from, next) {
+      window.open('https://facebook.com/meetjovie', '_blank');
+    },
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    name: 'Jovie LinkedIn',
+    path: '/jovie-linkedin',
+    beforeEnter(to, from, next) {
+      window.open('https://www.linkedin.com/company/meetjovie/', '_blank');
     },
     meta: {
       requiresAuth: false,

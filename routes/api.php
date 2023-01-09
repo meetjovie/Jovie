@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
+//BLOG
+//Route::get('/blog/{id}', [\App\Http\Controllers\BlogPostController::class, 'show']);
+Route::get('/blog/{slug}', [\App\Http\Controllers\BlogPostController::class, 'showBySlug']);
+
+Route::get('/blog', [\App\Http\Controllers\BlogPostController::class, 'index']);
+
+
 //ADMIN
 //add a route for the AdminDashboardController to get the user count
 Route::get('/admin-stats', [\App\Http\Controllers\AdminDashboardController::class, 'getAdminStats']);
@@ -29,6 +36,9 @@ Route::post('login-user', [\App\Http\Controllers\Auth\AuthController::class, 'lo
 Route::post('login-user-extension', [\App\Http\Controllers\Auth\AuthController::class, 'loginUserExtension'])->withoutMiddleware('state.csrf');
 Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
 Route::post('validate-step-1', [\App\Http\Controllers\Auth\AuthController::class, 'validateStep1']);
+Route::post('verify-email', [\App\Http\Controllers\Auth\AuthController::class, 'verify'])
+    ->middleware(['throttle:6,1'])
+    ->name('verification.verify');
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
 Route::post('/forgot-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'resetPassword']);
@@ -42,8 +52,10 @@ Route::middleware('auth:sanctum')->group(function () {
     //    PROFILE
     Route::get('/me', [\App\Http\Controllers\UserController::class, 'me']);
     Route::put('/profile', [\App\Http\Controllers\UserController::class, 'update']);
+    Route::put('/setup-workspace', [\App\Http\Controllers\UserController::class, 'setupWorkspace']);
     Route::delete('/remove-profile-photo', [\App\Http\Controllers\UserController::class, 'removeProfilePhoto']);
     Route::put('/update-password', [\App\Http\Controllers\UserController::class, 'updatePassword']);
+    Route::put('/set-password', [\App\Http\Controllers\UserController::class, 'setPassword']);
 
 //    Route::group(['middleware' => 'subscribed'], function () {
 
@@ -102,7 +114,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/subscription-products', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'getSubscriptionProducts']);
     Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
 
-    
+
 
     /**
      * Teamwork routes

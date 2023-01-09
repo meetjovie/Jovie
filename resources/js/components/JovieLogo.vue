@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-black dark:text-white">
     <router-link :to="link">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -18,11 +18,6 @@
 </template>
 <script>
 export default {
-  computed: {
-    defaultColor() {
-      return this.$store.state.theme === 'dark' ? '#ffffff' : '#000000';
-    },
-  },
   props: {
     width: {
       type: String,
@@ -34,7 +29,7 @@ export default {
     },
     color: {
       type: String,
-      default: 'defaultColor',
+      default: 'currentColor',
     },
     link: {
       type: String,

@@ -1,5 +1,6 @@
 id: 31817
 name: Jovie-Production
+asset-domain: assets.jov.ie
 environments:
   production:
     queues:

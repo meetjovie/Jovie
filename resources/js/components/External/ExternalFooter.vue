@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="dark:bg-jovieDark-900">
     <div v-if="!minimal">
-      <footer class="bg-slate-50" aria-labelledby="footer-heading">
+      <footer
+        class="bg-slate-50 dark:bg-jovieDark-900"
+        aria-labelledby="footer-heading">
         <h2 id="footer-heading" class="sr-only">Footer</h2>
         <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div class="pb-8 xl:grid xl:grid-cols-3 xl:gap-8">
@@ -9,33 +11,33 @@
               <div class="md:grid md:grid-cols-2 md:gap-8">
                 <div>
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                    class="dark:text-jovieDark-300dark:text-jovieDark-300 text-sm font-bold uppercase tracking-wider text-slate-700">
                     Product
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.solutions" :key="item.name">
-                      <a
-                        :href="item.href"
-                        class="text-sm text-slate-500 hover:text-slate-900">
+                      <router-link
+                        :to="{ name: item.href }"
+                        class="text-sm text-slate-500 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:text-jovieDark-100">
                         {{ item.name }}
-                      </a>
+                      </router-link>
                     </li>
                   </ul>
                 </div>
                 <div class="mt-12 md:mt-0">
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                    class="tracking-widerdark:text-jovieDark-300 text-sm font-bold uppercase text-slate-700">
                     Intergrations
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li
                       v-for="item in navigation.intergrations"
                       :key="item.name">
-                      <a
-                        :href="item.href"
-                        class="text-sm text-slate-500 hover:text-slate-900">
+                      <router-link
+                        :to="{ name: item.href }"
+                        class="text-sm text-slate-500 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:text-jovieDark-100">
                         {{ item.name }}
-                      </a>
+                      </router-link>
                     </li>
                   </ul>
                 </div>
@@ -43,14 +45,14 @@
               <div class="md:grid md:grid-cols-2 md:gap-8">
                 <div>
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                    class="tracking-widerdark:text-jovieDark-300 text-sm font-bold uppercase text-slate-700">
                     Support
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.support" :key="item.name">
                       <router-link
-                        :to="item.href"
-                        class="text-sm text-slate-500 hover:text-slate-900">
+                        :to="{ name: item.href }"
+                        class="text-sm text-slate-500 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:text-jovieDark-100">
                         {{ item.name }}
                       </router-link>
                     </li>
@@ -59,16 +61,16 @@
 
                 <div class="mt-12 md:mt-0">
                   <h3
-                    class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                    class="tracking-widerdark:text-jovieDark-300 text-sm font-bold uppercase text-slate-700">
                     Company
                   </h3>
                   <ul role="list" class="mt-4 space-y-4">
                     <li v-for="item in navigation.company" :key="item.name">
-                      <a
-                        :href="item.href"
-                        class="text-sm text-slate-500 hover:text-slate-900">
+                      <router-link
+                        :to="{ name: item.href }"
+                        class="text-sm text-slate-500 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:text-jovieDark-100">
                         {{ item.name }}
-                      </a>
+                      </router-link>
                     </li>
                   </ul>
                 </div>
@@ -78,22 +80,22 @@
               class="mt-8 block justify-between space-y-16 text-left md:mt-0 md:space-y-8 xl:col-span-1">
               <div class="h-1/2">
                 <h3
-                  class="text-sm font-bold uppercase tracking-wider text-slate-700">
+                  class="tracking-widerdark:text-jovieDark-300 text-sm font-bold uppercase text-slate-700">
                   Connect with Jovie
                 </h3>
                 <div
                   class="mt-4 flex justify-between sm:justify-start sm:space-x-6">
-                  <a
+                  <router-link
                     v-for="item in navigation.social"
                     :key="item.name"
-                    :href="item.href"
+                    :to="{ name: item.href }"
                     class="text-slate-400 hover:text-slate-500">
                     <span class="sr-only">{{ item.name }}</span>
                     <component
                       :is="item.icon"
                       class="h-6 w-6"
                       aria-hidden="true" />
-                  </a>
+                  </router-link>
                 </div>
 
                 <div class="mt-6 flex">
@@ -108,7 +110,8 @@
                       d="M4.32616 0.62103C4.11686 0.440896 3.80116 0.464539 3.62103 0.673838L0.685572 4.08457C0.505438 4.29387 0.529081 4.60957 0.738381 4.7897C0.94768 4.96984 1.26338 4.94619 1.44351 4.73689L4.05281 1.70513L7.08457 4.31443C7.29387 4.49456 7.60957 4.47092 7.7897 4.26162C7.96984 4.05232 7.94619 3.73662 7.73689 3.55649L4.32616 0.62103ZM19.9426 20.4458C17.6786 20.7074 14.1467 20.0809 11.0208 17.2875C7.9022 14.5006 5.13882 9.51128 4.4986 0.962659L3.5014 1.03734C4.15556 9.7722 6.99518 15.0311 10.3545 18.0331C13.7065 21.0285 17.5274 21.7315 20.0574 21.4392L19.9426 20.4458Z"
                       fill="#4B5563" />
                   </svg>
-                  <span class="ml-1 font-medium text-slate-700"
+                  <span
+                    class="font-mediumdark:text-jovieDark-300 ml-1 text-slate-700"
                     >Join the Jovie Slack community</span
                   >
                 </div>
@@ -146,18 +149,20 @@
                         :loader="loading"
                         @click="requestDemo()"
                         text="Subscribe"
-                        class="bg-black text-white hover:bg-slate-900">
+                        class="bg-black text-white hover:bg-jovieDark-200 hover:bg-slate-900 dark:bg-jovieDark-100 dark:text-jovieDark-900">
                       </ButtonGroup>
                     </div>
                     <div>
                       <span
-                        class="float-left h-8 px-2 text-xs font-bold text-red-500"
+                        class="float-left h-8 px-2 text-xs font-bold text-red-500 dark:text-red-200"
                         >{{ error }}</span
                       >
                     </div>
                   </form>
                   <div v-else class="flex min-w-0">
-                    <p class="text-sm text-slate-500">You're subscribed!</p>
+                    <p class="text-sm text-slate-500 dark:text-jovieDark-200">
+                      You're subscribed!
+                    </p>
                   </div>
                 </div>
               </div>
@@ -166,7 +171,7 @@
         </div>
       </footer>
     </div>
-    <footer class="bg-slate-50">
+    <footer class="bg-slate-50 dark:bg-jovieDark-900">
       <div
         class="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:flex md:justify-between lg:px-8">
         <div class="mt-8 md:order-1 md:mt-0"></div>
@@ -176,53 +181,62 @@
               v-if="minimal"
               class="justify-right items-center text-center text-xs text-slate-400">
               <span class="divide divide-x-1 flex divide-slate-200">
-                <router-link class="px-2 hover:text-slate-700" to="/careers">
+                <router-link class="px-2 hover:text-slate-700" to="Careers">
                   Careers</router-link
                 >
-                <router-link class="px-2 hover:text-slate-700" to="/api"
+                <router-link class="px-2 hover:text-slate-700" to="API"
                   >API</router-link
                 >
-                <router-link class="px-2 hover:text-slate-700" to="/pricing"
+                <router-link class="px-2 hover:text-slate-700" to="Pricing"
                   >Pricing</router-link
                 >
-                <router-link class="px-2 hover:text-slate-700" to="/privacy"
+                <router-link class="px-2 hover:text-slate-700" to="Privacy"
                   >Legal</router-link
                 >
-                <router-link class="px-2 hover:text-slate-700" to="/status"
+                <router-link class="px-2 hover:text-slate-700" to="Status"
                   >Status</router-link
                 >
               </span>
             </p>
-            <p class="ml-8 text-center text-2xs text-slate-400/75">
-              <span class="block sm:inline"
-                >&copy; {{ currentYear }} Jovie Inc</span
-              >
-            </p>
+            <div class="ml-8 text-center text-2xs text-slate-400/75">
+              <div class="block items-center sm:inline">
+                <ul class="flex items-center justify-center">
+                  <li class="px-2">&copy; {{ currentYear }} Jovie Inc</li>
+                  <li class="px-2">
+                    <router-link class="hover:text-slate-700" to="Privacy"
+                      >Privacy</router-link
+                    >
+                  </li>
+                  <li class="px-2">
+                    <router-link class="hover:text-slate-700" to="Terms"
+                      >Terms</router-link
+                    >
+                  </li>
+                  <li class="px-2">
+                    <DarkModeToggle />
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
         <div class="baseline">
-          <a href="/" class="group text-slate-400 hover:text-slate-500">
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                width="138px"
-                height="40px"
-                class="opacity-50 group-hover:opacity-100">
-                <path
-                  fill-rule="evenodd"
-                  fill="rgb(0, 0, 0)"
-                  d="M57.964,14.130 C58.057,14.960 58.283,15.578 58.639,15.984 C59.141,16.568 59.795,16.861 60.602,16.861 C61.111,16.861 61.596,16.734 62.054,16.480 C62.335,16.319 62.636,16.035 62.959,15.629 L68.068,16.099 C67.287,17.453 66.344,18.425 65.240,19.013 C64.135,19.602 62.551,19.896 60.487,19.896 C58.695,19.896 57.284,19.644 56.257,19.140 C55.229,18.637 54.377,17.836 53.702,16.740 C53.027,15.644 52.689,14.355 52.689,12.873 C52.689,10.765 53.366,9.059 54.721,7.755 C56.076,6.451 57.947,5.799 60.334,5.799 C62.271,5.799 63.800,6.091 64.921,6.675 C66.042,7.260 66.896,8.106 67.482,9.215 C68.068,10.325 68.362,11.768 68.362,13.546 L68.362,14.130 L57.964,14.130 ZM62.277,9.507 C61.840,9.076 61.264,8.860 60.551,8.860 C59.727,8.860 59.068,9.186 58.576,9.838 C58.261,10.244 58.062,10.849 57.977,11.654 L63.086,11.654 C62.984,10.655 62.715,9.939 62.277,9.507 ZM46.406,6.104 L51.592,6.104 L51.592,19.591 L46.406,19.591 L46.406,6.104 ZM46.406,0.973 L51.592,0.973 L51.592,4.491 L46.406,4.491 L46.406,0.973 ZM35.939,19.591 L30.311,6.104 L35.707,6.104 L38.332,14.651 L41.056,6.104 L46.289,6.104 L40.538,19.591 L35.939,19.591 ZM29.730,17.908 C28.349,19.233 26.440,19.896 24.002,19.896 C21.827,19.896 20.069,19.346 18.727,18.245 C17.079,16.882 16.255,15.095 16.255,12.886 C16.255,10.828 16.951,9.133 18.345,7.799 C19.738,6.466 21.619,5.799 23.989,5.799 C26.699,5.799 28.746,6.582 30.131,8.149 C31.244,9.410 31.800,10.964 31.800,12.809 C31.800,14.884 31.110,16.583 29.730,17.908 ZM25.863,10.212 C25.378,9.641 24.779,9.355 24.066,9.355 C23.310,9.355 22.685,9.645 22.193,10.225 C21.700,10.805 21.454,11.688 21.454,12.873 C21.454,14.075 21.698,14.964 22.186,15.540 C22.675,16.116 23.289,16.403 24.028,16.403 C24.775,16.403 25.389,16.120 25.869,15.553 C26.349,14.985 26.589,14.075 26.589,12.822 C26.589,11.654 26.347,10.784 25.863,10.212 ZM12.781,18.754 C11.639,19.524 10.176,19.908 8.392,19.908 C6.506,19.908 5.045,19.655 4.009,19.147 C2.972,18.639 2.171,17.896 1.607,16.918 C1.042,15.940 0.708,14.731 0.606,13.292 L6.124,12.543 C6.132,13.364 6.204,13.974 6.340,14.371 C6.476,14.769 6.705,15.091 7.028,15.337 C7.249,15.498 7.564,15.578 7.971,15.578 C8.617,15.578 9.090,15.339 9.392,14.861 C9.693,14.383 9.844,13.577 9.844,12.444 L9.844,0.973 L15.629,0.973 L15.629,11.088 C15.629,13.212 15.440,14.828 15.062,15.936 C14.684,17.045 13.924,17.984 12.781,18.754 Z" />
-              </svg>
-            </div>
-          </a>
+          <router-link
+            to="Home"
+            class="group text-slate-400 hover:text-slate-500">
+            <JovieLogo
+              class="opacity-50 group-hover:opacity-100"
+              height="20px" />
+          </router-link>
         </div>
       </div>
     </footer>
   </div>
 </template>
 <script>
+import DarkModeToggle from '../../components/DarkModeToggle.vue';
 import UserService from '../../services/api/user.service.js';
+
 export default {
   data() {
     return {
@@ -268,43 +282,43 @@ export default {
 </script>
 <script setup>
 import { defineComponent, h } from 'vue';
-
+import JovieLogo from '../JovieLogo.vue';
 import ButtonGroup from '../ButtonGroup.vue';
 const navigation = {
   solutions: [
-    { name: 'Social CRM', href: '/' },
-    { name: 'Contact Profiles', href: '/profiles' },
-    { name: 'Chrome Extension', href: 'chrome-extension' },
+    { name: 'Social CRM', href: 'Home' },
+    { name: 'Contact Profiles', href: 'Jovie Profile' },
+    { name: 'Chrome Extension', href: 'Chrome Extension' },
   ],
   support: [
     //add changelog
-    { name: 'Pricing', href: 'pricing' },
-    { name: 'Changelog', href: '/changelog' },
+    { name: 'Pricing', href: 'Pricing' },
+    { name: 'Changelog', href: 'Changelog' },
 
-    { name: 'Roadmap', href: 'roadmap' },
-    { name: 'Get Help', href: 'support' },
+    { name: 'Roadmap', href: 'Roadmap' },
+    { name: 'Get Help', href: 'Support' },
 
     { name: 'Status', href: 'Status' },
   ],
   company: [
-    { name: 'Meet Jovie', href: 'meet-jovie' },
+    { name: 'Meet Jovie', href: 'Meet Jovie' },
     { name: 'Careers', href: 'Careers' },
-    { name: 'API', href: 'api' },
-    { name: 'Community', href: 'slack-community' },
+    { name: 'API', href: 'API' },
+    { name: 'Community', href: 'Slack Community' },
 
     /*  { name: 'Our Data', href: 'data' }, */
-    { name: 'Legal', href: 'legal' },
+    { name: 'Legal', href: 'Legal' },
   ],
   intergrations: [
-    { name: 'Jovie for Instagram', href: 'chrome-extension' },
-    { name: 'Jovie for TikTok', href: 'chrome-extension' },
-    { name: 'Jovie for Twitch', href: 'chrome-extension' },
-    { name: 'Jovie for Twitter', href: 'chrome-extension' },
+    { name: 'Jovie for Instagram', href: 'Chrome Extension' },
+    { name: 'Jovie for TikTok', href: 'Chrome Extension' },
+    { name: 'Jovie for Twitch', href: 'Chrome Extension' },
+    { name: 'Jovie for Twitter', href: 'Chrome Extension' },
   ],
   social: [
     {
       name: 'Slack',
-      href: 'slack-community',
+      href: 'Slack Community',
       icon: defineComponent({
         render: () =>
           h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
@@ -316,7 +330,7 @@ const navigation = {
     },
     {
       name: 'Instagram',
-      href: 'http://instagram.com/meetjovie',
+      href: 'Jovie Instagram',
       icon: defineComponent({
         render: () =>
           h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
@@ -331,7 +345,7 @@ const navigation = {
 
     {
       name: 'Twitter',
-      href: 'http://twitter.com/meetjovie',
+      href: 'Jovie Twitter',
       icon: defineComponent({
         render: () =>
           h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
@@ -343,7 +357,7 @@ const navigation = {
     },
     {
       name: 'LinkedIn',
-      href: 'http://linkedin.com/company/meetjovie',
+      href: 'Jovie LinkedIn',
       icon: defineComponent({
         render: () =>
           h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
@@ -355,7 +369,7 @@ const navigation = {
     },
     {
       name: 'GitHub',
-      href: 'https://github.com/meetjovie',
+      href: 'Jovie Github',
       icon: defineComponent({
         render: () =>
           h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
@@ -369,7 +383,7 @@ const navigation = {
     },
     {
       name: 'Facebook',
-      href: 'https://facebook.com/meetjovie',
+      href: 'Jovie Facebook',
       icon: defineComponent({
         render: () =>
           h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [

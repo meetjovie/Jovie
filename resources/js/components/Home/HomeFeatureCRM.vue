@@ -1,9 +1,10 @@
 <template>
   <div class="mx-auto max-w-7xl">
     <div class="mx-auto max-w-7xl space-y-6 py-12">
-      <h3 class="py-12 text-center text-3xl font-bold text-slate-900">
+      <h3
+        class="py-12 text-center text-3xl font-bold text-slate-900 dark:text-jovieDark-100">
         Jovie creates contacts
-        <span class="text-purple-700">in 1-click</span>
+        <span class="text-purple-700 dark:text-purple-400">in 1-click</span>
       </h3>
       <FeatureCard v-for="feature in features" :key="feature.id">
         <div v-if="feature.id == 1" class="absolute top-0 right-12">
@@ -149,7 +150,9 @@
                 </svg>
               </ButtonGroup>
             </div>
-            <div v-if="feature.id === 1" class="mt-8 border-t border-slate-200">
+            <div
+              v-if="feature.id === 1"
+              class="mt-8 border-t border-slate-200 dark:border-jovieDark-border">
               <div class="mt-6 inline-flex h-4 w-80 items-center space-x-4">
                 <p class="text-sm leading-none text-slate-400">Supports</p>
                 <div class="flex items-start justify-start space-x-3">

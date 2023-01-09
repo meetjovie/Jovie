@@ -15,18 +15,22 @@
       content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg" />
     <!-- End OpenGraph -->
   </Head>
-  <div>
+  <div class="dark:bg-jovieDark-900">
     <header
       :class="
         scrollPosition > 0
-          ? 'bg-slate-50/90 backdrop-blur-2xl backdrop-saturate-150 '
+          ? 'bg-slate-50/90 backdrop-blur-2xl backdrop-saturate-150 dark:bg-jovieDark-800/50 '
           : 'bg-transparent'
       "
       class="sticky top-0 z-20 transition-all duration-300">
       <nav>
         <Disclosure
           as="nav"
-          :class="scrollPosition > 50 ? 'border-b border-slate-200' : ''"
+          :class="
+            scrollPosition > 50
+              ? 'border-b border-slate-200 dark:border-jovieDark-border'
+              : ''
+          "
           class="transition-all duration-300"
           v-slot="{ open }">
           <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,7 +39,7 @@
               :class="scrollPosition > 50 ? 'h-12' : 'h-20'">
               <div class="flex">
                 <div
-                  class="flex flex-shrink-0 items-center text-slate-800 md:mr-12">
+                  class="flex flex-shrink-0 items-center text-slate-800 dark:text-jovieDark-200 md:mr-12">
                   <a href="/">
                     <JovieLogo height="20" />
                   </a>
@@ -122,7 +126,7 @@
 
                   <router-link
                     to="pricing"
-                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-slate-600 hover:text-slate-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 lg:inline-flex">
+                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-slate-600 hover:text-slate-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 dark:text-jovieDark-300 dark:text-jovieDark-200 dark:hover:text-jovieDark-200 dark:hover:text-jovieDark-100 lg:inline-flex">
                     Pricing
                   </router-link>
                 </div>
@@ -136,7 +140,7 @@
                       <div class="inline-flex">
                         <router-link
                           to="login"
-                          class="cursor-hover:text-slate-200 rounded-md px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-700"
+                          class="cursor-hover:text-slate-200 rounded-md px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:text-jovieDark-200"
                           >Sign in
                         </router-link>
                       </div>
@@ -147,7 +151,7 @@
                           class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-slate-200 hover:bg-indigo-600 hover:text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800">
                           <span>Try Jovie free</span>
                           <svg
-                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2 dark:stroke-black"
                             fill="none"
                             width="10"
                             height="10"
@@ -164,10 +168,10 @@
                         <router-link
                           v-else
                           to="signup"
-                          class="border-1 group relative inline-flex items-center rounded-lg bg-slate-900 px-5 py-3 text-xs font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800">
+                          class="border-1 group relative inline-flex items-center rounded-lg bg-slate-900 px-5 py-3 text-xs font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800 dark:bg-jovieDark-100 dark:text-jovieDark-900">
                           <span>Try Jovie free</span>
                           <svg
-                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+                            class="dark:stroke- mt-0 ml-2 -mr-1 stroke-white stroke-2 dark:stroke-black"
                             fill="none"
                             width="10"
                             height="10"
@@ -186,7 +190,7 @@
                     <div v-else>
                       <router-link
                         to="dashboard"
-                        class="group inline-flex w-32 items-center rounded-md border-transparent px-2 py-1 text-sm font-medium text-slate-400 hover:text-slate-100">
+                        class="group inline-flex w-32 items-center rounded-md border-transparent px-2 py-1 text-sm font-medium text-slate-400 hover:text-slate-100 dark:text-jovieDark-200 hover:dark:text-jovieDark-100">
                         Dashboard
                       </router-link>
                     </div>
@@ -241,7 +245,7 @@
                 :href="item.href"
                 :class="[
                   item.current
-                    ? 'border-slate-500 bg-slate-50 text-slate-600'
+                    ? 'border-slate-500 bg-slate-50 text-slate-600 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-400'
                     : 'border-transparent text-slate-600 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700',
                   'block border-l-4 py-2 pl-3 pr-4 text-base font-medium',
                 ]"
@@ -403,29 +407,42 @@ export default {
     };
   },
   mounted() {
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
     this.acceptCookies = this.$cookies.get('acceptCookies');
     if (this.acceptCookies) {
       this.$store.commit('setAcceptCookies', true);
     }
     window.addEventListener('scroll', this.updateScroll);
-    window.Atlas.start();
-    window.analytics.identify(this.user.email, {
-      email: this.user.email,
-      name: this.user.first_name + ' ' + this.user.last_name,
-      instagram: this.currentUser.instagram_handler,
-      twitter: this.currentUser.twitter_handler,
-      linkedin: this.currentUser.linkedin_handler,
-      tiktok: this.currentUser.tiktok_handler,
-      twitch: this.currentUser.twitch_handler,
-      youtube: this.currentUser.youtube_handler,
-      team: this.currentUser.current_team.name,
-      user_id: this.user.id,
-      userId: this.user.id,
-      companyId: this.currentUser.current_team.id,
-      appId: 'Jovie_Web_App',
-      theme: localStorage.theme,
-    });
+    if (this.currentUser) {
+      window.Atlas.start();
+      window.analytics.identify(this.currentUser.email, {
+        email: this.currentUser.email,
+        name: this.currentUser.first_name + ' ' + this.currentUser.last_name,
+        instagram: this.currentUser.instagram_handler,
+        twitter: this.currentUser.twitter_handler,
+        linkedin: this.currentUser.linkedin_handler,
+        tiktok: this.currentUser.tiktok_handler,
+        twitch: this.currentUser.twitch_handler,
+        youtube: this.currentUser.youtube_handler,
+        team: this.currentUser.current_team?.name,
+        user_id: this.currentUser.id,
+        userId: this.currentUser.id,
+        companyId: this.currentUser.current_team?.id,
+        appId: 'Jovie_Web_App',
+        theme: localStorage.theme,
+      });
+    }
   },
+
   methods: {
     updateScroll() {
       this.scrollPosition = window.scrollY;

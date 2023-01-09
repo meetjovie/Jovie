@@ -1,8 +1,8 @@
 <template>
   <Menu v-slot="{ open }" as="div">
-    <Float portal :offset="8" shift placement="right-end">
+    <Float portal :offset="8" shift :placement="placement">
       <MenuButton
-        class="rounded-full p-1 text-slate-400 transition duration-300 ease-in-out hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-slate-100 active:text-slate-700"
+        class="rounded-full p-1 text-slate-400 transition duration-300 ease-in-out hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-slate-100 active:text-slate-700 dark:active:bg-jovieDark-700"
         as="div">
         <SunIcon v-if="getTheme == 'light'" class="h-4 w-4 cursor-pointer" />
         <MoonIcon
@@ -82,6 +82,12 @@ export default {
   computed: {
     getTheme() {
       return localStorage.getItem('theme') || 'light';
+    },
+  },
+  props: {
+    placement: {
+      type: String,
+      default: 'right-end',
     },
   },
   methods: {
