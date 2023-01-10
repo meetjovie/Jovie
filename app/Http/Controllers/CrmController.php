@@ -423,7 +423,7 @@ class CrmController extends Controller
             $data['meta']->emails = is_array($emails) ? $emails : explode(',', $emails);
         }
 
-        if (isset($data['meta']->name)) {
+        if (! isset($data['meta']->name)) {
             $nameSplits = explode(' ', $data['meta']->name);
             foreach ($nameSplits as $k => $split) {
                 if ($k == 0) {

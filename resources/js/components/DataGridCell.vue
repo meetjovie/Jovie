@@ -98,7 +98,11 @@ export default {
   methods: {
       updateData(value) {
           this.$emit('update:modelValue', value)
-          this.$emit('updateCrmMeta', this.creator)
+          if (this.column.key.includes('crm_record_by_user')) {
+              this.$emit('updateCreator', this.creator)
+          } else {
+              this.$emit('updateCrmMeta', this.creator)
+          }
       },
       toggleContactStageMenu(index) {
           this.showContactStageMenu[index] = !this.showContactStageMenu[index];

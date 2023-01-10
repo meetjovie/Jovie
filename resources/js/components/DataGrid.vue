@@ -590,7 +590,7 @@ export default {
         },
         {
           name: 'Title',
-          key: 'title',
+          key: 'platform_title',
           icon: 'UserIcon',
           visible: false,
           breakpoint: '2xl',
@@ -598,7 +598,7 @@ export default {
         },
         {
           name: 'Company',
-          key: 'employer',
+          key: 'platform_employer',
           icon: 'BriefcaseIcon',
           visible: false,
           sortable: false,

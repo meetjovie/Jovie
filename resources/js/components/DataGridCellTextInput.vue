@@ -17,7 +17,7 @@
       :placeholder="placeholder"
       :pattern="dataType == 'currency' ? '\\d*' : null"
       :aria-describedby="fieldId"
-      @input="$emit('update:modelValue', $event.target.value)" />
+      @blur="$emit('update:modelValue', $event.target.value)" />
     <div
       tabindex="-1"
       v-if="dataType == 'email' && modelValue.length > 0"

@@ -199,6 +199,10 @@ export default {
     ArrowTopRightOnSquareIcon,
     XMarkIcon,
   },
+    mounted() {
+        console.log('this, otherColumns');
+        console.log(this.otherColumns);
+    },
   methods: {
     handleCellUpdate(payload) {
       // Handle the "update:currentCell" event emitted by the cell component
