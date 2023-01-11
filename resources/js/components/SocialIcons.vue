@@ -125,7 +125,7 @@
         <div
           class="text-center text-2xs text-slate-500 dark:text-jovieDark-300"
           v-if="countsVisible">
-          {{ followers }} || -
+          {{ followers || '-' }}
         </div>
       </a>
     </Float>

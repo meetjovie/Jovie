@@ -49,7 +49,7 @@
         :placeholder="column.name"
         v-model="modelValue"
       />
-      <DataGridSocialLinksCell :creator="creator" :networks="networks" v-else-if="column.dataType == 'socialLinks'" />
+      <DataGridSocialLinksCell :creator="creator" :networks="networks" :show-count="true" v-else-if="column.dataType == 'socialLinks'" />
         <ContactStageMenu
             v-else-if="column.dataType == 'singleSelect'"
             :creator="creator"

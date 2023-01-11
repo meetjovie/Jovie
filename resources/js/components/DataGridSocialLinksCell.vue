@@ -8,12 +8,14 @@
         <div class=".clear-both mx-auto flex-col items-center">
             <div class="mx-auto items-center">
                 <SocialIcons
+                    :counts-visible="showCount"
                     :linkDisabled="
                                 !creator[`${network}_handler`] &&
                                 !creator.meta[`${network}_handler`]
                               "
                     class="mx-auto"
                     height="14px"
+                    :followers="formatCount(creator[`${network}_followers`])"
                     setting.isVisable
                     :link="
                                 creator[`${network}_handler`] ||
@@ -34,19 +36,19 @@ export default {
     props: {
         currentContact: Object,
         creator: Object,
-        index: Number,
         selectedCreators: Array,
         freezeColumn: Boolean,
         fieldId: String,
         visibleColumns: Array,
         neverHide: Boolean,
         column: Object,
-        rowIndex: Number,
+        row: Number,
         columnIndex: Number,
         modelValue: String,
         currentCell: Object,
         cellActive: Boolean,
         networks: Array,
+        showCount: Boolean,
     },
 }
 </script>
