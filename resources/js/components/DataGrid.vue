@@ -362,6 +362,7 @@
                         @refresh="refresh(creator)"
                         @updateCreator="$emit('updateCreator', $event)"
                         @updateCrmMeta="$emit('updateCrmMeta', $event)"
+                        @updateListCount="$emit('updateListCount', $event)"
                         @archive-creators="
                       toggleArchiveCreators(
                         creator.id,

@@ -59,8 +59,32 @@
             :stages="stages"
             :index="row"
             @updateCreator="$emit('updateCreator', $event)" />
-      <span v-else
-        >Data Type:
+        <DatePicker
+            v-else-if="column.dataType == 'date'"
+            :enable-time-picker="false"
+            dark
+            v-model="modelValue"
+            autocomplete="off"
+            monthNameFormat="short"
+            data-format="yyyy-MM-dd"
+            autoApply="true"
+            type="datetime-local"
+            @update:modelValue="updateData($event)"
+            :id="creator.id + '_datepicker'"
+            class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0"
+            placeholder="--/--/--"
+            aria-describedby="email-description"></DatePicker>
+        <Suspense v-else-if="column.dataType == 'multiSelect'">
+            <template #default>
+                <InputLists
+                    @updateLists="$emit('updateCreatorLists', $event)"
+                    :creatorId="creator.id ?? 0"
+                    :lists="creator.lists"
+                    :currentList="creator.current_list" />
+            </template>
+            <template #fallback> Loading... </template>
+        </Suspense>
+      <span v-else>Data Type:
         {{ column.dataType }}
       </span>
     </div>
@@ -74,15 +98,20 @@ import StarRating from 'vue-star-rating';
 import SocialIcons from "./SocialIcons.vue";
 import DataGridSocialLinksCell from "./DataGridSocialLinksCell.vue";
 import ContactStageMenu from "./ContactStageMenu.vue";
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+import InputLists from "./InputLists.vue";
 export default {
   name: 'DataGridCell',
   components: {
+      InputLists,
       ContactStageMenu,
       DataGridSocialLinksCell,
       SocialIcons,
     DataGridCellTextInput,
     StarRating,
     CheckboxInput,
+      Datepicker
   },
   emits: ['update:modelValue', 'blur', 'move'],
     mounted() {

@@ -171,6 +171,7 @@
         :column="column"
         @updateCreator="$emit('updateCreator', $event)"
         @updateCrmMeta="$emit('updateCrmMeta', creator)"
+        @updateCreatorLists="updateCreatorLists"
         @blur="$emit('updateCrmMeta', creator)"
         v-model="creator.meta[column.key]"
         :row="row"
@@ -204,6 +205,18 @@ export default {
         console.log(this.otherColumns);
     },
   methods: {
+      updateCreatorLists({ list, add = false }) {
+          if (add) {
+              this.creator.lists.push(list);
+          } else {
+              this.creator.lists = this.creator.lists.filter((l) => l.id != list.id);
+          }
+          this.$emit('updateListCount', {
+              count: 1,
+              list_id: list.id,
+              remove: !add,
+          });
+      },
     handleCellUpdate(payload) {
       // Handle the "update:currentCell" event emitted by the cell component
       this.$emit('update:currentCell', payload); // Emit a new event to the parent table component
