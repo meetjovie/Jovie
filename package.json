@@ -81,6 +81,7 @@
     "vue-slider-component": "^4.0.0-beta.4",
     "vue-star-rating": "^2.1.0",
     "vue-tabler-icons": "^2.9.0",
+    "vue-tailwind-datepicker": "^1.2.6",
     "vue3-datepicker": "^0.3.4",
     "vue3-emoji-picker": "^1.1.4",
     "vuedraggable": "^4.1.0",

@@ -65,12 +65,6 @@
         :stages="stages"
         :index="row"
         @updateCreator="$emit('updateCreator', $event)" />
-      <DatePicker
-        v-else-if="column.dataType == 'date'"
-        :enable-time-picker="false"
-        dark
-        v-model="modelValue"
-      />
       <DataGridSocialLinksCell :creator="creator" :networks="networks" :show-count="showFollowersCount" v-else-if="column.dataType == 'socialLinks'" />
         <ContactStageMenu
             v-else-if="column.dataType == 'singleSelect'"
@@ -81,21 +75,7 @@
             :stages="stages"
             :index="row"
             @updateCreator="$emit('updateCreator', $event)" />
-        <DatePicker
-            v-else-if="column.dataType == 'date'"
-            :enable-time-picker="false"
-            dark
-            v-model="modelValue"
-            @update:modelValue="updateData($event)"
-            autocomplete="off"
-            monthNameFormat="short"
-            data-format="yyyy-MM-dd"
-            autoApply="true"
-            type="datetime-local"
-            :id="creator.id + '_datepicker'"
-            class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0"
-            placeholder="--/--/--"
-            aria-describedby="email-description"></DatePicker>
+        <vue-tailwind-datepicker v-model="modelValue" v-else-if="column.dataType == 'date'" />
         <Suspense v-else-if="column.dataType == 'multiSelect'">
             <template #default>
                 <InputLists
@@ -120,8 +100,7 @@ import StarRating from 'vue-star-rating';
 import SocialIcons from './SocialIcons.vue';
 import DataGridSocialLinksCell from './DataGridSocialLinksCell.vue';
 import ContactStageMenu from './ContactStageMenu.vue';
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
+import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 import InputLists from './InputLists.vue';
 export default {
   name: 'DataGridCell',
@@ -133,7 +112,7 @@ export default {
     DataGridCellTextInput,
     StarRating,
     CheckboxInput,
-    Datepicker,
+      VueTailwindDatepicker,
   },
   emits: ['update:modelValue', 'blur', 'move'],
   data() {
