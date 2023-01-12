@@ -70,28 +70,43 @@
         :enable-time-picker="false"
         dark
         v-model="modelValue"
-        @update:modelValue="updateData($event)"
-        autocomplete="off"
-        monthNameFormat="short"
-        data-format="yyyy-MM-dd"
-        autoApply="true"
-        type="datetime-local"
-        :id="creator.id + '_datepicker'"
-        class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0"
-        placeholder="--/--/--"
-        aria-describedby="email-description"></DatePicker>
-      <Suspense v-else-if="column.dataType == 'multiSelect'">
-        <template #default>
-          <InputLists
-            @updateLists="$emit('updateCreatorLists', $event)"
-            :creatorId="creator.id ?? 0"
-            :lists="creator.lists"
-            :currentList="creator.current_list" />
-        </template>
-        <template #fallback> Loading... </template>
-      </Suspense>
-      <span v-else
-        >Data Type:
+      />
+      <DataGridSocialLinksCell :creator="creator" :networks="networks" :show-count="showFollowersCount" v-else-if="column.dataType == 'socialLinks'" />
+        <ContactStageMenu
+            v-else-if="column.dataType == 'singleSelect'"
+            :creator="creator"
+            :key="row"
+            :open="showContactStageMenu[row]"
+            @close="toggleContactStageMenu(row)"
+            :stages="stages"
+            :index="row"
+            @updateCreator="$emit('updateCreator', $event)" />
+        <DatePicker
+            v-else-if="column.dataType == 'date'"
+            :enable-time-picker="false"
+            dark
+            v-model="modelValue"
+            @update:modelValue="updateData($event)"
+            autocomplete="off"
+            monthNameFormat="short"
+            data-format="yyyy-MM-dd"
+            autoApply="true"
+            type="datetime-local"
+            :id="creator.id + '_datepicker'"
+            class="focus-visible:border-1 focus-visible:border-1 block w-full rounded-md border-0 bg-white/0 text-xs text-slate-500 placeholder-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0"
+            placeholder="--/--/--"
+            aria-describedby="email-description"></DatePicker>
+        <Suspense v-else-if="column.dataType == 'multiSelect'">
+            <template #default>
+                <InputLists
+                    @updateLists="$emit('updateCreatorLists', $event)"
+                    :creatorId="creator.id ?? 0"
+                    :lists="creator.lists"
+                    :currentList="creator.current_list" />
+            </template>
+            <template #fallback> Loading... </template>
+        </Suspense>
+      <span v-else>Data Type:
         {{ column.dataType }}
       </span>
     </div>
@@ -121,11 +136,6 @@ export default {
     Datepicker,
   },
   emits: ['update:modelValue', 'blur', 'move'],
-  mounted() {
-    console.log(this.column);
-    console.log('this.visibleColumns');
-    console.log(this.visibleColumns);
-  },
   data() {
     return {
       showContactStageMenu: [],
@@ -154,6 +164,16 @@ export default {
     },
   },
   computed: {
+      showFollowersCount() {
+          try {
+              if (!this.settings) {
+                  return false
+              }
+              return this.settings.find(set => set.key === 'show_follower_count').visible
+          } catch (e) {
+              return  false
+          }
+      },
     inputComponent() {
       switch (this.dataType) {
         case 'rating':
@@ -180,6 +200,7 @@ export default {
     freezeColumn: Boolean,
     fieldId: String,
     visibleColumns: Array,
+    settings: Object,
     neverHide: Boolean,
     row: Number,
     column: {

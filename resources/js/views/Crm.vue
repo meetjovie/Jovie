@@ -859,7 +859,6 @@ export default {
     await this.getUserLists();
     this.getCrmCreators();
     this.crmCounts();
-    this.$mousetrap.bind(['e'], console.log('working'));
     //c sets openCreatorModal to true
     this.$mousetrap.bind(['c'], () => {
       this.showCreatorModal = true;
@@ -1020,7 +1019,6 @@ export default {
       this.windowWidth = window.innerWidth;
     },
     openUpgradeModal() {
-      console.log('openUpgradeModal');
       this.showUpgradeModal = true;
     },
 
@@ -1210,8 +1208,6 @@ export default {
       });
     },
     updateCrmMeta(creator = null) {
-      console.log('creator');
-      console.log(creator);
       if (creator == null) {
         creator = this.currentContact;
       }

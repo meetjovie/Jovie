@@ -157,6 +157,7 @@
       <DataGridCell
           v-for="(column, columnIndex) in otherColumns"
         :visibleColumns="visibleColumns"
+          :settings="settings"
         :currentContact="currentContact"
         :creator="creator"
         :cellActive="
@@ -201,8 +202,6 @@ export default {
     XMarkIcon,
   },
     mounted() {
-        console.log('this, otherColumns');
-        console.log(this.otherColumns);
     },
   methods: {
       updateCreatorLists({ list, add = false }) {
@@ -227,6 +226,7 @@ export default {
       networks: Array,
       stages: Array,
       visibleColumns: Array,
+      settings: Object,
       filters: Object,
       currentContact: Object,
       creator: Object,

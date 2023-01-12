@@ -160,7 +160,7 @@
                                     ><Switch
                                       v-if="setting.type === 'toggle'"
                                       name="columns-visible"
-                                      v-model="setting.isVisable"
+                                      v-model="setting.visible"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -341,29 +341,30 @@
               <tbody
                 class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
                 <template v-for="(creator, index) in filteredCreators">
-                  <DataGridRow
-                    :currentCell="currentCell"
-                    :networks="networks"
-                    :stages="stages"
-                    :visibleColumns="visibleColumns"
-                    :otherColumns="otherColumns"
-                    :filters="filters"
-                    :currentContact="currentContact"
-                    :selectedCreators="selectedCreators"
-                    :creator="creator"
-                    :row="index"
-                    :key="creator.id"
-                    v-if="creator"
-                    @update:currentCell="$emit('updateCreator', $event)"
-                    @click="setCurrentContact($event, creator)"
-                    @contextmenu.prevent="openContextMenu(index, creator)"
-                    @mouseover="setCurrentContact($event, creator)"
-                    @openSidebar="$emit('openSidebar', creator)"
-                    @refresh="refresh(creator)"
-                    @updateCreator="$emit('updateCreator', $event)"
-                    @updateCrmMeta="$emit('updateCrmMeta', $event)"
-                    @updateListCount="$emit('updateListCount', $event)"
-                    @archive-creators="
+                    <DataGridRow
+                        :currentCell="currentCell"
+                        :networks="networks"
+                        :stages="stages"
+                        :visibleColumns="visibleColumns"
+                        :settings="settings"
+                        :otherColumns="otherColumns"
+                        :filters="filters"
+                        :currentContact="currentContact"
+                        :selectedCreators="selectedCreators"
+                        :creator="creator"
+                        :row="index"
+                        :key="creator.id"
+                        v-if="creator"
+                        @update:currentCell="$emit('updateCreator', $event)"
+                        @click="setCurrentContact($event, creator)"
+                        @contextmenu.prevent="openContextMenu(index, creator)"
+                        @mouseover="setCurrentContact($event, creator)"
+                        @openSidebar="$emit('openSidebar', creator)"
+                        @refresh="refresh(creator)"
+                        @updateCreator="$emit('updateCreator', $event)"
+                        @updateCrmMeta="$emit('updateCrmMeta', $event)"
+                        @updateListCount="$emit('updateListCount', $event)"
+                        @archive-creators="
                       toggleArchiveCreators(
                         creator.id,
                         !creator.crm_record_by_user.archived
@@ -555,8 +556,9 @@ export default {
       settings: [
         {
           name: 'Show Follower Counts',
+          key: 'show_follower_count',
           icon: 'UserGroupIcon',
-          countsVisible: false,
+          visible: true,
           type: 'toggle',
         },
       ],
@@ -695,6 +697,12 @@ export default {
     'counts',
   ],
   watch: {
+      settings: {
+          deep: true,
+          handler: function () {
+              localStorage.setItem('settings', JSON.stringify(this.settings));
+          }
+      },
     creators: function (val) {
       this.creatorRecords = val;
     },
@@ -760,7 +768,11 @@ export default {
     if (columns) {
       this.columns = columns;
     }
-    this.creatorRecords = this.creatorRecords.length
+      let settings = JSON.parse(localStorage.getItem('settings'));
+      if (settings) {
+          this.settings = settings;
+      }
+      this.creatorRecords = this.creatorRecords.length
       ? this.creatorRecords
       : this.creators;
   },
@@ -798,7 +810,6 @@ export default {
           return column.key;
         });
     },
-
     fullNameColumn() {
       return this.columns.find((column) => column.key == 'full_name');
     },
@@ -929,7 +940,6 @@ export default {
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
         this.currentContact = this.creatorRecords[0];
-        console.log(this.currentContact.id);
         this.$store.state.ContactSidebarOpen = true;
       }
       //esle just open the sidebar
@@ -939,7 +949,6 @@ export default {
     },
     exportCrmCreators() {
       //export filteredCreators to a csv file
-      console.log('exporting');
       //write a function to export all contacts in the current table while accounting for filters and lists
     },
 
@@ -963,7 +972,6 @@ export default {
         window.open('mailto:' + email);
         //else log no email found
       } else {
-        console.log('No email found');
         this.$notify({
           title: 'No email found',
           message: 'This contact does not have an email address',
@@ -986,7 +994,6 @@ export default {
         );
         //else log no twitter id found
       } else {
-        console.log('No twitter id found');
         this.$notify({
           title: 'No twitter id found',
           message: 'This contact does not have a twitter id',
@@ -1002,7 +1009,6 @@ export default {
         window.open('tel:' + phone);
         //else log no phone found
       } else {
-        console.log('No phone number found');
         this.$notify({
           title: 'No phone number found',
           message: 'This contact does not have a phone number',
@@ -1015,12 +1021,10 @@ export default {
       //go to the url tel:creator.meta.phone
       //if phone is not null
       if (phone) {
-        console.log('whatsapp');
         //open whatsapp://send?text=Hello World!&phone=+phone
         window.open('whatsapp://send?text=Hey!&phone=+' + phone);
         //else log no phone found
       } else {
-        console.log('No phone number found');
         this.$notify({
           title: 'No phone number found',
           message: 'This contact does not have a phone number',
@@ -1036,7 +1040,6 @@ export default {
       if (username) {
         window.open('https://ig.me/m/' + username);
       } else {
-        console.log('No instagram username found');
         this.$notify({
           title: 'No instagram username found',
           message: 'This contact does not have an instagram username',
@@ -1052,7 +1055,6 @@ export default {
         window.open('sms:' + phone);
         //else log no phone found
       } else {
-        console.log('No phone number found');
         this.$notify({
           title: 'No phone number found',
           message: 'This contact does not have a phone number',
@@ -1076,19 +1078,16 @@ export default {
         {
           vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.meta.emails + '\n';
         } else {
-          console.log('No email found');
         };
         //set employer
         if (creator.meta.employer) {
           vCard += 'ORG:' + creator.meta.employer + '\n';
         } else {
-          console.log('No employer found');
         };
         //set title
         if (creator.meta.title) {
           vCard += 'TITLE:' + creator.meta.title + '\n';
         } else {
-          console.log('No title found');
         };
         if (Creator.location) {
           vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
@@ -1100,7 +1099,6 @@ export default {
         {
           vCard += 'URL;TYPE=WORK:' + creator.meta.instagram + '\n';
         } else {
-          console.log('No instagram found');
         };
         //do the twitter and twitch and youtube and tiktok and linkedin
         if (creator.twitter_handler) {
@@ -1109,7 +1107,6 @@ export default {
         {
           vCard += 'URL;TYPE=WORK:' + creator.meta.twitter + '\n';
         } else {
-          console.log('No twitter found');
         };
         if (creator.twitch_handler) {
           vCard += 'URL;TYPE=WORK:' + creator.twitch_handler + '\n';
@@ -1117,7 +1114,6 @@ export default {
         {
           vCard += 'URL;TYPE=WORK:' + creator.meta.twitch + '\n';
         } else {
-          console.log('No twitch found');
         };
         if (creator.youtube_handler) {
           vCard += 'URL;TYPE=WORK:' + creator.youtube_handler + '\n';
@@ -1125,7 +1121,6 @@ export default {
         {
           vCard += 'URL;TYPE=WORK:' + creator.meta.youtube + '\n';
         } else {
-          console.log('No youtube found');
         };
         if (creator.tiktok_handler) {
           vCard += 'URL;TYPE=WORK:' + creator.tiktok_handler + '\n';
@@ -1133,13 +1128,11 @@ export default {
         {
           vCard += 'URL;TYPE=WORK:' + creator.meta.tiktok + '\n';
         } else {
-          console.log('No tiktok found');
         };
         if (creator.linkedin_handler) {
           vCard += 'URL;TYPE=WORK:' + creator.linkedin_handler + '\n';
         } else if {
           vCard += 'URL;TYPE=WORK:' + creator.meta.linkedin + '\n';
-        } else {console.log('No linkedin found');
         }; */
 
       vCard += 'NOTE:Saved from Jovie\n';
@@ -1171,7 +1164,6 @@ export default {
     },
     setCurrentRow(row) {
       this.currentRow = row;
-      console.log(this.currentRow);
     },
     toggleArchiveCreators(ids, archived) {
       this.$store
