@@ -17,7 +17,8 @@
       :placeholder="placeholder"
       :pattern="dataType == 'currency' ? '\\d*' : null"
       :aria-describedby="fieldId"
-      @blur="$emit('update:modelValue', $event.target.value)" />
+      @blur="onBlur"
+      @change="$emit('update:modelValue', $event.target.value)" />
     <div
       tabindex="-1"
       v-if="dataType == 'email' && modelValue.length > 0"
@@ -53,7 +54,7 @@ export default {
   emits: ['update:modelValue', 'blur'],
   methods: {
     onBlur() {
-      this.$emit('blur', this.modelValue);
+      this.$emit('blur');
     },
     debouncedEmailCheck(email) {
       // Define the debounce function

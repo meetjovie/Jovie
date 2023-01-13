@@ -566,6 +566,7 @@ export default {
         {
           name: 'Name',
           key: 'full_name',
+            meta: true,
           icon: 'Bars3BottomLeftIcon',
           sortable: true,
           visible: true,
@@ -574,6 +575,7 @@ export default {
         {
           name: 'First',
           key: 'first_name',
+            meta: true,
           icon: 'Bars3BottomLeftIcon',
           sortable: false,
           visible: false,
@@ -584,6 +586,7 @@ export default {
         {
           name: 'Last',
           key: 'last_name',
+            meta: true,
           icon: 'Bars3BottomLeftIcon',
           visible: false,
           sortable: false,
@@ -594,6 +597,7 @@ export default {
         {
           name: 'Title',
           key: 'platform_title',
+            meta: true,
           icon: 'UserIcon',
           visible: false,
           breakpoint: '2xl',
@@ -602,6 +606,7 @@ export default {
         {
           name: 'Company',
           key: 'platform_employer',
+            meta: true,
           icon: 'BriefcaseIcon',
           visible: false,
           sortable: false,
@@ -613,6 +618,7 @@ export default {
         {
           name: 'Email',
           key: 'emails',
+            meta: true,
           icon: 'AtSymbolIcon',
           visible: true,
           breakpoint: 'lg',
@@ -623,6 +629,7 @@ export default {
         {
           name: 'Social Links',
           key: 'networks',
+            meta: true,
           icon: 'LinkIcon',
           visible: true,
           width: '18',

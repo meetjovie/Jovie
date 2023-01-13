@@ -154,29 +154,53 @@
       </div>
     </DataGridCell>
 
-      <DataGridCell
-          v-for="(column, columnIndex) in otherColumns"
-        :visibleColumns="visibleColumns"
-          :settings="settings"
-        :currentContact="currentContact"
-        :creator="creator"
-        :cellActive="
+      <template v-for="(column, columnIndex) in otherColumns"
+                :key="row">
+          <DataGridCell
+              v-if="column.meta"
+              :visibleColumns="visibleColumns"
+              :settings="settings"
+              :currentContact="currentContact"
+              :creator="creator"
+              :cellActive="
           currentCell.row == row && currentCell.column == columnIndex
         "
-        @update:currentCell="handleCellUpdate"
-        :currentCell="currentCell"
-        :columnIndex="columnIndex"
-        :rowIndex="row"
-        :networks="networks"
-        :stages="stages"
-        :column="column"
-        @updateCreator="$emit('updateCreator', $event)"
-        @updateCrmMeta="$emit('updateCrmMeta', creator)"
-        @updateCreatorLists="updateCreatorLists"
-        @blur="$emit('updateCrmMeta', creator)"
-        v-model="creator.meta[column.key]"
-        :row="row"
-        :key="row" />
+              @update:currentCell="handleCellUpdate"
+              :currentCell="currentCell"
+              :columnIndex="columnIndex"
+              :rowIndex="row"
+              :networks="networks"
+              :stages="stages"
+              :column="column"
+              @updateCreator="$emit('updateCreator', $event)"
+              @updateCrmMeta="$emit('updateCrmMeta', creator)"
+              @updateCreatorLists="updateCreatorLists"
+              @blur="$emit('updateCrmMeta', creator)"
+              v-model="creator.meta[column.key]"
+              :row="row" />
+          <DataGridCell
+              v-else
+              :visibleColumns="visibleColumns"
+              :settings="settings"
+              :currentContact="currentContact"
+              :creator="creator"
+              :cellActive="
+          currentCell.row == row && currentCell.column == columnIndex
+        "
+              @update:currentCell="handleCellUpdate"
+              :currentCell="currentCell"
+              :columnIndex="columnIndex"
+              :rowIndex="row"
+              :networks="networks"
+              :stages="stages"
+              :column="column"
+              @updateCreator="$emit('updateCreator', $event)"
+              @updateCrmMeta="$emit('updateCrmMeta', creator)"
+              @updateCreatorLists="updateCreatorLists"
+              @blur="$emit('updateCrmMeta', creator)"
+              v-model="creator[column.key.split('.')[0]][column.key.split('.')[1]]"
+              :row="row" />
+      </template>
   </tr>
 </template>
 <script>

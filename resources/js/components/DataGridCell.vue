@@ -47,7 +47,7 @@
       <DataGridCellTextInput
         v-else-if="['text', 'email', 'currency'].includes(column.dataType)"
         :fieldId="fieldId"
-        @update:modelValue="updateData($event)"
+        @blur="updateData"
         :dataType="column.dataType"
         :placeholder="column.name"
         v-model="modelValue" />
@@ -75,7 +75,7 @@
             :stages="stages"
             :index="row"
             @updateCreator="$emit('updateCreator', $event)" />
-        <vue-tailwind-datepicker v-model="modelValue" v-else-if="column.dataType == 'date'" />
+        <vue-tailwind-datepicker v-model="date" v-else-if="column.dataType == 'date'" />
         <Suspense v-else-if="column.dataType == 'multiSelect'">
             <template #default>
                 <InputLists
@@ -118,15 +118,30 @@ export default {
   data() {
     return {
       showContactStageMenu: [],
+        date: {}
     };
   },
+    watch: {
+      date: function (val) {
+          this.updateData(val.startDate && val.startDate !== '' ? val.startDate : null)
+      }
+    },
+    mounted() {
+      this.date.startDate = this.modelValue
+      this.date.endDate = this.modelValue
+    },
   methods: {
-    updateData(value) {
-      this.$emit('update:modelValue', value);
-      if (this.column.key.includes('crm_record_by_user')) {
-        this.$emit('updateCreator', this.creator);
+    updateData(value = null) {
+      this.$emit('update:modelValue', this.modelValue);
+      if (this.column.meta) {
+          this.$emit('updateCrmMeta', this.creator);
       } else {
-        this.$emit('updateCrmMeta', this.creator);
+          this.$emit('updateCreator', {
+              id: this.creator.id,
+              index: this.row,
+              key: this.column.key,
+              value: value ?? this.modelValue,
+          });
       }
     },
     toggleContactStageMenu(index) {
