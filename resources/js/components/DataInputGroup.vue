@@ -34,7 +34,7 @@
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
           @change="$emit('updateModelValue', $event.target.value)"
-          class="input-field disable:cursor-none h-8 w-full rounded border border-slate-300 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50 dark:border-jovieDark-border/0 dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800 dark:focus:border-indigo-400 dark:group-hover:border-jovieDark-border dark:group-hover:bg-jovieDark-800"
+          class="input-field disable:cursor-none h-8 w-full rounded border border-slate-300 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50 dark:border-jovieDark-border/0 dark:bg-jovieDark-900 dark:text-jovieDark-100 dark:hover:bg-jovieDark-800 dark:focus:border-indigo-400 dark:group-hover:border-jovieDark-border dark:group-hover:bg-jovieDark-800"
           :class="[
             icon ? 'pl-4' : '',
             { 'rounded-r-md': rounded == 'right' },

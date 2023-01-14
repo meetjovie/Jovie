@@ -355,7 +355,7 @@
                     :row="index"
                     :key="creator.id"
                     v-if="creator"
-                    @update:currentCell="$emit('updateCreator', $event)"
+                    @update:currentCell="handleCellUpdate"
                     @click="setCurrentContact($event, creator)"
                     @contextmenu.prevent="openContextMenu(index, creator)"
                     @mouseover="setCurrentContact($event, creator)"
@@ -580,7 +580,7 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: '2xl',
-          width: '18',
+          width: 18,
           dataType: 'text',
         },
         {
@@ -591,7 +591,7 @@ export default {
           visible: false,
           sortable: false,
           breakpoint: '2xl',
-          width: '18',
+          width: 18,
           dataType: 'text',
         },
         {
@@ -611,7 +611,7 @@ export default {
           visible: false,
           sortable: false,
           breakpoint: '2xl',
-          width: '24',
+          width: 24,
           dataType: 'text',
         },
 
@@ -622,7 +622,7 @@ export default {
           icon: 'AtSymbolIcon',
           visible: true,
           breakpoint: 'lg',
-          width: '40',
+          width: 40,
           dataType: 'email',
         },
 
@@ -632,7 +632,7 @@ export default {
           meta: true,
           icon: 'LinkIcon',
           visible: true,
-          width: '18',
+          width: 18,
           dataType: 'socialLinks',
         },
         {
@@ -642,14 +642,14 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: 'lg',
-          width: '12',
+          width: 12,
           dataType: 'currency',
         },
         {
           name: 'Stage',
           key: 'crm_record_by_user.stage',
           icon: 'ArrowDownCircleIcon',
-          width: '24',
+          width: 24,
           sortable: true,
           visible: true,
           breakpoint: 'md',
@@ -662,7 +662,7 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: '2xl',
-          width: '24',
+          width: 24,
           dataType: 'date',
         },
         {
@@ -672,7 +672,7 @@ export default {
           sortable: true,
           visible: true,
           breakpoint: '2xl',
-          width: '28',
+          width: 28,
           dataType: 'rating',
         },
         {
@@ -682,7 +682,7 @@ export default {
           sortable: true,
           visible: true,
           breakpoint: '2xl',
-          width: '24',
+          width: 24,
           dataType: 'multiSelect',
         },
       ],

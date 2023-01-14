@@ -1,6 +1,6 @@
 <template>
   <tr
-    class="border-1 group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
+    class="group w-full flex-row overflow-y-visible border-y border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
     :class="[
       currentContact.id == creator.id
         ? 'border border-jovieDark-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700'
@@ -148,59 +148,63 @@
               name="Remove from list"
               icon="TrashIcon"
               color="text-red-600 dark:text-red-400"
-              @click="$emit('toggleCreatorsFromList', ...{id: creator.id, list: filters.list, remove: true})" />
+              @click="
+                $emit(
+                  'toggleCreatorsFromList',
+                  ...{ id: creator.id, list: filters.list, remove: true }
+                )
+              " />
           </ContactContextMenu>
         </div>
       </div>
     </DataGridCell>
 
-      <template v-for="(column, columnIndex) in otherColumns"
-                :key="row">
-          <DataGridCell
-              v-if="column.meta"
-              :visibleColumns="visibleColumns"
-              :settings="settings"
-              :currentContact="currentContact"
-              :creator="creator"
-              :cellActive="
+    <template v-for="(column, columnIndex) in otherColumns" :key="row">
+      <DataGridCell
+        v-if="column.meta"
+        :visibleColumns="visibleColumns"
+        :settings="settings"
+        :currentContact="currentContact"
+        :creator="creator"
+        :cellActive="
           currentCell.row == row && currentCell.column == columnIndex
         "
-              @update:currentCell="handleCellUpdate"
-              :currentCell="currentCell"
-              :columnIndex="columnIndex"
-              :rowIndex="row"
-              :networks="networks"
-              :stages="stages"
-              :column="column"
-              @updateCreator="$emit('updateCreator', $event)"
-              @updateCrmMeta="$emit('updateCrmMeta', creator)"
-              @updateCreatorLists="updateCreatorLists"
-              @blur="$emit('updateCrmMeta', creator)"
-              v-model="creator.meta[column.key]"
-              :row="row" />
-          <DataGridCell
-              v-else
-              :visibleColumns="visibleColumns"
-              :settings="settings"
-              :currentContact="currentContact"
-              :creator="creator"
-              :cellActive="
+        @update:currentCell="handleCellUpdate"
+        :currentCell="currentCell"
+        :columnIndex="columnIndex"
+        :rowIndex="row"
+        :networks="networks"
+        :stages="stages"
+        :column="column"
+        @updateCreator="$emit('updateCreator', $event)"
+        @updateCrmMeta="$emit('updateCrmMeta', creator)"
+        @updateCreatorLists="updateCreatorLists"
+        @blur="$emit('updateCrmMeta', creator)"
+        v-model="creator.meta[column.key]"
+        :row="row" />
+      <DataGridCell
+        v-else
+        :visibleColumns="visibleColumns"
+        :settings="settings"
+        :currentContact="currentContact"
+        :creator="creator"
+        :cellActive="
           currentCell.row == row && currentCell.column == columnIndex
         "
-              @update:currentCell="handleCellUpdate"
-              :currentCell="currentCell"
-              :columnIndex="columnIndex"
-              :rowIndex="row"
-              :networks="networks"
-              :stages="stages"
-              :column="column"
-              @updateCreator="$emit('updateCreator', $event)"
-              @updateCrmMeta="$emit('updateCrmMeta', creator)"
-              @updateCreatorLists="updateCreatorLists"
-              @blur="$emit('updateCrmMeta', creator)"
-              v-model="creator[column.key.split('.')[0]][column.key.split('.')[1]]"
-              :row="row" />
-      </template>
+        @update:currentCell="handleCellUpdate"
+        :currentCell="currentCell"
+        :columnIndex="columnIndex"
+        :rowIndex="row"
+        :networks="networks"
+        :stages="stages"
+        :column="column"
+        @updateCreator="$emit('updateCreator', $event)"
+        @updateCrmMeta="$emit('updateCrmMeta', creator)"
+        @updateCreatorLists="updateCreatorLists"
+        @blur="$emit('updateCrmMeta', creator)"
+        v-model="creator[column.key.split('.')[0]][column.key.split('.')[1]]"
+        :row="row" />
+    </template>
   </tr>
 </template>
 <script>
@@ -225,45 +229,44 @@ export default {
     ArrowTopRightOnSquareIcon,
     XMarkIcon,
   },
-    mounted() {
-    },
+  mounted() {},
   methods: {
-      updateCreatorLists({ list, add = false }) {
-          if (add) {
-              this.creator.lists.push(list);
-          } else {
-              this.creator.lists = this.creator.lists.filter((l) => l.id != list.id);
-          }
-          this.$emit('updateListCount', {
-              count: 1,
-              list_id: list.id,
-              remove: !add,
-          });
-      },
+    updateCreatorLists({ list, add = false }) {
+      if (add) {
+        this.creator.lists.push(list);
+      } else {
+        this.creator.lists = this.creator.lists.filter((l) => l.id != list.id);
+      }
+      this.$emit('updateListCount', {
+        count: 1,
+        list_id: list.id,
+        remove: !add,
+      });
+    },
     handleCellUpdate(payload) {
       // Handle the "update:currentCell" event emitted by the cell component
       this.$emit('update:currentCell', payload); // Emit a new event to the parent table component
     },
   },
   props: {
-      currentCell: Object,
-      networks: Array,
-      stages: Array,
-      visibleColumns: Array,
-      settings: Object,
-      filters: Object,
-      currentContact: Object,
-      creator: Object,
-      selectedCreators: Array,
-      row: Number,
-      column: Number,
-      freezeColumn: Boolean,
-      width: String,
-      columnName: String,
-      neverHide: Boolean,
-      cellActive: Boolean,
-      otherColumns: Array,
-      columnIndex: Number,
+    currentCell: Object,
+    networks: Array,
+    stages: Array,
+    visibleColumns: Array,
+    settings: Object,
+    filters: Object,
+    currentContact: Object,
+    creator: Object,
+    selectedCreators: Array,
+    row: Number,
+    column: Number,
+    freezeColumn: Boolean,
+    width: String,
+    columnName: String,
+    neverHide: Boolean,
+    cellActive: Boolean,
+    otherColumns: Array,
+    columnIndex: Number,
   },
 };
 </script>
