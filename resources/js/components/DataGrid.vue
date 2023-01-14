@@ -324,7 +324,7 @@
                       v-if="column.visible"
                       scope="col"
                       :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
-                      class="dark:border-x-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <CrmTableSortableHeader
                         class="w-full"
                         @sortData="sortData"
@@ -339,46 +339,47 @@
                 </tr>
               </thead>
               <tbody
-                class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
-              <draggable class="list-group"
-                         :list="filteredCreators"
-                         group="creators"
-                         :sort="false"
-                         @change="log"
-                         @end="logEnd">
-              <template #item="{element, index}">
+                class="relative isolate z-0 flex h-full w-full flex-row divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
+                <draggable
+                  :list="filteredCreators"
+                  class="list-group w-full"
+                  group="creators"
+                  :sort="false"
+                  @change="log"
+                  @end="logEnd">
+                  <template #item="{ element, index }">
                     <DataGridRow
-                        :currentCell="currentCell"
-                        :networks="networks"
-                        :stages="stages"
-                        :visibleColumns="visibleColumns"
-                        :settings="settings"
-                        :otherColumns="otherColumns"
-                        :filters="filters"
-                        :currentContact="currentContact"
-                        :selectedCreators="selectedCreators"
-                        :creator="element"
-                        :row="index"
-                        :key="element.id"
-                        v-if="element"
-                        @update:currentCell="$emit('updateCreator', $event)"
-                        @click="setCurrentContact($event, element)"
-                        @contextmenu.prevent="openContextMenu(index, element)"
-                        @mouseover="setCurrentContact($event, element)"
-                        @openSidebar="$emit('openSidebar', element)"
-                        @refresh="refresh(element)"
-                        @updateCreator="$emit('updateCreator', $event)"
-                        @updateCrmMeta="$emit('updateCrmMeta', $event)"
-                        @updateListCount="$emit('updateListCount', $event)"
-                        @archive-creators="
-                      toggleArchiveCreators(
-                        element.id,
-                        !creator.crm_record_by_user.archived
-                      )
-                    "
-                    @toggleCreatorsFromList="toggleCreatorsFromList" />
-                </template>
-              </draggable>
+                      :currentCell="currentCell"
+                      :networks="networks"
+                      :stages="stages"
+                      :visibleColumns="visibleColumns"
+                      :settings="settings"
+                      :otherColumns="otherColumns"
+                      :filters="filters"
+                      :currentContact="currentContact"
+                      :selectedCreators="selectedCreators"
+                      :creator="element"
+                      :row="index"
+                      :key="element.id"
+                      v-if="element"
+                      @update:currentCell="$emit('updateCreator', $event)"
+                      @click="setCurrentContact($event, element)"
+                      @contextmenu.prevent="openContextMenu(index, element)"
+                      @mouseover="setCurrentContact($event, element)"
+                      @openSidebar="$emit('openSidebar', element)"
+                      @refresh="refresh(element)"
+                      @updateCreator="$emit('updateCreator', $event)"
+                      @updateCrmMeta="$emit('updateCrmMeta', $event)"
+                      @updateListCount="$emit('updateListCount', $event)"
+                      @archive-creators="
+                        toggleArchiveCreators(
+                          element.id,
+                          !creator.crm_record_by_user.archived
+                        )
+                      "
+                      @toggleCreatorsFromList="toggleCreatorsFromList" />
+                  </template>
+                </draggable>
               </tbody>
             </table>
             <div
@@ -535,7 +536,7 @@ export default {
     ArrowUpCircleIcon,
     TransitionRoot,
     ArrowTopRightOnSquareIcon,
-      draggable
+    draggable,
   },
   data() {
     return {
@@ -590,7 +591,7 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: '2xl',
-          width: 18,
+          width: 40,
           dataType: 'text',
         },
         {
@@ -601,7 +602,7 @@ export default {
           visible: false,
           sortable: false,
           breakpoint: '2xl',
-          width: 18,
+          width: 40,
           dataType: 'text',
         },
         {
@@ -621,7 +622,7 @@ export default {
           visible: false,
           sortable: false,
           breakpoint: '2xl',
-          width: 24,
+          width: 40,
           dataType: 'text',
         },
 
@@ -642,7 +643,7 @@ export default {
           meta: true,
           icon: 'LinkIcon',
           visible: true,
-          width: 18,
+          width: 40,
           dataType: 'socialLinks',
         },
         {
@@ -652,14 +653,14 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: 'lg',
-          width: 12,
+          width: 40,
           dataType: 'currency',
         },
         {
           name: 'Stage',
           key: 'crm_record_by_user.stage',
           icon: 'ArrowDownCircleIcon',
-          width: 24,
+          width: 40,
           sortable: true,
           visible: true,
           breakpoint: 'md',
@@ -672,7 +673,7 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: '2xl',
-          width: 24,
+          width: 40,
           dataType: 'date',
         },
         {
@@ -682,7 +683,7 @@ export default {
           sortable: true,
           visible: true,
           breakpoint: '2xl',
-          width: 28,
+          width: 40,
           dataType: 'rating',
         },
         {
@@ -692,7 +693,7 @@ export default {
           sortable: true,
           visible: true,
           breakpoint: '2xl',
-          width: 24,
+          width: 40,
           dataType: 'multiSelect',
         },
       ],
@@ -847,16 +848,17 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      logEnd(e) {
-          console.log('enddddddd');
-          console.log('e.item');
-          console.log(e.item);
-          console.log('e.to');
-          console.log(e.to);
-      },log(e) {
-          console.log('eeee');
-          console.log(e);
-      },
+    logEnd(e) {
+      console.log('enddddddd');
+      console.log('e.item');
+      console.log(e.item);
+      console.log('e.to');
+      console.log(e.to);
+    },
+    log(e) {
+      console.log('eeee');
+      console.log(e);
+    },
     handleCellNavigation(event) {
       // Get the index of the first visible column
       const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>

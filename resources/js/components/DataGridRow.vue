@@ -1,6 +1,6 @@
 <template>
   <tr
-    class="group w-full flex-row overflow-y-visible border-y border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
+    class="group w-full flex-row items-center overflow-y-visible border-y border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
     :class="[
       currentContact.id == creator.id
         ? 'border border-jovieDark-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700'
