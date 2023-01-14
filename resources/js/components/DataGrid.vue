@@ -5,11 +5,11 @@
         <header
           class="flex w-full items-center justify-between border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent :header="header" :subheader="subheader" />
-          <span
+          <!--  <span
             class="flex w-40 items-center text-xs text-slate-600 dark:text-jovieDark-200">
             >You're in Column: {{ currentCell.column }} Row:
             {{ currentCell.row }}</span
-          >
+          > -->
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
@@ -838,6 +838,11 @@ export default {
   },
   methods: {
     handleCellNavigation(event) {
+      // Get the index of the first visible column
+      const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
+        this.visibleColumns.includes(column.key)
+      );
+
       switch (event) {
         case 'ArrowRight':
           while (true) {
@@ -856,7 +861,7 @@ export default {
           break;
         case 'ArrowLeft':
           while (true) {
-            if (this.currentCell.column === 4) {
+            if (this.currentCell.column <= firstVisibleColumnIndex) {
               break;
             }
             this.currentCell.column -= 1;
@@ -881,30 +886,45 @@ export default {
           break;
       }
     },
-    /* 
-    handleCellNavigation(event) {
+    /* handleCellNavigation(event) {
       switch (event) {
         case 'ArrowRight':
-          if (this.currentCell.column < this.otherColumns.length - 1) {
-            // check if the current column is not the last one
+          while (true) {
+            if (this.currentCell.column === this.otherColumns.length - 1) {
+              break;
+            }
             this.currentCell.column += 1;
+            if (
+              this.visibleColumns.includes(
+                this.otherColumns[this.currentCell.column].key
+              )
+            ) {
+              break;
+            }
           }
           break;
         case 'ArrowLeft':
-          if (this.currentCell.column > 4) {
-            // check if the current column is not the first one
+          while (true) {
+            if (this.currentCell.column === 0) {
+              break;
+            }
             this.currentCell.column -= 1;
+            if (
+              this.visibleColumns.includes(
+                this.otherColumns[this.currentCell.column].key
+              )
+            ) {
+              break;
+            }
           }
           break;
         case 'ArrowUp':
           if (this.currentCell.row > 0) {
-            // check if the current row is not the first one
             this.currentCell.row -= 1;
           }
           break;
         case 'ArrowDown':
           if (this.currentCell.row < this.filteredCreators.length - 1) {
-            // check if the current row is not the last one
             this.currentCell.row += 1;
           }
           break;
