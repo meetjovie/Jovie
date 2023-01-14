@@ -340,38 +340,45 @@
               </thead>
               <tbody
                 class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
-                <template v-for="(creator, index) in filteredCreators">
-                  <DataGridRow
-                    :currentCell="currentCell"
-                    :networks="networks"
-                    :stages="stages"
-                    :visibleColumns="visibleColumns"
-                    :settings="settings"
-                    :otherColumns="otherColumns"
-                    :filters="filters"
-                    :currentContact="currentContact"
-                    :selectedCreators="selectedCreators"
-                    :creator="creator"
-                    :row="index"
-                    :key="creator.id"
-                    v-if="creator"
-                    @update:currentCell="handleCellUpdate"
-                    @click="setCurrentContact($event, creator)"
-                    @contextmenu.prevent="openContextMenu(index, creator)"
-                    @mouseover="setCurrentContact($event, creator)"
-                    @openSidebar="$emit('openSidebar', creator)"
-                    @refresh="refresh(creator)"
-                    @updateCreator="$emit('updateCreator', $event)"
-                    @updateCrmMeta="$emit('updateCrmMeta', $event)"
-                    @updateListCount="$emit('updateListCount', $event)"
-                    @archive-creators="
+              <draggable class="list-group"
+                         :list="filteredCreators"
+                         group="creators"
+                         :sort="false"
+                         @change="log"
+                         @end="logEnd">
+              <template #item="{element, index}">
+                    <DataGridRow
+                        :currentCell="currentCell"
+                        :networks="networks"
+                        :stages="stages"
+                        :visibleColumns="visibleColumns"
+                        :settings="settings"
+                        :otherColumns="otherColumns"
+                        :filters="filters"
+                        :currentContact="currentContact"
+                        :selectedCreators="selectedCreators"
+                        :creator="element"
+                        :row="index"
+                        :key="element.id"
+                        v-if="element"
+                        @update:currentCell="$emit('updateCreator', $event)"
+                        @click="setCurrentContact($event, element)"
+                        @contextmenu.prevent="openContextMenu(index, element)"
+                        @mouseover="setCurrentContact($event, element)"
+                        @openSidebar="$emit('openSidebar', element)"
+                        @refresh="refresh(element)"
+                        @updateCreator="$emit('updateCreator', $event)"
+                        @updateCrmMeta="$emit('updateCrmMeta', $event)"
+                        @updateListCount="$emit('updateListCount', $event)"
+                        @archive-creators="
                       toggleArchiveCreators(
-                        creator.id,
+                        element.id,
                         !creator.crm_record_by_user.archived
                       )
                     "
                     @toggleCreatorsFromList="toggleCreatorsFromList" />
                 </template>
+              </draggable>
               </tbody>
             </table>
             <div
@@ -462,6 +469,8 @@ import JovieTooltip from './JovieTooltip.vue';
 import KeyboardShortcut from './KeyboardShortcut';
 import Pagination from './Pagination';
 import SocialIcons from './SocialIcons.vue';
+import draggable from 'vuedraggable';
+
 export default {
   name: 'DataGrid',
   components: {
@@ -526,6 +535,7 @@ export default {
     ArrowUpCircleIcon,
     TransitionRoot,
     ArrowTopRightOnSquareIcon,
+      draggable
   },
   data() {
     return {
@@ -837,6 +847,16 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      logEnd(e) {
+          console.log('enddddddd');
+          console.log('e.item');
+          console.log(e.item);
+          console.log('e.to');
+          console.log(e.to);
+      },log(e) {
+          console.log('eeee');
+          console.log(e);
+      },
     handleCellNavigation(event) {
       // Get the index of the first visible column
       const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>

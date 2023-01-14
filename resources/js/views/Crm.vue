@@ -147,6 +147,7 @@
                     <Suspense>
                       <template #default>
                         <MenuList
+                            @onListDrop="onListDrop($event)"
                           ref="menuListAll"
                           @getUserLists="getUserLists"
                           @setFiltersType="setFiltersType"
@@ -992,6 +993,10 @@ export default {
     });
   },
   methods: {
+      onListDrop(e) {
+          console.log('---------------');
+          console.log(e.dataTransfer);
+      },
     toggleShowSupportModal() {
       this.showSupportModal = !this.showSupportModal;
     },
