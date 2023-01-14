@@ -345,6 +345,7 @@
                   class="list-group w-full"
                   group="creators"
                   :sort="false"
+                  @start="startDrag"
                   @change="log"
                   @end="logEnd">
                   <template #item="{ element, index }">
@@ -848,17 +849,21 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-    logEnd(e) {
-      console.log('enddddddd');
-      console.log('e.item');
-      console.log(e.item);
-      console.log('e.to');
-      console.log(e.to);
-    },
-    log(e) {
-      console.log('eeee');
-      console.log(e);
-    },
+      startDrag(e) {
+          console.log('start');
+          console.log(e.item);
+          console.log(e.from);
+      },
+      logEnd(e) {
+          console.log('enddddddd');
+          console.log('e.item');
+          console.log(e.item);
+          console.log('e.to');
+          console.log(e.to);
+      },log(e) {
+          console.log('eeee');
+          console.log(e);
+      },
     handleCellNavigation(event) {
       // Get the index of the first visible column
       const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
