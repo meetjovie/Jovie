@@ -14,7 +14,7 @@
         : 'bg-white text-slate-600 dark:bg-jovieDark-900 dark:text-slate-200  ',
 
       freezeColumn
-        ? 'fcous:ring-0 sticky isolate z-20 border-none font-bold focus:border-none focus:outline-none'
+        ? 'sticky isolate z-20 border-none font-bold focus:border-none focus:outline-none focus:ring-0'
         : '',
 
       columnWidth ? `w-${columnWidth}` : '',

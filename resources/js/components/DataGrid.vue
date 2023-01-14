@@ -226,7 +226,7 @@
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[26.5px] top-0 z-50 w-8 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <span class="sr-only">Favorite</span>
                   </th>
                   <th
@@ -338,50 +338,50 @@
                     class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
                 </tr>
               </thead>
-              <tbody
-                class="relative isolate z-0 flex h-full w-full flex-row divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
-                <draggable
-                  :list="filteredCreators"
-                  class="list-group w-full"
-                  group="creators"
-                  :sort="false"
-                  @start="startDrag"
-                  @change="log"
-                  @end="logEnd">
-                  <template #item="{ element, index }">
-                    <DataGridRow
-                      :currentCell="currentCell"
-                      :networks="networks"
-                      :stages="stages"
-                      :visibleColumns="visibleColumns"
-                      :settings="settings"
-                      :otherColumns="otherColumns"
-                      :filters="filters"
-                      :currentContact="currentContact"
-                      :selectedCreators="selectedCreators"
-                      :creator="element"
-                      :row="index"
-                      :key="element.id"
-                      v-if="element"
-                      @update:currentCell="$emit('updateCreator', $event)"
-                      @click="setCurrentContact($event, element)"
-                      @contextmenu.prevent="openContextMenu(index, element)"
-                      @mouseover="setCurrentContact($event, element)"
-                      @openSidebar="$emit('openSidebar', element)"
-                      @refresh="refresh(element)"
-                      @updateCreator="$emit('updateCreator', $event)"
-                      @updateCrmMeta="$emit('updateCrmMeta', $event)"
-                      @updateListCount="$emit('updateListCount', $event)"
-                      @archive-creators="
-                        toggleArchiveCreators(
-                          element.id,
-                          !creator.crm_record_by_user.archived
-                        )
-                      "
-                      @toggleCreatorsFromList="toggleCreatorsFromList" />
-                  </template>
-                </draggable>
-              </tbody>
+              <draggable
+                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
+                :list="filteredCreators"
+                ghost-class="rounded-lg
+                border border-slate-300 dark:border-jovieDark-border shadow-md"
+                group="creators"
+                :sort="false"
+                tag="tbody"
+                @start="startDrag"
+                @change="log"
+                @end="logEnd">
+                <template #item="{ element, index }">
+                  <DataGridRow
+                    :currentCell="currentCell"
+                    :networks="networks"
+                    :stages="stages"
+                    :visibleColumns="visibleColumns"
+                    :settings="settings"
+                    :otherColumns="otherColumns"
+                    :filters="filters"
+                    :currentContact="currentContact"
+                    :selectedCreators="selectedCreators"
+                    :creator="element"
+                    :row="index"
+                    :key="element.id"
+                    v-if="element"
+                    @update:currentCell="$emit('updateCreator', $event)"
+                    @click="setCurrentContact($event, element)"
+                    @contextmenu.prevent="openContextMenu(index, element)"
+                    @mouseover="setCurrentContact($event, element)"
+                    @openSidebar="$emit('openSidebar', element)"
+                    @refresh="refresh(element)"
+                    @updateCreator="$emit('updateCreator', $event)"
+                    @updateCrmMeta="$emit('updateCrmMeta', $event)"
+                    @updateListCount="$emit('updateListCount', $event)"
+                    @archive-creators="
+                      toggleArchiveCreators(
+                        element.id,
+                        !creator.crm_record_by_user.archived
+                      )
+                    "
+                    @toggleCreatorsFromList="toggleCreatorsFromList" />
+                </template>
+              </draggable>
             </table>
             <div
               v-if="creatorRecords.length < 50 && creatorRecords.length > 0"
@@ -592,7 +592,7 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: '2xl',
-          width: 40,
+          width: '40',
           dataType: 'text',
         },
         {
@@ -603,7 +603,7 @@ export default {
           visible: false,
           sortable: false,
           breakpoint: '2xl',
-          width: 40,
+          width: '40',
           dataType: 'text',
         },
         {
@@ -644,7 +644,7 @@ export default {
           meta: true,
           icon: 'LinkIcon',
           visible: true,
-          width: 40,
+          width: '40',
           dataType: 'socialLinks',
         },
         {
@@ -654,14 +654,14 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: 'lg',
-          width: 40,
+          width: '40',
           dataType: 'currency',
         },
         {
           name: 'Stage',
           key: 'crm_record_by_user.stage',
           icon: 'ArrowDownCircleIcon',
-          width: 40,
+          width: '40',
           sortable: true,
           visible: true,
           breakpoint: 'md',
@@ -674,7 +674,7 @@ export default {
           sortable: false,
           visible: false,
           breakpoint: '2xl',
-          width: 40,
+          width: '40',
           dataType: 'date',
         },
         {
@@ -684,7 +684,7 @@ export default {
           sortable: true,
           visible: true,
           breakpoint: '2xl',
-          width: 40,
+          width: '40',
           dataType: 'rating',
         },
         {
@@ -694,7 +694,7 @@ export default {
           sortable: true,
           visible: true,
           breakpoint: '2xl',
-          width: 40,
+          width: '40',
           dataType: 'multiSelect',
         },
       ],
@@ -849,9 +849,9 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      startDrag(e) {
-          this.$store.state.currentlyDraggedCreator = e.item.id
-      },
+    startDrag(e) {
+      this.$store.state.currentlyDraggedCreator = e.item.id;
+    },
     handleCellNavigation(event) {
       // Get the index of the first visible column
       const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
