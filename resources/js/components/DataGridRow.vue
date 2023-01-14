@@ -1,5 +1,6 @@
 <template>
   <tr
+      :id="creator.id"
     class="group w-full flex-row items-center overflow-y-visible border-y border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
     :class="[
       currentContact.id == creator.id

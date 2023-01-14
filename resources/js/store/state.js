@@ -27,5 +27,6 @@ export default {
             row: 0,
             column: 0
         }
-    }
+    },
+    currentlyDraggedCreator: null,
 };

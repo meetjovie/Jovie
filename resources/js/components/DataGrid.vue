@@ -850,19 +850,7 @@ export default {
   },
   methods: {
       startDrag(e) {
-          console.log('start');
-          console.log(e.item);
-          console.log(e.from);
-      },
-      logEnd(e) {
-          console.log('enddddddd');
-          console.log('e.item');
-          console.log(e.item);
-          console.log('e.to');
-          console.log(e.to);
-      },log(e) {
-          console.log('eeee');
-          console.log(e);
+          this.$store.state.currentlyDraggedCreator = e.item.id
       },
     handleCellNavigation(event) {
       // Get the index of the first visible column

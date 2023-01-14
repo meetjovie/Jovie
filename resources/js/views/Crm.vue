@@ -138,6 +138,7 @@
                           @setFiltersType="setFiltersType"
                           menuName="Pinned"
                           :selectedList="filters.list"
+                          @onListDrop="onListDrop($event)"
                           @setFilterList="setFilterList"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
@@ -147,7 +148,6 @@
                     <Suspense>
                       <template #default>
                         <MenuList
-                            @onListDrop="onListDrop($event)"
                           ref="menuListAll"
                           @getUserLists="getUserLists"
                           @setFiltersType="setFiltersType"
@@ -155,6 +155,7 @@
                           @setFilterList="setFilterList"
                           :selectedList="filters.list"
                           :draggable="true"
+                          @onListDrop="onListDrop($event)"
                           @end="sortLists"
                           :menuItems="filteredUsersLists"></MenuList>
                       </template>
@@ -993,9 +994,8 @@ export default {
     });
   },
   methods: {
-      onListDrop(e) {
-          console.log('---------------');
-          console.log(e.dataTransfer);
+      onListDrop(listId) {
+          this.$refs.crmTable.toggleCreatorsFromList(this.$store.state.currentlyDraggedCreator, listId, false)
       },
     toggleShowSupportModal() {
       this.showSupportModal = !this.showSupportModal;
