@@ -341,30 +341,30 @@
               <tbody
                 class="relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700">
                 <template v-for="(creator, index) in filteredCreators">
-                    <DataGridRow
-                        :currentCell="currentCell"
-                        :networks="networks"
-                        :stages="stages"
-                        :visibleColumns="visibleColumns"
-                        :settings="settings"
-                        :otherColumns="otherColumns"
-                        :filters="filters"
-                        :currentContact="currentContact"
-                        :selectedCreators="selectedCreators"
-                        :creator="creator"
-                        :row="index"
-                        :key="creator.id"
-                        v-if="creator"
-                        @update:currentCell="$emit('updateCreator', $event)"
-                        @click="setCurrentContact($event, creator)"
-                        @contextmenu.prevent="openContextMenu(index, creator)"
-                        @mouseover="setCurrentContact($event, creator)"
-                        @openSidebar="$emit('openSidebar', creator)"
-                        @refresh="refresh(creator)"
-                        @updateCreator="$emit('updateCreator', $event)"
-                        @updateCrmMeta="$emit('updateCrmMeta', $event)"
-                        @updateListCount="$emit('updateListCount', $event)"
-                        @archive-creators="
+                  <DataGridRow
+                    :currentCell="currentCell"
+                    :networks="networks"
+                    :stages="stages"
+                    :visibleColumns="visibleColumns"
+                    :settings="settings"
+                    :otherColumns="otherColumns"
+                    :filters="filters"
+                    :currentContact="currentContact"
+                    :selectedCreators="selectedCreators"
+                    :creator="creator"
+                    :row="index"
+                    :key="creator.id"
+                    v-if="creator"
+                    @update:currentCell="$emit('updateCreator', $event)"
+                    @click="setCurrentContact($event, creator)"
+                    @contextmenu.prevent="openContextMenu(index, creator)"
+                    @mouseover="setCurrentContact($event, creator)"
+                    @openSidebar="$emit('openSidebar', creator)"
+                    @refresh="refresh(creator)"
+                    @updateCreator="$emit('updateCreator', $event)"
+                    @updateCrmMeta="$emit('updateCrmMeta', $event)"
+                    @updateListCount="$emit('updateListCount', $event)"
+                    @archive-creators="
                       toggleArchiveCreators(
                         creator.id,
                         !creator.crm_record_by_user.archived
@@ -377,7 +377,7 @@
             <div
               v-if="creatorRecords.length < 50 && creatorRecords.length > 0"
               @click="$emit('addContact')"
-              class="flex w-full cursor-pointer items-center bg-white py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:bg-jovieDark-900 dark:text-jovieDark-400 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
+              class="flex w-full cursor-pointer items-center border-t bg-slate-100 py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:bg-jovieDark-800 dark:text-jovieDark-200 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
               <PlusIcon class="mr-2 h-4 w-4" />
               Add new contact
             </div>
@@ -566,7 +566,7 @@ export default {
         {
           name: 'Name',
           key: 'full_name',
-            meta: true,
+          meta: true,
           icon: 'Bars3BottomLeftIcon',
           sortable: true,
           visible: true,
@@ -575,7 +575,7 @@ export default {
         {
           name: 'First',
           key: 'first_name',
-            meta: true,
+          meta: true,
           icon: 'Bars3BottomLeftIcon',
           sortable: false,
           visible: false,
@@ -586,7 +586,7 @@ export default {
         {
           name: 'Last',
           key: 'last_name',
-            meta: true,
+          meta: true,
           icon: 'Bars3BottomLeftIcon',
           visible: false,
           sortable: false,
@@ -597,7 +597,7 @@ export default {
         {
           name: 'Title',
           key: 'platform_title',
-            meta: true,
+          meta: true,
           icon: 'UserIcon',
           visible: false,
           breakpoint: '2xl',
@@ -606,7 +606,7 @@ export default {
         {
           name: 'Company',
           key: 'platform_employer',
-            meta: true,
+          meta: true,
           icon: 'BriefcaseIcon',
           visible: false,
           sortable: false,
@@ -618,7 +618,7 @@ export default {
         {
           name: 'Email',
           key: 'emails',
-            meta: true,
+          meta: true,
           icon: 'AtSymbolIcon',
           visible: true,
           breakpoint: 'lg',
@@ -629,7 +629,7 @@ export default {
         {
           name: 'Social Links',
           key: 'networks',
-            meta: true,
+          meta: true,
           icon: 'LinkIcon',
           visible: true,
           width: '18',
@@ -704,12 +704,12 @@ export default {
     'counts',
   ],
   watch: {
-      settings: {
-          deep: true,
-          handler: function () {
-              localStorage.setItem('settings', JSON.stringify(this.settings));
-          }
+    settings: {
+      deep: true,
+      handler: function () {
+        localStorage.setItem('settings', JSON.stringify(this.settings));
       },
+    },
     creators: function (val) {
       this.creatorRecords = val;
     },
@@ -775,11 +775,11 @@ export default {
     if (columns) {
       this.columns = columns;
     }
-      let settings = JSON.parse(localStorage.getItem('settings'));
-      if (settings) {
-          this.settings = settings;
-      }
-      this.creatorRecords = this.creatorRecords.length
+    let settings = JSON.parse(localStorage.getItem('settings'));
+    if (settings) {
+      this.settings = settings;
+    }
+    this.creatorRecords = this.creatorRecords.length
       ? this.creatorRecords
       : this.creators;
   },
@@ -838,24 +838,78 @@ export default {
   },
   methods: {
     handleCellNavigation(event) {
-      // Initialize variables to store the new values of currentCell.row and currentCell.column
-
-      // Check the value of event.key to determine which arrow key was pressed
       switch (event) {
         case 'ArrowRight':
-          this.currentCell.column += 1;
+          while (true) {
+            if (this.currentCell.column === this.otherColumns.length - 1) {
+              break;
+            }
+            this.currentCell.column += 1;
+            if (
+              this.visibleColumns.includes(
+                this.otherColumns[this.currentCell.column].key
+              )
+            ) {
+              break;
+            }
+          }
           break;
         case 'ArrowLeft':
-          this.currentCell.column -= 1;
+          while (true) {
+            if (this.currentCell.column === 4) {
+              break;
+            }
+            this.currentCell.column -= 1;
+            if (
+              this.visibleColumns.includes(
+                this.otherColumns[this.currentCell.column].key
+              )
+            ) {
+              break;
+            }
+          }
           break;
         case 'ArrowUp':
-          this.currentCell.row -= 1;
+          if (this.currentCell.row > 0) {
+            this.currentCell.row -= 1;
+          }
           break;
         case 'ArrowDown':
-          this.currentCell.row += 1;
+          if (this.currentCell.row < this.filteredCreators.length - 1) {
+            this.currentCell.row += 1;
+          }
           break;
       }
     },
+    /* 
+    handleCellNavigation(event) {
+      switch (event) {
+        case 'ArrowRight':
+          if (this.currentCell.column < this.otherColumns.length - 1) {
+            // check if the current column is not the last one
+            this.currentCell.column += 1;
+          }
+          break;
+        case 'ArrowLeft':
+          if (this.currentCell.column > 4) {
+            // check if the current column is not the first one
+            this.currentCell.column -= 1;
+          }
+          break;
+        case 'ArrowUp':
+          if (this.currentCell.row > 0) {
+            // check if the current row is not the first one
+            this.currentCell.row -= 1;
+          }
+          break;
+        case 'ArrowDown':
+          if (this.currentCell.row < this.filteredCreators.length - 1) {
+            // check if the current row is not the last one
+            this.currentCell.row += 1;
+          }
+          break;
+      }
+    }, */
     handleUpdateCurrentCell(newCell) {
       this.currentCell = {
         row: newCell.row,

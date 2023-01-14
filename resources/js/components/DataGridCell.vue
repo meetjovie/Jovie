@@ -6,18 +6,20 @@
       (column && visibleColumns.includes(column.key))
     "
     :class="[
-      cellActive ? ' border border-indigo-500 bg-red-500' : '',
+      cellActive
+        ? ' border-2 border-indigo-500 dark:border-indigo-500'
+        : 'border-x border-slate-300  dark:border-jovieDark-border ',
       currentContact.id == creator.id
         ? ' bg-slate-100 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'bg-white text-slate-600 dark:bg-jovieDark-900 dark:text-slate-200  ',
 
       freezeColumn
-        ? 'fcous:ring-0 sticky isolate z-20 font-bold focus:border-none focus:outline-none'
-        : 'border-x',
+        ? 'fcous:ring-0 sticky isolate z-20 border-none font-bold focus:border-none focus:outline-none'
+        : '',
 
       columnWidth ? `w-${columnWidth}` : '',
     ]"
-    class="overflow-auto whitespace-nowrap border-slate-300 text-center text-xs font-medium focus:border-none focus:outline-indigo-500 focus:ring-0 dark:border-jovieDark-border before:dark:border-jovieDark-border">
+    class="overflow-auto whitespace-nowrap text-center text-xs font-medium focus:border-none focus:outline-indigo-500 focus:ring-0 before:dark:border-jovieDark-border">
     <slot></slot>
     <!--   <component
         ref="cellInput"
@@ -27,11 +29,11 @@
         @blur="onBlur"
         :placeholder="columnName"
         v-model="modelValue" /> -->
-    <div v-if="!freezeColumn">
-      <span v-if="cellActive">Active</span>
+    <div @click.prevent="setFocus()" v-if="!freezeColumn">
+      <!--  <span v-if="cellActive">Active</span> -->
       <star-rating
         v-if="column.dataType == 'rating'"
-        class="w-20"
+        class="mx-auto px-2"
         :star-size="12"
         :increment="0.5"
         v-model:rating="creator.crm_record_by_user.rating"
@@ -65,28 +67,35 @@
         :stages="stages"
         :index="row"
         @updateCreator="$emit('updateCreator', $event)" />
-      <DataGridSocialLinksCell :creator="creator" :networks="networks" :show-count="showFollowersCount" v-else-if="column.dataType == 'socialLinks'" />
-        <ContactStageMenu
-            v-else-if="column.dataType == 'singleSelect'"
-            :creator="creator"
-            :key="row"
-            :open="showContactStageMenu[row]"
-            @close="toggleContactStageMenu(row)"
-            :stages="stages"
-            :index="row"
-            @updateCreator="$emit('updateCreator', $event)" />
-        <vue-tailwind-datepicker v-model="date" v-else-if="column.dataType == 'date'" />
-        <Suspense v-else-if="column.dataType == 'multiSelect'">
-            <template #default>
-                <InputLists
-                    @updateLists="$emit('updateCreatorLists', $event)"
-                    :creatorId="creator.id ?? 0"
-                    :lists="creator.lists"
-                    :currentList="creator.current_list" />
-            </template>
-            <template #fallback> Loading... </template>
-        </Suspense>
-      <span v-else>Data Type:
+      <DataGridSocialLinksCell
+        :creator="creator"
+        :networks="networks"
+        :show-count="showFollowersCount"
+        v-else-if="column.dataType == 'socialLinks'" />
+      <ContactStageMenu
+        v-else-if="column.dataType == 'singleSelect'"
+        :creator="creator"
+        :key="row"
+        :open="showContactStageMenu[row]"
+        @close="toggleContactStageMenu(row)"
+        :stages="stages"
+        :index="row"
+        @updateCreator="$emit('updateCreator', $event)" />
+      <vue-tailwind-datepicker
+        v-model="date"
+        v-else-if="column.dataType == 'date'" />
+      <Suspense v-else-if="column.dataType == 'multiSelect'">
+        <template #default>
+          <InputLists
+            @updateLists="$emit('updateCreatorLists', $event)"
+            :creatorId="creator.id ?? 0"
+            :lists="creator.lists"
+            :currentList="creator.current_list" />
+        </template>
+        <template #fallback> Loading... </template>
+      </Suspense>
+      <span v-else
+        >Data Type:
         {{ column.dataType }}
       </span>
     </div>
@@ -100,7 +109,7 @@ import StarRating from 'vue-star-rating';
 import SocialIcons from './SocialIcons.vue';
 import DataGridSocialLinksCell from './DataGridSocialLinksCell.vue';
 import ContactStageMenu from './ContactStageMenu.vue';
-import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+import VueTailwindDatepicker from 'vue-tailwind-datepicker';
 import InputLists from './InputLists.vue';
 export default {
   name: 'DataGridCell',
@@ -112,36 +121,38 @@ export default {
     DataGridCellTextInput,
     StarRating,
     CheckboxInput,
-      VueTailwindDatepicker,
+    VueTailwindDatepicker,
   },
   emits: ['update:modelValue', 'blur', 'move'],
   data() {
     return {
       showContactStageMenu: [],
-        date: {}
+      date: {},
     };
   },
-    watch: {
-      date: function (val) {
-          this.updateData(val.startDate && val.startDate !== '' ? val.startDate : null)
-      }
+  watch: {
+    date: function (val) {
+      this.updateData(
+        val.startDate && val.startDate !== '' ? val.startDate : null
+      );
     },
-    mounted() {
-      this.date.startDate = this.modelValue
-      this.date.endDate = this.modelValue
-    },
+  },
+  mounted() {
+    this.date.startDate = this.modelValue;
+    this.date.endDate = this.modelValue;
+  },
   methods: {
     updateData(value = null) {
       this.$emit('update:modelValue', this.modelValue);
       if (this.column.meta) {
-          this.$emit('updateCrmMeta', this.creator);
+        this.$emit('updateCrmMeta', this.creator);
       } else {
-          this.$emit('updateCreator', {
-              id: this.creator.id,
-              index: this.row,
-              key: this.column.key,
-              value: value ?? this.modelValue,
-          });
+        this.$emit('updateCreator', {
+          id: this.creator.id,
+          index: this.row,
+          key: this.column.key,
+          value: value ?? this.modelValue,
+        });
       }
     },
     toggleContactStageMenu(index) {
@@ -158,16 +169,17 @@ export default {
     },
   },
   computed: {
-      showFollowersCount() {
-          try {
-              if (!this.settings) {
-                  return false
-              }
-              return this.settings.find(set => set.key === 'show_follower_count').visible
-          } catch (e) {
-              return  false
-          }
-      },
+    showFollowersCount() {
+      try {
+        if (!this.settings) {
+          return false;
+        }
+        return this.settings.find((set) => set.key === 'show_follower_count')
+          .visible;
+      } catch (e) {
+        return false;
+      }
+    },
     inputComponent() {
       switch (this.dataType) {
         case 'rating':

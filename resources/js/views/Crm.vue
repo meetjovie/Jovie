@@ -465,7 +465,7 @@
               <div class="flex h-full w-full flex-col">
                 <div class="mx-auto h-full w-full p-0">
                   <div class="inline-block h-full w-full align-middle">
-                    <div class="h-full w-full">
+                    <div class="h-full w-full dark:bg-jovieDark-900">
                       <!--  Show import screen if no creators -->
                       <!--  <div
                         v-if="!loading && !creators.length && !showImporting"
