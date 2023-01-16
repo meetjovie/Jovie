@@ -1,6 +1,6 @@
 <template>
   <JovieDropdownMenu
-    @itemClicked="addCustomField(item)"
+    @itemClicked="addCustomField"
     :items="customFields"
     placement="left-start"
     ><template #triggerButton
@@ -56,28 +56,36 @@ export default {
       isOpen: true,
       customFields: [
         {
+          id: 'Text',
           name: 'Text',
         },
         {
+          id: 'Number',
           name: 'Number',
         },
         {
+          id: 'Currency',
           name: 'Currency',
         },
         {
+          id: 'Date',
           name: 'Date',
         },
         {
+          id: 'URL',
           name: 'URL',
         },
 
         {
+          id: 'Checkbox',
           name: 'Checkbox',
         },
         {
+          id: 'Single Select',
           name: 'Single Select',
         },
         {
+          id: 'Multi Select',
           name: 'Multi Select',
         },
       ],
@@ -92,7 +100,8 @@ export default {
       this.isOpen = value;
     },
     addCustomField(field) {
-      console.log(field.id);
+      console.log('field');
+      console.log(field);
     },
   },
 };
