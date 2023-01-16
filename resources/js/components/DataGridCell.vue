@@ -142,41 +142,19 @@ export default {
     this.date.endDate = this.modelValue;
   },
   methods: {
-    updateData(value = null) {
-      this.$emit('update:modelValue', this.modelValue);
-      if (this.column.meta) {
-        this.$emit('updateCrmMeta', this.creator);
-      } else {
-        this.$emit('updateCreator', {
-          id: this.creator.id,
-          index: this.row,
-          key: this.column.key,
-          value: value ?? this.modelValue,
-        });
-=======
-    Datepicker,
-  },
-  emits: ['update:modelValue', 'blur', 'move'],
-  mounted() {
-    console.log(this.column);
-    console.log('this.visibleColumns');
-    console.log(this.visibleColumns);
-  },
-  data() {
-    return {
-      showContactStageMenu: [],
-    };
-  },
-  methods: {
-    updateData(value) {
-      this.$emit('update:modelValue', value);
-      if (this.column.key.includes('crm_record_by_user')) {
-        this.$emit('updateCreator', this.creator);
-      } else {
-        this.$emit('updateCrmMeta', this.creator);
->>>>>>> 4743381e (text)
-      }
-    },
+      updateData(value = null) {
+          this.$emit('update:modelValue', this.modelValue);
+          if (this.column.meta) {
+              this.$emit('updateCrmMeta', this.creator);
+          } else {
+              this.$emit('updateCreator', {
+                  id: this.creator.id,
+                  index: this.row,
+                  key: this.column.key,
+                  value: value ?? this.modelValue,
+              });
+          }
+      },
     toggleContactStageMenu(index) {
       this.showContactStageMenu[index] = !this.showContactStageMenu[index];
     },
