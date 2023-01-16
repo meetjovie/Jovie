@@ -341,8 +341,7 @@
               <draggable
                 class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
                 :list="filteredCreators"
-                ghost-class="rounded-lg
-                border border-slate-300 dark:border-jovieDark-border shadow-md"
+                ghost-class="ghost-row"
                 group="creators"
                 :sort="false"
                 tag="tbody"
@@ -1442,4 +1441,10 @@ export default {
     focus,
   },
 };
+</script>
+<script setup>
+import { ref } from 'vue';
+import { TransitionRoot } from '@headlessui/vue';
+
+const isShowing = ref(true);
 </script>

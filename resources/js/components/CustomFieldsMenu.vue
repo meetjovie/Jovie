@@ -39,9 +39,11 @@ import {
 import GlassmorphismContainer from './GlassmorphismContainer.vue';
 
 import JovieDropdownMenu from './JovieDropdownMenu.vue';
+import { PlusIcon } from '@heroicons/vue/24/solid';
 
 export default {
   components: {
+    PlusIcon,
     JovieDropdownMenu,
     Dialog,
     DialogPanel,
@@ -90,8 +92,7 @@ export default {
       this.isOpen = value;
     },
     addCustomField(field) {
-      setIsOpen(true);
-      this.$emit('addCustomField', field);
+      console.log(field.id);
     },
   },
 };

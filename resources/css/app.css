@@ -6,6 +6,9 @@
   .ghost-card {
     @apply border-b border-slate-900 bg-slate-200 opacity-50;
   }
+  .ghost-row {
+    @apply cursor-move rounded-lg border border-slate-900 bg-slate-300 opacity-50 shadow-md ring-indigo-500;
+  }
 }
 
 @layer utilities {
