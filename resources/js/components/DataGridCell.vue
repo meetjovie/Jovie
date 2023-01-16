@@ -142,19 +142,19 @@ export default {
     this.date.endDate = this.modelValue;
   },
   methods: {
-    updateData(value = null) {
-      this.$emit('update:modelValue', this.modelValue);
-      if (this.column.meta) {
-        this.$emit('updateCrmMeta', this.creator);
-      } else {
-        this.$emit('updateCreator', {
-          id: this.creator.id,
-          index: this.row,
-          key: this.column.key,
-          value: value ?? this.modelValue,
-        });
-      }
-    },
+      updateData(value = null) {
+          this.$emit('update:modelValue', this.modelValue);
+          if (this.column.meta) {
+              this.$emit('updateCrmMeta', this.creator);
+          } else {
+              this.$emit('updateCreator', {
+                  id: this.creator.id,
+                  index: this.row,
+                  key: this.column.key,
+                  value: value ?? this.modelValue,
+              });
+          }
+      },
     toggleContactStageMenu(index) {
       this.showContactStageMenu[index] = !this.showContactStageMenu[index];
     },
@@ -246,36 +246,6 @@ export default {
   --dp-row_margin: 0px 0 !default;
   --dp-common_padding: 0px !default;
   --dp-font_size: 0.5rem !default;
-  /*
-    --dp-font_family: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
-      oxygen, ubuntu, cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !default;
-    --dp-border_radius: 4px !default;
-    --dp-cell_border_radius: --dp-border_radius !default;
-
-    --dp-transition_length: 22px !default; // Passed to the translateX in animation
-    --dp-transition_duration: 0.1s !default; // Transition duration
-
-    --dp-button_height: 35px !default; // size for buttons in overlays
-    --dp-month_year_row_height: 35px !default; // height of the month-year select row
-    --dp-month_year_row_button_size: 25px !default; // Specific height for the next/previous buttons
-    --dp-button_icon_height: 20px !default; // icon sizing in buttons
-    --dp-cell_size: 35px !default; // width and height of calendar cell
-    --dp-cell_padding: 5px !default; // padding in the cell
-
-    --dp-input_padding: 6px 6px !default; // padding in the input
-    --dp-input_icon_padding: 35px !default; // Padding on the left side of the input if icon is present
-    --dp-menu_min_width: 260px !default; // Adjust the min width of the menu
-    --dp-action_buttons_padding: 2px 5px !default; // Adjust padding for the action buttons in action row
-
-    --dp-calendar_header_cell_padding: 0.5rem !default; // Adjust padding in calendar header cells
-    --dp-two_calendars_spacing: 10px !default; // Space between two calendars if using two calendars
-    --dp-overlay_col_padding: 3px !default; // Padding in the overlay column
-    --dp-time_inc_dec_button_size: 32px !default; // Sizing for arrow buttons in the time picker */
-  /*
-    // Font sizes
-
-    --dp-preview_font_size: 0.8rem !default; // font size of the date preview in the action row
-    --dp-time_font_size: 2rem !default; // font size in the time picker */
 }
 
 .dp__theme_light {
