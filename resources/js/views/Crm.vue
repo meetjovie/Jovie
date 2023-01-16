@@ -545,7 +545,7 @@
                         </CrmTable> -->
                         <DataGrid
                           class="overflow-hidden"
-                          ref="crmTable"
+                          ref="crmTableGrid"
                           @addContact="showCreatorModal = true"
                           @updateCreator="updateCreator"
                           @updateCrmMeta="updateCrmMeta"
@@ -995,7 +995,7 @@ export default {
   },
   methods: {
       onListDrop(listId) {
-          this.$refs.crmTable.toggleCreatorsFromList(this.$store.state.currentlyDraggedCreator, listId, false)
+          this.$refs.crmTableGrid.toggleCreatorsFromList(this.$store.state.currentlyDraggedCreator, listId, false)
       },
     toggleShowSupportModal() {
       this.showSupportModal = !this.showSupportModal;
