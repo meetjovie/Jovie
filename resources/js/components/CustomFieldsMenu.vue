@@ -38,7 +38,7 @@
               v-model="field.name"
             label="Field Name"
             type="text"
-            :error="errors.name"
+            :error="errors.name ? errors.name[0] : null"
             class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
 
           <select
@@ -47,7 +47,7 @@
             <option v-for="fieldType in customFieldTypes" :value="fieldType.id">{{ fieldType.type }}</option>
           </select>
             <div v-if="errors.type" class="mt-2 text-xs text-red-600 dark:text-red-300">
-                {{ errors.type }}
+                {{ errors.type[0] }}
             </div>
           <ButtonGroup text="Add Field" :disabled="adding" @click="saveCustomField" />
         </GlassmorphismContainer>
@@ -121,7 +121,7 @@ export default {
                   });
               }
           }).catch((error) => {
-              if (error.response && error.status == 422) {
+              if (error.response && error.response.status == 422) {
                   this.errors = error.response.data.errors;
               }
           }).finally((response) => {
