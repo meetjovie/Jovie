@@ -348,7 +348,7 @@
                 @start="startDrag">
                 <template #item="{ element, index }">
                   <DataGridRow
-                      :id="element.id"
+                    :id="element.id"
                     :currentCell="currentCell"
                     :networks="networks"
                     :stages="stages"
@@ -850,7 +850,7 @@ export default {
   methods: {
     startDrag(e) {
       this.$store.state.currentlyDraggedCreator = e.item.id;
-        console.log(this.$store.state.currentlyDraggedCreator);
+      console.log(this.$store.state.currentlyDraggedCreator);
     },
     handleCellNavigation(event) {
       // Get the index of the first visible column
