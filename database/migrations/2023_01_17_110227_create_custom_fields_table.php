@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('field_attributes', function (Blueprint $table) {
+        Schema::create('custom_fields', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('team_id');
-            $table->unsignedInteger('field_id');
+            $table->string('name');
             $table->string('type');
-            $table->integer('order');
-            $table->boolean('hide');
+            $table->string('icon')->nullable();
+            $table->string('hide')->default(0);
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('field_orders');
+        Schema::dropIfExists('custom_fields');
     }
 };

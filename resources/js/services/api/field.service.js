@@ -7,4 +7,14 @@ export default {
             `${baseApiUrl}/fields`
         );
     },
+    getCustomFieldTypes() {
+        return axios.get(
+            `${baseApiUrl}/custom-field-types`
+        );
+    },
+    saveCustomField(data) {
+        return axios.post(
+            `${baseApiUrl}/custom-field`, data
+        );
+    },
 }

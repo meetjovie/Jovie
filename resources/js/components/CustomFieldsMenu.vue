@@ -35,29 +35,21 @@
       <PopoverPanel class="z-10 w-60">
         <GlassmorphismContainer size="3xl">
           <InputGroup
+              v-model="field.name"
             label="Field Name"
             type="text"
+            :error="errors.name"
             class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
 
           <select
+              v-model="field.type"
             class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0">
-            <option value="text">Text</option>
-            <option value="textarea">Textarea</option>
-            <option value="number">Number</option>
-            <option value="date">Date</option>
-            <option value="time">Time</option>
-            <option value="datetime">Datetime</option>
-            <option value="checkbox">Checkbox</option>
-            <option value="radio">Radio</option>
-            <option value="select">Select</option>
-            <option value="file">File</option>
-            <option value="image">Image</option>
-            <option value="email">Email</option>
-            <option value="url">URL</option>
-            <option value="tel">Telephone</option>
-            <option value="color">Color</option>
+            <option v-for="fieldType in customFieldTypes" :value="fieldType.id">{{ fieldType.type }}</option>
           </select>
-          <ButtonGroup text="Add Field" />
+            <div v-if="errors.type" class="mt-2 text-xs text-red-600 dark:text-red-300">
+                {{ errors.type }}
+            </div>
+          <ButtonGroup text="Add Field" :disabled="adding" @click="saveCustomField" />
         </GlassmorphismContainer>
       </PopoverPanel>
     </Float>
@@ -72,6 +64,7 @@ import JovieDropdownMenu from './JovieDropdownMenu.vue';
 import { PlusIcon } from '@heroicons/vue/24/solid';
 import InputGroup from './InputGroup.vue';
 import ButtonGroup from './ButtonGroup.vue';
+import FieldService from "../services/api/field.service";
 
 export default {
   components: {
@@ -89,45 +82,60 @@ export default {
     return {
       isOpen: true,
       fieldType: '',
-      customFields: [
-        {
-          id: 'Text',
-          name: 'Text',
+      customFieldTypes: [],
+        errors: {},
+        field: {
+          name: '',
+          type: ''
         },
-        {
-          id: 'Number',
-          name: 'Number',
-        },
-        {
-          id: 'Currency',
-          name: 'Currency',
-        },
-        {
-          id: 'Date',
-          name: 'Date',
-        },
-        {
-          id: 'URL',
-          name: 'URL',
-        },
-
-        {
-          id: 'Checkbox',
-          name: 'Checkbox',
-        },
-        {
-          id: 'Single Select',
-          name: 'Single Select',
-        },
-        {
-          id: 'Multi Select',
-          name: 'Multi Select',
-        },
-      ],
+        adding: false
     };
   },
-
+    mounted() {
+      this.getCustomFieldTypes()
+    },
   methods: {
+      saveCustomField() {
+          this.adding = true
+          FieldService.saveCustomField(this.field).then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.customFieldTypes = response.data
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'error',
+                      duration: 15000,
+                      title: 'Error',
+                      text: response.message,
+                  });
+              }
+          }).catch((error) => {
+              if (error.response && error.status == 422) {
+                  this.errors = error.response.data.errors;
+              }
+          }).finally((response) => {
+              this.adding = false
+          });
+      },
+      getCustomFieldTypes() {
+          FieldService.getCustomFieldTypes().then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.customFieldTypes = response.data
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'error',
+                      duration: 15000,
+                      title: 'Error',
+                      text: response.message,
+                  });
+              }
+          }).catch((error) => {
+          }).finally((response) => {
+          });
+      },
     closeDialog() {
       this.isOpen = false;
     },
