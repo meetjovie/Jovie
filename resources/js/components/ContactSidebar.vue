@@ -814,7 +814,9 @@ export default {
         },
         updateCreatorLists({list, add = false}) {
             if (add) {
-                this.creator.lists.push(list);
+                if (! this.creator.lists.filter(l => l.id == list.id).length) {
+                    this.creator.lists.push(list);
+                }
             } else {
                 this.creator.lists = this.creator.lists.filter((l) => l.id != list.id);
             }

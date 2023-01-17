@@ -345,9 +345,7 @@
                 group="creators"
                 :sort="false"
                 tag="tbody"
-                @start="startDrag"
-                @change="log"
-                @end="logEnd">
+                @start="startDrag">
                 <template #item="{ element, index }">
                   <DataGridRow
                       :id="element.id"
@@ -1343,6 +1341,7 @@ export default {
               count: creatorIds.length,
               list_id: list,
               remove: remove,
+                creatorIds: creatorIds
             });
           } else {
             this.$notify({

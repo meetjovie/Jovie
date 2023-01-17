@@ -1172,11 +1172,20 @@ export default {
     },
     updateListCount(params) {
       let list = this.userLists.find((list) => list.id == params.list_id);
+      let selectedCreators = this.creators.filter(creator => params.creatorIds.includes(creator.id))
       if (list) {
         if (params.remove) {
-          list.creators_count -= params.count;
+            selectedCreators.forEach(creator => {
+                if (creator.lists.filter(list => list.id != params.list.id).length) {
+                    list.creators_count -= 1;
+                }
+            })
         } else {
-          list.creators_count += params.count;
+            selectedCreators.forEach(creator => {
+                if (creator.lists.filter(list => list.id == params.list.id).length) {
+                    list.creators_count += 1;
+                }
+            })
         }
       }
     },

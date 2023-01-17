@@ -241,6 +241,7 @@ export default {
         count: 1,
         list_id: list.id,
         remove: !add,
+          creatorIds: [this.creator.id]
       });
     },
     handleCellUpdate(payload) {

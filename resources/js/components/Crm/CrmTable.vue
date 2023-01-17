@@ -1696,6 +1696,7 @@ export default {
               count: creatorIds.length,
               list_id: list,
               remove: remove,
+                creatorIds: creatorIds
             });
           } else {
             this.$notify({
