@@ -30,6 +30,7 @@ class CustomFieldsController extends Controller
         $customField = CustomField::query()->create($data);
         return response()->json([
             'status' => true,
+            'message' => 'Field added',
             'data' => $customField
         ]);
     }

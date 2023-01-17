@@ -100,7 +100,17 @@ export default {
           FieldService.saveCustomField(this.field).then((response) => {
               response = response.data;
               if (response.status) {
-                  this.customFieldTypes = response.data
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 40000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+                  this.field = {
+                      name: '',
+                      type: ''
+                  }
               } else {
                   this.$notify({
                       group: 'user',
