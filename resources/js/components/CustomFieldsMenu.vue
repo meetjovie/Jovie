@@ -34,7 +34,8 @@
 
       <PopoverPanel class="z-10 w-60">
         <GlassmorphismContainer size="3xl">
-          <input
+          <InputGroup
+            label="Field Name"
             type="text"
             class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
 
@@ -56,6 +57,7 @@
             <option value="tel">Telephone</option>
             <option value="color">Color</option>
           </select>
+          <ButtonGroup text="Add Field" />
         </GlassmorphismContainer>
       </PopoverPanel>
     </Float>
@@ -68,6 +70,8 @@ import GlassmorphismContainer from './GlassmorphismContainer.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from './JovieDropdownMenu.vue';
 import { PlusIcon } from '@heroicons/vue/24/solid';
+import InputGroup from './InputGroup.vue';
+import ButtonGroup from './ButtonGroup.vue';
 
 export default {
   components: {
@@ -78,6 +82,8 @@ export default {
     PopoverButton,
     PopoverPanel,
     Float,
+    InputGroup,
+    ButtonGroup,
   },
   data() {
     return {
