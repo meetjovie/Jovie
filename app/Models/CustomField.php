@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class CustomField extends Model
 {
-    use HasUuids;
+    use HasFactory, HasUuids;
 
     const CUSTOM_FIELD_TYPES = [
         [
@@ -86,5 +86,15 @@ class CustomField extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function customFieldOptions()
+    {
+        return $this->hasMany(CustomFieldOption::class);
+    }
+
+    public function customFieldValues()
+    {
+        $this->hasMany(CustomFieldValue::class);
     }
 }
