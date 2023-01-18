@@ -39,12 +39,20 @@ export default {
         items: {
             type: Array,
             required: true
-        }
+        },
+        modelValue: {},
     },
     data() {
         return {
             selectedItem: '',
             query: '',
+        }
+    },
+    watch: {
+        selectedItem(val) {
+            console.log('val');
+            console.log(val);
+            this.$emit('update:modelValue', val)
         }
     },
     computed: {
