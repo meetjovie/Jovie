@@ -14,14 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('custom_fields', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('team_id');
             $table->string('name');
+            $table->string('code');
             $table->string('type');
             $table->string('icon')->nullable();
             $table->string('hide')->default(0);
-            $table->string('order')->default(0);
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('field_attributes', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('team_id');
             $table->unsignedInteger('field_id');

@@ -25,6 +25,7 @@ class CustomFieldsController extends Controller
                     return $type['id'];
                 }, CustomField::CUSTOM_FIELD_TYPES))]
         ]);
+        $data['code'] = null; // works with mutators
         $data['user_id'] = Auth::id();
         $data['team_id'] = Auth::user()->currentTeam->id;
         $customField = CustomField::query()->create($data);

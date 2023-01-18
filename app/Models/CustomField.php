@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class CustomField extends Model
 {
-    use HasFactory;
+    use HasUuids;
 
     const CUSTOM_FIELD_TYPES = [
         [
@@ -49,10 +52,23 @@ class CustomField extends Model
         'user_id',
         'team_id',
         'name',
+        'code',
         'type',
         'icon',
         'hide',
     ];
+
+    /**
+     * Get the field code.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function code(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => ('custom_'.Str::slug($this->name, '_')),
+        );
+    }
 
     public function user()
     {
