@@ -15,35 +15,43 @@ class CustomField extends Model
     const CUSTOM_FIELD_TYPES = [
         [
             'id' => 'text',
+            'name' => 'Text',
             'type' => 'Text',
         ],
         [
             'id' => 'number',
+            'name' => 'Number',
             'type' => 'Number',
         ],
         [
             'id' => 'currency',
+            'name' => 'Currency',
             'type' => 'Currency',
         ],
         [
             'id' => 'date',
+            'name' => 'Date',
             'type' => 'Date',
         ],
         [
             'id' => 'url',
+            'name' => 'URL',
             'type' => 'URL',
         ],
 
         [
             'id' => 'checkbox',
+            'name' => 'Checkbox',
             'type' => 'Checkbox',
         ],
         [
             'id' => 'select',
+            'name' => 'Single Select',
             'type' => 'Single Select',
         ],
         [
             'id' => 'multi_select',
+            'name' => 'Multi Select',
             'type' => 'Multi Select',
         ],
     ];
