@@ -17,6 +17,7 @@ class CustomField extends Model
             'id' => 'text',
             'name' => 'Text',
             'type' => 'Text',
+            'icon' => 'CalenderDaysIcon',
         ],
         [
             'id' => 'number',
@@ -32,17 +33,20 @@ class CustomField extends Model
             'id' => 'date',
             'name' => 'Date',
             'type' => 'Date',
+            'icon' => 'CalenderDaysIcon',
         ],
         [
             'id' => 'url',
             'name' => 'URL',
             'type' => 'URL',
+            'icon' => 'LinkIcon',
         ],
 
         [
             'id' => 'checkbox',
             'name' => 'Checkbox',
             'type' => 'Checkbox',
+            'icon' => 'CheckIcon',
         ],
         [
             'id' => 'select',
@@ -53,6 +57,7 @@ class CustomField extends Model
             'id' => 'multi_select',
             'name' => 'Multi Select',
             'type' => 'Multi Select',
+            'icon' => 'ListBulletIcon',
         ],
     ];
 
