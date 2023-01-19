@@ -29,27 +29,23 @@
           </div>
 
           <div class="border-t border-slate-200 dark:border-jovieDark-border">
-            <div
-              v-if="field.options.length">
+            <div v-if="field.options.length">
               <div class="flex flex-col space-y-4">
-                  <template v-for="(option, index) in field.options">
-                      <div class="relative mt-1 flex items-center">
-                          <input
-                              v-model="field.options[index]"
-                              type="text"
-                              name="search"
-                              id="search"
-                              class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                          <div
-                              class="absolute inset-y-0 right-0 flex items-center py-1.5 pr-1.5">
-                              <PlusIcon
-                                  @click="addOption()"
-                                  class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
-                              <CrossIcon v-if="field.options.length > 1" @click="removeOption(index)"
-                                  class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
-                          </div>
-                      </div>
-                  </template>
+                <div class="relative mt-1 flex items-center">
+                  <input
+                    v-model="field.options[index]"
+                    type="text"
+                    name="search"
+                    id="search"
+                    class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                  <div
+                    class="absolute inset-y-0 right-0 flex items-center py-1.5 pr-1.5">
+                    <PlusIcon
+                      @click="addOption()"
+                      class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
+                  </div>
+                </div>
+
                 <!--  <div class="flex items-center">
                   <InputGroup
                     placeholder="Option"
@@ -63,13 +59,19 @@
                 </div> -->
                 <div>
                   <ul>
-                    <!-- v-for on the li element -->
-                    <li>
-                      <span
-                        class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
-                        >Option Name</span
-                      >
-                    </li>
+                    <template v-for="(option, index) in field.options">
+                      <li class="flex justify-between">
+                        <Bars2Icon
+                          class="h-5 w-5 text-slate-600 dark:text-jovieDark-200" />
+                        <input
+                          placeholder="Option Name"
+                          v-model="option.name"
+                          class="inline-flex w-full items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800" />
+                        <XMarkIcon
+                          @click="removeOption(index)"
+                          class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
+                      </li>
+                    </template>
                   </ul>
                 </div>
               </div>
@@ -104,7 +106,7 @@ import {
 import GlassmorphismContainer from './GlassmorphismContainer.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from './JovieDropdownMenu.vue';
-import { PlusIcon } from '@heroicons/vue/24/solid';
+import { PlusIcon, XMarkIcon, Bars2Icon } from '@heroicons/vue/24/solid';
 import InputGroup from './InputGroup.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import FieldService from '../services/api/field.service';
@@ -115,7 +117,8 @@ export default {
   name: 'CustomFieldsMenu',
   components: {
     PlusIcon,
-
+    XMarkIcon,
+    Bars2Icon,
     JovieDropdownMenu,
     GlassmorphismContainer,
     Popover,
@@ -140,30 +143,32 @@ export default {
         name: '',
         type: '',
         description: '',
-        options: []
+        options: [],
       },
       adding: false,
     };
   },
-    watch: {
-      'field.type': function (val) {
-          if (['select', 'multi_select'].includes(val.id)) {
-              this.field.options.push('Option Name')
-          } else {
-              this.field.options = []
-          }
+  watch: {
+    'field.type': function (val) {
+      if (['select', 'multi_select'].includes(val.id)) {
+        this.field.options.push('Option Name');
+      } else {
+        this.field.options = [];
       }
     },
+  },
   mounted() {
     this.getCustomFieldTypes();
   },
   methods: {
-      addOption() {
-          this.field.options.push('Option Name')
-      },
-      removeOption(index) {
-          this.field.options.splice(index, 1)
-      },
+    addOption() {
+      this.field.options.push('Option Name');
+      //clear the input
+      this.field.options[this.field.options.length - 1] = '';
+    },
+    removeOption(index) {
+      this.field.options.splice(index, 1);
+    },
     saveCustomField() {
       this.adding = true;
       FieldService.saveCustomField(this.field)
@@ -180,8 +185,8 @@ export default {
             this.field = {
               name: '',
               type: '',
-                description: '',
-                options: []
+              description: '',
+              options: [],
             };
           } else {
             this.$notify({
