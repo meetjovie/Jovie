@@ -30,23 +30,26 @@
 
           <div class="border-t border-slate-200 dark:border-jovieDark-border">
             <div
-              v-if="
-                field.type.name === 'Single Select' ||
-                field.type.name === 'Multi Select'
-              ">
+              v-if="field.options.length">
               <div class="flex flex-col space-y-4">
-                <div class="relative mt-1 flex items-center">
-                  <input
-                    type="text"
-                    name="search"
-                    id="search"
-                    class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                  <div
-                    class="absolute inset-y-0 right-0 flex items-center py-1.5 pr-1.5">
-                    <PlusIcon
-                      class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
-                  </div>
-                </div>
+                  <template v-for="(option, index) in field.options">
+                      <div class="relative mt-1 flex items-center">
+                          <input
+                              v-model="field.options[index]"
+                              type="text"
+                              name="search"
+                              id="search"
+                              class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                          <div
+                              class="absolute inset-y-0 right-0 flex items-center py-1.5 pr-1.5">
+                              <PlusIcon
+                                  @click="addOption()"
+                                  class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
+                              <CrossIcon v-if="field.options.length > 1" @click="removeOption(index)"
+                                  class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
+                          </div>
+                      </div>
+                  </template>
                 <!--  <div class="flex items-center">
                   <InputGroup
                     placeholder="Option"
@@ -137,14 +140,30 @@ export default {
         name: '',
         type: '',
         description: '',
+        options: []
       },
       adding: false,
     };
   },
+    watch: {
+      'field.type': function (val) {
+          if (['select', 'multi_select'].includes(val.id)) {
+              this.field.options.push('Option Name')
+          } else {
+              this.field.options = []
+          }
+      }
+    },
   mounted() {
     this.getCustomFieldTypes();
   },
   methods: {
+      addOption() {
+          this.field.options.push('Option Name')
+      },
+      removeOption(index) {
+          this.field.options.splice(index, 1)
+      },
     saveCustomField() {
       this.adding = true;
       FieldService.saveCustomField(this.field)
@@ -161,6 +180,8 @@ export default {
             this.field = {
               name: '',
               type: '',
+                description: '',
+                options: []
             };
           } else {
             this.$notify({
