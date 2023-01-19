@@ -22,7 +22,10 @@
             <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
           </div>
           <div v-if="field.type">
-            <p>{{ field.type.description }}</p>
+            <p
+              class="text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
+              {{ field.type.description }}
+            </p>
           </div>
 
           <div class="border-t border-slate-200 dark:border-jovieDark-border">
@@ -32,17 +35,29 @@
                 field.type.name === 'Multi Select'
               ">
               <div class="flex flex-col space-y-4">
-                <div class="flex items-center">
+                <div class="relative mt-1 flex items-center">
+                  <input
+                    type="text"
+                    name="search"
+                    id="search"
+                    class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                  <div
+                    class="absolute inset-y-0 right-0 flex items-center py-1.5 pr-1.5">
+                    <PlusIcon
+                      class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
+                  </div>
+                </div>
+                <!--  <div class="flex items-center">
                   <InputGroup
                     placeholder="Option"
                     label="Option"
                     type="text"
                     class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
                   <ButtonGroup
-                    class="mt-4 h-4 w-4"
+                    class="w- h-8"
                     icon="PlusIcon"
                     :disabled="adding" />
-                </div>
+                </div> -->
                 <div>
                   <ul>
                     <!-- v-for on the li element -->
