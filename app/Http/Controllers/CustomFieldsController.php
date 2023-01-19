@@ -24,12 +24,19 @@ class CustomFieldsController extends Controller
             'description' => ['sometimes'],
             'type' => ['required', 'in:' . implode(',', array_map(function ($type) {
                     return $type['id'];
-                }, CustomField::CUSTOM_FIELD_TYPES))]
+                }, CustomField::CUSTOM_FIELD_TYPES))],
+            'options' => ['required_if:type,select,multi_select', 'array']
         ]);
         $data['code'] = null; // works with mutators
         $data['user_id'] = Auth::id();
         $data['team_id'] = Auth::user()->currentTeam->id;
         $customField = CustomField::query()->create($data);
+        if (!empty($data['options'])) {
+            $options = array_map(function ($option) {
+                return $option;
+            });
+            $customField->customFieldOptions()->saveMany();
+        }
         return response()->json([
             'status' => true,
             'message' => 'Field added',
