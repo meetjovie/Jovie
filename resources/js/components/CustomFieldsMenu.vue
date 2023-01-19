@@ -1,30 +1,4 @@
 <template>
-  <!--  <JovieDropdownMenu
-    @itemClicked="addCustomField"
-    :items="customFields"
-    placement="left-start"
-    ><template #triggerButton
-      ><PlusIcon
-        class="h-4 w-4 text-slate-600 dark:text-jovieDark-200"></PlusIcon
-    ></template>
-  </JovieDropdownMenu> -->
-
-  <!--  <Dialog :open="isOpen" @close="setIsOpen">
-    <DialogPanel>
-      <GlassmorphismContainer>
-        <DialogTitle>Deactivate account</DialogTitle>
-        <DialogDescription>
-          This will permanently deactivate your account
-        </DialogDescription>
-
-        <p>You're about to create a {{ fieldType }}</p>
-
-        <button @click="setIsOpen(false)">Deactivate</button>
-        <button @click="setIsOpen(false)">Cancel</button>
-      </GlassmorphismContainer>
-    </DialogPanel>
-  </Dialog> -->
-
   <Popover class="relative">
     <Float shift portal placement="left-start">
       <PopoverButton>
@@ -45,18 +19,43 @@
               type="text"
               :error="errors.name ? errors.name[0] : null"
               class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
-            <InputGroup
-              tabindex="0"
-              v-model="field.description"
-              placeholder="Description"
-              label="Description"
-              type="text"
-              :error="errors.description ? errors.description[0] : null"
-              class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
             <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
           </div>
           <div v-if="field.type">
-            <p>You're about to create a {{ field.type.name }}</p>
+            <p>{{ field.type.description }}</p>
+          </div>
+
+          <div class="border-t border-slate-200 dark:border-jovieDark-border">
+            <div
+              v-if="
+                field.type.name === 'Single Select' ||
+                field.type.name === 'Multi Select'
+              ">
+              <div class="flex flex-col space-y-4">
+                <div class="flex items-center">
+                  <InputGroup
+                    placeholder="Option"
+                    label="Option"
+                    type="text"
+                    class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                  <ButtonGroup
+                    class="mt-4 h-4 w-4"
+                    icon="PlusIcon"
+                    :disabled="adding" />
+                </div>
+                <div>
+                  <ul>
+                    <!-- v-for on the li element -->
+                    <li>
+                      <span
+                        class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
+                        >Option Name</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             v-if="errors.type"
@@ -98,6 +97,7 @@ export default {
   name: 'CustomFieldsMenu',
   components: {
     PlusIcon,
+
     JovieDropdownMenu,
     GlassmorphismContainer,
     Popover,
@@ -121,6 +121,7 @@ export default {
       field: {
         name: '',
         type: '',
+        description: '',
       },
       adding: false,
     };
@@ -131,9 +132,7 @@ export default {
   methods: {
     saveCustomField() {
       this.adding = true;
-      let data  = this.field;
-      data.type = this.field.type.id
-      FieldService.saveCustomField(data)
+      FieldService.saveCustomField(this.field)
         .then((response) => {
           response = response.data;
           if (response.status) {
