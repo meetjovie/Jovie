@@ -332,6 +332,13 @@
                         :column="column" />
                     </th>
                   </template>
+
+                  <th
+                    scope="col"
+                    class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    <CustomFieldsMenu />
+                  </th>
+
                   <th
                     scope="col"
                     :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
@@ -405,6 +412,7 @@
 </template>
 
 <script>
+import CustomFieldsMenu from './CustomFieldsMenu.vue';
 import { Float } from '@headlessui-float/vue';
 import {
   Menu,
@@ -479,6 +487,7 @@ export default {
     DataGridRow,
     DataGridCellTextInput,
     DataGridHeaderContent,
+    CustomFieldsMenu,
 
     ArchiveBoxIcon,
 
@@ -1341,7 +1350,7 @@ export default {
               count: creatorIds.length,
               list_id: list,
               remove: remove,
-                creatorIds: creatorIds
+              creatorIds: creatorIds,
             });
           } else {
             this.$notify({
