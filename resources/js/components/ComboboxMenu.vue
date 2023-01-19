@@ -151,8 +151,6 @@ export default {
   },
   watch: {
     selectedItem(val) {
-      console.log('val');
-      console.log(val);
       this.$emit('update:modelValue', val);
     },
   },

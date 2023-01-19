@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('team_id');
             $table->string('name');
             $table->string('code');
+            $table->text('description')->nullable();
             $table->string('type');
             $table->string('icon')->nullable();
             $table->string('hide')->default(0);

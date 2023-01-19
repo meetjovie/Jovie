@@ -66,6 +66,7 @@ class CustomField extends Model
         'team_id',
         'name',
         'code',
+        'description',
         'type',
         'icon',
         'hide',

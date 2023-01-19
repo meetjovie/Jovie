@@ -45,11 +45,18 @@
               type="text"
               :error="errors.name ? errors.name[0] : null"
               class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+            <InputGroup
+              tabindex="0"
+              v-model="field.description"
+              placeholder="Description"
+              label="Description"
+              type="text"
+              :error="errors.description ? errors.description[0] : null"
+              class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
             <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
           </div>
           <div v-if="field.type">
-            <p>You're about to create a {{ field.type }}</p>
-            <p>Field type description. We need this in DB i guess?</p>
+            <p>You're about to create a {{ field.type.name }}</p>
           </div>
           <div
             v-if="errors.type"
@@ -124,7 +131,9 @@ export default {
   methods: {
     saveCustomField() {
       this.adding = true;
-      FieldService.saveCustomField(this.field)
+      let data  = this.field;
+      data.type = this.field.type.id
+      FieldService.saveCustomField(data)
         .then((response) => {
           response = response.data;
           if (response.status) {

@@ -20,7 +20,8 @@ class CustomFieldsController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => ['required', 'unique:custom_fields,name,NULL,id,team_id,' . Auth::user()->currentTeam->id],
+            'name' => ['required', 'max:255', 'unique:custom_fields,name,NULL,id,team_id,' . Auth::user()->currentTeam->id],
+            'description' => ['sometimes'],
             'type' => ['required', 'in:' . implode(',', array_map(function ($type) {
                     return $type['id'];
                 }, CustomField::CUSTOM_FIELD_TYPES))]
