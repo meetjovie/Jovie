@@ -20,6 +20,7 @@
           Nothing found.
         </div>
         <ComboboxOption
+          v-slot="{ active, selected, disabled }"
           v-for="item in filteredItems"
           :key="item.id"
           as="template"
@@ -42,6 +43,12 @@
                 v-else
                 :is="item.icon"
                 class="h-5 w-5"
+                :class="{
+                  'text-indigo-500': active,
+                  'text-indigo-600 dark:text-jovieDark-400': !active,
+                  'font-medium text-indigo-500': selected,
+                  'font-normal': !selected,
+                }"
                 aria-hidden="true" />
             </span>
             <span
@@ -66,10 +73,7 @@ import {
   ArrowTopRightOnSquareIcon,
   ArrowUpCircleIcon,
   AtSymbolIcon,
-  Bars3BottomLeftIcon,
-  BriefcaseIcon,
   CalendarDaysIcon,
-  ChatBubbleOvalLeftEllipsisIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
@@ -79,6 +83,8 @@ import {
   EllipsisVerticalIcon,
   EnvelopeIcon,
   HeartIcon,
+  HashtagIcon,
+  Bars3BottomLeftIcon,
   LinkIcon,
   ListBulletIcon,
   MagnifyingGlassIcon,
@@ -111,11 +117,10 @@ export default {
     ArrowTopRightOnSquareIcon,
     ArrowUpCircleIcon,
     AtSymbolIcon,
-    Bars3BottomLeftIcon,
-    BriefcaseIcon,
-    CalendarDaysIcon,
-    ChatBubbleOvalLeftEllipsisIcon,
 
+    CalendarDaysIcon,
+    HashtagIcon,
+    Bars3BottomLeftIcon,
     ChevronDownIcon,
     ChevronUpIcon,
     CloudArrowDownIcon,

@@ -17,29 +17,36 @@ class CustomField extends Model
             'id' => 'text',
             'name' => 'Text',
             'type' => 'Text',
-            'icon' => 'CalenderDaysIcon',
+            'icon' => 'Bars3BottomLeftIcon',
+            'description' => 'A single line of text'
         ],
         [
             'id' => 'number',
             'name' => 'Number',
             'type' => 'Number',
+            'icon' => 'HashtagIcon',
+            'description' => 'A number'
         ],
         [
             'id' => 'currency',
             'name' => 'Currency',
             'type' => 'Currency',
+            'icon' => 'CurrencyDollarIcon',
+            'description' => 'A currency value'
         ],
         [
             'id' => 'date',
             'name' => 'Date',
             'type' => 'Date',
-            'icon' => 'CalenderDaysIcon',
+            'icon' => 'CalendarDaysIcon',
+            'description' => 'A date'
         ],
         [
             'id' => 'url',
             'name' => 'URL',
             'type' => 'URL',
             'icon' => 'LinkIcon',
+            'description' => 'A website URL'
         ],
 
         [
@@ -47,17 +54,21 @@ class CustomField extends Model
             'name' => 'Checkbox',
             'type' => 'Checkbox',
             'icon' => 'CheckIcon',
+            'description' => 'A checkbox'
         ],
         [
             'id' => 'select',
             'name' => 'Single Select',
             'type' => 'Single Select',
+            'icon' => 'ListBulletIcon',
+            'description' => 'A single select option'
         ],
         [
             'id' => 'multi_select',
             'name' => 'Multi Select',
             'type' => 'Multi Select',
             'icon' => 'ListBulletIcon',
+            'description' => 'A multi select option'
         ],
     ];
 
