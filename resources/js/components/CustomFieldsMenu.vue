@@ -27,7 +27,7 @@
               {{ field.type.description }}
             </p>
           </div>
-            <template v-if="['select', 'multi_select'].includes(field.type.id)" >
+            <template v-if="['select', 'multi_select', 'checkbox'].includes(field.type.id)" >
                 <div class="flex justify-end">
                     <ButtonGroup
                         text="Alphabatize Options"

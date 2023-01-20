@@ -16,7 +16,7 @@ trait CustomFieldsTrait
     public function getDefaultValue(CustomField $customField)
     {
         if (! in_array($customField->type, ['select', 'multiselect'])) {
-            return $customField->customFieldOptions->first()->value;
+            return $customField->customFieldOptions->first()->value ?? null;
         }
 
         return null;
