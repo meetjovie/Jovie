@@ -6,7 +6,7 @@
     <div
       class="relative flex items-center border-b border-slate-300 dark:border-jovieDark-border">
       <input
-        v-focus="true"
+        tabindex="0"
         @input="$emit('search-query', $event.target.value)"
         ref="searchInput"
         :v-model="searchBox.query"
@@ -99,9 +99,7 @@
 <script>
 import { ref } from 'vue';
 import KBShortcut from './KBShortcut.vue';
-const focus = {
-  mounted: (el) => el.focus(),
-};
+
 import {
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,
@@ -258,7 +256,7 @@ export default {
       required: false,
       default: false,
     },
-    shortuctSequence: {
+    shortcutSequence: {
       type: Boolean,
       required: false,
       default: false,

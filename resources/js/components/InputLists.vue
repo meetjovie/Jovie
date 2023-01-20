@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full items-center overflow-auto py-2 px-2">
+  <div class="flex w-full items-center overflow-auto px-2">
     <div class="mr-1 flex">
       <div v-for="item in lists" class="mr-2 flex" :key="item.order">
         <div
@@ -34,7 +34,7 @@
               <PlusIcon
                 class="h-3 w-3 text-slate-400 group-hover:text-slate-700" />
               <span
-                v-if="!userLists.length > 0"
+                v-show="lists.length === 0"
                 class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-400 dark:group-hover:text-slate-700"
                 >Add to a list</span
               >
@@ -89,10 +89,10 @@ export default {
       // "presence_penalty": 0
       // }
 
-        let data = {
-            name: name,
-            emoji: emoji
-        }
+      let data = {
+        name: name,
+        emoji: emoji,
+      };
       this.creatingList = true;
       UserService.createList(data)
         .then((response) => {

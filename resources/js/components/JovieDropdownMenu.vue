@@ -33,6 +33,7 @@
                 class="border border-slate-200 dark:border-jovieDark-border">
                 <div class="relative flex items-center">
                   <input
+                    tabindex="0"
                     ref="menuSearchInput"
                     v-model="searchQuery"
                     :placeholder="searchText"
@@ -123,7 +124,7 @@
                   :class="{ 'text-slate-700': active }"
                   v-if="searchQuery"
                   :disabled="!searchQuery"
-                  @click="searchQuery = ''"
+                  @click.prevent="searchQuery = ''"
                   class="group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200">
                   <div class="mx-auto flex items-center text-center">
                     <div
@@ -267,9 +268,9 @@ export default {
       this.$emit('itemClicked', item);
     },
     createItem() {
-        console.log('this.searchQuery');
-        console.log(this.searchQuery);
-        this.$emit('createItem', this.searchQuery);
+      console.log('this.searchQuery');
+      console.log(this.searchQuery);
+      this.$emit('createItem', this.searchQuery);
     },
     focusMenuSearch() {
       this.$nextTick(() => {

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CustomFieldsController;
+use App\Http\Controllers\FieldsController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
@@ -114,7 +116,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/subscription-products', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'getSubscriptionProducts']);
     Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
 
-
+    // FIELDS
+    Route::get('fields', [FieldsController::class, 'fields']);
+    Route::get('custom-field-types', [CustomFieldsController::class, 'customFieldTypes']);
+    Route::post('custom-field', [CustomFieldsController::class, 'store']);
 
     /**
      * Teamwork routes

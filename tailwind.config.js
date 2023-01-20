@@ -11,6 +11,7 @@ module.exports = {
     './resources/**/*.js',
     './resources/**/*.vue',
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+      "./node_modules/vue-tailwind-datepicker/**/*.js"
   ],
   darkMode: 'class',
   safelist: [...tailwindcssOriginSafelist],
@@ -47,6 +48,8 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       colors: {
+          "vtd-primary": colors.sky, // Light mode Datepicker color
+          "vtd-secondary": colors.gray, // Dark mode Datepicker color
         jovieDark: {
           DEFAULT: '#575BC7',
           50: '#f6f6f9',

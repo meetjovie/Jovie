@@ -39,6 +39,7 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <MenuItem
+                @drop="$emit('onListDrop', element.id)"
               @click="$emit('setFilterList', element.id)"
               v-slot="{ active }">
               <div

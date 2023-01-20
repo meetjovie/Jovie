@@ -1,27 +1,24 @@
 <!DOCTYPE html>
+<!--
+     ██  ██████  ██    ██ ██ ███████
+     ██ ██    ██ ██    ██ ██ ██
+     ██ ██    ██ ██    ██ ██ █████
+██   ██ ██    ██  ██  ██  ██ ██
+ █████   ██████    ████   ██ ███████
+
+
+ Come hack with us at Jovie: https://jov.ie/careers
+
+ -->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 
-     ██  ██████  ██    ██ ██ ███████ 
-     ██ ██    ██ ██    ██ ██ ██      
-     ██ ██    ██ ██    ██ ██ █████   
-██   ██ ██    ██  ██  ██  ██ ██      
- █████   ██████    ████   ██ ███████ 
-                                   
- 
- Come hack with us at Jovie: https://jov.ie/careers
-
-                                     -->
-                                     
-
-
         <!--- OpenGraph -->
         <meta property="og:image:height" content="333">
         <meta property="og:image:width" content="636">
-        <meta property="og:description" content="Organize everyone you follow">
-        <meta property="og:title" content="Jovie | Social CRM">
+        <meta property="og:description" content="Jovie CRM creates & enriches contacts from social media profiles. Import contacts in 1-click from anywhere on the web. Try Jovie today for free.">
+        <meta property="og:title" content="Jovie Social CRM | Organize everyone you follow.">
         <meta property="og:url" content="http://jov.ie">
         <meta property="og:image" content="https://jovie-production-store.s3.amazonaws.com/og-image.jpg">
         <!-- End OpenGraph -->
@@ -32,29 +29,20 @@
         //analytics.page();
         }}();
         </script>
-
         <!--End Segment-->
-        
-
       <!--   Start Atlas -->
       <script defer>(()=>{"use strict";const t={appId:"rr5tc0w7w4",v:2,q:[],start:function(o){this.autorun=o||!0},identify:function(t){this.q.push(["identify",t])}};window.Atlas=t;const e=document.createElement("script");e.async=!0,e.src="https://app.getatlas.io/client-js/atlas.bundle.js";const s=document.getElementsByTagName("script")[0];s.parentNode?.insertBefore(e,s)})();</script>
   <!--       End Atlas -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <!-- {{--        <link href="/css/app.css" rel="stylesheet">--}} -->
         <title>Jovie</title>
-
-
-
     </head>
     <body class="h-screen my-auto overflow-x-hidden">
         <div id="app">
             <App></App>
         </div>
         <script defer src="{{ asset('/js/app.js') }}"></script>
+        <script defer src="{{ asset('/js/app.js') }}"></script>
         <script defer src="{{ asset('/js/vendor.js') }}"></script>
         <script defer src="{{ asset('/js/manifest.js') }}"></script>
-
-        <!-- {{--        <script src="/js/app.js"></script>--}} -->
-        
     </body>
 </html>
