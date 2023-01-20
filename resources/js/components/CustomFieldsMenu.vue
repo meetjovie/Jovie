@@ -47,6 +47,7 @@
                         <Bars2Icon
                           class="h-5 w-5 text-slate-600 dark:text-jovieDark-200" />
                         <input
+                            v-model="field.options[index]"
                           placeholder="Option Name"
                           class="inline-flex w-full items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800" />
                         <XMarkIcon
@@ -164,7 +165,9 @@ export default {
     },
     saveCustomField() {
       this.adding = true;
-      FieldService.saveCustomField(this.field)
+      let data = this.field;
+      data.type = this.field.type.id
+      FieldService.saveCustomField(data)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -181,6 +184,7 @@ export default {
               description: '',
               options: [],
             };
+            close();
           } else {
             this.$notify({
               group: 'user',
@@ -198,7 +202,6 @@ export default {
         })
         .finally((response) => {
           this.adding = false;
-          close();
         });
     },
     getCustomFieldTypes() {

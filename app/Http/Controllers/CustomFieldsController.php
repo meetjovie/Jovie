@@ -6,6 +6,7 @@ use App\Models\CustomField;
 use App\Models\FieldAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CustomFieldsController extends Controller
 {
@@ -30,13 +31,16 @@ class CustomFieldsController extends Controller
         $data['code'] = null; // works with mutators
         $data['user_id'] = Auth::id();
         $data['team_id'] = Auth::user()->currentTeam->id;
-        $customField = CustomField::query()->create($data);
-        if (!empty($data['options'])) {
-            $options = array_map(function ($option) {
-                return $option;
-            });
-            $customField->customFieldOptions()->saveMany();
-        }
+        $customField = null;
+        DB::transaction(function () use ($data, &$customField) {
+            $customField = CustomField::query()->create($data);
+            if (!empty($data['options'])) {
+                $options = array_map(function ($option) {
+                    return ['value' => $option];
+                }, $data['options']);
+                $customField->customFieldOptions()->createMany($options);
+            }
+        });
         return response()->json([
             'status' => true,
             'message' => 'Field added',
