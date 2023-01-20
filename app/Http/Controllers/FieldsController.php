@@ -16,14 +16,14 @@ class FieldsController extends Controller
     {
         $customFields = CustomField::query()->with('customFieldOptions')->get();
         foreach ($customFields as &$customField) {
+            $customField->custom = true;
             $customField->input_values = $this->getInputValues($customField, $creatorId);
         }
         $defaultFields = FieldAttribute::DEFAULT_FIELDS;
-//        $customFields =
-
+        $fields = array_merge($customFields->toArray(), $defaultFields);
         return response()->json([
             'status' => true,
-            'data' => FieldAttribute::DEFAULT_FIELDS
+            'data' => $fields
         ], 200);
     }
 }

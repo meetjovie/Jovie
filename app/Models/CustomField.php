@@ -118,11 +118,11 @@ class CustomField extends Model
 
     public function customFieldOptions()
     {
-        return $this->hasMany(CustomFieldOption::class);
+        return $this->hasMany(CustomFieldOption::class)->orderBy('order');
     }
 
     public function customFieldValues()
     {
-        $this->hasMany(CustomFieldValue::class);
+        return $this->hasMany(CustomFieldValue::class);
     }
 }

@@ -445,28 +445,39 @@
                             ghost-class="ghost-card"
                             :creator="creator"
                             :list="fields">
+                            <!-- v-if for element.model check for default field as they would already be modeled-->
                             <div
                                 class="space-y-4"
                                 v-for="(element, index) in fields"
                                 :key="element.id">
-                                <DataInputGroup
-                                    @copy="copyToClipboard(element.value)"
-                                    class="group/draggable"
-                                    @actionMethod="actionMethod(element.method, element.params)"
-                                    @actionMethod2="
+                                <template v-if="element.custom">
+                                    <CustomField :name="element.name"
+                                                 :description="element.description"
+                                                 :type="element.type"
+                                                 :options="element.custom_field_options"
+                                                 v-model="creator[element.code]"
+                                    />
+                                </template>
+                                <template v-else>
+                                    <DataInputGroup
+                                        @copy="copyToClipboard(element.value)"
+                                        class="group/draggable"
+                                        @actionMethod="actionMethod(element.method, element.params)"
+                                        @actionMethod2="
                     actionMethod(element.method2, element.params2)
                   "
-                                    :value="element.value"
-                                    @updateModelValue="updateModelValue(element.model, $event)"
-                                    :id="element.name"
-                                    :icon="element.icon"
-                                    :socialicon="element.socialicon"
-                                    :label="element.name"
-                                    :disabled="!creator.id"
-                                    :action="element.actionIcon"
-                                    :action2="element.actionIcon2"
-                                    :isCopyable="element.isCopyable"
-                                    :placeholder="element.location"/>
+                                        :value="element.value"
+                                        @updateModelValue="updateModelValue(element.model, $event)"
+                                        :id="element.name"
+                                        :icon="element.icon"
+                                        :socialicon="element.socialicon"
+                                        :label="element.name"
+                                        :disabled="!creator.id"
+                                        :action="element.actionIcon"
+                                        :action2="element.actionIcon2"
+                                        :isCopyable="element.isCopyable"
+                                        :placeholder="element.location"/>
+                                </template>
                             </div>
                         </draggable>
                     </div>
@@ -670,10 +681,12 @@ import {Float} from '@headlessui-float/vue';
 import router from '../router';
 import store from '../store';
 import FieldService from "../services/api/field.service";
+import CustomField from "./CustomField.vue";
 
 export default {
     name: 'ContactSidebar',
     components: {
+        CustomField,
         SocialInput,
         draggable: VueDraggableNext,
         ContactContextMenuItem,
@@ -773,7 +786,7 @@ export default {
     },
     methods: {
         getFields() {
-            FieldService.getFields().then((response) => {
+            FieldService.getFields(this.creator.id).then((response) => {
                 response = response.data;
                 if (response.status) {
                     this.beFields = response.data;

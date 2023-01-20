@@ -2,9 +2,9 @@ const baseApiUrl = '/api';
 const baseUrlWeb = '';
 
 export default {
-    getFields() {
+    getFields(creatorId) {
         return axios.get(
-            `${baseApiUrl}/fields`
+            `${baseApiUrl}/fields/${creatorId}`
         );
     },
     getCustomFieldTypes() {

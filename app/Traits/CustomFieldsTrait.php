@@ -107,7 +107,7 @@ trait CustomFieldsTrait
         $value = $this->getDefaultValue($field);
 
         // getting recorded value of field
-        $field_value = $field->customFieldValues()->for($model->id, $class)->first();
+        $field_value = $field->customFieldValues()->for($model, $class)->first();
 
         if (!is_null($field_value) && !empty($field_value->value)) {
             $value = $field_value->value;
