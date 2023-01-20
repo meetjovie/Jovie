@@ -1,7 +1,7 @@
 <template>
   <Popover class="relative">
     <Float shift portal placement="left-start">
-      <PopoverButton>
+      <PopoverButton class="">
         <slot>
           <PlusIcon
             class="h-4 w-4 text-slate-600 dark:text-jovieDark-200"></PlusIcon>
@@ -21,57 +21,44 @@
               class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
             <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
           </div>
-          <div v-if="field.type">
+          <div class="px-2 py-1" v-if="field.type">
             <p
-              class="text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
+              class="text-2xs font-semibold text-slate-600 dark:text-jovieDark-300">
               {{ field.type.description }}
             </p>
           </div>
-
+          <div class="flex justify-end">
+            <ButtonGroup
+              text="Alphabatize Options"
+              @click="alphabatizeOptions"
+              design="secondary"
+              size="xs"
+              class="text-2xs font-medium text-white dark:text-jovieDark-200">
+              <BarsArrowUpIcon class="nl-2 h-4 w-4" />
+            </ButtonGroup>
+          </div>
           <div class="border-t border-slate-200 dark:border-jovieDark-border">
-            <div v-if="field.options.length">
+            <div>
               <div class="flex flex-col space-y-4">
-                <div class="relative mt-1 flex items-center">
-                  <input
-                    v-model="field.options[index]"
-                    type="text"
-                    name="search"
-                    id="search"
-                    class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                  <div
-                    class="absolute inset-y-0 right-0 flex items-center py-1.5 pr-1.5">
-                    <PlusIcon
-                      @click="addOption()"
-                      class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
-                  </div>
-                </div>
-
-                <!--  <div class="flex items-center">
-                  <InputGroup
-                    placeholder="Option"
-                    label="Option"
-                    type="text"
-                    class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
-                  <ButtonGroup
-                    class="w- h-8"
-                    icon="PlusIcon"
-                    :disabled="adding" />
-                </div> -->
                 <div>
-                  <ul>
+                  <ul class="space-y-2 py-1 px-2">
                     <template v-for="(option, index) in field.options">
                       <li class="flex justify-between">
                         <Bars2Icon
                           class="h-5 w-5 text-slate-600 dark:text-jovieDark-200" />
                         <input
                           placeholder="Option Name"
-                          v-model="option.name"
                           class="inline-flex w-full items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800" />
                         <XMarkIcon
                           @click="removeOption(index)"
                           class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
                       </li>
                     </template>
+                    <div
+                      class="flex w-full cursor-pointer items-center rounded-md border border-slate-300 p-0.5 text-xs font-semibold hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border">
+                      <PlusIcon @click="addOption()" class="h-5 w-5" />
+                      Add an option
+                    </div>
                   </ul>
                 </div>
               </div>
@@ -106,7 +93,12 @@ import {
 import GlassmorphismContainer from './GlassmorphismContainer.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from './JovieDropdownMenu.vue';
-import { PlusIcon, XMarkIcon, Bars2Icon } from '@heroicons/vue/24/solid';
+import {
+  PlusIcon,
+  XMarkIcon,
+  Bars2Icon,
+  BarsArrowUpIcon,
+} from '@heroicons/vue/24/solid';
 import InputGroup from './InputGroup.vue';
 import ButtonGroup from './ButtonGroup.vue';
 import FieldService from '../services/api/field.service';
@@ -123,6 +115,7 @@ export default {
     GlassmorphismContainer,
     Popover,
     PopoverButton,
+    BarsArrowUpIcon,
     PopoverPanel,
     Float,
     InputGroup,
