@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('id');
             $table->foreignUuid('custom_field_id');
             $table->string('value');
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }
