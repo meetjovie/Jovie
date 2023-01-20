@@ -35,10 +35,7 @@ class CustomFieldsController extends Controller
         DB::transaction(function () use ($data, &$customField) {
             $customField = CustomField::query()->create($data);
             if (!empty($data['options'])) {
-                $options = array_map(function ($option) {
-                    return ['value' => $option];
-                }, $data['options']);
-                $customField->customFieldOptions()->createMany($options);
+                $customField->customFieldOptions()->createMany($data['options']);
             }
         });
         return response()->json([

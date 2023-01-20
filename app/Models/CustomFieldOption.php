@@ -13,6 +13,7 @@ class CustomFieldOption extends Model
     protected $fillable = [
         'custom_field_id',
         'value',
+        'order',
     ];
 
     public function customField()
