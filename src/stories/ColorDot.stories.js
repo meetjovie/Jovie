@@ -10,4 +10,9 @@ export default {
 export const Orange = () => ({
   components: { ColorDot },
   template: '<ColorDot color="orange" />',
+  props: {
+    color: {
+      default: 'red',
+    },
+  },
 });
