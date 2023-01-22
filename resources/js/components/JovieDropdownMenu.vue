@@ -53,10 +53,10 @@
             <div
               class="overflow-clip border-t border-slate-200 px-2 dark:border-jovieDark-border">
               <div class="" v-if="items">
-                <template v-for="item in filteredItems" :key="item.name">
+                <template v-for="item in filteredItems" :key="item[nameKey]">
                   <router-link v-if="item.route" :to="item.route">
                     <DropdownMenuItem
-                      :name="item.name"
+                      :name="item[nameKey]"
                       :icon="item.icon"
                       :emoji="item.emoji"
                       :numbered="numbered"
@@ -87,7 +87,7 @@
                         <div v-else></div>
 
                         <div class="text-xs font-normal tracking-wider">
-                          {{ item.name }}
+                          {{ item[nameKey] }}
                         </div>
                       </div>
                     </div>
@@ -255,11 +255,15 @@ export default {
       type: Number,
       required: false,
     },
+      nameKey: {
+          type: String,
+          default: 'name'
+      }
   },
   computed: {
     filteredItems() {
       return this.items.filter((item) =>
-        item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        item[this.nameKey].toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
   },

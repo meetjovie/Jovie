@@ -8,7 +8,7 @@
             <span class="mr-1 text-[8px]"> {{ item.emoji }}</span>
             <span
               class="w-18 select-none items-center truncate text-ellipsis text-2xs"
-              >{{ item.name }}</span
+              >{{ item[nameKey] }}</span
             >
           </div>
           <XMarkIcon
@@ -23,12 +23,13 @@
         @createItem="createList($event)"
         :placement="'bottom-start'"
         @itemClicked="setListAction($event)"
-        :items="userLists"
+        :items="items"
+        :nameKey="nameKey"
         class="items-center"
         searchText="Find a list...">
         <template #triggerButton>
           <div
-            :class="{ 'px-2': userLists.length > 0 }"
+            :class="{ 'px-2': items.length > 0 }"
             class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-1 hover:border-slate-200 dark:hover:border-jovieDark-border dark:hover:bg-jovieDark-900">
             <div class="flex items-center">
               <PlusIcon
@@ -58,7 +59,7 @@ export default {
   data() {
     return {
       lists: [],
-      userLists: [],
+      items: [],
     };
   },
   props: {
@@ -72,9 +73,24 @@ export default {
     creatorId: {
       type: Number,
     },
+      nameKey: {
+        type: String,
+          default: 'name'
+      },
+      isSelect: {
+        Type: Boolean,
+          default: false
+      },
+      options: {
+        type: Array
+      }
   },
   mounted() {
-    this.getUserLists();
+    if (this.isSelect) {
+        this.items = this.options
+    } else {
+        this.getUserLists()
+    }
   },
   methods: {
     createList(name, emoji = undefined) {
@@ -139,8 +155,8 @@ export default {
       UserService.getUserLists().then((response) => {
         response = response.data;
         if (response.status) {
-          this.userLists = [];
-          this.userLists = response.lists;
+          this.items = [];
+          this.items = response.lists;
         }
       });
     },
