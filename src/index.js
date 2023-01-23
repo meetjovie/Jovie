@@ -1,2 +1,1 @@
-<!-- ./storybook/preview-head.html -->
-<link href="/tailwind.css" rel="stylesheet" />
+import './tailwind.css';

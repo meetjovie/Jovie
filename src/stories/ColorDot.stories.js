@@ -6,13 +6,21 @@ export default {
    */
   title: 'ColorDot',
   component: ColorDot,
+  argTypes: {
+    color: {
+      control: {
+        type: 'select',
+        options: ['red', 'blue', 'green', 'yellow', 'orange'],
+      },
+    },
+  },
 };
 export const Orange = () => ({
   components: { ColorDot },
   template: '<ColorDot color="orange" />',
   props: {
     color: {
-      default: 'red',
+      default: 'blue',
     },
   },
 });

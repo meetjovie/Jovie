@@ -23,6 +23,12 @@
             height="12px"
             :icon="socialicon" />
         </div>
+        <div
+          v-if="currency"
+          class="opacity/50 pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
+          <CurrencyDollarIcon
+            class="h-3 w-3 text-slate-400 dark:text-jovieDark-400" />
+        </div>
         <input
           :autocomplete="autocomplete"
           :type="type"
@@ -145,6 +151,7 @@ import {
   ChatBubbleLeftEllipsisIcon,
   PhoneIcon,
   LinkIcon,
+  CurrencyDollarIcon,
   EnvelopeIcon,
   PhotoIcon,
   MapPinIcon,
@@ -244,6 +251,10 @@ export default {
     socialicon: {
       type: String,
     },
+    currency: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     EnvelopeIcon,
@@ -260,6 +271,7 @@ export default {
     ArrowTrendingDownIcon,
     TagIcon,
     UserIcon,
+    CurrencyDollarIcon,
     SocialIcons,
     ClipboardDocumentIcon,
     CheckCircleIcon,

@@ -3,15 +3,17 @@ const colors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
 const { tailwindcssOriginSafelist } = require('@headlessui-float/vue');
+const path = require('path');
 
 module.exports = {
   content: [
     './public/**/*.html',
     './resources/**/*.blade.php',
     './resources/**/*.js',
+    path.join(__dirname, './src/**/*.(js|jsx|ts|tsx)'),
     './resources/**/*.vue',
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-      "./node_modules/vue-tailwind-datepicker/**/*.js"
+    './node_modules/vue-tailwind-datepicker/**/*.js',
   ],
   darkMode: 'class',
   safelist: [...tailwindcssOriginSafelist],
@@ -48,8 +50,8 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-          "vtd-primary": colors.sky, // Light mode Datepicker color
-          "vtd-secondary": colors.gray, // Dark mode Datepicker color
+        'vtd-primary': colors.sky, // Light mode Datepicker color
+        'vtd-secondary': colors.gray, // Dark mode Datepicker color
         jovieDark: {
           DEFAULT: '#575BC7',
           50: '#f6f6f9',
@@ -113,14 +115,14 @@ module.exports = {
     },
   },
   plugins: [
+    require('postcss-import'),
+    require('tailwindcss'),
+    require('autoprefixer'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'),
     require('tailwind-scrollbar-hide'),
-    require('postcss-import'),
-    require('tailwindcss'),
-    require('autoprefixer'),
 
     // ...
   ],
