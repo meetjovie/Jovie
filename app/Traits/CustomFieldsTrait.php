@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Models\Creator;
+use App\Models\Crm;
 use App\Models\CustomField;
 use Illuminate\Support\Str;
 
@@ -15,7 +15,7 @@ trait CustomFieldsTrait
 
     public function getDefaultValue(CustomField $customField)
     {
-        if (! in_array($customField->type, ['select', 'multiselect'])) {
+        if (! in_array($customField->type, ['select', 'multi_select', 'checkbox'])) {
             return $customField->customFieldOptions->first()->value ?? null;
         }
 
@@ -96,7 +96,8 @@ trait CustomFieldsTrait
         return $attributes;
     }
 
-    public function getInputValues($field, $model, $class = Creator::class)
+    // to model
+    public function getInputValues($field, $model, $class = Crm::class)
     {
         $value = null;
 
@@ -107,19 +108,19 @@ trait CustomFieldsTrait
         $value = $this->getDefaultValue($field);
 
         // getting recorded value of field
-        $field_value = $field->customFieldValues()->for($model, $class)->first();
+        $fieldValue = $field->customFieldValues()->for($model, $class)->first();
 
-        if (!is_null($field_value) && !empty($field_value->value)) {
-            $value = $field_value->value;
+        if (!is_null($fieldValue) && !empty($fieldValue->value)) {
+            $value = $fieldValue->value;
         }
 
         return $value;
     }
 
-    public function getFieldValue($field, $model)
+    // to print
+    public function getFieldValue($field, $model, $class = Crm::class)
     {
-        $modelClass = get_class($model);
-        $fieldValue = $field->customFieldValues()->for($model->id, $modelClass)->first();
+        $fieldValue = $field->customFieldValues()->for($model->id, $class)->first();
 
         if (!is_null($fieldValue) && !is_null($fieldValue->value)) {
             $value = $fieldValue->value;
@@ -148,11 +149,11 @@ trait CustomFieldsTrait
                 }
             }
 
-//            if ($field_value->type == 'radio' && $value == 0) {
+//            if ($fieldValue->type == 'radio' && $value == 0) {
 //                $value = trans('general.no');
 //            }
 //
-//            if ($field_value->type == 'radio' && $value == 1) {
+//            if ($fieldValue->type == 'radio' && $value == 1) {
 //                $value = trans('general.yes');
 //            }
         }

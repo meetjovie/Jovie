@@ -13,7 +13,8 @@ class CustomFieldValue extends Model
 
     protected $fillable = [
         'custom_field_id',
-        'model',
+        'model_type',
+        'model_id',
         'value',
     ];
 

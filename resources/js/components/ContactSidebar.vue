@@ -459,6 +459,8 @@
                     v-model="creator[element.code]" />
                 </template>
                 <template v-else>
+                    {{ creator.meta.phone }}
+                    {{ element.model }}
                   <DataInputGroup
                     @copy="copyToClipboard(element.value)"
                     class="group/draggable"
@@ -466,8 +468,8 @@
                     @actionMethod2="
                       actionMethod(element.method2, element.params2)
                     "
-                    :value="element.value"
-                    @updateModelValue="updateModelValue(element.model, $event)"
+                    v-model="element.model"
+                    @blur="updateModelValue"
                     :id="element.name"
                     :icon="element.icon"
                     :socialicon="element.socialicon"
@@ -841,8 +843,13 @@ export default {
     openURL(url) {
       window.open(url, '_blank');
     },
-    updateModelValue(model, value) {
-      let keys = model.split('.');
+    updateModelValue() {
+        console.log(this.creator);
+        return
+        console.log('value');
+        console.log(value);
+        console.log(model);
+        let keys = model.split('.');
       if (keys.length == 1) {
         this[keys[0]] = value;
       } else if (keys.length == 2) {
@@ -850,7 +857,9 @@ export default {
       } else if (keys.length == 3) {
         this[keys[0]][keys[1]][keys[2]] = value;
       }
-      this.$emit('updateCrmMeta');
+        console.log('this.creator');
+        console.log(this.creator);
+        this.$emit('updateCrmMeta');
     },
     fallback() {},
     actionMethod(method, data) {

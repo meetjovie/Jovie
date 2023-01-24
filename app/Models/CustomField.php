@@ -49,7 +49,6 @@ class CustomField extends Model
             'icon' => 'LinkIcon',
             'description' => 'A website URL'
         ],
-
         [
             'id' => 'checkbox',
             'name' => 'Checkbox',
