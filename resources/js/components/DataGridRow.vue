@@ -81,7 +81,7 @@
       class="border-seperate left-[55px] cursor-pointer border-y border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:after:border-jovieDark-border">
       <div class="flex items-center justify-between">
         <div
-          @click="$emit('openSidebar', creator)"
+          @click="$emit('openSidebar', {creator, row})"
           class="flex w-full items-center">
           <ContactAvatar :creator="creator" class="mr-2" />
           <div
@@ -105,7 +105,7 @@
           </div>
         </div>
         <div
-          @click="$emit('openSidebar', creator)"
+          @click="$emit('openSidebar', {creator, row})"
           class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-300 dark:active:bg-slate-800">
           <ArrowTopRightOnSquareIcon
             v-if="

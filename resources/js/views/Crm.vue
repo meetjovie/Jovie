@@ -1039,8 +1039,9 @@ export default {
       this.selectedList = null;
       this.openEmojis = false;
     },
-    openSidebarContact(contact) {
+    openSidebarContact(contact, index) {
       //if the sidebar is not open, open it and set the current contact
+        contact.index = index
       if (!this.$store.state.ContactSidebarOpen) {
         this.$store.state.ContactSidebarOpen = true;
         this.currentContact = contact;

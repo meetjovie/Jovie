@@ -456,11 +456,16 @@
                     :description="element.description"
                     :type="element.type"
                     :options="element.custom_field_options"
-                    v-model="creator[element.code]" />
+                    v-model="creator.crm_record_by_user[element.code]"
+                    @blur="$emit('updateCreator', {
+                        id: creator.id,
+                        index: creator.index,
+                        key: `crm_record_by_user.${element.code}`,
+                        value: creator.crm_record_by_user[element.code],
+                    })"
+                  />
                 </template>
                 <template v-else>
-                    {{ creator.meta.phone }}
-                    {{ element.model }}
                   <DataInputGroup
                     @copy="copyToClipboard(element.value)"
                     class="group/draggable"
@@ -468,8 +473,8 @@
                     @actionMethod2="
                       actionMethod(element.method2, element.params2)
                     "
-                    v-model="element.model"
-                    @blur="updateModelValue"
+                    v-model="creator.meta[element.model]"
+                    @blur="updateCrmMeta"
                     :id="element.name"
                     :icon="element.icon"
                     :socialicon="element.socialicon"
@@ -794,17 +799,17 @@ export default {
             this.beFields = response.data;
             this.beFields.forEach((field, index) => {
               let newField = field;
-              ['model', 'value', 'params'].forEach((val) => {
-                if (field[val]) {
-                  let model = this;
-                  field[val].split('.').forEach((att) => {
-                    model = model[att];
-                  });
-                  newField[val] = model;
-                }
-              });
-              console.log('newFieldnewField');
-              console.log(newField);
+              // ['model', 'value', 'params'].forEach((val) => {
+              //   if (field[val]) {
+              //     let model = this;
+              //     field[val].split('.').forEach((att) => {
+              //       model = model[att];
+              //     });
+              //     newField[val] = model;
+              //   }
+              // });
+              // console.log('newFieldnewField');
+              // console.log(newField);
               this.fields.push(newField);
             });
           }
@@ -843,23 +848,8 @@ export default {
     openURL(url) {
       window.open(url, '_blank');
     },
-    updateModelValue() {
-        console.log(this.creator);
-        return
-        console.log('value');
-        console.log(value);
-        console.log(model);
-        let keys = model.split('.');
-      if (keys.length == 1) {
-        this[keys[0]] = value;
-      } else if (keys.length == 2) {
-        this[keys[0]][keys[1]] = value;
-      } else if (keys.length == 3) {
-        this[keys[0]][keys[1]][keys[2]] = value;
-      }
-        console.log('this.creator');
-        console.log(this.creator);
-        this.$emit('updateCrmMeta');
+    updateCrmMeta() {
+      this.$emit('updateCrmMeta');
     },
     fallback() {},
     actionMethod(method, data) {

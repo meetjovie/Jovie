@@ -6,7 +6,8 @@
       :placeholder="name"
       :label="name"
       v-model="modelValue"
-      @change="$emit('updateModelValue', $event.target.value)" />
+      @input="$emit('update:modelValue', $event.target.value)"
+      @blur="$emit('blur')" />
   </template>
   <template v-if="type === 'currency'">
     <!--        use datagrid cell for input currency design-->
@@ -17,7 +18,8 @@
       :placeholder="name"
       icon="CurrencyDollarIcon"
       v-model="modelValue"
-      @change="$emit('updateModelValue', $event.target.value)" />
+      @input="$emit('update:modelValue', $event.target.value)"
+      @blur="$emit('blur')" />
   </template>
   <template v-if="type === 'checkbox'">
     <template v-for="option in options">
@@ -27,7 +29,8 @@
           <input
             :id="option.id"
             :value="option.id"
-            @change="$emit('updateModelValue', $event.target.value)"
+            v-model="modelValue"
+            @change="$emit('update:modelValue', $event.target.value); $emit('blur')"
             type="checkbox"
             class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
         </div>
@@ -48,7 +51,8 @@
     <vue-tailwind-datepicker
       class="isolate z-40"
       v-model="modelValue"
-      @change="$emit('updateModelValue', $event.target.value)" />
+      @change="$emit('update:modelValue', $event.target.value); $emit('blur')"
+    />
   </template>
   <template v-else-if="type === 'select' || type === 'multi_select'">
     <label
@@ -60,7 +64,7 @@
       nameKey="value"
       :currentList="options"
       @update="$emit('updateModelValue', $event.target.value)"
-      :lists="options"
+      :lists="modelValue"
       :options="options"
       :isSelect="true" />
     <!--  <select
