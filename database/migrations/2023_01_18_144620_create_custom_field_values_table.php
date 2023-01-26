@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignUuid('custom_field_id');
             $table->string('model_type');
             $table->foreignUuid('model_id');
-            $table->text('value');
+            $table->text('value')->nullable();
             $table->timestamps();
         });
     }

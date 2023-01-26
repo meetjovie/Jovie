@@ -606,6 +606,7 @@ class Creator extends Model
 
             // crm
             $creator->crm_record_by_user = (object) [];
+            $creator->crm_record_by_user->id = $creator->crm_id;
             $creator->crm_record_by_user->user_id = $user->id;
             $creator->crm_record_by_user->team_id = $user->currentTeam->id;
             $creator->crm_record_by_user->creator_id = $creator->id;
@@ -655,7 +656,7 @@ class Creator extends Model
             $cc = new Creator();
             $customFields = $cc->getFieldsByTeam($user->currentTeam->id);
             foreach ($customFields as $customField) {
-                $creator->crm_record_by_user->{$customField->code} = $cc->getInputValues($customField, $creator->id);
+                $creator->crm_record_by_user->{$customField->code} = $cc->getInputValues($customField, $creator->crm_record_by_user->id);
             }
         }
 
@@ -816,16 +817,16 @@ class Creator extends Model
         $cc = new Creator();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
         foreach ($customFields as $customField) {
-            $value = null;
             if (isset($dataToUpdateForCustomFields[$customField->code])) {
                 $value = $dataToUpdateForCustomFields[$customField->code];
+                $customFieldValue = CustomFieldValue::query()->updateOrCreate([
+                    'custom_field_id' => $customField->id,
+                    'model_id' => $crm->id,
+                    'model_type' => Crm::class,
+                ], [
+                    'value' => $value,
+                ]);
             }
-            CustomFieldValue::create([
-                'custom_field_id' => $customField->id,
-                'model_id' => $crm->id,
-                'model_type' => Crm::class,
-                'value' => $value,
-            ]);
         }
     }
 

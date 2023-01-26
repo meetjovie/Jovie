@@ -373,7 +373,7 @@
                     @click="setCurrentContact($event, element)"
                     @contextmenu.prevent="openContextMenu(index, element)"
                     @mouseover="setCurrentContact($event, element)"
-                    @openSidebar="$emit('openSidebar', {element, index})"
+                    @openSidebar="$emit('openSidebar', {contact: element, index: index})"
                     @refresh="refresh(element)"
                     @updateCreator="$emit('updateCreator', $event)"
                     @updateCrmMeta="$emit('updateCrmMeta', $event)"

@@ -15,8 +15,8 @@ trait CustomFieldsTrait
 
     public function getDefaultValue(CustomField $customField)
     {
-        if (! in_array($customField->type, ['select', 'multi_select', 'checkbox'])) {
-            return $customField->customFieldOptions->first()->value ?? null;
+        if (in_array($customField->type, ['multi_select', 'checkbox'])) {
+            return [];
         }
 
         return null;
@@ -109,7 +109,6 @@ trait CustomFieldsTrait
 
         // getting recorded value of field
         $fieldValue = $field->customFieldValues()->for($model, $class)->first();
-
         if (!is_null($fieldValue) && !empty($fieldValue->value)) {
             $value = $fieldValue->value;
         }

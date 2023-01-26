@@ -29,13 +29,14 @@
           <input
             :id="option.id"
             :value="option.id"
-            v-model="modelValue"
-            @change="$emit('update:modelValue', $event.target.value); $emit('blur')"
+            :name="option.id"
+            v-model="checkboxes"
+            @change="setCheckboxesModel"
             type="checkbox"
             class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
         </div>
         <div class="ml-3 text-sm">
-          <label for="comments" class="font-medium text-gray-700">
+          <label :for="option.id" class="font-medium text-gray-700">
             {{ option.value }}
           </label>
         </div>
@@ -106,6 +107,22 @@ export default {
     },
     modelValue: {},
   },
+    data() {
+      return {
+          checkboxes: []
+      }
+    },
+    mounted() {
+      if (this.type == 'checkbox' && this.modelValue) {
+          this.checkboxes = this.modelValue
+      }
+    },
+    methods: {
+      setCheckboxesModel() {
+          this.$emit('update:modelValue', this.checkboxes);
+          this.$emit('blur')
+      }
+    }
 };
 </script>
 

@@ -589,6 +589,7 @@
             class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
+              @updateCreator="updateCreator"
               :jovie="true"
               :creatorsData="currentContact" />
           </aside>
@@ -686,6 +687,7 @@ import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import ImportService from '../services/api/import.service';
 import KBShortcut from '../components/KBShortcut.vue';
+import elementaryIcon from "vue-simple-icons/icons/ElementaryIcon";
 
 export default {
   name: 'CRM',
@@ -1039,9 +1041,12 @@ export default {
       this.selectedList = null;
       this.openEmojis = false;
     },
-    openSidebarContact(contact, index) {
+    openSidebarContact(obj) {
+        console.log('objobj');
+        console.log(obj);
+        let {contact, index} = obj
       //if the sidebar is not open, open it and set the current contact
-        contact.index = index
+      contact.index = index
       if (!this.$store.state.ContactSidebarOpen) {
         this.$store.state.ContactSidebarOpen = true;
         this.currentContact = contact;

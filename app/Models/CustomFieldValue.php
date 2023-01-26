@@ -62,6 +62,6 @@ class CustomFieldValue extends Model
             $value = json_encode($value);
         }
 
-        $this->attributes['value'] = $value;
+        return $value;
     }
 }
