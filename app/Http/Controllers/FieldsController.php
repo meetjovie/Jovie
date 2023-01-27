@@ -7,6 +7,9 @@ use App\Models\FieldAttribute;
 use App\Traits\CustomFieldsTrait;
 use Cassandra\Custom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class FieldsController extends Controller
 {
@@ -25,5 +28,49 @@ class FieldsController extends Controller
             'status' => true,
             'data' => $fields
         ], 200);
+    }
+
+    public function setFieldAttributes(Request $request, $id)
+    {
+        if ($request->field_type == 'default') {
+            $field = array_filter(FieldAttribute::DEFAULT_FIELDS, function ($value) use ($id) {
+                return $value['id'] == $id;
+            });
+        } else {
+            $field = CustomField::query()->where('id', $id)->first();
+        }
+        if (!$field) {
+            throw ValidationException::withMessages([
+                'field' => ['field does not exists']
+            ]);
+        }
+
+        $request->validate([
+            'newIndex' => 'required|integer',
+            'oldIndex' => 'required|integer'
+        ]);
+
+        try {
+            $newIndex = $request->newIndex;
+            $oldIndex = $request->oldIndex;
+            if ($newIndex == $oldIndex) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Order updated'
+                ], 202);
+            }
+            FieldAttribute::updateSortOrder($id, Auth::id(), $newIndex, $oldIndex);
+            return response()->json([
+                'status' => true,
+                'message' => 'Order updated'
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed. Try again later.',
+                'error' => $e->getMessage()
+            ], 200);
+        }
     }
 }
