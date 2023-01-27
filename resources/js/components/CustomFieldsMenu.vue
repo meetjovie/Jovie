@@ -210,6 +210,7 @@ export default {
               description: '',
               options: [],
             };
+            this.$emit('getFields')
             close();
           } else {
             this.$notify({

@@ -415,7 +415,7 @@
           </h2>
         </div>
         <div>
-          <CustomFieldsMenu />
+          <CustomFieldsMenu @getFields="getFields" />
         </div>
       </div>
       <div
@@ -796,22 +796,22 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.beFields = response.data;
-            this.beFields.forEach((field, index) => {
-              let newField = field;
-              // ['model', 'value', 'params'].forEach((val) => {
-              //   if (field[val]) {
-              //     let model = this;
-              //     field[val].split('.').forEach((att) => {
-              //       model = model[att];
-              //     });
-              //     newField[val] = model;
-              //   }
-              // });
-              // console.log('newFieldnewField');
-              // console.log(newField);
-              this.fields.push(newField);
-            });
+            this.fields = response.data;
+            // this.beFields.forEach((field, index) => {
+            //   let newField = field;
+            //   // ['model', 'value', 'params'].forEach((val) => {
+            //   //   if (field[val]) {
+            //   //     let model = this;
+            //   //     field[val].split('.').forEach((att) => {
+            //   //       model = model[att];
+            //   //     });
+            //   //     newField[val] = model;
+            //   //   }
+            //   // });
+            //   // console.log('newFieldnewField');
+            //   // console.log(newField);
+            //   this.fields.push(newField);
+            // });
           }
         })
         .catch((error) => {

@@ -12,6 +12,11 @@
             >
           </div>
           <XMarkIcon
+              v-if="isSelect"
+            @click="$emit('itemRemoved', item.id)"
+            class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
+          <XMarkIcon
+              v-else
             @click="toggleCreatorsFromList(creatorId, item.id, true)"
             class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
         </div>
@@ -19,6 +24,31 @@
     </div>
     <div>
       <JovieDropdownMenu
+          v-if="isSelect"
+        :placement="'bottom-start'"
+        @itemClicked="$emit('itemClicked', $event)"
+        :items="items"
+        :nameKey="nameKey"
+        class="items-center"
+        searchText="Find a list...">
+        <template #triggerButton>
+          <div
+            :class="{ 'px-2': items.length > 0 }"
+            class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-1 hover:border-slate-200 dark:hover:border-jovieDark-border dark:hover:bg-jovieDark-900">
+            <div class="flex items-center">
+              <PlusIcon
+                class="h-3 w-3 text-slate-400 group-hover:text-slate-700" />
+              <span
+                v-show="lists.length === 0"
+                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-400 dark:group-hover:text-slate-700"
+                >Select</span
+              >
+            </div>
+          </div>
+        </template>
+      </JovieDropdownMenu>
+      <JovieDropdownMenu
+          v-else
         createIfNotFound
         @createItem="createList($event)"
         :placement="'bottom-start'"

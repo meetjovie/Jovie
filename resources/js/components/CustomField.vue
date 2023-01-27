@@ -30,8 +30,8 @@
             :id="option.id"
             :value="option.id"
             :name="option.id"
-            v-model="checkboxes"
-            @change="setCheckboxesModel"
+            v-model="multiOptions"
+            @change="setMultiOptionsModel"
             type="checkbox"
             class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
         </div>
@@ -51,8 +51,7 @@
     >
     <vue-tailwind-datepicker
       class="isolate z-40"
-      v-model="modelValue"
-      @change="$emit('update:modelValue', $event.target.value); $emit('blur')"
+      v-model="date"
     />
   </template>
   <template v-else-if="type === 'select' || type === 'multi_select'">
@@ -64,8 +63,9 @@
     <InputLists
       nameKey="value"
       :currentList="options"
-      @update="$emit('updateModelValue', $event.target.value)"
-      :lists="modelValue"
+      @itemRemoved="itemRemoved($event)"
+      @itemClicked="setMultiOptionsModel($event)"
+      :lists="multiOptions"
       :options="options"
       :isSelect="true" />
     <!--  <select
@@ -109,17 +109,58 @@ export default {
   },
     data() {
       return {
-          checkboxes: []
+          multiOptions: [],
+          date: {},
+      }
+    },
+    watch: {
+      date: function (val) {
+          if (val.startDate) {
+              this.$emit('update:modelValue', val.startDate);
+              this.$emit('blur')
+          }
       }
     },
     mounted() {
-      if (this.type == 'checkbox' && this.modelValue) {
-          this.checkboxes = this.modelValue
+      if (this.type === 'checkbox' && this.modelValue) {
+          this.multiOptions = this.modelValue
+      } else if ((this.type === 'select' || this.type === 'multi_select') && this.modelValue) {
+          this.multiOptions = this.options.filter(option => {
+              return this.modelValue.includes(option.id)
+          })
+      } else if (this.type === 'date') {
+          this.date.startDate = this.modelValue
+          this.date.endDate = this.modelValue
       }
     },
     methods: {
-      setCheckboxesModel() {
-          this.$emit('update:modelValue', this.checkboxes);
+      setMultiOptionsModel(id = null) {
+
+          if (id) { // from input list
+              let option = this.options.find(o => o.id == id)
+              if (this.multiOptions.filter(o => o.id == option.id).length) {
+                  return
+              }
+              if (this.type == 'select') {
+                  this.multiOptions = [option]
+                  this.$emit('update:modelValue', this.multiOptions[0].id);
+              } else {
+                  this.multiOptions.push(option)
+                  this.$emit('update:modelValue', this.multiOptions.map(o => o.id));
+              }
+          } else {
+              this.$emit('update:modelValue', this.multiOptions);
+          }
+          this.$emit('blur')
+      },
+      itemRemoved(id) {
+          if (this.type == 'select') {
+              this.multiOptions = []
+              this.$emit('update:modelValue', null);
+          } else {
+              this.multiOptions = this.multiOptions.filter(o => o.id != id)
+              this.$emit('update:modelValue', this.multiOptions.map(o => o.id));
+          }
           this.$emit('blur')
       }
     }

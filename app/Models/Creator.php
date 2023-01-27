@@ -817,7 +817,7 @@ class Creator extends Model
         $cc = new Creator();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
         foreach ($customFields as $customField) {
-            if (isset($dataToUpdateForCustomFields[$customField->code])) {
+            if (array_key_exists($customField->code, $dataToUpdateForCustomFields)) {
                 $value = $dataToUpdateForCustomFields[$customField->code];
                 $customFieldValue = CustomFieldValue::query()->updateOrCreate([
                     'custom_field_id' => $customField->id,
