@@ -59,6 +59,7 @@
     >
     <InputLists
       nameKey="value"
+      showLabel
       :currentList="options"
       @itemRemoved="itemRemoved($event)"
       @itemClicked="setMultiOptionsModel($event)"
