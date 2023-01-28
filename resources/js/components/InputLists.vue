@@ -12,25 +12,26 @@
             >
           </div>
           <XMarkIcon
-              v-if="isSelect"
+            v-if="isSelect"
             @click="$emit('itemRemoved', item.id)"
             class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
           <XMarkIcon
-              v-else
+            v-else
             @click="toggleCreatorsFromList(creatorId, item.id, true)"
             class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
         </div>
       </div>
     </div>
     <div>
-      <JovieDropdownMenu
-          v-if="isSelect"
+      <!-- <JovieDropdownMenu
+        v-if="isSelect"
         :placement="'bottom-start'"
         @itemClicked="$emit('itemClicked', $event)"
         :items="items"
+        createIfNotFound
         :nameKey="nameKey"
         class="items-center"
-        searchText="Find a list...">
+        :searchText="searchText">
         <template #triggerButton>
           <div
             :class="{ 'px-2': items.length > 0 }"
@@ -46,9 +47,8 @@
             </div>
           </div>
         </template>
-      </JovieDropdownMenu>
+      </JovieDropdownMenu> -->
       <JovieDropdownMenu
-          v-else
         createIfNotFound
         @createItem="createList($event)"
         :placement="'bottom-start'"
@@ -56,7 +56,7 @@
         :items="items"
         :nameKey="nameKey"
         class="items-center"
-        searchText="Find a list...">
+        :searchText="searchText">
         <template #triggerButton>
           <div
             :class="{ 'px-2': items.length > 0 }"
@@ -66,9 +66,9 @@
                 class="h-3 w-3 text-slate-400 group-hover:text-slate-700" />
               <span
                 v-show="lists.length === 0"
-                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-400 dark:group-hover:text-slate-700"
-                >Add to a list</span
-              >
+                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-400 dark:group-hover:text-slate-700">
+                {{ isSelect ? 'Select' : 'Add to a list' }}
+              </span>
             </div>
           </div>
         </template>
@@ -103,23 +103,28 @@ export default {
     creatorId: {
       type: Number,
     },
-      nameKey: {
-        type: String,
-          default: 'name'
-      },
-      isSelect: {
-        Type: Boolean,
-          default: false
-      },
-      options: {
-        type: Array
-      }
+    nameKey: {
+      type: String,
+      default: 'name',
+    },
+    isSelect: {
+      Type: Boolean,
+      default: false,
+    },
+    options: {
+      type: Array,
+    },
+    searchText: {
+      type: String,
+      default: 'Find a list...',
+      required: false,
+    },
   },
   mounted() {
     if (this.isSelect) {
-        this.items = this.options
+      this.items = this.options;
     } else {
-        this.getUserLists()
+      this.getUserLists();
     }
   },
   methods: {
