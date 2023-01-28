@@ -60,7 +60,7 @@
         <template #triggerButton>
           <div
             :class="{ 'px-2': items.length > 0 }"
-            class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-1 hover:border-slate-200 dark:hover:border-jovieDark-border dark:hover:bg-jovieDark-900">
+            class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-1 hover:border-slate-300 hover:bg-slate-50 dark:hover:border-jovieDark-border dark:hover:bg-jovieDark-900">
             <div class="flex items-center">
               <PlusIcon
                 class="h-3 w-3 text-slate-400 group-hover:text-slate-700" />

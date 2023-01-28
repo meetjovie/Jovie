@@ -440,14 +440,15 @@
           }">
           <div class="mt-2 h-80 space-y-6 overflow-y-scroll px-2">
             <draggable
-              class="select-none space-y-2"
+              v-if="fieldsLoaded"
+              class="select-none space-y-4"
               group="lists"
               ghost-class="ghost-card"
               :creator="creator"
               :list="fields">
               <!-- v-if for element.model check for default field as they would already be modeled-->
               <div
-                class="space-y-4"
+                class="space-y-6"
                 v-for="(element, index) in fields"
                 :key="element.id">
                 <template v-if="element.custom">
@@ -457,13 +458,14 @@
                     :type="element.type"
                     :options="element.custom_field_options"
                     v-model="creator.crm_record_by_user[element.code]"
-                    @blur="$emit('updateCreator', {
+                    @blur="
+                      $emit('updateCreator', {
                         id: creator.id,
                         index: creator.index,
                         key: `crm_record_by_user.${element.code}`,
                         value: creator.crm_record_by_user[element.code],
-                    })"
-                  />
+                      })
+                    " />
                 </template>
                 <template v-else>
                   <DataInputGroup
@@ -487,6 +489,14 @@
                 </template>
               </div>
             </draggable>
+            <div class="select-none space-y-4" v-else>
+              <div class="select-none space-y-4" v-for="n in 6" :key="n">
+                <div class="space-y-6">
+                  <div
+                    class="h-6 animate-pulse rounded-md bg-slate-50 text-center text-slate-400 dark:text-jovieDark-600" />
+                </div>
+              </div>
+            </div>
           </div>
 
           <div
@@ -763,6 +773,7 @@ export default {
   },
   data() {
     return {
+      fieldsLoaded: false,
       abortController: null,
       sidebarLoading: false,
       socialURLEditing: false,
@@ -831,6 +842,7 @@ export default {
         })
         .finally((response) => {
           // this.saving = false;
+          this.fieldsLoaded = true;
         });
     },
     updateCreatorLists({ list, add = false }) {
