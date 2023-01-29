@@ -60,7 +60,14 @@
       class="flex cursor-text items-center justify-between px-2 py-0.5 pl-5 text-xs font-medium text-slate-400 transition-all"
       >{{ name }}</label
     >
-    <vue-tailwind-datepicker class="isolate z-40 px-2" v-model="date" />
+    <DataInputGroup
+      type="date"
+      :label="name"
+      :placeholder="name"
+      icon="CalendarDaysIcon"
+      v-model="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+      @blur="$emit('blur')" />
   </template>
   <template v-else-if="type === 'select' || type === 'multi_select'">
     <label

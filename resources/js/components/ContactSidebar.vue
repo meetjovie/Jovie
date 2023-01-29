@@ -503,10 +503,10 @@
                 </div>
               </draggable>
               <div class="select-none space-y-4" v-else>
-                <div class="select-none space-y-4" v-for="n in 6" :key="n">
+                <div class="select-none space-y-4" v-for="n in 10" :key="n">
                   <div class="space-y-6">
                     <div
-                      class="h-6 animate-pulse rounded-md bg-slate-50 text-center text-slate-400 dark:text-jovieDark-600" />
+                      class="h-9 animate-pulse rounded-md bg-slate-50 text-center text-slate-400 dark:text-jovieDark-600" />
                   </div>
                 </div>
               </div>

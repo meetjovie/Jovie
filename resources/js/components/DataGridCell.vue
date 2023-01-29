@@ -81,9 +81,19 @@
         :stages="stages"
         :index="row"
         @updateCreator="$emit('updateCreator', $event)" />
-      <vue-tailwind-datepicker
-        v-model="date"
-        v-else-if="column.dataType == 'date'" />
+      <div v-else-if="column.dataType == 'date'">
+        <div class="relative flex items-center">
+          <input
+            type="text"
+            name="date"
+            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            id="date"
+            class="block w-full border-none pr-12 outline-none focus:border-none sm:text-sm" />
+          <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+            <JovieDatePicker v-model="modelValue" class="isolate z-50" />
+          </div>
+        </div>
+      </div>
       <Suspense v-else-if="column.dataType == 'multiSelect'">
         <template #default>
           <InputLists
@@ -111,6 +121,7 @@ import DataGridSocialLinksCell from './DataGridSocialLinksCell.vue';
 import ContactStageMenu from './ContactStageMenu.vue';
 import VueTailwindDatepicker from 'vue-tailwind-datepicker';
 import InputLists from './InputLists.vue';
+import JovieDatePicker from './JovieDatePicker.vue';
 export default {
   name: 'DataGridCell',
   components: {
@@ -120,6 +131,7 @@ export default {
     SocialIcons,
     DataGridCellTextInput,
     StarRating,
+    JovieDatePicker,
     CheckboxInput,
     VueTailwindDatepicker,
   },
@@ -142,19 +154,19 @@ export default {
     this.date.endDate = this.modelValue;
   },
   methods: {
-      updateData(value = null) {
-          this.$emit('update:modelValue', this.modelValue);
-          if (this.column.meta) {
-              this.$emit('updateCrmMeta', this.creator);
-          } else {
-              this.$emit('updateCreator', {
-                  id: this.creator.id,
-                  index: this.row,
-                  key: this.column.key,
-                  value: value ?? this.modelValue,
-              });
-          }
-      },
+    updateData(value = null) {
+      this.$emit('update:modelValue', this.modelValue);
+      if (this.column.meta) {
+        this.$emit('updateCrmMeta', this.creator);
+      } else {
+        this.$emit('updateCreator', {
+          id: this.creator.id,
+          index: this.row,
+          key: this.column.key,
+          value: value ?? this.modelValue,
+        });
+      }
+    },
     toggleContactStageMenu(index) {
       this.showContactStageMenu[index] = !this.showContactStageMenu[index];
     },
