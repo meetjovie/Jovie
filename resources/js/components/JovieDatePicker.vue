@@ -13,7 +13,7 @@
             <div class="p-2">
               <vue-tailwind-datepicker
                 as-single
-                class="z-50 border-none bg-transparent shadow-none"
+                class=""
                 no-input
                 @select="updateDate($event)"
                 v-model="date" />
@@ -51,8 +51,16 @@ export default {
   },
   data() {
     return {
-      date: null,
+      date: this.value,
     };
+  },
+  watch: {
+    value(newValue) {
+      this.date = newValue;
+    },
+    date(newValue) {
+      this.$emit('input', newValue);
+    },
   },
   methods: {
     updateDate(date) {

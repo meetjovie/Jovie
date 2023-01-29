@@ -48,6 +48,7 @@ export default {
     value: {
       type: Date,
       default: null,
+      required: true,
     },
   },
   data() {

@@ -31,7 +31,7 @@
         </div>
         <input
           :autocomplete="autocomplete"
-          :type="type"
+          :type="type === 'date' ? 'text' : type"
           :name="name"
           :id="id"
           :v-focus="focused"
@@ -57,7 +57,7 @@
             { 'pr-18': action2 },
             { 'pr-14': action || isCopyable },
           ]"
-          :placeholder="label" />
+          :placeholder="type == 'date' ? 'mm/dd/yyyy' : label" />
         <div class="absolute inset-y-0 right-0 flex items-center pr-3">
           <div
             v-if="action && (modelValue || value)"
