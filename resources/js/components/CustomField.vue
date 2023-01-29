@@ -5,6 +5,13 @@
       :type="type"
       :placeholder="name"
       :label="name"
+      :icon="
+        type === 'url'
+          ? 'LinkIcon'
+          : type === 'text'
+          ? 'DocumentTextIcon'
+          : 'CalculatorIcon'
+      "
       v-model="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       @blur="$emit('blur')" />
@@ -23,7 +30,11 @@
   </template>
   <template v-if="type === 'checkbox'">
     <template v-for="option in options">
-      <!--  <label :for="option.id">{{ option.name }}</label> -->
+      <label
+        :for="option.id"
+        class="flex cursor-text items-center justify-between px-2 py-0.5 pl-5 text-xs font-medium text-slate-400 transition-all"
+        >{{ option.name }}</label
+      >
       <div class="relative flex items-start">
         <div class="flex h-5 items-center">
           <input
@@ -46,17 +57,18 @@
   <template v-else-if="type === 'date'">
     <label
       v-if="name"
-      class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md border-t border-transparent bg-white px-1 pl-5 text-xs font-medium text-slate-400 transition-all group-hover:bg-slate-50 group-hover:text-slate-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 group-hover:dark:border-jovieDark-border dark:group-hover:bg-jovieDark-800 dark:group-hover:text-slate-200 dark:peer-placeholder-shown:text-slate-200"
+      class="flex cursor-text items-center justify-between px-2 py-0.5 pl-5 text-xs font-medium text-slate-400 transition-all"
       >{{ name }}</label
     >
-    <vue-tailwind-datepicker class="isolate z-40" v-model="date" />
+    <vue-tailwind-datepicker class="isolate z-40 px-2" v-model="date" />
   </template>
   <template v-else-if="type === 'select' || type === 'multi_select'">
     <label
       v-if="name"
-      class="peer-focus:text-[8px]] absolute -top-2.5 left-0 ml-2 block cursor-text rounded-t-md border-t border-transparent bg-white px-1 pl-5 text-xs font-medium text-slate-400 transition-all group-hover:bg-slate-50 group-hover:text-slate-500 peer-placeholder-shown:top-1.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2 peer-focus:font-medium dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 group-hover:dark:border-jovieDark-border dark:group-hover:bg-jovieDark-800 dark:group-hover:text-slate-200 dark:peer-placeholder-shown:text-slate-200"
+      class="flex cursor-text items-center justify-between px-2 py-0.5 pl-5 text-xs font-medium text-slate-400 transition-all"
       >{{ name }}</label
     >
+
     <InputLists
       nameKey="value"
       showLabel
