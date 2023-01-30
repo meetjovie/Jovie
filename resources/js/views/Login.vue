@@ -142,7 +142,13 @@
                   :disabled="loggingIn"
                   :error="buttonError"
                   @click="login()"
-                  :text="loggingIn ? 'Logging in...' : 'Log in'"
+                  :text="
+                    loggingIn
+                      ? 'Logging in...'
+                      : successfulLogin
+                      ? 'Redirecting...'
+                      : 'Log in'
+                  "
                   :loader="loggingIn"
                   :success="successfulLogin"
                   type="button"
