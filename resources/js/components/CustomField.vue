@@ -67,7 +67,8 @@
       icon="CalendarDaysIcon"
       v-model="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
-      @blur="$emit('blur')" />
+      @blur="$emit('blur')"
+    />
   </template>
   <template v-else-if="type === 'select' || type === 'multi_select'">
     <label
@@ -131,14 +132,6 @@ export default {
       date: {},
     };
   },
-  watch: {
-    date: function (val) {
-      if (val.startDate) {
-        this.$emit('update:modelValue', val.startDate);
-        this.$emit('blur');
-      }
-    },
-  },
   mounted() {
     if (this.type === 'checkbox' && this.modelValue) {
       this.multiOptions = this.modelValue;
@@ -149,9 +142,6 @@ export default {
       this.multiOptions = this.options.filter((option) => {
         return this.modelValue.includes(option.id);
       });
-    } else if (this.type === 'date') {
-      this.date.startDate = this.modelValue;
-      this.date.endDate = this.modelValue;
     }
   },
   methods: {

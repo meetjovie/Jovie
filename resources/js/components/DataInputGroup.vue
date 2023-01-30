@@ -76,7 +76,7 @@
               class="hidden h-5 w-5 cursor-pointer text-slate-400 dark:text-jovieDark-600 dark:active:text-slate-100 dark:group-hover/action:text-slate-400" />
           </div>
           <div v-if="type == 'date'" class="group/action px-1">
-            <JovieDatePicker v-model="modelValue" class="isolate z-50" />
+            <JovieDatePicker v-model="modelValue" @update:modelValue="$emit('update:modelValue', $event); $emit('blur')" class="isolate z-50" />
           </div>
           <div v-if="loader" class="pointer-events-none transition-all">
             <JovieSpinner />
