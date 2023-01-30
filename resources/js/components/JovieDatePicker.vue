@@ -14,9 +14,9 @@
               <vue-tailwind-datepicker
                 as-single
                 class=""
+                no-input
                 v-model="date"
-                @change="$emit('update:modelValue', $event.target.value)"
-              />
+                @change="$emit('update:modelValue', $event.target.value)" />
             </div>
           </div>
         </GlassmorphismContainer>
@@ -51,15 +51,15 @@ export default {
       date: [],
     };
   },
-    watch: {
-        // date: function (val) {
-        //     this.$emit('change', val);
-        // },
-    },
-    mounted() {
-      if (this.modelValue) {
-          this.date = [this.modelValue]
-      }
-    },
+  watch: {
+    // date: function (val) {
+    //     this.$emit('change', val);
+    // },
+  },
+  mounted() {
+    if (this.modelValue) {
+      this.date = [this.modelValue];
+    }
+  },
 };
 </script>
