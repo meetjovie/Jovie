@@ -15,8 +15,7 @@
                 as-single
                 class=""
                 no-input
-                v-model="date"
-                @change="$emit('update:modelValue', $event.target.value)" />
+                v-model="date" />
             </div>
           </div>
         </GlassmorphismContainer>
@@ -44,21 +43,22 @@ export default {
     GlassmorphismContainer,
   },
   props: {
-    modelValue: {},
+    value: {},
   },
   data() {
     return {
       date: [],
+        mounted: false
     };
   },
   watch: {
-    // date: function (val) {
-    //     this.$emit('change', val);
-    // },
+    date: function (val) {
+        this.$emit('update:modelValue', val[0])
+    },
   },
   mounted() {
-    if (this.modelValue) {
-      this.date = [this.modelValue];
+    if (this.value) {
+      this.date = [this.value];
     }
   },
 };

@@ -66,7 +66,7 @@
       :placeholder="name"
       icon="CalendarDaysIcon"
       v-model="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @update:modelValue="$emit('update:modelValue', $event)"
       @blur="$emit('blur')"
     />
   </template>
