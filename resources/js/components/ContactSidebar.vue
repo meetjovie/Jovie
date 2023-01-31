@@ -463,7 +463,6 @@
                   v-for="(element, index) in fields"
                   :key="element.id">
                   <template v-if="element.custom">
-                      {{ creator.crm_record_by_user[element.code] }}
                     <CustomField
                       @blur="
                         $emit('updateCreator', {
