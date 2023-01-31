@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\CreatorImported;
+use App\Traits\CustomFieldsTrait;
 use App\Traits\GeneralTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Nette\Utils\ArrayHash;
 
 class Creator extends Model
 {
-    use HasFactory, Searchable, GeneralTrait;
+    use HasFactory, Searchable, GeneralTrait, CustomFieldsTrait;
 
     const CREATORS_MEDIA_PATH = 'public/creators_media/timeline_media/';
 
@@ -605,6 +606,7 @@ class Creator extends Model
 
             // crm
             $creator->crm_record_by_user = (object) [];
+            $creator->crm_record_by_user->id = $creator->crm_id;
             $creator->crm_record_by_user->user_id = $user->id;
             $creator->crm_record_by_user->team_id = $user->currentTeam->id;
             $creator->crm_record_by_user->creator_id = $creator->id;
@@ -648,6 +650,13 @@ class Creator extends Model
             }
             if (empty($creator->crm_record_by_user->rating) && isset($avgRatings[$creator->id])) {
                 $creator->crm_record_by_user->rating = round($avgRatings[$creator->id]->average_rating);
+            }
+
+            // custom fields
+            $cc = new Creator();
+            $customFields = $cc->getFieldsByTeam($user->currentTeam->id);
+            foreach ($customFields as $customField) {
+                $creator->crm_record_by_user->{$customField->code} = $cc->getInputValues($customField, $creator->crm_record_by_user->id);
             }
         }
 
@@ -780,12 +789,15 @@ class Creator extends Model
     {
         $dataToUpdateForCrm = [];
         $dataToUpdateForCreator = [];
+        $dataToUpdateForCustomFields = [];
         foreach ($request->except(['_method', '_token', 'id', 'network']) as $k => $v) {
             if ($k == 'crm_record_by_user') {
                 foreach ($v as $key => $value) {
                     $isColExist = Schema::hasColumn('crms', $key);
                     if ($isColExist) {
                         $dataToUpdateForCrm[$key] = $value;
+                    } else {
+                        $dataToUpdateForCustomFields[$key] = $value;
                     }
                 }
             } else {
@@ -798,8 +810,24 @@ class Creator extends Model
         }
         // update interactions for crm
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        Crm::updateOrCreate(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $dataToUpdateForCrm));
+        $crm = Crm::updateOrCreate(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $dataToUpdateForCrm));
         $creator->save();
+
+
+        $cc = new Creator();
+        $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
+        foreach ($customFields as $customField) {
+            if (array_key_exists($customField->code, $dataToUpdateForCustomFields)) {
+                $value = $dataToUpdateForCustomFields[$customField->code];
+                $customFieldValue = CustomFieldValue::query()->updateOrCreate([
+                    'custom_field_id' => $customField->id,
+                    'model_id' => $crm->id,
+                    'model_type' => Crm::class,
+                ], [
+                    'value' => $value,
+                ]);
+            }
+        }
     }
 
     public function toSearchableArray()

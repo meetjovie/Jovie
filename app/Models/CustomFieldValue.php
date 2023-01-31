@@ -13,7 +13,8 @@ class CustomFieldValue extends Model
 
     protected $fillable = [
         'custom_field_id',
-        'model',
+        'model_type',
+        'model_id',
         'value',
     ];
 
@@ -61,6 +62,6 @@ class CustomFieldValue extends Model
             $value = json_encode($value);
         }
 
-        $this->attributes['value'] = $value;
+        return $value;
     }
 }

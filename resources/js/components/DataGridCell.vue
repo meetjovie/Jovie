@@ -81,9 +81,22 @@
         :stages="stages"
         :index="row"
         @updateCreator="$emit('updateCreator', $event)" />
-      <vue-tailwind-datepicker
-        v-model="date"
-        v-else-if="column.dataType == 'date'" />
+      <div v-else-if="column.dataType == 'date'">
+        <div class="relative flex items-center">
+          <input
+            type="text"
+            :placeholder="'mm/dd/yyyy'"
+            name="date"
+            @input="handleInput"
+            :value="modelValue"
+            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            id="date"
+            class="block w-full border-none bg-transparent pr-12 placeholder-slate-400 outline-none focus:border-none dark:placeholder-slate-200 sm:text-sm" />
+          <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+            <JovieDatePicker :value="modelValue" @update:modelValue="$emit('update:modelValue', $event); updateData();" class="isolate z-50" />
+          </div>
+        </div>
+      </div>
       <Suspense v-else-if="column.dataType == 'multiSelect'">
         <template #default>
           <InputLists
@@ -111,6 +124,7 @@ import DataGridSocialLinksCell from './DataGridSocialLinksCell.vue';
 import ContactStageMenu from './ContactStageMenu.vue';
 import VueTailwindDatepicker from 'vue-tailwind-datepicker';
 import InputLists from './InputLists.vue';
+import JovieDatePicker from './JovieDatePicker.vue';
 export default {
   name: 'DataGridCell',
   components: {
@@ -120,6 +134,7 @@ export default {
     SocialIcons,
     DataGridCellTextInput,
     StarRating,
+    JovieDatePicker,
     CheckboxInput,
     VueTailwindDatepicker,
   },
@@ -130,19 +145,13 @@ export default {
       date: {},
     };
   },
-  watch: {
-    date: function (val) {
-      this.updateData(
-        val.startDate && val.startDate !== '' ? val.startDate : null
-      );
-    },
-  },
   mounted() {
     this.date.startDate = this.modelValue;
     this.date.endDate = this.modelValue;
   },
   methods: {
-      updateData(value = null) {
+    updateData(value = null) {
+      setTimeout(() => {
           this.$emit('update:modelValue', this.modelValue);
           if (this.column.meta) {
               this.$emit('updateCrmMeta', this.creator);
@@ -154,7 +163,15 @@ export default {
                   value: value ?? this.modelValue,
               });
           }
-      },
+      }, 500)
+    },
+    handleInput(event) {
+      const dateRegex =
+        /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/([0-9]{4})$/;
+      if (dateRegex.test(event.target.value)) {
+        this.modelValue = event.target.value;
+      }
+    },
     toggleContactStageMenu(index) {
       this.showContactStageMenu[index] = !this.showContactStageMenu[index];
     },

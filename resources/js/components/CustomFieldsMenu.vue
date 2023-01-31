@@ -27,55 +27,57 @@
               {{ field.type.description }}
             </p>
           </div>
-            <template v-if="['select', 'multi_select'].includes(field.type.id)" >
-                <div class="flex justify-end">
-                    <ButtonGroup
-                        text="Alphabatize Options"
-                        @click="alphabatizeOptions"
-                        design="secondary"
-                        size="xs"
-                        class="text-2xs font-medium text-white dark:text-jovieDark-200">
-                        <BarsArrowUpIcon class="nl-2 h-4 w-4" />
-                    </ButtonGroup>
+          <template
+            v-if="
+              ['select', 'multi_select', 'checkbox'].includes(field.type.id)
+            ">
+            <div class="flex justify-end">
+              <ButtonGroup
+                text="Alphabatize Options"
+                @click="alphabatizeOptions"
+                design="secondary"
+                size="xs"
+                class="text-2xs font-medium text-white dark:text-jovieDark-200">
+                <BarsArrowUpIcon class="nl-2 h-4 w-4" />
+              </ButtonGroup>
+            </div>
+            <div class="border-t border-slate-200 dark:border-jovieDark-border">
+              <div>
+                <div class="flex flex-col space-y-4">
+                  <div>
+                    <ul class="space-y-2 py-1 px-2">
+                      <draggable
+                        class="list-group relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
+                        :list="field.options"
+                        ghost-class="ghost-row"
+                        group="fieldOptions"
+                        tag="tbody"
+                        @change="sortOptions">
+                        <template #item="{ element, index }">
+                          <li class="flex w-full justify-between">
+                            <Bars2Icon
+                              class="h-5 w-5 cursor-grab text-slate-600 dark:text-jovieDark-200" />
+                            <input
+                              v-model="field.options[index].value"
+                              placeholder="Option Name"
+                              class="inline-flex w-full items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800" />
+                            <XMarkIcon
+                              @click="removeOption(index)"
+                              class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
+                          </li>
+                        </template>
+                      </draggable>
+                      <div
+                        class="flex w-full cursor-pointer items-center rounded-md border border-slate-300 p-0.5 text-xs font-semibold text-slate-600 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border">
+                        <PlusIcon @click="addOption()" class="mr-2 h-5 w-5" />
+                        Add an option
+                      </div>
+                    </ul>
+                  </div>
                 </div>
-                <div class="border-t border-slate-200 dark:border-jovieDark-border">
-                    <div>
-                        <div class="flex flex-col space-y-4">
-                            <div>
-                                <ul class="space-y-2 py-1 px-2">
-                                    <draggable
-                                        class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
-                                        :list="field.options"
-                                        ghost-class="ghost-row"
-                                        group="fieldOptions"
-                                        tag="tbody"
-                                        @change="sortOptions"
-                                    >
-                                        <template #item="{ element, index }">
-                                            <li class="flex justify-between">
-                                                <Bars2Icon
-                                                    class="h-5 w-5 text-slate-600 dark:text-jovieDark-200" />
-                                                <input
-                                                    v-model="field.options[index].value"
-                                                    placeholder="Option Name"
-                                                    class="inline-flex w-full items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800" />
-                                                <XMarkIcon
-                                                    @click="removeOption(index)"
-                                                    class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
-                                            </li>
-                                        </template>
-                                    </draggable>
-                                    <div
-                                        class="flex w-full cursor-pointer items-center rounded-md border border-slate-300 p-0.5 text-xs font-semibold hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border">
-                                        <PlusIcon @click="addOption()" class="h-5 w-5" />
-                                        Add an option
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
+              </div>
+            </div>
+          </template>
           <div
             v-if="errors.type"
             class="min-h-4 text-xs text-red-600 dark:text-red-300">
@@ -137,7 +139,7 @@ export default {
     Menu,
     MenuItems,
     ComboboxMenu,
-      draggable
+    draggable,
   },
   data() {
     return {
@@ -159,8 +161,8 @@ export default {
     'field.type': function (val) {
       if (['select', 'multi_select'].includes(val.id)) {
         this.field.options.push({
-            name: '',
-            order: this.field.options.length - 1
+          name: '',
+          order: this.field.options.length - 1,
         });
       } else {
         this.field.options = [];
@@ -171,18 +173,18 @@ export default {
     this.getCustomFieldTypes();
   },
   methods: {
-      sortOptions() {
-          this.field.options = this.field.options.map(function(option, index) {
-              return { value: option.value, order: index }
-          })
-          console.log('this.field.options');
-          console.log(this.field.options);
-      },
+    sortOptions() {
+      this.field.options = this.field.options.map(function (option, index) {
+        return { value: option.value, order: index };
+      });
+      console.log('this.field.options');
+      console.log(this.field.options);
+    },
     addOption() {
-        this.field.options.push({
-            name: '',
-            order: this.field.options.length - 1
-        });
+      this.field.options.push({
+        name: '',
+        order: this.field.options.length - 1,
+      });
     },
     removeOption(index) {
       this.field.options.splice(index, 1);
@@ -190,7 +192,7 @@ export default {
     saveCustomField() {
       this.adding = true;
       let data = this.field;
-      data.type = this.field.type.id
+      data.type = this.field.type.id;
       FieldService.saveCustomField(data)
         .then((response) => {
           response = response.data;
@@ -208,6 +210,7 @@ export default {
               description: '',
               options: [],
             };
+            this.$emit('getFields')
             close();
           } else {
             this.$notify({

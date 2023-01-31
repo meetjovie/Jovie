@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\TeamScope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,7 +49,6 @@ class CustomField extends Model
             'icon' => 'LinkIcon',
             'description' => 'A website URL'
         ],
-
         [
             'id' => 'checkbox',
             'name' => 'Checkbox',
@@ -84,6 +84,16 @@ class CustomField extends Model
     ];
 
     /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope(new TeamScope());
+    }
+
+    /**
      * Get the field code.
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
@@ -107,11 +117,11 @@ class CustomField extends Model
 
     public function customFieldOptions()
     {
-        return $this->hasMany(CustomFieldOption::class);
+        return $this->hasMany(CustomFieldOption::class)->orderBy('order');
     }
 
     public function customFieldValues()
     {
-        $this->hasMany(CustomFieldValue::class);
+        return $this->hasMany(CustomFieldValue::class);
     }
 }

@@ -53,10 +53,10 @@
             <div
               class="overflow-clip border-t border-slate-200 px-2 dark:border-jovieDark-border">
               <div class="" v-if="items">
-                <template v-for="item in filteredItems" :key="item.name">
+                <template v-for="item in filteredItems" :key="item[nameKey]">
                   <router-link v-if="item.route" :to="item.route">
                     <DropdownMenuItem
-                      :name="item.name"
+                      :name="item[nameKey]"
                       :icon="item.icon"
                       :emoji="item.emoji"
                       :numbered="numbered"
@@ -87,7 +87,7 @@
                         <div v-else></div>
 
                         <div class="text-xs font-normal tracking-wider">
-                          {{ item.name }}
+                          {{ item[nameKey] }}
                         </div>
                       </div>
                     </div>
@@ -123,7 +123,7 @@
                   v-slot="{ active }"
                   :class="{ 'text-slate-700': active }"
                   v-if="searchQuery"
-                  :disabled="!searchQuery"
+                  disabled
                   @click.prevent="searchQuery = ''"
                   class="group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200">
                   <div class="mx-auto flex items-center text-center">
@@ -255,11 +255,17 @@ export default {
       type: Number,
       required: false,
     },
+    nameKey: {
+      type: String,
+      default: 'name',
+    },
   },
   computed: {
     filteredItems() {
       return this.items.filter((item) =>
-        item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        item[this.nameKey]
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase())
       );
     },
   },
