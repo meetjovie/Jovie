@@ -455,11 +455,14 @@
                 group="lists"
                 ghost-class="ghost-card"
                 :creator="creator"
+                @end="sortFields"
                 :list="fields">
                 <!-- v-if for element.model check for default field as they would already be modeled-->
                 <div
                   class="space-y-6"
                   v-for="(element, index) in fields"
+                  :id="element.id"
+                  :data-custom="element.custom"
                   :key="element.id">
                   <template v-if="element.custom">
                     <CustomField
@@ -802,7 +805,50 @@ export default {
     };
   },
   methods: {
-    getFields() {
+      sortFields(e, listId) {
+          UserService.sortFields(
+              { newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true' },
+              e.item.id
+          )
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  } else {
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: response.message,
+                      });
+                      // show toast error here later
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                      if (this.errors.list[0]) {
+                          this.$notify({
+                              group: 'user',
+                              type: 'success',
+                              duration: 15000,
+                              title: 'Successful',
+                              text: this.errors.list[0],
+                          });
+                      }
+                  }
+              })
+              .finally((response) => {});
+      },
+      getFields() {
       FieldService.getFields(this.creator.id)
         .then((response) => {
           response = response.data;

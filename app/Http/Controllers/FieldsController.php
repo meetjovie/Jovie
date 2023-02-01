@@ -32,12 +32,11 @@ class FieldsController extends Controller
 
     public function setFieldAttributes(Request $request, $id)
     {
-        if ($request->field_type == 'default') {
-            $field = array_filter(FieldAttribute::DEFAULT_FIELDS, function ($value) use ($id) {
-                return $value['id'] == $id;
-            });
-        } else {
+        if ($request->custom) {
             $field = CustomField::query()->where('id', $id)->first();
+        } else {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_FIELDS);
+            $field = (object) $defaultsFields->where('id', 5)->first();
         }
         if (!$field) {
             throw ValidationException::withMessages([

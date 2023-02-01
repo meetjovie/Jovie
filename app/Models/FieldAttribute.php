@@ -197,7 +197,7 @@ class FieldAttribute extends Model
                     ->where('user_id', $userId)
                     ->update(['order' => (DB::raw('`order` - 1'))]);
                 // update userlist set order = newOrder where id = listId
-                UserListAttribute::where('user_list_id', $fieldId)
+                FieldAttribute::where('field_id', $fieldId)
                     ->where('user_id', $userId)
                     ->update(['order' => $newIndex]);
             } elseif ($newIndex < $oldIndex) { // newIndex < $oldIndex
@@ -207,12 +207,13 @@ class FieldAttribute extends Model
                     ->where('user_id', $userId)
                     ->update(['order' => (DB::raw('`order` + 1'))]);
                 // update userlist set order = newOrder where id = listId
-                UserListAttribute::where('user_list_id', $fieldId)
+                FieldAttribute::where('field_id', $fieldId)
                     ->where('user_id', $userId)
                     ->update(['order' => $newIndex]);
             }
         }
         $listOrders = FieldAttribute::where('user_id', $userId)->whereIn('field_id', $fieldIds)->orderBy('order')->get();
+        dd($listOrders);
         foreach ($listOrders as $k => $list) {
             $list->order = $k;
             $list->save();
