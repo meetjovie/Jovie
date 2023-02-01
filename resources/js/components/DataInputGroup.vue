@@ -31,7 +31,7 @@
         </div>
         <input
           :autocomplete="autocomplete"
-          :type="type"
+          :type="type === 'date' ? 'text' : type"
           :name="name"
           :id="id"
           :v-focus="focused"
@@ -57,7 +57,7 @@
             { 'pr-18': action2 },
             { 'pr-14': action || isCopyable },
           ]"
-          :placeholder="label" />
+          :placeholder="type == 'date' ? 'mm/dd/yyyy' : label" />
         <div class="absolute inset-y-0 right-0 flex items-center pr-3">
           <div
             v-if="action && (modelValue || value)"
@@ -74,6 +74,9 @@
             <component
               :is="action2"
               class="hidden h-5 w-5 cursor-pointer text-slate-400 dark:text-jovieDark-600 dark:active:text-slate-100 dark:group-hover/action:text-slate-400" />
+          </div>
+          <div v-if="type == 'date'" class="group/action px-1">
+            <JovieDatePicker :value="modelValue" @update:modelValue="$emit('update:modelValue', $event); $emit('blur')" class="isolate z-50" />
           </div>
           <div v-if="loader" class="pointer-events-none transition-all">
             <JovieSpinner />
@@ -140,6 +143,7 @@
 </template>
 
 <script>
+import JovieDatePicker from '../components/JovieDatePicker.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import {
@@ -158,6 +162,7 @@ import {
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
   ExclamationCircleIcon,
+  CalendarDaysIcon,
   TagIcon,
   UserIcon,
   UsersIcon,
@@ -168,10 +173,15 @@ import {
   CheckCircleIcon,
   EllipsisVerticalIcon,
 } from '@heroicons/vue/24/solid';
+import VueTailwindDatepicker from 'vue-tailwind-datepicker';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import { Float } from '@headlessui-float/vue';
+import GlassmorphismContainer from './GlassmorphismContainer.vue';
 export default {
   name: 'InputGroup',
   data() {
     return {
+      open: false,
       itemCopied: false,
     };
   },
@@ -266,13 +276,20 @@ export default {
     LinkIcon,
     MagnifyingGlassIcon,
     PhotoIcon,
+    GlassmorphismContainer,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    Float,
     MapPinIcon,
+    JovieDatePicker,
     ArrowTrendingUpIcon,
     ArrowTrendingDownIcon,
     TagIcon,
     UserIcon,
     CurrencyDollarIcon,
     SocialIcons,
+    CalendarDaysIcon,
     ClipboardDocumentIcon,
     CheckCircleIcon,
     UsersIcon,
@@ -280,6 +297,7 @@ export default {
     ArrowSmallUpIcon,
     ArrowSmallDownIcon,
     BriefcaseIcon,
+    VueTailwindDatepicker,
     JovieSpinner,
     PhoneIcon,
     ClipboardDocumentCheckIcon,
