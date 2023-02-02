@@ -24,10 +24,19 @@ class FieldsController extends Controller
         }
         $defaultFields = FieldAttribute::DEFAULT_FIELDS;
         $fields = array_merge($customFields->toArray(), $defaultFields);
+        $orderedIds = FieldAttribute::query()->unHidden()->where('user_id', Auth::id())->orderBy('order')->pluck('field_id')->toArray();
+        $fields = $this->orderFields($fields, $orderedIds);
         return response()->json([
             'status' => true,
             'data' => $fields
         ], 200);
+    }
+
+    public function orderFields($fields, $orderedIds)
+    {
+        return collect($fields)->sortBy(function ($item) use ($orderedIds) {
+            return array_search($item['id'], $orderedIds);
+        })->values()->toArray();
     }
 
     public function setFieldAttributes(Request $request, $id)

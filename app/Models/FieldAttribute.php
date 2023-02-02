@@ -164,6 +164,11 @@ class FieldAttribute extends Model
         static::addGlobalScope(new TeamScope());
     }
 
+    public function scopeUnHidden($query)
+    {
+        return $query->where('hide', 0);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -181,12 +186,11 @@ class FieldAttribute extends Model
 
     public static function updateSortOrder($fieldId = null, $userId, $newIndex = 0, $oldIndex = 0)
     {
-        $fieldAttributesIds = FieldAttribute::query()->pluck('id')->toArray();
         $customFieldIds = CustomField::query()->pluck('id')->toArray();
         $defaultIds = array_column(FieldAttribute::DEFAULT_FIELDS, 'id');
 
         $fieldIds = array_merge($customFieldIds, $defaultIds);
-        $fieldIdsToUpdate = array_diff($fieldIds, [$fieldId]);
+        $fieldIdsToUpdate = array_map('strval', array_diff($fieldIds, [$fieldId]));
 
         DB::beginTransaction();
         if (!is_null($fieldId)) {
@@ -203,7 +207,7 @@ class FieldAttribute extends Model
             } elseif ($newIndex < $oldIndex) { // newIndex < $oldIndex
                 // update user list set order = order+1 where order >= newIndex and id != listID
                 FieldAttribute::where('order', '>=', $newIndex)
-                    ->whereIn('user_list_id', $fieldIdsToUpdate)
+                    ->whereIn('field_id', $fieldIdsToUpdate)
                     ->where('user_id', $userId)
                     ->update(['order' => (DB::raw('`order` + 1'))]);
                 // update userlist set order = newOrder where id = listId
@@ -213,7 +217,6 @@ class FieldAttribute extends Model
             }
         }
         $listOrders = FieldAttribute::where('user_id', $userId)->whereIn('field_id', $fieldIds)->orderBy('order')->get();
-        dd($listOrders);
         foreach ($listOrders as $k => $list) {
             $list->order = $k;
             $list->save();

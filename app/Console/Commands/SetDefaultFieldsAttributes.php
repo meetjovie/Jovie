@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\FieldAttribute;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class SetDefaultFieldsAttributes extends Command
 {
@@ -31,13 +32,14 @@ class SetDefaultFieldsAttributes extends Command
     {
         foreach (User::query()->with('teams')->get() as $user) {
             foreach ($user->teams as $team) {
-                foreach (FieldAttribute::DEFAULT_FIELDS as $field) {
+                foreach (FieldAttribute::DEFAULT_FIELDS as $k => $field) {
                     FieldAttribute::query()->updateOrCreate([
                         'field_id' => $field['id'],
                         'user_id' => $user->id,
                         'team_id' => $team->id,
                     ], [
-                        'type' => 'default'
+                        'type' => 'default',
+                        'order' => $k
                     ]);
                 }
             }
