@@ -37,7 +37,15 @@ class CustomFieldsController extends Controller
             if (!empty($data['options'])) {
                 $customField->customFieldOptions()->createMany($data['options']);
             }
+            $teamUsers = Auth::user()->currentTeam->users->pluck('id')->toArray();
+            foreach ($teamUsers as $userId) {
+                FieldAttribute::create(['field_id' => $customField->id, 'type' => 'custom', 'order' => 0, 'team_id' => Auth::user()->currentTeam->id, 'user_id' => $userId]);
+            }
+            foreach ($teamUsers as $userId) {
+                FieldAttribute::updateSortOrder($customField->id, $userId, 0, 1);
+            }
         });
+
         return response()->json([
             'status' => true,
             'message' => 'Field added',

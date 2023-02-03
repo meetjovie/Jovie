@@ -160,4 +160,7 @@ export default {
   saveToCrm(data) {
       return axios.post(`${baseApiUrl}/save-to-crm`, data);
   },
+  async sortFields(data, id) {
+      return axios.post(`${baseApiUrl}/set-field-attributes/${id}`, data);
+  },
 };

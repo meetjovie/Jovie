@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('custom_fields', function (Blueprint $table) {
             $table->uuid('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('team_id');
+            $table->uuid('user_id');
+            $table->uuid('team_id');
             $table->string('name');
             $table->string('code');
             $table->text('description')->nullable();

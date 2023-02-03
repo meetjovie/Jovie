@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('field_attributes');
         Schema::create('field_attributes', function (Blueprint $table) {
             $table->uuid('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('team_id');
-            $table->unsignedInteger('field_id');
+            $table->uuid('user_id');
+            $table->uuid('team_id');
+            $table->uuid('field_id');
             $table->string('type');
-            $table->integer('order');
-            $table->boolean('hide');
+            $table->integer('order')->default(0);
+            $table->boolean('hide')->default(false);
             $table->timestamps();
         });
     }

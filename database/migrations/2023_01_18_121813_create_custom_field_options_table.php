@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('custom_field_options', function (Blueprint $table) {
             $table->uuid('id');
-            $table->foreignUuid('custom_field_id');
+            $table->uuid('custom_field_id');
             $table->string('value');
             $table->integer('order')->default(0);
             $table->timestamps();

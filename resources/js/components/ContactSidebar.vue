@@ -52,7 +52,6 @@
                         placeholder="Company"
                         class="w-full rounded-md border border-slate-300 dark:border-jovieDark-border border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
                     </div> -->
-
             <div v-if="creator.category" class="">
               <span
                 class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
@@ -456,11 +455,14 @@
                 group="lists"
                 ghost-class="ghost-card"
                 :creator="creator"
+                @end="sortFields"
                 :list="fields">
                 <!-- v-if for element.model check for default field as they would already be modeled-->
                 <div
                   class="space-y-6"
                   v-for="(element, index) in fields"
+                  :id="element.id"
+                  :data-custom="element.custom"
                   :key="element.id">
                   <template v-if="element.custom">
                     <CustomField
@@ -686,7 +688,6 @@ import JovieSpinner from '../components/JovieSpinner.vue';
 import TextAreaInput from '../components/TextAreaInput.vue';
 import InputLists from '../components/InputLists.vue';
 import { VueDraggableNext } from 'vue-draggable-next';
-
 import ContactContextMenuItem from '../components/ContactContextMenuItem.vue';
 import {
   XMarkIcon,
@@ -715,9 +716,7 @@ export default {
     SocialInput,
     draggable: VueDraggableNext,
     ContactContextMenuItem,
-
     CustomFieldsMenu,
-
     ChatBubbleLeftIcon,
     PlusIcon,
     Menu,
@@ -806,7 +805,50 @@ export default {
     };
   },
   methods: {
-    getFields() {
+      sortFields(e, listId) {
+          UserService.sortFields(
+              { newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true' },
+              e.item.id
+          )
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  } else {
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: response.message,
+                      });
+                      // show toast error here later
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                      if (this.errors.list[0]) {
+                          this.$notify({
+                              group: 'user',
+                              type: 'success',
+                              duration: 15000,
+                              title: 'Successful',
+                              text: this.errors.list[0],
+                          });
+                      }
+                  }
+              })
+              .finally((response) => {});
+      },
+      getFields() {
       FieldService.getFields(this.creator.id)
         .then((response) => {
           response = response.data;
