@@ -482,6 +482,7 @@
                   </template>
                   <template v-else>
                     <DataInputGroup
+                      @contextmenu.prevent="alert('right click')"
                       @copy="copyToClipboard(element.value)"
                       class="group/draggable"
                       @actionMethod="
@@ -490,6 +491,7 @@
                       @actionMethod2="
                         actionMethod(element.method2, element.params2)
                       "
+                      :type="element.type"
                       v-model="creator.meta[element.model]"
                       @blur="updateCrmMeta"
                       :id="element.name"
@@ -805,50 +807,54 @@ export default {
     };
   },
   methods: {
-      sortFields(e, listId) {
-          UserService.sortFields(
-              { newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true' },
-              e.item.id
-          )
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                  } else {
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                      // show toast error here later
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                      if (this.errors.list[0]) {
-                          this.$notify({
-                              group: 'user',
-                              type: 'success',
-                              duration: 15000,
-                              title: 'Successful',
-                              text: this.errors.list[0],
-                          });
-                      }
-                  }
-              })
-              .finally((response) => {});
-      },
-      getFields() {
+    sortFields(e, listId) {
+      UserService.sortFields(
+        {
+          newIndex: e.newIndex,
+          oldIndex: e.oldIndex,
+          custom: e.item.dataset.custom === 'true',
+        },
+        e.item.id
+      )
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+            // show toast error here later
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+            if (this.errors.list[0]) {
+              this.$notify({
+                group: 'user',
+                type: 'success',
+                duration: 15000,
+                title: 'Successful',
+                text: this.errors.list[0],
+              });
+            }
+          }
+        })
+        .finally((response) => {});
+    },
+    getFields() {
       FieldService.getFields(this.creator.id)
         .then((response) => {
           response = response.data;

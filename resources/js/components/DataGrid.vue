@@ -335,7 +335,7 @@
 
                   <th
                     scope="col"
-                    class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="dark:border-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <CustomFieldsMenu />
                   </th>
 
@@ -373,7 +373,9 @@
                     @click="setCurrentContact($event, element)"
                     @contextmenu.prevent="openContextMenu(index, element)"
                     @mouseover="setCurrentContact($event, element)"
-                    @openSidebar="$emit('openSidebar', {contact: element, index: index})"
+                    @openSidebar="
+                      $emit('openSidebar', { contact: element, index: index })
+                    "
                     @refresh="refresh(element)"
                     @updateCreator="$emit('updateCreator', $event)"
                     @updateCrmMeta="$emit('updateCrmMeta', $event)"
