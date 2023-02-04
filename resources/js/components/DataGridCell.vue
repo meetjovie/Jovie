@@ -32,7 +32,7 @@
     <div @click.prevent="setFocus()" v-if="!freezeColumn">
       <!--  <span v-if="cellActive">Active</span> -->
       <star-rating
-        v-if="column.dataType == 'rating'"
+        v-if="column.type == 'rating'"
         class="mx-auto px-2"
         :star-size="12"
         :increment="0.5"
@@ -45,21 +45,21 @@
             value: creator.crm_record_by_user.rating,
           })
         " />
-      <CheckboxInput v-else-if="dataType == 'checkbox'" v-model="modelValue" />
+      <CheckboxInput v-else-if="type == 'checkbox'" v-model="modelValue" />
       <DataGridCellTextInput
-        v-else-if="['text', 'email', 'currency'].includes(column.dataType)"
+        v-else-if="['text', 'email', 'currency'].includes(column.type)"
         :fieldId="fieldId"
         @blur="updateData"
-        :dataType="column.dataType"
+        :dataType="column.type"
         :placeholder="column.name"
         v-model="modelValue" />
       <DataGridSocialLinksCell
         :creator="creator"
         :networks="networks"
         :show-count="true"
-        v-else-if="column.dataType == 'socialLinks'" />
+        v-else-if="column.type == 'socialLinks'" />
       <ContactStageMenu
-        v-else-if="column.dataType == 'singleSelect'"
+        v-else-if="column.type == 'select'"
         :creator="creator"
         :key="row"
         :open="showContactStageMenu[row]"
@@ -71,9 +71,9 @@
         :creator="creator"
         :networks="networks"
         :show-count="showFollowersCount"
-        v-else-if="column.dataType == 'socialLinks'" />
+        v-else-if="column.type == 'socialLinks'" />
       <ContactStageMenu
-        v-else-if="column.dataType == 'singleSelect'"
+        v-else-if="column.type == 'singleSelect'"
         :creator="creator"
         :key="row"
         :open="showContactStageMenu[row]"
@@ -81,7 +81,7 @@
         :stages="stages"
         :index="row"
         @updateCreator="$emit('updateCreator', $event)" />
-      <div v-else-if="column.dataType == 'date'">
+      <div v-else-if="column.type == 'date'">
         <div class="relative flex items-center">
           <input
             type="text"
@@ -97,7 +97,7 @@
           </div>
         </div>
       </div>
-      <Suspense v-else-if="column.dataType == 'multiSelect'">
+      <Suspense v-else-if="column.type == 'multi_select'">
         <template #default>
           <InputLists
             @updateLists="$emit('updateCreatorLists', $event)"
@@ -109,7 +109,7 @@
       </Suspense>
       <span v-else
         >Data Type:
-        {{ column.dataType }}
+        {{ column.type }}
       </span>
     </div>
   </td>

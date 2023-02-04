@@ -122,6 +122,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
     Route::post('set-field-attributes/{id}', [FieldsController::class, 'setFieldAttributes']);
 
+    // HEADERS
+    Route::get('header-fields', [FieldsController::class, 'headerFields']);
+
     /**
      * Teamwork routes
      */

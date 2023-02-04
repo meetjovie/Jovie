@@ -17,4 +17,9 @@ export default {
             `${baseApiUrl}/custom-field`, data
         );
     },
+    getHeaderFields() {
+        return axios.get(
+            `${baseApiUrl}/header-fields`
+        );
+    },
 }

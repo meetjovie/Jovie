@@ -32,10 +32,28 @@ class FieldsController extends Controller
         ], 200);
     }
 
-    public function orderFields($fields, $orderedIds)
+    public function headerFields()
     {
-        return collect($fields)->sortBy(function ($item) use ($orderedIds) {
-            return array_search($item['id'], $orderedIds);
+        $customFields = CustomField::query()->with('customFieldOptions')->get();
+        foreach ($customFields as &$customField) {
+            $customField->custom = true;
+            $customField->key = $customField->code;
+            $customField->visible = ! intval($customField->hide);
+        }
+        $defaultHeaders = FieldAttribute::DEFAULT_HEADERS;
+        $fields = array_merge($customFields->toArray(), $defaultHeaders);
+        $orderedFieldIds = FieldAttribute::query()->whereNotNull('user_list_id')->unHidden()->where('user_id', Auth::id())->orderBy('order')->pluck('field_id')->toArray();
+        $headerFields = $this->orderFields($fields, $orderedFieldIds);
+        return response()->json([
+            'status' => true,
+            'data' => $headerFields
+        ], 200);
+    }
+
+    public function orderFields($fields, $orderedFieldIds)
+    {
+        return collect($fields)->sortBy(function (&$item) use ($orderedFieldIds) {
+            return array_search($item['id'], $orderedFieldIds);
         })->values()->toArray();
     }
 

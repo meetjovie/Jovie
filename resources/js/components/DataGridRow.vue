@@ -12,7 +12,7 @@
       :creator="creator"
       :row="row"
       freezeColumn
-      dataType="checkbox"
+      type="checkbox"
       width="6"
       class="left-0 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
       <div class="group mx-auto w-6">
@@ -160,8 +160,25 @@
     </DataGridCell>
 
     <template v-for="(column, columnIndex) in otherColumns" :key="row">
+        <DataGridCell
+            v-if="column.custom"
+            :visibleColumns="visibleColumns"
+            :settings="settings"
+            :currentContact="currentContact"
+            :creator="creator"
+            :cellActive="
+          currentCell.row == row && currentCell.column == columnIndex
+        "
+            :currentCell="currentCell"
+            :columnIndex="columnIndex"
+            :rowIndex="row"
+            :networks="networks"
+            :stages="stages"
+            :column="column"
+            v-model="creator.crm_record_by_user[column.key]"
+            :row="row" />
       <DataGridCell
-        v-if="column.meta"
+        v-else-if="column.meta"
         :visibleColumns="visibleColumns"
         :settings="settings"
         :currentContact="currentContact"

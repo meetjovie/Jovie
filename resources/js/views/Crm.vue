@@ -565,6 +565,7 @@
                           :networks="networks"
                           :stages="stages"
                           :creatorsMeta="creatorsMeta"
+                          :columns="columns"
                           :loading="loading">
                           <slot header="header"></slot>
                         </DataGrid>
@@ -688,6 +689,7 @@ import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import ImportService from '../services/api/import.service';
 import KBShortcut from '../components/KBShortcut.vue';
 import elementaryIcon from "vue-simple-icons/icons/ElementaryIcon";
+import FieldService from "../services/api/field.service";
 
 export default {
   name: 'CRM',
@@ -805,6 +807,7 @@ export default {
       selectedList: null,
       currentSortBy: 'id',
       currentSortOrder: 'desc',
+        columns: [],
     };
   },
   watch: {
@@ -861,6 +864,7 @@ export default {
   },
   async mounted() {
     await this.getUserLists();
+    await this.getHeaders();
     this.getCrmCreators();
     this.crmCounts();
     //c sets openCreatorModal to true
@@ -996,6 +1000,32 @@ export default {
     });
   },
   methods: {
+      getHeaders() {
+          this.headersLoaded = false
+          FieldService.getHeaderFields()
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.columns = response.data;
+                  }
+              })
+              .catch((error) => {
+                  if (error.response && error.response.status == 422) {
+                      this.errors = error.data.errors;
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: Object.values(error.data.errors)[0][0],
+                      });
+                  }
+              })
+              .finally((response) => {
+                  // this.saving = false;
+                  this.headersLoaded = true;
+              });
+      },
       onListDrop(listId) {
           this.$refs.crmTableGrid.toggleCreatorsFromList(this.$store.state.currentlyDraggedCreator, listId, false)
       },

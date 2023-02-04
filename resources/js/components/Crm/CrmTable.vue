@@ -585,7 +585,7 @@
                       :creator="creator"
                       :index="index"
                       width="20"
-                      dataType="text"
+                      type="text"
                       columnName="first_name"
                       class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
                       <DataGridCellTextInput
@@ -642,7 +642,7 @@
                     </DataGridCell>
                     <DataGridCell
                       columnName="emails"
-                      dataType="email"
+                      type="email"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
@@ -651,7 +651,7 @@
                       class="border-1 table-cell border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-jovieDark-border">
                       <DataGridCellTextInput
                         class="h-full"
-                        dataType="email"
+                        type="email"
                         fieldId="creator-email"
                         @blur="$emit('updateCrmMeta', creator)"
                         @keyup.enter="$emit('selectNextCreator', creator)"
@@ -709,7 +709,7 @@
                       width="12">
                       <DataGridCellTextInput
                         fieldId="creator-offer"
-                        dataType="currency"
+                        type="currency"
                         @blur="
                           $emit('updateCreator', {
                             id: creator.id,

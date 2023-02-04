@@ -319,19 +319,22 @@
                     </div>
                   </th>
 
-                  <template :key="column.key" v-for="column in otherColumns">
-                    <th
-                      v-if="column.visible"
-                      scope="col"
-                      :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <CrmTableSortableHeader
-                        class="w-full"
-                        @sortData="sortData"
-                        @hide-column="column.visible = false"
-                        :column="column" />
-                    </th>
-                  </template>
+                    <draggable v-model="headers" itemKey="key">
+                        <template  #item="{ element, index }">
+                            <th
+                                :key="element.key" :id="element.key"
+                                v-if="element.visible"
+                                scope="col"
+                                :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
+                                class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                                <CrmTableSortableHeader
+                                    class="w-full"
+                                    @sortData="sortData"
+                                    @hide-column="element.visible = false"
+                                    :column="element" />
+                            </th>
+                        </template>
+                    </draggable>
 
                   <th
                     scope="col"
@@ -581,132 +584,9 @@ export default {
           type: 'toggle',
         },
       ],
-      columns: [
-        {
-          name: 'Name',
-          key: 'full_name',
-          meta: true,
-          icon: 'Bars3BottomLeftIcon',
-          sortable: true,
-          visible: true,
-          dataType: 'text',
-        },
-        {
-          name: 'First',
-          key: 'first_name',
-          meta: true,
-          icon: 'Bars3BottomLeftIcon',
-          sortable: false,
-          visible: false,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'text',
-        },
-        {
-          name: 'Last',
-          key: 'last_name',
-          meta: true,
-          icon: 'Bars3BottomLeftIcon',
-          visible: false,
-          sortable: false,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'text',
-        },
-        {
-          name: 'Title',
-          key: 'platform_title',
-          meta: true,
-          icon: 'UserIcon',
-          visible: false,
-          breakpoint: '2xl',
-          dataType: 'text',
-        },
-        {
-          name: 'Company',
-          key: 'platform_employer',
-          meta: true,
-          icon: 'BriefcaseIcon',
-          visible: false,
-          sortable: false,
-          breakpoint: '2xl',
-          width: 40,
-          dataType: 'text',
-        },
-
-        {
-          name: 'Email',
-          key: 'emails',
-          meta: true,
-          icon: 'AtSymbolIcon',
-          visible: true,
-          breakpoint: 'lg',
-          width: 40,
-          dataType: 'email',
-        },
-
-        {
-          name: 'Social Links',
-          key: 'networks',
-          meta: true,
-          icon: 'LinkIcon',
-          visible: true,
-          width: '40',
-          dataType: 'socialLinks',
-        },
-        {
-          name: 'Offer',
-          key: 'crm_record_by_user.offer',
-          icon: 'CurrencyDollarIcon',
-          sortable: false,
-          visible: false,
-          breakpoint: 'lg',
-          width: '40',
-          dataType: 'currency',
-        },
-        {
-          name: 'Stage',
-          key: 'crm_record_by_user.stage',
-          icon: 'ArrowDownCircleIcon',
-          width: '40',
-          sortable: true,
-          visible: true,
-          breakpoint: 'md',
-          dataType: 'singleSelect',
-        },
-        {
-          name: 'Last Contact',
-          key: 'crm_record_by_user.last_contacted',
-          icon: 'CalendarDaysIcon',
-          sortable: false,
-          visible: false,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'date',
-        },
-        {
-          name: 'Rating',
-          key: 'crm_record_by_user.rating',
-          icon: 'StarIcon',
-          sortable: true,
-          visible: true,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'rating',
-        },
-        {
-          name: 'Lists',
-          key: 'crm_record_by_user.lists',
-          icon: 'ListBulletIcon',
-          sortable: true,
-          visible: true,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'multiSelect',
-        },
-      ],
       currentSort: 'asc',
       currentSortBy: '',
+      headers: []
     };
   },
   props: [
@@ -721,6 +601,7 @@ export default {
     'subheader',
     'header',
     'counts',
+    'columns'
   ],
   expose: ['toggleCreatorsFromList'],
   watch: {
@@ -791,10 +672,10 @@ export default {
         });
       }
     });
-    let columns = JSON.parse(localStorage.getItem('columns'));
-    if (columns) {
-      this.columns = columns;
-    }
+    // let columns = JSON.parse(localStorage.getItem('columns'));
+    // if (columns) {
+    //   this.columns = columns;
+    // }
     let settings = JSON.parse(localStorage.getItem('settings'));
     if (settings) {
       this.settings = settings;
@@ -830,7 +711,6 @@ export default {
       });
     },
     visibleColumns() {
-      localStorage.setItem('columns', JSON.stringify(this.columns));
       return this.columns
         .filter((col) => col.visible)
         .map((column) => {
@@ -841,6 +721,7 @@ export default {
       return this.columns.find((column) => column.key == 'full_name');
     },
     otherColumns() {
+      this.headers = this.columns.filter((column) => column.key != 'full_name')
       return this.columns.filter((column) => column.key != 'full_name');
     },
     filteredColumnList() {
