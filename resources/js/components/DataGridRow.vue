@@ -1,6 +1,6 @@
 <template>
   <tr
-    class="group w-full flex-row overflow-y-visible border border-slate-300 focus-visible:ring-indigo-700 dark:border-jovieDark-border"
+    class="group w-full flex-row overflow-y-visible focus-visible:ring-indigo-700"
     :class="[
       currentContact.id == creator.id
         ? 'border border-jovieDark-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700'
@@ -15,7 +15,7 @@
       type="checkbox"
       width="6"
       class="left-0 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
-      <div class="group mx-auto w-6">
+      <div class="group mx-auto w-6 items-center">
         <span
           class="group-hover:block"
           :class="[
@@ -78,7 +78,7 @@
       freezeColumn
       width="60"
       v-on:dblclick="cellActive"
-      class="border-seperate left-[55px] cursor-pointer border-y-2 border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:after:border-jovieDark-border">
+      class="border-seperate left-[55px] cursor-pointer border-y border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r-2 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:after:border-jovieDark-border">
       <div class="flex items-center justify-between">
         <div
           @click="$emit('openSidebar', { contact: creator, index: row })"

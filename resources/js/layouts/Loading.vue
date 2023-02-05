@@ -33,7 +33,7 @@
               leave-to="opacity-0 scale-0 "
               hide="opacity-0">
               <div
-                class="animation-pulse mt-1 h-0.5 w-full rounded-md bg-gradient-to-r from-transparent via-white to-transparent"></div>
+                class="animation-pulse via-idnigo-700 mt-1 h-0.5 w-full rounded-md bg-gradient-to-r from-transparent to-transparent dark:via-white"></div>
             </TransitionChild>
           </TransitionRoot>
         </div>

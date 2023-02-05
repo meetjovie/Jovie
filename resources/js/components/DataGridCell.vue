@@ -6,31 +6,21 @@
       (column && visibleColumns.includes(column.key))
     "
     :class="[
+      'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium  dark:border-jovieDark-border',
       cellActive
-        ? ' border-2 border-indigo-500 dark:border-indigo-500'
-        : 'border-x border-slate-300  dark:border-jovieDark-border ',
-      currentContact.id == creator.id
-        ? ' bg-slate-100 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
-        : 'bg-white text-slate-600 dark:bg-jovieDark-900 dark:text-slate-200  ',
-
-      freezeColumn
-        ? 'sticky isolate z-20 border-none font-bold focus:border-none focus:outline-none focus:ring-0'
+        ? ' outline-2 outline-indigo-500  dark:outline-indigo-500'
         : '',
-
+      currentContact.id == creator.id
+        ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
+        : ' text-slate-600  dark:text-slate-200',
+      freezeColumn
+        ? 'sticky isolate z-20 border-transparent bg-white font-bold dark:bg-jovieDark-900'
+        : '',
       columnWidth ? `w-${columnWidth}` : '',
-    ]"
-    class="overflow-auto whitespace-nowrap text-center text-xs font-medium focus:border-none focus:outline-indigo-500 focus:ring-0 before:dark:border-jovieDark-border">
+    ]">
     <slot></slot>
-    <!--   <component
-        ref="cellInput"
-        tabindex="0"
-        :is="inputComponent"
-        :fieldId="fieldId"
-        @blur="onBlur"
-        :placeholder="columnName"
-        v-model="modelValue" /> -->
+
     <div @click.prevent="setFocus()" v-if="!freezeColumn">
-      <!--  <span v-if="cellActive">Active</span> -->
       <star-rating
         v-if="column.type == 'rating'"
         class="mx-auto px-2"

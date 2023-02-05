@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full items-center overflow-auto px-2">
+  <div class="flex h-6 w-full items-center overflow-auto px-2">
     <div class="mr-1 flex">
       <div v-for="item in lists" class="mr-2 flex" :key="item.order">
         <div
