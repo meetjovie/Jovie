@@ -15,7 +15,7 @@ export default defineComponent({
   },
   computed: {
     colorClass() {
-      return `bg-${this.color}-500`;
+      return `bg-${this.color}-500`; // bg-red-500
     },
   },
 });
