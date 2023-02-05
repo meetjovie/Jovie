@@ -4,7 +4,9 @@
     :class="colorClass"></span>
 </template>
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     color: {
       type: String,
@@ -16,5 +18,5 @@ export default {
       return `bg-${this.color}-500`;
     },
   },
-};
+});
 </script>

@@ -52,8 +52,9 @@
                         placeholder="Company"
                         class="w-full rounded-md border border-slate-300 dark:border-jovieDark-border border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
                     </div> -->
-            <div v-if="creator.category" class="">
+            <div class="h-5">
               <span
+                v-if="creator.category"
                 class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -482,7 +483,6 @@
                   </template>
                   <template v-else>
                     <DataInputGroup
-                      @contextmenu.prevent="alert('right click')"
                       @copy="copyToClipboard(element.value)"
                       class="group/draggable"
                       @actionMethod="
@@ -508,9 +508,9 @@
               </draggable>
               <div class="select-none space-y-4" v-else>
                 <div class="select-none space-y-4" v-for="n in 10" :key="n">
-                  <div class="space-y-6">
+                  <div class="space-y-8">
                     <div
-                      class="h-9 animate-pulse rounded-md bg-slate-50 text-center text-slate-400 dark:text-jovieDark-600" />
+                      class="h-9 animate-pulse rounded-md bg-slate-50 text-center text-slate-400 dark:bg-jovieDark-700 dark:text-jovieDark-600" />
                   </div>
                 </div>
               </div>
