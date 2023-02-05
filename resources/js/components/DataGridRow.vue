@@ -78,10 +78,10 @@
       freezeColumn
       width="60"
       v-on:dblclick="cellActive"
-      class="border-seperate left-[55px] cursor-pointer border-y border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:after:border-jovieDark-border">
+      class="border-seperate left-[55px] cursor-pointer border-y-2 border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:after:border-jovieDark-border">
       <div class="flex items-center justify-between">
         <div
-          @click="$emit('openSidebar', {contact: creator, index: row})"
+          @click="$emit('openSidebar', { contact: creator, index: row })"
           class="flex w-full items-center">
           <ContactAvatar :creator="creator" class="mr-2" />
           <div
@@ -105,7 +105,7 @@
           </div>
         </div>
         <div
-          @click="$emit('openSidebar', {contact: creator, index: row})"
+          @click="$emit('openSidebar', { contact: creator, index: row })"
           class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-300 dark:active:bg-slate-800">
           <ArrowTopRightOnSquareIcon
             v-if="
@@ -160,23 +160,23 @@
     </DataGridCell>
 
     <template v-for="(column, columnIndex) in otherColumns" :key="row">
-        <DataGridCell
-            v-if="column.custom"
-            :visibleColumns="visibleColumns"
-            :settings="settings"
-            :currentContact="currentContact"
-            :creator="creator"
-            :cellActive="
+      <DataGridCell
+        v-if="column.custom"
+        :visibleColumns="visibleColumns"
+        :settings="settings"
+        :currentContact="currentContact"
+        :creator="creator"
+        :cellActive="
           currentCell.row == row && currentCell.column == columnIndex
         "
-            :currentCell="currentCell"
-            :columnIndex="columnIndex"
-            :rowIndex="row"
-            :networks="networks"
-            :stages="stages"
-            :column="column"
-            v-model="creator.crm_record_by_user[column.key]"
-            :row="row" />
+        :currentCell="currentCell"
+        :columnIndex="columnIndex"
+        :rowIndex="row"
+        :networks="networks"
+        :stages="stages"
+        :column="column"
+        v-model="creator.crm_record_by_user[column.key]"
+        :row="row" />
       <DataGridCell
         v-else-if="column.meta"
         :visibleColumns="visibleColumns"
@@ -258,7 +258,7 @@ export default {
         count: 1,
         list_id: list.id,
         remove: !add,
-          creatorIds: [this.creator.id]
+        creatorIds: [this.creator.id],
       });
     },
     handleCellUpdate(payload) {

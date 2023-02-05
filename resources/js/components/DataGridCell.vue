@@ -93,7 +93,13 @@
             id="date"
             class="block w-full border-none bg-transparent pr-12 placeholder-slate-400 outline-none focus:border-none dark:placeholder-slate-200 sm:text-sm" />
           <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-            <JovieDatePicker :value="modelValue" @update:modelValue="$emit('update:modelValue', $event); updateData();" class="isolate z-50" />
+            <JovieDatePicker
+              :value="modelValue"
+              @update:modelValue="
+                $emit('update:modelValue', $event);
+                updateData();
+              "
+              class="isolate z-50" />
           </div>
         </div>
       </div>
@@ -152,18 +158,18 @@ export default {
   methods: {
     updateData(value = null) {
       setTimeout(() => {
-          this.$emit('update:modelValue', this.modelValue);
-          if (this.column.meta) {
-              this.$emit('updateCrmMeta', this.creator);
-          } else {
-              this.$emit('updateCreator', {
-                  id: this.creator.id,
-                  index: this.row,
-                  key: this.column.key,
-                  value: value ?? this.modelValue,
-              });
-          }
-      }, 500)
+        this.$emit('update:modelValue', this.modelValue);
+        if (this.column.meta) {
+          this.$emit('updateCrmMeta', this.creator);
+        } else {
+          this.$emit('updateCreator', {
+            id: this.creator.id,
+            index: this.row,
+            key: this.column.key,
+            value: value ?? this.modelValue,
+          });
+        }
+      }, 500);
     },
     handleInput(event) {
       const dateRegex =

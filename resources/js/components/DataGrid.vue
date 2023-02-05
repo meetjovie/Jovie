@@ -4,7 +4,10 @@
       <div class="h-full pb-10">
         <header
           class="flex w-full items-center justify-between border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
-          <DataGridHeaderContent :header="header" :subheader="subheader" />
+          <DataGridHeaderContent
+            :loading="loading"
+            :header="header"
+            :subheader="subheader" />
           <!--  <span
             class="flex w-40 items-center text-xs text-slate-600 dark:text-jovieDark-200">
             >You're in Column: {{ currentCell.column }} Row:
@@ -209,27 +212,27 @@
                   class="sticky top-0 z-50 h-8 w-full items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
                     <div
-                      class="h-4 w-4 animate-pulse rounded-md bg-slate-300 px-2"></div>
+                      class="h-4 w-3 animate-pulse rounded-md bg-slate-300"></div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <div
-                      class="h-4 w-8 animate-pulse rounded-md bg-slate-300 px-2"></div>
+                      class="h-4 w-8 animate-pulse rounded-md bg-slate-300"></div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
+                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
                     <div
-                      class="h-4 w-40 animate-pulse rounded-md bg-slate-300 px-2"></div>
+                      class="h-4 w-40 animate-pulse rounded-md bg-slate-300"></div>
                   </th>
                   <th
                     v-for="i in 10"
-                    class="dark:border-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="dark:border-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <div
-                      class="h-4 w-24 animate-pulse rounded-md bg-slate-300 px-2"></div>
+                      class="h-4 w-24 animate-pulse rounded-md bg-slate-300"></div>
                   </th>
                 </tr>
                 <draggable
@@ -373,8 +376,10 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <CustomFieldsMenu />
+                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-700">
+                      <div class="w-40">
+                        <CustomFieldsMenu class="" />
+                      </div>
                     </th>
 
                     <th
@@ -600,7 +605,7 @@ export default {
       view: {
         atTopOfPage: true,
       },
-      headersLoaded: false,
+
       creatorRecords: [],
       tableViewSearchQuery: '',
       searchQuery: '',
@@ -644,6 +649,7 @@ export default {
     'header',
     'counts',
     'columns',
+    'headersLoaded',
   ],
   expose: ['toggleCreatorsFromList'],
   watch: {

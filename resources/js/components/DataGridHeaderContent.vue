@@ -1,6 +1,7 @@
 <template>
-  <div class="w-full items-center px-4">
+  <div class="h-10 w-full items-center px-4">
     <h1
+      v-if="!loading"
       class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
       <component
         :is="icon"
@@ -9,16 +10,31 @@
         aria-hidden="true" />
       {{ headerText + ' Contacts' }}
     </h1>
-    <p class="text-2xs font-light text-slate-600">
+    <h1 v-else class="mr-2 h-4 w-60 animate-pulse rounded-sm bg-slate-300"></h1>
+    <p v-if="!loading" class="text-2xs font-light text-slate-600">
       {{ contactCount }}
     </p>
+    <p v-else class="h-3 w-20 animate-pulse rounded-sm bg-slate-300"></p>
   </div>
 </template>
-
 <script>
 import { UserGroupIcon, HeartIcon, UserIcon } from '@heroicons/vue/24/solid';
+
 export default {
-  props: ['header', 'subheader'],
+  props: {
+    header: {
+      type: String,
+      required: true,
+    },
+    subheader: {
+      type: Object,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     UserGroupIcon,
     HeartIcon,

@@ -1,10 +1,11 @@
 <template>
   <Popover class="relative">
     <Float shift portal placement="left-start">
-      <PopoverButton class="">
+      <PopoverButton
+        class="h-full w-full items-center focus:border-none focus:outline-none focus:ring-0">
         <slot>
           <PlusIcon
-            class="h-4 w-4 text-slate-600 dark:text-jovieDark-200"></PlusIcon>
+            class="mx-auto h-4 w-4 text-slate-600 dark:text-jovieDark-200"></PlusIcon>
         </slot>
       </PopoverButton>
 
@@ -210,7 +211,7 @@ export default {
               description: '',
               options: [],
             };
-            this.$emit('getFields')
+            this.$emit('getFields');
             close();
           } else {
             this.$notify({
