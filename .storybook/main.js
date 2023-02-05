@@ -1,11 +1,12 @@
 const path = require('path');
 
 module.exports = {
-    stories: ['../resources/js/components/storybook.stories.js'],
+  stories: ['../resources/js/components/storybook.stories.js'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    '@storybook/addon-knobs',
     /* {
       name: "@storybook/addon-postcss",
       options: {

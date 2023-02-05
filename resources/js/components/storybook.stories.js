@@ -1,4 +1,7 @@
-import { storiesOf } from "@storybook/vue3";
-import JovieSpinner from "./JovieSpinner.vue";
+/* import { buildStories } from '/Users/timwhite/Documents/GitHub/Jovie/.storybook/lib.js'; */
+import { buildStories } from '../../../.storybook/lib.js';
 
-storiesOf("JovieSpinner", module).add("JovieSpinner", () => JovieSpinner);
+const stories = require.context('./', true, /\.story\.vue$/);
+stories.keys().forEach((story) => {
+  buildStories(stories(story).default);
+});

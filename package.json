@@ -66,6 +66,8 @@
     "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
     "@meilisearch/instant-meilisearch": "^0.8.2",
+    "@storybook/addon-knobs": "^6.4.0",
+    "@storybook/addons": "^6.5.16",
     "@storybook/vue3": "^6.5.16",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
