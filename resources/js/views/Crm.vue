@@ -544,6 +544,7 @@
                           <slot header="header"></slot>
                         </CrmTable> -->
                         <DataGrid
+                            v-if="columns.length"
                           class="overflow-hidden"
                           ref="crmTableGrid"
                           @addContact="showCreatorModal = true"

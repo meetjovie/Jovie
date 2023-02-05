@@ -408,7 +408,7 @@
                     :stages="stages"
                     :visibleColumns="visibleColumns"
                     :settings="settings"
-                    :otherColumns="otherColumns"
+                    :otherColumns="headers"
                     :filters="filters"
                     :currentContact="currentContact"
                     :selectedCreators="selectedCreators"
@@ -731,6 +731,8 @@ export default {
     this.creatorRecords = this.creatorRecords.length
       ? this.creatorRecords
       : this.creators;
+
+      this.headers = this.columns.filter((column) => column.key != 'full_name');
   },
   computed: {
     sidebarOpen() {
