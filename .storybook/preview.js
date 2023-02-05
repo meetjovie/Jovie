@@ -1,4 +1,5 @@
 import './tailwind.css';
+import Vue from 'vue';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
