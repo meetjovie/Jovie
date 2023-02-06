@@ -1004,7 +1004,7 @@ export default {
   methods: {
     getHeaders() {
       this.headersLoaded = false;
-      FieldService.getHeaderFields()
+      FieldService.getHeaderFields(this.filters.list)
         .then((response) => {
           response = response.data;
           if (response.status) {

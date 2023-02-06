@@ -32,7 +32,7 @@ class FieldsController extends Controller
         ], 200);
     }
 
-    public function headerFields()
+    public function headerFields($listId)
     {
         $customFields = CustomField::query()->with('customFieldOptions')->get();
         foreach ($customFields as &$customField) {
@@ -42,7 +42,7 @@ class FieldsController extends Controller
         }
         $defaultHeaders = FieldAttribute::DEFAULT_HEADERS;
         $fields = array_merge($customFields->toArray(), $defaultHeaders);
-        $orderedFieldIds = FieldAttribute::query()->whereNotNull('user_list_id')->unHidden()->where('user_id', Auth::id())->orderBy('order')->pluck('field_id')->toArray();
+        $orderedFieldIds = FieldAttribute::query()->where('user_list_id', $listId)->unHidden()->orderBy('order')->pluck('field_id')->toArray();
         $headerFields = $this->orderFields($fields, $orderedFieldIds);
         return response()->json([
             'status' => true,
@@ -65,6 +65,7 @@ class FieldsController extends Controller
             $defaultsFields = collect(FieldAttribute::DEFAULT_FIELDS);
             $field = (object) $defaultsFields->where('id', 5)->first();
         }
+
         if (!$field) {
             throw ValidationException::withMessages([
                 'field' => ['field does not exists']
@@ -85,7 +86,7 @@ class FieldsController extends Controller
                     'message' => 'Order updated'
                 ], 202);
             }
-            FieldAttribute::updateSortOrder($id, Auth::id(), $newIndex, $oldIndex);
+            FieldAttribute::updateSortOrder($id, Auth::id(), $newIndex, $oldIndex, $request->listId);
             return response()->json([
                 'status' => true,
                 'message' => 'Order updated'

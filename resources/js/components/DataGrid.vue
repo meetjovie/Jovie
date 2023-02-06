@@ -241,6 +241,7 @@
                   itemKey="key"
                   ghost-class="ghost-header"
                   tag="tr"
+                  @end="sortFields"
                   class="sticky h-8 items-center">
                   <template #header>
                     <th
@@ -360,8 +361,8 @@
 
                   <template #item="{ element, index }">
                     <th
-                      :key="element.key"
-                      :id="element.key"
+                      :key="element.id"
+                      :id="element.id"
                       v-if="element.visible"
                       scope="col"
                       :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
@@ -788,6 +789,9 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      sortFields(e) {
+          this.$store.dispatch('sortFields', { self: this, newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true', listId: this.filters.list, itemId: e.item.id })
+      },
     startDrag(e) {
       this.$store.state.currentlyDraggedCreator = e.item.id;
       console.log(this.$store.state.currentlyDraggedCreator);

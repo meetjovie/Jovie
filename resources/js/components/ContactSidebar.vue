@@ -805,48 +805,8 @@ export default {
     };
   },
   methods: {
-      sortFields(e, listId) {
-          UserService.sortFields(
-              { newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true' },
-              e.item.id
-          )
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                  } else {
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                      // show toast error here later
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                      if (this.errors.list[0]) {
-                          this.$notify({
-                              group: 'user',
-                              type: 'success',
-                              duration: 15000,
-                              title: 'Successful',
-                              text: this.errors.list[0],
-                          });
-                      }
-                  }
-              })
-              .finally((response) => {});
+      sortFields(e, listId = '') {
+          this.$store.dispatch('sortFields', { self: this, newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true', listId: listId, itemId: e.item.id })
       },
       getFields() {
       FieldService.getFields(this.creator.id)

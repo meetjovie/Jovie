@@ -286,6 +286,7 @@ class FieldAttribute extends Model
         'user_id',
         'team_id',
         'field_id',
+        'user_list_id',
         'type',
         'order',
         'hide',
@@ -321,10 +322,15 @@ class FieldAttribute extends Model
         return $this->belongsTo(CustomField::class);
     }
 
-    public static function updateSortOrder($fieldId = null, $userId, $newIndex = 0, $oldIndex = 0)
+    public static function updateSortOrder($fieldId = null, $userId, $newIndex = 0, $oldIndex = 0, $listId = null) // listId suggests that its for headers
     {
         $customFieldIds = CustomField::query()->pluck('id')->toArray();
-        $defaultIds = array_column(FieldAttribute::DEFAULT_FIELDS, 'id');
+
+        if (is_null($listId)) {
+            $defaultIds = array_column(FieldAttribute::DEFAULT_FIELDS, 'id');
+        } else {
+            $defaultIds = array_column(FieldAttribute::DEFAULT_HEADERS, 'id');
+        }
 
         $fieldIds = array_merge($customFieldIds, $defaultIds);
         $fieldIdsToUpdate = array_map('strval', array_diff($fieldIds, [$fieldId]));
@@ -333,27 +339,44 @@ class FieldAttribute extends Model
         if (!is_null($fieldId)) {
             if ($newIndex > $oldIndex) {
                 // update user list set order = order-1 where order <= newIndex and id != listID
-                FieldAttribute::where('order', '<=', $newIndex)
+                $fieldAttribute = FieldAttribute::where('order', '<=', $newIndex)
                     ->whereIn('field_id', $fieldIdsToUpdate)
-                    ->where('user_id', $userId)
-                    ->update(['order' => (DB::raw('`order` - 1'))]);
+                    ->where('user_id', $userId);
+                if (!is_null($listId)) {
+                    $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
+                }
+                $fieldAttribute->update(['order' => (DB::raw('`order` - 1'))]);
                 // update userlist set order = newOrder where id = listId
-                FieldAttribute::where('field_id', $fieldId)
-                    ->where('user_id', $userId)
-                    ->update(['order' => $newIndex]);
+                $fieldAttribute = FieldAttribute::where('field_id', $fieldId)
+                    ->where('user_id', $userId);
+                if (!is_null($listId)) {
+                    $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
+                }
+                dd($fieldAttribute->first());
+                $fieldAttribute->update(['order' => $newIndex]);
             } elseif ($newIndex < $oldIndex) { // newIndex < $oldIndex
                 // update user list set order = order+1 where order >= newIndex and id != listID
-                FieldAttribute::where('order', '>=', $newIndex)
+                $fieldAttribute = FieldAttribute::where('order', '>=', $newIndex)
                     ->whereIn('field_id', $fieldIdsToUpdate)
-                    ->where('user_id', $userId)
-                    ->update(['order' => (DB::raw('`order` + 1'))]);
+                    ->where('user_id', $userId);
+                if (!is_null($listId)) {
+                    $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
+                }
+                $fieldAttribute->update(['order' => (DB::raw('`order` + 1'))]);
                 // update userlist set order = newOrder where id = listId
-                FieldAttribute::where('field_id', $fieldId)
-                    ->where('user_id', $userId)
-                    ->update(['order' => $newIndex]);
+                $fieldAttribute = FieldAttribute::where('field_id', $fieldId)
+                    ->where('user_id', $userId);
+                if (!is_null($listId)) {
+                    $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
+                }
+                $fieldAttribute->update(['order' => $newIndex]);
             }
         }
-        $listOrders = FieldAttribute::where('user_id', $userId)->whereIn('field_id', $fieldIds)->orderBy('order')->get();
+        $listOrders = FieldAttribute::where('user_id', $userId)->whereIn('field_id', $fieldIds)->orderBy('order');
+        if (!is_null($listId)) {
+            $listOrders = $listOrders->where('user_list_id', $listId);
+        }
+        $listOrders = $listOrders->get();
         foreach ($listOrders as $k => $list) {
             $list->order = $k;
             $list->save();

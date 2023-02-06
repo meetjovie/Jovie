@@ -123,7 +123,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('set-field-attributes/{id}', [FieldsController::class, 'setFieldAttributes']);
 
     // HEADERS
-    Route::get('header-fields', [FieldsController::class, 'headerFields']);
+    Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);
 
     /**
      * Teamwork routes
