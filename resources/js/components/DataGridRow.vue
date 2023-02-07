@@ -175,6 +175,7 @@
         :networks="networks"
         :stages="stages"
         :column="column"
+        @updateCreator="$emit('updateCreator', $event)"
         v-model="creator.crm_record_by_user[column.key]"
         :row="row" />
       <DataGridCell
