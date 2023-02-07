@@ -345,7 +345,7 @@
                         </Menu>
                       </div>
                       <div v-else>
-                        <CrmTableSortableHeader
+                        <DataGridColumnHeader
                           icon="Bars3BottomLeftIcon"
                           :column="fullNameColumn"
                           @sortData="
@@ -367,7 +367,7 @@
                       scope="col"
                       :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
                       class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <CrmTableSortableHeader
+                      <DataGridColumnHeader
                         class="w-full"
                         @sortData="sortData"
                         @hide-column="element.visible = false"
@@ -514,7 +514,7 @@ import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import ImportService from './../services/api/import.service';
 import ButtonGroup from './ButtonGroup.vue';
-import CrmTableSortableHeader from './CrmTableSortableHeader.vue';
+import DataGridColumnHeader from './DataGridColumnHeader.vue';
 import DataGridCell from './DataGridCell.vue';
 import DataGridCellTextInput from './DataGridCellTextInput.vue';
 import DataGridHeaderContent from './DataGridHeaderContent.vue';
@@ -578,7 +578,7 @@ export default {
     JovieTooltip,
     PlusIcon,
     JovieSpinner,
-    CrmTableSortableHeader,
+    DataGridColumnHeader,
     Bars3BottomLeftIcon,
     AtSymbolIcon,
     CurrencyDollarIcon,

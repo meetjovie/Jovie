@@ -361,7 +361,7 @@
                       </Menu>
                     </div>
                     <div v-else>
-                      <CrmTableSortableHeader
+                      <DataGridColumnHeader
                         icon="Bars3BottomLeftIcon"
                         :column="fullNameColumn"
                         @sortData="
@@ -380,7 +380,7 @@
                       v-if="column.visible"
                       scope="col"
                       class="dark:border-x-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <CrmTableSortableHeader
+                      <DataGridColumnHeader
                         class="w-full"
                         @sortData="sortData"
                         @hide-column="column.visible = false"
@@ -948,7 +948,7 @@ import LoadingOverlay from '../../components/LoadingOverlay';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import ImportService from '../../services/api/import.service';
-import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
+import DataGridColumnHeader from '../DataGridColumnHeader.vue';
 export default {
   name: 'CrmTable',
   components: {
@@ -1002,7 +1002,7 @@ export default {
     JovieTooltip,
     PlusIcon,
     JovieSpinner,
-    CrmTableSortableHeader,
+    DataGridColumnHeader,
     Bars3BottomLeftIcon,
     AtSymbolIcon,
     CurrencyDollarIcon,
@@ -1696,7 +1696,7 @@ export default {
               count: creatorIds.length,
               list_id: list,
               remove: remove,
-                creatorIds: creatorIds
+              creatorIds: creatorIds,
             });
           } else {
             this.$notify({
