@@ -364,7 +364,6 @@
                       :key="element.id"
                       :id="element.id"
                       v-show="element.visible"
-
                       scope="col"
                       :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
                       class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
@@ -378,7 +377,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-700">
+                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div class="w-40">
                         <CustomFieldsMenu class="" />
                       </div>
@@ -734,7 +733,7 @@ export default {
       ? this.creatorRecords
       : this.creators;
 
-      this.headers = this.columns.filter((column) => column.key != 'full_name');
+    this.headers = this.columns.filter((column) => column.key != 'full_name');
   },
   computed: {
     sidebarOpen() {
@@ -790,11 +789,18 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      sortFields(e) {
-          e.newIndex -= 3;
-          e.oldIndex -= 3;
-          this.$store.dispatch('sortFields', { self: this, newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true', listId: this.filters.list, itemId: e.item.id })
-      },
+    sortFields(e) {
+      e.newIndex -= 3;
+      e.oldIndex -= 3;
+      this.$store.dispatch('sortFields', {
+        self: this,
+        newIndex: e.newIndex,
+        oldIndex: e.oldIndex,
+        custom: e.item.dataset.custom === 'true',
+        listId: this.filters.list,
+        itemId: e.item.id,
+      });
+    },
     startDrag(e) {
       this.$store.state.currentlyDraggedCreator = e.item.id;
       console.log(this.$store.state.currentlyDraggedCreator);

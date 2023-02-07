@@ -36,7 +36,7 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <title>Jovie</title>
     </head>
-    <body class="h-screen my-auto overflow-x-hidden">
+    <body class="h-screen my-auto overscroll-x-none overflow-x-hidden">
         <div id="app">
             <App></App>
         </div>

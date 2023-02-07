@@ -1,12 +1,6 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
-  <div
-    class="group/header w-44"
-    @contextmenu.prevent="openMenu()"
-    @click="
-      $emit('sortData', { sortBy: column.key, sortOrder: column.sortOrder })
-    "
-    v-if="column">
+  <div class="group/header w-44" v-if="column">
     <Popover v-slot="{ open }" class="w-full">
       <Float placement="bottom-start" :offset="2" portal shift>
         <div class="w-full">
@@ -18,7 +12,9 @@
                   sortable,
               },
             ]">
-            <div class="text-medium flex w-full items-center tracking-wider">
+            <div
+              @contextmenu.prevent="openMenu()"
+              class="text-medium flex w-full items-center tracking-wider">
               <component
                 class="mr-1 h-4 w-4 text-slate-400 dark:text-jovieDark-200"
                 :class="{
@@ -31,6 +27,12 @@
               </span>
             </div>
             <div
+              @click="
+                $emit('sortData', {
+                  sortBy: column.key,
+                  sortOrder: column.sortOrder,
+                })
+              "
               v-if="column.sortable"
               class="cursor-pointer text-slate-400 dark:text-jovieDark-600">
               <svg
@@ -123,7 +125,7 @@ export default {
   },
   data() {
     return {
-      open: false,
+      open: true,
     };
   },
   methods: {

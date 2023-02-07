@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    class="flex h-screen overflow-hidden bg-slate-100 transition-all duration-1000 ease-in-out">
+    class="flex h-screen overflow-hidden overscroll-x-none bg-slate-100 transition-all duration-1000 ease-in-out">
     <div class="z-10 flex w-0 flex-1 flex-col overflow-hidden">
       <main
         class="relative flex-1 overflow-y-auto overflow-x-hidden focus-visible:outline-none"
