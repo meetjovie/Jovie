@@ -148,16 +148,6 @@ class FieldAttribute extends Model
     const DEFAULT_HEADERS = [
         [
             'id' => 1,
-            'name' => 'Name',
-            'key' => 'full_name',
-            'meta' => true,
-            'icon' => 'Bars3BottomLeftIcon',
-            'sortable' => true,
-            'visible' => true,
-            'type' => 'text',
-        ],
-        [
-            'id' => 2,
             'name' => 'First',
             'key' => 'first_name',
             'meta' => true,
@@ -169,7 +159,7 @@ class FieldAttribute extends Model
             'type' => 'text',
         ],
         [
-            'id' => 3,
+            'id' => 2,
             'name' => 'Last',
             'key' => 'last_name',
             'meta' => true,
@@ -181,7 +171,7 @@ class FieldAttribute extends Model
             'type' => 'text',
         ],
         [
-            'id' => 4,
+            'id' => 3,
             'name' => 'Title',
             'key' => 'platform_title',
             'meta' => true,
@@ -191,7 +181,7 @@ class FieldAttribute extends Model
             'type' => 'text',
         ],
         [
-            'id' => 5,
+            'id' => 4,
             'name' => 'Company',
             'key' => 'platform_employer',
             'meta' => true,
@@ -204,7 +194,7 @@ class FieldAttribute extends Model
         ],
 
         [
-            'id' => 6,
+            'id' => 5,
             'name' => 'Email',
             'key' => 'emails',
             'meta' => true,
@@ -216,7 +206,7 @@ class FieldAttribute extends Model
         ],
 
         [
-            'id' => 7,
+            'id' => 6,
             'name' => 'Social Links',
             'key' => 'networks',
             'meta' => true,
@@ -226,7 +216,7 @@ class FieldAttribute extends Model
             'type' => 'socialLinks',
         ],
         [
-            'id' => 8,
+            'id' => 7,
             'name' => 'Offer',
             'key' => 'crm_record_by_user.offer',
             'icon' => 'CurrencyDollarIcon',
@@ -237,7 +227,7 @@ class FieldAttribute extends Model
             'type' => 'currency',
         ],
         [
-            'id' => 9,
+            'id' => 8,
             'name' => 'Stage',
             'key' => 'crm_record_by_user.stage',
             'icon' => 'ArrowDownCircleIcon',
@@ -248,7 +238,7 @@ class FieldAttribute extends Model
             'type' => 'select',
         ],
         [
-            'id' => 10,
+            'id' => 9,
             'name' => 'Last Contact',
             'key' => 'crm_record_by_user.last_contacted',
             'icon' => 'CalendarDaysIcon',
@@ -259,7 +249,7 @@ class FieldAttribute extends Model
             'type' => 'date',
         ],
         [
-            'id' => 11,
+            'id' => 10,
             'name' => 'Rating',
             'key' => 'crm_record_by_user.rating',
             'icon' => 'StarIcon',
@@ -270,7 +260,7 @@ class FieldAttribute extends Model
             'type' => 'rating',
         ],
         [
-            'id' => 12,
+            'id' => 11,
             'name' => 'Lists',
             'key' => 'crm_record_by_user.lists',
             'icon' => 'ListBulletIcon',
@@ -280,6 +270,16 @@ class FieldAttribute extends Model
             'width' => '40',
             'type' => 'multi_select',
         ],
+    ];
+
+    const FULL_NAME_HEADER = [
+        'name' => 'Name',
+        'key' => 'full_name',
+        'meta' => true,
+        'icon' => 'Bars3BottomLeftIcon',
+        'sortable' => true,
+        'visible' => true,
+        'type' => 'text',
     ];
 
     protected $fillable = [
@@ -322,7 +322,7 @@ class FieldAttribute extends Model
         return $this->belongsTo(CustomField::class);
     }
 
-    public static function updateSortOrder($fieldId = null, $userId, $newIndex = 0, $oldIndex = 0, $listId = null) // listId suggests that its for headers
+    public static function updateSortOrder($userId, $newIndex = 0, $oldIndex = 0, $fieldId = null, $listId = null) // listId suggests that its for headers
     {
         $customFieldIds = CustomField::query()->pluck('id')->toArray();
 
@@ -342,38 +342,47 @@ class FieldAttribute extends Model
                 $fieldAttribute = FieldAttribute::where('order', '<=', $newIndex)
                     ->whereIn('field_id', $fieldIdsToUpdate)
                     ->where('user_id', $userId);
-                if (!is_null($listId)) {
+                if (is_null($listId)) {
+                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id');
+                } else {
                     $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
                 }
                 $fieldAttribute->update(['order' => (DB::raw('`order` - 1'))]);
                 // update userlist set order = newOrder where id = listId
                 $fieldAttribute = FieldAttribute::where('field_id', $fieldId)
                     ->where('user_id', $userId);
-                if (!is_null($listId)) {
+                if (is_null($listId)) {
+                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id');
+                } else {
                     $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
                 }
-                dd($fieldAttribute->first());
                 $fieldAttribute->update(['order' => $newIndex]);
             } elseif ($newIndex < $oldIndex) { // newIndex < $oldIndex
                 // update user list set order = order+1 where order >= newIndex and id != listID
                 $fieldAttribute = FieldAttribute::where('order', '>=', $newIndex)
                     ->whereIn('field_id', $fieldIdsToUpdate)
                     ->where('user_id', $userId);
-                if (!is_null($listId)) {
+                if (is_null($listId)) {
+                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id');
+                } else {
                     $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
                 }
                 $fieldAttribute->update(['order' => (DB::raw('`order` + 1'))]);
                 // update userlist set order = newOrder where id = listId
                 $fieldAttribute = FieldAttribute::where('field_id', $fieldId)
                     ->where('user_id', $userId);
-                if (!is_null($listId)) {
+                if (is_null($listId)) {
+                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id');
+                } else {
                     $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
                 }
                 $fieldAttribute->update(['order' => $newIndex]);
             }
         }
         $listOrders = FieldAttribute::where('user_id', $userId)->whereIn('field_id', $fieldIds)->orderBy('order');
-        if (!is_null($listId)) {
+        if (is_null($listId)) {
+            $listOrders = $listOrders->whereNull('user_list_id');
+        } else {
             $listOrders = $listOrders->where('user_list_id', $listId);
         }
         $listOrders = $listOrders->get();

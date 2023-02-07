@@ -33,32 +33,36 @@ class SetDefaultFieldsAttributes extends Command
     {
         foreach (User::query()->with('teams.userLists', 'teams.customFields')->get() as $user) {
             foreach ($user->teams as $team) {
-                foreach (FieldAttribute::DEFAULT_FIELDS as $k => $field) {
+
+                $customFieldIds = $team->customFields->pluck('id')->toArray();
+                $defaultFieldIds = array_column(FieldAttribute::DEFAULT_FIELDS, 'id');
+
+                $fieldIds = array_merge($defaultFieldIds, $customFieldIds);
+
+                $defaultHeaderIds = array_column(FieldAttribute::DEFAULT_HEADERS, 'id');
+                $fieldHeaderIds = array_merge($defaultHeaderIds, $customFieldIds);
+
+                foreach ($fieldIds as $k => $fieldId) {
                     FieldAttribute::query()->updateOrCreate([
-                        'field_id' => $field['id'],
+                        'field_id' => $fieldId,
                         'user_id' => $user->id,
                         'team_id' => $team->id,
                     ], [
-                        'type' => 'default',
+                        'type' => is_numeric($fieldId) ? 'default' : 'custom',
                         'order' => $k
                     ]);
                 }
 
                 if ($team->owner_id == $user->id) {
-
-                    $customFieldIds = $team->customFields->pluck('id')->toArray();
-                    $defaultIds = array_column(FieldAttribute::DEFAULT_HEADERS, 'id');
-
-                    $fieldIds = array_merge($defaultIds, $customFieldIds);
                     foreach ($team->userLists as $list) {
-                        foreach ($fieldIds as $k => $fieldId) {
+                        foreach ($fieldHeaderIds as $k => $fieldId) {
                             FieldAttribute::query()->updateOrCreate([
                                 'field_id' => $fieldId,
                                 'user_list_id' => $list->id,
                             ], [
                                 'user_id' => $user->id,
                                 'team_id' => $team->id,
-                                'type' => 'default',
+                                'type' => is_numeric($fieldId) ? 'default' : 'custom',
                                 'order' => $k
                             ]);
                         }

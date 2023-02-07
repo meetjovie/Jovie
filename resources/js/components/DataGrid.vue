@@ -363,7 +363,8 @@
                     <th
                       :key="element.id"
                       :id="element.id"
-                      v-if="element.visible"
+                      v-show="element.visible"
+
                       scope="col"
                       :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
                       class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
@@ -790,6 +791,8 @@ export default {
   },
   methods: {
       sortFields(e) {
+          e.newIndex -= 3;
+          e.oldIndex -= 3;
           this.$store.dispatch('sortFields', { self: this, newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true', listId: this.filters.list, itemId: e.item.id })
       },
     startDrag(e) {

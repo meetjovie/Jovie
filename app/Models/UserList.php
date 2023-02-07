@@ -53,7 +53,7 @@ class UserList extends Model
             $exists = UserList::whereRaw('TRIM(LOWER(name)) = ?', [strtolower(trim($listName))])->whereIn('user_id', $teamUsers)->first();
             if ($exists) {
                 foreach ($teamUsers as $userId) {
-                    self::updateSortOrder($exists->id, $userId);
+                    self::updateSortOrder($userId, 0, 1, $exists->id);
                 }
                 return $exists;
             }
@@ -72,14 +72,14 @@ class UserList extends Model
             }, $teamUsers);
             $list->userListAttributes()->sync($syncData);
             foreach ($teamUsers as $userId) {
-                self::updateSortOrder($list->id, $userId, 0, 1);
+                self::updateSortOrder($userId, 0, 1, $list->id);
             }
             return  $list;
         }
         return new UserList();
     }
 
-    public static function updateSortOrder($listId = null, $userId, $newIndex = 0, $oldIndex = 0)
+    public static function updateSortOrder($userId, $newIndex = 0, $oldIndex = 0, $listId = null)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         $userListIds = UserList::where('team_id', $user->currentTeam->id)->pluck('id')->toArray();

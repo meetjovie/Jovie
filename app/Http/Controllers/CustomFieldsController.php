@@ -42,7 +42,7 @@ class CustomFieldsController extends Controller
                 FieldAttribute::create(['field_id' => $customField->id, 'type' => 'custom', 'order' => 0, 'team_id' => Auth::user()->currentTeam->id, 'user_id' => $userId]);
             }
             foreach ($teamUsers as $userId) {
-                FieldAttribute::updateSortOrder($customField->id, $userId, 0, 1);
+                FieldAttribute::updateSortOrder($userId, 0, 1, $customField->id);
             }
         });
 

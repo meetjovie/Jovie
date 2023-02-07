@@ -44,6 +44,7 @@ class FieldsController extends Controller
         $fields = array_merge($customFields->toArray(), $defaultHeaders);
         $orderedFieldIds = FieldAttribute::query()->where('user_list_id', $listId)->unHidden()->orderBy('order')->pluck('field_id')->toArray();
         $headerFields = $this->orderFields($fields, $orderedFieldIds);
+        array_unshift($headerFields, FieldAttribute::FULL_NAME_HEADER);
         return response()->json([
             'status' => true,
             'data' => $headerFields
@@ -61,9 +62,12 @@ class FieldsController extends Controller
     {
         if ($request->custom) {
             $field = CustomField::query()->where('id', $id)->first();
+        } elseif ($request->listId) {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_HEADERS);
+            $field = (object) $defaultsFields->where('id', $id)->first();
         } else {
             $defaultsFields = collect(FieldAttribute::DEFAULT_FIELDS);
-            $field = (object) $defaultsFields->where('id', 5)->first();
+            $field = (object) $defaultsFields->where('id', $id)->first();
         }
 
         if (!$field) {
@@ -86,7 +90,7 @@ class FieldsController extends Controller
                     'message' => 'Order updated'
                 ], 202);
             }
-            FieldAttribute::updateSortOrder($id, Auth::id(), $newIndex, $oldIndex, $request->listId);
+            FieldAttribute::updateSortOrder(Auth::id(), $newIndex, $oldIndex, $id, $request->listId);
             return response()->json([
                 'status' => true,
                 'message' => 'Order updated'

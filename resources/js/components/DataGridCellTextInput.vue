@@ -1,27 +1,27 @@
 <template>
   <div class="relative items-center">
     <div
-      v-if="type == 'currency' && modelValue && modelValue.length > 0"
+      v-if="dataType == 'currency' && modelValue && modelValue.length > 0"
       class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
       <span class="text-md font-bold">$</span>
     </div>
     <input
       :class="{
-        'pl-4': type == 'currency',
-        'pr-3': type == 'email',
+        'pl-4': dataType == 'currency',
+        'pr-3': dataType == 'email',
       }"
       class="block w-full bg-transparent px-2 py-1 placeholder-slate-300 focus-visible:border-none focus-visible:outline-none focus-visible:ring-0 dark:placeholder-slate-500 sm:text-xs"
       :value="modelValue"
       :id="fieldId"
       autocomplete="off"
       :placeholder="placeholder"
-      :pattern="type == 'currency' ? '\\d*' : null"
+      :pattern="dataType == 'currency' ? '\\d*' : null"
       :aria-describedby="fieldId"
       @blur="onBlur"
       @change="$emit('update:modelValue', $event.target.value)" />
     <div
       tabindex="-1"
-      v-if="type == 'email' && modelValue.length > 0"
+      v-if="dataType == 'email' && modelValue.length > 0"
       class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 focus-visible:outline-none focus-visible:ring-0">
       <EmailValidationIcon
         tabindex="-1"
@@ -50,7 +50,7 @@ export default {
       passedValidationMethods: [],
     };
   },
-  props: ['modelValue', 'placeholder', 'fieldId', 'type'],
+  props: ['modelValue', 'placeholder', 'fieldId', 'dataType'],
   emits: ['update:modelValue', 'blur'],
   methods: {
     onBlur() {

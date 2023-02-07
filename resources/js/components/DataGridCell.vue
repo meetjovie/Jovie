@@ -37,7 +37,7 @@
         " />
       <CheckboxInput v-else-if="type == 'checkbox'" v-model="modelValue" />
       <DataGridCellTextInput
-        v-else-if="['text', 'email', 'currency'].includes(column.type)"
+        v-else-if="['text', 'email', 'currency', 'number', 'url'].includes(column.type)"
         :fieldId="fieldId"
         @blur="updateData"
         :dataType="column.type"
