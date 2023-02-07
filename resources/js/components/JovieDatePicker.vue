@@ -1,7 +1,7 @@
 <template>
   <Popover as="div" class="relative">
     <Float :z-index="999" placement="bottom-end" portal shift>
-      <PopoverButton class="items-center">
+      <PopoverButton class="isolate items-center">
         <CalendarDaysIcon
           class="h-5 w-5 cursor-pointer text-slate-400 dark:text-jovieDark-600 dark:active:text-slate-100 dark:group-hover/action:text-slate-400" />
       </PopoverButton>
@@ -48,12 +48,12 @@ export default {
   data() {
     return {
       date: [],
-        mounted: false
+      mounted: false,
     };
   },
   watch: {
     date: function (val) {
-        this.$emit('update:modelValue', val[0])
+      this.$emit('update:modelValue', val[0]);
     },
   },
   mounted() {

@@ -58,6 +58,7 @@
                     <DropdownMenuItem
                       :name="item[nameKey]"
                       :icon="item.icon"
+                      :color="item.color"
                       :emoji="item.emoji"
                       :numbered="numbered"
                       :shortcutKey="item.shortcutKey"
@@ -155,9 +156,13 @@ import {
 } from '@headlessui/vue';
 import {
   ChevronDownIcon,
+  ChevronUpIcon,
   CheckIcon,
   XMarkIcon,
+  EyeSlashIcon,
+  PencilIcon,
   CogIcon,
+  TrashIcon,
   BellIcon,
   UserIcon,
   CreditCardIcon,
@@ -173,10 +178,14 @@ export default {
     GlassmorphismContainer,
     TransitionRoot,
     Menu,
+    EyeSlashIcon,
+    PencilIcon,
+    ChevronUpIcon,
     XMarkIcon,
     MenuItem,
     ChevronDownIcon,
     CheckIcon,
+    TrashIcon,
     Float,
     MenuButton,
     MenuItems,

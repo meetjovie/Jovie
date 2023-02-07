@@ -1,9 +1,9 @@
 <template>
   <tr
-    class="group w-full flex-row overflow-y-visible focus-visible:ring-indigo-700"
+    class="group h-11 w-full flex-row items-center overflow-y-visible"
     :class="[
       currentContact.id == creator.id
-        ? 'border border-jovieDark-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700'
+        ? 'bg-slate-100  ring-2 ring-slate-300 dark:bg-jovieDark-700 dark:ring-indigo-400'
         : 'bg-white dark:bg-jovieDark-900',
     ]">
     <DataGridCell
@@ -12,10 +12,9 @@
       :creator="creator"
       :row="row"
       freezeColumn
-      type="checkbox"
-      width="6"
-      class="left-0 before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
-      <div class="group mx-auto w-6 items-center">
+      width="full"
+      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
+      <div class="group mx-auto w-full items-center">
         <span
           class="group-hover:block"
           :class="[
@@ -42,7 +41,7 @@
       :row="row"
       freezeColumn
       width="4"
-      class="left-[26.5px] overflow-auto border-y border-slate-300 px-2 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
+      class="left-[26.5px] overflow-auto border-slate-300 px-2 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
       <div
         class="hidden cursor-pointer items-center lg:block"
         @click="
@@ -78,7 +77,7 @@
       freezeColumn
       width="60"
       v-on:dblclick="cellActive"
-      class="border-seperate left-[55px] cursor-pointer border-y border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r-2 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:after:border-jovieDark-border">
+      class="border-seperate overflow-x-noscroll left-[55px] cursor-pointer border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r-2 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:after:border-jovieDark-border">
       <div class="flex items-center justify-between">
         <div
           @click="$emit('openSidebar', { contact: creator, index: row })"

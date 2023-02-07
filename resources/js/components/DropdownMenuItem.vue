@@ -59,7 +59,15 @@
               </div>
               <div v-else></div>
 
-              <div class="text-xs font-normal tracking-wider">{{ name }}</div>
+              <div
+                class="text-xs font-normal tracking-wider"
+                :class="{
+                  'text-red-500': color === 'text-red-500',
+                  'text-slate-600 dark:text-jovieDark-200': !color,
+                  [color]: color,
+                }">
+                {{ name }}
+              </div>
             </div>
             <div class="flex">
               <KBShortcut
@@ -225,7 +233,10 @@ export default {
       required: false,
       default: false,
     },
-
+    color: {
+      type: String,
+      required: false,
+    },
     numbered: {
       type: Boolean,
       required: false,

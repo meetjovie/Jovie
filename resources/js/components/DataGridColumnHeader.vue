@@ -1,14 +1,19 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
-  <div class="group/header w-44" v-if="column">
-    <Popover v-slot="{ open }" class="w-full">
-      <Float placement="bottom-start" :offset="2" portal shift>
+  <div class="group/header w-60" v-if="column">
+    <JovieDropdownMenu
+      :items="dropdownItems"
+      size="lg"
+      @contextmenu.prevent="openMenu"
+      :open="menuOpen"
+      placement="bottom-start">
+      <template #triggerButton>
         <div class="w-full">
           <div
             class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider"
             :class="[
               {
-                ' cursor-pointer hover:bg-slate-200 active:bg-slate-300 active:bg-slate-700 dark:hover:bg-jovieDark-800':
+                ' cursor-pointer hover:bg-slate-200 active:bg-slate-300 dark:hover:bg-jovieDark-800':
                   sortable,
               },
             ]">
@@ -54,33 +59,25 @@
             </div>
           </div>
         </div>
-        <TransitionRoot
-          enter="transition-opacity duration-75"
-          enter-from="opacity-0"
-          enter-to="opacity-100"
-          leave="transition-opacity duration-150"
-          leave-from="opacity-100"
-          leave-to="opacity-0"
-          :show="open">
-          <PopoverPanel
-            static
-            class="w-48 items-center rounded-md border border-gray-200 bg-white/60 bg-clip-padding text-slate-900 shadow-md backdrop-blur-xl backdrop-filter dark:border-gray-700 dark:bg-jovieDark-900/60 dark:text-jovieDark-100">
-            <div
-              @click="$emit('hide-column')"
-              class="flex cursor-pointer rounded-md py-2 px-2 text-xs font-medium text-slate-900 hover:bg-slate-300 dark:text-jovieDark-100"
-              v-for="item in dropdownItems"
-              :key="item.name">
-              <component :is="item.icon" class="mr-2 h-4 w-4" />
-              {{ item.name }}
-            </div>
-          </PopoverPanel>
-        </TransitionRoot>
-      </Float>
-    </Popover>
+      </template>
+    </JovieDropdownMenu>
+    <!--  <PopoverPanel
+      static
+      class="w-48 items-center rounded-md border border-gray-200 bg-white/60 bg-clip-padding text-slate-900 shadow-md backdrop-blur-xl backdrop-filter dark:border-gray-700 dark:bg-jovieDark-900/60 dark:text-jovieDark-100">
+      <div
+        @click="$emit('hide-column')"
+        class="flex cursor-pointer rounded-md py-2 px-2 text-xs font-medium text-slate-900 hover:bg-slate-300 dark:text-jovieDark-100"
+        v-for="item in dropdownItems"
+        :key="item.name">
+        <component :is="item.icon" class="mr-2 h-4 w-4" />
+        {{ item.name }}
+      </div>
+    </PopoverPanel> -->
   </div>
 </template>
 <script>
 import { Float } from '@headlessui-float/vue';
+import JovieDropdownMenu from './JovieDropdownMenu';
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -117,6 +114,7 @@ export default {
     UserIcon,
     ChartBarIcon,
     EyeSlashIcon,
+    JovieDropdownMenu,
     Popover,
     PopoverButton,
     PopoverPanel,
@@ -138,6 +136,10 @@ export default {
     column: {
       type: Object,
     },
+    menuOpen: {
+      type: Boolean,
+      default: false,
+    },
     dropdownItems: {
       type: Array,
       default: () => [
@@ -146,6 +148,31 @@ export default {
           icon: 'EyeSlashIcon',
           emit: 'hide-column',
           menu: true,
+        },
+        {
+          name: 'Edit Field',
+          icon: 'PencilIcon',
+          emit: 'edit-field',
+          menu: true,
+        },
+        {
+          name: 'Sort Ascending',
+          icon: 'ChevronUpIcon',
+          emit: 'sort-ascending',
+          menu: true,
+        },
+        {
+          name: 'Sort Descending',
+          icon: 'ChevronDownIcon',
+          emit: 'sort-descending',
+          menu: true,
+        },
+        {
+          name: 'Delete Field',
+          icon: 'TrashIcon',
+          emit: 'delete-field',
+          menu: true,
+          color: 'red',
         },
       ],
     },

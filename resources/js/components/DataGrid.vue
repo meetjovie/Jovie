@@ -246,7 +246,7 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
+                      class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
                       <div class="mx-auto items-center text-center">
                         <input
                           type="checkbox"
@@ -419,7 +419,6 @@
                     v-if="element"
                     @update:currentCell="$emit('updateCreator', $event)"
                     @click="setCurrentContact($event, element)"
-                    @contextmenu.prevent="openContextMenu(index, element)"
                     @mouseover="setCurrentContact($event, element)"
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
@@ -436,6 +435,7 @@
                     "
                     @toggleCreatorsFromList="toggleCreatorsFromList" />
                 </template>
+                <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
               </draggable>
             </table>
             <div

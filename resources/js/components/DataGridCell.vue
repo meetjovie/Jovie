@@ -1,23 +1,22 @@
 <template>
   <td
+    :class="[
+      'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium dark:border-jovieDark-border',
+
+      freezeColumn
+        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-900'
+        : '',
+
+      freezeColumn && currentContact.id == creator.id
+        ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
+        : 'text-slate-600 dark:text-slate-200',
+      cellActive ? 'ring-2 ring-indigo-500 dark:ring-indigo-500' : '',
+    ]"
     v-if="
       freezeColumn ||
       neverHide ||
       (column && visibleColumns.includes(column.key))
-    "
-    :class="[
-      'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium  dark:border-jovieDark-border',
-      cellActive
-        ? ' outline-2 outline-indigo-500  dark:outline-indigo-500'
-        : '',
-      currentContact.id == creator.id
-        ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
-        : ' text-slate-600  dark:text-slate-200',
-      freezeColumn
-        ? 'sticky isolate z-20 border-transparent bg-white font-bold dark:bg-jovieDark-900'
-        : '',
-      columnWidth ? `w-${columnWidth}` : '',
-    ]">
+    ">
     <slot></slot>
 
     <div @click.prevent="setFocus()" v-if="!freezeColumn">
@@ -37,12 +36,14 @@
         " />
       <CheckboxInput v-else-if="type == 'checkbox'" v-model="modelValue" />
       <DataGridCellTextInput
-        v-else-if="['text', 'email', 'currency', 'number', 'url'].includes(column.type)"
+        v-else-if="
+          ['text', 'email', 'currency', 'number', 'url'].includes(column.type)
+        "
         :fieldId="fieldId"
         @blur="updateData"
         :dataType="column.type"
-        :placeholder="column.name"
         v-model="modelValue" />
+
       <DataGridSocialLinksCell
         :creator="creator"
         :networks="networks"
@@ -234,55 +235,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.dp__theme_dark {
-  --dp-background-color: #191a22;
-  --dp-text-color: #ffffff;
-  --dp-hover-color: #484848;
-  --dp-hover-text-color: #ffffff;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #005cb2;
-  --dp-primary-text-color: #ffffff;
-  --dp-secondary-color: #a9a9a9;
-  --dp-border-color: #292b41;
-  --dp-menu-border-color: #2d2d2d;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-disabled-color: #737373;
-  --dp-scroll-bar-background: #212121;
-  --dp-scroll-bar-color: #484848;
-  --dp-success-color: #00701a;
-  --dp-success-color-disabled: #428f59;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #e53935;
-  --dp-highlight-color: rgba(80, 0, 178, 0.2);
-  --dp-row_margin: 0px 0 !default;
-  --dp-common_padding: 0px !default;
-  --dp-font_size: 0.5rem !default;
-}
-
-.dp__theme_light {
-  --dp-background-color: #ffffff;
-  --dp-text-color: #212121;
-  --dp-hover-color: #f3f3f3;
-  --dp-hover-text-color: #212121;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #1976d2;
-  --dp-primary-text-color: #f8f5f5;
-  --dp-secondary-color: #c0c4cc;
-  --dp-border-color: #ddd;
-  --dp-menu-border-color: #ddd;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-disabled-color: #f6f6f6;
-  --dp-scroll-bar-background: #f3f3f3;
-  --dp-scroll-bar-color: #959595;
-  --dp-success-color: #76d275;
-  --dp-success-color-disabled: #a3d9b1;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #ff6f60;
-  --dp-highlight-color: rgba(80, 0, 178, 0.2);
-  --dp-row_margin: 0px 0 !default;
-  --dp-common_padding: 0px !default;
-  --dp-font_size: 0.5rem !default;
-}
-</style>
