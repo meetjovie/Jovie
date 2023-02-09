@@ -556,6 +556,7 @@
                           @pageChanged="pageChanged"
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
+                            @getHeaders="getHeaders"
                           @setOrder="setOrder"
                           :header="filters.type"
                           @importCSV="importCSV"
@@ -1008,6 +1009,8 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
+              this.headersLoaded = true;
+              this.columns = []
             this.columns = response.data;
           }
         })

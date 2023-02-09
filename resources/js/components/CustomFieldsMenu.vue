@@ -212,6 +212,7 @@ export default {
               options: [],
             };
             this.$emit('getFields');
+            this.$emit('getHeaders');
             close();
           } else {
             this.$notify({

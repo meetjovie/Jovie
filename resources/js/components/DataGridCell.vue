@@ -12,6 +12,7 @@
         : 'text-slate-600 dark:text-slate-200',
       cellActive ? 'ring-2 ring-indigo-500 dark:ring-indigo-500' : '',
     ]"
+    :key="rerenderKey"
     v-if="
       freezeColumn ||
       neverHide ||
@@ -51,7 +52,7 @@
         :show-count="true"
         v-else-if="column.type == 'socialLinks'" />
       <ContactStageMenu
-        v-else-if="column.type == 'select'"
+        v-else-if="column.type == 'select' && column.name == 'Stage'"
         :creator="creator"
         :key="row"
         :open="showContactStageMenu[row]"
@@ -64,15 +65,6 @@
         :networks="networks"
         :show-count="showFollowersCount"
         v-else-if="column.type == 'socialLinks'" />
-      <ContactStageMenu
-        v-else-if="column.type == 'singleSelect'"
-        :creator="creator"
-        :key="row"
-        :open="showContactStageMenu[row]"
-        @close="toggleContactStageMenu(row)"
-        :stages="stages"
-        :index="row"
-        @updateCreator="$emit('updateCreator', $event)" />
       <div v-else-if="column.type == 'date'">
         <div class="relative flex items-center">
           <input
@@ -95,7 +87,7 @@
           </div>
         </div>
       </div>
-      <Suspense v-else-if="column.type == 'multi_select'">
+      <Suspense v-else-if="column.type == 'multi_select' && column.name == 'Lists'">
         <template #default>
           <InputLists
             @updateLists="$emit('updateCreatorLists', $event)"
@@ -105,6 +97,12 @@
         </template>
         <template #fallback> Loading... </template>
       </Suspense>
+        <CustomField
+            v-else-if="(column.type == 'multi_select' || column.type == 'select') && column.custom"
+            @blur="updateData"
+            :type="column.type"
+            :options="column.custom_field_options"
+            v-model="creator.crm_record_by_user[column.code]" />
       <span v-else
         >Data Type:
         {{ column.type }}
@@ -123,6 +121,8 @@ import ContactStageMenu from './ContactStageMenu.vue';
 import VueTailwindDatepicker from 'vue-tailwind-datepicker';
 import InputLists from './InputLists.vue';
 import JovieDatePicker from './JovieDatePicker.vue';
+import CustomField from './CustomField.vue';
+
 export default {
   name: 'DataGridCell',
   components: {
@@ -135,14 +135,24 @@ export default {
     JovieDatePicker,
     CheckboxInput,
     VueTailwindDatepicker,
+      CustomField
   },
   emits: ['update:modelValue', 'blur', 'move'],
   data() {
     return {
       showContactStageMenu: [],
       date: {},
+        rerenderKey: 0
     };
   },
+    watch: {
+        creator: {
+            deep: true,
+            handler: function (val) {
+                this.rerenderKey += 1
+            }
+        }
+    },
   mounted() {
     this.date.startDate = this.modelValue;
     this.date.endDate = this.modelValue;

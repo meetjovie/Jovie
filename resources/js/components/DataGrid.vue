@@ -379,7 +379,7 @@
                       scope="col"
                       class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div class="w-40">
-                        <CustomFieldsMenu class="" />
+                        <CustomFieldsMenu class="" @getHeaders="$emit('getHeaders')" />
                       </div>
                     </th>
 
@@ -393,6 +393,8 @@
                   </template>
                 </draggable>
               </thead>
+<!--                {{ columns.map(c => c.name ) }}-->
+<!--                {{ visibleColumns }}-->
               <draggable
                 class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
                 :list="filteredCreators"
@@ -669,6 +671,12 @@ export default {
     creatorRecords: function () {
       this.selectedCreators = [];
     },
+      columns: {
+        immediate: true,
+          handler: function (val) {
+              this.headers = val.filter((column) => column.key != 'full_name');
+          }
+      }
   },
   mounted() {
     this.$mousetrap.bind('up', () => {
@@ -733,7 +741,6 @@ export default {
       ? this.creatorRecords
       : this.creators;
 
-    this.headers = this.columns.filter((column) => column.key != 'full_name');
   },
   computed: {
     sidebarOpen() {
