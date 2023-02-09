@@ -19,7 +19,7 @@
     ">
     <slot></slot>
 
-    <div @click.prevent="setFocus()" v-if="!freezeColumn">
+    <div @click.self="setFocus()" v-if="!freezeColumn">
       <star-rating
         v-if="column.type == 'rating'"
         class="mx-auto px-2"
@@ -34,7 +34,8 @@
             value: creator.crm_record_by_user.rating,
           })
         " />
-      <CheckboxInput v-else-if="type == 'checkbox'" v-model="modelValue" />
+      <CheckboxInput v-else-if="column.type == 'checkbox'" :name="`checkbox_${fieldId}_${creator.id}`" v-model="modelValue" :checked="modelValue" @blur="updateData" />
+
       <DataGridCellTextInput
         v-else-if="
           ['text', 'email', 'currency', 'number', 'url'].includes(column.type)
@@ -153,10 +154,14 @@ export default {
         if (this.column.meta) {
           this.$emit('updateCrmMeta', this.creator);
         } else {
+            let key = this.column.key
+            if (this.column.custom) {
+                key = `crm_record_by_user.${key}`
+            }
           this.$emit('updateCreator', {
             id: this.creator.id,
             index: this.row,
-            key: this.column.key,
+            key: key,
             value: value ?? this.modelValue,
           });
         }

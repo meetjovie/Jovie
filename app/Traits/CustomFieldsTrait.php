@@ -15,85 +15,14 @@ trait CustomFieldsTrait
 
     public function getDefaultValue(CustomField $customField)
     {
-        if (in_array($customField->type, ['multi_select', 'checkbox'])) {
+        if (in_array($customField->type, ['multi_select'])) {
             return [];
+        }
+        elseif (in_array($customField->type, ['checkbox'])) {
+            return false;
         }
 
         return null;
-    }
-
-    public function getInputAttributesForItems(CustomField $customField): array
-    {
-        switch ($customField->type) {
-            case 'text':
-                $attributes = [
-                    'data-item' => $customField->code,
-                    'v-model' => null,
-                    ':value' => 'row.' . $customField->code . ' = this.' . $customField->code . '[index]',
-                    '@input' => 'row.' . $customField->code . ' = $event.target.value; this.' . $customField->code . '[index] = $event.target.value; onBindingItemField(index, "' . $customField->code . '")',
-                    'placeholder' => $this->getDefaultValue($customField),
-                ];
-
-                break;
-            case 'textarea':
-                $attributes = [
-                    'data-item' => $field->code,
-                    'v-model' => null,
-                    ':value' => 'row.' . $field->code . ' = this.' . $field->code . '[index]',
-                    '@input' => 'row.' . $field->code . ' = $event.target.value; this.' . $field->code . '[index] = $event.target.value; onBindingItemField(index, "' . $field->code . '")',
-                    'placeholder' => $this->getDefaultValue($field),
-                ];
-
-                break;
-
-            case 'date':
-            case 'time':
-            case 'dateTime':
-                $attributes = [
-                    'data-item' => $field->code,
-                    'v-model' => 'row.' . $field->code,
-                    'change' => 'onBindingItemField(index, "' . $field->code . '")',
-                    'model' => 'this.' . $field->code . '[index]',
-                    'show-date-format' => $this->getCompanyDateFormat(),
-                ];
-
-                break;
-
-            case 'select':
-                $attributes = [
-                    'data-item' => $field->code,
-                    'v-model' => 'row.' . $field->code,
-                    'visible-change' => 'onBindingItemField(index, "' . $field->code . '")',
-                    'model' => 'this.' . $field->code . '[index]',
-                ];
-
-                break;
-
-            case 'checkbox':
-                $attributes = [
-                    ':id' => '"checkbox-' . $field->code . '-:item_id-" + index',
-                    'data-item' => $field->code,
-                    '@change' => 'onBindingItemField(index, "' . $field->code . '")',
-                    'v-model' => 'row.' . $field->code,
-                ];
-
-                break;
-
-            default:
-                $attributes = [];
-
-                break;
-        }
-
-        if (Str::contains('required', $field->rule)) {
-            $attributes['required'] = 'required';
-        }
-
-        if ($field->type->type == 'textarea') {
-            $attributes['rows'] = '3';
-        }
-
-        return $attributes;
     }
 
     // to model
@@ -111,6 +40,9 @@ trait CustomFieldsTrait
         $fieldValue = $field->customFieldValues()->for($model, $class)->first();
         if (!is_null($fieldValue) && !empty($fieldValue->value)) {
             $value = $fieldValue->value;
+            if ($field->type == 'checkbox') {
+                $value = !!$value;
+            }
         }
 
         return $value;
@@ -124,7 +56,7 @@ trait CustomFieldsTrait
         if (!is_null($fieldValue) && !is_null($fieldValue->value)) {
             $value = $fieldValue->value;
 
-            if (in_array($field->type, ['checkbox', 'multi_select'])) {
+            if (in_array($field->type, ['multi_select'])) {
                 $fieldOptions = $field->customFieldOptions->pluck('value', 'id');
             }
 

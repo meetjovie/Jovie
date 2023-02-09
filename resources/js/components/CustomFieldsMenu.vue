@@ -30,7 +30,7 @@
           </div>
           <template
             v-if="
-              ['select', 'multi_select', 'checkbox'].includes(field.type.id)
+              ['select', 'multi_select'].includes(field.type.id)
             ">
             <div class="flex justify-end">
               <ButtonGroup
