@@ -124,7 +124,7 @@
                                     <Switch
                                       :name="column.name"
                                       v-model="column.visible"
-                                      @click="toggleFieldHide(column)"
+                                      @click="toggleFieldHide(column, index)"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -801,10 +801,10 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      toggleFieldHide(column) {
-          column = JSON.parse(JSON.stringify(column))
-          column.hide = !column.visible
+      toggleFieldHide(column, index) {
           this.$nextTick(() => {
+              column = JSON.parse(JSON.stringify(column))
+              this.headers[index].hide = column.hide = ! column.visible
               this.$store.dispatch('toggleFieldHide', {
                   self: this,
                   listId: this.filters.list,
