@@ -153,7 +153,7 @@ class FieldAttribute extends Model
             'meta' => true,
             'icon' => 'Bars3BottomLeftIcon',
             'sortable' => false,
-            'visible' => false,
+            'hide' => true,
             'breakpoint' => '2xl',
             'width' => '40',
             'type' => 'text',
@@ -164,7 +164,7 @@ class FieldAttribute extends Model
             'key' => 'last_name',
             'meta' => true,
             'icon' => 'Bars3BottomLeftIcon',
-            'visible' => false,
+            'hide' => true,
             'sortable' => false,
             'breakpoint' => '2xl',
             'width' => '40',
@@ -176,7 +176,7 @@ class FieldAttribute extends Model
             'key' => 'platform_title',
             'meta' => true,
             'icon' => 'UserIcon',
-            'visible' => false,
+            'hide' => true,
             'breakpoint' => '2xl',
             'type' => 'text',
         ],
@@ -186,7 +186,7 @@ class FieldAttribute extends Model
             'key' => 'platform_employer',
             'meta' => true,
             'icon' => 'BriefcaseIcon',
-            'visible' => false,
+            'hide' => true,
             'sortable' => false,
             'breakpoint' => '2xl',
             'width' => 40,
@@ -199,7 +199,7 @@ class FieldAttribute extends Model
             'key' => 'emails',
             'meta' => true,
             'icon' => 'AtSymbolIcon',
-            'visible' => true,
+            'hide' => false,
             'breakpoint' => 'lg',
             'width' => 40,
             'type' => 'email',
@@ -211,7 +211,7 @@ class FieldAttribute extends Model
             'key' => 'networks',
             'meta' => true,
             'icon' => 'LinkIcon',
-            'visible' => true,
+            'hide' => false,
             'width' => '40',
             'type' => 'socialLinks',
         ],
@@ -221,7 +221,7 @@ class FieldAttribute extends Model
             'key' => 'crm_record_by_user.offer',
             'icon' => 'CurrencyDollarIcon',
             'sortable' => false,
-            'visible' => false,
+            'hide' => true,
             'breakpoint' => 'lg',
             'width' => '40',
             'type' => 'currency',
@@ -233,7 +233,7 @@ class FieldAttribute extends Model
             'icon' => 'ArrowDownCircleIcon',
             'width' => '40',
             'sortable' => true,
-            'visible' => true,
+            'hide' => false,
             'breakpoint' => 'md',
             'type' => 'select',
         ],
@@ -243,7 +243,7 @@ class FieldAttribute extends Model
             'key' => 'crm_record_by_user.last_contacted',
             'icon' => 'CalendarDaysIcon',
             'sortable' => false,
-            'visible' => false,
+            'hide' => true,
             'breakpoint' => '2xl',
             'width' => '40',
             'type' => 'date',
@@ -254,7 +254,7 @@ class FieldAttribute extends Model
             'key' => 'crm_record_by_user.rating',
             'icon' => 'StarIcon',
             'sortable' => true,
-            'visible' => true,
+            'hide' => false,
             'breakpoint' => '2xl',
             'width' => '40',
             'type' => 'rating',
@@ -265,7 +265,7 @@ class FieldAttribute extends Model
             'key' => 'crm_record_by_user.lists',
             'icon' => 'ListBulletIcon',
             'sortable' => true,
-            'visible' => true,
+            'hide' => false,
             'breakpoint' => '2xl',
             'width' => '40',
             'type' => 'multi_select',
@@ -278,7 +278,7 @@ class FieldAttribute extends Model
         'meta' => true,
         'icon' => 'Bars3BottomLeftIcon',
         'sortable' => true,
-        'visible' => true,
+        'hide' => false,
         'type' => 'text',
     ];
 
@@ -340,19 +340,18 @@ class FieldAttribute extends Model
             if ($newIndex > $oldIndex) {
                 // update user list set order = order-1 where order <= newIndex and id != listID
                 $fieldAttribute = FieldAttribute::where('order', '<=', $newIndex)
-                    ->whereIn('field_id', $fieldIdsToUpdate)
-                    ->where('user_id', $userId);
+                    ->whereIn('field_id', $fieldIdsToUpdate);
                 if (is_null($listId)) {
-                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id');
+                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id')
+                        ->where('user_id', $userId);
                 } else {
                     $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
                 }
                 $fieldAttribute->update(['order' => (DB::raw('`order` - 1'))]);
                 // update userlist set order = newOrder where id = listId
-                $fieldAttribute = FieldAttribute::where('field_id', $fieldId)
-                    ->where('user_id', $userId);
+                $fieldAttribute = FieldAttribute::where('field_id', $fieldId);
                 if (is_null($listId)) {
-                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id');
+                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id')->where('user_id', $userId);
                 } else {
                     $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
                 }
@@ -360,28 +359,28 @@ class FieldAttribute extends Model
             } elseif ($newIndex < $oldIndex) { // newIndex < $oldIndex
                 // update user list set order = order+1 where order >= newIndex and id != listID
                 $fieldAttribute = FieldAttribute::where('order', '>=', $newIndex)
-                    ->whereIn('field_id', $fieldIdsToUpdate)
-                    ->where('user_id', $userId);
+                    ->whereIn('field_id', $fieldIdsToUpdate);
                 if (is_null($listId)) {
-                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id');
+                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id')
+                        ->where('user_id', $userId);
                 } else {
                     $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
                 }
                 $fieldAttribute->update(['order' => (DB::raw('`order` + 1'))]);
                 // update userlist set order = newOrder where id = listId
-                $fieldAttribute = FieldAttribute::where('field_id', $fieldId)
-                    ->where('user_id', $userId);
+                $fieldAttribute = FieldAttribute::where('field_id', $fieldId);
                 if (is_null($listId)) {
-                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id');
+                    $fieldAttribute = $fieldAttribute->whereNull('user_list_id')
+                        ->where('user_id', $userId);
                 } else {
                     $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
                 }
                 $fieldAttribute->update(['order' => $newIndex]);
             }
         }
-        $listOrders = FieldAttribute::where('user_id', $userId)->whereIn('field_id', $fieldIds)->orderBy('order');
+        $listOrders = FieldAttribute::whereIn('field_id', $fieldIds)->orderBy('order');
         if (is_null($listId)) {
-            $listOrders = $listOrders->whereNull('user_list_id');
+            $listOrders = $listOrders->whereNull('user_list_id')->where('user_id', $userId);
         } else {
             $listOrders = $listOrders->where('user_list_id', $listId);
         }
@@ -392,5 +391,21 @@ class FieldAttribute extends Model
         }
         DB::commit();
         return true;
+    }
+
+    public static function toggleFieldHide($user, $fieldId, $hide, $listId = null)
+    {
+        $fieldAttribute = FieldAttribute::where('field_id', $fieldId);
+        if (is_null($listId)) {
+            $fieldAttribute = $fieldAttribute->whereNull('user_list_id')->where('user_id', $user->id);
+        } else {
+            $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
+        }
+        $fieldAttribute = $fieldAttribute->first();
+        if ($fieldAttribute) {
+            $fieldAttribute->hide = $hide;
+            $fieldAttribute->save();
+        }
+        return false;
     }
 }

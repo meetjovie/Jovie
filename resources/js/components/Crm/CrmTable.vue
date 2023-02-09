@@ -167,7 +167,7 @@
                                   <template #toggle>
                                     <Switch
                                       :name="column.name"
-                                      v-model="column.visible"
+                                      v-model="column.hide"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -377,13 +377,13 @@
                   <template v-for="column in otherColumns">
                     <th
                       :key="column.key"
-                      v-if="column.visible"
+                      v-if="column.hide"
                       scope="col"
                       class="dark:border-x-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
                         @sortData="sortData"
-                        @hide-column="column.visible = false"
+                        @hide-column="column.hide = true"
                         :column="column" />
                     </th>
                   </template>
@@ -1245,7 +1245,7 @@ export default {
       );
     },
     visibleFields() {
-      return this.headers.filter((header) => header.visible);
+      return this.headers.filter((header) => ! header.hide);
     },
     filteredCreators() {
       return this.creatorRecords.filter((creator) => {
@@ -1260,7 +1260,7 @@ export default {
     visibleColumns() {
       localStorage.setItem('columns', JSON.stringify(this.columns));
       return this.columns.map((column) => {
-        if (column.visible) {
+        if (!column.hide) {
           return column.key;
         }
       });

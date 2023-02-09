@@ -9,6 +9,7 @@ use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -73,6 +74,12 @@ class UserList extends Model
             $list->userListAttributes()->sync($syncData);
             foreach ($teamUsers as $userId) {
                 self::updateSortOrder($userId, 0, 1, $list->id);
+            }
+            $customFieldIds = CustomField::query()->pluck('id')->toArray();
+            $defaultIds = array_column(FieldAttribute::DEFAULT_HEADERS, 'id');
+            $fieldIds = array_merge($customFieldIds, $defaultIds);
+            foreach ($fieldIds as $k => $fieldId) {
+                FieldAttribute::create(['field_id' => $fieldId, 'type' => 'custom', 'order' => $k, 'team_id' => $user->currentTeam->id, 'user_id' => $user->id, 'user_list_id' => $list->id]);
             }
             return  $list;
         }

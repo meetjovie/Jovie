@@ -41,6 +41,10 @@ class CustomFieldsController extends Controller
             foreach ($teamUsers as $userId) {
                 FieldAttribute::create(['field_id' => $customField->id, 'type' => 'custom', 'order' => 0, 'team_id' => Auth::user()->currentTeam->id, 'user_id' => $userId]);
             }
+            $userLists = Auth::user()->currentTeam->userLists->pluck('id')->toArray();
+            foreach ($userLists as $userListId) {
+                FieldAttribute::create(['field_id' => $customField->id, 'type' => 'custom', 'order' => 0, 'team_id' => Auth::user()->currentTeam->id, 'user_id' => $userId, 'user_list_id' => $userListId]);
+            }
             foreach ($teamUsers as $userId) {
                 FieldAttribute::updateSortOrder($userId, 0, 1, $customField->id);
             }

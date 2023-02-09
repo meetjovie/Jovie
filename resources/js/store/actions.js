@@ -108,7 +108,7 @@ export default {
 
     async sortFields(context, payload) {
         UserService.sortFields(
-            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, listId: payload.listId },
+            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, listId: payload.listId, hide: payload.hide },
             payload.itemId
         )
             .then((response) => {
@@ -135,13 +135,42 @@ export default {
             .catch((error) => {
                 if (error.response && error.response.status == 422) {
                     self.errors = error.data.errors;
-                    if (payload.self.errors.list[0]) {
+                    if (payload.self.errors.field[0]) {
                         payload.self.$notify({
                             group: 'user',
                             type: 'success',
                             duration: 15000,
                             title: 'Successful',
-                            text: payload.self.errors.list[0],
+                            text: payload.self.errors.field[0],
+                        });
+                    }
+                }
+            })
+            .finally((response) => {});
+    },
+
+    async toggleFieldHide(context, payload) {
+        UserService.toggleFieldHide(
+            { listId: payload.listId, hide: payload.hide, custom: payload.custom },
+            payload.itemId
+        )
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                } else {
+
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status == 422) {
+                    self.errors = error.data.errors;
+                    if (payload.self.errors.field[0]) {
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: payload.self.errors.field[0],
                         });
                     }
                 }

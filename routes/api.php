@@ -121,6 +121,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('custom-field-types', [CustomFieldsController::class, 'customFieldTypes']);
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
     Route::post('set-field-attributes/{id}', [FieldsController::class, 'setFieldAttributes']);
+    Route::post('toggle-field-visibility/{id}', [FieldsController::class, 'toggleFieldVisibility']);
 
     // HEADERS
     Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);

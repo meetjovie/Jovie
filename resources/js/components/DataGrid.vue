@@ -113,7 +113,7 @@
                               }" />
                           </div>
                           <div
-                            v-for="column in filteredColumnList"
+                            v-for="(column, index) in filteredColumnList"
                             :key="column.name">
                             <SwitchGroup>
                               <SwitchLabel>
@@ -124,6 +124,7 @@
                                     <Switch
                                       :name="column.name"
                                       v-model="column.visible"
+                                      @click="toggleFieldHide(column)"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -363,14 +364,14 @@
                     <th
                       :key="element.id"
                       :id="element.id"
-                      v-show="element.visible"
+                      v-show="! element.hide"
                       scope="col"
                       :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
                       class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
                         @sortData="sortData"
-                        @hide-column="element.visible = false"
+                        @hide-column="element.hide = true"
                         :column="element" />
                     </th>
                   </template>
@@ -741,6 +742,10 @@ export default {
       ? this.creatorRecords
       : this.creators;
 
+    for (let i=0; i<this.columns.length; i++) {
+        this.columns[i].visible = !this.columns[i].hide
+    }
+
   },
   computed: {
     sidebarOpen() {
@@ -756,7 +761,7 @@ export default {
       );
     },
     visibleFields() {
-      return this.headers.filter((header) => header.visible);
+      return this.headers.filter((header) => ! header.hide);
     },
     filteredCreators() {
       return this.creatorRecords.filter((creator) => {
@@ -770,7 +775,7 @@ export default {
     },
     visibleColumns() {
       return this.columns
-        .filter((col) => col.visible)
+        .filter((col) => ! col.hide)
         .map((column) => {
           return column.key;
         });
@@ -796,6 +801,19 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      toggleFieldHide(column) {
+          column = JSON.parse(JSON.stringify(column))
+          column.hide = !column.visible
+          this.$nextTick(() => {
+              this.$store.dispatch('toggleFieldHide', {
+                  self: this,
+                  listId: this.filters.list,
+                  itemId: column.id,
+                  hide: column.hide,
+                  custom: column.custom,
+              });
+          })
+      },
     sortFields(e) {
       e.newIndex -= 3;
       e.oldIndex -= 3;

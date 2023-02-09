@@ -24,7 +24,7 @@ class FieldsController extends Controller
         }
         $defaultFields = FieldAttribute::DEFAULT_FIELDS;
         $fields = array_merge($customFields->toArray(), $defaultFields);
-        $orderedIds = FieldAttribute::query()->unHidden()->where('user_id', Auth::id())->orderBy('order')->pluck('field_id')->toArray();
+        $orderedIds = FieldAttribute::query()->where('user_id', Auth::id())->orderBy('order')->pluck('field_id')->toArray();
         $fields = $this->orderFields($fields, $orderedIds);
         return response()->json([
             'status' => true,
@@ -38,11 +38,10 @@ class FieldsController extends Controller
         foreach ($customFields as &$customField) {
             $customField->custom = true;
             $customField->key = $customField->code;
-            $customField->visible = ! intval($customField->hide);
         }
         $defaultHeaders = FieldAttribute::DEFAULT_HEADERS;
         $fields = array_merge($customFields->toArray(), $defaultHeaders);
-        $orderedFieldIds = FieldAttribute::query()->where('user_list_id', $listId)->unHidden()->orderBy('order')->pluck('field_id')->toArray();
+        $orderedFieldIds = FieldAttribute::query()->where('user_list_id', $listId)->orderBy('order')->pluck('field_id')->toArray();
         $headerFields = $this->orderFields($fields, $orderedFieldIds);
         array_unshift($headerFields, FieldAttribute::FULL_NAME_HEADER);
         return response()->json([
@@ -103,5 +102,29 @@ class FieldsController extends Controller
                 'error' => $e->getMessage()
             ], 200);
         }
+    }
+
+    public function toggleFieldHide(Request $request, $id)
+    {
+        if ($request->custom) {
+            $field = CustomField::query()->where('id', $id)->first();
+        } elseif ($request->listId) {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_HEADERS);
+            $field = (object) $defaultsFields->where('id', $id)->first();
+        } else {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_FIELDS);
+            $field = (object) $defaultsFields->where('id', $id)->first();
+        }
+
+        if (!$field) {
+            throw ValidationException::withMessages([
+                'field' => ['field does not exists']
+            ]);
+        }
+        FieldAttribute::toggleFieldHide(Auth::user(), $field->id, $request->hide, $request->listId);
+        return response()->json([
+            'status' => true,
+            'message' => 'Visibility Updated'
+        ], 200);
     }
 }

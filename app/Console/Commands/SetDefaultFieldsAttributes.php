@@ -34,13 +34,13 @@ class SetDefaultFieldsAttributes extends Command
         foreach (User::query()->with('teams.userLists', 'teams.customFields')->get() as $user) {
             foreach ($user->teams as $team) {
 
-                $customFieldIds = $team->customFields->pluck('id')->toArray();
+                $customFields = $team->customFields;
                 $defaultFieldIds = array_column(FieldAttribute::DEFAULT_FIELDS, 'id');
 
-                $fieldIds = array_merge($defaultFieldIds, $customFieldIds);
+                $fieldIds = array_merge($defaultFieldIds, $customFields->pluck('id')->toArray());
 
-                $defaultHeaderIds = array_column(FieldAttribute::DEFAULT_HEADERS, 'id');
-                $fieldHeaderIds = array_merge($defaultHeaderIds, $customFieldIds);
+                $defaultHeaders = FieldAttribute::DEFAULT_HEADERS;
+                $fieldHeaders = array_merge($defaultHeaders, $customFields->toArray());
 
                 foreach ($fieldIds as $k => $fieldId) {
                     FieldAttribute::query()->updateOrCreate([
@@ -55,15 +55,16 @@ class SetDefaultFieldsAttributes extends Command
 
                 if ($team->owner_id == $user->id) {
                     foreach ($team->userLists as $list) {
-                        foreach ($fieldHeaderIds as $k => $fieldId) {
+                        foreach ($fieldHeaders as $k => $fieldHeader) {
                             FieldAttribute::query()->updateOrCreate([
-                                'field_id' => $fieldId,
+                                'field_id' => $fieldHeader['id'],
                                 'user_list_id' => $list->id,
                             ], [
                                 'user_id' => $user->id,
                                 'team_id' => $team->id,
-                                'type' => is_numeric($fieldId) ? 'default' : 'custom',
-                                'order' => $k
+                                'type' => is_numeric($fieldHeader['id']) ? 'default' : 'custom',
+                                'order' => $k,
+                                'hide' => array_key_exists('hide', $fieldHeader) ? $fieldHeader['hide'] : false
                             ]);
                         }
                     }
