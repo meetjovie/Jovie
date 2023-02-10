@@ -22,7 +22,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('type');
             $table->string('icon')->nullable();
-            $table->string('hide')->default(0);
             $table->timestamps();
         });
     }

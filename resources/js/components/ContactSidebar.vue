@@ -423,7 +423,7 @@
             </h2>
           </div>
           <div>
-            <CustomFieldsMenu @getFields="getFields" />
+            <CustomFieldsMenu @getFields="getFields" @getHeaders="$emit('getHeaders')" />
           </div>
         </div>
         <div

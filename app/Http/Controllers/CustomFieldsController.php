@@ -31,6 +31,7 @@ class CustomFieldsController extends Controller
         $data['code'] = null; // works with mutators
         $data['user_id'] = Auth::id();
         $data['team_id'] = Auth::user()->currentTeam->id;
+        $data['icon'] = collect(CustomField::CUSTOM_FIELD_TYPES)->where('id', $request->type)->first()['icon'];
         $customField = null;
         DB::transaction(function () use ($data, &$customField) {
             $customField = CustomField::query()->create($data);

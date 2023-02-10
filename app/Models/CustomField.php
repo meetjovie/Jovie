@@ -80,7 +80,6 @@ class CustomField extends Model
         'description',
         'type',
         'icon',
-        'hide',
     ];
 
     /**

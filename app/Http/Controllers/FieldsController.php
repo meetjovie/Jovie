@@ -24,8 +24,14 @@ class FieldsController extends Controller
         }
         $defaultFields = FieldAttribute::DEFAULT_FIELDS;
         $fields = array_merge($customFields->toArray(), $defaultFields);
-        $orderedIds = FieldAttribute::query()->where('user_id', Auth::id())->orderBy('order')->pluck('field_id')->toArray();
-        $fields = $this->orderFields($fields, $orderedIds);
+        $fieldAttributes = FieldAttribute::query()->where('user_id', Auth::id())->orderBy('order')->get();
+        $fieldAttributesKeyed = $fieldAttributes->keyBy('field_id');
+
+        foreach ($fields as &$field) {
+            $field['hide'] = $fieldAttributesKeyed[$field['id']]['hide'] ?? 0;
+        }
+
+        $fields = $this->orderFields($fields, $fieldAttributes->pluck('field_id')->toArray());
         return response()->json([
             'status' => true,
             'data' => $fields
@@ -41,8 +47,14 @@ class FieldsController extends Controller
         }
         $defaultHeaders = FieldAttribute::DEFAULT_HEADERS;
         $fields = array_merge($customFields->toArray(), $defaultHeaders);
-        $orderedFieldIds = FieldAttribute::query()->where('user_list_id', $listId)->orderBy('order')->pluck('field_id')->toArray();
-        $headerFields = $this->orderFields($fields, $orderedFieldIds);
+        $headerAttributes = FieldAttribute::query()->where('user_list_id', $listId)->orderBy('order')->get();
+        $headerAttributesKeyed = $headerAttributes->keyBy('field_id');
+
+        foreach ($fields as &$field) {
+            $field['hide'] = $headerAttributesKeyed[$field['id']]['hide'] ?? 0;
+        }
+
+        $headerFields = $this->orderFields($fields, $headerAttributes->pluck('field_id')->toArray());
         array_unshift($headerFields, FieldAttribute::FULL_NAME_HEADER);
         return response()->json([
             'status' => true,

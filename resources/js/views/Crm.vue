@@ -594,6 +594,7 @@
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               @updateCreator="updateCreator"
+              @getHeaders="getHeaders"
               :jovie="true"
               :creatorsData="currentContact" />
           </aside>
