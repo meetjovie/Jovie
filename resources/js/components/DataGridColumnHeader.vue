@@ -5,6 +5,7 @@
       :items="dropdownItems"
       size="lg"
       @contextmenu.prevent="openMenu"
+      @itemClicked="itemClicked"
       :open="menuOpen"
       placement="bottom-start">
       <template #triggerButton>
@@ -60,6 +61,31 @@
           </div>
         </div>
       </template>
+        <template #menuItem #item="{element, index }">
+            <div
+                 class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
+                 :class="{
+                        'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+                          active,
+                      }">
+                <div class="flex items-center">
+                    <div v-if="item.emoji" class="mr-2 text-xs font-bold">
+                        {{ item.emoji }}
+                    </div>
+                    <div
+                        v-else-if="item.icon"
+                        class="mr-2 items-center text-xs font-bold">
+                        <component :is="item.icon" class="h-3 w-3" />
+                    </div>
+                    <div v-else></div>
+
+                    <div class="text-xs font-normal tracking-wider">
+                        {{ item[nameKey] }}
+                    </div>
+                </div>
+            </div>
+            <CustomFieldsMenu class="" @getHeaders="$emit('getHeaders')" />
+        </template>
     </JovieDropdownMenu>
     <!--  <PopoverPanel
       static
@@ -99,6 +125,8 @@ import {
   PopoverPanel,
   TransitionRoot,
 } from '@headlessui/vue';
+import CustomFieldsMenu from './CustomFieldsMenu.vue';
+
 export default {
   components: {
     ChevronDownIcon,
@@ -120,6 +148,7 @@ export default {
     PopoverPanel,
     TransitionRoot,
     Float,
+      CustomFieldsMenu,
   },
   data() {
     return {
@@ -131,6 +160,9 @@ export default {
       this.open = true;
       console.log('open menu');
     },
+      itemClicked(id) {
+          let item = this.dropdownItems.find(item => item.id == id)
+      }
   },
   props: {
     column: {
@@ -144,33 +176,38 @@ export default {
       type: Array,
       default: () => [
         {
+            id: 1,
           name: 'Hide Column',
           icon: 'EyeSlashIcon',
-          emit: 'hide-column',
+          emit: 'hideColumn',
           menu: true,
         },
         {
+            id: 2,
           name: 'Edit Field',
           icon: 'PencilIcon',
-          emit: 'edit-field',
+          emit: 'editField',
           menu: true,
         },
         {
+            id: 3,
           name: 'Sort Ascending',
           icon: 'ChevronUpIcon',
-          emit: 'sort-ascending',
+          emit: 'sortAscending',
           menu: true,
         },
         {
+            id: 4,
           name: 'Sort Descending',
           icon: 'ChevronDownIcon',
-          emit: 'sort-descending',
+          emit: 'sortDescending',
           menu: true,
         },
         {
+            id: 5,
           name: 'Delete Field',
           icon: 'TrashIcon',
-          emit: 'delete-field',
+          emit: 'deleteField',
           menu: true,
           color: 'red',
         },

@@ -70,28 +70,30 @@
                     @click="itemClicked(item.id)"
                     as="div"
                     v-slot="{ active }">
-                    <div
-                      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
-                      :class="{
+                      <slot v-if="item.name == 'Edit Field'" name="menuItem">
+                      </slot>
+                      <div v-else
+                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
+                          :class="{
                         'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
                           active,
                       }">
-                      <div class="flex items-center">
-                        <div v-if="item.emoji" class="mr-2 text-xs font-bold">
-                          {{ item.emoji }}
-                        </div>
-                        <div
-                          v-else-if="item.icon"
-                          class="mr-2 items-center text-xs font-bold">
-                          <component :is="item.icon" class="h-3 w-3" />
-                        </div>
-                        <div v-else></div>
+                          <div class="flex items-center">
+                              <div v-if="item.emoji" class="mr-2 text-xs font-bold">
+                                  {{ item.emoji }}
+                              </div>
+                              <div
+                                  v-else-if="item.icon"
+                                  class="mr-2 items-center text-xs font-bold">
+                                  <component :is="item.icon" class="h-3 w-3" />
+                              </div>
+                              <div v-else></div>
 
-                        <div class="text-xs font-normal tracking-wider">
-                          {{ item[nameKey] }}
-                        </div>
+                              <div class="text-xs font-normal tracking-wider">
+                                  {{ item[nameKey] }}
+                              </div>
+                          </div>
                       </div>
-                    </div>
                   </MenuItem>
                 </template>
 

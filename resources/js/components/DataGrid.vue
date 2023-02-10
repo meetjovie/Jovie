@@ -371,7 +371,9 @@
                       <DataGridColumnHeader
                         class="w-full"
                         @sortData="sortData"
-                        @hide-column="element.hide = true"
+                        @hideColumn="toggleFieldHide"
+                        @editColumn="editField"
+                        @deleteColumn="deleteField"
                         :column="element" />
                     </th>
                   </template>
@@ -801,6 +803,12 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      editField() {
+
+      },
+      deleteField() {
+
+      },
       toggleFieldHide(column, index) {
           this.$nextTick(() => {
               column = JSON.parse(JSON.stringify(column))
