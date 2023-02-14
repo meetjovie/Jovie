@@ -109,6 +109,7 @@ import { ref } from 'vue';
 import KBShortcut from './KBShortcut.vue';
 
 import {
+  PencilIcon,
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,
   ChartBarIcon,
@@ -182,6 +183,7 @@ export default {
     ChevronDownIcon,
     CloudArrowUpIcon,
     PlusIcon,
+    PencilIcon,
     BriefcaseIcon,
     NoSymbolIcon,
     StarIcon,
@@ -233,10 +235,7 @@ export default {
       required: false,
       default: false,
     },
-    color: {
-      type: String,
-      required: false,
-    },
+
     numbered: {
       type: Boolean,
       required: false,

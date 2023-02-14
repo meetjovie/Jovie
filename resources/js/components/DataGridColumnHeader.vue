@@ -2,7 +2,11 @@
   <!--  @click="toggleSortingOrder()" -->
   <div class="group/header w-60" v-if="column">
     <JovieDropdownMenu
-      :items="column.custom ? dropdownItems : dropdownItems.filter(item => item.custom !== true)"
+      :items="
+        column.custom
+          ? dropdownItems
+          : dropdownItems.filter((item) => item.custom !== true)
+      "
       size="lg"
       @contextmenu.prevent="openMenu"
       @itemClicked="itemClicked"
@@ -61,49 +65,47 @@
           </div>
         </div>
       </template>
-        <template #menuItem="{item, nameKey}">
-            <div
-                 class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
-                 :class="{
-                        'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
-                          active,
-                      }">
-                <div class="flex items-center">
-                    <div v-if="item.emoji" class="mr-2 text-xs font-bold">
-                        {{ item.emoji }}
-                    </div>
-                    <div
-                        v-else-if="item.icon"
-                        class="mr-2 items-center text-xs font-bold">
-                        <component :is="item.icon" class="h-3 w-3" />
-                    </div>
-                    <div v-else></div>
-
-                    <div class="text-xs font-normal tracking-wider">
-                        {{ item[nameKey] }}
-                        <CustomFieldsMenu :currentField="column" @getHeaders="$emit('getHeaders')" />
-                    </div>
-                </div>
+      <!-- <template #menuItem="{ item, nameKey }">
+        <div
+          class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
+          :class="{
+            'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+              active,
+          }">
+          <div class="flex items-center">
+            <div v-if="item.emoji" class="mr-2 text-xs font-bold">
+              {{ item.emoji }}
             </div>
-        </template>
+            <div
+              v-else-if="item.icon"
+              class="mr-2 items-center text-xs font-bold">
+              <component :is="item.icon" class="h-3 w-3" />
+            </div>
+            <div v-else></div>
+
+            <div class="text-xs font-normal tracking-wider">
+              {{ item[nameKey] }}
+              <CustomFieldsMenu
+                :currentField="column"
+                @getHeaders="$emit('getHeaders')" />
+            </div>
+          </div>
+        </div>
+      </template> -->
+      <template #menuBottom>
+        <DropdownMenuItem icon="PencilIcon" name="Edit Field Type">
+          <!--    <CustomFieldsMenu
+            :currentField="column"
+            @getHeaders="$emit('getHeaders')" /> -->
+        </DropdownMenuItem>
+      </template>
     </JovieDropdownMenu>
-    <!--  <PopoverPanel
-      static
-      class="w-48 items-center rounded-md border border-gray-200 bg-white/60 bg-clip-padding text-slate-900 shadow-md backdrop-blur-xl backdrop-filter dark:border-gray-700 dark:bg-jovieDark-900/60 dark:text-jovieDark-100">
-      <div
-        @click="$emit('hide-column')"
-        class="flex cursor-pointer rounded-md py-2 px-2 text-xs font-medium text-slate-900 hover:bg-slate-300 dark:text-jovieDark-100"
-        v-for="item in dropdownItems"
-        :key="item.name">
-        <component :is="item.icon" class="mr-2 h-4 w-4" />
-        {{ item.name }}
-      </div>
-    </PopoverPanel> -->
   </div>
 </template>
 <script>
 import { Float } from '@headlessui-float/vue';
-import JovieDropdownMenu from './JovieDropdownMenu';
+import JovieDropdownMenu from './JovieDropdownMenu.vue';
+import DropdownMenuItem from './DropdownMenuItem.vue';
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -143,12 +145,13 @@ export default {
     ChartBarIcon,
     EyeSlashIcon,
     JovieDropdownMenu,
+    DropdownMenuItem,
     Popover,
     PopoverButton,
     PopoverPanel,
     TransitionRoot,
     Float,
-      CustomFieldsMenu,
+    CustomFieldsMenu,
   },
   data() {
     return {
@@ -160,9 +163,9 @@ export default {
       this.open = true;
       console.log('open menu');
     },
-      itemClicked(id) {
-          let item = this.dropdownItems.find(item => item.id == id)
-      }
+    itemClicked(id) {
+      let item = this.dropdownItems.find((item) => item.id == id);
+    },
   },
   props: {
     column: {
@@ -176,14 +179,14 @@ export default {
       type: Array,
       default: () => [
         {
-            id: 1,
+          id: 1,
           name: 'Hide Column',
           icon: 'EyeSlashIcon',
           emit: 'hideColumn',
           menu: true,
         },
         {
-            id: 2,
+          id: 2,
           name: 'Edit Field',
           icon: 'PencilIcon',
           emit: 'editField',
@@ -191,21 +194,21 @@ export default {
           menu: true,
         },
         {
-            id: 3,
+          id: 3,
           name: 'Sort Ascending',
           icon: 'ChevronUpIcon',
           emit: 'sortAscending',
           menu: true,
         },
         {
-            id: 4,
+          id: 4,
           name: 'Sort Descending',
           icon: 'ChevronDownIcon',
           emit: 'sortDescending',
           menu: true,
         },
         {
-            id: 5,
+          id: 5,
           name: 'Delete Field',
           icon: 'TrashIcon',
           emit: 'deleteField',
