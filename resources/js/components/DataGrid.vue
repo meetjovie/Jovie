@@ -364,12 +364,13 @@
                     <th
                       :key="element.id"
                       :id="element.id"
-                      v-show="! element.hide"
+                      v-show="!element.hide"
                       scope="col"
                       :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
                       class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
+                        @editCustomFieldsModal="editCustomFieldsModal = true"
                         @sortData="sortData"
                         @hideColumn="toggleFieldHide"
                         @editColumn="editField"
@@ -381,8 +382,13 @@
                     <th
                       scope="col"
                       class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
-                      <div class="w-40">
-                        <CustomFieldsMenu class="" @getHeaders="$emit('getHeaders')" />
+                      <div @click="editCustomFieldsModal = true" class="w-40">
+                        <!-- <CustomFieldsMenu
+                          class=""
+                          @getHeaders="$emit('getHeaders')" /> -->
+                        <PlusIcon
+                          class="mx-auto h-4 w-4 text-slate-500 dark:text-jovieDark-400"
+                          aria-hidden="true" />
                       </div>
                     </th>
 
@@ -396,8 +402,8 @@
                   </template>
                 </draggable>
               </thead>
-<!--                {{ columns.map(c => c.name ) }}-->
-<!--                {{ visibleColumns }}-->
+              <!--                {{ columns.map(c => c.name ) }}-->
+              <!--                {{ visibleColumns }}-->
               <draggable
                 class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
                 :list="filteredCreators"
@@ -464,11 +470,20 @@
       </div>
     </div>
   </div>
+  <ModalPopup
+    :open="editCustomFieldsModal"
+    customContent
+    @close="editCustomFieldsModal = false">
+    <CustomFieldsMenu
+      :currentField="column"
+      @getHeaders="$emit('getHeaders')" />
+  </ModalPopup>
 </template>
 
 <script>
 import CustomFieldsMenu from './CustomFieldsMenu.vue';
 import { Float } from '@headlessui-float/vue';
+import ModalPopup from './ModalPopup.vue';
 import {
   Menu,
   MenuButton,
@@ -565,6 +580,7 @@ export default {
     MenuItems,
     MenuItem,
     EllipsisVerticalIcon,
+    ModalPopup,
     SocialIcons,
     Popover,
     BriefcaseIcon,
@@ -611,6 +627,7 @@ export default {
       view: {
         atTopOfPage: true,
       },
+      editCustomFieldsModal: false,
 
       creatorRecords: [],
       tableViewSearchQuery: '',
@@ -674,12 +691,12 @@ export default {
     creatorRecords: function () {
       this.selectedCreators = [];
     },
-      columns: {
-        immediate: true,
-          handler: function (val) {
-              this.headers = val.filter((column) => column.key != 'full_name');
-          }
-      }
+    columns: {
+      immediate: true,
+      handler: function (val) {
+        this.headers = val.filter((column) => column.key != 'full_name');
+      },
+    },
   },
   mounted() {
     this.$mousetrap.bind('up', () => {
@@ -744,10 +761,9 @@ export default {
       ? this.creatorRecords
       : this.creators;
 
-    for (let i=0; i<this.columns.length; i++) {
-        this.columns[i].visible = !this.columns[i].hide
+    for (let i = 0; i < this.columns.length; i++) {
+      this.columns[i].visible = !this.columns[i].hide;
     }
-
   },
   computed: {
     sidebarOpen() {
@@ -763,7 +779,7 @@ export default {
       );
     },
     visibleFields() {
-      return this.headers.filter((header) => ! header.hide);
+      return this.headers.filter((header) => !header.hide);
     },
     filteredCreators() {
       return this.creatorRecords.filter((creator) => {
@@ -777,7 +793,7 @@ export default {
     },
     visibleColumns() {
       return this.columns
-        .filter((col) => ! col.hide)
+        .filter((col) => !col.hide)
         .map((column) => {
           return column.key;
         });
@@ -803,25 +819,21 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      editField() {
-
-      },
-      deleteField() {
-
-      },
-      toggleFieldHide(column, index) {
-          this.$nextTick(() => {
-              column = JSON.parse(JSON.stringify(column))
-              this.headers[index].hide = column.hide = ! column.visible
-              this.$store.dispatch('toggleFieldHide', {
-                  self: this,
-                  listId: this.filters.list,
-                  itemId: column.id,
-                  hide: column.hide,
-                  custom: column.custom,
-              });
-          })
-      },
+    editField() {},
+    deleteField() {},
+    toggleFieldHide(column, index) {
+      this.$nextTick(() => {
+        column = JSON.parse(JSON.stringify(column));
+        this.headers[index].hide = column.hide = !column.visible;
+        this.$store.dispatch('toggleFieldHide', {
+          self: this,
+          listId: this.filters.list,
+          itemId: column.id,
+          hide: column.hide,
+          custom: column.custom,
+        });
+      });
+    },
     sortFields(e) {
       e.newIndex -= 3;
       e.oldIndex -= 3;

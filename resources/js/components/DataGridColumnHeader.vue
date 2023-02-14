@@ -93,11 +93,13 @@
         </div>
       </template> -->
       <template #menuBottom>
-        <DropdownMenuItem icon="PencilIcon" name="Edit Field Type">
-          <!--    <CustomFieldsMenu
-            :currentField="column"
-            @getHeaders="$emit('getHeaders')" /> -->
-        </DropdownMenuItem>
+        <!-- <CustomFieldsMenu
+          :currentField="column"
+          @getHeaders="$emit('getHeaders')" /> -->
+        <DropdownMenuItem
+          @click="$emit('editCustomFieldsModal')"
+          icon="PencilIcon"
+          name="Edit Field Type" />
       </template>
     </JovieDropdownMenu>
   </div>
