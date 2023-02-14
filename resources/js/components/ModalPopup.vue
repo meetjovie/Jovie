@@ -153,6 +153,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    customContent: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
