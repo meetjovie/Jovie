@@ -30,7 +30,7 @@
             <div v-if="searchable" class="sticky top-0 px-1">
               <MenuItem
                 as="div"
-                class="border border-slate-200 dark:border-jovieDark-border">
+                class="border-b border-slate-200 dark:border-jovieDark-border">
                 <div class="relative flex items-center">
                   <input
                     tabindex="0"
@@ -51,7 +51,7 @@
             </div>
 
             <div
-              class="overflow-clip border-t border-slate-200 px-2 dark:border-jovieDark-border">
+              class="overflow-clip border-slate-200 px-2 dark:border-jovieDark-border">
               <div class="" v-if="items">
                 <template v-for="item in filteredItems" :key="item[nameKey]">
                   <router-link v-if="item.route" :to="item.route">
@@ -70,30 +70,35 @@
                     @click="itemClicked(item.id)"
                     as="div"
                     v-slot="{ active }">
-                      <slot v-if="item.name == 'Edit Field'" name="menuItem" :item="item" :nameKey="nameKey">
-                      </slot>
-                      <div v-else
-                          class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
-                          :class="{
+                    <slot
+                      v-if="item.name == 'Edit Field'"
+                      name="menuItem"
+                      :item="item"
+                      :nameKey="nameKey">
+                    </slot>
+                    <div
+                      v-else
+                      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
+                      :class="{
                         'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
                           active,
                       }">
-                          <div class="flex items-center">
-                              <div v-if="item.emoji" class="mr-2 text-xs font-bold">
-                                  {{ item.emoji }}
-                              </div>
-                              <div
-                                  v-else-if="item.icon"
-                                  class="mr-2 items-center text-xs font-bold">
-                                  <component :is="item.icon" class="h-3 w-3" />
-                              </div>
-                              <div v-else></div>
+                      <div class="flex items-center">
+                        <div v-if="item.emoji" class="mr-2 text-xs font-bold">
+                          {{ item.emoji }}
+                        </div>
+                        <div
+                          v-else-if="item.icon"
+                          class="mr-2 items-center text-xs font-bold">
+                          <component :is="item.icon" class="h-3 w-3" />
+                        </div>
+                        <div v-else></div>
 
-                              <div class="text-xs font-normal tracking-wider">
-                                  {{ item[nameKey] }}
-                              </div>
-                          </div>
+                        <div class="text-xs font-normal tracking-wider">
+                          {{ item[nameKey] }}
+                        </div>
                       </div>
+                    </div>
                   </MenuItem>
                 </template>
 

@@ -8,6 +8,7 @@
           : dropdownItems.filter((item) => item.custom !== true)
       "
       size="lg"
+      :searchable="false"
       @contextmenu.prevent="openMenu"
       @itemClicked="itemClicked"
       :open="menuOpen"
