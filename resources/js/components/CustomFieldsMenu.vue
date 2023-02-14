@@ -20,7 +20,7 @@
               type="text"
               :error="errors.name ? errors.name[0] : null"
               class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
-            <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
+              <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
           </div>
           <div class="px-2 py-1" v-if="field.type.description">
             <p
@@ -142,6 +142,11 @@ export default {
     ComboboxMenu,
     draggable,
   },
+    props: {
+        currentField: {
+            type: Object
+        }
+    },
   data() {
     return {
       isOpen: true,
@@ -160,7 +165,7 @@ export default {
   },
   watch: {
     'field.type': function (val) {
-      if (['select', 'multi_select'].includes(val.id)) {
+        if (['select', 'multi_select'].includes(val.id)) {
         this.field.options.push({
           name: '',
           order: this.field.options.length - 1,
@@ -178,8 +183,6 @@ export default {
       this.field.options = this.field.options.map(function (option, index) {
         return { value: option.value, order: index };
       });
-      console.log('this.field.options');
-      console.log(this.field.options);
     },
     addOption() {
       this.field.options.push({
@@ -239,6 +242,17 @@ export default {
           response = response.data;
           if (response.status) {
             this.customFieldTypes = response.data;
+              if (this.currentField) {
+                  this.field = {
+                      name: this.currentField.name,
+                      type: this.customFieldTypes.find(type => type.id === this.currentField.type),
+                      description: this.currentField.description,
+                      options: []
+                  }
+                  this.$nextTick(() => {
+                      this.field.options = this.currentField.custom_field_options
+                  });
+              }
           } else {
             this.$notify({
               group: 'user',
@@ -259,10 +273,8 @@ export default {
       this.isOpen = value;
     },
     addCustomField(field) {
-      console.log('field');
       this.fieldType = field.name;
       isOpen = true;
-      console.log(field);
     },
   },
 };

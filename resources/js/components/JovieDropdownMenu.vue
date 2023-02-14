@@ -70,7 +70,7 @@
                     @click="itemClicked(item.id)"
                     as="div"
                     v-slot="{ active }">
-                      <slot v-if="item.name == 'Edit Field'" name="menuItem">
+                      <slot v-if="item.name == 'Edit Field'" name="menuItem" :item="item" :nameKey="nameKey">
                       </slot>
                       <div v-else
                           class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"

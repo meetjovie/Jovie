@@ -2,7 +2,7 @@
   <!--  @click="toggleSortingOrder()" -->
   <div class="group/header w-60" v-if="column">
     <JovieDropdownMenu
-      :items="dropdownItems"
+      :items="column.custom ? dropdownItems : dropdownItems.filter(item => item.custom !== true)"
       size="lg"
       @contextmenu.prevent="openMenu"
       @itemClicked="itemClicked"
@@ -61,7 +61,7 @@
           </div>
         </div>
       </template>
-        <template #menuItem #item="{element, index }">
+        <template #menuItem="{item, nameKey}">
             <div
                  class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
                  :class="{
@@ -81,10 +81,10 @@
 
                     <div class="text-xs font-normal tracking-wider">
                         {{ item[nameKey] }}
+                        <CustomFieldsMenu :currentField="column" @getHeaders="$emit('getHeaders')" />
                     </div>
                 </div>
             </div>
-            <CustomFieldsMenu class="" @getHeaders="$emit('getHeaders')" />
         </template>
     </JovieDropdownMenu>
     <!--  <PopoverPanel
@@ -187,6 +187,7 @@ export default {
           name: 'Edit Field',
           icon: 'PencilIcon',
           emit: 'editField',
+          custom: true,
           menu: true,
         },
         {
@@ -209,6 +210,7 @@ export default {
           icon: 'TrashIcon',
           emit: 'deleteField',
           menu: true,
+          custom: true,
           color: 'red',
         },
       ],
