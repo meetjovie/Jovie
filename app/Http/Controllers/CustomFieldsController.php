@@ -57,4 +57,62 @@ class CustomFieldsController extends Controller
             'data' => $customField
         ]);
     }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'max:255', "unique:custom_fields,name,$id,id,team_id," . Auth::user()->currentTeam->id],
+            'description' => ['sometimes'],
+            'type' => ['required', 'in:' . implode(',', array_map(function ($type) {
+                    return $type['id'];
+                }, CustomField::CUSTOM_FIELD_TYPES))],
+            'options' => ['required_if:type,select,multi_select', 'array']
+        ]);
+        $customField = null;
+        DB::transaction(function () use ($data, &$customField, $id) {
+            $options = $data['options'];
+            unset($data['options']);
+            $customField = CustomField::query()->where('id', $id)->first();
+            $customField->update($data);
+
+            $oldOptions = $customField->customFieldOptions()->get();
+            $values = $options->pluck('value', 'id')->toArray();
+
+            if (empty($oldOptions)) {
+                $customField->customFieldValues()->delete();
+            } else {
+                foreach ($oldOptions as $oldOption) {
+                    if (!in_array($oldOption->value, $values)) {
+                        foreach ($customField->customFieldValues as $customFieldValue) {
+                            if ($customFieldValue->value == $oldOption->id) {
+                                $customFieldValue->delete();
+                            }
+                        }
+                        $oldOption->delete();
+                    }
+                }
+            }
+
+            $index = 0;
+            foreach ($values as $optionId => $value) {
+                if (!in_array($value, $oldOptions->pluck('value')->toArray())) {
+                    $customField->customFieldOptions()->create([
+                        'value' => $value,
+                        'order' => $index,
+                    ]);
+                } else {
+                    $customField->customFieldOptions()->where('id', $optionId)->update([
+                        'order' => $index
+                    ]);
+                }
+                $index++;
+            }
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Field updated',
+            'data' => $customField
+        ]);
+    }
 }

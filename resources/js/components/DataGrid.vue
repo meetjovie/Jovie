@@ -370,7 +370,7 @@
                       class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
-                        @editCustomFieldsModal="editCustomFieldsModal = true"
+                        @editCustomFieldsModal="editCustomFieldsModal"
                         @sortData="sortData"
                         @hideColumn="toggleFieldHide"
                         @editColumn="editField"
@@ -382,7 +382,7 @@
                     <th
                       scope="col"
                       class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
-                      <div @click="editCustomFieldsModal = true" class="w-40">
+                      <div @click="editCustomFieldsModal" class="w-40">
                         <!-- <CustomFieldsMenu
                           class=""
                           @getHeaders="$emit('getHeaders')" /> -->
@@ -471,11 +471,11 @@
     </div>
   </div>
   <ModalPopup
-    :open="editCustomFieldsModal"
+    :open="showCustomFieldsModal"
     customContent
-    @close="editCustomFieldsModal = false">
+    @close="showCustomFieldsModal = false">
     <CustomFieldsMenu
-      :currentField="column"
+      :currentField="currentEditingField"
       @getHeaders="$emit('getHeaders')" />
   </ModalPopup>
 </template>
@@ -627,7 +627,8 @@ export default {
       view: {
         atTopOfPage: true,
       },
-      editCustomFieldsModal: false,
+      showCustomFieldsModal: false,
+      currentEditingField: null,
 
       creatorRecords: [],
       tableViewSearchQuery: '',
@@ -819,7 +820,11 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-    editField() {},
+    editCustomFieldsModal(column) {
+        console.log(column);
+        this.currentEditingField = column
+        this.showCustomFieldsModal = true
+    },
     deleteField() {},
     toggleFieldHide(column, index) {
       this.$nextTick(() => {

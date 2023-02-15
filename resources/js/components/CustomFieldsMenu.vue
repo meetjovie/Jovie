@@ -20,7 +20,7 @@
         type="text"
         :error="errors.name ? errors.name[0] : null"
         class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
-      <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
+        <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
     </div>
     <div class="px-2 py-1" v-if="field.type.description">
       <p class="text-2xs font-semibold text-slate-600 dark:text-jovieDark-300">
@@ -161,14 +161,16 @@ export default {
   },
   watch: {
     'field.type': function (val) {
-      if (['select', 'multi_select'].includes(val.id)) {
-        this.field.options.push({
-          name: '',
-          order: this.field.options.length - 1,
-        });
-      } else {
-        this.field.options = [];
-      }
+        if (val) {
+            if (['select', 'multi_select'].includes(val.id)) {
+                this.field.options.push({
+                    name: '',
+                    order: this.field.options.length - 1,
+                });
+            } else {
+                this.field.options = [];
+            }
+        }
     },
   },
   mounted() {
@@ -193,8 +195,15 @@ export default {
       this.adding = true;
       let data = this.field;
       data.type = this.field.type.id;
-      FieldService.saveCustomField(data)
-        .then((response) => {
+      let apiResponse = null;
+        console.log('data');
+        console.log(data);
+        if (data.id) {
+          apiResponse = FieldService.updateCustomField(data)
+      } else {
+          apiResponse = FieldService.saveCustomField(data)
+      }
+        apiResponse.then((response) => {
           response = response.data;
           if (response.status) {
             this.$notify({
@@ -240,6 +249,7 @@ export default {
             this.customFieldTypes = response.data;
             if (this.currentField) {
               this.field = {
+                  id: this.currentField.id,
                 name: this.currentField.name,
                 type: this.customFieldTypes.find(
                   (type) => type.id === this.currentField.type

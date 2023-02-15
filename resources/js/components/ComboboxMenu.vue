@@ -149,15 +149,9 @@ export default {
   },
   data() {
     return {
-      selectedItem: '',
       query: '',
       open: true,
     };
-  },
-  watch: {
-    selectedItem(val) {
-      this.$emit('update:modelValue', val);
-    },
   },
   computed: {
     filteredItems() {
@@ -167,9 +161,14 @@ export default {
             return item.name.toLowerCase().includes(this.query.toLowerCase());
           });
     },
+      selectedItem: {
+          get() {
+              return this.modelValue;
+          },
+          set(val) {
+              this.$emit('update:modelValue', val);
+          }
+      },
   },
-  /*  mounted() {
-    this.selectedItem = this.items[0];
-  }, */
 };
 </script>

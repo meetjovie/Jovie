@@ -93,12 +93,12 @@
           </div>
         </div>
       </template> -->
-      <template #menuBottom>
+      <template #menuBottom v-if="column.custom">
         <!-- <CustomFieldsMenu
           :currentField="column"
           @getHeaders="$emit('getHeaders')" /> -->
         <DropdownMenuItem
-          @click="$emit('editCustomFieldsModal')"
+          @click="$emit('editCustomFieldsModal', column)"
           icon="PencilIcon"
           name="Edit Field Type" />
       </template>
@@ -190,28 +190,20 @@ export default {
         },
         {
           id: 2,
-          name: 'Edit Field',
-          icon: 'PencilIcon',
-          emit: 'editField',
-          custom: true,
-          menu: true,
-        },
-        {
-          id: 3,
           name: 'Sort Ascending',
           icon: 'ChevronUpIcon',
           emit: 'sortAscending',
           menu: true,
         },
         {
-          id: 4,
+          id: 3,
           name: 'Sort Descending',
           icon: 'ChevronDownIcon',
           emit: 'sortDescending',
           menu: true,
         },
         {
-          id: 5,
+          id: 4,
           name: 'Delete Field',
           icon: 'TrashIcon',
           emit: 'deleteField',
