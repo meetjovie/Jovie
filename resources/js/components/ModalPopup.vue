@@ -33,7 +33,7 @@
                 class="transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
                 v-else>
                 <div
-                  v-if="modalLayout == alert"
+                  v-if="modalLayout == 'alert'"
                   class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div class="sm:flex sm:items-start">
                     <div
@@ -78,7 +78,7 @@
                     :disabled="loading"
                     type="button"
                     :class="
-                      modalLayout == alert
+                      modalLayout == 'alert'
                         ? 'bg-red-600 hover:bg-red-700'
                         : 'bg-indigo-600 hover:bg-indigo-700'
                     "

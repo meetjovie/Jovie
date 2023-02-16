@@ -88,6 +88,13 @@
       :disabled="adding"
       @click="saveCustomField" />
   </GlassmorphismContainer>
+    <ModalPopup
+        @primaryButtonClick="confirmationPopup.confirmationMethod"
+        @cancelButtonClick="resetPopup()"
+        :open="confirmationPopup.open"
+        :primaryButtonText="confirmationPopup.primaryButtonText"
+        :description="confirmationPopup.description"
+        :title="confirmationPopup.title" />
   <!--  </PopoverPanel>
     </Float>
   </Popover> -->
@@ -116,6 +123,7 @@ import FieldService from '../services/api/field.service';
 import DropdownMenuItem from './DropdownMenuItem.vue';
 import ComboboxMenu from './ComboboxMenu.vue';
 import draggable from 'vuedraggable';
+import ModalPopup from './ModalPopup.vue'
 
 export default {
   name: 'CustomFieldsMenu',
@@ -137,6 +145,7 @@ export default {
     MenuItems,
     ComboboxMenu,
     draggable,
+    ModalPopup,
   },
   props: {
     currentField: {
@@ -157,6 +166,14 @@ export default {
         options: [],
       },
       adding: false,
+        confirmationPopup: {
+            confirmationMethod: null,
+            title: null,
+            open: false,
+            primaryButtonText: null,
+            description: '',
+            loading: false,
+        },
     };
   },
   watch: {
@@ -177,6 +194,19 @@ export default {
     this.getCustomFieldTypes();
   },
   methods: {
+      resetPopup() {
+          console.log(this.field);
+          this.confirmationPopup = {
+              confirmationMethod: null,
+              title: null,
+              open: false,
+              description: null,
+              primaryButtonText: null,
+              loading: false,
+          };
+          console.log(this.field);
+
+      },
     sortOptions() {
       this.field.options = this.field.options.map(function (option, index) {
         return { value: option.value, order: index };
@@ -191,55 +221,104 @@ export default {
     removeOption(index) {
       this.field.options.splice(index, 1);
     },
+      updateCustomField() {
+          this.confirmationPopup.loading = true;
+          let data = JSON.parse(JSON.stringify(this.field));
+          data.type = data.type.id;
+          FieldService.updateCustomField(data).apiResponse.then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 40000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+                  this.field = {
+                      name: '',
+                      type: '',
+                      description: '',
+                      options: [],
+                  };
+                  this.$emit('getFields');
+                  this.$emit('getHeaders');
+                  close();
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'error',
+                      duration: 15000,
+                      title: 'Error',
+                      text: response.message,
+                  });
+              }
+          })
+              .catch((error) => {
+                  if (error.response && error.response.status == 422) {
+                      this.errors = error.response.data.errors;
+                  }
+              })
+              .finally((response) => {
+                  this.confirmationPopup.loading = false;
+              });
+      },
     saveCustomField() {
-      this.adding = true;
-      let data = this.field;
-      data.type = this.field.type.id;
-      let apiResponse = null;
-        console.log('data');
-        console.log(data);
-        if (data.id) {
-          apiResponse = FieldService.updateCustomField(data)
+      let data = JSON.parse(JSON.stringify(this.field));
+      data.type = data.type.id;
+      if (data.id) {
+            this.confirmationPopup = {
+              title: 'Update Custom Field',
+              primaryButtonText: 'Update',
+              description: 'If you are updating the type or field or removing any options, the existing data will be removed. Are you sure you want to continue ?',
+          }
+          this.$nextTick(() => {
+              this.confirmationPopup.confirmationMethod = () => {
+                  this.updateCustomField();
+              };
+              this.confirmationPopup.open = true
+          })
+          return;
       } else {
-          apiResponse = FieldService.saveCustomField(data)
+          this.adding = true;
+          FieldService.saveCustomField(data).then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 40000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+                  this.field = {
+                      name: '',
+                      type: '',
+                      description: '',
+                      options: [],
+                  };
+                  this.$emit('getFields');
+                  this.$emit('getHeaders');
+                  close();
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'error',
+                      duration: 15000,
+                      title: 'Error',
+                      text: response.message,
+                  });
+              }
+          })
+              .catch((error) => {
+                  if (error.response && error.response.status == 422) {
+                      this.errors = error.response.data.errors;
+                  }
+              })
+              .finally((response) => {
+                  this.adding = false;
+              });
       }
-        apiResponse.then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 40000,
-              title: 'Successful',
-              text: response.message,
-            });
-            this.field = {
-              name: '',
-              type: '',
-              description: '',
-              options: [],
-            };
-            this.$emit('getFields');
-            this.$emit('getHeaders');
-            close();
-          } else {
-            this.$notify({
-              group: 'user',
-              type: 'error',
-              duration: 15000,
-              title: 'Error',
-              text: response.message,
-            });
-          }
-        })
-        .catch((error) => {
-          if (error.response && error.response.status == 422) {
-            this.errors = error.response.data.errors;
-          }
-        })
-        .finally((response) => {
-          this.adding = false;
-        });
     },
     getCustomFieldTypes() {
       FieldService.getCustomFieldTypes()

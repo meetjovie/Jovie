@@ -76,7 +76,7 @@ class CustomFieldsController extends Controller
             $customField->update($data);
 
             $oldOptions = $customField->customFieldOptions()->get();
-            $values = $options->pluck('value', 'id')->toArray();
+            $values = collect($options)->pluck('value', 'id')->toArray();
 
             if (empty($oldOptions)) {
                 $customField->customFieldValues()->delete();
@@ -92,7 +92,6 @@ class CustomFieldsController extends Controller
                     }
                 }
             }
-
             $index = 0;
             foreach ($values as $optionId => $value) {
                 if (!in_array($value, $oldOptions->pluck('value')->toArray())) {
