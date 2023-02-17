@@ -171,6 +171,7 @@ export default {
     },
     itemClicked(id) {
       let item = this.dropdownItems.find((item) => item.id == id);
+      this.$emit(item.emit);
     },
   },
   props: {

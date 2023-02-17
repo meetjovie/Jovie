@@ -372,7 +372,7 @@
                         class="w-full"
                         @editCustomFieldsModal="editCustomFieldsModal"
                         @sortData="sortData"
-                        @hideColumn="toggleFieldHide"
+                        @hideColumn="toggleFieldHide(element, index, true)"
                         @editColumn="editField"
                         @deleteColumn="deleteField"
                         :column="element" />
@@ -830,10 +830,13 @@ export default {
       this.showCustomFieldsModal = true;
     },
     deleteField() {},
-    toggleFieldHide(column, index) {
+    toggleFieldHide(column, index, forceHide = false) {
       this.$nextTick(() => {
+          if (forceHide) {
+              column.visible = !column.visible
+          }
         column = JSON.parse(JSON.stringify(column));
-        this.headers[index].hide = column.hide = !column.visible;
+        this.headers[index].hide = column.hide = forceHide ? forceHide : !column.visible;
         this.$store.dispatch('toggleFieldHide', {
           self: this,
           listId: this.filters.list,
