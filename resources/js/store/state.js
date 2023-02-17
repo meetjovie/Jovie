@@ -21,6 +21,7 @@ export default {
     stages: [],
     networks: [],
     showCustomFieldsModal: false,
+    currentCustomField: null,
     currentContact: null,
     currentRow: null,
     currentColumn: null,

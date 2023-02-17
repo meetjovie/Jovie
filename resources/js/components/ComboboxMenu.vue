@@ -6,7 +6,7 @@
       placeholder="Find a field type"
       :displayValue="(item) => item.name" />
 
-    <div v-show="open">
+    <div class="h-40" v-show="open">
       <!--
                 Using the `static` prop, the `ComboboxOptions` are always
                 rendered and the `open` state is ignored.
@@ -161,14 +161,14 @@ export default {
             return item.name.toLowerCase().includes(this.query.toLowerCase());
           });
     },
-      selectedItem: {
-          get() {
-              return this.modelValue;
-          },
-          set(val) {
-              this.$emit('update:modelValue', val);
-          }
+    selectedItem: {
+      get() {
+        return this.modelValue;
       },
+      set(val) {
+        this.$emit('update:modelValue', val);
+      },
+    },
   },
 };
 </script>
