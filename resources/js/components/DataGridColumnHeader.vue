@@ -97,10 +97,13 @@
         <!-- <CustomFieldsMenu
           :currentField="column"
           @getHeaders="$emit('getHeaders')" /> -->
-        <DropdownMenuItem @click="
-        @click="this.$store.state.crmPage.showCustomFieldsModal = true &&
-        this.$store.state.crmPage.currentCustomField = column" icon="PencilIcon"
-        name="Edit Field Type" />
+        <DropdownMenuItem
+          @click="
+            (this.$store.state.crmPage.showCustomFieldsModal = true) &&
+              (this.$store.state.crmPage.currentCustomField = column)
+          "
+          icon="PencilIcon"
+          name="Edit Field Type" />
       </template>
     </JovieDropdownMenu>
   </div>
