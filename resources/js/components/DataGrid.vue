@@ -993,7 +993,7 @@ export default {
       creator.showContextMenu = true;
     },
     sortData({ sortBy, sortOrder }) {
-      this.columns = this.columns.map((column) => {
+      this.columns.map((column) => {
         if (column.key == sortBy) {
           column.sortOrder = sortOrder == 'asc' ? 'desc' : 'asc';
         } else {
