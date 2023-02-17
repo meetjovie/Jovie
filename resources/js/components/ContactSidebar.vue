@@ -427,7 +427,7 @@
             <span class="sr-only">Add custom field</span>
             <PlusIcon
               class="h-4 w-4 cursor-pointer text-slate-700"
-              @click="this.$store.state.crmPage.showCustomFieldsModal = true"
+              @click="$store.state.crmPage.showCustomFieldsModal = true"
               aria-hidden="true" />
           </div>
         </div>

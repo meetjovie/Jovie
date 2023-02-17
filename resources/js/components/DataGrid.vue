@@ -475,9 +475,9 @@
     </div>
   </div>
   <ModalPopup
-    :open="this.$store.state.crmPage.showCustomFieldsModal"
+    :open="$store.state.crmPage.showCustomFieldsModal"
     customContent
-    @close="this.$store.state.crmPage.showCustomFieldsModal = false">
+    @close="$store.state.crmPage.showCustomFieldsModal = false">
     <CustomFieldsMenu
       :currentField="currentEditingField"
       @getHeaders="$emit('getHeaders')" />
