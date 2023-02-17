@@ -13,12 +13,10 @@
                 Using the `static` prop, the `ComboboxOptions` are always
                 rendered and the `open` state is ignored.
               -->
-      <ComboboxOptions
-        static
-        class="rounded-md border border-slate-300 dark:border-jovieDark-border">
+      <ComboboxOptions static class="h-full">
         <div
           v-if="filteredItems.length === 0 && query !== ''"
-          class="relative h-full cursor-default select-none py-2 px-4 text-slate-700 dark:text-jovieDark-300">
+          class="relative h-full cursor-default select-none items-center py-2 px-4 text-slate-700 dark:text-jovieDark-300">
           Nothing found.
         </div>
         <ComboboxOption

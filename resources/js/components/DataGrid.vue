@@ -479,7 +479,7 @@
     customContent
     @close="$store.state.crmPage.showCustomFieldsModal = false">
     <CustomFieldsMenu
-      :currentField="currentEditingField"
+      :currentField="$store.state.crmPage.currentCustomField"
       @getHeaders="$emit('getHeaders')" />
   </ModalPopup>
 </template>

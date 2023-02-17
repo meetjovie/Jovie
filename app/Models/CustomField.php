@@ -40,7 +40,7 @@ class CustomField extends Model
             'name' => 'Date',
             'type' => 'Date',
             'icon' => 'CalendarDaysIcon',
-            'description' => 'A date'
+            'description' => 'Enter a date (e.g. 11/12/2013) or pick one from a calendar.'
         ],
         [
             'id' => 'url',
@@ -61,14 +61,14 @@ class CustomField extends Model
             'name' => 'Single Select',
             'type' => 'Single Select',
             'icon' => 'ListBulletIcon',
-            'description' => 'A single select option'
+            'description' => 'Single select allows you to select a single option from predefined options in a dropdown.'
         ],
         [
             'id' => 'multi_select',
             'name' => 'Multi Select',
             'type' => 'Multi Select',
             'icon' => 'ListBulletIcon',
-            'description' => 'A multi select option'
+            'description' => 'Multiple select allows you to select one or more predefined options listed below.'
         ],
     ];
 
