@@ -6,7 +6,9 @@
       placeholder="Find a field type"
       :displayValue="(item) => item.name" />
 
-    <div class="h-40 overflow-y-scroll" v-show="open">
+    <div
+      class="h-48 overflow-y-scroll rounded-md border border-slate-300 bg-slate-50 dark:border-jovieDark-border"
+      v-show="open">
       <!--
                 Using the `static` prop, the `ComboboxOptions` are always
                 rendered and the `open` state is ignored.
@@ -16,7 +18,7 @@
         class="rounded-md border border-slate-300 dark:border-jovieDark-border">
         <div
           v-if="filteredItems.length === 0 && query !== ''"
-          class="relative cursor-default select-none py-2 px-4 text-slate-700 dark:text-jovieDark-300">
+          class="relative h-full cursor-default select-none py-2 px-4 text-slate-700 dark:text-jovieDark-300">
           Nothing found.
         </div>
         <ComboboxOption
