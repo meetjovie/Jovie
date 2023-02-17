@@ -47,14 +47,14 @@ class CustomField extends Model
             'name' => 'URL',
             'type' => 'URL',
             'icon' => 'LinkIcon',
-            'description' => 'A website URL'
+            'description' => 'A valid URL (e.g. jov.ie or https://jov.ie/tim).'
         ],
         [
             'id' => 'checkbox',
             'name' => 'Checkbox',
             'type' => 'Checkbox',
             'icon' => 'CheckIcon',
-            'description' => 'A checkbox'
+            'description' => 'A single checkbox that can be checked or unchecked.'
         ],
         [
             'id' => 'select',
