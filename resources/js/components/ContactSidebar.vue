@@ -423,7 +423,12 @@
             </h2>
           </div>
           <div>
-            <CustomFieldsMenu @getFields="getFields" @getHeaders="$emit('getHeaders')" />
+            <!-- <CustomFieldsMenu  @getFields="getFields" @getHeaders="$emit('getHeaders')" /> -->
+            <span class="sr-only">Add custom field</span>
+            <PlusIcon
+              class="h-4 w-4 cursor-pointer text-slate-700"
+              @click="this.$store.state.crmPage.showCustomFieldsModal = true"
+              aria-hidden="true" />
           </div>
         </div>
         <div
@@ -805,10 +810,17 @@ export default {
     };
   },
   methods: {
-      sortFields(e, listId = '') {
-          this.$store.dispatch('sortFields', { self: this, newIndex: e.newIndex, oldIndex: e.oldIndex, custom: e.item.dataset.custom === 'true', listId: listId, itemId: e.item.id })
-      },
-      getFields() {
+    sortFields(e, listId = '') {
+      this.$store.dispatch('sortFields', {
+        self: this,
+        newIndex: e.newIndex,
+        oldIndex: e.oldIndex,
+        custom: e.item.dataset.custom === 'true',
+        listId: listId,
+        itemId: e.item.id,
+      });
+    },
+    getFields() {
       FieldService.getFields(this.creator.id)
         .then((response) => {
           response = response.data;

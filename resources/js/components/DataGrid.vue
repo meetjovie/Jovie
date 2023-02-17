@@ -382,7 +382,11 @@
                     <th
                       scope="col"
                       class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
-                      <div @click="showCustomFieldsModal = true" class="w-40">
+                      <div
+                        @click="
+                          this.$store.state.crmPage.showCustomFieldsModal = true
+                        "
+                        class="w-40">
                         <!-- <CustomFieldsMenu
                           class=""
                           @getHeaders="$emit('getHeaders')" /> -->
@@ -471,9 +475,9 @@
     </div>
   </div>
   <ModalPopup
-    :open="showCustomFieldsModal"
+    :open="this.$store.state.crmPage.showCustomFieldsModal"
     customContent
-    @close="showCustomFieldsModal = false">
+    @close="this.$store.state.crmPage.showCustomFieldsModal = false">
     <CustomFieldsMenu
       :currentField="currentEditingField"
       @getHeaders="$emit('getHeaders')" />
@@ -821,9 +825,9 @@ export default {
   },
   methods: {
     editCustomFieldsModal(column) {
-        console.log(column);
-        this.currentEditingField = column
-        this.showCustomFieldsModal = true
+      console.log(column);
+      this.currentEditingField = column;
+      this.showCustomFieldsModal = true;
     },
     deleteField() {},
     toggleFieldHide(column, index) {
