@@ -633,7 +633,6 @@ export default {
       },
       showCustomFieldsModal: false,
       currentEditingField: null,
-
       creatorRecords: [],
       tableViewSearchQuery: '',
       searchQuery: '',
@@ -647,7 +646,6 @@ export default {
       editingSocialHandle: true,
       searchVisible: false,
       imageLoaded: true,
-
       open: false,
       subMenuOpen: true,
       settings: [
@@ -832,11 +830,13 @@ export default {
     deleteField() {},
     toggleFieldHide(column, index, forceHide = false) {
       this.$nextTick(() => {
-          if (forceHide) {
-              column.visible = !column.visible
-          }
+        if (forceHide) {
+          column.visible = !column.visible;
+        }
         column = JSON.parse(JSON.stringify(column));
-        this.headers[index].hide = column.hide = forceHide ? forceHide : !column.visible;
+        this.headers[index].hide = column.hide = forceHide
+          ? forceHide
+          : !column.visible;
         this.$store.dispatch('toggleFieldHide', {
           self: this,
           listId: this.filters.list,
