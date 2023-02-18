@@ -163,7 +163,39 @@ export default {
             })
             .catch((error) => {
                 if (error.response && error.response.status == 422) {
-                    self.errors = error.data.errors;
+                    payload.self.errors = error.data.errors;
+                    if (payload.self.errors.field[0]) {
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: payload.self.errors.field[0],
+                        });
+                    }
+                }
+            })
+            .finally((response) => {});
+    },
+    async deleteField(context, payload) {
+        UserService.deleteField(payload.itemId)
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'success',
+                        duration: 15000,
+                        title: 'Successful',
+                        text: response.message,
+                    });
+                } else {
+
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status == 422) {
+                    payload.self.errors = error.data.errors;
                     if (payload.self.errors.field[0]) {
                         payload.self.$notify({
                             group: 'user',

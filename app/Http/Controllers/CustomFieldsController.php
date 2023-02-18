@@ -147,7 +147,7 @@ class CustomFieldsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Field Deleted',
+            'message' => 'Field Deleted.',
             'data' => $customField
         ]);
     }

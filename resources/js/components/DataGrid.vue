@@ -829,7 +829,12 @@ export default {
       this.$store.state.crmPage.showCustomFieldsModal = true
       this.currentEditingField = column;
     },
-    deleteField() {},
+    deleteField(column) {
+        this.$store.dispatch('deleteField', {
+            self: this,
+            itemId: column.id,
+        });
+    },
     toggleFieldHide(column, index, forceHide = false) {
       this.$nextTick(() => {
         if (forceHide) {

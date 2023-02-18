@@ -166,4 +166,7 @@ export default {
   async toggleFieldHide(data, id) {
      return axios.post(`${baseApiUrl}/toggle-field-hide/${id}`, data);
   },
+  async deleteField(data, id) {
+     return axios.delete(`${baseApiUrl}/custom-field/${id}/delete`, data);
+  },
 };
