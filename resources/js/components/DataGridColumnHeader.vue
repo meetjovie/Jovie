@@ -98,10 +98,7 @@
           :currentField="column"
           @getHeaders="$emit('getHeaders')" /> -->
         <DropdownMenuItem
-          @click="
-            (this.$store.state.crmPage.showCustomFieldsModal = true) &&
-              (this.$store.state.crmPage.currentCustomField = column)
-          "
+          @click="$emit('editField', column)"
           icon="PencilIcon"
           name="Edit Field Type" />
       </template>

@@ -84,11 +84,12 @@
     </div>
     <ButtonGroup
       class="mt-4"
-      text="Add Field"
+      :text="currentField ? 'Update Field' : 'Add Field'"
       :disabled="adding"
       @click="saveCustomField" />
   </GlassmorphismContainer>
   <ModalPopup
+      :loading="confirmationPopup.loading"
     @primaryButtonClick="confirmationPopup.confirmationMethod"
     @cancelButtonClick="resetPopup()"
     :open="confirmationPopup.open"
@@ -195,7 +196,6 @@ export default {
   },
   methods: {
     resetPopup() {
-      console.log(this.field);
       this.confirmationPopup = {
         confirmationMethod: null,
         title: null,
@@ -204,7 +204,6 @@ export default {
         primaryButtonText: null,
         loading: false,
       };
-      console.log(this.field);
     },
     sortOptions() {
       this.field.options = this.field.options.map(function (option, index) {
@@ -222,13 +221,15 @@ export default {
     },
     updateCustomField() {
       this.confirmationPopup.loading = true;
+      this.confirmationPopup.open = false;
+      this.adding = true;
       let data = JSON.parse(JSON.stringify(this.field));
       data.type = data.type.id;
-      FieldService.updateCustomField(data)
-        .apiResponse.then((response) => {
+      FieldService.updateCustomField(data).then((response) => {
           response = response.data;
           if (response.status) {
-            this.$notify({
+              this.$store.state.crmPage.showCustomFieldsModal = false;
+              this.$notify({
               group: 'user',
               type: 'success',
               duration: 40000,
@@ -261,6 +262,7 @@ export default {
         })
         .finally((response) => {
           this.confirmationPopup.loading = false;
+          this.adding = false;
         });
     },
     saveCustomField() {

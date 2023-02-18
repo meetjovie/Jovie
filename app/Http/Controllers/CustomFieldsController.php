@@ -7,6 +7,7 @@ use App\Models\FieldAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use function Clue\StreamFilter\fun;
 
 class CustomFieldsController extends Controller
 {
@@ -60,6 +61,14 @@ class CustomFieldsController extends Controller
 
     public function update(Request $request, $id)
     {
+        $customField = CustomField::query()->where('id', $id)->first();
+        if (! $customField) {
+            return response()->json([
+                'status' => true,
+                'message' => 'This field does not exist for you.',
+            ]);
+        }
+
         $data = $request->validate([
             'name' => ['required', 'max:255', "unique:custom_fields,name,$id,id,team_id," . Auth::user()->currentTeam->id],
             'description' => ['sometimes'],
@@ -72,15 +81,15 @@ class CustomFieldsController extends Controller
         DB::transaction(function () use ($data, &$customField, $id) {
             $options = $data['options'];
             unset($data['options']);
-            $customField = CustomField::query()->where('id', $id)->first();
             $customField->update($data);
 
             $oldOptions = $customField->customFieldOptions()->get();
-            $values = collect($options)->pluck('value', 'id')->toArray();
 
-            if (empty($oldOptions)) {
+            if (! count($oldOptions)) {
                 $customField->customFieldValues()->delete();
+                $values = collect($options)->pluck('value')->toArray();
             } else {
+                $values = collect($options)->pluck('value', 'id')->toArray();
                 foreach ($oldOptions as $oldOption) {
                     if (!in_array($oldOption->value, $values)) {
                         foreach ($customField->customFieldValues as $customFieldValue) {
@@ -111,6 +120,34 @@ class CustomFieldsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Field updated',
+            'data' => $customField
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $customField = CustomField::query()->where('id', $id)->first();
+        if (! $customField) {
+            return response()->json([
+                'status' => true,
+                'message' => 'This field does not exist for you.',
+            ]);
+        }
+
+        DB::transaction(function () use ($customField) {
+            $customField->customFieldValues()->delete();
+            $customField->customFieldOptions()->delete();
+            $customField->fieldAttributes()->delete();
+
+            $teamUsers = Auth::user()->currentTeam->users->pluck('id')->toArray();
+            foreach ($teamUsers as $userId) {
+                FieldAttribute::updateSortOrder($userId, 0, 1, $customField->id);
+            }
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Field Deleted',
             'data' => $customField
         ]);
     }

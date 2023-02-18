@@ -370,10 +370,9 @@
                       class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
-                        @editCustomFieldsModal="editCustomFieldsModal"
+                        @editField="editCustomFieldsModal"
                         @sortData="sortData"
                         @hideColumn="toggleFieldHide(element, index, true)"
-                        @editColumn="editField"
                         @deleteColumn="deleteField"
                         :column="element" />
                     </th>
@@ -477,9 +476,9 @@
   <ModalPopup
     :open="$store.state.crmPage.showCustomFieldsModal"
     customContent
-    @close="$store.state.crmPage.showCustomFieldsModal = false">
+    @close="closeEditFieldPopup">
     <CustomFieldsMenu
-      :currentField="$store.state.crmPage.currentCustomField"
+      :currentField="this.currentEditingField"
       @getHeaders="$emit('getHeaders')" />
   </ModalPopup>
 </template>
@@ -822,10 +821,13 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      closeEditFieldPopup() {
+          this.$store.state.crmPage.showCustomFieldsModal = false
+          this.currentEditingField = null
+      },
     editCustomFieldsModal(column) {
-      console.log(column);
+      this.$store.state.crmPage.showCustomFieldsModal = true
       this.currentEditingField = column;
-      this.showCustomFieldsModal = true;
     },
     deleteField() {},
     toggleFieldHide(column, index, forceHide = false) {

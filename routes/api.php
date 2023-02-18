@@ -123,6 +123,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('custom-field/{id}', [CustomFieldsController::class, 'update']);
     Route::post('set-field-attributes/{id}', [FieldsController::class, 'setFieldAttributes']);
     Route::post('toggle-field-hide/{id}', [FieldsController::class, 'toggleFieldHide']);
+    Route::delete('custom-field/{id}', [CustomFieldsController::class, 'delete']);
 
     // HEADERS
     Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);
