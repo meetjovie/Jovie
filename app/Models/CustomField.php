@@ -40,35 +40,35 @@ class CustomField extends Model
             'name' => 'Date',
             'type' => 'Date',
             'icon' => 'CalendarDaysIcon',
-            'description' => 'A date'
+            'description' => 'Enter a date (e.g. 11/12/2013) or pick one from a calendar.'
         ],
         [
             'id' => 'url',
             'name' => 'URL',
             'type' => 'URL',
             'icon' => 'LinkIcon',
-            'description' => 'A website URL'
+            'description' => 'A valid URL (e.g. jov.ie or https://jov.ie/tim).'
         ],
         [
             'id' => 'checkbox',
             'name' => 'Checkbox',
             'type' => 'Checkbox',
             'icon' => 'CheckIcon',
-            'description' => 'A checkbox'
+            'description' => 'A single checkbox that can be checked or unchecked.'
         ],
         [
             'id' => 'select',
             'name' => 'Single Select',
             'type' => 'Single Select',
             'icon' => 'ListBulletIcon',
-            'description' => 'A single select option'
+            'description' => 'Single select allows you to select a single option from predefined options in a dropdown.'
         ],
         [
             'id' => 'multi_select',
             'name' => 'Multi Select',
             'type' => 'Multi Select',
             'icon' => 'ListBulletIcon',
-            'description' => 'A multi select option'
+            'description' => 'Multiple select allows you to select one or more predefined options listed below.'
         ],
     ];
 
@@ -80,7 +80,6 @@ class CustomField extends Model
         'description',
         'type',
         'icon',
-        'hide',
     ];
 
     /**
@@ -127,6 +126,6 @@ class CustomField extends Model
 
     public function fieldAttributes()
     {
-        return $this->hasMany(FieldAttribute::class, 'field_attributes');
+        return $this->hasMany(FieldAttribute::class, 'field_id');
     }
 }

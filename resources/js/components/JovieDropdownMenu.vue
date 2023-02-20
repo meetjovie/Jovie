@@ -30,7 +30,7 @@
             <div v-if="searchable" class="sticky top-0 px-1">
               <MenuItem
                 as="div"
-                class="border border-slate-200 dark:border-jovieDark-border">
+                class="border-b border-slate-200 dark:border-jovieDark-border">
                 <div class="relative flex items-center">
                   <input
                     tabindex="0"
@@ -51,13 +51,14 @@
             </div>
 
             <div
-              class="overflow-clip border-t border-slate-200 px-2 dark:border-jovieDark-border">
+              class="overflow-clip border-slate-200 px-2 dark:border-jovieDark-border">
               <div class="" v-if="items">
                 <template v-for="item in filteredItems" :key="item[nameKey]">
                   <router-link v-if="item.route" :to="item.route">
                     <DropdownMenuItem
                       :name="item[nameKey]"
                       :icon="item.icon"
+                      :color="item.color"
                       :emoji="item.emoji"
                       :numbered="numbered"
                       :shortcutKey="item.shortcutKey"
@@ -155,9 +156,13 @@ import {
 } from '@headlessui/vue';
 import {
   ChevronDownIcon,
+  ChevronUpIcon,
   CheckIcon,
   XMarkIcon,
+  EyeSlashIcon,
+  PencilIcon,
   CogIcon,
+  TrashIcon,
   BellIcon,
   UserIcon,
   CreditCardIcon,
@@ -173,10 +178,14 @@ export default {
     GlassmorphismContainer,
     TransitionRoot,
     Menu,
+    EyeSlashIcon,
+    PencilIcon,
+    ChevronUpIcon,
     XMarkIcon,
     MenuItem,
     ChevronDownIcon,
     CheckIcon,
+    TrashIcon,
     Float,
     MenuButton,
     MenuItems,

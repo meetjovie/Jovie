@@ -4,7 +4,10 @@
       <div class="h-full pb-10">
         <header
           class="flex w-full items-center justify-between border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
-          <DataGridHeaderContent :header="header" :subheader="subheader" />
+          <DataGridHeaderContent
+            :loading="loading"
+            :header="header"
+            :subheader="subheader" />
           <!--  <span
             class="flex w-40 items-center text-xs text-slate-600 dark:text-jovieDark-200">
             >You're in Column: {{ currentCell.column }} Row:
@@ -110,7 +113,7 @@
                               }" />
                           </div>
                           <div
-                            v-for="column in filteredColumnList"
+                            v-for="(column, index) in filteredColumnList"
                             :key="column.name">
                             <SwitchGroup>
                               <SwitchLabel>
@@ -121,6 +124,7 @@
                                     <Switch
                                       :name="column.name"
                                       v-model="column.visible"
+                                      @click="toggleFieldHide(column, index)"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -204,147 +208,205 @@
               class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
                 class="relative isolate z-20 w-full items-center overflow-auto">
-                <tr class="sticky h-8 items-center">
+                <tr
+                  v-if="!headersLoaded"
+                  class="sticky top-0 z-50 h-8 w-full items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
-                    <div class="mx-auto items-center text-center">
-                      <input
-                        type="checkbox"
-                        class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400"
-                        :checked="
-                          intermediate ||
-                          selectedCreators.length === creatorRecords.length
-                        "
-                        :intermediate="intermediate"
-                        @change="
-                          selectedCreators = $event.target.checked
-                            ? creatorRecords.map((c) => c.id)
-                            : []
-                        " />
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                    <span class="sr-only">Favorite</span>
-                  </th>
-                  <th
-                    scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
                     <div
-                      v-if="selectedCreators.length > 0"
-                      class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
-                      <!--   <ContactActionMenu /> -->
-                      <Menu>
-                        <Float portal :offset="2" placement="bottom-start">
-                          <MenuButton
-                            class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
-                            <span class="line-clamp-1">Bulk Actions</span>
-                            <ChevronDownIcon
-                              class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
-                              aria-hidden="true" />
-                          </MenuButton>
-                          <transition
-                            enter-active-class="transition duration-100 ease-out"
-                            enter-from-class="transform scale-95 opacity-0"
-                            enter-to-class="transform scale-100 opacity-100"
-                            leave-active-class="transition duration-75 ease-in"
-                            leave-from-class="transform scale-100 opacity-100"
-                            leave-to-class="transform scale-95 opacity-0">
-                            <MenuItems>
-                              <GlassmorphismContainer
-                                class="max-h-80 w-60 flex-col overflow-y-scroll px-1 py-1">
-                                <DropdownMenuItem
-                                  v-if="filters.list"
-                                  @click="
-                                    toggleCreatorsFromList(
-                                      selectedCreators,
-                                      filters.list,
-                                      true
-                                    )
-                                  "
-                                  name="Remove from list"
-                                  icon="TrashIcon" />
-                                <MenuItem
-                                  v-slot="{ active }"
-                                  @click="
-                                    toggleArchiveCreators(
-                                      this.selectedCreators,
-                                      this.filters.type == 'archived'
-                                        ? false
-                                        : true
-                                    )
-                                  ">
-                                  <button
-                                    :class="[
-                                      active
-                                        ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                        : 'text-slate-700 dark:text-jovieDark-200',
-                                      'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                    ]">
-                                    <ArchiveBoxIcon
-                                      :active="active"
-                                      class="mr-2 h-3 w-3 text-sky-400"
-                                      aria-hidden="true" />
-                                    {{
-                                      this.filters.type == 'archived'
-                                        ? 'Unarchive'
-                                        : 'Archive'
-                                    }}
-                                  </button>
-                                </MenuItem>
-                                <!-- <DropdownMenuItem @click="toggleArchiveCreators(
+                      class="h-4 w-3 animate-pulse rounded-md bg-slate-300"></div>
+                  </th>
+                  <th
+                    scope="col"
+                    class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    <div
+                      class="h-4 w-8 animate-pulse rounded-md bg-slate-300"></div>
+                  </th>
+                  <th
+                    scope="col"
+                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
+                    <div
+                      class="h-4 w-40 animate-pulse rounded-md bg-slate-300"></div>
+                  </th>
+                  <th
+                    v-for="i in 10"
+                    class="dark:border-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    <div
+                      class="h-4 w-24 animate-pulse rounded-md bg-slate-300"></div>
+                  </th>
+                </tr>
+                <draggable
+                  v-else
+                  v-model="headers"
+                  itemKey="key"
+                  ghost-class="ghost-header"
+                  tag="tr"
+                  @end="sortFields"
+                  class="sticky h-8 items-center">
+                  <template #header>
+                    <th
+                      scope="col"
+                      class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
+                      <div class="mx-auto items-center text-center">
+                        <input
+                          type="checkbox"
+                          class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400"
+                          :checked="
+                            intermediate ||
+                            selectedCreators.length === creatorRecords.length
+                          "
+                          :intermediate="intermediate"
+                          @change="
+                            selectedCreators = $event.target.checked
+                              ? creatorRecords.map((c) => c.id)
+                              : []
+                          " />
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      <span class="sr-only">Favorite</span>
+                    </th>
+                    <th
+                      scope="col"
+                      class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
+                      <div
+                        v-if="selectedCreators.length > 0"
+                        class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
+                        <!--   <ContactActionMenu /> -->
+                        <Menu>
+                          <Float portal :offset="2" placement="bottom-start">
+                            <MenuButton
+                              class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
+                              <span class="line-clamp-1">Bulk Actions</span>
+                              <ChevronDownIcon
+                                class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
+                                aria-hidden="true" />
+                            </MenuButton>
+                            <transition
+                              enter-active-class="transition duration-100 ease-out"
+                              enter-from-class="transform scale-95 opacity-0"
+                              enter-to-class="transform scale-100 opacity-100"
+                              leave-active-class="transition duration-75 ease-in"
+                              leave-from-class="transform scale-100 opacity-100"
+                              leave-to-class="transform scale-95 opacity-0">
+                              <MenuItems>
+                                <GlassmorphismContainer
+                                  class="max-h-80 w-60 flex-col overflow-y-scroll px-1 py-1">
+                                  <DropdownMenuItem
+                                    v-if="filters.list"
+                                    @click="
+                                      toggleCreatorsFromList(
+                                        selectedCreators,
+                                        filters.list,
+                                        true
+                                      )
+                                    "
+                                    name="Remove from list"
+                                    icon="TrashIcon" />
+                                  <MenuItem
+                                    v-slot="{ active }"
+                                    @click="
+                                      toggleArchiveCreators(
+                                        this.selectedCreators,
+                                        this.filters.type == 'archived'
+                                          ? false
+                                          : true
+                                      )
+                                    ">
+                                    <button
+                                      :class="[
+                                        active
+                                          ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                          : 'text-slate-700 dark:text-jovieDark-200',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                      ]">
+                                      <ArchiveBoxIcon
+                                        :active="active"
+                                        class="mr-2 h-3 w-3 text-sky-400"
+                                        aria-hidden="true" />
+                                      {{
+                                        this.filters.type == 'archived'
+                                          ? 'Unarchive'
+                                          : 'Archive'
+                                      }}
+                                    </button>
+                                  </MenuItem>
+                                  <!-- <DropdownMenuItem @click="toggleArchiveCreators(
                                 selectedCreators, filters.type == 'archived' ?
                                 false : true ) :name="( filters.type == 'archived'
                                 ? 'Unarchive' : 'Archive' )"
                                 :icon="ArchiveBoxIcon" /> -->
-                              </GlassmorphismContainer>
-                            </MenuItems>
-                          </transition>
-                        </Float>
-                      </Menu>
-                    </div>
-                    <div v-else>
-                      <CrmTableSortableHeader
-                        icon="Bars3BottomLeftIcon"
-                        :column="fullNameColumn"
-                        @sortData="
-                          sortData({
-                            sortBy: fullNameColumn.key,
-                            sortOrder: fullNameColumn.sortOrder,
-                          })
-                        "
-                        menu="false" />
-                    </div>
-                  </th>
-
-                  <template :key="column.key" v-for="column in otherColumns">
-                    <th
-                      v-if="column.visible"
-                      scope="col"
-                      :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <CrmTableSortableHeader
-                        class="w-full"
-                        @sortData="sortData"
-                        @hide-column="column.visible = false"
-                        :column="column" />
+                                </GlassmorphismContainer>
+                              </MenuItems>
+                            </transition>
+                          </Float>
+                        </Menu>
+                      </div>
+                      <div v-else>
+                        <DataGridColumnHeader
+                          icon="Bars3BottomLeftIcon"
+                          :column="fullNameColumn"
+                          @sortData="
+                            sortData({
+                              sortBy: fullNameColumn.key,
+                              sortOrder: fullNameColumn.sortOrder,
+                            })
+                          "
+                          menu="false" />
+                      </div>
                     </th>
                   </template>
 
-                  <th
-                    scope="col"
-                    class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                    <CustomFieldsMenu />
-                  </th>
+                  <template #item="{ element, index }">
+                    <th
+                      :key="element.id"
+                      :id="element.id"
+                      v-show="!element.hide"
+                      scope="col"
+                      :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
+                      class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      <DataGridColumnHeader
+                        class="w-full"
+                        @editField="editCustomFieldsModal"
+                        @sortData="sortData"
+                        @hideColumn="toggleFieldHide(element, index, true)"
+                        @deleteField="deleteField(element)"
+                        :column="element" />
+                    </th>
+                  </template>
+                  <template #footer>
+                    <th
+                      scope="col"
+                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      <div
+                        @click="
+                          this.$store.state.crmPage.showCustomFieldsModal = true
+                        "
+                        class="w-40">
+                        <!-- <CustomFieldsMenu
+                          class=""
+                          @getHeaders="$emit('getHeaders')" /> -->
+                        <PlusIcon
+                          class="mx-auto h-4 w-4 text-slate-500 dark:text-jovieDark-400"
+                          aria-hidden="true" />
+                      </div>
+                    </th>
 
-                  <th
-                    scope="col"
-                    :class="[{ 'border-b-2': view.atTopOfPage }, 'border-b-0']"
-                    class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
-                </tr>
+                    <th
+                      scope="col"
+                      :class="[
+                        { 'border-b-2': view.atTopOfPage },
+                        'border-b-0',
+                      ]"
+                      class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
+                  </template>
+                </draggable>
               </thead>
+              <!--                {{ columns.map(c => c.name ) }}-->
+              <!--                {{ visibleColumns }}-->
               <draggable
                 class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
                 :list="filteredCreators"
@@ -361,7 +423,7 @@
                     :stages="stages"
                     :visibleColumns="visibleColumns"
                     :settings="settings"
-                    :otherColumns="otherColumns"
+                    :otherColumns="headers"
                     :filters="filters"
                     :currentContact="currentContact"
                     :selectedCreators="selectedCreators"
@@ -371,9 +433,10 @@
                     v-if="element"
                     @update:currentCell="$emit('updateCreator', $event)"
                     @click="setCurrentContact($event, element)"
-                    @contextmenu.prevent="openContextMenu(index, element)"
                     @mouseover="setCurrentContact($event, element)"
-                    @openSidebar="$emit('openSidebar', {contact: element, index: index})"
+                    @openSidebar="
+                      $emit('openSidebar', { contact: element, index: index })
+                    "
                     @refresh="refresh(element)"
                     @updateCreator="$emit('updateCreator', $event)"
                     @updateCrmMeta="$emit('updateCrmMeta', $event)"
@@ -386,6 +449,7 @@
                     "
                     @toggleCreatorsFromList="toggleCreatorsFromList" />
                 </template>
+                <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
               </draggable>
             </table>
             <div
@@ -409,11 +473,20 @@
       </div>
     </div>
   </div>
+  <ModalPopup
+    :open="$store.state.crmPage.showCustomFieldsModal"
+    customContent
+    @close="closeEditFieldPopup">
+    <CustomFieldsMenu
+      :currentField="this.currentEditingField"
+      @getHeaders="$emit('getHeaders')" />
+  </ModalPopup>
 </template>
 
 <script>
 import CustomFieldsMenu from './CustomFieldsMenu.vue';
 import { Float } from '@headlessui-float/vue';
+import ModalPopup from './ModalPopup.vue';
 import {
   Menu,
   MenuButton,
@@ -464,7 +537,7 @@ import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import ImportService from './../services/api/import.service';
 import ButtonGroup from './ButtonGroup.vue';
-import CrmTableSortableHeader from './CrmTableSortableHeader.vue';
+import DataGridColumnHeader from './DataGridColumnHeader.vue';
 import DataGridCell from './DataGridCell.vue';
 import DataGridCellTextInput from './DataGridCellTextInput.vue';
 import DataGridHeaderContent from './DataGridHeaderContent.vue';
@@ -510,6 +583,7 @@ export default {
     MenuItems,
     MenuItem,
     EllipsisVerticalIcon,
+    ModalPopup,
     SocialIcons,
     Popover,
     BriefcaseIcon,
@@ -528,7 +602,7 @@ export default {
     JovieTooltip,
     PlusIcon,
     JovieSpinner,
-    CrmTableSortableHeader,
+    DataGridColumnHeader,
     Bars3BottomLeftIcon,
     AtSymbolIcon,
     CurrencyDollarIcon,
@@ -556,6 +630,8 @@ export default {
       view: {
         atTopOfPage: true,
       },
+      showCustomFieldsModal: false,
+      currentEditingField: null,
       creatorRecords: [],
       tableViewSearchQuery: '',
       searchQuery: '',
@@ -569,7 +645,6 @@ export default {
       editingSocialHandle: true,
       searchVisible: false,
       imageLoaded: true,
-
       open: false,
       subMenuOpen: true,
       settings: [
@@ -581,132 +656,9 @@ export default {
           type: 'toggle',
         },
       ],
-      columns: [
-        {
-          name: 'Name',
-          key: 'full_name',
-          meta: true,
-          icon: 'Bars3BottomLeftIcon',
-          sortable: true,
-          visible: true,
-          dataType: 'text',
-        },
-        {
-          name: 'First',
-          key: 'first_name',
-          meta: true,
-          icon: 'Bars3BottomLeftIcon',
-          sortable: false,
-          visible: false,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'text',
-        },
-        {
-          name: 'Last',
-          key: 'last_name',
-          meta: true,
-          icon: 'Bars3BottomLeftIcon',
-          visible: false,
-          sortable: false,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'text',
-        },
-        {
-          name: 'Title',
-          key: 'platform_title',
-          meta: true,
-          icon: 'UserIcon',
-          visible: false,
-          breakpoint: '2xl',
-          dataType: 'text',
-        },
-        {
-          name: 'Company',
-          key: 'platform_employer',
-          meta: true,
-          icon: 'BriefcaseIcon',
-          visible: false,
-          sortable: false,
-          breakpoint: '2xl',
-          width: 40,
-          dataType: 'text',
-        },
-
-        {
-          name: 'Email',
-          key: 'emails',
-          meta: true,
-          icon: 'AtSymbolIcon',
-          visible: true,
-          breakpoint: 'lg',
-          width: 40,
-          dataType: 'email',
-        },
-
-        {
-          name: 'Social Links',
-          key: 'networks',
-          meta: true,
-          icon: 'LinkIcon',
-          visible: true,
-          width: '40',
-          dataType: 'socialLinks',
-        },
-        {
-          name: 'Offer',
-          key: 'crm_record_by_user.offer',
-          icon: 'CurrencyDollarIcon',
-          sortable: false,
-          visible: false,
-          breakpoint: 'lg',
-          width: '40',
-          dataType: 'currency',
-        },
-        {
-          name: 'Stage',
-          key: 'crm_record_by_user.stage',
-          icon: 'ArrowDownCircleIcon',
-          width: '40',
-          sortable: true,
-          visible: true,
-          breakpoint: 'md',
-          dataType: 'singleSelect',
-        },
-        {
-          name: 'Last Contact',
-          key: 'crm_record_by_user.last_contacted',
-          icon: 'CalendarDaysIcon',
-          sortable: false,
-          visible: false,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'date',
-        },
-        {
-          name: 'Rating',
-          key: 'crm_record_by_user.rating',
-          icon: 'StarIcon',
-          sortable: true,
-          visible: true,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'rating',
-        },
-        {
-          name: 'Lists',
-          key: 'crm_record_by_user.lists',
-          icon: 'ListBulletIcon',
-          sortable: true,
-          visible: true,
-          breakpoint: '2xl',
-          width: '40',
-          dataType: 'multiSelect',
-        },
-      ],
       currentSort: 'asc',
       currentSortBy: '',
+      headers: [],
     };
   },
   props: [
@@ -721,6 +673,8 @@ export default {
     'subheader',
     'header',
     'counts',
+    'columns',
+    'headersLoaded',
   ],
   expose: ['toggleCreatorsFromList'],
   watch: {
@@ -738,6 +692,12 @@ export default {
     },
     creatorRecords: function () {
       this.selectedCreators = [];
+    },
+    columns: {
+      immediate: true,
+      handler: function (val) {
+        this.headers = val.filter((column) => column.key != 'full_name');
+      },
     },
   },
   mounted() {
@@ -791,10 +751,10 @@ export default {
         });
       }
     });
-    let columns = JSON.parse(localStorage.getItem('columns'));
-    if (columns) {
-      this.columns = columns;
-    }
+    // let columns = JSON.parse(localStorage.getItem('columns'));
+    // if (columns) {
+    //   this.columns = columns;
+    // }
     let settings = JSON.parse(localStorage.getItem('settings'));
     if (settings) {
       this.settings = settings;
@@ -802,6 +762,10 @@ export default {
     this.creatorRecords = this.creatorRecords.length
       ? this.creatorRecords
       : this.creators;
+
+    for (let i = 0; i < this.columns.length; i++) {
+      this.columns[i].visible = !this.columns[i].hide;
+    }
   },
   computed: {
     sidebarOpen() {
@@ -817,7 +781,7 @@ export default {
       );
     },
     visibleFields() {
-      return this.headers.filter((header) => header.visible);
+      return this.headers.filter((header) => !header.hide);
     },
     filteredCreators() {
       return this.creatorRecords.filter((creator) => {
@@ -830,9 +794,8 @@ export default {
       });
     },
     visibleColumns() {
-      localStorage.setItem('columns', JSON.stringify(this.columns));
       return this.columns
-        .filter((col) => col.visible)
+        .filter((col) => !col.hide)
         .map((column) => {
           return column.key;
         });
@@ -841,6 +804,7 @@ export default {
       return this.columns.find((column) => column.key == 'full_name');
     },
     otherColumns() {
+      this.headers = this.columns.filter((column) => column.key != 'full_name');
       return this.columns.filter((column) => column.key != 'full_name');
     },
     filteredColumnList() {
@@ -857,6 +821,53 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      closeEditFieldPopup() {
+          this.$store.state.crmPage.showCustomFieldsModal = false
+          this.currentEditingField = null
+      },
+    editCustomFieldsModal(column) {
+      this.$store.state.crmPage.showCustomFieldsModal = true
+      this.currentEditingField = column;
+    },
+    deleteField(column) {
+        this.$store.dispatch('deleteField', {
+            self: this,
+            itemId: column.id,
+        }).then(() => {
+            this.$emit('getFields');
+            this.$emit('getHeaders');
+        });
+    },
+    toggleFieldHide(column, index, forceHide = false) {
+      this.$nextTick(() => {
+        if (forceHide) {
+          column.visible = !column.visible;
+        }
+        column = JSON.parse(JSON.stringify(column));
+        this.headers[index].hide = column.hide = forceHide
+          ? forceHide
+          : !column.visible;
+        this.$store.dispatch('toggleFieldHide', {
+          self: this,
+          listId: this.filters.list,
+          itemId: column.id,
+          hide: column.hide,
+          custom: column.custom,
+        });
+      });
+    },
+    sortFields(e) {
+      e.newIndex -= 3;
+      e.oldIndex -= 3;
+      this.$store.dispatch('sortFields', {
+        self: this,
+        newIndex: e.newIndex,
+        oldIndex: e.oldIndex,
+        custom: e.item.dataset.custom === 'true',
+        listId: this.filters.list,
+        itemId: e.item.id,
+      });
+    },
     startDrag(e) {
       this.$store.state.currentlyDraggedCreator = e.item.id;
       console.log(this.$store.state.currentlyDraggedCreator);
@@ -992,7 +1003,7 @@ export default {
       creator.showContextMenu = true;
     },
     sortData({ sortBy, sortOrder }) {
-      this.columns = this.columns.map((column) => {
+      this.columns.map((column) => {
         if (column.key == sortBy) {
           column.sortOrder = sortOrder == 'asc' ? 'desc' : 'asc';
         } else {
@@ -1015,7 +1026,7 @@ export default {
           }
           if (['first_name', 'last_name', 'full_name'].includes(sortBy)) {
             let sortByC = sortBy == 'full_name' ? 'name' : sortOrder;
-            return a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier;
+            return a.meta[sortByC] == null ? -1 : (a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier);
           } else {
             if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
               return -1 * modifier;

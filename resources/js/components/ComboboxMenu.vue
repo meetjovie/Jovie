@@ -1,22 +1,22 @@
 <template>
-  <Combobox v-model="selectedItem" v-slot="{ open }">
+  <Combobox as="div" class="h-60" v-model="selectedItem" v-slot="{ open }">
     <ComboboxInput
-      class="w-full rounded-md border border-slate-200 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 dark:border-jovieDark-border"
+      class="w-full rounded-md border border-slate-200 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200"
       @change="query = $event.target.value"
       placeholder="Find a field type"
       :displayValue="(item) => item.name" />
 
-    <div v-show="open">
+    <div
+      class="h-48 overflow-y-scroll rounded-md border border-slate-300 bg-slate-50 dark:border-jovieDark-border"
+      v-show="open">
       <!--
                 Using the `static` prop, the `ComboboxOptions` are always
                 rendered and the `open` state is ignored.
               -->
-      <ComboboxOptions
-        static
-        class="rounded-md border border-slate-300 dark:border-jovieDark-border">
+      <ComboboxOptions static class="h-full">
         <div
           v-if="filteredItems.length === 0 && query !== ''"
-          class="relative cursor-default select-none py-2 px-4 text-slate-700 dark:text-jovieDark-300">
+          class="relative h-full cursor-default select-none items-center py-2 px-4 text-slate-700 dark:text-jovieDark-300">
           Nothing found.
         </div>
         <ComboboxOption
@@ -149,15 +149,9 @@ export default {
   },
   data() {
     return {
-      selectedItem: '',
       query: '',
       open: true,
     };
-  },
-  watch: {
-    selectedItem(val) {
-      this.$emit('update:modelValue', val);
-    },
   },
   computed: {
     filteredItems() {
@@ -167,9 +161,14 @@ export default {
             return item.name.toLowerCase().includes(this.query.toLowerCase());
           });
     },
+    selectedItem: {
+      get() {
+        return this.modelValue;
+      },
+      set(val) {
+        this.$emit('update:modelValue', val);
+      },
+    },
   },
-  /*  mounted() {
-    this.selectedItem = this.items[0];
-  }, */
 };
 </script>

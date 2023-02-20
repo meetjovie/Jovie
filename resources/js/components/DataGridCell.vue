@@ -1,38 +1,28 @@
 <template>
   <td
+    :class="[
+      'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium dark:border-jovieDark-border',
+
+      freezeColumn
+        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-900'
+        : '',
+
+      freezeColumn && currentContact.id == creator.id
+        ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
+        : 'text-slate-600 dark:text-slate-200',
+      cellActive ? 'ring-2 ring-indigo-500 dark:ring-indigo-500' : '',
+    ]"
+    :key="rerenderKey"
     v-if="
       freezeColumn ||
       neverHide ||
       (column && visibleColumns.includes(column.key))
-    "
-    :class="[
-      cellActive
-        ? ' border-2 border-indigo-500 dark:border-indigo-500'
-        : 'border-x border-slate-300  dark:border-jovieDark-border ',
-      currentContact.id == creator.id
-        ? ' bg-slate-100 text-slate-700 dark:bg-jovieDark-700 dark:text-slate-100'
-        : 'bg-white text-slate-600 dark:bg-jovieDark-900 dark:text-slate-200  ',
-
-      freezeColumn
-        ? 'sticky isolate z-20 border-none font-bold focus:border-none focus:outline-none focus:ring-0'
-        : '',
-
-      columnWidth ? `w-${columnWidth}` : '',
-    ]"
-    class="overflow-auto whitespace-nowrap text-center text-xs font-medium focus:border-none focus:outline-indigo-500 focus:ring-0 before:dark:border-jovieDark-border">
+    ">
     <slot></slot>
-    <!--   <component
-        ref="cellInput"
-        tabindex="0"
-        :is="inputComponent"
-        :fieldId="fieldId"
-        @blur="onBlur"
-        :placeholder="columnName"
-        v-model="modelValue" /> -->
-    <div @click.prevent="setFocus()" v-if="!freezeColumn">
-      <!--  <span v-if="cellActive">Active</span> -->
+
+    <div @click.self="setFocus()" v-if="!freezeColumn">
       <star-rating
-        v-if="column.dataType == 'rating'"
+        v-if="column.type == 'rating'"
         class="mx-auto px-2"
         :star-size="12"
         :increment="0.5"
@@ -45,21 +35,24 @@
             value: creator.crm_record_by_user.rating,
           })
         " />
-      <CheckboxInput v-else-if="dataType == 'checkbox'" v-model="modelValue" />
+      <CheckboxInput v-else-if="column.type == 'checkbox'" :name="`checkbox_${fieldId}_${creator.id}`" v-model="modelValue" :checked="modelValue" @blur="updateData" />
+
       <DataGridCellTextInput
-        v-else-if="['text', 'email', 'currency'].includes(column.dataType)"
+        v-else-if="
+          ['text', 'email', 'currency', 'number', 'url'].includes(column.type)
+        "
         :fieldId="fieldId"
         @blur="updateData"
-        :dataType="column.dataType"
-        :placeholder="column.name"
+        :dataType="column.type"
         v-model="modelValue" />
+
       <DataGridSocialLinksCell
         :creator="creator"
         :networks="networks"
         :show-count="true"
-        v-else-if="column.dataType == 'socialLinks'" />
+        v-else-if="column.type == 'socialLinks'" />
       <ContactStageMenu
-        v-else-if="column.dataType == 'singleSelect'"
+        v-else-if="column.type == 'select' && column.name == 'Stage'"
         :creator="creator"
         :key="row"
         :open="showContactStageMenu[row]"
@@ -71,17 +64,8 @@
         :creator="creator"
         :networks="networks"
         :show-count="showFollowersCount"
-        v-else-if="column.dataType == 'socialLinks'" />
-      <ContactStageMenu
-        v-else-if="column.dataType == 'singleSelect'"
-        :creator="creator"
-        :key="row"
-        :open="showContactStageMenu[row]"
-        @close="toggleContactStageMenu(row)"
-        :stages="stages"
-        :index="row"
-        @updateCreator="$emit('updateCreator', $event)" />
-      <div v-else-if="column.dataType == 'date'">
+        v-else-if="column.type == 'socialLinks'" />
+      <div v-else-if="column.type == 'date'">
         <div class="relative flex items-center">
           <input
             type="text"
@@ -93,11 +77,17 @@
             id="date"
             class="block w-full border-none bg-transparent pr-12 placeholder-slate-400 outline-none focus:border-none dark:placeholder-slate-200 sm:text-sm" />
           <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-            <JovieDatePicker :value="modelValue" @update:modelValue="$emit('update:modelValue', $event); updateData();" class="isolate z-50" />
+            <JovieDatePicker
+              :value="modelValue"
+              @update:modelValue="
+                $emit('update:modelValue', $event);
+                updateData();
+              "
+              class="isolate z-50" />
           </div>
         </div>
       </div>
-      <Suspense v-else-if="column.dataType == 'multiSelect'">
+      <Suspense v-else-if="column.type == 'multi_select' && column.name == 'Lists'">
         <template #default>
           <InputLists
             @updateLists="$emit('updateCreatorLists', $event)"
@@ -107,9 +97,15 @@
         </template>
         <template #fallback> Loading... </template>
       </Suspense>
+        <CustomField
+            v-else-if="(column.type == 'multi_select' || column.type == 'select') && column.custom"
+            @blur="updateData"
+            :type="column.type"
+            :options="column.custom_field_options"
+            v-model="creator.crm_record_by_user[column.code]" />
       <span v-else
         >Data Type:
-        {{ column.dataType }}
+        {{ column.type }}
       </span>
     </div>
   </td>
@@ -125,6 +121,8 @@ import ContactStageMenu from './ContactStageMenu.vue';
 import VueTailwindDatepicker from 'vue-tailwind-datepicker';
 import InputLists from './InputLists.vue';
 import JovieDatePicker from './JovieDatePicker.vue';
+import CustomField from './CustomField.vue';
+
 export default {
   name: 'DataGridCell',
   components: {
@@ -137,14 +135,24 @@ export default {
     JovieDatePicker,
     CheckboxInput,
     VueTailwindDatepicker,
+      CustomField
   },
   emits: ['update:modelValue', 'blur', 'move'],
   data() {
     return {
       showContactStageMenu: [],
       date: {},
+        rerenderKey: 0
     };
   },
+    watch: {
+        creator: {
+            deep: true,
+            handler: function (val) {
+                this.rerenderKey += 1
+            }
+        }
+    },
   mounted() {
     this.date.startDate = this.modelValue;
     this.date.endDate = this.modelValue;
@@ -152,18 +160,22 @@ export default {
   methods: {
     updateData(value = null) {
       setTimeout(() => {
-          this.$emit('update:modelValue', this.modelValue);
-          if (this.column.meta) {
-              this.$emit('updateCrmMeta', this.creator);
-          } else {
-              this.$emit('updateCreator', {
-                  id: this.creator.id,
-                  index: this.row,
-                  key: this.column.key,
-                  value: value ?? this.modelValue,
-              });
-          }
-      }, 500)
+        this.$emit('update:modelValue', this.modelValue);
+        if (this.column.meta) {
+          this.$emit('updateCrmMeta', this.creator);
+        } else {
+            let key = this.column.key
+            if (this.column.custom) {
+                key = `crm_record_by_user.${key}`
+            }
+          this.$emit('updateCreator', {
+            id: this.creator.id,
+            index: this.row,
+            key: key,
+            value: value ?? this.modelValue,
+          });
+        }
+      }, 500);
     },
     handleInput(event) {
       const dateRegex =
@@ -238,55 +250,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.dp__theme_dark {
-  --dp-background-color: #191a22;
-  --dp-text-color: #ffffff;
-  --dp-hover-color: #484848;
-  --dp-hover-text-color: #ffffff;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #005cb2;
-  --dp-primary-text-color: #ffffff;
-  --dp-secondary-color: #a9a9a9;
-  --dp-border-color: #292b41;
-  --dp-menu-border-color: #2d2d2d;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-disabled-color: #737373;
-  --dp-scroll-bar-background: #212121;
-  --dp-scroll-bar-color: #484848;
-  --dp-success-color: #00701a;
-  --dp-success-color-disabled: #428f59;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #e53935;
-  --dp-highlight-color: rgba(80, 0, 178, 0.2);
-  --dp-row_margin: 0px 0 !default;
-  --dp-common_padding: 0px !default;
-  --dp-font_size: 0.5rem !default;
-}
-
-.dp__theme_light {
-  --dp-background-color: #ffffff;
-  --dp-text-color: #212121;
-  --dp-hover-color: #f3f3f3;
-  --dp-hover-text-color: #212121;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #1976d2;
-  --dp-primary-text-color: #f8f5f5;
-  --dp-secondary-color: #c0c4cc;
-  --dp-border-color: #ddd;
-  --dp-menu-border-color: #ddd;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-disabled-color: #f6f6f6;
-  --dp-scroll-bar-background: #f3f3f3;
-  --dp-scroll-bar-color: #959595;
-  --dp-success-color: #76d275;
-  --dp-success-color-disabled: #a3d9b1;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #ff6f60;
-  --dp-highlight-color: rgba(80, 0, 178, 0.2);
-  --dp-row_margin: 0px 0 !default;
-  --dp-common_padding: 0px !default;
-  --dp-font_size: 0.5rem !default;
-}
-</style>

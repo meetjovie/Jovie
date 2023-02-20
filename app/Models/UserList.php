@@ -9,6 +9,7 @@ use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -53,7 +54,7 @@ class UserList extends Model
             $exists = UserList::whereRaw('TRIM(LOWER(name)) = ?', [strtolower(trim($listName))])->whereIn('user_id', $teamUsers)->first();
             if ($exists) {
                 foreach ($teamUsers as $userId) {
-                    self::updateSortOrder($exists->id, $userId);
+                    self::updateSortOrder($userId, 0, 1, $exists->id);
                 }
                 return $exists;
             }
@@ -72,14 +73,20 @@ class UserList extends Model
             }, $teamUsers);
             $list->userListAttributes()->sync($syncData);
             foreach ($teamUsers as $userId) {
-                self::updateSortOrder($list->id, $userId, 0, 1);
+                self::updateSortOrder($userId, 0, 1, $list->id);
+            }
+            $customFieldIds = CustomField::query()->pluck('id')->toArray();
+            $defaultIds = array_column(FieldAttribute::DEFAULT_HEADERS, 'id');
+            $fieldIds = array_merge($customFieldIds, $defaultIds);
+            foreach ($fieldIds as $k => $fieldId) {
+                FieldAttribute::create(['field_id' => $fieldId, 'type' => 'custom', 'order' => $k, 'team_id' => $user->currentTeam->id, 'user_id' => $user->id, 'user_list_id' => $list->id]);
             }
             return  $list;
         }
         return new UserList();
     }
 
-    public static function updateSortOrder($listId = null, $userId, $newIndex = 0, $oldIndex = 0)
+    public static function updateSortOrder($userId, $newIndex = 0, $oldIndex = 0, $listId = null)
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         $userListIds = UserList::where('team_id', $user->currentTeam->id)->pluck('id')->toArray();

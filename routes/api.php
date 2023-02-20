@@ -120,7 +120,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('fields/{creatorId}', [FieldsController::class, 'fields']);
     Route::get('custom-field-types', [CustomFieldsController::class, 'customFieldTypes']);
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
+    Route::put('custom-field/{id}', [CustomFieldsController::class, 'update']);
     Route::post('set-field-attributes/{id}', [FieldsController::class, 'setFieldAttributes']);
+    Route::post('toggle-field-hide/{id}', [FieldsController::class, 'toggleFieldHide']);
+    Route::delete('custom-field/{id}/delete', [CustomFieldsController::class, 'delete']);
+
+    // HEADERS
+    Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);
 
     /**
      * Teamwork routes

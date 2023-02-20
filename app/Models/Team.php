@@ -44,4 +44,14 @@ class Team extends TeamworkTeam
             $this->save();
         }
     }
+
+    public function userLists()
+    {
+        return $this->hasMany(UserList::class);
+    }
+
+    public function customFields()
+    {
+        return $this->hasMany(CustomField::class);
+    }
 }

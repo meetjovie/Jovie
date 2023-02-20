@@ -59,7 +59,15 @@
               </div>
               <div v-else></div>
 
-              <div class="text-xs font-normal tracking-wider">{{ name }}</div>
+              <div
+                class="text-xs font-normal tracking-wider"
+                :class="{
+                  'text-red-500': color === 'text-red-500',
+                  'text-slate-600 dark:text-jovieDark-200': !color,
+                  [color]: color,
+                }">
+                {{ name }}
+              </div>
             </div>
             <div class="flex">
               <KBShortcut
@@ -101,6 +109,7 @@ import { ref } from 'vue';
 import KBShortcut from './KBShortcut.vue';
 
 import {
+  PencilIcon,
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,
   ChartBarIcon,
@@ -174,6 +183,7 @@ export default {
     ChevronDownIcon,
     CloudArrowUpIcon,
     PlusIcon,
+    PencilIcon,
     BriefcaseIcon,
     NoSymbolIcon,
     StarIcon,

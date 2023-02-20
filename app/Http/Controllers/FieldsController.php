@@ -24,18 +24,48 @@ class FieldsController extends Controller
         }
         $defaultFields = FieldAttribute::DEFAULT_FIELDS;
         $fields = array_merge($customFields->toArray(), $defaultFields);
-        $orderedIds = FieldAttribute::query()->unHidden()->where('user_id', Auth::id())->orderBy('order')->pluck('field_id')->toArray();
-        $fields = $this->orderFields($fields, $orderedIds);
+        $fieldAttributes = FieldAttribute::query()->where('user_id', Auth::id())->orderBy('order')->get();
+        $fieldAttributesKeyed = $fieldAttributes->keyBy('field_id');
+
+        foreach ($fields as &$field) {
+            $field['hide'] = $fieldAttributesKeyed[$field['id']]['hide'] ?? 0;
+        }
+
+        $fields = $this->orderFields($fields, $fieldAttributes->pluck('field_id')->toArray());
         return response()->json([
             'status' => true,
             'data' => $fields
         ], 200);
     }
 
-    public function orderFields($fields, $orderedIds)
+    public function headerFields($listId)
     {
-        return collect($fields)->sortBy(function ($item) use ($orderedIds) {
-            return array_search($item['id'], $orderedIds);
+        $customFields = CustomField::query()->with('customFieldOptions')->get();
+        foreach ($customFields as &$customField) {
+            $customField->custom = true;
+            $customField->key = $customField->code;
+        }
+        $defaultHeaders = FieldAttribute::DEFAULT_HEADERS;
+        $fields = array_merge($customFields->toArray(), $defaultHeaders);
+        $headerAttributes = FieldAttribute::query()->where('user_list_id', $listId)->orderBy('order')->get();
+        $headerAttributesKeyed = $headerAttributes->keyBy('field_id');
+
+        foreach ($fields as &$field) {
+            $field['hide'] = $headerAttributesKeyed[$field['id']]['hide'] ?? 0;
+        }
+
+        $headerFields = $this->orderFields($fields, $headerAttributes->pluck('field_id')->toArray());
+        array_unshift($headerFields, FieldAttribute::FULL_NAME_HEADER);
+        return response()->json([
+            'status' => true,
+            'data' => $headerFields
+        ], 200);
+    }
+
+    public function orderFields($fields, $orderedFieldIds)
+    {
+        return collect($fields)->sortBy(function (&$item) use ($orderedFieldIds) {
+            return array_search($item['id'], $orderedFieldIds);
         })->values()->toArray();
     }
 
@@ -43,10 +73,14 @@ class FieldsController extends Controller
     {
         if ($request->custom) {
             $field = CustomField::query()->where('id', $id)->first();
+        } elseif ($request->listId) {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_HEADERS);
+            $field = (object) $defaultsFields->where('id', $id)->first();
         } else {
             $defaultsFields = collect(FieldAttribute::DEFAULT_FIELDS);
-            $field = (object) $defaultsFields->where('id', 5)->first();
+            $field = (object) $defaultsFields->where('id', $id)->first();
         }
+
         if (!$field) {
             throw ValidationException::withMessages([
                 'field' => ['field does not exists']
@@ -67,7 +101,7 @@ class FieldsController extends Controller
                     'message' => 'Order updated'
                 ], 202);
             }
-            FieldAttribute::updateSortOrder($id, Auth::id(), $newIndex, $oldIndex);
+            FieldAttribute::updateSortOrder(Auth::id(), $newIndex, $oldIndex, $id, $request->listId);
             return response()->json([
                 'status' => true,
                 'message' => 'Order updated'
@@ -80,5 +114,29 @@ class FieldsController extends Controller
                 'error' => $e->getMessage()
             ], 200);
         }
+    }
+
+    public function toggleFieldHide(Request $request, $id)
+    {
+        if ($request->custom) {
+            $field = CustomField::query()->where('id', $id)->first();
+        } elseif ($request->listId) {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_HEADERS);
+            $field = (object) $defaultsFields->where('id', $id)->first();
+        } else {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_FIELDS);
+            $field = (object) $defaultsFields->where('id', $id)->first();
+        }
+
+        if (!$field) {
+            throw ValidationException::withMessages([
+                'field' => ['field does not exists']
+            ]);
+        }
+        FieldAttribute::toggleFieldHide(Auth::user(), $field->id, $request->hide, $request->listId);
+        return response()->json([
+            'status' => true,
+            'message' => 'Visibility Updated'
+        ], 200);
     }
 }

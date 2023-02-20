@@ -29,30 +29,27 @@
       @blur="$emit('blur')" />
   </template>
   <template v-if="type === 'checkbox'">
-    <template v-for="option in options">
       <label
-        :for="option.id"
         class="flex cursor-text items-center justify-between px-2 py-0.5 pl-5 text-xs font-medium text-slate-400 transition-all"
-        >{{ option.name }}</label
+        >{{ name }}</label
       >
       <div class="relative flex items-start">
         <div class="flex h-5 items-center">
           <input
-            :id="option.id"
-            :value="option.id"
-            :name="option.id"
-            v-model="multiOptions"
-            @change="setMultiOptionsModel"
+            :id="name"
+            :value="modelValue"
+            :name="name"
+            v-model="modelValue"
+            @change="$emit('update:modelValue', ($event.target.value === 'true' ? 1 : 0)); $emit('blur')"
             type="checkbox"
             class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
         </div>
         <div class="ml-3 text-sm">
-          <label :for="option.id" class="font-medium text-gray-700">
-            {{ option.value }}
+          <label :for="name" class="font-medium text-gray-700">
+            Yes
           </label>
         </div>
       </div>
-    </template>
   </template>
   <template v-else-if="type === 'date'">
     <label
@@ -133,9 +130,7 @@ export default {
     };
   },
   mounted() {
-    if (this.type === 'checkbox' && this.modelValue) {
-      this.multiOptions = this.modelValue;
-    } else if (
+    if (
       (this.type === 'select' || this.type === 'multi_select') &&
       this.modelValue
     ) {

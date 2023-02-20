@@ -544,6 +544,7 @@
                           <slot header="header"></slot>
                         </CrmTable> -->
                         <DataGrid
+                            v-if="columns.length"
                           class="overflow-hidden"
                           ref="crmTableGrid"
                           @addContact="showCreatorModal = true"
@@ -555,6 +556,8 @@
                           @pageChanged="pageChanged"
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
+                            @getHeaders="getHeaders"
+                            @getFields="getFields"
                           @setOrder="setOrder"
                           :header="filters.type"
                           @importCSV="importCSV"
@@ -565,7 +568,9 @@
                           :networks="networks"
                           :stages="stages"
                           :creatorsMeta="creatorsMeta"
-                          :loading="loading">
+                          :columns="columns"
+                          :loading="loading"
+                          :headersLoaded="headersLoaded">
                           <slot header="header"></slot>
                         </DataGrid>
                       </div>
@@ -590,6 +595,7 @@
             <ContactSidebar
               @updateCrmMeta="updateCrmMeta"
               @updateCreator="updateCreator"
+              @getHeaders="getHeaders"
               :jovie="true"
               :creatorsData="currentContact" />
           </aside>
@@ -687,7 +693,8 @@ import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import ImportService from '../services/api/import.service';
 import KBShortcut from '../components/KBShortcut.vue';
-import elementaryIcon from "vue-simple-icons/icons/ElementaryIcon";
+import elementaryIcon from 'vue-simple-icons/icons/ElementaryIcon';
+import FieldService from '../services/api/field.service';
 
 export default {
   name: 'CRM',
@@ -805,6 +812,7 @@ export default {
       selectedList: null,
       currentSortBy: 'id',
       currentSortOrder: 'desc',
+      columns: [],
     };
   },
   watch: {
@@ -861,6 +869,7 @@ export default {
   },
   async mounted() {
     await this.getUserLists();
+    await this.getHeaders();
     this.getCrmCreators();
     this.crmCounts();
     //c sets openCreatorModal to true
@@ -996,9 +1005,41 @@ export default {
     });
   },
   methods: {
-      onListDrop(listId) {
-          this.$refs.crmTableGrid.toggleCreatorsFromList(this.$store.state.currentlyDraggedCreator, listId, false)
-      },
+    getHeaders() {
+      this.headersLoaded = false;
+      FieldService.getHeaderFields(this.filters.list)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+              this.headersLoaded = true;
+              this.columns = []
+            this.columns = response.data;
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status == 422) {
+            this.errors = error.data.errors;
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((response) => {
+          // this.saving = false;
+          this.headersLoaded = true;
+        });
+    },
+    onListDrop(listId) {
+      this.$refs.crmTableGrid.toggleCreatorsFromList(
+        this.$store.state.currentlyDraggedCreator,
+        listId,
+        false
+      );
+    },
     toggleShowSupportModal() {
       this.showSupportModal = !this.showSupportModal;
     },
@@ -1042,11 +1083,11 @@ export default {
       this.openEmojis = false;
     },
     openSidebarContact(obj) {
-        console.log('objobj');
-        console.log(obj);
-        let {contact, index} = obj
+      console.log('objobj');
+      console.log(obj);
+      let { contact, index } = obj;
       //if the sidebar is not open, open it and set the current contact
-      contact.index = index
+      contact.index = index;
       if (!this.$store.state.ContactSidebarOpen) {
         this.$store.state.ContactSidebarOpen = true;
         this.currentContact = contact;
@@ -1178,20 +1219,26 @@ export default {
     },
     updateListCount(params) {
       let list = this.userLists.find((list) => list.id == params.list_id);
-      let selectedCreators = this.creators.filter(creator => params.creatorIds.includes(creator.id))
+      let selectedCreators = this.creators.filter((creator) =>
+        params.creatorIds.includes(creator.id)
+      );
       if (list) {
         if (params.remove) {
-            selectedCreators.forEach(creator => {
-                if (creator.lists.filter(list => list.id != params.list.id).length) {
-                    list.creators_count -= 1;
-                }
-            })
+          selectedCreators.forEach((creator) => {
+            if (
+              creator.lists.filter((list) => list.id != params.list.id).length
+            ) {
+              list.creators_count -= 1;
+            }
+          });
         } else {
-            selectedCreators.forEach(creator => {
-                if (creator.lists.filter(list => list.id == params.list.id).length) {
-                    list.creators_count += 1;
-                }
-            })
+          selectedCreators.forEach((creator) => {
+            if (
+              creator.lists.filter((list) => list.id == params.list.id).length
+            ) {
+              list.creators_count += 1;
+            }
+          });
         }
       }
     },

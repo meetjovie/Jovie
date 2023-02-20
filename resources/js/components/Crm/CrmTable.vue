@@ -167,7 +167,7 @@
                                   <template #toggle>
                                     <Switch
                                       :name="column.name"
-                                      v-model="column.visible"
+                                      v-model="column.hide"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -361,7 +361,7 @@
                       </Menu>
                     </div>
                     <div v-else>
-                      <CrmTableSortableHeader
+                      <DataGridColumnHeader
                         icon="Bars3BottomLeftIcon"
                         :column="fullNameColumn"
                         @sortData="
@@ -377,13 +377,13 @@
                   <template v-for="column in otherColumns">
                     <th
                       :key="column.key"
-                      v-if="column.visible"
+                      v-if="column.hide"
                       scope="col"
                       class="dark:border-x-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <CrmTableSortableHeader
+                      <DataGridColumnHeader
                         class="w-full"
                         @sortData="sortData"
-                        @hide-column="column.visible = false"
+                        @hide-column="column.hide = true"
                         :column="column" />
                     </th>
                   </template>
@@ -585,7 +585,7 @@
                       :creator="creator"
                       :index="index"
                       width="20"
-                      dataType="text"
+                      type="text"
                       columnName="first_name"
                       class="border-1 table-cell border border-slate-300 dark:border-jovieDark-border">
                       <DataGridCellTextInput
@@ -642,7 +642,7 @@
                     </DataGridCell>
                     <DataGridCell
                       columnName="emails"
-                      dataType="email"
+                      type="email"
                       :visibleColumns="visibleColumns"
                       :currentContact="currentContact"
                       :creator="creator"
@@ -651,7 +651,7 @@
                       class="border-1 table-cell border border-slate-300 focus:border-slate-500 focus:outline-none focus:ring-0 dark:border-jovieDark-border">
                       <DataGridCellTextInput
                         class="h-full"
-                        dataType="email"
+                        type="email"
                         fieldId="creator-email"
                         @blur="$emit('updateCrmMeta', creator)"
                         @keyup.enter="$emit('selectNextCreator', creator)"
@@ -709,7 +709,7 @@
                       width="12">
                       <DataGridCellTextInput
                         fieldId="creator-offer"
-                        dataType="currency"
+                        type="currency"
                         @blur="
                           $emit('updateCreator', {
                             id: creator.id,
@@ -948,7 +948,7 @@ import LoadingOverlay from '../../components/LoadingOverlay';
 import Pagination from '../../components/Pagination';
 import SocialIcons from '../../components/SocialIcons.vue';
 import ImportService from '../../services/api/import.service';
-import CrmTableSortableHeader from '../CrmTableSortableHeader.vue';
+import DataGridColumnHeader from '../DataGridColumnHeader.vue';
 export default {
   name: 'CrmTable',
   components: {
@@ -1002,7 +1002,7 @@ export default {
     JovieTooltip,
     PlusIcon,
     JovieSpinner,
-    CrmTableSortableHeader,
+    DataGridColumnHeader,
     Bars3BottomLeftIcon,
     AtSymbolIcon,
     CurrencyDollarIcon,
@@ -1245,7 +1245,7 @@ export default {
       );
     },
     visibleFields() {
-      return this.headers.filter((header) => header.visible);
+      return this.headers.filter((header) => ! header.hide);
     },
     filteredCreators() {
       return this.creatorRecords.filter((creator) => {
@@ -1260,7 +1260,7 @@ export default {
     visibleColumns() {
       localStorage.setItem('columns', JSON.stringify(this.columns));
       return this.columns.map((column) => {
-        if (column.visible) {
+        if (!column.hide) {
           return column.key;
         }
       });
@@ -1696,7 +1696,7 @@ export default {
               count: creatorIds.length,
               list_id: list,
               remove: remove,
-                creatorIds: creatorIds
+              creatorIds: creatorIds,
             });
           } else {
             this.$notify({

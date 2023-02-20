@@ -17,4 +17,14 @@ export default {
             `${baseApiUrl}/custom-field`, data
         );
     },
+    updateCustomField(data) {
+        return axios.put(
+            `${baseApiUrl}/custom-field/${data.id}`, data
+        );
+    },
+    getHeaderFields(listId) {
+        return axios.get(
+            `${baseApiUrl}/header-fields/${listId}`
+        );
+    },
 }

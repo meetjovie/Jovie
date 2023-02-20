@@ -169,7 +169,12 @@ export const routes = [
       requiresAuth: true,
       requiresSubscribe: false,
     },
+    beforeRouteLeave(to, from, next) {
+      document.ontouchstart = (e) => e.preventDefault();
+      next();
+    },
   },
+
   {
     name: 'Contact Card',
     path: '/:username/contact-card',
