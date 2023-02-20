@@ -373,7 +373,7 @@
                         @editField="editCustomFieldsModal"
                         @sortData="sortData"
                         @hideColumn="toggleFieldHide(element, index, true)"
-                        @deleteColumn="deleteField"
+                        @deleteField="deleteField(element)"
                         :column="element" />
                     </th>
                   </template>
@@ -830,6 +830,7 @@ export default {
       this.currentEditingField = column;
     },
     deleteField(column) {
+        console.log(column);
         this.$store.dispatch('deleteField', {
             self: this,
             itemId: column.id,
