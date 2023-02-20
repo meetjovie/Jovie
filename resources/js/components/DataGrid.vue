@@ -830,10 +830,12 @@ export default {
       this.currentEditingField = column;
     },
     deleteField(column) {
-        console.log(column);
         this.$store.dispatch('deleteField', {
             self: this,
             itemId: column.id,
+        }).then(() => {
+            this.$emit('getFields');
+            this.$emit('getHeaders');
         });
     },
     toggleFieldHide(column, index, forceHide = false) {

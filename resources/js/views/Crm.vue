@@ -557,6 +557,7 @@
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
                             @getHeaders="getHeaders"
+                            @getFields="getFields"
                           @setOrder="setOrder"
                           :header="filters.type"
                           @importCSV="importCSV"

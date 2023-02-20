@@ -178,35 +178,39 @@ export default {
             .finally((response) => {});
     },
     async deleteField(context, payload) {
-        UserService.deleteField(payload.itemId)
-            .then((response) => {
-                response = response.data;
-                if (response.status) {
-                    payload.self.$notify({
-                        group: 'user',
-                        type: 'success',
-                        duration: 15000,
-                        title: 'Successful',
-                        text: response.message,
-                    });
-                } else {
-
-                }
-            })
-            .catch((error) => {
-                if (error.response && error.response.status == 422) {
-                    payload.self.errors = error.data.errors;
-                    if (payload.self.errors.field[0]) {
+        return new Promise((resolve, reject) => {
+            UserService.deleteField(payload.itemId)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
                         payload.self.$notify({
                             group: 'user',
                             type: 'success',
                             duration: 15000,
                             title: 'Successful',
-                            text: payload.self.errors.field[0],
+                            text: response.message,
                         });
+                    } else {
+
                     }
-                }
-            })
-            .finally((response) => {});
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status == 422) {
+                        payload.self.errors = error.data.errors;
+                        if (payload.self.errors.field[0]) {
+                            payload.self.$notify({
+                                group: 'user',
+                                type: 'success',
+                                duration: 15000,
+                                title: 'Successful',
+                                text: payload.self.errors.field[0],
+                            });
+                        }
+                    }
+                })
+                .finally((response) => {
+                    return resolve()
+                });
+        })
     }
 }

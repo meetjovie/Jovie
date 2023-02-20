@@ -138,6 +138,7 @@ class CustomFieldsController extends Controller
             $customField->customFieldValues()->delete();
             $customField->customFieldOptions()->delete();
             $customField->fieldAttributes()->delete();
+            $customField->delete();
 
             $teamUsers = Auth::user()->currentTeam->users->pluck('id')->toArray();
             foreach ($teamUsers as $userId) {

@@ -126,6 +126,6 @@ class CustomField extends Model
 
     public function fieldAttributes()
     {
-        return $this->hasMany(FieldAttribute::class, 'field_attributes');
+        return $this->hasMany(FieldAttribute::class, 'field_id');
     }
 }
