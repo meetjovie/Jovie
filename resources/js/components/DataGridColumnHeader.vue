@@ -2,11 +2,7 @@
   <!--  @click="toggleSortingOrder()" -->
   <div class="group/header w-60" v-if="column">
     <JovieDropdownMenu
-      :items="
-        column.custom
-          ? dropdownItems
-          : dropdownItems.filter((item) => item.custom !== true)
-      "
+      :items="filteredDropdownItems"
       size="lg"
       :searchable="false"
       @contextmenu.prevent="openMenu"
@@ -161,6 +157,18 @@ export default {
       open: true,
     };
   },
+    computed: {
+      filteredDropdownItems() {
+          let finalItems = this.dropdownItems
+          if (! this.column.custom) {
+              finalItems = finalItems.filter((item) => item.custom !== true)
+          }
+          if (! this.column.sortable) {
+              finalItems = finalItems.filter((item) => item.sortable !== true)
+          }
+          return finalItems;
+        }
+    },
   methods: {
     openMenu() {
       this.open = true;
@@ -168,7 +176,19 @@ export default {
     },
     itemClicked(id) {
       let item = this.dropdownItems.find((item) => item.id == id);
-      this.$emit(item.emit);
+      if (item.id == 2) {
+          this.$emit('sortData', {
+              sortBy: this.column.key,
+              sortOrder: 'asc',
+          })
+      } else if (item.id == 3) {
+          this.$emit('sortData', {
+              sortBy: this.column.key,
+              sortOrder: 'desc',
+          })
+      } else {
+          this.$emit(item.emit);
+      }
     },
   },
   props: {
@@ -194,6 +214,7 @@ export default {
           name: 'Sort Ascending',
           icon: 'ChevronUpIcon',
           emit: 'sortAscending',
+          sortable: true,
           menu: true,
         },
         {
@@ -201,6 +222,7 @@ export default {
           name: 'Sort Descending',
           icon: 'ChevronDownIcon',
           emit: 'sortDescending',
+          sortable: true,
           menu: true,
         },
         {

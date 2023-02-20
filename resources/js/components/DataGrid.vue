@@ -1026,7 +1026,7 @@ export default {
           }
           if (['first_name', 'last_name', 'full_name'].includes(sortBy)) {
             let sortByC = sortBy == 'full_name' ? 'name' : sortOrder;
-            return a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier;
+            return a.meta[sortByC] == null ? -1 : (a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier);
           } else {
             if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
               return -1 * modifier;
