@@ -813,6 +813,7 @@ export default {
       currentSortBy: 'id',
       currentSortOrder: 'desc',
       columns: [],
+      crmCounting: false,
     };
   },
   watch: {
@@ -1210,11 +1211,17 @@ export default {
       });
     },
     crmCounts() {
+      if (this.crmCounting) {
+        return
+      }
+      this.crmCounting = true
       UserService.crmCounts().then((response) => {
         response = response.data;
         if (response.status) {
           this.counts = response.counts;
         }
+      }).catch().finally(() => {
+          this.crmCounting = false
       });
     },
     updateListCount(params) {
