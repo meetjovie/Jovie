@@ -1017,7 +1017,7 @@ export default {
       }
       this.$emit('setOrder', { sortBy, sortOrder });
 
-      if (this.creatorRecords.length > 50) {
+      if (this.creatorRecords.length < 50) {
         this.$emit('pageChanged', { page: this.creatorsMeta.current_page });
       } else {
         this.creatorRecords = this.creatorRecords.sort((a, b) => {

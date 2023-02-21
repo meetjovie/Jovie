@@ -40,7 +40,7 @@
                   sortOrder: column.sortOrder,
                 })
               "
-              v-if="column.sortable"
+              v-if="! column.custom"
               class="cursor-pointer text-slate-400 dark:text-jovieDark-600">
               <svg
                 v-if="!column.sortOrder"
@@ -163,9 +163,7 @@ export default {
           if (! this.column.custom) {
               finalItems = finalItems.filter((item) => item.custom !== true)
           }
-          if (! this.column.sortable) {
-              finalItems = finalItems.filter((item) => item.sortable !== true)
-          }
+
           return finalItems;
         }
     },
