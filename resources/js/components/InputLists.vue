@@ -1,26 +1,26 @@
 <template>
   <div class="flex h-6 w-full items-center overflow-auto px-2">
     <div class="mr-1 flex">
-      <div v-for="item in lists" class="mr-2 flex" :key="item.order">
-        <div
-          class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-800 hover:bg-slate-50 dark:border-jovieDark-border dark:text-jovieDark-200 dark:hover:bg-jovieDark-900">
-          <div class="flex w-full items-center">
-            <span class="mr-1 text-[8px]"> {{ item.emoji }}</span>
-            <span
-              class="w-18 select-none items-center truncate text-ellipsis text-2xs"
-              >{{ item[nameKey] }}</span
-            >
-          </div>
-          <XMarkIcon
-            v-if="isSelect"
-            @click="$emit('itemRemoved', item.id)"
-            class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
-          <XMarkIcon
-            v-else
-            @click="toggleCreatorsFromList(creatorId, item.id, true)"
-            class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
-        </div>
-      </div>
+        <div v-for="item in lists" class="mr-2 flex" :key="item.order">
+                <div
+                    class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-800 hover:bg-slate-50 dark:border-jovieDark-border dark:text-jovieDark-200 dark:hover:bg-jovieDark-900">
+                    <div class="flex w-full items-center">
+                        <span class="mr-1 text-[8px]"> {{ item.emoji }}</span>
+                        <span
+                            class="w-18 select-none items-center truncate text-ellipsis text-2xs"
+                        >{{ item[nameKey] }}</span
+                        >
+                    </div>
+                    <XMarkIcon
+                        v-if="isSelect"
+                        @click="$emit('itemRemoved', item.id)"
+                        class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
+                    <XMarkIcon
+                        v-else
+                        @click="toggleCreatorsFromList(creatorId, item.id, true)"
+                        class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
+                </div>
+            </div>
     </div>
     <div>
       <JovieDropdownMenu
@@ -99,12 +99,18 @@ export default {
       default: 'Find a list...',
       required: false,
     },
+      listItems: {
+          type: Array,
+          default: () => false,
+      }
   },
   mounted() {
     if (this.isSelect) {
       this.items = this.options;
+    } else if (this.listItems) {
+        this.items = this.listItems
     } else {
-      this.getUserLists();
+        this.getUserLists();
     }
   },
   methods: {

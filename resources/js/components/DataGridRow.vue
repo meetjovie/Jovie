@@ -215,6 +215,7 @@
         :networks="networks"
         :stages="stages"
         :column="column"
+        :userLists="userLists"
         @updateCreator="$emit('updateCreator', $event)"
         @updateCrmMeta="$emit('updateCrmMeta', creator)"
         @updateCreatorLists="updateCreatorLists"
@@ -267,6 +268,7 @@ export default {
     },
   },
   props: {
+    userLists: Array,
     currentCell: Object,
     networks: Array,
     stages: Array,

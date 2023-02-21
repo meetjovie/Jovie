@@ -430,6 +430,7 @@
                     :creator="element"
                     :row="index"
                     :key="element.id"
+                    :userLists="userLists"
                     v-if="element"
                     @update:currentCell="$emit('updateCreator', $event)"
                     @click="setCurrentContact($event, element)"

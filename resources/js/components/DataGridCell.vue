@@ -92,6 +92,7 @@
           <InputLists
             @updateLists="$emit('updateCreatorLists', $event)"
             :creatorId="creator.id ?? 0"
+            :listItems="userLists"
             :lists="creator.lists"
             :currentList="creator.current_list" />
         </template>
@@ -229,6 +230,7 @@ export default {
     },
   },
   props: {
+    userLists: Array,
     currentContact: Object,
     creator: Object,
     selectedCreators: Array,
