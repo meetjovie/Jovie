@@ -17,8 +17,10 @@
       <h1
         v-else
         class="mr-2 h-4 w-60 animate-pulse rounded-sm bg-slate-300"></h1>
-      <p v-if="!loading" class="text-2xs font-light text-slate-600">
-        {{ contactCount }}
+      <p
+        v-if="!loading && typeof contactCount !== 'undefined'"
+        class="text-2xs font-light text-slate-600">
+        {{ contactCount + ' Contacts' }}
       </p>
       <p v-else class="h-3 w-20 animate-pulse rounded-sm bg-slate-300"></p>
     </div>
@@ -74,9 +76,9 @@ export default {
     },
     contactCount() {
       if (this.header.includes('all')) {
-        return `${this.subheader.total} Contacts`;
+        return `${this.subheader.total}`;
       } else {
-        return `${this.subheader[this.header]} Contacts`;
+        return `${this.subheader[this.header]}`;
       }
     },
     headerText() {

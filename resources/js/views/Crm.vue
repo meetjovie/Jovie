@@ -544,7 +544,7 @@
                           <slot header="header"></slot>
                         </CrmTable> -->
                         <DataGrid
-                            v-if="columns.length"
+                          v-if="columns.length"
                           class="overflow-hidden"
                           ref="crmTableGrid"
                           @addContact="showCreatorModal = true"
@@ -557,8 +557,8 @@
                           @getCrmCreators="getCrmCreators"
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
-                            @getHeaders="getHeaders"
-                            @getFields="getFields"
+                          @getHeaders="getHeaders"
+                          @getFields="getFields"
                           @setOrder="setOrder"
                           :header="filters.type"
                           @importCSV="importCSV"
@@ -571,6 +571,7 @@
                           :creatorsMeta="creatorsMeta"
                           :columns="columns"
                           :loading="loading"
+                          :taskLoading="taskLoading"
                           :headersLoaded="headersLoaded">
                           <slot header="header"></slot>
                         </DataGrid>
@@ -792,6 +793,7 @@ export default {
       showSupportModal: false,
       showUpgradeModal: false,
       loading: false,
+      taskLoading: false,
       creatorsMeta: {},
       /*  activeCreator: [], */
       currentContact: [],
@@ -1013,8 +1015,8 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-              this.headersLoaded = true;
-              this.columns = []
+            this.headersLoaded = true;
+            this.columns = [];
             this.columns = response.data;
           }
         })
@@ -1191,7 +1193,7 @@ export default {
       this.filters.order = sortOrder;
     },
     getCrmCreators(filters = {}) {
-      this.loading = true;
+      this.taskLoading = true;
       let data = JSON.parse(JSON.stringify(this.filters));
       if (this.abortController) {
         this.abortController.abort();
@@ -1199,7 +1201,7 @@ export default {
       this.abortController = new AbortController();
       const signal = this.abortController.signal;
       UserService.getCrmCreators(data, signal).then((response) => {
-        this.loading = false;
+        this.taskLoading = false;
         response = response.data;
         if (response.status) {
           this.$store.commit('setCrmRecords', response.creators.data);
@@ -1213,17 +1215,20 @@ export default {
     },
     crmCounts() {
       if (this.crmCounting) {
-        return
+        return;
       }
-      this.crmCounting = true
-      UserService.crmCounts().then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.counts = response.counts;
-        }
-      }).catch().finally(() => {
-          this.crmCounting = false
-      });
+      this.crmCounting = true;
+      UserService.crmCounts()
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.counts = response.counts;
+          }
+        })
+        .catch()
+        .finally(() => {
+          this.crmCounting = false;
+        });
     },
     updateListCount(params) {
       let list = this.userLists.find((list) => list.id == params.list_id);

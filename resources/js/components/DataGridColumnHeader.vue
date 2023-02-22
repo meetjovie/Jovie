@@ -157,19 +157,19 @@ export default {
       open: true,
     };
   },
-    computed: {
-      filteredDropdownItems() {
-          let finalItems = this.dropdownItems
-          if (! this.column.custom) {
-              finalItems = finalItems.filter((item) => item.custom !== true)
-          }
-          if (! this.column.sortable) {
-              finalItems = finalItems.filter((item) => item.sortable !== true)
-          }
+  computed: {
+    filteredDropdownItems() {
+      let finalItems = this.dropdownItems;
+      if (!this.column.custom) {
+        finalItems = finalItems.filter((item) => item.custom !== true);
+      }
+      if (!this.column.sortable) {
+        finalItems = finalItems.filter((item) => item.sortable !== true);
+      }
 
-          return finalItems;
-        }
+      return finalItems;
     },
+  },
   methods: {
     openMenu() {
       this.open = true;
@@ -178,17 +178,17 @@ export default {
     itemClicked(id) {
       let item = this.dropdownItems.find((item) => item.id == id);
       if (item.id == 2) {
-          this.$emit('sortData', {
-              sortBy: this.column.key,
-              sortOrder: 'asc',
-          })
+        this.$emit('sortData', {
+          sortBy: this.column.key,
+          sortOrder: 'asc',
+        });
       } else if (item.id == 3) {
-          this.$emit('sortData', {
-              sortBy: this.column.key,
-              sortOrder: 'desc',
-          })
+        this.$emit('sortData', {
+          sortBy: this.column.key,
+          sortOrder: 'desc',
+        });
       } else {
-          this.$emit(item.emit);
+        this.$emit(item.emit);
       }
     },
   },

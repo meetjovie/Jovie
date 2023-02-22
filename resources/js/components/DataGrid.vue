@@ -6,6 +6,7 @@
           class="flex w-full items-center justify-between border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
             :loading="loading"
+            :taskLoading="taskLoading"
             :header="header"
             :subheader="subheader" />
           <!--  <span
@@ -649,6 +650,7 @@ export default {
       imageLoaded: true,
       open: false,
       subMenuOpen: true,
+
       settings: [
         {
           name: 'Show Follower Counts',
@@ -671,6 +673,7 @@ export default {
     'stages',
     'creatorsMeta',
     'loading',
+    'taskLoading',
     'archived',
     'subheader',
     'header',
