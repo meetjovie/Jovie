@@ -77,7 +77,6 @@ class CustomFieldsController extends Controller
                 }, CustomField::CUSTOM_FIELD_TYPES))],
             'options' => ['required_if:type,select,multi_select', 'array']
         ]);
-        $customField = null;
         DB::transaction(function () use ($data, &$customField, $id) {
             $options = $data['options'];
             unset($data['options']);

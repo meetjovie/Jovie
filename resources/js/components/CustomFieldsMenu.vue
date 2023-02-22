@@ -242,6 +242,7 @@ export default {
               description: '',
               options: [],
             };
+            this.$emit('getCrmCreators');
             this.$emit('getFields');
             this.$emit('getHeaders');
             close();
