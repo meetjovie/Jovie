@@ -1017,28 +1017,30 @@ export default {
       }
       this.$emit('setOrder', { sortBy, sortOrder });
 
-      if (this.creatorRecords.length > 50) {
-        this.$emit('pageChanged', { page: this.creatorsMeta.current_page });
-      } else {
-        this.creatorRecords = this.creatorRecords.sort((a, b) => {
-          let modifier = 1;
-          if (sortOrder === 'desc') {
-            modifier = -1;
-          }
-          if (['first_name', 'last_name', 'full_name'].includes(sortBy)) {
-            let sortByC = sortBy == 'full_name' ? 'name' : sortOrder;
-            return a.meta[sortByC] == null ? -1 : (a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier);
-          } else {
-            if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
-              return -1 * modifier;
-            }
-            if (a.crm_record_by_user[sortBy] > b.crm_record_by_user[sortBy]) {
-              return modifier;
-            }
-          }
-          return 0;
-        });
-      }
+      this.$emit('pageChanged', { page: this.creatorsMeta.current_page });
+
+      // if (this.creatorRecords.length < 50) {
+      //   this.$emit('pageChanged', { page: this.creatorsMeta.current_page });
+      // } else {
+      //   this.creatorRecords = this.creatorRecords.sort((a, b) => {
+      //     let modifier = 1;
+      //     if (sortOrder === 'desc') {
+      //       modifier = -1;
+      //     }
+      //     if (['first_name', 'last_name', 'email', 'platform_title', 'platform_employer'].includes(sortBy)) {
+      //       let sortByC = sortBy == 'full_name' ? 'name' : sortOrder;
+      //       return a.meta[sortByC] == null ? -1 : (a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier);
+      //     } else {
+      //       if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
+      //         return -1 * modifier;
+      //       }
+      //       if (a.crm_record_by_user[sortBy] > b.crm_record_by_user[sortBy]) {
+      //         return modifier;
+      //       }
+      //     }
+      //     return 0;
+      //   });
+      // }
     },
     handleScroll() {
       // when the user scrolls, check the pageYOffset

@@ -166,6 +166,7 @@ export default {
           if (! this.column.sortable) {
               finalItems = finalItems.filter((item) => item.sortable !== true)
           }
+
           return finalItems;
         }
     },

@@ -536,9 +536,10 @@ class Creator extends Model
         }
 
         if (!empty($orderBy)) {
-            if (in_array($orderBy, ['first_name', 'last_name'])) {
-                $creators->addSelect(DB::raw(("lower(JSON_UNQUOTE(JSON_EXTRACT(meta, '$[*].".$orderBy."'))) as order_".$orderBy)));
-                $creators = $creators->orderByRaw("lower($orderBy) $order");
+            //orderByRaw("LOWER(meta->>'$.first_name') ASC")
+            if (in_array($orderBy, ['first_name', 'last_name', 'email', 'platform_title', 'platform_employer'])) {
+//                $creators->addSelect(DB::raw(("lower(JSON_UNQUOTE(JSON_EXTRACT(meta, '$[*].".$orderBy."'))) as order_".$orderBy)));
+                $creators = $creators->orderByRaw("LOWER(meta->>'$.$orderBy') $order");
             } else {
                 $creators = $creators->orderByRaw("lower($orderBy) $order");
             }
