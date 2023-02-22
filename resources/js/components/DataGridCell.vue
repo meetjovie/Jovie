@@ -11,7 +11,7 @@
         ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'text-slate-600 dark:text-slate-200',
       cellActive
-        ? 'bg-red-500 ring-2 ring-indigo-500 dark:ring-indigo-500'
+        ? 'bg-indigo-50 outline-2 outline-indigo-500 ring-2 ring-indigo-500 dark:ring-indigo-500'
         : '',
     ]"
     :key="rerenderKey"
