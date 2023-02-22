@@ -554,6 +554,7 @@
                           :counts="counts"
                           @updateListCount="updateListCount"
                           @pageChanged="pageChanged"
+                          @getCrmCreators="getCrmCreators"
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
                             @getHeaders="getHeaders"

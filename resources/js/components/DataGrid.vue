@@ -479,6 +479,7 @@
     customContent
     @close="closeEditFieldPopup">
     <CustomFieldsMenu
+        @getCrmCreators="$emit('getCrmCreators')"
       :currentField="this.currentEditingField"
       @getHeaders="$emit('getHeaders')" />
   </ModalPopup>
