@@ -1,24 +1,32 @@
 <template>
-  <div class="h-10 w-full items-center px-4">
-    <h1
-      v-if="!loading"
-      class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
-      <component
-        :is="icon"
-        :class="iconColor"
-        class="mr-1 h-4 w-4 rounded-md text-purple-400"
-        aria-hidden="true" />
-      {{ headerText + ' Contacts' }}
-    </h1>
-    <h1 v-else class="mr-2 h-4 w-60 animate-pulse rounded-sm bg-slate-300"></h1>
-    <p v-if="!loading" class="text-2xs font-light text-slate-600">
-      {{ contactCount }}
-    </p>
-    <p v-else class="h-3 w-20 animate-pulse rounded-sm bg-slate-300"></p>
+  <div class="flex w-full items-center">
+    <div class="w-10 px-2">
+      <JovieSpinner v-if="taskLoading" />
+    </div>
+    <div class="h-10 items-center px-4">
+      <h1
+        v-if="!loading"
+        class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
+        <component
+          :is="icon"
+          :class="iconColor"
+          class="mr-1 h-4 w-4 rounded-md text-purple-400"
+          aria-hidden="true" />
+        {{ headerText + ' Contacts' }}
+      </h1>
+      <h1
+        v-else
+        class="mr-2 h-4 w-60 animate-pulse rounded-sm bg-slate-300"></h1>
+      <p v-if="!loading" class="text-2xs font-light text-slate-600">
+        {{ contactCount }}
+      </p>
+      <p v-else class="h-3 w-20 animate-pulse rounded-sm bg-slate-300"></p>
+    </div>
   </div>
 </template>
 <script>
 import { UserGroupIcon, HeartIcon, UserIcon } from '@heroicons/vue/24/solid';
+import JovieSpinner from './JovieSpinner.vue';
 
 export default {
   props: {
@@ -34,11 +42,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    taskLoading: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     UserGroupIcon,
     HeartIcon,
     UserIcon,
+    JovieSpinner,
   },
   computed: {
     icon() {

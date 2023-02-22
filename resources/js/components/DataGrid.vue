@@ -479,7 +479,7 @@
     customContent
     @close="closeEditFieldPopup">
     <CustomFieldsMenu
-        @getCrmCreators="$emit('getCrmCreators')"
+      @getCrmCreators="$emit('getCrmCreators')"
       :currentField="this.currentEditingField"
       @getHeaders="$emit('getHeaders')" />
   </ModalPopup>
@@ -823,21 +823,23 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      closeEditFieldPopup() {
-          this.$store.state.crmPage.showCustomFieldsModal = false
-          this.currentEditingField = null
-      },
+    closeEditFieldPopup() {
+      this.$store.state.crmPage.showCustomFieldsModal = false;
+      this.currentEditingField = null;
+    },
     editCustomFieldsModal(column) {
-      this.$store.state.crmPage.showCustomFieldsModal = true
+      this.$store.state.crmPage.showCustomFieldsModal = true;
       this.currentEditingField = column;
     },
     deleteField(column) {
-        this.$store.dispatch('deleteField', {
-            self: this,
-            itemId: column.id,
-        }).then(() => {
-            this.$emit('getFields');
-            this.$emit('getHeaders');
+      this.$store
+        .dispatch('deleteField', {
+          self: this,
+          itemId: column.id,
+        })
+        .then(() => {
+          this.$emit('getFields');
+          this.$emit('getHeaders');
         });
     },
     toggleFieldHide(column, index, forceHide = false) {

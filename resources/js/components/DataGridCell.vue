@@ -10,7 +10,9 @@
       freezeColumn && currentContact.id == creator.id
         ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'text-slate-600 dark:text-slate-200',
-      cellActive ? 'ring-2 ring-indigo-500 dark:ring-indigo-500' : '',
+      cellActive
+        ? 'bg-red-500 ring-2 ring-indigo-500 dark:ring-indigo-500'
+        : '',
     ]"
     :key="rerenderKey"
     v-if="
@@ -35,7 +37,12 @@
             value: creator.crm_record_by_user.rating,
           })
         " />
-      <CheckboxInput v-else-if="column.type == 'checkbox'" :name="`checkbox_${fieldId}_${creator.id}`" v-model="modelValue" :checked="modelValue" @blur="updateData" />
+      <CheckboxInput
+        v-else-if="column.type == 'checkbox'"
+        :name="`checkbox_${fieldId}_${creator.id}`"
+        v-model="modelValue"
+        :checked="modelValue"
+        @blur="updateData" />
 
       <DataGridCellTextInput
         v-else-if="
@@ -87,7 +94,8 @@
           </div>
         </div>
       </div>
-      <Suspense v-else-if="column.type == 'multi_select' && column.name == 'Lists'">
+      <Suspense
+        v-else-if="column.type == 'multi_select' && column.name == 'Lists'">
         <template #default>
           <InputLists
             @updateLists="$emit('updateCreatorLists', $event)"
@@ -98,12 +106,15 @@
         </template>
         <template #fallback> Loading... </template>
       </Suspense>
-        <CustomField
-            v-else-if="(column.type == 'multi_select' || column.type == 'select') && column.custom"
-            @blur="updateData"
-            :type="column.type"
-            :options="column.custom_field_options"
-            v-model="creator.crm_record_by_user[column.code]" />
+      <CustomField
+        v-else-if="
+          (column.type == 'multi_select' || column.type == 'select') &&
+          column.custom
+        "
+        @blur="updateData"
+        :type="column.type"
+        :options="column.custom_field_options"
+        v-model="creator.crm_record_by_user[column.code]" />
       <span v-else
         >Data Type:
         {{ column.type }}
@@ -136,24 +147,24 @@ export default {
     JovieDatePicker,
     CheckboxInput,
     VueTailwindDatepicker,
-      CustomField
+    CustomField,
   },
   emits: ['update:modelValue', 'blur', 'move'],
   data() {
     return {
       showContactStageMenu: [],
       date: {},
-        rerenderKey: 0
+      rerenderKey: 0,
     };
   },
-    watch: {
-        creator: {
-            deep: true,
-            handler: function (val) {
-                this.rerenderKey += 1
-            }
-        }
+  watch: {
+    creator: {
+      deep: true,
+      handler: function (val) {
+        this.rerenderKey += 1;
+      },
     },
+  },
   mounted() {
     this.date.startDate = this.modelValue;
     this.date.endDate = this.modelValue;
@@ -165,10 +176,10 @@ export default {
         if (this.column.meta) {
           this.$emit('updateCrmMeta', this.creator);
         } else {
-            let key = this.column.key
-            if (this.column.custom) {
-                key = `crm_record_by_user.${key}`
-            }
+          let key = this.column.key;
+          if (this.column.custom) {
+            key = `crm_record_by_user.${key}`;
+          }
           this.$emit('updateCreator', {
             id: this.creator.id,
             index: this.row,
