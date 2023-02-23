@@ -487,7 +487,7 @@
                   </template>
                   <template v-else>
                     <DataInputGroup
-                      @copy="copyToClipboard(element.value)"
+                      @copy="copyToClipboard(creator.meta[element.model])"
                       class="group/draggable"
                       @actionMethod="
                         actionMethod(element.method, element.params)
