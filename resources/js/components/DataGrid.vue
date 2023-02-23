@@ -436,7 +436,7 @@
                     v-if="element"
                     @update:currentCell="$emit('updateCreator', $event)"
                     @click="setCurrentContact($event, element)"
-                    @mouseover="setCurrentContact($event, element)"
+                    @mouseover="setCurrentContact($event, element, index)"
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
                     "
@@ -1409,9 +1409,10 @@ export default {
         !this.$store.state.ContactSidebarOpen;
     },
 
-    setCurrentContact(_e, creator) {
+    setCurrentContact(_e, creator, index) {
       this.currentContact = creator;
       this.$emit('setCurrentContact', creator);
+      this.currentCell.row = index
     },
     nextContact() {
       const index = this.creatorRecords.indexOf(this.currentContact);
