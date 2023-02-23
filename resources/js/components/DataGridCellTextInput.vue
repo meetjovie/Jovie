@@ -6,6 +6,7 @@
       <span class="text-md font-bold">$</span>
     </div>
     <input
+        ref="input"
       :class="{
         'pl-4': dataType == 'currency',
         'pr-3': dataType == 'email',

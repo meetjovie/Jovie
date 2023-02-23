@@ -418,6 +418,7 @@
                 @start="startDrag">
                 <template #item="{ element, index }">
                   <DataGridRow
+                      :ref="`gridRow_${index}`"
                     :id="element.id"
                     :currentCell="currentCell"
                     :networks="networks"
@@ -749,7 +750,12 @@ export default {
     });
 
     this.$mousetrap.bind('enter', () => {
-      if (this.currentContact.length) {
+        try {
+            this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs[`active_cell_${this.currentCell.row}_${this.currentCell.column}`].$refs.input.focus()
+        } catch (e) {
+
+        }
+        if (this.currentContact.length) {
         this.$router.push({
           name: 'Creator Overview',
           params: { id: this.currentContact[0].id },
@@ -881,7 +887,7 @@ export default {
     },
     handleCellNavigation(event) {
       // Get the index of the first visible column
-      const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
+        const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
         this.visibleColumns.includes(column.key)
       );
 

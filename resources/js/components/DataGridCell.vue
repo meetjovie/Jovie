@@ -48,6 +48,7 @@
         v-else-if="
           ['text', 'email', 'currency', 'number', 'url'].includes(column.type)
         "
+        :ref="cellActive"
         :fieldId="fieldId"
         @blur="updateData"
         :dataType="column.type"
@@ -75,6 +76,7 @@
       <div v-else-if="column.type == 'date'">
         <div class="relative flex items-center">
           <input
+              ref="input"
             type="text"
             :placeholder="'mm/dd/yyyy'"
             name="date"
