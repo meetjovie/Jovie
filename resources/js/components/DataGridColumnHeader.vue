@@ -160,6 +160,9 @@ export default {
   computed: {
     filteredDropdownItems() {
       let finalItems = this.dropdownItems;
+      if (this.column.name === 'Name') {
+        finalItems = finalItems.filter((item) => item.id !== 1);
+      }
       if (!this.column.custom) {
         finalItems = finalItems.filter((item) => item.custom !== true);
       }
