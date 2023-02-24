@@ -487,6 +487,7 @@ export default {
     disableEditName(item) {
       item.editName = false;
       item.name = this.currentEditingList.name;
+      this.currentEditingList = null;
     },
     editList(item) {
       this.currentEditingList = JSON.parse(JSON.stringify(item));
@@ -827,7 +828,7 @@ export default {
       console.log(this.currentEditingList);
       if (this.menuName == 'Lists' && this.currentEditingList) {
         let enabledList = this.menuItems.find(
-          (list) => (this.currentEditingList.id = list.id)
+          (list) => (this.currentEditingList.id === list.id)
         );
         console.log(enabledList);
         if (enabledList) {
