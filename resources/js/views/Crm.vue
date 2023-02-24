@@ -1238,7 +1238,7 @@ export default {
           if (response.status) {
             this.counts = response.counts;
             this.userLists.forEach(list => {
-                this.counts[list.name] = list.creators_count
+                this.counts[`list_${list.id}`] = list.creators_count
             })
           }
         })

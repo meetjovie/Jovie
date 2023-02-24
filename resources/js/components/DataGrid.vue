@@ -8,6 +8,7 @@
             :loading="loading"
             :taskLoading="taskLoading"
             :header="header"
+            @updateListName="updateListName"
             :list="filters.currentList"
             :subheader="subheader" />
           <!--  <span
@@ -833,6 +834,12 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      updateListName(list) {
+        let userList = this.userLists.find(l => l.id == list.id)
+        if (userList) {
+            userList.name = list.name
+        }
+      },
     closeEditFieldPopup() {
       this.$store.state.crmPage.showCustomFieldsModal = false;
       this.currentEditingField = null;

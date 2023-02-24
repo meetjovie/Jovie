@@ -8,24 +8,7 @@
         v-if="!loading"
         class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
           <template v-if="list">
-              <EmojiPickerModal
-                  class="mr-1"
-                  :currentEmoji="list.emoji" />
-              <div
-                  @dblclick="enableEditName(list)"
-                  class="w-full cursor-pointer">
-                    <span
-                        v-if="!list.editName"
-                        class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
-                    >{{ list.name }}</span
-                    >
-                  <input
-                      v-model="list.name"
-                      :ref="`list_${list.id}`"
-                      @keyup.esc="disableEditName(list)"
-                      v-else
-                      class="text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
-              </div>
+              <UserListEditable :list="list" @updateListName="$emit('updateListName', $event)" />
           </template>
           <template v-else>
               <component
@@ -51,7 +34,7 @@
 <script>
 import { UserGroupIcon, HeartIcon, UserIcon, ArchiveBoxIcon } from '@heroicons/vue/24/solid';
 import JovieSpinner from './JovieSpinner.vue';
-import EmojiPickerModal from '../components/EmojiPickerModal.vue';
+import UserListEditable from "./Crm/UserListEditable.vue";
 
 export default {
   props: {
@@ -77,35 +60,13 @@ export default {
     },
   },
   components: {
+      UserListEditable,
     UserGroupIcon,
     HeartIcon,
     UserIcon,
     ArchiveBoxIcon,
     JovieSpinner,
-    EmojiPickerModal,
   },
-    data() {
-        return {
-            currentEditingList: null,
-        }
-    },
-    methods: {
-        async enableEditName(item, fallBackFocus = false) {
-            if (!fallBackFocus) {
-                this.currentEditingList = JSON.parse(JSON.stringify(item));
-            }
-            item.editName = true;
-            await this.$nextTick(() => {
-                if (this.$refs[`list_${item.id}`]) {
-                    this.$refs[`list_${item.id}`].focus();
-                }
-            });
-        },
-        disableEditName(item) {
-            item.editName = false;
-            item.name = this.currentEditingList.name;
-        }
-    },
   computed: {
       icon() {
       if (this.header.includes('all')) {
@@ -130,6 +91,8 @@ export default {
     contactCount() {
       if (this.header.includes('all')) {
         return `${this.subheader.total}`;
+      } else if (this.list) {
+        return `${this.subheader[`list_${this.list.id}`]}`;
       } else {
         return `${this.subheader[this.header]}`;
       }
