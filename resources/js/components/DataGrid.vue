@@ -8,6 +8,7 @@
             :loading="loading"
             :taskLoading="taskLoading"
             :header="header"
+            :list="filters.currentList"
             :subheader="subheader" />
           <!--  <span
             class="flex w-40 items-center text-xs text-slate-600 dark:text-jovieDark-200">

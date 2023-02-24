@@ -560,7 +560,7 @@
                           @getHeaders="getHeaders"
                           @getFields="getFields"
                           @setOrder="setOrder"
-                          :header="filters.type"
+                          :header="filters.type === 'list' ? filters.currentList.name : filters.type"
                           @importCSV="importCSV"
                           :subheader="counts"
                           :filters="filters"
@@ -1116,12 +1116,20 @@ export default {
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
+      this.filters.currentList = null;
       this.getCrmCreators();
       this.loading = false;
     },
     setFilterList(list) {
       this.filters.type = 'list';
       this.filters.list = this.filters.list == list ? null : list;
+      if (this.filters.list) {
+          list = this.userLists.find(l => l.id === list)
+          this.filters.currentList = list ?? null
+      } else {
+          this.filters.type = 'all';
+          this.filters.currentList = null
+      }
       this.getCrmCreators();
     },
     sortLists(e, listId) {
@@ -1173,6 +1181,12 @@ export default {
         if (response.status) {
           this.userLists = [];
           this.userLists = response.lists;
+          if (this.filters.list) {
+              let list = this.userLists.find(l => l.id === this.filters.list)
+              if (list) {
+                  this.filters.currentList = list
+              }
+          }
         }
       });
     },
@@ -1223,6 +1237,9 @@ export default {
           response = response.data;
           if (response.status) {
             this.counts = response.counts;
+            this.userLists.forEach(list => {
+                this.counts[list.name] = list.creators_count
+            })
           }
         })
         .catch()

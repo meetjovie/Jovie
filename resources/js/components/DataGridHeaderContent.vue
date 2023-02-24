@@ -7,18 +7,40 @@
       <h1
         v-if="!loading"
         class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
-        <component
-          :is="icon"
-          :class="iconColor"
-          class="mr-1 h-4 w-4 rounded-md text-purple-400"
-          aria-hidden="true" />
-        {{ headerText + ' Contacts' }}
+          <template v-if="list">
+              <EmojiPickerModal
+                  class="mr-1"
+                  :currentEmoji="list.emoji" />
+              <div
+                  @dblclick="enableEditName(list)"
+                  class="w-full cursor-pointer">
+                    <span
+                        v-if="!list.editName"
+                        class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
+                    >{{ list.name }}</span
+                    >
+                  <input
+                      v-model="list.name"
+                      :ref="`list_${list.id}`"
+                      @keyup.esc="disableEditName(list)"
+                      v-else
+                      class="text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
+              </div>
+          </template>
+          <template v-else>
+              <component
+                  :is="icon"
+                  :class="iconColor"
+                  class="mr-1 h-4 w-4 rounded-md text-purple-400"
+                  aria-hidden="true" />
+              {{ headerText + ' Contacts' }}
+          </template>
       </h1>
       <h1
         v-else
         class="mr-2 h-4 w-60 animate-pulse rounded-sm bg-slate-300"></h1>
       <p
-        v-if="!loading && typeof contactCount !== 'undefined'"
+        v-if="!loading && contactCount !== undefined"
         class="text-2xs font-light text-slate-600">
         {{ contactCount + ' Contacts' }}
       </p>
@@ -27,8 +49,9 @@
   </div>
 </template>
 <script>
-import { UserGroupIcon, HeartIcon, UserIcon } from '@heroicons/vue/24/solid';
+import { UserGroupIcon, HeartIcon, UserIcon, ArchiveBoxIcon } from '@heroicons/vue/24/solid';
 import JovieSpinner from './JovieSpinner.vue';
+import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 
 export default {
   props: {
@@ -48,19 +71,49 @@ export default {
       type: Boolean,
       default: false,
     },
+    list: {
+        type: Object,
+        required: false,
+    },
   },
   components: {
     UserGroupIcon,
     HeartIcon,
     UserIcon,
+    ArchiveBoxIcon,
     JovieSpinner,
+    EmojiPickerModal,
   },
+    data() {
+        return {
+            currentEditingList: null,
+        }
+    },
+    methods: {
+        async enableEditName(item, fallBackFocus = false) {
+            if (!fallBackFocus) {
+                this.currentEditingList = JSON.parse(JSON.stringify(item));
+            }
+            item.editName = true;
+            await this.$nextTick(() => {
+                if (this.$refs[`list_${item.id}`]) {
+                    this.$refs[`list_${item.id}`].focus();
+                }
+            });
+        },
+        disableEditName(item) {
+            item.editName = false;
+            item.name = this.currentEditingList.name;
+        }
+    },
   computed: {
-    icon() {
+      icon() {
       if (this.header.includes('all')) {
         return UserGroupIcon;
       } else if (this.header.includes('favourites')) {
         return HeartIcon;
+      } else if (this.header.includes('archived')) {
+          return ArchiveBoxIcon;
       } else {
         return UserIcon;
       }
@@ -85,7 +138,7 @@ export default {
       if (this.header.includes('favourites')) {
         return 'Favorited';
       } else {
-        return this.header;
+        return this.header ?? '';
       }
     },
   },
