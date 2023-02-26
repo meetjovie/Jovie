@@ -938,8 +938,6 @@ export default {
         const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
         this.visibleColumns.includes(column.key)
       );
-        console.log('this.currentCell');
-        console.log(this.currentCell);
 
       switch (event) {
         case 'ArrowRight':
