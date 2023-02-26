@@ -12,6 +12,7 @@
             class="rounded-md bg-white shadow-lg dark:bg-jovieDark-900 dark:text-jovieDark-100">
             <div class="p-2">
               <vue-tailwind-datepicker
+                :formatter="formatter"
                 as-single
                 class=""
                 no-input
@@ -23,6 +24,13 @@
     </Float>
   </Popover>
 </template>
+<script setup>
+import { ref } from 'vue';
+const formatter = ref({
+  date: 'DD MMM YYYY',
+  month: 'MMM',
+});
+</script>
 <script>
 //@ts-check
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid';
@@ -53,9 +61,9 @@ export default {
   },
   watch: {
     date: function (val, old) {
-        if (old.length) {
-            this.$emit('update:modelValue', val[0]);
-        }
+      if (old.length) {
+        this.$emit('update:modelValue', val[0]);
+      }
     },
   },
   mounted() {

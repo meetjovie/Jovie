@@ -160,14 +160,16 @@
 
     <template v-for="(column, columnIndex) in otherColumns" :key="row">
       <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         v-if="column.custom"
         :visibleColumns="visibleColumns"
         :settings="settings"
         :currentContact="currentContact"
         :creator="creator"
         :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex ? `active_cell_${currentCell.row}_${currentCell.column}` : false
+          currentCell.row == row && currentCell.column == columnIndex
+            ? `active_cell_${currentCell.row}_${currentCell.column}`
+            : false
         "
         :currentCell="currentCell"
         :columnIndex="columnIndex"
@@ -179,14 +181,16 @@
         v-model="creator.crm_record_by_user[column.key]"
         :row="row" />
       <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         v-else-if="column.meta"
         :visibleColumns="visibleColumns"
         :settings="settings"
         :currentContact="currentContact"
         :creator="creator"
         :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex ? `active_cell_${currentCell.row}_${currentCell.column}` : false
+          currentCell.row == row && currentCell.column == columnIndex
+            ? `active_cell_${currentCell.row}_${currentCell.column}`
+            : false
         "
         @update:currentCell="handleCellUpdate"
         :currentCell="currentCell"
@@ -202,14 +206,16 @@
         v-model="creator.meta[column.key]"
         :row="row" />
       <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         v-else
         :visibleColumns="visibleColumns"
         :settings="settings"
         :currentContact="currentContact"
         :creator="creator"
         :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex ? `active_cell_${currentCell.row}_${currentCell.column}` : false
+          currentCell.row == row && currentCell.column == columnIndex
+            ? `active_cell_${currentCell.row}_${currentCell.column}`
+            : false
         "
         @update:currentCell="handleCellUpdate"
         :currentCell="currentCell"

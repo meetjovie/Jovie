@@ -1,5 +1,6 @@
 <template>
   <td
+    @focus="setFocus()"
     :class="[
       'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium dark:border-jovieDark-border',
 
@@ -76,7 +77,7 @@
       <div v-else-if="column.type == 'date'">
         <div class="relative flex items-center">
           <input
-              ref="input"
+            ref="input"
             type="text"
             :placeholder="'mm/dd/yyyy'"
             name="date"
@@ -200,6 +201,9 @@ export default {
     },
     toggleContactStageMenu(index) {
       this.showContactStageMenu[index] = !this.showContactStageMenu[index];
+    },
+    setActiveColumn() {
+      this.$emit('update:activeColumn', this.columnIndex);
     },
     onBlur() {
       this.$emit('blur');
