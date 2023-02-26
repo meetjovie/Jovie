@@ -53,9 +53,9 @@ export default {
   },
   watch: {
     date: function (val, old) {
-        if (old.length) {
-            this.$emit('update:modelValue', val[0]);
-        }
+      if (old.length) {
+        this.$emit('update:modelValue', val[0]);
+      }
     },
   },
   mounted() {
