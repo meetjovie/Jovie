@@ -434,6 +434,7 @@
                     :selectedCreators="selectedCreators"
                     :creator="element"
                     :row="index"
+                    :column="currentCell.column"
                     :key="element.id"
                     :userLists="userLists"
                     v-if="element"
