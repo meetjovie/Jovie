@@ -8,7 +8,7 @@
         v-if="!loading"
         class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
           <template v-if="list">
-              <UserListEditable :list="list" @updateListName="$emit('updateListName', $event)" />
+              <UserListEditable :list="list" @updateUserList="$emit('updateUserList', $event)" />
           </template>
           <template v-else>
               <component

@@ -61,34 +61,35 @@
                     class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
                     {{ element.emoji ?? '📄' }}
                   </div> -->
-                  <EmojiPickerModal
-                    class="mr-1"
-                    @emojiSelected="emojiSelected($event, element)"
-                    :currentEmoji="element.emoji">
-                  </EmojiPickerModal>
+                    <UserListEditable :list="element" @updateUserList="$emit('updateUserList', $event)" />
+<!--                  <EmojiPickerModal-->
+<!--                    class="mr-1"-->
+<!--                    @emojiSelected="emojiSelected($event, element)"-->
+<!--                    :currentEmoji="element.emoji">-->
+<!--                  </EmojiPickerModal>-->
 
-                  <div
-                    @dblclick="enableEditName(element)"
-                    class="w-full cursor-pointer">
-                    <span
-                      v-if="!element.editName"
-                      :class="[
-                        selectedList == element.id
-                          ? 'font-bold text-slate-800 dark:text-jovieDark-200'
-                          : 'font-light text-slate-700 dark:text-jovieDark-300',
-                      ]"
-                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
-                      >{{ element.name }}</span
-                    >
-                    <input
-                      v-model="element.name"
-                      :ref="`list_${element.id}`"
-                      @blur="updateList(element)"
-                      @keyup.esc="disableEditName(element)"
-                      @keyup.enter="updateList(element)"
-                      v-else
-                      class="text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
-                  </div>
+<!--                  <div-->
+<!--                    @dblclick="enableEditName(element)"-->
+<!--                    class="w-full cursor-pointer">-->
+<!--                    <span-->
+<!--                      v-if="!element.editName"-->
+<!--                      :class="[-->
+<!--                        selectedList == element.id-->
+<!--                          ? 'font-bold text-slate-800 dark:text-jovieDark-200'-->
+<!--                          : 'font-light text-slate-700 dark:text-jovieDark-300',-->
+<!--                      ]"-->
+<!--                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"-->
+<!--                      >{{ element.name }}</span-->
+<!--                    >-->
+<!--                    <input-->
+<!--                      v-model="element.name"-->
+<!--                      :ref="`list_${element.id}`"-->
+<!--                      @blur="updateList(element)"-->
+<!--                      @keyup.esc="disableEditName(element)"-->
+<!--                      @keyup.enter="updateList(element)"-->
+<!--                      v-else-->
+<!--                      class="text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />-->
+<!--                  </div>-->
                 </div>
                 <div
                   class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
@@ -227,32 +228,7 @@
                 class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
                 {{ item.emoji ?? '📄' }}
               </div> -->
-              <EmojiPickerModal
-                class="mr-1"
-                @emojiSelected="emojiSelected($event, item)"
-                :currentEmoji="item.emoji" />
-              <div
-                @dblclick="enableEditName(item)"
-                class="w-full cursor-pointer">
-                <span
-                  v-if="!item.editName"
-                  :class="[
-                    selectedList == item.id
-                      ? 'font-bold text-slate-800 dark:text-jovieDark-200'
-                      : 'font-light text-slate-700 dark:text-jovieDark-300',
-                  ]"
-                  class="w-36 cursor-pointer text-xs line-clamp-1 group-hover:text-slate-800 dark:group-hover:text-slate-200"
-                  >{{ item.name }}</span
-                >
-                <input
-                  ref="input"
-                  :ref="`list_${item.id}`"
-                  @blur="disableEditName(item)"
-                  @keyup.esc="disableEditName(item)"
-                  @keyup.enter="updateList(item)"
-                  v-else
-                  class="text-xs font-light text-slate-900 group-hover:text-slate-800 dark:group-hover:text-slate-200" />
-              </div>
+                <UserListEditable :list="element" @updateUserList="$emit('updateUserList', $event)" />
             </div>
 
             <div
@@ -422,7 +398,7 @@ import {
 import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
-import EmojiPickerModal from '../components/EmojiPickerModal.vue';
+import UserListEditable from "./Crm/UserListEditable.vue";
 export default {
   data() {
     return {
@@ -459,17 +435,6 @@ export default {
       this.editListPopup.loading = false;
       this.editListPopup.open = false;
     },
-    emojiSelected(emoji, list) {
-      console.log('setting ' + list.emoji + 'to ' + emoji);
-      this.currentEditingList = JSON.parse(JSON.stringify(list));
-      this.currentEditingList.emoji = emoji;
-      this.updateList(this.currentEditingList);
-      //if triggered from an item set the item emoji to the selected emoji if triggered from an element  set the element emoji to the selected emoji
-    },
-
-    openEmojiPicker(item) {
-      this.$emit('openEmojiPicker', item);
-    },
     toggleShowMenu() {
       this.showMenu = !this.showMenu;
     },
@@ -501,51 +466,6 @@ export default {
       this.editListPopup.title = `Edit ${this.currentEditingList.name}`;
       this.editListPopup.pinned = this.currentEditingList.pinned;
       this.editListPopup.name = this.currentEditingList.name;
-    },
-    updateList(item) {
-      item.updating = true;
-      UserService.updateList({ name: item.name, emoji: item.emoji }, item.id)
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: response.message,
-            });
-            this.editListPopup.open = false;
-            this.currentEditingList = null;
-            this.$emit('getUserLists');
-          } else {
-            // show toast error here later
-            this.$notify({
-              group: 'user',
-              type: 'error',
-              duration: 15000,
-              title: 'Error',
-              text: response.message,
-            });
-            this.enableEditName(item, true);
-          }
-        })
-        .catch((error) => {
-          error = error.response;
-          if (error.status == 422) {
-            this.$notify({
-              group: 'user',
-              type: 'error',
-              duration: 15000,
-              title: 'Error',
-              text: Object.values(error.data.errors)[0][0],
-            });
-            this.enableEditName(item, true);
-          }
-        })
-        .finally((response) => {
-          item.updating = false;
-        });
     },
     createList() {
       this.creatingList = true;
@@ -794,13 +714,13 @@ export default {
     },
   },
   components: {
+      UserListEditable,
     ChevronRightIcon,
     BookmarkIcon,
     Switch,
     SwitchGroup,
     SwitchLabel,
     JovieSpinner,
-    EmojiPickerModal,
     PinnedIcon,
     ChevronDownIcon,
     EllipsisHorizontalIcon,

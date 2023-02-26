@@ -8,7 +8,7 @@
             :loading="loading"
             :taskLoading="taskLoading"
             :header="header"
-            @updateListName="updateListName"
+            @updateUserList="updateUserList"
             :list="filters.currentList"
             :subheader="subheader" />
           <!--  <span
@@ -684,7 +684,7 @@ export default {
     'columns',
     'headersLoaded',
   ],
-  expose: ['toggleCreatorsFromList'],
+  expose: ['toggleCreatorsFromList', 'updateUserList'],
   watch: {
     settings: {
       deep: true,
@@ -834,10 +834,15 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      updateListName(list) {
+      updateUserList(list) {
         let userList = this.userLists.find(l => l.id == list.id)
         if (userList) {
             userList.name = list.name
+            userList.emoji = list.emoji
+            if (this.filters.currentList) {
+                this.filters.currentList.name = list.name
+                this.filters.currentList.emoji = list.emoji
+            }
         }
       },
     closeEditFieldPopup() {

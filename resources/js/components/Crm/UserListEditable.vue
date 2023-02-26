@@ -2,6 +2,7 @@
     <div>
         <EmojiPickerModal
             class="mr-1"
+            @emojiSelected="emojiSelected($event)"
             :currentEmoji="list.emoji" />
         <div
             @dblclick="enableEditName(list)"
@@ -44,6 +45,11 @@ export default {
         }
     },
     methods: {
+        emojiSelected(emoji) {
+            this.list.emoji = emoji;
+            this.updateList(this.list);
+            //if triggered from an item set the item emoji to the selected emoji if triggered from an element  set the element emoji to the selected emoji
+        },
         async enableEditName(item, fallBackFocus = false) {
             if (!fallBackFocus) {
                 this.currentEditingList = JSON.parse(JSON.stringify(item));
@@ -72,7 +78,7 @@ export default {
                             title: 'Successful',
                             text: response.message,
                         });
-                        this.$emit('updateListName', response.data)
+                        this.$emit('updateUserList', response.data)
                         this.currentEditingList = null;
                     } else {
                         // show toast error here later
@@ -87,6 +93,8 @@ export default {
                     }
                 })
                 .catch((error) => {
+                    console.log('errorerrorerrorerror');
+                    console.log(error);
                     error = error.response;
                     if (error.status == 422) {
                         this.$notify({

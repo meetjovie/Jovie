@@ -139,6 +139,7 @@
                           menuName="Pinned"
                           :selectedList="filters.list"
                           @onListDrop="onListDrop($event)"
+                          @updateUserList="updateUserList($event)"
                           @setFilterList="setFilterList"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
@@ -155,6 +156,7 @@
                           @setFilterList="setFilterList"
                           :selectedList="filters.list"
                           :draggable="true"
+                          @updateUserList="updateUserList($event)"
                           @onListDrop="onListDrop($event)"
                           @end="sortLists"
                           :menuItems="filteredUsersLists"></MenuList>
@@ -1009,6 +1011,13 @@ export default {
     });
   },
   methods: {
+      updateUserList(event) {
+          console.log('this.$refs.crmTableGridthis.$refs.crmTableGrid');
+          console.log(this.$refs.crmTableGrid);
+          console.log(this.$refs.crmTableGrid.met);
+          console.log(event);
+          this.$refs.crmTableGrid.updateUserList(event)
+      },
     getHeaders() {
       this.headersLoaded = false;
       FieldService.getHeaderFields(this.filters.list)
