@@ -208,6 +208,7 @@
           <div
             class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
+                ref="crmTable"
               class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
                 class="relative isolate z-20 w-full items-center overflow-auto">
@@ -764,6 +765,39 @@ export default {
         });
       }
     });
+
+      document.addEventListener('keydown', (event) => {
+
+          if (event.key === 'Tab') {
+              event.stopPropagation();
+              event.preventDefault();
+
+              try {
+                  this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs[`active_cell_${this.currentCell.row}_${this.currentCell.column}`].$refs.input.blur()
+              } catch (e) {
+              }
+
+              // Get the index of the last visible column
+              const lastVisibleColumnIndex = this.visibleColumns.length - 1
+              this.currentCell.column += 1;
+              console.log(this.currentCell);
+              if (this.currentCell.column > lastVisibleColumnIndex) {
+                  this.$refs.crmTable.scrollLeft = 0
+                  setTimeout(() => {
+                      this.$nextTick(() => {
+                          this.currentCell.column = 0;
+                          if (this.currentCell.row < this.filteredCreators.length - 1) {
+                              this.currentCell.row += 1;
+                          } else {
+                              this.currentCell.row = 0;
+                          }
+                      })
+                  }, 100)
+              }
+          }
+
+      });
+
     // let columns = JSON.parse(localStorage.getItem('columns'));
     // if (columns) {
     //   this.columns = columns;
@@ -808,7 +842,7 @@ export default {
     },
     visibleColumns() {
       return this.columns
-        .filter((col) => !col.hide)
+        .filter((col) => !col.hide && col.key != 'full_name')
         .map((column) => {
           return column.key;
         });
