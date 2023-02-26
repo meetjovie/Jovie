@@ -437,7 +437,7 @@
                     :userLists="userLists"
                     v-if="element"
                     @update:currentCell="$emit('updateCreator', $event)"
-                    @click="setCurrentContact($event, element)"
+                    @click="setCurrentContact($event, element, index)"
                     @mouseover="setCurrentContact($event, element, index)"
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
@@ -903,6 +903,8 @@ export default {
         const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
         this.visibleColumns.includes(column.key)
       );
+        console.log('this.currentCell');
+        console.log(this.currentCell);
 
       switch (event) {
         case 'ArrowRight':
@@ -936,12 +938,12 @@ export default {
           }
           break;
         case 'ArrowUp':
-          if (this.currentCell.row > 0) {
+            if (this.currentCell.row > 0) {
             this.currentCell.row -= 1;
           }
           break;
         case 'ArrowDown':
-          if (this.currentCell.row < this.filteredCreators.length - 1) {
+            if (this.currentCell.row < this.filteredCreators.length - 1) {
             this.currentCell.row += 1;
           }
           break;
@@ -1432,7 +1434,8 @@ export default {
       if (index < this.creatorRecords.length - 1) {
         this.setCurrentContact(
           'setCurrentCreator',
-          this.creatorRecords[index + 1]
+          this.creatorRecords[index + 1],
+            index
         );
       }
     },
@@ -1441,7 +1444,8 @@ export default {
       if (index > 0) {
         this.setCurrentContact(
           'setCurrentCreator',
-          this.creatorRecords[index - 1]
+          this.creatorRecords[index - 1],
+            index
         );
       }
     },
