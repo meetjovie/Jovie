@@ -257,6 +257,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           if (error.response && error.response.status == 422) {
             this.errors = error.response.data.errors;
           }
@@ -316,6 +318,8 @@ export default {
             }
           })
           .catch((error) => {
+              console.log('error');
+              console.log(error);
             if (error.response && error.response.status == 422) {
               this.errors = error.response.data.errors;
             }
@@ -355,7 +359,10 @@ export default {
             });
           }
         })
-        .catch((error) => {})
+        .catch((error) => {
+            console.log('error');
+            console.log(error);
+        })
         .finally((response) => {});
     },
     closeDialog() {

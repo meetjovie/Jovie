@@ -1021,6 +1021,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           if (error.response && error.response.status == 422) {
             this.errors = error.data.errors;
             this.$notify({
@@ -1151,6 +1153,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.errors = error.data.errors;
@@ -1225,7 +1229,10 @@ export default {
             this.counts = response.counts;
           }
         })
-        .catch()
+        .catch((error) {
+            console.log('error');
+            console.log(error);
+        })
         .finally(() => {
           this.crmCounting = false;
         });

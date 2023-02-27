@@ -1328,6 +1328,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             if (this.errors) {
@@ -1389,6 +1391,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.errors = error.data.errors;
@@ -1464,6 +1468,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.errors = error.data.errors;
