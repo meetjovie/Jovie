@@ -891,7 +891,6 @@ export default {
                   }
                   this.$refs.crmTable.scroll(scrollTo, 0);
               } catch (e) {
-                  console.log(e);
               }
           })
       },
