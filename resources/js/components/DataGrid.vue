@@ -795,6 +795,7 @@ export default {
                       })
                   }, 100)
               }
+              this.scrollToFocusCell()
           }
 
       });
@@ -876,6 +877,24 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      scrollToFocusCell() {
+          this.$nextTick(() => {
+              try {
+                  let targetCell = this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs.cell_area
+                  var tableOffsetLeft = this.$refs.crmTable.offsetLeft;
+                  var targetCellOffsetLeft = targetCell.offsetLeft;
+                  var scrollTo = targetCellOffsetLeft - tableOffsetLeft;
+                  if (scrollTo < 0) {
+                      scrollTo = scrollTo + 300
+                  } else {
+                      scrollTo = scrollTo - 300
+                  }
+                  this.$refs.crmTable.scroll(scrollTo, 0);
+              } catch (e) {
+                  console.log(e);
+              }
+          })
+      },
       updateUserList(list) {
         let userList = this.userLists.find(l => l.id == list.id)
         if (userList) {
@@ -953,6 +972,7 @@ export default {
               break;
             }
             this.currentCell.column += 1;
+            this.scrollToFocusCell()
             if (
               this.visibleColumns.includes(
                 this.otherColumns[this.currentCell.column].key
@@ -968,6 +988,7 @@ export default {
               break;
             }
             this.currentCell.column -= 1;
+            this.scrollToFocusCell()
             if (
               this.visibleColumns.includes(
                 this.otherColumns[this.currentCell.column].key
@@ -980,11 +1001,13 @@ export default {
         case 'ArrowUp':
             if (this.currentCell.row > 0) {
             this.currentCell.row -= 1;
+            this.scrollToFocusCell()
           }
           break;
         case 'ArrowDown':
             if (this.currentCell.row < this.filteredCreators.length - 1) {
             this.currentCell.row += 1;
+            this.scrollToFocusCell()
           }
           break;
       }
