@@ -799,6 +799,13 @@ export default {
 
       });
 
+      document.addEventListener('paste', (event) => {
+          try {
+              this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs[`active_cell_${this.currentCell.row}_${this.currentCell.column}`].$refs.input.focus()
+          } catch (e) {
+          }
+      });
+
     // let columns = JSON.parse(localStorage.getItem('columns'));
     // if (columns) {
     //   this.columns = columns;
