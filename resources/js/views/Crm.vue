@@ -1230,7 +1230,9 @@ export default {
           this.$store.commit('setCrmRecords', response.creators.data);
           this.networks = response.networks;
           this.stages = response.stages;
-          this.counts = response.counts;
+          this.counts.archived = response.counts.archived;
+          this.counts.favourites = response.counts.favourites;
+          this.counts.total = response.counts.total;
           this.creatorsMeta = response.creators;
           this.filters.page = response.creators.current_page;
         }
