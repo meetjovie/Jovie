@@ -139,6 +139,7 @@
                           menuName="Pinned"
                           :selectedList="filters.list"
                           @onListDrop="onListDrop($event)"
+                          @updateUserList="updateUserList($event)"
                           @setFilterList="setFilterList"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
@@ -155,6 +156,7 @@
                           @setFilterList="setFilterList"
                           :selectedList="filters.list"
                           :draggable="true"
+                          @updateUserList="updateUserList($event)"
                           @onListDrop="onListDrop($event)"
                           @end="sortLists"
                           :menuItems="filteredUsersLists"></MenuList>
@@ -560,7 +562,7 @@
                           @getHeaders="getHeaders"
                           @getFields="getFields"
                           @setOrder="setOrder"
-                          :header="filters.type"
+                          :header="filters.type === 'list' ? filters.currentList.name : filters.type"
                           @importCSV="importCSV"
                           :subheader="counts"
                           :filters="filters"
@@ -1009,6 +1011,13 @@ export default {
     });
   },
   methods: {
+      updateUserList(event) {
+          console.log('this.$refs.crmTableGridthis.$refs.crmTableGrid');
+          console.log(this.$refs.crmTableGrid);
+          console.log(this.$refs.crmTableGrid.met);
+          console.log(event);
+          this.$refs.crmTableGrid.updateUserList(event)
+      },
     getHeaders() {
       this.headersLoaded = false;
       FieldService.getHeaderFields(this.filters.list)
@@ -1118,12 +1127,20 @@ export default {
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
+      this.filters.currentList = null;
       this.getCrmCreators();
       this.loading = false;
     },
     setFilterList(list) {
       this.filters.type = 'list';
       this.filters.list = this.filters.list == list ? null : list;
+      if (this.filters.list) {
+          list = this.userLists.find(l => l.id === list)
+          this.filters.currentList = list ?? null
+      } else {
+          this.filters.type = 'all';
+          this.filters.currentList = null
+      }
       this.getCrmCreators();
     },
     sortLists(e, listId) {
@@ -1177,6 +1194,12 @@ export default {
         if (response.status) {
           this.userLists = [];
           this.userLists = response.lists;
+          if (this.filters.list) {
+              let list = this.userLists.find(l => l.id === this.filters.list)
+              if (list) {
+                  this.filters.currentList = list
+              }
+          }
         }
       });
     },
@@ -1211,7 +1234,9 @@ export default {
           this.$store.commit('setCrmRecords', response.creators.data);
           this.networks = response.networks;
           this.stages = response.stages;
-          this.counts = response.counts;
+          this.counts.archived = response.counts.archived;
+          this.counts.favourites = response.counts.favourites;
+          this.counts.total = response.counts.total;
           this.creatorsMeta = response.creators;
           this.filters.page = response.creators.current_page;
         }
@@ -1227,6 +1252,9 @@ export default {
           response = response.data;
           if (response.status) {
             this.counts = response.counts;
+            this.userLists.forEach(list => {
+                this.counts[`list_${list.id}`] = list.creators_count
+            })
           }
         })
         .catch((error) {
