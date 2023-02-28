@@ -3,9 +3,8 @@
     <div class="w-10 px-2">
       <JovieSpinner v-if="taskLoading" />
     </div>
-    <div class="h-10 items-center px-4">
+    <div class="h-10 items-center px-4" v-if="!loading">
       <h1
-        v-if="!loading"
         class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
           <template v-if="list">
               <UserListEditable :list="list" @updateUserList="$emit('updateUserList', $event)" />
@@ -19,15 +18,11 @@
               {{ headerText + ' Contacts' }}
           </template>
       </h1>
-      <h1
-        v-else
-        class="mr-2 h-4 w-60 animate-pulse rounded-sm bg-slate-300"></h1>
       <p
-        v-if="!loading && contactCount !== undefined"
         class="text-2xs font-light text-slate-600">
         {{ contactCount + ' Contacts' }}
       </p>
-      <p v-else class="h-3 w-20 animate-pulse rounded-sm bg-slate-300"></p>
+<!--      <p v-else class="h-3 w-20 animate-pulse rounded-sm bg-slate-300"></p>-->
     </div>
   </div>
 </template>
@@ -94,7 +89,9 @@ export default {
       } else if (this.list) {
         return `${this.subheader[`list_${this.list.id}`]}`;
       } else {
-        return `${this.subheader[this.header]}`;
+          console.log('this.subheader[this.header]');
+          console.log(this.subheader[this.header]);
+          return this.subheader[this.header] ?? '';
       }
     },
     headerText() {
