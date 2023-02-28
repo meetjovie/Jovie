@@ -1,6 +1,6 @@
 <template>
   <td
-    @focus="setFocus()"
+      ref="cell_area"
     :class="[
       'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium dark:border-jovieDark-border',
 

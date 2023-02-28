@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\CreatorImported;
 use App\Traits\CustomFieldsTrait;
 use App\Traits\GeneralTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -611,7 +612,7 @@ class Creator extends Model
             $creator->crm_record_by_user->user_id = $user->id;
             $creator->crm_record_by_user->team_id = $user->currentTeam->id;
             $creator->crm_record_by_user->creator_id = $creator->id;
-            $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
+            $creator->crm_record_by_user->last_contacted = $creator->last_contacted ? Carbon::make($creator->last_contacted)->toDateString() : null;
             $creator->crm_record_by_user->offer = $creator->offer;
             $creator->crm_record_by_user->archived = $creator->archived;
             $creator->crm_record_by_user->rating = $creator->rating;

@@ -8,6 +8,8 @@
             :loading="loading"
             :taskLoading="taskLoading"
             :header="header"
+            @updateUserList="updateUserList"
+            :list="filters.currentList"
             :subheader="subheader" />
           <!--  <span
             class="flex w-40 items-center text-xs text-slate-600 dark:text-jovieDark-200">
@@ -206,6 +208,7 @@
           <div
             class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
+                ref="crmTable"
               class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
                 class="relative isolate z-20 w-full items-center overflow-auto">
@@ -431,11 +434,12 @@
                     :selectedCreators="selectedCreators"
                     :creator="element"
                     :row="index"
+                    :column="currentCell.column"
                     :key="element.id"
                     :userLists="userLists"
                     v-if="element"
                     @update:currentCell="$emit('updateCreator', $event)"
-                    @click="setCurrentContact($event, element)"
+                    @click="setCurrentContact($event, element, index)"
                     @mouseover="setCurrentContact($event, element, index)"
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
@@ -682,7 +686,7 @@ export default {
     'columns',
     'headersLoaded',
   ],
-  expose: ['toggleCreatorsFromList'],
+  expose: ['toggleCreatorsFromList', 'updateUserList'],
   watch: {
     settings: {
       deep: true,
@@ -762,6 +766,47 @@ export default {
         });
       }
     });
+
+      document.addEventListener('keydown', (event) => {
+
+          if (event.key === 'Tab') {
+              event.stopPropagation();
+              event.preventDefault();
+
+              try {
+                  this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs[`active_cell_${this.currentCell.row}_${this.currentCell.column}`].$refs.input.blur()
+              } catch (e) {
+              }
+
+              // Get the index of the last visible column
+              const lastVisibleColumnIndex = this.visibleColumns.length - 1
+              this.currentCell.column += 1;
+              console.log(this.currentCell);
+              if (this.currentCell.column > lastVisibleColumnIndex) {
+                  this.$refs.crmTable.scrollLeft = 0
+                  setTimeout(() => {
+                      this.$nextTick(() => {
+                          this.currentCell.column = 0;
+                          if (this.currentCell.row < this.filteredCreators.length - 1) {
+                              this.currentCell.row += 1;
+                          } else {
+                              this.currentCell.row = 0;
+                          }
+                      })
+                  }, 100)
+              }
+              this.scrollToFocusCell()
+          }
+
+      });
+
+      document.addEventListener('paste', (event) => {
+          try {
+              this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs[`active_cell_${this.currentCell.row}_${this.currentCell.column}`].$refs.input.focus()
+          } catch (e) {
+          }
+      });
+
     // let columns = JSON.parse(localStorage.getItem('columns'));
     // if (columns) {
     //   this.columns = columns;
@@ -806,7 +851,7 @@ export default {
     },
     visibleColumns() {
       return this.columns
-        .filter((col) => !col.hide)
+        .filter((col) => !col.hide && col.key != 'full_name')
         .map((column) => {
           return column.key;
         });
@@ -832,6 +877,34 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      scrollToFocusCell() {
+          this.$nextTick(() => {
+              try {
+                  let targetCell = this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs.cell_area
+                  var tableOffsetLeft = this.$refs.crmTable.offsetLeft;
+                  var targetCellOffsetLeft = targetCell.offsetLeft;
+                  var scrollTo = targetCellOffsetLeft - tableOffsetLeft;
+                  if (scrollTo < 0) {
+                      scrollTo = scrollTo + 300
+                  } else {
+                      scrollTo = scrollTo - 300
+                  }
+                  this.$refs.crmTable.scroll(scrollTo, 0);
+              } catch (e) {
+              }
+          })
+      },
+      updateUserList(list) {
+        let userList = this.userLists.find(l => l.id == list.id)
+        if (userList) {
+            userList.name = list.name
+            userList.emoji = list.emoji
+            if (this.filters.currentList) {
+                this.filters.currentList.name = list.name
+                this.filters.currentList.emoji = list.emoji
+            }
+        }
+      },
     closeEditFieldPopup() {
       this.$store.state.crmPage.showCustomFieldsModal = false;
       this.currentEditingField = null;
@@ -898,6 +971,7 @@ export default {
               break;
             }
             this.currentCell.column += 1;
+            this.scrollToFocusCell()
             if (
               this.visibleColumns.includes(
                 this.otherColumns[this.currentCell.column].key
@@ -913,6 +987,7 @@ export default {
               break;
             }
             this.currentCell.column -= 1;
+            this.scrollToFocusCell()
             if (
               this.visibleColumns.includes(
                 this.otherColumns[this.currentCell.column].key
@@ -923,13 +998,15 @@ export default {
           }
           break;
         case 'ArrowUp':
-          if (this.currentCell.row > 0) {
+            if (this.currentCell.row > 0) {
             this.currentCell.row -= 1;
+            this.scrollToFocusCell()
           }
           break;
         case 'ArrowDown':
-          if (this.currentCell.row < this.filteredCreators.length - 1) {
+            if (this.currentCell.row < this.filteredCreators.length - 1) {
             this.currentCell.row += 1;
+            this.scrollToFocusCell()
           }
           break;
       }
@@ -1423,7 +1500,8 @@ export default {
       if (index < this.creatorRecords.length - 1) {
         this.setCurrentContact(
           'setCurrentCreator',
-          this.creatorRecords[index + 1]
+          this.creatorRecords[index + 1],
+            index
         );
       }
     },
@@ -1432,7 +1510,8 @@ export default {
       if (index > 0) {
         this.setCurrentContact(
           'setCurrentCreator',
-          this.creatorRecords[index - 1]
+          this.creatorRecords[index - 1],
+            index
         );
       }
     },

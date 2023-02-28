@@ -168,7 +168,8 @@ class UserListsController extends Controller
         UserList::updateSortOrder(Auth::id());
         return response()->json([
             'status' => true,
-            'message' => 'List updated.'
+            'message' => 'List updated.',
+            'data' => $list
         ], 200);
     }
 }

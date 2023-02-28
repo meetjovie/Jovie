@@ -160,7 +160,8 @@
 
     <template v-for="(column, columnIndex) in otherColumns" :key="row">
       <DataGridCell
-        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+          @mouseover="setCurrentCell(columnIndex)"
         v-if="column.custom"
         :visibleColumns="visibleColumns"
         :settings="settings"
@@ -181,7 +182,8 @@
         v-model="creator.crm_record_by_user[column.key]"
         :row="row" />
       <DataGridCell
-        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+          @mouseover="setCurrentCell(columnIndex)"
         v-else-if="column.meta"
         :visibleColumns="visibleColumns"
         :settings="settings"
@@ -206,7 +208,8 @@
         v-model="creator.meta[column.key]"
         :row="row" />
       <DataGridCell
-        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+          @mouseover="setCurrentCell(columnIndex)"
         v-else
         :visibleColumns="visibleColumns"
         :settings="settings"
@@ -258,6 +261,10 @@ export default {
   },
   mounted() {},
   methods: {
+      setCurrentCell(columnIndex) {
+          this.currentCell.row = this.row
+          this.currentCell.column = columnIndex
+      },
     updateCreatorLists({ list, add = false }) {
       if (add) {
         this.creator.lists.push(list);

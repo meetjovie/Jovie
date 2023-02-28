@@ -12,7 +12,10 @@
             class="rounded-md bg-white shadow-lg dark:bg-jovieDark-900 dark:text-jovieDark-100">
             <div class="p-2">
               <vue-tailwind-datepicker
-                :formatter="formatter"
+                  :config="{
+                    time: false,
+                    format: 'YYYY-MM-DD'
+                  }"
                 as-single
                 class=""
                 no-input
@@ -62,7 +65,9 @@ export default {
   watch: {
     date: function (val, old) {
       if (old.length) {
-        this.$emit('update:modelValue', val[0]);
+          const dateTimeString = val[0];
+          const datePart = dateTimeString.substring(0, 10);
+          this.$emit('update:modelValue', datePart);
       }
     },
   },
