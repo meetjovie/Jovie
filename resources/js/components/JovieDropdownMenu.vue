@@ -30,9 +30,10 @@
             <div v-if="searchable" class="sticky top-0 px-1">
               <MenuItem
                 as="div"
-                class="border border-slate-200 dark:border-jovieDark-border">
+                class="border-b border-slate-200 dark:border-jovieDark-border">
                 <div class="relative flex items-center">
                   <input
+                    tabindex="0"
                     ref="menuSearchInput"
                     v-model="searchQuery"
                     :placeholder="searchText"
@@ -50,13 +51,14 @@
             </div>
 
             <div
-              class="overflow-clip border-t border-slate-200 px-2 dark:border-jovieDark-border">
+              class="overflow-clip border-slate-200 px-2 dark:border-jovieDark-border">
               <div class="" v-if="items">
-                <template v-for="item in filteredItems" :key="item.name">
+                <template v-for="item in filteredItems" :key="item[nameKey]">
                   <router-link v-if="item.route" :to="item.route">
                     <DropdownMenuItem
-                      :name="item.name"
+                      :name="item[nameKey]"
                       :icon="item.icon"
+                      :color="item.color"
                       :emoji="item.emoji"
                       :numbered="numbered"
                       :shortcutKey="item.shortcutKey"
@@ -86,7 +88,7 @@
                         <div v-else></div>
 
                         <div class="text-xs font-normal tracking-wider">
-                          {{ item.name }}
+                          {{ item[nameKey] }}
                         </div>
                       </div>
                     </div>
@@ -122,8 +124,8 @@
                   v-slot="{ active }"
                   :class="{ 'text-slate-700': active }"
                   v-if="searchQuery"
-                  :disabled="!searchQuery"
-                  @click="searchQuery = ''"
+                  disabled
+                  @click.prevent="searchQuery = ''"
                   class="group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200">
                   <div class="mx-auto flex items-center text-center">
                     <div
@@ -154,9 +156,13 @@ import {
 } from '@headlessui/vue';
 import {
   ChevronDownIcon,
+  ChevronUpIcon,
   CheckIcon,
   XMarkIcon,
+  EyeSlashIcon,
+  PencilIcon,
   CogIcon,
+  TrashIcon,
   BellIcon,
   UserIcon,
   CreditCardIcon,
@@ -172,10 +178,14 @@ export default {
     GlassmorphismContainer,
     TransitionRoot,
     Menu,
+    EyeSlashIcon,
+    PencilIcon,
+    ChevronUpIcon,
     XMarkIcon,
     MenuItem,
     ChevronDownIcon,
     CheckIcon,
+    TrashIcon,
     Float,
     MenuButton,
     MenuItems,
@@ -254,11 +264,17 @@ export default {
       type: Number,
       required: false,
     },
+    nameKey: {
+      type: String,
+      default: 'name',
+    },
   },
   computed: {
     filteredItems() {
       return this.items.filter((item) =>
-        item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        item[this.nameKey]
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase())
       );
     },
   },
@@ -267,9 +283,9 @@ export default {
       this.$emit('itemClicked', item);
     },
     createItem() {
-        console.log('this.searchQuery');
-        console.log(this.searchQuery);
-        this.$emit('createItem', this.searchQuery);
+      console.log('this.searchQuery');
+      console.log(this.searchQuery);
+      this.$emit('createItem', this.searchQuery);
     },
     focusMenuSearch() {
       this.$nextTick(() => {

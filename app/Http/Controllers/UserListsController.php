@@ -44,7 +44,7 @@ class UserListsController extends Controller
                     'message' => 'Order updated'
                 ], 202);
             }
-            UserList::updateSortOrder($id, Auth::id(), $newIndex, $oldIndex);
+            UserList::updateSortOrder(Auth::id(), $newIndex, $oldIndex, $id);
             return response()->json([
                 'status' => true,
                 'message' => 'Order updated'
@@ -126,7 +126,7 @@ class UserListsController extends Controller
         }
         $deleted = $list->delete();
         if ($deleted) {
-            UserList::updateSortOrder(null, Auth::id());
+            UserList::updateSortOrder(Auth::id());
             return response()->json([
                 'status' => true,
                 'message' => 'List deleted.'
@@ -165,7 +165,7 @@ class UserListsController extends Controller
             'emoji' => 'sometimes|nullable|string'
         ]);
         $list->update($data);
-        UserList::updateSortOrder(null, Auth::id());
+        UserList::updateSortOrder(Auth::id());
         return response()->json([
             'status' => true,
             'message' => 'List updated.'

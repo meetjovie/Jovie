@@ -23,9 +23,15 @@
             height="12px"
             :icon="socialicon" />
         </div>
+        <div
+          v-if="currency"
+          class="opacity/50 pointer-events-none absolute inset-y-0 -top-8 left-0 z-20 flex items-center pl-3">
+          <CurrencyDollarIcon
+            class="h-3 w-3 text-slate-400 dark:text-jovieDark-400" />
+        </div>
         <input
           :autocomplete="autocomplete"
-          :type="type"
+          :type="type === 'date' ? 'text' : type"
           :name="name"
           :id="id"
           :v-focus="focused"
@@ -34,7 +40,7 @@
           @blur="$emit('blur')"
           @input="$emit('update:modelValue', $event.target.value)"
           @change="$emit('updateModelValue', $event.target.value)"
-          class="input-field disable:cursor-none h-8 w-full rounded border border-slate-300 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50 dark:border-jovieDark-border/0 dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800 dark:focus:border-indigo-400 dark:group-hover:border-jovieDark-border dark:group-hover:bg-jovieDark-800"
+          class="input-field disable:cursor-none h-8 w-full rounded border border-slate-300 border-opacity-0 py-2 px-2 leading-none text-slate-700 placeholder-transparent outline-none transition focus:border-indigo-500 group-hover:border-opacity-100 group-hover:bg-slate-50 dark:border-jovieDark-border/0 dark:bg-jovieDark-900 dark:text-jovieDark-100 dark:hover:bg-jovieDark-800 dark:focus:border-indigo-400 dark:group-hover:border-jovieDark-border dark:group-hover:bg-jovieDark-800"
           :class="[
             icon ? 'pl-4' : '',
             { 'rounded-r-md': rounded == 'right' },
@@ -51,7 +57,7 @@
             { 'pr-18': action2 },
             { 'pr-14': action || isCopyable },
           ]"
-          :placeholder="label" />
+          :placeholder="type == 'date' ? 'mm/dd/yyyy' : label" />
         <div class="absolute inset-y-0 right-0 flex items-center pr-3">
           <div
             v-if="action && (modelValue || value)"
@@ -68,6 +74,15 @@
             <component
               :is="action2"
               class="hidden h-5 w-5 cursor-pointer text-slate-400 dark:text-jovieDark-600 dark:active:text-slate-100 dark:group-hover/action:text-slate-400" />
+          </div>
+          <div v-if="type == 'date'" class="group/action px-1">
+            <JovieDatePicker
+              :value="modelValue"
+              @update:modelValue="
+                $emit('update:modelValue', $event);
+                $emit('blur');
+              "
+              class="isolate z-50" />
           </div>
           <div v-if="loader" class="pointer-events-none transition-all">
             <JovieSpinner />
@@ -134,6 +149,7 @@
 </template>
 
 <script>
+import JovieDatePicker from '../components/JovieDatePicker.vue';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import {
@@ -145,12 +161,14 @@ import {
   ChatBubbleLeftEllipsisIcon,
   PhoneIcon,
   LinkIcon,
+  CurrencyDollarIcon,
   EnvelopeIcon,
   PhotoIcon,
   MapPinIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
   ExclamationCircleIcon,
+  CalendarDaysIcon,
   TagIcon,
   UserIcon,
   UsersIcon,
@@ -161,10 +179,15 @@ import {
   CheckCircleIcon,
   EllipsisVerticalIcon,
 } from '@heroicons/vue/24/solid';
+import VueTailwindDatepicker from 'vue-tailwind-datepicker';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import { Float } from '@headlessui-float/vue';
+import GlassmorphismContainer from './GlassmorphismContainer.vue';
 export default {
   name: 'InputGroup',
   data() {
     return {
+      open: false,
       itemCopied: false,
     };
   },
@@ -244,6 +267,10 @@ export default {
     socialicon: {
       type: String,
     },
+    currency: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     EnvelopeIcon,
@@ -255,12 +282,20 @@ export default {
     LinkIcon,
     MagnifyingGlassIcon,
     PhotoIcon,
+    GlassmorphismContainer,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    Float,
     MapPinIcon,
+    JovieDatePicker,
     ArrowTrendingUpIcon,
     ArrowTrendingDownIcon,
     TagIcon,
     UserIcon,
+    CurrencyDollarIcon,
     SocialIcons,
+    CalendarDaysIcon,
     ClipboardDocumentIcon,
     CheckCircleIcon,
     UsersIcon,
@@ -268,6 +303,7 @@ export default {
     ArrowSmallUpIcon,
     ArrowSmallDownIcon,
     BriefcaseIcon,
+    VueTailwindDatepicker,
     JovieSpinner,
     PhoneIcon,
     ClipboardDocumentCheckIcon,

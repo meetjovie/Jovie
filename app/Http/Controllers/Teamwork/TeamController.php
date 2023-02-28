@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teamwork;
 
 use App\Jobs\DefaultCrm;
+use App\Models\FieldAttribute;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -58,12 +59,21 @@ class TeamController extends Controller
             'owner_id' => $request->user()->getKey(),
         ]);
         $request->user()->attachTeam($team);
-        $request->user()->switchTeam($team);
 
         if ($request->user()) {
             $team->credits = 10;
             $team->save();
             DefaultCrm::dispatch($request->user()->id, $team->id);
+            foreach (FieldAttribute::DEFAULT_FIELDS as $k => $field) {
+                FieldAttribute::query()->updateOrCreate([
+                    'field_id' => $field['id'],
+                    'user_id' => $request->user()->id,
+                    'team_id' => $team->id,
+                ], [
+                    'type' => 'default',
+                    'order' => $k
+                ]);
+            }
         }
         return response([
             'status' => true,

@@ -80,7 +80,7 @@
                     :items="profileMenuItems">
                     <template #triggerButton>
                       <img
-                        class="inline-block aspect-square h-6 w-6 rounded-full border border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
+                        class="inline-block aspect-square h-6 w-6 rounded-full border-2 border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
                         :src="
                           $store.state.AuthState.user.profile_pic_url ??
                           $store.state.AuthState.user.default_image
@@ -117,15 +117,17 @@
                           </router-link>
                         </div>
                       </div>
-
-                      <router-link v-if="currentUser.is_admin" to="/admin">
-                        <DropdownMenuItem :name="Admin" icon="ChartBarIcon" />
-                      </router-link>
                     </template>
 
                     <template #menuBottom>
+                      <router-link v-if="currentUser.is_admin" to="/admin">
+                        <DropdownMenuItem
+                          name="Admin Dashboard"
+                          icon="ChartBarIcon" />
+                      </router-link>
                       <DropdownMenuItem
                         shortcutKey="?"
+                        shortcutSequence
                         @click="toggleShowSupportModal()"
                         name="Get Help"
                         icon="ChatBubbleLeftIcon" />

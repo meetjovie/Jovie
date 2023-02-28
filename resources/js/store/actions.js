@@ -2,6 +2,7 @@ import userService from "../services/api/user.service";
 import AuthService from "../services/auth/auth.service";
 import router from "../router";
 import creatorService from "../services/api/creator.service";
+import UserService from "../services/api/user.service";
 
 export default {
 
@@ -102,6 +103,114 @@ export default {
             }).catch(error => {
                 return reject(error)
             })
+        })
+    },
+
+    async sortFields(context, payload) {
+        UserService.sortFields(
+            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, listId: payload.listId, hide: payload.hide },
+            payload.itemId
+        )
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'success',
+                        duration: 15000,
+                        title: 'Successful',
+                        text: response.message,
+                    });
+                } else {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'error',
+                        duration: 15000,
+                        title: 'Error',
+                        text: response.message,
+                    });
+                    // show toast error here later
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status == 422) {
+                    self.errors = error.data.errors;
+                    if (payload.self.errors.field[0]) {
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: payload.self.errors.field[0],
+                        });
+                    }
+                }
+            })
+            .finally((response) => {});
+    },
+
+    async toggleFieldHide(context, payload) {
+        UserService.toggleFieldHide(
+            { listId: payload.listId, hide: payload.hide, custom: payload.custom },
+            payload.itemId
+        )
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                } else {
+
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status == 422) {
+                    payload.self.errors = error.data.errors;
+                    if (payload.self.errors.field[0]) {
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: payload.self.errors.field[0],
+                        });
+                    }
+                }
+            })
+            .finally((response) => {});
+    },
+    async deleteField(context, payload) {
+        return new Promise((resolve, reject) => {
+            UserService.deleteField(payload.itemId)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: response.message,
+                        });
+                    } else {
+
+                    }
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status == 422) {
+                        payload.self.errors = error.data.errors;
+                        if (payload.self.errors.field[0]) {
+                            payload.self.$notify({
+                                group: 'user',
+                                type: 'success',
+                                duration: 15000,
+                                title: 'Successful',
+                                text: payload.self.errors.field[0],
+                            });
+                        }
+                    }
+                })
+                .finally((response) => {
+                    return resolve()
+                });
         })
     }
 }

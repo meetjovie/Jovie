@@ -6,7 +6,7 @@
     <div
       class="relative flex items-center border-b border-slate-300 dark:border-jovieDark-border">
       <input
-        v-focus="true"
+        tabindex="0"
         @input="$emit('search-query', $event.target.value)"
         ref="searchInput"
         :v-model="searchBox.query"
@@ -59,7 +59,15 @@
               </div>
               <div v-else></div>
 
-              <div class="text-xs font-normal tracking-wider">{{ name }}</div>
+              <div
+                class="text-xs font-normal tracking-wider"
+                :class="{
+                  'text-red-500': color === 'text-red-500',
+                  'text-slate-600 dark:text-jovieDark-200': !color,
+                  [color]: color,
+                }">
+                {{ name }}
+              </div>
             </div>
             <div class="flex">
               <KBShortcut
@@ -99,10 +107,9 @@
 <script>
 import { ref } from 'vue';
 import KBShortcut from './KBShortcut.vue';
-const focus = {
-  mounted: (el) => el.focus(),
-};
+
 import {
+  PencilIcon,
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,
   ChartBarIcon,
@@ -176,6 +183,7 @@ export default {
     ChevronDownIcon,
     CloudArrowUpIcon,
     PlusIcon,
+    PencilIcon,
     BriefcaseIcon,
     NoSymbolIcon,
     StarIcon,
@@ -258,7 +266,7 @@ export default {
       required: false,
       default: false,
     },
-    shortuctSequence: {
+    shortcutSequence: {
       type: Boolean,
       required: false,
       default: false,

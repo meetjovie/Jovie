@@ -17,4 +17,18 @@ export default {
   theme: 'light',
   chromeExtensionInstalled: false,
   jovieVersion: '0.0.9',
+  crmPage: {
+    stages: [],
+    networks: [],
+    showCustomFieldsModal: false,
+    currentCustomField: null,
+    currentContact: null,
+    currentRow: null,
+    currentColumn: null,
+    currentCell: {
+      row: 0,
+      column: 0,
+    },
+  },
+  currentlyDraggedCreator: null,
 };

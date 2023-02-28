@@ -39,6 +39,7 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <MenuItem
+                @drop="$emit('onListDrop', element.id)"
               @click="$emit('setFilterList', element.id)"
               v-slot="{ active }">
               <div
@@ -486,6 +487,7 @@ export default {
     disableEditName(item) {
       item.editName = false;
       item.name = this.currentEditingList.name;
+      this.currentEditingList = null;
     },
     editList(item) {
       this.currentEditingList = JSON.parse(JSON.stringify(item));
@@ -529,6 +531,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -572,6 +576,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -627,6 +633,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -697,6 +705,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -736,6 +746,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -775,6 +787,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -826,7 +840,7 @@ export default {
       console.log(this.currentEditingList);
       if (this.menuName == 'Lists' && this.currentEditingList) {
         let enabledList = this.menuItems.find(
-          (list) => (this.currentEditingList.id = list.id)
+          (list) => (this.currentEditingList.id === list.id)
         );
         console.log(enabledList);
         if (enabledList) {
