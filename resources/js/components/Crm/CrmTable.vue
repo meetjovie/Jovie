@@ -927,8 +927,6 @@ import {
   UserIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/solid';
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
 import StarRating from 'vue-star-rating';
 import ButtonGroup from '../../components/ButtonGroup.vue';
 import ContactContextMenu from '../../components/ContactContextMenu';
@@ -976,7 +974,6 @@ export default {
     EnvelopeIcon,
     ArrowSmallLeftIcon,
     Switch,
-    Datepicker,
     MenuButton,
     Float,
     StarIcon,

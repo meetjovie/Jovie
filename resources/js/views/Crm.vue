@@ -1257,7 +1257,7 @@ export default {
             })
           }
         })
-        .catch((error) {
+        .catch((error) => {
             console.log('error');
             console.log(error);
         })

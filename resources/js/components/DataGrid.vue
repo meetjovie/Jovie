@@ -541,8 +541,6 @@ import {
   UserIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/solid';
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
 import ImportService from './../services/api/import.service';
 import ButtonGroup from './ButtonGroup.vue';
 import DataGridColumnHeader from './DataGridColumnHeader.vue';
@@ -583,7 +581,6 @@ export default {
     EnvelopeIcon,
     ArrowSmallLeftIcon,
     Switch,
-    Datepicker,
     MenuButton,
     Float,
     StarIcon,
