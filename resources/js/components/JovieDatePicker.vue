@@ -27,6 +27,13 @@
     </Float>
   </Popover>
 </template>
+<script setup>
+import { ref } from 'vue';
+const formatter = ref({
+  date: 'DD MMM YYYY',
+  month: 'MMM',
+});
+</script>
 <script>
 //@ts-check
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid';

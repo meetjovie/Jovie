@@ -156,6 +156,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -223,6 +225,8 @@ export default {
           }
         })
         .catch((error) => {
+            console.log('error');
+            console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({

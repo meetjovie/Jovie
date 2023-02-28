@@ -168,7 +168,9 @@
         :currentContact="currentContact"
         :creator="creator"
         :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex ? `active_cell_${currentCell.row}_${currentCell.column}` : false
+          currentCell.row == row && currentCell.column == columnIndex
+            ? `active_cell_${currentCell.row}_${currentCell.column}`
+            : false
         "
         :currentCell="currentCell"
         :columnIndex="columnIndex"
@@ -188,7 +190,9 @@
         :currentContact="currentContact"
         :creator="creator"
         :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex ? `active_cell_${currentCell.row}_${currentCell.column}` : false
+          currentCell.row == row && currentCell.column == columnIndex
+            ? `active_cell_${currentCell.row}_${currentCell.column}`
+            : false
         "
         @update:currentCell="handleCellUpdate"
         :currentCell="currentCell"
@@ -212,7 +216,9 @@
         :currentContact="currentContact"
         :creator="creator"
         :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex ? `active_cell_${currentCell.row}_${currentCell.column}` : false
+          currentCell.row == row && currentCell.column == columnIndex
+            ? `active_cell_${currentCell.row}_${currentCell.column}`
+            : false
         "
         @update:currentCell="handleCellUpdate"
         :currentCell="currentCell"
