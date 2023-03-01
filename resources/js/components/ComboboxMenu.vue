@@ -97,6 +97,7 @@ import {
   UserGroupIcon,
   UserIcon,
   XMarkIcon,
+  PhoneIcon,
 } from '@heroicons/vue/24/solid';
 import {
   Combobox,
@@ -141,6 +142,7 @@ export default {
     UserGroupIcon,
     UserIcon,
     XMarkIcon,
+    PhoneIcon,
   },
   props: {
     items: {

@@ -29,6 +29,13 @@ class CustomField extends Model
             'description' => 'A number'
         ],
         [
+            'id' => 'phone',
+            'name' => 'Phone',
+            'type' => 'Phone',
+            'icon' => 'PhoneIcon',
+            'description' => 'A phone number'
+        ],
+        [
             'id' => 'currency',
             'name' => 'Currency',
             'type' => 'Currency',
