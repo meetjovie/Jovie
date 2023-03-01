@@ -12,6 +12,8 @@ class CreatorNote extends Model
     protected $fillable = [
         'user_id',
         'creator_id',
+        'crm_id',
+        'team_id',
         'note',
     ];
 

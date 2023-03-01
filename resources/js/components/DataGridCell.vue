@@ -174,7 +174,7 @@ export default {
   },
   methods: {
     updateData(value = null) {
-      setTimeout(() => {
+      this.nextTick(() => {
         this.$emit('update:modelValue', this.modelValue);
         if (this.column.meta) {
           this.$emit('updateCrmMeta', this.creator);
@@ -190,7 +190,7 @@ export default {
             value: value ?? this.modelValue,
           });
         }
-      }, 500);
+      });
     },
     handleInput(event) {
       const dateRegex =

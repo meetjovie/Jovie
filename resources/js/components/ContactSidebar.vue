@@ -561,7 +561,7 @@
         <TextAreaInput
           ref="noteInput"
           v-model="creator.note"
-          @blur="updateCreatorNote" />
+          @blur="updateNote" />
       </div>
     </div>
     <div class="mx-auto h-full items-center py-2" v-else-if="sidebarLoading">
@@ -810,6 +810,11 @@ export default {
     };
   },
   methods: {
+      updateNote() {
+          this.$nextTick(() => {
+              this.$emit('updateCrmCreatorNote', {creator_id: this.creator.id, note: this.creator.note, crm_id: this.creator.crm_record_by_user.id})
+          })
+      },
     sortFields(e, listId = '') {
       this.$store.dispatch('sortFields', {
         self: this,
@@ -1068,45 +1073,6 @@ export default {
     },
     resetImage() {
       this.imageLoaded = true;
-    },
-    updateCreatorNote() {
-      UserService.updateCreatorNote(this.creator.id, this.creator.note)
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: response.message,
-            });
-          } else {
-            this.$notify({
-              group: 'user',
-              type: 'success',
-              duration: 15000,
-              title: 'Successful',
-              text: response.message,
-            });
-          }
-        })
-        .catch((error) => {
-            console.log('error');
-            console.log(error);
-          error = error.response;
-          if (error.status == 422) {
-            this.errors = error.data.errors;
-            this.$notify({
-              group: 'user',
-              type: 'error',
-              duration: 15000,
-              title: 'Error',
-              text: Object.values(error.data.errors)[0][0],
-            });
-          }
-        })
-        .finally((response) => {});
     },
     editSocialNetworkURL(network, creator) {
       console.log(network);

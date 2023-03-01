@@ -597,6 +597,7 @@
           <aside
             class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
+              @updateCrmCreatorNote="updateCrmCreatorNote"
               @updateCrmMeta="updateCrmMeta"
               @updateCreator="updateCreator"
               @getHeaders="getHeaders"
@@ -1322,6 +1323,45 @@ export default {
         }
       });
     },
+      updateCrmCreatorNote(obj) {
+          UserService.updateCrmCreatorNote(obj.creator_id, obj.note, obj.crm_id)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  } else {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  }
+              })
+              .catch((error) => {
+                  console.log('error');
+                  console.log(error);
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: Object.values(error.data.errors)[0][0],
+                      });
+                  }
+              })
+              .finally((response) => {});
+      },
     updateCrmMeta(creator = null) {
       if (creator == null) {
         creator = this.currentContact;

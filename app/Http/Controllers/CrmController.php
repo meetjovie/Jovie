@@ -383,12 +383,13 @@ class CrmController extends Controller
         ], 200);
     }
 
-    public function updateCreatorNote(Request $request, $id)
+    public function updateCrmCreatorNote(Request $request, $id)
     {
         $request->validate([
-            'note' => 'required'
+            'note' => 'required',
+            'creator_id' => 'required'
         ]);
-        CreatorNote::updateOrCreate(['user_id' => Auth::id(), 'creator_id' => $id], ['note' => $request->note]);
+        CreatorNote::updateOrCreate(['user_id' => Auth::id(), 'creator_id' => $request->creator_id, 'team_id' => Auth::user()->currentTeam->id, 'crm_id' => $id], ['note' => $request->note]);
         return response()->json([
             'status' => true,
             'message' => 'Note added'

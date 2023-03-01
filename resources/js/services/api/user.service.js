@@ -148,8 +148,8 @@ export default {
   crmCounts() {
     return axios.get(`${baseApiUrl}/crm-counts`);
   },
-  updateCreatorNote(creatorId, note) {
-    return axios.post(`${baseApiUrl}/update-creator-note/${creatorId}`, {note: note});
+  updateCrmCreatorNote(creatorId, note, crmId) {
+    return axios.post(`${baseApiUrl}/update-crm-creator-note/${crmId}`, {note: note, creator_id: creatorId});
   },
   updateCrmMeta(crmId, meta) {
     return axios.post(`${baseApiUrl}/update-crm-meta/${crmId}`, {meta: meta});
