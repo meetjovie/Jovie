@@ -599,6 +599,7 @@ class Creator extends Model
             $creator->tags = $creatorAccessor->getTagsAttribute($creator->tags);
 
             $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
+            $creator->linkedin_handler = $creatorAccessor->getLinkedinHandlerAttribute($creator->linkedin_handler);
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
             $creator->twitch_handler = $creatorAccessor->getTwitchHandlerAttribute($creator->twitch_handler);
             $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
@@ -730,6 +731,7 @@ class Creator extends Model
         $creator->tags = $creatorAccessor->getTagsAttribute($creator->tags);
 
         $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
+        $creator->linkedin_handler = $creatorAccessor->getLinkedinHandlerAttribute($creator->linkedin_handler);
         $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
         $creator->twitch_handler = $creatorAccessor->getTwitchHandlerAttribute($creator->twitch_handler);
         $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
