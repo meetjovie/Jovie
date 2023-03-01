@@ -271,6 +271,17 @@ class FieldAttribute extends Model
             'width' => '40',
             'type' => 'multi_select',
         ],
+        [
+            'id' => 12,
+            'name' => 'Notes',
+            'key' => 'note',
+            'icon' => 'ListBulletIcon',
+            'hide' => false,
+            'default' => true,
+            'breakpoint' => '2xl',
+            'width' => '40',
+            'type' => 'text',
+        ],
     ];
 
     const FULL_NAME_HEADER = [

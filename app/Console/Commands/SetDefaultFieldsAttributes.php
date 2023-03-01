@@ -15,7 +15,7 @@ class SetDefaultFieldsAttributes extends Command
      *
      * @var string
      */
-    protected $signature = 'attributes:default-fields';
+    protected $signature = 'attributes:default-fields {reset?}';
 
     /**
      * The console command description.
@@ -31,6 +31,7 @@ class SetDefaultFieldsAttributes extends Command
      */
     public function handle()
     {
+        $reset = $this->argument('reset');
         foreach (User::query()->with('teams.userLists', 'teams.customFields')->get() as $user) {
             foreach ($user->teams as $team) {
 
@@ -43,19 +44,31 @@ class SetDefaultFieldsAttributes extends Command
                 $fieldHeaders = array_merge($defaultHeaders, $customFields->toArray());
 
                 foreach ($fieldIds as $k => $fieldId) {
+                    $data = [
+                        'type' => is_numeric($fieldId) ? 'default' : 'custom',
+                    ];
+                    if (! $reset) {
+                        $data['order'] = $k;
+                    }
                     FieldAttribute::query()->updateOrCreate([
                         'field_id' => $fieldId,
                         'user_id' => $user->id,
                         'team_id' => $team->id,
-                    ], [
-                        'type' => is_numeric($fieldId) ? 'default' : 'custom',
-                        'order' => $k
-                    ]);
+                    ], $data);
                 }
 
                 if ($team->owner_id == $user->id) {
                     foreach ($team->userLists as $list) {
                         foreach ($fieldHeaders as $k => $fieldHeader) {
+                            $data = [
+                                'user_id' => $user->id,
+                                'team_id' => $team->id,
+                                'type' => is_numeric($fieldHeader['id']) ? 'default' : 'custom',
+                                'hide' => array_key_exists('hide', $fieldHeader) ? $fieldHeader['hide'] : false
+                            ];
+                            if (! $reset) {
+                                $data['order'] = $k;
+                            }
                             FieldAttribute::query()->updateOrCreate([
                                 'field_id' => $fieldHeader['id'],
                                 'user_list_id' => $list->id,

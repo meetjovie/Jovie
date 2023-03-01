@@ -207,6 +207,33 @@
         @blur="$emit('updateCrmMeta', creator)"
         v-model="creator.meta[column.key]"
         :row="row" />
+        <DataGridCell
+            :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+            @mouseover="setCurrentCell(columnIndex)"
+            v-else-if="column.default"
+            :visibleColumns="visibleColumns"
+            :settings="settings"
+            :currentContact="currentContact"
+            :creator="creator"
+            :cellActive="
+          currentCell.row == row && currentCell.column == columnIndex
+            ? `active_cell_${currentCell.row}_${currentCell.column}`
+            : false
+        "
+            @update:currentCell="handleCellUpdate"
+            :currentCell="currentCell"
+            :columnIndex="columnIndex"
+            :rowIndex="row"
+            :networks="networks"
+            :stages="stages"
+            :column="column"
+            :userLists="userLists"
+            @updateCreator="$emit('updateCreator', $event)"
+            @updateCrmMeta="$emit('updateCrmMeta', creator)"
+            @updateCreatorLists="updateCreatorLists"
+            @blur="$emit('updateCrmMeta', creator)"
+            v-model="creator[column.key]"
+            :row="row" />
       <DataGridCell
           :ref="`gridCell_${currentCell.row}_${columnIndex}`"
           @mouseover="setCurrentCell(columnIndex)"
