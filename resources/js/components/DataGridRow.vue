@@ -232,7 +232,7 @@
             @updateCrmMeta="$emit('updateCrmMeta', creator)"
             @updateCreatorLists="updateCreatorLists"
             @blur="$emit('updateCrmMeta', creator)"
-            v-model="creator[column.key]"
+            v-model="creator[column.key.split('.')[0]][column.key.split('.')[1]]"
             :row="row" />
       <DataGridCell
           :ref="`gridCell_${currentCell.row}_${columnIndex}`"

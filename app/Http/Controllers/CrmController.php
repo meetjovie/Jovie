@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exports\CrmExport;
 use App\Models\Creator;
 use App\Models\CreatorComment;
-use App\Models\CreatorNote;
 use App\Models\Crm;
 use App\Models\User;
 use App\Models\UserList;
@@ -380,18 +379,6 @@ class CrmController extends Controller
         return response()->json([
             'status' => true,
             'message' => ('Creators '.boolval($request->archived) ? 'archived.' : 'unarchived.')
-        ], 200);
-    }
-
-    public function updateCreatorNote(Request $request, $id)
-    {
-        $request->validate([
-            'note' => 'required'
-        ]);
-        CreatorNote::updateOrCreate(['user_id' => Auth::id(), 'creator_id' => $id], ['note' => $request->note]);
-        return response()->json([
-            'status' => true,
-            'message' => 'Note added'
         ], 200);
     }
 

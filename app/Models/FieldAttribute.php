@@ -273,8 +273,8 @@ class FieldAttribute extends Model
         ],
         [
             'id' => 12,
-            'name' => 'Notes',
-            'key' => 'note',
+            'name' => 'Description',
+            'key' => 'crm_record_by_user.description',
             'icon' => 'ListBulletIcon',
             'hide' => false,
             'default' => true,
