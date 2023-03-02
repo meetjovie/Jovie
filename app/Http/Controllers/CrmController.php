@@ -112,24 +112,29 @@ class CrmController extends Controller
 
     public function overview($id)
     {
-        $creator = Creator::where('id', $id)->with('crmRecordByUser')->has('crmRecordByUser')->first();
+        $creator = Creator::getCrmCreators(['crm_id' => $id])->first();
 
+        if ($creator) {
+            return collect([
+                'status' => true,
+                'creator' => $creator,
+                'networks' => Creator::NETWORKS,
+                'stages' => Crm::stages(),
+            ]);
+        }
         return collect([
-            'status' => true,
-            'creator' => $creator,
-            'networks' => Creator::NETWORKS,
-            'stages' => Crm::stages(),
+            'status' => false,
         ]);
     }
 
     public function updateOverviewCreator(Request $request, $id)
     {
         // update creator
-        Creator::updateCrmCreator($request, $id);
-
+        $data = Creator::updateCrmCreator($request, $id);
+        $creator = Creator::getCrmCreators(['crm_id' => $data['crm']->id])->first();
         return collect([
             'status' => true,
-            'data' => Creator::where('id', $id)->with('crmRecordByUser')->has('crmRecordByUser')->first(),
+            'data' => $creator,
         ]);
     }
 
@@ -143,6 +148,7 @@ class CrmController extends Controller
         if ($creator) {
             $comment = CreatorComment::create([
                 'user_id' => Auth::id(),
+                'team_id' => Auth::user()->currentTeam->id,
                 'creator_id' => $request->creator_id,
                 'comment' => $request->comment,
             ]);
@@ -164,7 +170,6 @@ class CrmController extends Controller
     {
         $comments = CreatorComment::with('user')
             ->where('creator_id', $creatorId)
-            ->where('user_id', Auth::id())
             ->latest();
         if ($request->limit) {
             $comments = $comments->limit($request->limit);

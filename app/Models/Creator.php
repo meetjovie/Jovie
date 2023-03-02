@@ -518,6 +518,10 @@ class Creator extends Model
             $creators = $creators->where('creators.id', $params['id'])->limit(1);
         }
 
+        if (isset($params['crm_id'])) {
+            $creators = $creators->where('crms.id', $params['crm_id'])->limit(1);
+        }
+
         if (isset($params['username'])) {
             $creators = $creators->where('creators.username', $params['username'])->limit(1);
         }
@@ -841,6 +845,10 @@ class Creator extends Model
                 ]);
             }
         }
+        return [
+            'crm' => $crm,
+            'creator' => $creator
+        ];
     }
 
     public function toSearchableArray()

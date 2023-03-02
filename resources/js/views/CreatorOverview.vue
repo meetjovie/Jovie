@@ -140,67 +140,71 @@
                       </dd>
                     </div>
                     <div class="sm:col-span-1">
-                      <dt class="text-sm font-medium text-slate-500">Stage</dt>
+                      <dt class="text-sm font-medium text-slate-500">Stage 123</dt>
                       <dd class="mt-1 text-sm text-slate-900">
-                        <Popover
-                          as="div"
-                          class="relative inline-block text-left">
-                          <PopoverButton
-                            class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">
-                            {{ creator.crm_record_by_user.stage }}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor">
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
-                            </svg>
-                          </PopoverButton>
-                          <transition
-                            enter-active-class="transition duration-100 ease-out"
-                            enter-from-class="transform scale-95 opacity-0"
-                            enter-to-class="transform scale-100 opacity-100"
-                            leave-active-class="transition duration-75 ease-in"
-                            leave-from-class="transform scale-100 opacity-100"
-                            leave-to-class="transform scale-95 opacity-0">
-                            <PopoverPanel
-                              class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-slate-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">
-                              <div class="">
-                                <div class="">
-                                  <button
-                                    class="group flex w-full items-center px-2 py-2 text-xs text-slate-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"
-                                    v-for="(stage, key) in stages"
-                                    @click="
-                                      updateCreator({
-                                        id: creator.id,
-                                        key: `crm_record_by_user.stage`,
-                                        value: key,
-                                      })
-                                    ">
-                                    <div class="mr-2 font-bold opacity-50">
-                                      {{ key + 1 }}
-                                    </div>
-                                    <div class="font-bold">
-                                      {{ stage }}
-                                    </div>
-                                  </button>
-                                </div>
-                              </div>
-                            </PopoverPanel>
-                          </transition>
-                        </Popover>
+                          <ContactStageMenu
+                              :creator="creator"
+                              :stages="stages"
+                              @updateCreator="updateCreator($event)" />
+<!--                        <Popover-->
+<!--                          as="div"-->
+<!--                          class="relative inline-block text-left">-->
+<!--                          <PopoverButton-->
+<!--                            class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">-->
+<!--                            {{ creator.crm_record_by_user.stage_name }}-->
+<!--                            <svg-->
+<!--                              xmlns="http://www.w3.org/2000/svg"-->
+<!--                              class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"-->
+<!--                              fill="none"-->
+<!--                              viewBox="0 0 24 24"-->
+<!--                              stroke="currentColor">-->
+<!--                              <path-->
+<!--                                stroke-linecap="round"-->
+<!--                                stroke-linejoin="round"-->
+<!--                                stroke-width="2"-->
+<!--                                d="M19 9l-7 7-7-7" />-->
+<!--                            </svg>-->
+<!--                          </PopoverButton>-->
+<!--                          <transition-->
+<!--                            enter-active-class="transition duration-100 ease-out"-->
+<!--                            enter-from-class="transform scale-95 opacity-0"-->
+<!--                            enter-to-class="transform scale-100 opacity-100"-->
+<!--                            leave-active-class="transition duration-75 ease-in"-->
+<!--                            leave-from-class="transform scale-100 opacity-100"-->
+<!--                            leave-to-class="transform scale-95 opacity-0">-->
+<!--                            <PopoverPanel-->
+<!--                              class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-slate-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">-->
+<!--                              <div class="">-->
+<!--                                <div class="">-->
+<!--                                  <button-->
+<!--                                    class="group flex w-full items-center px-2 py-2 text-xs text-slate-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"-->
+<!--                                    v-for="(stage, key) in stages"-->
+<!--                                    @click="-->
+<!--                                      updateCreator({-->
+<!--                                        id: creator.id,-->
+<!--                                        key: `crm_record_by_user.stage`,-->
+<!--                                        value: key,-->
+<!--                                      })-->
+<!--                                    ">-->
+<!--                                    <div class="mr-2 font-bold opacity-50">-->
+<!--                                      {{ key + 1 }}-->
+<!--                                    </div>-->
+<!--                                    <div class="font-bold">-->
+<!--                                      {{ stage }}-->
+<!--                                    </div>-->
+<!--                                  </button>-->
+<!--                                </div>-->
+<!--                              </div>-->
+<!--                            </PopoverPanel>-->
+<!--                          </transition>-->
+<!--                        </Popover>-->
                       </dd>
                     </div>
                     <div class="sm:col-span-1">
                       <dt class="text-sm font-medium text-slate-500">
                         Last contact
                       </dt>
-                      <dd class="mt-1 text-sm text-slate-900">3 days ago</dd>
+                      <dd class="mt-1 text-sm text-slate-900">{{ creator.crm_record_by_user.last_contacted }}</dd>
                     </div>
                     <div class="sm:col-span-1">
                       <dt class="text-sm font-medium text-slate-500">
@@ -275,7 +279,7 @@
                         <li
                           class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
                           <div class="flex w-0 flex-1 items-center">
-                           
+
                             <svg
                               class="h-5 w-5 flex-shrink-0 text-slate-400"
                               xmlns="http://www.w3.org/2000/svg"
@@ -322,9 +326,9 @@
                 Social Info
               </h2>
 
-             
+
              <div class="mt-6 flow-root">
-                                
+
                                 <div
                                     v-for="social in socials"
                                     :key="social.network"
@@ -338,7 +342,7 @@
                                             class="absolute flex h-full cursor-pointer items-center rounded-l border-r bg-indigo-700 px-4 text-white dark:border-jovieDark-border dark:bg-indigo-600"></div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
               <div class="justify-stretch mt-6 flex flex-col">
                 <button
                   type="button"
@@ -442,23 +446,22 @@ import CreatorTags from '../components/Creator/CreatorTags.vue';
 import StarRating from 'vue-star-rating';
 import CommentThread from '../components/CommentThread.vue';
 import CreatorHandles from '../components/Creator/CreatorHandles.vue';
-import store from '../store';
-import router from '../router';
 import UserService from '../services/api/user.service';
 import CreatorMediaGroup from '../components/TimelineMedia/CreatorMediaGroup';
 import CreatorMediaItem from '../components/TimelineMedia/CreatorMediaItem';
 import CreatorService from '../services/api/creator.service';
 import JovieSidebar from '../components/JovieSidebar.vue';
+import ContactStageMenu from '../components/ContactStageMenu.vue'
 
 export default {
   components: {
+      ContactStageMenu,
     CreatorMediaItem,
     JovieSidebar,
     CreatorMediaGroup,
     CreatorAvatar,
     SocialIcons,
     PlusIcon,
-    InputGroup,
     Tab,
     TabGroup,
     TabList,
@@ -516,9 +519,6 @@ export default {
       comments: [],
     };
   },
-  mounted() {
-    window.analytics.page(this.$route.name + ' - ' + this.$route.params.id);
-  },
   methods: {
     changeTab(index) {
       if (index == 3) {
@@ -570,6 +570,8 @@ export default {
           this.networks = response.networks;
           this.stages = response.stages;
           this.creator = response.creator;
+        } else {
+            this.$router.push('Contacts')
         }
       });
     },
@@ -634,6 +636,7 @@ export default {
     },
   },
   mounted() {
+      window.analytics.page(this.$route.name + ' - ' + this.$route.params.id);
     this.getCreatorOverview();
   },
 };
