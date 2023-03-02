@@ -569,6 +569,7 @@
           value: creator.crm_record_by_user.description,
           })
           " />
+          <span v-if="creator.crm_record_by_user.description_updated_by">Last update by: {{ creator.crm_record_by_user.description_updated_by }}</span>
       </div>
     </div>
     <div class="mx-auto h-full items-center py-2" v-else-if="sidebarLoading">
@@ -817,11 +818,6 @@ export default {
     };
   },
   methods: {
-      updateNote() {
-          this.$nextTick(() => {
-              this.$emit('updateCrmCreatorNote', {creator_id: this.creator.id, note: this.creator.note, crm_id: this.creator.crm_record_by_user.id})
-          })
-      },
     sortFields(e, listId = '') {
       this.$store.dispatch('sortFields', {
         self: this,

@@ -174,7 +174,7 @@ export default {
   },
   methods: {
     updateData(value = null) {
-      this.nextTick(() => {
+      this.$nextTick(() => {
         this.$emit('update:modelValue', this.modelValue);
         if (this.column.meta) {
           this.$emit('updateCrmMeta', this.creator);

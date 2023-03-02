@@ -805,6 +805,9 @@ class Creator extends Model
                 foreach ($v as $key => $value) {
                     $isColExist = Schema::hasColumn('crms', $key);
                     if ($isColExist) {
+                        if ($key == 'description') {
+                            $dataToUpdateForCrm['description_updated_by'] = Auth::user()->id;
+                        }
                         $dataToUpdateForCrm[$key] = $value;
                     } else {
                         $dataToUpdateForCustomFields[$key] = $value;
