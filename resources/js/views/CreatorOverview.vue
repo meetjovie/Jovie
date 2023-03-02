@@ -571,7 +571,7 @@ export default {
           this.stages = response.stages;
           this.creator = response.creator;
         } else {
-            this.$router.push('Contacts')
+            this.$router.push({name: 'Contacts'})
         }
       });
     },
