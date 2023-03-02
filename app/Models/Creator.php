@@ -487,7 +487,7 @@ class Creator extends Model
         $userId = $userId ?? Auth::id();
         $user = User::with('currentTeam')->where('id', $userId)->first();
         $creators = DB::table('creators')
-            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('description_updated.first_name as description_updated_by')
             ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
@@ -495,9 +495,8 @@ class Creator extends Model
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
-            })->leftJoin('creator_notes as cn', function ($join) use ($userId) {
-                $join->on('cn.creator_id', '=', 'crms.creator_id')
-                    ->where('cn.user_id', $userId);
+            })->leftJoin('users as description_updated', function ($join) use ($userId) {
+                $join->on('description_updated.id', '=', 'crms.description_updated_by')->select('first_name as description_updated_by');
             });
 
         if (isset($params['type']) && $params['type'] == 'archived') {
@@ -612,6 +611,8 @@ class Creator extends Model
             $creator->crm_record_by_user->id = $creator->crm_id;
             $creator->crm_record_by_user->user_id = $user->id;
             $creator->crm_record_by_user->team_id = $user->currentTeam->id;
+            $creator->crm_record_by_user->description = $creator->description;
+            $creator->crm_record_by_user->description_updated_by = $creator->description_updated_by;
             $creator->crm_record_by_user->creator_id = $creator->id;
             $creator->crm_record_by_user->last_contacted = $creator->last_contacted ? Carbon::make($creator->last_contacted)->toDateString() : null;
             $creator->crm_record_by_user->offer = $creator->offer;
@@ -639,6 +640,8 @@ class Creator extends Model
             unset($creator->stage);
             unset($creator->favourite);
             unset($creator->muted);
+            unset($creator->description);
+            unset($creator->description_updated_by);
 
             // have suggested offer and make instagram offer == suggester offer in case instagram
             // offer is null or 0, so we can use same model on frontend
@@ -671,7 +674,7 @@ class Creator extends Model
         $userId = $userId ?? Auth::id();
         $user = User::with('currentTeam')->where('id', $userId)->first();
         $creator = DB::table('creators')
-            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('description_updated.first_name as description_updated_by')
             ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
@@ -679,9 +682,8 @@ class Creator extends Model
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
-            })->leftJoin('creator_notes as cn', function ($join) use ($userId) {
-                $join->on('cn.creator_id', '=', 'crms.creator_id')
-                    ->where('cn.user_id', $userId);
+            })->leftJoin('users as description_updated', function ($join) use ($userId) {
+                $join->on('description_updated.id', '=', 'crms.description_updated_by');
             });
 
         if (!empty($params['username']) && !empty($params['network'])) {
@@ -743,6 +745,8 @@ class Creator extends Model
         $creator->crm_record_by_user = (object) [];
         $creator->crm_record_by_user->user_id = $user->id;
         $creator->crm_record_by_user->team_id = $user->currentTeam->id;
+        $creator->crm_record_by_user->description = $creator->description;
+        $creator->crm_record_by_user->description_updated_by = $creator->description_updated_by;
         $creator->crm_record_by_user->creator_id = $creator->id;
         $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
         $creator->crm_record_by_user->offer = $creator->offer;
@@ -770,6 +774,8 @@ class Creator extends Model
         unset($creator->stage);
         unset($creator->favourite);
         unset($creator->muted);
+        unset($creator->description);
+        unset($creator->description_updated_by);
 
         // have suggested offer and make instagram offer == suggester offer in case instagram
         // offer is null or 0, so we can use same model on frontend
