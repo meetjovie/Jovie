@@ -343,7 +343,7 @@
           leave-to="opacity-0 -translate-y-1/2">
           <div>
             <SocialInput
-              :socialMediaProfileUrl="socialMediaProfileUrl"
+              v-model="socialMediaProfileUrl"
               @finishImport="saveSocialNetworkURL"
               @saveSocialNetworkURL="saveSocialNetworkURL()"
               @cancelEdit="cancelEdit()"

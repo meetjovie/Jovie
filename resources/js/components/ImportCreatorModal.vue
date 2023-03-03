@@ -61,7 +61,7 @@
                       <div class="mt-2">
                         <SocialInput
                           :list="list"
-                          :socialMediaProfileUrl="socialMediaProfileUrl"
+                          v-model="socialMediaProfileUrl"
                           @finishImport="$emit('closeModal')" />
                       </div>
                     </div>

@@ -19,17 +19,17 @@
           class="group-hover:block"
           :class="[
             {
-              hidden: !selectedCreators.includes(creator.id),
+              hidden: !selectedCreatorsModel.includes(creator.id),
             },
             'block',
           ]">
           <form>
-            <CheckboxInput v-model="selectedCreators" :value="creator.id" />
+            <CheckboxInput v-model="selectedCreatorsModel" :value="creator.id" />
           </form>
         </span>
         <span
           class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
-          :class="[{ hidden: selectedCreators.includes(creator.id) }, 'block']">
+          :class="[{ hidden: selectedCreatorsModel.includes(creator.id) }, 'block']">
           {{ row + 1 }}
         </span>
       </div>
@@ -287,6 +287,16 @@ export default {
     XMarkIcon,
   },
   mounted() {},
+    computed: {
+        selectedCreatorsModel: {
+            get() {
+                return this.selectedCreators;
+            },
+            set(val) {
+                this.$emit('updateSelectedCreators', val);
+            },
+        },
+    },
   methods: {
       setCurrentCell(columnIndex) {
           this.currentCell.row = this.row

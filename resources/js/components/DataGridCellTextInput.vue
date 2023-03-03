@@ -51,7 +51,7 @@ export default {
       passedValidationMethods: [],
     };
   },
-  props: ['modelValue', 'placeholder', 'fieldId', 'dataType'],
+  props: ['modelValue', 'placeholder', 'fieldId', 'dataType', 'value'],
   emits: ['update:modelValue', 'blur'],
   methods: {
     onBlur() {

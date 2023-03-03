@@ -57,10 +57,17 @@ export default {
     Switch,
   },
   props: {
-    enabled: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
   },
+    computed: {
+        enabled: {
+            get() {
+                return this.modelValue;
+            },
+            set(val) {
+                this.$emit('update:modelValue', val);
+            },
+        },
+    },
 };
 </script>

@@ -2,7 +2,7 @@
   <Combobox as="div" class="h-60" v-model="selectedItem">
     <ComboboxInput
         @focusin="open = true"
-        @focusout="query = ''; open = false;"
+        @focusout="query = '';"
       class="w-full rounded-md border border-slate-200 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200"
       @change="query = $event.target.value"
       placeholder="Find a field type"

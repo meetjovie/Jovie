@@ -30,7 +30,7 @@
     </div>
     <ul v-if="showMenu && draggable" class="overflow-auto">
       <draggable
-        v-model="menuItems"
+        v-model="menuItemsList"
         group="lists"
         class="select-none overflow-y-scroll"
         ghost-class="ghost-card"
@@ -359,7 +359,7 @@
           placeholder="List Name"
           v-model="currentEditingList.name"
           class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
-        <ToggleGroup :enabled="currentEditingList.pinned" /><span
+        <ToggleGroup v-model="currentEditingList.pinned" /><span
           class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
           >Pinned</span
         >
@@ -752,15 +752,22 @@ export default {
     ToggleGroup,
     ArrowPathIcon,
   },
+    computed: {
+        menuItemsList: {
+            get() {
+                return this.menuItems;
+            },
+            set(val) {
+                this.$emit('updateMenuItems', val);
+            },
+        },
+    },
   watch: {
     menuItems(val) {
-      console.log(this.menuName);
-      console.log(this.currentEditingList);
       if (this.menuName == 'Lists' && this.currentEditingList) {
         let enabledList = this.menuItems.find(
           (list) => (this.currentEditingList.id === list.id)
         );
-        console.log(enabledList);
         if (enabledList) {
           this.enableEditName(enabledList);
         }
