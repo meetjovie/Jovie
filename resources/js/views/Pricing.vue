@@ -1,48 +1,47 @@
 <template>
-  <div class="">
+  <div class="py-6">
     <!-- Pricing with four tiers and toggle -->
-    <div class="bg-gradient-to-b from-slate-50 to-white">
-      <div class="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
-        <div class="sm:align-center sm:flex sm:flex-col">
-          <h1 class="text-5xl font-extrabold text-slate-900 sm:text-center">
-            Jovie Pricing
-          </h1>
-          <p class="mt-5 text-xl text-slate-500 sm:text-center">
-            Everything you need to scale your relationships.
+    <div
+      class="bg-gradient-to-b from-slate-50 to-white dark:from-jovieDark-800 dark:to-jovieDark-900">
+      <div class="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl text-center">
+          <h2
+            class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-300">
+            Pricing
+          </h2>
+          <p
+            class="mt-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-jovieDark-200 sm:text-5xl">
+            Pricing plans for teams of&nbsp;all&nbsp;sizes
           </p>
-
-          <div
-            class="relative mt-6 flex self-center rounded-lg bg-slate-200 py-0.5 px-2 sm:mt-8">
-            <SwitchGroup as="div" class="flex items-center">
-              <div class="flex items-center">
-                <Switch
-                  v-model="annualBilling"
-                  :class="annualBilling ? 'bg-slate-200' : 'bg-slate-200'"
-                  class="relative inline-flex h-14 w-96 items-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                  <span
-                    :class="annualBilling ? 'translate-x-0' : 'translate-x-48'"
-                    class="inline-block h-12 w-1/2 transform rounded-md bg-white shadow-sm transition-transform" />
-                  <div class="absolute mx-auto grid w-full grid-cols-2">
-                    <div
-                      :class="
-                        annualBilling ? 'text-slate-700' : 'text-slate-500'
-                      "
-                      class="text-sm font-medium focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
-                      Yearly Billing
-                    </div>
-                    <div
-                      :class="
-                        annualBilling ? 'text-slate-500' : 'text-slate-700'
-                      "
-                      class="text-sm font-medium text-slate-700 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-indigo-500 sm:w-auto sm:px-8">
-                      Monthly Billing
-                    </div>
-                  </div>
-                </Switch>
-              </div>
-            </SwitchGroup>
-          </div>
         </div>
+        <p
+          class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600 dark:text-jovieDark-300">
+          Choose an affordable plan that’s packed with incredible features like
+          Jovie AI.
+        </p>
+
+        <div class="mt-16 flex justify-center">
+          <RadioGroup
+            v-model="frequency"
+            class="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200 transition-all">
+            <RadioGroupLabel class="sr-only">Payment frequency</RadioGroupLabel>
+            <RadioGroupOption
+              as="template"
+              v-for="option in frequencies"
+              :key="option.value"
+              :value="option"
+              v-slot="{ checked }">
+              <div
+                :class="[
+                  checked ? 'bg-indigo-600 text-white' : 'text-gray-500',
+                  'cursor-pointer rounded-full py-1 px-2.5',
+                ]">
+                <span>{{ option.label }}</span>
+              </div>
+            </RadioGroupOption>
+          </RadioGroup>
+        </div>
+
         <div
           class="mx-auto mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-auto xl:max-w-5xl xl:grid-cols-3">
           <div
@@ -50,29 +49,46 @@
             :key="tier.name"
             class="divide-y divide-slate-200 rounded-lg shadow-sm"
             :class="[
-              { 'border-2 border-slate-400': tier.featured == true },
+              { 'border-2 border-indigo-400': tier.featured == true },
               'border border-slate-200',
             ]">
             <div class="p-6">
-              <h2
-                :class="[
-                  { 'text-sky-600': tier.color == 'sky' },
-                  { 'text-indigo-600': tier.color == 'indigo' },
-                  { 'text-pink-600': tier.color == 'pink' },
-                  { 'text-violet-600': tier.color == 'violet' },
-                  { 'text-red-600': tier.color == 'red' },
-                  'text-lg font-medium leading-6 text-slate-900',
-                ]"
-                class="text-lg font-medium leading-6">
-                {{ tier.name }}
-              </h2>
+              <div class="flex items-center justify-between gap-x-4">
+                <h3
+                  :id="tier.id"
+                  :class="[
+                    { 'text-sky-600': tier.color == 'sky' },
+                    { 'text-indigo-600': tier.color == 'indigo' },
+                    { 'text-pink-600': tier.color == 'pink' },
+                    { 'text-violet-600': tier.color == 'violet' },
+                    { 'text-red-600': tier.color == 'red' },
+                    'text-lg font-medium leading-6 text-slate-900',
+                  ]"
+                  class="text-lg font-medium leading-6">
+                  {{ tier.name }}
+                </h3>
+                <p
+                  v-if="tier.mostPopular"
+                  class="rounded-full bg-indigo-600/10 py-1 px-2.5 text-xs font-semibold leading-5 text-indigo-600 dark:bg-jovieDark-400/10">
+                  Most popular
+                </p>
+              </div>
               <p class="mt-4 text-sm text-slate-500">
                 {{ tier.description }}
               </p>
-              <p v-if="tier.name === 'Enterprise'" class="mt-4">
+              <p class="mt-6 flex items-baseline gap-x-1">
+                <span class="text-4xl font-bold tracking-tight text-gray-900"
+                  >${{ tier.price[frequency.value] }}</span
+                >
+                <span class="text-sm font-semibold leading-6 text-gray-600">{{
+                  frequency.priceSuffix
+                }}</span>
+              </p>
+              <!--    <p v-if="tier.name === 'Enterprise'" class="mt-4">
                 <span class="text-xs font-medium text-slate-500">Starts at</span
                 ><br />
-                <span class="-mt-2 text-4xl font-extrabold text-slate-900"
+                <span
+                  class="-mt-2 text-4xl font-extrabold text-slate-900 dark:text-jovieDark-300"
                   >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
                 >
                 {{ ' ' }}
@@ -82,9 +98,10 @@
                   >Annual billing only</span
                 >
               </p>
-              <p v-else-if="annualBilling" class="mt-4">
+              <p v-else-if="[frequency.value] == annually" class="mt-4">
                 <span class="text-xs font-medium text-slate-500"></span><br />
-                <span class="text-4xl font-extrabold text-slate-900"
+                <span
+                  class="text-4xl font-extrabold text-slate-900 dark:text-jovieDark-300"
                   >${{ (tier.priceAnnual / 12).toFixed(0) }}</span
                 >
                 {{ ' ' }}
@@ -105,7 +122,8 @@
               </p>
               <p v-else class="mt-4">
                 <span class="text-xs font-medium text-slate-500"></span><br />
-                <span class="text-4xl font-extrabold text-slate-900"
+                <span
+                  class="text-4xl font-extrabold text-slate-900 dark:text-jovieDark-300"
                   >${{ tier.priceMonthly }}</span
                 >
                 {{ ' ' }}
@@ -119,7 +137,7 @@
                 <span class="text-sm font-medium text-slate-500"
                   >Billed monthly</span
                 >
-              </p>
+              </p> -->
               <router-link
                 v-if="tier.name == 'Enterprise'"
                 :to="tier.href"
@@ -193,11 +211,11 @@
   </div>
 
   <!-- FAQ -->
-  <div class="mt-4 bg-gradient-to-b from-white to-slate-50">
+  <div class="mt-4">
     <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:py-24 lg:px-8">
       <div class="mx-auto max-w-3xl divide-y-2 divide-slate-200">
         <h2
-          class="text-center text-3xl font-extrabold text-slate-900 sm:text-4xl">
+          class="text-center text-3xl font-extrabold text-slate-900 dark:text-jovieDark-300 sm:text-4xl">
           Frequently asked questions
         </h2>
         <dl class="mt-6 space-y-6 divide-y divide-slate-200">
@@ -236,6 +254,17 @@
   <!-- CTA -->
   <HomeCTA4 />
 </template>
+<script setup>
+import { ref } from 'vue';
+import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
+
+const frequencies = [
+  { value: 'monthly', label: 'Monthly', priceSuffix: '/mo' },
+  { value: 'annually', label: 'Annually', priceSuffix: '/yr' },
+];
+
+const frequency = ref(frequencies[0]);
+</script>
 
 <script>
 import { ref } from 'vue';
@@ -257,6 +286,7 @@ import {
   GlobeEuropeAfricaIcon,
   LifebuoyIcon,
   UserIcon,
+  SparklesIcon,
   UsersIcon,
   UserPlusIcon,
   CloudArrowDownIcon,
@@ -274,11 +304,15 @@ const tiers = [
     href: 'signup',
     color: 'pink',
     featured: false,
-    priceMonthly: 5,
-    priceAnnual: 48,
+    price: { monthly: 10, annually: 96 },
+    priceMonthly: 10,
+    priceAnnual: 96,
     description: 'For freelancers',
     features: [
-      { name: '500 contact credits/month', icon: 'UserGroupIcon' },
+      { name: '500 Contacts', icon: 'UserGroupIcon' },
+
+      { name: '50 Jovie AI Credits', icon: 'SparklesIcon' },
+
       { name: 'Unlimited lists', icon: 'ListBulletIcon' },
       { name: '1 User', icon: 'UserIcon' },
       {
@@ -289,17 +323,20 @@ const tiers = [
 
       { name: 'Blazing fast CRM Search', icon: 'BoltIcon' },
     ],
+    mostPopular: false,
   },
   {
     name: 'Team',
     color: 'sky',
     href: 'signup',
     featured: true,
-    priceMonthly: 10,
-    priceAnnual: 96,
+    priceMonthly: 24,
+    priceAnnual: 192,
+    price: { monthly: 24, annually: 192 },
     description: 'Built for startups and growing teams',
     features: [
-      { name: '2,500 contact credits/month', icon: 'UserGroupIcon' },
+      { name: 'Unlimited Contacts', icon: 'UserGroupIcon' },
+      { name: '100 Jovie AI Credits', icon: 'SparklesIcon' },
       { name: 'Unlimited lists', icon: 'ListBulletIcon' },
       { name: 'Up to 50 users', icon: 'UsersIcon' },
       {
@@ -313,6 +350,7 @@ const tiers = [
         icon: 'ChatBubbleBottomCenterIcon',
       },
     ],
+    mostPopular: true,
   },
   {
     name: 'Enterprise',
@@ -320,14 +358,15 @@ const tiers = [
     color: 'violet',
     featured: false,
     priceMonthly: 'Annual Only',
-    priceAnnual: 240,
+    price: { monthly: 39, annually: 468 },
     description: 'For large teams and enterprises',
     features: [
       /*  {
         name: `Prospecting engine - Search ${store.state.creatorsDBCount}+ social media profiles`,
         icon: 'CircleStackIcon',
       }, */
-      { name: '10,000 contact credits/month', icon: 'UserGroupIcon' },
+      { name: 'Unlimited Contacts', icon: 'UserGroupIcon' },
+      { name: '500 Jovie AI Credits', icon: 'SparklesIcon' },
       { name: 'Unlimited lists', icon: 'ListBulletIcon' },
       { name: 'Unlimited users', icon: 'UsersIcon' },
       {
@@ -346,6 +385,7 @@ const tiers = [
       },
       { name: 'Dedicated support', icon: 'PhoneIcon' },
     ],
+    mostPopular: false,
   },
 ];
 const faqs = [
@@ -380,6 +420,7 @@ export default {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
+    SparklesIcon,
     ChevronDownIcon,
     UserGroupIcon,
     BoltIcon,
