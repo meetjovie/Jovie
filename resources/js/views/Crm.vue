@@ -141,6 +141,7 @@
                           @onListDrop="onListDrop($event)"
                           @updateUserList="updateUserList($event)"
                           @setFilterList="setFilterList"
+                          @updateMenuItems="pinnedUserLists = $event"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
                       <template #fallback> Loading... </template>
@@ -159,6 +160,7 @@
                           @updateUserList="updateUserList($event)"
                           @onListDrop="onListDrop($event)"
                           @end="sortLists"
+                          @updateMenuItems="filteredUsersLists = $event"
                           :menuItems="filteredUsersLists"></MenuList>
                       </template>
                       <template #fallback> Loading... </template>

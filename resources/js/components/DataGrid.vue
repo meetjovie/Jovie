@@ -432,6 +432,7 @@
                     :filters="filters"
                     :currentContact="currentContact"
                     :selectedCreators="selectedCreators"
+                    @updateSelectedCreators="selectedCreators = $event"
                     :creator="element"
                     :row="index"
                     :column="currentCell.column"

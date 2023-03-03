@@ -219,7 +219,16 @@ export default {
     JovieSpinner,
     CloudArrowUpIcon,
   },
-
+    computed: {
+        socialMediaProfileUrl: {
+            get() {
+                return this.modelValue;
+            },
+            set(val) {
+                this.$emit('update:modelValue', val);
+            },
+        },
+    },
   data() {
     return {
       adding: false,
@@ -234,10 +243,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    socialMediaProfileUrl: {
-      type: String,
-      default: '',
-    },
+    modelValue: {},
     finishedImport: {
       type: Boolean,
       default: false,

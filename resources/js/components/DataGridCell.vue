@@ -38,12 +38,6 @@
             value: creator.crm_record_by_user.rating,
           })
         " />
-      <CheckboxInput
-        v-else-if="column.type == 'checkbox'"
-        :name="`checkbox_${fieldId}_${creator.id}`"
-        v-model="modelValue"
-        :checked="modelValue"
-        @blur="updateData" />
 
       <DataGridCellTextInput
         v-else-if="
@@ -53,7 +47,8 @@
         :fieldId="fieldId"
         @blur="updateData"
         :dataType="column.type"
-        v-model="modelValue" />
+        v-model="localModelValue"
+      />
 
       <DataGridSocialLinksCell
         :creator="creator"
@@ -82,13 +77,13 @@
             :placeholder="'mm/dd/yyyy'"
             name="date"
             @input="handleInput"
-            :value="modelValue"
+            :value="localModelValue"
             pattern="\d{1,2}/\d{1,2}/\d{4}"
             id="date"
             class="block w-full border-none bg-transparent pr-12 placeholder-slate-400 outline-none focus:border-none dark:placeholder-slate-200 sm:text-sm" />
           <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
             <JovieDatePicker
-              :value="modelValue"
+              :value="localModelValue"
               @update:modelValue="
                 $emit('update:modelValue', $event);
                 updateData();
@@ -169,13 +164,13 @@ export default {
     },
   },
   mounted() {
-    this.date.startDate = this.modelValue;
-    this.date.endDate = this.modelValue;
+    this.date.startDate = this.localModelValue;
+    this.date.endDate = this.localModelValue;
   },
   methods: {
     updateData(value = null) {
       this.$nextTick(() => {
-        this.$emit('update:modelValue', this.modelValue);
+        this.$emit('update:modelValue', this.localModelValue);
         if (this.column.meta) {
           this.$emit('updateCrmMeta', this.creator);
         } else {
@@ -187,7 +182,7 @@ export default {
             id: this.creator.id,
             index: this.row,
             key: key,
-            value: value ?? this.modelValue,
+            value: value ?? this.localModelValue,
           });
         }
       });
@@ -196,7 +191,7 @@ export default {
       const dateRegex =
         /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/([0-9]{4})$/;
       if (dateRegex.test(event.target.value)) {
-        this.modelValue = event.target.value;
+        this.localModelValue = event.target.value;
       }
     },
     toggleContactStageMenu(index) {
@@ -216,6 +211,14 @@ export default {
     },
   },
   computed: {
+      localModelValue: {
+          get() {
+              return this.modelValue;
+          },
+          set(val) {
+              this.$emit('update:modelValue', val);
+          },
+      },
     showFollowersCount() {
       try {
         if (!this.settings) {

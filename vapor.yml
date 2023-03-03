@@ -74,7 +74,7 @@ environments:
       - devassets.jov.ie
     network: Jovie
     build:
-      - 'composer install --no-dev'
+      - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
       - 'npm i && npm run prod && rm -rf node_modules'

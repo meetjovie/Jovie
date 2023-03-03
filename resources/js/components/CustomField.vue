@@ -12,7 +12,7 @@
           ? 'DocumentTextIcon'
           : 'CalculatorIcon'
       "
-      v-model="modelValue"
+      v-model="customFieldModel"
       @input="$emit('update:modelValue', $event.target.value)"
       @blur="$emit('blur')" />
   </template>
@@ -24,7 +24,7 @@
       currency
       :placeholder="name"
       icon="CurrencyDollarIcon"
-      v-model="modelValue"
+      v-model="customFieldModel"
       @input="$emit('update:modelValue', $event.target.value)"
       @blur="$emit('blur')" />
   </template>
@@ -39,7 +39,7 @@
             :id="name"
             :value="modelValue"
             :name="name"
-            v-model="modelValue"
+            v-model="customFieldModel"
             @change="$emit('update:modelValue', ($event.target.value === 'true' ? 1 : 0)); $emit('blur')"
             type="checkbox"
             class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
@@ -62,7 +62,7 @@
       :label="name"
       :placeholder="name"
       icon="CalendarDaysIcon"
-      v-model="modelValue"
+      v-model="customFieldModel"
       @update:modelValue="$emit('update:modelValue', $event)"
       @blur="$emit('blur')"
     />
@@ -129,13 +129,23 @@ export default {
       date: {},
     };
   },
+    computed: {
+        customFieldModel: {
+            get() {
+                return this.modelValue;
+            },
+            set(val) {
+                this.$emit('update:modelValue', val);
+            },
+        },
+    },
   mounted() {
     if (
       (this.type === 'select' || this.type === 'multi_select') &&
-      this.modelValue
+      this.customFieldModel
     ) {
       this.multiOptions = this.options.filter((option) => {
-        return this.modelValue.includes(option.id);
+        return this.customFieldModel.includes(option.id);
       });
     }
   },
