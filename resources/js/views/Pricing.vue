@@ -2,7 +2,7 @@
   <div class="py-6">
     <!-- Pricing with four tiers and toggle -->
     <div
-      class="bg-gradient-to-b from-slate-50 to-white dark:from-jovieDark-800 dark:to-jovieDark-900">
+      class="bg-gradient-to-b from-white to-slate-50 dark:from-jovieDark-800 dark:to-jovieDark-900">
       <div class="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-4xl text-center">
           <h2
