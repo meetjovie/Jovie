@@ -40,12 +40,14 @@ class SaveImport implements ShouldQueue
 
     private $teamId;
 
+    private $contacts;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($file, $mappedColumns, $tags, $listName, $userId, $teamId)
+    public function __construct($file, $mappedColumns, $tags, $listName, $userId, $teamId, $contacts = false)
     {
         $this->file = $file;
         $this->mappedColumns = $mappedColumns;
@@ -53,6 +55,7 @@ class SaveImport implements ShouldQueue
         $this->listName = $listName;
         $this->userId = $userId;
         $this->teamId = $teamId;
+        $this->contacts = $contacts;
     }
 
     /**
@@ -62,33 +65,40 @@ class SaveImport implements ShouldQueue
      */
     public function handle()
     {
-        User::where('id', $this->userId)->increment('queued_count');
-
         try {
             $stream = Import::getStream($this->file);
             $reader = Reader::createFromStream($stream);
 
             $totalRecords = $reader->count();
-            $list = UserList::firstOrCreateList($this->userId, $this->listName, $this->teamId);
+            if ($this->contacts) { // empty contacts
+                $list = UserList::firstOrCreateList($this->userId, $this->listName, $this->teamId, null, true);
+                $list->updating = true;
+                $list->save();
+            }
             if ($totalRecords > 1) {
                 $payload = base64_encode(json_encode([
                     'mappedColumns' => $this->mappedColumns,
                     'tags' => $this->tags,
-                    'list' => $list,
+                    'list' => $list ?? null,
                     'userId' => $this->userId,
                     'teamId' => $this->teamId,
+                    'totalRecords' => $totalRecords,
                 ]));
                 for ($page = 0; $page < ceil($totalRecords / Import::PER_PAGE); $page++) {
-                    $command = "save:import-chunk $this->file $page $payload";
-                    // Spawn the command in the background.
-                    Artisan::queue($command);
-                    if ($page == 0) {
-                        if ($list->wasRecentlyCreated) {
-                            ImportListCreated::dispatch($this->teamId, $list);
+                    if ($this->contacts) { // empty contacts
+                        ImportContacts::dispatch($this->file, $page, $payload);
+                        if ($page == 0) {
+                            if ($list->wasRecentlyCreated) {
+                                ImportListCreated::dispatch($this->teamId, $list);
+                            }
                         }
+                    } else {
+                        $command = "save:import-chunk $this->file $page $payload";
+                        Artisan::queue($command);
                     }
                 }
-                Notification::createNotification("$list->name import queued. It will begin shortly.", Notification::IMPORT_QUEUED, $this->userId, $this->teamId);
+                $listName = $list ? $list->name : $this->listName;
+                Notification::createNotification("$listName import queued. It will begin shortly.", Notification::IMPORT_QUEUED, $this->userId, $this->teamId);
             } else {
                 if ($list->wasRecentlyCreated) {
                     ImportListCreated::dispatch($this->teamId, $list);
@@ -103,8 +113,6 @@ class SaveImport implements ShouldQueue
                 'userId' => $this->userId,
                 'teamId' => $this->teamId,
             ]);
-        } finally {
-            User::where('id', $this->userId)->decrement('queued_count');
         }
     }
 }

@@ -23,7 +23,8 @@ class UserList extends Model
         'name',
         'user_id',
         'emoji',
-        'team_id'
+        'team_id',
+        'updating',
     ];
 
     protected $appends = ['updating_list'];
@@ -37,7 +38,7 @@ class UserList extends Model
         return $this->belongsToMany(Creator::class)->withTimestamps();
     }
 
-    public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null)
+    public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null, $updating = false)
     {
         $team = null;
         if ($teamId) {
@@ -53,6 +54,8 @@ class UserList extends Model
             $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
             $exists = UserList::whereRaw('TRIM(LOWER(name)) = ?', [strtolower(trim($listName))])->whereIn('user_id', $teamUsers)->first();
             if ($exists) {
+                $exists->updating = $updating;
+                $exists->save();
                 foreach ($teamUsers as $userId) {
                     self::updateSortOrder($userId, 0, 1, $exists->id);
                 }
@@ -65,6 +68,7 @@ class UserList extends Model
             ];
             if ($emoji) {
                 $data['emoji'] = $emoji;
+                $data['updating'] = $updating;
             }
             $list = UserList::create($data);
             $syncData = [];
