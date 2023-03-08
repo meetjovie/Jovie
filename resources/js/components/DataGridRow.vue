@@ -13,7 +13,7 @@
       :row="row"
       freezeColumn
       width="full"
-      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
+      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] before:dark:border-jovieDark-border">
       <div class="group mx-auto w-full items-center">
         <span
           class="group-hover:block"
@@ -24,12 +24,17 @@
             'block',
           ]">
           <form>
-            <CheckboxInput v-model="selectedCreatorsModel" :value="creator.id" />
+            <CheckboxInput
+              v-model="selectedCreatorsModel"
+              :value="creator.id" />
           </form>
         </span>
         <span
           class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
-          :class="[{ hidden: selectedCreatorsModel.includes(creator.id) }, 'block']">
+          :class="[
+            { hidden: selectedCreatorsModel.includes(creator.id) },
+            'block',
+          ]">
           {{ row + 1 }}
         </span>
       </div>
@@ -160,8 +165,8 @@
 
     <template v-for="(column, columnIndex) in otherColumns" :key="row">
       <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-          @mouseover="setCurrentCell(columnIndex)"
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        @mouseover="setCurrentCell(columnIndex)"
         v-if="column.custom"
         :visibleColumns="visibleColumns"
         :settings="settings"
@@ -182,8 +187,8 @@
         v-model="creator.crm_record_by_user[column.key]"
         :row="row" />
       <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-          @mouseover="setCurrentCell(columnIndex)"
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        @mouseover="setCurrentCell(columnIndex)"
         v-else-if="column.meta"
         :visibleColumns="visibleColumns"
         :settings="settings"
@@ -207,36 +212,36 @@
         @blur="$emit('updateCrmMeta', creator)"
         v-model="creator.meta[column.key]"
         :row="row" />
-        <DataGridCell
-            :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-            @mouseover="setCurrentCell(columnIndex)"
-            v-else-if="column.default"
-            :visibleColumns="visibleColumns"
-            :settings="settings"
-            :currentContact="currentContact"
-            :creator="creator"
-            :cellActive="
+      <DataGridCell
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        @mouseover="setCurrentCell(columnIndex)"
+        v-else-if="column.default"
+        :visibleColumns="visibleColumns"
+        :settings="settings"
+        :currentContact="currentContact"
+        :creator="creator"
+        :cellActive="
           currentCell.row == row && currentCell.column == columnIndex
             ? `active_cell_${currentCell.row}_${currentCell.column}`
             : false
         "
-            @update:currentCell="handleCellUpdate"
-            :currentCell="currentCell"
-            :columnIndex="columnIndex"
-            :rowIndex="row"
-            :networks="networks"
-            :stages="stages"
-            :column="column"
-            :userLists="userLists"
-            @updateCreator="$emit('updateCreator', $event)"
-            @updateCrmMeta="$emit('updateCrmMeta', creator)"
-            @updateCreatorLists="updateCreatorLists"
-            @blur="$emit('updateCrmMeta', creator)"
-            v-model="creator[column.key.split('.')[0]][column.key.split('.')[1]]"
-            :row="row" />
+        @update:currentCell="handleCellUpdate"
+        :currentCell="currentCell"
+        :columnIndex="columnIndex"
+        :rowIndex="row"
+        :networks="networks"
+        :stages="stages"
+        :column="column"
+        :userLists="userLists"
+        @updateCreator="$emit('updateCreator', $event)"
+        @updateCrmMeta="$emit('updateCrmMeta', creator)"
+        @updateCreatorLists="updateCreatorLists"
+        @blur="$emit('updateCrmMeta', creator)"
+        v-model="creator[column.key.split('.')[0]][column.key.split('.')[1]]"
+        :row="row" />
       <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-          @mouseover="setCurrentCell(columnIndex)"
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        @mouseover="setCurrentCell(columnIndex)"
         v-else
         :visibleColumns="visibleColumns"
         :settings="settings"
@@ -287,21 +292,21 @@ export default {
     XMarkIcon,
   },
   mounted() {},
-    computed: {
-        selectedCreatorsModel: {
-            get() {
-                return this.selectedCreators;
-            },
-            set(val) {
-                this.$emit('updateSelectedCreators', val);
-            },
-        },
-    },
-  methods: {
-      setCurrentCell(columnIndex) {
-          this.currentCell.row = this.row
-          this.currentCell.column = columnIndex
+  computed: {
+    selectedCreatorsModel: {
+      get() {
+        return this.selectedCreators;
       },
+      set(val) {
+        this.$emit('updateSelectedCreators', val);
+      },
+    },
+  },
+  methods: {
+    setCurrentCell(columnIndex) {
+      this.currentCell.row = this.row;
+      this.currentCell.column = columnIndex;
+    },
     updateCreatorLists({ list, add = false }) {
       if (add) {
         this.creator.lists.push(list);
