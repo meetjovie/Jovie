@@ -99,7 +99,7 @@
                   <span
                     v-else
                     class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-jovieDark-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
-                    >{{ element.creators_count }}</span
+                    >{{ element.contacts_count }}</span
                   >
 
                   <Menu as="div" class="relative inline-block text-center">
@@ -235,7 +235,7 @@
               class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
               <span
                 class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-jovieDark-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
-                >{{ item.creators_count }}</span
+                >{{ item.contacts_count }}</span
               >
               <Menu as="div" class="relative inline-block text-center">
                 <Float portal :offset="12" placement="right-start">

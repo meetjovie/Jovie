@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CreatorImported implements ShouldBroadcast
+class ContactImported implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -40,7 +40,7 @@ class CreatorImported implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('creatorImported.'.$this->teamId);
+        return new PrivateChannel('contactImported.'.$this->teamId);
     }
 
     /**

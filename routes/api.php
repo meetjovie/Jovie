@@ -76,6 +76,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/create-list', [\App\Http\Controllers\UserListsController::class, 'createList']);
     Route::put('/update-list/{id}', [\App\Http\Controllers\UserListsController::class, 'updateList']);
 
+    // CRM CONTACTS
+    Route::get('/crm-contacts', [\App\Http\Controllers\CrmController::class, 'crmContacts']);
+    Route::post('/update-contact/{id}', [\App\Http\Controllers\CrmController::class, 'updateContact']);
+
+
     //      CRM
     Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
     Route::get('/crm-counts', [\App\Http\Controllers\CrmController::class, 'crmCounts']);

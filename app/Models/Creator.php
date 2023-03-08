@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\CreatorImported;
+use App\Events\ContactImported;
 use App\Traits\CustomFieldsTrait;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
@@ -956,7 +956,7 @@ class Creator extends Model
                 $crm->source = $source;
                 $crm->save();
             }
-            CreatorImported::dispatch($creator->id, $userId, $teamId, $listId);
+            ContactImported::dispatch($creator->id, $userId, $teamId, $listId);
         }
     }
 

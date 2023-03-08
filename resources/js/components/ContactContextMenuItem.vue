@@ -5,36 +5,36 @@
         v-if="contactMethod == 'email'"
         name="Email"
         color="text-purple-600 dark:text-purple-400"
-        @click="emailCreator(creator.emails[0] || creator.meta.emails[0])"
-        :disabled="!creator.emails[0] && !creator.meta.emails[0]"
+        @click="emailCreator(contact.emails[0] || contact.emails[0])"
+        :disabled="!contact.emails[0] && !contact.emails[0]"
         icon="EnvelopeIcon" />
       <DropdownMenuItem v-if="contactMethod == 'separator'" separator />
       <DropdownMenuItem
         v-if="contactMethod == 'phone'"
         name="Call"
         color="text-blue-600 dark:text-blue-400"
-        @click="callCreator(creator.meta.phone || creator.phone)"
-        :disabled="!creator.meta.phone && !creator.phone"
+        @click="callCreator(contact.phone || contact.phone)"
+        :disabled="!contact.phone && !contact.phone"
         icon="PhoneIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'sms'"
         name="Send SMS"
         color="text-blue-600 dark:text-blue-400"
-        @click="textCreator(creator.meta.phone || creator.phone)"
-        :disabled="!creator.meta.phone && !creator.phone"
+        @click="textCreator(contact.phone || contact.phone)"
+        :disabled="!contact.phone && !contact.phone"
         icon="ChatBubbleLeftEllipsisIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'calendar'"
         name="Create Calendar Event"
         color="text-indigo-600 dark:text-indigo-400"
-        @click="createCalendarEvent(creator)"
+        @click="createCalendarEvent(contact)"
         icon="CalendarDaysIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'twitter'"
         name="DM on Twitter"
         color="text-twitter-600 dark:text-twitter-400"
-        @click="sendTwitterDM(creator)"
-        :disabled="!creator.meta.twitter_handler && !creator.twitter_handler"
+        @click="sendTwitterDM(contact)"
+        :disabled="!contact.twitter && !contact.twitter"
         icon="ChatBubbleLeftEllipsisIcon" />
 
       <DropdownMenuItem
@@ -43,19 +43,19 @@
         color="text-instagram-600 dark:text-instagram-400"
         @click="
           instagramDMContact(
-            creator.meta.instagram_handler || creator.instagram_handler
+            contact.instagram || contact.instagram
           )
         "
         :disabled="
-          !creator.meta.instgaram_handler && !creator.instagram_handler
+          !contact.instgaram && !contact.instagram
         "
         icon="ChatBubbleLeftEllipsisIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'whatsapp'"
         name="Whatsapp"
         color="text-social-whatsapp"
-        @click="whatsappCreator(creator.meta.phone || creator.phone)"
-        :disabled="!creator.meta.phone && !creator.phone"
+        @click="whatsappCreator(contact.phone || contact.phone)"
+        :disabled="!contact.phone && !contact.phone"
         icon="ChatBubbleOvalLeftEllipsisIcon" />
 
       <div v-if="currentUser.is_admin">
@@ -63,7 +63,7 @@
           v-if="contactMethod == 'refresh'"
           name="Refresh"
           color="text-slate-400 hover:text-slate-900"
-          @click="refresh(creator)"
+          @click="refresh(contact)"
           :disabled="adding"
           icon="ArrowPathIcon" />
       </div>
@@ -72,8 +72,8 @@
         v-if="contactMethod == 'verify'"
         name="Verify Email"
         color="text-slate-400 hover:text-slate-900"
-        @click="verifyEmail(creator.meta.emails[0] || creator.emails[0])"
-        :disabled="!creator.emails[0] && !creator.meta.emails[0]"
+        @click="verifyEmail(contact.emails[0] || contact.emails[0])"
+        :disabled="!contact.emails[0] && !contact.emails[0]"
         icon="CheckCircleIcon" />
     </div>
   </div>
@@ -128,7 +128,7 @@ export default {
     CalendarDaysIcon,
   },
   props: {
-    creator: {
+    contact: {
       type: Object,
       required: true,
     },
@@ -138,21 +138,21 @@ export default {
     },
   },
   methods: {
-    createCalendarEvent(creator) {
+    createCalendarEvent(contact) {
       window.open(
         `https://calendar.google.com/calendar/r/eventedit?text=${
           this.currentUser.first_name
         } ${this.currentUser.last_name} <> ${
-          creator.meta.name
+          contact.name
         }&details=Created by ${this.currentUser.first_name} ${
           this.currentUser.last_name
         } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
-          creator.meta.emails[0] || creator.emails[0] || ''
+          contact.emails[0] || contact.emails[0] || ''
         }&notes='Created via Jovie: https://jov.ie`
       );
     },
     emailCreator(email) {
-      //go to the url mailto:creator.emails[0]
+      //go to the url mailto:contact.emails[0]
       //if email is not null
       if (email) {
         window.open('mailto:' + email);
@@ -167,14 +167,14 @@ export default {
         });
       }
     },
-    sendTwitterDM(creator) {
+    sendTwitterDM(contact) {
       // check if either of the twitter ID fields are present
-      if (creator.meta.twitter_meta.id || creator.twitter_meta.id) {
+      if (contact.twitter_meta.id || contact.twitter_meta.id) {
         // if either of the fields are present, open a new twitter DM
         // and pre-populate it with the message "Hey there!"
         window.open(
           `https://twitter.com/messages/compose?recipient_id=${
-            creator.meta.twitter_meta.id || creator.twitter_meta.id
+            contact.twitter_meta.id || contact.twitter_meta.id
           }&text=Hey%20there!`
         );
       } else {
@@ -190,7 +190,7 @@ export default {
       }
     },
     callCreator(phone) {
-      //go to the url tel:creator.meta.phone
+      //go to the url tel:contact.phone
       //if phone is not null
       if (phone) {
         window.open('tel:' + phone);
@@ -206,7 +206,7 @@ export default {
       }
     },
     whatsappCreator(phone) {
-      //go to the url tel:creator.meta.phone
+      //go to the url tel:contact.phone
       //if phone is not null
       if (phone) {
         console.log('whatsapp');
@@ -240,7 +240,7 @@ export default {
       }
     },
     textCreator(phone) {
-      //go to the url sms:creator.meta.phone
+      //go to the url sms:contact.phone
       //if phone is not null
       if (phone) {
         window.open('sms:' + phone);

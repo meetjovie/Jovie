@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\CrmExport;
+use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\CreatorComment;
 use App\Models\Crm;
@@ -21,6 +22,30 @@ use MeiliSearch\Client;
 
 class CrmController extends Controller
 {
+    public function crmContacts(Request $request)
+    {
+        $contacts = Contact::getContacts($request->all());
+        $counts = Contact::getCrmCounts();
+        return response()->json([
+            'status' => true,
+            'contacts' => $contacts,
+            'counts' => $counts,
+            'networks' => Creator::NETWORKS,
+            'stages' => Crm::stages(),
+        ], 200);
+    }
+
+    public function updateContact(Request $request, $id)
+    {
+        // update creator
+        Contact::updateContact($request, $id);
+
+        return collect([
+            'status' => true,
+            'data' => Contact::getContacts(['id' => $id])->first(),
+        ]);
+    }
+
     public function crmCreators(Request $request)
     {
         try {

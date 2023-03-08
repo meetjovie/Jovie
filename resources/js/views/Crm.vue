@@ -472,9 +472,9 @@
                 <div class="mx-auto h-full w-full p-0">
                   <div class="inline-block h-full w-full align-middle">
                     <div class="h-full w-full dark:bg-jovieDark-900">
-                      <!--  Show import screen if no creators -->
+                      <!--  Show import screen if no contacts -->
                       <!--  <div
-                        v-if="!loading && !creators.length && !showImporting"
+                        v-if="!loading && !contacts.length && !showImporting"
                         class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
@@ -501,7 +501,7 @@
 
 
                       <div
-                        v-else-if="showImporting && !creators.length"
+                        v-else-if="showImporting && !contacts.length"
                         class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
@@ -513,21 +513,20 @@
                                 You've just initated an import.
                               </h1>
                               <span class="text-sm font-medium text-slate-900"
-                                >You'll see creators populate this space
+                                >You'll see contacts populate this space
                                 soon.</span
                               >
                             </div>
                           </div>
                         </div>
                       </div> -->
-                      <!-- Show the crm if there are creators -->
+                      <!-- Show the crm if there are contacts -->
                       <div>
                         <!--  <CrmTable
                           class="overflow-hidden"
                           ref="crmTable"
                           @addContact="showCreatorModal = true"
-                          @updateCreator="updateCreator"
-                          @updateCrmMeta="updateCrmMeta"
+                          @updateContact="updateContact"
                           @crmCounts="crmCounts"
                           :counts="counts"
                           @updateListCount="updateListCount"
@@ -540,10 +539,10 @@
                           :subheader="counts"
                           :filters="filters"
                           :userLists="userLists"
-                          :creators="creators"
+                          :contacts="contacts"
                           :networks="networks"
                           :stages="stages"
-                          :creatorsMeta="creatorsMeta"
+                          :contactsMeta="contactsMeta"
                           :loading="loading">
                           <slot header="header"></slot>
                         </CrmTable> -->
@@ -552,13 +551,12 @@
                           class="overflow-hidden"
                           ref="crmTableGrid"
                           @addContact="showCreatorModal = true"
-                          @updateCreator="updateCreator"
-                          @updateCrmMeta="updateCrmMeta"
+                          @updateContact="updateContact"
                           @crmCounts="crmCounts"
                           :counts="counts"
                           @updateListCount="updateListCount"
                           @pageChanged="pageChanged"
-                          @getCrmCreators="getCrmCreators"
+                          @getCrmContacts="getCrmContacts"
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
                           @getHeaders="getHeaders"
@@ -569,10 +567,8 @@
                           :subheader="counts"
                           :filters="filters"
                           :userLists="userLists"
-                          :creators="creators"
                           :networks="networks"
                           :stages="stages"
-                          :creatorsMeta="creatorsMeta"
                           :columns="columns"
                           :loading="loading"
                           :taskLoading="taskLoading"
@@ -599,11 +595,10 @@
           <aside
             class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
-              @updateCrmMeta="updateCrmMeta"
-              @updateCreator="updateCreator"
+              @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
-              :creatorsData="currentContact" />
+              :contactData="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
@@ -798,7 +793,7 @@ export default {
       showUpgradeModal: false,
       loading: false,
       taskLoading: false,
-      creatorsMeta: {},
+      contactsMeta: {},
       /*  activeCreator: [], */
       currentContact: [],
       innerWidth: window.innerWidth,
@@ -831,7 +826,7 @@ export default {
         localStorage.setItem('filters', JSON.stringify(val));
       },
     },
-    creators: {
+    contacts: {
       deep: true,
       handler: function () {
         this.crmCounts();
@@ -853,7 +848,7 @@ export default {
       return false;
     },
     sortedCreators() {
-      return this.creators.sort((a, b) => {
+      return this.contacts.sort((a, b) => {
         let modifier = 1;
         if (this.currentSortDir === 'desc') modifier = -1;
         if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
@@ -878,7 +873,7 @@ export default {
   async mounted() {
     await this.getUserLists();
     await this.getHeaders();
-    this.getCrmCreators();
+    this.getCrmContacts();
     this.crmCounts();
     //c sets openCreatorModal to true
     this.$mousetrap.bind(['c'], () => {
@@ -966,8 +961,8 @@ export default {
       );
 
       this.listenEvents(
-        `creatorImported.${this.currentUser.current_team.id}`,
-        'CreatorImported',
+        `contactImported.${this.currentUser.current_team.id}`,
+        'contactImported',
         (data) => {
           if (!data.list) {
             this.$store.state.importProgressSingleCount--;
@@ -983,21 +978,21 @@ export default {
             (data.list && data.list == this.filters.list) ||
             this.filters.type == 'all'
           ) {
-            let newCreator = JSON.parse(window.atob(data.creator));
-            let index = this.creators.findIndex(
-              (creator) => creator.id == newCreator.id
+            let newContact = JSON.parse(window.atob(data.contact));
+            let index = this.contacts.findIndex(
+              (contact) => contact.id == newContact.id
             );
 
             if (index >= 0) {
-              this.creators[index] = newCreator;
+              this.contacts[index] = newContact;
             } else {
-              if (this.filters.page === 1 && this.creators.length == 50) {
-                this.creators.pop();
+              if (this.filters.page === 1 && this.contacts.length == 50) {
+                this.contacts.pop();
               }
-              if (this.creators.length) {
-                this.creators.splice(0, 0, newCreator);
+              if (this.contacts.length) {
+                this.contacts.splice(0, 0, newContact);
               } else {
-                this.creators.push(newCreator);
+                this.contacts.push(newContact);
               }
             }
           }
@@ -1051,8 +1046,8 @@ export default {
         });
     },
     onListDrop(listId) {
-      this.$refs.crmTableGrid.toggleCreatorsFromList(
-        this.$store.state.currentlyDraggedCreator,
+      this.$refs.crmTableGrid.toggleContactsFromList(
+        this.$store.state.currentlyDraggedContact,
         listId,
         false
       );
@@ -1074,8 +1069,8 @@ export default {
         }
       });
     },
-    closeImportCreatorModal() {
-      this.showCreatorModal = false;
+    closeImportContactModal() {
+      this.showContactModal = false;
     },
     closeUpgradeModal() {
       this.showUpgradeModal = !this.showUpgradeModal;
@@ -1130,7 +1125,7 @@ export default {
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
       this.filters.currentList = null;
-      this.getCrmCreators();
+      this.getCrmContacts();
       this.loading = false;
     },
     setFilterList(list) {
@@ -1143,7 +1138,7 @@ export default {
           this.filters.type = 'all';
           this.filters.currentList = null
       }
-      this.getCrmCreators();
+      this.getCrmContacts();
     },
     sortLists(e, listId) {
       UserService.sortLists(
@@ -1191,23 +1186,23 @@ export default {
         .finally((response) => {});
     },
     getUserLists() {
-      UserService.getUserLists().then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.userLists = [];
-          this.userLists = response.lists;
-          if (this.filters.list) {
-              let list = this.userLists.find(l => l.id === this.filters.list)
-              if (list) {
-                  this.filters.currentList = list
-              }
-          }
-        }
-      });
+      // UserService.getUserLists().then((response) => {
+      //   response = response.data;
+      //   if (response.status) {
+      //     this.userLists = [];
+      //     this.userLists = response.lists;
+      //     if (this.filters.list) {
+      //         let list = this.userLists.find(l => l.id === this.filters.list)
+      //         if (list) {
+      //             this.filters.currentList = list
+      //         }
+      //     }
+      //   }
+      // });
     },
     pageChanged({ page }) {
       this.filters.page = page;
-      this.getCrmCreators();
+      this.getCrmContacts();
     },
     changeTab(index) {
       Object.assign(this.$data, this.$options.data());
@@ -1221,7 +1216,7 @@ export default {
       this.filters.sort = sortBy;
       this.filters.order = sortOrder;
     },
-    getCrmCreators(filters = {}) {
+    getCrmContacts(filters = {}) {
       this.taskLoading = true;
       let data = JSON.parse(JSON.stringify(this.filters));
       if (this.abortController) {
@@ -1229,18 +1224,30 @@ export default {
       }
       this.abortController = new AbortController();
       const signal = this.abortController.signal;
-      UserService.getCrmCreators(data, signal).then((response) => {
+      UserService.getCrmContacts(data, signal).then((response) => {
         this.taskLoading = false;
         response = response.data;
         if (response.status) {
-          this.$store.commit('setCrmRecords', response.creators.data);
+          this.$store.commit('setCrmRecords', response.contacts.data);
           this.networks = response.networks;
           this.stages = response.stages;
           this.counts.archived = response.counts.archived;
           this.counts.favourites = response.counts.favourites;
           this.counts.total = response.counts.total;
-          this.creatorsMeta = response.creators;
-          this.filters.page = response.creators.current_page;
+          this.contactsMeta = {
+              current_page: response.contacts.current_page,
+              first_page_url: response.contacts.first_page_url,
+              from: response.contacts.from,
+              last_page: response.contacts.last_page,
+              last_page_url: response.contacts.last_page_url,
+              next_page_url: response.contacts.next_page_url,
+              path: response.contacts.path,
+              per_page: response.contacts.per_page,
+              prev_page_url: response.contacts.prev_page_url,
+              to: response.contacts.to,
+              total: response.contacts.total,
+          };
+          this.filters.page = response.contacts.current_page;
         }
       });
     },
@@ -1255,7 +1262,7 @@ export default {
           if (response.status) {
             this.counts = response.counts;
             this.userLists.forEach(list => {
-                this.counts[`list_${list.id}`] = list.creators_count
+                this.counts[`list_${list.id}`] = list.contacts_count
             })
           }
         })
@@ -1269,75 +1276,60 @@ export default {
     },
     updateListCount(params) {
       let list = this.userLists.find((list) => list.id == params.list_id);
-      let selectedCreators = this.creators.filter((creator) =>
-        params.creatorIds.includes(creator.id)
+      let selectedContacts = this.$store.state.crmRecords.filter((contact) =>
+        params.contactIds.includes(contact.id)
       );
       if (list) {
         if (params.remove) {
-          selectedCreators.forEach((creator) => {
+          selectedContacts.forEach((contact) => {
             if (
-              creator.lists.filter((list) => list.id != params.list.id).length
+              contact.lists.filter((list) => list.id != params.list.id).length
             ) {
-              list.creators_count -= 1;
+              list.contacts_count -= 1;
             }
           });
         } else {
-          selectedCreators.forEach((creator) => {
+          selectedContacts.forEach((contact) => {
             if (
-              creator.lists.filter((list) => list.id == params.list.id).length
+              contact.lists.filter((list) => list.id == params.list.id).length
             ) {
-              list.creators_count += 1;
+              list.contacts_count += 1;
             }
           });
         }
       }
     },
-    exportCrmCreators() {
+    exportCrmContacts() {
       let obj = JSON.parse(JSON.stringify(this.filters));
       if (obj.list) {
         obj.list = obj.list.id;
       }
-      UserService.exportCrmCreators(obj).then((response) => {
+      UserService.exportCrmContacts(obj).then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]));
         var fileLink = document.createElement('a');
 
         fileLink.href = fileURL;
         fileLink.setAttribute(
           'download',
-          `${this.filters.list ? this.filters.list.name : 'creators'}.csv`
+          `${this.filters.list ? this.filters.list.name : 'contacts'}.csv`
         );
         document.body.appendChild(fileLink);
 
         fileLink.click();
       });
     },
-    updateCreator(params) {
-      this.$store.dispatch('updateCreator', params).then((response) => {
+    updateContact(params) {
+      this.$store.dispatch('updateContact', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {
-            this.creators.splice(params.index, 1);
+            this.contacts.splice(params.index, 1);
           } else {
-            this.creators[params.index] = response.data;
+            this.contacts[params.index] = response.data;
           }
           this.crmCounts();
         }
       });
-    },
-    updateCrmMeta(creator = null) {
-      if (creator == null) {
-        creator = this.currentContact;
-      }
-      if (!creator) return;
-      this.$store
-        .dispatch('updateCrmMeta', { id: creator.crm_id, meta: creator.meta })
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.currentContact = response.data;
-            this.crmCounts();
-          }
-        });
     },
   },
 };

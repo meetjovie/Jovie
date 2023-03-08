@@ -22,6 +22,7 @@ return new class extends Migration
                 ->on(\Illuminate\Support\Facades\Config::get('teamwork.teams_table'));
             $table->foreignId('user_list_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 
+            $table->string('full_name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('company')->nullable();

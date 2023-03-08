@@ -27,7 +27,7 @@ export default {
         })
     },
 
-    async updateCreator(context, { id, index, network, key, value }) {
+    async updateContact(context, { id, index, network, key, value }) {
         const data = {
             id: id,
         };
@@ -46,7 +46,7 @@ export default {
         } else {
             data[key] = value;
         }
-        return await userService.updateCreator(data)
+        return await userService.updateContact(data)
     },
     async updateOverviewCreator(context, { id, index, network, key, value }) {
         const data = {
@@ -84,16 +84,12 @@ export default {
         return await userService.moveCreator(payload)
     },
 
-    async toggleCreatorsFromList(context, payload) {
-        return await userService.toggleCreatorsFromList(payload)
+    async toggleContactsFromList(context, payload) {
+        return await userService.toggleContactsFromList(payload)
     },
 
-    async toggleArchiveCreators(context, payload) {
-        return await userService.toggleArchiveCreators(payload)
-    },
-
-    async updateCrmMeta(context, payload) {
-        return await userService.updateCrmMeta(payload.id, payload.meta)
+    async toggleArchiveContacts(context, payload) {
+        return await userService.toggleArchiveContacts(payload)
     },
 
     async uploadTempFileFromUrl(context, payload) {

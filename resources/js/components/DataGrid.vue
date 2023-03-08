@@ -258,12 +258,12 @@
                           class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400"
                           :checked="
                             intermediate ||
-                            selectedCreators.length === creatorRecords.length
+                            selectedContacts.length === contactRecords.length
                           "
                           :intermediate="intermediate"
                           @change="
-                            selectedCreators = $event.target.checked
-                              ? creatorRecords.map((c) => c.id)
+                            selectedContacts = $event.target.checked
+                              ? contactRecords.map((c) => c.id)
                               : []
                           " />
                       </div>
@@ -277,7 +277,7 @@
                       scope="col"
                       class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
                       <div
-                        v-if="selectedCreators.length > 0"
+                        v-if="selectedContacts.length > 0"
                         class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
                         <!--   <ContactActionMenu /> -->
                         <Menu>
@@ -302,8 +302,8 @@
                                   <DropdownMenuItem
                                     v-if="filters.list"
                                     @click="
-                                      toggleCreatorsFromList(
-                                        selectedCreators,
+                                      toggleContactsFromList(
+                                        selectedContacts,
                                         filters.list,
                                         true
                                       )
@@ -313,8 +313,8 @@
                                   <MenuItem
                                     v-slot="{ active }"
                                     @click="
-                                      toggleArchiveCreators(
-                                        this.selectedCreators,
+                                      toggleArchiveContacts(
+                                        this.selectedContacts,
                                         this.filters.type == 'archived'
                                           ? false
                                           : true
@@ -338,8 +338,8 @@
                                       }}
                                     </button>
                                   </MenuItem>
-                                  <!-- <DropdownMenuItem @click="toggleArchiveCreators(
-                                selectedCreators, filters.type == 'archived' ?
+                                  <!-- <DropdownMenuItem @click="toggleArchiveContacts(
+                                selectedContacts, filters.type == 'archived' ?
                                 false : true ) :name="( filters.type == 'archived'
                                 ? 'Unarchive' : 'Archive' )"
                                 :icon="ArchiveBoxIcon" /> -->
@@ -413,9 +413,9 @@
               <!--                {{ visibleColumns }}-->
               <draggable
                 class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
-                :list="filteredCreators"
+                :list="filteredContacts"
                 ghost-class="ghost-row"
-                group="creators"
+                group="contacts"
                 :sort="false"
                 tag="tbody"
                 @start="startDrag">
@@ -431,37 +431,36 @@
                     :otherColumns="headers"
                     :filters="filters"
                     :currentContact="currentContact"
-                    :selectedCreators="selectedCreators"
-                    @updateSelectedCreators="selectedCreators = $event"
-                    :creator="element"
+                    :selectedContacts="selectedContacts"
+                    @updateSelectedContacts="selectedContacts = $event"
+                    :contact="element"
                     :row="index"
                     :column="currentCell.column"
                     :key="element.id"
                     :userLists="userLists"
                     v-if="element"
-                    @update:currentCell="$emit('updateCreator', $event)"
+                    @update:currentCell="$emit('updateContact', $event)"
                     @click="setCurrentContact($event, element, index)"
                     @mouseover="setCurrentContact($event, element, index)"
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
                     "
                     @refresh="refresh(element)"
-                    @updateCreator="$emit('updateCreator', $event)"
-                    @updateCrmMeta="$emit('updateCrmMeta', $event)"
+                    @updateContact="$emit('updateContact', $event)"
                     @updateListCount="$emit('updateListCount', $event)"
-                    @archive-creators="
-                      toggleArchiveCreators(
+                    @archive-contacts="
+                      toggleArchiveContacts(
                         element.id,
-                        !creator.crm_record_by_user.archived
+                        !contact.archived
                       )
                     "
-                    @toggleCreatorsFromList="toggleCreatorsFromList" />
+                    @toggleContactsFromList="toggleContactsFromList" />
                 </template>
                 <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
               </draggable>
             </table>
             <div
-              v-if="creatorRecords.length < 50 && creatorRecords.length > 0"
+              v-if="contactRecords.length < 50 && contactRecords.length > 0"
               @click="$emit('addContact')"
               class="flex w-full cursor-pointer items-center border-t bg-slate-100 py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:bg-jovieDark-800 dark:text-jovieDark-200 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
               <PlusIcon class="mr-2 h-4 w-4" />
@@ -470,10 +469,10 @@
 
             <Pagination
               class="z-50 w-full bg-blue-500"
-              v-if="creatorRecords.length > 50"
-              :totalPages="creatorsMeta.last_page"
-              :perPage="creatorsMeta.per_page"
-              :currentPage="creatorsMeta.current_page"
+              v-if="contactRecords.length > 50"
+              :totalPages="contactsMeta.last_page"
+              :perPage="contactsMeta.per_page"
+              :currentPage="contactsMeta.current_page"
               :disabled="loading"
               @pagechanged="$emit('pageChanged', $event)" />
           </div>
@@ -632,13 +631,13 @@ export default {
         row: 0,
         column: 0,
       },
-      creatorMenu: false,
+      contactMenu: false,
       view: {
         atTopOfPage: true,
       },
       showCustomFieldsModal: false,
       currentEditingField: null,
-      creatorRecords: [],
+      contactRecords: [],
       tableViewSearchQuery: '',
       searchQuery: '',
       stageSearchQuery: '',
@@ -646,7 +645,7 @@ export default {
       showContextMenu: false,
       showContactStageMenu: [],
       date: null,
-      selectedCreators: [],
+      selectedContacts: [],
       currentContact: [],
       editingSocialHandle: true,
       searchVisible: false,
@@ -671,10 +670,9 @@ export default {
   props: [
     'userLists',
     'filters',
-    'creators',
     'networks',
     'stages',
-    'creatorsMeta',
+    'contactsMeta',
     'loading',
     'taskLoading',
     'archived',
@@ -684,7 +682,7 @@ export default {
     'columns',
     'headersLoaded',
   ],
-  expose: ['toggleCreatorsFromList', 'updateUserList'],
+  expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
     settings: {
       deep: true,
@@ -692,14 +690,14 @@ export default {
         localStorage.setItem('settings', JSON.stringify(this.settings));
       },
     },
-    creators: function (val) {
-      this.creatorRecords = val;
+    contacts: function (val) {
+      this.contactRecords = val;
     },
     filters: function () {
-      this.selectedCreators = [];
+      this.selectedContacts = [];
     },
-    creatorRecords: function () {
-      this.selectedCreators = [];
+    contactRecords: function () {
+      this.selectedContacts = [];
     },
     columns: {
       immediate: true,
@@ -785,7 +783,7 @@ export default {
                   setTimeout(() => {
                       this.$nextTick(() => {
                           this.currentCell.column = 0;
-                          if (this.currentCell.row < this.filteredCreators.length - 1) {
+                          if (this.currentCell.row < this.filteredContacts.length - 1) {
                               this.currentCell.row += 1;
                           } else {
                               this.currentCell.row = 0;
@@ -813,9 +811,9 @@ export default {
     if (settings) {
       this.settings = settings;
     }
-    this.creatorRecords = this.creatorRecords.length
-      ? this.creatorRecords
-      : this.creators;
+    this.contactRecords = this.contactRecords.length
+      ? this.contactRecords
+      : this.contacts;
 
     for (let i = 0; i < this.columns.length; i++) {
       this.columns[i].visible = !this.columns[i].hide;
@@ -830,18 +828,18 @@ export default {
     },
     intermediate() {
       return (
-        this.selectedCreators.length > 0 &&
-        this.selectedCreators.length < this.creatorRecords.length
+        this.selectedContacts.length > 0 &&
+        this.selectedContacts.length < this.contactRecords.length
       );
     },
     visibleFields() {
       return this.headers.filter((header) => !header.hide);
     },
-    filteredCreators() {
-      return this.creatorRecords.filter((creator) => {
+    filteredContacts() {
+      return this.contactRecords.filter((contact) => {
         return (
-          creator.name.toLowerCase().match(this.searchQuery.toLowerCase()) ||
-          creator.emails.some((email) =>
+          (contact.name ?? '').toLowerCase().match(this.searchQuery.toLowerCase()) ||
+          contact.emails.some((email) =>
             email.toString().toLowerCase().match(this.searchQuery.toLowerCase())
           )
         );
@@ -953,8 +951,8 @@ export default {
       });
     },
     startDrag(e) {
-      this.$store.state.currentlyDraggedCreator = e.item.id;
-      console.log(this.$store.state.currentlyDraggedCreator);
+      this.$store.state.currentlyDraggedContact = e.item.id;
+      console.log(this.$store.state.currentlyDraggedContact);
     },
     handleCellNavigation(event) {
       // Get the index of the first visible column
@@ -1002,7 +1000,7 @@ export default {
           }
           break;
         case 'ArrowDown':
-            if (this.currentCell.row < this.filteredCreators.length - 1) {
+            if (this.currentCell.row < this.filteredContacts.length - 1) {
             this.currentCell.row += 1;
             this.scrollToFocusCell()
           }
@@ -1047,7 +1045,7 @@ export default {
           }
           break;
         case 'ArrowDown':
-          if (this.currentCell.row < this.filteredCreators.length - 1) {
+          if (this.currentCell.row < this.filteredContacts.length - 1) {
             this.currentCell.row += 1;
           }
           break;
@@ -1059,8 +1057,8 @@ export default {
         column: newCell.column,
       };
     },
-    hideContextMenu(creator) {
-      creator.showContextMenu = false;
+    hideContextMenu(contact) {
+      contact.showContextMenu = false;
     },
     updateTableViewSearchQuery(query) {
       this.tableViewSearchQuery = query;
@@ -1080,15 +1078,15 @@ export default {
         this.$refs.stageInput.$el.focus();
       });
     },
-    openContextMenu(creator) {
-      // Close the context menu for any other creators that may have it open
-      /*  filteredCreators.forEach((c) => {
-          if (c !== creator && c.showContextMenu) {
+    openContextMenu(contact) {
+      // Close the context menu for any other contacts that may have it open
+      /*  filteredContacts.forEach((c) => {
+          if (c !== contact && c.showContextMenu) {
             c.showContextMenu = false;
           }
         }); */
-      // Open the context menu for the given creator
-      creator.showContextMenu = true;
+      // Open the context menu for the given contact
+      contact.showContextMenu = true;
     },
     sortData({ sortBy, sortOrder }) {
       this.columns.map((column) => {
@@ -1104,24 +1102,24 @@ export default {
       }
       this.$emit('setOrder', { sortBy, sortOrder });
 
-      this.$emit('pageChanged', { page: this.creatorsMeta.current_page });
+      this.$emit('pageChanged', { page: this.contactsMeta.current_page });
 
-      // if (this.creatorRecords.length < 50) {
-      //   this.$emit('pageChanged', { page: this.creatorsMeta.current_page });
+      // if (this.contactRecords.length < 50) {
+      //   this.$emit('pageChanged', { page: this.contactsMeta.current_page });
       // } else {
-      //   this.creatorRecords = this.creatorRecords.sort((a, b) => {
+      //   this.contactRecords = this.contactRecords.sort((a, b) => {
       //     let modifier = 1;
       //     if (sortOrder === 'desc') {
       //       modifier = -1;
       //     }
       //     if (['first_name', 'last_name', 'email', 'platform_title', 'platform_employer'].includes(sortBy)) {
       //       let sortByC = sortBy == 'full_name' ? 'name' : sortOrder;
-      //       return a.meta[sortByC] == null ? -1 : (a.meta[sortByC].localeCompare(b.meta[sortByC]) * modifier);
+      //       return a[sortByC] == null ? -1 : (a[sortByC].localeCompare(b[sortByC]) * modifier);
       //     } else {
-      //       if (a.crm_record_by_user[sortBy] < b.crm_record_by_user[sortBy]) {
+      //       if (a[sortBy] < b[sortBy]) {
       //         return -1 * modifier;
       //       }
-      //       if (a.crm_record_by_user[sortBy] > b.crm_record_by_user[sortBy]) {
+      //       if (a[sortBy] > b[sortBy]) {
       //         return modifier;
       //       }
       //     }
@@ -1140,12 +1138,12 @@ export default {
       }
     },
     resetChecked() {
-      this.selectedCreators = [];
+      this.selectedContacts = [];
     },
     openSidebarAndSetContact() {
       //if there is currently no contact selected, select the first one
       if (!this.currentContact) {
-        this.currentContact = this.creatorRecords[0];
+        this.currentContact = this.contactRecords[0];
         this.$store.state.ContactSidebarOpen = true;
       }
       //esle just open the sidebar
@@ -1154,25 +1152,25 @@ export default {
       }
     },
     exportCrmCreators() {
-      //export filteredCreators to a csv file
+      //export filteredContacts to a csv file
       //write a function to export all contacts in the current table while accounting for filters and lists
     },
 
-    createCalendarEvent(creator) {
+    createCalendarEvent(contact) {
       window.open(
         `https://calendar.google.com/calendar/r/eventedit?text=${
           this.currentUser.first_name
         } ${this.currentUser.last_name} <> ${
-          creator.meta.name
+          contact.name
         }&details=Created by ${this.currentUser.first_name} ${
           this.currentUser.last_name
         } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
-          creator.meta.emails[0] || creator.emails[0] || ''
+          contact.emails[0] || contact.emails[0] || ''
         }&notes='Created via Jovie: https://jov.ie`
       );
     },
     emailCreator(email) {
-      //go to the url mailto:creator.emails[0]
+      //go to the url mailto:contact.emails[0]
       //if email is not null
       if (email) {
         window.open('mailto:' + email);
@@ -1187,15 +1185,15 @@ export default {
       }
     },
     sendTwitterDM(id) {
-      //go to the url https://twitter.com/messages/compose?recipient_id=creator.twitter_id
+      //go to the url https://twitter.com/messages/compose?recipient_id=contact.twitter_id
       //if twitter_id is not null
       if (id) {
-        //add text tot he message that says "Hey creator.name || creator.meta.name "
+        //add text tot he message that says "Hey contact.name || contact.name "
         window.open(
           'https://twitter.com/messages/compose?recipient_id=' +
             id +
             '&text=Hey ' +
-            this.currentContact.meta.name +
+            this.currentContact.name +
             ','
         );
         //else log no twitter id found
@@ -1209,7 +1207,7 @@ export default {
       }
     },
     callCreator(phone) {
-      //go to the url tel:creator.meta.phone
+      //go to the url tel:contact.phone
       //if phone is not null
       if (phone) {
         window.open('tel:' + phone);
@@ -1224,7 +1222,7 @@ export default {
       }
     },
     whatsappCreator(phone) {
-      //go to the url tel:creator.meta.phone
+      //go to the url tel:contact.phone
       //if phone is not null
       if (phone) {
         //open whatsapp://send?text=Hello World!&phone=+phone
@@ -1255,7 +1253,7 @@ export default {
       }
     },
     textCreator(phone) {
-      //go to the url sms:creator.meta.phone
+      //go to the url sms:contact.phone
       //if phone is not null
       if (phone) {
         window.open('sms:' + phone);
@@ -1269,76 +1267,76 @@ export default {
         });
       }
     },
-    generateVCF(_creator) {
+    generateVCF(_contact) {
       let vCard = 'BEGIN:VCARD\n';
       vCard += 'VERSION:3.0\n';
-      //if creator has a first name
-      //if the creator has an instagram handler then set instagram to the instagram handler
-      //else if the creator has a meta.instagram_handler then set instagram to the meta.instagram_handler
+      //if contact has a first name
+      //if the contact has an instagram handler then set instagram to the instagram handler
+      //else if the contact has a meta.instagram_handler then set instagram to the meta.instagram_handler
       //else set instagram to null
 
-      /*       //if creator has an email
-       if (creator.emails[0]) {
-          vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.emails[0] + '\n';
+      /*       //if contact has an email
+       if (contact.emails[0]) {
+          vCard += 'EMAIL;TYPE=PREF,INTERNET:' + contact.emails[0] + '\n';
         } else if
         {
-          vCard += 'EMAIL;TYPE=PREF,INTERNET:' + creator.meta.emails + '\n';
+          vCard += 'EMAIL;TYPE=PREF,INTERNET:' + contact.emails + '\n';
         } else {
         };
         //set employer
-        if (creator.meta.employer) {
-          vCard += 'ORG:' + creator.meta.employer + '\n';
+        if (contact.employer) {
+          vCard += 'ORG:' + contact.employer + '\n';
         } else {
         };
         //set title
-        if (creator.meta.title) {
-          vCard += 'TITLE:' + creator.meta.title + '\n';
+        if (contact.title) {
+          vCard += 'TITLE:' + contact.title + '\n';
         } else {
         };
         if (Creator.location) {
           vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
         }
-        //if creator.instagram_handler set instagram else if creator.meta.instagram set instagram else log no instagram found
-        if (creator.instagram_handler) {
-          vCard += 'URL;TYPE=WORK:' + creator.instagram_handler + '\n';
+        //if contact.instagram_handler set instagram else if contact.instagram set instagram else log no instagram found
+        if (contact.instagram_handler) {
+          vCard += 'URL;TYPE=WORK:' + contact.instagram_handler + '\n';
         } else if
         {
-          vCard += 'URL;TYPE=WORK:' + creator.meta.instagram + '\n';
+          vCard += 'URL;TYPE=WORK:' + contact.instagram + '\n';
         } else {
         };
         //do the twitter and twitch and youtube and tiktok and linkedin
-        if (creator.twitter_handler) {
-          vCard += 'URL;TYPE=WORK:' + creator.twitter_handler + '\n';
+        if (contact.twitter_handler) {
+          vCard += 'URL;TYPE=WORK:' + contact.twitter_handler + '\n';
         } else if
         {
-          vCard += 'URL;TYPE=WORK:' + creator.meta.twitter + '\n';
+          vCard += 'URL;TYPE=WORK:' + contact.twitter + '\n';
         } else {
         };
-        if (creator.twitch_handler) {
-          vCard += 'URL;TYPE=WORK:' + creator.twitch_handler + '\n';
+        if (contact.twitch_handler) {
+          vCard += 'URL;TYPE=WORK:' + contact.twitch_handler + '\n';
         } else if
         {
-          vCard += 'URL;TYPE=WORK:' + creator.meta.twitch + '\n';
+          vCard += 'URL;TYPE=WORK:' + contact.twitch + '\n';
         } else {
         };
-        if (creator.youtube_handler) {
-          vCard += 'URL;TYPE=WORK:' + creator.youtube_handler + '\n';
+        if (contact.youtube_handler) {
+          vCard += 'URL;TYPE=WORK:' + contact.youtube_handler + '\n';
         } else if
         {
-          vCard += 'URL;TYPE=WORK:' + creator.meta.youtube + '\n';
+          vCard += 'URL;TYPE=WORK:' + contact.youtube + '\n';
         } else {
         };
-        if (creator.tiktok_handler) {
-          vCard += 'URL;TYPE=WORK:' + creator.tiktok_handler + '\n';
+        if (contact.tiktok_handler) {
+          vCard += 'URL;TYPE=WORK:' + contact.tiktok_handler + '\n';
         } else if
         {
-          vCard += 'URL;TYPE=WORK:' + creator.meta.tiktok + '\n';
+          vCard += 'URL;TYPE=WORK:' + contact.tiktok + '\n';
         } else {
         };
-        if (creator.linkedin_handler) {
-          vCard += 'URL;TYPE=WORK:' + creator.linkedin_handler + '\n';
+        if (contact.linkedin_handler) {
+          vCard += 'URL;TYPE=WORK:' + contact.linkedin_handler + '\n';
         } else if {
-          vCard += 'URL;TYPE=WORK:' + creator.meta.linkedin + '\n';
+          vCard += 'URL;TYPE=WORK:' + contact.linkedin + '\n';
         }; */
 
       vCard += 'NOTE:Saved from Jovie\n';
@@ -1346,13 +1344,13 @@ export default {
       vCard += 'END:VCARD';
       return vCard;
     },
-    downloadVCF(creator) {
-      let vCard = this.generateVCF(creator);
+    downloadVCF(contact) {
+      let vCard = this.generateVCF(contact);
       let blob = new Blob([vCard], { type: 'text/vcard' });
       let url = URL.createObjectURL(blob);
       let link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute('download', this.creator.meta.name + '.vcf');
+      link.setAttribute('download', this.contact.name + '.vcf');
       link.click();
     },
     toggleSearchVisible() {
@@ -1371,18 +1369,18 @@ export default {
     setCurrentRow(row) {
       this.currentRow = row;
     },
-    toggleArchiveCreators(ids, archived) {
+    toggleArchiveContacts(ids, archived) {
       this.$store
-        .dispatch('toggleArchiveCreators', {
-          creator_ids: ids,
+        .dispatch('toggleArchiveContacts', {
+          contact_ids: ids,
           archived: archived,
         })
         .then((response) => {
           response = response.data;
           if (response.status) {
-            let creatorIds = Array.isArray(ids) ? ids : [ids];
-            this.creatorRecords = this.creatorRecords.filter(
-              (creator) => !creatorIds.includes(creator.id)
+            let contactIds = Array.isArray(ids) ? ids : [ids];
+            this.contactRecords = this.contactRecords.filter(
+              (contact) => !contactIds.includes(contact.id)
             );
             this.$notify({
               group: 'user',
@@ -1422,22 +1420,22 @@ export default {
         .finally((_) => {});
     },
     addCreatorsToList(id) {
-      this.toggleCreatorsFromList(this.selectedCreators, id, false);
+      this.toggleContactsFromList(this.selectedContacts, id, false);
     },
-    toggleCreatorsFromList(ids, list, remove) {
+    toggleContactsFromList(ids, list, remove) {
       this.$store
-        .dispatch('toggleCreatorsFromList', {
-          creator_ids: ids,
+        .dispatch('toggleContactsFromList', {
+          contact_ids: ids,
           list: list,
           remove: remove,
         })
         .then((response) => {
           response = response.data;
           if (response.status) {
-            let creatorIds = Array.isArray(ids) ? ids : [ids];
+            let contactIds = Array.isArray(ids) ? ids : [ids];
             if (remove && this.filters.list == list) {
-              this.creatorRecords = this.creatorRecords.filter(
-                (creator) => !creatorIds.includes(creator.id)
+              this.contactRecords = this.contactRecords.filter(
+                (contact) => !contactIds.includes(contact.id)
               );
               this.$store.state.ContactSidebarOpen = false;
             }
@@ -1450,10 +1448,10 @@ export default {
             });
             this.$emit('crmCounts');
             this.$emit('updateListCount', {
-              count: creatorIds.length,
+              count: contactIds.length,
               list_id: list,
               remove: remove,
-              creatorIds: creatorIds,
+              contactIds: contactIds,
             });
           } else {
             this.$notify({
@@ -1488,27 +1486,27 @@ export default {
         !this.$store.state.ContactSidebarOpen;
     },
 
-    setCurrentContact(_e, creator, index) {
-      this.currentContact = creator;
-      this.$emit('setCurrentContact', creator);
+    setCurrentContact(_e, contact, index) {
+      this.currentContact = contact;
+      this.$emit('setCurrentContact', contact);
       this.currentCell.row = index
     },
     nextContact() {
-      const index = this.creatorRecords.indexOf(this.currentContact);
-      if (index < this.creatorRecords.length - 1) {
+      const index = this.contactRecords.indexOf(this.currentContact);
+      if (index < this.contactRecords.length - 1) {
         this.setCurrentContact(
           'setCurrentCreator',
-          this.creatorRecords[index + 1],
+          this.contactRecords[index + 1],
             index
         );
       }
     },
     previousContact() {
-      const index = this.creatorRecords.indexOf(this.currentContact);
+      const index = this.contactRecords.indexOf(this.currentContact);
       if (index > 0) {
         this.setCurrentContact(
           'setCurrentCreator',
-          this.creatorRecords[index - 1],
+          this.contactRecords[index - 1],
             index
         );
       }
@@ -1518,10 +1516,10 @@ export default {
       //push router to /import
       this.$router.push('/import');
     },
-    refresh(creator) {
+    refresh(contact) {
       let imports = {};
       this.networks.forEach((network) => {
-        imports[network] = creator[`${network}_handler`];
+        imports[network] = contact[`${network}_handler`];
       });
       if (!Object.keys(imports).length) return;
       this.adding = true;

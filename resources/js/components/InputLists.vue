@@ -17,7 +17,7 @@
                         class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
                     <XMarkIcon
                         v-else
-                        @click="toggleCreatorsFromList(creatorId, item.id, true)"
+                        @click="toggleContactsFromList(creatorId, item.id, true)"
                         class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
                 </div>
             </div>
@@ -184,11 +184,11 @@ export default {
       });
     },
     setListAction(id) {
-      this.toggleCreatorsFromList(this.creatorId, id, false);
+      this.toggleContactsFromList(this.creatorId, id, false);
     },
-    toggleCreatorsFromList(ids, list, remove) {
+    toggleContactsFromList(ids, list, remove) {
       this.$store
-        .dispatch('toggleCreatorsFromList', {
+        .dispatch('toggleContactsFromList', {
           creator_ids: ids,
           list: list,
           remove: remove,

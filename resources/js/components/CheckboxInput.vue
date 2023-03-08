@@ -13,7 +13,8 @@ export default {
   props: {
     checked: {
       type: Boolean,
-      required: true,
+      required: false,
+        default: false
     },
       modelValue: {},
       name

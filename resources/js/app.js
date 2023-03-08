@@ -23,7 +23,7 @@ app.mixin({
     currentUser() {
       return store.state.AuthState.user;
     },
-    creators() {
+    contacts() {
       return this.$store.state.crmRecords;
     },
   },

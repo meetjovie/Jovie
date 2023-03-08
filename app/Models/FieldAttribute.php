@@ -67,12 +67,12 @@ class FieldAttribute extends Model
             'actionIcon' => 'ChatBubbleLeftEllipsisIcon',
             'actionIcon2' => 'ArrowTopRightOnSquareIcon',
             /*  'method' => 'openLink', */
-            /*      'action' => this.openLink('creator.meta.instagram_handler'), */
-            'model' => 'instagram_handler',
+            /*      'action' => this.openLink('creator.meta.instagram'), */
+            'model' => 'instagram',
             'method' => 'openLink',
             'method2' => 'instagramDMContact',
-            'params' => 'instagram_handler',
-            'value' => 'instagram_handler',
+            'params' => 'instagram',
+            'value' => 'instagram',
             'isCopyable' => true,
             'placeholder' => 'Instagram',
         ],
@@ -81,12 +81,12 @@ class FieldAttribute extends Model
             'socialicon' => 'twitter',
             'id' => 6,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
-            /*   'action' => this.openLink('creator.meta.twitter_handler'), */
-            'model' => 'twitter_handler',
+            /*   'action' => this.openLink('creator.meta.twitter'), */
+            'model' => 'twitter',
 
             'method' => 'openURL',
-            'params' => 'twitter_handler',
-            'value' => 'twitter_handler',
+            'params' => 'twitter',
+            'value' => 'twitter',
             'isCopyable' => true,
             'placeholder' => 'Twitter',
         ],
@@ -95,11 +95,11 @@ class FieldAttribute extends Model
             'socialicon' => 'tiktok',
             'id' => 7,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
-            /*   'action' => this.openLink('creator.meta.tiktok_handler'), */
-            'model' => 'tiktok_handler',
-            'value' => 'tiktok_handler',
+            /*   'action' => this.openLink('creator.meta.tiktok'), */
+            'model' => 'tiktok',
+            'value' => 'tiktok',
             'method' => 'openURL',
-            'params' => 'tiktok_handler',
+            'params' => 'tiktok',
             'isCopyable' => true,
             'placeholder' => 'TikTok',
         ],
@@ -108,11 +108,11 @@ class FieldAttribute extends Model
             'socialicon' => 'youtube',
             'id' => 8,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
-            /*      'action' => this.openLink('creator.meta.youtube_handler'), */
-            'model' => 'youtube_handler',
-            'value' => 'youtube_handler',
+            /*      'action' => this.openLink('creator.meta.youtube'), */
+            'model' => 'youtube',
+            'value' => 'youtube',
             'method' => 'openURL',
-            'params' => 'youtube_handler',
+            'params' => 'youtube',
             /* 'method' => 'openLink', */
             'isCopyable' => true,
             'placeholder' => 'Youtube',
@@ -122,10 +122,10 @@ class FieldAttribute extends Model
             'socialicon' => 'twitch',
             'id' => 9,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
-            /*   'action' => this.openLink('creator.meta.twitch_handler'), */
-            'model' => 'twitch_handler',
-            'params' => 'twitch_handler',
-            'value' => 'twitch_handler',
+            /*   'action' => this.openLink('creator.meta.twitch'), */
+            'model' => 'twitch',
+            'params' => 'twitch',
+            'value' => 'twitch',
             'method' => 'openURL',
             'isCopyable' => true,
             'placeholder' => 'Twitch',
@@ -135,10 +135,10 @@ class FieldAttribute extends Model
             'socialicon' => 'linkedin',
             'id' => 10,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
-            /*    'action' => this.openLink('creator.meta.linkedin_handler'), */
-            'model' => 'linkedin_handler',
-            'value' => 'linkedin_handler',
-            'params' => 'linkedin_handler',
+            /*    'action' => this.openLink('creator.meta.linkedin'), */
+            'model' => 'linkedin',
+            'value' => 'linkedin',
+            'params' => 'linkedin',
             /*  'method' => 'openLink', */
             'isCopyable' => true,
             'placeholder' => 'Linkedin',
@@ -173,7 +173,7 @@ class FieldAttribute extends Model
         [
             'id' => 3,
             'name' => 'Title',
-            'key' => 'platform_title',
+            'key' => 'title',
             'meta' => true,
             'icon' => 'UserIcon',
             'hide' => true,
@@ -184,7 +184,7 @@ class FieldAttribute extends Model
         [
             'id' => 4,
             'name' => 'Company',
-            'key' => 'platform_employer',
+            'key' => 'employer',
             'meta' => true,
             'icon' => 'BriefcaseIcon',
             'hide' => true,
@@ -220,7 +220,7 @@ class FieldAttribute extends Model
         [
             'id' => 7,
             'name' => 'Offer',
-            'key' => 'crm_record_by_user.offer',
+            'key' => 'offer',
             'icon' => 'CurrencyDollarIcon',
             'sortable' => true,
             'hide' => true,
@@ -231,7 +231,7 @@ class FieldAttribute extends Model
         [
             'id' => 8,
             'name' => 'Stage',
-            'key' => 'crm_record_by_user.stage',
+            'key' => 'stage',
             'icon' => 'ArrowDownCircleIcon',
             'width' => '40',
             'sortable' => true,
@@ -242,7 +242,7 @@ class FieldAttribute extends Model
         [
             'id' => 9,
             'name' => 'Last Contact',
-            'key' => 'crm_record_by_user.last_contacted',
+            'key' => 'last_contacted',
             'icon' => 'CalendarDaysIcon',
             'sortable' => true,
             'hide' => true,
@@ -253,7 +253,7 @@ class FieldAttribute extends Model
         [
             'id' => 10,
             'name' => 'Rating',
-            'key' => 'crm_record_by_user.rating',
+            'key' => 'rating',
             'icon' => 'StarIcon',
             'sortable' => true,
             'hide' => false,
@@ -264,7 +264,7 @@ class FieldAttribute extends Model
         [
             'id' => 11,
             'name' => 'Lists',
-            'key' => 'crm_record_by_user.lists',
+            'key' => 'lists',
             'icon' => 'ListBulletIcon',
             'hide' => false,
             'breakpoint' => '2xl',
@@ -274,7 +274,7 @@ class FieldAttribute extends Model
         [
             'id' => 12,
             'name' => 'Description',
-            'key' => 'crm_record_by_user.description',
+            'key' => 'description',
             'icon' => 'ListBulletIcon',
             'hide' => false,
             'default' => true,
