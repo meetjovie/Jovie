@@ -21,7 +21,7 @@ Broadcast::channel('userListDuplicated.{teamId}', function ($user, $teamId) {
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });
-Broadcast::channel('creatorImported.{teamId}', function ($user, $teamId) {
+Broadcast::channel('contactImported.{teamId}', function ($user, $teamId) {
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });

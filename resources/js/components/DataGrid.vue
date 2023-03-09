@@ -1419,7 +1419,7 @@ export default {
         })
         .finally((_) => {});
     },
-    addCreatorsToList(id) {
+    addContactsToList(id) {
       this.toggleContactsFromList(this.selectedContacts, id, false);
     },
     toggleContactsFromList(ids, list, remove) {

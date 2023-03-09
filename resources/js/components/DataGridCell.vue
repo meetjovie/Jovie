@@ -99,7 +99,7 @@
             @updateLists="$emit('updateContactLists', $event)"
             :contactId="contact.id ?? 0"
             :listItems="userLists"
-            :lists="contact.lists"
+            :lists="contact.user_lists"
             :currentList="contact.current_list" />
         </template>
         <template #fallback> Loading... </template>

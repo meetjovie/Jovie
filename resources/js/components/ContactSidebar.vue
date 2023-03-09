@@ -410,7 +410,7 @@
             v-if="contact.id"
             @updateLists="updateContactLists"
             :contactId="contact.id ?? 0"
-            :lists="contact.lists"
+            :lists="contact.user_lists"
             :currentList="contact.current_list" />
         </div>
       </div>
@@ -873,11 +873,11 @@ export default {
     },
     updateContactLists({ list, add = false }) {
       if (add) {
-        if (!this.contact.lists.filter((l) => l.id == list.id).length) {
-          this.contact.lists.push(list);
+        if (!this.contact.user_lists.filter((l) => l.id == list.id).length) {
+          this.contact.user_lists.push(list);
         }
       } else {
-        this.contact.lists = this.contact.lists.filter((l) => l.id != list.id);
+        this.contact.user_lists = this.contact.user_lists.filter((l) => l.id != list.id);
       }
     },
     focusNoteInput() {

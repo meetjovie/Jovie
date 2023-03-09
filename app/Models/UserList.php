@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\Notification;
 use App\Events\UserListDuplicated;
 use App\Jobs\DuplicateList;
+use App\Models\Scopes\TeamScope;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,6 +30,16 @@ class UserList extends Model
 
     protected $appends = ['updating_list'];
 
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope(new TeamScope());
+    }
+
     public function getEmojiAttribute($value)
     {
         return $value ?? '📄';
@@ -36,6 +47,11 @@ class UserList extends Model
     public function creators()
     {
         return $this->belongsToMany(Creator::class)->withTimestamps();
+    }
+
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class)->withTimestamps();
     }
 
     public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null, $updating = false)
@@ -132,13 +148,12 @@ class UserList extends Model
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         return UserList::query()
-            ->withCount('creators')
+            ->withCount('contacts')
             ->join('user_list_attributes as ula', function ($join) use ($user) {
                 $join->on('ula.user_list_id', '=', 'user_lists.id')
                     ->where('ula.user_id', $user->id)
                     ->where('ula.team_id', $user->currentTeam->id);
             })
-            ->where('user_lists.team_id', $user->currentTeam->id)
             ->addSelect('user_lists.*', 'ula.order', 'ula.pinned')
             ->orderBy('order')->get();
     }

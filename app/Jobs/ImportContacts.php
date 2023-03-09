@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\UserListImported;
 use App\Models\Contact;
 use App\Models\Import;
 use App\Models\User;
@@ -50,6 +51,7 @@ class ImportContacts implements ShouldQueue
 
             $mappedColumns = collect($this->payload->mappedColumns);
             $maxColumn = max($mappedColumns->flatten()->toArray());
+            $contactIds = [];
             foreach ($records as $offset => $row) {
                 $contact = new Contact();
                 if ($this->page == 0 && $offset == 0) {
@@ -79,7 +81,7 @@ class ImportContacts implements ShouldQueue
                 }
 
                 $contact->team_id = $this->payload->teamId;
-                $contact->user_id = $this->payload->list->user_id;
+                $contact->user_id = $this->payload->userId;
                 $contact->user_list_id = $this->payload->list->id;
                 if ($this->payload->tags) {
                     $tags = explode(',', $this->payload->tags);
@@ -110,11 +112,17 @@ class ImportContacts implements ShouldQueue
                 $contact->snapchat = isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
                 $contact->wiki = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
                 $contact->save();
+                $contactIds[] = $contact->id;
+            }
+
+            if ($this->payload->list) {
+                Contact::addContactsToList($contactIds, $this->payload->list->id, $this->payload->teamId);
             }
 
             if ($this->page >= ceil($this->payload->totalRecords / Import::PER_PAGE) - 1) {
                 if ($this->payload->list) {
                     UserList::query()->where('id', $this->payload->list->id)->update(['updating' => false]);
+                    UserListImported::dispatch($this->payload->list->id, $this->payload->userId, $this->payload->teamId);
                 }
             }
 

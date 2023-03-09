@@ -150,6 +150,7 @@
                     <Suspense>
                       <template #default>
                         <MenuList
+                            :key="userLists"
                           ref="menuListAll"
                           @getUserLists="getUserLists"
                           @setFiltersType="setFiltersType"
@@ -842,7 +843,7 @@ export default {
       if (this.userLists.length && this.filters.type == 'list') {
         let list = this.userLists.find((list) => list.id == this.filters.list);
         if (list) {
-          return list.updating_list;
+          return list.updating;
         }
       }
       return false;
@@ -912,7 +913,7 @@ export default {
           setTimeout(() => {
             let list = this.userLists.find((list) => list.id == data.list);
             if (list) {
-              list.updating_list = null;
+              list.updating = null;
               this.setFilterList(list.id);
             }
           }, 200);
@@ -937,10 +938,7 @@ export default {
         `userListImported.${this.currentUser.current_team.id}`,
         'UserListImported',
         (data) => {
-          let index = this.userLists.findIndex((list) => list.id == data.list);
-          if (index >= 0) {
-            this.userLists[index].updating_list = null;
-          }
+          this.getUserLists();
           this.$store.state.showImportProgress = data.remaining;
           if (!data.remaining) {
             this.getUserLists();
@@ -952,11 +950,8 @@ export default {
         `userListImportTriggered.${this.currentUser.current_team.id}`,
         'UserListImportTriggered',
         (data) => {
-          let index = this.userLists.findIndex((list) => list.id == data.list);
-          if (index >= 0) {
-            this.userLists[index].updating_list = true;
+            this.getUserLists()
             this.$store.state.showImportProgress = data.remaining;
-          }
         }
       );
 
@@ -1186,19 +1181,19 @@ export default {
         .finally((response) => {});
     },
     getUserLists() {
-      // UserService.getUserLists().then((response) => {
-      //   response = response.data;
-      //   if (response.status) {
-      //     this.userLists = [];
-      //     this.userLists = response.lists;
-      //     if (this.filters.list) {
-      //         let list = this.userLists.find(l => l.id === this.filters.list)
-      //         if (list) {
-      //             this.filters.currentList = list
-      //         }
-      //     }
-      //   }
-      // });
+      UserService.getUserLists().then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.userLists = [];
+          this.userLists = response.lists;
+          if (this.filters.list) {
+              let list = this.userLists.find(l => l.id === this.filters.list)
+              if (list) {
+                  this.filters.currentList = list
+              }
+          }
+        }
+      });
     },
     pageChanged({ page }) {
       this.filters.page = page;
@@ -1283,7 +1278,7 @@ export default {
         if (params.remove) {
           selectedContacts.forEach((contact) => {
             if (
-              contact.lists.filter((list) => list.id != params.list.id).length
+              contact.user_lists.filter((list) => list.id != params.list.id).length
             ) {
               list.contacts_count -= 1;
             }
@@ -1291,7 +1286,7 @@ export default {
         } else {
           selectedContacts.forEach((contact) => {
             if (
-              contact.lists.filter((list) => list.id == params.list.id).length
+              contact.user_lists.filter((list) => list.id == params.list.id).length
             ) {
               list.contacts_count += 1;
             }

@@ -24,7 +24,7 @@ export default {
     return axios.post(`${baseApiUrl}/remove-profile-photo?_method=DELETE`);
   },
   async getUserLists() {
-    // return axios.get(`${baseApiUrl}/user-lists`);
+    return axios.get(`${baseApiUrl}/user-lists`);
   },
     getCrmContacts(data, cancelSignal = null) {
       let config = {
@@ -138,7 +138,7 @@ export default {
     return axios.post(`${baseApiUrl}/update-list/${id}?_method=PUT`, data);
   },
   async toggleContactsFromList(data) {
-    return axios.post(`${baseApiUrl}/toggle-creators-from-list`, data);
+    return axios.post(`${baseApiUrl}/toggle-contacts-from-list`, data);
   },
   async toggleArchiveContacts(data) {
     return axios.post(`${baseApiUrl}/toggle-archive-creators`, data);

@@ -46,6 +46,39 @@ class CrmController extends Controller
         ]);
     }
 
+    public function toggleContactsFromList(Request $request)
+    {
+        $list = UserList::where('id', $request->list)->first();
+        if (!$list) {
+            throw ValidationException::withMessages([
+                'list' => ['List does not exists']
+            ]);
+        }
+
+        $request->validate([
+            'contact_ids' => 'required'
+        ]);
+
+        $contactIds = is_array($request->contact_ids) ? $request->contact_ids : [$request->contact_ids];
+
+        if ($request->remove) {
+            $list->contacts()->detach($contactIds);
+        } else {
+            $list->contacts()->syncWithoutDetaching($contactIds);
+        }
+        return response()->json([
+            'status' => true,
+            'list' => [
+                'id' => $list->id,
+                'name' => $list->name,
+                'emoji' => $list->emoji,
+            ],
+
+            'message' => ('Contacts '. ($request->remove == true ? 'removed from list' : 'added to list'))
+
+        ], 200);
+    }
+
     public function crmCreators(Request $request)
     {
         try {

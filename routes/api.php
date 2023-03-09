@@ -79,6 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // CRM CONTACTS
     Route::get('/crm-contacts', [\App\Http\Controllers\CrmController::class, 'crmContacts']);
     Route::post('/update-contact/{id}', [\App\Http\Controllers\CrmController::class, 'updateContact']);
+    Route::post('/toggle-contacts-from-list', [\App\Http\Controllers\CrmController::class, 'toggleContactsFromList']);
 
 
     //      CRM

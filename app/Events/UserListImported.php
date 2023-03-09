@@ -49,14 +49,10 @@ class UserListImported implements ShouldBroadcast
     public function broadcastWith()
     {
         $list = UserList::where('id', $this->listId)->first();
-        $batches = Import::importBatches($this->userId);
-        $batches = !! count(array_filter($batches, function ($batch) {
-            return $batch->is_batch && $batch->progress < 100;
-        }));
         if ($list) {
             return ['status' => true, 'data' => [
                 'list' => $this->listId,
-                'remaining' => $batches
+                'remaining' => UserList::query()->where('updating', 1)->count()
             ], 'message' => "$list->name imported"];
         }
     }

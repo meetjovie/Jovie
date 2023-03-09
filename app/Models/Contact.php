@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -87,6 +88,11 @@ class Contact extends Model
         static::addGlobalScope(new TeamScope());
     }
 
+    public function userLists(): BelongsToMany
+    {
+        return $this->belongsToMany(UserList::class)->withTimestamps();
+    }
+
     /**
      * Determine the stage of contact.
      */
@@ -159,13 +165,18 @@ class Contact extends Model
 
     public static function getContacts($params)
     {
-        $contacts = Contact::query();
+        $contacts = Contact::query()->with('userLists');
 
         if (isset($params['type']) && $params['type'] == 'archived') {
             $contacts = $contacts->where('archived', 1);
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
             $contacts = $contacts->where(function ($q) {
                 $q->where('favourite', true);
+            });
+        } elseif (isset($params['type']) && $params['type'] == 'list' && !empty($params['list'])) {
+            $listId = $params['list'];
+            $contacts = $contacts->whereHas('userLists', function ($query) use ($listId) {
+                $query->where('user_lists.id', $listId);
             });
         } else {
             $contacts = $contacts->where('archived', 0);
@@ -193,8 +204,18 @@ class Contact extends Model
     {
         $counts = Contact::query()->selectRaw('team_id, count(*) AS total,
         sum(case when favourite = true then 1 else 0 end) AS favourites,
-        sum(case when archived = true then 1 else 0 end) AS archived')->groupBy('team_id')->first()->makeHidden(['stage_name']);
-        unset($counts->team_id);
+        sum(case when archived = true then 1 else 0 end) AS archived')->groupBy('team_id')->first();
+
+        if ($counts) {
+            $counts = $counts->makeHidden(['stage_name']);
+            unset($counts->team_id);
+        } else {
+            $counts = [
+                'archived' => 0,
+                'favourite' => 0,
+                'total' => 0,
+            ];
+        }
         return $counts;
     }
 
@@ -219,4 +240,13 @@ class Contact extends Model
         return $contact;
     }
 
+    public static function addContactsToList(array|int $contactIds, $listId, $teamId)
+    {
+        if (!is_array($contactIds)) {
+            $contactIds = [$contactIds];
+        }
+
+        $list = UserList::query()->where('id', $listId)->first();
+        $list->contacts()->syncWithoutDetaching($contactIds);
+    }
 }

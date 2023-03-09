@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Events\ImportListCreated;
+use App\Events\UserListImportTriggered;
 use App\Imports\ImportFileImport;
 use App\Models\Import;
 use App\Models\Notification;
@@ -86,12 +87,13 @@ class SaveImport implements ShouldQueue
                 ]));
                 for ($page = 0; $page < ceil($totalRecords / Import::PER_PAGE); $page++) {
                     if ($this->contacts) { // empty contacts
-                        ImportContacts::dispatch($this->file, $page, $payload);
                         if ($page == 0) {
                             if ($list->wasRecentlyCreated) {
                                 ImportListCreated::dispatch($this->teamId, $list);
                             }
+                            UserListImportTriggered::dispatch($list->id, $this->userId, $this->teamId);
                         }
+                        ImportContacts::dispatch($this->file, $page, $payload);
                     } else {
                         $command = "save:import-chunk $this->file $page $payload";
                         Artisan::queue($command);

@@ -17,7 +17,7 @@
                         class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
                     <XMarkIcon
                         v-else
-                        @click="toggleContactsFromList(creatorId, item.id, true)"
+                        @click="toggleContactsFromList(contactId, item.id, true)"
                         class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
                 </div>
             </div>
@@ -75,7 +75,7 @@ export default {
     currentList: {
       type: String,
     },
-    creatorId: {
+    contactId: {
       type: Number,
     },
     nameKey: {
@@ -184,12 +184,12 @@ export default {
       });
     },
     setListAction(id) {
-      this.toggleContactsFromList(this.creatorId, id, false);
+      this.toggleContactsFromList(this.contactId, id, false);
     },
     toggleContactsFromList(ids, list, remove) {
       this.$store
         .dispatch('toggleContactsFromList', {
-          creator_ids: ids,
+          contact_ids: ids,
           list: list,
           remove: remove,
         })
@@ -212,7 +212,7 @@ export default {
               );
               this.$store.state.ContactSidebarOpen = false;
             }
-            response.list.creator_id = this.creatorId;
+            response.list.creator_id = this.contactId;
             this.$emit('updateLists', { list: response.list, add: !remove });
           } else {
             this.$notify({

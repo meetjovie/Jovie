@@ -162,6 +162,7 @@
       <DataGridCell
           :ref="`gridCell_${currentCell.row}_${columnIndex}`"
           @mouseover="setCurrentCell(columnIndex)"
+        :userLists="userLists"
         :visibleColumns="visibleColumns"
         :settings="settings"
         :currentContact="currentContact"
@@ -225,9 +226,9 @@ export default {
       },
     updateContactLists({ list, add = false }) {
       if (add) {
-        this.contact.lists.push(list);
+        this.contact.user_lists.push(list);
       } else {
-        this.contact.lists = this.contact.lists.filter((l) => l.id != list.id);
+        this.contact.user_lists = this.contact.user_lists.filter((l) => l.id != list.id);
       }
       this.$emit('updateListCount', {
         count: 1,
