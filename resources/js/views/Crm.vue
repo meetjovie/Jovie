@@ -150,7 +150,7 @@
                     <Suspense>
                       <template #default>
                         <MenuList
-                            :key="userLists"
+                            :key="listKey"
                           ref="menuListAll"
                           @getUserLists="getUserLists"
                           @setFiltersType="setFiltersType"
@@ -817,6 +817,7 @@ export default {
       currentSortOrder: 'desc',
       columns: [],
       crmCounting: false,
+        listKey: 0
     };
   },
   watch: {
@@ -909,14 +910,13 @@ export default {
         `userListDuplicated.${this.currentUser.current_team.id}`,
         'UserListDuplicated',
         async (data) => {
-          await this.getUserLists();
-          setTimeout(() => {
-            let list = this.userLists.find((list) => list.id == data.list);
-            if (list) {
-              list.updating = null;
-              this.setFilterList(list.id);
-            }
-          }, 200);
+          this.getUserLists().then(() => {
+              let list = this.userLists.find((list) => list.id == data.list);
+              if (list) {
+                  list.updating = null;
+                  this.setFilterList(list.id);
+              }
+          })
         }
       );
 
@@ -924,13 +924,12 @@ export default {
         `importListCreated.${this.currentUser.current_team.id}`,
         'ImportListCreated',
         async (data) => {
-          await this.getUserLists();
-          setTimeout(() => {
-            let list = this.userLists.find((list) => list.id == data.list);
-            if (list) {
-              this.setFilterList(list.id);
-            }
-          }, 200);
+          this.getUserLists().then(() => {
+              let list = this.userLists.find((list) => list.id == data.list);
+              if (list) {
+                  this.setFilterList(list.id);
+              }
+          })
         }
       );
 
@@ -938,11 +937,12 @@ export default {
         `userListImported.${this.currentUser.current_team.id}`,
         'UserListImported',
         (data) => {
-          this.getUserLists();
-          this.$store.state.showImportProgress = data.remaining;
-          if (!data.remaining) {
-            this.getUserLists();
-          }
+          this.getUserLists().then(() => {
+              this.$store.state.showImportProgress = data.remaining;
+              if (!data.remaining) {
+                  this.getUserLists();
+              }
+          })
         }
       );
 
@@ -950,14 +950,15 @@ export default {
         `userListImportTriggered.${this.currentUser.current_team.id}`,
         'UserListImportTriggered',
         (data) => {
-            this.getUserLists()
-            this.$store.state.showImportProgress = data.remaining;
+            this.getUserLists().then(() => {
+                this.$store.state.showImportProgress = data.remaining;
+            })
         }
       );
 
       this.listenEvents(
         `contactImported.${this.currentUser.current_team.id}`,
-        'contactImported',
+        'ContactImported',
         (data) => {
           if (!data.list) {
             this.$store.state.importProgressSingleCount--;
@@ -1181,19 +1182,23 @@ export default {
         .finally((response) => {});
     },
     getUserLists() {
-      UserService.getUserLists().then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.userLists = [];
-          this.userLists = response.lists;
-          if (this.filters.list) {
-              let list = this.userLists.find(l => l.id === this.filters.list)
-              if (list) {
-                  this.filters.currentList = list
-              }
-          }
-        }
-      });
+        return new Promise((resolve, reject) => {
+            UserService.getUserLists().then((response) => {
+                response = response.data;
+                if (response.status) {
+                    this.listKey = this.listKey+1
+                    this.userLists = [];
+                    this.userLists = response.lists;
+                    if (this.filters.list) {
+                        let list = this.userLists.find(l => l.id === this.filters.list)
+                        if (list) {
+                            this.filters.currentList = list
+                        }
+                    }
+                }
+                return resolve()
+            });
+        })
     },
     pageChanged({ page }) {
       this.filters.page = page;

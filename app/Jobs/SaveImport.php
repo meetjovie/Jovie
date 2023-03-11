@@ -92,8 +92,9 @@ class SaveImport implements ShouldQueue
                                 ImportListCreated::dispatch($this->teamId, $list);
                             }
                             UserListImportTriggered::dispatch($list->id, $this->userId, $this->teamId);
+                            ImportContacts::dispatch($this->file, $page, $payload);
                         }
-                        ImportContacts::dispatch($this->file, $page, $payload);
+//                        ImportContacts::dispatch($this->file, $page, $payload);
                     } else {
                         $command = "save:import-chunk $this->file $page $payload";
                         Artisan::queue($command);

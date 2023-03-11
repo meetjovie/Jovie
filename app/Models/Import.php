@@ -46,7 +46,7 @@ class Import extends Model
         'gender',
     ];
 
-    const PER_PAGE = 1000;
+    const PER_PAGE = 50;
 
     const ERROR_INTERNAL_MONTHLY_CREDITS_REACHED = 0;
 
