@@ -8,10 +8,10 @@
               <div class="mt-2 w-full px-4">
                 <div
                   @click="showCreatorModal = true"
-                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                   <div class="flex items-center text-xs">
                     <PlusIcon
-                      class="mr-1 h-5 w-5 rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                      class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
                       aria-hidden="true" />
                     New Contact
                   </div>
@@ -564,7 +564,11 @@
                           @getHeaders="getHeaders"
                           @getFields="getFields"
                           @setOrder="setOrder"
-                          :header="filters.type === 'list' ? filters.currentList.name : filters.type"
+                          :header="
+                            filters.type === 'list'
+                              ? filters.currentList.name
+                              : filters.type
+                          "
                           @importCSV="importCSV"
                           :subheader="counts"
                           :filters="filters"
@@ -1013,13 +1017,13 @@ export default {
     });
   },
   methods: {
-      updateUserList(event) {
-          console.log('this.$refs.crmTableGridthis.$refs.crmTableGrid');
-          console.log(this.$refs.crmTableGrid);
-          console.log(this.$refs.crmTableGrid.met);
-          console.log(event);
-          this.$refs.crmTableGrid.updateUserList(event)
-      },
+    updateUserList(event) {
+      console.log('this.$refs.crmTableGridthis.$refs.crmTableGrid');
+      console.log(this.$refs.crmTableGrid);
+      console.log(this.$refs.crmTableGrid.met);
+      console.log(event);
+      this.$refs.crmTableGrid.updateUserList(event);
+    },
     getHeaders() {
       this.headersLoaded = false;
       FieldService.getHeaderFields(this.filters.list)
@@ -1032,8 +1036,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           if (error.response && error.response.status == 422) {
             this.errors = error.data.errors;
             this.$notify({
@@ -1137,11 +1141,11 @@ export default {
       this.filters.type = 'list';
       this.filters.list = this.filters.list == list ? null : list;
       if (this.filters.list) {
-          list = this.userLists.find(l => l.id === list)
-          this.filters.currentList = list ?? null
+        list = this.userLists.find((l) => l.id === list);
+        this.filters.currentList = list ?? null;
       } else {
-          this.filters.type = 'all';
-          this.filters.currentList = null
+        this.filters.type = 'all';
+        this.filters.currentList = null;
       }
       this.getCrmCreators();
     },
@@ -1172,8 +1176,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.errors = error.data.errors;
@@ -1197,10 +1201,10 @@ export default {
           this.userLists = [];
           this.userLists = response.lists;
           if (this.filters.list) {
-              let list = this.userLists.find(l => l.id === this.filters.list)
-              if (list) {
-                  this.filters.currentList = list
-              }
+            let list = this.userLists.find((l) => l.id === this.filters.list);
+            if (list) {
+              this.filters.currentList = list;
+            }
           }
         }
       });
@@ -1254,14 +1258,14 @@ export default {
           response = response.data;
           if (response.status) {
             this.counts = response.counts;
-            this.userLists.forEach(list => {
-                this.counts[`list_${list.id}`] = list.creators_count
-            })
+            this.userLists.forEach((list) => {
+              this.counts[`list_${list.id}`] = list.creators_count;
+            });
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
         })
         .finally(() => {
           this.crmCounting = false;
