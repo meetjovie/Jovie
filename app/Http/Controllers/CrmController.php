@@ -25,7 +25,10 @@ class CrmController extends Controller
 {
     public function crmContacts(Request $request)
     {
-        $contacts = Contact::getContacts($request->all());
+        $params = $request->all();
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        $contacts = Contact::getContacts($params);
         $counts = Contact::getCrmCounts();
         return response()->json([
             'status' => true,

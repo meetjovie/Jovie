@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Import;
 use Illuminate\Broadcasting\Channel;
@@ -16,8 +17,7 @@ class ContactImported implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $creatorId;
-    private $userId;
+    private $contactId;
     private $teamId;
     private $listId;
     /**
@@ -25,10 +25,9 @@ class ContactImported implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($creatorId, $userId, $teamId, $listId)
+    public function __construct($contactId, $teamId, $listId)
     {
-        $this->creatorId = $creatorId;
-        $this->userId = $userId;
+        $this->contactId = $contactId;
         $this->teamId = $teamId;
         $this->listId = $listId;
     }
@@ -50,10 +49,10 @@ class ContactImported implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $creator = Creator::getCrmCreators(['id' => $this->creatorId], $this->userId)->first();
-        $creator = base64_encode(json_encode($creator));
+        $contact = Contact::getContacts(['id' => $this->contactId, 'team_id' => $this->teamId])->first();
+        $contact = base64_encode(json_encode($contact));
         return ['status' => true, 'data' => [
-            'creator' => $creator,
+            'contact' => $contact,
             'list' => $this->listId,
         ], 'message' => $this->listId ? null : 'Contact Imported'];
     }

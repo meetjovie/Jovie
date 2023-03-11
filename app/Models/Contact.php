@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ContactImported;
 use App\Models\Scopes\TeamScope;
 use App\Traits\CustomFieldsTrait;
 use Carbon\Carbon;
@@ -178,7 +179,7 @@ class Contact extends Model
         );
     }
 
-    public static function getContacts($params, $userId = null)
+    public static function getContacts($params)
     {
         $contacts = Contact::query()->with('userLists')
             ->select('contacts.*')
@@ -212,7 +213,7 @@ class Contact extends Model
         foreach ($contacts as &$contact) {
             // custom fields
             $cc = new Contact();
-            $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
+            $customFields = $cc->getFieldsByTeam($params['team_id']);
             foreach ($customFields as $customField) {
                 $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
             }
@@ -273,5 +274,9 @@ class Contact extends Model
 
         $list = UserList::query()->where('id', $listId)->first();
         $list->contacts()->syncWithoutDetaching($contactIds);
+
+        foreach ($contactIds as $contactId) {
+            ContactImported::dispatch($contactId, $teamId, $listId);
+        }
     }
 }
