@@ -55,6 +55,6 @@ class ContactImported implements ShouldBroadcast
         return ['status' => true, 'data' => [
             'creator' => $creator,
             'list' => $this->listId,
-        ], 'message' => $this->listId ? null : 'Creator Imported'];
+        ], 'message' => $this->listId ? null : 'Contact Imported'];
     }
 }

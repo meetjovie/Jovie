@@ -81,19 +81,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/update-contact/{id}', [\App\Http\Controllers\CrmController::class, 'updateContact']);
     Route::post('/toggle-contacts-from-list', [\App\Http\Controllers\CrmController::class, 'toggleContactsFromList']);
     Route::post('/toggle-archive-contacts', [\App\Http\Controllers\CrmController::class, 'toggleArchiveContacts']);
-
-
-    //      CRM
-    Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
     Route::get('/crm-counts', [\App\Http\Controllers\CrmController::class, 'crmCounts']);
-    Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
-    Route::post('/update-crm-meta/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmMeta']);
 
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
-
-    Route::post('/toggle-creators-from-list', [\App\Http\Controllers\CrmController::class, 'toggleCreatorsFromList']);
-    Route::post('/toggle-archive-creators', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreators']);
 
     Route::get('/get-extension-creator', [\App\Http\Controllers\CrmController::class, 'getExtensionCreator'])->withoutMiddleware('state.csrf');
     Route::post('/save-to-crm', [\App\Http\Controllers\CrmController::class, 'saveToCrm'])->withoutMiddleware('state.csrf');

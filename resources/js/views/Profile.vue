@@ -105,7 +105,7 @@ import router from '../router';
 import SocialIcons from '../components/SocialIcons';
 
 export default {
-  name: 'CreatorProfile',
+  name: 'ContactProfile',
   components: { JovieLogo, ButtonGroup, EnvelopeOpenIcon, SocialIcons },
   props: ['profile', 'socialNetworks'],
   data() {

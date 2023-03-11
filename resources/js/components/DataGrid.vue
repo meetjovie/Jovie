@@ -757,7 +757,7 @@ export default {
         }
         if (this.currentContact.length) {
         this.$router.push({
-          name: 'Creator Overview',
+          name: 'Contact Overview',
           params: { id: this.currentContact[0].crm_id },
         });
       }
@@ -1293,8 +1293,8 @@ export default {
           vCard += 'TITLE:' + contact.title + '\n';
         } else {
         };
-        if (Creator.location) {
-          vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
+        if (Contact.location) {
+          vCard += 'ADR;TYPE=WORK:;;' + Contact.location + '\n';
         }
         //if contact.instagram_handler set instagram else if contact.instagram set instagram else log no instagram found
         if (contact.instagram_handler) {

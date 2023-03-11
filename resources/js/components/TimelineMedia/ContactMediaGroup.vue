@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'CreatorMediaGroup',
+  name: 'ContactMediaGroup',
 };
 </script>
 

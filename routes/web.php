@@ -296,7 +296,7 @@ Route::post('/waitlist', [\App\Http\Controllers\UserController::class, 'addToWai
 Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'publicProfile']);
 
 //Route::get('creator', function () {
-//    $creator = \App\Models\Creator::first();
+//    $creator = \App\Models\Contact::first();
 //    dd($creator->instagram_media);
 //});
 

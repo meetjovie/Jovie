@@ -51,7 +51,7 @@
 </template>
 <script>
 export default {
-  name: 'CreatorAvatar',
+  name: 'ContactAvatar',
   props: {
     imageUrl: {
       type: String,
@@ -59,7 +59,7 @@ export default {
     },
     name: {
       type: String,
-      default: 'Creator',
+      default: 'Contact',
     },
     size: {
       type: String,

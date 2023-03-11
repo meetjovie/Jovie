@@ -123,7 +123,7 @@ class UserController extends Controller
 
         return response([
             'status' => false,
-            'message' => 'Creator not found.',
+            'message' => 'Contact not found.',
         ]);
     }
 

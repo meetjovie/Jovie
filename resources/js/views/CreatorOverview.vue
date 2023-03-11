@@ -95,7 +95,7 @@
             <section aria-labelledby="applicant-information-title">
               <div class="grid-cols-2 bg-white shadow sm:rounded-lg">
                 <div class="pt-5">
-                  <CreatorAvatar
+                  <ContactAvatar
                     size="md"
                     :imageUrl="contact.profile_pic_url" />
                 </div>
@@ -115,7 +115,7 @@
                     {{ contact.biography }}
                   </p>
                   <div class="mt-4">
-                    <CreatorSocialLinks
+                    <ContactSocialLinks
                       :socialLinks="contact.social_links_with_followers"
                       iconstyle="horizontal" />
                   </div>
@@ -211,7 +211,7 @@
                         Category
                       </dt>
                       <dd class="mt-1 text-sm text-slate-900">
-                        <CreatorTags
+                        <ContactTags
                           :showX="false"
                           size="md"
                           :text="contact.category" />
@@ -247,19 +247,19 @@
                       <dt class="text-sm font-medium text-slate-500">Tags</dt>
                       <dd class="mt-1 text-sm text-slate-900">
                         <template v-for="(tag, index) in contact.tags">
-                          <CreatorTags
+                          <ContactTags
                             @deleteTag="deleteTag(contact.id, index)"
                             v-if="index == 0"
                             size="md"
                             color="pink"
                             :text="tag" />
-                          <CreatorTags
+                          <ContactTags
                             @deleteTag="deleteTag(contact.id, index)"
                             v-if="index == 1"
                             size="md"
                             color="blue"
                             :text="tag" />
-                          <CreatorTags
+                          <ContactTags
                             @deleteTag="deleteTag(contact.id, index)"
                             v-if="index == 2"
                             size="md"
@@ -292,7 +292,7 @@
                                 clip-rule="evenodd" />
                             </svg>
                             <span class="ml-2 w-0 flex-1 truncate text-xs">
-                              {{ contact.name }} Creator Report.pdf
+                              {{ contact.name }} Contact Report.pdf
                             </span>
                           </div>
                           <div class="ml-4 flex-shrink-0">
@@ -333,9 +333,9 @@
                                     v-for="social in socials"
                                     :key="social.network"
                                     class="flex flex-col py-4 lg:py-0">
-                                    <CreatorHandles
+                                    <ContactHandles
                                         :placeholder="social.placeholder"
-                                        icon="TwitterIcon"></CreatorHandles>
+                                        icon="TwitterIcon"></ContactHandles>
 
                                     <div class="relative">
                                         <div
@@ -383,18 +383,18 @@
                 </div>
                 <TabPanels as="template">
                   <!--  <TabPanel class="space-y-12 px-4 pt-10 pb-6">
-                                  <CreatorContentBar />
+                                  <ContactContentBar />
                                 </TabPanel>
                                 <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                                   <ActivityFeed button="Show more" />
                                 </TabPanel> -->
 
                   <TabPanel class="space-y-12 px-4 pt-10 pb-6">
-                    <CreatorMediaGroup>
-                      <CreatorMediaItem
+                    <ContactMediaGroup>
+                      <ContactMediaItem
                         v-for="media in contact.overview_media"
-                        :media="media"></CreatorMediaItem>
-                    </CreatorMediaGroup>
+                        :media="media"></ContactMediaItem>
+                    </ContactMediaGroup>
                   </TabPanel>
                   <TabPanel class="space-y-12 px-4 pt-10 pb-6">
                     <CommentThread
@@ -415,8 +415,8 @@
   </div>
 </template>
 <script>
-import CreatorAvatar from '../components/Creator/CreatorAvatar.vue';
-import CreatorContentBar from '../components/Creator/CreatorContentBar.vue';
+import ContactAvatar from '../components/Contact/ContactAvatar.vue';
+import ContactContentBar from '../components/Contact/ContactContentBar.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import InputGroup from '../components/InputGroup.vue';
 import {
@@ -428,7 +428,7 @@ import {
 } from '@heroicons/vue/24/solid';
 import CommentBox from '../components/CommentBox.vue';
 import ActivityFeed from '../components/ActivityFeed.vue';
-import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks.vue';
+import ContactSocialLinks from '../components/Contact/ContactSocialLinks.vue';
 import {
   Tab,
   TabGroup,
@@ -442,13 +442,13 @@ import {
   PopoverPanel,
   PopoverGroup,
 } from '@headlessui/vue';
-import CreatorTags from '../components/Creator/CreatorTags.vue';
+import ContactTags from '../components/Contact/ContactTags.vue';
 import StarRating from 'vue-star-rating';
 import CommentThread from '../components/CommentThread.vue';
-import CreatorHandles from '../components/Creator/CreatorHandles.vue';
+import ContactHandles from '../components/Contact/ContactHandles.vue';
 import UserService from '../services/api/user.service';
-import CreatorMediaGroup from '../components/TimelineMedia/CreatorMediaGroup';
-import CreatorMediaItem from '../components/TimelineMedia/CreatorMediaItem';
+import ContactMediaGroup from '../components/TimelineMedia/ContactMediaGroup.vue';
+import ContactMediaItem from '../components/TimelineMedia/ContactMediaItem.vue';
 import ContactService from '../services/api/contact.service';
 import JovieSidebar from '../components/JovieSidebar.vue';
 import ContactStageMenu from '../components/ContactStageMenu.vue'
@@ -456,10 +456,10 @@ import ContactStageMenu from '../components/ContactStageMenu.vue'
 export default {
   components: {
       ContactStageMenu,
-    CreatorMediaItem,
+    ContactMediaItem,
     JovieSidebar,
-    CreatorMediaGroup,
-    CreatorAvatar,
+    ContactMediaGroup,
+    ContactAvatar,
     SocialIcons,
     PlusIcon,
     Tab,
@@ -472,19 +472,19 @@ export default {
     TransitionRoot,
     InputGroup,
     StarRating,
-    CreatorTags,
-    CreatorHandles,
+    ContactTags,
+    ContactHandles,
     Popover,
     PopoverButton,
     PopoverPanel,
     PopoverGroup,
-    CreatorContentBar,
+    ContactContentBar,
     CommentBox,
     ActivityFeed,
     CommentThread,
     ChevronRightIcon,
     ChevronLeftIcon,
-    CreatorSocialLinks,
+    ContactSocialLinks,
     EnvelopeIcon,
   },
   props: ['profile', 'socialNetworks', 'contactId'],

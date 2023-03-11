@@ -205,7 +205,7 @@
                             aria-hidden="true" />Upload A CSV
                         </div>
                         <div class="items-center">
-                          <CreatorTags
+                          <ContactTags
                             v-if="
                               !currentUser.current_team.current_subscription
                             "
@@ -690,7 +690,7 @@ import SwitchTeams from '../components/SwitchTeams';
 
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
-import CreatorTags from '../components/Creator/CreatorTags.vue';
+import ContactTags from '../components/Contact/ContactTags.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import ImportService from '../services/api/import.service';
@@ -761,7 +761,7 @@ export default {
     SupportModal,
     CrmTable,
     vueMousetrapPlugin: VueMousetrapPlugin,
-    CreatorTags,
+    ContactTags,
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,

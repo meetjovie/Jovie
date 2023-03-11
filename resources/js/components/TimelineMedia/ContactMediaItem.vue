@@ -31,7 +31,7 @@ import {
 } from '@heroicons/vue/24/solid';
 
 export default {
-  name: 'CreatorMediaItem',
+  name: 'ContactMediaItem',
   components: {
     HandThumbUpIcon,
     PlayIcon,

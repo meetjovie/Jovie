@@ -139,7 +139,7 @@
 </template>
 <script>
 import draggable from 'vuedraggable';
-import CreatorTags from '../components/Creator/CreatorTags.vue';
+import ContactTags from '../components/Contact/ContactTags.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/24/solid';
 import NoAccess from '../components/NoAccess.vue';
@@ -153,7 +153,7 @@ export default {
     PhoneIcon,
     SocialIcons,
     NoAccess,
-    CreatorTags,
+    ContactTags,
   },
   mounted() {
     //add segment analytics

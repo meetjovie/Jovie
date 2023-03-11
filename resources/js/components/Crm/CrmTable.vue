@@ -841,7 +841,7 @@
                         <router-link
                           v-if="currentUser.is_admin"
                           :to="{
-                            name: 'Creator Overview',
+                            name: 'Contact Overview',
                             params: { id: creator.id },
                           }"
                           class="hover:dark:text-indigio-300 text-slate-600 hover:text-indigo-900 dark:text-jovieDark-300">
@@ -1215,7 +1215,7 @@ export default {
     this.$mousetrap.bind('enter', () => {
       if (this.currentContact.length) {
         this.$router.push({
-          name: 'Creator Overview',
+          name: 'Contact Overview',
           params: { id: this.currentContact[0].id },
         });
       }
@@ -1530,8 +1530,8 @@ export default {
       } else {
         console.log('No title found');
       };
-      if (Creator.location) {
-        vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
+      if (Contact.location) {
+        vCard += 'ADR;TYPE=WORK:;;' + Contact.location + '\n';
       }
       //if creator.instagram_handler set instagram else if creator.meta.instagram set instagram else log no instagram found
       if (creator.instagram_handler) {

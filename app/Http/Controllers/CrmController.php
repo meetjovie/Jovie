@@ -156,85 +156,7 @@ class CrmController extends Controller
         ]);
     }
 
-    public function crmCreators(Request $request)
-    {
-        try {
-            $creators = Creator::getCrmCreators($request->all());
-            $counts = Creator::getCrmCounts();
-            return response()->json([
-                'status' => true,
-                'creators' => $creators,
-                'networks' => Creator::NETWORKS,
-                'stages' => Crm::stages(),
-                'counts' => $counts
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => ($e->getMessage().' '.$e->getFile().' '.$e->getLine())
-            ], 200);
-        }
-    }
 
-    public function getExtensionCreator(Request $request)
-    {
-        try {
-            $creator = Creator::getCrmCreatorByHandler($request->all());
-            if ($creator) {
-                return response()->json([
-                    'status' => true,
-                    'creator' => $creator,
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => false,
-                ], 200);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => ($e->getMessage().' '.$e->getFile().' '.$e->getLine())
-            ], 200);
-        }
-    }
-
-    public function updateCrmCreator(Request $request, $id)
-    {
-        // update creator
-        Creator::updateCrmCreator($request, $id);
-
-        return collect([
-            'status' => true,
-            'data' => Creator::getCrmCreators(['id' => $id])->first(),
-        ]);
-    }
-
-    public function moveCreator(Request $request, $creatorId)
-    {
-        $data = $request->validate([
-            'selected' => 'required|numeric',
-            'rejected' => 'required|numeric',
-        ]);
-        $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        $data['team_id'] = $user->currentTeam->id;
-        $crm = Crm::updateOrCreate(['creator_id' => $creatorId, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data);
-        Creator::where('id', $creatorId)->searchable();
-
-        return response([
-            'status' => true,
-            'data' => $crm,
-            'message' => 'Creator moved.',
-        ]);
-    }
-
-    public function exportCrm(Request $request)
-    {
-        $params = $request->all();
-        $params['export'] = true;
-        $creators = Creator::getCrmCreators($params);
-
-        return Excel::download(new CrmExport($creators), 'creators.csv');
-    }
 
     public function nextContact($id)
     {
@@ -268,6 +190,55 @@ class CrmController extends Controller
             'data' => null,
             'message' => 'No more contacts.',
         ]);
+    }
+
+    public function getExtensionCreator(Request $request)
+    {
+        try {
+            $creator = Creator::getCrmCreatorByHandler($request->all());
+            if ($creator) {
+                return response()->json([
+                    'status' => true,
+                    'creator' => $creator,
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                ], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => ($e->getMessage().' '.$e->getFile().' '.$e->getLine())
+            ], 200);
+        }
+    }
+
+    public function moveCreator(Request $request, $creatorId)
+    {
+        $data = $request->validate([
+            'selected' => 'required|numeric',
+            'rejected' => 'required|numeric',
+        ]);
+        $user = User::with('currentTeam')->where('id', Auth::id())->first();
+        $data['team_id'] = $user->currentTeam->id;
+        $crm = Crm::updateOrCreate(['creator_id' => $creatorId, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data);
+        Creator::where('id', $creatorId)->searchable();
+
+        return response([
+            'status' => true,
+            'data' => $crm,
+            'message' => 'Contact moved.',
+        ]);
+    }
+
+    public function exportCrm(Request $request)
+    {
+        $params = $request->all();
+        $params['export'] = true;
+        $creators = Creator::getCrmCreators($params);
+
+        return Excel::download(new CrmExport($creators), 'creators.csv');
     }
 
     public function addCreatorToCreator(Request $request)
@@ -384,55 +355,6 @@ class CrmController extends Controller
         $creators['hits'] = $hits;
 
         return $creators;
-    }
-
-    public function updateCrmMeta(Request $request, $id)
-    {
-        $data = $request->validate([
-            'meta' => 'required'
-        ]);
-        $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        $crm = Crm::where('id', $id)->first();
-        if (!$crm) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Crm not found.',
-                'data' => null
-            ], 200);
-        }
-        $meta = $crm->meta;
-        foreach ($data['meta'] as $k => $v) {
-            if (is_array($meta)) {
-                $meta[$k] = $v;
-            } else {
-                $meta->{$k} = $v;
-            }
-        }
-        $data['meta'] = $meta;
-        if (isset($data['meta']->emails)) {
-            $emails = $data['meta']->emails;
-            $data['meta']->emails = is_array($emails) ? $emails : explode(',', $emails);
-        }
-
-        if (isset($data['meta']->name)) {
-            $nameSplits = explode(' ', $data['meta']->name);
-            foreach ($nameSplits as $k => $split) {
-                if ($k == 0) {
-                    $data['meta']->first_name = $split;
-                } else {
-                    if ($k == 1) $data['meta']->last_name = null;
-                    $data['meta']->last_name .= ' '.$split;
-                }
-            }
-        }
-        $crm->meta = $data['meta'];
-        $crm->save();
-//        $crm = Crm::updateOrCreate(['creator_id' => $crm->creator_id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], array_merge(['creator_id' => $crm->creator_id, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data));
-        return response()->json([
-            'status' => true,
-            'message' => 'Data updated.',
-            'data' => Creator::getCrmCreators(['id' => $crm->creator_id])->first()
-        ], 200);
     }
 
     public function saveToCrm(Request $request)
