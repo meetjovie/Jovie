@@ -12,7 +12,7 @@
         ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'text-slate-600 dark:text-slate-200',
       cellActive
-        ? 'bg-indigo-50  ring-2 ring-indigo-500 dark:bg-indigo-700 dark:bg-jovieDark-500 dark:ring-indigo-500'
+        ? 'bg-indigo-50  ring-2 ring-indigo-500  dark:bg-jovieDark-600 dark:ring-indigo-500'
         : '',
     ]"
     :key="rerenderKey"
