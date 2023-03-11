@@ -830,7 +830,7 @@ export default {
     contacts: {
       deep: true,
       handler: function () {
-        this.crmCounts();
+        // this.crmCounts();
       },
     },
   },
@@ -1314,7 +1314,9 @@ export default {
       });
     },
     updateContact(params) {
-      this.$store.dispatch('updateContact', params).then((response) => {
+        console.log('paramsparams');
+        console.log(params);
+        this.$store.dispatch('updateContact', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {

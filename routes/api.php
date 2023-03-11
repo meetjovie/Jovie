@@ -80,6 +80,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/crm-contacts', [\App\Http\Controllers\CrmController::class, 'crmContacts']);
     Route::post('/update-contact/{id}', [\App\Http\Controllers\CrmController::class, 'updateContact']);
     Route::post('/toggle-contacts-from-list', [\App\Http\Controllers\CrmController::class, 'toggleContactsFromList']);
+    Route::post('/toggle-archive-contacts', [\App\Http\Controllers\CrmController::class, 'toggleArchiveContacts']);
 
 
     //      CRM
@@ -98,13 +99,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/save-to-crm', [\App\Http\Controllers\CrmController::class, 'saveToCrm'])->withoutMiddleware('state.csrf');
 
     //      OVERVIEW
-    Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
+    Route::get('/contacts-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
     Route::post('/add-comment', [\App\Http\Controllers\CrmController::class, 'addComment']);
     Route::get('/get-comments/{id}', [\App\Http\Controllers\CrmController::class, 'getComments']);
-    Route::put('/update-overview-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateOverviewCreator']);
 
-    Route::get('/next-creator/{id}', [\App\Http\Controllers\CrmController::class, 'nextCreator']);
-    Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']);
+    Route::get('/next-contact/{id}', [\App\Http\Controllers\CrmController::class, 'nextContact']);
+    Route::get('/previous-contact/{id}', [\App\Http\Controllers\CrmController::class, 'previousContact']);
 
     // DISCOVERY
     Route::post('/add-to-crm', [\App\Http\Controllers\CrmController::class, 'addCreatorToCreator']);

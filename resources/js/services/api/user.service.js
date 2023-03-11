@@ -60,8 +60,8 @@ export default {
       params: data,
     });
   },
-  async getCreatorOverview(id) {
-    return axios.get(`${baseApiUrl}/creators-overview/${id}`);
+  async getContactOverview(id) {
+    return axios.get(`${baseApiUrl}/contacts-overview/${id}`);
   },
   async subscribe(token, selectedPlan, selectedProduct, coupon) {
     return axios.post(`${baseApiUrl}/subscription`, {
@@ -141,7 +141,7 @@ export default {
     return axios.post(`${baseApiUrl}/toggle-contacts-from-list`, data);
   },
   async toggleArchiveContacts(data) {
-    return axios.post(`${baseApiUrl}/toggle-archive-creators`, data);
+    return axios.post(`${baseApiUrl}/toggle-archive-contacts`, data);
   },
   crmCounts() {
     return axios.get(`${baseApiUrl}/crm-counts`);

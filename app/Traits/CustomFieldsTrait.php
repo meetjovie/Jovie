@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Contact;
 use App\Models\Crm;
 use App\Models\CustomField;
 use Illuminate\Support\Str;
@@ -26,7 +27,7 @@ trait CustomFieldsTrait
     }
 
     // to model
-    public function getInputValues($field, $model, $class = Crm::class)
+    public function getInputValues($field, $model, $class = Contact::class)
     {
         $value = null;
 
@@ -49,7 +50,7 @@ trait CustomFieldsTrait
     }
 
     // to print
-    public function getFieldValue($field, $model, $class = Crm::class)
+    public function getFieldValue($field, $model, $class = Contact::class)
     {
         $fieldValue = $field->customFieldValues()->for($model->id, $class)->first();
 

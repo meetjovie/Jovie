@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\CrmExport;
 use App\Models\Contact;
+use App\Models\ContactComment;
 use App\Models\Creator;
 use App\Models\CreatorComment;
 use App\Models\Crm;
@@ -35,10 +36,19 @@ class CrmController extends Controller
         ], 200);
     }
 
+    public function crmCounts()
+    {
+        $counts = Contact::getCrmCounts();
+        return response()->json([
+            'status' => true,
+            'counts' => $counts
+        ], 200);
+    }
+
     public function updateContact(Request $request, $id)
     {
         // update creator
-        Contact::updateContact($request, $id);
+        Contact::updateContact($request->all(), $id);
 
         return collect([
             'status' => true,
@@ -77,6 +87,73 @@ class CrmController extends Controller
             'message' => ('Contacts '. ($request->remove == true ? 'removed from list' : 'added to list'))
 
         ], 200);
+    }
+
+    public function toggleArchiveContacts(Request $request)
+    {
+        $request->validate([
+            'contact_ids' => 'required'
+        ]);
+        $contactIds = is_array($request->contact_ids) ? $request->contact_ids : [$request->contact_ids];
+        Contact::whereIn('id', $contactIds)->update(['archived' => boolval($request->archived)]);
+        return response()->json([
+            'status' => true,
+            'message' => ('Contacts '.boolval($request->archived) ? 'archived.' : 'unarchived.')
+        ], 200);
+    }
+
+    public function overview($id)
+    {
+        $contact = Contact::getContacts(['id' => $id])->first();
+
+        if ($contact) {
+            return collect([
+                'status' => true,
+                'contact' => $contact,
+                'networks' => Creator::NETWORKS,
+                'stages' => Crm::stages(),
+            ]);
+        }
+        return collect([
+            'status' => false,
+        ]);
+    }
+
+
+    public function addComment(Request $request)
+    {
+        $request->validate([
+            'comment' => 'required',
+            'contact_id' => 'required|exists:contacts,id',
+        ]);
+        $comment = ContactComment::create([
+            'user_id' => Auth::id(),
+            'team_id' => Auth::user()->currentTeam->id,
+            'contact_id' => $request->contact_id,
+            'comment' => $request->comment,
+        ]);
+
+        return response([
+            'status' => true,
+            'message' => 'Comment added.',
+            'data' => $comment->load('user'),
+        ]);
+    }
+
+    public function getComments(Request $request, $contactId)
+    {
+        $comments = ContactComment::with('user')
+            ->where('contact_id', $contactId)
+            ->latest();
+        if ($request->limit) {
+            $comments = $comments->limit($request->limit);
+        }
+        $comments = $comments->get();
+
+        return response([
+            'status' => true,
+            'comments' => $comments,
+        ]);
     }
 
     public function crmCreators(Request $request)
@@ -121,15 +198,6 @@ class CrmController extends Controller
         }
     }
 
-    public function crmCounts()
-    {
-        $counts = Creator::getCrmCounts();
-        return response()->json([
-            'status' => true,
-            'counts' => $counts
-        ], 200);
-    }
-
     public function updateCrmCreator(Request $request, $id)
     {
         // update creator
@@ -168,91 +236,14 @@ class CrmController extends Controller
         return Excel::download(new CrmExport($creators), 'creators.csv');
     }
 
-    public function overview($id)
+    public function nextContact($id)
     {
-        $creator = Creator::getCrmCreators(['crm_id' => $id])->first();
-
-        if ($creator) {
-            return collect([
-                'status' => true,
-                'creator' => $creator,
-                'networks' => Creator::NETWORKS,
-                'stages' => Crm::stages(),
-            ]);
-        }
-        return collect([
-            'status' => false,
-        ]);
-    }
-
-    public function updateOverviewCreator(Request $request, $id)
-    {
-        // update creator
-        $data = Creator::updateCrmCreator($request, $id);
-        $creator = Creator::getCrmCreators(['crm_id' => $data['crm']->id])->first();
-        return collect([
-            'status' => true,
-            'data' => $creator,
-        ]);
-    }
-
-    public function addComment(Request $request)
-    {
-        $request->validate([
-            'comment' => 'required',
-            'creator_id' => 'required',
-        ]);
-        $creator = Creator::where('id', $request->creator_id)->count();
-        if ($creator) {
-            $comment = CreatorComment::create([
-                'user_id' => Auth::id(),
-                'team_id' => Auth::user()->currentTeam->id,
-                'creator_id' => $request->creator_id,
-                'comment' => $request->comment,
-            ]);
-
+        $contact = Contact::where('id', '<', $id)->where('archived', 0)->where('user_id', Auth::id())->orderByDesc('id')->first();
+        if ($contact) {
             return response([
                 'status' => true,
-                'message' => 'Comment added.',
-                'data' => $comment->load('user'),
+                'data' => $contact,
             ]);
-        }
-
-        return response([
-            'status' => false,
-            'message' => 'Creator does not exist.',
-        ]);
-    }
-
-    public function getComments(Request $request, $creatorId)
-    {
-        $comments = CreatorComment::with('user')
-            ->where('creator_id', $creatorId)
-            ->latest();
-        if ($request->limit) {
-            $comments = $comments->limit($request->limit);
-        }
-        $comments = $comments->get();
-
-        return response([
-            'status' => true,
-            'comments' => $comments,
-        ]);
-    }
-
-    public function nextCreator($id)
-    {
-        $crm = Crm::where('id', '<', $id)->where('user_id', Auth::id())->orderByDesc('id')->first();
-        if ($crm) {
-            $creator = Creator::with('crmRecordByUser')->whereHas('crmRecordByUser', function ($q) use ($crm) {
-                $q->where('id', $crm->id);
-            })->first();
-            if ($creator) {
-                return response([
-                    'status' => true,
-                    'data' => $creator,
-                ]);
-            }
         }
 
         return response([
@@ -262,19 +253,14 @@ class CrmController extends Controller
         ]);
     }
 
-    public function previousCreator($id)
+    public function previousContact($id)
     {
-        $crm = Crm::where('id', '>', $id)->where('user_id', Auth::id())->first();
-        if ($crm) {
-            $creator = Creator::with('crmRecordByUser')->whereHas('crmRecordByUser', function ($q) use ($crm) {
-                $q->where('id', $crm->id);
-            })->first();
-            if ($creator) {
-                return response([
-                    'status' => true,
-                    'data' => $creator,
-                ]);
-            }
+        $contact = Contact::where('id', '>', $id)->where('archived', 0)->where('user_id', Auth::id())->first();
+        if ($contact) {
+            return response([
+                'status' => true,
+                'data' => $contact,
+            ]);
         }
 
         return response([
@@ -398,51 +384,6 @@ class CrmController extends Controller
         $creators['hits'] = $hits;
 
         return $creators;
-    }
-
-    public function toggleCreatorsFromList(Request $request)
-    {
-        $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        $list = UserList::where('id', $request->list)->where('team_id', $user->currentTeam->id)->first();
-        if (!$list) {
-            throw ValidationException::withMessages([
-                'list' => ['List does not exists']
-            ]);
-        }
-        $request->validate([
-            'creator_ids' => 'required'
-        ]);
-        $creatorIds = is_array($request->creator_ids) ? $request->creator_ids : [$request->creator_ids];
-        if ($request->remove) {
-            DB::table('creator_user_list')->whereIn('creator_id', $creatorIds)->where('user_list_id', $list->id)->delete();
-        } else {
-            $list->creators()->syncWithoutDetaching($creatorIds);
-        }
-        return response()->json([
-            'status' => true,
-            'list' => [
-                'id' => $list->id,
-                'name' => $list->name,
-                'emoji' => $list->emoji,
-            ],
-
-            'message' => ('Contacts '. ($request->remove == true ? 'removed from list' : 'added to list'))
-
-        ], 200);
-    }
-
-    public function toggleArchiveCreators(Request $request)
-    {
-        $request->validate([
-            'creator_ids' => 'required'
-        ]);
-        $creatorIds = is_array($request->creator_ids) ? $request->creator_ids : [$request->creator_ids];
-        $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        Crm::whereIn('creator_id', $creatorIds)->where('team_id', $user->currentTeam->id)->update(['archived' => boolval($request->archived)]);
-        return response()->json([
-            'status' => true,
-            'message' => ('Creators '.boolval($request->archived) ? 'archived.' : 'unarchived.')
-        ], 200);
     }
 
     public function updateCrmMeta(Request $request, $id)

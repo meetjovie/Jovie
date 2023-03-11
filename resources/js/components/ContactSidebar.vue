@@ -29,16 +29,16 @@
                         clip-rule="evenodd" />
                     </svg> -->
             <img
-              v-if="imageLoaded && contact.profile_pic_url"
+              v-if="imageLoaded"
               id="profile-img-jovie"
               @error="switchToDefaultImage"
               class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"
-              :src="contact.profile_pic_url" />
+              :src="contact.profile_pic_url ?? 'image'" />
           </div>
           <div class="col-span-2 mt-6 pl-1 pr-2">
             <input
               @blur="$emit('updateContact')"
-              v-model="contact.name"
+              v-model="contact.full_name"
               placeholder="Name"
               class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-300 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800" />
             <!-- <div class="">
@@ -462,7 +462,7 @@
                 :contact="contact"
                 @end="sortFields"
                 :list="fields">
-                <!-- v-if for element.model check for default field as they would already be modeled-->
+                <!-- v-if for contact[element.model] check for default field as they would already be modeled-->
                 <div
                   class="space-y-6"
                   v-for="(element, index) in fields"
@@ -487,7 +487,7 @@
                   </template>
                   <template v-else>
                     <DataInputGroup
-                      @copy="copyToClipboard(contact.element.model)"
+                      @copy="copyToClipboard(contact[element.model])"
                       class="group/draggable"
                       @actionMethod="
                         actionMethod(element.method, element.params)
@@ -495,8 +495,15 @@
                       @actionMethod2="
                         actionMethod(element.method2, element.params2)
                       "
-                      v-model="contact.element.model"
-                      @blur="updateContact"
+                      v-model="contact[element.model]"
+                      @blur="
+                        $emit('updateContact', {
+                          id: contact.id,
+                          index: contact.index,
+                          key: `${element.model}`,
+                          value: contact[element.model],
+                        })
+                      "
                       :id="element.name"
                       :icon="element.icon"
                       :socialicon="element.socialicon"
@@ -751,10 +758,8 @@ export default {
   },
   watch: {
     contactData: function (val) {
-      console.log('this.contact');
       this.setContactData();
       this.resetImage();
-      console.log(val);
     },
   },
   async mounted() {

@@ -451,7 +451,7 @@
                     @archive-contacts="
                       toggleArchiveContacts(
                         element.id,
-                        !contact.archived
+                        !element.archived
                       )
                     "
                     @toggleContactsFromList="toggleContactsFromList" />

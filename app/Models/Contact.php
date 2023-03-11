@@ -25,10 +25,13 @@ class Contact extends Model
         'last_name',
         'company',
         'title',
+        'category',
+        'biography',
         'phone',
         'emails',
         'phone',
         'website',
+        'location',
         'city',
         'country',
         'gender',
@@ -75,7 +78,6 @@ class Contact extends Model
         'snapchat_data' => AsArrayObject::class,
         'onlyfans_data' => AsArrayObject::class,
         'wiki_data' => AsArrayObject::class,
-        'emails' => AsArrayObject::class,
     ];
 
     /**
@@ -128,6 +130,19 @@ class Contact extends Model
         );
     }
 
+    /**
+     * Interact the user's last contacted.
+     *
+     * @return Attribute
+     */
+    protected function emails(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value ?? '[]'),
+            set: fn ($value) => json_encode($value),
+        );
+    }
+
     public function twitter(): Attribute
     {
         return Attribute::make(
@@ -163,10 +178,14 @@ class Contact extends Model
         );
     }
 
-    public static function getContacts($params)
+    public static function getContacts($params, $userId = null)
     {
-        $contacts = Contact::query()->with('userLists');
-
+        $contacts = Contact::query()->with('userLists')
+            ->select('contacts.*')
+            ->addSelect('description_updated.first_name as description_updated_by');
+        $contacts = $contacts->leftJoin('users as description_updated', function ($join) {
+            $join->on('description_updated.id', '=', 'description_updated_by');
+        });
         if (isset($params['type']) && $params['type'] == 'archived') {
             $contacts = $contacts->where('archived', 1);
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
@@ -183,14 +202,16 @@ class Contact extends Model
         }
 
         if (isset($params['id'])) {
-            $contacts = $contacts->where('id', $params['id'])->limit(1);
+            $contacts = $contacts->where('contacts.id', $params['id'])->limit(1);
         }
 
-        $contacts = $contacts->paginate(50);
+        $contacts = $contacts->orderByDesc('contacts.id');
+
+        $contacts = $contacts->paginate(5);
 
         foreach ($contacts as &$contact) {
             // custom fields
-            $cc = new Creator();
+            $cc = new Contact();
             $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
             foreach ($customFields as $customField) {
                 $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
@@ -221,7 +242,11 @@ class Contact extends Model
 
     public static function updateContact($data, $id)
     {
-        Contact::query()->where('id', $id)->update($data->all());
+        $contactData = array_intersect_key($data, array_flip((new Contact())->getFillable()));
+        if (isset($contactData['description'])) {
+            $contactData['description_updated_by'] = Auth::id();
+        }
+        Contact::query()->where('id', $id)->update($contactData);
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);

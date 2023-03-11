@@ -10,13 +10,13 @@ export default {
   async addComment(data) {
     return axios.post(`${baseApiUrl}/add-comment`, data);
   },
-  async previousCreator(id) {
-    return axios.get(`${baseApiUrl}/previous-creator/${id}`);
+  async previousContact(id) {
+    return axios.get(`${baseApiUrl}/previous-contact/${id}`);
   },
-  async nextCreator(id) {
-    return axios.get(`${baseApiUrl}/next-creator/${id}`);
+  async nextContact(id) {
+    return axios.get(`${baseApiUrl}/next-contact/${id}`);
   },
-  async updateOverviewCreator(data) {
+  async updateOverviewContact(data) {
     const id = data.id;
     delete data.id;
     return axios.post(

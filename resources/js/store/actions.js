@@ -1,7 +1,7 @@
 import userService from "../services/api/user.service";
 import AuthService from "../services/auth/auth.service";
 import router from "../router";
-import creatorService from "../services/api/creator.service";
+import ContactService from "../services/api/contact.service";
 import UserService from "../services/api/user.service";
 
 export default {
@@ -67,7 +67,7 @@ export default {
         } else {
             data[key] = value;
         }
-        return await creatorService.updateOverviewCreator(data)
+        return await ContactService.updateOverviewCreator(data)
     },
 
     getPublicProfile(context, payload) {

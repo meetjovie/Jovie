@@ -87,7 +87,7 @@
             v-if="cellActive"
             class="items-center text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
             <input
-              v-model="contact.name"
+              v-model="contact.full_name"
               @blur="$emit('updateContact', contact)"
               autocomplete="off"
               type="contact-name"
@@ -100,7 +100,7 @@
           <div
             v-else
             class="text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
-            {{ contact.name }}
+            {{ contact.full_name }}
           </div>
         </div>
         <div

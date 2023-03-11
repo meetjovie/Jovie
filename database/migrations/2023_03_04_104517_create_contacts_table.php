@@ -27,12 +27,16 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('company')->nullable();
             $table->string('title')->nullable();
+            $table->string('category')->nullable();
+            $table->string('biography')->nullable();
             $table->string('phone')->nullable();
             $table->text('emails')->nullable();
             $table->string('website')->nullable();
+            $table->string('location')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->string('gender')->nullable();
+            $table->string('profile_pic_url')->nullable();
 
             $table->date('last_contacted')->nullable();
             $table->double('offer', null, 2)->nullable();
