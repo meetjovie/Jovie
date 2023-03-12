@@ -25,7 +25,10 @@ return new class extends Migration
             $table->string('full_name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->string('nickname')->nullable();
+            $table->string('suffix')->nullable();
             $table->string('company')->nullable();
+            $table->string('department')->nullable();
             $table->string('title')->nullable();
             $table->string('category')->nullable();
             $table->string('biography')->nullable();
@@ -36,6 +39,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->string('gender')->nullable();
+            $table->date('dob')->nullable();
             $table->string('profile_pic_url')->nullable();
 
             $table->date('last_contacted')->nullable();

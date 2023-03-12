@@ -105,9 +105,9 @@ class CrmController extends Controller
         ], 200);
     }
 
-    public function overview($id)
+    public function overview(Request $request)
     {
-        $contact = Contact::getContacts(['id' => $id])->first();
+        $contact = Contact::getContacts(['id' => $request->id, 'type' => 'list', 'list' => $request->listId])->first();
 
         if ($contact) {
             return collect([

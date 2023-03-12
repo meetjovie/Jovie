@@ -1120,6 +1120,7 @@ export default {
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
+      this.$store.state.overviewList = null
       this.filters.currentList = null;
       this.getCrmContacts();
       this.loading = false;
@@ -1130,9 +1131,11 @@ export default {
       if (this.filters.list) {
           list = this.userLists.find(l => l.id === list)
           this.filters.currentList = list ?? null
+          this.$store.state.overviewList = list ?? null
       } else {
           this.filters.type = 'all';
           this.filters.currentList = null
+          this.$store.state.overviewList = null
       }
       this.getCrmContacts();
     },

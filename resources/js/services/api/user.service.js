@@ -60,8 +60,8 @@ export default {
       params: data,
     });
   },
-  async getContactOverview(id) {
-    return axios.get(`${baseApiUrl}/contacts-overview/${id}`);
+  async getContactOverview(data) {
+    return axios.post(`${baseApiUrl}/contacts-overview`, data);
   },
   async subscribe(token, selectedPlan, selectedProduct, coupon) {
     return axios.post(`${baseApiUrl}/subscription`, {

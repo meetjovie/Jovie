@@ -90,7 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/save-to-crm', [\App\Http\Controllers\CrmController::class, 'saveToCrm'])->withoutMiddleware('state.csrf');
 
     //      OVERVIEW
-    Route::get('/contacts-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
+    Route::post('/contacts-overview', [\App\Http\Controllers\CrmController::class, 'overview']);
     Route::post('/add-comment', [\App\Http\Controllers\CrmController::class, 'addComment']);
     Route::get('/get-comments/{id}', [\App\Http\Controllers\CrmController::class, 'getComments']);
 

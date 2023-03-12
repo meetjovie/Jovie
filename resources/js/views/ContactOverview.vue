@@ -73,16 +73,15 @@
           </div>
         </div>
 
-        <div class="mt-6 md:mt-0">
-<!--          <button-->
-<!--            @click="archiveContact(contact.id)"-->
-<!--            class="mr-3 rounded bg-slate-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">-->
-<!--            Archive-->
-<!--          </button>-->
-          <!-- <button
-                  class="rounded bg-indigo-700 px-8 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
-                  Add to campaign
-                </button> -->
+        <div class="mt-6 md:mt-0" v-if="$store.state.overviewList">
+          <button
+            class="mr-3 rounded bg-slate-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
+              {{ $store.state.overviewList.name}}
+          </button>
+<!--           <button-->
+<!--                  class="rounded bg-indigo-700 px-8 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">-->
+<!--                  Add to campaign-->
+<!--                </button> -->
         </div>
       </div>
       <!-- Code block ends -->
@@ -563,7 +562,8 @@ export default {
     getContactOverview() {
       this.loading = true;
       const id = this.$route.params.id;
-      UserService.getContactOverview(id).then((response) => {
+
+      UserService.getContactOverview({id: id, listId: this.$store.state.overviewList ? this.$store.state.overviewList.id : ''}).then((response) => {
         this.loading = false;
         response = response.data;
         if (response.status) {

@@ -31,4 +31,5 @@ export default {
     },
   },
   currentlyDraggedContact: null,
+  overviewList: null,
 };

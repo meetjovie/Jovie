@@ -90,7 +90,10 @@ class ImportContacts implements ShouldQueue
                 $contact->first_name = isset($this->payload->mappedColumns->firstName) ? $row[$this->payload->mappedColumns->firstName] : null;
                 $contact->last_name = isset($this->payload->mappedColumns->lastName) ? $row[$this->payload->mappedColumns->lastName] : null;
                 $contact->full_name = ($contact->first_name.' '.$contact->last_name);
+                $contact->nickname = isset($this->payload->mappedColumns->nickname) ? $row[$this->payload->mappedColumns->nickname] : null;
+                $contact->suffix = isset($this->payload->mappedColumns->suffix) ? $row[$this->payload->mappedColumns->suffix] : null;
                 $contact->company = isset($this->payload->mappedColumns->company) ? $row[$this->payload->mappedColumns->company] : null;
+                $contact->department = isset($this->payload->mappedColumns->department) ? $row[$this->payload->mappedColumns->department] : null;
                 $contact->title = isset($this->payload->mappedColumns->title) ? $row[$this->payload->mappedColumns->title] : null;
                 $contact->phone = isset($this->payload->mappedColumns->phone) ? $row[$this->payload->mappedColumns->phone] : null;
                 $contact->website = isset($this->payload->mappedColumns->website) ? $row[$this->payload->mappedColumns->website] : null;
