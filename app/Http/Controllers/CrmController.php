@@ -109,7 +109,12 @@ class CrmController extends Controller
 
     public function overview(Request $request)
     {
-        $contact = Contact::getContacts(['id' => $request->id, 'type' => 'list', 'list' => $request->listId])->first();
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        $params['id'] = $request->id;
+        $params['type'] = 'list';
+        $params['list'] = $request->listId;
+        $contact = Contact::getContacts($params)->first();
 
         if ($contact) {
             return collect([

@@ -153,6 +153,11 @@
                   ...{ id: contact.id, list: filters.list, remove: true }
                 )
               " />
+              <DropdownMenuItem
+                  name="Contact Overview"
+                  icon="TrashIcon"
+                  color="text-red-600 dark:text-red-400"
+                  @click="$router.push({name: 'Contact Overview', params: {id: contact.id}})" />
           </ContactContextMenu>
         </div>
       </div>

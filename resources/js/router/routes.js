@@ -421,9 +421,9 @@ export const routes = [
     },
   },
   {
-    name: 'Creator Overview',
+    name: 'Contact Overview',
     path: '/overview/:id',
-    component: loadPage('CreatorOverview'),
+    component: loadPage('ContactOverview'),
     props: true,
     meta: {
       layout: 'App',
