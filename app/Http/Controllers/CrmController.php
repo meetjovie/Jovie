@@ -52,10 +52,12 @@ class CrmController extends Controller
     {
         // update creator
         Contact::updateContact($request->all(), $id);
-
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        $params['id'] = $id;
         return collect([
             'status' => true,
-            'data' => Contact::getContacts(['id' => $id])->first(),
+            'data' => Contact::getContacts($params)->first(),
         ]);
     }
 

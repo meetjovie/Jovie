@@ -145,7 +145,7 @@ class Contact extends Model
     {
         return Attribute::make(
             get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => json_encode($value),
+            set: fn ($value) => json_encode(explode(',', $value)),
         );
     }
 

@@ -31,43 +31,8 @@ export default {
         const data = {
             id: id,
         };
-        let keySplits = key.split('.');
-        if (keySplits.length > 1) {
-            var key1 = keySplits[0];
-            var key2 = keySplits[1];
-            data[key1] = {
-                [key2]: value,
-            };
-        } else if (key == 'emails') {
-            if (typeof value == 'string') {
-                value = value.split(',')
-                data[key] = value;
-            }
-        } else {
-            data[key] = value;
-        }
+        data[key] = value;
         return await userService.updateContact(data)
-    },
-    async updateOverviewCreator(context, { id, index, network, key, value }) {
-        const data = {
-            id: id,
-        };
-        let keySplits = key.split('.');
-        if (keySplits.length > 1) {
-            var key1 = keySplits[0];
-            var key2 = keySplits[1];
-            data[key1] = {
-                [key2]: value,
-            };
-        } else if (key == 'emails') {
-            if (typeof value == 'string') {
-                value = value.split(',')
-                data[key] = value;
-            }
-        } else {
-            data[key] = value;
-        }
-        return await ContactService.updateOverviewCreator(data)
     },
 
     getPublicProfile(context, payload) {
