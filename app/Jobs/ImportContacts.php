@@ -53,7 +53,6 @@ class ImportContacts implements ShouldQueue
             $maxColumn = max($mappedColumns->flatten()->toArray());
             $contactIds = [];
             foreach ($records as $offset => $row) {
-                $contact = new Contact();
                 if ($this->page == 0 && $offset == 0) {
                     continue;
                 }
@@ -80,42 +79,42 @@ class ImportContacts implements ShouldQueue
                     $country = 'United States';
                 }
 
-                $contact->team_id = $this->payload->teamId;
-                $contact->user_id = $this->payload->userId;
-                $contact->user_list_id = $this->payload->list->id;
+                $contact['team_id'] = $this->payload->teamId;
+                $contact['user_id'] = $this->payload->userId;
+                $contact['user_list_id'] = $this->payload->list->id;
                 if ($this->payload->tags) {
                     $tags = explode(',', $this->payload->tags);
-                    $contact->tags = json_encode(array_values(array_map('trim', $tags)));
+                    $contact['tags'] = json_encode(array_values(array_map('trim', $tags)));
                 }
-                $contact->first_name = isset($this->payload->mappedColumns->firstName) ? $row[$this->payload->mappedColumns->firstName] : null;
-                $contact->last_name = isset($this->payload->mappedColumns->lastName) ? $row[$this->payload->mappedColumns->lastName] : null;
-                $contact->full_name = ($contact->first_name.' '.$contact->last_name);
-                $contact->nickname = isset($this->payload->mappedColumns->nickname) ? $row[$this->payload->mappedColumns->nickname] : null;
-                $contact->suffix = isset($this->payload->mappedColumns->suffix) ? $row[$this->payload->mappedColumns->suffix] : null;
-                $contact->company = isset($this->payload->mappedColumns->company) ? $row[$this->payload->mappedColumns->company] : null;
-                $contact->department = isset($this->payload->mappedColumns->department) ? $row[$this->payload->mappedColumns->department] : null;
-                $contact->title = isset($this->payload->mappedColumns->title) ? $row[$this->payload->mappedColumns->title] : null;
-                $contact->phone = isset($this->payload->mappedColumns->phone) ? $row[$this->payload->mappedColumns->phone] : null;
-                $contact->website = isset($this->payload->mappedColumns->website) ? $row[$this->payload->mappedColumns->website] : null;
-                $contact->gender = isset($this->payload->mappedColumns->gender) ? $row[$this->payload->mappedColumns->gender] : null;
-                $contact->emails = json_encode($emails);
-                $contact->city = isset($this->payload->mappedColumns->lastName) ? $row[$this->payload->mappedColumns->lastName] : null;
-                $contact->country = $country;
+                $contact['first_name'] = isset($this->payload->mappedColumns->firstName) ? $row[$this->payload->mappedColumns->firstName] : null;
+                $contact['last_name'] = isset($this->payload->mappedColumns->lastName) ? $row[$this->payload->mappedColumns->lastName] : null;
+                $contact['full_name'] = ($contact['first_name'].' '.$contact['last_name']);
+                $contact['nickname'] = isset($this->payload->mappedColumns->nickname) ? $row[$this->payload->mappedColumns->nickname] : null;
+                $contact['suffix'] = isset($this->payload->mappedColumns->suffix) ? $row[$this->payload->mappedColumns->suffix] : null;
+                $contact['company'] = isset($this->payload->mappedColumns->company) ? $row[$this->payload->mappedColumns->company] : null;
+                $contact['department'] = isset($this->payload->mappedColumns->department) ? $row[$this->payload->mappedColumns->department] : null;
+                $contact['title'] = isset($this->payload->mappedColumns->title) ? $row[$this->payload->mappedColumns->title] : null;
+                $contact['phone'] = isset($this->payload->mappedColumns->phone) ? $row[$this->payload->mappedColumns->phone] : null;
+                $contact['website'] = isset($this->payload->mappedColumns->website) ? $row[$this->payload->mappedColumns->website] : null;
+                $contact['gender'] = isset($this->payload->mappedColumns->gender) ? $row[$this->payload->mappedColumns->gender] : null;
+                $contact['emails'] = $emails;
+                $contact['city'] = isset($this->payload->mappedColumns->lastName) ? $row[$this->payload->mappedColumns->lastName] : null;
+                $contact['country'] = $country;
 
-                $contact->instagram = isset($this->payload->mappedColumns->instagram) ? $row[$this->payload->mappedColumns->instagram] : null;
-                if (! empty($contact->instagram) && $contact->instagram[0] == '@') {
-                    $contact->instagram = substr($contact->instagram, 1);
+                $contact['instagram'] = isset($this->payload->mappedColumns->instagram) ? $row[$this->payload->mappedColumns->instagram] : null;
+                if (! empty($contact['instagram']) && $contact['instagram'][0] == '@') {
+                    $contact['instagram'] = substr($contact['instagram'], 1);
                 }
 
-                $contact->youtube = isset($this->payload->mappedColumns->youtube) ? $row[$this->payload->mappedColumns->youtube] : null;
-                $contact->twitter = isset($this->payload->mappedColumns->twitter) ? $row[$this->payload->mappedColumns->twitter] : null;
-                $contact->twitch = isset($this->payload->mappedColumns->twitch) ? $row[$this->payload->mappedColumns->twitch] : null;
-                $contact->onlyFans = isset($this->payload->mappedColumns->onlyFans) ? $row[$this->payload->mappedColumns->onlyFans] : null;
-                $contact->tiktok = isset($this->payload->mappedColumns->tiktok) ? $row[$this->payload->mappedColumns->tiktok] : null;
-                $contact->linkedin = isset($this->payload->mappedColumns->linkedin) ? $row[$this->payload->mappedColumns->linkedin] : null;
-                $contact->snapchat = isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
-                $contact->wiki = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
-                $contact->save();
+                $contact['youtube'] = isset($this->payload->mappedColumns->youtube) ? $row[$this->payload->mappedColumns->youtube] : null;
+                $contact['twitter'] = isset($this->payload->mappedColumns->twitter) ? $row[$this->payload->mappedColumns->twitter] : null;
+                $contact['twitch'] = isset($this->payload->mappedColumns->twitch) ? $row[$this->payload->mappedColumns->twitch] : null;
+                $contact['onlyFans'] = isset($this->payload->mappedColumns->onlyFans) ? $row[$this->payload->mappedColumns->onlyFans] : null;
+                $contact['tiktok'] = isset($this->payload->mappedColumns->tiktok) ? $row[$this->payload->mappedColumns->tiktok] : null;
+                $contact['linkedin'] = isset($this->payload->mappedColumns->linkedin) ? $row[$this->payload->mappedColumns->linkedin] : null;
+                $contact['snapchat'] = isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
+                $contact['wiki'] = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
+                $contact = Contact::saveContact($contact);
                 $contactIds[] = $contact->id;
             }
 

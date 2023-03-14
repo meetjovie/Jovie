@@ -494,7 +494,7 @@
                             <SocialInput
                               class="py-12"
                               :list="filters.list"
-                              @finishImport="closeImportCreatorModal" />
+                              @finishImport="closeImportContactModal" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
                         </div>
@@ -606,10 +606,11 @@
       <JovieUpgradeModal
         @close="closeUpgradeModal()"
         :open="showUpgradeModal" />
-      <ImportCreatorModal
+      <ImportContactModal
         :open="showCreatorModal"
         :list="filters.list"
-        @closeModal="closeImportCreatorModal()" />
+        @contactImported="contactImported($event)"
+        @closeModal="closeImportContactModal()" />
 
       <SupportModal
         @close="toggleShowSupportModal()"
@@ -680,7 +681,7 @@ import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
-import ImportCreatorModal from '../components/ImportCreatorModal';
+import ImportContactModal from '../components/ImportContactModal.vue';
 import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
 
@@ -734,7 +735,7 @@ export default {
     Tab,
     DarkModeToggle,
     InternalMarketingChromeExtension,
-    ImportCreatorModal,
+    ImportContactModal,
     SocialInput,
     TransitionRoot,
     TabPanels,
@@ -1004,11 +1005,20 @@ export default {
     });
   },
   methods: {
+      contactImported(data) {
+          if (
+              (data.list && data.list == this.filters.list) ||
+              this.filters.type == 'all'
+          ) {
+              if (this.filters.page === 1 && this.contacts.length == 50) {
+                  this.contacts.pop();
+                  this.contacts.splice(0, 0, data.contact);
+              } else {
+                  this.contacts.push(data.contact);
+              }
+          }
+      },
       updateUserList(event) {
-          console.log('this.$refs.crmTableGridthis.$refs.crmTableGrid');
-          console.log(this.$refs.crmTableGrid);
-          console.log(this.$refs.crmTableGrid.met);
-          console.log(event);
           this.$refs.crmTableGrid.updateUserList(event)
       },
     getHeaders() {

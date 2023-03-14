@@ -57,15 +57,24 @@
                         >
                         a link to a social media profile.
                       </p>
-
-                      <div class="mt-2">
-                        <SocialInput
-                          :list="list"
-                          v-model="socialMediaProfileUrl"
-                          @finishImport="$emit('closeModal')" />
-                      </div>
                     </div>
                   </div>
+                    <div>
+                        <div class="mt-2">
+                            <template v-for="contactKey in Object.keys(contact)">
+                                <InputGroup
+                                    v-model="contact[contactKey]"
+                                    :id="contactKey"
+                                    :disabled="updating"
+                                    :name="contactKey"
+                                    :label="getLabel(contactKey)"
+                                    :placeholder="getLabel(contactKey)"
+                                    type="text"
+                                    required="" />
+                            </template>
+                            <ButtonGroup @click="importContact" :loader="importing" text="Import" />
+                        </div>
+                    </div>
                 </div>
               </GlassmorphismContainer>
             </DialogPanel>
@@ -87,8 +96,13 @@ import {
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import SocialInput from '../components/SocialInput.vue';
 import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
+import InputGroup from "./InputGroup.vue";
+import ButtonGroup from "./ButtonGroup.vue";
+import ImportService from "../services/api/import.service";
 export default {
   components: {
+      ButtonGroup,
+      InputGroup,
     Dialog,
     DialogPanel,
     DialogTitle,
@@ -100,7 +114,19 @@ export default {
   },
   data() {
     return {
-      socialMediaProfileUrl: '',
+      importing: false,
+      contact: {
+          first_name: '',
+          last_name: '',
+          email: '',
+          company: '',
+          title: '',
+          instagram: '',
+          linkedin: '',
+          titkok: '',
+          snapchat: '',
+          youtube: '',
+      }
     };
   },
   props: {
@@ -109,16 +135,51 @@ export default {
       default: false,
     },
     list: {
-      type: String,
     },
   },
   methods: {
+      getLabel(contactKey) {
+          return contactKey.split('_').join(' ')
+      },
     pasteFromClipboard() {
       navigator.clipboard.readText().then((text) => {
         //set it as the socialMediaProfileUrl
         this.socialMediaProfileUrl = text;
       });
     },
+      importContact() {
+          this.importing = true
+          this.contact.list_id = this.list ? this.list : ''
+          ImportService.importContact(this.contact)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          title: 'Imported',
+                          text: response.message,
+                      });
+                      this.$emit('contactImported', {contact: response.contact, list: response.list})
+                  } else {
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          title: 'Error',
+                          text: response.message,
+                      });
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.errors = error.data.errors;
+                  }
+              })
+              .finally((response) => {
+                  this.importing = false
+              });
+      }
   },
 };
 </script>

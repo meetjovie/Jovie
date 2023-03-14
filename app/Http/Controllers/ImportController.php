@@ -10,6 +10,7 @@ use App\Jobs\SendSlackNotification;
 use App\Jobs\TiktokImport;
 use App\Jobs\TwitchImport;
 use App\Jobs\TwitterImport;
+use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
@@ -157,40 +158,34 @@ class ImportController extends Controller
         return $filePath;
     }
 
-    public function importX(Request $request)
+    public function importContact(Request $request)
     {
-        $request->validate([
-            'instagram' => 'required_without_all:file,youtube',
-            //            'youtube' => 'required_without_all:file,instagram',
-            //            'file' => 'required_without_all:instagram,youtube|mimes:csv'
-        ]);
-        if ($request->instagram) {
-            foreach (explode('\n', $request->instagram) as $instagram) {
-                if ($instagram[0] == '@') {
-                    $instagram = substr($instagram, 1);
-                }
-                Bus::chain([
-                    new InstagramImport($instagram, $request->tags, true, null, null, null, Auth::user()->id),
-                    new SendSlackNotification('imported instagram user '.$instagram),
-                ])->dispatch();
-            }
-        }
         try {
-            if ($request->file) {
-                $this->handleImportFile($request);
-            }
+            $data = $request->all();
+            $data['user_id'] = Auth::id();
+            $data['team_id'] = Auth::user()->currentTeam->id;
+            $contact = Contact::saveContact($data, $request->list_id);
+
+            $params['user_id'] = Auth::id();
+            $params['team_id'] = Auth::user()->currentTeam->id;
+            $params['id'] = $contact->id;
+            $params['type'] = 'list';
+            $params['list'] = $request->list_id;
+            $contact = Contact::getContacts($params)->first();
+
+            return collect([
+                'status' => true,
+                'message' => 'Successful. Your contact is imported.',
+                'contact' => $contact,
+                'list' => $request->list_id,
+            ]);
+
         } catch (\Exception $e) {
             return collect([
                 'status' => false,
-                //                'error' => 'Your file is not imported.'
-                'error' => $e->getMessage(),
+                'error' => $e->getMessage().$e->getLine(),
             ]);
         }
-
-        return collect([
-            'status' => true,
-            'error' => 'success',
-        ]);
     }
 
     public function handleImportFile($request)

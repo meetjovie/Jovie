@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //IMPORT CREATORS
     Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
     Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
+    Route::post('/import-contact', [\App\Http\Controllers\ImportController::class, 'importContact']);
 
     //      USER LISTS
     Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);

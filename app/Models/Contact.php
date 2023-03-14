@@ -86,6 +86,16 @@ class Contact extends Model
         'wiki_data' => AsArrayObject::class,
     ];
 
+    public static function saveContact($data, $listId = null)
+    {
+        $contactData = array_intersect_key($data, array_flip((new Contact())->getFillable()));
+        $contact = Contact::query()->create($contactData);
+        if ($listId) {
+            Contact::addContactsToList($contact->id, $listId, $data['team_id']);
+        }
+        return $contact;
+    }
+
     /**
      * The "booted" method of the model.
      *
@@ -137,22 +147,28 @@ class Contact extends Model
     }
 
     /**
-     * Interact the user's last contacted.
+     * Interact the emails.
      *
      * @return Attribute
      */
-    protected function emails(): Attribute
+    public function emails(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => json_encode(explode(',', $value)),
+            set: fn ($value) => $this->setEmails($value),
         );
+    }
+
+    public function setEmails($value)
+    {
+        return is_array($value) ? json_encode($value) : json_encode(explode(',', $value));
     }
 
     public function twitter(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $value ? 'https://twitter.com/'.$value : null,
+            set: fn ($value) => $this->setTwitter($value),
         );
     }
 
@@ -160,6 +176,7 @@ class Contact extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value ? 'https://twitch.tv/'.$value : null,
+            set: fn ($value) => $this->setTwitch($value),
         );
     }
 
@@ -167,6 +184,7 @@ class Contact extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value ? 'https://www.linkedin.com/in/'.$value : null,
+            set: fn ($value) => $this->setLinkedin($value),
         );
     }
 
@@ -174,6 +192,7 @@ class Contact extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value ? 'https://www.tiktok.com/'.$value : null,
+            set: fn ($value) => $this->setTiktok($value),
         );
     }
 
@@ -181,7 +200,122 @@ class Contact extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value ? 'https://instagram.com/'.$value : null,
+            set: fn ($value) => $this->setInstagram($value),
         );
+    }
+
+    public function youtube(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->getYoutubeLink($value),
+            set: fn ($value) => $this->setYoutube($value),
+        );
+    }
+
+    public function getYoutubeLink($value)
+    {
+        if (is_null($value)) {
+            null;
+        }
+        if (is_string($value)) {
+            $value = json_decode($value);
+        }
+
+        if (isset($value->channel_name)) {
+            return 'https://youtube.com/c/'.$value->channel_name;
+        } elseif (isset($value->channel_id)) {
+            return 'https://youtube.com/channel/'.$value->channel_id;
+        }
+        return null;
+    }
+
+    public function setInstagram($value)
+    {
+        // Regex for verifying an instagram URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_\.]+)/im';
+
+        // Verify valid Instagram URL
+        if (preg_match($regex, $value, $matches)) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setTiktok($value)
+    {
+        // Regex for verifying an tiktok URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:tiktok\.com)\/([\@|A-Za-z0-9-_\.]+)/';
+
+        // Verify valid tiktok URL
+        if (preg_match($regex, $value, $matches)) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setLinkedin($value)
+    {
+        // Regex for verifying an linkedin URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:linkedin\.com\/)?(?:in)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid linkedin URL
+        if (preg_match($regex, $value, $matches)) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setTwitter($value)
+    {
+        // Regex for verifying a twitter URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitter\.com)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid twitter URL
+        if (preg_match($regex, $value, $matches)) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setTwitch($value)
+    {
+        // Regex for verifying a twitch URL
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:twitch\.tv|twitch\.com)\/([A-Za-z0-9-_\.]+)/';
+
+        // Verify valid twitch URL
+        if (preg_match($regex, $value, $matches)) {
+            return $matches[1];
+        }
+        return $value;
+    }
+
+    public function setYoutube($value)
+    {
+        $oldYoutube = $this->youtube;
+        if (! count((array) $value)) {
+            return $oldYoutube;
+        }
+        // Regex for verifying a youtube URL - channel id
+        $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
+        // Verify valid youtube URL
+        if (preg_match($regex, $value, $matches)) {
+            $oldYoutube->channel_id = $matches[1];
+            return json_encode($oldYoutube);
+        }
+        // Regex for verifying a youtube URL - channel name
+        elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
+            $oldYoutube->channel_name = $matches[1];
+            return json_encode($oldYoutube);
+        } elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:user)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
+            $oldYoutube->channel_name = $matches[1];
+            return json_encode($oldYoutube);
+        } elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
+            $oldYoutube->channel_id = $value;
+            return json_encode($oldYoutube);
+        } else {
+            $oldYoutube->channel_name = $value;
+            return json_encode($oldYoutube);
+        }
     }
 
     public static function getContacts($params)

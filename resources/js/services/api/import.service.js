@@ -10,6 +10,9 @@ export default {
     async import(data) {
         return axios.post(`${baseApiUrl}/import`, data)
     },
+    async importContact(data) {
+        return axios.post(`${baseApiUrl}/import-contact`, data)
+    },
     async getNotifications() {
         return axios.get(`${baseApiUrl}/notifications`)
     },
