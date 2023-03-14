@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class Contact extends Model
 {
@@ -35,9 +34,7 @@ class Contact extends Model
         'emails',
         'phone',
         'website',
-        'location',
-        'city',
-        'country',
+        'address',
         'gender',
         'dob',
         'profile_pic_url',
@@ -85,16 +82,6 @@ class Contact extends Model
         'onlyfans_data' => AsArrayObject::class,
         'wiki_data' => AsArrayObject::class,
     ];
-
-    public static function saveContact($data, $listId = null)
-    {
-        $contactData = array_intersect_key($data, array_flip((new Contact())->getFillable()));
-        $contact = Contact::query()->create($contactData);
-        if ($listId) {
-            Contact::addContactsToList($contact->id, $listId, $data['team_id']);
-        }
-        return $contact;
-    }
 
     /**
      * The "booted" method of the model.
@@ -146,11 +133,6 @@ class Contact extends Model
         );
     }
 
-    /**
-     * Interact the emails.
-     *
-     * @return Attribute
-     */
     public function emails(): Attribute
     {
         return Attribute::make(
@@ -162,6 +144,27 @@ class Contact extends Model
     public function setEmails($value)
     {
         return is_array($value) ? json_encode($value) : json_encode(explode(',', $value));
+    }
+
+    public function address(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->getAddress($value),
+            set: fn ($value) => json_encode($value),
+        );
+    }
+
+    public function getAddress($value)
+    {
+        $value = json_decode($value ?? '[]');
+        $attributes = ['streetAddress', 'extendedAddress', 'poBox', 'locality', 'region', 'postalCode', 'country'];
+        foreach ($attributes as $attribute) {
+            $value = is_array($value) ? (object) $value : $value;
+            if (! isset($value->{$attribute})) {
+                $value->{$attribute} = null;
+            }
+        }
+        return $value;
     }
 
     public function twitter(): Attribute
@@ -380,13 +383,27 @@ class Contact extends Model
         return $counts;
     }
 
+    public static function saveContact($data, $listId = null)
+    {
+        $contactData = array_intersect_key($data, array_flip((new Contact())->getFillable()));
+        $contact = Contact::query()->create($contactData);
+        if ($listId) {
+            Contact::addContactsToList($contact->id, $listId, $data['team_id']);
+        }
+        return $contact;
+    }
+
     public static function updateContact($data, $id)
     {
         $contactData = array_intersect_key($data, array_flip((new Contact())->getFillable()));
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
         }
-        Contact::query()->where('id', $id)->update($contactData);
+        $contact = Contact::query()->where('id', $id)->first();
+        foreach ($contactData as $key => $value) {
+            $contact->{$key} = $value;
+        }
+        $contact->save();
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);

@@ -486,17 +486,19 @@
                       v-model="contact[element.code]" />
                   </template>
                   <template v-else>
-                    <DataInputGroup
-                      @copy="copyToClipboard(contact[element.model])"
-                      class="group/draggable"
-                      @actionMethod="
+                      <template v-if="element.name == 'Address'">
+                          <template v-for="addressKey in Object.keys(contact[element.model])">
+                              <DataInputGroup
+                                  @copy="copyToClipboard(contact[element.model][addressKey])"
+                                  class="group/draggable"
+                                  @actionMethod="
                         actionMethod(element.method, element.params)
                       "
-                      @actionMethod2="
+                                  @actionMethod2="
                         actionMethod(element.method2, element.params2)
                       "
-                      v-model="contact[element.model]"
-                      @blur="
+                                  v-model="contact[element.model][addressKey]"
+                                  @blur="
                         $emit('updateContact', {
                           id: contact.id,
                           index: contact.index,
@@ -504,15 +506,46 @@
                           value: contact[element.model],
                         })
                       "
-                      :id="element.name"
-                      :icon="element.icon"
-                      :socialicon="element.socialicon"
-                      :label="element.name"
-                      :disabled="!contact.id"
-                      :action="element.actionIcon"
-                      :action2="element.actionIcon2"
-                      :isCopyable="element.isCopyable"
-                      :placeholder="element.location" />
+                                  :id="addressKey"
+                                  :icon="element.icon"
+                                  :socialicon="element.socialicon"
+                                  :label="addressKey.split(/(?=[A-Z])/).join(' ')"
+                                  :disabled="!contact.id"
+                                  :action="element.actionIcon"
+                                  :action2="element.actionIcon2"
+                                  :isCopyable="element.isCopyable"
+                                  :placeholder="addressKey.split(/(?=[A-Z])/).join(' ')" />
+                          </template>
+                      </template>
+                      <template v-else>
+                          <DataInputGroup
+                              @copy="copyToClipboard(contact[element.model])"
+                              class="group/draggable"
+                              @actionMethod="
+                        actionMethod(element.method, element.params)
+                      "
+                              @actionMethod2="
+                        actionMethod(element.method2, element.params2)
+                      "
+                              v-model="contact[element.model]"
+                              @blur="
+                        $emit('updateContact', {
+                          id: contact.id,
+                          index: contact.index,
+                          key: `${element.model}`,
+                          value: contact[element.model],
+                        })
+                      "
+                              :id="element.name"
+                              :icon="element.icon"
+                              :socialicon="element.socialicon"
+                              :label="element.name"
+                              :disabled="!contact.id"
+                              :action="element.actionIcon"
+                              :action2="element.actionIcon2"
+                              :isCopyable="element.isCopyable"
+                              :placeholder="element.placeholder" />
+                      </template>
                   </template>
                 </div>
               </draggable>

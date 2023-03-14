@@ -14,13 +14,13 @@ class FieldAttribute extends Model
 
     const DEFAULT_FIELDS = [
         [
-            'name' => 'Location',
+            'name' => 'Address',
             'icon' => 'MapPinIcon',
             'id' => 1,
-            'model' => 'location',
-            'value' => 'location',
+            'model' => 'address',
+            'value' => 'address',
             'isCopyable' => true,
-            'placeholder' => 'Location',
+            'placeholder' => '',
         ],
         [
             'name' => 'Email',

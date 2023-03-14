@@ -34,9 +34,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->text('emails')->nullable();
             $table->string('website')->nullable();
-            $table->string('location')->nullable();
-            $table->string('city')->nullable();
-            $table->string('country')->nullable();
+            $table->text('address')->nullable();
             $table->string('gender')->nullable();
             $table->date('dob')->nullable();
             $table->string('profile_pic_url')->nullable();

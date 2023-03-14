@@ -51,9 +51,10 @@ class CrmController extends Controller
     public function updateContact(Request $request, $id)
     {
         // update creator
-        Contact::updateContact($request->all(), $id);
+        $params = $request->all();
         $params['user_id'] = Auth::id();
         $params['team_id'] = Auth::user()->currentTeam->id;
+        Contact::updateContact($params, $id);
         $params['id'] = $id;
         return collect([
             'status' => true,
