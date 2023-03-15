@@ -21,6 +21,7 @@ class Contact extends Model
     protected $fillable = [
         'user_id',
         'team_id',
+        'full_name',
         'first_name',
         'last_name',
         'nickname',
@@ -32,7 +33,6 @@ class Contact extends Model
         'biography',
         'phone',
         'emails',
-        'phone',
         'website',
         'address',
         'gender',
@@ -294,7 +294,7 @@ class Contact extends Model
 
     public function setYoutube($value)
     {
-        $oldYoutube = $this->youtube;
+        $oldYoutube = $this->youtube ?? null;
         if (! count((array) $value)) {
             return $oldYoutube;
         }
@@ -319,6 +319,54 @@ class Contact extends Model
             $oldYoutube->channel_name = $value;
             return json_encode($oldYoutube);
         }
+    }
+
+    public function twitterData(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value ?? '[]'),
+            set: fn ($value) => json_encode($value),
+        );
+    }
+
+    public function twitchData(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value ?? '[]'),
+            set: fn ($value) => json_encode($value),
+        );
+    }
+
+    public function linkedinData(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value ?? '[]'),
+            set: fn ($value) => json_encode($value),
+        );
+    }
+
+    public function tiktokData(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value ?? '[]'),
+            set: fn ($value) => json_encode($value),
+        );
+    }
+
+    public function instagramData(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value ?? '[]'),
+            set: fn ($value) => json_encode($value),
+        );
+    }
+
+    public function youtubeData(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value ?? '[]'),
+            set: fn ($value) => json_encode($value),
+        );
     }
 
     public static function getContacts($params)
@@ -385,8 +433,16 @@ class Contact extends Model
 
     public static function saveContact($data, $listId = null)
     {
+        if (! isset($data['user_id']) || ! isset($data['team_id'])) {
+            return false;
+        }
+
         $contactData = array_intersect_key($data, array_flip((new Contact())->getFillable()));
-        $contact = Contact::query()->create($contactData);
+        $contact = new Contact();
+        foreach ($contactData as $key => $value) {
+            $contact->{$key} = $value;
+        }
+        $contact->save();
         if ($listId) {
             Contact::addContactsToList($contact->id, $listId, $data['team_id']);
         }
@@ -434,5 +490,42 @@ class Contact extends Model
         foreach ($contactIds as $contactId) {
             ContactImported::dispatch($contactId, $teamId, $listId);
         }
+    }
+
+    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null)
+    {
+        if (! isset($userId) || ! isset($teamId)) {
+            return false;
+        }
+
+        $data = [];
+        foreach (Creator::NETWORKS as $NETWORK) {
+            $data[$NETWORK.'_data'] = [];
+            foreach ($creator->getAttributes() as $key => $attribute) {
+                if (str_starts_with($key, $NETWORK.'_')) {
+                    if ($key == ($NETWORK.'_handler')) {
+                        $data[$NETWORK] = $creator->{$key};
+                    }
+                    $data[$NETWORK.'_data'][$key] = $creator->{$key};
+                }
+            }
+        }
+
+        $data['full_name'] = $creator->full_name ? $creator->full_name : ($creator->first_name.' '.$creator->last_name);
+        $data['first_name'] = $creator->first_name ? $creator->first_name : ($creator->full_name ? explode(' ', $creator->full_name)[0] : '');
+        $data['last_name'] = $creator->last_name ? $creator->last_name : ($creator->full_name ? explode(' ', $creator->full_name)[0] : '');
+        $data['category'] = $creator->getCategoryAttribute();
+        $data['biography'] = $creator->getBiographyAttribute();
+        $data['email'] = $creator->emails;
+        $data['gender'] = $creator->gender;
+        $data['phone'] = $creator->phone;
+        $data['website'] = $creator->website;
+        $data['profile_pic_url'] = $creator->getProfilePicUrlAttribute();
+        $data['source'] = $source;
+
+        $data['user_id'] = $userId;
+        $data['team_id'] = $teamId;
+
+        return self::saveContact($data, $listId);
     }
 }

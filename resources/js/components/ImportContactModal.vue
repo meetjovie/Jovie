@@ -1,7 +1,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog as="div" class="relative z-10" @close="$emit('closeModal')">
+    <Dialog as="div" class="relative z-10" @close="closeModal">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -33,7 +33,7 @@
                     <button
                       type="button"
                       class="dark:hover:text-slate-500focus-visible:outline-none rounded-md bg-white text-slate-400 hover:text-slate-500 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-700 dark:text-jovieDark-300"
-                      @click="$emit('closeModal')">
+                      @click="closeModal">
                       <span class="sr-only">Close</span>
                       <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                     </button>
@@ -60,12 +60,18 @@
                     </div>
                   </div>
                     <div>
-                        <div class="mt-2">
+                        <div class="mt-2" v-if="fromSocial">
+                            <SocialInput
+                                :list="list"
+                                v-model="socialMediaProfileUrl"
+                                @finishImport="closeModal" />
+                        </div>
+                        <div class="mt-2" v-else>
                             <template v-for="contactKey in Object.keys(contact)">
                                 <InputGroup
                                     v-model="contact[contactKey]"
                                     :id="contactKey"
-                                    :disabled="updating"
+                                    :disabled="importing"
                                     :name="contactKey"
                                     :label="getLabel(contactKey)"
                                     :placeholder="getLabel(contactKey)"
@@ -126,7 +132,8 @@ export default {
           titkok: '',
           snapchat: '',
           youtube: '',
-      }
+      },
+      socialMediaProfileUrl: ''
     };
   },
   props: {
@@ -136,8 +143,16 @@ export default {
     },
     list: {
     },
+    fromSocial: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
+      closeModal() {
+          this.$emit('closeModal')
+          Object.assign(this.$data, this.$options.data());
+      },
       getLabel(contactKey) {
           return contactKey.split('_').join(' ')
       },
