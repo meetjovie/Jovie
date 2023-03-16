@@ -172,7 +172,6 @@ class TwitterImport implements ShouldQueue
                 }
             }
         } catch (\Exception $e) {
-            dd($e->getMessage(), $e->getFile(), $e->getLine());
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {
@@ -277,12 +276,12 @@ class TwitterImport implements ShouldQueue
         $creator->save();
         Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
 
-//        $import = new Import();
-//        if (strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
-//            InstagramImport::dispatch($import->instagram, null, true, null)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
-//        } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
-//            TwitchImport::dispatch(null, $import->twitch)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
-//        }
+        $import = new Import();
+        if (strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
+            InstagramImport::dispatch($import->instagram, null, true, null)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
+        } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
+            TwitchImport::dispatch(null, $import->twitch)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+        }
 
         return $creator;
     }

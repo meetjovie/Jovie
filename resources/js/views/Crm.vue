@@ -1001,7 +1001,9 @@ export default {
         `contactImported.${this.currentUser.current_team.id}`,
         'ContactImported',
         (data) => {
-          if (!data.list) {
+            console.log('datadata');
+            console.log(data);
+            if (!data.list) {
             this.$store.state.importProgressSingleCount--;
           }
           if (
@@ -1019,10 +1021,9 @@ export default {
             let index = this.contacts.findIndex(
               (contact) => contact.id == newContact.id
             );
-
             if (index >= 0) {
               this.contacts[index] = newContact;
-            } else {
+            } else if (! data.updating_existing) {
               if (this.filters.page === 1 && this.contacts.length == 50) {
                 this.contacts.pop();
               }

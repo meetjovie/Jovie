@@ -19,16 +19,18 @@ class ContactImported implements ShouldBroadcast
     private $contactId;
     private $teamId;
     private $listId;
+    private $updatingExisting;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($contactId, $teamId, $listId)
+    public function __construct($contactId, $teamId, $listId, $updatingExisting = false)
     {
         $this->contactId = $contactId;
         $this->teamId = $teamId;
         $this->listId = $listId;
+        $this->updatingExisting = $updatingExisting;
     }
 
     /**
@@ -53,6 +55,7 @@ class ContactImported implements ShouldBroadcast
         return ['status' => true, 'data' => [
             'contact' => $contact,
             'list' => $this->listId,
+            'updating_existing' => $this->updatingExisting
         ], 'message' => $this->listId ? null : 'Contact Imported'];
     }
 }

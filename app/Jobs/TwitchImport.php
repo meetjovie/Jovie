@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Import;
 use App\Models\Notification;
@@ -116,7 +117,7 @@ class TwitchImport implements ShouldQueue
             if ($creator && ! is_null($creator->twitch_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
                 $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                    Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
+                    Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);;
                     Import::markImport($this->importId, ['twitch']);
 //                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitch user '.$this->username), Notification::SINGLE_IMPORT);
                     return;
@@ -170,6 +171,7 @@ class TwitchImport implements ShouldQueue
                 }
             }
         } catch (\Exception $e) {
+            dd($e->getMessage(), $e->getFile(), $e->getLine());
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {
@@ -244,7 +246,7 @@ class TwitchImport implements ShouldQueue
             $creator->twitch_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->twitch_summary_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->save();
-            Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
+            Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);;
             $summary = null;
             try {
                 $response = self::scrapTwitchSummary($user->login);
@@ -270,6 +272,7 @@ class TwitchImport implements ShouldQueue
                     $creator->twitch_meta = $meta;
                     $creator->twitch_engagement_rate = round($summary->avg_viewers / $summary->followers_total, 2);
                     $creator->save();
+                    Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);;
                 } catch (\Exception $e) {
                     Log::info($user->login);
                     Log::info($e->getMessage());

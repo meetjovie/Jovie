@@ -103,6 +103,24 @@ class Creator extends Model
         return $this->full_name ?? ($this->first_name ? ($this->first_name.' '.$this->last_name) : null) ?? $this->instagram_name ?? $this->twitch_name ?? $this->twitter_name ?? $this->tiktok_name;
     }
 
+    public function getFirstName($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+
+        return $creator->first_name ? $creator->first_name : ($creator->name ? explode(' ', $creator->name)[0] : null);
+    }
+
+    public function getLastName($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+
+        return $creator->last_name ? $creator->last_name : ($creator->name ? (explode(' ', $creator->name)[1] ?? null) : null);
+    }
+
     public function getName($creator = null)
     {
         if (is_null($creator)) {

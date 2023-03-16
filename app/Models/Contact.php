@@ -69,19 +69,7 @@ class Contact extends Model
         'last_enriched_at',
     ];
 
-    protected $appends = ['stage_name'];
-
-    protected $casts = [
-        'instagram_data' => AsArrayObject::class,
-        'twitter_data' => AsArrayObject::class,
-        'linkedin_data' => AsArrayObject::class,
-        'tiktok_data' => AsArrayObject::class,
-        'twitch_data' => AsArrayObject::class,
-        'youtube_data' => AsArrayObject::class,
-        'snapchat_data' => AsArrayObject::class,
-        'onlyfans_data' => AsArrayObject::class,
-        'wiki_data' => AsArrayObject::class,
-    ];
+    protected $appends = ['stage_name', 'social_links_with_followers'];
 
     /**
      * The "booted" method of the model.
@@ -99,12 +87,35 @@ class Contact extends Model
     }
 
     /**
+     * Get the available social links and followers of contact.
+     */
+    public function socialLinksWithFollowers(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->getSocialLinksWithFollowers(),
+        );
+    }
+
+    public function getSocialLinksWithFollowers()
+    {
+        $socialLinks = collect();
+        foreach (Creator::NETWORKS as $NETWORK) {
+            $socialLinks->push([
+                'url' => $this->{$NETWORK},
+                'network' => $NETWORK,
+                'followers' => $this->{$NETWORK.'_data'}->{$NETWORK.'_followers'} ?? null
+            ]);
+        }
+        return $socialLinks;
+    }
+
+    /**
      * Determine the stage of contact.
      */
     protected function stageName(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->stages()[$this->stage ?? 0],
+            get: fn() => $this->stages()[$this->stage ?? 0],
         );
     }
 
@@ -128,16 +139,16 @@ class Contact extends Model
     protected function lastContacted(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value,
-            set: fn ($value) => Carbon::make($value)->toDateString(),
+            get: fn($value) => $value,
+            set: fn($value) => Carbon::make($value)->toDateString(),
         );
     }
 
     public function emails(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => $this->setEmails($value),
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => $this->setEmails($value),
         );
     }
 
@@ -149,8 +160,8 @@ class Contact extends Model
     public function address(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->getAddress($value),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => $this->getAddress($value),
+            set: fn($value) => json_encode($value),
         );
     }
 
@@ -159,8 +170,8 @@ class Contact extends Model
         $value = json_decode($value ?? '[]');
         $attributes = ['streetAddress', 'extendedAddress', 'poBox', 'locality', 'region', 'postalCode', 'country'];
         foreach ($attributes as $attribute) {
-            $value = is_array($value) ? (object) $value : $value;
-            if (! isset($value->{$attribute})) {
+            $value = is_array($value) ? (object)$value : $value;
+            if (!isset($value->{$attribute})) {
                 $value->{$attribute} = null;
             }
         }
@@ -170,48 +181,48 @@ class Contact extends Model
     public function twitter(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? 'https://twitter.com/'.$value : null,
-            set: fn ($value) => $this->setTwitter($value),
+            get: fn($value) => $value ? 'https://twitter.com/' . $value : null,
+            set: fn($value) => $this->setTwitter($value),
         );
     }
 
     public function twitch(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? 'https://twitch.tv/'.$value : null,
-            set: fn ($value) => $this->setTwitch($value),
+            get: fn($value) => $value ? 'https://twitch.tv/' . $value : null,
+            set: fn($value) => $this->setTwitch($value),
         );
     }
 
     public function linkedin(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? 'https://www.linkedin.com/in/'.$value : null,
-            set: fn ($value) => $this->setLinkedin($value),
+            get: fn($value) => $value ? 'https://www.linkedin.com/in/' . $value : null,
+            set: fn($value) => $this->setLinkedin($value),
         );
     }
 
     public function tiktok(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? 'https://www.tiktok.com/'.$value : null,
-            set: fn ($value) => $this->setTiktok($value),
+            get: fn($value) => $value ? 'https://www.tiktok.com/' . $value : null,
+            set: fn($value) => $this->setTiktok($value),
         );
     }
 
     public function instagram(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? 'https://instagram.com/'.$value : null,
-            set: fn ($value) => $this->setInstagram($value),
+            get: fn($value) => $value ? 'https://instagram.com/' . $value : null,
+            set: fn($value) => $this->setInstagram($value),
         );
     }
 
     public function youtube(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->getYoutubeLink($value),
-            set: fn ($value) => $this->setYoutube($value),
+            get: fn($value) => $this->getYoutubeLink($value),
+            set: fn($value) => $this->setYoutube($value),
         );
     }
 
@@ -225,9 +236,9 @@ class Contact extends Model
         }
 
         if (isset($value->channel_name)) {
-            return 'https://youtube.com/c/'.$value->channel_name;
+            return 'https://youtube.com/c/' . $value->channel_name;
         } elseif (isset($value->channel_id)) {
-            return 'https://youtube.com/channel/'.$value->channel_id;
+            return 'https://youtube.com/channel/' . $value->channel_id;
         }
         return null;
     }
@@ -295,8 +306,8 @@ class Contact extends Model
     public function setYoutube($value)
     {
         $oldYoutube = $this->youtube ?? null;
-        if (! count((array) $value)) {
-            return $oldYoutube;
+        if (!count((array)$value)) {
+            return !empty($oldYoutube) ? json_encode($oldYoutube) : null;
         }
         // Regex for verifying a youtube URL - channel id
         $regex = '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:channel)\/([A-Za-z0-9-_\.]+)/';
@@ -304,8 +315,7 @@ class Contact extends Model
         if (preg_match($regex, $value, $matches)) {
             $oldYoutube->channel_id = $matches[1];
             return json_encode($oldYoutube);
-        }
-        // Regex for verifying a youtube URL - channel name
+        } // Regex for verifying a youtube URL - channel name
         elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
             $oldYoutube->channel_name = $matches[1];
             return json_encode($oldYoutube);
@@ -324,48 +334,48 @@ class Contact extends Model
     public function twitterData(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => json_encode($value),
         );
     }
 
     public function twitchData(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => json_encode($value),
         );
     }
 
     public function linkedinData(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => json_encode($value),
         );
     }
 
     public function tiktokData(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => json_encode($value),
         );
     }
 
     public function instagramData(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => json_encode($value),
         );
     }
 
     public function youtubeData(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value ?? '[]'),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => json_encode($value),
         );
     }
 
@@ -431,13 +441,18 @@ class Contact extends Model
         return $counts;
     }
 
+    public static function getFillableData($data)
+    {
+        return array_intersect_key($data, array_flip((new Contact())->getFillable()));
+    }
+
     public static function saveContact($data, $listId = null)
     {
-        if (! isset($data['user_id']) || ! isset($data['team_id'])) {
+        if (!isset($data['user_id']) || !isset($data['team_id'])) {
             return false;
         }
 
-        $contactData = array_intersect_key($data, array_flip((new Contact())->getFillable()));
+        $contactData = self::getFillableData($data);
         $contact = new Contact();
         foreach ($contactData as $key => $value) {
             $contact->{$key} = $value;
@@ -445,13 +460,55 @@ class Contact extends Model
         $contact->save();
         if ($listId) {
             Contact::addContactsToList($contact->id, $listId, $data['team_id']);
+        } else { // if list is there then import event is dispatched from within it for multiple contacts. else it is dispatched as single without list
+            ContactImported::dispatch($contact->id, $data['team_id'], $listId);
         }
+
         return $contact;
+    }
+
+    public static function updateMultipleExistingContactsWithSocial($data, $contacts, $listId = null)
+    {
+        $contactData = self::getFillableData($data);
+        foreach ($contacts as &$contact) {
+            foreach ($contactData as $key => $value) {
+                $contact->{$key} = $value;
+            }
+            $contact->save();
+            if ($listId) {
+                Contact::addContactsToList($contact->id, $listId, $data['team_id'], true);
+            } else { // if list is there then import event is dispatched from within it for multiple contacts. else it is dispatched as single without list
+                ContactImported::dispatch($contact->id, $data['team_id'], $listId, true);
+            }
+        }
+        return $contacts;
+    }
+
+    public static function getExistingContactsBySocialHandle(array $contactData)
+    {
+        $contacts = new Contact();
+        $socials = [];
+        foreach (Creator::NETWORKS as $NETWORK) {
+            $methodName = 'set' . ucfirst($NETWORK);
+            $socials[$NETWORK] = $contacts->{$methodName}($contactData[$NETWORK] ?? null);
+            if (!$socials[$NETWORK]) {
+                unset($socials[$NETWORK]);
+            }
+        }
+
+        $contacts = Contact::query();
+        if (!empty($socials)) {
+            foreach ($socials as $network => $value) {
+                $contacts = $contacts->orWhere($network, $value);
+            }
+            $contacts = $contacts->get();
+        }
+        return count($contacts) ? $contacts : false;
     }
 
     public static function updateContact($data, $id)
     {
-        $contactData = array_intersect_key($data, array_flip((new Contact())->getFillable()));
+        $contactData = self::getFillableData($data);
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
         }
@@ -478,7 +535,7 @@ class Contact extends Model
         return $contact;
     }
 
-    public static function addContactsToList(array|int $contactIds, $listId, $teamId)
+    public static function addContactsToList(array|int $contactIds, $listId, $teamId, $updatingExisting = false)
     {
         if (!is_array($contactIds)) {
             $contactIds = [$contactIds];
@@ -488,32 +545,31 @@ class Contact extends Model
         $list->contacts()->syncWithoutDetaching($contactIds);
 
         foreach ($contactIds as $contactId) {
-            ContactImported::dispatch($contactId, $teamId, $listId);
+            ContactImported::dispatch($contactId, $teamId, $listId, $updatingExisting);
         }
     }
 
     public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null)
     {
-        if (! isset($userId) || ! isset($teamId)) {
+        if (!isset($userId) || !isset($teamId)) {
             return false;
         }
 
         $data = [];
         foreach (Creator::NETWORKS as $NETWORK) {
-            $data[$NETWORK.'_data'] = [];
             foreach ($creator->getAttributes() as $key => $attribute) {
-                if (str_starts_with($key, $NETWORK.'_')) {
-                    if ($key == ($NETWORK.'_handler')) {
+                if (str_starts_with($key, $NETWORK . '_')) {
+                    if ($key == ($NETWORK . '_handler')) {
                         $data[$NETWORK] = $creator->{$key};
                     }
-                    $data[$NETWORK.'_data'][$key] = $creator->{$key};
+                    $data[$NETWORK . '_data'][$key] = $creator->{$key};
                 }
             }
         }
 
-        $data['full_name'] = $creator->full_name ? $creator->full_name : ($creator->first_name.' '.$creator->last_name);
-        $data['first_name'] = $creator->first_name ? $creator->first_name : ($creator->full_name ? explode(' ', $creator->full_name)[0] : '');
-        $data['last_name'] = $creator->last_name ? $creator->last_name : ($creator->full_name ? explode(' ', $creator->full_name)[0] : '');
+        $data['full_name'] = $creator->getName($creator);
+        $data['first_name'] = $creator->getFirstName($creator);
+        $data['last_name'] = $creator->getLastName($creator);
         $data['category'] = $creator->getCategoryAttribute();
         $data['biography'] = $creator->getBiographyAttribute();
         $data['email'] = $creator->emails;
@@ -526,6 +582,10 @@ class Contact extends Model
         $data['user_id'] = $userId;
         $data['team_id'] = $teamId;
 
+        $existingContacts = Contact::getExistingContactsBySocialHandle($data);
+        if ($existingContacts) {
+            return self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
+        }
         return self::saveContact($data, $listId);
     }
 }
