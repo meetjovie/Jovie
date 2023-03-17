@@ -49,12 +49,6 @@
         :dataType="column.type"
         v-model="localModelValue"
       />
-
-      <DataGridSocialLinksCell
-        :contact="contact"
-        :networks="networks"
-        :show-count="true"
-        v-else-if="column.type == 'socialLinks'" />
       <ContactStageMenu
         v-else-if="column.type == 'select' && column.name == 'Stage'"
         :contact="contact"
@@ -65,8 +59,7 @@
         :index="row"
         @updateContact="$emit('updateContact', $event)" />
       <DataGridSocialLinksCell
-        :contact="contact"
-        :networks="networks"
+          :socialLinks="contact.social_links_with_followers"
         :show-count="showFollowersCount"
         v-else-if="column.type == 'socialLinks'" />
       <div v-else-if="column.type == 'date'">
