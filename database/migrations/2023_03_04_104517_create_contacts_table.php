@@ -48,7 +48,7 @@ return new class extends Migration
             $table->boolean('muted')->default(0);
             $table->string('source')->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('description_updated_by')->constrained('users')->nullable();
+            $table->foreignId('description_updated_by')->nullable()->constrained('users');
 
             $table->string('instagram')->nullable();
             $table->longText('instagram_data')->nullable();

@@ -128,6 +128,8 @@ export default {
           company: '',
           title: '',
           instagram: '',
+          twitter: '',
+          twitch: '',
           linkedin: '',
           titkok: '',
           snapchat: '',

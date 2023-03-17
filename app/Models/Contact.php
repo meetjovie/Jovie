@@ -71,6 +71,28 @@ class Contact extends Model
 
     protected $appends = ['stage_name', 'social_links_with_followers'];
 
+    const OVERRIDEABLE = [
+        'instagram',
+        'instagram_data',
+        'twitter',
+        'twitter_data',
+        'linkedin',
+        'linkedin_data',
+        'tiktok',
+        'tiktok_data',
+        'twitch',
+        'twitch_data',
+        'youtube',
+        'youtube_data',
+        'snapchat',
+        'snapchat_data',
+        'onlyfans',
+        'onlyfans_data',
+        'wiki',
+        'wiki_data',
+        'last_enriched_at',
+    ];
+
     /**
      * The "booted" method of the model.
      *
@@ -446,6 +468,11 @@ class Contact extends Model
         return array_intersect_key($data, array_flip((new Contact())->getFillable()));
     }
 
+    public static function getOverrideableDataForContactDuringEnrich($data)
+    {
+        return array_intersect_key($data, array_flip(self::OVERRIDEABLE));
+    }
+
     public static function saveContact($data, $listId = null)
     {
         if (!isset($data['user_id']) || !isset($data['team_id'])) {
@@ -471,7 +498,11 @@ class Contact extends Model
     {
         $contactData = self::getFillableData($data);
         foreach ($contacts as &$contact) {
-            foreach ($contactData as $key => $value) {
+            $overrideableData = null;
+            if ($contact->last_enriched_at) {
+                $overrideableData = self::getOverrideableDataForContactDuringEnrich($contactData);
+            }
+            foreach ($overrideableData ?? $contactData as $key => $value) {
                 $contact->{$key} = $value;
             }
             $contact->save();
@@ -581,6 +612,8 @@ class Contact extends Model
 
         $data['user_id'] = $userId;
         $data['team_id'] = $teamId;
+
+        $data['last_enriched_at'] = Carbon::now()->toDateTimeString();
 
         $existingContacts = Contact::getExistingContactsBySocialHandle($data);
         if ($existingContacts) {
