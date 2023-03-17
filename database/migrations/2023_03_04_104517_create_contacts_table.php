@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('category')->nullable();
             $table->string('biography')->nullable();
-            $table->string('phone')->nullable();
+            $table->text('phones')->nullable();
             $table->text('emails')->nullable();
             $table->string('website')->nullable();
             $table->text('address')->nullable();

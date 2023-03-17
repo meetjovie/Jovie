@@ -41,8 +41,8 @@ class FieldAttribute extends Model
             'actionIcon' => 'ChatBubbleLeftEllipsisIcon',
             'method' => 'textCreator',
             /*  'action' => this.callCreator('creator.meta.phone'), */
-            'model' => 'phone',
-            'value' => 'phone',
+            'model' => 'phones',
+            'value' => 'phones',
             'isCopyable' => true,
             'placeholder' => 'Phone',
         ],

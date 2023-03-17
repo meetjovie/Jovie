@@ -31,7 +31,7 @@ class Contact extends Model
         'title',
         'category',
         'biography',
-        'phone',
+        'phones',
         'emails',
         'website',
         'address',
@@ -72,6 +72,8 @@ class Contact extends Model
     protected $appends = ['stage_name', 'social_links_with_followers'];
 
     const OVERRIDEABLE = [
+        'phones',
+        'emails',
         'instagram',
         'instagram_data',
         'twitter',
@@ -176,7 +178,24 @@ class Contact extends Model
 
     public function setEmails($value)
     {
-        return is_array($value) ? json_encode($value) : json_encode(explode(',', $value));
+        $existingEmails = $this->emails;
+        $newEmails = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
+        return json_encode(array_unique(array_merge($existingEmails, $newEmails)));
+    }
+
+    public function phones(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => $this->setPhones($value),
+        );
+    }
+
+    public function setPhones($value)
+    {
+        $existingPhones = $this->phones;
+        $newPhones = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
+        return json_encode(array_unique(array_merge($existingPhones, $newPhones)));
     }
 
     public function address(): Attribute
@@ -603,9 +622,9 @@ class Contact extends Model
         $data['last_name'] = $creator->getLastName($creator);
         $data['category'] = $creator->getCategoryAttribute();
         $data['biography'] = $creator->getBiographyAttribute();
-        $data['email'] = $creator->emails;
+        $data['emails'] = $creator->emails;
         $data['gender'] = $creator->gender;
-        $data['phone'] = $creator->phone;
+        $data['phones'] = $creator->phone;
         $data['website'] = $creator->website;
         $data['profile_pic_url'] = $creator->getProfilePicUrlAttribute();
         $data['source'] = $source;
