@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Contact extends Model
 {
@@ -546,18 +547,17 @@ class Contact extends Model
             }
         }
 
-        $contacts = Contact::query()->where('team_id', $teamId);
+        $contacts = [];
         if (!empty($socials)) {
+            $contacts = Contact::query()->where('team_id', $teamId);
             $contacts->where(function ($query) use ($socials) {
                 foreach ($socials as $network => $value) {
                     $query->orWhere($network, $value);
                 }
             });
-            foreach ($socials as $network => $value) {
-                $contacts = $contacts->orWhere($network, $value);
-            }
             $contacts = $contacts->get();
         }
+
         return count($contacts) ? $contacts : false;
     }
 
@@ -606,6 +606,10 @@ class Contact extends Model
 
     public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null)
     {
+        if (is_null($userId) || is_null($teamId)) {
+            return false;
+        }
+
         $user = User::query()->where('id', $userId)->first();
         $team = Team::query()->where('id', $teamId)->first();
 
@@ -649,8 +653,9 @@ class Contact extends Model
         $existingContacts = self::getExistingContactsBySocialHandle($data, $data['team_id']);
         if ($existingContacts) {
             self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
+        } else {
+            self::saveContact($data, $listId);
         }
-        self::saveContact($data, $listId);
 
         return true;
     }

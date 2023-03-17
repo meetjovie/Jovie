@@ -282,6 +282,8 @@ class TwitterImport implements ShouldQueue
             InstagramImport::dispatch($import->instagram, null, true, null)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
         } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
             TwitchImport::dispatch(null, $import->twitch)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+        } elseif (strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
+            TiktokImport::dispatch($import->tiktok)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
         }
 
         return $creator;
