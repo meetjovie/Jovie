@@ -109,7 +109,7 @@ class Creator extends Model
             $creator = $this;
         }
 
-        return $creator->first_name ? $creator->first_name : ($creator->name ? explode(' ', $creator->name)[0] : null);
+        return $creator->first_name ?: ($creator->name ? explode(' ', $creator->name)[0] : null);
     }
 
     public function getLastName($creator = null)
@@ -118,7 +118,7 @@ class Creator extends Model
             $creator = $this;
         }
 
-        return $creator->last_name ? $creator->last_name : ($creator->name ? (explode(' ', $creator->name)[1] ?? null) : null);
+        return $creator->last_name ?: ($creator->name ? (explode(' ', $creator->name)[1] ?? null) : null);
     }
 
     public function getName($creator = null)
@@ -127,7 +127,7 @@ class Creator extends Model
             $creator = $this;
         }
 
-        return $creator->full_name ?? ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name ?? $creator->tiktok_name;
+        return $creator->full_name ?: ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name ?? $creator->tiktok_name;
     }
 
     public function getBiographyAttribute($creator = null)

@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Import;
 use App\Models\Notification;
+use App\Models\Team;
 use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
@@ -43,6 +44,7 @@ class TwitchImport implements ShouldQueue
     private $userId;
 
     private $platformUser;
+    private $platformUserTeam;
 
     private $importId;
 
@@ -70,7 +72,8 @@ class TwitchImport implements ShouldQueue
         } elseif ($teamId) {
             $this->teamId = $teamId;
         }
-        $this->platformUser = User::with('currentTeam')->where('id', $this->userId)->first();
+        $this->platformUser = User::query()->where('id', $this->userId)->first();
+        $this->platformUserTeam = Team::query()->where('id', $this->teamId)->first();
     }
 
     /**
@@ -81,7 +84,7 @@ class TwitchImport implements ShouldQueue
     public function handle()
     {
         try {
-            if ($this->userId && ! is_null($this->platformUser) && ! $this->platformUser->is_admin && $this->platformUser->currentTeam->credits <= 0) {
+            if ($this->userId && ! is_null($this->platformUser) && ! $this->platformUser->is_admin && $this->platformUserTeam && $this->platformUserTeam->credits <= 0) {
                 Import::markImport($this->importId, ['twitch']);
                 if ($this->batch() && ! $this->batch()->cancelled()) {
                     $this->batch()->cancel();
@@ -225,8 +228,8 @@ class TwitchImport implements ShouldQueue
             $creator->tags = Creator::getTags($this->tags, $creator);
             $creator->emails = Creator::getEmails($user, $this->meta['emails'] ?? [], $creator->emails);
 
-            $creator->first_name = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
-            $creator->last_name = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
+            $creator->first_name = ucfirst(strtolower(($this->meta['firstName'] ?? null) ?: $creator->first_name)) ?: null;
+            $creator->last_name = ucfirst(strtolower(($this->meta['lastName'] ?? null) ?: $creator->last_name)) ?: null;
             $creator->city = $this->meta['city'] ?? $creator->city;
             $creator->country = $this->meta['country'] ?? $creator->country;
             $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;

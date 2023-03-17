@@ -45,6 +45,12 @@ class Team extends TeamworkTeam
         }
     }
 
+    public function deductCredits($credits = 1)
+    {
+        $this->credits -= (int) $credits;
+        $this->save();
+    }
+
     public function userLists()
     {
         return $this->hasMany(UserList::class);

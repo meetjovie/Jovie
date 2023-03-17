@@ -534,20 +534,25 @@ class Contact extends Model
         return $contacts;
     }
 
-    public static function getExistingContactsBySocialHandle(array $contactData)
+    public static function getExistingContactsBySocialHandle(array $contactData, $teamId)
     {
         $contacts = new Contact();
         $socials = [];
         foreach (Creator::NETWORKS as $NETWORK) {
-            $methodName = 'set' . ucfirst($NETWORK);
+            $methodName = 'set' . ucfirst($NETWORK); // get social handle without url
             $socials[$NETWORK] = $contacts->{$methodName}($contactData[$NETWORK] ?? null);
             if (!$socials[$NETWORK]) {
                 unset($socials[$NETWORK]);
             }
         }
 
-        $contacts = Contact::query();
+        $contacts = Contact::query()->where('team_id', $teamId);
         if (!empty($socials)) {
+            $contacts->where(function ($query) use ($socials) {
+                foreach ($socials as $network => $value) {
+                    $query->orWhere($network, $value);
+                }
+            });
             foreach ($socials as $network => $value) {
                 $contacts = $contacts->orWhere($network, $value);
             }
@@ -601,7 +606,10 @@ class Contact extends Model
 
     public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null)
     {
-        if (!isset($userId) || !isset($teamId)) {
+        $user = User::query()->where('id', $userId)->first();
+        $team = Team::query()->where('id', $teamId)->first();
+
+        if (is_null($user) || is_null($team)) {
             return false;
         }
 
@@ -634,10 +642,16 @@ class Contact extends Model
 
         $data['last_enriched_at'] = Carbon::now()->toDateTimeString();
 
-        $existingContacts = Contact::getExistingContactsBySocialHandle($data);
-        if ($existingContacts) {
-            return self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
+        if (! $user->is_admin) {
+            $team->deductCredits();
         }
-        return self::saveContact($data, $listId);
+
+        $existingContacts = self::getExistingContactsBySocialHandle($data, $data['team_id']);
+        if ($existingContacts) {
+            self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
+        }
+        self::saveContact($data, $listId);
+
+        return true;
     }
 }

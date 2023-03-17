@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Crm;
 use App\Models\Import;
+use App\Models\Team;
 use App\Models\User;
 use App\Models\UserList;
 use App\Notifications\ImportNotification;
@@ -56,6 +57,7 @@ class InstagramImport implements ShouldQueue
     private $userId;
 
     private $platformUser;
+    private $platformUserTeam;
 
     private $importId;
 
@@ -84,7 +86,8 @@ class InstagramImport implements ShouldQueue
         } elseif ($teamId) {
             $this->teamId = $teamId;
         }
-        $this->platformUser = User::with('currentTeam')->where('id', $this->userId)->first();
+        $this->platformUser = User::query()->where('id', $this->userId)->first();
+        $this->platformUserTeam = Team::query()->where('id', $this->teamId)->first();
     }
 
     /**
@@ -103,7 +106,7 @@ class InstagramImport implements ShouldQueue
      */
     public function handle()
     {
-        if (($this->userId && ! is_null($this->platformUser)) && $this->platformUser->currentTeam->credits <= 0) {
+        if (($this->userId && ! is_null($this->platformUser)) && $this->platformUserTeam && $this->platformUserTeam->credits <= 0) {
             if ($this->batch()) {
                 $this->batch()->cancel();
                 DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
@@ -264,8 +267,8 @@ class InstagramImport implements ShouldQueue
                 }
             }
         }
-        $creator->first_name = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
-        $creator->last_name = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
+        $creator->first_name = ucfirst(strtolower(($this->meta['firstName'] ?? null) ?: $creator->first_name)) ?: null;
+        $creator->last_name = ucfirst(strtolower(($this->meta['lastName'] ?? null) ?: $creator->last_name)) ?: null;
         $creator->city = $this->meta['city'] ?? $creator->city;
         $creator->country = $this->meta['country'] ?? $creator->country;
         $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;
