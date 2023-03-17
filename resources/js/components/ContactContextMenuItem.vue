@@ -5,23 +5,23 @@
         v-if="contactMethod == 'email'"
         name="Email"
         color="text-purple-600 dark:text-purple-400"
-        @click="emailCreator(contact.emails[0] || contact.emails[0])"
-        :disabled="!contact.emails[0] && !contact.emails[0]"
+        @click="emailContact(contact.emails[0])"
+        :disabled="!contact.emails.length"
         icon="EnvelopeIcon" />
       <DropdownMenuItem v-if="contactMethod == 'separator'" separator />
       <DropdownMenuItem
         v-if="contactMethod == 'phone'"
         name="Call"
         color="text-blue-600 dark:text-blue-400"
-        @click="callCreator(contact.phone || contact.phone)"
-        :disabled="!contact.phone && !contact.phone"
+        @click="callContact(contact.phones[0])"
+        :disabled="!contact.phones.length"
         icon="PhoneIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'sms'"
         name="Send SMS"
         color="text-blue-600 dark:text-blue-400"
-        @click="textCreator(contact.phone || contact.phone)"
-        :disabled="!contact.phone && !contact.phone"
+        @click="textContact(contact.phones[0])"
+        :disabled="!contact.phones.length"
         icon="ChatBubbleLeftEllipsisIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'calendar'"
@@ -54,8 +54,8 @@
         v-if="contactMethod == 'whatsapp'"
         name="Whatsapp"
         color="text-social-whatsapp"
-        @click="whatsappCreator(contact.phone || contact.phone)"
-        :disabled="!contact.phone && !contact.phone"
+        @click="whatsappContact(contact.phones[0])"
+        :disabled="!contact.phones.length"
         icon="ChatBubbleOvalLeftEllipsisIcon" />
 
       <div v-if="currentUser.is_admin">
@@ -72,8 +72,8 @@
         v-if="contactMethod == 'verify'"
         name="Verify Email"
         color="text-slate-400 hover:text-slate-900"
-        @click="verifyEmail(contact.emails[0] || contact.emails[0])"
-        :disabled="!contact.emails[0] && !contact.emails[0]"
+        @click="verifyEmail(contact.emails[0])"
+        :disabled="!contact.emails.length"
         icon="CheckCircleIcon" />
     </div>
   </div>
@@ -147,11 +147,11 @@ export default {
         }&details=Created by ${this.currentUser.first_name} ${
           this.currentUser.last_name
         } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
-          contact.emails[0] || contact.emails[0] || ''
+          contact.emails[0] || ''
         }&notes='Created via Jovie: https://jov.ie`
       );
     },
-    emailCreator(email) {
+    emailContact(email) {
       //go to the url mailto:contact.emails[0]
       //if email is not null
       if (email) {
@@ -189,7 +189,7 @@ export default {
         return;
       }
     },
-    callCreator(phone) {
+    callContact(phone) {
       //go to the url tel:contact.phone
       //if phone is not null
       if (phone) {
@@ -205,7 +205,7 @@ export default {
         });
       }
     },
-    whatsappCreator(phone) {
+    whatsappContact(phone) {
       //go to the url tel:contact.phone
       //if phone is not null
       if (phone) {
@@ -239,7 +239,7 @@ export default {
         });
       }
     },
-    textCreator(phone) {
+    textContact(phone) {
       //go to the url sms:contact.phone
       //if phone is not null
       if (phone) {

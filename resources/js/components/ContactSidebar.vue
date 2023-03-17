@@ -966,24 +966,6 @@ export default {
         text: 'The new social link has not been saved',
       });
     },
-    emailContact(email) {
-      console.log('email');
-      email = this.contact.emails[0];
-      //go to the url mailto:contact.emails[0]
-      //if email is not null
-      if (email.length > 0) {
-        window.open('mailto:' + email);
-        //else log no email found
-      } else {
-        console.log('No email found');
-        this.$notify({
-          title: 'No email found',
-          message: 'This contact does not have an email address',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
     openLink(url) {
       console.log('url');
       //go to the url
@@ -996,82 +978,6 @@ export default {
         this.$notify({
           title: 'No url found',
           message: 'This contact does not have a url',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
-    callContact(phone) {
-      //go to the url tel:contact.phone
-      //if phone is not null
-      phone = this.contact.phone || this.contact.phone;
-      console.log('Calling contact at:' + phone);
-      if (phone) {
-        window.open('tel:' + phone);
-        //else log no phone found
-      } else {
-        console.log('No phone number found');
-        this.$notify({
-          title: 'No phone number found',
-          message: 'This contact does not have a phone number',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
-    instagramDMContact(username) {
-      //go to the url https://ig.me/m/USERNAME
-      //if username is not null
-      //else notify the user
-      username =
-        this.contact.instagram || this.contact.instagram;
-      //if username is an instagram link, extract the username
-      if (username.includes('instagram.com')) {
-        username = username.split('instagram.com/')[1];
-      }
-      if (username) {
-        window.open('https://ig.me/m/' + username);
-      } else {
-        console.log('No instagram username found');
-        this.$notify({
-          title: 'No instagram username found',
-          message: 'This contact does not have an instagram username',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
-    whatsappContact(phone) {
-      //go to the url tel:contact.phone
-      //if phone is not null
-      phone = this.contact.phone || this.contact.phone;
-      if (phone) {
-        console.log('whatsapp');
-        //open whatsapp://send?text=Hello World!&phone=+phone
-        window.open('whatsapp://send?text=Hey!&phone=+' + phone);
-        //else log no phone found
-      } else {
-        console.log('No phone number found');
-        this.$notify({
-          title: 'No phone number found',
-          message: 'This contact does not have a phone number',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
-    textContact(phone) {
-      //go to the url sms:contact.phone
-      //if phone is not null
-      phone = this.contact.phone || this.contact.phone;
-      if (phone) {
-        window.open('sms:' + phone);
-        //else log no phone found
-      } else {
-        console.log('No phone number found');
-        this.$notify({
-          title: 'No phone number found',
-          message: 'This contact does not have a phone number',
           type: 'warning',
           group: 'user',
         });
