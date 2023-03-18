@@ -55,6 +55,7 @@ class TiktokImport implements ShouldQueue
     private $importId;
 
     private $teamId = null;
+    private $deductCredits;
 
     /**
      * Create a new job instance.
@@ -68,8 +69,10 @@ class TiktokImport implements ShouldQueue
         $listId = null,
         $userId = null,
         $importId = null,
-        $teamId = null
+        $teamId = null,
+        $deductCredits = true,
     ) {
+        $this->deductCredits = $deductCredits;
         $this->username = $username;
         $this->tags = $tags;
         $this->meta = $meta;
@@ -130,7 +133,7 @@ class TiktokImport implements ShouldQueue
                 ) || !$this->platformUser->is_admin)) {
             $lastScrappedDate = Carbon::parse($creator->tiktok_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
+                Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits);
                 Import::markImport($this->importId, ['tiktok']);
 
                 return;
@@ -249,7 +252,7 @@ class TiktokImport implements ShouldQueue
         $creator->tiktok_meta = ($meta);
         $creator->tiktok_last_scrapped_at = Carbon::now()->toDateTimeString();
         $creator->save();
-        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
+        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits);
         return $creator;
     }
 

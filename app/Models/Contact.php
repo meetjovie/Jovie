@@ -604,7 +604,7 @@ class Contact extends Model
         }
     }
 
-    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null)
+    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null, $deductCredits = true)
     {
         if (is_null($userId) || is_null($teamId)) {
             return false;
@@ -646,7 +646,7 @@ class Contact extends Model
 
         $data['last_enriched_at'] = Carbon::now()->toDateTimeString();
 
-        if (! $user->is_admin) {
+        if (! $user->is_admin && $deductCredits) {
             $team->deductCredits();
         }
 

@@ -49,13 +49,16 @@ class TwitterImport implements ShouldQueue
 
     private $teamId = null;
 
+    private $deductCredits;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(array $username, $tags, $meta = null, $listId = null, $userId = null, $teamId = null)
+    public function __construct(array $username, $tags, $meta = null, $listId = null, $userId = null, $teamId = null, $deductCredits = true)
     {
+        $this->deductCredits = $deductCredits;
         $this->username = $username;
         $this->tags = $tags;
         $this->meta = $meta;
@@ -116,9 +119,10 @@ class TwitterImport implements ShouldQueue
                 if ($creator && ! is_null($creator->twitter_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
                     $lastScrappedDate = Carbon::parse($creator->twitter_last_scrapped_at);
                     if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
+                        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits);
                         $importId = array_search ($creator->twitter_handler, $this->username);
                         Import::markImport($importId, ['twitter']);
+                        $this->triggerOtherNetworks($creator);
 //                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitter user '.$this->username), Notification::SINGLE_IMPORT);
                         return;
                     }
@@ -275,18 +279,23 @@ class TwitterImport implements ShouldQueue
         }
 
         $creator->save();
-        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
+        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits);
 
-        $import = new Import();
-        if (strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
-            InstagramImport::dispatch($import->instagram, null, true, null, null, $this->listId, $this->userId, null, $this->teamId)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
-        } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
-            TwitchImport::dispatch(null, $import->twitch, null, null, $this->listId, $this->userId, null, $this->teamId)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
-        } elseif (strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
-            TiktokImport::dispatch($import->tiktok, null, null, $this->listId, $this->userId, null, $this->teamId)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
-        }
+        $this->triggerOtherNetworks($creator);
 
         return $creator;
+    }
+
+    public function triggerOtherNetworks($creator)
+    {
+        $import = new Import();
+        if (strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
+            InstagramImport::dispatch($import->instagram, null, true, null, null, $this->listId, $this->userId, null, $this->teamId, false)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
+        } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
+            TwitchImport::dispatch(null, $import->twitch, null, null, $this->listId, $this->userId, null, $this->teamId, false)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+        } elseif (strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
+            TiktokImport::dispatch($import->tiktok, null, null, $this->listId, $this->userId, null, $this->teamId, false)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+        }
     }
 
     public function getProfilePicUrl($profilePicUrl, $creator)
