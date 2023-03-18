@@ -279,11 +279,11 @@ class TwitterImport implements ShouldQueue
 
         $import = new Import();
         if (strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
-            InstagramImport::dispatch($import->instagram, null, true, null)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
+            InstagramImport::dispatch($import->instagram, null, true, null, null, $this->listId, $this->userId, null, $this->teamId)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
         } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
-            TwitchImport::dispatch(null, $import->twitch)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+            TwitchImport::dispatch(null, $import->twitch, null, null, $this->listId, $this->userId, null, $this->teamId)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
         } elseif (strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
-            TiktokImport::dispatch($import->tiktok)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+            TiktokImport::dispatch($import->tiktok, null, null, $this->listId, $this->userId, null, $this->teamId)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
         }
 
         return $creator;
