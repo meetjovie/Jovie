@@ -78,6 +78,10 @@
                                     type="text"
                                     required="" />
                             </template>
+                            <div>
+                                <CheckboxInput v-model="contact.override" />
+                                marking this will override data for all the contacts that match any of social handles if provided.
+                            </div>
                             <ButtonGroup @click="importContact" :loader="importing" text="Import" />
                         </div>
                     </div>
@@ -105,8 +109,10 @@ import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 import InputGroup from "./InputGroup.vue";
 import ButtonGroup from "./ButtonGroup.vue";
 import ImportService from "../services/api/import.service";
+import CheckboxInput from "./CheckboxInput.vue";
 export default {
   components: {
+      CheckboxInput,
       ButtonGroup,
       InputGroup,
     Dialog,
@@ -134,6 +140,7 @@ export default {
           titkok: '',
           snapchat: '',
           youtube: '',
+          override: false
       },
       socialMediaProfileUrl: ''
     };

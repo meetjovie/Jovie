@@ -67,6 +67,7 @@ class ImportController extends Controller
             'list_name' => 'sometimes|max:255',
             'source' => 'sometimes|max:255',
         ]);
+        $request->request->add(['override' => filter_var($request->override, FILTER_VALIDATE_BOOLEAN)]);
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $listId = $request->list;
         if ($request->list_name) {
@@ -160,6 +161,8 @@ class ImportController extends Controller
 
     public function importContact(Request $request)
     {
+        dd($request->all());
+
         try {
             $data = $request->all();
             $data['user_id'] = Auth::id();
