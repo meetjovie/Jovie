@@ -132,7 +132,7 @@ class InstagramImport implements ShouldQueue
         if ($creator && ! is_null($creator->instagram_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits);
+                Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
                 Import::markImport($this->importId, ['instagram']);
 
                 return;
@@ -345,7 +345,7 @@ class InstagramImport implements ShouldQueue
         $creator->instagram_meta = ($meta);
         $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
         $creator->save();
-        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits);
+        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
         if ($this->parentCreator && $creator->account_type == 'BRAND') {
             $parentCreator = Creator::where('id', $this->parentCreator)->first();
             $parentCreator->brands()->syncWithoutDetaching($creator->id);

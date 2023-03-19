@@ -1001,9 +1001,7 @@ export default {
         `contactImported.${this.currentUser.current_team.id}`,
         'ContactImported',
         (data) => {
-            console.log('datadata');
-            console.log(data);
-            if (!data.list) {
+          if (!data.list) {
             this.$store.state.importProgressSingleCount--;
           }
           if (
@@ -1053,17 +1051,17 @@ export default {
           })
       },
       contactImported(data) {
-          if (
-              (data.list && data.list == this.filters.list) ||
-              this.filters.type == 'all'
-          ) {
-              if (this.filters.page === 1 && this.contacts.length == 50) {
-                  this.contacts.pop();
-                  this.contacts.splice(0, 0, data.contact);
-              } else {
-                  this.contacts.push(data.contact);
-              }
-          }
+          // if (
+          //     (data.list && data.list == this.filters.list) ||
+          //     this.filters.type == 'all'
+          // ) {
+          //     if (this.filters.page === 1 && this.contacts.length == 50) {
+          //         this.contacts.pop();
+          //         this.contacts.splice(0, 0, data.contact);
+          //     } else {
+          //         this.contacts.push(data.contact);
+          //     }
+          // }
       },
       updateUserList(event) {
           this.$refs.crmTableGrid.updateUserList(event)

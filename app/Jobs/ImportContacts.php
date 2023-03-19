@@ -114,7 +114,7 @@ class ImportContacts implements ShouldQueue
                 $contact['linkedin'] = isset($this->payload->mappedColumns->linkedin) ? $row[$this->payload->mappedColumns->linkedin] : null;
                 $contact['snapchat'] = isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
                 $contact['wiki'] = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
-                $contact = Contact::saveContact($contact);
+                $contact = Contact::saveContact($contact)->first();
                 $contactIds[] = $contact->id;
             }
 

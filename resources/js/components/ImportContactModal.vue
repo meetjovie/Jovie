@@ -67,7 +67,7 @@
                                 @finishImport="closeModal" />
                         </div>
                         <div class="mt-2" v-else>
-                            <template v-for="contactKey in Object.keys(contact)">
+                            <template v-for="contactKey in Object.keys(contact).filter(k => k != 'override' && k != 'list_id')">
                                 <InputGroup
                                     v-model="contact[contactKey]"
                                     :id="contactKey"
@@ -184,6 +184,7 @@ export default {
                           title: 'Imported',
                           text: response.message,
                       });
+                      this.closeModal()
                       this.$emit('contactImported', {contact: response.contact, list: response.list})
                   } else {
                       this.$notify({

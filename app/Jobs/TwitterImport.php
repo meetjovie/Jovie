@@ -119,7 +119,7 @@ class TwitterImport implements ShouldQueue
                 if ($creator && ! is_null($creator->twitter_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
                     $lastScrappedDate = Carbon::parse($creator->twitter_last_scrapped_at);
                     if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits);
+                        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
                         $importId = array_search ($creator->twitter_handler, $this->username);
                         Import::markImport($importId, ['twitter']);
                         $this->triggerOtherNetworks($creator);
@@ -279,7 +279,7 @@ class TwitterImport implements ShouldQueue
         }
 
         $creator->save();
-        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits);
+        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
 
         $this->triggerOtherNetworks($creator);
 

@@ -450,7 +450,7 @@ class Contact extends Model
 
         $contacts = $contacts->orderByDesc('contacts.id');
 
-        $contacts = $contacts->paginate(5);
+        $contacts = $contacts->paginate(10);
 
         foreach ($contacts as &$contact) {
             // custom fields
@@ -500,6 +500,14 @@ class Contact extends Model
         }
 
         $contactData = self::getFillableData($data);
+
+        if (isset($data['override']) && $data['override']) {
+            $existingContacts = self::getExistingContactsBySocialHandle($data, $data['team_id']);
+            if ($existingContacts) {
+                return self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
+            }
+        }
+
         $contact = new Contact();
         foreach ($contactData as $key => $value) {
             $contact->{$key} = $value;
@@ -511,7 +519,7 @@ class Contact extends Model
             ContactImported::dispatch($contact->id, $data['team_id'], $listId);
         }
 
-        return $contact;
+        return collect([$contact]);
     }
 
     public static function updateMultipleExistingContactsWithSocial($data, $contacts, $listId = null)
@@ -519,7 +527,8 @@ class Contact extends Model
         $contactData = self::getFillableData($data);
         foreach ($contacts as &$contact) {
             $overrideableData = null;
-            if ($contact->last_enriched_at) {
+            $overrideAll = $data['override'] ?? false;
+            if ($contact->last_enriched_at && !$overrideAll) {
                 $overrideableData = self::getOverrideableDataForContactDuringEnrich($contactData);
             }
             foreach ($overrideableData ?? $contactData as $key => $value) {
@@ -604,7 +613,7 @@ class Contact extends Model
         }
     }
 
-    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null, $deductCredits = true)
+    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null, $deductCredits = true, $override = false)
     {
         if (is_null($userId) || is_null($teamId)) {
             return false;
@@ -640,6 +649,7 @@ class Contact extends Model
         $data['website'] = $creator->website;
         $data['profile_pic_url'] = $creator->getProfilePicUrlAttribute();
         $data['source'] = $source;
+        $data['override'] = $override;
 
         $data['user_id'] = $userId;
         $data['team_id'] = $teamId;

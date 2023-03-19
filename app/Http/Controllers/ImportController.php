@@ -80,6 +80,7 @@ class ImportController extends Controller
         if ($request->source) {
             $meta['source'] = $request->source;
         }
+        $meta['override'] = $request->override;
         if ($request->instagram) {
             $usernames = explode(',', $request->instagram);
             foreach ($usernames as $username) {
@@ -161,13 +162,11 @@ class ImportController extends Controller
 
     public function importContact(Request $request)
     {
-        dd($request->all());
-
         try {
             $data = $request->all();
             $data['user_id'] = Auth::id();
             $data['team_id'] = Auth::user()->currentTeam->id;
-            $contact = Contact::saveContact($data, $request->list_id);
+            $contact = Contact::saveContact($data, $request->list_id)->first();
 
             $params['user_id'] = Auth::id();
             $params['team_id'] = Auth::user()->currentTeam->id;
