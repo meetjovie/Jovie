@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ContactsLimitScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Billable;
 use Mpociot\Teamwork\TeamworkTeam;
 
@@ -67,5 +69,17 @@ class Team extends TeamworkTeam
     public function customFields()
     {
         return $this->hasMany(CustomField::class);
+    }
+
+    public function currentContactsLimit()
+    {
+        return $this->currentSubscription()->contacts ?? 100;
+    }
+
+    public function contactsLimitExceeded()
+    {
+        $totalContacts = Contact::getAllContactsCount();
+        $currentContactsLimit = Auth::user()->currentTeam->currentContactsLimit();
+        return ($totalContacts - $currentContactsLimit) ?? 0;
     }
 }

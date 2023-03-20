@@ -508,6 +508,13 @@
                 <div class="mx-auto h-full w-full p-0">
                   <div class="inline-block h-full w-full align-middle">
                     <div class="h-full w-full dark:bg-jovieDark-900">
+                        <AlertBanner
+                            v-if="limitExceedBy && totalAvailable"
+                            design="primary"
+                            :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription ? currentUser.current_team.current_subscription.contacts : 100}/${totalAvailable} of your imported contacts.`"
+                            :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription ? currentUser.current_team.current_subscription.contacts : 100}/${totalAvailable} of your imported contacts.`"
+                            :cta="`Upgrade`"
+                            ctaLink="Billing" />
                       <!--  Show import screen if no contacts -->
                       <!--  <div
                         v-if="!loading && !contacts.length && !showImporting"
@@ -859,7 +866,9 @@ export default {
       crmCounting: false,
       listKey: 0,
       showContactModal: false,
-      importFromSocial: false
+      importFromSocial: false,
+      limitExceedBy: 0,
+      totalAvailable: 0,
     };
   },
   watch: {
@@ -1301,6 +1310,8 @@ export default {
         response = response.data;
         if (response.status) {
           this.$store.commit('setCrmRecords', response.contacts.data);
+          this.limitExceedBy = response.limit_exceeded_by;
+          this.totalAvailable = response.total_available;
           this.networks = response.networks;
           this.stages = response.stages;
           this.counts.archived = response.counts.archived;

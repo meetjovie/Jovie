@@ -31,8 +31,12 @@ class CrmController extends Controller
         $params['team_id'] = Auth::user()->currentTeam->id;
         $contacts = Contact::getContacts($params);
         $counts = Contact::getCrmCounts();
+        $limitExceedBy = Auth::user()->currentTeam->contactsLimitExceeded();
+        $totalAvailable = Contact::getAllContactsCount();
         return response()->json([
             'status' => true,
+            'limit_exceeded_by' => $limitExceedBy,
+            'total_available' => $totalAvailable,
             'contacts' => $contacts,
             'counts' => $counts,
             'networks' => Creator::NETWORKS,

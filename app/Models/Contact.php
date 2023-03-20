@@ -686,4 +686,9 @@ class Contact extends Model
 
         return true;
     }
+
+    public static function getAllContactsCount()
+    {
+        return Contact::query()->withoutGlobalScope(ContactsLimitScope::class)->count();
+    }
 }
