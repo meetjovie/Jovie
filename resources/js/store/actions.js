@@ -173,5 +173,17 @@ export default {
                     return resolve()
                 });
         })
+    },
+    async markEnrichedViewed(context, payload) {
+        return new Promise((resolve, reject) => {
+            ContactService.markEnrichedViewed(payload)
+                .then((response) => {
+                })
+                .catch((error) => {
+                })
+                .finally(() => {
+                    return resolve()
+                });
+        })
     }
 }

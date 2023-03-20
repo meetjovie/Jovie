@@ -16,6 +16,9 @@ export default {
   async nextContact(id) {
     return axios.get(`${baseApiUrl}/next-contact/${id}`);
   },
+  async markEnrichedViewed(id) {
+    return axios.post(`${baseApiUrl}/mark-enriched-viewed/${id}`);
+  },
   async updateOverviewContact(data) {
     const id = data.id;
     delete data.id;

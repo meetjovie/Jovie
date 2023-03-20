@@ -70,6 +70,7 @@ return new class extends Migration
             $table->longText('wiki_data')->nullable();
 
             $table->dateTime('last_enriched_at')->nullable();
+            $table->boolean('enriched_viewed')->nullable();
 
             $table->timestamps();
         });

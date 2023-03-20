@@ -1034,6 +1034,20 @@ export default {
           }
         }
       );
+
+        this.listenEvents(
+            `enrichedContactDataViewed.${this.currentUser.current_team.id}`,
+            'EnrichedContactDataViewed',
+            (data) => {
+                let index = this.contacts.findIndex(
+                    (contact) => contact.id == data.contact_id
+                );
+                if (index >= 0) {
+                    this.contacts[index].enriched_viewed = true;
+                }
+            }
+        );
+
       this.$store.state.crmEventsRegistered = true;
     }
 
@@ -1146,10 +1160,9 @@ export default {
       this.openEmojis = false;
     },
     openSidebarContact(obj) {
-      console.log('objobj');
-      console.log(obj);
       let { contact, index } = obj;
       //if the sidebar is not open, open it and set the current contact
+      this.$store.dispatch('markEnrichedViewed', contact.id)
       contact.index = index;
       if (!this.$store.state.ContactSidebarOpen) {
         this.$store.state.ContactSidebarOpen = true;

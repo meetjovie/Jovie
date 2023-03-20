@@ -83,6 +83,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/toggle-contacts-from-list', [\App\Http\Controllers\CrmController::class, 'toggleContactsFromList']);
     Route::post('/toggle-archive-contacts', [\App\Http\Controllers\CrmController::class, 'toggleArchiveContacts']);
     Route::get('/crm-counts', [\App\Http\Controllers\CrmController::class, 'crmCounts']);
+    Route::post('/mark-enriched-viewed/{contact}', [\App\Http\Controllers\CrmController::class, 'markEnrichedViewed']);
 
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);

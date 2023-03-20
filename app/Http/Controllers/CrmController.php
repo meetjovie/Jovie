@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EnrichedContactDataViewed;
 use App\Exports\CrmExport;
 use App\Models\Contact;
 use App\Models\ContactComment;
@@ -105,6 +106,23 @@ class CrmController extends Controller
         return response()->json([
             'status' => true,
             'message' => ('Contacts '.boolval($request->archived) ? 'archived.' : 'unarchived.')
+        ], 200);
+    }
+
+    public function markEnrichedViewed(Contact $contact)
+    {
+        if ($contact->team_id == Auth::user()->team_id) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Contact does not exist.'
+            ], 200);
+        }
+        $contact->enriched_viewed = true;
+        $contact->save();
+        EnrichedContactDataViewed::dispatch($contact->id, $contact->team_id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Marked Viewed.'
         ], 200);
     }
 

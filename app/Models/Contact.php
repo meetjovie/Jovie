@@ -655,6 +655,7 @@ class Contact extends Model
         $data['team_id'] = $teamId;
 
         $data['last_enriched_at'] = Carbon::now()->toDateTimeString();
+        $data['enriched_viewed'] = false;
 
         if (! $user->is_admin && $deductCredits) {
             $team->deductCredits();
