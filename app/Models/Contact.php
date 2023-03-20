@@ -450,7 +450,21 @@ class Contact extends Model
             $contacts = $contacts->where('contacts.id', $params['id'])->limit(1);
         }
 
-        $contacts = $contacts->orderByDesc('contacts.id');
+        $order = 'DESC';
+        $orderBy = null;
+        if (!empty($params['order'])) {
+            $order = $params['order'];
+        }
+        if (!empty($params['sort'])) {
+            $orderBy = $params['sort'];
+        }
+
+        if (!empty($orderBy)) {
+            $orderBy = "contacts.".$orderBy;
+            $contacts = $contacts->orderByRaw("lower($orderBy) $order");
+        } else {
+            $contacts = $contacts->orderByDesc('contacts.id');
+        }
 
         $contacts = $contacts->paginate(10);
 

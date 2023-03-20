@@ -608,6 +608,7 @@
                           :columns="columns"
                           :loading="loading"
                           :taskLoading="taskLoading"
+                          :contactsMeta="contactsMeta"
                           :headersLoaded="headersLoaded">
                           <slot header="header"></slot>
                         </DataGrid>
