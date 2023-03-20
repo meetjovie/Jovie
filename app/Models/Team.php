@@ -45,6 +45,14 @@ class Team extends TeamworkTeam
         }
     }
 
+    public function addContacts($contacts)
+    {
+        if (! empty($credits)) {
+            $this->contacts += (int) $contacts;
+            $this->save();
+        }
+    }
+
     public function deductCredits($credits = 1)
     {
         $this->credits -= (int) $credits;

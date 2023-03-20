@@ -114,6 +114,7 @@ class SubscriptionsController extends Controller
                 ]);
                 $subscription->seats = $product->metadata->seats;
                 $subscription->credits = $product->metadata->credits;
+                $subscription->contacts = $product->metadata->contacts;
                 $subscription->type = $product->metadata->is_team == 1 ? Team::PLAN_TYPE_TEAM : Team::PLAN_TYPE_BASIC;
                 $subscription->amount = $plan->amount;
                 $subscription->currency = $plan->currency;
@@ -121,6 +122,7 @@ class SubscriptionsController extends Controller
                 $subscription->save();
 
                 $user->currentTeam->addCredits($subscription->credits);
+                $user->currentTeam->addContacts($subscription->contacts);
                 $item = $subscription->items->first();
                 $item->type = $product->metadata->type == 1 ? Team::AD_ON_SEAT : null;
                 $item->save();

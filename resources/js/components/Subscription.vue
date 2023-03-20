@@ -78,9 +78,6 @@
                                 >
 
                                 <span aria-hidden="true"> &middot; </span>
-                                <span class="text-xs uppercase">
-                                  500 contact credits</span
-                                >
                               </span>
                             </RadioGroupDescription>
                             <RadioGroupDescription
@@ -100,11 +97,19 @@
                                 <span aria-hidden="true"> &middot; </span>
                                 <span class="text-xs uppercase">
                                   {{
+                                    product.metadata.contacts
+                                      ? product.metadata.contacts
+                                      : 0
+                                  }}
+                                  contact</span
+                                >
+                                <span class="text-xs uppercase">
+                                  {{
                                     product.metadata.credits
                                       ? product.metadata.credits
                                       : 0
                                   }}
-                                  contact credits</span
+                                  contact AI credits</span
                                 >
                               </span>
                             </RadioGroupDescription>
