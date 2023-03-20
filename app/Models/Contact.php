@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\ContactImported;
+use App\Models\Scopes\ContactsLimitScope;
 use App\Models\Scopes\TeamScope;
 use App\Traits\CustomFieldsTrait;
 use Carbon\Carbon;
@@ -104,6 +105,7 @@ class Contact extends Model
     protected static function booted()
     {
         static::addGlobalScope(new TeamScope());
+        static::addGlobalScope(new ContactsLimitScope());
     }
 
     public function userLists(): BelongsToMany

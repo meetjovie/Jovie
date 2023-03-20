@@ -79,6 +79,7 @@ class ImportContacts implements ShouldQueue
                     $country = 'United States';
                 }
 
+                $contact = null;
                 $contact['team_id'] = $this->payload->teamId;
                 $contact['user_id'] = $this->payload->userId;
                 $contact['user_list_id'] = $this->payload->list->id;
