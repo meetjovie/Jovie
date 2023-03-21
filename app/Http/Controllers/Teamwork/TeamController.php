@@ -74,6 +74,19 @@ class TeamController extends Controller
                     'order' => $k
                 ]);
             }
+            $paymentMethod = $request->paymentMethod;
+            $plan = $request->selectedPlan;
+            $product = $request->selectedProduct;
+
+            $subscription = new SubscriptionsController();
+            $subscription = $subscription->subscribeTeam($product, $plan, $paymentMethod, null, $request->user());
+
+            if (!$subscription) {
+                return response([
+                    'status' => false,
+                    'message' => 'Something went wrong.'
+                ]);
+            }
         }
         return response([
             'status' => true,

@@ -6,6 +6,7 @@ use App\Models\Scopes\ContactsLimitScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
 use Mpociot\Teamwork\TeamworkTeam;
 
@@ -22,6 +23,48 @@ class Team extends TeamworkTeam
     const AD_ON_SEAT = 1;
 
     const AD_ON_CREDITS = 0;
+
+    public function subscribeTeam($paymentMethod, $coupon, $product, $plan)
+    {
+        try {
+            DB::beginTransaction();
+            if (empty($this->stripe_id)) {
+                $customer = $this->createAsStripeCustomer();
+            } else {
+                $customer = $this->createOrGetStripeCustomer();
+            }
+            $this->addPaymentMethod($paymentMethod);
+            $this->updateDefaultPaymentMethod($paymentMethod);
+
+            $subscription = $this->newSubscription($product->name, $plan->id);
+            if ($coupon && !empty($coupon->id)) {
+                $subscription->withPromotionCode($coupon->id);
+            }
+            $subscription = $subscription->create($customer->invoice_settings->default_payment_method, [
+                'email' => $this->owner()->email,
+            ]);
+            $subscription->seats = $product->metadata->seats;
+            $subscription->credits = $product->metadata->credits;
+            $subscription->contacts = $product->metadata->contacts;
+            $subscription->type = $product->metadata->is_team == 1 ? Team::PLAN_TYPE_TEAM : Team::PLAN_TYPE_BASIC;
+            $subscription->amount = $plan->amount;
+            $subscription->currency = $plan->currency;
+            $subscription->interval = $plan->interval;
+            $subscription->save();
+
+            $this->addCredits($subscription->credits);
+            $this->addContacts($subscription->contacts);
+            $item = $subscription->items->first();
+            $item->type = $product->metadata->type == 1 ? Team::AD_ON_SEAT : null;
+            $item->save();
+            DB::commit();
+
+            return $subscription;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
+    }
 
     public function currentSubscription()
     {

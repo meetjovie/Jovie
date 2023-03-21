@@ -93,46 +93,23 @@ class SubscriptionsController extends Controller
         $key = \config('services.stripe.secret');
         $stripe = new \Stripe\StripeClient($key);
         try {
-            DB::beginTransaction();
             $product = $stripe->products->retrieve($product);
             $plan = $stripe->plans->retrieve($plan);
             if ($user->currentTeam) {
-                if (empty($user->currentTeam->stripe_id)) {
-                    $customer = $user->currentTeam->createAsStripeCustomer();
+                $subscription = $user->currentTeam->subscribeTeam($paymentMethod, $coupon, $product, $plan);
+                if ($subscription) {
+                    return response([
+                        'status' => true,
+                        'message' => 'You are subscribed',
+                        'subscription' => $subscription,
+                    ]);
                 } else {
-                    $customer = $user->currentTeam->createOrGetStripeCustomer();
+                    return response([
+                        'status' => false,
+                        'message' => 'Error creating subscription.',
+                        'error' => $e->getMessage(),
+                    ]);
                 }
-                $user->currentTeam->addPaymentMethod($paymentMethod);
-                $user->currentTeam->updateDefaultPaymentMethod($paymentMethod);
-
-                $subscription = $user->currentTeam->newSubscription($product->name, $plan->id);
-                if ($coupon && !empty($coupon->id)) {
-                    $subscription->withPromotionCode($coupon->id);
-                }
-                $subscription = $subscription->create($customer->invoice_settings->default_payment_method, [
-                    'email' => $user->email,
-                ]);
-                $subscription->seats = $product->metadata->seats;
-                $subscription->credits = $product->metadata->credits;
-                $subscription->contacts = $product->metadata->contacts;
-                $subscription->type = $product->metadata->is_team == 1 ? Team::PLAN_TYPE_TEAM : Team::PLAN_TYPE_BASIC;
-                $subscription->amount = $plan->amount;
-                $subscription->currency = $plan->currency;
-                $subscription->interval = $plan->interval;
-                $subscription->save();
-
-                $user->currentTeam->addCredits($subscription->credits);
-                $user->currentTeam->addContacts($subscription->contacts);
-                $item = $subscription->items->first();
-                $item->type = $product->metadata->type == 1 ? Team::AD_ON_SEAT : null;
-                $item->save();
-                DB::commit();
-
-                return response([
-                    'status' => true,
-                    'message' => 'You are subscribed',
-                    'subscription' => $subscription,
-                ]);
             }
         } catch (ApiErrorException $e) {
             DB::rollBack();
