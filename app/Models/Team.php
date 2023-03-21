@@ -65,7 +65,6 @@ class Team extends TeamworkTeam
 
             return $subscription;
         } catch (\Exception $e) {
-            dd($e);
             DB::rollBack();
             return false;
         }
