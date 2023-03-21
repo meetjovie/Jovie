@@ -691,4 +691,19 @@ class Contact extends Model
     {
         return Contact::query()->withoutGlobalScope(ContactsLimitScope::class)->count();
     }
+
+    public static function getEnrichableContacts($contacts)
+    {
+        if (!is_array($contacts)) {
+            $contacts = [$contacts];
+        }
+
+        $contacts = Contact::query()->whereIn('id', $contacts)->where(function ($query) {
+            foreach (Creator::NETWORKS as $NETWORK) {
+                $query->orWhereNotNull($NETWORK);
+            }
+        })->select(['id', 'team_id', 'first_name', 'last_name'])->get();
+
+        return $contacts;
+    }
 }

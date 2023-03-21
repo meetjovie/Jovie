@@ -152,7 +152,6 @@ class CrmController extends Controller
         ]);
     }
 
-
     public function addComment(Request $request)
     {
         $request->validate([
@@ -189,8 +188,6 @@ class CrmController extends Controller
         ]);
     }
 
-
-
     public function nextContact($id)
     {
         $contact = Contact::where('id', '<', $id)->where('archived', 0)->where('user_id', Auth::id())->orderByDesc('id')->first();
@@ -222,6 +219,39 @@ class CrmController extends Controller
             'status' => false,
             'data' => null,
             'message' => 'No more contacts.',
+        ]);
+    }
+
+    public function checkContactEnrichable(Request $request)
+    {
+        $request->validate([
+            'contact_ids' => 'required',
+            'contact_ids.*' => 'exists:contacts,id',
+        ]);
+
+        $contacts = Contact::getEnrichableContacts($request->contact_ids);
+        if (count($contacts)) {
+            return response([
+                'status' => true,
+                'data' => $contacts->count(),
+            ]);
+        }
+        return response([
+            'status' => false,
+            'message' => 'The selected contacts/list does not have any social handle and thus can not be enriched.',
+        ]);
+    }
+
+    public function enrichContacts(Request $request)
+    {
+        $request->validate([
+            'contact_ids' => 'required',
+            'contact_ids.*' => 'exists:contacts,id',
+        ]);
+
+        return response([
+            'status' => true,
+            'message' => "Contacts enriched",
         ]);
     }
 

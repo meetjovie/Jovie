@@ -604,6 +604,7 @@
                           @openSidebar="openSidebarContact"
                           @getHeaders="getHeaders"
                           @getFields="getFields"
+                          @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
                           :header="filters.type === 'list' ? filters.currentList.name : filters.type"
                           @importCSV="importCSV"
@@ -660,6 +661,15 @@
         @close="toggleShowSupportModal()"
         @message="launchSupportChat()"
         :open="showSupportModal" />
+
+        <ModalPopup
+            :loading="enrichContactsPopup.loading"
+            @primaryButtonClick="enrichContactsPopup.confirmationMethod"
+            @cancelButtonClick="resetPopup()"
+            :open="enrichContactsPopup.open"
+            :primaryButtonText="enrichContactsPopup.primaryButtonText"
+            :description="enrichContactsPopup.description"
+            :title="enrichContactsPopup.title" />
     </div>
   </div>
 </template>
@@ -743,10 +753,12 @@ import KBShortcut from '../components/KBShortcut.vue';
 import elementaryIcon from 'vue-simple-icons/icons/ElementaryIcon';
 import FieldService from '../services/api/field.service';
 import DropdownMenuItem from "../components/DropdownMenuItem.vue";
+import ModalPopup from "../components/ModalPopup.vue";
 
 export default {
   name: 'CRM',
   components: {
+      ModalPopup,
       DropdownMenuItem,
     CreditCardIcon,
     JovieSidebar,
@@ -869,6 +881,14 @@ export default {
       importFromSocial: false,
       limitExceedBy: 0,
       totalAvailable: 0,
+        enrichContactsPopup: {
+            confirmationMethod: null,
+            title: null,
+            open: false,
+            primaryButtonText: null,
+            description: '',
+            loading: false,
+        }
     };
   },
   watch: {
@@ -1068,6 +1088,57 @@ export default {
     });
   },
   methods: {
+      resetPopup() {
+          this.enrichContactsPopup = {
+              confirmationMethod: null,
+              title: null,
+              open: false,
+              description: null,
+              primaryButtonText: null,
+              loading: false,
+          };
+      },
+      checkContactsEnrichable(ids) {
+          this.$store.dispatch('checkContactsEnrichable', ids).then(response => {
+              response = response.data
+              if (response.status) {
+                  if (response.data) {
+                      this.enrichContactsPopup.confirmationMethod = () => {
+                          this.enrichContacts(ids);
+                      };
+                      this.enrichContactsPopup.cancelEditMethod = () => {
+                          this.enrichContactsPopup.open = false
+                      };
+                      this.enrichContactsPopup.open = true;
+                      this.enrichContactsPopup.primaryButtonText = "Enrich";
+                      this.enrichContactsPopup.title = "Enrich Contacts";
+                      this.enrichContactsPopup.description = `There are ${response.data} contacts that can be enriched. Are you sure you want to continue ?`
+                  } else {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          title: 'Imported',
+                          text: response.message,
+                      });
+                  }
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      title: 'Imported',
+                      text: response.message,
+                  });
+              }
+          })
+      },
+      enrichContacts(ids) {
+          let payload = {
+              self: this,
+              contact_ids: ids
+          }
+          this.$store.dispatch('enrichContacts', payload)
+          this.resetPopup()
+      },
       openImportContactModal(fromSocial = false) {
           this.importFromSocial = fromSocial;
           this.$nextTick(() => {

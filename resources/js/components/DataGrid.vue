@@ -454,7 +454,9 @@
                         !element.archived
                       )
                     "
-                    @toggleContactsFromList="toggleContactsFromList" />
+                    @toggleContactsFromList="toggleContactsFromList"
+                      @checkContactsEnrichable="$emit('checkContactsEnrichable', $event)"
+                  />
                 </template>
                 <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
               </draggable>

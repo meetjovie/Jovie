@@ -42,6 +42,9 @@
       freezeColumn
       width="4"
       class="left-[26.5px] overflow-auto border-slate-300 px-2 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
+      <div @click="checkContactsEnrichable(currentContact.id)">
+          Enrich
+      </div>
       <div v-if="! contact.enriched_viewed">
           new
       </div>
@@ -228,6 +231,9 @@ export default {
         },
     },
   methods: {
+      checkContactsEnrichable(ids) {
+          this.$emit('checkContactsEnrichable', ids)
+      },
       setCurrentCell(columnIndex) {
           this.currentCell.row = this.row
           this.currentCell.column = columnIndex
