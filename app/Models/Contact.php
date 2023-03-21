@@ -706,4 +706,17 @@ class Contact extends Model
 
         return $contacts;
     }
+
+    public static function getEnrichableContactsFromLists($listIds)
+    {
+        if (!is_array($listIds)) {
+            $listIds = [$listIds];
+        }
+
+        $contactIds = Contact::query()->whereHas('userLists', function ($query) use ($listIds) {
+            $query->whereIn('user_lists.id', $listIds);
+        })->pluck('contacts.id')->toArray();
+
+        return self::getEnrichableContacts($contactIds);
+    }
 }

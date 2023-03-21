@@ -230,15 +230,17 @@ class CrmController extends Controller
         ]);
 
         $contacts = Contact::getEnrichableContacts($request->contact_ids);
+        $count = $contacts->count();
         if (count($contacts)) {
             return response([
                 'status' => true,
-                'data' => $contacts->count(),
+                'data' => $count,
+                'message' => "There are ".$count." contacts that can be enriched. Are you sure you want to continue ?"
             ]);
         }
         return response([
             'status' => false,
-            'message' => 'The selected contacts/list does not have any social handle and thus can not be enriched.',
+            'message' => 'The selected contact/contacts does not have any social handles and thus can not be enriched.',
         ]);
     }
 
@@ -251,7 +253,43 @@ class CrmController extends Controller
 
         return response([
             'status' => true,
-            'message' => "Contacts enriched",
+            'message' => "Enriching your contacts",
+        ]);
+    }
+
+    public function checkListsEnrichable(Request $request)
+    {
+        $request->validate([
+            'list_ids' => 'required',
+            'list_ids.*' => 'exists:user_lists,id',
+        ]);
+
+        $contacts = Contact::getEnrichableContactsFromLists($request->list_ids);
+        $count = $contacts->count();
+
+        if (count($contacts)) {
+            return response([
+                'status' => true,
+                'data' => $contacts->count(),
+                'message' => "There are ".$count." contact/contacts in the list/lists that can be enriched. Are you sure you want to continue ?"
+            ]);
+        }
+        return response([
+            'status' => false,
+            'message' => 'The selected list/lists does not have any contacts with social handles and thus can not be enriched.',
+        ]);
+    }
+
+    public function enrichLists(Request $request)
+    {
+        $request->validate([
+            'list_ids' => 'required',
+            'list_ids.*' => 'exists:user_lists,id',
+        ]);
+
+        return response([
+            'status' => true,
+            'message' => "Enriching your lists",
         ]);
     }
 

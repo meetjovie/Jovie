@@ -231,5 +231,51 @@ export default {
                 .finally(() => {
                 });
         })
+    },
+    async checkListsEnrichable(context, payload) {
+        return new Promise((resolve, reject) => {
+            ContactService.checkListsEnrichable(payload)
+                .then((response) => {
+                    return resolve(response)
+                })
+                .catch((error) => {
+                    return reject(error)
+                })
+                .finally(() => {
+                });
+        })
+    },
+    async enrichLists(context, payload) {
+        return new Promise((resolve, reject) => {
+            ContactService.enrichLists(payload.list_ids)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: response.message,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status == 422) {
+                        payload.self.errors = error.data.errors;
+                        if (payload.self.errors.field[0]) {
+                            payload.self.$notify({
+                                group: 'user',
+                                type: 'success',
+                                duration: 15000,
+                                title: 'Successful',
+                                text: payload.self.errors.field[0],
+                            });
+                        }
+                    }
+                })
+                .finally(() => {
+                });
+        })
     }
 }

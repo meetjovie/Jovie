@@ -191,6 +191,24 @@
                               </button>
                             </MenuItem>
                           </div>
+                            <div class="px-1 py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <button
+                                        @click="checkListsEnrichable(element.id)"
+                                        :class="[
+                              active
+                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                : 'text-slate-900 dark:text-jovieDark-100',
+                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                            ]">
+                                        <TrashIcon
+                                            :active="active"
+                                            class="mr-2 h-4 w-4 text-slate-400 dark:text-jovieDark-600 dark:text-jovieDark-600"
+                                            aria-hidden="true" />
+                                        Enrich List
+                                    </button>
+                                </MenuItem>
+                            </div>
                         </MenuItems>
                       </transition>
                     </Float>
@@ -326,6 +344,24 @@
                           </button>
                         </MenuItem>
                       </div>
+                      <div class="px-1 py-1">
+                        <MenuItem v-slot="{ active }">
+                          <button
+                            @click="checkListsEnrichable(item.id)"
+                            :class="[
+                              active
+                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                : 'text-slate-900 dark:text-jovieDark-100',
+                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                            ]">
+                            <TrashIcon
+                              :active="active"
+                              class="mr-2 h-4 w-4 text-slate-400 dark:text-jovieDark-600 dark:text-jovieDark-600"
+                              aria-hidden="true" />
+                            Enrich List
+                          </button>
+                        </MenuItem>
+                      </div>
                     </MenuItems>
                   </transition>
                 </Float>
@@ -428,6 +464,47 @@ export default {
     };
   },
   methods: {
+      checkListsEnrichable(ids) {
+          this.$store.dispatch('checkListsEnrichable', ids).then(response => {
+              response = response.data
+              if (response.status) {
+                  if (response.data) {
+                      this.confirmationPopup.confirmationMethod = () => {
+                          this.enrichLists(ids);
+                      };
+                      this.confirmationPopup.cancelEditMethod = () => {
+                          this.confirmationPopup.open = false
+                      };
+                      this.confirmationPopup.open = true;
+                      this.confirmationPopup.primaryButtonText = "Enrich";
+                      this.confirmationPopup.title = "Enrich List";
+                      this.confirmationPopup.description = response.message
+                  } else {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          title: 'Imported',
+                          text: response.message,
+                      });
+                  }
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      title: 'Imported',
+                      text: response.message,
+                  });
+              }
+          })
+      },
+      enrichLists(ids) {
+          let payload = {
+              self: this,
+              list_ids: ids
+          }
+          this.$store.dispatch('enrichLists', payload)
+          this.resetPopup()
+      },
     // event callback
     editListFromModal() {
       this.editListPopup.loading = true;

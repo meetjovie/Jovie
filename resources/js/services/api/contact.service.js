@@ -38,5 +38,17 @@ export default {
             `${baseApiUrl}/enrich-contacts/`,
             {contact_ids: ids}
         );
+    },
+    checkListsEnrichable(ids) {
+        return axios.post(
+            `${baseApiUrl}/check-lists-enrichable`,
+            {list_ids: ids}
+        );
+    },
+    enrichLists(ids) {
+        return axios.post(
+            `${baseApiUrl}/enrich-lists/`,
+            {list_ids: ids}
+        );
     }
 };

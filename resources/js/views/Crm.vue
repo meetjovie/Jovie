@@ -1112,7 +1112,7 @@ export default {
                       this.enrichContactsPopup.open = true;
                       this.enrichContactsPopup.primaryButtonText = "Enrich";
                       this.enrichContactsPopup.title = "Enrich Contacts";
-                      this.enrichContactsPopup.description = `There are ${response.data} contacts that can be enriched. Are you sure you want to continue ?`
+                      this.enrichContactsPopup.description = response.message
                   } else {
                       this.$notify({
                           group: 'user',

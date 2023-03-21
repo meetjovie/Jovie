@@ -86,6 +86,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/mark-enriched-viewed/{contact}', [\App\Http\Controllers\CrmController::class, 'markEnrichedViewed']);
     Route::post('/check-contacts-enrichable', [\App\Http\Controllers\CrmController::class, 'checkContactEnrichable']);
     Route::post('/enrich-contacts', [\App\Http\Controllers\CrmController::class, 'enrichContacts']);
+    Route::post('/check-lists-enrichable', [\App\Http\Controllers\CrmController::class, 'checkListsEnrichable']);
+    Route::post('/enrich-lists', [\App\Http\Controllers\CrmController::class, 'enrichLists']);
 
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
