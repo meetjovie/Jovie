@@ -162,7 +162,7 @@ export default {
   },
   methods: {
     updateData(value = null) {
-      this.$nextTick(() => {
+        this.$nextTick(() => {
         this.$emit('update:modelValue', this.localModelValue);
           let key = this.column.key;
           this.$emit('updateContact', {
