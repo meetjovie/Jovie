@@ -33,15 +33,19 @@ class Team extends TeamworkTeam
             } else {
                 $customer = $this->createOrGetStripeCustomer();
             }
-            $this->addPaymentMethod($paymentMethod);
-            $this->updateDefaultPaymentMethod($paymentMethod);
+
+            if ($paymentMethod) {
+                $this->addPaymentMethod($paymentMethod);
+                $this->updateDefaultPaymentMethod($paymentMethod);
+            }
 
             $subscription = $this->newSubscription($product->name, $plan->id);
             if ($coupon && !empty($coupon->id)) {
                 $subscription->withPromotionCode($coupon->id);
             }
-            $subscription = $subscription->create($customer->invoice_settings->default_payment_method, [
-                'email' => $this->owner()->email,
+            $paymentMethod = $customer->invoice_settings->default_payment_method ?? null;
+            $subscription = $subscription->create($paymentMethod, [
+                'email' => $this->owner->email,
             ]);
             $subscription->seats = $product->metadata->seats;
             $subscription->credits = $product->metadata->credits;
@@ -61,6 +65,7 @@ class Team extends TeamworkTeam
 
             return $subscription;
         } catch (\Exception $e) {
+            dd($e);
             DB::rollBack();
             return false;
         }
@@ -84,23 +89,23 @@ class Team extends TeamworkTeam
 
     public function addCredits($credits)
     {
-        if (! empty($credits)) {
-            $this->credits += (int) $credits;
+        if (!empty($credits)) {
+            $this->credits += (int)$credits;
             $this->save();
         }
     }
 
     public function addContacts($contacts)
     {
-        if (! empty($credits)) {
-            $this->contacts += (int) $contacts;
+        if (!empty($credits)) {
+            $this->contacts += (int)$contacts;
             $this->save();
         }
     }
 
     public function deductCredits($credits = 1)
     {
-        $this->credits -= (int) $credits;
+        $this->credits -= (int)$credits;
         $this->save();
     }
 

@@ -74,12 +74,8 @@ class TeamController extends Controller
                     'order' => $k
                 ]);
             }
-            $paymentMethod = $request->paymentMethod;
-            $plan = $request->selectedPlan;
-            $product = $request->selectedProduct;
-
-            $subscription = new SubscriptionsController();
-            $subscription = $subscription->subscribeTeam($product, $plan, $paymentMethod, null, $request->user());
+            $basicPlan = json_decode(json_encode(config('services.stripe.basic_plan')));
+            $subscription = $team->subscribeTeam(null, null, $basicPlan->product, $basicPlan->plan);
 
             if (!$subscription) {
                 return response([
