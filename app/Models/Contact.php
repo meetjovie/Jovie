@@ -668,6 +668,10 @@ class Contact extends Model
                     $data[$NETWORK . '_data'][$key] = $creator->{$key};
                 }
             }
+            if (empty($data[$NETWORK]) || (is_object($data[$NETWORK]) && !count(get_object_vars($data[$NETWORK])))) {
+                unset($data[$NETWORK]);
+                unset($data[$NETWORK . '_data']);
+            }
         }
 
         $data['full_name'] = $creator->getName($creator);
