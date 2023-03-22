@@ -19,6 +19,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Socialite\Facades\Socialite;
+use Mpociot\Teamwork\Facades\Teamwork;
 
 class AuthController extends Controller
 {
@@ -27,11 +28,20 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
+            'invite_token' => 'nullable',
         ]);
+
+        $inviteToken = $request->invite_token;
 
         if (Auth::guard()->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
             $token = $request->user()->createToken('jovie_extension');
+            $invite = Teamwork::getInviteFromAcceptToken($inviteToken);
+
+            if($invite){
+                Teamwork::acceptInvite($invite);
+                auth()->user()->switchTeam($invite->team);
+            }
 
             return response()->json([
                 'status' => true,

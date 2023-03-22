@@ -36,24 +36,13 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
         'basic_plan' => [
-            'plan' => [
-                'id' => env('BASIC_PLAN_ID'),
-                'amount' => 0,
-                'currency' => 'USD',
-                'interval' => 'monthly',
-                'is_team' => 1,
-            ],
-            'product' => [
-                'name' => 'Basic Plan',
-                'id' => env('BASIC_PRODUCT_ID'),
-                'metadata' => [
-                    'credits' => 10,
-                    'contacts' => 100,
-                    'seats' => 0,
-                    'type' => 1,
-                    'is_team' => 1
-                ]
-            ]
+            'name' => 'Basic Plan',
+            'amount' => 0,
+            'is_team' => 4,
+            'credits' => 10,
+            'contacts' => 100,
+            'seats' => 34,
+            'type' => 1,
         ]
     ],
 

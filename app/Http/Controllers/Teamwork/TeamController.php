@@ -74,15 +74,6 @@ class TeamController extends Controller
                     'order' => $k
                 ]);
             }
-            $basicPlan = json_decode(json_encode(config('services.stripe.basic_plan')));
-            $subscription = $team->subscribeTeam(null, null, $basicPlan->product, $basicPlan->plan);
-
-            if (!$subscription) {
-                return response([
-                    'status' => false,
-                    'message' => 'Something went wrong.'
-                ]);
-            }
         }
         return response([
             'status' => true,
