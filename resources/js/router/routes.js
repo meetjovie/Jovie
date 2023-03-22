@@ -569,15 +569,14 @@ export const routes = [
   {
     name: 'accept invite',
     path: '/teams/accept/:token',
-    component: loadPage('Profile'),
     beforeEnter: (to, from, next) => {
       const token = to.params.token;
       const response = TeamService.acceptInvitation(token)
         .then((response) => {
-          next({ path: '/contacts' });
+          next({ name: 'Contacts' });
         })
         .catch((error) => {
-          next({ path: '/login', query: { invite_token: token } });
+          next({ name: 'Login', query: { invite_token: token } });
         });
     },
   },
