@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Cashier::useCustomerModel(Team::class);
-//        Cashier::calculateTaxes();
+        Cashier::calculateTaxes();
 
         RateLimiter::for('instagramImport', function ($job) {
             return Limit::perMinute(1);
