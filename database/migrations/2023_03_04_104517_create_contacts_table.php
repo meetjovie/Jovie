@@ -71,6 +71,7 @@ return new class extends Migration
 
             $table->dateTime('last_enriched_at')->nullable();
             $table->boolean('enriched_viewed')->nullable();
+            $table->integer('enriching')->default(0)->nullable();
 
             $table->timestamps();
         });

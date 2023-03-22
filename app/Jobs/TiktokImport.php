@@ -57,6 +57,8 @@ class TiktokImport implements ShouldQueue
     private $teamId = null;
     private $deductCredits;
 
+    private $contactId;
+
     /**
      * Create a new job instance.
      *
@@ -71,7 +73,9 @@ class TiktokImport implements ShouldQueue
         $importId = null,
         $teamId = null,
         $deductCredits = true,
+        $contactId = null,
     ) {
+        $this->contactId = $contactId;
         $this->deductCredits = $deductCredits;
         $this->username = $username;
         $this->tags = $tags;
