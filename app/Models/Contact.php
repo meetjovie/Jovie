@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use App\Events\ContactImported;
+use App\Jobs\InstagramImport;
+use App\Jobs\TiktokImport;
+use App\Jobs\TwitchImport;
+use App\Jobs\TwitterImport;
 use App\Models\Scopes\ContactsLimitScope;
 use App\Models\Scopes\TeamScope;
 use App\Traits\CustomFieldsTrait;
@@ -69,6 +73,8 @@ class Contact extends Model
         'wiki',
         'wiki_data',
         'last_enriched_at',
+        'enriched_viewed',
+        'enriching',
     ];
 
     protected $appends = ['stage_name', 'social_links_with_followers'];
@@ -95,6 +101,7 @@ class Contact extends Model
         'wiki',
         'wiki_data',
         'last_enriched_at',
+        'enriching',
     ];
 
     /**
@@ -586,6 +593,15 @@ class Contact extends Model
         return count($contacts) ? $contacts : false;
     }
 
+    public static function getExistingContactsByIds($ids, $teamId)
+    {
+        if (!is_array($ids)) {
+            $ids = [$ids];
+        }
+        $contacts = Contact::query()->where('team_id', $teamId)->whereIn('id', $ids)->get();
+        return count($contacts) ? $contacts : false;
+    }
+
     public static function updateContact($data, $id)
     {
         $contactData = self::getFillableData($data);
@@ -629,7 +645,7 @@ class Contact extends Model
         }
     }
 
-    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null, $deductCredits = true, $override = false)
+    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null, $deductCredits = true, $override = false, $contactId = null)
     {
         if (is_null($userId) || is_null($teamId)) {
             return false;
@@ -673,15 +689,22 @@ class Contact extends Model
         $data['last_enriched_at'] = Carbon::now()->toDateTimeString();
         $data['enriched_viewed'] = false;
 
-        if (! $user->is_admin && $deductCredits) {
-            $team->deductCredits();
+        if ($contactId) {
+            $enriching = Contact::query()->where('id', $contactId)->select('team_id', 'enriching')->where('team_id', $teamId)->first()->value('enriching') ?? 0;
+            $data['enriching'] = $enriching - 1;
+            $existingContacts = self::getExistingContactsByIds($contactId, $data['team_id']);
+        } else {
+            $existingContacts = self::getExistingContactsBySocialHandle($data, $data['team_id']);
         }
 
-        $existingContacts = self::getExistingContactsBySocialHandle($data, $data['team_id']);
         if ($existingContacts) {
             self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
         } else {
             self::saveContact($data, $listId);
+        }
+
+        if (! $user->is_admin && $deductCredits) {
+            $team->deductCredits();
         }
 
         return true;
@@ -718,5 +741,51 @@ class Contact extends Model
         })->pluck('contacts.id')->toArray();
 
         return self::getEnrichableContacts($contactIds);
+    }
+
+    public static function enrichContacts($contacts, $params)
+    {
+        if (!is_array($contacts)) {
+            $contacts = [$contacts];
+        }
+
+        $columns = ['id', 'team_id'];
+        foreach (Creator::NETWORKS as $NETWORK) {
+            $columns[$NETWORK] = $NETWORK;
+        }
+        $contacts = Contact::query()->select($columns)->whereIn('id', $contacts)->get();
+
+        $enrichingContactIds = [];
+        foreach ($contacts as $contact) {
+            $enriching = 0;
+            $charge = true;
+            if ($twitter = $contact->getRawOriginal('twitter')) {
+                $enriching += 1;
+                TwitterImport::dispatch([$twitter], null, null, null, $params['user_id'], $params['team_id'], $charge, $contact->id)->onQueue(config('import.twitter_queue'));
+                $charge = false;
+            }
+            if ($instagram = $contact->getRawOriginal('instagram')) {
+                $enriching += 1;
+                InstagramImport::dispatch($instagram, null, true, null, null, null, $params['user_id'], null, $params['team_id'], $charge, $contact->id)->onQueue(config('import.instagram_queue'));
+                $charge = false;
+            }
+            if ($twitch = $contact->getRawOriginal('twitch')) {
+                $enriching += 1;
+                TwitchImport::dispatch(null, $twitch, null, null, null, $params['user_id'], null, $params['team_id'], $charge, $contact->id)->onQueue(config('import.twitch_queue'));
+                $charge = false;
+            }
+            if ($tiktok = $contact->getRawOriginal('tiktok')) {
+                $enriching += 1;
+                TiktokImport::dispatch($tiktok, null, null, null, $params['user_id'], null, $params['team_id'], $charge, $contact->id)->onQueue(config('import.tiktok_queue'));
+            }
+
+            Contact::query()->where('id', $contact->id)->update(['enriching' => $enriching]);
+
+            if ($enriching) {
+                $enrichingContactIds[] = $contact->id;
+            }
+        }
+
+        return $enrichingContactIds;
     }
 }

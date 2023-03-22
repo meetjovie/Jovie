@@ -51,13 +51,16 @@ class TwitterImport implements ShouldQueue
 
     private $deductCredits;
 
+    private $contactId;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(array $username, $tags, $meta = null, $listId = null, $userId = null, $teamId = null, $deductCredits = true)
+    public function __construct(array $username, $tags, $meta = null, $listId = null, $userId = null, $teamId = null, $deductCredits = true, $contactId = null)
     {
+        $this->contactId = $contactId;
         $this->deductCredits = $deductCredits;
         $this->username = $username;
         $this->tags = $tags;
@@ -119,7 +122,7 @@ class TwitterImport implements ShouldQueue
                 if ($creator && ! is_null($creator->twitter_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
                     $lastScrappedDate = Carbon::parse($creator->twitter_last_scrapped_at);
                     if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
+                        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false, $this->contactId);
                         $importId = array_search ($creator->twitter_handler, $this->username);
                         Import::markImport($importId, ['twitter']);
                         $this->triggerOtherNetworks($creator);
@@ -279,7 +282,7 @@ class TwitterImport implements ShouldQueue
         }
 
         $creator->save();
-        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
+        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false, $this->contactId);
 
         $this->triggerOtherNetworks($creator);
 
@@ -290,11 +293,11 @@ class TwitterImport implements ShouldQueue
     {
         $import = new Import();
         if (strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
-            InstagramImport::dispatch($import->instagram, null, true, null, null, $this->listId, $this->userId, null, $this->teamId, false)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
+            InstagramImport::dispatch($import->instagram, null, true, null, null, $this->listId, $this->userId, null, $this->teamId, false, $this->contactId)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
         } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
-            TwitchImport::dispatch(null, $import->twitch, null, null, $this->listId, $this->userId, null, $this->teamId, false)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+            TwitchImport::dispatch(null, $import->twitch, null, null, $this->listId, $this->userId, null, $this->teamId, false, $this->contactId)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
         } elseif (strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
-            TiktokImport::dispatch($import->tiktok, null, null, $this->listId, $this->userId, null, $this->teamId, false)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+            TiktokImport::dispatch($import->tiktok, null, null, $this->listId, $this->userId, null, $this->teamId, false, $this->contactId)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
         }
     }
 

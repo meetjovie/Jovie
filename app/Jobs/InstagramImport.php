@@ -65,13 +65,16 @@ class InstagramImport implements ShouldQueue
 
     private $deductCredits;
 
+    private $contactId;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($username, $tags = '', $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null, $deductCredits = true)
+    public function __construct($username, $tags = '', $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null, $deductCredits = true, $contactId = null)
     {
+        $this->contactId = $contactId;
         $this->deductCredits = $deductCredits;
         $this->username = $username;
         $this->tags = $tags;
@@ -132,7 +135,7 @@ class InstagramImport implements ShouldQueue
         if ($creator && ! is_null($creator->instagram_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
+                Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false, $this->contactId);
                 Import::markImport($this->importId, ['instagram']);
 
                 return;
@@ -345,7 +348,7 @@ class InstagramImport implements ShouldQueue
         $creator->instagram_meta = ($meta);
         $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
         $creator->save();
-        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
+        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false, $this->contactId);
         if ($this->parentCreator && $creator->account_type == 'BRAND') {
             $parentCreator = Creator::where('id', $this->parentCreator)->first();
             $parentCreator->brands()->syncWithoutDetaching($creator->id);

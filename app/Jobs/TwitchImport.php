@@ -51,13 +51,16 @@ class TwitchImport implements ShouldQueue
     private $teamId = null;
     private $deductCredits;
 
+    private $contactId;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id, $username, $tags = [], $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null, $deductCredits = true)
+    public function __construct($id, $username, $tags = [], $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null, $deductCredits = true, $contactId = null)
     {
+        $this->contactId = $contactId;
         $this->deductCredits = $deductCredits;
         $this->id = $id;
         $this->username = $username;

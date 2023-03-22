@@ -205,6 +205,9 @@ export default {
                 .then((response) => {
                     response = response.data;
                     if (response.status) {
+                        context.state.crmRecords.filter(record => response.data.includes(record.id)).forEach(record => {
+                            record.enriching = true
+                        })
                         payload.self.$notify({
                             group: 'user',
                             type: 'success',

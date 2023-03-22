@@ -60,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $user = self::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
             ->where('id', $userId ?? Auth::id())->first();
-        if ($user->currentSubscription) {
+        if ($user->currentTeam->currentSubscription()) {
             $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
             $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
             $user->currentTeam->subscribed = false;
