@@ -208,6 +208,9 @@ export default {
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
+    if (this.$route.query.invite_token) {
+      this.user.invite_token = this.$route.query.invite_token;
+    }
   },
   data() {
     return {
@@ -215,10 +218,10 @@ export default {
       showEmailLoginMethod: false,
       buttonError: false,
       error: '',
-
       user: {
         email: '',
         password: '',
+        invite_token: '',
       },
       loggingIn: false,
       successfulLogin: false,

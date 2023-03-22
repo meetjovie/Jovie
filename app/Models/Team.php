@@ -34,17 +34,15 @@ class Team extends TeamworkTeam
                 $customer = $this->createOrGetStripeCustomer();
             }
 
-            if ($paymentMethod) {
-                $this->addPaymentMethod($paymentMethod);
-                $this->updateDefaultPaymentMethod($paymentMethod);
-            }
+            $this->addPaymentMethod($paymentMethod);
+            $this->updateDefaultPaymentMethod($paymentMethod);
 
             $subscription = $this->newSubscription($product->name, $plan->id);
             if ($coupon && !empty($coupon->id)) {
                 $subscription->withPromotionCode($coupon->id);
             }
-            $paymentMethod = $customer->invoice_settings->default_payment_method ?? null;
-            $subscription = $subscription->create($paymentMethod, [
+
+            $subscription = $subscription->create($customer->invoice_settings->default_payment_method, [
                 'email' => $this->owner->email,
             ]);
             $subscription->seats = $product->metadata->seats;
@@ -70,7 +68,7 @@ class Team extends TeamworkTeam
         }
     }
 
-    public function currentSubscription()
+    public function currentSubscription($basicPlan = true)
     {
         $currentSubscription = $this->subscriptions()->first();
         if ($currentSubscription && $this->subscribed($currentSubscription->name)) {
@@ -83,7 +81,7 @@ class Team extends TeamworkTeam
             return $currentSubscription;
         }
 
-        return null;
+        return $basicPlan ? json_decode(json_encode(config('services.stripe.basic_plan'))) : null;
     }
 
     public function addCredits($credits)

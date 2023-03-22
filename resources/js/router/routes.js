@@ -2,6 +2,7 @@ import { authenticationGuard } from '../middlewares/auth';
 import { publicProfile } from '../middlewares/publicProfile';
 
 import store from '../store';
+import TeamService from '../services/api/team.service';
 
 function loadPage(page) {
   return () => import(`./../views/${page}.vue`);
@@ -563,6 +564,20 @@ export const routes = [
     component: loadPage('404Page'),
     meta: {
       layout: 'Minimal',
+    },
+  },
+  {
+    name: 'accept invite',
+    path: '/teams/accept/:token',
+    beforeEnter: (to, from, next) => {
+      const token = to.params.token;
+      const response = TeamService.acceptInvitation(token)
+        .then((response) => {
+          next({ name: 'Contacts' });
+        })
+        .catch((error) => {
+          next({ name: 'Login', query: { invite_token: token } });
+        });
     },
   },
 ];

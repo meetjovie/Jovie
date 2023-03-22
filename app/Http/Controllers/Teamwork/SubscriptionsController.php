@@ -201,7 +201,7 @@ class SubscriptionsController extends Controller
             }
         }
 
-        $currentSubscription = $user->currentTeam->currentSubscription();
+        $currentSubscription = $user->currentTeam->currentSubscription(false);
         if ($currentSubscription) {
             $user->currentTeam->subscription($currentSubscription->name)->cancelNow();
 
