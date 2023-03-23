@@ -792,4 +792,21 @@ class Contact extends Model
 
         return $enrichingContactIds;
     }
+
+    public static function enrichLists($listIds, $params)
+    {
+        if (!is_array($listIds)) {
+            $listIds = [$listIds];
+        }
+
+        $contactIds = self::getEnrichableContactsFromLists($listIds)->pluck('id')->toArray();
+        self::enrichContacts($contactIds, $params);
+
+        UserList::query()->whereIn('id', $listIds)->update(['updating' => true]);
+
+        return [
+            'list_ids' => $listIds,
+            'contact_ids' => $contactIds
+        ];
+    }
 }

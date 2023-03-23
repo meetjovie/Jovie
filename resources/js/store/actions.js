@@ -254,6 +254,9 @@ export default {
                 .then((response) => {
                     response = response.data;
                     if (response.status) {
+                        context.state.crmRecords.filter(record => response.data.contact_ids.includes(record.id)).forEach(record => {
+                            record.enriching = true
+                        })
                         payload.self.$notify({
                             group: 'user',
                             type: 'success',
@@ -261,6 +264,7 @@ export default {
                             title: 'Successful',
                             text: response.message,
                         });
+                        resolve(response.data.list_ids)
                     }
                 })
                 .catch((error) => {

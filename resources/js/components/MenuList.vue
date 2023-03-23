@@ -502,7 +502,9 @@ export default {
               self: this,
               list_ids: ids
           }
-          this.$store.dispatch('enrichLists', payload)
+          this.$store.dispatch('enrichLists', payload).then(response => {
+              this.$emit('setListUpdating', response)
+          })
           this.resetPopup()
       },
     // event callback

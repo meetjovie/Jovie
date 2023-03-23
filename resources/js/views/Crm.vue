@@ -177,6 +177,7 @@
                           @updateUserList="updateUserList($event)"
                           @setFilterList="setFilterList"
                           @updateMenuItems="pinnedUserLists = $event"
+                          @setListUpdating="setListUpdating"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
                       <template #fallback> Loading... </template>
@@ -197,6 +198,7 @@
                           @onListDrop="onListDrop($event)"
                           @end="sortLists"
                           @updateMenuItems="filteredUsersLists = $event"
+                            @setListUpdating="setListUpdating"
                           :menuItems="filteredUsersLists"></MenuList>
                       </template>
                       <template #fallback> Loading... </template>
@@ -1088,6 +1090,11 @@ export default {
     });
   },
   methods: {
+      setListUpdating(listIds) {
+          this.userLists.filter(record => listIds.includes(record.id)).forEach(record => {
+              record.updating = true
+          })
+      },
       resetPopup() {
           this.enrichContactsPopup = {
               confirmationMethod: null,
