@@ -12,6 +12,7 @@ use App\Models\UserList;
 use App\Traits\GeneralTrait;
 use App\Traits\SocialScrapperTrait;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -38,45 +39,18 @@ class TwitterImport implements ShouldQueue
 
     private $meta;
 
-    private $listId;
-
-    private $userId;
-
-    private $platformUser;
-    private $platformUserTeam;
-
-    private $importId;
-
-    private $teamId = null;
-
-    private $deductCredits;
-
-    private $contactId;
+    private $creatorsToReturn = [];
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(array $username, $tags, $meta = null, $listId = null, $userId = null, $teamId = null, $deductCredits = true, $contactId = null)
+    public function __construct(array $username, $tags, $meta = null)
     {
-        $this->contactId = $contactId;
-        $this->deductCredits = $deductCredits;
         $this->username = $username;
         $this->tags = $tags;
         $this->meta = $meta;
-        $this->listId = $listId;
-        $this->userId = $userId;
-        if (is_null($teamId) && $listId) {
-            $list = UserList::where('id', $listId)->first();
-            if ($list) {
-                $this->teamId = $list->team_id;
-            }
-        } elseif ($teamId) {
-            $this->teamId = $teamId;
-        }
-        $this->platformUser = User::query()->where('id', $this->userId)->first();
-        $this->platformUserTeam = Team::query()->where('id', $this->teamId)->first();
     }
 
     /**
@@ -87,82 +61,42 @@ class TwitterImport implements ShouldQueue
     public function handle()
     {
         try {
-            if ($this->userId && ! is_null($this->platformUser) && ! $this->platformUser->is_admin && $this->platformUserTeam && $this->platformUserTeam->credits <= 0) {
-                foreach (array_keys($this->username) as $importId) {
-                    Import::markImport($importId, ['twitter']);
-                }
-                if ($this->batch() && ! $this->batch()->cancelled()) {
-                    $this->batch()->cancel();
-                    DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
-//                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
-//                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
-                } elseif (! $this->batch()) {
-//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('importing twitter user '.$this->username.' failed'), Notification::OUT_OF_CREDITS);
-                }
-
-                return;
-            }
-
-            if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
-                foreach (array_keys($this->username) as $importId) {
-                    Import::markImport($importId, ['twitter']);
-                }
-                if ($this->batch() && ! $this->batch()->cancelled()) {
-                    $this->batch()->cancel();
-//                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
-//                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
-                }
-
-                return;
-            }
-
             $creators = Creator::query()->whereIn('twitter_handler', $this->username)->get();
             // 30 days diff
             foreach ($creators as $creator) {
-                if ($creator && ! is_null($creator->twitter_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
+                if ($creator && ! is_null($creator->twitter_last_scrapped_at)) {
                     $lastScrappedDate = Carbon::parse($creator->twitter_last_scrapped_at);
                     if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false, $this->contactId);
-                        $importId = array_search ($creator->twitter_handler, $this->username);
-                        Import::markImport($importId, ['twitter']);
+                        $key = array_search($creator->getRawOriginal('twitter_handler'), $this->username);
+                        if ($key !== false) {
+                            unset($this->username[$key]);
+                        }
                         $this->triggerOtherNetworks($creator);
-//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitter user '.$this->username), Notification::SINGLE_IMPORT);
-                        return;
+                        $this->creatorsToReturn[] = $creator;
                     }
                 }
             }
 
-            if ($this->username) {
+            if ($this->username && !empty($this->username)) {
                 $response = self::scrapTwitter($this->username);
                 if ($response->getStatusCode() == 200) {
                     $response = json_decode($response->getBody()->getContents());
                     if (count($response->data)) {
                         foreach ($response->data as $data) {
-                            $this->insertInDatabase($data);
-                            $importId = array_search ($data->username, $this->username);
-                            Import::markImport($importId, ['twitter']);
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitter user '.$this->username), Notification::SINGLE_IMPORT);
                             Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'twitter']);
+                            $this->creatorsToReturn[] = $this->insertInDatabase($data);
                         }
+                        return $this->creatorsToReturn;
                     } elseif (count($response->errors)) {
-                        foreach ($response->errors as $data) {
-                            $importId = array_search ($data->username, $this->username);
-                            Import::markImport($importId, ['twitter']);
-                        }
-                        $this->fail(new \Exception(('No profile data or no such profile for username '.implode(', ', $this->username)), 200));
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('No profile data or no such profile for twitter user '.$this->username), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('No profile data or no such profile for username', ['username' => $this->username, 'network' => 'twitter']);
+                        $this->fail(new \Exception(('No profile data or no such profile for username '.implode(', ', $this->username)), 200));
                     }
                 } elseif ($response->getStatusCode() == 504) {
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        foreach (array_keys($this->username) as $importId) {
-                            Import::markImport($importId, ['twitter']);
-                        }
-                        $this->fail(new \Exception(('Timed out for username '.implode(', ', $this->username)), $response->getStatusCode()));
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitter user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('Timed out.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitter']);
+                        $this->fail(new \Exception(('Timed out for username '.implode(', ', $this->username)), $response->getStatusCode()));
                     }
                 } elseif ($response->getStatusCode() == 429) {
                     $this->release(5);
@@ -171,28 +105,20 @@ class TwitterImport implements ShouldQueue
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        foreach (array_keys($this->username) as $importId) {
-                            Import::markImport($importId, ['twitter']);
-                        }
-                        $this->fail(new \Exception($response->getBody()->getContents(), $response->getStatusCode()));
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitter user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitter user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents(), 'username' => $this->username, 'network' => 'twitter']);
+                        $this->fail(new \Exception($response->getBody()->getContents(), $response->getStatusCode()));
                     }
                 }
+            } else {
+                return $this->creatorsToReturn;
             }
         } catch (\Exception $e) {
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {
-                foreach (array_keys($this->username) as $importId) {
-                    Import::markImport($importId, ['twitter']);
-                }
-
                 if ($this->batch()) {
                     Log::channel('slack_warning')->info('internal error from with in batch '.$this->batch()->id, ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'twitter']);
                 } else {
-//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitter user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                     Log::channel('slack_warning')->info('internal error, import cancelled.', ['username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'twitter']);
                 }
                 $this->fail($e);
@@ -282,8 +208,6 @@ class TwitterImport implements ShouldQueue
         }
 
         $creator->save();
-        Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false, $this->contactId);
-
         $this->triggerOtherNetworks($creator);
 
         return $creator;
@@ -293,11 +217,11 @@ class TwitterImport implements ShouldQueue
     {
         $import = new Import();
         if (strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
-            InstagramImport::dispatch($import->instagram, null, true, null, null, $this->listId, $this->userId, null, $this->teamId, false, $this->contactId)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
+            InstagramImport::dispatch($import->instagram, null, true, null, null)->onQueue(config('import.instagram_queue'))->delay(now()->addSeconds(15));
         } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
-            TwitchImport::dispatch(null, $import->twitch, null, null, $this->listId, $this->userId, null, $this->teamId, false, $this->contactId)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+            TwitchImport::dispatch(null, $import->twitch, null, null)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
         } elseif (strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
-            TiktokImport::dispatch($import->tiktok, null, null, $this->listId, $this->userId, null, $this->teamId, false, $this->contactId)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
+            TiktokImport::dispatch($import->tiktok, null, null)->onQueue(config('import.twitch_queue'))->delay(now()->addSeconds(15));
         }
     }
 
@@ -314,5 +238,10 @@ class TwitterImport implements ShouldQueue
             return asset('images/thumnailLogo.5243720b.png');
         }
         return self::uploadFile($file, Creator::CREATORS_PROFILE_PATH);
+    }
+
+    public function failed(Exception $exception)
+    {
+        return $this->creatorsToReturn;
     }
 }

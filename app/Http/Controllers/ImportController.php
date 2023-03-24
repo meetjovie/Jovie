@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\FileSaveImport;
 use App\Jobs\FileImport;
+use App\Jobs\ImportAndAddTOCrm;
 use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
@@ -67,20 +68,9 @@ class ImportController extends Controller
             'list_name' => 'sometimes|max:255',
             'source' => 'sometimes|max:255',
         ]);
+
         $request->request->add(['override' => filter_var($request->override, FILTER_VALIDATE_BOOLEAN)]);
-        $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        $listId = $request->list;
-        if ($request->list_name) {
-            $list = UserList::firstOrCreateList(Auth::id(), $request->list_name);
-            if ($list) {
-                $listId = $list->id;
-            }
-        }
-        $meta = null;
-        if ($request->source) {
-            $meta['source'] = $request->source;
-        }
-        $meta['override'] = $request->override;
+        $params = $this->getImportSocialParams($request);
         if ($request->instagram) {
             $usernames = explode(',', $request->instagram);
             foreach ($usernames as $username) {
@@ -90,8 +80,7 @@ class ImportController extends Controller
                 if ($instagram[0] == '@') {
                     $instagram = substr($instagram, 1);
                 }
-                InstagramImport::dispatch($instagram, $request->tags, true, null, $meta, $listId, $user->id, null,
-                    $user->currentTeam->id)->onQueue(config('import.instagram_queue'));
+                ImportAndAddTOCrm::dispatch($instagram, 'instagram', $params)->onQueue(config('import.instagram_queue'));
             }
         }
         if ($request->twitch) {
@@ -100,7 +89,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitch = $username;
                 $twitch = $import->twitch;
-                TwitchImport::dispatch(null, $twitch, $request->tags, $meta, $listId, $user->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
+                ImportAndAddTOCrm::dispatch($twitch, 'twitch', $params)->onQueue(config('import.twitch_queue'));
             }
         }
         if ($request->twitter) {
@@ -109,7 +98,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitter = $username;
                 $twitter = $import->twitter;
-                TwitterImport::dispatch([$twitter], $request->tags, $meta, $listId, $user->id, $user->currentTeam->id)->onQueue(config('import.twitter_queue'));
+                ImportAndAddTOCrm::dispatch([$twitter], 'twitter', $params)->onQueue(config('import.twitter_queue'));
             }
         }
         if ($request->tiktok) {
@@ -118,7 +107,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->tiktok = $username;
                 $tiktok = $import->tiktok;
-                TiktokImport::dispatch($tiktok, $request->tags, $meta, $listId, $user->id, null, $user->currentTeam->id)->onQueue(config('import.tiktok_queue'));
+                ImportAndAddTOCrm::dispatch($tiktok, 'tiktok', $params)->onQueue(config('import.tiktok_queue'));
             }
         }
         $file = null;
@@ -140,6 +129,26 @@ class ImportController extends Controller
             'file' => $file,
             'queued_count' => Auth::user()->queued_count,
         ]);
+    }
+
+    public function getImportSocialParams($request)
+    {
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        $params['list_id'] = $request->list;
+        if ($request->list_name) {
+            $list = UserList::firstOrCreateList(Auth::id(), $request->list_name);
+            if ($list) {
+                $params['list_id'] = $list->id;
+            }
+        }
+        if ($request->source) {
+            $params['source'] = $request->source;
+        }
+        $params['override'] = $request->override;
+        $params['charge'] = true;
+
+        return $params;
     }
 
     public function saveImport($request)

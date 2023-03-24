@@ -38,47 +38,17 @@ class TwitchImport implements ShouldQueue
     private $tags;
 
     private $meta;
-
-    private $listId;
-
-    private $userId;
-
-    private $platformUser;
-    private $platformUserTeam;
-
-    private $importId;
-
-    private $teamId = null;
-    private $deductCredits;
-
-    private $contactId;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id, $username, $tags = [], $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null, $deductCredits = true, $contactId = null)
+    public function __construct($id, $username, $tags = [], $meta = null)
     {
-        $this->contactId = $contactId;
-        $this->deductCredits = $deductCredits;
         $this->id = $id;
         $this->username = $username;
         $this->tags = $tags;
         $this->meta = $meta;
-        $this->listId = $listId;
-        $this->userId = $userId;
-        $this->importId = $importId;
-        if (is_null($teamId) && $listId) {
-            $list = UserList::where('id', $listId)->first();
-            if ($list) {
-                $this->teamId = $list->team_id;
-            }
-        } elseif ($teamId) {
-            $this->teamId = $teamId;
-        }
-        $this->platformUser = User::query()->where('id', $this->userId)->first();
-        $this->platformUserTeam = Team::query()->where('id', $this->teamId)->first();
     }
 
     /**
@@ -89,31 +59,6 @@ class TwitchImport implements ShouldQueue
     public function handle()
     {
         try {
-            if ($this->userId && ! is_null($this->platformUser) && ! $this->platformUser->is_admin && $this->platformUserTeam && $this->platformUserTeam->credits <= 0) {
-                Import::markImport($this->importId, ['twitch']);
-                if ($this->batch() && ! $this->batch()->cancelled()) {
-                    $this->batch()->cancel();
-                    DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
-//                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
-//                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
-                } elseif (! $this->batch()) {
-//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('importing twitch user '.$this->username.' failed'), Notification::OUT_OF_CREDITS);
-                }
-
-                return;
-            }
-
-            if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
-                Import::markImport($this->importId, ['twitch']);
-                if ($this->batch() && ! $this->batch()->cancelled()) {
-                    $this->batch()->cancel();
-//                    $this->platformUser->sendNotification(('Importing batch '.$this->batch()->id.' failed'), Notification::BATCH_IMPORT_FAILED,
-//                        DB::table('job_batches')->where('id', $this->batch()->id)->first());
-                }
-
-                return;
-            }
-
             $creator = null;
             if ($this->id) {
                 $creator = Creator::where('twitch_id', $this->id)->first();
@@ -122,46 +67,37 @@ class TwitchImport implements ShouldQueue
                 $creator = Creator::where('twitch_handler', $this->username)->first();
             }
             // 30 days diff
-            if ($creator && ! is_null($creator->twitch_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
+            if ($creator && ! is_null($creator->twitch_last_scrapped_at)) {
                 $lastScrappedDate = Carbon::parse($creator->twitch_last_scrapped_at);
                 if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                    Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);;
-                    Import::markImport($this->importId, ['twitch']);
-//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitch user '.$this->username), Notification::SINGLE_IMPORT);
-                    return;
+                    return $creator;
                 }
             }
 
             if ($this->id || $this->username) {
-                $token = Cache::get('twitch_token_'.$this->listId);
+                $token = Cache::get('twitch_token');
                 if (empty($token)) {
-                    $token = Import::saveTwitchToken($this->listId);
+                    $token = Import::saveTwitchToken();
                 }
                 $response = self::scrapTwitch($this->username ?? $this->id, $token);
                 if ($response->getStatusCode() == 200) {
                     $response = json_decode($response->getBody()->getContents());
                     if (count($response->data)) {
-                        $this->insertInDatabase($response->data);
-                        Import::markImport($this->importId, ['twitch']);
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Imported twitch user '.$this->username), Notification::SINGLE_IMPORT);
                         Log::channel('slack')->info('imported user.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
+                        return $this->insertInDatabase($response->data);
                     } else {
-                        Import::markImport($this->importId, ['twitch']);
-                        $this->fail(new \Exception(('No profile data or no such profile for username '.$this->username), 200));
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('No profile data or no such profile for twitch user '.$this->username), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('No profile data or no such profile for username', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
+                        $this->fail(new \Exception(('No profile data or no such profile for username '.$this->username), 200));
                     }
                 } elseif ($response->getStatusCode() == 504) {
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        Import::markImport($this->importId, ['twitch']);
-                        $this->fail(new \Exception(('Timed out for username '.$this->username), $response->getStatusCode()));
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('Timed out.', ['id' => $this->id, 'username' => $this->username, 'network' => 'twitch']);
+                        $this->fail(new \Exception(('Timed out for username '.$this->username), $response->getStatusCode()));
                     }
                 } elseif ($response->getStatusCode() == 401) {
-                    Import::saveTwitchToken($this->listId);
+                    Import::saveTwitchToken();
                     $this->release(5);
                 } elseif ($response->getStatusCode() == 429) {
                     $this->release(5);
@@ -170,24 +106,18 @@ class TwitchImport implements ShouldQueue
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        Import::markImport($this->importId, ['twitch']);
-                        $this->fail(new \Exception($response->getBody()->getContents(), $response->getStatusCode()));
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
-//                        Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                         Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents(), 'username' => $this->username, 'network' => 'twitch']);
+                        $this->fail(new \Exception($response->getBody()->getContents(), $response->getStatusCode()));
                     }
                 }
             }
         } catch (\Exception $e) {
-            dd($e->getMessage(), $e->getFile(), $e->getLine());
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {
-                Import::markImport($this->importId, ['twitch']);
                 if ($this->batch()) {
                     Log::channel('slack_warning')->info('internal error from with in batch '.$this->batch()->id, ['message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'twitch']);
                 } else {
-//                    Import::sendSingleNotification($this->batch(), $this->platformUser, ('Importing twitch user '.$this->username.' failed. Try again later.'), Notification::SINGLE_IMPORT_FAILED);
                     Log::channel('slack_warning')->info('internal error, import cancelled.', ['id' => $this->id, 'username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'twitch']);
                 }
                 $this->fail($e);
@@ -197,7 +127,7 @@ class TwitchImport implements ShouldQueue
 
     public function insertInDatabase($data)
     {
-        $creatorIds = [];
+        $creators = [];
         foreach ($data as $user) {
             $creator = Creator::where('twitch_handler', $user->login)->orWhere('twitch_id', $user->id)->first() ?? new Creator();
             $creator->setAppends([]);
@@ -254,7 +184,6 @@ class TwitchImport implements ShouldQueue
             $creator->twitch_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->twitch_summary_last_scrapped_at = Carbon::now()->toDateTimeString();
             $creator->save();
-            Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
             $summary = null;
             try {
                 $response = self::scrapTwitchSummary($user->login);
@@ -280,15 +209,14 @@ class TwitchImport implements ShouldQueue
                     $creator->twitch_meta = $meta;
                     $creator->twitch_engagement_rate = round($summary->avg_viewers / $summary->followers_total, 2);
                     $creator->save();
-                    Contact::saveContactFromSocial($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null, $this->deductCredits, $this->meta['override'] ?? false);
                 } catch (\Exception $e) {
                     Log::info($user->login);
                     Log::info($e->getMessage());
                 }
             }
-            $creatorIds[] = $creator->id;
+            $creators[] = $creator;
         }
 
-        return $creatorIds;
+        return $creators;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\ContactImported;
+use App\Jobs\EnrichContacts;
 use App\Jobs\InstagramImport;
 use App\Jobs\TiktokImport;
 use App\Jobs\TwitchImport;
@@ -702,16 +703,16 @@ class Contact extends Model
         }
 
         if ($existingContacts) {
-            self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
+            $contacts = self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
         } else {
-            self::saveContact($data, $listId);
+            $contacts = self::saveContact($data, $listId);
         }
 
         if (! $user->is_admin && $deductCredits) {
             $team->deductCredits();
         }
 
-        return true;
+        return $contacts->pluck('id')->toArray();
     }
 
     public static function getAllContactsCount()
@@ -753,6 +754,7 @@ class Contact extends Model
             $contacts = [$contacts];
         }
 
+        EnrichContacts::dispatch($contacts, $params);
         $columns = ['id', 'team_id'];
         foreach (Creator::NETWORKS as $NETWORK) {
             $columns[$NETWORK] = $NETWORK;
