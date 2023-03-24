@@ -98,7 +98,13 @@ class InstagramImport implements ShouldQueue
                     $dataResponse = json_decode($response->getBody()->getContents());
                     if (! is_null($dataResponse) && isset($dataResponse->graphql)) {
                         Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'instagram']);
-                        return $this->insertIntoDatabase($dataResponse);
+                        $creator = $this->insertIntoDatabase($dataResponse);
+                        if ($this->recursive) {
+                            foreach ($this->brands as $username) {
+                                self::dispatch($username, null, false, $creator->id)->onQueue(config('import.instagram_queue'));
+                            }
+                        }
+                        return $creator;
                     } else {
                         $this->fail(new \Exception(('No such profile for username '.$this->username), $response->getStatusCode()));
                         Log::channel('slack_warning')->info('No such profile', ['username' => $this->username, 'network' => 'instagram']);
@@ -137,11 +143,6 @@ class InstagramImport implements ShouldQueue
                         Log::channel('slack_warning')->info('internal error', ['username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'instagram']);
                     }
                     $this->fail($e);
-                }
-            }
-            if ($this->recursive) {
-                foreach ($this->brands as $username) {
-                    self::dispatch($username, null, false, $this->creatorId)->onQueue(config('import.instagram_queue'));
                 }
             }
         }
@@ -296,7 +297,6 @@ class InstagramImport implements ShouldQueue
             $parentCreator = Creator::where('id', $this->parentCreator)->first();
             $parentCreator->brands()->syncWithoutDetaching($creator->id);
         }
-        $this->creatorId = $creator->id;
         return $creator;
     }
 

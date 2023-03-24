@@ -4,18 +4,21 @@ namespace App\Jobs;
 
 use App\Models\Contact;
 use App\Models\Import;
+use Illuminate\Bus\Batchable;
+use Illuminate\Bus\Batch;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 
 class ImportAndAddTOCrm implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
 
     protected $handle;
     protected $network;
@@ -65,16 +68,22 @@ class ImportAndAddTOCrm implements ShouldQueue
                     $this->params['override'] ?? null,
                     $this->params['contact_id'] ?? null
                 );
+                if (isset($this->params['creator_id'])) {
+                    return;
+                }
                 foreach ($contactIds as $id) {
                     $this->params['contact_id'] = $id;
                     $this->params['charge'] = false;
+                    $this->params['creator_id'] = $id;
                     $import = new Import();
-                    if (strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
+                    if ($this->network != 'instagram' && strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
                         ImportAndAddTOCrm::dispatch($import->instagram, 'instagram', $this->params)->delay(now()->addSeconds(15));
-                    } elseif (strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
+                    } elseif ($this->network != 'twitch' && strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
                         ImportAndAddTOCrm::dispatch($import->twitch, 'twitch', $this->params)->delay(now()->addSeconds(15));
-                    } elseif (strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
+                    } elseif ($this->network != 'tiktok' && strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
                         ImportAndAddTOCrm::dispatch($import->tiktok, 'tiktok', $this->params)->delay(now()->addSeconds(15));
+                    } elseif ($this->network != 'twitter' && strpos($creator->twitter_handler, 'twitter.com/') !== false && $import->twitter = $creator->twitter_handler) {
+                        ImportAndAddTOCrm::dispatch($import->twitter, 'twitter', $this->params)->delay(now()->addSeconds(15));
                     }
                 }
             }

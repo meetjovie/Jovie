@@ -4,12 +4,17 @@ namespace App\Jobs;
 
 use App\Models\Contact;
 use App\Models\Creator;
+use Illuminate\Bus\Batch;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class EnrichContact implements ShouldQueue
 {
@@ -36,18 +41,63 @@ class EnrichContact implements ShouldQueue
      */
     public function handle()
     {
-        $columns = ['id', 'team_id'];
-        foreach (Creator::NETWORKS as $NETWORK) {
-            $columns[$NETWORK] = $NETWORK;
-        }
-        $contact = Contact::query()->select($columns)->where('id', $this->contact)->first();
         $enriching = 0;
-        $charge = true;
-        if ($instagram = $contact->getRawOriginal('instagram')) {
-            $enriching += 1;
-            ImportAndAddTOCrm::dispatchSync();
+        $charge = $this->params['charge'];
+        $batch = $this->getEnrichContactBatch();
+        if ($twitter = $this->contact->getRawOriginal('twitter')) {
+            $enriching = true;
+            $this->params['charge'] = $charge;
+            $batch->add([
+                (new ImportAndAddTOCrm([$twitter], 'twitter', $this->params))->onQueue(config('import.twitter_queue'))
+            ]);
             $charge = false;
         }
-        Contact::query()->where('id', $contact->id)->update(['enriching' => $enriching]);
+        if ($instagram = $this->contact->getRawOriginal('instagram')) {
+            $enriching = true;
+            $this->params['charge'] = $charge;
+            $batch->add([
+                (new ImportAndAddTOCrm($instagram, 'instagram', $this->params))->onQueue(config('import.instagram_queue'))
+            ]);
+            $charge = false;
+        }
+        if ($twitch = $this->contact->getRawOriginal('twitch')) {
+            $enriching = true;
+            $this->params['charge'] = $charge;
+            $batch->add([
+                (new ImportAndAddTOCrm($twitch, 'twitch', $this->params))->onQueue(config('import.twitch_queue'))
+            ]);
+            $charge = false;
+        }
+        if ($tiktok = $this->contact->getRawOriginal('tiktok')) {
+            $enriching = true;
+            $this->params['charge'] = $charge;
+            $batch->add([
+                (new ImportAndAddTOCrm($tiktok, 'tiktok', $this->params))->onQueue(config('import.tiktok_queue'))
+            ]);
+        }
+        Contact::query()->where('id', $this->contact->id)->update(['enriching' => $enriching]);
+    }
+
+    public function getEnrichContactBatch()
+    {
+        $batch = DB::table('job_batches')
+            ->where('cancelled_at', null)
+            ->where('finished_at', null)
+            ->where('contact_id', $this->contact->id)->first();
+        if (is_null($batch)) {
+            $batch = Bus::batch([])->then(function (Batch $batch) {
+                // All jobs completed successfully...
+            })->catch(function (Batch $batch, Throwable $e) {
+                // First batch job failure detected...
+            })->finally(function (Batch $batch) {
+                // The batch has finished executing...
+            })->dispatch();
+            DB::table('job_batches')->where('id', $batch->id)->update([
+                'contact_id' => $this->contact->id,
+            ]);
+        } else {
+            $batch = Bus::findBatch($batch->id);
+        }
+        return $batch;
     }
 }

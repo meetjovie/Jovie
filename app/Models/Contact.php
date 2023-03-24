@@ -695,8 +695,6 @@ class Contact extends Model
         $data['enriched_viewed'] = false;
 
         if ($contactId) {
-            $enriching = Contact::query()->where('id', $contactId)->select('team_id', 'enriching')->where('team_id', $teamId)->first()->value('enriching') ?? 0;
-            $data['enriching'] = $enriching - 1;
             $existingContacts = self::getExistingContactsByIds($contactId, $data['team_id']);
         } else {
             $existingContacts = self::getExistingContactsBySocialHandle($data, $data['team_id']);
@@ -754,45 +752,10 @@ class Contact extends Model
             $contacts = [$contacts];
         }
 
+        $params['charge'] = true;
         EnrichContacts::dispatch($contacts, $params);
-        $columns = ['id', 'team_id'];
-        foreach (Creator::NETWORKS as $NETWORK) {
-            $columns[$NETWORK] = $NETWORK;
-        }
-        $contacts = Contact::query()->select($columns)->whereIn('id', $contacts)->get();
 
-        $enrichingContactIds = [];
-        foreach ($contacts as $contact) {
-            $enriching = 0;
-            $charge = true;
-            if ($twitter = $contact->getRawOriginal('twitter')) {
-                $enriching += 1;
-                TwitterImport::dispatch([$twitter], null, null, null, $params['user_id'], $params['team_id'], $charge, $contact->id)->onQueue(config('import.twitter_queue'));
-                $charge = false;
-            }
-            if ($instagram = $contact->getRawOriginal('instagram')) {
-                $enriching += 1;
-                InstagramImport::dispatch($instagram, null, true, null, null, null, $params['user_id'], null, $params['team_id'], $charge, $contact->id)->onQueue(config('import.instagram_queue'));
-                $charge = false;
-            }
-            if ($twitch = $contact->getRawOriginal('twitch')) {
-                $enriching += 1;
-                TwitchImport::dispatch(null, $twitch, null, null, null, $params['user_id'], null, $params['team_id'], $charge, $contact->id)->onQueue(config('import.twitch_queue'));
-                $charge = false;
-            }
-            if ($tiktok = $contact->getRawOriginal('tiktok')) {
-                $enriching += 1;
-                TiktokImport::dispatch($tiktok, null, null, null, $params['user_id'], null, $params['team_id'], $charge, $contact->id)->onQueue(config('import.tiktok_queue'));
-            }
-
-            Contact::query()->where('id', $contact->id)->update(['enriching' => $enriching]);
-
-            if ($enriching) {
-                $enrichingContactIds[] = $contact->id;
-            }
-        }
-
-        return $enrichingContactIds;
+        return $contacts;
     }
 
     public static function enrichLists($listIds, $params)
