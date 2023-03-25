@@ -277,7 +277,7 @@ export default {
     width: String,
     columnName: String,
     neverHide: Boolean,
-    cellActive: Boolean,
+    cellActive: Boolean|String,
     otherColumns: Array,
     columnIndex: Number,
   },
