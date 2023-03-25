@@ -774,9 +774,10 @@ class Contact extends Model
             $listIds = [$listIds];
         }
 
+        $params['charge'] = true;
         $listId = $listIds[0]; // todo: setup for mulitple list enrich
         EnrichList::dispatch($listId, $params);
 
-        return $listId;
+        return $listIds;
     }
 }

@@ -295,12 +295,12 @@ class CrmController extends Controller
         $params['user_id'] = Auth::id();
         $params['team_id'] = Auth::user()->currentTeam->id;
 
-        $listContactIds = Contact::enrichLists($request->list_ids, $params);
+        $listIds = Contact::enrichLists($request->list_ids, $params);
 
         return response([
             'status' => true,
             'message' => "Enriching your lists",
-            'data' => $listContactIds
+            'data' => $listIds
         ]);
     }
 

@@ -254,8 +254,13 @@ export default {
                 .then((response) => {
                     response = response.data;
                     if (response.status) {
-                        context.state.crmRecords.filter(record => response.data.contact_ids.includes(record.id)).forEach(record => {
-                            record.enriching = true
+                        context.state.crmRecords.filter(record => {
+                            let contactListIds = record.user_lists.map(list => list.id)
+                            response.data.forEach(listId => {
+                                if (contactListIds.includes(listId)) {
+                                    record.enriching = true
+                                }
+                            })
                         })
                         payload.self.$notify({
                             group: 'user',
@@ -264,7 +269,7 @@ export default {
                             title: 'Successful',
                             text: response.message,
                         });
-                        resolve(response.data.list_ids)
+                        resolve(response.data)
                     }
                 })
                 .catch((error) => {

@@ -46,7 +46,7 @@ class ListEnriched implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $userList = UserList::query()->where('id', $this->listId);
+        $userList = UserList::query()->where('id', $this->listId)->first();
         return ['status' => true, 'data' => [
             'list' => $userList,
         ], 'message' => 'List Enriched'];
