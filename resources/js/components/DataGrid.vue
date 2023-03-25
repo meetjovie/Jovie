@@ -338,6 +338,23 @@
                                       }}
                                     </button>
                                   </MenuItem>
+                                    <MenuItem
+                                        v-slot="{ active }"
+                                        @click="$emit('checkContactsEnrichable', selectedContacts)">
+                                        <button
+                                            :class="[
+                                        active
+                                          ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                          : 'text-slate-700 dark:text-jovieDark-200',
+                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                      ]">
+                                            <ArchiveBoxIcon
+                                                :active="active"
+                                                class="mr-2 h-3 w-3 text-sky-400"
+                                                aria-hidden="true" />
+                                            Enrich
+                                        </button>
+                                    </MenuItem>
                                   <!-- <DropdownMenuItem @click="toggleArchiveContacts(
                                 selectedContacts, filters.type == 'archived' ?
                                 false : true ) :name="( filters.type == 'archived'
@@ -707,6 +724,10 @@ export default {
         this.headers = val.filter((column) => column.key != 'full_name');
       },
     },
+      selectedContacts(val) {
+          console.log('val');
+          console.log(val);
+      }
   },
   mounted() {
     this.$mousetrap.bind('up', () => {

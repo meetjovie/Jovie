@@ -1129,7 +1129,7 @@ export default {
               if (response.status) {
                   if (response.data) {
                       this.enrichContactsPopup.confirmationMethod = () => {
-                          this.enrichContacts(ids);
+                          this.enrichContacts(response.data);
                       };
                       this.enrichContactsPopup.cancelEditMethod = () => {
                           this.enrichContactsPopup.open = false

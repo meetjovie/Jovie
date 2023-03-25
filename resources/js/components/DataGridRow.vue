@@ -23,9 +23,13 @@
             },
             'block',
           ]">
-          <form>
-            <CheckboxInput v-model="selectedContactsModel" :value="contact.id" />
-          </form>
+            <input
+                type="checkbox"
+                :id="name"
+                :name="name"
+                :value="contact.id"
+                v-model="selectedContactsModel"
+                class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6" />
         </span>
         <span
           class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
@@ -206,7 +210,6 @@ import DataGridCell from './DataGridCell.vue';
 import ContactContextMenu from './ContactContextMenu.vue';
 import ContactAvatar from './ContactAvatar.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
-import CheckboxInput from './CheckboxInput.vue';
 import {
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
@@ -219,7 +222,6 @@ export default {
     ContactContextMenu,
     DropdownMenuItem,
     ContactAvatar,
-    CheckboxInput,
     ArrowTopRightOnSquareIcon,
     XMarkIcon,
   },

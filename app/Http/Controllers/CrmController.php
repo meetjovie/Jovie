@@ -230,11 +230,10 @@ class CrmController extends Controller
         ]);
 
         $contacts = Contact::getEnrichableContacts($request->contact_ids);
-        $count = $contacts->count();
-        if (count($contacts)) {
+        if ($count = count($contacts)) {
             return response([
                 'status' => true,
-                'data' => $count,
+                'data' => $contacts->pluck('id')->toArray(),
                 'message' => "There are ".$count." contacts that can be enriched. Are you sure you want to continue ?"
             ]);
         }
