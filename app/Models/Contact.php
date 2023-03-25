@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\ContactImported;
 use App\Jobs\EnrichContacts;
+use App\Jobs\EnrichList;
 use App\Jobs\InstagramImport;
 use App\Jobs\TiktokImport;
 use App\Jobs\TwitchImport;
@@ -728,11 +729,16 @@ class Contact extends Model
             $contacts = [$contacts];
         }
 
+        $columns = ['id', 'team_id', 'first_name', 'last_name'];
+        foreach (Creator::NETWORKS as $NETWORK) {
+            $columns[$NETWORK] = $NETWORK;
+        }
+
         $contacts = Contact::query()->whereIn('id', $contacts)->where(function ($query) {
             foreach (Creator::NETWORKS as $NETWORK) {
                 $query->orWhereNotNull($NETWORK);
             }
-        })->select(['id', 'team_id', 'first_name', 'last_name'])->get();
+        })->select($columns)->get();
 
         return $contacts;
     }
@@ -768,14 +774,9 @@ class Contact extends Model
             $listIds = [$listIds];
         }
 
-        $contactIds = self::getEnrichableContactsFromLists($listIds)->pluck('id')->toArray();
-        self::enrichContacts($contactIds, $params);
+        $listId = $listIds[0]; // todo: setup for mulitple list enrich
+        EnrichList::dispatch($listId, $params);
 
-        UserList::query()->whereIn('id', $listIds)->update(['updating' => true]);
-
-        return [
-            'list_ids' => $listIds,
-            'contact_ids' => $contactIds
-        ];
+        return $listId;
     }
 }

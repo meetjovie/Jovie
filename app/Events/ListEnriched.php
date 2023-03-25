@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Contact;
+use App\Models\UserList;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,26 +10,23 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class ContactEnriched implements ShouldBroadcast
+class ListEnriched implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $contactId;
-    private $teamId;
     private $listId;
+    private $teamId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($contactId, $teamId, $listId = null)
+    public function __construct($listId, $teamId)
     {
-        $this->contactId = $contactId;
-        $this->teamId = $teamId;
         $this->listId = $listId;
+        $this->teamId = $teamId;
     }
 
     /**
@@ -39,7 +36,7 @@ class ContactEnriched implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('contactEnriched.'.$this->teamId);
+        return new PrivateChannel('listEnriched.'.$this->teamId);
     }
 
     /**
@@ -49,10 +46,9 @@ class ContactEnriched implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $contact = Contact::getContacts(['id' => $this->contactId, 'team_id' => $this->teamId])->first();
-        $contact = base64_encode(json_encode($contact));
+        $userList = UserList::query()->where('id', $this->listId);
         return ['status' => true, 'data' => [
-            'contact' => $contact,
-        ], 'message' => 'Contact Enriched'];
+            'list' => $userList,
+        ], 'message' => 'List Enriched'];
     }
 }

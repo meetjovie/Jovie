@@ -1084,6 +1084,18 @@ export default {
                 }
             }
         );
+        this.listenEvents(
+            `listEnriched.${this.currentUser.current_team.id}`,
+            'ListEnriched',
+            (data) => {
+                let index = this.userLists.findIndex(
+                    (list) => list.id == data.list.id
+                );
+                if (index >= 0) {
+                    this.userLists[index] = data.list;
+                }
+            }
+        );
 
         this.listenEvents(
             `enrichedContactDataViewed.${this.currentUser.current_team.id}`,
