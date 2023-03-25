@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 
-class ImportAndAddTOCrm implements ShouldQueue
+class ImportFromSocialAndAddTOCrm implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
 
@@ -43,16 +43,7 @@ class ImportAndAddTOCrm implements ShouldQueue
      */
     public function handle()
     {
-        $creators = null;
-        if ($this->network == 'instagram') {
-            $creators = (new InstagramImport($this->handle, $this->params['tags'] ?? null, true, null, $this->params['meta'] ?? null))->handle();
-        } elseif ($this->network == 'twitter') {
-            $creators = (new TwitterImport($this->handle, $this->params['tags'] ?? null, $this->params['meta'] ?? null))->handle();
-        } elseif ($this->network == 'tiktok') {
-            $creators = (new TiktokImport($this->handle, $this->params['tags'] ?? null, $this->params['meta'] ?? null))->handle();
-        } elseif ($this->network == 'twitch') {
-            $creators = (new TwitchImport(null, $this->handle, $this->params['tags'] ?? null, $this->params['meta'] ?? null))->handle();
-        }
+        $creators = (new ImportContactFromSocial($this->handle, $this->network, $this->params))->handle();
         if (isset($creators)) {
             if (!is_array($creators)) {
                 $creators = [$creators];
@@ -77,13 +68,37 @@ class ImportAndAddTOCrm implements ShouldQueue
                     $this->params['creator_id'] = $id;
                     $import = new Import();
                     if ($this->network != 'instagram' && strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
-                        ImportAndAddTOCrm::dispatch($import->instagram, 'instagram', $this->params)->delay(now()->addSeconds(15));
+                        if ($this->batch()) {
+                            $this->batch()->add([
+                                new ImportFromSocialAndAddTOCrm($import->instagram, 'instagram', $this->params)
+                            ]);
+                        } else {
+                            ImportFromSocialAndAddTOCrm::dispatch($import->instagram, 'instagram', $this->params);
+                        }
                     } elseif ($this->network != 'twitch' && strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
-                        ImportAndAddTOCrm::dispatch($import->twitch, 'twitch', $this->params)->delay(now()->addSeconds(15));
+                        if ($this->batch()) {
+                            $this->batch()->add([
+                                new ImportFromSocialAndAddTOCrm($import->twitch, 'twitch', $this->params)
+                            ]);
+                        } else {
+                            ImportFromSocialAndAddTOCrm::dispatch($import->twitch, 'twitch', $this->params);
+                        }
                     } elseif ($this->network != 'tiktok' && strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
-                        ImportAndAddTOCrm::dispatch($import->tiktok, 'tiktok', $this->params)->delay(now()->addSeconds(15));
+                        if ($this->batch()) {
+                            $this->batch()->add([
+                                new ImportFromSocialAndAddTOCrm($import->tiktok, 'tiktok', $this->params)
+                            ]);
+                        } else {
+                            ImportFromSocialAndAddTOCrm::dispatch($import->tiktok, 'tiktok', $this->params);
+                        }
                     } elseif ($this->network != 'twitter' && strpos($creator->twitter_handler, 'twitter.com/') !== false && $import->twitter = $creator->twitter_handler) {
-                        ImportAndAddTOCrm::dispatch($import->twitter, 'twitter', $this->params)->delay(now()->addSeconds(15));
+                        if ($this->batch()) {
+                            $this->batch()->add([
+                                new ImportFromSocialAndAddTOCrm($import->twitter, 'twitter', $this->params)
+                            ]);
+                        } else {
+                            ImportFromSocialAndAddTOCrm::dispatch($import->twitter, 'twitter', $this->params);
+                        }
                     }
                 }
             }

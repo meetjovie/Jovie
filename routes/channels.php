@@ -50,3 +50,8 @@ Broadcast::channel('enrichedContactDataViewed.{teamId}', function ($user, $teamI
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });
+
+Broadcast::channel('contactEnriched.{teamId}', function ($user, $teamId) {
+    $user = $user->load('currentTeam');
+    return $user->currentTeam->id == $teamId;
+});

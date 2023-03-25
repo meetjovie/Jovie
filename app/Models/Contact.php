@@ -546,7 +546,7 @@ class Contact extends Model
         return collect([$contact]);
     }
 
-    public static function updateMultipleExistingContactsWithSocial($data, $contacts, $listId = null)
+    public static function updateMultipleExistingContactsWithSocial($data, $contacts, $listId = null, $areContacts = false)
     {
         $contactData = self::getFillableData($data);
         foreach ($contacts as &$contact) {
@@ -559,10 +559,12 @@ class Contact extends Model
                 $contact->{$key} = $value;
             }
             $contact->save();
-            if ($listId) {
-                Contact::addContactsToList($contact->id, $listId, $data['team_id'], true);
-            } else { // if list is there then import event is dispatched from within it for multiple contacts. else it is dispatched as single without list
-                ContactImported::dispatch($contact->id, $data['team_id'], $listId, true);
+            if (!$areContacts) {
+                if ($listId) {
+                    Contact::addContactsToList($contact->id, $listId, $data['team_id'], true);
+                } else { // if list is there then import event is dispatched from within it for multiple contacts. else it is dispatched as single without list
+                    ContactImported::dispatch($contact->id, $data['team_id'], $listId, true);
+                }
             }
         }
         return $contacts;
@@ -694,14 +696,16 @@ class Contact extends Model
         $data['last_enriched_at'] = Carbon::now()->toDateTimeString();
         $data['enriched_viewed'] = false;
 
+        $areContacts = false;
         if ($contactId) {
             $existingContacts = self::getExistingContactsByIds($contactId, $data['team_id']);
+            $areContacts = true;
         } else {
             $existingContacts = self::getExistingContactsBySocialHandle($data, $data['team_id']);
         }
 
         if ($existingContacts) {
-            $contacts = self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
+            $contacts = self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId, $areContacts);
         } else {
             $contacts = self::saveContact($data, $listId);
         }

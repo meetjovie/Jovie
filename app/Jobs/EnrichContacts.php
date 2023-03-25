@@ -44,7 +44,7 @@ class EnrichContacts implements ShouldQueue
         foreach (Creator::NETWORKS as $NETWORK) {
             $columns[$NETWORK] = $NETWORK;
         }
-        $contacts = Contact::query()->select($columns)->whereIn('id', $this->contacts)->get();
+        $contacts = Contact::query()->select($columns)->whereIn('id', $this->contacts)->where('team_id', $this->params['team_id'])->get();
 
         foreach ($contacts as $contact) {
             EnrichContact::dispatch($contact, $this->params);

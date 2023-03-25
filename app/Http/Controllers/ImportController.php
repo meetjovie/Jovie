@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\FileSaveImport;
 use App\Jobs\FileImport;
-use App\Jobs\ImportAndAddTOCrm;
+use App\Jobs\ImportFromSocialAndAddTOCrm;
 use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
@@ -80,7 +80,7 @@ class ImportController extends Controller
                 if ($instagram[0] == '@') {
                     $instagram = substr($instagram, 1);
                 }
-                ImportAndAddTOCrm::dispatch($instagram, 'instagram', $params)->onQueue(config('import.instagram_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($instagram, 'instagram', $params)->onQueue(config('import.instagram_queue'));
             }
         }
         if ($request->twitch) {
@@ -89,7 +89,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitch = $username;
                 $twitch = $import->twitch;
-                ImportAndAddTOCrm::dispatch($twitch, 'twitch', $params)->onQueue(config('import.twitch_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($twitch, 'twitch', $params)->onQueue(config('import.twitch_queue'));
             }
         }
         if ($request->twitter) {
@@ -98,7 +98,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitter = $username;
                 $twitter = $import->twitter;
-                ImportAndAddTOCrm::dispatch([$twitter], 'twitter', $params)->onQueue(config('import.twitter_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch([$twitter], 'twitter', $params)->onQueue(config('import.twitter_queue'));
             }
         }
         if ($request->tiktok) {
@@ -107,7 +107,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->tiktok = $username;
                 $tiktok = $import->tiktok;
-                ImportAndAddTOCrm::dispatch($tiktok, 'tiktok', $params)->onQueue(config('import.tiktok_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($tiktok, 'tiktok', $params)->onQueue(config('import.tiktok_queue'));
             }
         }
         $file = null;

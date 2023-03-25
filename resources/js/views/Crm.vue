@@ -1068,6 +1068,24 @@ export default {
       );
 
         this.listenEvents(
+            `contactEnriched.${this.currentUser.current_team.id}`,
+            'ContactEnriched',
+            (data) => {
+                let newContact = JSON.parse(window.atob(data.contact));
+                console.log('newContact');
+                console.log(newContact);
+                let index = this.contacts.findIndex(
+                    (contact) => contact.id == newContact.id
+                );
+                console.log('index');
+                console.log(index);
+                if (index >= 0) {
+                    this.contacts[index] = newContact;
+                }
+            }
+        );
+
+        this.listenEvents(
             `enrichedContactDataViewed.${this.currentUser.current_team.id}`,
             'EnrichedContactDataViewed',
             (data) => {

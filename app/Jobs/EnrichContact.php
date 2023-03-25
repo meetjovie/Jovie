@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Events\ContactEnriched;
+use App\Events\ContactImported;
 use App\Models\Contact;
 use App\Models\Creator;
 use Illuminate\Bus\Batch;
@@ -32,6 +34,8 @@ class EnrichContact implements ShouldQueue
     {
         $this->contact = $contact;
         $this->params = $params;
+        $this->params['enrich'] = true;
+        $this->params['contact_id'] = $contact->id;
     }
 
     /**
@@ -48,7 +52,7 @@ class EnrichContact implements ShouldQueue
             $enriching = true;
             $this->params['charge'] = $charge;
             $batch->add([
-                (new ImportAndAddTOCrm([$twitter], 'twitter', $this->params))->onQueue(config('import.twitter_queue'))
+                (new ImportFromSocialAndAddTOCrm([$twitter], 'twitter', $this->params))->onQueue(config('import.twitter_queue'))
             ]);
             $charge = false;
         }
@@ -56,7 +60,7 @@ class EnrichContact implements ShouldQueue
             $enriching = true;
             $this->params['charge'] = $charge;
             $batch->add([
-                (new ImportAndAddTOCrm($instagram, 'instagram', $this->params))->onQueue(config('import.instagram_queue'))
+                (new ImportFromSocialAndAddTOCrm($instagram, 'instagram', $this->params))->onQueue(config('import.instagram_queue'))
             ]);
             $charge = false;
         }
@@ -64,7 +68,7 @@ class EnrichContact implements ShouldQueue
             $enriching = true;
             $this->params['charge'] = $charge;
             $batch->add([
-                (new ImportAndAddTOCrm($twitch, 'twitch', $this->params))->onQueue(config('import.twitch_queue'))
+                (new ImportFromSocialAndAddTOCrm($twitch, 'twitch', $this->params))->onQueue(config('import.twitch_queue'))
             ]);
             $charge = false;
         }
@@ -72,7 +76,7 @@ class EnrichContact implements ShouldQueue
             $enriching = true;
             $this->params['charge'] = $charge;
             $batch->add([
-                (new ImportAndAddTOCrm($tiktok, 'tiktok', $this->params))->onQueue(config('import.tiktok_queue'))
+                (new ImportFromSocialAndAddTOCrm($tiktok, 'tiktok', $this->params))->onQueue(config('import.tiktok_queue'))
             ]);
         }
         Contact::query()->where('id', $this->contact->id)->update(['enriching' => $enriching]);
@@ -91,6 +95,14 @@ class EnrichContact implements ShouldQueue
                 // First batch job failure detected...
             })->finally(function (Batch $batch) {
                 // The batch has finished executing...
+                $batch = DB::table('job_batches')
+                    ->where('id', $batch->id)->first();
+                if ($batch) {
+                    $contact = Contact::query()->where('id', $batch->contact_id)->first();
+                    $contact->enriching = false;
+                    $contact->save();
+                    ContactEnriched::dispatch($contact->id, $contact->team_id);
+                }
             })->dispatch();
             DB::table('job_batches')->where('id', $batch->id)->update([
                 'contact_id' => $this->contact->id,
@@ -98,6 +110,7 @@ class EnrichContact implements ShouldQueue
         } else {
             $batch = Bus::findBatch($batch->id);
         }
+
         return $batch;
     }
 }

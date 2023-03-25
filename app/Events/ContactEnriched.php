@@ -12,14 +12,14 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class ContactImported implements ShouldBroadcast
+class ContactEnriched implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $contactId;
     private $teamId;
     private $listId;
-    private $updatingExisting;
+
     /**
      * Create a new event instance.
      *
@@ -30,7 +30,6 @@ class ContactImported implements ShouldBroadcast
         $this->contactId = $contactId;
         $this->teamId = $teamId;
         $this->listId = $listId;
-        $this->updatingExisting = $updatingExisting;
     }
 
     /**
@@ -40,7 +39,7 @@ class ContactImported implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('contactImported.'.$this->teamId);
+        return new PrivateChannel('contactEnriched.'.$this->teamId);
     }
 
     /**
@@ -54,8 +53,6 @@ class ContactImported implements ShouldBroadcast
         $contact = base64_encode(json_encode($contact));
         return ['status' => true, 'data' => [
             'contact' => $contact,
-            'list' => $this->listId,
-            'updating_existing' => $this->updatingExisting
-        ], 'message' => $this->listId ? null : 'Contact Imported'];
+        ], 'message' => 'Contact Enriched'];
     }
 }
