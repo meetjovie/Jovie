@@ -711,10 +711,6 @@ class Contact extends Model
             $contacts = self::saveContact($data, $listId);
         }
 
-        if (! $user->is_admin && $deductCredits) {
-            $team->deductCredits();
-        }
-
         return $contacts->pluck('id')->toArray();
     }
 
@@ -723,7 +719,7 @@ class Contact extends Model
         return Contact::query()->withoutGlobalScope(ContactsLimitScope::class)->count();
     }
 
-    public static function getEnrichableContacts($contacts)
+    public static function getEnrichableContacts($contacts, $onlyCount = false)
     {
         if (!is_array($contacts)) {
             $contacts = [$contacts];
@@ -738,12 +734,16 @@ class Contact extends Model
             foreach (Creator::NETWORKS as $NETWORK) {
                 $query->orWhereNotNull($NETWORK);
             }
-        })->select($columns)->get();
+        })->select($columns);
 
-        return $contacts;
+        if ($onlyCount) {
+            return $contacts->count();
+        }
+
+        return $contacts->get();
     }
 
-    public static function getEnrichableContactsFromLists($listIds)
+    public static function getEnrichableContactsFromLists($listIds, $onlyCount = false)
     {
         if (!is_array($listIds)) {
             $listIds = [$listIds];
@@ -753,7 +753,7 @@ class Contact extends Model
             $query->whereIn('user_lists.id', $listIds);
         })->pluck('contacts.id')->toArray();
 
-        return self::getEnrichableContacts($contactIds);
+        return self::getEnrichableContacts($contactIds, $onlyCount);
     }
 
     public static function enrichContacts($contacts, $params)

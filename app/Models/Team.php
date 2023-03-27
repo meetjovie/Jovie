@@ -127,4 +127,9 @@ class Team extends TeamworkTeam
         $currentContactsLimit = Auth::user()->currentTeam->currentContactsLimit();
         return ($totalContacts - $currentContactsLimit) ?? 0;
     }
+
+    public function hasEnoughEnrichingCredits($count)
+    {
+        return $this->credits >= $count;
+    }
 }

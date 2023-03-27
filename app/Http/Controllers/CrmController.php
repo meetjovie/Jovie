@@ -231,6 +231,14 @@ class CrmController extends Controller
 
         $contacts = Contact::getEnrichableContacts($request->contact_ids);
         if ($count = count($contacts)) {
+
+            if (! Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
+                return response([
+                    'status' => false,
+                    'message' => "You do not have enough credits."
+                ]);
+            }
+
             return response([
                 'status' => true,
                 'data' => $contacts->pluck('id')->toArray(),
@@ -253,6 +261,13 @@ class CrmController extends Controller
         $params['user_id'] = Auth::id();
         $params['team_id'] = Auth::user()->currentTeam->id;
 
+        if (! Auth::user()->currentTeam->hasEnoughEnrichingCredits(count($request->contact_ids))) {
+            return response([
+                'status' => false,
+                'message' => "You do not have enough credits."
+            ]);
+        }
+        Auth::user()->currentTeam->deductCredits(count($request->contact_ids));
         $enrichingContactIds = Contact::enrichContacts($request->contact_ids, $params);
 
         return response([
@@ -269,13 +284,19 @@ class CrmController extends Controller
             'list_ids.*' => 'exists:user_lists,id',
         ]);
 
-        $contacts = Contact::getEnrichableContactsFromLists($request->list_ids);
-        $count = $contacts->count();
+        $count = Contact::getEnrichableContactsFromLists($request->list_ids, true);
+        if ($count) {
 
-        if (count($contacts)) {
+            if (! Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
+                return response([
+                    'status' => false,
+                    'message' => "You do not have enough credits."
+                ]);
+            }
+
             return response([
                 'status' => true,
-                'data' => $contacts->count(),
+                'data' => $count,
                 'message' => "There are ".$count." contact/contacts in the list/lists that can be enriched. Are you sure you want to continue ?"
             ]);
         }
@@ -295,6 +316,15 @@ class CrmController extends Controller
         $params['user_id'] = Auth::id();
         $params['team_id'] = Auth::user()->currentTeam->id;
 
+        $count = Contact::getEnrichableContactsFromLists($request->list_ids, true);
+        if (! Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
+            return response([
+                'status' => false,
+                'message' => "You do not have enough credits."
+            ]);
+        }
+
+        Auth::user()->currentTeam->deductCredits($count);
         $listIds = Contact::enrichLists($request->list_ids, $params);
 
         return response([
