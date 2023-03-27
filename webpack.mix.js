@@ -28,10 +28,7 @@ mix
   .js('resources/js/app.js', 'public/js')
   .extract()
   .vue()
-  /*  .postCss('resources/css/app.css', 'public/css', [require('tailwindcss')]) */
-  .postCss('resources/css/app.css', 'public/css', [
-    tailwindcss(path.resolve(__dirname, './tailwind.config.js')),
-  ])
+  .postCss('resources/css/app.css', 'public/css', [require('tailwindcss')])
   .version();
 
 if (mix.inProduction()) {
