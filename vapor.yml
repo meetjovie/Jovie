@@ -77,6 +77,6 @@ environments:
       - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
       - 'php artisan event:cache'
       - 'rm -rf composer.lock'
-      - 'npm i && npm run dev && rm -rf node_modules'
+      - 'npm i && npm run prod && rm -rf node_modules'
     deploy:
       - 'php artisan migrate'
