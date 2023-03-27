@@ -25,8 +25,8 @@
           ]">
             <input
                 type="checkbox"
-                :id="name"
-                :name="name"
+                :id="`checkbox_${contact.id}`"
+                name="`checkbox_contact`"
                 :value="contact.id"
                 v-model="selectedContactsModel"
                 class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6" />

@@ -46,8 +46,11 @@ class TwitterImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(array $username, $tags, $meta = null)
+    public function __construct(array|string $username, $tags, $meta = null)
     {
+        if (!is_array($username)) {
+            $username = [$username];
+        }
         $this->username = $username;
         $this->tags = $tags;
         $this->meta = $meta;

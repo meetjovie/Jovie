@@ -43,46 +43,10 @@ class EnrichList implements ShouldQueue
     public function handle()
     {
         $contacts = Contact::getEnrichableContactsFromLists($this->listId);
-
-        $batch = $this->getEnrichContactListBatch();
+        $this->params['list_id'] = $this->listId;
         foreach ($contacts as $contact) {
-            $batch->add([
-                new EnrichContact($contact, $this->params)
-            ]);
+            EnrichContact::dispatch($contact, $this->params);
         }
-        UserList::query()->whereIn('id', $this->listId)->update(['updating' => true]);
+        UserList::query()->where('id', $this->listId)->update(['updating' => true]);
     }
-
-    public function getEnrichContactListBatch()
-    {
-        $batch = DB::table('job_batches')
-            ->where('cancelled_at', null)
-            ->where('finished_at', null)
-            ->where('user_list_id', $this->listId)->first();
-        if (is_null($batch)) {
-            $batch = Bus::batch([])->then(function (Batch $batch) {
-                // All jobs completed successfully...
-            })->catch(function (Batch $batch, Throwable $e) {
-                // First batch job failure detected...
-            })->finally(function (Batch $batch) {
-                // The batch has finished executing...
-                $batch = DB::table('job_batches')
-                    ->where('id', $batch->id)->first();
-                if ($batch) {
-                    $userList = UserList::query()->where('id', $batch->user_list_id)->first();
-                    $userList->updating = false;
-                    $userList->save();
-                    ListEnriched::dispatch($userList->id, $userList->team_id);
-                }
-            })->dispatch();
-            DB::table('job_batches')->where('id', $batch->id)->update([
-                'user_list_id' => $this->listId,
-            ]);
-        } else {
-            $batch = Bus::findBatch($batch->id);
-        }
-
-        return $batch;
-    }
-
 }

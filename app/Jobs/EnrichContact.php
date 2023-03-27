@@ -6,6 +6,7 @@ use App\Events\ContactEnriched;
 use App\Events\ContactImported;
 use App\Models\Contact;
 use App\Models\Creator;
+use App\Models\UserList;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
@@ -53,7 +54,7 @@ class EnrichContact implements ShouldQueue
             $enriching = true;
             $this->params['charge'] = $charge;
             $batch->add([
-                (new ImportFromSocialAndAddTOCrm([$twitter], 'twitter', $this->params))->onQueue(config('import.twitter_queue'))
+                (new ImportFromSocialAndAddTOCrm($twitter, 'twitter', $this->params))->onQueue(config('import.twitter_queue'))
             ]);
             $charge = false;
         }
@@ -89,12 +90,13 @@ class EnrichContact implements ShouldQueue
             ->where('cancelled_at', null)
             ->where('finished_at', null)
             ->where('contact_id', $this->contact->id)->first();
+        $listId = $this->params['list_id'] ?? null;
         if (is_null($batch)) {
             $batch = Bus::batch([])->then(function (Batch $batch) {
                 // All jobs completed successfully...
             })->catch(function (Batch $batch, Throwable $e) {
                 // First batch job failure detected...
-            })->finally(function (Batch $batch) {
+            })->finally(function (Batch $batch) use ($listId) {
                 // The batch has finished executing...
                 $batch = DB::table('job_batches')
                     ->where('id', $batch->id)->first();
@@ -102,7 +104,7 @@ class EnrichContact implements ShouldQueue
                     $contact = Contact::query()->where('id', $batch->contact_id)->first();
                     $contact->enriching = false;
                     $contact->save();
-                    ContactEnriched::dispatch($contact->id, $contact->team_id);
+                    ContactEnriched::dispatch($contact->id, $contact->team_id, $listId);
                 }
             })->dispatch();
             DB::table('job_batches')->where('id', $batch->id)->update([

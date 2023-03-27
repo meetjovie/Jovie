@@ -8,10 +8,11 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ListEnriched implements ShouldBroadcast
+class ListEnriched implements ShouldBroadcast, ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -47,6 +48,8 @@ class ListEnriched implements ShouldBroadcast
     public function broadcastWith()
     {
         $userList = UserList::query()->where('id', $this->listId)->first();
+        $userList->updating = false;
+        $userList->save();
         return ['status' => true, 'data' => [
             'list' => $userList,
         ], 'message' => 'List Enriched'];

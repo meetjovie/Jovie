@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ListEnriched;
 use App\Events\Notification;
 use App\Events\UserListDuplicated;
 use App\Jobs\DuplicateList;
@@ -230,5 +231,16 @@ class UserList extends Model
                         });
                     })->count())
         );
+    }
+
+    public static function dispatchEnrichNotificationIfCompleted($listId, $teamId)
+    {
+        $countEnriching = Contact::query()->whereHas('userLists', function ($query) use ($listId) {
+            $query->where('user_lists.id', $listId);
+        })->where('enriching', 1)->count();
+
+        if (! $countEnriching) {
+            ListEnriched::dispatch($listId, $teamId);
+        }
     }
 }
