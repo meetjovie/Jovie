@@ -201,14 +201,9 @@ class SubscriptionsController extends Controller
             }
         }
 
-        $currentSubscription = $user->currentTeam->currentSubscription(true);
+        $currentSubscription = $user->currentTeam->currentSubscription(false);
         if ($currentSubscription) {
-            try{
-                $user->currentTeam->subscription($currentSubscription->name)->cancelNow();
-            }catch (\Exception $exception){
-                $currentSubscription = null;
-            }
-
+            $user->currentTeam->subscription($currentSubscription->name)->cancelNow();
             return $this->subscribeTeam($product, $plan, $paymentMethod, $coupon, $user);
         }
 

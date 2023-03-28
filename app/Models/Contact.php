@@ -584,14 +584,32 @@ class Contact extends Model
         }
 
         $contacts = [];
+
+        $contacts = Contact::query()->where('team_id', $teamId);
+        $matched = false;
         if (!empty($socials)) {
-            $contacts = Contact::query()->where('team_id', $teamId);
+            $matched = true;
             $contacts->where(function ($query) use ($socials) {
                 foreach ($socials as $network => $value) {
                     $query->orWhere($network, $value);
                 }
             });
+        }
+
+        if (isset($contactData['phones'])) {
+            $matched = true;
+            $contacts = $contacts->whereJsonContains('phones', $contactData['phones']);
+        }
+
+        if (isset($contactData['emails'])) {
+            $matched = true;
+            $contacts = $contacts->whereJsonContains('emails', $contactData['emails']);
+        }
+
+        if ($matched) {
             $contacts = $contacts->get();
+        } else {
+            $contacts = [];
         }
 
         return count($contacts) ? $contacts : false;

@@ -130,7 +130,8 @@ export default {
       contact: {
           first_name: '',
           last_name: '',
-          email: '',
+          emails: '',
+          phones: '',
           company: '',
           title: '',
           instagram: '',
