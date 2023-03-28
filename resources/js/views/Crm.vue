@@ -511,10 +511,10 @@
                   <div class="inline-block h-full w-full align-middle">
                     <div class="h-full w-full dark:bg-jovieDark-900">
                         <AlertBanner
-                            v-if="limitExceedBy && totalAvailable"
+                            v-if="limitExceedBy > 0 && totalAvailable"
                             design="primary"
-                            :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription ? currentUser.current_team.current_subscription.contacts : 100}/${totalAvailable} of your imported contacts.`"
-                            :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription ? currentUser.current_team.current_subscription.contacts : 100}/${totalAvailable} of your imported contacts.`"
+                            :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+                            :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
                             :cta="`Upgrade`"
                             ctaLink="Billing" />
                       <!--  Show import screen if no contacts -->
