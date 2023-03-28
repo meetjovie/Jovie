@@ -68,7 +68,7 @@ class Team extends TeamworkTeam
         }
     }
 
-    public function currentSubscription($basicPlan = true)
+    public function currentSubscription($basicPlan = null)
     {
         $currentSubscription = $this->subscriptions()->first();
         if ($currentSubscription && $this->subscribed($currentSubscription->name)) {
