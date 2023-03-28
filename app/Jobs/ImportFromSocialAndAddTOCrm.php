@@ -70,34 +70,34 @@ class ImportFromSocialAndAddTOCrm implements ShouldQueue
                     if ($this->network != 'instagram' && strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
                         if ($this->batch()) {
                             $this->batch()->add([
-                                new ImportFromSocialAndAddTOCrm($import->instagram, 'instagram', $this->params)
+                                (new ImportFromSocialAndAddTOCrm($import->instagram, 'instagram', $this->params))->onQueue(config('import.instagram_queue'))
                             ]);
                         } else {
-                            ImportFromSocialAndAddTOCrm::dispatch($import->instagram, 'instagram', $this->params);
+                            ImportFromSocialAndAddTOCrm::dispatch($import->instagram, 'instagram', $this->params)->onQueue(config('import.instagram_queue'));
                         }
                     } elseif ($this->network != 'twitch' && strpos($creator->twitch_handler, 'twitch.tv/') !== false && $import->twitch = $creator->twitch_handler) {
                         if ($this->batch()) {
                             $this->batch()->add([
-                                new ImportFromSocialAndAddTOCrm($import->twitch, 'twitch', $this->params)
+                                (new ImportFromSocialAndAddTOCrm($import->twitch, 'twitch', $this->params))->onQueue(config('import.twitch_queue'))
                             ]);
                         } else {
-                            ImportFromSocialAndAddTOCrm::dispatch($import->twitch, 'twitch', $this->params);
+                            ImportFromSocialAndAddTOCrm::dispatch($import->twitch, 'twitch', $this->params)->onQueue(config('import.twitch_queue'));
                         }
                     } elseif ($this->network != 'tiktok' && strpos($creator->tiktok_handler, 'tiktok.com/') !== false && $import->tiktok = $creator->tiktok_handler) {
                         if ($this->batch()) {
                             $this->batch()->add([
-                                new ImportFromSocialAndAddTOCrm($import->tiktok, 'tiktok', $this->params)
+                                (new ImportFromSocialAndAddTOCrm($import->tiktok, 'tiktok', $this->params))->onQueue(config('import.tiktok_queue'))
                             ]);
                         } else {
-                            ImportFromSocialAndAddTOCrm::dispatch($import->tiktok, 'tiktok', $this->params);
+                            ImportFromSocialAndAddTOCrm::dispatch($import->tiktok, 'tiktok', $this->params)->onQueue(config('import.tiktok_queue'));
                         }
                     } elseif ($this->network != 'twitter' && strpos($creator->twitter_handler, 'twitter.com/') !== false && $import->twitter = $creator->twitter_handler) {
                         if ($this->batch()) {
                             $this->batch()->add([
-                                new ImportFromSocialAndAddTOCrm($import->twitter, 'twitter', $this->params)
+                                (new ImportFromSocialAndAddTOCrm($import->twitter, 'twitter', $this->params))->onQueue(config('import.twitter_queue'))
                             ]);
                         } else {
-                            ImportFromSocialAndAddTOCrm::dispatch($import->twitter, 'twitter', $this->params);
+                            ImportFromSocialAndAddTOCrm::dispatch($import->twitter, 'twitter', $this->params)->onQueue(config('import.twitter_queue'));
                         }
                     }
                 }
