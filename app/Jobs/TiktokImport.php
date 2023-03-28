@@ -55,7 +55,6 @@ class TiktokImport implements ShouldQueue
     private $importId;
 
     private $teamId = null;
-    private $deductCredits;
 
     private $contactId;
 

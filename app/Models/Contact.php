@@ -649,7 +649,7 @@ class Contact extends Model
         }
     }
 
-    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null, $deductCredits = true, $override = false, $contactId = null)
+    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null, $override = false, $contactId = null)
     {
         if (is_null($userId) || is_null($teamId)) {
             return false;
@@ -762,7 +762,6 @@ class Contact extends Model
             $contacts = [$contacts];
         }
 
-        $params['charge'] = true;
         EnrichContacts::dispatch($contacts, $params);
 
         return $contacts;
@@ -774,7 +773,6 @@ class Contact extends Model
             $listIds = [$listIds];
         }
 
-        $params['charge'] = true;
         $listId = $listIds[0]; // todo: setup for mulitple list enrich
         EnrichList::dispatch($listId, $params);
 

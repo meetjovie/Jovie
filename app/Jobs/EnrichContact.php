@@ -6,6 +6,7 @@ use App\Events\ContactEnriched;
 use App\Events\ContactImported;
 use App\Models\Contact;
 use App\Models\Creator;
+use App\Models\Team;
 use App\Models\UserList;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\Batchable;
@@ -48,35 +49,27 @@ class EnrichContact implements ShouldQueue
     public function handle()
     {
         $enriching = 0;
-        $charge = $this->params['charge'];
         $batch = $this->getEnrichContactBatch();
         if ($twitter = $this->contact->getRawOriginal('twitter')) {
             $enriching = true;
-            $this->params['charge'] = $charge;
             $batch->add([
                 (new ImportFromSocialAndAddTOCrm($twitter, 'twitter', $this->params))->onQueue(config('import.twitter_queue'))
             ]);
-            $charge = false;
         }
         if ($instagram = $this->contact->getRawOriginal('instagram')) {
             $enriching = true;
-            $this->params['charge'] = $charge;
             $batch->add([
                 (new ImportFromSocialAndAddTOCrm($instagram, 'instagram', $this->params))->onQueue(config('import.instagram_queue'))
             ]);
-            $charge = false;
         }
         if ($twitch = $this->contact->getRawOriginal('twitch')) {
             $enriching = true;
-            $this->params['charge'] = $charge;
             $batch->add([
                 (new ImportFromSocialAndAddTOCrm($twitch, 'twitch', $this->params))->onQueue(config('import.twitch_queue'))
             ]);
-            $charge = false;
         }
         if ($tiktok = $this->contact->getRawOriginal('tiktok')) {
             $enriching = true;
-            $this->params['charge'] = $charge;
             $batch->add([
                 (new ImportFromSocialAndAddTOCrm($tiktok, 'tiktok', $this->params))->onQueue(config('import.tiktok_queue'))
             ]);
@@ -101,6 +94,11 @@ class EnrichContact implements ShouldQueue
                 $batch = DB::table('job_batches')
                     ->where('id', $batch->id)->first();
                 if ($batch) {
+                    if ($batch->failed_jobs == $batch->total_jobs) {
+                        if (isset($this->params['team_id'])) {
+                            Team::addCreditsToTeam($this->params['team_id']);
+                        }
+                    }
                     $contact = Contact::query()->where('id', $batch->contact_id)->first();
                     $contact->enriching = false;
                     $contact->save();

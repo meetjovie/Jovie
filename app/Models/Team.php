@@ -84,12 +84,18 @@ class Team extends TeamworkTeam
         return $basicPlan ? json_decode(json_encode(config('services.stripe.basic_plan'))) : null;
     }
 
-    public function addCredits($credits)
+    public function addCredits($credits = 1)
     {
         if (!empty($credits)) {
             $this->credits += (int)$credits;
             $this->save();
         }
+    }
+
+    public static function addCreditsToTeam($teamId, $credits = 1)
+    {
+        $team = Team::query()->where('id', $teamId)->first();
+        $team->addCredits($credits);
     }
 
     public function addContacts($contacts)

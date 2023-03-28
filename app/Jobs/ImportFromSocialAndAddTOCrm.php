@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Contact;
 use App\Models\Import;
+use App\Models\Team;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\Queueable;
@@ -55,7 +56,6 @@ class ImportFromSocialAndAddTOCrm implements ShouldQueue
                     $this->params['user_id'] ?? null,
                     $this->params['team_id'] ?? null,
                     $this->params['source'] ?? null,
-                    $this->params['charge'] ?? null,
                     $this->params['override'] ?? null,
                     $this->params['contact_id'] ?? null
                 );
@@ -64,7 +64,6 @@ class ImportFromSocialAndAddTOCrm implements ShouldQueue
                 }
                 foreach ($contactIds as $id) {
                     $this->params['contact_id'] = $id;
-                    $this->params['charge'] = false;
                     $this->params['creator_id'] = $id;
                     $import = new Import();
                     if ($this->network != 'instagram' && strpos($creator->instagram_handler, 'instagram.com/') !== false && $import->instagram = $creator->instagram_handler) {
@@ -101,6 +100,10 @@ class ImportFromSocialAndAddTOCrm implements ShouldQueue
                         }
                     }
                 }
+            }
+        } else {
+            if (isset($this->params['team_id'])) {
+                Team::addCreditsToTeam($this->params['team_id']);
             }
         }
     }
