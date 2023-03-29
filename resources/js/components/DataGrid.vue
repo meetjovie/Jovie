@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full flex-col">
+  <div class="h-full w-full flex-col overflow-hidden">
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <header
@@ -387,7 +387,7 @@
                       :id="element.id"
                       v-show="!element.hide"
                       scope="col"
-                      :class="columnWidth ? `w-${columnWidth}` : 'w-40'"
+                      :class="'w-40'"
                       class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
@@ -434,6 +434,7 @@
                 ghost-class="ghost-row"
                 group="contacts"
                 :sort="false"
+                itemKey="id"
                 tag="tbody"
                 @start="startDrag">
                 <template #item="{ element, index }">
@@ -644,6 +645,7 @@ export default {
     ArrowTopRightOnSquareIcon,
     draggable,
   },
+    emits: ['addContact', 'updateContact', 'crmCounts', 'updateListCount', 'pageChanged', 'getCrmContacts', 'setCurrentContact', 'openSidebar', 'getHeaders', 'checkContactsEnrichable', 'setOrder', 'importCSV'],
   data() {
     return {
       currentCell: {
@@ -939,7 +941,6 @@ export default {
           itemId: column.id,
         })
         .then(() => {
-          this.$emit('getFields');
           this.$emit('getHeaders');
         });
     },

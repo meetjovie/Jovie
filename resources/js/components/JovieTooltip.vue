@@ -1,14 +1,16 @@
 <template>
-  <div class="group">
-    <slot>Trigger Goes Here</slot>
-  </div>
-  <div
-    class="absolute -top-2 -right-3 z-50 hidden w-auto translate-x-full flex-col items-center justify-between rounded-md border border-slate-200 bg-slate-800 px-2 py-1 text-xs text-slate-50 shadow-lg group-hover:flex group-hover:flex">
-    <div class="font-bold">{{ text }}</div>
     <div>
-      <slot name="content"></slot>
+        <div class="group">
+            <slot>Trigger Goes Here</slot>
+        </div>
+        <div
+            class="absolute -top-2 -right-3 z-50 hidden w-auto translate-x-full flex-col items-center justify-between rounded-md border border-slate-200 bg-slate-800 px-2 py-1 text-xs text-slate-50 shadow-lg group-hover:flex group-hover:flex">
+            <div class="font-bold">{{ text }}</div>
+            <div>
+                <slot name="content"></slot>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>

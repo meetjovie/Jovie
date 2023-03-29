@@ -871,7 +871,7 @@ export default {
       default: false,
     },
     selectedList: {
-      type: String,
+      type: [Number, String],
       default: null,
     },
   },

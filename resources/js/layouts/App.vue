@@ -48,7 +48,7 @@
               <button
                 class="absolute top-0 right-0 m-2"
                 @click="notification.close">
-                <XIcon class="h-5 w-5 text-slate-400 dark:text-jovieDark-100" />
+                <XMarkIcon class="h-5 w-5 text-slate-400 dark:text-jovieDark-100" />
               </button>
               <div
                 class="flex w-10 items-center justify-center bg-slate-200 dark:bg-jovieDark-800">
@@ -179,8 +179,6 @@ export default {
       ],
       isShowing: false,
       isLoading: false,
-      notifications: [],
-      newNotification: false,
     };
   },
 
@@ -255,37 +253,9 @@ export default {
     this.$mousetrap.bind(['g s'], () => {
       this.$router.push('/account');
     });
-
-    // this.getNotifications();
-    // setInterval(() => {
-    //   this.getNotifications();
-    // }, 5000);
-    this.listenEvents(
-      `notification.${this.currentUser.current_team.id}`,
-      'Notification',
-      (data) => {
-        this.newNotification = true;
-      }
-    );
-    this.getNotifications();
   },
 
   methods: {
-    getNotifications() {
-      ImportService.getNotifications().then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.notifications = response.notifications;
-          this.newNotification = false;
-          this.$store.state.showImportProgress = this.notifications.filter(
-            (notification) => {
-              return notification.is_batch && notification.progress < 100;
-            }
-          ).length;
-        }
-      });
-    },
-
     toggleShowAppMenu() {
       this.showAppMenu = !this.showAppMenu;
       //add the value for CRMSidebarOpen to local storage

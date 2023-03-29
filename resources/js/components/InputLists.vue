@@ -63,7 +63,6 @@ export default {
   },
   data() {
     return {
-      lists: [],
       items: [],
     };
   },

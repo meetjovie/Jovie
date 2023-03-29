@@ -190,6 +190,7 @@ import {
   DocumentTextIcon,
   ChatBubbleLeftIcon,
   CloudArrowUpIcon,
+    ChevronRightIcon,
 } from '@heroicons/vue/24/outline';
 export default {
   name: 'SupportModal',
@@ -270,6 +271,7 @@ export default {
     QuestionMarkCircleIcon,
     DocumentTextIcon,
     XMarkIcon,
+      ChevronRightIcon,
   },
 
   methods: {

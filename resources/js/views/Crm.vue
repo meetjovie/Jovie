@@ -51,7 +51,7 @@
                       </Menu>
                   </div>
                   <div class="items-center">
-                    <KBShortcut shortcutKey="C"></KBShortcut>
+                    <KBShortcut :shortcutKey="['C']"></KBShortcut>
                   </div>
                 </div>
               </div>
@@ -593,7 +593,6 @@
                         </CrmTable> -->
                         <DataGrid
                           v-if="columns.length"
-                          class="overflow-hidden"
                           ref="crmTableGrid"
                           @addContact="showCreatorModal = true"
                           @updateContact="updateContact"
@@ -605,11 +604,9 @@
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
                           @getHeaders="getHeaders"
-                          @getFields="getFields"
                           @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
                           :header="filters.type === 'list' ? filters.currentList.name : filters.type"
-                          @importCSV="importCSV"
                           :subheader="counts"
                           :filters="filters"
                           :userLists="userLists"
@@ -731,6 +728,7 @@ import {
   ChatBubbleLeftIcon,
   SparklesIcon,
   ComputerDesktopIcon,
+  FaceSmileIcon,
 } from '@heroicons/vue/24/solid';
 import DataGrid from '../components/DataGrid.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
@@ -760,6 +758,7 @@ import ModalPopup from "../components/ModalPopup.vue";
 export default {
   name: 'CRM',
   components: {
+      FaceSmileIcon,
       ModalPopup,
       DropdownMenuItem,
     CreditCardIcon,
@@ -800,7 +799,6 @@ export default {
     TransitionRoot,
     TabPanels,
     TabPanel,
-    MenuList,
     ChevronRightIcon,
     Combobox,
     EllipsisVerticalIcon,
@@ -808,10 +806,7 @@ export default {
     ComboboxButton,
     ComboboxOptions,
     ComboboxOption,
-    Menu,
     MenuButton,
-    MenuItems,
-    MenuItem,
     KBShortcut,
     ChevronDownIcon,
     CheckIcon,
@@ -819,7 +814,6 @@ export default {
     ArrowLeftOnRectangleIcon,
     UserGroupIcon,
     CloudArrowUpIcon,
-    SupportModal,
     CrmTable,
     vueMousetrapPlugin: VueMousetrapPlugin,
     ContactTags,
@@ -890,7 +884,9 @@ export default {
             primaryButtonText: null,
             description: '',
             loading: false,
-        }
+        },
+        notifications: [],
+        newNotification: false,
     };
   },
   watch: {

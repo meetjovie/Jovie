@@ -52,8 +52,8 @@
       <ContactStageMenu
         v-else-if="column.type == 'select' && column.name == 'Stage'"
         :contact="contact"
-        :key="row"
-        :open="showContactStageMenu[row]"
+        :key="row ?? 0"
+        :open="showContactStageMenu[row] ?? false"
         @close="toggleContactStageMenu(row)"
         :stages="stages"
         :index="row"

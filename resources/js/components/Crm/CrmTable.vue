@@ -750,7 +750,7 @@
                       class="border-1 relative isolate z-10 table-cell items-center border border-slate-300 dark:border-jovieDark-border">
                       <ContactStageMenu
                         :creator="creator"
-                        :key="key"
+                        :key="index"
                         :open="showContactStageMenu[index]"
                         @close="toggleContactStageMenu(index)"
                         :stages="stages"

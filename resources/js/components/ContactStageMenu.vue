@@ -155,7 +155,7 @@ export default {
       required: true,
     },
     key: {
-      type: String,
+      type: [Number, String],
       required: true,
     },
     stages: {
