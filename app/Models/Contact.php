@@ -20,9 +20,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Contact extends Model
+class Contact extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use CustomFieldsTrait;
 
@@ -104,6 +106,24 @@ class Contact extends Model
         'wiki_data',
         'last_enriched_at',
         'enriching',
+    ];
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'full_name',
+        'first_name',
+        'last_name',
+        'nickname',
+        'suffix',
+        'company',
+        'department',
+        'title',
+        'category',
+        'biography',
     ];
 
     /**

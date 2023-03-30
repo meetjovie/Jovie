@@ -102,7 +102,7 @@
                   <h2
                     id="applicant-information-title"
                     class="text-lg font-medium leading-6 text-slate-900">
-                    {{ contact.name }}
+                    {{ contact.full_name }}
                   </h2>
                   <p
                     @click="fullbio = true"
