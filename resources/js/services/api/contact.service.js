@@ -50,5 +50,9 @@ export default {
             `${baseApiUrl}/enrich-lists/`,
             {list_ids: ids}
         );
+    },
+    getContactChangeLog(id, page) {
+        return axios.get(
+            `${baseApiUrl}/contact-change-log/${id}?page=${page}`);
     }
 };

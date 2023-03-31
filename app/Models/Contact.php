@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -124,7 +125,55 @@ class Contact extends Model implements Auditable
         'title',
         'category',
         'biography',
+        'phones',
+        'emails',
+        'website',
+        'address',
+        'gender',
+        'dob',
+        'profile_pic_url',
+        'last_contacted',
+        'offer',
+        'archived',
+        'rating',
+        'stage',
+        'favourite',
+        'muted',
+        'source',
+        'description',
+        'instagram',
+        'twitter',
+        'linkedin',
+        'tiktok',
+        'twitch',
+        'youtube',
+        'snapchat',
+        'onlyfans',
+        'wiki',
+        'last_enriched_at',
     ];
+
+    use \OwenIt\Auditing\Auditable;
+
+    // ...
+
+    /**
+     * {@inheritdoc}
+     */
+    public function transformAudit(array $data): array
+    {
+        if (Arr::has($data, 'new_values.emails')) {
+            $data['old_values']['emails'] = implode(',', $this->getOriginal('emails'));
+            $data['new_values']['emails'] = implode(',', $this->getAttribute('emails'));
+        }
+
+        if (Arr::has($data, 'new_values.phones')) {
+            $data['old_values']['phones'] = implode(',', $this->getOriginal('phones'));
+            $data['new_values']['phones'] = implode(',', $this->getAttribute('phones'));
+        }
+
+        return $data;
+    }
 
     /**
      * The "booted" method of the model.
@@ -212,7 +261,7 @@ class Contact extends Model implements Auditable
     {
         $existingEmails = $this->emails;
         $newEmails = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
-        return json_encode(array_unique(array_merge($existingEmails, $newEmails)));
+        return json_encode(array_values(array_unique(array_merge($existingEmails, $newEmails))));
     }
 
     public function phones(): Attribute
@@ -227,7 +276,7 @@ class Contact extends Model implements Auditable
     {
         $existingPhones = $this->phones;
         $newPhones = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
-        return json_encode(array_unique(array_merge($existingPhones, $newPhones)));
+        return json_encode(array_values(array_unique(array_merge($existingPhones, $newPhones))));
     }
 
     public function address(): Attribute

@@ -404,6 +404,9 @@
                       :loading="addingComment"
                       @addComment="addComment" />
                   </TabPanel>
+                  <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                    <ContactHistoryThread :contact_id="$route.params.id" />
+                  </TabPanel>
                 </TabPanels>
               </TabGroup>
             </div>
@@ -451,9 +454,11 @@ import ContactMediaItem from '../components/TimelineMedia/ContactMediaItem.vue';
 import ContactService from '../services/api/contact.service';
 import JovieSidebar from '../components/JovieSidebar.vue';
 import ContactStageMenu from '../components/ContactStageMenu.vue'
+import ContactHistoryThread from "../components/ContactChangeLog.vue";
 
 export default {
   components: {
+      ContactHistoryThread,
       ContactStageMenu,
     ContactMediaItem,
     JovieSidebar,
@@ -505,6 +510,9 @@ export default {
         },
         {
           name: 'Comments',
+        },
+        {
+          name: 'Change Log',
         },
       ],
 

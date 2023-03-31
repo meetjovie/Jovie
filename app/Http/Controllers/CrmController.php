@@ -334,6 +334,26 @@ class CrmController extends Controller
         ]);
     }
 
+    public function contactChangeLog(Request $request, $id)
+    {
+        $contact = Contact::where('id', $id)->where('user_id', Auth::id())->first();
+        if ($contact) {
+            $history = $contact->audits()->with('user')->latest()->paginate(5);
+            foreach ($history as &$change) {
+                $change->modifications = $change->getModified();
+                unset($change->auditable);
+            }
+            return response([
+                'status' => true,
+                'data' => $history,
+            ]);
+        }
+        return response([
+            'status' => false,
+            'data' => 'Contact does not exist.',
+        ]);
+    }
+
     public function getExtensionCreator(Request $request)
     {
         try {
