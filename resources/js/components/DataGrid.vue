@@ -436,7 +436,7 @@
                 :sort="false"
                 itemKey="id"
                 tag="tbody"
-                @start="startDrag">
+                @start.prevent="startDrag">
                 <template #item="{ element, index }">
                   <DataGridRow
                       :ref="`gridRow_${index}`"
@@ -823,10 +823,13 @@ export default {
 
       document.addEventListener('paste', (event) => {
           try {
+            if (!this.isAnyInputFocused()) {
               this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs[`active_cell_${this.currentCell.row}_${this.currentCell.column}`].$refs.input.focus()
+            }
           } catch (e) {
           }
       });
+
 
     // let columns = JSON.parse(localStorage.getItem('columns'));
     // if (columns) {
@@ -975,6 +978,7 @@ export default {
       });
     },
     startDrag(e) {
+        e.preventDefault
       this.$store.state.currentlyDraggedContact = e.item.id;
       console.log(this.$store.state.currentlyDraggedContact);
     },
@@ -1578,6 +1582,10 @@ export default {
           this.adding = false;
         });
     },
+    isAnyInputFocused() {
+      let check = document.activeElement.tagName === 'INPUT';
+      return check;
+    }
   },
   directives: {
     // enables v-focus in template
