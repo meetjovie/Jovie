@@ -82,7 +82,7 @@ class Contact extends Model implements Auditable
         'enriching',
     ];
 
-    protected $appends = ['stage_name', 'social_links_with_followers'];
+    protected $appends = ['stage_name', 'social_links_with_followers', 'overview_media'];
 
     const OVERRIDEABLE = [
         'phones',
@@ -172,6 +172,11 @@ class Contact extends Model implements Auditable
             $data['new_values']['phones'] = implode(',', $this->getAttribute('phones'));
         }
 
+        if (Arr::has($data, 'new_values.stage')) {
+            $data['old_values']['stage'] = $this->stages()[$this->getOriginal('stage')];
+            $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
+        }
+
         return $data;
     }
 
@@ -212,6 +217,33 @@ class Contact extends Model implements Auditable
             ]);
         }
         return $socialLinks;
+    }
+
+    /**
+     * Determine the oveview media of contact.
+     */
+    protected function overviewMedia(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->getOverviewMedia(),
+        );
+    }
+
+    public function getOverviewMedia()
+    {
+        $media = [];
+        foreach (Creator::NETWORKS as $network) {
+            if (! empty($this->{$network.'_data'}) && !empty($this->{$network.'_data'}->{$network.'_media'})) {
+                $nMedia = array_map(function ($value) use ($network) {
+                    $value->network = $network;
+
+                    return $value;
+                }, (array) $this->{$network.'_data'}->{$network.'_media'});
+                $media = array_merge($media, $nMedia);
+            }
+        }
+
+        return collect($media)->sortByDesc('datetime')->take(3);
     }
 
     /**
@@ -509,6 +541,8 @@ class Contact extends Model implements Auditable
         $contacts = $contacts->leftJoin('users as description_updated', function ($join) {
             $join->on('description_updated.id', '=', 'description_updated_by');
         });
+
+        $contacts = $contacts->where('archived', 0);
         if (isset($params['type']) && $params['type'] == 'archived') {
             $contacts = $contacts->where('archived', 1);
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
@@ -520,8 +554,6 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->whereHas('userLists', function ($query) use ($listId) {
                 $query->where('user_lists.id', $listId);
             });
-        } else {
-            $contacts = $contacts->where('archived', 0);
         }
 
         if (isset($params['id'])) {
@@ -560,7 +592,7 @@ class Contact extends Model implements Auditable
 
     public static function getCrmCounts()
     {
-        $counts = Contact::query()->selectRaw('team_id, count(*) AS total,
+        $counts = Contact::query()->selectRaw('team_id, sum(case when archived = false then 1 else 0 end) AS total,
         sum(case when favourite = true then 1 else 0 end) AS favourites,
         sum(case when archived = true then 1 else 0 end) AS archived')->groupBy('team_id')->first();
 
@@ -720,6 +752,15 @@ class Contact extends Model implements Auditable
             }
         }
         return $contact;
+    }
+
+    public static function updateArchivedStatus($contactIds, $archived)
+    {
+        foreach ($contactIds as $contactId) {
+            $contact = Contact::where('id', $contactId)->first();
+            $contact->archived = $archived;
+            $contact->save();
+        }
     }
 
     public static function addContactsToList(array|int $contactIds, $listId, $teamId, $updatingExisting = false)

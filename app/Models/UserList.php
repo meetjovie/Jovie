@@ -149,7 +149,9 @@ class UserList extends Model
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         return UserList::query()
-            ->withCount('contacts')
+            ->withCount(['contacts' => function ($query) {
+                $query->where('archived', false);
+            }])
             ->join('user_list_attributes as ula', function ($join) use ($user) {
                 $join->on('ula.user_list_id', '=', 'user_lists.id')
                     ->where('ula.user_id', $user->id)

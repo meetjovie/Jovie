@@ -20,13 +20,10 @@
                                     {{ formatDate(change.created_at) }}
                                 </p>
                             </div>
-                            <template v-for="(modified, key) in change.modifications">
-                                <p class="text-sm text-slate-500" v-if="modified.old">
-                                    updated {{ key.replaceAll('_', ' ') }} from <b>{{ modified.old }}</b> to <b>{{ modified.new }}</b>
-                                </p>
-                                <p class="text-sm text-slate-500" v-else>
-                                    updated {{ key.replaceAll('_', ' ') }} to <b>{{ modified.new }}</b>
-                                </p>
+                            <template v-for="text in change.modification_texts">
+                                <div class="text-sm text-slate-500">
+                                    <p v-html="text"></p>
+                                </div>
                             </template>
                         </div>
                     </div>

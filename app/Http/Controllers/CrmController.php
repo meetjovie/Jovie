@@ -106,7 +106,7 @@ class CrmController extends Controller
             'contact_ids' => 'required'
         ]);
         $contactIds = is_array($request->contact_ids) ? $request->contact_ids : [$request->contact_ids];
-        Contact::whereIn('id', $contactIds)->update(['archived' => boolval($request->archived)]);
+        Contact::updateArchivedStatus($contactIds, boolval($request->archived));
         return response()->json([
             'status' => true,
             'message' => ('Contacts '.boolval($request->archived) ? 'archived.' : 'unarchived.')
@@ -340,7 +340,34 @@ class CrmController extends Controller
         if ($contact) {
             $history = $contact->audits()->with('user')->latest()->paginate(5);
             foreach ($history as &$change) {
-                $change->modifications = $change->getModified();
+                $modifications = $change->getModified();
+                $modificationTexts = [];
+                foreach ($modifications as $key => $modified) {
+                    if ($key == 'favourite') {
+                        if ($modified['new']) {
+                            $modificationTexts[] = "contact moved to <b>favourites</b>.";
+                        } else {
+                            $modificationTexts[] = "contact removed from <b>favourites</b>.";
+                        }
+                    } elseif ($key == 'archived') {
+                        if ($modified['new']) {
+                            $modificationTexts[] = "contact moved to <b>archived</b>.";
+                        } else {
+                            $modificationTexts[] = "contact removed from <b>archived</b>.";
+                        }
+                    } elseif ($key == 'muted') {
+                        if ($modified['new']) {
+                            $modificationTexts[] = "contact <b>muted</b>.";
+                        } else {
+                            $modificationTexts[] = "contact <b>un-muted</b>.";
+                        }
+                    } elseif (isset($modified['old'])) {
+                        $modificationTexts[] = ("updated $key from <b>".$modified['old']."</b> to <b>".$modified['new']."</b>");
+                    } else {
+                        $modificationTexts[] = ("updated $key to <b>".$modified['new']."</b>");
+                    }
+                }
+                $change->modification_texts = $modificationTexts;
                 unset($change->auditable);
             }
             return response([

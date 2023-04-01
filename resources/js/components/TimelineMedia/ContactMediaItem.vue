@@ -43,6 +43,10 @@ export default {
       type: Object,
     },
   },
+    mounted() {
+        console.log('this.media');
+        console.log(this.media);
+    }
 };
 </script>
 
