@@ -343,6 +343,7 @@ class CrmController extends Controller
                 $modifications = $change->getModified();
                 $modificationTexts = [];
                 foreach ($modifications as $key => $modified) {
+                    $key = Str::replace('_', ' ', $key);
                     if ($key == 'favourite') {
                         if ($modified['new']) {
                             $modificationTexts[] = "contact moved to <b>favourites</b>.";
@@ -369,6 +370,12 @@ class CrmController extends Controller
                 }
                 $change->modification_texts = $modificationTexts;
                 unset($change->auditable);
+            }
+            if (!$history->hasMorePages()) {
+                $history->push([
+                    'modification_texts' => ['added this <b>contact</b>'],
+                    'user' => $contact->user,
+                ]);
             }
             return response([
                 'status' => true,
