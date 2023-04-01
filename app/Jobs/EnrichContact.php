@@ -84,19 +84,20 @@ class EnrichContact implements ShouldQueue
             ->where('finished_at', null)
             ->where('contact_id', $this->contact->id)->first();
         $listId = $this->params['list_id'] ?? null;
+        $teamId = $this->params['team_id'] ?? null;
         if (is_null($batch)) {
             $batch = Bus::batch([])->then(function (Batch $batch) {
                 // All jobs completed successfully...
             })->catch(function (Batch $batch, Throwable $e) {
                 // First batch job failure detected...
-            })->finally(function (Batch $batch) use ($listId) {
+            })->finally(function (Batch $batch) use ($listId, $teamId) {
                 // The batch has finished executing...
                 $batch = DB::table('job_batches')
                     ->where('id', $batch->id)->first();
                 if ($batch) {
                     if ($batch->failed_jobs == $batch->total_jobs) {
-                        if (isset($this->params['team_id'])) {
-                            Team::addCreditsToTeam($this->params['team_id']);
+                        if ($teamId) {
+                            Team::addCreditsToTeam($teamId);
                         }
                     }
                     $contact = Contact::query()->where('id', $batch->contact_id)->first();
