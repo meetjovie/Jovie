@@ -548,9 +548,13 @@ class Contact extends Model implements Auditable
             $join->on('description_updated.id', '=', 'description_updated_by');
         });
 
-        $contacts = $contacts->where('archived', 0);
+        $contacts = $contacts->when(! (isset($params['type']) && $params['type'] == 'archived'), function ($query) {
+            $query->where('archived', 0);
+        });
         if (isset($params['type']) && $params['type'] == 'archived') {
-            $contacts = $contacts->where('archived', 1);
+            $contacts = $contacts->when(true, function ($query) {
+                    $query->where('archived', 1);
+                });
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
             $contacts = $contacts->where(function ($q) {
                 $q->where('favourite', true);
@@ -582,7 +586,7 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->orderByDesc('contacts.id');
         }
 
-        $contacts = $contacts->paginate(10);
+        $contacts = $contacts->paginate(15);
 
         foreach ($contacts as &$contact) {
             // custom fields
@@ -776,8 +780,7 @@ class Contact extends Model implements Auditable
         }
 
         $list = UserList::query()->where('id', $listId)->first();
-        $list->contacts()->syncWithoutDetaching($contactIds);
-
+        $list->contacts()->auditSyncWithoutDetaching($contactIds);
         foreach ($contactIds as $contactId) {
             ContactImported::dispatch($contactId, $teamId, $listId, $updatingExisting);
         }

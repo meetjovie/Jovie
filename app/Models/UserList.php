@@ -15,11 +15,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use OwenIt\Auditing\Contracts\Auditable;
 use Throwable;
 
-class UserList extends Model
+class UserList extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',
