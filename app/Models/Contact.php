@@ -19,9 +19,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Contact extends Model implements Auditable
@@ -178,6 +182,15 @@ class Contact extends Model implements Auditable
             $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
         }
 
+        if (Arr::has($data, 'new_values.customFieldValues')) {
+            $newValues = $data['new_values']['customFieldValues'];
+            foreach ($newValues as $value) {
+                unset($value['pivot']);
+            }
+            $data['old_values']['stage'] = $this->stages()[$this->getOriginal('stage')];
+            $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
+        }
+
         return $data;
     }
 
@@ -200,6 +213,11 @@ class Contact extends Model implements Auditable
     public function userLists(): BelongsToMany
     {
         return $this->belongsToMany(UserList::class)->withTimestamps();
+    }
+
+    public function customFieldValues(): MorphToMany
+    {
+        return $this->morphToMany(CustomField::class, 'model', 'custom_field_values')->withTimestamps();
     }
 
     /**
@@ -752,13 +770,24 @@ class Contact extends Model implements Auditable
         foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data)) {
                 $value = $data[$customField->code];
-                CustomFieldValue::query()->updateOrCreate([
-                    'custom_field_id' => $customField->id,
-                    'model_id' => $contact->id,
-                    'model_type' => Contact::class,
-                ], [
-                    'value' => $value,
+                $contact->auditSyncWithoutDetaching('customFieldValues', [
+                    $customField->id => [
+                        'value' => $value,
+                        'id' => Str::orderedUuid()
+                    ]
                 ]);
+//                $contact->auditSyncWithoutDetaching('customFieldValues', [
+//                    $customField->id => [
+//                        'value' => $value
+//                    ]
+//                ]);
+//                CustomFieldValue::query()->updateOrCreate([
+//                    'custom_field_id' => $customField->id,
+//                    'model_id' => $contact->id,
+//                    'model_type' => Contact::class,
+//                ], [
+//                    'value' => $value,
+//                ]);
             }
         }
         return $contact;
