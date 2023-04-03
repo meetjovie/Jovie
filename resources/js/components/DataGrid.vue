@@ -436,6 +436,7 @@
                 :sort="false"
                 itemKey="id"
                 tag="tbody"
+                :disabled="disableDrag"
                 @start.prevent="startDrag">
                 <template #item="{ element, index }">
                   <DataGridRow
@@ -686,6 +687,7 @@ export default {
       currentSort: 'asc',
       currentSortBy: '',
       headers: [],
+      disableDrag: false,
     };
   },
   props: [
@@ -829,6 +831,10 @@ export default {
           } catch (e) {
           }
       });
+
+    document.addEventListener('mousedown', (event) => {
+      this.disableDrag = event.target.tagName.toLowerCase() === "input";
+    })
 
 
     // let columns = JSON.parse(localStorage.getItem('columns'));
@@ -978,7 +984,6 @@ export default {
       });
     },
     startDrag(e) {
-        e.preventDefault
       this.$store.state.currentlyDraggedContact = e.item.id;
       console.log(this.$store.state.currentlyDraggedContact);
     },
@@ -1451,6 +1456,7 @@ export default {
       this.toggleContactsFromList(this.selectedContacts, id, false);
     },
     toggleContactsFromList(ids, list, remove) {
+      console.log(ids, list, remove)
       this.$store
         .dispatch('toggleContactsFromList', {
           contact_ids: ids,
@@ -1585,7 +1591,7 @@ export default {
     isAnyInputFocused() {
       let check = document.activeElement.tagName === 'INPUT';
       return check;
-    }
+    },
   },
   directives: {
     // enables v-focus in template
