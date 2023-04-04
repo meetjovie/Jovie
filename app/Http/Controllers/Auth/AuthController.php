@@ -38,7 +38,7 @@ class AuthController extends Controller
             $token = $request->user()->createToken('jovie_extension');
             $invite = Teamwork::getInviteFromAcceptToken($inviteToken);
 
-            if($invite){
+            if ($invite) {
                 Teamwork::acceptInvite($invite);
                 auth()->user()->switchTeam($invite->team);
             }
@@ -117,7 +117,7 @@ class AuthController extends Controller
         return response()->json([], 204);
     }
 
-    public function redirect(string $network)
+    public function redirect(Request $request, string $network)
     {
         $socialite = Socialite::driver($network);
         if ($network == 'reddit') {
@@ -139,11 +139,15 @@ class AuthController extends Controller
                 ]
             );
         }
-//        dd($socialite);
+
+        if ($request->invite_token) {
+            $request->session()->put('invite_token', $request->invite_token);
+        }
+
         return $socialite->redirect();
     }
 
-    public function callback(string $network)
+    public function callback(Request $request, string $network)
     {
         $user = Socialite::driver($network)->stateless()->user();
 
@@ -159,6 +163,16 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+
+        $inviteToken = $request->session()->get('invite_token', $request->invite_token);
+        if ($inviteToken) {
+            $invite = Teamwork::getInviteFromAcceptToken($inviteToken);
+
+            if ($invite) {
+                Teamwork::acceptInvite($invite);
+                auth()->user()->switchTeam($invite->team);
+            }
+        }
 
         return redirect()->route('welcome');
     }

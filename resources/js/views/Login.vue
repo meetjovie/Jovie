@@ -229,7 +229,9 @@ export default {
   },
   methods: {
     authProvider(provider) {
-      window.location.href = `/auth/${provider}/redirect`;
+      window.location.href = this.user.invite_token
+        ? `/auth/${provider}/redirect?invite_token=${this.user.invite_token}`
+        : `/auth/${provider}/redirect`;
     },
     login() {
       this.errors = {};
