@@ -24,9 +24,11 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Events\AuditCustom;
 
 class Contact extends Model implements Auditable
 {
@@ -213,11 +215,6 @@ class Contact extends Model implements Auditable
     public function userLists(): BelongsToMany
     {
         return $this->belongsToMany(UserList::class)->withTimestamps();
-    }
-
-    public function customFieldValues(): MorphToMany
-    {
-        return $this->morphToMany(CustomField::class, 'model', 'custom_field_values')->withTimestamps();
     }
 
     /**
@@ -770,24 +767,27 @@ class Contact extends Model implements Auditable
         foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data)) {
                 $value = $data[$customField->code];
-                $contact->auditSyncWithoutDetaching('customFieldValues', [
-                    $customField->id => [
-                        'value' => $value,
-                        'id' => Str::orderedUuid()
-                    ]
+                $oldValue = $cc->getFieldValueByModel($customField, $contact);
+                CustomFieldValue::query()->updateOrCreate([
+                    'custom_field_id' => $customField->id,
+                    'model_id' => $contact->id,
+                    'model_type' => Contact::class,
+                ], [
+                    'value' => $value,
                 ]);
-//                $contact->auditSyncWithoutDetaching('customFieldValues', [
-//                    $customField->id => [
-//                        'value' => $value
-//                    ]
-//                ]);
-//                CustomFieldValue::query()->updateOrCreate([
-//                    'custom_field_id' => $customField->id,
-//                    'model_id' => $contact->id,
-//                    'model_type' => Contact::class,
-//                ], [
-//                    'value' => $value,
-//                ]);
+
+                $contact->auditEvent = 'update';
+                $contact->isCustomEvent = true;
+
+                $newValue = $cc->getFieldValueByModel($customField, $contact);
+                $contact->auditCustomOld = [
+                    $customField->code => $oldValue
+                ];
+                $contact->auditCustomNew = [
+                    $customField->code => $newValue
+                ];
+                Event::dispatch(AuditCustom::class, [$contact]);
+
             }
         }
         return $contact;

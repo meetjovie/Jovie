@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class CustomFieldValue extends Model implements Auditable
+class CustomFieldValue extends Model
 {
     use HasFactory, HasUuids;
-    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'custom_field_id',

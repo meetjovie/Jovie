@@ -396,6 +396,17 @@ class CrmController extends Controller
                             }
                         }
 
+                    }  elseif ($key == 'customFields') {
+                        foreach ($modified['new'] as $field => $value) {
+                            $readableField = Str::replace('_', ' ', $field);
+                            $old = is_array($modified['old'][$field]) ? implode(', ', $modified['old'][$field]) : $modified['old'][$field];
+                            $new = is_array($value) ? implode(', ', $value) : $value;
+                            if (!$old) {
+                                $modificationTexts[] = ("updated $readableField to <b>".$new."</b>");
+                            } else {
+                                $modificationTexts[] = ("updated $readableField from <b>".$old."</b> to <b>".$new."</b>");
+                            }
+                        }
                     } elseif (isset($modified['old'])) {
                         $modificationTexts[] = ("updated $key from <b>".$modified['old']."</b> to <b>".$modified['new']."</b>");
                     } else {
