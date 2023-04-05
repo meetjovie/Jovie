@@ -82,10 +82,14 @@ class CrmController extends Controller
 
         $contactIds = is_array($request->contact_ids) ? $request->contact_ids : [$request->contact_ids];
 
-        if ($request->remove) {
-            $list->contacts()->detach($contactIds);
-        } else {
-            $list->contacts()->syncWithoutDetaching($contactIds);
+        $contacts = Contact::query()->select(['id', 'team_id'])->whereIn('id', $contactIds)->get();
+
+        foreach ($contacts as $contact) {
+            if ($request->remove) {
+                $contact->auditDetach('userLists', [$list->id]);
+            } else {
+                $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+            }
         }
         return response()->json([
             'status' => true,
@@ -106,7 +110,7 @@ class CrmController extends Controller
             'contact_ids' => 'required'
         ]);
         $contactIds = is_array($request->contact_ids) ? $request->contact_ids : [$request->contact_ids];
-        Contact::whereIn('id', $contactIds)->update(['archived' => boolval($request->archived)]);
+        Contact::updateArchivedStatus($contactIds, boolval($request->archived));
         return response()->json([
             'status' => true,
             'message' => ('Contacts '.boolval($request->archived) ? 'archived.' : 'unarchived.')
@@ -331,6 +335,101 @@ class CrmController extends Controller
             'status' => true,
             'message' => "Enriching your lists",
             'data' => $listIds
+        ]);
+    }
+
+    public function contactChangeLog(Request $request, $id)
+    {
+        $contact = Contact::where('id', $id)->first();
+        if ($contact) {
+            $history = $contact->audits()->with('user')->latest()->paginate(5);
+            foreach ($history as &$change) {
+                $userListIdsDB = UserList::query()->pluck('id')->toArray();
+                $modifications = $change->getModified();
+                $modificationTexts = [];
+                foreach ($modifications as $key => $modified) {
+                    $key = Str::replace('_', ' ', $key);
+                    if ($key == 'favourite') {
+                        if ($modified['new']) {
+                            $modificationTexts[] = "contact moved to <b>favourites</b>.";
+                        } else {
+                            $modificationTexts[] = "contact removed from <b>favourites</b>.";
+                        }
+                    } elseif ($key == 'archived') {
+                        if ($modified['new']) {
+                            $modificationTexts[] = "contact moved to <b>archived</b>.";
+                        } else {
+                            $modificationTexts[] = "contact removed from <b>archived</b>.";
+                        }
+                    } elseif ($key == 'muted') {
+                        if ($modified['new']) {
+                            $modificationTexts[] = "contact <b>muted</b>.";
+                        } else {
+                            $modificationTexts[] = "contact <b>un-muted</b>.";
+                        }
+                    } elseif ($key == 'userLists') {
+                        $removedValues = array_diff(array_column($modified['old'], 'id'), array_column($modified['new'], 'id'));
+                        $addedValues = array_diff(array_column($modified['new'], 'id'), array_column($modified['old'], 'id'));
+
+                        if (count($removedValues)) {
+                            $userLists = array_filter($modified['old'], function ($value) use ($removedValues) {
+                                return in_array($value['id'], $removedValues);
+                            });
+                            foreach ($userLists as $userList) {
+                                $class = '';
+                                if (! in_array($userList['id'], $userListIdsDB)) {
+                                    $class = 'text-red-600';
+                                }
+                                $modificationTexts[] = "removed from list <b class='$class'>$userList[name]</b>";
+                            }
+                        }
+                        if (count($addedValues)) {
+                            $userLists = array_filter($modified['new'], function ($value) use ($addedValues) {
+                                return in_array($value['id'], $addedValues);
+                            });
+                            foreach ($userLists as $userList) {
+                                $class = '';
+                                if (! in_array($userList['id'], $userListIdsDB)) {
+                                    $class = 'text-red-600';
+                                }
+                                $modificationTexts[] = "added to list <b class='$class'>$userList[name]</b>";
+                            }
+                        }
+
+                    }  elseif ($key == 'customFields') {
+                        foreach ($modified['new'] as $field => $value) {
+                            $readableField = Str::replace('_', ' ', $field);
+                            $old = is_array($modified['old'][$field]) ? implode(', ', $modified['old'][$field]) : $modified['old'][$field];
+                            $new = is_array($value) ? implode(', ', $value) : $value;
+                            if (!$old) {
+                                $modificationTexts[] = ("updated $readableField to <b>".$new."</b>");
+                            } else {
+                                $modificationTexts[] = ("updated $readableField from <b>".$old."</b> to <b>".$new."</b>");
+                            }
+                        }
+                    } elseif (isset($modified['old'])) {
+                        $modificationTexts[] = ("updated $key from <b>".$modified['old']."</b> to <b>".$modified['new']."</b>");
+                    } else {
+                        $modificationTexts[] = ("updated $key to <b>".$modified['new']."</b>");
+                    }
+                }
+                $change->modification_texts = $modificationTexts;
+                unset($change->auditable);
+            }
+            if (!$history->hasMorePages()) {
+                $history->push([
+                    'modification_texts' => ['added this <b>contact</b>'],
+                    'user' => $contact->user,
+                ]);
+            }
+            return response([
+                'status' => true,
+                'data' => $history,
+            ]);
+        }
+        return response([
+            'status' => false,
+            'data' => 'Contact does not exist.',
         ]);
     }
 

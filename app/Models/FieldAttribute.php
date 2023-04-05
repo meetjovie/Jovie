@@ -184,7 +184,7 @@ class FieldAttribute extends Model
         [
             'id' => 4,
             'name' => 'Company',
-            'key' => 'employer',
+            'key' => 'company',
             'meta' => true,
             'icon' => 'BriefcaseIcon',
             'hide' => true,

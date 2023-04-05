@@ -9,18 +9,19 @@
         :key="socialLink.id"
         @click="openLink(socialLink.url, true)"
         class="mx-auto cursor-pointer items-center justify-center">
-        <template v-if="hasUrl(socialLink.url)">
           <div class="text-slate-5 mx-auto justify-center text-center">
             <SocialIcons
               :height="'14px'"
+              :linkDisabled="!socialLink.url"
               :iconstyle="iconstyle"
-              :icon="socialLink.network" />
+              :link="socialLink.url ?? '#'"
+              :icon="socialLink.network"
+            />
           </div>
           <div class="mx-auto text-center text-2xs text-slate-500">
             v-if=socialLink.followers
             {{ formatCount(socialLink.followers) }}
           </div>
-        </template>
       </div>
     </div>
     <div
@@ -31,15 +32,15 @@
         :key="socialLink.id"
         @click="openLink(socialLink.url, true)"
         class="flex cursor-pointer">
-        <template v-if="hasUrl(socialLink.url)">
           <SocialIcons
             :height="'14px'"
+            :linkDisabled="!socialLink.url"
             :iconstyle="iconstyle"
+            :link="socialLink.url ?? '#'"
             :icon="socialLink.network" />
           <span class="text-xs text-slate-500" v-if="socialLink.followers">{{
             formatCount(socialLink.followers)
           }}</span>
-        </template>
       </div>
     </div>
     <!--/sse-->
@@ -61,21 +62,6 @@ export default {
   },
   data() {
     return {};
-  },
-  methods: {
-    hasUrl(url) {
-      console.log(typeof url);
-      if (typeof url == 'object') {
-        if (Object.keys(url).length) {
-          return true;
-        } else {
-          return false;
-        }
-      } else if (url) {
-        return true;
-      }
-      return false;
-    },
   },
 };
 </script>

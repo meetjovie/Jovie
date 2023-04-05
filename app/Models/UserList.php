@@ -15,11 +15,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use OwenIt\Auditing\Contracts\Auditable;
 use Throwable;
 
-class UserList extends Model
+class UserList extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',
@@ -149,7 +151,9 @@ class UserList extends Model
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         return UserList::query()
-            ->withCount('contacts')
+            ->withCount(['contacts' => function ($query) {
+                $query->where('archived', false);
+            }])
             ->join('user_list_attributes as ula', function ($join) use ($user) {
                 $join->on('ula.user_list_id', '=', 'user_lists.id')
                     ->where('ula.user_id', $user->id)

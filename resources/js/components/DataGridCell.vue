@@ -97,6 +97,12 @@
         </template>
         <template #fallback> Loading... </template>
       </Suspense>
+        <CheckboxInput
+            v-else-if="column.type == 'checkbox'"
+            :name="`checkbox_${fieldId}_${contact.id}`"
+            v-model="localModelValue"
+            :checked="localModelValue"
+            @markCheck="updateData" />
       <CustomField
         v-else-if="
           (column.type == 'multi_select' || column.type == 'select') &&
@@ -169,7 +175,7 @@ export default {
             id: this.contact.id,
             index: this.row,
             key: key,
-            value: value ?? this.localModelValue,
+            value: this.localModelValue ?? value,
           });
       });
     },

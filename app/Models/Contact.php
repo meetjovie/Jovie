@@ -17,12 +17,22 @@ use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Events\AuditCustom;
 
-class Contact extends Model
+class Contact extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use CustomFieldsTrait;
 
@@ -79,7 +89,7 @@ class Contact extends Model
         'enriching',
     ];
 
-    protected $appends = ['stage_name', 'social_links_with_followers'];
+    protected $appends = ['stage_name', 'social_links_with_followers', 'overview_media'];
 
     const OVERRIDEABLE = [
         'phones',
@@ -107,6 +117,86 @@ class Contact extends Model
     ];
 
     /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'full_name',
+        'first_name',
+        'last_name',
+        'nickname',
+        'suffix',
+        'company',
+        'department',
+        'title',
+        'category',
+        'biography',
+        'phones',
+        'emails',
+        'website',
+        'address',
+        'gender',
+        'dob',
+        'profile_pic_url',
+        'last_contacted',
+        'offer',
+        'archived',
+        'rating',
+        'stage',
+        'favourite',
+        'muted',
+        'source',
+        'description',
+        'instagram',
+        'twitter',
+        'linkedin',
+        'tiktok',
+        'twitch',
+        'youtube',
+        'snapchat',
+        'onlyfans',
+        'wiki',
+        'last_enriched_at',
+    ];
+
+    use \OwenIt\Auditing\Auditable;
+
+    // ...
+
+    /**
+     * {@inheritdoc}
+     */
+    public function transformAudit(array $data): array
+    {
+        if (Arr::has($data, 'new_values.emails')) {
+            $data['old_values']['emails'] = implode(',', $this->getOriginal('emails'));
+            $data['new_values']['emails'] = implode(',', $this->getAttribute('emails'));
+        }
+
+        if (Arr::has($data, 'new_values.phones')) {
+            $data['old_values']['phones'] = implode(',', $this->getOriginal('phones'));
+            $data['new_values']['phones'] = implode(',', $this->getAttribute('phones'));
+        }
+
+        if (Arr::has($data, 'new_values.stage')) {
+            $data['old_values']['stage'] = $this->stages()[$this->getOriginal('stage')];
+            $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
+        }
+
+        if (Arr::has($data, 'new_values.customFieldValues')) {
+            $newValues = $data['new_values']['customFieldValues'];
+            foreach ($newValues as $value) {
+                unset($value['pivot']);
+            }
+            $data['old_values']['stage'] = $this->stages()[$this->getOriginal('stage')];
+            $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
+        }
+
+        return $data;
+    }
+
+    /**
      * The "booted" method of the model.
      *
      * @return void
@@ -115,6 +205,11 @@ class Contact extends Model
     {
         static::addGlobalScope(new TeamScope());
         static::addGlobalScope(new ContactsLimitScope());
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function userLists(): BelongsToMany
@@ -143,6 +238,33 @@ class Contact extends Model
             ]);
         }
         return $socialLinks;
+    }
+
+    /**
+     * Determine the oveview media of contact.
+     */
+    protected function overviewMedia(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->getOverviewMedia(),
+        );
+    }
+
+    public function getOverviewMedia()
+    {
+        $media = [];
+        foreach (Creator::NETWORKS as $network) {
+            if (! empty($this->{$network.'_data'}) && !empty($this->{$network.'_data'}->{$network.'_media'})) {
+                $nMedia = array_map(function ($value) use ($network) {
+                    $value->network = $network;
+
+                    return $value;
+                }, (array) $this->{$network.'_data'}->{$network.'_media'});
+                $media = array_merge($media, $nMedia);
+            }
+        }
+
+        return collect($media)->sortByDesc('datetime')->take(3);
     }
 
     /**
@@ -192,7 +314,7 @@ class Contact extends Model
     {
         $existingEmails = $this->emails;
         $newEmails = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
-        return json_encode(array_unique(array_merge($existingEmails, $newEmails)));
+        return json_encode(array_values(array_unique(array_merge($existingEmails, $newEmails))));
     }
 
     public function phones(): Attribute
@@ -207,7 +329,7 @@ class Contact extends Model
     {
         $existingPhones = $this->phones;
         $newPhones = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
-        return json_encode(array_unique(array_merge($existingPhones, $newPhones)));
+        return json_encode(array_values(array_unique(array_merge($existingPhones, $newPhones))));
     }
 
     public function address(): Attribute
@@ -440,8 +562,14 @@ class Contact extends Model
         $contacts = $contacts->leftJoin('users as description_updated', function ($join) {
             $join->on('description_updated.id', '=', 'description_updated_by');
         });
+
+        $contacts = $contacts->when(! (isset($params['type']) && $params['type'] == 'archived'), function ($query) {
+            $query->where('archived', 0);
+        });
         if (isset($params['type']) && $params['type'] == 'archived') {
-            $contacts = $contacts->where('archived', 1);
+            $contacts = $contacts->when(true, function ($query) {
+                    $query->where('archived', 1);
+                });
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
             $contacts = $contacts->where(function ($q) {
                 $q->where('favourite', true);
@@ -451,8 +579,6 @@ class Contact extends Model
             $contacts = $contacts->whereHas('userLists', function ($query) use ($listId) {
                 $query->where('user_lists.id', $listId);
             });
-        } else {
-            $contacts = $contacts->where('archived', 0);
         }
 
         if (isset($params['id'])) {
@@ -475,7 +601,7 @@ class Contact extends Model
             $contacts = $contacts->orderByDesc('contacts.id');
         }
 
-        $contacts = $contacts->paginate(10);
+        $contacts = $contacts->paginate(15);
 
         foreach ($contacts as &$contact) {
             // custom fields
@@ -491,7 +617,7 @@ class Contact extends Model
 
     public static function getCrmCounts()
     {
-        $counts = Contact::query()->selectRaw('team_id, count(*) AS total,
+        $counts = Contact::query()->selectRaw('team_id, sum(case when archived = false then 1 else 0 end) AS total,
         sum(case when favourite = true then 1 else 0 end) AS favourites,
         sum(case when archived = true then 1 else 0 end) AS archived')->groupBy('team_id')->first();
 
@@ -641,6 +767,7 @@ class Contact extends Model
         foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data)) {
                 $value = $data[$customField->code];
+                $oldValue = $cc->getFieldValueByModel($customField, $contact);
                 CustomFieldValue::query()->updateOrCreate([
                     'custom_field_id' => $customField->id,
                     'model_id' => $contact->id,
@@ -648,9 +775,31 @@ class Contact extends Model
                 ], [
                     'value' => $value,
                 ]);
+
+                $contact->auditEvent = 'update';
+                $contact->isCustomEvent = true;
+
+                $newValue = $cc->getFieldValueByModel($customField, $contact);
+                $contact->auditCustomOld = [
+                    $customField->code => $oldValue
+                ];
+                $contact->auditCustomNew = [
+                    $customField->code => $newValue
+                ];
+                Event::dispatch(AuditCustom::class, [$contact]);
+
             }
         }
         return $contact;
+    }
+
+    public static function updateArchivedStatus($contactIds, $archived)
+    {
+        foreach ($contactIds as $contactId) {
+            $contact = Contact::where('id', $contactId)->first();
+            $contact->archived = $archived;
+            $contact->save();
+        }
     }
 
     public static function addContactsToList(array|int $contactIds, $listId, $teamId, $updatingExisting = false)
@@ -660,8 +809,7 @@ class Contact extends Model
         }
 
         $list = UserList::query()->where('id', $listId)->first();
-        $list->contacts()->syncWithoutDetaching($contactIds);
-
+        $list->contacts()->auditSyncWithoutDetaching($contactIds);
         foreach ($contactIds as $contactId) {
             ContactImported::dispatch($contactId, $teamId, $listId, $updatingExisting);
         }
