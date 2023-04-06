@@ -5,28 +5,18 @@ namespace App\Models;
 use App\Events\ContactImported;
 use App\Jobs\EnrichContacts;
 use App\Jobs\EnrichList;
-use App\Jobs\InstagramImport;
-use App\Jobs\TiktokImport;
-use App\Jobs\TwitchImport;
-use App\Jobs\TwitterImport;
 use App\Models\Scopes\ContactsLimitScope;
 use App\Models\Scopes\TeamScope;
 use App\Traits\CustomFieldsTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Events\AuditCustom;
 
@@ -210,6 +200,11 @@ class Contact extends Model implements Auditable
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function userLists(): BelongsToMany
@@ -613,6 +608,15 @@ class Contact extends Model implements Auditable
         }
 
         return $contacts;
+    }
+
+    public static function getPublicProfile($ownerId, $isUsername = false)
+    {
+        $contacts = Contact::query()->with('owner');
+        if ($isUsername) {
+            return $contacts->where('contacts.platform_username', $ownerId)->first();
+        }
+        return $contacts->where('contacts.owner_id', $ownerId)->first();
     }
 
     public static function getCrmCounts()
