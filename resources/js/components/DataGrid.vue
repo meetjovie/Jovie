@@ -1480,13 +1480,8 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.$emit('getUserLists');
             this.$emit('crmCounts');
-            this.$emit('updateListCount', {
-              count: contactIds.length,
-              list_id: list,
-              remove: remove,
-              contactIds: contactIds,
-            });
           } else {
             this.$notify({
               group: 'user',

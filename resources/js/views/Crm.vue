@@ -606,6 +606,7 @@
                           @getHeaders="getHeaders"
                           @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
+                          @getUserLists="getUserLists"
                           :header="filters.type === 'list' ? filters.currentList.name : filters.type"
                           :subheader="counts"
                           :filters="filters"
@@ -1470,13 +1471,13 @@ export default {
     updateListCount(params) {
       let list = this.userLists.find((list) => list.id == params.list_id);
       let selectedContacts = this.$store.state.crmRecords.filter((contact) =>
-        params.contactIds.includes(contact.id)
+        params.contactIds.map(id => parseInt(id)).includes(contact.id)
       );
       if (list) {
         if (params.remove) {
           selectedContacts.forEach((contact) => {
             if (
-              contact.user_lists.filter((list) => list.id != params.list.id).length
+              contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
               list.contacts_count -= 1;
             }
@@ -1484,9 +1485,9 @@ export default {
         } else {
           selectedContacts.forEach((contact) => {
             if (
-              contact.user_lists.filter((list) => list.id == params.list.id).length
+              !contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
-              list.contacts_count += 1;
+                list.contacts_count += 1;
             }
           });
         }

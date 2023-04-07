@@ -158,13 +158,13 @@
               icon="ArrowPathIcon"
               @click="$emit('refresh', contact)" />
             <DropdownMenuItem
+                v-if="filters.list"
               name="Remove from list"
               icon="TrashIcon"
               color="text-red-600 dark:text-red-400"
               @click="
                 $emit(
-                  'toggleContactsFromList',
-                  ...{ id: contact.id, list: filters.list, remove: true }
+                  'toggleContactsFromList', contact.id, filters.list, true
                 )
               " />
               <DropdownMenuItem
