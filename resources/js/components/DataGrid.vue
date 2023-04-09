@@ -19,6 +19,9 @@
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
+                <div @click="suggestMerge">
+                    Suggest Merge
+                </div>
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -510,6 +513,12 @@
       :currentField="this.currentEditingField"
       @getHeaders="$emit('getHeaders')" />
   </ModalPopup>
+
+    <MergeContactsModal
+        @close="closeMergeSuggestions"
+    :open="openMergeSuggestions"
+    :suggestions="mergeSuggestions"
+    />
 </template>
 
 <script>
@@ -578,6 +587,7 @@ import KeyboardShortcut from './KeyboardShortcut';
 import Pagination from './Pagination';
 import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
+import ContactService from "../services/api/contact.service";
 
 export default {
   name: 'DataGrid',
@@ -688,6 +698,9 @@ export default {
       currentSortBy: '',
       headers: [],
       disableDrag: false,
+        mergeSuggestions: [],
+        suggestingMerge: false,
+        openMergeSuggestions: false,
     };
   },
   props: [
@@ -907,6 +920,46 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      suggestMerge() {
+          this.suggestingMerge = true
+          ContactService.suggestMerge().then((response) => {
+              response = response.data;
+              if (response.status) {
+                  this.mergeSuggestions = response.data
+                  this.openMergeSuggestions = true
+              } else {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              }
+          })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      if (this.errors) {
+                          this.errors = error.data.errors;
+                      }
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: Object.values(error.data.errors)[0][0],
+                      });
+                  }
+              })
+              .finally((_) => {
+                  this.suggestingMerge = false
+              });
+      },
+      closeMergeSuggestions() {
+          this.openMergeSuggestions = false;
+          this.mergeSuggestions = [];
+      },
       scrollToFocusCell() {
           this.$nextTick(() => {
               try {
@@ -1597,6 +1650,7 @@ export default {
 <script setup>
 import { ref } from 'vue';
 import { TransitionRoot } from '@headlessui/vue';
+import MergeContactsModal from "./MergeContactsModal.vue";
 
 const isShowing = ref(true);
 </script>

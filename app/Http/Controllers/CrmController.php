@@ -11,6 +11,7 @@ use App\Models\CreatorComment;
 use App\Models\Crm;
 use App\Models\User;
 use App\Models\UserList;
+use App\Services\ContactService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -431,6 +432,23 @@ class CrmController extends Controller
             'status' => false,
             'data' => 'Contact does not exist.',
         ]);
+    }
+
+    public function suggestMerge(Request $request, ContactService $contactService)
+    {
+        $request->validate([
+            'contact_ids' => 'sometimes',
+            'contact_ids.*' => 'exists:contacts,id',
+        ]);
+
+        $mergeSuggestions = $contactService->findDuplicates(Auth::user()->currentTeam->id);
+
+        return response([
+            'status' => true,
+            'message' => "Here are your merge suggestions.",
+            'data' => $mergeSuggestions
+        ]);
+
     }
 
     public function getExtensionCreator(Request $request)
