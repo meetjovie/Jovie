@@ -438,7 +438,7 @@
                 tag="tbody"
                 :disabled="disableDrag"
                 @start.prevent="startDrag">
-                <template #item="{ element, index }">
+                <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
                       :ref="`gridRow_${index}`"
                     :id="element.id"
@@ -455,7 +455,6 @@
                     :contact="element"
                     :row="index"
                     :column="currentCell.column"
-                    :key="element.id"
                     :userLists="userLists"
                     v-if="element"
                     @update:currentCell="$emit('updateContact', $event)"
@@ -646,7 +645,7 @@ export default {
     ArrowTopRightOnSquareIcon,
     draggable,
   },
-    emits: ['addContact', 'updateContact', 'crmCounts', 'updateListCount', 'pageChanged', 'getCrmContacts', 'setCurrentContact', 'openSidebar', 'getHeaders', 'checkContactsEnrichable', 'setOrder', 'importCSV'],
+    emits: ['addContact', 'updateContact', 'crmCounts', 'updateListCount', 'pageChanged', 'getCrmContacts', 'setCurrentContact', 'openSidebar', 'getHeaders', 'checkContactsEnrichable', 'setOrder', 'importCSV', 'getUserLists'],
   data() {
     return {
       currentCell: {

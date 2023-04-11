@@ -177,31 +177,31 @@
       </div>
     </DataGridCell>
 
-    <template v-for="(column, columnIndex) in otherColumns" :key="row">
-      <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-          @mouseover="setCurrentCell(columnIndex)"
-        :userLists="userLists"
-        :visibleColumns="visibleColumns"
-        :settings="settings"
-        :currentContact="currentContact"
-        :contact="contact"
-        :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex
+    <template v-for="(column, columnIndex) in otherColumns" :key="`${row}_${columnIndex}`">
+        <DataGridCell
+            :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+            @mouseover="setCurrentCell(columnIndex)"
+            :userLists="userLists"
+            :visibleColumns="visibleColumns"
+            :settings="settings"
+            :currentContact="currentContact"
+            :contact="otherColumns[columnIndex]"
+            :fieldId="`${otherColumns[columnIndex].id}_${otherColumns[columnIndex].key}`"
+            :cellActive="
+          currentCell.row == row && currentCell.column == 0
             ? `active_cell_${currentCell.row}_${currentCell.column}`
             : false
         "
-        :currentCell="currentCell"
-        :columnIndex="columnIndex"
-        :rowIndex="row"
-        :networks="networks"
-        :stages="stages"
-        :column="column"
-          @updateContact="$emit('updateContact', $event)"
-          @updateContactLists="updateContactLists"
-          @blur="$emit('updateContact', contact)"
-        v-model="contact[column.key]"
-        :row="row" />
+            :currentCell="currentCell"
+            :networks="networks"
+            :stages="stages"
+            :column="otherColumns[columnIndex]"
+            @updateContact="$emit('updateContact', $event)"
+            @updateContactLists="updateContactLists"
+            @blur="$emit('updateContact', contact)"
+            v-model="contact[otherColumns[columnIndex].key]"
+            :row="row">
+        </DataGridCell>
     </template>
   </tr>
 </template>
