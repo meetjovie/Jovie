@@ -185,12 +185,12 @@
             :visibleColumns="visibleColumns"
             :settings="settings"
             :currentContact="currentContact"
-            :contact="otherColumns[columnIndex]"
+            :contact="contact"
             :fieldId="`${otherColumns[columnIndex].id}_${otherColumns[columnIndex].key}`"
             :cellActive="
-          currentCell.row == row && currentCell.column == 0
+          currentCell.row == row && currentCell.column == columnIndex
             ? `active_cell_${currentCell.row}_${currentCell.column}`
-            : false
+            : ''
         "
             :currentCell="currentCell"
             :networks="networks"
