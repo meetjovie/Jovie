@@ -813,7 +813,10 @@ class Contact extends Model implements Auditable
         }
 
         $list = UserList::query()->where('id', $listId)->first();
-        $list->contacts()->auditSyncWithoutDetaching($contactIds);
+        $contacts = Contact::query()->select(['id', 'team_id'])->whereIn('id', $contactIds)->get();
+        foreach ($contacts as $contact) {
+            $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+        }
         foreach ($contactIds as $contactId) {
             ContactImported::dispatch($contactId, $teamId, $listId, $updatingExisting);
         }
