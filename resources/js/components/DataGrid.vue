@@ -514,7 +514,7 @@
         <template v-slot:content>
             <CustomFieldsMenu
                 @getCrmCreators="$emit('getCrmCreators')"
-                :currentField="this.currentEditingField"
+                :currentField="currentEditingField"
                 @getHeaders="$emit('getHeaders')" />
         </template>
     </ModalPopup>
