@@ -246,7 +246,7 @@
                 class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
                 {{ item.emoji ?? '📄' }}
               </div> -->
-                <UserListEditable :list="element" @updateUserList="$emit('updateUserList', $event)" />
+                <UserListEditable :list="item" @updateUserList="$emit('updateUserList', $event)" />
             </div>
 
             <div
@@ -388,18 +388,20 @@
       :primaryButtonText="editListPopup.primaryButtonText"
       @primaryButtonClick="editListPopup.confirmationMethod"
       @cancelButtonClick="cancelEditMethod">
-      <div class="space-y-8 py-4">
-        <InputGroup
-          autocomplete="off"
-          label="List Name"
-          placeholder="List Name"
-          v-model="currentEditingList.name"
-          class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
-        <ToggleGroup v-model="currentEditingList.pinned" /><span
-          class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
+      <template v-slot:content>
+          <div class="space-y-8 py-4" v-if="currentEditingList">
+              <InputGroup
+                  autocomplete="off"
+                  label="List Name"
+                  placeholder="List Name"
+                  v-model="currentEditingList.name"
+                  class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
+              <ToggleGroup v-model="currentEditingList.pinned" /><span
+              class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
           >Pinned</span
-        >
-      </div>
+          >
+          </div>
+      </template>
     </ModalPopup>
   </div>
 </template>
@@ -546,6 +548,49 @@ export default {
       this.editListPopup.pinned = this.currentEditingList.pinned;
       this.editListPopup.name = this.currentEditingList.name;
     },
+      updateList(item) {
+          this.editListPopup.loading = true;
+          UserService.updateList({ name: item.name, emoji: item.emoji, pinned: item.pinned }, item.id)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                      this.$emit('updateUserList', response.data);
+                      this.editListPopup.open = false;
+                      this.currentEditingList = null;
+                  } else {
+                      // show toast error here later
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: response.message,
+                      });
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: Object.values(error.data.errors)[0][0],
+                      });
+                  }
+              })
+              .finally((response) => {
+                  this.editListPopup.loading = false;
+              });
+      },
     createList() {
       this.creatingList = true;
       UserService.createList()

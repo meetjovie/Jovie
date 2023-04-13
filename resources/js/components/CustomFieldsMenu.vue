@@ -88,14 +88,14 @@
       :disabled="adding"
       @click="saveCustomField" />
   </GlassmorphismContainer>
-  <ModalPopup
-      :loading="confirmationPopup.loading"
-    @primaryButtonClick="confirmationPopup.confirmationMethod"
-    @cancelButtonClick="resetPopup()"
-    :open="confirmationPopup.open"
-    :primaryButtonText="confirmationPopup.primaryButtonText"
-    :description="confirmationPopup.description"
-    :title="confirmationPopup.title" />
+<!--  <ModalPopup-->
+<!--      :loading="confirmationPopup.loading"-->
+<!--    @primaryButtonClick="confirmationPopup.confirmationMethod"-->
+<!--    @cancelButtonClick="resetPopup()"-->
+<!--    :open="confirmationPopup.open"-->
+<!--    :primaryButtonText="confirmationPopup.primaryButtonText"-->
+<!--    :description="confirmationPopup.description"-->
+<!--    :title="confirmationPopup.title" />-->
   <!--  </PopoverPanel>
     </Float>
   </Popover> -->

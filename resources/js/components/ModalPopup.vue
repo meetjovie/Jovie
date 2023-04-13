@@ -27,7 +27,10 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel class="relative">
               <div v-if="customContent">
-                <slot></slot>
+                  <div
+                      class="transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                      <slot name="content"></slot>
+                  </div>
               </div>
               <div
                 class="transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
@@ -53,6 +56,7 @@
                         <p class="text-sm text-slate-500">
                           {{ description }}
                         </p>
+                        <slot name="content"></slot>
                       </div>
                     </div>
                   </div>
@@ -68,7 +72,7 @@
                       <p class="text-sm text-slate-500">
                         {{ description }}
                       </p>
-                      <slot>Edit the modal content</slot>
+                      <slot name="content"></slot>
                     </div>
                   </div>
                 </div>

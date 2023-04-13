@@ -403,9 +403,7 @@
                       scope="col"
                       class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div
-                        @click="
-                          this.$store.state.crmPage.showCustomFieldsModal = true
-                        "
+                        @click="openCustomFieldModal()"
                         class="w-40">
                         <!-- <CustomFieldsMenu
                           class=""
@@ -500,15 +498,26 @@
       </div>
     </div>
   </div>
-  <ModalPopup
-    :open="$store.state.crmPage.showCustomFieldsModal"
-    customContent
-    @close="closeEditFieldPopup">
-    <CustomFieldsMenu
-      @getCrmCreators="$emit('getCrmCreators')"
-      :currentField="this.currentEditingField"
-      @getHeaders="$emit('getHeaders')" />
-  </ModalPopup>
+<!--  <ModalPopup-->
+<!--    :open="$store.state.crmPage.showCustomFieldsModal"-->
+<!--    customContent-->
+<!--    @close="closeEditFieldPopup">-->
+<!--    <CustomFieldsMenu-->
+<!--      @getCrmCreators="$emit('getCrmCreators')"-->
+<!--      :currentField="this.currentEditingField"-->
+<!--      @getHeaders="$emit('getHeaders')" />-->
+<!--  </ModalPopup>-->
+
+    <ModalPopup
+        customContent
+        :open="$store.state.crmPage.showCustomFieldsModal">
+        <template v-slot:content>
+            <CustomFieldsMenu
+                @getCrmCreators="$emit('getCrmCreators')"
+                :currentField="this.currentEditingField"
+                @getHeaders="$emit('getHeaders')" />
+        </template>
+    </ModalPopup>
 </template>
 
 <script>
@@ -648,6 +657,14 @@ export default {
     emits: ['addContact', 'updateContact', 'crmCounts', 'updateListCount', 'pageChanged', 'getCrmContacts', 'setCurrentContact', 'openSidebar', 'getHeaders', 'checkContactsEnrichable', 'setOrder', 'importCSV', 'getUserLists'],
   data() {
     return {
+        confirmationPopup: {
+            confirmationMethod: null,
+            title: 'Hiiiii',
+            open: false,
+            primaryButtonText: 'custom',
+            description: 'hellooo hello hello',
+            loading: false,
+        },
       currentCell: {
         row: 0,
         column: 0,
@@ -928,11 +945,15 @@ export default {
         if (userList) {
             userList.name = list.name
             userList.emoji = list.emoji
+            userList.pinned = list.pinned
             if (this.filters.currentList) {
                 this.filters.currentList.name = list.name
                 this.filters.currentList.emoji = list.emoji
             }
         }
+      },
+      openCustomFieldModal() {
+          this.$store.commit('setShowCustomFieldModal');
       },
     closeEditFieldPopup() {
       this.$store.state.crmPage.showCustomFieldsModal = false;

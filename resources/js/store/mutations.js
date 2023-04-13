@@ -34,4 +34,10 @@ export default {
   setChromeExtensionInstalled(state, payload) {
     state.chromeExtensionInstalled = payload;
   },
+    setShowCustomFieldModal(state, payload) {
+        state.crmPage.showCustomFieldsModal = false
+        setTimeout(() => {
+            state.crmPage.showCustomFieldsModal = true
+        }, 100)
+    }
 };
