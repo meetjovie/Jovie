@@ -511,6 +511,12 @@
                 @getHeaders="$emit('getHeaders')" />
         </template>
     </ModalPopup>
+
+    <MergeContactsModal
+        @close="closeMergeSuggestions"
+        :open="openMergeSuggestions"
+        :suggestions="mergeSuggestions"
+    />
 </template>
 
 <script>
@@ -580,10 +586,12 @@ import Pagination from './Pagination';
 import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
 import ContactService from "../services/api/contact.service";
+import MergeContactsModal from "./MergeContactsModal.vue";
 
 export default {
   name: 'DataGrid',
   components: {
+      MergeContactsModal,
     DropdownMenuItem,
     DataGridCell,
     DataGridRow,
@@ -931,7 +939,17 @@ export default {
               response = response.data;
               if (response.status) {
                   this.mergeSuggestions = response.data
-                  this.openMergeSuggestions = true
+                  if (! this.mergeSuggestions.length) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                  } else {
+                      this.openMergeSuggestions = true
+                  }
               } else {
                   this.$notify({
                       group: 'user',
@@ -1655,11 +1673,4 @@ export default {
     focus,
   },
 };
-</script>
-<script setup>
-import { ref } from 'vue';
-import { TransitionRoot } from '@headlessui/vue';
-import MergeContactsModal from "./MergeContactsModal.vue";
-
-const isShowing = ref(true);
 </script>

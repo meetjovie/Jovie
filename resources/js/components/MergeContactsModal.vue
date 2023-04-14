@@ -120,6 +120,7 @@ export default {
 
         };
     },
+    emits: ['close'],
     props: {
         open: {
             type: Boolean,
@@ -131,7 +132,7 @@ export default {
     },
     methods: {
         closeModal() {
-            this.$emit('closeModal')
+            this.$emit('close')
             Object.assign(this.$data, this.$options.data());
         },
     },

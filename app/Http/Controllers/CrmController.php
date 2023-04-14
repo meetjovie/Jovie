@@ -443,9 +443,13 @@ class CrmController extends Controller
 
         $mergeSuggestions = $contactService->findDuplicates(Auth::user()->currentTeam->id);
 
+        $message = 'Here are your merge suggestions.';
+        if (! count($mergeSuggestions)) {
+            $message = 'There are no merge suggestions.';
+        }
         return response([
             'status' => true,
-            'message' => "Here are your merge suggestions.",
+            'message' => $message,
             'data' => $mergeSuggestions
         ]);
 

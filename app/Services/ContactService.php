@@ -83,7 +83,7 @@ class ContactService
         }
         $matchedEmails = array_intersect(json_decode($contact1->emails), json_decode($contact2->emails));
         if (count($matchedEmails)) {
-            $matchedFields['emails'] = implode(', ', $contact1->emails);
+            $matchedFields['emails'] = implode(', ', $matchedEmails);
         }
         $matches = $this->socialHandlesMatch($contact1, $contact2);
         if (count($matches)) {
