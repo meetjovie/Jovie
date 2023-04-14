@@ -31,7 +31,6 @@
           <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
 
           <Notification
-            closeOnClick="true"
             v-slot="{ notifications }"
             enter="transform ease-out duration-300 transition"
             enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"

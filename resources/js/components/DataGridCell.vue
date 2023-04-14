@@ -1,18 +1,18 @@
 <template>
   <td
-      ref="cell_area"
+    ref="cell_area"
     :class="[
       'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium dark:border-jovieDark-border',
 
       freezeColumn
-        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-900'
+        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-800'
         : '',
 
       freezeColumn && currentContact.id == contact.id
         ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'text-slate-600 dark:text-slate-200',
       cellActive
-        ? 'bg-indigo-50 outline-2 outline-indigo-500 ring-2 ring-indigo-500 dark:ring-indigo-500'
+        ? 'bg-indigo-50  ring-2 ring-indigo-500  dark:bg-jovieDark-600 dark:ring-indigo-500'
         : '',
     ]"
     :key="rerenderKey"
@@ -203,14 +203,14 @@ export default {
     },
   },
   computed: {
-      localModelValue: {
-          get() {
-              return this.modelValue;
-          },
-          set(val) {
-              this.$emit('update:modelValue', val);
-          },
+    localModelValue: {
+      get() {
+        return this.modelValue;
       },
+      set(val) {
+        this.$emit('update:modelValue', val);
+      },
+    },
     showFollowersCount() {
       try {
         if (!this.settings) {

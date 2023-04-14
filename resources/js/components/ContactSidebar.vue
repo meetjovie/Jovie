@@ -427,7 +427,7 @@
             <span class="sr-only">Add custom field</span>
             <PlusIcon
               class="h-4 w-4 cursor-pointer text-slate-700"
-              @click="$store.state.crmPage.showCustomFieldsModal = true"
+              @click="openCustomFieldModal()"
               aria-hidden="true" />
           </div>
         </div>
@@ -856,6 +856,9 @@ export default {
     };
   },
   methods: {
+      openCustomFieldModal() {
+          this.$store.commit('setShowCustomFieldModal');
+      },
     sortFields(e, listId = '') {
       this.$store.dispatch('sortFields', {
         self: this,

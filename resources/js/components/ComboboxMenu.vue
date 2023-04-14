@@ -1,15 +1,15 @@
 <template>
   <Combobox as="div" class="h-60" v-model="selectedItem">
     <ComboboxInput
-        @focusin="open = true"
-        @focusout="query = '';"
+      @focusin="open = true"
+      @focusout="query = ''"
       class="w-full rounded-md border border-slate-200 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200"
       @change="query = $event.target.value"
       placeholder="Find a field type"
       :displayValue="(item) => item.name" />
 
     <div
-      class="h-48 overflow-y-scroll rounded-md border border-slate-300 bg-slate-50 dark:border-jovieDark-border"
+      class="h-48 overflow-y-scroll rounded-md border border-slate-300 bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800"
       v-show="open">
       <!--
                 Using the `static` prop, the `ComboboxOptions` are always
@@ -167,7 +167,7 @@ export default {
     },
     selectedItem: {
       get() {
-          return this.modelValue;
+        return this.modelValue;
       },
       set(val) {
         this.$emit('update:modelValue', val);
