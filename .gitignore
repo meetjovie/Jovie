@@ -34,3 +34,4 @@ public/dist
 public/dist/app.js
 resources/js/.env
  database/.DS_Store
+.env.testServer

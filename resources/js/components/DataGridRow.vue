@@ -13,7 +13,7 @@
       :row="row"
       freezeColumn
       width="full"
-      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
+      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] before:dark:border-jovieDark-border">
       <div class="group mx-auto w-full items-center">
         <span
           class="group-hover:block"
