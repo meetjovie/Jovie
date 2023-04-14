@@ -39,7 +39,7 @@
         <template #item="{ element, index }">
           <div :key="element.id" :id="element.id">
             <MenuItem
-                @drop="$emit('onListDrop', element.id)"
+              @drop="$emit('onListDrop', element.id)"
               @click="$emit('setFilterList', element.id)"
               v-slot="{ active }">
               <div
@@ -61,35 +61,37 @@
                     class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
                     {{ element.emoji ?? '📄' }}
                   </div> -->
-                    <UserListEditable :list="element" @updateUserList="$emit('updateUserList', $event)" />
-<!--                  <EmojiPickerModal-->
-<!--                    class="mr-1"-->
-<!--                    @emojiSelected="emojiSelected($event, element)"-->
-<!--                    :currentEmoji="element.emoji">-->
-<!--                  </EmojiPickerModal>-->
+                  <UserListEditable
+                    :list="element"
+                    @updateUserList="$emit('updateUserList', $event)" />
+                  <!--                  <EmojiPickerModal-->
+                  <!--                    class="mr-1"-->
+                  <!--                    @emojiSelected="emojiSelected($event, element)"-->
+                  <!--                    :currentEmoji="element.emoji">-->
+                  <!--                  </EmojiPickerModal>-->
 
-<!--                  <div-->
-<!--                    @dblclick="enableEditName(element)"-->
-<!--                    class="w-full cursor-pointer">-->
-<!--                    <span-->
-<!--                      v-if="!element.editName"-->
-<!--                      :class="[-->
-<!--                        selectedList == element.id-->
-<!--                          ? 'font-bold text-slate-800 dark:text-jovieDark-200'-->
-<!--                          : 'font-light text-slate-700 dark:text-jovieDark-300',-->
-<!--                      ]"-->
-<!--                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"-->
-<!--                      >{{ element.name }}</span-->
-<!--                    >-->
-<!--                    <input-->
-<!--                      v-model="element.name"-->
-<!--                      :ref="`list_${element.id}`"-->
-<!--                      @blur="updateList(element)"-->
-<!--                      @keyup.esc="disableEditName(element)"-->
-<!--                      @keyup.enter="updateList(element)"-->
-<!--                      v-else-->
-<!--                      class="text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />-->
-<!--                  </div>-->
+                  <!--                  <div-->
+                  <!--                    @dblclick="enableEditName(element)"-->
+                  <!--                    class="w-full cursor-pointer">-->
+                  <!--                    <span-->
+                  <!--                      v-if="!element.editName"-->
+                  <!--                      :class="[-->
+                  <!--                        selectedList == element.id-->
+                  <!--                          ? 'font-bold text-slate-800 dark:text-jovieDark-200'-->
+                  <!--                          : 'font-light text-slate-700 dark:text-jovieDark-300',-->
+                  <!--                      ]"-->
+                  <!--                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"-->
+                  <!--                      >{{ element.name }}</span-->
+                  <!--                    >-->
+                  <!--                    <input-->
+                  <!--                      v-model="element.name"-->
+                  <!--                      :ref="`list_${element.id}`"-->
+                  <!--                      @blur="updateList(element)"-->
+                  <!--                      @keyup.esc="disableEditName(element)"-->
+                  <!--                      @keyup.enter="updateList(element)"-->
+                  <!--                      v-else-->
+                  <!--                      class="text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />-->
+                  <!--                  </div>-->
                 </div>
                 <div
                   class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
@@ -246,11 +248,11 @@
                 class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
                 {{ item.emoji ?? '📄' }}
               </div> -->
-                <UserListEditable :list="element" @updateUserList="$emit('updateUserList', $event)" />
+                <UserListEditable :list="item" @updateUserList="$emit('updateUserList', $event)" />
             </div>
 
             <div
-              class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
+              class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600 dark:hover:text-jovieDark-200">
               <span
                 class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-jovieDark-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
                 >{{ item.contacts_count }}</span
@@ -259,10 +261,9 @@
                 <Float portal :offset="12" placement="right-start">
                   <div class="mx-auto text-center">
                     <MenuButton
-                      class="hidden h-4 w-4 text-slate-400 group-hover:block dark:text-jovieDark-600">
+                      class="hidden h-4 w-4 text-slate-400 group-hover:block dark:bg-jovieDark-400 dark:text-jovieDark-200">
                       <EllipsisHorizontalIcon
-                        :class="{ 'dark:text-jovieDark-200': active }"
-                        class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-jovieDark-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
+                        class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-jovieDark-200 dark:active:text-jovieDark-200"></EllipsisHorizontalIcon>
                     </MenuButton>
                   </div>
 
@@ -388,18 +389,20 @@
       :primaryButtonText="editListPopup.primaryButtonText"
       @primaryButtonClick="editListPopup.confirmationMethod"
       @cancelButtonClick="cancelEditMethod">
-      <div class="space-y-8 py-4">
-        <InputGroup
-          autocomplete="off"
-          label="List Name"
-          placeholder="List Name"
-          v-model="currentEditingList.name"
-          class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
-        <ToggleGroup v-model="currentEditingList.pinned" /><span
-          class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
+      <template v-slot:content>
+          <div class="space-y-8 py-4" v-if="currentEditingList">
+              <InputGroup
+                  autocomplete="off"
+                  label="List Name"
+                  placeholder="List Name"
+                  v-model="currentEditingList.name"
+                  class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
+              <ToggleGroup v-model="currentEditingList.pinned" /><span
+              class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
           >Pinned</span
-        >
-      </div>
+          >
+          </div>
+      </template>
     </ModalPopup>
   </div>
 </template>
@@ -434,7 +437,7 @@ import {
 import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
-import UserListEditable from "./Crm/UserListEditable.vue";
+import UserListEditable from './Crm/UserListEditable.vue';
 export default {
   data() {
     return {
@@ -546,6 +549,49 @@ export default {
       this.editListPopup.pinned = this.currentEditingList.pinned;
       this.editListPopup.name = this.currentEditingList.name;
     },
+      updateList(item) {
+          this.editListPopup.loading = true;
+          UserService.updateList({ name: item.name, emoji: item.emoji, pinned: item.pinned }, item.id)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                      this.$emit('updateUserList', response.data);
+                      this.editListPopup.open = false;
+                      this.currentEditingList = null;
+                  } else {
+                      // show toast error here later
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: response.message,
+                      });
+                  }
+              })
+              .catch((error) => {
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: Object.values(error.data.errors)[0][0],
+                      });
+                  }
+              })
+              .finally((response) => {
+                  this.editListPopup.loading = false;
+              });
+      },
     createList() {
       this.creatingList = true;
       UserService.createList()
@@ -573,8 +619,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -630,8 +676,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -702,8 +748,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -743,8 +789,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -784,8 +830,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -803,7 +849,7 @@ export default {
     },
   },
   components: {
-      UserListEditable,
+    UserListEditable,
     ChevronRightIcon,
     BookmarkIcon,
     Switch,
@@ -831,21 +877,21 @@ export default {
     ToggleGroup,
     ArrowPathIcon,
   },
-    computed: {
-        menuItemsList: {
-            get() {
-                return this.menuItems;
-            },
-            set(val) {
-                this.$emit('updateMenuItems', val);
-            },
-        },
+  computed: {
+    menuItemsList: {
+      get() {
+        return this.menuItems;
+      },
+      set(val) {
+        this.$emit('updateMenuItems', val);
+      },
     },
+  },
   watch: {
     menuItems(val) {
       if (this.menuName == 'Lists' && this.currentEditingList) {
         let enabledList = this.menuItems.find(
-          (list) => (this.currentEditingList.id === list.id)
+          (list) => this.currentEditingList.id === list.id
         );
         if (enabledList) {
           this.enableEditName(enabledList);

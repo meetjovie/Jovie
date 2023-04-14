@@ -13,7 +13,7 @@
       :row="row"
       freezeColumn
       width="full"
-      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
+      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] before:dark:border-jovieDark-border">
       <div class="group mx-auto w-full items-center">
         <span
           class="group-hover:block"
@@ -158,13 +158,13 @@
               icon="ArrowPathIcon"
               @click="$emit('refresh', contact)" />
             <DropdownMenuItem
+                v-if="filters.list"
               name="Remove from list"
               icon="TrashIcon"
               color="text-red-600 dark:text-red-400"
               @click="
                 $emit(
-                  'toggleContactsFromList',
-                  ...{ id: contact.id, list: filters.list, remove: true }
+                  'toggleContactsFromList', contact.id, filters.list, true
                 )
               " />
               <DropdownMenuItem
@@ -177,31 +177,31 @@
       </div>
     </DataGridCell>
 
-    <template v-for="(column, columnIndex) in otherColumns" :key="row">
-      <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-          @mouseover="setCurrentCell(columnIndex)"
-        :userLists="userLists"
-        :visibleColumns="visibleColumns"
-        :settings="settings"
-        :currentContact="currentContact"
-        :contact="contact"
-        :cellActive="
+    <template v-for="(column, columnIndex) in otherColumns" :key="`${row}_${columnIndex}`">
+        <DataGridCell
+            :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+            @mouseover="setCurrentCell(columnIndex)"
+            :userLists="userLists"
+            :visibleColumns="visibleColumns"
+            :settings="settings"
+            :currentContact="currentContact"
+            :contact="contact"
+            :fieldId="`${otherColumns[columnIndex].id}_${otherColumns[columnIndex].key}`"
+            :cellActive="
           currentCell.row == row && currentCell.column == columnIndex
             ? `active_cell_${currentCell.row}_${currentCell.column}`
-            : false
+            : ''
         "
-        :currentCell="currentCell"
-        :columnIndex="columnIndex"
-        :rowIndex="row"
-        :networks="networks"
-        :stages="stages"
-        :column="column"
-          @updateContact="$emit('updateContact', $event)"
-          @updateContactLists="updateContactLists"
-          @blur="$emit('updateContact', contact)"
-        v-model="contact[column.key]"
-        :row="row" />
+            :currentCell="currentCell"
+            :networks="networks"
+            :stages="stages"
+            :column="otherColumns[columnIndex]"
+            @updateContact="$emit('updateContact', $event)"
+            @updateContactLists="updateContactLists"
+            @blur="$emit('updateContact', contact)"
+            v-model="contact[otherColumns[columnIndex].key]"
+            :row="row">
+        </DataGridCell>
     </template>
   </tr>
 </template>

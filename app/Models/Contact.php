@@ -5,15 +5,10 @@ namespace App\Models;
 use App\Events\ContactImported;
 use App\Jobs\EnrichContacts;
 use App\Jobs\EnrichList;
-use App\Jobs\InstagramImport;
-use App\Jobs\TiktokImport;
-use App\Jobs\TwitchImport;
-use App\Jobs\TwitterImport;
 use App\Models\Scopes\ContactsLimitScope;
 use App\Models\Scopes\TeamScope;
 use App\Traits\CustomFieldsTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,8 +16,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Event;
 use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Events\AuditCustom;
 
 class Contact extends Model implements Auditable
 {
@@ -178,6 +174,14 @@ class Contact extends Model implements Auditable
             $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
         }
 
+        if (Arr::has($data, 'new_values.customFieldValues')) {
+            $newValues = $data['new_values']['customFieldValues'];
+            foreach ($newValues as $value) {
+                unset($value['pivot']);
+            }
+            $data['old_values']['stage'] = $this->stages()[$this->getOriginal('stage')];
+            $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
+        }
         return $data;
     }
 
@@ -195,6 +199,11 @@ class Contact extends Model implements Auditable
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function userLists(): BelongsToMany
@@ -600,6 +609,15 @@ class Contact extends Model implements Auditable
         return $contacts;
     }
 
+    public static function getPublicProfile($ownerId, $isUsername = false)
+    {
+        $contacts = Contact::query()->with('owner');
+        if ($isUsername) {
+            return $contacts->where('contacts.platform_username', $ownerId)->first();
+        }
+        return $contacts->where('contacts.owner_id', $ownerId)->first();
+    }
+
     public static function getCrmCounts()
     {
         $counts = Contact::query()->selectRaw('team_id, sum(case when archived = false then 1 else 0 end) AS total,
@@ -752,6 +770,7 @@ class Contact extends Model implements Auditable
         foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data)) {
                 $value = $data[$customField->code];
+                $oldValue = $cc->getFieldValueByModel($customField, $contact);
                 CustomFieldValue::query()->updateOrCreate([
                     'custom_field_id' => $customField->id,
                     'model_id' => $contact->id,
@@ -759,6 +778,19 @@ class Contact extends Model implements Auditable
                 ], [
                     'value' => $value,
                 ]);
+
+                $contact->auditEvent = 'update';
+                $contact->isCustomEvent = true;
+
+                $newValue = $cc->getFieldValueByModel($customField, $contact);
+                $contact->auditCustomOld = [
+                    $customField->code => $oldValue
+                ];
+                $contact->auditCustomNew = [
+                    $customField->code => $newValue
+                ];
+                Event::dispatch(AuditCustom::class, [$contact]);
+
             }
         }
         return $contact;
@@ -780,7 +812,10 @@ class Contact extends Model implements Auditable
         }
 
         $list = UserList::query()->where('id', $listId)->first();
-        $list->contacts()->auditSyncWithoutDetaching($contactIds);
+        $contacts = Contact::query()->select(['id', 'team_id'])->whereIn('id', $contactIds)->get();
+        foreach ($contacts as $contact) {
+            $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+        }
         foreach ($contactIds as $contactId) {
             ContactImported::dispatch($contactId, $teamId, $listId, $updatingExisting);
         }

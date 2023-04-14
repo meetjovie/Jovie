@@ -79,9 +79,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Team::class, 'owner_id', 'id')->with('users');
     }
 
-    public function creatorProfile()
+    public function contactProfile()
     {
-        return $this->hasOne(Creator::class);
+        return $this->hasOne(Contact::class, 'owner_id');
     }
 
     public function crms()

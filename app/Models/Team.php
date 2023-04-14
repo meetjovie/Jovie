@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
+use Mpociot\Teamwork\Facades\Teamwork;
 use Mpociot\Teamwork\TeamworkTeam;
 
 class Team extends TeamworkTeam
@@ -137,5 +138,14 @@ class Team extends TeamworkTeam
     public function hasEnoughEnrichingCredits($count)
     {
         return $this->credits >= $count;
+    }
+
+    public static function acceptInvite($inviteToken)
+    {
+        $invite = Teamwork::getInviteFromAcceptToken($inviteToken);
+        if ($invite) {
+            Teamwork::acceptInvite($invite);
+            auth()->user()->switchTeam($invite->team);
+        }
     }
 }

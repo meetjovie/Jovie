@@ -4,10 +4,12 @@
       class="mr-1"
       @emojiSelected="emojiSelected($event)"
       :currentEmoji="list.emoji" />
-    <div @dblclick="enableEditName(list)" class="w-full cursor-pointer">
+    <div
+      @dblclick="enableEditName(list)"
+      class="w-full cursor-pointer items-center">
       <span
         v-if="!list.editName"
-        class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"
+        class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:text-slate-200 dark:group-hover/list:text-slate-200"
         >{{ list.name }}</span
       >
       <input
@@ -17,7 +19,7 @@
         @keyup.enter="updateList(list)"
         @blur="updateList(list)"
         v-else
-        class="text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
+        class="rounded-md border px-2 text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
     </div>
   </div>
 </template>

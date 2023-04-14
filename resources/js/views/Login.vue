@@ -78,7 +78,7 @@
               :success="successfulLogin"
               design="secondary"
               type="button"
-              class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+              class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
             </ButtonGroup>
             <span
               class="mt-4 text-center text-[8px] text-slate-600 dark:text-jovieDark-400">
@@ -229,7 +229,9 @@ export default {
   },
   methods: {
     authProvider(provider) {
-      window.location.href = `/auth/${provider}/redirect`;
+      window.location.href = this.user.invite_token
+        ? `/auth/${provider}/redirect?invite_token=${this.user.invite_token}`
+        : `/auth/${provider}/redirect`;
     },
     login() {
       this.errors = {};

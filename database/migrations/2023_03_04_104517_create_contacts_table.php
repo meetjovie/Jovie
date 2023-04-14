@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
+
+            $table->boolean('platform_verified')->default(false);
+            $table->string('platform_username')->nullable();
+            $table->string('platform_title')->nullable();
+            $table->string('platform_employer')->nullable();
+            $table->string('platform_employer_link')->nullable();
+
+            $table->foreignId('owner_id')->nullable()->constrained('users');
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->integer('team_id')->unsigned();
             $table->foreign('team_id')

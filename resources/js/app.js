@@ -28,6 +28,14 @@ app.mixin({
     },
   },
   methods: {
+      generateUniqueNumericString(length = 10) {
+          let timestamp = new Date().getTime().toString();
+          let random = '';
+          for (let i = 0; i < length - timestamp.length; i++) {
+              random += Math.floor(Math.random() * 10);
+          }
+          return timestamp + random;
+      },
     async reconnectPusher() {
       return new Promise(async (resolve, reject) => {
         await Echo.disconnect();

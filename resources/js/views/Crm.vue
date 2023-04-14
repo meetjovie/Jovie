@@ -10,7 +10,7 @@
                   class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                   <div class="flex items-center text-xs">
                     <PlusIcon
-                      class="mr-1 h-5 w-5 rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                      class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
                       aria-hidden="true" />
                       <Menu>
                           <Float portal :offset="2" placement="bottom-start">
@@ -606,6 +606,7 @@
                           @getHeaders="getHeaders"
                           @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
+                          @getUserLists="getUserLists"
                           :header="filters.type === 'list' ? filters.currentList.name : filters.type"
                           :subheader="counts"
                           :filters="filters"
@@ -1212,8 +1213,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           if (error.response && error.response.status == 422) {
             this.errors = error.data.errors;
             this.$notify({
@@ -1354,8 +1355,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.errors = error.data.errors;
@@ -1460,8 +1461,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
         })
         .finally(() => {
           this.crmCounting = false;
@@ -1470,13 +1471,13 @@ export default {
     updateListCount(params) {
       let list = this.userLists.find((list) => list.id == params.list_id);
       let selectedContacts = this.$store.state.crmRecords.filter((contact) =>
-        params.contactIds.includes(contact.id)
+        params.contactIds.map(id => parseInt(id)).includes(contact.id)
       );
       if (list) {
         if (params.remove) {
           selectedContacts.forEach((contact) => {
             if (
-              contact.user_lists.filter((list) => list.id != params.list.id).length
+              contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
               list.contacts_count -= 1;
             }
@@ -1484,9 +1485,9 @@ export default {
         } else {
           selectedContacts.forEach((contact) => {
             if (
-              contact.user_lists.filter((list) => list.id == params.list.id).length
+              !contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
-              list.contacts_count += 1;
+                list.contacts_count += 1;
             }
           });
         }
