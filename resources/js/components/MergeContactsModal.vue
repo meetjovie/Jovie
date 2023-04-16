@@ -26,7 +26,7 @@
                         leave-from="opacity-100 translate-y-0 sm:scale-100"
                         leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                         <DialogPanel class="mx-auto w-full">
-                            <GlassmorphismContainer size="3xl">
+                            <GlassmorphismContainer size="6xl">
                                 <div
                                     class="relative w-full transform overflow-hidden rounded-lg px-4 pb-6 pt-4">
                                     <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
@@ -55,25 +55,14 @@
                                     </div>
                                     <div class="mt-2">
                                         <template v-for="suggestion in suggestions">
-                                            <template v-for="contactNumber in Object.keys(suggestion.contacts)">
-                                                {{ suggestion.contacts[contactNumber].first_name }} {{ ((contactNumber) < (suggestion.contacts.length - 1)) ? ' AND ' : '  ' }}
-                                            </template>
-                                            <span>
-                                                have following common attributes: <br>
-                                            </span>
-                                            <template v-for="(matchedFields, key) in suggestion.matched_fields">
-                                                <b>{{ unSlugify(key) }}: </b>
-                                                <template v-if="key == 'social_handles'">
-                                                    <template v-for="(value, network) in matchedFields">
-                                                        {{ network }} ( {{ value }} ) {{ ' ' }}
-                                                    </template>
+                                            <div class="grid grid-cols-3 gap-3">
+                                                <template v-for="contact in suggestion.contacts">
+                                                    <ContactSidebar
+                                                        :jovie="true"
+                                                        :contactData="contact" />
                                                 </template>
-                                                <template v-else>
-                                                    {{ (matchedFields) }}
-                                                </template>
-                                                <br>
-                                            </template>
-                                            <br>
+                                            </div>
+
                                         </template>
                                     </div>
                                 </div>
@@ -101,8 +90,10 @@ import InputGroup from "./InputGroup.vue";
 import ButtonGroup from "./ButtonGroup.vue";
 import ImportService from "../services/api/import.service";
 import CheckboxInput from "./CheckboxInput.vue";
+import ContactSidebar from "./ContactSidebar.vue";
 export default {
     components: {
+        ContactSidebar,
         CheckboxInput,
         ButtonGroup,
         InputGroup,

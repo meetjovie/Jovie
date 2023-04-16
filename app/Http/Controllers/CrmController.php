@@ -441,7 +441,12 @@ class CrmController extends Controller
             'contact_ids.*' => 'exists:contacts,id',
         ]);
 
-        $mergeSuggestions = $contactService->findDuplicates(Auth::user()->currentTeam->id);
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        $params['type'] = 'list';
+        $params['list'] = $request->listId;
+
+        $mergeSuggestions = $contactService->findDuplicates($params);
 
         $message = 'Here are your merge suggestions.';
         if (! count($mergeSuggestions)) {
