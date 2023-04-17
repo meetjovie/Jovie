@@ -514,8 +514,8 @@
 
     <MergeContactsModal
         @close="closeMergeSuggestions"
-        :open="openMergeSuggestions"
-        :suggestions="mergeSuggestions"
+        :open="openMergeSuggestion"
+        :suggestion="mergeSuggestion"
     />
 </template>
 
@@ -706,9 +706,9 @@ export default {
       currentSortBy: '',
       headers: [],
       disableDrag: false,
-        mergeSuggestions: [],
+        mergeSuggestion: [],
         suggestingMerge: false,
-        openMergeSuggestions: false,
+        openMergeSuggestion: false,
     };
   },
   props: [
@@ -938,8 +938,8 @@ export default {
           ContactService.suggestMerge().then((response) => {
               response = response.data;
               if (response.status) {
-                  this.mergeSuggestions = response.data
-                  if (! this.mergeSuggestions.length) {
+                  this.mergeSuggestion = response.data
+                  if (! this.mergeSuggestion) {
                       this.$notify({
                           group: 'user',
                           type: 'success',
@@ -948,7 +948,7 @@ export default {
                           text: response.message,
                       });
                   } else {
-                      this.openMergeSuggestions = true
+                      this.openMergeSuggestion = true
                   }
               } else {
                   this.$notify({
@@ -980,7 +980,7 @@ export default {
               });
       },
       closeMergeSuggestions() {
-          this.openMergeSuggestions = false;
+          this.openMergeSuggestion = false;
           this.mergeSuggestions = [];
       },
       scrollToFocusCell() {

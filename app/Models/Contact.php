@@ -46,6 +46,7 @@ class Contact extends Model implements Auditable
         'gender',
         'dob',
         'profile_pic_url',
+        'tags',
         'last_contacted',
         'offer',
         'archived',
@@ -84,6 +85,7 @@ class Contact extends Model implements Auditable
     const OVERRIDEABLE = [
         'phones',
         'emails',
+        'tags',
         'instagram',
         'instagram_data',
         'twitter',
@@ -293,7 +295,7 @@ class Contact extends Model implements Auditable
     {
         return Attribute::make(
             get: fn($value) => $value,
-            set: fn($value) => Carbon::make($value)->toDateString(),
+            set: fn($value) => $value ? Carbon::make($value)->toDateString() : null,
         );
     }
 
@@ -325,6 +327,21 @@ class Contact extends Model implements Auditable
         $existingPhones = $this->phones;
         $newPhones = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
         return json_encode(array_values(array_unique(array_merge($existingPhones, $newPhones))));
+    }
+
+    public function tags(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => $this->setTags($value),
+        );
+    }
+
+    public function setTags($value)
+    {
+        $existingTags = $this->tags;
+        $newTags = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
+        return json_encode(array_values(array_unique(array_merge($existingTags, $newTags))));
     }
 
     public function address(): Attribute
@@ -549,6 +566,15 @@ class Contact extends Model implements Auditable
         );
     }
 
+    public function getName($contact = null)
+    {
+        if (is_null($contact)) {
+            $contact = $this;
+        }
+
+        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name.' '.$contact->last_name) : null);
+    }
+
     public static function getContacts($params)
     {
         $contacts = Contact::query()->with('userLists')
@@ -763,6 +789,9 @@ class Contact extends Model implements Auditable
         $contact = Contact::query()->where('id', $id)->first();
         foreach ($contactData as $key => $value) {
             $contact->{$key} = $value;
+            if (in_array($key, ['first_name', 'last_name'])) {
+                $contact->full_name = $contact->getName();
+            }
         }
         $contact->save();
         $contact = Contact::query()->where('id', $id)->first();

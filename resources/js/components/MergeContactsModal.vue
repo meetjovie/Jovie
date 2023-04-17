@@ -54,16 +54,13 @@
                                         </div>
                                     </div>
                                     <div class="mt-2">
-                                        <template v-for="suggestion in suggestions">
-                                            <div class="grid grid-cols-3 gap-3">
-                                                <template v-for="contact in suggestion.contacts">
-                                                    <ContactSidebar
-                                                        :jovie="true"
-                                                        :contactData="contact" />
-                                                </template>
-                                            </div>
-
-                                        </template>
+                                        <div class="grid grid-cols-3 gap-3">
+                                            <template v-for="contact in suggestion.contacts">
+                                                <ContactSidebar
+                                                    :jovie="true"
+                                                    :contactData="contact" />
+                                            </template>
+                                        </div>
                                     </div>
                                 </div>
                             </GlassmorphismContainer>
@@ -117,7 +114,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        suggestions: {
+        suggestion: {
             type: Array
         }
     },

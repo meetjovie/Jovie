@@ -449,7 +449,7 @@ class CrmController extends Controller
         $mergeSuggestions = $contactService->findDuplicates($params);
 
         $message = 'Here are your merge suggestions.';
-        if (! count($mergeSuggestions)) {
+        if (is_null($mergeSuggestions)) {
             $message = 'There are no merge suggestions.';
         }
         return response([
