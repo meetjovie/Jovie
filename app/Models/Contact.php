@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -212,6 +213,11 @@ class Contact extends Model implements Auditable
     public function userLists(): BelongsToMany
     {
         return $this->belongsToMany(UserList::class)->withTimestamps();
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(ContactComment::class);
     }
 
     /**
@@ -587,6 +593,11 @@ class Contact extends Model implements Auditable
         $contacts = $contacts->when(! (isset($params['type']) && $params['type'] == 'archived'), function ($query) {
             $query->where('archived', 0);
         });
+
+        if (isset($params['comments'])) {
+            $contacts = $contacts->with('comments');
+        }
+
         if (isset($params['type']) && $params['type'] == 'archived') {
             $contacts = $contacts->when(true, function ($query) {
                     $query->where('archived', 1);

@@ -12,6 +12,7 @@ class ContactService
         // Get all contacts for the given team
 //        $contacts = DB::table('contacts')->where('team_id', $team_id)->where('archived', 0)->get();
 
+        $params['comments'] = true;
         $contacts = Contact::getContacts($params);
 
         $duplicate = null;
@@ -165,6 +166,8 @@ class ContactService
         $commonLists = $contact1->userLists->merge($contact2->userLists)->unique('id');
         $mergedContact->user_lists = $commonLists;
 
+        $mergedContact->comments = $this->getAvailableComments($contact1->comments, $contact2->comments, $latestUpdated->comments);
+
         return $mergedContact;
     }
 
@@ -196,5 +199,10 @@ class ContactService
         } else {
             return $latest;
         }
+    }
+
+    private function getAvailableComments($comments1, $comments2, $latest)
+    {
+        return count($latest) ? $latest : (count($comments1) ? $comments1 : $comments2);
     }
 }
