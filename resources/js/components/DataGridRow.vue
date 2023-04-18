@@ -23,17 +23,20 @@
             },
             'block',
           ]">
-            <input
-                type="checkbox"
-                :id="`checkbox_${contact.id}`"
-                name="`checkbox_contact`"
-                :value="contact.id"
-                v-model="selectedContactsModel"
-                class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6" />
+          <input
+            type="checkbox"
+            :id="`checkbox_${contact.id}`"
+            name="`checkbox_contact`"
+            :value="contact.id"
+            v-model="selectedContactsModel"
+            class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6" />
         </span>
         <span
           class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
-          :class="[{ hidden: selectedContactsModel.includes(contact.id) }, 'block']">
+          :class="[
+            { hidden: selectedContactsModel.includes(contact.id) },
+            'block',
+          ]">
           {{ row + 1 }}
         </span>
       </div>
@@ -46,16 +49,7 @@
       freezeColumn
       width="4"
       class="left-[26.5px] overflow-auto border-slate-300 px-2 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
-      <div v-if="contact.enriching > 0">
-          Enriching
-      </div>
-      <div v-else @click="checkContactsEnrichable(currentContact.id)">
-          Enrich
-      </div>
-
-      <div v-if="! contact.enriched_viewed">
-          new
-      </div>
+      <div v-if="!contact.enriched_viewed">new</div>
       <div
         class="hidden cursor-pointer items-center lg:block"
         @click="
@@ -99,7 +93,7 @@
           <ContactAvatar :contact="contact" class="mr-2" />
           <div
             v-if="cellActive"
-            class="items-center text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
+            class="line-clamp-1 items-center text-sm text-slate-900 dark:text-jovieDark-100">
             <input
               v-model="contact.full_name"
               @blur="$emit('updateContact', contact)"
@@ -113,7 +107,7 @@
           </div>
           <div
             v-else
-            class="text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
+            class="line-clamp-1 text-sm text-slate-900 dark:text-jovieDark-100">
             {{ contact.full_name }}
           </div>
         </div>
@@ -125,10 +119,16 @@
               !$store.state.ContactSidebarOpen ||
               currentContact.id !== contact.id
             "
-            class="mx-auto mt-0.5 ml-0.5 hidden h-4 w-4 group-hover:block" />
+            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
           <XMarkIcon
             v-else
             class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
+          <div v-if="contact.enriching > 0">
+            <JovieSpinner />
+          </div>
+          <div v-else @click="checkContactsEnrichable(currentContact.id)">
+            <SparklesIcon class="h-3 w-3 cursor-pointer" />
+          </div>
         </div>
         <div>
           <ContactContextMenu
@@ -136,20 +136,13 @@
             :contact="contact">
             <DropdownMenuItem
               :name="
-                filters.type == 'archived' &&
-                contact.archived
+                filters.type == 'archived' && contact.archived
                   ? 'Unarchived'
                   : 'Archive'
               "
               icon="ArchiveBoxIcon"
               @blur="$emit('updateContact')"
-              @click="
-                $emit(
-                  'archive-contacts',
-                  contact.id,
-                  !contact.archived
-                )
-              "
+              @click="$emit('archive-contacts', contact.id, !contact.archived)"
               color="text-blue-600
             dark:text-blue-400" />
             <DropdownMenuItem
@@ -158,50 +151,55 @@
               icon="ArrowPathIcon"
               @click="$emit('refresh', contact)" />
             <DropdownMenuItem
-                v-if="filters.list"
+              v-if="filters.list"
               name="Remove from list"
               icon="TrashIcon"
               color="text-red-600 dark:text-red-400"
               @click="
-                $emit(
-                  'toggleContactsFromList', contact.id, filters.list, true
-                )
+                $emit('toggleContactsFromList', contact.id, filters.list, true)
               " />
-              <DropdownMenuItem
-                  name="Contact Overview"
-                  icon="TrashIcon"
-                  color="text-red-600 dark:text-red-400"
-                  @click="$router.push({name: 'Contact Overview', params: {id: contact.id}})" />
+            <DropdownMenuItem
+              name="Contact Overview"
+              icon="TrashIcon"
+              color="text-red-600 dark:text-red-400"
+              @click="
+                $router.push({
+                  name: 'Contact Overview',
+                  params: { id: contact.id },
+                })
+              " />
           </ContactContextMenu>
         </div>
       </div>
     </DataGridCell>
 
-    <template v-for="(column, columnIndex) in otherColumns" :key="`${row}_${columnIndex}`">
-        <DataGridCell
-            :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-            @mouseover="setCurrentCell(columnIndex)"
-            :userLists="userLists"
-            :visibleColumns="visibleColumns"
-            :settings="settings"
-            :currentContact="currentContact"
-            :contact="contact"
-            :fieldId="`${otherColumns[columnIndex].id}_${otherColumns[columnIndex].key}`"
-            :cellActive="
+    <template
+      v-for="(column, columnIndex) in otherColumns"
+      :key="`${row}_${columnIndex}`">
+      <DataGridCell
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        @mouseover="setCurrentCell(columnIndex)"
+        :userLists="userLists"
+        :visibleColumns="visibleColumns"
+        :settings="settings"
+        :currentContact="currentContact"
+        :contact="contact"
+        :fieldId="`${otherColumns[columnIndex].id}_${otherColumns[columnIndex].key}`"
+        :cellActive="
           currentCell.row == row && currentCell.column == columnIndex
             ? `active_cell_${currentCell.row}_${currentCell.column}`
             : ''
         "
-            :currentCell="currentCell"
-            :networks="networks"
-            :stages="stages"
-            :column="otherColumns[columnIndex]"
-            @updateContact="$emit('updateContact', $event)"
-            @updateContactLists="updateContactLists"
-            @blur="$emit('updateContact', contact)"
-            v-model="contact[otherColumns[columnIndex].key]"
-            :row="row">
-        </DataGridCell>
+        :currentCell="currentCell"
+        :networks="networks"
+        :stages="stages"
+        :column="otherColumns[columnIndex]"
+        @updateContact="$emit('updateContact', $event)"
+        @updateContactLists="updateContactLists"
+        @blur="$emit('updateContact', contact)"
+        v-model="contact[otherColumns[columnIndex].key]"
+        :row="row">
+      </DataGridCell>
     </template>
   </tr>
 </template>
@@ -213,6 +211,7 @@ import DropdownMenuItem from './DropdownMenuItem.vue';
 import {
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
+  SparklesIcon,
 } from '@heroicons/vue/24/outline';
 
 export default {
@@ -224,31 +223,34 @@ export default {
     ContactAvatar,
     ArrowTopRightOnSquareIcon,
     XMarkIcon,
+    SparklesIcon,
   },
   mounted() {},
-    computed: {
-        selectedContactsModel: {
-            get() {
-                return this.selectedContacts;
-            },
-            set(val) {
-                this.$emit('updateSelectedContacts', val);
-            },
-        },
+  computed: {
+    selectedContactsModel: {
+      get() {
+        return this.selectedContacts;
+      },
+      set(val) {
+        this.$emit('updateSelectedContacts', val);
+      },
     },
+  },
   methods: {
-      checkContactsEnrichable(ids) {
-          this.$emit('checkContactsEnrichable', ids)
-      },
-      setCurrentCell(columnIndex) {
-          this.currentCell.row = this.row
-          this.currentCell.column = columnIndex
-      },
+    checkContactsEnrichable(ids) {
+      this.$emit('checkContactsEnrichable', ids);
+    },
+    setCurrentCell(columnIndex) {
+      this.currentCell.row = this.row;
+      this.currentCell.column = columnIndex;
+    },
     updateContactLists({ list, add = false }) {
       if (add) {
         this.contact.user_lists.push(list);
       } else {
-        this.contact.user_lists = this.contact.user_lists.filter((l) => l.id != list.id);
+        this.contact.user_lists = this.contact.user_lists.filter(
+          (l) => l.id != list.id
+        );
       }
       this.$emit('updateListCount', {
         count: 1,
@@ -279,7 +281,7 @@ export default {
     width: String,
     columnName: String,
     neverHide: Boolean,
-    cellActive: Boolean|String,
+    cellActive: Boolean | String,
     otherColumns: Array,
     columnIndex: Number,
   },
