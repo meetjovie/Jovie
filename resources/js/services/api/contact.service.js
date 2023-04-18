@@ -58,5 +58,9 @@ export default {
     suggestMerge() {
         return axios.post(
             `${baseApiUrl}/suggest-merge`);
+    },
+    mergeContacts(data) {
+        return axios.post(
+            `${baseApiUrl}/merge-contacts`, data);
     }
 };

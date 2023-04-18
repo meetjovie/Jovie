@@ -61,6 +61,14 @@
                                                     :contactData="contact" />
                                             </template>
                                         </div>
+                                      <div class="grid grid-cols-2 gap-x-8 mt-2">
+                                        <ButtonGroup
+                                            :text="'Reject'"
+                                            @click="rejectMerge" />
+                                        <ButtonGroup
+                                            :text="'Merge'"
+                                            @click="acceptMerge" />
+                                      </div>
                                     </div>
                                 </div>
                             </GlassmorphismContainer>
@@ -88,6 +96,7 @@ import ButtonGroup from "./ButtonGroup.vue";
 import ImportService from "../services/api/import.service";
 import CheckboxInput from "./CheckboxInput.vue";
 import ContactSidebar from "./ContactSidebar.vue";
+import ContactService from "../services/api/contact.service";
 export default {
     components: {
         ContactSidebar,
@@ -118,11 +127,68 @@ export default {
             type: Array
         }
     },
-    methods: {
+  methods: {
         closeModal() {
             this.$emit('close')
             Object.assign(this.$data, this.$options.data());
         },
+      acceptMerge() {
+        console.log('lskfmnvkm', this.suggestion);
+        let data = {
+          contacts: []
+        };
+        data.contacts.push(this.suggestion.contacts[0].id)
+        data.contacts.push(this.suggestion.contacts[1].id)
+        ContactService.mergeContacts(data)
+            .then(() => {w
+              this.suggestingMerge = true
+              ContactService.suggestMerge().then((response) => {
+                response = response.data;
+                if (response.status) {
+                  // this.mergeSuggestion = response.data
+                  this.suggestion.contacts = response.data.contacts
+                  // if (! this.mergeSuggestion) {
+                    this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                    });
+                  // } else {
+                  //   this.openMergeSuggestion = true
+                  // }
+                } else {
+                  this.$notify({
+                    group: 'user',
+                    type: 'success',
+                    duration: 15000,
+                    title: 'Successful',
+                    text: response.message,
+                  });
+                }
+              })
+                  .catch((error) => {
+                    error = error.response;
+                    if (error.status == 422) {
+                      if (this.errors) {
+                        this.errors = error.data.errors;
+                      }
+                      this.$notify({
+                        group: 'user',
+                        type: 'success',
+                        duration: 15000,
+                        title: 'Successful',
+                        text: Object.values(error.data.errors)[0][0],
+                      });
+                    }
+                  })
+                  .finally((_) => {
+                    this.suggestingMerge = false
+                  });
+                // this.closeModal()
+            })
+      }
     },
 };
 </script>

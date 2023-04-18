@@ -991,4 +991,12 @@ class Contact extends Model implements Auditable
 
         return $listIds;
     }
+
+    public static function deleteContact($id)
+    {
+        $contact = Contact::find($id);
+        $contact->userLists()->detach();
+        ContactComment::query()->where('contact_id', $id)->delete();
+        return $contact->delete();
+    }
 }

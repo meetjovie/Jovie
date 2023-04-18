@@ -99,13 +99,15 @@ class ContactService
         return $matchedFields;
     }
 
-    private function getMergedContact($contact1, $contact2)
+    public function getMergedContact($contact1, $contact2, $includeId = true)
     {
         $latestUpdated = $contact1->updated_at > $contact2->updated_at ? $contact1 : $contact2;
         $latestEnriched = $contact1->last_enriched_at > $contact2->last_enriched_at ? $contact1 : $contact2;
 
         $mergedContact = new Contact();
-        $mergedContact->id = rand(rand(), rand());
+        if ($includeId) {
+            $mergedContact->id = rand(rand(), rand());
+        }
 
         $mergedContact->first_name = $this->returnStringValueWithMoreData($contact1->first_name, $contact2->first_name, $latestUpdated->first_name);
         $mergedContact->last_name = $this->returnStringValueWithMoreData($contact1->last_name, $contact2->last_name, $latestUpdated->last_name);
@@ -165,7 +167,8 @@ class ContactService
 
         $commonLists = $contact1->userLists->merge($contact2->userLists)->unique('id');
         $mergedContact->user_lists = $commonLists;
-
+        $mergedContact->user_id = $mergedContact->user_lists->first()->user_id;
+        $mergedContact->team_id = $mergedContact->user_lists->first()->team_id;
         $mergedContact->comments = $this->getAvailableComments($contact1->comments, $contact2->comments, $latestUpdated->comments);
 
         return $mergedContact;

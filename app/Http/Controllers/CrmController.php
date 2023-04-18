@@ -14,6 +14,7 @@ use App\Models\UserList;
 use App\Services\ContactService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -458,6 +459,38 @@ class CrmController extends Controller
             'data' => $mergeSuggestions
         ]);
 
+    }
+
+    public function mergeContacts(Request $request, ContactService $contactService)
+    {
+        try {
+            $contacts = Contact::query()->whereIn('id', $request->contacts)->get();
+            $mergedContact = $contactService->getMergedContact($contacts->first(), $contacts->last(), false);
+            $list_ids = null;
+            if ($mergedContact->user_lists) {
+                $list_ids = $mergedContact->user_lists->pluck('id')->toArray();
+            }
+            $mergedContact = $mergedContact->toArray();
+            $mergedContact['user_id'] = $mergedContact['user_lists'][0]['user_id'];
+            $mergedContact['team_id'] = $mergedContact['user_lists'][0]['team_id'];
+            $mergedContact = Arr::except($mergedContact, ['tags', 'updated_at', 'created_at']);
+
+            $contact = Contact::saveContact($mergedContact, $list_ids);
+            foreach ($request->contacts as $contact)
+            {
+                Contact::deleteContact($contact);
+            }
+
+            return response()->json([
+                'status' => true,
+                'creator' => $contact,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => ($e->getMessage().' '.$e->getFile().' '.$e->getLine())
+            ], 200);
+        }
     }
 
     public function getExtensionCreator(Request $request)
