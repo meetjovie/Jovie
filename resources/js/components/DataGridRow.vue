@@ -49,7 +49,6 @@
       freezeColumn
       width="4"
       class="left-[26.5px] overflow-auto border-slate-300 px-2 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-700 dark:group-hover:text-slate-400">
-      <div v-if="!contact.enriched_viewed">new</div>
       <div
         class="hidden cursor-pointer items-center lg:block"
         @click="
@@ -123,12 +122,19 @@
           <XMarkIcon
             v-else
             class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
-          <div v-if="contact.enriching > 0">
-            <JovieSpinner />
-          </div>
-          <div v-else @click="checkContactsEnrichable(currentContact.id)">
-            <SparklesIcon class="h-3 w-3 cursor-pointer" />
-          </div>
+        </div>
+        <div v-if="contact.enriching > 0">
+          <JovieSpinner />
+        </div>
+        <div v-else @click="checkContactsEnrichable(currentContact.id)">
+          <SparklesIcon
+            class="h-4 w-4 cursor-pointer rounded-full text-slate-400/0 transition-all active:border active:bg-slate-200 group-hover:text-slate-400 dark:text-jovieDark-300/0 dark:active:bg-slate-800 group-hover:dark:text-jovieDark-300" />
+        </div>
+        <div v-if="!contact.enriched_viewed">
+          <span
+            class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
+            >New</span
+          >
         </div>
         <div>
           <ContactContextMenu
