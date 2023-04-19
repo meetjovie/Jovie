@@ -46,6 +46,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->date('dob')->nullable();
             $table->string('profile_pic_url')->nullable();
+            $table->text('tags')->nullable();
 
             $table->date('last_contacted')->nullable();
             $table->double('offer', null, 2)->nullable();

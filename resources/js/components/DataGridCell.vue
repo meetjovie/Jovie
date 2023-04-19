@@ -41,7 +41,7 @@
 
       <DataGridCellTextInput
         v-else-if="
-          ['text', 'email', 'currency', 'number', 'url'].includes(column.type)
+          ['text', 'email', 'currency', 'number', 'url', 'phone'].includes(column.type)
         "
         :ref="cellActive"
         :fieldId="fieldId"
