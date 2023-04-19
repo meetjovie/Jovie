@@ -549,6 +549,15 @@ class Contact extends Model implements Auditable
         );
     }
 
+    public function getName($contact = null)
+    {
+        if (is_null($contact)) {
+            $contact = $this;
+        }
+
+        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name.' '.$contact->last_name) : null);
+    }
+
     public static function getContacts($params)
     {
         $contacts = Contact::query()->with('userLists')
@@ -763,6 +772,9 @@ class Contact extends Model implements Auditable
         $contact = Contact::query()->where('id', $id)->first();
         foreach ($contactData as $key => $value) {
             $contact->{$key} = $value;
+            if (in_array($key, ['first_name', 'last_name'])) {
+                $contact->full_name = $contact->getName();
+            }
         }
         $contact->save();
         $contact = Contact::query()->where('id', $id)->first();
