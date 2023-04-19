@@ -795,7 +795,7 @@ class Contact extends Model implements Auditable
         return count($contacts) ? $contacts : false;
     }
 
-    public static function updateContact($data, $id)
+    public static function updateContact($data, $id, $merge = false)
     {
         $contactData = self::getFillableData($data);
         if (isset($contactData['description'])) {
@@ -812,7 +812,7 @@ class Contact extends Model implements Auditable
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
-        foreach ($customFields as $customField) {
+        foreach ($customFields as  $customField) {
             if (array_key_exists($customField->code, $data)) {
                 $value = $data[$customField->code];
                 $oldValue = $cc->getFieldValueByModel($customField, $contact);
@@ -824,18 +824,19 @@ class Contact extends Model implements Auditable
                     'value' => $value,
                 ]);
 
-                $contact->auditEvent = 'update';
-                $contact->isCustomEvent = true;
+                if (!$merge) {
+                    $contact->auditEvent = 'update';
+                    $contact->isCustomEvent = true;
 
-                $newValue = $cc->getFieldValueByModel($customField, $contact);
-                $contact->auditCustomOld = [
-                    $customField->code => $oldValue
-                ];
-                $contact->auditCustomNew = [
-                    $customField->code => $newValue
-                ];
-                Event::dispatch(AuditCustom::class, [$contact]);
-
+                    $newValue = $cc->getFieldValueByModel($customField, $contact);
+                    $contact->auditCustomOld = [
+                        $customField->code => $oldValue
+                    ];
+                    $contact->auditCustomNew = [
+                        $customField->code => $newValue
+                    ];
+                    Event::dispatch(AuditCustom::class, [$contact]);
+                }
             }
         }
         return $contact;

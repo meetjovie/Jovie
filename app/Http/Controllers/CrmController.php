@@ -17,12 +17,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use MeiliSearch\Client;
+use OwenIt\Auditing\Events\AuditCustom;
 
 class CrmController extends Controller
 {
@@ -470,9 +472,15 @@ class CrmController extends Controller
             $mergedContact = $mergedContact->toArray();
             $mergedContact = Arr::except($mergedContact, ['tags', 'updated_at', 'created_at']);
 
-            $contact = Contact::updateContact($mergedContact, min($request->contacts));
+            $contact = Contact::updateContact($mergedContact, min($request->contacts), true);
             Contact::deleteContact(max($request->contacts));
 
+            $contact->auditEvent = 'merge';
+            $contact->isCustomEvent = true;
+
+            $contact->auditCustomOld = $contacts->where('id', $contacts->min('id'))->first()->toArray();
+            $contact->auditCustomNew = $mergedContact;
+            Event::dispatch(AuditCustom::class, [$contact]);
             return response()->json([
                 'status' => true,
                 'creator' => $contact,
