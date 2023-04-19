@@ -446,6 +446,7 @@ class CrmController extends Controller
         $params['team_id'] = Auth::user()->currentTeam->id;
         $params['type'] = 'list';
         $params['list'] = $request->listId;
+        $params['contact_ids'] = $request->contact_ids;
 
         $mergeSuggestions = $contactService->findDuplicates($params);
 
@@ -466,26 +467,18 @@ class CrmController extends Controller
         try {
             $contacts = Contact::query()->whereIn('id', $request->contacts)->get();
             $mergedContact = $contactService->getMergedContact($contacts->first(), $contacts->last(), false);
-            $list_ids = null;
-            if ($mergedContact->user_lists) {
-                $list_ids = $mergedContact->user_lists->pluck('id')->toArray();
-            }
             $mergedContact = $mergedContact->toArray();
-            $mergedContact['user_id'] = $mergedContact['user_lists'][0]['user_id'];
-            $mergedContact['team_id'] = $mergedContact['user_lists'][0]['team_id'];
             $mergedContact = Arr::except($mergedContact, ['tags', 'updated_at', 'created_at']);
 
-            $contact = Contact::saveContact($mergedContact, $list_ids);
-            foreach ($request->contacts as $contact)
-            {
-                Contact::deleteContact($contact);
-            }
+            $contact = Contact::updateContact($mergedContact, min($request->contacts));
+            Contact::deleteContact(max($request->contacts));
 
             return response()->json([
                 'status' => true,
                 'creator' => $contact,
             ], 200);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
                 'message' => ($e->getMessage().' '.$e->getFile().' '.$e->getLine())

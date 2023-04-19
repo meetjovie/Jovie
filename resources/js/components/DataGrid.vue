@@ -19,9 +19,7 @@
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-                <div @click="suggestMerge">
-                    Suggest Merge
-                </div>
+              <div @click="suggestMerge([])">Suggest Merge</div>
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -289,7 +287,7 @@
                               class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
                               <span class="line-clamp-1">Bulk Actions</span>
                               <ChevronDownIcon
-                                class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
+                                class="-mr-1 ml-2 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
                                 aria-hidden="true" />
                             </MenuButton>
                             <transition
@@ -341,23 +339,28 @@
                                       }}
                                     </button>
                                   </MenuItem>
-                                    <MenuItem
-                                        v-slot="{ active }"
-                                        @click="$emit('checkContactsEnrichable', selectedContacts)">
-                                        <button
-                                            :class="[
+                                  <MenuItem
+                                    v-slot="{ active }"
+                                    @click="
+                                      $emit(
+                                        'checkContactsEnrichable',
+                                        selectedContacts
+                                      )
+                                    ">
+                                    <button
+                                      :class="[
                                         active
                                           ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
                                           : 'text-slate-700 dark:text-jovieDark-200',
                                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
-                                            <ArchiveBoxIcon
-                                                :active="active"
-                                                class="mr-2 h-3 w-3 text-sky-400"
-                                                aria-hidden="true" />
-                                            Enrich
-                                        </button>
-                                    </MenuItem>
+                                      <ArchiveBoxIcon
+                                        :active="active"
+                                        class="mr-2 h-3 w-3 text-sky-400"
+                                        aria-hidden="true" />
+                                      Enrich
+                                    </button>
+                                  </MenuItem>
                                   <!-- <DropdownMenuItem @click="toggleArchiveContacts(
                                 selectedContacts, filters.type == 'archived' ?
                                 false : true ) :name="( filters.type == 'archived'
@@ -405,9 +408,7 @@
                     <th
                       scope="col"
                       class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
-                      <div
-                        @click="openCustomFieldModal()"
-                        class="w-40">
+                      <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                           class=""
                           @getHeaders="$emit('getHeaders')" /> -->
@@ -468,14 +469,12 @@
                     @updateContact="$emit('updateContact', $event)"
                     @updateListCount="$emit('updateListCount', $event)"
                     @archive-contacts="
-                      toggleArchiveContacts(
-                        element.id,
-                        !element.archived
-                      )
+                      toggleArchiveContacts(element.id, !element.archived)
                     "
                     @toggleContactsFromList="toggleContactsFromList"
-                      @checkContactsEnrichable="$emit('checkContactsEnrichable', $event)"
-                  />
+                    @checkContactsEnrichable="
+                      $emit('checkContactsEnrichable', $event)
+                    " />
                 </template>
                 <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
               </draggable>
@@ -483,7 +482,7 @@
             <div
               v-if="contactRecords.length < 50 && contactRecords.length > 0"
               @click="$emit('addContact')"
-              class="flex w-full cursor-pointer items-center border bg-slate-100 py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
+              class="flex w-full cursor-pointer items-center border bg-slate-100 px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
               <PlusIcon class="mr-2 h-4 w-4" />
               Add new contact
             </div>
@@ -501,22 +500,21 @@
       </div>
     </div>
   </div>
-    <ModalPopup
-        customContent
-        :open="$store.state.crmPage.showCustomFieldsModal">
-        <template v-slot:content>
-            <CustomFieldsMenu
-                @getCrmCreators="$emit('getCrmCreators')"
-                :currentField="currentEditingField"
-                @getHeaders="$emit('getHeaders')" />
-        </template>
-    </ModalPopup>
+  <ModalPopup customContent :open="$store.state.crmPage.showCustomFieldsModal">
+    <template v-slot:content>
+      <CustomFieldsMenu
+        @getCrmCreators="$emit('getCrmCreators')"
+        :currentField="currentEditingField"
+        @getHeaders="$emit('getHeaders')" />
+    </template>
+  </ModalPopup>
 
-    <MergeContactsModal
-        @close="closeMergeSuggestions"
-        :open="openMergeSuggestion"
-        :suggestion="mergeSuggestion"
-    />
+  <MergeContactsModal
+    @close="closeMergeSuggestions"
+    @acceptMerge="acceptMerge"
+    @rejectMerge="rejectMerge"
+    :open="openMergeSuggestion"
+    :suggestion="mergeSuggestion" />
 </template>
 
 <script>
@@ -585,13 +583,13 @@ import KeyboardShortcut from './KeyboardShortcut';
 import Pagination from './Pagination';
 import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
-import ContactService from "../services/api/contact.service";
-import MergeContactsModal from "./MergeContactsModal.vue";
+import ContactService from '../services/api/contact.service';
+import MergeContactsModal from './MergeContactsModal.vue';
 
 export default {
   name: 'DataGrid',
   components: {
-      MergeContactsModal,
+    MergeContactsModal,
     DropdownMenuItem,
     DataGridCell,
     DataGridRow,
@@ -656,17 +654,31 @@ export default {
     ArrowTopRightOnSquareIcon,
     draggable,
   },
-    emits: ['addContact', 'updateContact', 'crmCounts', 'updateListCount', 'pageChanged', 'getCrmContacts', 'setCurrentContact', 'openSidebar', 'getHeaders', 'checkContactsEnrichable', 'setOrder', 'importCSV', 'getUserLists'],
+  emits: [
+    'addContact',
+    'updateContact',
+    'crmCounts',
+    'updateListCount',
+    'pageChanged',
+    'getCrmContacts',
+    'setCurrentContact',
+    'openSidebar',
+    'getHeaders',
+    'checkContactsEnrichable',
+    'setOrder',
+    'importCSV',
+    'getUserLists',
+  ],
   data() {
     return {
-        confirmationPopup: {
-            confirmationMethod: null,
-            title: 'Hiiiii',
-            open: false,
-            primaryButtonText: 'custom',
-            description: 'hellooo hello hello',
-            loading: false,
-        },
+      confirmationPopup: {
+        confirmationMethod: null,
+        title: 'Hiiiii',
+        open: false,
+        primaryButtonText: 'custom',
+        description: 'hellooo hello hello',
+        loading: false,
+      },
       currentCell: {
         row: 0,
         column: 0,
@@ -706,9 +718,10 @@ export default {
       currentSortBy: '',
       headers: [],
       disableDrag: false,
-        mergeSuggestion: [],
-        suggestingMerge: false,
-        openMergeSuggestion: false,
+      mergeSuggestion: [],
+      suggestingMerge: false,
+      openMergeSuggestion: false,
+      contactIds: null,
     };
   },
   props: [
@@ -749,10 +762,13 @@ export default {
         this.headers = val.filter((column) => column.key != 'full_name');
       },
     },
-      selectedContacts(val) {
-          console.log('val');
-          console.log(val);
-      }
+    selectedContacts(val) {
+      console.log('val');
+      console.log(val);
+    },
+    openMergeSuggestion(val) {
+      console.log('csdfcsdc',val)
+    }
   },
   mounted() {
     this.$mousetrap.bind('up', () => {
@@ -827,41 +843,42 @@ export default {
         } catch (e) {}
 
         // Get the index of the last visible column
-          // Get the index of the last visible column
-          const lastVisibleColumnIndex = this.visibleColumns.length - 1
-          this.currentCell.column += 1;
-          console.log(this.currentCell);
-          if (this.currentCell.column > lastVisibleColumnIndex) {
-              this.$refs.crmTable.scrollLeft = 0
-              setTimeout(() => {
-                  this.$nextTick(() => {
-                      this.currentCell.column = 0;
-                      if (this.currentCell.row < this.filteredContacts.length - 1) {
-                          this.currentCell.row += 1;
-                      } else {
-                          this.currentCell.row = 0;
-                      }
-                  })
-              }, 100)
-          }
-          this.scrollToFocusCell()
+        // Get the index of the last visible column
+        const lastVisibleColumnIndex = this.visibleColumns.length - 1;
+        this.currentCell.column += 1;
+        console.log(this.currentCell);
+        if (this.currentCell.column > lastVisibleColumnIndex) {
+          this.$refs.crmTable.scrollLeft = 0;
+          setTimeout(() => {
+            this.$nextTick(() => {
+              this.currentCell.column = 0;
+              if (this.currentCell.row < this.filteredContacts.length - 1) {
+                this.currentCell.row += 1;
+              } else {
+                this.currentCell.row = 0;
+              }
+            });
+          }, 100);
+        }
+        this.scrollToFocusCell();
       }
     });
 
-
-      document.addEventListener('paste', (event) => {
-          try {
-            if (!this.isAnyInputFocused()) {
-              this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs[`active_cell_${this.currentCell.row}_${this.currentCell.column}`].$refs.input.focus()
-            }
-          } catch (e) {
-          }
-      });
+    document.addEventListener('paste', (event) => {
+      try {
+        if (!this.isAnyInputFocused()) {
+          this.$refs[`gridRow_${this.currentCell.row}`].$refs[
+            `gridCell_${this.currentCell.row}_${this.currentCell.column}`
+          ][0].$refs[
+            `active_cell_${this.currentCell.row}_${this.currentCell.column}`
+          ].$refs.input.focus();
+        }
+      } catch (e) {}
+    });
 
     document.addEventListener('mousedown', (event) => {
-      this.disableDrag = event.target.tagName.toLowerCase() === "input";
-    })
-
+      this.disableDrag = event.target.tagName.toLowerCase() === 'input';
+    });
 
     // let columns = JSON.parse(localStorage.getItem('columns'));
     // if (columns) {
@@ -898,7 +915,9 @@ export default {
     filteredContacts() {
       return this.contactRecords.filter((contact) => {
         return (
-          (contact.name ?? '').toLowerCase().match(this.searchQuery.toLowerCase()) ||
+          (contact.name ?? '')
+            .toLowerCase()
+            .match(this.searchQuery.toLowerCase()) ||
           contact.emails.some((email) =>
             email.toString().toLowerCase().match(this.searchQuery.toLowerCase())
           )
@@ -933,88 +952,121 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      suggestMerge() {
-          this.suggestingMerge = true
-          ContactService.suggestMerge().then((response) => {
-              response = response.data;
-              if (response.status) {
-                  this.mergeSuggestion = response.data
-                  if (! this.mergeSuggestion) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                  } else {
-                      this.openMergeSuggestion = true
-                  }
-              } else {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
-              }
-          })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      if (this.errors) {
-                          this.errors = error.data.errors;
-                      }
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: Object.values(error.data.errors)[0][0],
-                      });
-                  }
-              })
-              .finally((_) => {
-                  this.suggestingMerge = false
+    acceptMerge(data) {
+      let contactIds = [];
+      if (this.contactIds && this.contactIds.length) {
+        contactIds = this.contactIds;
+      }
+      let newContact = this.contactRecords.find((record) => {
+        return (record.id = data.suggestions[0]);
+      });
+      let oldContact = this.contactRecords.find((record) => {
+        return (record.id = data.suggestions[1]);
+      });
+      this.contactRecords.splice(this.contactRecords.indexOf(newContact), 1);
+      this.contactRecords[this.contactRecords.indexOf(oldContact)] =
+        data.creator;
+      this.suggestMerge([]);
+    },
+    rejectMerge(id) {
+      let contactIds = [];
+      if (!this.contactIds || !this.contactIds.length) {
+        contactIds = this.contactRecords.map((record) => {
+          return record.id;
+        });
+        this.contactIds = contactIds;
+      }
+      this.contactIds.splice(this.contactIds.indexOf(id), 1);
+      this.suggestMerge(this.contactIds);
+    },
+    suggestMerge(contactIds = []) {
+      this.suggestingMerge = true;
+      let data = {};
+      data.contact_ids = contactIds;
+      ContactService.suggestMerge(data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.mergeSuggestion = response.data;
+            if (!this.mergeSuggestion) {
+              this.$notify({
+                group: 'user',
+                type: 'success',
+                duration: 15000,
+                title: 'Successful',
+                text: response.message,
               });
-      },
-      closeMergeSuggestions() {
-          this.openMergeSuggestion = false;
-          this.mergeSuggestions = [];
-      },
-      scrollToFocusCell() {
-          this.$nextTick(() => {
-              try {
-                  let targetCell = this.$refs[`gridRow_${this.currentCell.row}`].$refs[`gridCell_${this.currentCell.row}_${this.currentCell.column}`][0].$refs.cell_area
-                  var tableOffsetLeft = this.$refs.crmTable.offsetLeft;
-                  var targetCellOffsetLeft = targetCell.offsetLeft;
-                  var scrollTo = targetCellOffsetLeft - tableOffsetLeft;
-                  if (scrollTo < 0) {
-                      scrollTo = scrollTo + 300
-                  } else {
-                      scrollTo = scrollTo - 300
-                  }
-                  this.$refs.crmTable.scroll(scrollTo, 0);
-              } catch (e) {
-              }
-          })
-      },
-      updateUserList(list) {
-        let userList = this.userLists.find(l => l.id == list.id)
-        if (userList) {
-            userList.name = list.name
-            userList.emoji = list.emoji
-            userList.pinned = list.pinned
-            if (this.filters.currentList) {
-                this.filters.currentList.name = list.name
-                this.filters.currentList.emoji = list.emoji
+              this.openMergeSuggestion = false;
+            } else {
+              this.openMergeSuggestion = true;
             }
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            if (this.errors) {
+              this.errors = error.data.errors;
+            }
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((_) => {
+          this.suggestingMerge = false;
+        });
+    },
+    closeMergeSuggestions() {
+      this.openMergeSuggestion = false;
+      this.mergeSuggestions = [];
+    },
+    scrollToFocusCell() {
+      this.$nextTick(() => {
+        try {
+          let targetCell =
+            this.$refs[`gridRow_${this.currentCell.row}`].$refs[
+              `gridCell_${this.currentCell.row}_${this.currentCell.column}`
+            ][0].$refs.cell_area;
+          var tableOffsetLeft = this.$refs.crmTable.offsetLeft;
+          var targetCellOffsetLeft = targetCell.offsetLeft;
+          var scrollTo = targetCellOffsetLeft - tableOffsetLeft;
+          if (scrollTo < 0) {
+            scrollTo = scrollTo + 300;
+          } else {
+            scrollTo = scrollTo - 300;
+          }
+          this.$refs.crmTable.scroll(scrollTo, 0);
+        } catch (e) {}
+      });
+    },
+    updateUserList(list) {
+      let userList = this.userLists.find((l) => l.id == list.id);
+      if (userList) {
+        userList.name = list.name;
+        userList.emoji = list.emoji;
+        userList.pinned = list.pinned;
+        if (this.filters.currentList) {
+          this.filters.currentList.name = list.name;
+          this.filters.currentList.emoji = list.emoji;
         }
-      },
-      openCustomFieldModal() {
-          this.$store.commit('setShowCustomFieldModal');
-      },
+      }
+    },
+    openCustomFieldModal() {
+      this.$store.commit('setShowCustomFieldModal');
+    },
     closeEditFieldPopup() {
       this.$store.state.crmPage.showCustomFieldsModal = false;
       this.currentEditingField = null;
@@ -1113,7 +1165,7 @@ export default {
           }
           break;
         case 'ArrowDown':
-            if (this.currentCell.row < this.filteredContacts.length - 1) {
+          if (this.currentCell.row < this.filteredContacts.length - 1) {
             this.currentCell.row += 1;
             this.scrollToFocusCell();
           }
@@ -1273,9 +1325,9 @@ export default {
       window.open(
         `https://calendar.google.com/calendar/r/eventedit?text=${
           this.currentUser.first_name
-        } ${this.currentUser.last_name} <> ${
-          contact.name
-        }&details=Created by ${this.currentUser.first_name} ${
+        } ${this.currentUser.last_name} <> ${contact.name}&details=Created by ${
+          this.currentUser.first_name
+        } ${
           this.currentUser.last_name
         } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
           contact.emails[0] || contact.emails[0] || ''
@@ -1536,7 +1588,7 @@ export default {
       this.toggleContactsFromList(this.selectedContacts, id, false);
     },
     toggleContactsFromList(ids, list, remove) {
-      console.log(ids, list, remove)
+      console.log(ids, list, remove);
       this.$store
         .dispatch('toggleContactsFromList', {
           contact_ids: ids,
@@ -1598,7 +1650,7 @@ export default {
     setCurrentContact(_e, contact, index) {
       this.currentContact = contact;
       this.$emit('setCurrentContact', contact);
-      this.currentCell.row = index
+      this.currentCell.row = index;
     },
     nextContact() {
       const index = this.contactRecords.indexOf(this.currentContact);
@@ -1606,7 +1658,7 @@ export default {
         this.setCurrentContact(
           'setCurrentCreator',
           this.contactRecords[index + 1],
-            index
+          index
         );
       }
     },
@@ -1616,7 +1668,7 @@ export default {
         this.setCurrentContact(
           'setCurrentCreator',
           this.contactRecords[index - 1],
-            index
+          index
         );
       }
     },

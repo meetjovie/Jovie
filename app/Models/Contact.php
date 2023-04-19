@@ -613,6 +613,10 @@ class Contact extends Model implements Auditable
             });
         }
 
+        if (isset($params['contact_ids']) && count($params['contact_ids'])) {
+            $contacts = $contacts->whereIn('contacts.id', $params['contact_ids']);
+        }
+
         if (isset($params['id'])) {
             $contacts = $contacts->where('contacts.id', $params['id'])->limit(1);
         }
