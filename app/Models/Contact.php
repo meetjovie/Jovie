@@ -797,11 +797,11 @@ class Contact extends Model implements Auditable
 
     public static function updateContact($data, $id, $merge = false)
     {
+        $contact = Contact::query()->where('id', $id)->first();
         $contactData = self::getFillableData($data);
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
         }
-        $contact = Contact::query()->where('id', $id)->first();
         foreach ($contactData as $key => $value) {
             $contact->{$key} = $value;
             if (in_array($key, ['first_name', 'last_name'])) {
@@ -813,7 +813,7 @@ class Contact extends Model implements Auditable
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
         foreach ($customFields as  $customField) {
-            if (array_key_exists($customField->code, $data)) {
+            if (array_key_exists($customField->code, $data) && !$merge) {
                 $value = $data[$customField->code];
                 $oldValue = $cc->getFieldValueByModel($customField, $contact);
                 CustomFieldValue::query()->updateOrCreate([
@@ -824,7 +824,6 @@ class Contact extends Model implements Auditable
                     'value' => $value,
                 ]);
 
-                if (!$merge) {
                     $contact->auditEvent = 'update';
                     $contact->isCustomEvent = true;
 
@@ -836,7 +835,6 @@ class Contact extends Model implements Auditable
                         $customField->code => $newValue
                     ];
                     Event::dispatch(AuditCustom::class, [$contact]);
-                }
             }
         }
         return $contact;
