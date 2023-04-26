@@ -495,6 +495,7 @@ class CrmController extends Controller
             $mergedContact = $contactService->getMergedContact($contacts->first(), $contacts->last(), false);
             $mergedContact = $mergedContact->toArray();
             $mergedContact = Arr::except($mergedContact, ['tags', 'updated_at', 'created_at']);
+//            dd($mergedContact['comments']);
 
             $oldContact = Contact::query()->where('id', min($request->contacts))->with('userLists')->first();
             $oldLists = $oldContact->userLists->pluck('id')->toArray();
@@ -505,6 +506,13 @@ class CrmController extends Controller
                 if (!in_array($id, $oldLists)) {
                     $changes['user_lists'][] = collect($mergedContact['user_lists'])->where('id', $id)->first();
                     Contact::addContactsToList($contact->id,  $id, $contact->team_id);
+                }
+            }
+
+            foreach ($mergedContact['comments'] as $comment) {
+                if ($comment->contact_id != $oldContact->id) {
+                    $comment->contact_id = $oldContact->id;
+                    $comment->save();
                 }
             }
 
