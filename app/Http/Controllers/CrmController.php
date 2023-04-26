@@ -408,23 +408,36 @@ class CrmController extends Controller
                         }
                     } elseif ($key == 'customFields') {
                         foreach ($modified['new'] as $field => $value) {
-                            $readableField = Str::replace('_', ' ', $field);
-                            $old = is_array($modified['old'][$field]) ? implode(
-                                ', ',
-                                $modified['old'][$field]
-                            ) : $modified['old'][$field];
-                            $new = is_array($value) ? implode(', ', $value) : $value;
-                            if (!$old) {
-                                $modificationTexts[] = ("updated $readableField to <b>" . $new . "</b>");
-                            } else {
-                                $modificationTexts[] = ("updated $readableField from <b>" . $old . "</b> to <b>" . $new . "</b>");
+                            if (is_array($value)) {
+                                $customField = array_key_first($value);
+                                $modificationTexts[] = ("updated " . $customField .  ($modified['old'][$field][$customField] ?  " from <b>" . $modified['old'][$field][$customField] : "") . "</b> to <b>" . $modified['new'][$field][$customField] . "</b>");
+                            }
+                            else {
+                                $readableField = Str::replace('_', ' ', $field);
+                                $old = is_array($modified['old'][$field]) ? implode(
+                                    ', ',
+                                    $modified['old'][$field]
+                                ) : $modified['old'][$field];
+                                $new = is_array($value) ? implode(', ', $value) : $value;
+                                if (!$old) {
+                                    $modificationTexts[] = ("updated $readableField to <b>" . $new . "</b>");
+                                } else {
+                                    $modificationTexts[] = ("updated $readableField from <b>" . $old . "</b> to <b>" . $new . "</b>");
+                                }
                             }
                         }
                     } elseif (isset($modified['old']) ) {
                         $modificationTexts[] = ("updated $key from <b>" . $modified['old'] . "</b> to <b>" . $modified['new'] . "</b>");
                         $modificationTexts[] = ("updated $key from <b>" . $modified['old'] . "</b> to <b>" . $modified['new'] . "</b>");
                     } else {
-                        $modificationTexts[] = ("updated $key to <b>" . $modified['new'] . "</b>");
+                        if (is_array($modified['new']))
+                        {
+                            foreach ($modified['new'] as $new) {
+                                $modificationTexts[] = ("updated $key to <b>" . $new['name'] . "</b>");
+                            }
+                        } else {
+                            $modificationTexts[] = ("updated $key to <b>" . $modified['new'] . "</b>");
+                        }
                     }
                 }
                 $change->modification_texts = $modificationTexts;
@@ -524,6 +537,7 @@ class CrmController extends Controller
                         $customField->code => $newValue
                     ];
                 }
+                $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
             }
             Contact::deleteContact(max($request->contacts));
 

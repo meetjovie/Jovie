@@ -767,8 +767,8 @@ export default {
       console.log(val);
     },
     openMergeSuggestion(val) {
-      console.log('csdfcsdc',val)
-    }
+      console.log('csdfcsdc', val);
+    },
   },
   mounted() {
     this.$mousetrap.bind('up', () => {
@@ -958,14 +958,21 @@ export default {
         contactIds = this.contactIds;
       }
       let newContact = this.contactRecords.find((record) => {
-        return (record.id = data.suggestions[0]);
+        return record.id == data.suggestions[0];
       });
       let oldContact = this.contactRecords.find((record) => {
-        return (record.id = data.suggestions[1]);
+        return record.id == data.suggestions[1];
       });
       this.contactRecords.splice(this.contactRecords.indexOf(newContact), 1);
+      console.log(
+        'snfvsnljdvnsndvkjnskfdn',
+        this.contactRecords,
+        data,
+        newContact,
+        oldContact
+      );
       this.contactRecords[this.contactRecords.indexOf(oldContact)] =
-        data.creator;
+        data.newContact;
       this.suggestMerge([]);
     },
     rejectMerge(id) {
