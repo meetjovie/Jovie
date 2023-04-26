@@ -999,6 +999,7 @@ class Contact extends Model implements Auditable
     {
         $contact = Contact::find($id);
         $contact->userLists()->detach();
+        CustomFieldValue::query()->where('model_id', $id)->delete();
         ContactComment::query()->where('contact_id', $id)->delete();
         return $contact->delete();
     }

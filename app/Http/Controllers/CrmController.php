@@ -489,69 +489,7 @@ class CrmController extends Controller
     public function mergeContacts(Request $request, ContactService $contactService)
     {
         try {
-            Contact::disableAuditing();
-
-            $contacts = Contact::query()->whereIn('id', $request->contacts)->get();
-            $mergedContact = $contactService->getMergedContact($contacts->first(), $contacts->last(), false);
-            $mergedContact = $mergedContact->toArray();
-            $mergedContact = Arr::except($mergedContact, ['tags', 'updated_at', 'created_at']);
-//            dd($mergedContact['comments']);
-
-            $oldContact = Contact::query()->where('id', min($request->contacts))->with('userLists')->first();
-            $oldLists = $oldContact->userLists->pluck('id')->toArray();
-            $contact = Contact::updateContact($mergedContact, min($request->contacts), true);
-            $listsIds = collect($mergedContact['user_lists'])->pluck('id')->toArray();
-            $changes = $contact->getDirty();
-            foreach ($listsIds as $id) {
-                if (!in_array($id, $oldLists)) {
-                    $changes['user_lists'][] = collect($mergedContact['user_lists'])->where('id', $id)->first();
-                    Contact::addContactsToList($contact->id,  $id, $contact->team_id);
-                }
-            }
-
-            foreach ($mergedContact['comments'] as $comment) {
-                if ($comment->contact_id != $oldContact->id) {
-                    $comment->contact_id = $oldContact->id;
-                    $comment->save();
-                }
-            }
-
-            $oldContact->auditEvent = 'merged';
-            $oldContact->isCustomEvent = true;
-            foreach ($changes as $key => $change) {
-                $oldContact->auditCustomOld[$key] = $oldContact[$key];
-            }
-            $oldContact->auditCustomNew = $changes;
-
-            $customFields = $oldContact->getFieldsByTeam($mergedContact['team_id']);
-            $cc = new Contact();
-            foreach ($customFields as  $customField) {
-                if (array_key_exists($customField->code, $mergedContact)) {
-                    $value = $mergedContact[$customField->code];
-                    $oldValue = $cc->getFieldValueByModel($customField, $oldContact);
-                    CustomFieldValue::query()->updateOrCreate([
-                        'custom_field_id' => $customField->id,
-                        'model_id' => $contact->id,
-                        'model_type' => Contact::class,
-                    ], [
-                        'value' => $value,
-                    ]);
-
-                    $newValue = $cc->getFieldValueByModel($customField, $contact);
-                    $oldContact->auditCustomOld['customFields'][] = [
-                        $customField->code => $oldValue
-                    ];
-                    $oldContact->auditCustomNew['customFields'][] = [
-                        $customField->code => $newValue
-                    ];
-                }
-                $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
-            }
-            Contact::deleteContact(max($request->contacts));
-            $contact->load('userLists');
-            Contact::enableAuditing();
-
-            Event::dispatch(AuditCustom::class, [$oldContact]);
+            $contact = $contactService->mergeContacts($request);
 
             return response()->json([
                 'status' => true,
