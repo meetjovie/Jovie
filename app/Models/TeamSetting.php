@@ -39,13 +39,14 @@ class TeamSetting extends Model
     public static function setSetting($key, $value)
     {
         $user = auth()->user();
+
         return self::updateOrCreate(
             [
-                'key' => $key
+                'key' => $key,
+                'team_id' => $user->currentTeam->id
             ],
             [
                 'user_id' => $user->id,
-                'team_id' => $user->currentTeam->id,
                 'value' => $value
             ],
         );
