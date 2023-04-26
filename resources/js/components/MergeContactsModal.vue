@@ -56,15 +56,24 @@
                   <div class="mt-2">
                     <div class="grid grid-cols-3 gap-3">
                       <template v-if="suggestion">
-
                         <template v-for="contact in suggestion.contacts">
-                          <ContactSidebar :jovie="true" :contactData="contact" />
+                          <ContactSidebar
+                            :jovie="true"
+                            :contactData="contact" />
                         </template>
                       </template>
                     </div>
                     <div class="mt-2 grid grid-cols-2 gap-x-8">
-                      <ButtonGroup :text="'Reject'" @click="rejectMerge" />
-                      <ButtonGroup :text="'Merge'" @click="acceptMerge" />
+                      <div class="me-auto w-20">
+                        <ButtonGroup
+                          icon="ArrowLeftIcon"
+                          @click="rejectMerge" />
+                      </div>
+                      <div class="ms-auto w-20">
+                        <ButtonGroup
+                          icon="ArrowRightIcon"
+                          @click="acceptMerge" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -155,7 +164,7 @@ export default {
       });
     },
     rejectMerge() {
-      console.log('nvz.,nc.m,zd,vcd/zm',this.suggestion.contacts[0].id)
+      console.log('nvz.,nc.m,zd,vcd/zm', this.suggestion.contacts[0].id);
       this.$emit('rejectMerge', this.suggestion.contacts[0].id);
     },
   },

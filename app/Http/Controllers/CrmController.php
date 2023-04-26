@@ -540,7 +540,7 @@ class CrmController extends Controller
                 $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
             }
             Contact::deleteContact(max($request->contacts));
-
+            $contact->load('userLists');
             Contact::enableAuditing();
 
             Event::dispatch(AuditCustom::class, [$oldContact]);

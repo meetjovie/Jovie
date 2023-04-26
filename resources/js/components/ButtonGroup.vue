@@ -117,15 +117,17 @@
 
 <script>
 import {
-  EnvelopeIcon,
-  MagnifyingGlassIcon,
-  NoSymbolIcon,
-  PlusCircleIcon,
-  MinusCircleIcon,
-  MinusIcon,
-  AdjustmentsHorizontalIcon,
-  PlusIcon,
-  ChevronRightIcon,
+    EnvelopeIcon,
+    MagnifyingGlassIcon,
+    NoSymbolIcon,
+    PlusCircleIcon,
+    MinusCircleIcon,
+    MinusIcon,
+    AdjustmentsHorizontalIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    PlusIcon,
+    ChevronRightIcon,
 } from '@heroicons/vue/24/solid';
 import { XCircleIcon, CheckCircleIcon } from '@heroicons/vue/24/solid';
 
@@ -202,6 +204,8 @@ export default {
   components: {
     EnvelopeIcon,
     MagnifyingGlassIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
     NoSymbolIcon,
     PlusIcon,
     CheckCircleIcon,
