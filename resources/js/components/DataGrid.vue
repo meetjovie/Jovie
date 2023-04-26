@@ -964,13 +964,6 @@ export default {
         return record.id == data.suggestions[1];
       });
       this.contactRecords.splice(this.contactRecords.indexOf(newContact), 1);
-      console.log(
-        'snfvsnljdvnsndvkjnskfdn',
-        this.contactRecords,
-        data,
-        newContact,
-        oldContact
-      );
       this.contactRecords[this.contactRecords.indexOf(oldContact)] =
         data.newContact;
       this.suggestMerge([]);
@@ -1007,6 +1000,9 @@ export default {
             } else {
               this.openMergeSuggestion = true;
             }
+            document
+              .querySelector('#suggestion-modal')
+              .scrollTo({ top: 0, behavior: 'smooth' });
           } else {
             this.$notify({
               group: 'user',
