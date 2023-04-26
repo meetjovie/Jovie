@@ -776,7 +776,19 @@ class Contact extends Model implements Auditable
                 $contact->full_name = $contact->getName();
             }
         }
+
+        $user =  auth()->user();
+        if ($contact->isDirty()) {
+            if(count(array_intersect(Creator::NETWORKS, array_keys($contact->getDirty()))) > 0){
+                if ($user->currentTeam->hasEnoughEnrichingCredits() && !$user->currentTeam->autoEnrichEnabled()) {
+                    Auth::user()->currentTeam->deductCredits();
+                    Contact::enrichContacts($contact->id, [ 'user_id' => $user->id, 'team_id' => $user->currentTeam->id]);
+                }
+            };
+        }
+
         $contact->save();
+
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);

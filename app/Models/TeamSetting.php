@@ -36,6 +36,12 @@ class TeamSetting extends Model
         return $this->belongsTo(Team::class);
     }
 
+    public static function getSetting($key)
+    {
+        $setting = self::where('key', $key)->first();
+        return $setting ? $setting->value : null;
+    }
+
     public static function setSetting($key, $value)
     {
         $user = auth()->user();

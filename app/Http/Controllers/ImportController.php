@@ -14,6 +14,7 @@ use App\Jobs\TwitterImport;
 use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Import;
+use App\Models\TeamSetting;
 use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
@@ -172,16 +173,22 @@ class ImportController extends Controller
     {
         try {
             $data = $request->all();
-            $data['user_id'] = Auth::id();
-            $data['team_id'] = Auth::user()->currentTeam->id;
+            $user = Auth::user();
+            $data['user_id'] = $user->id;
+            $data['team_id'] = $user->currentTeam->id;
             $contact = Contact::saveContact($data, $request->list_id)->first();
 
-            $params['user_id'] = Auth::id();
-            $params['team_id'] = Auth::user()->currentTeam->id;
+            $params['user_id'] = $user->id;
+            $params['team_id'] = $user->currentTeam->id;
             $params['id'] = $contact->id;
             $params['type'] = 'list';
             $params['list'] = $request->list_id;
             $contact = Contact::getContacts($params)->first();
+
+            if ($user->currentTeam->hasEnoughEnrichingCredits() && $user->currentTeam->autoEnrichEnabled()) {
+                Auth::user()->currentTeam->deductCredits();
+                Contact::enrichContacts($params['id'], $params);
+            }
 
             return collect([
                 'status' => true,

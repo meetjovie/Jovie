@@ -135,7 +135,7 @@ class Team extends TeamworkTeam
         return ($totalContacts - $currentContactsLimit);
     }
 
-    public function hasEnoughEnrichingCredits($count)
+    public function hasEnoughEnrichingCredits($count = 1)
     {
         return $this->credits >= $count;
     }
@@ -147,5 +147,9 @@ class Team extends TeamworkTeam
             Teamwork::acceptInvite($invite);
             auth()->user()->switchTeam($invite->team);
         }
+    }
+
+    public function autoEnrichEnabled(){
+        return TeamSetting::getSetting('auto_enrich') == 1;
     }
 }
