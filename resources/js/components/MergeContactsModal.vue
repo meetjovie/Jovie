@@ -65,14 +65,10 @@
                     </div>
                     <div class="mt-2 grid grid-cols-2 gap-x-8">
                       <div class="me-auto w-20">
-                        <ButtonGroup
-                          icon="ArrowLeftIcon"
-                          @click="rejectMerge" />
+                        <ButtonGroup text="Reject" @click="rejectMerge" />
                       </div>
                       <div class="ms-auto w-20">
-                        <ButtonGroup
-                          icon="ArrowRightIcon"
-                          @click="acceptMerge" />
+                        <ButtonGroup text="Merge" @click="acceptMerge" />
                       </div>
                     </div>
                   </div>
@@ -132,6 +128,17 @@ export default {
     },
   },
   methods: {
+    handleKeydown(e) {
+      console.log(e);
+      switch (e.keyCode) {
+        case 37:
+          this.rejectMerge();
+          break;
+        case 39:
+          this.acceptMerge();
+          break;
+      }
+    },
     closeModal() {
       this.$emit('close');
       Object.assign(this.$data, this.$options.data());
@@ -164,7 +171,6 @@ export default {
       });
     },
     rejectMerge() {
-      console.log('nvz.,nc.m,zd,vcd/zm', this.suggestion.contacts[0].id);
       this.$emit('rejectMerge', this.suggestion.contacts[0].id);
     },
   },

@@ -511,6 +511,7 @@
 
   <MergeContactsModal
     @close="closeMergeSuggestions"
+    ref="mergeModal"
     @acceptMerge="acceptMerge"
     @rejectMerge="rejectMerge"
     :open="openMergeSuggestion"
@@ -790,14 +791,22 @@ export default {
       }
     });
     //arrow keys to navigate through the table
-    this.$mousetrap.bind('right', () => {
-      event.preventDefault();
-      this.handleCellNavigation('ArrowRight');
-    });
-    this.$mousetrap.bind('left', () => {
-      event.preventDefault();
-      this.handleCellNavigation('ArrowLeft');
-    });
+      this.$mousetrap.bind('right', () => {
+          event.preventDefault();
+          if (this.openMergeSuggestion) {
+              this.$refs.mergeModal.acceptMerge();
+          } else {
+              this.handleCellNavigation('ArrowRight');
+          }
+      });
+      this.$mousetrap.bind('left', () => {
+          event.preventDefault();
+          if (this.openMergeSuggestion) {
+              this.$refs.mergeModal.rejectMerge();
+          } else {
+              this.handleCellNavigation('ArrowLeft');
+          }
+      });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
       this.nextContact();
