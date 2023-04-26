@@ -41,6 +41,11 @@
                   <AccountPassword />
                 </TabPanel>
               </TabPanels>
+                <TabPanels as="template">
+                    <TabPanel class="space-y-12 px-4 py-6">
+                        <AccountTeamSetting />
+                    </TabPanel>
+                </TabPanels>
               <!--  <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
                   Notifications
@@ -77,6 +82,7 @@
 import AccountTeam from '../components/Account/AccountTeam.vue';
 import AccountProfile from '../components/Account/AccountProfile.vue';
 import AccountDelete from '../components/Account/AccountDelete.vue';
+import AccountTeamSetting from "../components/Account/AccountTeamSetting.vue";
 import JovieSidebar from '../components/JovieSidebar.vue';
 
 import { ref } from 'vue';
@@ -138,6 +144,7 @@ const secondaryNavigation = [
 const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
+  { name: 'Team Setting', href: '#', current: false },
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
   { name: 'Delete Account', href: '#', current: false },
@@ -183,6 +190,7 @@ export default {
     ButtonGroup,
     AccountProfile,
     AccountPassword,
+    AccountTeamSetting
   },
 
   props: {

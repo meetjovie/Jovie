@@ -59,6 +59,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/update-password', [\App\Http\Controllers\UserController::class, 'updatePassword']);
     Route::put('/set-password', [\App\Http\Controllers\UserController::class, 'setPassword']);
 
+    //  TEAM SETTING
+    Route::get('/team-setting', [\App\Http\Controllers\TeamSettingController::class, 'index']);
+    Route::post('/team-setting', [\App\Http\Controllers\TeamSettingController::class, 'update']);
+
 //    Route::group(['middleware' => 'subscribed'], function () {
 
     //
