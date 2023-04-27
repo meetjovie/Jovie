@@ -60,18 +60,12 @@
 
 <script>
 import CheckboxInput from '../CheckboxInput.vue';
-import InputGroup from '../../components/InputGroup.vue';
-import CardHeading from '../CardHeading.vue';
-import CardLayout from '../../components/CardLayout.vue';
 import ButtonGroup from '../../components/ButtonGroup.vue';
 import TeamService from '../../services/api/team.service';
 
 export default {
   name: 'AccountTeamSetting',
   components: {
-    InputGroup,
-    CardHeading,
-    CardLayout,
     ButtonGroup,
     CheckboxInput,
   },
