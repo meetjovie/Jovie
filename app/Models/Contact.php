@@ -613,6 +613,10 @@ class Contact extends Model implements Auditable
             });
         }
 
+        if (isset($params['contact_ids']) && count($params['contact_ids'])) {
+            $contacts = $contacts->whereIn('contacts.id', $params['contact_ids']);
+        }
+
         if (isset($params['id'])) {
             $contacts = $contacts->where('contacts.id', $params['id'])->limit(1);
         }
@@ -791,13 +795,13 @@ class Contact extends Model implements Auditable
         return count($contacts) ? $contacts : false;
     }
 
-    public static function updateContact($data, $id)
+    public static function updateContact($data, $id, $merge = false)
     {
+        $contact = Contact::query()->where('id', $id)->first();
         $contactData = self::getFillableData($data);
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
         }
-        $contact = Contact::query()->where('id', $id)->first();
         foreach ($contactData as $key => $value) {
             $contact->{$key} = $value;
             if (in_array($key, ['first_name', 'last_name'])) {
@@ -808,8 +812,8 @@ class Contact extends Model implements Auditable
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
-        foreach ($customFields as $customField) {
-            if (array_key_exists($customField->code, $data)) {
+        foreach ($customFields as  $customField) {
+            if (array_key_exists($customField->code, $data) && !$merge) {
                 $value = $data[$customField->code];
                 $oldValue = $cc->getFieldValueByModel($customField, $contact);
                 CustomFieldValue::query()->updateOrCreate([
@@ -820,18 +824,17 @@ class Contact extends Model implements Auditable
                     'value' => $value,
                 ]);
 
-                $contact->auditEvent = 'update';
-                $contact->isCustomEvent = true;
+                    $contact->auditEvent = 'update';
+                    $contact->isCustomEvent = true;
 
-                $newValue = $cc->getFieldValueByModel($customField, $contact);
-                $contact->auditCustomOld = [
-                    $customField->code => $oldValue
-                ];
-                $contact->auditCustomNew = [
-                    $customField->code => $newValue
-                ];
-                Event::dispatch(AuditCustom::class, [$contact]);
-
+                    $newValue = $cc->getFieldValueByModel($customField, $contact);
+                    $contact->auditCustomOld = [
+                        $customField->code => $oldValue
+                    ];
+                    $contact->auditCustomNew = [
+                        $customField->code => $newValue
+                    ];
+                    Event::dispatch(AuditCustom::class, [$contact]);
             }
         }
         return $contact;
@@ -990,5 +993,14 @@ class Contact extends Model implements Auditable
         EnrichList::dispatch($listId, $params);
 
         return $listIds;
+    }
+
+    public static function deleteContact($id)
+    {
+        $contact = Contact::find($id);
+        $contact->userLists()->detach();
+        CustomFieldValue::query()->where('model_id', $id)->delete();
+        ContactComment::query()->where('contact_id', $id)->delete();
+        return $contact->delete();
     }
 }
