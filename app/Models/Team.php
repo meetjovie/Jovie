@@ -149,7 +149,13 @@ class Team extends TeamworkTeam
         }
     }
 
-    public function autoEnrichEnabled(){
-        return TeamSetting::getSetting('auto_enrich') == 1;
+    public function autoEnrichImportEnabled()
+    {
+        return TeamSetting::getSetting('auto_enrich_import') == 1;
+    }
+
+    public function autoEnrichUpdateEnabled()
+    {
+        return TeamSetting::getSetting('auto_enrich_update') == 1;
     }
 }

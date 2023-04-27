@@ -18,7 +18,8 @@ class TeamSetting extends Model
     ];
 
     const SETTING_KEYS = [
-        'auto_enrich',
+        'auto_enrich_import',
+        'auto_enrich_update',
     ];
 
     protected static function booted()

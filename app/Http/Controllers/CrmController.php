@@ -99,7 +99,7 @@ class CrmController extends Controller
                 'emoji' => $list->emoji,
             ],
 
-            'message' => ('Contacts '. ($request->remove == true ? 'removed from list' : 'added to list'))
+            'message' => ('Contacts ' . ($request->remove == true ? 'removed from list' : 'added to list'))
 
         ], 200);
     }
@@ -113,7 +113,7 @@ class CrmController extends Controller
         Contact::updateArchivedStatus($contactIds, boolval($request->archived));
         return response()->json([
             'status' => true,
-            'message' => ('Contacts '.boolval($request->archived) ? 'archived.' : 'unarchived.')
+            'message' => ('Contacts ' . boolval($request->archived) ? 'archived.' : 'unarchived.')
         ], 200);
     }
 
@@ -236,7 +236,7 @@ class CrmController extends Controller
         $contacts = Contact::getEnrichableContacts($request->contact_ids);
         if ($count = count($contacts)) {
 
-            if (! Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
+            if (!Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
                 return response([
                     'status' => false,
                     'message' => "You do not have enough credits."
@@ -246,7 +246,7 @@ class CrmController extends Controller
             return response([
                 'status' => true,
                 'data' => $contacts->pluck('id')->toArray(),
-                'message' => "There are ".$count." contacts that can be enriched. Are you sure you want to continue ?"
+                'message' => "There are " . $count . " contacts that can be enriched. Are you sure you want to continue ?"
             ]);
         }
         return response([
@@ -265,7 +265,7 @@ class CrmController extends Controller
         $params['user_id'] = Auth::id();
         $params['team_id'] = Auth::user()->currentTeam->id;
 
-        if (! Auth::user()->currentTeam->hasEnoughEnrichingCredits(count($request->contact_ids))) {
+        if (!Auth::user()->currentTeam->hasEnoughEnrichingCredits(count($request->contact_ids))) {
             return response([
                 'status' => false,
                 'message' => "You do not have enough credits."
@@ -291,7 +291,7 @@ class CrmController extends Controller
         $count = Contact::getEnrichableContactsFromLists($request->list_ids, true);
         if ($count) {
 
-            if (! Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
+            if (!Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
                 return response([
                     'status' => false,
                     'message' => "You do not have enough credits."
@@ -301,7 +301,7 @@ class CrmController extends Controller
             return response([
                 'status' => true,
                 'data' => $count,
-                'message' => "There are ".$count." contact/contacts in the list/lists that can be enriched. Are you sure you want to continue ?"
+                'message' => "There are " . $count . " contact/contacts in the list/lists that can be enriched. Are you sure you want to continue ?"
             ]);
         }
         return response([
@@ -321,7 +321,7 @@ class CrmController extends Controller
         $params['team_id'] = Auth::user()->currentTeam->id;
 
         $count = Contact::getEnrichableContactsFromLists($request->list_ids, true);
-        if (! Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
+        if (!Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
             return response([
                 'status' => false,
                 'message' => "You do not have enough credits."
@@ -377,7 +377,7 @@ class CrmController extends Controller
                             });
                             foreach ($userLists as $userList) {
                                 $class = '';
-                                if (! in_array($userList['id'], $userListIdsDB)) {
+                                if (!in_array($userList['id'], $userListIdsDB)) {
                                     $class = 'text-red-600';
                                 }
                                 $modificationTexts[] = "removed from list <b class='$class'>$userList[name]</b>";
@@ -389,28 +389,28 @@ class CrmController extends Controller
                             });
                             foreach ($userLists as $userList) {
                                 $class = '';
-                                if (! in_array($userList['id'], $userListIdsDB)) {
+                                if (!in_array($userList['id'], $userListIdsDB)) {
                                     $class = 'text-red-600';
                                 }
                                 $modificationTexts[] = "added to list <b class='$class'>$userList[name]</b>";
                             }
                         }
 
-                    }  elseif ($key == 'customFields') {
+                    } elseif ($key == 'customFields') {
                         foreach ($modified['new'] as $field => $value) {
                             $readableField = Str::replace('_', ' ', $field);
                             $old = is_array($modified['old'][$field]) ? implode(', ', $modified['old'][$field]) : $modified['old'][$field];
                             $new = is_array($value) ? implode(', ', $value) : $value;
                             if (!$old) {
-                                $modificationTexts[] = ("updated $readableField to <b>".$new."</b>");
+                                $modificationTexts[] = ("updated $readableField to <b>" . $new . "</b>");
                             } else {
-                                $modificationTexts[] = ("updated $readableField from <b>".$old."</b> to <b>".$new."</b>");
+                                $modificationTexts[] = ("updated $readableField from <b>" . $old . "</b> to <b>" . $new . "</b>");
                             }
                         }
                     } elseif (isset($modified['old'])) {
-                        $modificationTexts[] = ("updated $key from <b>".$modified['old']."</b> to <b>".$modified['new']."</b>");
+                        $modificationTexts[] = ("updated $key from <b>" . $modified['old'] . "</b> to <b>" . $modified['new'] . "</b>");
                     } else {
-                        $modificationTexts[] = ("updated $key to <b>".$modified['new']."</b>");
+                        $modificationTexts[] = ("updated $key to <b>" . $modified['new'] . "</b>");
                     }
                 }
                 $change->modification_texts = $modificationTexts;
@@ -450,7 +450,7 @@ class CrmController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => ($e->getMessage().' '.$e->getFile().' '.$e->getLine())
+                'message' => ($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine())
             ], 200);
         }
     }
@@ -513,45 +513,45 @@ class CrmController extends Controller
 
         $client = new Client(config('scout.meilisearch.host'), config('scout.meilisearch.key'));
 
-        $filtersString = '(mutedRecord!=user_'.Auth::id().' OR mutedRecordCount = 0)';
+        $filtersString = '(mutedRecord!=user_' . Auth::id() . ' OR mutedRecordCount = 0)';
 
-        $filtersString .= ' AND (selectedRecord!=user_'.Auth::id().' OR selectedRecordCount=0)';
-        $filtersString .= ' AND (rejectedRecord!=user_'.Auth::id().' OR rejectedRecordCount=0)';
+        $filtersString .= ' AND (selectedRecord!=user_' . Auth::id() . ' OR selectedRecordCount=0)';
+        $filtersString .= ' AND (rejectedRecord!=user_' . Auth::id() . ' OR rejectedRecordCount=0)';
 //        dd($filtersString);
-        if (! empty($request->gender)) {
-            $filtersString = $filtersString.' AND gender='.$request->gender;
+        if (!empty($request->gender)) {
+            $filtersString = $filtersString . ' AND gender=' . $request->gender;
         }
-        if (! empty($request->instagram_category)) {
-            $filtersString = $filtersString.' AND instagram_category='.$request->instagram_category;
+        if (!empty($request->instagram_category)) {
+            $filtersString = $filtersString . ' AND instagram_category=' . $request->instagram_category;
         }
-        if (! empty($request->city)) {
-            $filtersString = $filtersString.' AND city='.$request->city;
+        if (!empty($request->city)) {
+            $filtersString = $filtersString . ' AND city=' . $request->city;
         }
-        if (! empty($request->country)) {
-            $filtersString = $filtersString.' AND country='.$request->country;
+        if (!empty($request->country)) {
+            $filtersString = $filtersString . ' AND country=' . $request->country;
         }
 
         $request->instagram_engagement_rate = json_decode($request->instagram_engagement_rate);
         if ($request->instagram_engagement_rate) {
-            if (! empty($request->instagram_engagement_rate[0])) {
-                $filtersString = $filtersString.' AND instagram_engagement_rate>='.($request->instagram_engagement_rate[0] / 100);
+            if (!empty($request->instagram_engagement_rate[0])) {
+                $filtersString = $filtersString . ' AND instagram_engagement_rate>=' . ($request->instagram_engagement_rate[0] / 100);
             }
-            if (! empty($request->instagram_engagement_rate[1])) {
-                $filtersString = $filtersString.' AND instagram_engagement_rate<='.($request->instagram_engagement_rate[1] / 100);
+            if (!empty($request->instagram_engagement_rate[1])) {
+                $filtersString = $filtersString . ' AND instagram_engagement_rate<=' . ($request->instagram_engagement_rate[1] / 100);
             }
         }
         $request->instagram_followers = json_decode($request->instagram_followers);
         if ($request->instagram_followers) {
-            if (! empty($request->instagram_followers[0])) {
-                $filtersString = $filtersString.' AND instagram_followers>='.$request->instagram_followers[0];
+            if (!empty($request->instagram_followers[0])) {
+                $filtersString = $filtersString . ' AND instagram_followers>=' . $request->instagram_followers[0];
             }
-            if (! empty($request->instagram_followers[1])) {
-                $filtersString = $filtersString.' AND instagram_followers<='.$request->instagram_followers[1];
+            if (!empty($request->instagram_followers[1])) {
+                $filtersString = $filtersString . ' AND instagram_followers<=' . $request->instagram_followers[1];
             }
         }
 
-        if (! empty($request->emails)) {
-            $filtersString = $filtersString.' AND emails='.$request->emails;
+        if (!empty($request->emails)) {
+            $filtersString = $filtersString . ' AND emails=' . $request->emails;
         }
 
         //dd($filtersString);
@@ -563,9 +563,9 @@ class CrmController extends Controller
         ])->getRaw();
         dd($data);
 
-        if (! $crms) {
+        if (!$crms) {
             $crms = $client->index('crms')->search('', [
-                'filter' => ('selected='.$request->selected.' AND rejected='.$request->rejected),
+                'filter' => ('selected=' . $request->selected . ' AND rejected=' . $request->rejected),
                 'offset' => $request->page,
                 'limit' => 30,
             ])->getRaw();
@@ -605,39 +605,39 @@ class CrmController extends Controller
 
             $data = $request->except('network');
             $data = array_filter($data);
-            $creator = Creator::query()->where(($request->network.'_handler'), $request->{$request->network.'_handler'})->first();
+            $creator = Creator::query()->where(($request->network . '_handler'), $request->{$request->network . '_handler'})->first();
             $creator = $creator ?? new Creator();
-            if (!empty($data['profile_pic_url']) && $request->network ==  'instagram') {
+            if (!empty($data['profile_pic_url']) && $request->network == 'instagram') {
                 $profilePicUrl = $data['profile_pic_url'];
                 unset($data['profile_pic_url']);
                 $fileName = explode('/tmp/', $profilePicUrl)[1] ?? null;
                 if ($fileName) {
                     Storage::disk('s3')->copy(
-                        ('tmp/'.$fileName),
-                        (Creator::CREATORS_CSV_PATH.$fileName)
+                        ('tmp/' . $fileName),
+                        (Creator::CREATORS_CSV_PATH . $fileName)
                     );
-                    $data['profile_pic_url'] = Storage::disk('s3')->url(Creator::CREATORS_CSV_PATH.$fileName);
+                    $data['profile_pic_url'] = Storage::disk('s3')->url(Creator::CREATORS_CSV_PATH . $fileName);
                 }
             }
-            $meta = $creator->{$request->network.'_meta'};
+            $meta = $creator->{$request->network . '_meta'};
             if (isset($data['profile_pic_url'])) {
                 $meta->profile_pic_url = $data['profile_pic_url'];
             }
-            $creator->{$request->network.'_meta'} = $meta;
+            $creator->{$request->network . '_meta'} = $meta;
 
             unset($data['profile_pic_url']);
             foreach ($data as $k => $v) {
                 if ($k == 'meta') {
                     foreach ($v as $kk => $vv) {
-                        if (! Schema::hasColumn('creators', $kk)) continue;
+                        if (!Schema::hasColumn('creators', $kk)) continue;
                         $creator->{$kk} = $vv;
                     }
                 } else {
-                    if (! Schema::hasColumn('creators', $k)) continue;
+                    if (!Schema::hasColumn('creators', $k)) continue;
                     $creator->{$k} = $v;
                 }
             }
-            $creator->{$request->network.'_last_scrapped_at'} = Carbon::now()->toDateTimeString();
+            $creator->{$request->network . '_last_scrapped_at'} = Carbon::now()->toDateTimeString();
             $creator->save();
             Creator::addToListAndCrm($creator, null, $user->id, $user->currentTeam->id);
 

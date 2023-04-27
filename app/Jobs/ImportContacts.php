@@ -7,12 +7,14 @@ use App\Models\Contact;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
+use App\Models\Team;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use League\Csv\Reader;
 
 class ImportContacts implements ShouldQueue
@@ -116,6 +118,12 @@ class ImportContacts implements ShouldQueue
                 $contact['snapchat'] = isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
                 $contact['wiki'] = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
                 $contact = Contact::saveContact($contact)->first();
+
+                $team = Team::find($contact->team_id);
+                if ($team->autoEnrichImportEnabled()) {
+                    $contact->enrichContact();
+                }
+
                 $contactIds[] = $contact->id;
             }
 
@@ -131,6 +139,7 @@ class ImportContacts implements ShouldQueue
             }
 
         } catch (\Exception $e) {
+            Log::info('ENRIRHCHDHD...' . $e->getMessage().'----'.$e->getFile().'-----'.$e->getLine());
             SendSlackNotification::dispatch(('Error in importing contacts. '.$e->getMessage().'----'.$e->getFile().'-----'.$e->getLine()));
         }
     }
