@@ -218,7 +218,7 @@ class Contact extends Model implements Auditable
 
     public function userLists(): BelongsToMany
     {
-        return $this->belongsToMany(UserList::class)->withTimestamps()->withPivot(['stage', 'comment']);
+        return $this->belongsToMany(UserList::class)->withTimestamps()->withPivot(['stage']);
     }
 
     public function comments(): HasMany
