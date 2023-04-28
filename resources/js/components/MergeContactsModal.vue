@@ -158,6 +158,13 @@ export default {
             }),
             newContact: response.creator,
           };
+          this.$notify({
+            group: 'user',
+            type: 'success',
+            duration: 15000,
+            title: 'Merged Successfully',
+            text: response.message,
+          });
           this.$emit('acceptMerge', data);
         } else {
           this.$notify({
