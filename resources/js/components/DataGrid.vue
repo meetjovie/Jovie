@@ -19,7 +19,12 @@
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-              <div @click="suggestMerge([])">Suggest Merge</div>
+              <ButtonGroup
+                :design="'toolbar'"
+                text="Suggest Merge"
+                icon="DocumentDuplicateIcon"
+                hideText
+                @click="suggestMerge([])" />
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -791,22 +796,22 @@ export default {
       }
     });
     //arrow keys to navigate through the table
-      this.$mousetrap.bind('right', () => {
-          event.preventDefault();
-          if (this.openMergeSuggestion) {
-              this.$refs.mergeModal.acceptMerge();
-          } else {
-              this.handleCellNavigation('ArrowRight');
-          }
-      });
-      this.$mousetrap.bind('left', () => {
-          event.preventDefault();
-          if (this.openMergeSuggestion) {
-              this.$refs.mergeModal.rejectMerge();
-          } else {
-              this.handleCellNavigation('ArrowLeft');
-          }
-      });
+    this.$mousetrap.bind('right', () => {
+      event.preventDefault();
+      if (this.openMergeSuggestion) {
+        this.$refs.mergeModal.acceptMerge();
+      } else {
+        this.handleCellNavigation('ArrowRight');
+      }
+    });
+    this.$mousetrap.bind('left', () => {
+      event.preventDefault();
+      if (this.openMergeSuggestion) {
+        this.$refs.mergeModal.rejectMerge();
+      } else {
+        this.handleCellNavigation('ArrowLeft');
+      }
+    });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
       this.nextContact();

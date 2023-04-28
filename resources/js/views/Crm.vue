@@ -5,48 +5,47 @@
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div class="">
-
-                <div class="flex items-center text-xs">
-                  <Menu>
-                    <Float portal :offset="2" placement="bottom-start">
-                      <MenuButton
-                       class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
-                        <PlusIcon
-                          class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
-                          aria-hidden="true" />
-                        <span class="line-clamp-1 px-2 text-center"
-                          >New Contact</span
-                        >
-                        <div class="items-center">
-                          <KBShortcut :shortcutKey="['C']"></KBShortcut>
+              <div class="flex items-center text-xs">
+                <Menu>
+                  <Float portal :offset="2" placement="bottom-start">
+                    <MenuButton
+                      class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                      <PlusIcon
+                        class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                        aria-hidden="true" />
+                      <span class="line-clamp-1 px-2 text-center"
+                        >New Contact</span
+                      >
+                      <div class="items-center">
+                        <KBShortcut :shortcutKey="['C']"></KBShortcut>
+                      </div>
+                    </MenuButton>
+                    <transition
+                      enter-active-class="transition duration-100 ease-out"
+                      enter-from-class="transform scale-95 opacity-0"
+                      enter-to-class="transform scale-100 opacity-100"
+                      leave-active-class="transition duration-75 ease-in"
+                      leave-from-class="transform scale-100 opacity-100"
+                      leave-to-class="transform scale-95 opacity-0">
+                      <MenuItems
+                        class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                        <div class="py-1">
+                          <DropdownMenuItem
+                            @click="openImportContactModal()"
+                            name="New Contact"
+                            color="text-blue-600 dark:text-blue-400"
+                            icon="PlusIcon" />
+                          <router-link to="/import">
+                            <DropdownMenuItem
+                              name="Import from social"
+                              color="text-instagram-600 dark:text-instagram-400"
+                              icon="CloudUploadIcon" />
+                          </router-link>
                         </div>
-                      </MenuButton>
-                      <transition
-                        enter-active-class="transition duration-100 ease-out"
-                        enter-from-class="transform scale-95 opacity-0"
-                        enter-to-class="transform scale-100 opacity-100"
-                        leave-active-class="transition duration-75 ease-in"
-                        leave-from-class="transform scale-100 opacity-100"
-                        leave-to-class="transform scale-95 opacity-0">
-                        <MenuItems
-                          class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
-                          <div class="py-1">
-                            <DropdownMenuItem
-                              @click="openImportContactModal()"
-                              name="New Contact"
-                              color="text-blue-600 dark:text-blue-400"
-                              icon="PhoneIcon" />
-                            <DropdownMenuItem
-                              @click="openImportContactModal(true)"
-                              name="Import contact from social"
-                              color="text-blue-600 dark:text-blue-400"
-                              icon="PhoneIcon" />
-                          </div>
-                        </MenuItems>
-                      </transition>
-                    </Float>
-                  </Menu>
-
+                      </MenuItems>
+                    </transition>
+                  </Float>
+                </Menu>
               </div>
 
               <Menu v-slot="{ open }">
