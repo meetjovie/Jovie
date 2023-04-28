@@ -166,8 +166,8 @@
               " />
             <DropdownMenuItem
               name="Contact Overview"
-              icon="TrashIcon"
-              color="text-red-600 dark:text-red-400"
+              icon="ViewFinderCircleIcon"
+              color="text-blue-600 dark:text-blue-400"
               @click="
                 $router.push({
                   name: 'Contact Overview',
@@ -219,12 +219,12 @@ import {
   XMarkIcon,
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
-import JovieSpinner from "./JovieSpinner.vue";
+import JovieSpinner from './JovieSpinner.vue';
 
 export default {
   name: 'DataGridRow',
   components: {
-      JovieSpinner,
+    JovieSpinner,
     DataGridCell,
     ContactContextMenu,
     DropdownMenuItem,
