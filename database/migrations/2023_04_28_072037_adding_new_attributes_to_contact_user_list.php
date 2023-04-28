@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('contact_user_list', function (Blueprint $table) {
             $table->integer('stage')->default(0);
-            $table->string('comment')->nullable();
         });
     }
 
