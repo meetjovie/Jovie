@@ -1510,7 +1510,7 @@ export default {
       });
     },
     updateContact(params) {
-      if (this.$store.state.overviewList) {
+      if (this.filters.list) {
         params['list_id'] = this.filters.list;
       }
       this.$store.dispatch('updateContact', params).then((response) => {
