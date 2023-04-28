@@ -1511,9 +1511,8 @@ export default {
     },
     updateContact(params) {
       if (this.$store.state.overviewList) {
-        params['list_id'] = this.$store.state.overviewList.id;
+        params['list_id'] = this.filters.list;
       }
-        console.log('ListUSERKMDDDd', params);
       this.$store.dispatch('updateContact', params).then((response) => {
         response = response.data;
         if (response.status) {
