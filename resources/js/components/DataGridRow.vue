@@ -219,10 +219,12 @@ import {
   XMarkIcon,
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
+import JovieSpinner from "./JovieSpinner.vue";
 
 export default {
   name: 'DataGridRow',
   components: {
+      JovieSpinner,
     DataGridCell,
     ContactContextMenu,
     DropdownMenuItem,
